@@ -5,6 +5,7 @@ import com.microsoft.appcenter.ingestion.models.json.LogSerializer;
 import java.io.Closeable;
 import java.util.Collection;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class Persistence implements Closeable {
     private LogSerializer mLogSerializer;

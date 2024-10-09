@@ -8,6 +8,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Charts.BaseChartView;
 import org.telegram.ui.Charts.data.ChartData;
+
 /* loaded from: classes4.dex */
 public class LineViewData {
     public float alpha;
@@ -69,9 +70,9 @@ public class LineViewData {
         int i;
         int i2 = this.line.colorKey;
         if (i2 < 0 || !Theme.hasThemeKey(i2)) {
-            int i3 = (ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider)) > 0.5d ? 1 : (ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider)) == 0.5d ? 0 : -1));
+            double calculateLuminance = ColorUtils.calculateLuminance(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider));
             ChartData.Line line = this.line;
-            i = i3 < 0 ? line.colorDark : line.color;
+            i = calculateLuminance < 0.5d ? line.colorDark : line.color;
         } else {
             i = Theme.getColor(this.line.colorKey, this.resourcesProvider);
         }

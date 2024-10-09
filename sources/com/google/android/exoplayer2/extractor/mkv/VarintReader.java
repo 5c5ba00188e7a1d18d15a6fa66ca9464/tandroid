@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.extractor.mkv;
 
 import com.google.android.exoplayer2.extractor.ExtractorInput;
+
 /* loaded from: classes.dex */
 final class VarintReader {
     private static final long[] VARINT_LENGTH_MASKS = {128, 64, 32, 16, 8, 4, 2, 1};
@@ -20,17 +21,17 @@ final class VarintReader {
     }
 
     public static int parseUnsignedVarintLength(int i) {
-        int i2;
-        int i3 = 0;
+        long j;
+        int i2 = 0;
         do {
             long[] jArr = VARINT_LENGTH_MASKS;
-            if (i3 >= jArr.length) {
+            if (i2 >= jArr.length) {
                 return -1;
             }
-            i2 = ((jArr[i3] & i) > 0L ? 1 : ((jArr[i3] & i) == 0L ? 0 : -1));
-            i3++;
-        } while (i2 == 0);
-        return i3;
+            j = jArr[i2] & i;
+            i2++;
+        } while (j == 0);
+        return i2;
     }
 
     public int getLastLength() {

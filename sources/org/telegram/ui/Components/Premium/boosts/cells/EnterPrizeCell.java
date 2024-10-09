@@ -16,6 +16,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EditTextCaption;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes3.dex */
 public class EnterPrizeCell extends LinearLayout {
     private AfterTextChangedListener afterTextChangedListener;
@@ -84,12 +85,12 @@ public class EnterPrizeCell extends LinearLayout {
         if (!LocaleController.isRTL) {
             addView(textView, LayoutHelper.createLinear(-2, -2, 16, 20, 0, 0, 0));
             addView(editTextCaption, LayoutHelper.createLinear(-1, -2, 16, 36, 0, 20, 0));
-            return;
+        } else {
+            LinearLayout.LayoutParams createLinear = LayoutHelper.createLinear(-1, -2, 16, 20, 0, 36, 0);
+            createLinear.weight = 1.0f;
+            addView(editTextCaption, createLinear);
+            addView(textView, LayoutHelper.createLinear(-2, -2, 16, 0, 0, 20, 0));
         }
-        LinearLayout.LayoutParams createLinear = LayoutHelper.createLinear(-1, -2, 16, 20, 0, 36, 0);
-        createLinear.weight = 1.0f;
-        addView(editTextCaption, createLinear);
-        addView(textView, LayoutHelper.createLinear(-2, -2, 16, 0, 0, 20, 0));
     }
 
     @Override // android.widget.LinearLayout, android.view.View

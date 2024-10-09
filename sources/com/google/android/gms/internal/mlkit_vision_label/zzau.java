@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzau extends AbstractMap implements Serializable {
@@ -95,7 +96,6 @@ public final class zzau extends AbstractMap implements Serializable {
                 }
                 zzc = i4 & zzu;
             } while (zzc != 0);
-            return -1;
         }
         return -1;
     }
@@ -194,26 +194,26 @@ public final class zzau extends AbstractMap implements Serializable {
     @Override // java.util.AbstractMap, java.util.Map
     public final boolean containsValue(Object obj) {
         Map zzl = zzl();
-        if (zzl == null) {
-            for (int i = 0; i < this.zzg; i++) {
-                if (zzo.zza(obj, zzB()[i])) {
-                    return true;
-                }
-            }
-            return false;
+        if (zzl != null) {
+            return zzl.containsValue(obj);
         }
-        return zzl.containsValue(obj);
+        for (int i = 0; i < this.zzg; i++) {
+            if (zzo.zza(obj, zzB()[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
     public final Set entrySet() {
         Set set = this.zzi;
-        if (set == null) {
-            zzap zzapVar = new zzap(this);
-            this.zzi = zzapVar;
-            return zzapVar;
+        if (set != null) {
+            return set;
         }
-        return set;
+        zzap zzapVar = new zzap(this);
+        this.zzi = zzapVar;
+        return zzapVar;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -237,12 +237,12 @@ public final class zzau extends AbstractMap implements Serializable {
     @Override // java.util.AbstractMap, java.util.Map
     public final Set keySet() {
         Set set = this.zzh;
-        if (set == null) {
-            zzar zzarVar = new zzar(this);
-            this.zzh = zzarVar;
-            return zzarVar;
+        if (set != null) {
+            return set;
         }
-        return set;
+        zzar zzarVar = new zzar(this);
+        this.zzh = zzarVar;
+        return zzarVar;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -327,21 +327,24 @@ public final class zzau extends AbstractMap implements Serializable {
             i7++;
             if (i11 != 0) {
                 zzc = i11;
-            } else if (i7 >= 9) {
-                LinkedHashMap linkedHashMap = new LinkedHashMap(zzu() + 1, 1.0f);
-                int zze = zze();
-                while (zze >= 0) {
-                    linkedHashMap.put(zzA()[zze], zzB()[zze]);
-                    zze = zzf(zze);
+            } else {
+                if (i7 >= 9) {
+                    LinkedHashMap linkedHashMap = new LinkedHashMap(zzu() + 1, 1.0f);
+                    int zze = zze();
+                    while (zze >= 0) {
+                        linkedHashMap.put(zzA()[zze], zzB()[zze]);
+                        zze = zzf(zze);
+                    }
+                    this.zze = linkedHashMap;
+                    this.zza = null;
+                    this.zzb = null;
+                    this.zzc = null;
+                    zzn();
+                    return linkedHashMap.put(obj, obj2);
                 }
-                this.zze = linkedHashMap;
-                this.zza = null;
-                this.zzb = null;
-                this.zzc = null;
-                zzn();
-                return linkedHashMap.put(obj, obj2);
-            } else if (i3 <= zzu) {
-                zzz[i8] = (i3 & zzu) | i10;
+                if (i3 <= zzu) {
+                    zzz[i8] = (i3 & zzu) | i10;
+                }
             }
         }
     }
@@ -368,12 +371,12 @@ public final class zzau extends AbstractMap implements Serializable {
     @Override // java.util.AbstractMap, java.util.Map
     public final Collection values() {
         Collection collection = this.zzj;
-        if (collection == null) {
-            zzat zzatVar = new zzat(this);
-            this.zzj = zzatVar;
-            return zzatVar;
+        if (collection != null) {
+            return collection;
         }
-        return collection;
+        zzat zzatVar = new zzat(this);
+        this.zzj = zzatVar;
+        return zzatVar;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

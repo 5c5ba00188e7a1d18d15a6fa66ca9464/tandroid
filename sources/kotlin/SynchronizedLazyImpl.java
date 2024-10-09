@@ -4,6 +4,7 @@ import java.io.Serializable;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 final class SynchronizedLazyImpl implements Lazy, Serializable {
     private volatile Object _value;

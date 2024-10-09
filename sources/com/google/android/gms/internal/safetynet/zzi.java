@@ -3,6 +3,7 @@ package com.google.android.gms.internal.safetynet;
 import android.text.TextUtils;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
+
 /* loaded from: classes.dex */
 final class zzi extends zzr {
     final /* synthetic */ byte[] zza;

@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzal extends AbstractMap implements Serializable {
@@ -65,7 +66,6 @@ public final class zzal extends AbstractMap implements Serializable {
                 }
                 zzc = i4 & zzp;
             } while (zzc != 0);
-            return -1;
         }
         return -1;
     }
@@ -170,28 +170,28 @@ public final class zzal extends AbstractMap implements Serializable {
     @Override // java.util.AbstractMap, java.util.Map
     public final boolean containsValue(Object obj) {
         Map zzj = zzj();
-        if (zzj == null) {
-            for (int i = 0; i < this.zzg; i++) {
-                Object[] objArr = this.zzc;
-                objArr.getClass();
-                if (zze.zza(obj, objArr[i])) {
-                    return true;
-                }
-            }
-            return false;
+        if (zzj != null) {
+            return zzj.containsValue(obj);
         }
-        return zzj.containsValue(obj);
+        for (int i = 0; i < this.zzg; i++) {
+            Object[] objArr = this.zzc;
+            objArr.getClass();
+            if (zze.zza(obj, objArr[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
     public final Set entrySet() {
         Set set = this.zzi;
-        if (set == null) {
-            zzaf zzafVar = new zzaf(this);
-            this.zzi = zzafVar;
-            return zzafVar;
+        if (set != null) {
+            return set;
         }
-        return set;
+        zzaf zzafVar = new zzaf(this);
+        this.zzi = zzafVar;
+        return zzafVar;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -217,12 +217,12 @@ public final class zzal extends AbstractMap implements Serializable {
     @Override // java.util.AbstractMap, java.util.Map
     public final Set keySet() {
         Set set = this.zzh;
-        if (set == null) {
-            zzai zzaiVar = new zzai(this);
-            this.zzh = zzaiVar;
-            return zzaiVar;
+        if (set != null) {
+            return set;
         }
-        return set;
+        zzai zzaiVar = new zzai(this);
+        this.zzh = zzaiVar;
+        return zzaiVar;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -338,26 +338,29 @@ public final class zzal extends AbstractMap implements Serializable {
             i7++;
             if (i11 != 0) {
                 zzc = i11;
-            } else if (i7 >= 9) {
-                LinkedHashMap linkedHashMap = new LinkedHashMap(zzp() + 1, 1.0f);
-                int zze = zze();
-                while (zze >= 0) {
-                    Object[] objArr7 = this.zzb;
-                    objArr7.getClass();
-                    Object obj6 = objArr7[zze];
-                    Object[] objArr8 = this.zzc;
-                    objArr8.getClass();
-                    linkedHashMap.put(obj6, objArr8[zze]);
-                    zze = zzf(zze);
+            } else {
+                if (i7 >= 9) {
+                    LinkedHashMap linkedHashMap = new LinkedHashMap(zzp() + 1, 1.0f);
+                    int zze = zze();
+                    while (zze >= 0) {
+                        Object[] objArr7 = this.zzb;
+                        objArr7.getClass();
+                        Object obj6 = objArr7[zze];
+                        Object[] objArr8 = this.zzc;
+                        objArr8.getClass();
+                        linkedHashMap.put(obj6, objArr8[zze]);
+                        zze = zzf(zze);
+                    }
+                    this.zze = linkedHashMap;
+                    this.zza = null;
+                    this.zzb = null;
+                    this.zzc = null;
+                    zzl();
+                    return linkedHashMap.put(obj, obj2);
                 }
-                this.zze = linkedHashMap;
-                this.zza = null;
-                this.zzb = null;
-                this.zzc = null;
-                zzl();
-                return linkedHashMap.put(obj, obj2);
-            } else if (i3 <= zzp) {
-                iArr[i8] = (i3 & zzp) | i10;
+                if (i3 <= zzp) {
+                    iArr[i8] = (i3 & zzp) | i10;
+                }
             }
         }
     }
@@ -384,12 +387,12 @@ public final class zzal extends AbstractMap implements Serializable {
     @Override // java.util.AbstractMap, java.util.Map
     public final Collection values() {
         Collection collection = this.zzj;
-        if (collection == null) {
-            zzak zzakVar = new zzak(this);
-            this.zzj = zzakVar;
-            return zzakVar;
+        if (collection != null) {
+            return collection;
         }
-        return collection;
+        zzak zzakVar = new zzak(this);
+        this.zzj = zzakVar;
+        return zzakVar;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

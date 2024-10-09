@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class WavExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.wav.WavExtractor$$ExternalSyntheticLambda0
@@ -160,18 +161,17 @@ public final class WavExtractor implements Extractor {
             this.outputFrameCount = 0L;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:15:0x0047  */
-        /* JADX WARN: Removed duplicated region for block: B:7:0x001f  */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:11:0x0036 -> B:6:0x001d). Please submit an issue!!! */
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x001d, code lost:
+        
+            r1 = true;
+         */
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public boolean sampleData(ExtractorInput extractorInput, long j) {
             boolean z;
-            int i;
             int numOutputBytesToFrames;
-            int i2;
             int ceilDivide = Util.ceilDivide(this.targetSampleSizeFrames - numOutputBytesToFrames(this.pendingOutputBytes), this.framesPerBlock) * this.wavFormat.blockSize;
             if (j != 0) {
                 z = false;
@@ -179,23 +179,23 @@ public final class WavExtractor implements Extractor {
                     if (this.pendingInputBytes >= ceilDivide) {
                         break;
                     }
-                    int read = extractorInput.read(this.inputData, this.pendingInputBytes, (int) Math.min(ceilDivide - i2, j));
+                    int read = extractorInput.read(this.inputData, this.pendingInputBytes, (int) Math.min(ceilDivide - r2, j));
                     if (read != -1) {
                         this.pendingInputBytes += read;
                     }
                 }
-                i = this.pendingInputBytes / this.wavFormat.blockSize;
+                int i = this.pendingInputBytes / this.wavFormat.blockSize;
                 if (i > 0) {
                     decode(this.inputData, i, this.decodedData);
                     this.pendingInputBytes -= i * this.wavFormat.blockSize;
                     int limit = this.decodedData.limit();
                     this.trackOutput.sampleData(this.decodedData, limit);
-                    int i3 = this.pendingOutputBytes + limit;
-                    this.pendingOutputBytes = i3;
-                    int numOutputBytesToFrames2 = numOutputBytesToFrames(i3);
-                    int i4 = this.targetSampleSizeFrames;
-                    if (numOutputBytesToFrames2 >= i4) {
-                        writeSampleMetadata(i4);
+                    int i2 = this.pendingOutputBytes + limit;
+                    this.pendingOutputBytes = i2;
+                    int numOutputBytesToFrames2 = numOutputBytesToFrames(i2);
+                    int i3 = this.targetSampleSizeFrames;
+                    if (numOutputBytesToFrames2 >= i3) {
+                        writeSampleMetadata(i3);
                     }
                 }
                 if (z && (numOutputBytesToFrames = numOutputBytesToFrames(this.pendingOutputBytes)) > 0) {
@@ -204,15 +204,6 @@ public final class WavExtractor implements Extractor {
                 return z;
             }
             z = true;
-            while (!z) {
-            }
-            i = this.pendingInputBytes / this.wavFormat.blockSize;
-            if (i > 0) {
-            }
-            if (z) {
-                writeSampleMetadata(numOutputBytesToFrames);
-            }
-            return z;
         }
     }
 
@@ -269,7 +260,6 @@ public final class WavExtractor implements Extractor {
 
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
         public boolean sampleData(ExtractorInput extractorInput, long j) {
-            WavFormat wavFormat;
             int i;
             int i2;
             long j2 = j;
@@ -285,9 +275,10 @@ public final class WavExtractor implements Extractor {
             int i3 = this.wavFormat.blockSize;
             int i4 = this.pendingOutputBytes / i3;
             if (i4 > 0) {
+                long scaleLargeTimestamp = this.startTimeUs + Util.scaleLargeTimestamp(this.outputFrameCount, 1000000L, r6.frameRateHz);
                 int i5 = i4 * i3;
                 int i6 = this.pendingOutputBytes - i5;
-                this.trackOutput.sampleMetadata(this.startTimeUs + Util.scaleLargeTimestamp(this.outputFrameCount, 1000000L, wavFormat.frameRateHz), 1, i5, i6, null);
+                this.trackOutput.sampleMetadata(scaleLargeTimestamp, 1, i5, i6, null);
                 this.outputFrameCount += i4;
                 this.pendingOutputBytes = i6;
             }
@@ -311,9 +302,10 @@ public final class WavExtractor implements Extractor {
         if (i != -1) {
             extractorInput.skipFully(i);
             this.state = 4;
-        } else if (!WavHeaderReader.checkFileType(extractorInput)) {
-            throw ParserException.createForMalformedContainer("Unsupported or unrecognized wav file type.", null);
         } else {
+            if (!WavHeaderReader.checkFileType(extractorInput)) {
+                throw ParserException.createForMalformedContainer("Unsupported or unrecognized wav file type.", null);
+            }
             extractorInput.skipFully((int) (extractorInput.getPeekPosition() - extractorInput.getPosition()));
             this.state = 1;
         }
@@ -382,20 +374,23 @@ public final class WavExtractor implements Extractor {
         if (i == 0) {
             readFileType(extractorInput);
             return 0;
-        } else if (i == 1) {
+        }
+        if (i == 1) {
             readRf64SampleDataSize(extractorInput);
             return 0;
-        } else if (i == 2) {
+        }
+        if (i == 2) {
             readFormat(extractorInput);
             return 0;
-        } else if (i == 3) {
+        }
+        if (i == 3) {
             skipToSampleData(extractorInput);
             return 0;
-        } else if (i == 4) {
-            return readSampleData(extractorInput);
-        } else {
-            throw new IllegalStateException();
         }
+        if (i == 4) {
+            return readSampleData(extractorInput);
+        }
+        throw new IllegalStateException();
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor

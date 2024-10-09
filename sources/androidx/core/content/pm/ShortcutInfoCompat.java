@@ -19,9 +19,11 @@ import androidx.core.net.UriCompat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public class ShortcutInfoCompat {
     ComponentName mActivity;
@@ -227,8 +229,7 @@ public class ShortcutInfoCompat {
                         this.mInfo.mExtras.putStringArray(str, (String[]) map.keySet().toArray(new String[0]));
                         for (String str2 : map.keySet()) {
                             List list = (List) map.get(str2);
-                            PersistableBundle persistableBundle = this.mInfo.mExtras;
-                            persistableBundle.putStringArray(str + "/" + str2, list == null ? new String[0] : (String[]) list.toArray(new String[0]));
+                            this.mInfo.mExtras.putStringArray(str + "/" + str2, list == null ? new String[0] : (String[]) list.toArray(new String[0]));
                         }
                     }
                 }
@@ -339,8 +340,9 @@ public class ShortcutInfoCompat {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static List fromShortcuts(Context context, List list) {
         ArrayList arrayList = new ArrayList(list.size());
-        for (Object obj : list) {
-            arrayList.add(new Builder(context, ShortcutInfoCompat$$ExternalSyntheticApiModelOutline13.m(obj)).build());
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            arrayList.add(new Builder(context, ShortcutInfoCompat$$ExternalSyntheticApiModelOutline13.m(it.next())).build());
         }
         return arrayList;
     }
@@ -362,6 +364,7 @@ public class ShortcutInfoCompat {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:5:0x0004, code lost:
+    
         r2 = r2.getString("extraLocusId");
      */
     /*
@@ -379,32 +382,31 @@ public class ShortcutInfoCompat {
         boolean containsKey;
         int i;
         PersistableBundle persistableBundle2;
-        if (persistableBundle != null) {
-            containsKey = persistableBundle.containsKey("extraPersonCount");
-            if (containsKey) {
-                i = persistableBundle.getInt("extraPersonCount");
-                Person[] personArr = new Person[i];
-                int i2 = 0;
-                while (i2 < i) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("extraPerson_");
-                    int i3 = i2 + 1;
-                    sb.append(i3);
-                    persistableBundle2 = persistableBundle.getPersistableBundle(sb.toString());
-                    personArr[i2] = Person.fromPersistableBundle(persistableBundle2);
-                    i2 = i3;
-                }
-                return personArr;
-            }
+        if (persistableBundle == null) {
             return null;
         }
-        return null;
+        containsKey = persistableBundle.containsKey("extraPersonCount");
+        if (!containsKey) {
+            return null;
+        }
+        i = persistableBundle.getInt("extraPersonCount");
+        Person[] personArr = new Person[i];
+        int i2 = 0;
+        while (i2 < i) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("extraPerson_");
+            int i3 = i2 + 1;
+            sb.append(i3);
+            persistableBundle2 = persistableBundle.getPersistableBundle(sb.toString());
+            personArr[i2] = Person.fromPersistableBundle(persistableBundle2);
+            i2 = i3;
+        }
+        return personArr;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public Intent addToIntent(Intent intent) {
-        Intent[] intentArr = this.mIntents;
-        intent.putExtra("android.intent.extra.shortcut.INTENT", intentArr[intentArr.length - 1]).putExtra("android.intent.extra.shortcut.NAME", this.mLabel.toString());
+        intent.putExtra("android.intent.extra.shortcut.INTENT", this.mIntents[r0.length - 1]).putExtra("android.intent.extra.shortcut.NAME", this.mLabel.toString());
         if (this.mIcon != null) {
             Drawable drawable = null;
             if (this.mIsAlwaysBadged) {
@@ -446,8 +448,7 @@ public class ShortcutInfoCompat {
     }
 
     public Intent getIntent() {
-        Intent[] intentArr = this.mIntents;
-        return intentArr[intentArr.length - 1];
+        return this.mIntents[r0.length - 1];
     }
 
     public Intent[] getIntents() {

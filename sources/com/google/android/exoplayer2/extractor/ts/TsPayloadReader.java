@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public interface TsPayloadReader {
 

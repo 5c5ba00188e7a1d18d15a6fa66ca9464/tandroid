@@ -2,6 +2,7 @@ package org.telegram.messenger;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;
+
 /* loaded from: classes3.dex */
 public class ContactsWidgetService extends RemoteViewsService {
     @Override // android.widget.RemoteViewsService

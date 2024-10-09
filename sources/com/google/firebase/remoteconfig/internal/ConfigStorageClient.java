@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class ConfigStorageClient {
     private static final Map clientInstances = new HashMap();
@@ -79,8 +80,11 @@ public class ConfigStorageClient {
 
     public synchronized Void write(ConfigContainer configContainer) {
         FileOutputStream openFileOutput = this.context.openFileOutput(this.fileName, 0);
-        openFileOutput.write(configContainer.toString().getBytes("UTF-8"));
-        openFileOutput.close();
+        try {
+            openFileOutput.write(configContainer.toString().getBytes("UTF-8"));
+        } finally {
+            openFileOutput.close();
+        }
         return null;
     }
 }

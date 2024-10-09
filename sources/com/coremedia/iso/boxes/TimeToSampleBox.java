@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
+
 /* loaded from: classes.dex */
 public class TimeToSampleBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;

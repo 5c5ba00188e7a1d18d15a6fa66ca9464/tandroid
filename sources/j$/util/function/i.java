@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.DoubleBinaryOperator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class i implements DoubleBinaryOperator {
     public final /* synthetic */ j a;

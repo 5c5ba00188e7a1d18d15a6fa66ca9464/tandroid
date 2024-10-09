@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.NoSuchElementException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class U implements z, j$.util.function.W, j {
@@ -24,9 +25,8 @@ public final class U implements z, j$.util.function.W, j {
         if (h0.a) {
             h0.a(U.class, "{0} calling PrimitiveIterator.OfLong.forEachRemainingLong(action::accept)");
             throw null;
-        } else {
-            forEachRemaining(new w(consumer));
         }
+        forEachRemaining(new w(consumer));
     }
 
     @Override // j$.util.function.W
@@ -36,7 +36,7 @@ public final class U implements z, j$.util.function.W, j {
     }
 
     @Override // j$.util.A
-    /* renamed from: d */
+    /* renamed from: d, reason: merged with bridge method [inline-methods] */
     public final void forEachRemaining(j$.util.function.W w) {
         w.getClass();
         while (hasNext()) {
@@ -52,26 +52,26 @@ public final class U implements z, j$.util.function.W, j {
     @Override // java.util.Iterator
     public final boolean hasNext() {
         if (!this.a) {
-            this.c.i(this);
+            this.c.p(this);
         }
         return this.a;
     }
 
     @Override // java.util.Iterator
     public final Long next() {
-        if (h0.a) {
-            h0.a(U.class, "{0} calling PrimitiveIterator.OfLong.nextLong()");
-            throw null;
+        if (!h0.a) {
+            return Long.valueOf(nextLong());
         }
-        return Long.valueOf(nextLong());
+        h0.a(U.class, "{0} calling PrimitiveIterator.OfLong.nextLong()");
+        throw null;
     }
 
     @Override // j$.util.z
     public final long nextLong() {
-        if (this.a || hasNext()) {
-            this.a = false;
-            return this.b;
+        if (!this.a && !hasNext()) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        this.a = false;
+        return this.b;
     }
 }

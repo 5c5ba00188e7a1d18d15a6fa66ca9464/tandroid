@@ -4,6 +4,7 @@ import android.view.ViewGroup;
 import androidx.lifecycle.Lifecycle;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public abstract class FragmentTransaction {
     boolean mAddToBackStack;

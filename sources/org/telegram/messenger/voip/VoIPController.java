@@ -13,6 +13,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.MessagesController;
 import org.telegram.ui.Components.voip.VoIPHelper;
+
 /* loaded from: classes3.dex */
 public class VoIPController {
     public static final int DATA_SAVING_ALWAYS = 2;
@@ -238,8 +239,8 @@ public class VoIPController {
         nativeSetAudioOutputGainControlEnabled(this.nativeInst, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x005d  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x005d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -292,9 +293,9 @@ public class VoIPController {
         if (bArr.length == 256) {
             ensureNativeInstance();
             nativeSetEncryptionKey(this.nativeInst, bArr, z);
-            return;
+        } else {
+            throw new IllegalArgumentException("key length must be exactly 256 bytes but is " + bArr.length);
         }
-        throw new IllegalArgumentException("key length must be exactly 256 bytes but is " + bArr.length);
     }
 
     public void setMicMute(boolean z) {

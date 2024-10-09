@@ -30,6 +30,7 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public abstract class ErrorLogHelper {
     private static File sErrorLogDirectory;
@@ -83,11 +84,11 @@ public abstract class ErrorLogHelper {
 
     private static String getArchitecture() {
         String[] strArr;
-        if (Build.VERSION.SDK_INT >= 21) {
-            strArr = Build.SUPPORTED_ABIS;
-            return strArr[0];
+        if (Build.VERSION.SDK_INT < 21) {
+            return Build.CPU_ABI;
         }
-        return Build.CPU_ABI;
+        strArr = Build.SUPPORTED_ABIS;
+        return strArr[0];
     }
 
     public static ErrorReport getErrorReportFromErrorLog(ManagedErrorLog managedErrorLog, String str) {
@@ -264,11 +265,11 @@ public abstract class ErrorLogHelper {
             return null;
         }
         String read = FileManager.read(listFiles[0]);
-        if (read == null) {
-            AppCenterLog.error("AppCenterCrashes", "Failed to read stored device info.");
-            return null;
+        if (read != null) {
+            return parseDevice(read);
         }
-        return parseDevice(read);
+        AppCenterLog.error("AppCenterCrashes", "Failed to read stored device info.");
+        return null;
     }
 
     static File getStoredErrorLogFile(UUID uuid) {
@@ -313,8 +314,8 @@ public abstract class ErrorLogHelper {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x001a  */
-    /* JADX WARN: Removed duplicated region for block: B:14:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:5:0x001a  */
+    /* JADX WARN: Removed duplicated region for block: B:8:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticApiModelOutline2;
+
 /* loaded from: classes3.dex */
 public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int currentPosition;
@@ -78,8 +79,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             PagerSlidingTabStrip.this.currentPosition = i;
             PagerSlidingTabStrip.this.currentPositionOffset = f;
             if (PagerSlidingTabStrip.this.tabsContainer.getChildAt(i) != null) {
-                PagerSlidingTabStrip pagerSlidingTabStrip = PagerSlidingTabStrip.this;
-                pagerSlidingTabStrip.scrollToChild(i, (int) (pagerSlidingTabStrip.tabsContainer.getChildAt(i).getWidth() * f));
+                PagerSlidingTabStrip.this.scrollToChild(i, (int) (r0.tabsContainer.getChildAt(i).getWidth() * f));
                 PagerSlidingTabStrip.this.invalidate();
                 ViewPager.OnPageChangeListener onPageChangeListener = PagerSlidingTabStrip.this.delegatePageListener;
                 if (onPageChangeListener != null) {
@@ -365,10 +365,12 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 f2 = this.lineRightAnimated.set(right);
             } else {
                 View childAt2 = this.tabsContainer.getChildAt(i + 1);
+                float left2 = childAt2.getLeft() + childAt2.getPaddingLeft();
+                float right2 = childAt2.getRight() - childAt2.getPaddingRight();
                 float f4 = this.currentPositionOffset;
                 float f5 = 1.0f - f4;
-                f = ((childAt2.getLeft() + childAt2.getPaddingLeft()) * f4) + (left * f5);
-                f2 = (f4 * (childAt2.getRight() - childAt2.getPaddingRight())) + (f5 * right);
+                f = (left2 * f4) + (left * f5);
+                f2 = (f4 * right2) + (f5 * right);
                 this.lineLeftAnimated.set(f, true);
                 this.lineRightAnimated.set(f2, true);
                 if (childAt instanceof TextTab) {

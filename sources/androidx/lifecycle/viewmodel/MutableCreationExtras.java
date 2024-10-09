@@ -3,10 +3,12 @@ package androidx.lifecycle.viewmodel;
 import androidx.lifecycle.viewmodel.CreationExtras;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class MutableCreationExtras extends CreationExtras {
+    /* JADX WARN: Multi-variable type inference failed */
     public MutableCreationExtras() {
-        this(null, 1, null);
+        this(null, 1, 0 == true ? 1 : 0);
     }
 
     public MutableCreationExtras(CreationExtras initialExtras) {

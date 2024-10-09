@@ -2,6 +2,7 @@ package com.google.android.gms.internal.location;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public abstract class zzdn {
     public static String zza(String str, Object... objArr) {

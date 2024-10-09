@@ -11,6 +11,7 @@ import com.google.android.gms.common.api.internal.ApiExceptionMapper;
 import com.google.android.gms.common.internal.PendingResultUtil;
 import com.google.android.gms.dynamite.DynamiteModule;
 import com.google.android.gms.tasks.Task;
+
 /* loaded from: classes.dex */
 public class GoogleSignInClient extends GoogleApi {
     private static final zbb zbb = new zbb(null);

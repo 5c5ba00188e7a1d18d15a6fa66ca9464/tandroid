@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class AppCompatTextViewAutoSizeHelper {
@@ -170,24 +171,24 @@ public class AppCompatTextViewAutoSizeHelper {
 
     private int findLargestTextSizeWhichFits(RectF rectF) {
         int length = this.mAutoSizeTextSizesInPx.length;
-        if (length != 0) {
-            int i = 1;
-            int i2 = length - 1;
-            int i3 = 0;
-            while (i <= i2) {
-                int i4 = (i + i2) / 2;
-                if (suggestedSizeFitsInSpace(this.mAutoSizeTextSizesInPx[i4], rectF)) {
-                    int i5 = i4 + 1;
-                    i3 = i;
-                    i = i5;
-                } else {
-                    i3 = i4 - 1;
-                    i2 = i3;
-                }
-            }
-            return this.mAutoSizeTextSizesInPx[i3];
+        if (length == 0) {
+            throw new IllegalStateException("No available text sizes to choose from.");
         }
-        throw new IllegalStateException("No available text sizes to choose from.");
+        int i = 1;
+        int i2 = length - 1;
+        int i3 = 0;
+        while (i <= i2) {
+            int i4 = (i + i2) / 2;
+            if (suggestedSizeFitsInSpace(this.mAutoSizeTextSizesInPx[i4], rectF)) {
+                int i5 = i4 + 1;
+                i3 = i;
+                i = i5;
+            } else {
+                i3 = i4 - 1;
+                i2 = i3;
+            }
+        }
+        return this.mAutoSizeTextSizesInPx[i3];
     }
 
     private static Method getTextViewMethod(String str) {
@@ -267,14 +268,12 @@ public class AppCompatTextViewAutoSizeHelper {
     }
 
     private boolean setupAutoSizeUniformPresetSizesConfiguration() {
-        int[] iArr = this.mAutoSizeTextSizesInPx;
-        int length = iArr.length;
-        boolean z = length > 0;
+        boolean z = this.mAutoSizeTextSizesInPx.length > 0;
         this.mHasPresetAutoSizeValues = z;
         if (z) {
             this.mAutoSizeTextType = 1;
-            this.mAutoSizeMinTextSizeInPx = iArr[0];
-            this.mAutoSizeMaxTextSizeInPx = iArr[length - 1];
+            this.mAutoSizeMinTextSizeInPx = r0[0];
+            this.mAutoSizeMaxTextSizeInPx = r0[r1 - 1];
             this.mAutoSizeStepGranularityInPx = -1.0f;
         }
         return z;
@@ -300,17 +299,18 @@ public class AppCompatTextViewAutoSizeHelper {
     private void validateAndSetAutoSizeTextTypeUniformConfiguration(float f, float f2, float f3) {
         if (f <= 0.0f) {
             throw new IllegalArgumentException("Minimum auto-size text size (" + f + "px) is less or equal to (0px)");
-        } else if (f2 <= f) {
-            throw new IllegalArgumentException("Maximum auto-size text size (" + f2 + "px) is less or equal to minimum auto-size text size (" + f + "px)");
-        } else if (f3 <= 0.0f) {
-            throw new IllegalArgumentException("The auto-size step granularity (" + f3 + "px) is less or equal to (0px)");
-        } else {
-            this.mAutoSizeTextType = 1;
-            this.mAutoSizeMinTextSizeInPx = f;
-            this.mAutoSizeMaxTextSizeInPx = f2;
-            this.mAutoSizeStepGranularityInPx = f3;
-            this.mHasPresetAutoSizeValues = false;
         }
+        if (f2 <= f) {
+            throw new IllegalArgumentException("Maximum auto-size text size (" + f2 + "px) is less or equal to minimum auto-size text size (" + f + "px)");
+        }
+        if (f3 <= 0.0f) {
+            throw new IllegalArgumentException("The auto-size step granularity (" + f3 + "px) is less or equal to (0px)");
+        }
+        this.mAutoSizeTextType = 1;
+        this.mAutoSizeMinTextSizeInPx = f;
+        this.mAutoSizeMaxTextSizeInPx = f2;
+        this.mAutoSizeStepGranularityInPx = f3;
+        this.mHasPresetAutoSizeValues = false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -415,7 +415,9 @@ public class AppCompatTextViewAutoSizeHelper {
         obtainStyledAttributes.recycle();
         if (!supportsAutoSizeText()) {
             this.mAutoSizeTextType = 0;
-        } else if (this.mAutoSizeTextType == 1) {
+            return;
+        }
+        if (this.mAutoSizeTextType == 1) {
             if (!this.mHasPresetAutoSizeValues) {
                 DisplayMetrics displayMetrics = this.mContext.getResources().getDisplayMetrics();
                 if (dimension2 == -1.0f) {
@@ -476,14 +478,15 @@ public class AppCompatTextViewAutoSizeHelper {
         if (supportsAutoSizeText()) {
             if (i == 0) {
                 clearAutoSizeConfiguration();
-            } else if (i != 1) {
+                return;
+            }
+            if (i != 1) {
                 throw new IllegalArgumentException("Unknown auto-size text type: " + i);
-            } else {
-                DisplayMetrics displayMetrics = this.mContext.getResources().getDisplayMetrics();
-                validateAndSetAutoSizeTextTypeUniformConfiguration(TypedValue.applyDimension(2, 12.0f, displayMetrics), TypedValue.applyDimension(2, 112.0f, displayMetrics), 1.0f);
-                if (setupAutoSizeText()) {
-                    autoSizeText();
-                }
+            }
+            DisplayMetrics displayMetrics = this.mContext.getResources().getDisplayMetrics();
+            validateAndSetAutoSizeTextTypeUniformConfiguration(TypedValue.applyDimension(2, 12.0f, displayMetrics), TypedValue.applyDimension(2, 112.0f, displayMetrics), 1.0f);
+            if (setupAutoSizeText()) {
+                autoSizeText();
             }
         }
     }

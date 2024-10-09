@@ -8,6 +8,7 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+
 /* loaded from: classes3.dex */
 public abstract class Render {
     private static RectF Draw(RenderState renderState) {
@@ -143,8 +144,9 @@ public abstract class Render {
         double d6 = renderState.remainder;
         Double.isNaN(distanceTo);
         Double.isNaN(max);
+        int ceil = (int) Math.ceil((distanceTo - d6) / max);
         int count = renderState.getCount();
-        renderState.appendValuesCount((int) Math.ceil((distanceTo - d6) / max));
+        renderState.appendValuesCount(ceil);
         renderState.setPosition(count);
         Point add = point.add(point4.multiplyByScalar(renderState.remainder));
         double d7 = renderState.remainder;

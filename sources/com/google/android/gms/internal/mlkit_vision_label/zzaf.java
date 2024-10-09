@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class zzaf extends zzad implements List {
@@ -33,15 +34,15 @@ public class zzaf extends zzad implements List {
         }
         int size = size();
         boolean addAll = ((List) this.zzb).addAll(i, collection);
-        if (addAll) {
-            zzag.zzf(this.zzf, this.zzb.size() - size);
-            if (size == 0) {
-                zza();
-                return true;
-            }
+        if (!addAll) {
             return addAll;
         }
-        return addAll;
+        zzag.zzf(this.zzf, this.zzb.size() - size);
+        if (size != 0) {
+            return addAll;
+        }
+        zza();
+        return true;
     }
 
     @Override // java.util.List

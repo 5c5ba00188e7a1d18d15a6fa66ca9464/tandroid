@@ -6,6 +6,7 @@ import android.util.LongSparseArray;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.TransferListener;
+
 /* loaded from: classes3.dex */
 public final class ExtendedDefaultDataSourceFactory implements DataSource.Factory {
     private final DataSource.Factory baseDataSourceFactory;

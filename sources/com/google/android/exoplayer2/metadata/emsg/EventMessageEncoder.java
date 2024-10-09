@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.metadata.emsg;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public final class EventMessageEncoder {
     private final ByteArrayOutputStream byteArrayOutputStream;

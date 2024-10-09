@@ -2,6 +2,7 @@ package androidx.lifecycle;
 
 import androidx.lifecycle.Lifecycle;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class SavedStateHandleAttacher implements LifecycleEventObserver {
     private final SavedStateHandlesProvider provider;
@@ -18,8 +19,8 @@ public final class SavedStateHandleAttacher implements LifecycleEventObserver {
         if (event == Lifecycle.Event.ON_CREATE) {
             source.getLifecycle().removeObserver(this);
             this.provider.performRestore();
-            return;
+        } else {
+            throw new IllegalStateException(("Next event must be ON_CREATE, it was " + event).toString());
         }
-        throw new IllegalStateException(("Next event must be ON_CREATE, it was " + event).toString());
     }
 }

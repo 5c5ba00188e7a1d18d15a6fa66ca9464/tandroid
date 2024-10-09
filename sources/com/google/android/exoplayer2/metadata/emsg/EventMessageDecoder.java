@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class EventMessageDecoder extends SimpleMetadataDecoder {
     @Override // com.google.android.exoplayer2.metadata.SimpleMetadataDecoder

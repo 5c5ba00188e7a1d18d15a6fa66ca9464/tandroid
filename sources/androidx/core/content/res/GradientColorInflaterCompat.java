@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class GradientColorInflaterCompat {
@@ -71,14 +72,15 @@ public abstract class GradientColorInflaterCompat {
         ColorStops checkColors = checkColors(inflateChildElements(resources, xmlPullParser, attributeSet, theme), namedColor, namedColor3, hasAttribute, namedColor2);
         if (namedInt != 1) {
             return namedInt != 2 ? new LinearGradient(namedFloat, namedFloat2, namedFloat3, namedFloat4, checkColors.mColors, checkColors.mOffsets, parseTileMode(namedInt2)) : new SweepGradient(namedFloat5, namedFloat6, checkColors.mColors, checkColors.mOffsets);
-        } else if (namedFloat7 > 0.0f) {
-            return new RadialGradient(namedFloat5, namedFloat6, namedFloat7, checkColors.mColors, checkColors.mOffsets, parseTileMode(namedInt2));
-        } else {
-            throw new XmlPullParserException("<gradient> tag requires 'gradientRadius' attribute with radial type");
         }
+        if (namedFloat7 > 0.0f) {
+            return new RadialGradient(namedFloat5, namedFloat6, namedFloat7, checkColors.mColors, checkColors.mOffsets, parseTileMode(namedInt2));
+        }
+        throw new XmlPullParserException("<gradient> tag requires 'gradientRadius' attribute with radial type");
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0080, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0080, code lost:
+    
         throw new org.xmlpull.v1.XmlPullParserException(r10.getPositionDescription() + ": <item> tag requires a 'color' attribute and a 'offset' attribute!");
      */
     /*
@@ -93,7 +95,8 @@ public abstract class GradientColorInflaterCompat {
             int next = xmlPullParser.next();
             if (next == 1 || ((depth = xmlPullParser.getDepth()) < depth2 && next == 3)) {
                 break;
-            } else if (next == 2 && depth <= depth2 && xmlPullParser.getName().equals("item")) {
+            }
+            if (next == 2 && depth <= depth2 && xmlPullParser.getName().equals("item")) {
                 TypedArray obtainAttributes = TypedArrayUtils.obtainAttributes(resources, theme, attributeSet, R$styleable.GradientColorItem);
                 int i = R$styleable.GradientColorItem_android_color;
                 boolean hasValue = obtainAttributes.hasValue(i);

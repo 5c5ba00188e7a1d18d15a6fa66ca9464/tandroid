@@ -8,6 +8,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 import com.google.android.gms.cloudmessaging.IMessengerCompat;
+
 /* loaded from: classes.dex */
 public class zza implements Parcelable {
     public static final Parcelable.Creator<zza> CREATOR = new zzc();
@@ -18,14 +19,14 @@ public class zza implements Parcelable {
     public static final class zza extends ClassLoader {
         @Override // java.lang.ClassLoader
         protected final Class loadClass(String str, boolean z) {
-            if ("com.google.android.gms.iid.MessengerCompat".equals(str)) {
-                if (Log.isLoggable("CloudMessengerCompat", 3) || (Build.VERSION.SDK_INT == 23 && Log.isLoggable("CloudMessengerCompat", 3))) {
-                    Log.d("CloudMessengerCompat", "Using renamed FirebaseIidMessengerCompat class");
-                    return zza.class;
-                }
+            if (!"com.google.android.gms.iid.MessengerCompat".equals(str)) {
+                return super.loadClass(str, z);
+            }
+            if (!Log.isLoggable("CloudMessengerCompat", 3) && (Build.VERSION.SDK_INT != 23 || !Log.isLoggable("CloudMessengerCompat", 3))) {
                 return zza.class;
             }
-            return super.loadClass(str, z);
+            Log.d("CloudMessengerCompat", "Using renamed FirebaseIidMessengerCompat class");
+            return zza.class;
         }
     }
 

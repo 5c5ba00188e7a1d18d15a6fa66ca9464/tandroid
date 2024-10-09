@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public final class zzcv {
     public static final Component zza = Component.builder(zzcv.class).add(Dependency.required(Context.class)).add(Dependency.required(SharedPrefManager.class)).add(Dependency.required(zzb.class)).factory(zzcy.zza).build();
@@ -110,7 +111,10 @@ public final class zzcv {
     /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zzb(zzy$zzad.zza zzaVar, zzaj zzajVar) {
         String zza2 = zzaVar.zza().zza();
-        zzy$zzbh.zza zzc = zzy$zzbh.zzb().zza(this.zzc).zzb(this.zzd).zzd(("NA".equals(zza2) || "".equals(zza2)) ? "NA" : "NA").zza(zzb()).zzb(true).zzc(this.zzg.isSuccessful() ? (String) this.zzg.getResult() : LibraryVersion.getInstance().getVersion("language-id"));
+        if ("NA".equals(zza2) || "".equals(zza2)) {
+            zza2 = "NA";
+        }
+        zzy$zzbh.zza zzc = zzy$zzbh.zzb().zza(this.zzc).zzb(this.zzd).zzd(zza2).zza(zzb()).zzb(true).zzc(this.zzg.isSuccessful() ? (String) this.zzg.getResult() : LibraryVersion.getInstance().getVersion("language-id"));
         if (zzl) {
             zzc.zze(this.zzh.isSuccessful() ? (String) this.zzh.getResult() : this.zzf.getMlSdkInstanceId());
         }

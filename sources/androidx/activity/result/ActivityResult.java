@@ -3,6 +3,7 @@ package androidx.activity.result;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* loaded from: classes.dex */
 public final class ActivityResult implements Parcelable {
     public static final Parcelable.Creator<ActivityResult> CREATOR = new Parcelable.Creator() { // from class: androidx.activity.result.ActivityResult.1

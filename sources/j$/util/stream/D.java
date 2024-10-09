@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.BiConsumer;
 import j$.util.function.Supplier;
+
 /* loaded from: classes2.dex */
 public interface D extends BaseStream {
     Object B(Supplier supplier, j$.util.function.i0 i0Var, BiConsumer biConsumer);
@@ -36,7 +37,6 @@ public interface D extends BaseStream {
 
     boolean g0(j$.util.function.r rVar);
 
-    @Override // 
     j$.util.r iterator();
 
     void j(j$.util.function.n nVar);
@@ -61,7 +61,6 @@ public interface D extends BaseStream {
 
     D sorted();
 
-    @Override // 
     j$.util.E spliterator();
 
     double sum();

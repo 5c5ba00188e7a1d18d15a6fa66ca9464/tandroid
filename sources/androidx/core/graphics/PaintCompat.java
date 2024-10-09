@@ -4,6 +4,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import androidx.core.util.Pair;
+
 /* loaded from: classes.dex */
 public abstract class PaintCompat {
     private static final ThreadLocal sRectThreadLocal = new ThreadLocal();

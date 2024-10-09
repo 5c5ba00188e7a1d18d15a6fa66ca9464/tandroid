@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 public class ContentFrameLayout extends FrameLayout {
     private OnAttachListener mAttachListener;
@@ -103,17 +104,17 @@ public class ContentFrameLayout extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x004a  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0086  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00ab  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00ae  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00b8  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00be  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x00cc  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x00de  */
-    /* JADX WARN: Removed duplicated region for block: B:61:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x004a  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0086  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00ab  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00b8  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00cc  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00de  */
+    /* JADX WARN: Removed duplicated region for block: B:50:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x00ae  */
     @Override // android.widget.FrameLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

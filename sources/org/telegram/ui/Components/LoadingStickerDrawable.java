@@ -16,6 +16,7 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class LoadingStickerDrawable extends Drawable {
     private Bitmap bitmap;

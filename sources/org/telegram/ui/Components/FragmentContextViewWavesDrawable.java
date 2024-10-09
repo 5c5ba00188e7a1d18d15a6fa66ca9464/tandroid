@@ -19,6 +19,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class FragmentContextViewWavesDrawable {
     private float amplitude;
@@ -77,19 +78,20 @@ public class FragmentContextViewWavesDrawable {
                 int color2 = Theme.getColor(this.greenKey2);
                 this.color2 = color2;
                 radialGradient = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color, color2}, (float[]) null, Shader.TileMode.CLAMP);
-            } else if (i != 1) {
-                if (i == 3) {
-                    int color3 = Theme.getColor(this.mutedByAdmin);
-                    this.color1 = color3;
-                    int color4 = Theme.getColor(this.mutedByAdmin3);
-                    this.color3 = color4;
-                    int color5 = Theme.getColor(this.mutedByAdmin2);
-                    this.color2 = color5;
-                    this.shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color3, color4, color5}, new float[]{0.0f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
+            } else {
+                if (i != 1) {
+                    if (i == 3) {
+                        int color3 = Theme.getColor(this.mutedByAdmin);
+                        this.color1 = color3;
+                        int color4 = Theme.getColor(this.mutedByAdmin3);
+                        this.color3 = color4;
+                        int color5 = Theme.getColor(this.mutedByAdmin2);
+                        this.color2 = color5;
+                        this.shader = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color3, color4, color5}, new float[]{0.0f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
+                        return;
+                    }
                     return;
                 }
-                return;
-            } else {
                 int color6 = Theme.getColor(this.blueKey1);
                 this.color1 = color6;
                 int color7 = Theme.getColor(this.blueKey2);
@@ -109,9 +111,10 @@ public class FragmentContextViewWavesDrawable {
                 if (this.color1 == Theme.getColor(this.blueKey1) && this.color2 == Theme.getColor(this.blueKey2)) {
                     return;
                 }
-            } else if (i != 3) {
-                return;
             } else {
+                if (i != 3) {
+                    return;
+                }
                 if (this.color1 == Theme.getColor(this.mutedByAdmin) && this.color2 == Theme.getColor(this.mutedByAdmin2)) {
                     return;
                 }
@@ -127,10 +130,11 @@ public class FragmentContextViewWavesDrawable {
             if (i3 != 0 && i3 != 1 && i3 != 3) {
                 paint.setShader(null);
                 blendARGB = Theme.getColor(Theme.key_voipgroup_topPanelGray);
-            } else if (LiteMode.isEnabled(512)) {
-                paint.setShader(this.shader);
-                return;
             } else {
+                if (LiteMode.isEnabled(512)) {
+                    paint.setShader(this.shader);
+                    return;
+                }
                 paint.setShader(null);
                 if (this.currentState == 3) {
                     i = ColorUtils.blendARGB(this.color1, this.color2, 0.5f);
@@ -251,8 +255,8 @@ public class FragmentContextViewWavesDrawable {
         this.parents.add(view);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:37:0x006b  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x00cc  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x006b  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00cc  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -346,8 +350,10 @@ public class FragmentContextViewWavesDrawable {
                         this.lineBlobDrawable1.maxRadius = AndroidUtilities.dp(3.0f) + (AndroidUtilities.dp(9.0f) * this.amplitude);
                         this.lineBlobDrawable2.minRadius = AndroidUtilities.dp(f8);
                         LineBlobDrawable lineBlobDrawable2 = this.lineBlobDrawable2;
+                        float dp = AndroidUtilities.dp(3.0f);
+                        float dp2 = AndroidUtilities.dp(9.0f);
                         float f19 = this.amplitude;
-                        lineBlobDrawable2.maxRadius = AndroidUtilities.dp(3.0f) + (AndroidUtilities.dp(9.0f) * f19);
+                        lineBlobDrawable2.maxRadius = dp + (dp2 * f19);
                         if (i == 1 && z) {
                             this.lineBlobDrawable.update(f19, 0.3f);
                             this.lineBlobDrawable1.update(this.amplitude, 0.7f);
@@ -355,11 +361,11 @@ public class FragmentContextViewWavesDrawable {
                         }
                         if (LiteMode.isEnabled(512)) {
                             this.paint.setAlpha((int) (76.0f * f18));
-                            float dp = AndroidUtilities.dp(6.0f) * this.amplitude2;
-                            float dp2 = AndroidUtilities.dp(6.0f) * this.amplitude2;
+                            float dp3 = AndroidUtilities.dp(6.0f) * this.amplitude2;
+                            float dp4 = AndroidUtilities.dp(6.0f) * this.amplitude2;
                             i2 = i;
-                            this.lineBlobDrawable1.draw(f, f2 - dp, f3, f4, canvas, this.paint, f2, f5);
-                            this.lineBlobDrawable2.draw(f, f2 - dp2, f3, f4, canvas, this.paint, f2, f5);
+                            this.lineBlobDrawable1.draw(f, f2 - dp3, f3, f4, canvas, this.paint, f2, f5);
+                            this.lineBlobDrawable2.draw(f, f2 - dp4, f3, f4, canvas, this.paint, f2, f5);
                         } else {
                             i2 = i;
                         }
@@ -417,6 +423,7 @@ public class FragmentContextViewWavesDrawable {
         this.animateAmplitudeDiff2 = f2 / 120.0f;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public void updateState(boolean z) {
         int i;
         TLRPC.TL_groupCallParticipant tL_groupCallParticipant;

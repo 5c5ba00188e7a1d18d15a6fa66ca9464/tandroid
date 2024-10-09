@@ -2,6 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+
 /* loaded from: classes.dex */
 public abstract class zzcg {
     static final Charset zza = Charset.forName("US-ASCII");

@@ -4,6 +4,7 @@ import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 final class zzhu implements ObjectEncoder {
     private static final FieldDescriptor zzA;

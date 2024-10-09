@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import android.database.ContentObserver;
 import android.os.Handler;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzac extends ContentObserver {

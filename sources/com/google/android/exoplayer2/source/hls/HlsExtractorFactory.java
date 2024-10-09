@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public interface HlsExtractorFactory {
     public static final HlsExtractorFactory DEFAULT = new DefaultHlsExtractorFactory();

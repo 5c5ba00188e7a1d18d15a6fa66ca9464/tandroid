@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.core.view.ContentInfoCompat;
 import androidx.core.view.OnReceiveContentListener;
+
 /* loaded from: classes.dex */
 public final class TextViewOnReceiveContentListener implements OnReceiveContentListener {
 
@@ -17,11 +18,11 @@ public final class TextViewOnReceiveContentListener implements OnReceiveContentL
     /* loaded from: classes.dex */
     public static final class Api16Impl {
         static CharSequence coerce(Context context, ClipData.Item item, int i) {
-            if ((i & 1) != 0) {
-                CharSequence coerceToText = item.coerceToText(context);
-                return coerceToText instanceof Spanned ? coerceToText.toString() : coerceToText;
+            if ((i & 1) == 0) {
+                return item.coerceToStyledText(context);
             }
-            return item.coerceToStyledText(context);
+            CharSequence coerceToText = item.coerceToText(context);
+            return coerceToText instanceof Spanned ? coerceToText.toString() : coerceToText;
         }
     }
 

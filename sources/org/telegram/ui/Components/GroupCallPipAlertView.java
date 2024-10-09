@@ -31,6 +31,7 @@ import org.telegram.ui.Components.voip.VoIPButtonsLayout;
 import org.telegram.ui.Components.voip.VoIPToggleButton;
 import org.telegram.ui.GroupCallActivity;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class GroupCallPipAlertView extends LinearLayout implements VoIPService.StateListener, NotificationCenter.NotificationCenterDelegate {
     BackupImageView avatarImageView;
@@ -143,7 +144,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (VoIPService.getSharedInstance() != null) {
-            Intent action = new Intent(getContext(), LaunchActivity.class).setAction("voip_chat");
+            Intent action = new Intent(getContext(), (Class<?>) LaunchActivity.class).setAction("voip_chat");
             action.putExtra("currentAccount", VoIPService.getSharedInstance().getAccount());
             getContext().startActivity(action);
         }
@@ -210,8 +211,8 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         GroupCallActivity.onLeaveClick(context2, runnable, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x008a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -243,37 +244,38 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
             voIPToggleButton = this.soundButton;
             i = R.drawable.calls_bluetooth;
             i2 = R.string.VoipAudioRoutingBluetooth;
-        } else if (z5) {
-            voIPToggleButton = this.soundButton;
-            i = R.drawable.calls_speaker;
-            string = LocaleController.getString(R.string.VoipSpeaker);
-            z2 = true;
-            z3 = false;
-            i3 = -1;
-            i4 = 0;
-            f = 0.3f;
-            voIPToggleButton.setData(i, i3, i4, f, z2, string, z3, z);
-            mutedByAdmin = sharedInstance.mutedByAdmin();
-            VoIPToggleButton voIPToggleButton2 = this.muteButton;
-            int i6 = R.drawable.calls_unmute;
-            if (mutedByAdmin) {
-                alphaComponent = ColorUtils.setAlphaComponent(-1, (int) ((sharedInstance.isMicMute() ? 0.3f : 0.15f) * 255.0f));
-                string2 = LocaleController.getString(sharedInstance.isMicMute() ? R.string.VoipUnmute : R.string.VoipMute);
-                isMicMute = sharedInstance.isMicMute();
-                i5 = -1;
-                f2 = 0.1f;
-                z4 = true;
-            } else {
-                alphaComponent = ColorUtils.setAlphaComponent(-1, 76);
-                string2 = LocaleController.getString(R.string.VoipMutedByAdminShort);
-                z4 = true;
-                isMicMute = true;
-                i5 = -1;
-                f2 = 0.1f;
-            }
-            voIPToggleButton2.setData(i6, i5, alphaComponent, f2, z4, string2, isMicMute, z);
-            invalidate();
         } else {
+            if (z5) {
+                voIPToggleButton = this.soundButton;
+                i = R.drawable.calls_speaker;
+                string = LocaleController.getString(R.string.VoipSpeaker);
+                z2 = true;
+                z3 = false;
+                i3 = -1;
+                i4 = 0;
+                f = 0.3f;
+                voIPToggleButton.setData(i, i3, i4, f, z2, string, z3, z);
+                mutedByAdmin = sharedInstance.mutedByAdmin();
+                VoIPToggleButton voIPToggleButton2 = this.muteButton;
+                int i6 = R.drawable.calls_unmute;
+                if (mutedByAdmin) {
+                    alphaComponent = ColorUtils.setAlphaComponent(-1, (int) ((sharedInstance.isMicMute() ? 0.3f : 0.15f) * 255.0f));
+                    string2 = LocaleController.getString(sharedInstance.isMicMute() ? R.string.VoipUnmute : R.string.VoipMute);
+                    isMicMute = sharedInstance.isMicMute();
+                    i5 = -1;
+                    f2 = 0.1f;
+                    z4 = true;
+                } else {
+                    alphaComponent = ColorUtils.setAlphaComponent(-1, 76);
+                    string2 = LocaleController.getString(R.string.VoipMutedByAdminShort);
+                    z4 = true;
+                    isMicMute = true;
+                    i5 = -1;
+                    f2 = 0.1f;
+                }
+                voIPToggleButton2.setData(i6, i5, alphaComponent, f2, z4, string2, isMicMute, z);
+                invalidate();
+            }
             boolean isHeadsetPlugged = sharedInstance.isHeadsetPlugged();
             voIPToggleButton = this.soundButton;
             if (isHeadsetPlugged) {
@@ -347,9 +349,8 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
             if (VoIPService.getSharedInstance() != null) {
                 this.mutedByAdmin = VoIPService.getSharedInstance().mutedByAdmin();
             }
-            float f = 0.0f;
             this.mutedByAdminProgress = this.mutedByAdmin ? 1.0f : 0.0f;
-            this.muteProgress = (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isMicMute() || this.mutedByAdmin) ? 1.0f : 1.0f;
+            this.muteProgress = (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isMicMute() || this.mutedByAdmin) ? 1.0f : 0.0f;
         }
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupCallUpdated);
         updateButtons(false);
@@ -380,13 +381,13 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupCallUpdated);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0050  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0062  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x01a3  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x01ac  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x01e7  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x020a  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x01a3  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x01e7  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x020a  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x01ac  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0062  */
     @Override // android.widget.LinearLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -454,23 +455,24 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
                         if (i2 == 0) {
                             canvas.clipRect(translationX - AndroidUtilities.dp(15.0f), measuredHeight - AndroidUtilities.dp(15.0f), translationX, AndroidUtilities.dp(15.0f) + measuredHeight);
                             i4 = AndroidUtilities.dp(3.0f);
-                        } else if (i2 != 1) {
-                            float dp = translationX - AndroidUtilities.dp(15.0f);
-                            if (i2 == 2) {
-                                canvas.clipRect(dp, measuredHeight - AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f) + translationX, measuredHeight);
-                                canvas.rotate(45.0f, translationX, measuredHeight);
-                                i3 = AndroidUtilities.dp(3.0f);
-                            } else {
-                                canvas.clipRect(dp, measuredHeight, AndroidUtilities.dp(15.0f) + translationX, AndroidUtilities.dp(15.0f) + measuredHeight);
-                                canvas.rotate(45.0f, translationX, measuredHeight);
-                                i3 = -AndroidUtilities.dp(3.0f);
-                            }
-                            canvas.translate(0.0f, i3);
-                            this.rectF.set(translationX - AndroidUtilities.dp(10.0f), measuredHeight - AndroidUtilities.dp(10.0f), translationX + AndroidUtilities.dp(10.0f), measuredHeight + AndroidUtilities.dp(10.0f));
-                            canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.paint);
-                            canvas.restore();
-                            super.onDraw(canvas);
                         } else {
+                            if (i2 != 1) {
+                                float dp = translationX - AndroidUtilities.dp(15.0f);
+                                if (i2 == 2) {
+                                    canvas.clipRect(dp, measuredHeight - AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f) + translationX, measuredHeight);
+                                    canvas.rotate(45.0f, translationX, measuredHeight);
+                                    i3 = AndroidUtilities.dp(3.0f);
+                                } else {
+                                    canvas.clipRect(dp, measuredHeight, AndroidUtilities.dp(15.0f) + translationX, AndroidUtilities.dp(15.0f) + measuredHeight);
+                                    canvas.rotate(45.0f, translationX, measuredHeight);
+                                    i3 = -AndroidUtilities.dp(3.0f);
+                                }
+                                canvas.translate(0.0f, i3);
+                                this.rectF.set(translationX - AndroidUtilities.dp(10.0f), measuredHeight - AndroidUtilities.dp(10.0f), translationX + AndroidUtilities.dp(10.0f), measuredHeight + AndroidUtilities.dp(10.0f));
+                                canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), this.paint);
+                                canvas.restore();
+                                super.onDraw(canvas);
+                            }
                             canvas.clipRect(translationX, measuredHeight - AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f) + translationX, AndroidUtilities.dp(15.0f) + measuredHeight);
                             i4 = -AndroidUtilities.dp(3.0f);
                         }

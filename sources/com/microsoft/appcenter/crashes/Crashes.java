@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import org.json.JSONException;
+
 /* loaded from: classes.dex */
 public class Crashes extends AbstractAppCenterService {
     private static final CrashesListener DEFAULT_ERROR_REPORTING_LISTENER = new DefaultCrashesListener();
@@ -142,7 +143,7 @@ public class Crashes extends AbstractAppCenterService {
         post(new Runnable() { // from class: com.microsoft.appcenter.crashes.Crashes.12
             /* JADX WARN: Removed duplicated region for block: B:28:0x00bc  */
             /* JADX WARN: Removed duplicated region for block: B:31:0x00d8  */
-            /* JADX WARN: Removed duplicated region for block: B:37:0x00f3 A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:34:0x00f3 A[SYNTHETIC] */
             @Override // java.lang.Runnable
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -153,8 +154,9 @@ public class Crashes extends AbstractAppCenterService {
                 if (i2 == 1) {
                     Iterator it = Crashes.this.mUnprocessedErrorReports.keySet().iterator();
                     while (it.hasNext()) {
+                        UUID uuid = (UUID) it.next();
                         it.remove();
-                        Crashes.this.removeAllStoredErrorLogFiles((UUID) it.next());
+                        Crashes.this.removeAllStoredErrorLogFiles(uuid);
                     }
                     ErrorLogHelper.cleanPendingMinidumps();
                     return;
@@ -232,7 +234,6 @@ public class Crashes extends AbstractAppCenterService {
     }
 
     private void processMinidumpFiles() {
-        File[] newMinidumpFiles;
         File lastErrorLogFile;
         for (File file : ErrorLogHelper.getNewMinidumpFiles()) {
             if (file.isDirectory()) {
@@ -278,7 +279,6 @@ public class Crashes extends AbstractAppCenterService {
     }
 
     private void processPendingErrors() {
-        File[] storedErrorLogFiles;
         for (File file : ErrorLogHelper.getStoredErrorLogFiles()) {
             AppCenterLog.debug("AppCenterCrashes", "Process pending error file: " + file);
             String read = FileManager.read(file);
@@ -341,9 +341,9 @@ public class Crashes extends AbstractAppCenterService {
             managedErrorLog.setDevice(storedDeviceInfo);
             saveErrorLogFiles(new NativeException(), managedErrorLog);
             if (file.renameTo(file3)) {
-                return;
+            } else {
+                throw new IOException("Failed to move file");
             }
-            throw new IOException("Failed to move file");
         } catch (Exception e) {
             file.delete();
             removeAllStoredErrorLogFiles(managedErrorLog.getId());
@@ -538,12 +538,12 @@ public class Crashes extends AbstractAppCenterService {
             return errorReport;
         }
         File storedThrowableFile = ErrorLogHelper.getStoredThrowableFile(id);
-        if (storedThrowableFile != null) {
-            ErrorReport errorReportFromErrorLog = ErrorLogHelper.getErrorReportFromErrorLog(managedErrorLog, storedThrowableFile.length() > 0 ? FileManager.read(storedThrowableFile) : null);
-            this.mErrorReportCache.put(id, new ErrorLogReport(managedErrorLog, errorReportFromErrorLog));
-            return errorReportFromErrorLog;
+        if (storedThrowableFile == null) {
+            return null;
         }
-        return null;
+        ErrorReport errorReportFromErrorLog = ErrorLogHelper.getErrorReportFromErrorLog(managedErrorLog, storedThrowableFile.length() > 0 ? FileManager.read(storedThrowableFile) : null);
+        this.mErrorReportCache.put(id, new ErrorLogReport(managedErrorLog, errorReportFromErrorLog));
+        return errorReportFromErrorLog;
     }
 
     @Override // com.microsoft.appcenter.AbstractAppCenterService
@@ -570,11 +570,13 @@ public class Crashes extends AbstractAppCenterService {
                                     }
                                 });
                                 return;
+                            } else {
+                                str = "Cannot find crash report for the error log: " + id;
                             }
-                            str = "Cannot find crash report for the error log: " + id;
-                        } else if ((log2 instanceof ErrorAttachmentLog) || (log2 instanceof HandledErrorLog)) {
-                            return;
                         } else {
+                            if ((log2 instanceof ErrorAttachmentLog) || (log2 instanceof HandledErrorLog)) {
+                                return;
+                            }
                             str = "A different type of log comes to crashes: " + log.getClass().getName();
                         }
                         AppCenterLog.warn("AppCenterCrashes", str);
@@ -684,11 +686,11 @@ public class Crashes extends AbstractAppCenterService {
     }
 
     UUID saveUncaughtException(Thread thread, Throwable th, Exception exception) {
-        if (((Boolean) isEnabled().get()).booleanValue() && !this.mSavedUncaughtException) {
-            this.mSavedUncaughtException = true;
-            return saveErrorLogFiles(th, ErrorLogHelper.createErrorLog(this.mContext, thread, exception, Thread.getAllStackTraces(), this.mInitializeTimestamp, true));
+        if (!((Boolean) isEnabled().get()).booleanValue() || this.mSavedUncaughtException) {
+            return null;
         }
-        return null;
+        this.mSavedUncaughtException = true;
+        return saveErrorLogFiles(th, ErrorLogHelper.createErrorLog(this.mContext, thread, exception, Thread.getAllStackTraces(), this.mInitializeTimestamp, true));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

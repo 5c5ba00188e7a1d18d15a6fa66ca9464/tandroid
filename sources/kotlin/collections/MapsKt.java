@@ -1,6 +1,7 @@
 package kotlin.collections;
 
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class MapsKt extends MapsKt___MapsKt {
     public static /* bridge */ /* synthetic */ Map emptyMap() {

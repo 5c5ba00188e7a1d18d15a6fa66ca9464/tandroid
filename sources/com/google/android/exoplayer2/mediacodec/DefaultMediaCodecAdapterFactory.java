@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.mediacodec.SynchronousMediaCodecAdapter;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class DefaultMediaCodecAdapterFactory implements MediaCodecAdapter.Factory {
     private int asynchronousMode = 0;

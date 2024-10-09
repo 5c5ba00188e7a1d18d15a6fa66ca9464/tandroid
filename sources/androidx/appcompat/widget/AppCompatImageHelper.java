@@ -11,6 +11,7 @@ import androidx.appcompat.R$styleable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.ImageViewCompat;
+
 /* loaded from: classes.dex */
 public class AppCompatImageHelper {
     private TintInfo mImageTint;
@@ -39,11 +40,11 @@ public class AppCompatImageHelper {
             tintInfo.mHasTintMode = true;
             tintInfo.mTintMode = imageTintMode;
         }
-        if (tintInfo.mHasTintList || tintInfo.mHasTintMode) {
-            AppCompatDrawableManager.tintDrawable(drawable, tintInfo, this.mView.getDrawableState());
-            return true;
+        if (!tintInfo.mHasTintList && !tintInfo.mHasTintMode) {
+            return false;
         }
-        return false;
+        AppCompatDrawableManager.tintDrawable(drawable, tintInfo, this.mView.getDrawableState());
+        return true;
     }
 
     private boolean shouldApplyFrameworkTintUsingColorFilter() {

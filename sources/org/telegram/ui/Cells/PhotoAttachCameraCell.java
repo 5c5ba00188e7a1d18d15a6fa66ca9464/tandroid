@@ -15,6 +15,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class PhotoAttachCameraCell extends FrameLayout {
     private ImageView backgroundView;

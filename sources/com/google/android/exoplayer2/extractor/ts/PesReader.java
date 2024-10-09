@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
+
 /* loaded from: classes.dex */
 public final class PesReader implements TsPayloadReader {
     private int bytesRead;
@@ -97,8 +98,8 @@ public final class PesReader implements TsPayloadReader {
         this.bytesRead = 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x004d  */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:34:0x007a -> B:35:0x007c). Please submit an issue!!! */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x004d  */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:34:0x007a -> B:12:0x007c). Please report as a decompilation issue!!! */
     @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -110,9 +111,10 @@ public final class PesReader implements TsPayloadReader {
             if (i2 != 0 && i2 != 1) {
                 if (i2 == 2) {
                     Log.w("PesReader", "Unexpected start indicator reading extended header");
-                } else if (i2 != 3) {
-                    throw new IllegalStateException();
                 } else {
+                    if (i2 != 3) {
+                        throw new IllegalStateException();
+                    }
                     if (this.payloadSize != -1) {
                         Log.w("PesReader", "Unexpected start indicator: expected " + this.payloadSize + " more bytes");
                     }
@@ -132,9 +134,10 @@ public final class PesReader implements TsPayloadReader {
                             this.reader.packetStarted(this.timeUs, i);
                             setState(3);
                         }
-                    } else if (i3 != 3) {
-                        throw new IllegalStateException();
                     } else {
+                        if (i3 != 3) {
+                            throw new IllegalStateException();
+                        }
                         int bytesLeft = parsableByteArray.bytesLeft();
                         int i4 = this.payloadSize;
                         int i5 = i4 != -1 ? bytesLeft - i4 : 0;

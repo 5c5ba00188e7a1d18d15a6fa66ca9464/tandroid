@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes3.dex */
 public abstract class CacheFetcher<Args, R> {
     private HashMap<Pair<Integer, Args>, R> cachedResults;
@@ -80,13 +81,13 @@ public abstract class CacheFetcher<Args, R> {
         if (bool.booleanValue()) {
             cacheResult(pair, obj);
             callCallbacks(pair, obj, true);
-            return;
+        } else {
+            if (obj3 != 0) {
+                setLocal(i, obj2, obj3, l.longValue());
+                cacheResult(pair, obj3);
+            }
+            callCallbacks(pair, obj3, true);
         }
-        if (obj3 != 0) {
-            setLocal(i, obj2, obj3, l.longValue());
-            cacheResult(pair, obj3);
-        }
-        callCallbacks(pair, obj3, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

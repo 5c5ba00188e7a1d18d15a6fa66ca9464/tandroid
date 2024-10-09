@@ -3,6 +3,7 @@ package com.google.android.datatransport.runtime.firebase.transport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class LogSourceMetrics {
     private static final LogSourceMetrics DEFAULT_INSTANCE = new Builder().build();

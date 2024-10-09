@@ -2,6 +2,7 @@ package androidx.fragment.app;
 
 import android.util.Log;
 import java.io.Writer;
+
 /* loaded from: classes.dex */
 final class LogWriter extends Writer {
     private StringBuilder mBuilder = new StringBuilder(128);

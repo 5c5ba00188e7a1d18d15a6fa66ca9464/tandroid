@@ -6,6 +6,7 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public class PlaybackException extends Exception implements Bundleable {
     public final int errorCode;

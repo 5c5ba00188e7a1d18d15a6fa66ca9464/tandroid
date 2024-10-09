@@ -33,6 +33,7 @@ import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickersAlert;
+
 /* loaded from: classes4.dex */
 public class ArchivedStickersActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int archiveInfoRow;
@@ -84,13 +85,13 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemViewType(int i) {
-            if (i < ArchivedStickersActivity.this.stickersStartRow || i >= ArchivedStickersActivity.this.stickersEndRow) {
-                if (i == ArchivedStickersActivity.this.stickersLoadingRow) {
-                    return 1;
-                }
-                return (i == ArchivedStickersActivity.this.stickersShadowRow || i == ArchivedStickersActivity.this.archiveInfoRow) ? 2 : 0;
+            if (i >= ArchivedStickersActivity.this.stickersStartRow && i < ArchivedStickersActivity.this.stickersEndRow) {
+                return 0;
             }
-            return 0;
+            if (i == ArchivedStickersActivity.this.stickersLoadingRow) {
+                return 1;
+            }
+            return (i == ArchivedStickersActivity.this.stickersShadowRow || i == ArchivedStickersActivity.this.archiveInfoRow) ? 2 : 0;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -120,7 +121,9 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
                         ArchivedStickersActivity.ListAdapter.this.lambda$onBindViewHolder$0(stickerSetCovered, archivedStickerSetCell2, z);
                     }
                 });
-            } else if (getItemViewType(i) == 2) {
+                return;
+            }
+            if (getItemViewType(i) == 2) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 if (i == ArchivedStickersActivity.this.archiveInfoRow) {
                     textInfoPrivacyCell.setTopPadding(17);
@@ -137,23 +140,23 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            FrameLayout frameLayout;
+            View view;
             if (i != 0) {
                 if (i == 1) {
-                    frameLayout = new LoadingCell(this.mContext);
+                    view = new LoadingCell(this.mContext);
                 } else if (i != 2) {
-                    frameLayout = null;
+                    view = null;
                 } else {
-                    frameLayout = new TextInfoPrivacyCell(this.mContext);
+                    view = new TextInfoPrivacyCell(this.mContext);
                 }
-                frameLayout.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                view.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             } else {
-                FrameLayout archivedStickerSetCell = new ArchivedStickerSetCell(this.mContext, true);
+                ArchivedStickerSetCell archivedStickerSetCell = new ArchivedStickerSetCell(this.mContext, true);
                 archivedStickerSetCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                frameLayout = archivedStickerSetCell;
+                view = archivedStickerSetCell;
             }
-            frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            return new RecyclerListView.Holder(frameLayout);
+            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            return new RecyclerListView.Holder(view);
         }
     }
 
@@ -247,7 +250,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: processResponse */
+    /* renamed from: processResponse, reason: merged with bridge method [inline-methods] */
     public void lambda$processResponse$3(final TLRPC.TL_messages_archivedStickers tL_messages_archivedStickers) {
         if (this.isInTransition) {
             this.doOnTransitionEnd = new Runnable() { // from class: org.telegram.ui.ArchivedStickersActivity$$ExternalSyntheticLambda3
@@ -338,7 +341,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    ArchivedStickersActivity.this.finishFragment();
+                    ArchivedStickersActivity.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -413,12 +416,12 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
             while (true) {
                 if (i4 >= size2) {
                     break;
-                } else if (((TLRPC.StickerSetCovered) this.sets.get(i4)).set.id == ((TLRPC.StickerSetCovered) arrayList.get(size)).set.id) {
+                }
+                if (((TLRPC.StickerSetCovered) this.sets.get(i4)).set.id == ((TLRPC.StickerSetCovered) arrayList.get(size)).set.id) {
                     arrayList.remove(size);
                     break;
-                } else {
-                    i4++;
                 }
+                i4++;
             }
         }
         if (arrayList.isEmpty()) {

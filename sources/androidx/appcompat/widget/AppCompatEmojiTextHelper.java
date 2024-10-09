@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 import androidx.appcompat.R$styleable;
 import androidx.emoji2.viewsintegration.EmojiTextViewHelper;
+
 /* loaded from: classes.dex */
 class AppCompatEmojiTextHelper {
     private final EmojiTextViewHelper mEmojiTextViewHelper;

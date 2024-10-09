@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
+
 /* loaded from: classes.dex */
 public final class zzge$zzs extends zzcg implements zzdq {
     private static final zzge$zzs zzbfc;
@@ -43,7 +44,7 @@ public final class zzge$zzs extends zzcg implements zzdq {
         zzbfv(18),
         zzbfw(19),
         zzbfx(100);
-        
+
         private static final zzck zzbq = new zzgo();
         private final int value;
 
@@ -52,53 +53,53 @@ public final class zzge$zzs extends zzcg implements zzdq {
         }
 
         public static zzb zzaz(int i) {
-            if (i != 100) {
-                switch (i) {
-                    case 0:
-                        return zzbfd;
-                    case 1:
-                        return zzbfe;
-                    case 2:
-                        return zzbff;
-                    case 3:
-                        return zzbfg;
-                    case 4:
-                        return zzbfh;
-                    case 5:
-                        return zzbfi;
-                    case 6:
-                        return zzbfj;
-                    case 7:
-                        return zzbfk;
-                    case 8:
-                        return zzbfl;
-                    case 9:
-                        return zzbfm;
-                    case 10:
-                        return zzbfn;
-                    case 11:
-                        return zzbfo;
-                    case 12:
-                        return zzbfp;
-                    case 13:
-                        return zzbfq;
-                    case 14:
-                        return zzbfr;
-                    case 15:
-                        return zzbfs;
-                    case 16:
-                        return zzbft;
-                    case 17:
-                        return zzbfu;
-                    case 18:
-                        return zzbfv;
-                    case 19:
-                        return zzbfw;
-                    default:
-                        return null;
-                }
+            if (i == 100) {
+                return zzbfx;
             }
-            return zzbfx;
+            switch (i) {
+                case 0:
+                    return zzbfd;
+                case 1:
+                    return zzbfe;
+                case 2:
+                    return zzbff;
+                case 3:
+                    return zzbfg;
+                case 4:
+                    return zzbfh;
+                case 5:
+                    return zzbfi;
+                case 6:
+                    return zzbfj;
+                case 7:
+                    return zzbfk;
+                case 8:
+                    return zzbfl;
+                case 9:
+                    return zzbfm;
+                case 10:
+                    return zzbfn;
+                case 11:
+                    return zzbfo;
+                case 12:
+                    return zzbfp;
+                case 13:
+                    return zzbfq;
+                case 14:
+                    return zzbfr;
+                case 15:
+                    return zzbfs;
+                case 16:
+                    return zzbft;
+                case 17:
+                    return zzbfu;
+                case 18:
+                    return zzbfv;
+                case 19:
+                    return zzbfw;
+                default:
+                    return null;
+            }
         }
 
         public static zzck zzd() {
@@ -127,7 +128,7 @@ public final class zzge$zzs extends zzcg implements zzdq {
         zzbgp(15),
         zzbgq(16),
         zzbgr(17);
-        
+
         private static final zzck zzbq = new zzgp();
         private final int value;
 
@@ -198,11 +199,12 @@ public final class zzge$zzs extends zzcg implements zzdq {
     /* JADX WARN: Type inference failed for: r4v16, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
     public final Object zza(int i, Object obj, Object obj2) {
+        zzgf zzgfVar = null;
         switch (zzgf.zzba[i - 1]) {
             case 1:
                 return new zzge$zzs();
             case 2:
-                return new zza(null);
+                return new zza(zzgfVar);
             case 3:
                 return zzcg.zza(zzbfc, "\u0001\u0002\u0000\u0001\u0001\u0002\u0002\u0003\u0000\u0000\u0000\u0001\f\u0000\u0002\f\u0001", new Object[]{"zzbb", "zzbfa", zzc.zzd(), "zzbfb", zzb.zzd()});
             case 4:

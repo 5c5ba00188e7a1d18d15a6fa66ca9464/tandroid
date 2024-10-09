@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime;
 
 import com.google.android.datatransport.runtime.logging.Logging;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 class SafeLoggingExecutor implements Executor {
     private final Executor delegate;

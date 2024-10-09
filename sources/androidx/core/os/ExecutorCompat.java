@@ -4,6 +4,7 @@ import android.os.Handler;
 import androidx.core.util.Preconditions;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
+
 /* loaded from: classes.dex */
 public abstract class ExecutorCompat {
 

@@ -48,6 +48,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilerEffect2;
 import org.telegram.ui.PhotoViewer;
+
 /* loaded from: classes4.dex */
 public class PhotoAttachPhotoCell extends FrameLayout {
     private static Rect rect = new Rect();
@@ -144,12 +145,13 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                     imageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), getHeight());
                     this.blurImageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), getHeight());
                 } else {
+                    float width = (getWidth() - this.width) / 2;
                     int height = getHeight();
-                    int i = this.height;
-                    imageReceiver.setImageCoords((getWidth() - this.width) / 2, (height - i) / 2, this.width, i);
+                    imageReceiver.setImageCoords(width, (height - r4) / 2, this.width, this.height);
+                    ImageReceiver imageReceiver2 = this.blurImageReceiver;
+                    float width2 = (getWidth() - this.width) / 2;
                     int height2 = getHeight();
-                    int i2 = this.height;
-                    this.blurImageReceiver.setImageCoords((getWidth() - this.width) / 2, (height2 - i2) / 2, this.width, i2);
+                    imageReceiver2.setImageCoords(width2, (height2 - r5) / 2, this.width, this.height);
                 }
                 imageReceiver.draw(canvas);
                 if (PhotoAttachPhotoCell.this.hasSpoiler && PhotoAttachPhotoCell.this.spoilerRevealProgress != 1.0f && (PhotoAttachPhotoCell.this.photoEntry == null || !PhotoAttachPhotoCell.this.photoEntry.isAttachSpoilerRevealed)) {
@@ -386,8 +388,8 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         super.onMeasure(makeMeasureSpec, View.MeasureSpec.makeMeasureSpec(dp, 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0070  */
-    /* JADX WARN: Removed duplicated region for block: B:25:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0070  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -443,7 +445,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             }
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animator = animatorSet2;
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.container, View.SCALE_X, z ? 0.787f : 1.0f), ObjectAnimator.ofFloat(this.container, View.SCALE_Y, z ? 0.787f : 1.0f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.container, (Property<FrameLayout, Float>) View.SCALE_X, z ? 0.787f : 1.0f), ObjectAnimator.ofFloat(this.container, (Property<FrameLayout, Float>) View.SCALE_Y, z ? 0.787f : 1.0f));
             this.animator.setDuration(200L);
             this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.5
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -538,9 +540,9 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         this.checkFrame.setOnClickListener(onClickListener);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00a0  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00a0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -563,18 +565,19 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         String str2 = photoEntry2.thumbPath;
         if (str2 != null) {
             backupImageView = this.imageView;
-        } else if (photoEntry2.path == null) {
-            this.imageView.setImageDrawable(Theme.chat_attachEmptyDrawable);
-            if (z2 && PhotoViewer.isShowingImage(this.photoEntry.path)) {
-                z4 = true;
-            }
-            this.imageView.getImageReceiver().setVisible(!z4, true);
-            this.checkBox.setAlpha(!z4 ? 0.0f : 1.0f);
-            this.videoInfoContainer.setAlpha(z4 ? 0.0f : 1.0f);
-            requestLayout();
-            setHasSpoiler(photoEntry.hasSpoiler);
-            setStarsPrice(photoEntry.starsAmount, z);
         } else {
+            if (photoEntry2.path == null) {
+                this.imageView.setImageDrawable(Theme.chat_attachEmptyDrawable);
+                if (z2 && PhotoViewer.isShowingImage(this.photoEntry.path)) {
+                    z4 = true;
+                }
+                this.imageView.getImageReceiver().setVisible(!z4, true);
+                this.checkBox.setAlpha(!z4 ? 0.0f : 1.0f);
+                this.videoInfoContainer.setAlpha(z4 ? 0.0f : 1.0f);
+                requestLayout();
+                setHasSpoiler(photoEntry.hasSpoiler);
+                setStarsPrice(photoEntry.starsAmount, z);
+            }
             if (photoEntry2.isVideo) {
                 backupImageView = this.imageView;
                 sb = new StringBuilder();
@@ -603,9 +606,9 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         setStarsPrice(photoEntry.starsAmount, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00e0  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00e2  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00eb  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00e0  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00eb  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00e2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -725,7 +728,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             AnimatorSet animatorSet3 = this.animatorSet;
             FrameLayout frameLayout = this.videoInfoContainer;
             Property property = View.ALPHA;
-            animatorSet3.playTogether(ObjectAnimator.ofFloat(frameLayout, property, z ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.checkBox, property, z ? 1.0f : 0.0f));
+            animatorSet3.playTogether(ObjectAnimator.ofFloat(frameLayout, (Property<FrameLayout, Float>) property, z ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.checkBox, (Property<CheckBox2, Float>) property, z ? 1.0f : 0.0f));
             this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.6
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {

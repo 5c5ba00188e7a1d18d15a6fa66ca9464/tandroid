@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.pm.SigningInfo;
 import android.os.Build;
+
 /* loaded from: classes.dex */
 public abstract class PackageInfoCompat {
 

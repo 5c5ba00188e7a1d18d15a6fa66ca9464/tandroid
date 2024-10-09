@@ -7,6 +7,7 @@ import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.android.gms.maps.internal.IProjectionDelegate;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
+
 /* loaded from: classes.dex */
 public final class Projection {
     private final IProjectionDelegate zza;

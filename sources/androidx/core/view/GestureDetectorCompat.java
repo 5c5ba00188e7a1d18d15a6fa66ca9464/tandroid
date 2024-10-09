@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+
 /* loaded from: classes.dex */
 public final class GestureDetectorCompat {
     private final GestureDetectorCompatImpl mImpl;

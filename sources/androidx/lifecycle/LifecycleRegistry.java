@@ -8,6 +8,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class LifecycleRegistry extends Lifecycle {
     private int mAddingObserverCounter;
@@ -75,8 +76,7 @@ public class LifecycleRegistry extends Lifecycle {
         Lifecycle.State state = null;
         Lifecycle.State state2 = ceil != null ? ((ObserverWithState) ceil.getValue()).mState : null;
         if (!this.mParentStates.isEmpty()) {
-            ArrayList arrayList = this.mParentStates;
-            state = (Lifecycle.State) arrayList.get(arrayList.size() - 1);
+            state = (Lifecycle.State) this.mParentStates.get(r0.size() - 1);
         }
         return min(min(this.mState, state2), state);
     }
@@ -140,8 +140,7 @@ public class LifecycleRegistry extends Lifecycle {
     }
 
     private void popParentState() {
-        ArrayList arrayList = this.mParentStates;
-        arrayList.remove(arrayList.size() - 1);
+        this.mParentStates.remove(r0.size() - 1);
     }
 
     private void pushParentState(Lifecycle.State state) {

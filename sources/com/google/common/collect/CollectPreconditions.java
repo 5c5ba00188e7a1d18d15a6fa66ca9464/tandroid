@@ -1,6 +1,7 @@
 package com.google.common.collect;
 
 import com.google.common.base.Preconditions;
+
 /* loaded from: classes.dex */
 abstract class CollectPreconditions {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -11,15 +12,16 @@ abstract class CollectPreconditions {
             sb.append("null key in entry: null=");
             sb.append(valueOf);
             throw new NullPointerException(sb.toString());
-        } else if (obj2 != null) {
-        } else {
-            String valueOf2 = String.valueOf(obj);
-            StringBuilder sb2 = new StringBuilder(valueOf2.length() + 26);
-            sb2.append("null value in entry: ");
-            sb2.append(valueOf2);
-            sb2.append("=null");
-            throw new NullPointerException(sb2.toString());
         }
+        if (obj2 != null) {
+            return;
+        }
+        String valueOf2 = String.valueOf(obj);
+        StringBuilder sb2 = new StringBuilder(valueOf2.length() + 26);
+        sb2.append("null value in entry: ");
+        sb2.append(valueOf2);
+        sb2.append("=null");
+        throw new NullPointerException(sb2.toString());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

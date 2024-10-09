@@ -1,6 +1,7 @@
 package com.google.android.gms.location;
 
 import com.google.android.gms.common.Feature;
+
 /* loaded from: classes.dex */
 public abstract class zzm {
     public static final Feature zza;

@@ -1,6 +1,7 @@
 package androidx.core.view;
 
 import android.view.ViewGroup;
+
 /* loaded from: classes.dex */
 public abstract class MarginLayoutParamsCompat {
 

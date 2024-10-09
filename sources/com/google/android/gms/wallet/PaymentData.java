@@ -8,6 +8,7 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelableSerializer;
 import com.google.android.gms.identity.intents.model.UserAddress;
+
 /* loaded from: classes.dex */
 public final class PaymentData extends AbstractSafeParcelable implements AutoResolvableResult {
     public static final Parcelable.Creator<PaymentData> CREATOR = new zzaa();

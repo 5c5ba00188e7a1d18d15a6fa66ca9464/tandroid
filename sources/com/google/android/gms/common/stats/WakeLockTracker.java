@@ -2,6 +2,7 @@ package com.google.android.gms.common.stats;
 
 import android.content.Context;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class WakeLockTracker {
     private static WakeLockTracker zza = new WakeLockTracker();

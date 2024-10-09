@@ -23,6 +23,7 @@ import org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
+
 /* loaded from: classes3.dex */
 public class BoostPagerBottomSheet extends BottomSheet {
     private static BoostPagerBottomSheet instance;
@@ -320,8 +321,10 @@ public class BoostPagerBottomSheet extends BottomSheet {
     public void onBackPressed() {
         if (this.viewPager.getCurrentPosition() <= 0) {
             super.onBackPressed();
-        } else if (this.rightSheet.hasChanges()) {
         } else {
+            if (this.rightSheet.hasChanges()) {
+                return;
+            }
             hideKeyboardIfVisible();
             this.viewPager.scrollToPosition(0);
         }

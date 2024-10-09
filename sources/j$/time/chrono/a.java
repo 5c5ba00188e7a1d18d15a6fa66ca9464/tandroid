@@ -2,6 +2,7 @@ package j$.time.chrono;
 
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
+
 /* loaded from: classes2.dex */
 public abstract class a implements f {
     static {
@@ -20,11 +21,11 @@ public abstract class a implements f {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof a) {
-            ((a) obj).getClass();
-            return true;
+        if (!(obj instanceof a)) {
+            return false;
         }
-        return false;
+        ((a) obj).getClass();
+        return true;
     }
 
     public final int hashCode() {

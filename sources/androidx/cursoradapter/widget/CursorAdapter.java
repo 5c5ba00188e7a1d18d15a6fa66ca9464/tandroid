@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import androidx.cursoradapter.widget.CursorFilter;
+
 /* loaded from: classes.dex */
 public abstract class CursorAdapter extends BaseAdapter implements Filterable, CursorFilter.CursorFilterClient {
     protected boolean mAutoRequery;
@@ -92,15 +93,15 @@ public abstract class CursorAdapter extends BaseAdapter implements Filterable, C
 
     @Override // android.widget.BaseAdapter, android.widget.SpinnerAdapter
     public View getDropDownView(int i, View view, ViewGroup viewGroup) {
-        if (this.mDataValid) {
-            this.mCursor.moveToPosition(i);
-            if (view == null) {
-                view = newDropDownView(this.mContext, this.mCursor, viewGroup);
-            }
-            bindView(view, this.mContext, this.mCursor);
-            return view;
+        if (!this.mDataValid) {
+            return null;
         }
-        return null;
+        this.mCursor.moveToPosition(i);
+        if (view == null) {
+            view = newDropDownView(this.mContext, this.mCursor, viewGroup);
+        }
+        bindView(view, this.mContext, this.mCursor);
+        return view;
     }
 
     @Override // android.widget.Filterable
@@ -132,17 +133,17 @@ public abstract class CursorAdapter extends BaseAdapter implements Filterable, C
 
     @Override // android.widget.Adapter
     public View getView(int i, View view, ViewGroup viewGroup) {
-        if (this.mDataValid) {
-            if (this.mCursor.moveToPosition(i)) {
-                if (view == null) {
-                    view = newView(this.mContext, this.mCursor, viewGroup);
-                }
-                bindView(view, this.mContext, this.mCursor);
-                return view;
-            }
-            throw new IllegalStateException("couldn't move cursor to position " + i);
+        if (!this.mDataValid) {
+            throw new IllegalStateException("this should only be called when the cursor is valid");
         }
-        throw new IllegalStateException("this should only be called when the cursor is valid");
+        if (this.mCursor.moveToPosition(i)) {
+            if (view == null) {
+                view = newView(this.mContext, this.mCursor, viewGroup);
+            }
+            bindView(view, this.mContext, this.mCursor);
+            return view;
+        }
+        throw new IllegalStateException("couldn't move cursor to position " + i);
     }
 
     void init(Context context, Cursor cursor, int i) {

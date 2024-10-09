@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class p extends o {
@@ -16,19 +17,15 @@ public final class p extends o {
     private final TextStyle c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Illegal instructions before constructor call */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public p(TextStyle textStyle) {
-        super(r0, "ZoneText(" + textStyle + ")");
-        j$.time.temporal.m i = j$.time.temporal.j.i();
+        super(j$.time.temporal.j.i(), "ZoneText(" + textStyle + ")");
         new HashMap();
         new HashMap();
         j$.util.a.B(textStyle, "textStyle");
         this.c = textStyle;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     @Override // j$.time.format.o, j$.time.format.g
     public final boolean a(s sVar, StringBuilder sb) {
         String[] strArr;

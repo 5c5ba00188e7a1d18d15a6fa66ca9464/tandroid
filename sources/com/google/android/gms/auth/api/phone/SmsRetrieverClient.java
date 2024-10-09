@@ -4,6 +4,7 @@ import android.content.Context;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.tasks.Task;
+
 /* loaded from: classes.dex */
 public abstract class SmsRetrieverClient extends GoogleApi {
     private static final Api.ClientKey zza;

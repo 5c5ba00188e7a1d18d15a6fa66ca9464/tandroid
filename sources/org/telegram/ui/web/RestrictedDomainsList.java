@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessagesController;
+
 /* loaded from: classes.dex */
 public class RestrictedDomainsList {
     private static RestrictedDomainsList instance;
@@ -102,8 +103,9 @@ public class RestrictedDomainsList {
             JSONArray jSONArray = new JSONArray();
             Iterator it = this.restrictedDomains.iterator();
             while (it.hasNext()) {
+                ArrayList arrayList = (ArrayList) it.next();
                 JSONArray jSONArray2 = new JSONArray();
-                Iterator it2 = ((ArrayList) it.next()).iterator();
+                Iterator it2 = arrayList.iterator();
                 while (it2.hasNext()) {
                     jSONArray2.put((String) it2.next());
                 }

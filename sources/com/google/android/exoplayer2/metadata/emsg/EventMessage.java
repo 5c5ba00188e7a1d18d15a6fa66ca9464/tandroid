@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class EventMessage implements Metadata.Entry {
     public final long durationMs;
@@ -110,10 +111,11 @@ public final class EventMessage implements Metadata.Entry {
             String str = this.schemeIdUri;
             int hashCode = ((str != null ? str.hashCode() : 0) + 527) * 31;
             String str2 = this.value;
-            int hashCode2 = str2 != null ? str2.hashCode() : 0;
+            int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
             long j = this.durationMs;
+            int i = (hashCode2 + ((int) (j ^ (j >>> 32)))) * 31;
             long j2 = this.id;
-            this.hashCode = ((((((hashCode + hashCode2) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + Arrays.hashCode(this.messageData);
+            this.hashCode = ((i + ((int) (j2 ^ (j2 >>> 32)))) * 31) + Arrays.hashCode(this.messageData);
         }
         return this.hashCode;
     }

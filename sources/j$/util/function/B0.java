@@ -2,6 +2,7 @@ package j$.util.function;
 
 import j$.util.function.Function;
 import java.util.function.UnaryOperator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class B0 implements Function {
     public final /* synthetic */ UnaryOperator a;

@@ -1,4 +1,5 @@
 package androidx.recyclerview.widget;
+
 /* loaded from: classes.dex */
 public class BatchingListUpdateCallback implements ListUpdateCallback {
     final ListUpdateCallback mWrapped;
@@ -73,11 +74,11 @@ public class BatchingListUpdateCallback implements ListUpdateCallback {
         if (this.mLastEventType == 2 && (i3 = this.mLastEventPosition) >= i && i3 <= i + i2) {
             this.mLastEventCount += i2;
             this.mLastEventPosition = i;
-            return;
+        } else {
+            dispatchLastEvent();
+            this.mLastEventPosition = i;
+            this.mLastEventCount = i2;
+            this.mLastEventType = 2;
         }
-        dispatchLastEvent();
-        this.mLastEventPosition = i;
-        this.mLastEventCount = i2;
-        this.mLastEventType = 2;
     }
 }

@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class C0 implements j$.util.function.W {
     public final /* synthetic */ int a;

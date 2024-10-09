@@ -3,6 +3,7 @@ package com.google.android.gms.internal.vision;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class zzjw extends zzju {
     private static final Class zza = Collections.unmodifiableList(Collections.emptyList()).getClass();
@@ -25,9 +26,10 @@ final class zzjw extends zzju {
                 zzjs zzjsVar2 = new zzjs(zzc.size() + i);
                 zzjsVar2.addAll((zzlz) zzc);
                 zzjsVar = zzjsVar2;
-            } else if (!(zzc instanceof zzkw) || !(zzc instanceof zzjl)) {
-                return zzc;
             } else {
+                if (!(zzc instanceof zzkw) || !(zzc instanceof zzjl)) {
+                    return zzc;
+                }
                 zzjl zzjlVar = (zzjl) zzc;
                 if (zzjlVar.zza()) {
                     return zzc;
@@ -69,9 +71,10 @@ final class zzjw extends zzju {
         List list = (List) zzma.zzf(obj, j);
         if (list instanceof zzjv) {
             unmodifiableList = ((zzjv) list).zze();
-        } else if (zza.isAssignableFrom(list.getClass())) {
-            return;
         } else {
+            if (zza.isAssignableFrom(list.getClass())) {
+                return;
+            }
             if ((list instanceof zzkw) && (list instanceof zzjl)) {
                 zzjl zzjlVar = (zzjl) list;
                 if (zzjlVar.zza()) {

@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzaa extends zzbn {
     final /* synthetic */ zzag zza;
@@ -42,12 +43,12 @@ final class zzaa extends zzbn {
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
     public final boolean remove(Object obj) {
         Collection collection = (Collection) this.zzb.remove(obj);
-        if (collection != null) {
-            int size = collection.size();
-            collection.clear();
-            zzag.zzg(this.zza, size);
-            return size > 0;
+        if (collection == null) {
+            return false;
         }
-        return false;
+        int size = collection.size();
+        collection.clear();
+        zzag.zzg(this.zza, size);
+        return size > 0;
     }
 }

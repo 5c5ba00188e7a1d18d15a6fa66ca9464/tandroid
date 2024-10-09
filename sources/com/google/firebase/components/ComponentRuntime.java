@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes.dex */
 public class ComponentRuntime extends AbstractComponentContainer implements ComponentLoader {
     private static final Provider EMPTY_PROVIDER = new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda0
@@ -101,7 +102,7 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
     }
 
     private void discoverComponents(List list) {
-        ArrayList<Runnable> arrayList = new ArrayList();
+        ArrayList arrayList = new ArrayList();
         synchronized (this) {
             Iterator it = this.unprocessedRegistrarProviders.iterator();
             while (it.hasNext()) {
@@ -139,8 +140,9 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
             arrayList.addAll(processSetComponents());
             processDependencies();
         }
-        for (Runnable runnable : arrayList) {
-            runnable.run();
+        Iterator it3 = arrayList.iterator();
+        while (it3.hasNext()) {
+            ((Runnable) it3.next()).run();
         }
         maybeInitializeEagerComponents();
     }
@@ -158,8 +160,9 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
 
     private static List iterableToList(Iterable iterable) {
         ArrayList arrayList = new ArrayList();
-        for (Object obj : iterable) {
-            arrayList.add(obj);
+        Iterator it = iterable.iterator();
+        while (it.hasNext()) {
+            arrayList.add(it.next());
         }
         return arrayList;
     }
@@ -188,9 +191,10 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
                     empty = LazySet.fromCollection(Collections.emptySet());
                 } else if (this.lazyInstanceMap.containsKey(dependency.getInterface())) {
                     continue;
-                } else if (dependency.isRequired()) {
-                    throw new MissingDependencyException(String.format("Unsatisfied dependency for component %s: %s", component, dependency.getInterface()));
                 } else {
+                    if (dependency.isRequired()) {
+                        throw new MissingDependencyException(String.format("Unsatisfied dependency for component %s: %s", component, dependency.getInterface()));
+                    }
                     if (!dependency.isSet()) {
                         map = this.lazyInstanceMap;
                         cls = dependency.getInterface();

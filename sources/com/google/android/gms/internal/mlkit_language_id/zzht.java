@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 final class zzht extends zzho {
     private static int zza(byte[] bArr, int i, long j, int i2) {
@@ -10,21 +11,24 @@ final class zzht extends zzho {
         if (i2 == 0) {
             zzb = zzhp.zzb(i);
             return zzb;
-        } else if (i2 == 1) {
+        }
+        if (i2 == 1) {
             zzb2 = zzhp.zzb(i, zzhn.zza(bArr, j));
             return zzb2;
-        } else if (i2 == 2) {
-            zzb3 = zzhp.zzb(i, zzhn.zza(bArr, j), zzhn.zza(bArr, j + 1));
-            return zzb3;
-        } else {
+        }
+        if (i2 != 2) {
             throw new AssertionError();
         }
+        zzb3 = zzhp.zzb(i, zzhn.zza(bArr, j), zzhn.zza(bArr, j + 1));
+        return zzb3;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x0060, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x00c2, code lost:
+    
         return -1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x00c2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x0060, code lost:
+    
         return -1;
      */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzho
@@ -35,105 +39,105 @@ final class zzht extends zzho {
         int i4;
         int i5 = 2;
         int i6 = 0;
-        if ((i2 | i3 | (bArr.length - i3)) >= 0) {
-            long j = i2;
-            int i7 = (int) (i3 - j);
-            long j2 = 1;
-            if (i7 >= 16) {
-                long j3 = j;
-                i4 = 0;
-                while (true) {
-                    if (i4 >= i7) {
-                        i4 = i7;
-                        break;
-                    }
-                    long j4 = j3 + 1;
-                    if (zzhn.zza(bArr, j3) < 0) {
-                        break;
-                    }
-                    i4++;
-                    j3 = j4;
-                }
-            } else {
-                i4 = 0;
-            }
-            int i8 = i7 - i4;
-            long j5 = j + i4;
+        if ((i2 | i3 | (bArr.length - i3)) < 0) {
+            throw new ArrayIndexOutOfBoundsException(String.format("Array length=%d, index=%d, limit=%d", Integer.valueOf(bArr.length), Integer.valueOf(i2), Integer.valueOf(i3)));
+        }
+        long j = i2;
+        int i7 = (int) (i3 - j);
+        long j2 = 1;
+        if (i7 >= 16) {
+            long j3 = j;
+            i4 = 0;
             while (true) {
-                byte b = 0;
-                while (true) {
-                    if (i8 <= 0) {
-                        break;
-                    }
-                    long j6 = j5 + j2;
-                    b = zzhn.zza(bArr, j5);
-                    if (b < 0) {
-                        j5 = j6;
-                        break;
-                    }
-                    i8--;
+                if (i4 >= i7) {
+                    i4 = i7;
+                    break;
+                }
+                long j4 = j3 + 1;
+                if (zzhn.zza(bArr, j3) < 0) {
+                    break;
+                }
+                i4++;
+                j3 = j4;
+            }
+        } else {
+            i4 = 0;
+        }
+        int i8 = i7 - i4;
+        long j5 = j + i4;
+        while (true) {
+            byte b = 0;
+            while (true) {
+                if (i8 <= 0) {
+                    break;
+                }
+                long j6 = j5 + j2;
+                b = zzhn.zza(bArr, j5);
+                if (b < 0) {
                     j5 = j6;
+                    break;
                 }
-                if (i8 == 0) {
-                    return i6;
-                }
-                int i9 = i8 - 1;
-                if (b >= -32) {
-                    if (b >= -16) {
-                        if (i9 >= 3) {
-                            i8 -= 4;
-                            long j7 = j5 + j2;
-                            byte zza = zzhn.zza(bArr, j5);
-                            if (zza > -65 || (((b << 28) + (zza + 112)) >> 30) != 0) {
-                                break;
-                            }
-                            long j8 = j5 + 2;
-                            if (zzhn.zza(bArr, j7) > -65) {
-                                break;
-                            }
-                            j5 += 3;
-                            if (zzhn.zza(bArr, j8) > -65) {
-                                break;
-                            }
-                        } else {
-                            return zza(bArr, b, j5, i9);
-                        }
-                    } else if (i9 >= i5) {
-                        i8 -= 3;
-                        long j9 = j5 + j2;
-                        byte zza2 = zzhn.zza(bArr, j5);
-                        if (zza2 > -65 || ((b == -32 && zza2 < -96) || (b == -19 && zza2 >= -96))) {
+                i8--;
+                j5 = j6;
+            }
+            if (i8 == 0) {
+                return i6;
+            }
+            int i9 = i8 - 1;
+            if (b >= -32) {
+                if (b >= -16) {
+                    if (i9 >= 3) {
+                        i8 -= 4;
+                        long j7 = j5 + j2;
+                        byte zza = zzhn.zza(bArr, j5);
+                        if (zza > -65 || (((b << 28) + (zza + 112)) >> 30) != 0) {
                             break;
                         }
-                        j5 += 2;
-                        if (zzhn.zza(bArr, j9) > -65) {
+                        long j8 = j5 + 2;
+                        if (zzhn.zza(bArr, j7) > -65) {
                             break;
                         }
-                        i5 = 2;
-                        i6 = 0;
+                        j5 += 3;
+                        if (zzhn.zza(bArr, j8) > -65) {
+                            break;
+                        }
                     } else {
                         return zza(bArr, b, j5, i9);
                     }
-                } else if (i9 != 0) {
-                    i8 -= 2;
-                    if (b < -62) {
+                } else if (i9 >= i5) {
+                    i8 -= 3;
+                    long j9 = j5 + j2;
+                    byte zza2 = zzhn.zza(bArr, j5);
+                    if (zza2 > -65 || ((b == -32 && zza2 < -96) || (b == -19 && zza2 >= -96))) {
                         break;
                     }
-                    long j10 = j5 + j2;
-                    if (zzhn.zza(bArr, j5) > -65) {
+                    j5 += 2;
+                    if (zzhn.zza(bArr, j9) > -65) {
                         break;
                     }
-                    j5 = j10;
+                    i5 = 2;
+                    i6 = 0;
                 } else {
-                    return b;
+                    return zza(bArr, b, j5, i9);
                 }
-                i5 = 2;
-                i6 = 0;
-                j2 = 1;
+            } else if (i9 != 0) {
+                i8 -= 2;
+                if (b < -62) {
+                    break;
+                }
+                long j10 = j5 + j2;
+                if (zzhn.zza(bArr, j5) > -65) {
+                    break;
+                }
+                j5 = j10;
+            } else {
+                return b;
             }
-            return -1;
+            i5 = 2;
+            i6 = 0;
+            j2 = 1;
         }
-        throw new ArrayIndexOutOfBoundsException(String.format("Array length=%d, index=%d, limit=%d", Integer.valueOf(bArr.length), Integer.valueOf(i2), Integer.valueOf(i3)));
+        return -1;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -181,15 +185,15 @@ final class zzht extends zzho {
                     str2 = str4;
                     if ((charAt3 >= 55296 && 57343 >= charAt3) || j4 > j5 - 3) {
                         if (j4 > j5 - 4) {
-                            if (55296 > charAt3 || charAt3 > 57343 || ((i3 = i4 + 1) != length && Character.isSurrogatePair(charAt3, charSequence.charAt(i3)))) {
-                                StringBuilder sb2 = new StringBuilder(46);
-                                sb2.append(str2);
-                                sb2.append(charAt3);
-                                sb2.append(str);
-                                sb2.append(j4);
-                                throw new ArrayIndexOutOfBoundsException(sb2.toString());
+                            if (55296 <= charAt3 && charAt3 <= 57343 && ((i3 = i4 + 1) == length || !Character.isSurrogatePair(charAt3, charSequence.charAt(i3)))) {
+                                throw new zzhq(i4, length);
                             }
-                            throw new zzhq(i4, length);
+                            StringBuilder sb2 = new StringBuilder(46);
+                            sb2.append(str2);
+                            sb2.append(charAt3);
+                            sb2.append(str);
+                            sb2.append(j4);
+                            throw new ArrayIndexOutOfBoundsException(sb2.toString());
                         }
                         int i5 = i4 + 1;
                         if (i5 != length) {

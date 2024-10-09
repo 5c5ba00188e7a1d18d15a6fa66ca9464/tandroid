@@ -2,6 +2,7 @@ package j$.time.format;
 
 import j$.time.LocalDate;
 import j$.time.ZoneId;
+
 /* loaded from: classes2.dex */
 final class r implements j$.time.temporal.k {
     final /* synthetic */ j$.time.chrono.b a;

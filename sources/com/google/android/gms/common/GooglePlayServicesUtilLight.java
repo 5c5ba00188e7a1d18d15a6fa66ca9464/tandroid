@@ -16,9 +16,11 @@ import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.util.PlatformVersion;
 import com.google.android.gms.common.util.zza;
 import com.google.android.gms.common.wrappers.Wrappers;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public abstract class GooglePlayServicesUtilLight {
     public static final int GOOGLE_PLAY_SERVICES_VERSION_CODE = 12451000;
@@ -152,8 +154,7 @@ public abstract class GooglePlayServicesUtilLight {
                         }
                         return !applicationInfo.enabled ? 3 : 0;
                     }
-                    int i2 = packageInfo2.versionCode;
-                    Log.w("GooglePlayServicesUtil", "Google Play services out of date for " + packageName + ".  Requires " + i + " but found " + i2);
+                    Log.w("GooglePlayServicesUtil", "Google Play services out of date for " + packageName + ".  Requires " + i + " but found " + packageInfo2.versionCode);
                     return 2;
                 }
                 valueOf = String.valueOf(packageName);
@@ -181,13 +182,13 @@ public abstract class GooglePlayServicesUtilLight {
     }
 
     public static boolean isRestrictedUserProfile(Context context) {
-        if (PlatformVersion.isAtLeastJellyBeanMR2()) {
-            Object systemService = context.getSystemService("user");
-            Preconditions.checkNotNull(systemService);
-            Bundle applicationRestrictions = ((UserManager) systemService).getApplicationRestrictions(context.getPackageName());
-            return applicationRestrictions != null && "true".equals(applicationRestrictions.getString("restricted_profile"));
+        if (!PlatformVersion.isAtLeastJellyBeanMR2()) {
+            return false;
         }
-        return false;
+        Object systemService = context.getSystemService("user");
+        Preconditions.checkNotNull(systemService);
+        Bundle applicationRestrictions = ((UserManager) systemService).getApplicationRestrictions(context.getPackageName());
+        return applicationRestrictions != null && "true".equals(applicationRestrictions.getString("restricted_profile"));
     }
 
     public static boolean isUserRecoverableError(int i) {
@@ -197,7 +198,7 @@ public abstract class GooglePlayServicesUtilLight {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zza(Context context, String str) {
         PackageInstaller packageInstaller;
-        List<Object> allSessions;
+        List allSessions;
         String appPackageName;
         ApplicationInfo applicationInfo;
         boolean equals = str.equals("com.google.android.gms");
@@ -205,8 +206,9 @@ public abstract class GooglePlayServicesUtilLight {
             try {
                 packageInstaller = context.getPackageManager().getPackageInstaller();
                 allSessions = packageInstaller.getAllSessions();
-                for (Object obj : allSessions) {
-                    appPackageName = GooglePlayServicesUtilLight$$ExternalSyntheticApiModelOutline2.m(obj).getAppPackageName();
+                Iterator it = allSessions.iterator();
+                while (it.hasNext()) {
+                    appPackageName = GooglePlayServicesUtilLight$$ExternalSyntheticApiModelOutline2.m(it.next()).getAppPackageName();
                     if (str.equals(appPackageName)) {
                         return true;
                     }

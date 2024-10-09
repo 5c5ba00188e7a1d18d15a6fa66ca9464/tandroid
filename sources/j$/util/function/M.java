@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.IntToLongFunction;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class M implements IntToLongFunction {
     public final /* synthetic */ N a;

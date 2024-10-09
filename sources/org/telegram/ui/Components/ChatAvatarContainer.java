@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -55,6 +56,7 @@ import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.TopicsFragment;
+
 /* loaded from: classes3.dex */
 public class ChatAvatarContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     public boolean allowDrawStories;
@@ -246,8 +248,9 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this(context, baseFragment, z, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:66:0x02fb, code lost:
-        if (r0.isComments == false) goto L46;
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x02fb, code lost:
+    
+        if (r0.isComments == false) goto L74;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -508,40 +511,42 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (!ChatObject.isChannel(chat)) {
             if (ChatObject.isKickedFromChat(chat)) {
                 i2 = R.string.YouWereKicked;
-            } else if (!ChatObject.isLeftFromChat(chat)) {
-                int i4 = chat.participants_count;
-                if (chatFull != null && (chatParticipants = chatFull.participants) != null) {
-                    i4 = chatParticipants.participants.size();
-                }
-                return (i <= 1 || i4 == 0) ? LocaleController.formatPluralString("Members", i4, new Object[0]) : String.format("%s, %s", LocaleController.formatPluralString("Members", i4, new Object[0]), LocaleController.formatPluralString("OnlineCount", i, new Object[0]));
             } else {
+                if (!ChatObject.isLeftFromChat(chat)) {
+                    int i4 = chat.participants_count;
+                    if (chatFull != null && (chatParticipants = chatFull.participants) != null) {
+                        i4 = chatParticipants.participants.size();
+                    }
+                    return (i <= 1 || i4 == 0) ? LocaleController.formatPluralString("Members", i4, new Object[0]) : String.format("%s, %s", LocaleController.formatPluralString("Members", i4, new Object[0]), LocaleController.formatPluralString("OnlineCount", i, new Object[0]));
+                }
                 i2 = R.string.YouLeft;
             }
             return LocaleController.getString(i2);
-        } else if (chatFull == null || (i3 = chatFull.participants_count) == 0) {
+        }
+        if (chatFull == null || (i3 = chatFull.participants_count) == 0) {
             return LocaleController.getString(chat.megagroup ? chatFull == null ? R.string.Loading : chat.has_geo ? R.string.MegaLocation : ChatObject.isPublic(chat) ? R.string.MegaPublic : R.string.MegaPrivate : ChatObject.isPublic(chat) ? R.string.ChannelPublic : R.string.ChannelPrivate).toLowerCase();
-        } else if (chat.megagroup) {
+        }
+        if (chat.megagroup) {
             Object[] objArr = new Object[0];
             return i > 1 ? String.format("%s, %s", LocaleController.formatPluralString("Members", i3, objArr), LocaleController.formatPluralString("OnlineCount", Math.min(i, chatFull.participants_count), new Object[0])) : LocaleController.formatPluralString("Members", i3, objArr);
-        } else {
-            int[] iArr = new int[1];
-            boolean isAccessibilityScreenReaderEnabled = AndroidUtilities.isAccessibilityScreenReaderEnabled();
-            int i5 = chatFull.participants_count;
-            if (isAccessibilityScreenReaderEnabled) {
-                iArr[0] = i5;
-                formatShortNumber = String.valueOf(i5);
-            } else {
-                formatShortNumber = LocaleController.formatShortNumber(i5, iArr);
-            }
-            if (chat.megagroup) {
-                formatPluralString = LocaleController.formatPluralString("Members", iArr[0], new Object[0]);
-                format = String.format("%d", Integer.valueOf(iArr[0]));
-            } else {
-                formatPluralString = LocaleController.formatPluralString("Subscribers", iArr[0], new Object[0]);
-                format = String.format("%d", Integer.valueOf(iArr[0]));
-            }
-            return formatPluralString.replace(format, formatShortNumber);
         }
+        int[] iArr = new int[1];
+        boolean isAccessibilityScreenReaderEnabled = AndroidUtilities.isAccessibilityScreenReaderEnabled();
+        int i5 = chatFull.participants_count;
+        if (isAccessibilityScreenReaderEnabled) {
+            iArr[0] = i5;
+            formatShortNumber = String.valueOf(i5);
+        } else {
+            formatShortNumber = LocaleController.formatShortNumber(i5, iArr);
+        }
+        if (chat.megagroup) {
+            formatPluralString = LocaleController.formatPluralString("Members", iArr[0], new Object[0]);
+            format = String.format("%d", Integer.valueOf(iArr[0]));
+        } else {
+            formatPluralString = LocaleController.formatPluralString("Subscribers", iArr[0], new Object[0]);
+            format = String.format("%d", Integer.valueOf(iArr[0]));
+        }
+        return formatPluralString.replace(format, formatShortNumber);
     }
 
     private int getThemedColor(int i) {
@@ -654,8 +659,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0022  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x0022  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -673,86 +678,87 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             i = R.string.Connecting;
         } else if (i3 == 5) {
             i = R.string.Updating;
-        } else if (i3 != 4) {
-            str = null;
-            if (str == null) {
-                SimpleTextView simpleTextView = this.subtitleTextView;
-                if (simpleTextView != null) {
-                    if (this.lastSubtitle == null) {
-                        this.lastSubtitle = simpleTextView.getText();
-                    }
-                    this.subtitleTextView.setText(str);
-                    num2 = this.overrideSubtitleColor;
-                    if (num2 == null) {
-                        SimpleTextView simpleTextView2 = this.subtitleTextView;
-                        i2 = Theme.key_actionBarDefaultSubtitle;
-                        simpleTextView2.setTextColor(getThemedColor(i2));
-                        view = this.subtitleTextView;
-                    }
-                    this.subtitleTextView.setTextColor(num2.intValue());
-                    return;
-                }
-                AnimatedTextView animatedTextView = this.animatedSubtitleTextView;
-                if (animatedTextView != null) {
-                    if (this.lastSubtitle == null) {
-                        this.lastSubtitle = animatedTextView.getText();
-                    }
-                    this.animatedSubtitleTextView.setText(str, true ^ LocaleController.isRTL);
-                    num = this.overrideSubtitleColor;
-                    if (num == null) {
-                        AnimatedTextView animatedTextView2 = this.animatedSubtitleTextView;
-                        i2 = Theme.key_actionBarDefaultSubtitle;
-                        animatedTextView2.setTextColor(getThemedColor(i2));
-                        view = this.animatedSubtitleTextView;
-                    }
-                    this.animatedSubtitleTextView.setTextColor(num.intValue());
-                    return;
-                }
-                return;
-                view.setTag(Integer.valueOf(i2));
-                return;
-            }
-            CharSequence charSequence = this.lastSubtitle;
-            if (charSequence != null) {
-                SimpleTextView simpleTextView3 = this.subtitleTextView;
-                if (simpleTextView3 != null) {
-                    simpleTextView3.setText(charSequence);
-                    this.lastSubtitle = null;
-                    num2 = this.overrideSubtitleColor;
-                    if (num2 == null) {
-                        int i4 = this.lastSubtitleColorKey;
-                        if (i4 < 0) {
-                            return;
-                        }
-                        this.subtitleTextView.setTextColor(getThemedColor(i4));
-                        view = this.subtitleTextView;
-                    }
-                    this.subtitleTextView.setTextColor(num2.intValue());
-                    return;
-                }
-                AnimatedTextView animatedTextView3 = this.animatedSubtitleTextView;
-                if (animatedTextView3 != null) {
-                    animatedTextView3.setText(charSequence, true ^ LocaleController.isRTL);
-                    this.lastSubtitle = null;
-                    num = this.overrideSubtitleColor;
-                    if (num == null) {
-                        int i5 = this.lastSubtitleColorKey;
-                        if (i5 < 0) {
-                            return;
-                        }
-                        this.animatedSubtitleTextView.setTextColor(getThemedColor(i5));
-                        view = this.animatedSubtitleTextView;
-                    }
-                    this.animatedSubtitleTextView.setTextColor(num.intValue());
-                    return;
-                }
-                return;
-                i2 = this.lastSubtitleColorKey;
-                view.setTag(Integer.valueOf(i2));
-                return;
-            }
-            return;
         } else {
+            if (i3 != 4) {
+                str = null;
+                if (str == null) {
+                    SimpleTextView simpleTextView = this.subtitleTextView;
+                    if (simpleTextView != null) {
+                        if (this.lastSubtitle == null) {
+                            this.lastSubtitle = simpleTextView.getText();
+                        }
+                        this.subtitleTextView.setText(str);
+                        num2 = this.overrideSubtitleColor;
+                        if (num2 == null) {
+                            SimpleTextView simpleTextView2 = this.subtitleTextView;
+                            i2 = Theme.key_actionBarDefaultSubtitle;
+                            simpleTextView2.setTextColor(getThemedColor(i2));
+                            view = this.subtitleTextView;
+                        }
+                        this.subtitleTextView.setTextColor(num2.intValue());
+                        return;
+                    }
+                    AnimatedTextView animatedTextView = this.animatedSubtitleTextView;
+                    if (animatedTextView != null) {
+                        if (this.lastSubtitle == null) {
+                            this.lastSubtitle = animatedTextView.getText();
+                        }
+                        this.animatedSubtitleTextView.setText(str, true ^ LocaleController.isRTL);
+                        num = this.overrideSubtitleColor;
+                        if (num == null) {
+                            AnimatedTextView animatedTextView2 = this.animatedSubtitleTextView;
+                            i2 = Theme.key_actionBarDefaultSubtitle;
+                            animatedTextView2.setTextColor(getThemedColor(i2));
+                            view = this.animatedSubtitleTextView;
+                        }
+                        this.animatedSubtitleTextView.setTextColor(num.intValue());
+                        return;
+                    }
+                    return;
+                    view.setTag(Integer.valueOf(i2));
+                    return;
+                }
+                CharSequence charSequence = this.lastSubtitle;
+                if (charSequence != null) {
+                    SimpleTextView simpleTextView3 = this.subtitleTextView;
+                    if (simpleTextView3 != null) {
+                        simpleTextView3.setText(charSequence);
+                        this.lastSubtitle = null;
+                        num2 = this.overrideSubtitleColor;
+                        if (num2 == null) {
+                            int i4 = this.lastSubtitleColorKey;
+                            if (i4 < 0) {
+                                return;
+                            }
+                            this.subtitleTextView.setTextColor(getThemedColor(i4));
+                            view = this.subtitleTextView;
+                        }
+                        this.subtitleTextView.setTextColor(num2.intValue());
+                        return;
+                    }
+                    AnimatedTextView animatedTextView3 = this.animatedSubtitleTextView;
+                    if (animatedTextView3 != null) {
+                        animatedTextView3.setText(charSequence, true ^ LocaleController.isRTL);
+                        this.lastSubtitle = null;
+                        num = this.overrideSubtitleColor;
+                        if (num == null) {
+                            int i5 = this.lastSubtitleColorKey;
+                            if (i5 < 0) {
+                                return;
+                            }
+                            this.animatedSubtitleTextView.setTextColor(getThemedColor(i5));
+                            view = this.animatedSubtitleTextView;
+                        }
+                        this.animatedSubtitleTextView.setTextColor(num.intValue());
+                        return;
+                    }
+                    return;
+                    i2 = this.lastSubtitleColorKey;
+                    view.setTag(Integer.valueOf(i2));
+                    return;
+                }
+                return;
+            }
             i = R.string.ConnectingToProxy;
         }
         str = LocaleController.getString(i);
@@ -819,15 +825,16 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             if (backupImageView == null) {
                 return;
             }
-        } else if (!UserObject.isUserSelf(user)) {
-            this.avatarDrawable.setScaleSize(1.0f);
-            BackupImageView backupImageView3 = this.avatarImageView;
-            if (backupImageView3 != null) {
-                backupImageView3.imageReceiver.setForUserOrChat(user, this.avatarDrawable, null, true, 3, false);
+        } else {
+            if (!UserObject.isUserSelf(user)) {
+                this.avatarDrawable.setScaleSize(1.0f);
+                BackupImageView backupImageView3 = this.avatarImageView;
+                if (backupImageView3 != null) {
+                    backupImageView3.imageReceiver.setForUserOrChat(user, this.avatarDrawable, null, true, 3, false);
+                    return;
+                }
                 return;
             }
-            return;
-        } else {
             this.avatarDrawable.setScaleSize(0.8f);
             this.avatarDrawable.setAvatarType(1);
             backupImageView = this.avatarImageView;
@@ -845,8 +852,11 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             if (this.currentConnectionState != connectionState) {
                 this.currentConnectionState = connectionState;
                 updateCurrentConnectionState();
+                return;
             }
-        } else if (i != NotificationCenter.emojiLoaded) {
+            return;
+        }
+        if (i != NotificationCenter.emojiLoaded) {
             if (i == NotificationCenter.savedMessagesDialogsUpdate) {
                 updateSubtitle(true);
             }
@@ -1027,17 +1037,20 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x008d, code lost:
-        if (r8 != null) goto L13;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x008d, code lost:
+    
+        if (r8 != null) goto L15;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x008f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x008f, code lost:
+    
         r8.layout(r7, org.telegram.messenger.AndroidUtilities.dp(r10) + r6, r8.getMeasuredWidth() + r7, (r8.getTextHeight() + r6) + org.telegram.messenger.AndroidUtilities.dp(r10));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x00db, code lost:
-        if (r8 != null) goto L13;
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00db, code lost:
+    
+        if (r8 != null) goto L15;
      */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x01a4  */
-    /* JADX WARN: Removed duplicated region for block: B:39:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x01a4  */
+    /* JADX WARN: Removed duplicated region for block: B:32:? A[RETURN, SYNTHETIC] */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1098,10 +1111,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0094  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x00ab  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00db  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0094  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00ab  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00db  */
     @Override // android.widget.FrameLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1192,20 +1205,25 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         openProfile(z, true, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x0125, code lost:
-        if (r12 != false) goto L50;
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x0125, code lost:
+    
+        if (r12 != false) goto L65;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x0128, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0128, code lost:
+    
         r0 = 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x016b, code lost:
-        if (r12 != false) goto L50;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x016d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x016d, code lost:
+    
         r1.setPlayProfileAnimation(r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x001b, code lost:
-        if (r11.avatarImageView.getImageReceiver().hasNotThumb() != false) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x016b, code lost:
+    
+        if (r12 != false) goto L65;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x001b, code lost:
+    
+        if (r11.avatarImageView.getImageReceiver().hasNotThumb() != false) goto L11;
      */
     /* JADX WARN: Removed duplicated region for block: B:64:0x016b  */
     /*
@@ -1267,46 +1285,48 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 }
                 this.parentFragment.presentFragment(profileActivity, z3);
             }
-        } else if (currentUser.id == UserObject.VERIFY) {
-        } else {
-            Bundle bundle2 = new Bundle();
-            if (UserObject.isUserSelf(currentUser)) {
-                if (this.sharedMediaPreloader.hasSharedMedia()) {
-                    bundle2.putLong("dialog_id", this.parentFragment.getDialogId());
-                    if (this.parentFragment.getChatMode() == 3) {
-                        bundle2.putLong("topic_id", this.parentFragment.getSavedDialogId());
-                    }
-                    MediaActivity mediaActivity = new MediaActivity(bundle2, this.sharedMediaPreloader);
-                    mediaActivity.setChatInfo(this.parentFragment.getCurrentChatInfo());
-                    this.parentFragment.presentFragment(mediaActivity, z3);
-                    return;
+            return;
+        }
+        if (currentUser.id == UserObject.VERIFY) {
+            return;
+        }
+        Bundle bundle2 = new Bundle();
+        if (UserObject.isUserSelf(currentUser)) {
+            if (this.sharedMediaPreloader.hasSharedMedia()) {
+                bundle2.putLong("dialog_id", this.parentFragment.getDialogId());
+                if (this.parentFragment.getChatMode() == 3) {
+                    bundle2.putLong("topic_id", this.parentFragment.getSavedDialogId());
                 }
+                MediaActivity mediaActivity = new MediaActivity(bundle2, this.sharedMediaPreloader);
+                mediaActivity.setChatInfo(this.parentFragment.getCurrentChatInfo());
+                this.parentFragment.presentFragment(mediaActivity, z3);
                 return;
             }
-            if (this.parentFragment.getChatMode() == 3) {
-                long savedDialogId = this.parentFragment.getSavedDialogId();
-                bundle2.putBoolean("saved", true);
-                if (savedDialogId >= 0) {
-                    bundle2.putLong("user_id", savedDialogId);
-                } else {
-                    bundle2.putLong("chat_id", -savedDialogId);
-                }
-            } else {
-                bundle2.putLong("user_id", currentUser.id);
-                if (this.timeItem != null) {
-                    bundle2.putLong("dialog_id", this.parentFragment.getDialogId());
-                }
-            }
-            bundle2.putBoolean("reportSpam", this.parentFragment.hasReportSpam());
-            bundle2.putInt("actionBarColor", getThemedColor(Theme.key_actionBarDefault));
-            profileActivity = new ProfileActivity(bundle2, this.sharedMediaPreloader);
-            TLRPC.UserFull currentUserInfo = this.parentFragment.getCurrentUserInfo();
-            ChatActivity chatActivity3 = this.parentFragment;
-            profileActivity.setUserInfo(currentUserInfo, chatActivity3.profileChannelMessageFetcher, chatActivity3.birthdayAssetsFetcher);
-            if (z2) {
-            }
-            this.parentFragment.presentFragment(profileActivity, z3);
+            return;
         }
+        if (this.parentFragment.getChatMode() == 3) {
+            long savedDialogId = this.parentFragment.getSavedDialogId();
+            bundle2.putBoolean("saved", true);
+            if (savedDialogId >= 0) {
+                bundle2.putLong("user_id", savedDialogId);
+            } else {
+                bundle2.putLong("chat_id", -savedDialogId);
+            }
+        } else {
+            bundle2.putLong("user_id", currentUser.id);
+            if (this.timeItem != null) {
+                bundle2.putLong("dialog_id", this.parentFragment.getDialogId());
+            }
+        }
+        bundle2.putBoolean("reportSpam", this.parentFragment.hasReportSpam());
+        bundle2.putInt("actionBarColor", getThemedColor(Theme.key_actionBarDefault));
+        profileActivity = new ProfileActivity(bundle2, this.sharedMediaPreloader);
+        TLRPC.UserFull currentUserInfo = this.parentFragment.getCurrentUserInfo();
+        ChatActivity chatActivity3 = this.parentFragment;
+        profileActivity.setUserInfo(currentUserInfo, chatActivity3.profileChannelMessageFetcher, chatActivity3.birthdayAssetsFetcher);
+        if (z2) {
+        }
+        this.parentFragment.presentFragment(profileActivity, z3);
     }
 
     protected void openSearch() {
@@ -1356,7 +1376,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
         }, true, 0, this.resourcesProvider);
         autoDeletePopupWrapper.lambda$updateItems$7(i);
-        ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(autoDeletePopupWrapper.windowLayout, -2, -2) { // from class: org.telegram.ui.Components.ChatAvatarContainer.3
+        int i2 = -2;
+        ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(autoDeletePopupWrapper.windowLayout, i2, i2) { // from class: org.telegram.ui.Components.ChatAvatarContainer.3
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
             public void dismiss() {
                 super.dismiss();
@@ -1460,10 +1481,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (i != 0 || this.secretChatTimer) {
             if (!z2) {
                 hideTimeItem(z);
-                return;
+            } else {
+                showTimeItem(z);
+                this.timerDrawable.setTime(i);
             }
-            showTimeItem(z);
-            this.timerDrawable.setTime(i);
         }
     }
 
@@ -1567,15 +1588,16 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             if (backupImageView == null) {
                 return;
             }
-        } else if (!UserObject.isUserSelf(user) || z) {
-            this.avatarDrawable.setScaleSize(1.0f);
-            BackupImageView backupImageView2 = this.avatarImageView;
-            if (backupImageView2 != null) {
-                backupImageView2.setForUserOrChat(user, this.avatarDrawable);
+        } else {
+            if (!UserObject.isUserSelf(user) || z) {
+                this.avatarDrawable.setScaleSize(1.0f);
+                BackupImageView backupImageView2 = this.avatarImageView;
+                if (backupImageView2 != null) {
+                    backupImageView2.setForUserOrChat(user, this.avatarDrawable);
+                    return;
+                }
                 return;
             }
-            return;
-        } else {
             this.avatarDrawable.setAvatarType(1);
             this.avatarDrawable.setScaleSize(0.8f);
             backupImageView = this.avatarImageView;
@@ -1680,7 +1702,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                 if (z) {
                     AnimatorSet animatorSet2 = new AnimatorSet();
                     this.titleAnimation = animatorSet2;
-                    animatorSet2.playTogether(ObjectAnimator.ofFloat(this.titleTextView, View.TRANSLATION_Y, 0.0f), ObjectAnimator.ofFloat(getSubtitleTextView(), View.ALPHA, 1.0f));
+                    animatorSet2.playTogether(ObjectAnimator.ofFloat(this.titleTextView, (Property<SimpleTextView, Float>) View.TRANSLATION_Y, 0.0f), ObjectAnimator.ofFloat(getSubtitleTextView(), (Property<View, Float>) View.ALPHA, 1.0f));
                     this.titleAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.6
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
@@ -1697,43 +1719,45 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             charSequence = MessagesController.getInstance(this.currentAccount).getPrintingStringType(this.parentFragment.getDialogId(), this.parentFragment.getThreadId()).intValue() == 5 ? Emoji.replaceEmoji(printingString, getSubtitlePaint().getFontMetricsInt(), AndroidUtilities.dp(15.0f), false) : printingString;
             setTypingAnimation(true);
             z2 = true;
-        } else if (this.parentFragment.isThreadChat() && !this.parentFragment.isTopic) {
-            if (this.titleTextView.getTag() != null) {
-                return;
-            }
-            this.titleTextView.setTag(1);
-            AnimatorSet animatorSet3 = this.titleAnimation;
-            if (animatorSet3 != null) {
-                animatorSet3.cancel();
-                this.titleAnimation = null;
-            }
-            if (!z) {
-                this.titleTextView.setTranslationY(AndroidUtilities.dp(9.7f));
-                getSubtitleTextView().setAlpha(0.0f);
-                getSubtitleTextView().setVisibility(4);
-                return;
-            }
-            AnimatorSet animatorSet4 = new AnimatorSet();
-            this.titleAnimation = animatorSet4;
-            animatorSet4.playTogether(ObjectAnimator.ofFloat(this.titleTextView, View.TRANSLATION_Y, AndroidUtilities.dp(9.7f)), ObjectAnimator.ofFloat(getSubtitleTextView(), View.ALPHA, 0.0f));
-            this.titleAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.5
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationCancel(Animator animator) {
-                    ChatAvatarContainer.this.titleAnimation = null;
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (ChatAvatarContainer.this.titleAnimation == animator) {
-                        ChatAvatarContainer.this.getSubtitleTextView().setVisibility(4);
-                        ChatAvatarContainer.this.titleAnimation = null;
-                    }
-                }
-            });
-            this.titleAnimation.setDuration(180L);
-            this.titleAnimation.start();
-            return;
         } else {
+            if (this.parentFragment.isThreadChat() && !this.parentFragment.isTopic) {
+                if (this.titleTextView.getTag() != null) {
+                    return;
+                }
+                this.titleTextView.setTag(1);
+                AnimatorSet animatorSet3 = this.titleAnimation;
+                if (animatorSet3 != null) {
+                    animatorSet3.cancel();
+                    this.titleAnimation = null;
+                }
+                if (!z) {
+                    this.titleTextView.setTranslationY(AndroidUtilities.dp(9.7f));
+                    getSubtitleTextView().setAlpha(0.0f);
+                    getSubtitleTextView().setVisibility(4);
+                    return;
+                } else {
+                    AnimatorSet animatorSet4 = new AnimatorSet();
+                    this.titleAnimation = animatorSet4;
+                    animatorSet4.playTogether(ObjectAnimator.ofFloat(this.titleTextView, (Property<SimpleTextView, Float>) View.TRANSLATION_Y, AndroidUtilities.dp(9.7f)), ObjectAnimator.ofFloat(getSubtitleTextView(), (Property<View, Float>) View.ALPHA, 0.0f));
+                    this.titleAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAvatarContainer.5
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationCancel(Animator animator) {
+                            ChatAvatarContainer.this.titleAnimation = null;
+                        }
+
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            if (ChatAvatarContainer.this.titleAnimation == animator) {
+                                ChatAvatarContainer.this.getSubtitleTextView().setVisibility(4);
+                                ChatAvatarContainer.this.titleAnimation = null;
+                            }
+                        }
+                    });
+                    this.titleAnimation.setDuration(180L);
+                    this.titleAnimation.start();
+                    return;
+                }
+            }
             setTypingAnimation(false);
             if (this.parentFragment.getChatMode() == 3) {
                 charSequence = LocaleController.formatPluralString("SavedMessagesCount", Math.max(1, this.parentFragment.getMessagesController().getSavedMessagesController().getMessagesCount(this.parentFragment.getSavedDialogId())), new Object[0]);

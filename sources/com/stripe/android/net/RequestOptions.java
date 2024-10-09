@@ -1,4 +1,5 @@
 package com.stripe.android.net;
+
 /* loaded from: classes.dex */
 public class RequestOptions {
     private final String mApiVersion;

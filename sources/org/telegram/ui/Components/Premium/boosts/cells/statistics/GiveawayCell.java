@@ -9,6 +9,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.Premium.boosts.BoostRepository;
+
 /* loaded from: classes3.dex */
 public class GiveawayCell extends UserCell {
     private CounterDrawable counterDrawable;

@@ -31,6 +31,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.GroupCallRecordAlert;
+
 /* loaded from: classes3.dex */
 public abstract class GroupCallRecordAlert extends BottomSheet {
     private int currentPage;
@@ -237,8 +238,8 @@ public abstract class GroupCallRecordAlert extends BottomSheet {
                 super.onDraw(canvas);
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:15:0x0030  */
-            /* JADX WARN: Removed duplicated region for block: B:16:0x0044  */
+            /* JADX WARN: Removed duplicated region for block: B:10:0x0030  */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x0044  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.

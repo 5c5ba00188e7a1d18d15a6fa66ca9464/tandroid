@@ -1,6 +1,7 @@
 package kotlin.text;
 
 import kotlin.ranges.IntRange;
+
 /* loaded from: classes.dex */
 abstract class CharsKt__CharJVMKt {
     public static final int checkRadix(int i) {

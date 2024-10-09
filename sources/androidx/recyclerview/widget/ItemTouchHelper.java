@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
+
 /* loaded from: classes.dex */
 public class ItemTouchHelper extends RecyclerView.ItemDecoration implements RecyclerView.OnChildAttachStateChangeListener {
     Callback mCallback;
@@ -148,7 +149,8 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
                         return;
                     }
                     return;
-                } else if (actionMasked != 3) {
+                }
+                if (actionMasked != 3) {
                     if (actionMasked != 6) {
                         return;
                     }
@@ -162,11 +164,10 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
                         return;
                     }
                     return;
-                } else {
-                    VelocityTracker velocityTracker2 = itemTouchHelper.mVelocityTracker;
-                    if (velocityTracker2 != null) {
-                        velocityTracker2.clear();
-                    }
+                }
+                VelocityTracker velocityTracker2 = itemTouchHelper.mVelocityTracker;
+                if (velocityTracker2 != null) {
+                    velocityTracker2.clear();
                 }
             }
             ItemTouchHelper.this.select(null, 0);
@@ -220,8 +221,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
 
         public static int makeMovementFlags(int i, int i2) {
-            int makeFlag = makeFlag(0, i2 | i);
-            return makeFlag(2, i) | makeFlag(1, i2) | makeFlag;
+            return makeFlag(2, i) | makeFlag(1, i2) | makeFlag(0, i2 | i);
         }
 
         public boolean canDropOver(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2) {
@@ -389,6 +389,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
 
         public abstract boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2);
 
+        /* JADX WARN: Multi-variable type inference failed */
         public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int i, RecyclerView.ViewHolder viewHolder2, int i2, int i3, int i4) {
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
             if (layoutManager instanceof ViewDropHandler) {
@@ -613,26 +614,26 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
     }
 
     private int checkVerticalSwipe(RecyclerView.ViewHolder viewHolder, int i) {
-        if ((i & 3) != 0) {
-            int i2 = this.mDy > 0.0f ? 2 : 1;
-            VelocityTracker velocityTracker = this.mVelocityTracker;
-            if (velocityTracker != null && this.mActivePointerId > -1) {
-                velocityTracker.computeCurrentVelocity(1000, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
-                float xVelocity = this.mVelocityTracker.getXVelocity(this.mActivePointerId);
-                float yVelocity = this.mVelocityTracker.getYVelocity(this.mActivePointerId);
-                int i3 = yVelocity > 0.0f ? 2 : 1;
-                float abs = Math.abs(yVelocity);
-                if ((i3 & i) != 0 && i3 == i2 && abs >= this.mCallback.getSwipeEscapeVelocity(this.mSwipeEscapeVelocity) && abs > Math.abs(xVelocity)) {
-                    return i3;
-                }
-            }
-            float height = this.mRecyclerView.getHeight() * this.mCallback.getSwipeThreshold(viewHolder);
-            if ((i & i2) == 0 || Math.abs(this.mDy) <= height) {
-                return 0;
-            }
-            return i2;
+        if ((i & 3) == 0) {
+            return 0;
         }
-        return 0;
+        int i2 = this.mDy > 0.0f ? 2 : 1;
+        VelocityTracker velocityTracker = this.mVelocityTracker;
+        if (velocityTracker != null && this.mActivePointerId > -1) {
+            velocityTracker.computeCurrentVelocity(1000, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
+            float xVelocity = this.mVelocityTracker.getXVelocity(this.mActivePointerId);
+            float yVelocity = this.mVelocityTracker.getYVelocity(this.mActivePointerId);
+            int i3 = yVelocity > 0.0f ? 2 : 1;
+            float abs = Math.abs(yVelocity);
+            if ((i3 & i) != 0 && i3 == i2 && abs >= this.mCallback.getSwipeEscapeVelocity(this.mSwipeEscapeVelocity) && abs > Math.abs(xVelocity)) {
+                return i3;
+            }
+        }
+        float height = this.mRecyclerView.getHeight() * this.mCallback.getSwipeThreshold(viewHolder);
+        if ((i & i2) == 0 || Math.abs(this.mDy) <= height) {
+            return 0;
+        }
+        return i2;
     }
 
     private void destroyCallbacks() {
@@ -701,17 +702,19 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
             return null;
         }
         int findPointerIndex = motionEvent.findPointerIndex(i);
-        float abs = Math.abs(motionEvent.getX(findPointerIndex) - this.mInitialTouchX);
-        float abs2 = Math.abs(motionEvent.getY(findPointerIndex) - this.mInitialTouchY);
+        float x = motionEvent.getX(findPointerIndex) - this.mInitialTouchX;
+        float y = motionEvent.getY(findPointerIndex) - this.mInitialTouchY;
+        float abs = Math.abs(x);
+        float abs2 = Math.abs(y);
         float f = this.mSlop;
-        if (abs >= f || abs2 >= f) {
-            if (abs <= abs2 || !layoutManager.canScrollHorizontally()) {
-                if ((abs2 <= abs || !layoutManager.canScrollVertically()) && (findChildView = findChildView(motionEvent)) != null) {
-                    return this.mRecyclerView.getChildViewHolder(findChildView);
-                }
-                return null;
-            }
+        if (abs < f && abs2 < f) {
             return null;
+        }
+        if (abs > abs2 && layoutManager.canScrollHorizontally()) {
+            return null;
+        }
+        if ((abs2 <= abs || !layoutManager.canScrollVertically()) && (findChildView = findChildView(motionEvent)) != null) {
+            return this.mRecyclerView.getChildViewHolder(findChildView);
         }
         return null;
     }
@@ -815,26 +818,26 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
     }
 
     public int checkHorizontalSwipe(RecyclerView.ViewHolder viewHolder, int i) {
-        if ((i & 12) != 0) {
-            int i2 = this.mDx > 0.0f ? 8 : 4;
-            VelocityTracker velocityTracker = this.mVelocityTracker;
-            if (velocityTracker != null && this.mActivePointerId > -1) {
-                velocityTracker.computeCurrentVelocity(1000, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
-                float xVelocity = this.mVelocityTracker.getXVelocity(this.mActivePointerId);
-                float yVelocity = this.mVelocityTracker.getYVelocity(this.mActivePointerId);
-                int i3 = xVelocity > 0.0f ? 8 : 4;
-                float abs = Math.abs(xVelocity);
-                if ((i3 & i) != 0 && i2 == i3 && abs >= this.mCallback.getSwipeEscapeVelocity(this.mSwipeEscapeVelocity) && abs > Math.abs(yVelocity)) {
-                    return i3;
-                }
-            }
-            float width = this.mRecyclerView.getWidth() * this.mCallback.getSwipeThreshold(viewHolder);
-            if ((i & i2) == 0 || Math.abs(this.mDx) <= width) {
-                return 0;
-            }
-            return i2;
+        if ((i & 12) == 0) {
+            return 0;
         }
-        return 0;
+        int i2 = this.mDx > 0.0f ? 8 : 4;
+        VelocityTracker velocityTracker = this.mVelocityTracker;
+        if (velocityTracker != null && this.mActivePointerId > -1) {
+            velocityTracker.computeCurrentVelocity(1000, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
+            float xVelocity = this.mVelocityTracker.getXVelocity(this.mActivePointerId);
+            float yVelocity = this.mVelocityTracker.getYVelocity(this.mActivePointerId);
+            int i3 = xVelocity > 0.0f ? 8 : 4;
+            float abs = Math.abs(xVelocity);
+            if ((i3 & i) != 0 && i2 == i3 && abs >= this.mCallback.getSwipeEscapeVelocity(this.mSwipeEscapeVelocity) && abs > Math.abs(yVelocity)) {
+                return i3;
+            }
+        }
+        float width = this.mRecyclerView.getWidth() * this.mCallback.getSwipeThreshold(viewHolder);
+        if ((i & i2) == 0 || Math.abs(this.mDx) <= width) {
+            return 0;
+        }
+        return i2;
     }
 
     void checkSelectForSwipe(int i, MotionEvent motionEvent, int i2) {
@@ -858,9 +861,10 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
                 if (f > 0.0f && (absoluteMovementFlags & 8) == 0) {
                     return;
                 }
-            } else if (f2 < 0.0f && (absoluteMovementFlags & 1) == 0) {
-                return;
             } else {
+                if (f2 < 0.0f && (absoluteMovementFlags & 1) == 0) {
+                    return;
+                }
                 if (f2 > 0.0f && (absoluteMovementFlags & 2) == 0) {
                     return;
                 }
@@ -1064,15 +1068,16 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x00c1, code lost:
-        if (r1 > 0) goto L24;
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00c1, code lost:
+    
+        if (r1 > 0) goto L37;
      */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00c7  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00e1  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00fd  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0100 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00c7  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00e1  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0100 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00fd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1161,10 +1166,10 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         return true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0097  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x009a  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0136  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0142  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0097  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0142  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x009a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1368,14 +1373,16 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
     public void startDrag(RecyclerView.ViewHolder viewHolder) {
         if (!this.mCallback.hasDragFlag(this.mRecyclerView, viewHolder)) {
             Log.e("ItemTouchHelper", "Start drag has been called but dragging is not enabled");
-        } else if (viewHolder.itemView.getParent() != this.mRecyclerView) {
-            Log.e("ItemTouchHelper", "Start drag has been called with a view holder which is not a child of the RecyclerView which is controlled by this ItemTouchHelper.");
-        } else {
-            obtainVelocityTracker();
-            this.mDy = 0.0f;
-            this.mDx = 0.0f;
-            select(viewHolder, 2);
+            return;
         }
+        if (viewHolder.itemView.getParent() != this.mRecyclerView) {
+            Log.e("ItemTouchHelper", "Start drag has been called with a view holder which is not a child of the RecyclerView which is controlled by this ItemTouchHelper.");
+            return;
+        }
+        obtainVelocityTracker();
+        this.mDy = 0.0f;
+        this.mDx = 0.0f;
+        select(viewHolder, 2);
     }
 
     void updateDxDy(MotionEvent motionEvent, int i, int i2) {

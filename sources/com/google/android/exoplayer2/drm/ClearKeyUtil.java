@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.util.Util;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 abstract class ClearKeyUtil {
     public static byte[] adjustRequestData(byte[] bArr) {

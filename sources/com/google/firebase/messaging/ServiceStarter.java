@@ -8,6 +8,7 @@ import android.content.pm.ServiceInfo;
 import android.util.Log;
 import java.util.ArrayDeque;
 import java.util.Queue;
+
 /* loaded from: classes.dex */
 public class ServiceStarter {
     private static ServiceStarter instance;
@@ -35,11 +36,11 @@ public class ServiceStarter {
                 startService = context.startService(intent);
                 Log.d("FirebaseMessaging", "Missing wake lock permission, service start may be delayed");
             }
-            if (startService == null) {
-                Log.e("FirebaseMessaging", "Error while delivering the message: ServiceIntent not found.");
-                return 404;
+            if (startService != null) {
+                return -1;
             }
-            return -1;
+            Log.e("FirebaseMessaging", "Error while delivering the message: ServiceIntent not found.");
+            return 404;
         } catch (IllegalStateException e) {
             String valueOf = String.valueOf(e);
             StringBuilder sb = new StringBuilder(valueOf.length() + 45);

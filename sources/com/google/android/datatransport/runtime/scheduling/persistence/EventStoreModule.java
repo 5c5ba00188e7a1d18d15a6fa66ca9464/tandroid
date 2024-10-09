@@ -1,6 +1,7 @@
 package com.google.android.datatransport.runtime.scheduling.persistence;
 
 import android.content.Context;
+
 /* loaded from: classes.dex */
 public abstract class EventStoreModule {
     /* JADX INFO: Access modifiers changed from: package-private */

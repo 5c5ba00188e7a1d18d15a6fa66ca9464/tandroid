@@ -2,6 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import org.telegram.messenger.NotificationCenter;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzao {
@@ -9,24 +10,26 @@ public abstract class zzao {
     public static int zza(byte[] bArr, int i, zzan zzanVar) {
         int zzj = zzj(bArr, i, zzanVar);
         int i2 = zzanVar.zza;
-        if (i2 >= 0) {
-            if (i2 <= bArr.length - zzj) {
-                if (i2 == 0) {
-                    zzanVar.zzc = zzba.zzb;
-                    return zzj;
-                }
-                zzanVar.zzc = zzba.zzl(bArr, zzj, i2);
-                return zzj + i2;
-            }
+        if (i2 < 0) {
+            throw zzci.zzd();
+        }
+        if (i2 > bArr.length - zzj) {
             throw zzci.zzg();
         }
-        throw zzci.zzd();
+        if (i2 == 0) {
+            zzanVar.zzc = zzba.zzb;
+            return zzj;
+        }
+        zzanVar.zzc = zzba.zzl(bArr, zzj, i2);
+        return zzj + i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(byte[] bArr, int i) {
-        int i2 = (bArr[i + 1] & 255) << 8;
-        return ((bArr[i + 3] & 255) << 24) | i2 | (bArr[i] & 255) | ((bArr[i + 2] & 255) << 16);
+        int i2 = bArr[i] & 255;
+        int i3 = bArr[i + 1] & 255;
+        int i4 = bArr[i + 2] & 255;
+        return ((bArr[i + 3] & 255) << 24) | (i3 << 8) | i2 | (i4 << 16);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -71,167 +74,171 @@ public abstract class zzao {
         if (zzj < i2) {
             zzj(bArr, zzj, zzanVar);
             throw null;
-        } else if (zzj == i2) {
-            return zzj;
-        } else {
-            throw zzci.zzg();
         }
+        if (zzj == i2) {
+            return zzj;
+        }
+        throw zzci.zzg();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzg(byte[] bArr, int i, zzan zzanVar) {
         int zzj = zzj(bArr, i, zzanVar);
         int i2 = zzanVar.zza;
-        if (i2 >= 0) {
-            if (i2 == 0) {
-                zzanVar.zzc = "";
-                return zzj;
-            }
-            zzanVar.zzc = new String(bArr, zzj, i2, zzcg.zzb);
-            return zzj + i2;
+        if (i2 < 0) {
+            throw zzci.zzd();
         }
-        throw zzci.zzd();
+        if (i2 == 0) {
+            zzanVar.zzc = "";
+            return zzj;
+        }
+        zzanVar.zzc = new String(bArr, zzj, i2, zzcg.zzb);
+        return zzj + i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzh(byte[] bArr, int i, zzan zzanVar) {
         int zzj = zzj(bArr, i, zzanVar);
         int i2 = zzanVar.zza;
-        if (i2 >= 0) {
-            if (i2 == 0) {
-                zzanVar.zzc = "";
-                return zzj;
-            }
-            int i3 = zzev.$r8$clinit;
-            int length = bArr.length;
-            if ((((length - zzj) - i2) | zzj | i2) >= 0) {
-                int i4 = zzj + i2;
-                char[] cArr = new char[i2];
-                int i5 = 0;
-                while (zzj < i4) {
-                    byte b = bArr[zzj];
-                    if (!zzer.zzd(b)) {
-                        break;
-                    }
-                    zzj++;
-                    cArr[i5] = (char) b;
-                    i5++;
-                }
-                int i6 = i5;
-                while (zzj < i4) {
-                    int i7 = zzj + 1;
-                    byte b2 = bArr[zzj];
-                    if (zzer.zzd(b2)) {
-                        cArr[i6] = (char) b2;
-                        i6++;
-                        zzj = i7;
-                        while (zzj < i4) {
-                            byte b3 = bArr[zzj];
-                            if (zzer.zzd(b3)) {
-                                zzj++;
-                                cArr[i6] = (char) b3;
-                                i6++;
-                            }
-                        }
-                    } else if (b2 < -32) {
-                        if (i7 >= i4) {
-                            throw zzci.zzc();
-                        }
-                        zzj += 2;
-                        zzer.zzc(b2, bArr[i7], cArr, i6);
-                        i6++;
-                    } else if (b2 < -16) {
-                        if (i7 >= i4 - 1) {
-                            throw zzci.zzc();
-                        }
-                        int i8 = zzj + 2;
-                        zzj += 3;
-                        zzer.zzb(b2, bArr[i7], bArr[i8], cArr, i6);
-                        i6++;
-                    } else if (i7 >= i4 - 2) {
-                        throw zzci.zzc();
-                    } else {
-                        byte b4 = bArr[i7];
-                        int i9 = zzj + 3;
-                        zzj += 4;
-                        zzer.zza(b2, b4, bArr[zzj + 2], bArr[i9], cArr, i6);
-                        i6 += 2;
-                    }
-                }
-                zzanVar.zzc = new String(cArr, 0, i6);
-                return i4;
-            }
+        if (i2 < 0) {
+            throw zzci.zzd();
+        }
+        if (i2 == 0) {
+            zzanVar.zzc = "";
+            return zzj;
+        }
+        int i3 = zzev.$r8$clinit;
+        int length = bArr.length;
+        if ((((length - zzj) - i2) | zzj | i2) < 0) {
             throw new ArrayIndexOutOfBoundsException(String.format("buffer length=%d, index=%d, size=%d", Integer.valueOf(length), Integer.valueOf(zzj), Integer.valueOf(i2)));
         }
-        throw zzci.zzd();
+        int i4 = zzj + i2;
+        char[] cArr = new char[i2];
+        int i5 = 0;
+        while (zzj < i4) {
+            byte b = bArr[zzj];
+            if (!zzer.zzd(b)) {
+                break;
+            }
+            zzj++;
+            cArr[i5] = (char) b;
+            i5++;
+        }
+        int i6 = i5;
+        while (zzj < i4) {
+            int i7 = zzj + 1;
+            byte b2 = bArr[zzj];
+            if (zzer.zzd(b2)) {
+                cArr[i6] = (char) b2;
+                i6++;
+                zzj = i7;
+                while (zzj < i4) {
+                    byte b3 = bArr[zzj];
+                    if (zzer.zzd(b3)) {
+                        zzj++;
+                        cArr[i6] = (char) b3;
+                        i6++;
+                    }
+                }
+            } else if (b2 < -32) {
+                if (i7 >= i4) {
+                    throw zzci.zzc();
+                }
+                zzj += 2;
+                zzer.zzc(b2, bArr[i7], cArr, i6);
+                i6++;
+            } else if (b2 < -16) {
+                if (i7 >= i4 - 1) {
+                    throw zzci.zzc();
+                }
+                int i8 = zzj + 2;
+                zzj += 3;
+                zzer.zzb(b2, bArr[i7], bArr[i8], cArr, i6);
+                i6++;
+            } else {
+                if (i7 >= i4 - 2) {
+                    throw zzci.zzc();
+                }
+                byte b4 = bArr[i7];
+                int i9 = zzj + 3;
+                byte b5 = bArr[zzj + 2];
+                zzj += 4;
+                zzer.zza(b2, b4, b5, bArr[i9], cArr, i6);
+                i6 += 2;
+            }
+        }
+        zzanVar.zzc = new String(cArr, 0, i6);
+        return i4;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzi(int i, byte[] bArr, int i2, int i3, zzeh zzehVar, zzan zzanVar) {
-        if ((i >>> 3) != 0) {
-            int i4 = i & 7;
-            if (i4 == 0) {
-                int zzm = zzm(bArr, i2, zzanVar);
-                zzehVar.zzj(i, Long.valueOf(zzanVar.zzb));
-                return zzm;
-            } else if (i4 == 1) {
-                zzehVar.zzj(i, Long.valueOf(zzp(bArr, i2)));
-                return i2 + 8;
-            } else if (i4 == 2) {
-                int zzj = zzj(bArr, i2, zzanVar);
-                int i5 = zzanVar.zza;
-                if (i5 >= 0) {
-                    if (i5 <= bArr.length - zzj) {
-                        zzehVar.zzj(i, i5 == 0 ? zzba.zzb : zzba.zzl(bArr, zzj, i5));
-                        return zzj + i5;
-                    }
-                    throw zzci.zzg();
-                }
-                throw zzci.zzd();
-            } else if (i4 != 3) {
-                if (i4 == 5) {
-                    zzehVar.zzj(i, Integer.valueOf(zzb(bArr, i2)));
-                    return i2 + 4;
-                }
-                throw zzci.zzb();
-            } else {
-                int i6 = (i & (-8)) | 4;
-                zzeh zzf = zzeh.zzf();
-                int i7 = 0;
-                while (true) {
-                    if (i2 >= i3) {
-                        break;
-                    }
-                    int zzj2 = zzj(bArr, i2, zzanVar);
-                    int i8 = zzanVar.zza;
-                    i7 = i8;
-                    if (i8 == i6) {
-                        i2 = zzj2;
-                        break;
-                    }
-                    int zzi = zzi(i7, bArr, zzj2, i3, zzf, zzanVar);
-                    i7 = i8;
-                    i2 = zzi;
-                }
-                if (i2 > i3 || i7 != i6) {
-                    throw zzci.zze();
-                }
-                zzehVar.zzj(i, zzf);
-                return i2;
-            }
+        if ((i >>> 3) == 0) {
+            throw zzci.zzb();
         }
-        throw zzci.zzb();
+        int i4 = i & 7;
+        if (i4 == 0) {
+            int zzm = zzm(bArr, i2, zzanVar);
+            zzehVar.zzj(i, Long.valueOf(zzanVar.zzb));
+            return zzm;
+        }
+        if (i4 == 1) {
+            zzehVar.zzj(i, Long.valueOf(zzp(bArr, i2)));
+            return i2 + 8;
+        }
+        if (i4 == 2) {
+            int zzj = zzj(bArr, i2, zzanVar);
+            int i5 = zzanVar.zza;
+            if (i5 < 0) {
+                throw zzci.zzd();
+            }
+            if (i5 > bArr.length - zzj) {
+                throw zzci.zzg();
+            }
+            zzehVar.zzj(i, i5 == 0 ? zzba.zzb : zzba.zzl(bArr, zzj, i5));
+            return zzj + i5;
+        }
+        if (i4 != 3) {
+            if (i4 != 5) {
+                throw zzci.zzb();
+            }
+            zzehVar.zzj(i, Integer.valueOf(zzb(bArr, i2)));
+            return i2 + 4;
+        }
+        int i6 = (i & (-8)) | 4;
+        zzeh zzf = zzeh.zzf();
+        int i7 = 0;
+        while (true) {
+            if (i2 >= i3) {
+                break;
+            }
+            int zzj2 = zzj(bArr, i2, zzanVar);
+            int i8 = zzanVar.zza;
+            i7 = i8;
+            if (i8 == i6) {
+                i2 = zzj2;
+                break;
+            }
+            int zzi = zzi(i7, bArr, zzj2, i3, zzf, zzanVar);
+            i7 = i8;
+            i2 = zzi;
+        }
+        if (i2 > i3 || i7 != i6) {
+            throw zzci.zze();
+        }
+        zzehVar.zzj(i, zzf);
+        return i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzj(byte[] bArr, int i, zzan zzanVar) {
         int i2 = i + 1;
         byte b = bArr[i];
-        if (b >= 0) {
-            zzanVar.zza = b;
-            return i2;
+        if (b < 0) {
+            return zzk(b, bArr, i2, zzanVar);
         }
-        return zzk(b, bArr, i2, zzanVar);
+        zzanVar.zza = b;
+        return i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -288,7 +295,6 @@ public abstract class zzao {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzm(byte[] bArr, int i, zzan zzanVar) {
-        byte b;
         long j = bArr[i];
         int i2 = i + 1;
         if (j >= 0) {
@@ -296,14 +302,14 @@ public abstract class zzao {
             return i2;
         }
         int i3 = i + 2;
-        byte b2 = bArr[i2];
-        long j2 = (j & 127) | ((b2 & Byte.MAX_VALUE) << 7);
+        byte b = bArr[i2];
+        long j2 = (j & 127) | ((b & Byte.MAX_VALUE) << 7);
         int i4 = 7;
-        while (b2 < 0) {
+        while (b < 0) {
             int i5 = i3 + 1;
             i4 += 7;
-            j2 |= (b & Byte.MAX_VALUE) << i4;
-            b2 = bArr[i3];
+            j2 |= (r10 & Byte.MAX_VALUE) << i4;
+            b = bArr[i3];
             i3 = i5;
         }
         zzanVar.zzb = j2;

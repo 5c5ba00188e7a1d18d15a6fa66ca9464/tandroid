@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class LabelValueRow extends AbstractSafeParcelable {
     public static final Parcelable.Creator<LabelValueRow> CREATOR = new zzf();

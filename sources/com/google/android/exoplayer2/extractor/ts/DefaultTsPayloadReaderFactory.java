@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Factory {
     private final List closedCaptionFormats;
@@ -75,73 +76,74 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
         return new SparseArray();
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:25:0x002e. Please report as an issue. */
     @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader.Factory
     public TsPayloadReader createPayloadReader(int i, TsPayloadReader.EsInfo esInfo) {
         if (i != 2) {
             if (i == 3 || i == 4) {
                 return new PesReader(new MpegAudioReader(esInfo.language));
             }
-            if (i != 21) {
-                if (i == 27) {
-                    if (isSet(4)) {
+            if (i == 21) {
+                return new PesReader(new Id3Reader());
+            }
+            if (i == 27) {
+                if (isSet(4)) {
+                    return null;
+                }
+                return new PesReader(new H264Reader(buildSeiReader(esInfo), isSet(1), isSet(8)));
+            }
+            if (i == 36) {
+                return new PesReader(new H265Reader(buildSeiReader(esInfo)));
+            }
+            if (i == 89) {
+                return new PesReader(new DvbSubtitleReader(esInfo.dvbSubtitleInfos));
+            }
+            if (i != 138) {
+                if (i == 172) {
+                    return new PesReader(new Ac4Reader(esInfo.language));
+                }
+                if (i == 257) {
+                    return new SectionReader(new PassthroughSectionPayloadReader("application/vnd.dvb.ait"));
+                }
+                if (i == 134) {
+                    if (isSet(16)) {
                         return null;
                     }
-                    return new PesReader(new H264Reader(buildSeiReader(esInfo), isSet(1), isSet(8)));
-                } else if (i != 36) {
-                    if (i != 89) {
-                        if (i != 138) {
-                            if (i != 172) {
-                                if (i != 257) {
-                                    if (i == 134) {
-                                        if (isSet(16)) {
-                                            return null;
-                                        }
-                                        return new SectionReader(new PassthroughSectionPayloadReader("application/x-scte35"));
-                                    }
-                                    if (i != 135) {
-                                        switch (i) {
-                                            case 15:
-                                                if (isSet(2)) {
-                                                    return null;
-                                                }
-                                                return new PesReader(new AdtsReader(false, esInfo.language));
-                                            case 16:
-                                                return new PesReader(new H263Reader(buildUserDataReader(esInfo)));
-                                            case 17:
-                                                if (isSet(2)) {
-                                                    return null;
-                                                }
-                                                return new PesReader(new LatmReader(esInfo.language));
-                                            default:
-                                                switch (i) {
-                                                    case 128:
-                                                        break;
-                                                    case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
-                                                        break;
-                                                    case NotificationCenter.walletSyncProgressChanged /* 130 */:
-                                                        if (!isSet(64)) {
-                                                            return null;
-                                                        }
-                                                        break;
-                                                    default:
-                                                        return null;
-                                                }
-                                        }
-                                    }
-                                    return new PesReader(new Ac3Reader(esInfo.language));
-                                }
-                                return new SectionReader(new PassthroughSectionPayloadReader("application/vnd.dvb.ait"));
-                            }
-                            return new PesReader(new Ac4Reader(esInfo.language));
-                        }
-                        return new PesReader(new DtsReader(esInfo.language));
-                    }
-                    return new PesReader(new DvbSubtitleReader(esInfo.dvbSubtitleInfos));
-                } else {
-                    return new PesReader(new H265Reader(buildSeiReader(esInfo)));
+                    return new SectionReader(new PassthroughSectionPayloadReader("application/x-scte35"));
                 }
+                if (i != 135) {
+                    switch (i) {
+                        case 15:
+                            if (isSet(2)) {
+                                return null;
+                            }
+                            return new PesReader(new AdtsReader(false, esInfo.language));
+                        case 16:
+                            return new PesReader(new H263Reader(buildUserDataReader(esInfo)));
+                        case 17:
+                            if (isSet(2)) {
+                                return null;
+                            }
+                            return new PesReader(new LatmReader(esInfo.language));
+                        default:
+                            switch (i) {
+                                case 128:
+                                    break;
+                                case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
+                                    break;
+                                case NotificationCenter.walletSyncProgressChanged /* 130 */:
+                                    if (!isSet(64)) {
+                                        return null;
+                                    }
+                                    break;
+                                default:
+                                    return null;
+                            }
+                    }
+                }
+                return new PesReader(new Ac3Reader(esInfo.language));
             }
-            return new PesReader(new Id3Reader());
+            return new PesReader(new DtsReader(esInfo.language));
         }
         return new PesReader(new H262Reader(buildUserDataReader(esInfo)));
     }

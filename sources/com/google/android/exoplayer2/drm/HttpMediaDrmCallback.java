@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public final class HttpMediaDrmCallback implements MediaDrmCallback {
     private final DataSource.Factory dataSourceFactory;
@@ -41,16 +42,17 @@ public final class HttpMediaDrmCallback implements MediaDrmCallback {
             try {
                 DataSourceInputStream dataSourceInputStream = new DataSourceInputStream(statsDataSource, dataSpec);
                 try {
-                    byte[] byteArray = Util.toByteArray(dataSourceInputStream);
-                    Util.closeQuietly(dataSourceInputStream);
-                    return byteArray;
-                } catch (HttpDataSource.InvalidResponseCodeException e) {
-                    String redirectUrl = getRedirectUrl(e, i);
-                    if (redirectUrl == null) {
-                        throw e;
+                    try {
+                        return Util.toByteArray(dataSourceInputStream);
+                    } catch (HttpDataSource.InvalidResponseCodeException e) {
+                        String redirectUrl = getRedirectUrl(e, i);
+                        if (redirectUrl == null) {
+                            throw e;
+                        }
+                        i++;
+                        dataSpec = dataSpec.buildUpon().setUri(redirectUrl).build();
                     }
-                    i++;
-                    dataSpec = dataSpec.buildUpon().setUri(redirectUrl).build();
+                } finally {
                     Util.closeQuietly(dataSourceInputStream);
                 }
             } catch (Exception e2) {

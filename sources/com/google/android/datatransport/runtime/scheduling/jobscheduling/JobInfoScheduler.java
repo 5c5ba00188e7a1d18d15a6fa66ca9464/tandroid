@@ -12,8 +12,10 @@ import com.google.android.datatransport.runtime.scheduling.persistence.EventStor
 import com.google.android.datatransport.runtime.util.PriorityMapping;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.Iterator;
 import java.util.List;
 import java.util.zip.Adler32;
+
 /* loaded from: classes.dex */
 public class JobInfoScheduler implements WorkScheduler {
     private final SchedulerConfig config;
@@ -27,13 +29,14 @@ public class JobInfoScheduler implements WorkScheduler {
     }
 
     private boolean isJobServiceOn(JobScheduler jobScheduler, int i, int i2) {
-        List<Object> allPendingJobs;
+        List allPendingJobs;
         PersistableBundle extras;
         int i3;
         int id;
         allPendingJobs = jobScheduler.getAllPendingJobs();
-        for (Object obj : allPendingJobs) {
-            JobInfo m = JobInfoScheduler$$ExternalSyntheticApiModelOutline5.m(obj);
+        Iterator it = allPendingJobs.iterator();
+        while (it.hasNext()) {
+            JobInfo m = JobInfoScheduler$$ExternalSyntheticApiModelOutline5.m(it.next());
             extras = m.getExtras();
             i3 = extras.getInt("attemptNumber");
             id = m.getId();
@@ -63,7 +66,7 @@ public class JobInfoScheduler implements WorkScheduler {
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkScheduler
     public void schedule(TransportContext transportContext, int i, boolean z) {
         JobInfo build;
-        ComponentName componentName = new ComponentName(this.context, JobInfoSchedulerService.class);
+        ComponentName componentName = new ComponentName(this.context, (Class<?>) JobInfoSchedulerService.class);
         JobScheduler m = JobInfoScheduler$$ExternalSyntheticApiModelOutline0.m(this.context.getSystemService("jobscheduler"));
         int jobId = getJobId(transportContext);
         if (!z && isJobServiceOn(m, jobId, i)) {

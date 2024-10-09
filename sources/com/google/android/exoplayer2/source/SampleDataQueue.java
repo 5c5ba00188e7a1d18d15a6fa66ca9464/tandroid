@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class SampleDataQueue {
@@ -314,11 +315,11 @@ public class SampleDataQueue {
         if (read != -1) {
             postAppend(read);
             return read;
-        } else if (z) {
-            return -1;
-        } else {
-            throw new EOFException();
         }
+        if (z) {
+            return -1;
+        }
+        throw new EOFException();
     }
 
     public void sampleData(ParsableByteArray parsableByteArray, int i) {

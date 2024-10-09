@@ -27,6 +27,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.Components.Forum.ForumUtilities;
+
 /* loaded from: classes3.dex */
 public class TopicsController extends BaseController {
     public static final int LOAD_TYPE_LOAD_NEXT = 1;
@@ -228,7 +229,9 @@ public class TopicsController extends BaseController {
             TLRPC.TL_forumTopic tL_forumTopic = arrayList.get(arrayList.size() - 1);
             TLRPC.Message message = (TLRPC.Message) sparseArray.get(tL_forumTopic.top_message);
             saveLoadOffset(j, tL_forumTopic.top_message, message == null ? 0 : message.date, tL_forumTopic.id);
-        } else if (getTopics(j) == null || getTopics(j).size() < tL_messages_forumTopics.count) {
+            return;
+        }
+        if (getTopics(j) == null || getTopics(j).size() < tL_messages_forumTopics.count) {
             clearLoadingOffset(j);
             loadTopics(j);
         }
@@ -280,14 +283,14 @@ public class TopicsController extends BaseController {
                 while (true) {
                     if (i2 >= arrayList2.size()) {
                         break;
-                    } else if (((TLRPC.TL_forumTopic) arrayList2.get(i2)).id == topicKey.topicId) {
+                    }
+                    if (((TLRPC.TL_forumTopic) arrayList2.get(i2)).id == topicKey.topicId) {
                         arrayList2.remove(i2);
                         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogDeleted, Long.valueOf(-j), Long.valueOf(topicKey.topicId));
                         hashSet.add(Long.valueOf(j));
                         break;
-                    } else {
-                        i2++;
                     }
+                    i2++;
                 }
             }
         }
@@ -309,8 +312,10 @@ public class TopicsController extends BaseController {
                 if ("PINNED_TOPIC_NOT_MODIFIED".equals(tL_error.text)) {
                     reloadTopics(j, false);
                 }
-            } else if (baseFragment == null) {
             } else {
+                if (baseFragment == null) {
+                    return;
+                }
                 applyPinnedOrder(j, arrayList);
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda16
                     @Override // java.lang.Runnable
@@ -428,8 +433,7 @@ public class TopicsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$reloadTopics$20(long j, boolean z) {
-        SharedPreferences.Editor edit = getUserConfig().getPreferences().edit();
-        edit.remove("topics_end_reached_" + j).apply();
+        getUserConfig().getPreferences().edit().remove("topics_end_reached_" + j).apply();
         this.topicsByChatId.remove(j);
         this.topicsMapByChatId.remove(j);
         this.endIsReached.delete(j);
@@ -451,14 +455,14 @@ public class TopicsController extends BaseController {
         boolean z3 = tL_forumTopic2.pinned;
         if (z2 != z3) {
             return z2 ? -1 : 1;
-        } else if (z2 && z3) {
-            return tL_forumTopic.pinnedOrder - tL_forumTopic2.pinnedOrder;
-        } else {
-            TLRPC.Message message = tL_forumTopic2.topMessage;
-            int i = message != null ? message.date : 0;
-            TLRPC.Message message2 = tL_forumTopic.topMessage;
-            return i - (message2 != null ? message2.date : 0);
         }
+        if (z2 && z3) {
+            return tL_forumTopic.pinnedOrder - tL_forumTopic2.pinnedOrder;
+        }
+        TLRPC.Message message = tL_forumTopic2.topMessage;
+        int i = message != null ? message.date : 0;
+        TLRPC.Message message2 = tL_forumTopic.topMessage;
+        return i - (message2 != null ? message2.date : 0);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -534,8 +538,8 @@ public class TopicsController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0142  */
-    /* JADX WARN: Removed duplicated region for block: B:46:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0142  */
+    /* JADX WARN: Removed duplicated region for block: B:41:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -804,7 +808,8 @@ public class TopicsController extends BaseController {
     public void loadTopic(final long j, final long j2, final Runnable runnable) {
         getMessagesStorage().loadTopics(-j, new Consumer() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda3
             @Override // j$.util.function.Consumer
-            public final void accept(Object obj) {
+            /* renamed from: accept */
+            public final void r(Object obj) {
                 TopicsController.this.lambda$loadTopic$24(j, j2, runnable, (ArrayList) obj);
             }
 
@@ -830,7 +835,8 @@ public class TopicsController extends BaseController {
         if (z) {
             getMessagesStorage().loadTopics(-j, new Consumer() { // from class: org.telegram.messenger.TopicsController$$ExternalSyntheticLambda25
                 @Override // j$.util.function.Consumer
-                public final void accept(Object obj) {
+                /* renamed from: accept */
+                public final void r(Object obj) {
                     TopicsController.this.lambda$loadTopics$1(j, z, i, (ArrayList) obj);
                 }
 
@@ -969,13 +975,14 @@ public class TopicsController extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x01b8, code lost:
-        if (r25 == 1) goto L111;
+    /* JADX WARN: Code restructure failed: missing block: B:116:0x01b8, code lost:
+    
+        if (r25 == 1) goto L88;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x01f2  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x01f2  */
     /* JADX WARN: Type inference failed for: r3v3 */
-    /* JADX WARN: Type inference failed for: r3v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v6 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1094,12 +1101,12 @@ public class TopicsController extends BaseController {
                 while (true) {
                     if (i9 >= arrayList5.size()) {
                         break;
-                    } else if (((TLRPC.TL_forumTopic) arrayList5.get(i9)).id == arrayList3.get(i8).intValue()) {
+                    }
+                    if (((TLRPC.TL_forumTopic) arrayList5.get(i9)).id == arrayList3.get(i8).intValue()) {
                         arrayList5.remove(i9);
                         break;
-                    } else {
-                        i9++;
                     }
+                    i9++;
                 }
             }
             getMessagesStorage().removeTopics(j, arrayList3);
@@ -1108,8 +1115,7 @@ public class TopicsController extends BaseController {
             ?? r3 = (i != 0 || z) ? 1 : 1;
             if (arrayList5.size() >= i2 && i2 >= 0) {
                 this.endIsReached.put(j, r3);
-                SharedPreferences.Editor edit = getUserConfig().getPreferences().edit();
-                edit.putBoolean("topics_end_reached_" + j, r3).apply();
+                getUserConfig().getPreferences().edit().putBoolean("topics_end_reached_" + j, r3).apply();
                 z3 = true;
                 if (z3) {
                     sortTopics(j);
@@ -1291,21 +1297,21 @@ public class TopicsController extends BaseController {
     public int updateReactionsUnread(long j, long j2, int i, boolean z) {
         long j3 = -j;
         TLRPC.TL_forumTopic findTopic = findTopic(j3, j2);
-        if (findTopic != null) {
-            if (z) {
-                int i2 = findTopic.unread_reactions_count + i;
-                findTopic.unread_reactions_count = i2;
-                if (i2 < 0) {
-                    findTopic.unread_reactions_count = 0;
-                }
-            } else {
-                findTopic.unread_reactions_count = i;
-            }
-            int i3 = findTopic.unread_reactions_count;
-            sortTopics(j3, true);
-            return i3;
+        if (findTopic == null) {
+            return -1;
         }
-        return -1;
+        if (z) {
+            int i2 = findTopic.unread_reactions_count + i;
+            findTopic.unread_reactions_count = i2;
+            if (i2 < 0) {
+                findTopic.unread_reactions_count = 0;
+            }
+        } else {
+            findTopic.unread_reactions_count = i;
+        }
+        int i3 = findTopic.unread_reactions_count;
+        sortTopics(j3, true);
+        return i3;
     }
 
     public void updateReadOutbox(final HashMap<MessagesStorage.TopicKey, Integer> hashMap) {

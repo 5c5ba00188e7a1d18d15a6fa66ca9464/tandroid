@@ -20,6 +20,7 @@ import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.messaging.reporting.MessagingClientEvent;
 import com.google.firebase.messaging.reporting.MessagingClientEventExtension;
 import java.util.concurrent.ExecutionException;
+
 /* loaded from: classes.dex */
 public abstract class MessagingAnalytics {
     static boolean deliveryMetricsExportToBigQueryEnabled() {
@@ -102,14 +103,14 @@ public abstract class MessagingAnalytics {
 
     static String getInstanceId(Bundle bundle) {
         String string = bundle.getString("google.to");
-        if (TextUtils.isEmpty(string)) {
-            try {
-                return (String) Tasks.await(FirebaseInstallations.getInstance(FirebaseApp.getInstance()).getId());
-            } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
-            }
+        if (!TextUtils.isEmpty(string)) {
+            return string;
         }
-        return string;
+        try {
+            return (String) Tasks.await(FirebaseInstallations.getInstance(FirebaseApp.getInstance()).getId());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     static String getMessageChannel(Bundle bundle) {
@@ -160,18 +161,18 @@ public abstract class MessagingAnalytics {
         }
         String applicationId = firebaseApp.getOptions().getApplicationId();
         try {
-            if (applicationId.startsWith("1:")) {
-                String[] split = applicationId.split(":");
-                if (split.length < 2) {
-                    return 0L;
-                }
-                String str = split[1];
-                if (str.isEmpty()) {
-                    return 0L;
-                }
-                return Long.parseLong(str);
+            if (!applicationId.startsWith("1:")) {
+                return Long.parseLong(applicationId);
             }
-            return Long.parseLong(applicationId);
+            String[] split = applicationId.split(":");
+            if (split.length < 2) {
+                return 0L;
+            }
+            String str = split[1];
+            if (str.isEmpty()) {
+                return 0L;
+            }
+            return Long.parseLong(str);
         } catch (NumberFormatException e3) {
             Log.w("FirebaseMessaging", "error parsing app ID", e3);
             return 0L;
@@ -191,19 +192,19 @@ public abstract class MessagingAnalytics {
         if (obj instanceof Integer) {
             return ((Integer) obj).intValue();
         }
-        if (obj instanceof String) {
-            try {
-                return Integer.parseInt((String) obj);
-            } catch (NumberFormatException unused) {
-                String valueOf = String.valueOf(obj);
-                StringBuilder sb = new StringBuilder(valueOf.length() + 13);
-                sb.append("Invalid TTL: ");
-                sb.append(valueOf);
-                Log.w("FirebaseMessaging", sb.toString());
-                return 0;
-            }
+        if (!(obj instanceof String)) {
+            return 0;
         }
-        return 0;
+        try {
+            return Integer.parseInt((String) obj);
+        } catch (NumberFormatException unused) {
+            String valueOf = String.valueOf(obj);
+            StringBuilder sb = new StringBuilder(valueOf.length() + 13);
+            sb.append("Invalid TTL: ");
+            sb.append(valueOf);
+            Log.w("FirebaseMessaging", sb.toString());
+            return 0;
+        }
     }
 
     static String getUseDeviceTime(Bundle bundle) {
@@ -323,15 +324,14 @@ public abstract class MessagingAnalytics {
         if (!"1".equals(bundle.getString("google.c.a.tc"))) {
             if (Log.isLoggable("FirebaseMessaging", 3)) {
                 Log.d("FirebaseMessaging", "Received event with track-conversion=false. Do not set user property");
-                return;
             }
-            return;
+        } else {
+            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(FirebaseApp.getInstance().get(AnalyticsConnector.class));
+            if (Log.isLoggable("FirebaseMessaging", 3)) {
+                Log.d("FirebaseMessaging", "Received event with track-conversion=true. Setting user property and reengagement event");
+            }
+            Log.w("FirebaseMessaging", "Unable to set user property for conversion tracking:  analytics library is missing");
         }
-        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(FirebaseApp.getInstance().get(AnalyticsConnector.class));
-        if (Log.isLoggable("FirebaseMessaging", 3)) {
-            Log.d("FirebaseMessaging", "Received event with track-conversion=true. Setting user property and reengagement event");
-        }
-        Log.w("FirebaseMessaging", "Unable to set user property for conversion tracking:  analytics library is missing");
     }
 
     public static boolean shouldUploadFirelogAnalytics(Intent intent) {

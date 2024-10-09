@@ -11,6 +11,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.Preconditions;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class zact extends com.google.android.gms.signin.internal.zac implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final Api.AbstractClientBuilder zaa = com.google.android.gms.signin.zad.zac;
@@ -40,9 +41,10 @@ public final class zact extends com.google.android.gms.signin.internal.zac imple
             if (zaa2.isSuccess()) {
                 zactVar.zah.zaf(zavVar.zab(), zactVar.zae);
                 zactVar.zag.disconnect();
+            } else {
+                String valueOf = String.valueOf(zaa2);
+                Log.wtf("SignInCoordinator", "Sign-in succeeded with resolve account failure: ".concat(valueOf), new Exception());
             }
-            String valueOf = String.valueOf(zaa2);
-            Log.wtf("SignInCoordinator", "Sign-in succeeded with resolve account failure: ".concat(valueOf), new Exception());
         }
         zactVar.zah.zae(zaa2);
         zactVar.zag.disconnect();

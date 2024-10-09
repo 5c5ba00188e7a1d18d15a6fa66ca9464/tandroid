@@ -22,6 +22,7 @@ import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.StatisticActivity;
+
 /* loaded from: classes3.dex */
 public abstract class ReactionsUtils {
     public static void addReactionToEditText(TLRPC.TL_availableReaction tL_availableReaction, HashMap hashMap, List list, Editable editable, SelectAnimatedEmojiDialog selectAnimatedEmojiDialog, Paint.FontMetricsInt fontMetricsInt) {
@@ -89,11 +90,11 @@ public abstract class ReactionsUtils {
         if ((reaction instanceof TLRPC.TL_reactionEmoji) && visibleReaction.documentId == 0 && TextUtils.equals(((TLRPC.TL_reactionEmoji) reaction).emoticon, visibleReaction.emojicon)) {
             return true;
         }
-        if (reaction instanceof TLRPC.TL_reactionCustomEmoji) {
-            long j = visibleReaction.documentId;
-            return j != 0 && ((TLRPC.TL_reactionCustomEmoji) reaction).document_id == j;
+        if (!(reaction instanceof TLRPC.TL_reactionCustomEmoji)) {
+            return false;
         }
-        return false;
+        long j = visibleReaction.documentId;
+        return j != 0 && ((TLRPC.TL_reactionCustomEmoji) reaction).document_id == j;
     }
 
     public static AnimatedEmojiSpan createAnimatedEmojiSpan(TLRPC.Document document, Long l, Paint.FontMetricsInt fontMetricsInt) {
@@ -117,12 +118,12 @@ public abstract class ReactionsUtils {
         if (reaction instanceof TLRPC.TL_reactionEmoji) {
             return ((TLRPC.TL_reactionEmoji) reaction).emoticon;
         }
-        if (reaction instanceof TLRPC.TL_reactionCustomEmoji) {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("d");
-            spannableStringBuilder.setSpan(new AnimatedEmojiSpan(((TLRPC.TL_reactionCustomEmoji) reaction).document_id, (Paint.FontMetricsInt) null), 0, 1, 0);
-            return spannableStringBuilder;
+        if (!(reaction instanceof TLRPC.TL_reactionCustomEmoji)) {
+            return "";
         }
-        return "";
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("d");
+        spannableStringBuilder.setSpan(new AnimatedEmojiSpan(((TLRPC.TL_reactionCustomEmoji) reaction).document_id, (Paint.FontMetricsInt) null), 0, 1, 0);
+        return spannableStringBuilder;
     }
 
     public static void showLimitReachedDialogForReactions(final long j, int i, TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus) {

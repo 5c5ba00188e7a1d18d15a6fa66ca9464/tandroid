@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.concurrent.CountedCompleter;
+
 /* loaded from: classes2.dex */
 final class T extends CountedCompleter {
     private j$.util.Q a;
@@ -42,23 +43,23 @@ final class T extends CountedCompleter {
         while (true) {
             if (d && e2Var.q()) {
                 break;
-            } else if (estimateSize <= j || (trySplit = q.trySplit()) == null) {
-                break;
-            } else {
-                T t2 = new T(t, trySplit);
-                t.addToPendingCount(1);
-                if (z) {
-                    q = trySplit;
-                } else {
-                    T t3 = t;
-                    t = t2;
-                    t2 = t3;
-                }
-                z = !z;
-                t.fork();
-                t = t2;
-                estimateSize = q.estimateSize();
             }
+            if (estimateSize <= j || (trySplit = q.trySplit()) == null) {
+                break;
+            }
+            T t2 = new T(t, trySplit);
+            t.addToPendingCount(1);
+            if (z) {
+                q = trySplit;
+            } else {
+                T t3 = t;
+                t = t2;
+                t2 = t3;
+            }
+            z = !z;
+            t.fork();
+            t = t2;
+            estimateSize = q.estimateSize();
         }
         t.c.i0(q, e2Var);
         t.a = null;

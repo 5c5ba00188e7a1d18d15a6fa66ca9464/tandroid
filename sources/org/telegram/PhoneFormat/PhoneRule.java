@@ -1,4 +1,5 @@
 package org.telegram.PhoneFormat;
+
 /* loaded from: classes.dex */
 public class PhoneRule {
     public int byte8;

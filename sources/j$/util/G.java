@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class G implements Spliterator.OfInt {
     public final /* synthetic */ H a;
@@ -39,7 +40,7 @@ public final /* synthetic */ class G implements Spliterator.OfInt {
 
     @Override // java.util.Spliterator.OfPrimitive
     public final /* synthetic */ void forEachRemaining(IntConsumer intConsumer) {
-        this.a.forEachRemaining(intConsumer);
+        this.a.e(intConsumer);
     }
 
     @Override // java.util.Spliterator.OfInt, java.util.Spliterator
@@ -49,7 +50,7 @@ public final /* synthetic */ class G implements Spliterator.OfInt {
 
     @Override // java.util.Spliterator.OfInt
     public final /* synthetic */ void forEachRemaining(IntConsumer intConsumer) {
-        this.a.c(j$.util.function.D.a(intConsumer));
+        this.a.e(j$.util.function.D.a(intConsumer));
     }
 
     @Override // java.util.Spliterator
@@ -73,7 +74,7 @@ public final /* synthetic */ class G implements Spliterator.OfInt {
 
     @Override // java.util.Spliterator.OfPrimitive
     public final /* synthetic */ boolean tryAdvance(IntConsumer intConsumer) {
-        return this.a.tryAdvance(intConsumer);
+        return this.a.p(intConsumer);
     }
 
     @Override // java.util.Spliterator.OfInt, java.util.Spliterator
@@ -83,7 +84,7 @@ public final /* synthetic */ class G implements Spliterator.OfInt {
 
     @Override // java.util.Spliterator.OfInt
     public final /* synthetic */ boolean tryAdvance(IntConsumer intConsumer) {
-        return this.a.g(j$.util.function.D.a(intConsumer));
+        return this.a.p(j$.util.function.D.a(intConsumer));
     }
 
     @Override // java.util.Spliterator.OfInt, java.util.Spliterator.OfPrimitive, java.util.Spliterator

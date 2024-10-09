@@ -4,6 +4,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 import kotlin.ranges.RangesKt___RangesKt;
+
 /* loaded from: classes.dex */
 public final class DefaultExecutor extends EventLoopImplBase implements Runnable {
     public static final DefaultExecutor INSTANCE;
@@ -93,8 +94,9 @@ public final class DefaultExecutor extends EventLoopImplBase implements Runnable
             if (!notifyStartup()) {
                 if (isEmpty) {
                     return;
+                } else {
+                    return;
                 }
-                return;
             }
             long j = Long.MAX_VALUE;
             while (true) {

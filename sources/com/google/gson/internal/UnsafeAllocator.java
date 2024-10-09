@@ -4,6 +4,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public abstract class UnsafeAllocator {
     public static final UnsafeAllocator INSTANCE = create();

@@ -19,6 +19,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.Components.BulletinFactory;
+
 /* loaded from: classes4.dex */
 public class BusinessLinksController {
     private static volatile BusinessLinksController[] Instance = new BusinessLinksController[4];
@@ -175,7 +176,8 @@ public class BusinessLinksController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00a9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x00a9, code lost:
+    
         if (r0 == null) goto L39;
      */
     /*
@@ -312,14 +314,14 @@ public class BusinessLinksController {
                         BusinessLinksController.this.lambda$load$1(messagesStorage, z2);
                     }
                 });
-                return;
+            } else {
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_account_getBusinessChatLinks(), new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda2
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        BusinessLinksController.this.lambda$load$3(tLObject, tL_error);
+                    }
+                });
             }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_account_getBusinessChatLinks(), new RequestDelegate() { // from class: org.telegram.ui.Business.BusinessLinksController$$ExternalSyntheticLambda2
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    BusinessLinksController.this.lambda$load$3(tLObject, tL_error);
-                }
-            });
         }
     }
 
@@ -403,12 +405,9 @@ public class BusinessLinksController {
         for (int i = 0; i < this.links.size(); i++) {
             TLRPC.TL_businessChatLink tL_businessChatLink = (TLRPC.TL_businessChatLink) this.links.get(i);
             if (!TextUtils.equals(tL_businessChatLink.link, str)) {
-                String str2 = tL_businessChatLink.link;
-                if (!TextUtils.equals(str2, "https://" + str)) {
-                    String str3 = tL_businessChatLink.link;
-                    if (!TextUtils.equals(str3, "https://t.me/m/" + str)) {
-                        String str4 = tL_businessChatLink.link;
-                        if (!TextUtils.equals(str4, "tg://message?slug=" + str)) {
+                if (!TextUtils.equals(tL_businessChatLink.link, "https://" + str)) {
+                    if (!TextUtils.equals(tL_businessChatLink.link, "https://t.me/m/" + str)) {
+                        if (!TextUtils.equals(tL_businessChatLink.link, "tg://message?slug=" + str)) {
                         }
                     }
                 }

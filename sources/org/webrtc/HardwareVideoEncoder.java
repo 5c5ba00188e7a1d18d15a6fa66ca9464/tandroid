@@ -18,6 +18,7 @@ import org.webrtc.EncodedImage;
 import org.webrtc.ThreadUtils;
 import org.webrtc.VideoEncoder;
 import org.webrtc.VideoFrame;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class HardwareVideoEncoder implements VideoEncoder {
@@ -133,13 +134,13 @@ public class HardwareVideoEncoder implements VideoEncoder {
         };
 
         static YuvFormat valueOf(int i) {
-            if (i != 19) {
-                if (i == 21 || i == 2141391872 || i == 2141391876) {
-                    return NV12;
-                }
-                throw new IllegalArgumentException("Unsupported colorFormat: " + i);
+            if (i == 19) {
+                return I420;
             }
-            return I420;
+            if (i == 21 || i == 2141391872 || i == 2141391876) {
+                return NV12;
+            }
+            throw new IllegalArgumentException("Unsupported colorFormat: " + i);
         }
 
         abstract void fillBuffer(ByteBuffer byteBuffer, VideoFrame.Buffer buffer);
@@ -221,8 +222,8 @@ public class HardwareVideoEncoder implements VideoEncoder {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0091  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00a8 A[Catch: IllegalStateException -> 0x0083, TryCatch #1 {IllegalStateException -> 0x0083, blocks: (B:9:0x0022, B:11:0x005b, B:15:0x006a, B:31:0x0093, B:32:0x00a8, B:20:0x0079, B:25:0x0086, B:33:0x00b6, B:35:0x00d4, B:36:0x00f0), top: B:45:0x0022 }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00a8 A[Catch: IllegalStateException -> 0x0083, TryCatch #1 {IllegalStateException -> 0x0083, blocks: (B:9:0x0022, B:11:0x005b, B:15:0x006a, B:23:0x0093, B:24:0x00a8, B:25:0x0079, B:28:0x0086, B:31:0x00b6, B:33:0x00d4, B:34:0x00f0), top: B:8:0x0022 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -453,29 +454,29 @@ public class HardwareVideoEncoder implements VideoEncoder {
         int width = videoFrame.getBuffer().getWidth();
         int height = videoFrame.getBuffer().getHeight();
         boolean z2 = canUseSurface() && z;
-        if ((width == this.width && height == this.height && z2 == this.useSurfaceMode) || (resetCodec = resetCodec(width, height, z2)) == VideoCodecStatus.OK) {
-            if (this.outputBuilders.size() > 2) {
-                Logging.e(TAG, "Dropped frame, encoder queue full");
-                return VideoCodecStatus.NO_OUTPUT;
-            }
-            boolean z3 = false;
-            for (EncodedImage.FrameType frameType : encodeInfo.frameTypes) {
-                if (frameType == EncodedImage.FrameType.VideoFrameKey) {
-                    z3 = true;
-                }
-            }
-            if (z3 || shouldForceKeyFrame(videoFrame.getTimestampNs())) {
-                requestKeyFrame(videoFrame.getTimestampNs());
-            }
-            int height2 = ((buffer.getHeight() * buffer.getWidth()) * 3) / 2;
-            this.outputBuilders.offer(EncodedImage.builder().setCaptureTimeNs(videoFrame.getTimestampNs()).setEncodedWidth(videoFrame.getBuffer().getWidth()).setEncodedHeight(videoFrame.getBuffer().getHeight()).setRotation(videoFrame.getRotation()));
-            VideoCodecStatus encodeTextureBuffer = this.useSurfaceMode ? encodeTextureBuffer(videoFrame) : encodeByteBuffer(videoFrame, buffer, height2);
-            if (encodeTextureBuffer != VideoCodecStatus.OK) {
-                this.outputBuilders.pollLast();
-            }
-            return encodeTextureBuffer;
+        if ((width != this.width || height != this.height || z2 != this.useSurfaceMode) && (resetCodec = resetCodec(width, height, z2)) != VideoCodecStatus.OK) {
+            return resetCodec;
         }
-        return resetCodec;
+        if (this.outputBuilders.size() > 2) {
+            Logging.e(TAG, "Dropped frame, encoder queue full");
+            return VideoCodecStatus.NO_OUTPUT;
+        }
+        boolean z3 = false;
+        for (EncodedImage.FrameType frameType : encodeInfo.frameTypes) {
+            if (frameType == EncodedImage.FrameType.VideoFrameKey) {
+                z3 = true;
+            }
+        }
+        if (z3 || shouldForceKeyFrame(videoFrame.getTimestampNs())) {
+            requestKeyFrame(videoFrame.getTimestampNs());
+        }
+        int height2 = ((buffer.getHeight() * buffer.getWidth()) * 3) / 2;
+        this.outputBuilders.offer(EncodedImage.builder().setCaptureTimeNs(videoFrame.getTimestampNs()).setEncodedWidth(videoFrame.getBuffer().getWidth()).setEncodedHeight(videoFrame.getBuffer().getHeight()).setRotation(videoFrame.getRotation()));
+        VideoCodecStatus encodeTextureBuffer = this.useSurfaceMode ? encodeTextureBuffer(videoFrame) : encodeByteBuffer(videoFrame, buffer, height2);
+        if (encodeTextureBuffer != VideoCodecStatus.OK) {
+            this.outputBuilders.pollLast();
+        }
+        return encodeTextureBuffer;
     }
 
     protected void fillInputBuffer(ByteBuffer byteBuffer, VideoFrame.Buffer buffer) {
@@ -535,8 +536,8 @@ public class HardwareVideoEncoder implements VideoEncoder {
         return VideoEncoder.-CC.$default$isHardwareEncoder(this);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0040  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0040  */
     @Override // org.webrtc.VideoEncoder
     /*
         Code decompiled incorrectly, please refer to instructions dump.

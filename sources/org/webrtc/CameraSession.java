@@ -5,6 +5,7 @@ import android.graphics.Matrix;
 import android.view.WindowManager;
 import org.telegram.messenger.NotificationCenter;
 import org.webrtc.VideoFrame;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public interface CameraSession {
@@ -24,16 +25,16 @@ public interface CameraSession {
 
         public static int getDeviceOrientation(Context context) {
             int rotation = ((WindowManager) context.getSystemService("window")).getDefaultDisplay().getRotation();
-            if (rotation != 1) {
-                if (rotation != 2) {
-                    if (rotation != 3) {
-                        return 0;
-                    }
-                    return NotificationCenter.dialogsUnreadReactionsCounterChanged;
-                }
+            if (rotation == 1) {
+                return 90;
+            }
+            if (rotation == 2) {
                 return NotificationCenter.updateBotMenuButton;
             }
-            return 90;
+            if (rotation != 3) {
+                return 0;
+            }
+            return NotificationCenter.dialogsUnreadReactionsCounterChanged;
         }
     }
 

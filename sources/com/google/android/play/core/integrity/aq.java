@@ -1,4 +1,5 @@
 package com.google.android.play.core.integrity;
+
 /* loaded from: classes.dex */
 final class aq extends IntegrityTokenResponse {
     private final String a;

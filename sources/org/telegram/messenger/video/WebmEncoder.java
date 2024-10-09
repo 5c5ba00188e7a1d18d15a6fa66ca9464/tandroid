@@ -35,6 +35,7 @@ import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.Paint.PaintTypeface;
 import org.telegram.ui.Components.Paint.Views.EditTextOutline;
 import org.telegram.ui.Components.RLottieDrawable;
+
 /* loaded from: classes3.dex */
 public class WebmEncoder {
 
@@ -140,8 +141,11 @@ public class WebmEncoder {
                 mediaEntity.currentFrame = f;
                 if (f >= mediaEntity.metadata[0]) {
                     mediaEntity.currentFrame = 0.0f;
+                    return;
                 }
-            } else if (mediaEntity.animatedFileDrawable == null) {
+                return;
+            }
+            if (mediaEntity.animatedFileDrawable == null) {
                 canvas.drawBitmap(mediaEntity.bitmap, mediaEntity.matrix, this.bitmapPaint);
                 ArrayList<VideoEditedInfo.EmojiEntity> arrayList = mediaEntity.entities;
                 if (arrayList == null || arrayList.isEmpty()) {
@@ -153,24 +157,23 @@ public class WebmEncoder {
                         drawEntity(canvas, mediaEntity2, mediaEntity.color, j);
                     }
                 }
-            } else {
-                float f2 = mediaEntity.currentFrame;
-                int i5 = (int) f2;
-                float f3 = f2 + mediaEntity.framesPerDraw;
-                mediaEntity.currentFrame = f3;
-                for (int i6 = (int) f3; i5 != i6; i6--) {
-                    mediaEntity.animatedFileDrawable.getNextFrame(true);
-                }
-                Bitmap backgroundBitmap = mediaEntity.animatedFileDrawable.getBackgroundBitmap();
-                if (backgroundBitmap != null) {
-                    canvas.drawBitmap(backgroundBitmap, mediaEntity.matrix, this.bitmapPaint);
-                }
+                return;
+            }
+            float f2 = mediaEntity.currentFrame;
+            int i5 = (int) f2;
+            float f3 = f2 + mediaEntity.framesPerDraw;
+            mediaEntity.currentFrame = f3;
+            for (int i6 = (int) f3; i5 != i6; i6--) {
+                mediaEntity.animatedFileDrawable.getNextFrame(true);
+            }
+            Bitmap backgroundBitmap = mediaEntity.animatedFileDrawable.getBackgroundBitmap();
+            if (backgroundBitmap != null) {
+                canvas.drawBitmap(backgroundBitmap, mediaEntity.matrix, this.bitmapPaint);
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public void initStickerEntity(VideoEditedInfo.MediaEntity mediaEntity) {
-            AnimatedFileDrawable animatedFileDrawable;
             int i;
             int i2 = (int) (mediaEntity.width * this.W);
             mediaEntity.W = i2;
@@ -199,7 +202,7 @@ public class WebmEncoder {
             } else if ((b & 4) != 0) {
                 mediaEntity.looped = false;
                 mediaEntity.animatedFileDrawable = new AnimatedFileDrawable(new File(mediaEntity.text), true, 0L, 0, null, null, null, 0L, UserConfig.selectedAccount, true, 512, 512, null);
-                mediaEntity.framesPerDraw = animatedFileDrawable.getFps() / this.fps;
+                mediaEntity.framesPerDraw = r2.getFps() / this.fps;
                 mediaEntity.currentFrame = 1.0f;
                 mediaEntity.animatedFileDrawable.getNextFrame(true);
                 if (mediaEntity.type == 5) {
@@ -288,36 +291,37 @@ public class WebmEncoder {
                             float paddingLeft = mediaEntity.x + ((((editTextOutline.getPaddingLeft() + f) + (this.measuredSize / 2.0f)) / mediaEntity3.viewWidth) * mediaEntity3.width);
                             float f2 = mediaEntity3.y;
                             VideoEditedInfo.MediaEntity mediaEntity4 = mediaEntity;
+                            float paddingTop = ((editTextOutline.getPaddingTop() + i3) + ((i5 - i3) / 2.0f)) / mediaEntity4.viewHeight;
                             float f3 = mediaEntity4.height;
-                            float paddingTop = f2 + ((((editTextOutline.getPaddingTop() + i3) + ((i5 - i3) / 2.0f)) / mediaEntity4.viewHeight) * f3);
+                            float f4 = f2 + (paddingTop * f3);
                             if (mediaEntity4.rotation != 0.0f) {
-                                float f4 = mediaEntity4.x + (mediaEntity4.width / 2.0f);
-                                float f5 = mediaEntity4.y + (f3 / 2.0f);
-                                float f6 = FrameDrawer.this.W / FrameDrawer.this.H;
-                                double d = paddingLeft - f4;
+                                float f5 = mediaEntity4.x + (mediaEntity4.width / 2.0f);
+                                float f6 = mediaEntity4.y + (f3 / 2.0f);
+                                float f7 = FrameDrawer.this.W / FrameDrawer.this.H;
+                                double d = paddingLeft - f5;
                                 double cos = Math.cos(-mediaEntity.rotation);
                                 Double.isNaN(d);
-                                double d2 = (paddingTop - f5) / f6;
+                                double d2 = (f4 - f6) / f7;
                                 double sin = Math.sin(-mediaEntity.rotation);
                                 Double.isNaN(d2);
-                                float f7 = f4 + ((float) ((cos * d) - (sin * d2)));
+                                float f8 = f5 + ((float) ((cos * d) - (sin * d2)));
                                 double sin2 = Math.sin(-mediaEntity.rotation);
                                 Double.isNaN(d);
                                 double d3 = d * sin2;
                                 double cos2 = Math.cos(-mediaEntity.rotation);
                                 Double.isNaN(d2);
-                                paddingTop = (((float) (d3 + (d2 * cos2))) * f6) + f5;
-                                paddingLeft = f7;
+                                f4 = (((float) (d3 + (d2 * cos2))) * f7) + f6;
+                                paddingLeft = f8;
                             }
                             VideoEditedInfo.MediaEntity mediaEntity5 = next.entity;
-                            float f8 = this.measuredSize;
+                            float f9 = this.measuredSize;
                             VideoEditedInfo.MediaEntity mediaEntity6 = mediaEntity;
-                            float f9 = (f8 / mediaEntity6.viewWidth) * mediaEntity6.width;
-                            mediaEntity5.width = f9;
-                            float f10 = (f8 / mediaEntity6.viewHeight) * mediaEntity6.height;
-                            mediaEntity5.height = f10;
-                            mediaEntity5.x = paddingLeft - (f9 / 2.0f);
-                            mediaEntity5.y = paddingTop - (f10 / 2.0f);
+                            float f10 = (f9 / mediaEntity6.viewWidth) * mediaEntity6.width;
+                            mediaEntity5.width = f10;
+                            float f11 = (f9 / mediaEntity6.viewHeight) * mediaEntity6.height;
+                            mediaEntity5.height = f11;
+                            mediaEntity5.x = paddingLeft - (f10 / 2.0f);
+                            mediaEntity5.y = f4 - (f11 / 2.0f);
                             mediaEntity5.rotation = mediaEntity6.rotation;
                             if (mediaEntity5.bitmap == null) {
                                 FrameDrawer.this.initStickerEntity(mediaEntity5);
@@ -416,7 +420,7 @@ public class WebmEncoder {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0145  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

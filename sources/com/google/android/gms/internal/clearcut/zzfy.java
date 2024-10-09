@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public abstract class zzfy {
     private static final Charset UTF_8 = Charset.forName("UTF-8");

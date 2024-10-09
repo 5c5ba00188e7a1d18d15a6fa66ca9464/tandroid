@@ -1,4 +1,5 @@
 package org.telegram.messenger;
+
 /* loaded from: classes3.dex */
 public abstract /* synthetic */ class MessagesController$PeerColors$$ExternalSyntheticBackport0 {
     public static /* synthetic */ int m(String str, int i) {

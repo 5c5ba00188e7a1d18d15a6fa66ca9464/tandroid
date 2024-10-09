@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 abstract class zzcc implements Iterator {
     final Iterator zza;

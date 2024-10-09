@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 public abstract class zzbx extends zzaj {
     protected zzcb zza;
@@ -13,7 +14,7 @@ public abstract class zzbx extends zzaj {
         this.zza = zzcbVar.zzi();
     }
 
-    /* renamed from: zzb */
+    /* renamed from: zzb, reason: merged with bridge method [inline-methods] */
     public final zzbx clone() {
         zzbx zzbxVar = (zzbx) this.zzb.zzu(5, null, null);
         zzbxVar.zza = zze();
@@ -29,12 +30,12 @@ public abstract class zzbx extends zzaj {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzde
-    /* renamed from: zzd */
+    /* renamed from: zzd, reason: merged with bridge method [inline-methods] */
     public zzcb zze() {
-        if (this.zza.zzt()) {
-            this.zza.zzn();
+        if (!this.zza.zzt()) {
             return this.zza;
         }
+        this.zza.zzn();
         return this.zza;
     }
 

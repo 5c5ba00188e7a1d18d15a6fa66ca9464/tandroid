@@ -29,6 +29,7 @@ import org.telegram.ui.Components.Switch;
 import org.telegram.ui.FilterCreateActivity;
 import org.telegram.ui.PeerColorActivity;
 import org.telegram.ui.Stories.recorder.HintView2;
+
 /* loaded from: classes4.dex */
 public class TextCell extends FrameLayout {
     private boolean attached;
@@ -482,10 +483,10 @@ public class TextCell extends FrameLayout {
     public void setLockLevel(boolean z, int i) {
         if (i <= 0) {
             this.textView.setRightDrawable((Drawable) null);
-            return;
+        } else {
+            this.textView.setRightDrawable(new PeerColorActivity.LevelLock(getContext(), z, i, this.resourcesProvider));
+            this.textView.setDrawablePadding(AndroidUtilities.dp(6.0f));
         }
-        this.textView.setRightDrawable(new PeerColorActivity.LevelLock(getContext(), z, i, this.resourcesProvider));
-        this.textView.setDrawablePadding(AndroidUtilities.dp(6.0f));
     }
 
     public void setNeedDivider(boolean z) {
@@ -510,10 +511,10 @@ public class TextCell extends FrameLayout {
     public void setSubtitle(CharSequence charSequence) {
         if (TextUtils.isEmpty(charSequence)) {
             this.subtitleView.setVisibility(8);
-            return;
+        } else {
+            this.subtitleView.setVisibility(0);
+            this.subtitleView.setText(charSequence);
         }
-        this.subtitleView.setVisibility(0);
-        this.subtitleView.setText(charSequence);
     }
 
     public void setText(CharSequence charSequence, boolean z) {
@@ -792,9 +793,10 @@ public class TextCell extends FrameLayout {
         this.textView.setRightDrawable((Drawable) null);
         this.imageView.setVisibility(0);
         if (charSequence2 != null) {
+            int max = (int) Math.max(1.0f, AndroidUtilities.displaySize.x - ((AndroidUtilities.dp(this.offsetFromImage) + HintView2.measureCorrectly(charSequence, this.textView.getTextPaint())) + AndroidUtilities.dp(16.0f)));
             AnimatedTextView animatedTextView = this.valueTextView;
             this.valueText = charSequence2;
-            animatedTextView.setText(TextUtils.ellipsize(charSequence2, animatedTextView.getPaint(), (int) Math.max(1.0f, AndroidUtilities.displaySize.x - ((AndroidUtilities.dp(this.offsetFromImage) + HintView2.measureCorrectly(charSequence, this.textView.getTextPaint())) + AndroidUtilities.dp(16.0f))), TextUtils.TruncateAt.END), z);
+            animatedTextView.setText(TextUtils.ellipsize(charSequence2, animatedTextView.getPaint(), max, TextUtils.TruncateAt.END), z);
         } else {
             this.valueTextView.setText("", z);
         }

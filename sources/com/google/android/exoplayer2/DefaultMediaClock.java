@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Clock;
 import com.google.android.exoplayer2.util.MediaClock;
 import com.google.android.exoplayer2.util.StandaloneMediaClock;
+
 /* loaded from: classes.dex */
 final class DefaultMediaClock implements MediaClock {
     private boolean isUsingStandaloneClock = true;
@@ -43,10 +44,11 @@ final class DefaultMediaClock implements MediaClock {
             if (positionUs < this.standaloneClock.getPositionUs()) {
                 this.standaloneClock.stop();
                 return;
-            }
-            this.isUsingStandaloneClock = false;
-            if (this.standaloneClockIsStarted) {
-                this.standaloneClock.start();
+            } else {
+                this.isUsingStandaloneClock = false;
+                if (this.standaloneClockIsStarted) {
+                    this.standaloneClock.start();
+                }
             }
         }
         this.standaloneClock.resetPosition(positionUs);

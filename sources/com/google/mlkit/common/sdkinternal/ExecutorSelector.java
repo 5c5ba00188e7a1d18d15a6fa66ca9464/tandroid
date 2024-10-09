@@ -2,6 +2,7 @@ package com.google.mlkit.common.sdkinternal;
 
 import com.google.firebase.inject.Provider;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class ExecutorSelector {
     private final Provider zza;

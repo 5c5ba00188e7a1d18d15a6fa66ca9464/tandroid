@@ -8,6 +8,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.ui.GroupCallActivity;
 import org.telegram.ui.GroupCallTabletGridAdapter;
+
 /* loaded from: classes3.dex */
 public abstract class GroupCallGridCell extends FrameLayout {
     public boolean attached;
@@ -24,8 +25,7 @@ public abstract class GroupCallGridCell extends FrameLayout {
     }
 
     public float getItemHeight() {
-        GroupCallTabletGridAdapter groupCallTabletGridAdapter = this.gridAdapter;
-        return groupCallTabletGridAdapter != null ? groupCallTabletGridAdapter.getItemHeight(this.position) : getMeasuredHeight();
+        return this.gridAdapter != null ? r0.getItemHeight(this.position) : getMeasuredHeight();
     }
 
     public ChatObject.VideoParticipant getParticipant() {

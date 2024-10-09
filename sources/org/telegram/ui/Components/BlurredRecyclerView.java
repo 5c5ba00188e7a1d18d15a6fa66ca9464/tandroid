@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SharedConfig;
+
 /* loaded from: classes3.dex */
 public class BlurredRecyclerView extends RecyclerListView {
     public int additionalClipBottom;
@@ -25,10 +26,10 @@ public class BlurredRecyclerView extends RecyclerListView {
         if (!SharedConfig.chatBlurEnabled()) {
             this.blurTopPadding = 0;
             ((ViewGroup.MarginLayoutParams) getLayoutParams()).topMargin = 0;
-            return;
+        } else {
+            this.blurTopPadding = AndroidUtilities.dp(203.0f);
+            ((ViewGroup.MarginLayoutParams) getLayoutParams()).topMargin = -this.blurTopPadding;
         }
-        this.blurTopPadding = AndroidUtilities.dp(203.0f);
-        ((ViewGroup.MarginLayoutParams) getLayoutParams()).topMargin = -this.blurTopPadding;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

@@ -10,6 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public class MlKitThreadPool extends zzbg {
     private static final ThreadLocal zza = new ThreadLocal();
@@ -43,13 +44,14 @@ public class MlKitThreadPool extends zzbg {
     public static void zze(Deque deque, Runnable runnable) {
         Preconditions.checkNotNull(deque);
         deque.add(runnable);
-        if (deque.size() <= 1) {
-            do {
-                runnable.run();
-                deque.removeFirst();
-                runnable = (Runnable) deque.peekFirst();
-            } while (runnable != null);
+        if (deque.size() > 1) {
+            return;
         }
+        do {
+            runnable.run();
+            deque.removeFirst();
+            runnable = (Runnable) deque.peekFirst();
+        } while (runnable != null);
     }
 
     @Override // java.util.concurrent.Executor

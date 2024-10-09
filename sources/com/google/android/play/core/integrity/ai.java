@@ -4,6 +4,7 @@ import android.os.Bundle;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.play.integrity.internal.o;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ai extends o {

@@ -15,6 +15,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.MediaActionDrawable;
+
 /* loaded from: classes3.dex */
 public class RadialProgress2 {
     private int backgroundStroke;
@@ -121,28 +122,31 @@ public class RadialProgress2 {
         view.invalidate(i, i2, ((int) rectF.right) + i3, ((int) rectF.bottom) + i3);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0036, code lost:
-        if (r5 == 3) goto L176;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0036, code lost:
+    
+        if (r5 == 3) goto L24;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0051, code lost:
-        if (r2 != 4) goto L13;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0053, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0053, code lost:
+    
         r5 = 1.0f;
      */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0346  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x0365  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x0387  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x03a5  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x03ab  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x03cd  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x03e4  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x03fc  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x0406  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x0425  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0457  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0462  */
-    /* JADX WARN: Removed duplicated region for block: B:194:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:186:0x0051, code lost:
+    
+        if (r2 != 4) goto L26;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0462  */
+    /* JADX WARN: Removed duplicated region for block: B:111:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0346  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0387  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x03ab  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x03e4  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x03fc  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x0425  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0457  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x0406  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x03cd  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x03a5  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x0365  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -173,9 +177,7 @@ public class RadialProgress2 {
         float f2;
         float f3;
         int i9;
-        int alpha;
         int argb;
-        int i10;
         if ((this.mediaActionDrawable.getCurrentIcon() == 4 && this.mediaActionDrawable.getTransitionProgress() >= 1.0f) || this.progressRect.isEmpty()) {
             return;
         }
@@ -191,9 +193,9 @@ public class RadialProgress2 {
             transitionProgress = this.mediaActionDrawable.getTransitionProgress();
         }
         if (!this.isPressedMini || this.circleCrossfadeColorKey >= 0) {
-            int i11 = this.iconColorKey;
-            if (i11 >= 0) {
-                this.miniMediaActionDrawable.setColor(getThemedColor(i11));
+            int i10 = this.iconColorKey;
+            if (i10 >= 0) {
+                this.miniMediaActionDrawable.setColor(getThemedColor(i10));
             } else {
                 this.miniMediaActionDrawable.setColor(this.iconColor);
             }
@@ -213,9 +215,9 @@ public class RadialProgress2 {
                 paint.setColor(i2);
             }
         } else {
-            int i12 = this.iconPressedColorKey;
-            if (i12 >= 0) {
-                this.miniMediaActionDrawable.setColor(getThemedColor(i12));
+            int i11 = this.iconPressedColorKey;
+            if (i11 >= 0) {
+                this.miniMediaActionDrawable.setColor(getThemedColor(i11));
             } else {
                 this.miniMediaActionDrawable.setColor(this.iconPressedColor);
             }
@@ -230,18 +232,18 @@ public class RadialProgress2 {
             paint2.setColor(offsetColor);
         }
         if (this.isPressed) {
-            int i13 = this.iconPressedColorKey;
-            if (i13 >= 0) {
+            int i12 = this.iconPressedColorKey;
+            if (i12 >= 0) {
                 MediaActionDrawable mediaActionDrawable = this.mediaActionDrawable;
-                i3 = getThemedColor(i13);
+                i3 = getThemedColor(i12);
                 mediaActionDrawable.setColor(i3);
                 this.mediaActionDrawable.setBackColor(getThemedColor(this.circlePressedColorKey));
             } else {
                 MediaActionDrawable mediaActionDrawable2 = this.mediaActionDrawable;
-                int i14 = this.iconPressedColor;
-                mediaActionDrawable2.setColor(i14);
+                int i13 = this.iconPressedColor;
+                mediaActionDrawable2.setColor(i13);
                 this.mediaActionDrawable.setBackColor(this.circlePressedColor);
-                i3 = i14;
+                i3 = i13;
             }
             i4 = this.circlePressedColorKey;
             if (i4 < 0) {
@@ -251,18 +253,18 @@ public class RadialProgress2 {
             }
             this.circlePaint.setColor(getThemedColor(i4));
         } else {
-            int i15 = this.iconColorKey;
-            if (i15 >= 0) {
+            int i14 = this.iconColorKey;
+            if (i14 >= 0) {
                 MediaActionDrawable mediaActionDrawable3 = this.mediaActionDrawable;
-                i3 = getThemedColor(i15);
+                i3 = getThemedColor(i14);
                 mediaActionDrawable3.setColor(i3);
                 this.mediaActionDrawable.setBackColor(getThemedColor(this.circleColorKey));
             } else {
                 MediaActionDrawable mediaActionDrawable4 = this.mediaActionDrawable;
-                int i16 = this.iconColor;
-                mediaActionDrawable4.setColor(i16);
+                int i15 = this.iconColor;
+                mediaActionDrawable4.setColor(i15);
                 this.mediaActionDrawable.setBackColor(this.circleColor);
-                i3 = i16;
+                i3 = i15;
             }
             i4 = this.circleColorKey;
             if (i4 < 0) {
@@ -284,7 +286,7 @@ public class RadialProgress2 {
             ceil = (int) this.progressRect.centerX();
             ceil2 = (int) this.progressRect.centerY();
         }
-        int i17 = 2;
+        int i16 = 2;
         if (this.overlayImageView.hasBitmapImage()) {
             float currentAlpha = this.overlayImageView.getCurrentAlpha();
             this.overlayPaint.setAlpha((int) (100.0f * currentAlpha * transitionProgress * this.overrideAlpha));
@@ -295,13 +297,16 @@ public class RadialProgress2 {
                 int red = Color.red(i3);
                 int green = Color.green(i3);
                 int blue = Color.blue(i3);
-                argb = Color.argb(Color.alpha(i3) + ((int) ((255 - alpha) * currentAlpha)), red + ((int) ((255 - red) * currentAlpha)), green + ((int) ((255 - green) * currentAlpha)), blue + ((int) ((255 - blue) * currentAlpha)));
+                argb = Color.argb(Color.alpha(i3) + ((int) ((255 - r6) * currentAlpha)), red + ((int) ((255 - red) * currentAlpha)), green + ((int) ((255 - green) * currentAlpha)), blue + ((int) ((255 - blue) * currentAlpha)));
                 z = true;
             }
             this.mediaActionDrawable.setColor(argb);
             ImageReceiver imageReceiver = this.overlayImageView;
-            float f4 = this.circleRadius * 2;
-            imageReceiver.setImageCoords(ceil - i10, ceil2 - i10, f4, f4);
+            int i17 = this.circleRadius;
+            float f4 = ceil - i17;
+            float f5 = ceil2 - i17;
+            float f6 = i17 * 2;
+            imageReceiver.setImageCoords(f4, f5, f6, f6);
         } else {
             z = true;
         }
@@ -310,8 +315,8 @@ public class RadialProgress2 {
             i6 = Integer.MIN_VALUE;
         } else {
             i6 = canvas6.save();
-            float f5 = 1.0f - ((1.0f - this.circleCheckProgress) * 0.1f);
-            this.miniDrawCanvas.scale(f5, f5, ceil, ceil2);
+            float f7 = 1.0f - ((1.0f - this.circleCheckProgress) * 0.1f);
+            this.miniDrawCanvas.scale(f7, f7, ceil, ceil2);
         }
         if (z && this.drawBackground) {
             if ((this.drawMiniIcon || this.circleCrossfadeColorKey >= 0) && (canvas5 = this.miniDrawCanvas) != null) {
@@ -346,8 +351,8 @@ public class RadialProgress2 {
         }
         if (this.iconScale != 1.0f) {
             canvas.save();
-            float f6 = this.iconScale;
-            canvas.scale(f6, f6, ceil, ceil2);
+            float f8 = this.iconScale;
+            canvas.scale(f8, f8, ceil, ceil2);
         }
         this.mediaActionDrawable.setBounds(ceil - i18, ceil2 - i18, ceil + i18, ceil2 + i18);
         this.mediaActionDrawable.setHasOverlayImage(this.overlayImageView.hasBitmapImage());
@@ -360,11 +365,11 @@ public class RadialProgress2 {
                 }
                 if (!this.drawMiniIcon || this.circleCrossfadeColorKey >= 0) {
                     if (Math.abs(this.progressRect.width() - AndroidUtilities.dp(44.0f)) >= AndroidUtilities.density) {
-                        float f7 = 16;
-                        centerX = this.progressRect.centerX() + AndroidUtilities.dp(f7);
-                        centerY = this.progressRect.centerY() + AndroidUtilities.dp(f7);
+                        float f9 = 16;
+                        centerX = this.progressRect.centerX() + AndroidUtilities.dp(f9);
+                        centerY = this.progressRect.centerY() + AndroidUtilities.dp(f9);
                         i7 = 20;
-                        i17 = 0;
+                        i16 = 0;
                     } else {
                         centerX = this.progressRect.centerX() + AndroidUtilities.dp(18.0f);
                         centerY = this.progressRect.centerY() + AndroidUtilities.dp(18.0f);
@@ -381,8 +386,8 @@ public class RadialProgress2 {
                     }
                     canvas2 = this.miniDrawCanvas;
                     if (canvas2 == null) {
-                        float f8 = i7 + 18 + i17;
-                        canvas2.drawCircle(AndroidUtilities.dp(f8), AndroidUtilities.dp(f8), AndroidUtilities.dp(i20 + 1) * f * this.miniIconScale, Theme.checkboxSquare_eraserPaint);
+                        float f10 = i7 + 18 + i16;
+                        canvas2.drawCircle(AndroidUtilities.dp(f10), AndroidUtilities.dp(f10), AndroidUtilities.dp(i20 + 1) * f * this.miniIconScale, Theme.checkboxSquare_eraserPaint);
                     } else {
                         this.miniProgressBackgroundPaint.setColor(this.progressColor);
                         canvas.drawCircle(centerX, centerY, AndroidUtilities.dp(12.0f), this.miniProgressBackgroundPaint);
@@ -394,15 +399,15 @@ public class RadialProgress2 {
                     }
                     if (this.miniIconScale >= 1.0f) {
                         i8 = canvas.save();
-                        float f9 = this.miniIconScale;
-                        canvas.scale(f9, f9, centerX, centerY);
+                        float f11 = this.miniIconScale;
+                        canvas.scale(f11, f11, centerX, centerY);
                     } else {
                         i8 = Integer.MIN_VALUE;
                     }
-                    float f10 = i20;
-                    canvas.drawCircle(centerX, centerY, (AndroidUtilities.dp(f10) * f) + (AndroidUtilities.dp(1.0f) * (1.0f - this.circleCheckProgress)), this.circleMiniPaint);
+                    float f12 = i20;
+                    canvas.drawCircle(centerX, centerY, (AndroidUtilities.dp(f12) * f) + (AndroidUtilities.dp(1.0f) * (1.0f - this.circleCheckProgress)), this.circleMiniPaint);
                     if (this.drawMiniIcon) {
-                        this.miniMediaActionDrawable.setBounds((int) (centerX - (AndroidUtilities.dp(f10) * f)), (int) (centerY - (AndroidUtilities.dp(f10) * f)), (int) (centerX + (AndroidUtilities.dp(f10) * f)), (int) (centerY + (AndroidUtilities.dp(f10) * f)));
+                        this.miniMediaActionDrawable.setBounds((int) (centerX - (AndroidUtilities.dp(f12) * f)), (int) (centerY - (AndroidUtilities.dp(f12) * f)), (int) (centerX + (AndroidUtilities.dp(f12) * f)), (int) (centerY + (AndroidUtilities.dp(f12) * f)));
                         this.miniMediaActionDrawable.draw(canvas);
                     }
                     if (i8 != Integer.MIN_VALUE) {
@@ -436,8 +441,8 @@ public class RadialProgress2 {
         }
         if (this.miniIconScale >= 1.0f) {
         }
-        float f102 = i202;
-        canvas.drawCircle(centerX, centerY, (AndroidUtilities.dp(f102) * f) + (AndroidUtilities.dp(1.0f) * (1.0f - this.circleCheckProgress)), this.circleMiniPaint);
+        float f122 = i202;
+        canvas.drawCircle(centerX, centerY, (AndroidUtilities.dp(f122) * f) + (AndroidUtilities.dp(1.0f) * (1.0f - this.circleCheckProgress)), this.circleMiniPaint);
         if (this.drawMiniIcon) {
         }
         if (i8 != Integer.MIN_VALUE) {

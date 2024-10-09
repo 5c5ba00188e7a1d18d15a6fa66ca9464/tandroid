@@ -8,6 +8,7 @@ import android.os.Build;
 import android.view.Surface;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.FileLog;
+
 /* loaded from: classes3.dex */
 public class AudioDecoder {
     private static final int TIMEOUT_USEC = 0;

@@ -25,6 +25,7 @@ import org.telegram.ui.Components.BlurredFrameLayout;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MemberRequestsBottomSheet;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
+
 /* loaded from: classes3.dex */
 public class ChatActivityMemberRequestsDelegate {
     private AvatarsImageView avatarsView;
@@ -148,7 +149,9 @@ public class ChatActivityMemberRequestsDelegate {
             }
             animatePendingRequests(false, z);
             this.pendingRequestsCount = 0;
-        } else if (this.pendingRequestsCount != i) {
+            return;
+        }
+        if (this.pendingRequestsCount != i) {
             this.pendingRequestsCount = i;
             this.requestsCountTextView.setText(LocaleController.formatPluralString("JoinUsersRequests", i, new Object[0]));
             animatePendingRequests(true, z);
@@ -210,8 +213,7 @@ public class ChatActivityMemberRequestsDelegate {
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
                 public void onMeasure(int i, int i2) {
-                    int i3 = this.avatarsDrawable.count;
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(i3 == 0 ? 0 : ((i3 - 1) * 20) + 24), 1073741824), i2);
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.avatarsDrawable.count == 0 ? 0 : ((r2 - 1) * 20) + 24), 1073741824), i2);
                 }
             };
             this.avatarsView = avatarsImageView;

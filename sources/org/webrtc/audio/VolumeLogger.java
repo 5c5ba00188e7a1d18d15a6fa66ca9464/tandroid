@@ -4,6 +4,7 @@ import android.media.AudioManager;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.webrtc.Logging;
+
 /* loaded from: classes.dex */
 class VolumeLogger {
     private static final String TAG = "VolumeLogger";
@@ -33,9 +34,10 @@ class VolumeLogger {
                 sb.append(VolumeLogger.this.audioManager.getStreamVolume(2));
                 sb.append(" (max=");
                 i = this.maxRingVolume;
-            } else if (mode != 3) {
-                return;
             } else {
+                if (mode != 3) {
+                    return;
+                }
                 sb = new StringBuilder();
                 sb.append("VOICE_CALL stream volume: ");
                 sb.append(VolumeLogger.this.audioManager.getStreamVolume(0));

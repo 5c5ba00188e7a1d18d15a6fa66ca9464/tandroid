@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class TextInformationFrame extends Id3Frame {
     public static final Parcelable.Creator<TextInformationFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.TextInformationFrame.1
@@ -47,12 +48,13 @@ public final class TextInformationFrame extends Id3Frame {
                 arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(0, 4))));
                 arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(5, 7))));
                 substring = str.substring(8, 10);
-            } else if (str.length() < 7) {
-                if (str.length() >= 4) {
-                    substring = str.substring(0, 4);
-                }
-                return arrayList;
             } else {
+                if (str.length() < 7) {
+                    if (str.length() >= 4) {
+                        substring = str.substring(0, 4);
+                    }
+                    return arrayList;
+                }
                 arrayList.add(Integer.valueOf(Integer.parseInt(str.substring(0, 4))));
                 substring = str.substring(5, 7);
             }
@@ -80,7 +82,6 @@ public final class TextInformationFrame extends Id3Frame {
         return ((hashCode + (str != null ? str.hashCode() : 0)) * 31) + this.values.hashCode();
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame, com.google.android.exoplayer2.metadata.Metadata.Entry
     public void populateMediaMetadata(MediaMetadata.Builder builder) {
         String str = this.id;
@@ -271,8 +272,9 @@ public final class TextInformationFrame extends Id3Frame {
                         if (size != 2) {
                             if (size != 3) {
                                 return;
+                            } else {
+                                builder.setRecordingDay((Integer) parseId3v2point4TimestampFrameForDate.get(2));
                             }
-                            builder.setRecordingDay((Integer) parseId3v2point4TimestampFrameForDate.get(2));
                         }
                         builder.setRecordingMonth((Integer) parseId3v2point4TimestampFrameForDate.get(1));
                     }
@@ -285,8 +287,9 @@ public final class TextInformationFrame extends Id3Frame {
                         if (size2 != 2) {
                             if (size2 != 3) {
                                 return;
+                            } else {
+                                builder.setReleaseDay((Integer) parseId3v2point4TimestampFrameForDate2.get(2));
                             }
-                            builder.setReleaseDay((Integer) parseId3v2point4TimestampFrameForDate2.get(2));
                         }
                         builder.setReleaseMonth((Integer) parseId3v2point4TimestampFrameForDate2.get(1));
                     }

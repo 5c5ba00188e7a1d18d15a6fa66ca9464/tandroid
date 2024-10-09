@@ -3,6 +3,7 @@ package com.google.android.gms.common.internal;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+
 /* loaded from: classes.dex */
 public abstract class Preconditions {
     public static void checkArgument(boolean z) {
@@ -27,8 +28,7 @@ public abstract class Preconditions {
         Looper myLooper = Looper.myLooper();
         if (myLooper != handler.getLooper()) {
             String name = myLooper != null ? myLooper.getThread().getName() : "null current looper";
-            String name2 = handler.getLooper().getThread().getName();
-            throw new IllegalStateException("Must be called on " + name2 + " thread, but got " + name + ".");
+            throw new IllegalStateException("Must be called on " + handler.getLooper().getThread().getName() + " thread, but got " + name + ".");
         }
     }
 

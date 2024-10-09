@@ -6,6 +6,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes3.dex */
 public class DurationCell extends BaseCell {
     private Object code;

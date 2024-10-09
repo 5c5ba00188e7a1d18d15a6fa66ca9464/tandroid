@@ -4,10 +4,12 @@ import com.microsoft.appcenter.ingestion.models.Log;
 import com.microsoft.appcenter.ingestion.models.LogContainer;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class DefaultLogSerializer implements LogSerializer {
     private final Map mLogFactories = new HashMap();
@@ -47,8 +49,9 @@ public class DefaultLogSerializer implements LogSerializer {
         JSONStringer jSONStringer = new JSONStringer();
         jSONStringer.object();
         jSONStringer.key("logs").array();
-        for (Log log : logContainer.getLogs()) {
-            writeLog(jSONStringer, log);
+        Iterator it = logContainer.getLogs().iterator();
+        while (it.hasNext()) {
+            writeLog(jSONStringer, (Log) it.next());
         }
         jSONStringer.endArray();
         jSONStringer.endObject();

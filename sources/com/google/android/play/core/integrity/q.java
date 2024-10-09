@@ -1,6 +1,7 @@
 package com.google.android.play.core.integrity;
 
 import android.content.Context;
+
 /* loaded from: classes.dex */
 final class q implements x {
     private Context a;

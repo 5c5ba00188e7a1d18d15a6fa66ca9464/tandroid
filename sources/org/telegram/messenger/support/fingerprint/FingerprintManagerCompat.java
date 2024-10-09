@@ -2,6 +2,7 @@ package org.telegram.messenger.support.fingerprint;
 
 import android.content.Context;
 import android.os.Build;
+
 /* loaded from: classes3.dex */
 public final class FingerprintManagerCompat {
     static final FingerprintManagerCompatImpl IMPL;

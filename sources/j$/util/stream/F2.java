@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class F2 implements j$.util.Q {
@@ -39,7 +40,7 @@ public final class F2 implements j$.util.Q {
                 }
                 Object[] objArr = o2.f[i];
                 while (i4 < objArr.length) {
-                    consumer.accept(objArr[i4]);
+                    consumer.r(objArr[i4]);
                     i4++;
                 }
                 i++;
@@ -47,7 +48,7 @@ public final class F2 implements j$.util.Q {
             }
             Object[] objArr2 = this.a == i3 ? this.e : o2.f[i3];
             while (i4 < i2) {
-                consumer.accept(objArr2[i4]);
+                consumer.r(objArr2[i4]);
                 i4++;
             }
             this.a = i3;
@@ -92,23 +93,23 @@ public final class F2 implements j$.util.Q {
         consumer.getClass();
         int i = this.a;
         int i2 = this.b;
-        if (i < i2 || (i == i2 && this.c < this.d)) {
-            Object[] objArr = this.e;
-            int i3 = this.c;
-            this.c = i3 + 1;
-            consumer.accept(objArr[i3]);
-            if (this.c == this.e.length) {
-                this.c = 0;
-                int i4 = this.a + 1;
-                this.a = i4;
-                Object[][] objArr2 = this.f.f;
-                if (objArr2 != null && i4 <= i2) {
-                    this.e = objArr2[i4];
-                }
-            }
-            return true;
+        if (i >= i2 && (i != i2 || this.c >= this.d)) {
+            return false;
         }
-        return false;
+        Object[] objArr = this.e;
+        int i3 = this.c;
+        this.c = i3 + 1;
+        consumer.r(objArr[i3]);
+        if (this.c == this.e.length) {
+            this.c = 0;
+            int i4 = this.a + 1;
+            this.a = i4;
+            Object[][] objArr2 = this.f.f;
+            if (objArr2 != null && i4 <= i2) {
+                this.e = objArr2[i4];
+            }
+        }
+        return true;
     }
 
     @Override // j$.util.Q
@@ -124,17 +125,17 @@ public final class F2 implements j$.util.Q {
             this.c = 0;
             this.e = o2.f[i2];
             return f2;
-        } else if (i == i2) {
-            int i5 = this.c;
-            int i6 = (this.d - i5) / 2;
-            if (i6 == 0) {
-                return null;
-            }
-            j$.util.Q m = j$.util.f0.m(this.e, i5, i5 + i6);
-            this.c += i6;
-            return m;
-        } else {
+        }
+        if (i != i2) {
             return null;
         }
+        int i5 = this.c;
+        int i6 = (this.d - i5) / 2;
+        if (i6 == 0) {
+            return null;
+        }
+        j$.util.Q m = j$.util.f0.m(this.e, i5, i5 + i6);
+        this.c += i6;
+        return m;
     }
 }

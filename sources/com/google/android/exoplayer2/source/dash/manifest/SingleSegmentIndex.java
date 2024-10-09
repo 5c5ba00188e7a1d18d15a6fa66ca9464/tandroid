@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.source.dash.manifest;
 
 import com.google.android.exoplayer2.source.dash.DashSegmentIndex;
+
 /* loaded from: classes.dex */
 final class SingleSegmentIndex implements DashSegmentIndex {
     private final RangedUri uri;

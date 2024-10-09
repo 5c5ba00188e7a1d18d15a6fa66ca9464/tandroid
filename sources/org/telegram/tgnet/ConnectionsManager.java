@@ -67,6 +67,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.LoginActivity;
+
 /* loaded from: classes.dex */
 public class ConnectionsManager extends BaseController {
     private static final int CORE_POOL_SIZE;
@@ -207,22 +208,22 @@ public class ConnectionsManager extends BaseController {
         @Override // android.os.AsyncTask
         public NativeByteBuffer doInBackground(Void... voidArr) {
             try {
-                if (ConnectionsManager.native_isTestBackend(this.currentAccount) == 0) {
-                    FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-                    this.firebaseRemoteConfig = firebaseRemoteConfig;
-                    String string = firebaseRemoteConfig.getString("ipconfigv3");
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.d("current firebase value = " + string);
-                    }
-                    this.firebaseRemoteConfig.fetch(0L).addOnCompleteListener(new OnCompleteListener() { // from class: org.telegram.tgnet.ConnectionsManager$FirebaseTask$$ExternalSyntheticLambda2
-                        @Override // com.google.android.gms.tasks.OnCompleteListener
-                        public final void onComplete(Task task) {
-                            ConnectionsManager.FirebaseTask.this.lambda$doInBackground$2(task);
-                        }
-                    });
-                    return null;
+                if (ConnectionsManager.native_isTestBackend(this.currentAccount) != 0) {
+                    throw new Exception("test backend");
                 }
-                throw new Exception("test backend");
+                FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+                this.firebaseRemoteConfig = firebaseRemoteConfig;
+                String string = firebaseRemoteConfig.getString("ipconfigv3");
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("current firebase value = " + string);
+                }
+                this.firebaseRemoteConfig.fetch(0L).addOnCompleteListener(new OnCompleteListener() { // from class: org.telegram.tgnet.ConnectionsManager$FirebaseTask$$ExternalSyntheticLambda2
+                    @Override // com.google.android.gms.tasks.OnCompleteListener
+                    public final void onComplete(Task task) {
+                        ConnectionsManager.FirebaseTask.this.lambda$doInBackground$2(task);
+                    }
+                });
+                return null;
             } catch (Throwable th) {
                 Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.tgnet.ConnectionsManager$FirebaseTask$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
@@ -281,8 +282,8 @@ public class ConnectionsManager extends BaseController {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:82:0x0145 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x013b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:65:0x0145 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:69:0x013b A[EXC_TOP_SPLITTER, SYNTHETIC] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -452,8 +453,8 @@ public class ConnectionsManager extends BaseController {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:76:0x0136 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:82:0x0140 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x0140 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:64:0x0136 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -791,16 +792,16 @@ public class ConnectionsManager extends BaseController {
         lastPremiumFloodWaitShown = 0L;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0104  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0106  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0111  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x012b  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0154  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x015b  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0181  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x018e  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0104  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0111  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0154  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0181  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x018e  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x015b  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x012b  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0106  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -914,13 +915,13 @@ public class ConnectionsManager extends BaseController {
     }
 
     public static int getInitFlags() {
-        if (EmuDetector.with(ApplicationLoader.applicationContext).detect()) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("detected emu");
-            }
-            return 1024;
+        if (!EmuDetector.with(ApplicationLoader.applicationContext).detect()) {
+            return 0;
         }
-        return 0;
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("detected emu");
+        }
+        return 1024;
     }
 
     public static ConnectionsManager getInstance(int i) {
@@ -949,12 +950,12 @@ public class ConnectionsManager extends BaseController {
         if (TextUtils.isEmpty(str) && !TextUtils.isEmpty(SharedConfig.pushStringStatus)) {
             str = SharedConfig.pushStringStatus;
         }
-        if (TextUtils.isEmpty(str)) {
-            String str2 = "__" + (SharedConfig.pushType == 2 ? "FIREBASE" : "HUAWEI") + "_GENERATING_SINCE_" + getCurrentTime() + "__";
-            SharedConfig.pushStringStatus = str2;
-            return str2;
+        if (!TextUtils.isEmpty(str)) {
+            return str;
         }
-        return str;
+        String str2 = "__" + (SharedConfig.pushType == 2 ? "FIREBASE" : "HUAWEI") + "_GENERATING_SINCE_" + getCurrentTime() + "__";
+        SharedConfig.pushStringStatus = str2;
+        return str2;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1465,9 +1466,10 @@ public class ConnectionsManager extends BaseController {
                 sb.append(z);
                 str = "): request to cancel is not found ";
             }
-        } else if (requestCallbacks == null) {
-            return;
         } else {
+            if (requestCallbacks == null) {
+                return;
+            }
             connectionsManager.requestCallbacks.remove(Integer.valueOf(i2));
             sb = new StringBuilder();
             sb.append("{rc} onRequestClear(");
@@ -1665,7 +1667,7 @@ public class ConnectionsManager extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: sendRequestInternal */
+    /* renamed from: sendRequestInternal, reason: merged with bridge method [inline-methods] */
     public void lambda$sendRequest$2(final TLObject tLObject, final RequestDelegate requestDelegate, final RequestDelegateTimestamp requestDelegateTimestamp, final QuickAckDelegate quickAckDelegate, final WriteToSocketDelegate writeToSocketDelegate, final int i, final int i2, final int i3, final boolean z, final int i4) {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("send request " + tLObject + " with token = " + i4);
@@ -2036,8 +2038,10 @@ public class ConnectionsManager extends BaseController {
                 this.lastPauseTime = System.currentTimeMillis();
             }
             native_pauseNetwork(this.currentAccount);
-        } else if (this.appPaused) {
         } else {
+            if (this.appPaused) {
+                return;
+            }
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("reset app pause time");
             }

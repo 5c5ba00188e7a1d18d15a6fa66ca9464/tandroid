@@ -33,6 +33,7 @@ import org.telegram.ui.Components.PermissionRequest;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.Weather;
+
 /* loaded from: classes4.dex */
 public abstract class Weather {
     private static String cacheKey;
@@ -90,12 +91,12 @@ public abstract class Weather {
     }
 
     public static Runnable fetch(final double d, final double d2, final Utilities.Callback callback) {
-        Calendar calendar;
         if (callback == null) {
             return null;
         }
         Date date = new Date();
-        Calendar.getInstance(DesugarTimeZone.getTimeZone("UTC")).setTime(date);
+        Calendar calendar = Calendar.getInstance(DesugarTimeZone.getTimeZone("UTC"));
+        calendar.setTime(date);
         final String str = Math.round(d * 1000.0d) + ":" + Math.round(1000.0d * d2) + "at" + (((calendar.getTimeInMillis() / 1000) / 60) / 60);
         if (cacheValue != null && TextUtils.equals(cacheKey, str)) {
             callback.run(cacheValue);

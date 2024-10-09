@@ -1,4 +1,5 @@
 package j$.util;
+
 /* loaded from: classes2.dex */
 public interface K extends N {
     void d(j$.util.function.W w);

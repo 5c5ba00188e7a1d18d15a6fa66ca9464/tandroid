@@ -14,6 +14,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class ObjectTypeAdapter extends TypeAdapter {
     private static final TypeAdapterFactory DOUBLE_FACTORY = newFactory(ToNumberPolicy.DOUBLE);
@@ -78,20 +79,20 @@ public final class ObjectTypeAdapter extends TypeAdapter {
 
     private Object readTerminal(JsonReader jsonReader, JsonToken jsonToken) {
         int i = 2.$SwitchMap$com$google$gson$stream$JsonToken[jsonToken.ordinal()];
-        if (i != 3) {
-            if (i != 4) {
-                if (i != 5) {
-                    if (i == 6) {
-                        jsonReader.nextNull();
-                        return null;
-                    }
-                    throw new IllegalStateException("Unexpected token: " + jsonToken);
-                }
-                return Boolean.valueOf(jsonReader.nextBoolean());
-            }
+        if (i == 3) {
+            return jsonReader.nextString();
+        }
+        if (i == 4) {
             return this.toNumberStrategy.readNumber(jsonReader);
         }
-        return jsonReader.nextString();
+        if (i == 5) {
+            return Boolean.valueOf(jsonReader.nextBoolean());
+        }
+        if (i == 6) {
+            jsonReader.nextNull();
+            return null;
+        }
+        throw new IllegalStateException("Unexpected token: " + jsonToken);
     }
 
     private Object tryBeginNesting(JsonReader jsonReader, JsonToken jsonToken) {
@@ -99,12 +100,12 @@ public final class ObjectTypeAdapter extends TypeAdapter {
         if (i == 1) {
             jsonReader.beginArray();
             return new ArrayList();
-        } else if (i != 2) {
-            return null;
-        } else {
-            jsonReader.beginObject();
-            return new LinkedTreeMap();
         }
+        if (i != 2) {
+            return null;
+        }
+        jsonReader.beginObject();
+        return new LinkedTreeMap();
     }
 
     @Override // com.google.gson.TypeAdapter
@@ -156,9 +157,9 @@ public final class ObjectTypeAdapter extends TypeAdapter {
         TypeAdapter adapter = this.gson.getAdapter(obj.getClass());
         if (!(adapter instanceof ObjectTypeAdapter)) {
             adapter.write(jsonWriter, obj);
-            return;
+        } else {
+            jsonWriter.beginObject();
+            jsonWriter.endObject();
         }
-        jsonWriter.beginObject();
-        jsonWriter.endObject();
     }
 }

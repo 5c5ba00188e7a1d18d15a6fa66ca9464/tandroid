@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.util;
 
 import java.nio.charset.Charset;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class ParsableBitArray {
     private int bitOffset;

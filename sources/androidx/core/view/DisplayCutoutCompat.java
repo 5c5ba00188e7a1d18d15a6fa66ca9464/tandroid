@@ -5,6 +5,7 @@ import android.os.Build;
 import android.view.DisplayCutout;
 import androidx.core.util.ObjectsCompat;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class DisplayCutoutCompat {
     private final DisplayCutout mDisplayCutout;

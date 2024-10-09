@@ -13,6 +13,7 @@ import j$.util.function.ToLongFunction;
 import j$.util.stream.IntStream;
 import java.util.Comparator;
 import java.util.Iterator;
+
 /* loaded from: classes2.dex */
 public interface Stream<T> extends BaseStream<T, Stream<T>> {
 

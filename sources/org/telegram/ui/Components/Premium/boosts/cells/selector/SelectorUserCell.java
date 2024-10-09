@@ -21,6 +21,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.boosts.cells.BaseCell;
 import org.telegram.ui.Components.StatusBadgeComponent;
+
 /* loaded from: classes3.dex */
 public class SelectorUserCell extends BaseCell {
     private TL_stories.TL_myBoost boost;
@@ -119,12 +120,12 @@ public class SelectorUserCell extends BaseCell {
             this.titleTextView.setAlpha(1.0f);
             this.subtitleTextView.setAlpha(1.0f);
             setCheckboxAlpha(1.0f, false);
-            return;
+        } else {
+            setSubtitle(LocaleController.formatString("BoostingAvailableIn", R.string.BoostingAvailableIn, buildCountDownTime((i * 1000) - System.currentTimeMillis())));
+            this.titleTextView.setAlpha(0.65f);
+            this.subtitleTextView.setAlpha(0.65f);
+            setCheckboxAlpha(0.3f, false);
         }
-        setSubtitle(LocaleController.formatString("BoostingAvailableIn", R.string.BoostingAvailableIn, buildCountDownTime((i * 1000) - System.currentTimeMillis())));
-        this.titleTextView.setAlpha(0.65f);
-        this.subtitleTextView.setAlpha(0.65f);
-        setCheckboxAlpha(0.3f, false);
     }
 
     public void setChat(TLRPC.Chat chat, int i) {
@@ -175,10 +176,10 @@ public class SelectorUserCell extends BaseCell {
     public void setOptions(View.OnClickListener onClickListener) {
         if (onClickListener == null) {
             this.optionsView.setVisibility(8);
-            return;
+        } else {
+            this.optionsView.setVisibility(0);
+            this.optionsView.setOnClickListener(onClickListener);
         }
-        this.optionsView.setVisibility(0);
-        this.optionsView.setOnClickListener(onClickListener);
     }
 
     public void setUser(TLRPC.User user) {
@@ -214,10 +215,10 @@ public class SelectorUserCell extends BaseCell {
             this.titleTextView.animate().alpha(1.0f).start();
             this.subtitleTextView.animate().alpha(1.0f).start();
             setCheckboxAlpha(1.0f, true);
-            return;
+        } else {
+            this.titleTextView.setAlpha(1.0f);
+            this.subtitleTextView.setAlpha(1.0f);
+            setCheckboxAlpha(1.0f, false);
         }
-        this.titleTextView.setAlpha(1.0f);
-        this.subtitleTextView.setAlpha(1.0f);
-        setCheckboxAlpha(1.0f, false);
     }
 }

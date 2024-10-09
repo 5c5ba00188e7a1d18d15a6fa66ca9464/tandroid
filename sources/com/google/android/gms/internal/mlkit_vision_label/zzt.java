@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public abstract class zzt {
     public static String zza(String str, Object... objArr) {

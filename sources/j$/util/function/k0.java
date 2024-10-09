@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.ObjIntConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class k0 implements ObjIntConsumer {
     public final /* synthetic */ l0 a;

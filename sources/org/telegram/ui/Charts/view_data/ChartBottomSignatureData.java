@@ -1,6 +1,7 @@
 package org.telegram.ui.Charts.view_data;
 
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes4.dex */
 public class ChartBottomSignatureData {
     public int alpha;

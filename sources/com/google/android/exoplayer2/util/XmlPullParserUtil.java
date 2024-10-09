@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.util;
 
 import org.xmlpull.v1.XmlPullParser;
+
 /* loaded from: classes.dex */
 public abstract class XmlPullParserUtil {
     public static String getAttributeValue(XmlPullParser xmlPullParser, String str) {

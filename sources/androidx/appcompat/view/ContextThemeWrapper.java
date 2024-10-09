@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.view.LayoutInflater;
 import androidx.appcompat.R$style;
+
 /* loaded from: classes.dex */
 public class ContextThemeWrapper extends ContextWrapper {
     private static Configuration sEmptyConfig;
@@ -84,13 +85,13 @@ public class ContextThemeWrapper extends ContextWrapper {
 
     @Override // android.content.ContextWrapper, android.content.Context
     public Object getSystemService(String str) {
-        if ("layout_inflater".equals(str)) {
-            if (this.mInflater == null) {
-                this.mInflater = LayoutInflater.from(getBaseContext()).cloneInContext(this);
-            }
-            return this.mInflater;
+        if (!"layout_inflater".equals(str)) {
+            return getBaseContext().getSystemService(str);
         }
-        return getBaseContext().getSystemService(str);
+        if (this.mInflater == null) {
+            this.mInflater = LayoutInflater.from(getBaseContext()).cloneInContext(this);
+        }
+        return this.mInflater;
     }
 
     @Override // android.content.ContextWrapper, android.content.Context

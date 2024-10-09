@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzed implements zzib {
     private final zzea zza;
@@ -159,7 +160,7 @@ final class zzed implements zzib {
     public final void zzb(int i, Object obj, zzgp zzgpVar) {
         zzea zzeaVar = this.zza;
         zzeaVar.zza(i, 3);
-        zzgpVar.zza((Object) ((zzfz) obj), (zzib) zzeaVar.zza);
+        zzgpVar.zza(obj, (zzib) zzeaVar.zza);
         zzeaVar.zza(i, 4);
     }
 

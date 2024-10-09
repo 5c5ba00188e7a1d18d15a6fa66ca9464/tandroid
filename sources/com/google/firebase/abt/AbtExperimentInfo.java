@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class AbtExperimentInfo {
     private static final String[] ALL_REQUIRED_KEYS = {"experimentId", "experimentStartTime", "timeToLiveMillis", "triggerTimeoutMillis", "variantId"};
@@ -42,7 +43,6 @@ public class AbtExperimentInfo {
     }
 
     private static void validateExperimentInfoMap(Map map) {
-        String[] strArr;
         ArrayList arrayList = new ArrayList();
         for (String str : ALL_REQUIRED_KEYS) {
             if (!map.containsKey(str)) {

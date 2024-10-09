@@ -7,6 +7,7 @@ import android.content.pm.Signature;
 import android.util.Log;
 import com.google.android.gms.common.internal.Preconditions;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class GoogleSignatureVerifier {
     private static GoogleSignatureVerifier zza;

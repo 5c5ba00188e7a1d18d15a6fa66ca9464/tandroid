@@ -17,6 +17,7 @@ import java.util.function.DoubleUnaryOperator;
 import java.util.function.ObjDoubleConsumer;
 import java.util.function.Supplier;
 import java.util.stream.DoubleStream;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class C implements DoubleStream {
     public final /* synthetic */ D a;

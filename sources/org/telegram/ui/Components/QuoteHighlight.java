@@ -11,6 +11,7 @@ import android.view.ViewParent;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MessageObject;
+
 /* loaded from: classes3.dex */
 public class QuoteHighlight extends Path {
     private float currentOffsetX;
@@ -123,6 +124,7 @@ public class QuoteHighlight extends Path {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Multi-variable type inference failed */
     public static /* synthetic */ void lambda$new$0(View view, ViewParent viewParent) {
         if (view != null) {
             view.invalidate();

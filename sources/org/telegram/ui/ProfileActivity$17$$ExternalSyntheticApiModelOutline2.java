@@ -1,6 +1,7 @@
 package org.telegram.ui;
 
 import android.os.Build;
+
 /* loaded from: classes4.dex */
 public abstract /* synthetic */ class ProfileActivity$17$$ExternalSyntheticApiModelOutline2 {
     public static /* bridge */ /* synthetic */ int m() {

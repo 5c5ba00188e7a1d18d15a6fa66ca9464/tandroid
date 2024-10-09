@@ -5,6 +5,7 @@ import androidx.arch.core.internal.SafeIterableMap;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LiveData.ObserverWrapper;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class LiveData {
     static final Object NOT_SET = new Object();
@@ -178,7 +179,10 @@ public abstract class LiveData {
         this.mDispatchingValue = true;
         do {
             this.mDispatchInvalidated = false;
-            if (observerWrapper == null) {
+            if (observerWrapper != null) {
+                considerNotify(observerWrapper);
+                observerWrapper = null;
+            } else {
                 SafeIterableMap.IteratorWithAdditions iteratorWithAdditions = this.mObservers.iteratorWithAdditions();
                 while (iteratorWithAdditions.hasNext()) {
                     considerNotify((ObserverWrapper) ((Map.Entry) iteratorWithAdditions.next()).getValue());
@@ -186,9 +190,6 @@ public abstract class LiveData {
                         break;
                     }
                 }
-            } else {
-                considerNotify(observerWrapper);
-                observerWrapper = null;
             }
         } while (this.mDispatchInvalidated);
         this.mDispatchingValue = false;

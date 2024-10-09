@@ -2,6 +2,7 @@ package org.webrtc;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class MediaConstraints {
     public final List<KeyValuePair> mandatory = new ArrayList();

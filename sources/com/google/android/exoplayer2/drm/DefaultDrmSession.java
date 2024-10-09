@@ -25,9 +25,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class DefaultDrmSession implements DrmSession {
@@ -83,63 +85,63 @@ public class DefaultDrmSession implements DrmSession {
 
         private boolean maybeRetryRequest(Message message, MediaDrmCallbackException mediaDrmCallbackException) {
             RequestTask requestTask = (RequestTask) message.obj;
-            if (requestTask.allowRetry) {
-                int i = requestTask.errorCount + 1;
-                requestTask.errorCount = i;
-                if (i > DefaultDrmSession.this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(3)) {
-                    return false;
-                }
-                long retryDelayMsFor = DefaultDrmSession.this.loadErrorHandlingPolicy.getRetryDelayMsFor(new LoadErrorHandlingPolicy.LoadErrorInfo(new LoadEventInfo(requestTask.taskId, mediaDrmCallbackException.dataSpec, mediaDrmCallbackException.uriAfterRedirects, mediaDrmCallbackException.responseHeaders, SystemClock.elapsedRealtime(), SystemClock.elapsedRealtime() - requestTask.startTimeMs, mediaDrmCallbackException.bytesLoaded), new MediaLoadData(3), mediaDrmCallbackException.getCause() instanceof IOException ? (IOException) mediaDrmCallbackException.getCause() : new UnexpectedDrmSessionException(mediaDrmCallbackException.getCause()), requestTask.errorCount));
-                if (retryDelayMsFor == -9223372036854775807L) {
-                    return false;
-                }
-                synchronized (this) {
-                    try {
-                        if (this.isReleased) {
-                            return false;
-                        }
-                        sendMessageDelayed(Message.obtain(message), retryDelayMsFor);
-                        return true;
-                    } catch (Throwable th) {
-                        throw th;
+            if (!requestTask.allowRetry) {
+                return false;
+            }
+            int i = requestTask.errorCount + 1;
+            requestTask.errorCount = i;
+            if (i > DefaultDrmSession.this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(3)) {
+                return false;
+            }
+            long retryDelayMsFor = DefaultDrmSession.this.loadErrorHandlingPolicy.getRetryDelayMsFor(new LoadErrorHandlingPolicy.LoadErrorInfo(new LoadEventInfo(requestTask.taskId, mediaDrmCallbackException.dataSpec, mediaDrmCallbackException.uriAfterRedirects, mediaDrmCallbackException.responseHeaders, SystemClock.elapsedRealtime(), SystemClock.elapsedRealtime() - requestTask.startTimeMs, mediaDrmCallbackException.bytesLoaded), new MediaLoadData(3), mediaDrmCallbackException.getCause() instanceof IOException ? (IOException) mediaDrmCallbackException.getCause() : new UnexpectedDrmSessionException(mediaDrmCallbackException.getCause()), requestTask.errorCount));
+            if (retryDelayMsFor == -9223372036854775807L) {
+                return false;
+            }
+            synchronized (this) {
+                try {
+                    if (this.isReleased) {
+                        return false;
                     }
+                    sendMessageDelayed(Message.obtain(message), retryDelayMsFor);
+                    return true;
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
-            return false;
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r1v0, types: [java.lang.Throwable, java.lang.Exception] */
         @Override // android.os.Handler
         public void handleMessage(Message message) {
-            byte[] bArr;
+            Throwable th;
             RequestTask requestTask = (RequestTask) message.obj;
             try {
                 int i = message.what;
                 if (i == 0) {
                     DefaultDrmSession defaultDrmSession = DefaultDrmSession.this;
-                    bArr = defaultDrmSession.callback.executeProvisionRequest(defaultDrmSession.uuid, (ExoMediaDrm.ProvisionRequest) requestTask.request);
-                } else if (i != 1) {
-                    throw new RuntimeException();
+                    th = defaultDrmSession.callback.executeProvisionRequest(defaultDrmSession.uuid, (ExoMediaDrm.ProvisionRequest) requestTask.request);
                 } else {
+                    if (i != 1) {
+                        throw new RuntimeException();
+                    }
                     DefaultDrmSession defaultDrmSession2 = DefaultDrmSession.this;
-                    bArr = defaultDrmSession2.callback.executeKeyRequest(defaultDrmSession2.uuid, (ExoMediaDrm.KeyRequest) requestTask.request);
+                    th = defaultDrmSession2.callback.executeKeyRequest(defaultDrmSession2.uuid, (ExoMediaDrm.KeyRequest) requestTask.request);
                 }
             } catch (MediaDrmCallbackException e) {
                 boolean maybeRetryRequest = maybeRetryRequest(message, e);
-                bArr = e;
+                th = e;
                 if (maybeRetryRequest) {
                     return;
                 }
             } catch (Exception e2) {
                 Log.w("DefaultDrmSession", "Key/provisioning request produced an unexpected exception. Not retrying.", e2);
-                bArr = e2;
+                th = e2;
             }
             DefaultDrmSession.this.loadErrorHandlingPolicy.onLoadTaskConcluded(requestTask.taskId);
             synchronized (this) {
                 try {
                     if (!this.isReleased) {
-                        DefaultDrmSession.this.responseHandler.obtainMessage(message.what, Pair.create(requestTask.request, bArr)).sendToTarget();
+                        DefaultDrmSession.this.responseHandler.obtainMessage(message.what, Pair.create(requestTask.request, th)).sendToTarget();
                     }
                 } finally {
                 }
@@ -187,8 +189,10 @@ public class DefaultDrmSession implements DrmSession {
             int i = message.what;
             if (i == 0) {
                 DefaultDrmSession.this.onProvisionResponse(obj, obj2);
-            } else if (i != 1) {
             } else {
+                if (i != 1) {
+                    return;
+                }
                 DefaultDrmSession.this.onKeyResponse(obj, obj2);
             }
         }
@@ -230,8 +234,9 @@ public class DefaultDrmSession implements DrmSession {
     }
 
     private void dispatchEvent(Consumer consumer) {
-        for (DrmSessionEventListener.EventDispatcher eventDispatcher : this.eventDispatchers.elementSet()) {
-            consumer.accept(eventDispatcher);
+        Iterator it = this.eventDispatchers.elementSet().iterator();
+        while (it.hasNext()) {
+            consumer.accept((DrmSessionEventListener.EventDispatcher) it.next());
         }
     }
 
@@ -245,15 +250,16 @@ public class DefaultDrmSession implements DrmSession {
             if (this.offlineLicenseKeySetId == null) {
                 postKeyRequest(bArr, 1, z);
                 return;
-            } else if (this.state != 4 && !restoreKeys()) {
+            }
+            if (this.state != 4 && !restoreKeys()) {
                 return;
-            } else {
-                long licenseDurationRemainingSec = getLicenseDurationRemainingSec();
-                if (this.mode != 0 || licenseDurationRemainingSec > 60) {
-                    if (licenseDurationRemainingSec <= 0) {
-                        onError(new KeysExpiredException(), 2);
-                        return;
-                    }
+            }
+            long licenseDurationRemainingSec = getLicenseDurationRemainingSec();
+            if (this.mode != 0 || licenseDurationRemainingSec > 60) {
+                if (licenseDurationRemainingSec <= 0) {
+                    onError(new KeysExpiredException(), 2);
+                    return;
+                } else {
                     this.state = 4;
                     dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda1
                         @Override // com.google.android.exoplayer2.util.Consumer
@@ -263,28 +269,31 @@ public class DefaultDrmSession implements DrmSession {
                     });
                     return;
                 }
-                Log.d("DefaultDrmSession", "Offline license has expired or will expire soon. Remaining seconds: " + licenseDurationRemainingSec);
             }
-        } else if (i != 2) {
-            if (i != 3) {
+            Log.d("DefaultDrmSession", "Offline license has expired or will expire soon. Remaining seconds: " + licenseDurationRemainingSec);
+        } else {
+            if (i != 2) {
+                if (i != 3) {
+                    return;
+                }
+                Assertions.checkNotNull(this.offlineLicenseKeySetId);
+                Assertions.checkNotNull(this.sessionId);
+                postKeyRequest(this.offlineLicenseKeySetId, 3, z);
                 return;
             }
-            Assertions.checkNotNull(this.offlineLicenseKeySetId);
-            Assertions.checkNotNull(this.sessionId);
-            postKeyRequest(this.offlineLicenseKeySetId, 3, z);
-            return;
-        } else if (this.offlineLicenseKeySetId != null && !restoreKeys()) {
-            return;
+            if (this.offlineLicenseKeySetId != null && !restoreKeys()) {
+                return;
+            }
         }
         postKeyRequest(bArr, 2, z);
     }
 
     private long getLicenseDurationRemainingSec() {
-        if (C.WIDEVINE_UUID.equals(this.uuid)) {
-            Pair pair = (Pair) Assertions.checkNotNull(WidevineUtil.getLicenseDurationRemainingSec(this));
-            return Math.min(((Long) pair.first).longValue(), ((Long) pair.second).longValue());
+        if (!C.WIDEVINE_UUID.equals(this.uuid)) {
+            return Long.MAX_VALUE;
         }
-        return Long.MAX_VALUE;
+        Pair pair = (Pair) Assertions.checkNotNull(WidevineUtil.getLicenseDurationRemainingSec(this));
+        return Math.min(((Long) pair.first).longValue(), ((Long) pair.second).longValue());
     }
 
     private boolean isOpen() {
@@ -389,11 +398,12 @@ public class DefaultDrmSession implements DrmSession {
             this.sessionId = openSession;
             this.mediaDrm.setPlayerIdForSession(openSession, this.playerId);
             this.cryptoConfig = this.mediaDrm.createCryptoConfig(this.sessionId);
+            final int i = 3;
             this.state = 3;
             dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda0
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
-                    ((DrmSessionEventListener.EventDispatcher) obj).drmSessionAcquired(r1);
+                    ((DrmSessionEventListener.EventDispatcher) obj).drmSessionAcquired(i);
                 }
             });
             Assertions.checkNotNull(this.sessionId);

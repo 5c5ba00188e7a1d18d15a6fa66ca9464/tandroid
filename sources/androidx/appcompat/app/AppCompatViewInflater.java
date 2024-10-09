@@ -1,5 +1,6 @@
 package androidx.appcompat.app;
 
+import android.R;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.TypedArray;
@@ -29,14 +30,15 @@ import androidx.core.view.ViewCompat;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public class AppCompatViewInflater {
     private final Object[] mConstructorArgs = new Object[2];
     private static final Class[] sConstructorSignature = {Context.class, AttributeSet.class};
-    private static final int[] sOnClickAttrs = {16843375};
-    private static final int[] sAccessibilityHeading = {16844160};
-    private static final int[] sAccessibilityPaneTitle = {16844156};
-    private static final int[] sScreenReaderFocusable = {16844148};
+    private static final int[] sOnClickAttrs = {R.attr.onClick};
+    private static final int[] sAccessibilityHeading = {R.attr.accessibilityHeading};
+    private static final int[] sAccessibilityPaneTitle = {R.attr.accessibilityPaneTitle};
+    private static final int[] sScreenReaderFocusable = {R.attr.screenReaderFocusable};
     private static final String[] sClassPrefixList = {"android.widget.", "android.view.", "android.webkit."};
     private static final SimpleArrayMap sConstructorMap = new SimpleArrayMap();
 
@@ -54,7 +56,6 @@ public class AppCompatViewInflater {
         }
 
         private void resolveMethod(Context context) {
-            int id;
             String str;
             Method method;
             while (context != null) {
@@ -68,7 +69,8 @@ public class AppCompatViewInflater {
                 }
                 context = context instanceof ContextWrapper ? ((ContextWrapper) context).getBaseContext() : null;
             }
-            if (this.mHostView.getId() == -1) {
+            int id = this.mHostView.getId();
+            if (id == -1) {
                 str = "";
             } else {
                 str = " with id '" + this.mHostView.getContext().getResources().getResourceEntryName(id) + "'";

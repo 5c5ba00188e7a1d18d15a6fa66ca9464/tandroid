@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class zzii extends zzhq {
     private static final Logger zzb = Logger.getLogger(zzii.class.getName());
@@ -210,57 +211,59 @@ public abstract class zzii extends zzhq {
                 int i3 = this.zze;
                 this.zze = i3 + 1;
                 bArr2[i3] = (byte) i;
-            } else if ((i & (-128)) == 0) {
+                return;
+            }
+            if ((i & (-128)) == 0) {
                 byte[] bArr3 = this.zzb;
                 int i4 = this.zze;
                 this.zze = 1 + i4;
                 zzma.zza(bArr3, i4, (byte) i);
-            } else {
-                byte[] bArr4 = this.zzb;
-                int i5 = this.zze;
-                this.zze = i5 + 1;
-                zzma.zza(bArr4, i5, (byte) (i | 128));
-                int i6 = i >>> 7;
-                if ((i6 & (-128)) == 0) {
-                    byte[] bArr5 = this.zzb;
-                    int i7 = this.zze;
-                    this.zze = 1 + i7;
-                    zzma.zza(bArr5, i7, (byte) i6);
-                    return;
-                }
-                byte[] bArr6 = this.zzb;
-                int i8 = this.zze;
-                this.zze = i8 + 1;
-                zzma.zza(bArr6, i8, (byte) (i6 | 128));
-                int i9 = i >>> 14;
-                if ((i9 & (-128)) == 0) {
-                    byte[] bArr7 = this.zzb;
-                    int i10 = this.zze;
-                    this.zze = 1 + i10;
-                    zzma.zza(bArr7, i10, (byte) i9);
-                    return;
-                }
-                byte[] bArr8 = this.zzb;
-                int i11 = this.zze;
-                this.zze = i11 + 1;
-                zzma.zza(bArr8, i11, (byte) (i9 | 128));
-                int i12 = i >>> 21;
-                if ((i12 & (-128)) == 0) {
-                    byte[] bArr9 = this.zzb;
-                    int i13 = this.zze;
-                    this.zze = 1 + i13;
-                    zzma.zza(bArr9, i13, (byte) i12);
-                    return;
-                }
-                byte[] bArr10 = this.zzb;
-                int i14 = this.zze;
-                this.zze = i14 + 1;
-                zzma.zza(bArr10, i14, (byte) (i12 | 128));
-                byte[] bArr11 = this.zzb;
-                int i15 = this.zze;
-                this.zze = 1 + i15;
-                zzma.zza(bArr11, i15, (byte) (i >>> 28));
+                return;
             }
+            byte[] bArr4 = this.zzb;
+            int i5 = this.zze;
+            this.zze = i5 + 1;
+            zzma.zza(bArr4, i5, (byte) (i | 128));
+            int i6 = i >>> 7;
+            if ((i6 & (-128)) == 0) {
+                byte[] bArr5 = this.zzb;
+                int i7 = this.zze;
+                this.zze = 1 + i7;
+                zzma.zza(bArr5, i7, (byte) i6);
+                return;
+            }
+            byte[] bArr6 = this.zzb;
+            int i8 = this.zze;
+            this.zze = i8 + 1;
+            zzma.zza(bArr6, i8, (byte) (i6 | 128));
+            int i9 = i >>> 14;
+            if ((i9 & (-128)) == 0) {
+                byte[] bArr7 = this.zzb;
+                int i10 = this.zze;
+                this.zze = 1 + i10;
+                zzma.zza(bArr7, i10, (byte) i9);
+                return;
+            }
+            byte[] bArr8 = this.zzb;
+            int i11 = this.zze;
+            this.zze = i11 + 1;
+            zzma.zza(bArr8, i11, (byte) (i9 | 128));
+            int i12 = i >>> 21;
+            if ((i12 & (-128)) == 0) {
+                byte[] bArr9 = this.zzb;
+                int i13 = this.zze;
+                this.zze = 1 + i13;
+                zzma.zza(bArr9, i13, (byte) i12);
+                return;
+            }
+            byte[] bArr10 = this.zzb;
+            int i14 = this.zze;
+            this.zze = i14 + 1;
+            zzma.zza(bArr10, i14, (byte) (i12 | 128));
+            byte[] bArr11 = this.zzb;
+            int i15 = this.zze;
+            this.zze = 1 + i15;
+            zzma.zza(bArr11, i15, (byte) (i >>> 28));
         }
 
         @Override // com.google.android.gms.internal.vision.zzii

@@ -15,6 +15,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public final class SubripDecoder extends SimpleSubtitleDecoder {
     private final ArrayList tags;
@@ -195,16 +196,16 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
     }
 
     static float getFractionalPositionForAnchorType(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i == 2) {
-                    return 0.92f;
-                }
-                throw new IllegalArgumentException();
-            }
+        if (i == 0) {
+            return 0.08f;
+        }
+        if (i == 1) {
             return 0.5f;
         }
-        return 0.08f;
+        if (i == 2) {
+            return 0.92f;
+        }
+        throw new IllegalArgumentException();
     }
 
     private static long parseTimecode(Matcher matcher, int i) {
@@ -247,7 +248,8 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
             int i2 = 0;
             if (readLine == null) {
                 break;
-            } else if (readLine.length() != 0) {
+            }
+            if (readLine.length() != 0) {
                 try {
                     Integer.parseInt(readLine);
                     readLine = parsableByteArray.readLine(detectUtfCharset);

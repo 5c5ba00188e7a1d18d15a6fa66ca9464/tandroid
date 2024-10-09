@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class LatLngBounds extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<LatLngBounds> CREATOR = new zzf();
@@ -61,11 +62,11 @@ public final class LatLngBounds extends AbstractSafeParcelable implements Reflec
         if (this == obj) {
             return true;
         }
-        if (obj instanceof LatLngBounds) {
-            LatLngBounds latLngBounds = (LatLngBounds) obj;
-            return this.southwest.equals(latLngBounds.southwest) && this.northeast.equals(latLngBounds.northeast);
+        if (!(obj instanceof LatLngBounds)) {
+            return false;
         }
-        return false;
+        LatLngBounds latLngBounds = (LatLngBounds) obj;
+        return this.southwest.equals(latLngBounds.southwest) && this.northeast.equals(latLngBounds.northeast);
     }
 
     public LatLng getCenter() {

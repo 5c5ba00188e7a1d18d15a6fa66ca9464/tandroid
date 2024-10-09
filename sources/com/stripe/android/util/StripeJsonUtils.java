@@ -1,6 +1,7 @@
 package com.stripe.android.util;
 
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public abstract class StripeJsonUtils {
     public static String getString(JSONObject jSONObject, String str) {

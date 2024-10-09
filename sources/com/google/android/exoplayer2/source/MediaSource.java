@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.drm.DrmSessionManagerProvider;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.TransferListener;
+
 /* loaded from: classes.dex */
 public interface MediaSource {
 
@@ -72,11 +73,11 @@ public interface MediaSource {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof MediaPeriodId) {
-                MediaPeriodId mediaPeriodId = (MediaPeriodId) obj;
-                return this.periodUid.equals(mediaPeriodId.periodUid) && this.adGroupIndex == mediaPeriodId.adGroupIndex && this.adIndexInAdGroup == mediaPeriodId.adIndexInAdGroup && this.windowSequenceNumber == mediaPeriodId.windowSequenceNumber && this.nextAdGroupIndex == mediaPeriodId.nextAdGroupIndex;
+            if (!(obj instanceof MediaPeriodId)) {
+                return false;
             }
-            return false;
+            MediaPeriodId mediaPeriodId = (MediaPeriodId) obj;
+            return this.periodUid.equals(mediaPeriodId.periodUid) && this.adGroupIndex == mediaPeriodId.adGroupIndex && this.adIndexInAdGroup == mediaPeriodId.adIndexInAdGroup && this.windowSequenceNumber == mediaPeriodId.windowSequenceNumber && this.nextAdGroupIndex == mediaPeriodId.nextAdGroupIndex;
         }
 
         public int hashCode() {

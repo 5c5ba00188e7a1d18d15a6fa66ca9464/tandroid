@@ -3,6 +3,7 @@ package org.telegram.ui.Components;
 import java.util.ArrayList;
 import java.util.Objects;
 import org.telegram.ui.ActionBar.ThemeDescription;
+
 /* loaded from: classes3.dex */
 public abstract class SimpleThemeDescription {
     public static void add(ArrayList arrayList, final Runnable runnable, int... iArr) {

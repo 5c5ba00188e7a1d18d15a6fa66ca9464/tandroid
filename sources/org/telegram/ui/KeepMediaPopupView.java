@@ -22,6 +22,7 @@ import org.telegram.ui.Components.AvatarsImageView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.DialogsActivity;
+
 /* loaded from: classes4.dex */
 public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindowLayout {
     private final CacheByChatsController cacheByChatsController;
@@ -106,6 +107,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         }
     }
 
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public KeepMediaPopupView(final BaseFragment baseFragment, Context context) {
         super(context, null);
         this.checkItems = new ArrayList();

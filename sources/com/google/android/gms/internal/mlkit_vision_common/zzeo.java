@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_common;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
+
 /* loaded from: classes.dex */
 final class zzeo implements ObjectEncoder {
     private static final FieldDescriptor zzA;

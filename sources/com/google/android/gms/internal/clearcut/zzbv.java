@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzbv extends zzbu {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -37,12 +38,12 @@ final class zzbv extends zzbu {
     @Override // com.google.android.gms.internal.clearcut.zzbu
     public final zzby zzb(Object obj) {
         zzby zza = zza(obj);
-        if (zza.isImmutable()) {
-            zzby zzbyVar = (zzby) zza.clone();
-            zza(obj, zzbyVar);
-            return zzbyVar;
+        if (!zza.isImmutable()) {
+            return zza;
         }
-        return zza;
+        zzby zzbyVar = (zzby) zza.clone();
+        zza(obj, zzbyVar);
+        return zzbyVar;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

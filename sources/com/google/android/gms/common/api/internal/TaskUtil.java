@@ -3,6 +3,7 @@ package com.google.android.gms.common.api.internal;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.ApiExceptionUtil;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 public abstract class TaskUtil {
     public static void setResultOrApiException(Status status, TaskCompletionSource taskCompletionSource) {

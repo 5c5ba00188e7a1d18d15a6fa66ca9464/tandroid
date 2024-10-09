@@ -4,6 +4,7 @@ import com.google.android.gms.common.internal.Preconditions;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 public class NumberedThreadFactory implements ThreadFactory {
     private final String zza;
@@ -18,9 +19,7 @@ public class NumberedThreadFactory implements ThreadFactory {
     @Override // java.util.concurrent.ThreadFactory
     public final Thread newThread(Runnable runnable) {
         Thread newThread = this.zzc.newThread(new zza(runnable, 0));
-        String str = this.zza;
-        int andIncrement = this.zzb.getAndIncrement();
-        newThread.setName(str + "[" + andIncrement + "]");
+        newThread.setName(this.zza + "[" + this.zzb.getAndIncrement() + "]");
         return newThread;
     }
 }

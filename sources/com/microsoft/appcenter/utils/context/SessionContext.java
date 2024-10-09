@@ -2,12 +2,14 @@ package com.microsoft.appcenter.utils.context;
 
 import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public class SessionContext {
     private static SessionContext sInstance;
@@ -88,8 +90,9 @@ public class SessionContext {
                 this.mSessions.pollFirstEntry();
             }
             LinkedHashSet linkedHashSet = new LinkedHashSet();
-            for (SessionInfo sessionInfo : this.mSessions.values()) {
-                linkedHashSet.add(sessionInfo.toString());
+            Iterator it = this.mSessions.values().iterator();
+            while (it.hasNext()) {
+                linkedHashSet.add(((SessionInfo) it.next()).toString());
             }
             SharedPreferencesManager.putStringSet("sessions", linkedHashSet);
         } catch (Throwable th) {
@@ -104,9 +107,9 @@ public class SessionContext {
 
     public synchronized SessionInfo getSessionAt(long j) {
         Map.Entry floorEntry = this.mSessions.floorEntry(Long.valueOf(j));
-        if (floorEntry != null) {
-            return (SessionInfo) floorEntry.getValue();
+        if (floorEntry == null) {
+            return null;
         }
-        return null;
+        return (SessionInfo) floorEntry.getValue();
     }
 }

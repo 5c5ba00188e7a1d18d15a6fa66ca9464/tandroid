@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_common;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.firebase.encoders.json.JsonDataEncoderBuilder;
 import java.io.UnsupportedEncodingException;
+
 /* loaded from: classes.dex */
 public final class zzmk implements zzmb {
     private final zziw zza;

@@ -24,21 +24,23 @@ import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
+
 /* loaded from: classes3.dex */
 public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
-    /* JADX WARN: Removed duplicated region for block: B:107:0x02ba  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x031b  */
-    /* JADX WARN: Removed duplicated region for block: B:132:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0071 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0088  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0128  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x01b4  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0243  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x024d  */
+    /* JADX WARN: Failed to find 'out' block for switch in B:37:0x0123. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0071 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x0105  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0088  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0114  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0128  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x01b4  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0231  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0243  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0248  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x024d  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x02ba  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x031b  */
+    /* JADX WARN: Removed duplicated region for block: B:96:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -75,13 +77,13 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                 }
                 TLRPC.StickerSet stickerSet4 = stickerSet;
                 if (document2 != null) {
-                    TLRPC.PhotoSize closestPhotoSizeWithSize = stickerSet4 != null ? FileLoader.getClosestPhotoSizeWithSize(stickerSet4.thumbs, 90) : null;
+                    TLObject closestPhotoSizeWithSize = stickerSet4 != null ? FileLoader.getClosestPhotoSizeWithSize(stickerSet4.thumbs, 90) : null;
                     closestPhotoSizeWithSize = closestPhotoSizeWithSize == null ? document2 : closestPhotoSizeWithSize;
                     boolean z2 = closestPhotoSizeWithSize instanceof TLRPC.Document;
                     if (z2) {
                         forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(document2.thumbs, 90), document2);
                     } else {
-                        TLRPC.PhotoSize photoSize = closestPhotoSizeWithSize;
+                        TLRPC.PhotoSize photoSize = (TLRPC.PhotoSize) closestPhotoSizeWithSize;
                         if (tLObject instanceof TLRPC.StickerSetCovered) {
                             stickerSet2 = ((TLRPC.StickerSetCovered) tLObject).set;
                         } else if (z) {
@@ -252,9 +254,10 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                 arrayList = stickerSetCovered.covers;
                 document3 = arrayList.get(0);
             }
-        } else if (document == null && tLObject != null && BuildVars.DEBUG_VERSION) {
-            throw new IllegalArgumentException("Invalid type of the given setObject: " + tLObject.getClass());
         } else {
+            if (document == null && tLObject != null && BuildVars.DEBUG_VERSION) {
+                throw new IllegalArgumentException("Invalid type of the given setObject: " + tLObject.getClass());
+            }
             document2 = document;
             stickerSet = null;
             if (stickerSet == null) {

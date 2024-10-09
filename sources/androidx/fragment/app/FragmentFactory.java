@@ -2,6 +2,7 @@ package androidx.fragment.app;
 
 import androidx.collection.SimpleArrayMap;
 import androidx.fragment.app.Fragment;
+
 /* loaded from: classes.dex */
 public abstract class FragmentFactory {
     private static final SimpleArrayMap sClassCacheMap = new SimpleArrayMap();
@@ -23,12 +24,12 @@ public abstract class FragmentFactory {
             simpleArrayMap.put(classLoader, simpleArrayMap2);
         }
         Class cls = (Class) simpleArrayMap2.get(str);
-        if (cls == null) {
-            Class<?> cls2 = Class.forName(str, false, classLoader);
-            simpleArrayMap2.put(str, cls2);
-            return cls2;
+        if (cls != null) {
+            return cls;
         }
-        return cls;
+        Class<?> cls2 = Class.forName(str, false, classLoader);
+        simpleArrayMap2.put(str, cls2);
+        return cls2;
     }
 
     public static Class loadFragmentClass(ClassLoader classLoader, String str) {

@@ -8,6 +8,7 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.TimeZone;
+
 /* loaded from: classes2.dex */
 public final class ZoneRules implements Serializable {
     private static final long[] h = new long[0];
@@ -44,6 +45,7 @@ public final class ZoneRules implements Serializable {
         this.f = timeZone;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     private a[] a(int i2) {
         long j2;
         Integer valueOf = Integer.valueOf(i2);
@@ -152,75 +154,77 @@ public final class ZoneRules implements Serializable {
         TimeZone timeZone = this.f;
         if (timeZone == null) {
             return this.c.length == 0;
-        } else if (timeZone.useDaylightTime() || timeZone.getDSTSavings() != 0) {
+        }
+        if (timeZone.useDaylightTime() || timeZone.getDSTSavings() != 0) {
             return false;
-        } else {
-            Instant now = Instant.now();
-            long i2 = now.i();
-            if (now.j() > 0 && i2 < Long.MAX_VALUE) {
-                i2++;
-            }
-            int b = b(i2, getOffset(now));
-            a[] a = a(b);
-            int length = a.length - 1;
-            while (true) {
-                if (length < 0) {
-                    if (b > 1800) {
-                        a[] a2 = a(b - 1);
-                        int length2 = a2.length - 1;
-                        while (true) {
-                            if (length2 < 0) {
-                                int offset = timeZone.getOffset((i2 - 1) * 1000);
-                                long s = LocalDate.of(1800, 1, 1).s() * 86400;
-                                for (long min = Math.min(i2 - 31104000, (j$.time.b.b().a() / 1000) + 31968000); s <= min; min -= 7776000) {
-                                    int offset2 = timeZone.getOffset(min * 1000);
-                                    if (offset != offset2) {
-                                        int b2 = b(min, f(offset2));
-                                        a[] a3 = a(b2 + 1);
-                                        int length3 = a3.length - 1;
-                                        while (true) {
-                                            if (length3 < 0) {
-                                                a[] a4 = a(b2);
-                                                aVar = a4[a4.length - 1];
-                                                break;
-                                            } else if (i2 > a3[length3].c()) {
-                                                aVar = a3[length3];
-                                                break;
-                                            } else {
-                                                length3--;
-                                            }
+        }
+        Instant now = Instant.now();
+        long i2 = now.i();
+        if (now.j() > 0 && i2 < Long.MAX_VALUE) {
+            i2++;
+        }
+        int b = b(i2, getOffset(now));
+        a[] a = a(b);
+        int length = a.length - 1;
+        while (true) {
+            if (length < 0) {
+                if (b > 1800) {
+                    a[] a2 = a(b - 1);
+                    int length2 = a2.length - 1;
+                    while (true) {
+                        if (length2 < 0) {
+                            int offset = timeZone.getOffset((i2 - 1) * 1000);
+                            long s = LocalDate.of(1800, 1, 1).s() * 86400;
+                            for (long min = Math.min(i2 - 31104000, (j$.time.b.b().a() / 1000) + 31968000); s <= min; min -= 7776000) {
+                                int offset2 = timeZone.getOffset(min * 1000);
+                                if (offset != offset2) {
+                                    int b2 = b(min, f(offset2));
+                                    a[] a3 = a(b2 + 1);
+                                    int length3 = a3.length - 1;
+                                    while (true) {
+                                        if (length3 < 0) {
+                                            a[] a4 = a(b2);
+                                            aVar = a4[a4.length - 1];
+                                            break;
                                         }
+                                        if (i2 > a3[length3].c()) {
+                                            aVar = a3[length3];
+                                            break;
+                                        }
+                                        length3--;
                                     }
                                 }
-                            } else if (i2 > a2[length2].c()) {
+                            }
+                        } else {
+                            if (i2 > a2[length2].c()) {
                                 aVar = a2[length2];
                                 break;
-                            } else {
-                                length2--;
                             }
+                            length2--;
                         }
                     }
-                    aVar = null;
-                } else if (i2 > a[length].c()) {
+                }
+                aVar = null;
+            } else {
+                if (i2 > a[length].c()) {
                     aVar = a[length];
                     break;
-                } else {
-                    length--;
                 }
+                length--;
             }
-            return aVar == null;
         }
+        return aVar == null;
     }
 
     public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ZoneRules) {
-            ZoneRules zoneRules = (ZoneRules) obj;
-            return j$.util.a.A(this.f, zoneRules.f) && Arrays.equals(this.a, zoneRules.a) && Arrays.equals(this.b, zoneRules.b) && Arrays.equals(this.c, zoneRules.c) && Arrays.equals(this.d, zoneRules.d) && Arrays.equals(this.e, zoneRules.e);
+        if (!(obj instanceof ZoneRules)) {
+            return false;
         }
-        return false;
+        ZoneRules zoneRules = (ZoneRules) obj;
+        return j$.util.a.A(this.f, zoneRules.f) && Arrays.equals(this.a, zoneRules.a) && Arrays.equals(this.b, zoneRules.b) && Arrays.equals(this.c, zoneRules.c) && Arrays.equals(this.d, zoneRules.d) && Arrays.equals(this.e, zoneRules.e);
     }
 
     public ZoneOffset getOffset(Instant instant) {
@@ -264,8 +268,7 @@ public final class ZoneRules implements Serializable {
             return "ZoneRules[timeZone=" + timeZone.getID() + "]";
         }
         StringBuilder sb = new StringBuilder("ZoneRules[currentStandardOffset=");
-        ZoneOffset[] zoneOffsetArr = this.b;
-        sb.append(zoneOffsetArr[zoneOffsetArr.length - 1]);
+        sb.append(this.b[r2.length - 1]);
         sb.append("]");
         return sb.toString();
     }

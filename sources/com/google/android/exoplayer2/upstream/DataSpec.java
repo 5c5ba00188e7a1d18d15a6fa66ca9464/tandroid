@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class DataSpec {
     public final long absoluteStreamPosition;
@@ -110,10 +111,9 @@ public final class DataSpec {
     private DataSpec(Uri uri, long j, int i, byte[] bArr, Map map, long j2, long j3, String str, int i2, Object obj) {
         byte[] bArr2 = bArr;
         long j4 = j + j2;
-        boolean z = false;
         Assertions.checkArgument(j4 >= 0);
         Assertions.checkArgument(j2 >= 0);
-        Assertions.checkArgument((j3 > 0 || j3 == -1) ? true : true);
+        Assertions.checkArgument(j3 > 0 || j3 == -1);
         this.uri = uri;
         this.uriPositionOffset = j;
         this.httpMethod = i;
@@ -128,16 +128,16 @@ public final class DataSpec {
     }
 
     public static String getStringForHttpMethod(int i) {
-        if (i != 1) {
-            if (i != 2) {
-                if (i == 3) {
-                    return "HEAD";
-                }
-                throw new IllegalStateException();
-            }
+        if (i == 1) {
+            return "GET";
+        }
+        if (i == 2) {
             return "POST";
         }
-        return "GET";
+        if (i == 3) {
+            return "HEAD";
+        }
+        throw new IllegalStateException();
     }
 
     public Builder buildUpon() {

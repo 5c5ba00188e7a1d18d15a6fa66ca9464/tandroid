@@ -4,6 +4,7 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class CodecSpecificDataUtil {
     private static final byte[] NAL_START_CODE = {0, 0, 0, 1};
@@ -78,25 +79,25 @@ public abstract class CodecSpecificDataUtil {
     }
 
     public static byte[][] splitNalUnits(byte[] bArr) {
-        if (isNalStartCode(bArr, 0)) {
-            ArrayList arrayList = new ArrayList();
-            int i = 0;
-            do {
-                arrayList.add(Integer.valueOf(i));
-                i = findNalStartCode(bArr, i + NAL_START_CODE.length);
-            } while (i != -1);
-            byte[][] bArr2 = new byte[arrayList.size()];
-            int i2 = 0;
-            while (i2 < arrayList.size()) {
-                int intValue = ((Integer) arrayList.get(i2)).intValue();
-                int intValue2 = (i2 < arrayList.size() + (-1) ? ((Integer) arrayList.get(i2 + 1)).intValue() : bArr.length) - intValue;
-                byte[] bArr3 = new byte[intValue2];
-                System.arraycopy(bArr, intValue, bArr3, 0, intValue2);
-                bArr2[i2] = bArr3;
-                i2++;
-            }
-            return bArr2;
+        if (!isNalStartCode(bArr, 0)) {
+            return null;
         }
-        return null;
+        ArrayList arrayList = new ArrayList();
+        int i = 0;
+        do {
+            arrayList.add(Integer.valueOf(i));
+            i = findNalStartCode(bArr, i + NAL_START_CODE.length);
+        } while (i != -1);
+        byte[][] bArr2 = new byte[arrayList.size()];
+        int i2 = 0;
+        while (i2 < arrayList.size()) {
+            int intValue = ((Integer) arrayList.get(i2)).intValue();
+            int intValue2 = (i2 < arrayList.size() + (-1) ? ((Integer) arrayList.get(i2 + 1)).intValue() : bArr.length) - intValue;
+            byte[] bArr3 = new byte[intValue2];
+            System.arraycopy(bArr, intValue, bArr3, 0, intValue2);
+            bArr2[i2] = bArr3;
+            i2++;
+        }
+        return bArr2;
     }
 }

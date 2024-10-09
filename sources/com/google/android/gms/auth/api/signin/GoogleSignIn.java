@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.ApiExceptionUtil;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+
 /* loaded from: classes.dex */
 public abstract class GoogleSignIn {
     public static GoogleSignInClient getClient(Context context, GoogleSignInOptions googleSignInOptions) {

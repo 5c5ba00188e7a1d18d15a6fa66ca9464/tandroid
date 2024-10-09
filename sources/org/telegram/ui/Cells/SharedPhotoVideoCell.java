@@ -12,6 +12,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -34,6 +35,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.PhotoViewer;
+
 /* loaded from: classes4.dex */
 public class SharedPhotoVideoCell extends FrameLayout {
     private Paint backgroundPaint;
@@ -163,7 +165,7 @@ public class SharedPhotoVideoCell extends FrameLayout {
             }
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animator = animatorSet2;
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.container, View.SCALE_X, z ? 0.81f : 1.0f), ObjectAnimator.ofFloat(this.container, View.SCALE_Y, z ? 0.81f : 1.0f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.container, (Property<FrameLayout, Float>) View.SCALE_X, z ? 0.81f : 1.0f), ObjectAnimator.ofFloat(this.container, (Property<FrameLayout, Float>) View.SCALE_Y, z ? 0.81f : 1.0f));
             this.animator.setDuration(200L);
             this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.SharedPhotoVideoCell.PhotoVideoView.2
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -325,11 +327,11 @@ public class SharedPhotoVideoCell extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$1(View view) {
-        if (this.delegate != null) {
-            int intValue = ((Integer) view.getTag()).intValue();
-            return this.delegate.didLongClickItem(this, this.indeces[intValue], this.messageObjects[intValue], intValue);
+        if (this.delegate == null) {
+            return false;
         }
-        return false;
+        int intValue = ((Integer) view.getTag()).intValue();
+        return this.delegate.didLongClickItem(this, this.indeces[intValue], this.messageObjects[intValue], intValue);
     }
 
     public SharedPhotoVideoCellDelegate getDelegate() {
@@ -416,11 +418,11 @@ public class SharedPhotoVideoCell extends FrameLayout {
         if (messageObject != null) {
             photoVideoViewArr[i].setVisibility(0);
             this.photoVideoViews[i].setMessageObject(messageObject);
-            return;
+        } else {
+            photoVideoViewArr[i].clearAnimation();
+            this.photoVideoViews[i].setVisibility(4);
+            this.messageObjects[i] = null;
         }
-        photoVideoViewArr[i].clearAnimation();
-        this.photoVideoViews[i].setVisibility(4);
-        this.messageObjects[i] = null;
     }
 
     public void setItemsCount(int i) {
@@ -430,10 +432,11 @@ public class SharedPhotoVideoCell extends FrameLayout {
             if (i2 >= photoVideoViewArr.length) {
                 this.itemsCount = i;
                 return;
+            } else {
+                photoVideoViewArr[i2].clearAnimation();
+                this.photoVideoViews[i2].setVisibility(i2 < i ? 0 : 4);
+                i2++;
             }
-            photoVideoViewArr[i2].clearAnimation();
-            this.photoVideoViews[i2].setVisibility(i2 < i ? 0 : 4);
-            i2++;
         }
     }
 

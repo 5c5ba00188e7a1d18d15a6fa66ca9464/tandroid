@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzea {
@@ -36,14 +37,14 @@ public final class zzea {
     public final zzef zze(Class cls) {
         zzci.zza((Object) cls, "messageType");
         zzef zzefVar = (zzef) this.zzne.get(cls);
-        if (zzefVar == null) {
-            zzef zzd = this.zznd.zzd(cls);
-            zzci.zza((Object) cls, "messageType");
-            zzci.zza((Object) zzd, "schema");
-            zzef zzefVar2 = (zzef) this.zzne.putIfAbsent(cls, zzd);
-            return zzefVar2 != null ? zzefVar2 : zzd;
+        if (zzefVar != null) {
+            return zzefVar;
         }
-        return zzefVar;
+        zzef zzd = this.zznd.zzd(cls);
+        zzci.zza((Object) cls, "messageType");
+        zzci.zza((Object) zzd, "schema");
+        zzef zzefVar2 = (zzef) this.zzne.putIfAbsent(cls, zzd);
+        return zzefVar2 != null ? zzefVar2 : zzd;
     }
 
     public final zzef zzp(Object obj) {

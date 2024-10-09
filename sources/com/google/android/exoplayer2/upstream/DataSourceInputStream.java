@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.upstream;
 
 import com.google.android.exoplayer2.util.Assertions;
 import java.io.InputStream;
+
 /* loaded from: classes.dex */
 public final class DataSourceInputStream extends InputStream {
     private final DataSource dataSource;

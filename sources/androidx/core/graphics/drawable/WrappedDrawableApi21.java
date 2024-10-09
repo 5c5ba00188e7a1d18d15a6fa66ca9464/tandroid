@@ -13,6 +13,7 @@ import android.os.Build;
 import android.util.Log;
 import androidx.appcompat.widget.AppCompatImageHelper$$ExternalSyntheticApiModelOutline0;
 import java.lang.reflect.Method;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
@@ -54,11 +55,11 @@ public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
 
     @Override // androidx.core.graphics.drawable.WrappedDrawableApi14
     protected boolean isCompatTintEnabled() {
-        if (Build.VERSION.SDK_INT == 21) {
-            Drawable drawable = this.mDrawable;
-            return (drawable instanceof GradientDrawable) || (drawable instanceof DrawableContainer) || (drawable instanceof InsetDrawable) || AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(drawable);
+        if (Build.VERSION.SDK_INT != 21) {
+            return false;
         }
-        return false;
+        Drawable drawable = this.mDrawable;
+        return (drawable instanceof GradientDrawable) || (drawable instanceof DrawableContainer) || (drawable instanceof InsetDrawable) || AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(drawable);
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -88,11 +89,11 @@ public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
 
     @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable
     public boolean setState(int[] iArr) {
-        if (super.setState(iArr)) {
-            invalidateSelf();
-            return true;
+        if (!super.setState(iArr)) {
+            return false;
         }
-        return false;
+        invalidateSelf();
+        return true;
     }
 
     @Override // androidx.core.graphics.drawable.WrappedDrawableApi14, android.graphics.drawable.Drawable, androidx.core.graphics.drawable.TintAwareDrawable

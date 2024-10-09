@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.trackselection;
 import com.google.android.exoplayer2.RendererConfiguration;
 import com.google.android.exoplayer2.Tracks;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class TrackSelectorResult {
     public final Object info;

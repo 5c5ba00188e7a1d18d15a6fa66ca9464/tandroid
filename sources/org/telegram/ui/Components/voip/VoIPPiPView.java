@@ -39,6 +39,7 @@ import org.telegram.ui.Components.voip.VoIPPiPView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.VoIPFragment;
 import org.webrtc.EglBase;
+
 /* loaded from: classes3.dex */
 public class VoIPPiPView implements VoIPService.StateListener, NotificationCenter.NotificationCenterDelegate {
     public static int bottomInset = 0;
@@ -263,14 +264,16 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         /* JADX INFO: Access modifiers changed from: private */
         public void getRelativePosition(float[] fArr) {
             Point point = AndroidUtilities.displaySize;
+            float f = point.x;
+            float f2 = point.y;
             VoIPPiPView voIPPiPView = VoIPPiPView.this;
             float left = voIPPiPView.windowLayoutParams.x + voIPPiPView.floatingView.getLeft();
-            float f = this.leftPadding;
-            fArr[0] = (left - f) / (((point.x - f) - this.rightPadding) - VoIPPiPView.this.floatingView.getMeasuredWidth());
+            float f3 = this.leftPadding;
+            fArr[0] = (left - f3) / (((f - f3) - this.rightPadding) - VoIPPiPView.this.floatingView.getMeasuredWidth());
             VoIPPiPView voIPPiPView2 = VoIPPiPView.this;
             float top = voIPPiPView2.windowLayoutParams.y + voIPPiPView2.floatingView.getTop();
-            float f2 = this.topPadding;
-            fArr[1] = (top - f2) / (((point.y - f2) - this.bottomPadding) - VoIPPiPView.this.floatingView.getMeasuredHeight());
+            float f4 = this.topPadding;
+            fArr[1] = (top - f4) / (((f2 - f4) - this.bottomPadding) - VoIPPiPView.this.floatingView.getMeasuredHeight());
             fArr[0] = Math.min(1.0f, Math.max(0.0f, fArr[0]));
             fArr[1] = Math.min(1.0f, Math.max(0.0f, fArr[1]));
         }
@@ -301,11 +304,12 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             }
             animate().cancel();
             showUi(true);
+            final float f2 = 1.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    VoIPPiPView.FloatingView.lambda$expand$0(f, r2, voIPPiPView, valueAnimator);
+                    VoIPPiPView.FloatingView.lambda$expand$0(f, f2, voIPPiPView, valueAnimator);
                 }
             });
             ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIPPiPView.FloatingView.2
@@ -370,19 +374,17 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
 
         @Override // android.view.ViewGroup, android.view.View
         protected void dispatchDraw(Canvas canvas) {
-            VoIPPiPView voIPPiPView = VoIPPiPView.this;
-            voIPPiPView.currentUserTextureView.setPivotX(voIPPiPView.callingUserTextureView.getMeasuredWidth());
-            VoIPPiPView voIPPiPView2 = VoIPPiPView.this;
-            voIPPiPView2.currentUserTextureView.setPivotY(voIPPiPView2.callingUserTextureView.getMeasuredHeight());
+            VoIPPiPView.this.currentUserTextureView.setPivotX(r0.callingUserTextureView.getMeasuredWidth());
+            VoIPPiPView.this.currentUserTextureView.setPivotY(r0.callingUserTextureView.getMeasuredHeight());
             VoIPPiPView.this.currentUserTextureView.setTranslationX((-AndroidUtilities.dp(4.0f)) * (1.0f / getScaleX()) * VoIPPiPView.this.progressToCameraMini);
             VoIPPiPView.this.currentUserTextureView.setTranslationY((-AndroidUtilities.dp(4.0f)) * (1.0f / getScaleY()) * VoIPPiPView.this.progressToCameraMini);
             VoIPPiPView.this.currentUserTextureView.setRoundCorners(AndroidUtilities.dp(8.0f) * (1.0f / getScaleY()) * VoIPPiPView.this.progressToCameraMini);
+            VoIPPiPView voIPPiPView = VoIPPiPView.this;
+            voIPPiPView.currentUserTextureView.setScaleX(((1.0f - voIPPiPView.progressToCameraMini) * 0.6f) + 0.4f);
+            VoIPPiPView voIPPiPView2 = VoIPPiPView.this;
+            voIPPiPView2.currentUserTextureView.setScaleY(((1.0f - voIPPiPView2.progressToCameraMini) * 0.6f) + 0.4f);
             VoIPPiPView voIPPiPView3 = VoIPPiPView.this;
-            voIPPiPView3.currentUserTextureView.setScaleX(((1.0f - voIPPiPView3.progressToCameraMini) * 0.6f) + 0.4f);
-            VoIPPiPView voIPPiPView4 = VoIPPiPView.this;
-            voIPPiPView4.currentUserTextureView.setScaleY(((1.0f - voIPPiPView4.progressToCameraMini) * 0.6f) + 0.4f);
-            VoIPPiPView voIPPiPView5 = VoIPPiPView.this;
-            voIPPiPView5.currentUserTextureView.setAlpha(Math.min(1.0f, 1.0f - voIPPiPView5.progressToCameraMini));
+            voIPPiPView3.currentUserTextureView.setAlpha(Math.min(1.0f, 1.0f - voIPPiPView3.progressToCameraMini));
             super.dispatchDraw(canvas);
         }
 
@@ -395,8 +397,9 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             this.bottomPadding = AndroidUtilities.dp(16.0f);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x0035, code lost:
-            if (r6 != 3) goto L13;
+        /* JADX WARN: Code restructure failed: missing block: B:12:0x0035, code lost:
+        
+            if (r6 != 3) goto L66;
          */
         @Override // android.view.View
         /*
@@ -457,7 +460,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
                     if (z && !ApplicationLoader.mainInterfacePaused) {
                         VoIPFragment.show((Activity) context, VoIPPiPView.this.currentAccount);
                     } else if (z) {
-                        Intent intent = new Intent(context, LaunchActivity.class);
+                        Intent intent = new Intent(context, (Class<?>) LaunchActivity.class);
                         intent.setAction("voip");
                         context.startActivity(intent);
                     }
@@ -685,7 +688,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         if (z && !ApplicationLoader.mainInterfacePaused) {
             VoIPFragment.show((Activity) context, this.currentAccount);
         } else if (z) {
-            Intent intent = new Intent(context, LaunchActivity.class);
+            Intent intent = new Intent(context, (Class<?>) LaunchActivity.class);
             intent.setAction("voip");
             context.startActivity(intent);
         }
@@ -775,7 +778,9 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
         }
         if (!z) {
             this.progressToCameraMini = this.callingUserIsVideo ? 1.0f : 0.0f;
-        } else if (z2 != this.callingUserIsVideo) {
+            return;
+        }
+        if (z2 != this.callingUserIsVideo) {
             ValueAnimator valueAnimator = this.animatorToCameraMini;
             if (valueAnimator != null) {
                 valueAnimator.cancel();

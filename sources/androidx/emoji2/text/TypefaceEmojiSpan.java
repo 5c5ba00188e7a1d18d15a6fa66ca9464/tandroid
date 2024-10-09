@@ -3,6 +3,7 @@ package androidx.emoji2.text;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextPaint;
+
 /* loaded from: classes.dex */
 public final class TypefaceEmojiSpan extends EmojiSpan {
     private static Paint sDebugPaint;

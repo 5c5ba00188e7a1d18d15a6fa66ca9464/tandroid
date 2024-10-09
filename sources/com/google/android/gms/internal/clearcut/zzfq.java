@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.clearcut;
+
 /* loaded from: classes.dex */
 public enum zzfq {
     zzqx(0),
@@ -10,7 +11,7 @@ public enum zzfq {
     zzrd(zzbb.zzfi),
     zzre(null),
     zzrf(null);
-    
+
     private final Object zzlj;
 
     zzfq(Object obj) {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public abstract class SafeParcelableSerializer {
     public static SafeParcelable deserializeFromBytes(byte[] bArr, Parcelable.Creator creator) {

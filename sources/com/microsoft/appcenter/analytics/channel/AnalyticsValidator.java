@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class AnalyticsValidator extends AbstractChannelListener {
     /* JADX WARN: Multi-variable type inference failed */
@@ -71,11 +72,11 @@ public class AnalyticsValidator extends AbstractChannelListener {
 
     private static String validateName(String str, String str2) {
         if (str != null && !str.isEmpty()) {
-            if (str.length() > 256) {
-                AppCenterLog.warn("AppCenterAnalytics", String.format("%s '%s' : name length cannot be longer than %s characters. Name will be truncated.", str2, str, 256));
-                return str.substring(0, 256);
+            if (str.length() <= 256) {
+                return str;
             }
-            return str;
+            AppCenterLog.warn("AppCenterAnalytics", String.format("%s '%s' : name length cannot be longer than %s characters. Name will be truncated.", str2, str, 256));
+            return str.substring(0, 256);
         }
         AppCenterLog.error("AppCenterAnalytics", str2 + " name cannot be null or empty.");
         return null;

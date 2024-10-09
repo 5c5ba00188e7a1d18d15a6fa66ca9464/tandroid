@@ -1,4 +1,5 @@
 package j$.util;
+
 /* loaded from: classes2.dex */
 public interface E extends N {
     void e(j$.util.function.n nVar);

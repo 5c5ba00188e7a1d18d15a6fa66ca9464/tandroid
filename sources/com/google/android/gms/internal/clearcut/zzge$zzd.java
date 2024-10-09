@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
+
 /* loaded from: classes.dex */
 public final class zzge$zzd extends zzcg implements zzdq {
     private static volatile zzdz zzbg;
@@ -34,11 +35,12 @@ public final class zzge$zzd extends zzcg implements zzdq {
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
     public final Object zza(int i, Object obj, Object obj2) {
+        zzgf zzgfVar = null;
         switch (zzgf.zzba[i - 1]) {
             case 1:
                 return new zzge$zzd();
             case 2:
-                return new zza(null);
+                return new zza(zzgfVar);
             case 3:
                 return zzcg.zza(zztx, "\u0001\u0003\u0000\u0001\u0001\u0003\u0003\u0004\u0000\u0000\u0000\u0001\u0004\u0000\u0002\b\u0001\u0003\b\u0002", new Object[]{"zzbb", "zztu", "zztv", "zztw"});
             case 4:

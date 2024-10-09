@@ -2,6 +2,7 @@ package com.google.firebase.messaging;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final /* synthetic */ class FcmBroadcastProcessor$$Lambda$4 implements Continuation {

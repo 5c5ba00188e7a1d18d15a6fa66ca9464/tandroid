@@ -4,6 +4,7 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public interface ChatActivityInterface {
 

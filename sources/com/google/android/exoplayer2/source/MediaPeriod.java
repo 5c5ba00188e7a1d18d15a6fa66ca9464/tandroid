@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.source;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.source.SequenceableLoader;
 import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
+
 /* loaded from: classes.dex */
 public interface MediaPeriod extends SequenceableLoader {
 

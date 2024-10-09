@@ -1,6 +1,7 @@
 package com.google.android.play.core.integrity;
 
 import android.content.Context;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class s {

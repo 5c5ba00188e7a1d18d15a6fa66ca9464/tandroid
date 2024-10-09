@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 final class zzei extends zzeg {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -18,12 +19,12 @@ final class zzei extends zzeg {
     public final /* bridge */ /* synthetic */ Object zzc(Object obj) {
         zzcb zzcbVar = (zzcb) obj;
         zzeh zzehVar = zzcbVar.zzc;
-        if (zzehVar == zzeh.zzc()) {
-            zzeh zzf = zzeh.zzf();
-            zzcbVar.zzc = zzf;
-            return zzf;
+        if (zzehVar != zzeh.zzc()) {
+            return zzehVar;
         }
-        return zzehVar;
+        zzeh zzf = zzeh.zzf();
+        zzcbVar.zzc = zzf;
+        return zzf;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

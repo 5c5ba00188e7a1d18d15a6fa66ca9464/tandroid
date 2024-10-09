@@ -7,6 +7,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Property;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
@@ -17,6 +18,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
+
 /* loaded from: classes4.dex */
 public class TextInfoPrivacyCell extends FrameLayout {
     private int bottomPadding;
@@ -122,7 +124,7 @@ public class TextInfoPrivacyCell extends FrameLayout {
 
     public void setEnabled(boolean z, ArrayList arrayList) {
         if (arrayList != null) {
-            arrayList.add(ObjectAnimator.ofFloat(this.textView, View.ALPHA, z ? 1.0f : 0.5f));
+            arrayList.add(ObjectAnimator.ofFloat(this.textView, (Property<TextView, Float>) View.ALPHA, z ? 1.0f : 0.5f));
         } else {
             this.textView.setAlpha(z ? 1.0f : 0.5f);
         }

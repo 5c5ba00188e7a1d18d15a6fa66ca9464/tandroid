@@ -10,10 +10,11 @@ import com.google.gson.reflect.TypeToken;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
+
 /* loaded from: classes.dex */
 public final class JsonAdapterAnnotationTypeAdapterFactory implements TypeAdapterFactory {
-    private static final TypeAdapterFactory TREE_TYPE_CLASS_DUMMY_FACTORY = new DummyTypeAdapterFactory();
-    private static final TypeAdapterFactory TREE_TYPE_FIELD_DUMMY_FACTORY = new DummyTypeAdapterFactory();
+    private static final TypeAdapterFactory TREE_TYPE_CLASS_DUMMY_FACTORY;
+    private static final TypeAdapterFactory TREE_TYPE_FIELD_DUMMY_FACTORY;
     private final ConcurrentMap adapterFactoryMap = new ConcurrentHashMap();
     private final ConstructorConstructor constructorConstructor;
 
@@ -26,6 +27,11 @@ public final class JsonAdapterAnnotationTypeAdapterFactory implements TypeAdapte
         public TypeAdapter create(Gson gson, TypeToken typeToken) {
             throw new AssertionError("Factory should not be used");
         }
+    }
+
+    static {
+        TREE_TYPE_CLASS_DUMMY_FACTORY = new DummyTypeAdapterFactory();
+        TREE_TYPE_FIELD_DUMMY_FACTORY = new DummyTypeAdapterFactory();
     }
 
     public JsonAdapterAnnotationTypeAdapterFactory(ConstructorConstructor constructorConstructor) {

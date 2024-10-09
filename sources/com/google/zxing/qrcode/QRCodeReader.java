@@ -15,6 +15,7 @@ import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData;
 import com.google.zxing.qrcode.detector.Detector;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class QRCodeReader {
     private static final ResultPoint[] NO_POINTS = new ResultPoint[0];
@@ -35,44 +36,44 @@ public class QRCodeReader {
             throw NotFoundException.getNotFoundInstance();
         }
         int i5 = i2 - i;
-        if (i5 == i4 - i3 || (i4 = i3 + i5) < bitMatrix.getWidth()) {
-            int round = Math.round(((i4 - i3) + 1) / moduleSize);
-            int round2 = Math.round((i5 + 1) / moduleSize);
-            if (round <= 0 || round2 <= 0) {
-                throw NotFoundException.getNotFoundInstance();
-            }
-            if (round2 == round) {
-                int i6 = (int) (moduleSize / 2.0f);
-                int i7 = i + i6;
-                int i8 = i3 + i6;
-                int i9 = (((int) ((round - 1) * moduleSize)) + i8) - i4;
-                if (i9 > 0) {
-                    if (i9 > i6) {
-                        throw NotFoundException.getNotFoundInstance();
-                    }
-                    i8 -= i9;
-                }
-                int i10 = (((int) ((round2 - 1) * moduleSize)) + i7) - i2;
-                if (i10 > 0) {
-                    if (i10 > i6) {
-                        throw NotFoundException.getNotFoundInstance();
-                    }
-                    i7 -= i10;
-                }
-                BitMatrix bitMatrix2 = new BitMatrix(round, round2, 1);
-                for (int i11 = 0; i11 < round2; i11++) {
-                    int i12 = ((int) (i11 * moduleSize)) + i7;
-                    for (int i13 = 0; i13 < round; i13++) {
-                        if (bitMatrix.get(((int) (i13 * moduleSize)) + i8, i12)) {
-                            bitMatrix2.set(i13, i11);
-                        }
-                    }
-                }
-                return bitMatrix2;
-            }
+        if (i5 != i4 - i3 && (i4 = i3 + i5) >= bitMatrix.getWidth()) {
             throw NotFoundException.getNotFoundInstance();
         }
-        throw NotFoundException.getNotFoundInstance();
+        int round = Math.round(((i4 - i3) + 1) / moduleSize);
+        int round2 = Math.round((i5 + 1) / moduleSize);
+        if (round <= 0 || round2 <= 0) {
+            throw NotFoundException.getNotFoundInstance();
+        }
+        if (round2 != round) {
+            throw NotFoundException.getNotFoundInstance();
+        }
+        int i6 = (int) (moduleSize / 2.0f);
+        int i7 = i + i6;
+        int i8 = i3 + i6;
+        int i9 = (((int) ((round - 1) * moduleSize)) + i8) - i4;
+        if (i9 > 0) {
+            if (i9 > i6) {
+                throw NotFoundException.getNotFoundInstance();
+            }
+            i8 -= i9;
+        }
+        int i10 = (((int) ((round2 - 1) * moduleSize)) + i7) - i2;
+        if (i10 > 0) {
+            if (i10 > i6) {
+                throw NotFoundException.getNotFoundInstance();
+            }
+            i7 -= i10;
+        }
+        BitMatrix bitMatrix2 = new BitMatrix(round, round2, 1);
+        for (int i11 = 0; i11 < round2; i11++) {
+            int i12 = ((int) (i11 * moduleSize)) + i7;
+            for (int i13 = 0; i13 < round; i13++) {
+                if (bitMatrix.get(((int) (i13 * moduleSize)) + i8, i12)) {
+                    bitMatrix2.set(i13, i11);
+                }
+            }
+        }
+        return bitMatrix2;
     }
 
     private static float moduleSize(int[] iArr, BitMatrix bitMatrix) {

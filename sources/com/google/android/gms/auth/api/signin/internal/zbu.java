@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+
 /* loaded from: classes.dex */
 public final class zbu implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

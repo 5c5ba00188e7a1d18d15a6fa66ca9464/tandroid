@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public abstract class zzds extends zzdp implements List, RandomAccess {
     private static final zzdv zza = new zzdq(zzdt.zza, 0);
@@ -16,11 +17,11 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
     public static zzds zzj(Collection collection) {
         if (collection instanceof zzdp) {
             zzds zzd = ((zzdp) collection).zzd();
-            if (zzd.zzf()) {
-                Object[] array = zzd.toArray();
-                return zzi(array, array.length);
+            if (!zzd.zzf()) {
+                return zzd;
             }
-            return zzd;
+            Object[] array = zzd.toArray();
+            return zzi(array, array.length);
         }
         Object[] array2 = collection.toArray();
         int length = array2.length;
@@ -71,11 +72,7 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
                 Iterator it2 = list.iterator();
                 while (true) {
                     if (it.hasNext()) {
-                        if (it2.hasNext()) {
-                            if (!zzdl.zza(it.next(), it2.next())) {
-                                break;
-                            }
-                        } else {
+                        if (!it2.hasNext() || !zzdl.zza(it.next(), it2.next())) {
                             break;
                         }
                     } else if (!it2.hasNext()) {
@@ -159,7 +156,7 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    /* renamed from: zzh */
+    /* renamed from: zzh, reason: merged with bridge method [inline-methods] */
     public zzds subList(int i, int i2) {
         zzdm.zzc(i, i2, size());
         int i3 = i2 - i;
@@ -167,7 +164,7 @@ public abstract class zzds extends zzdp implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    /* renamed from: zzl */
+    /* renamed from: zzl, reason: merged with bridge method [inline-methods] */
     public final zzdv listIterator(int i) {
         zzdm.zzb(i, size(), "index");
         return isEmpty() ? zza : new zzdq(this, i);

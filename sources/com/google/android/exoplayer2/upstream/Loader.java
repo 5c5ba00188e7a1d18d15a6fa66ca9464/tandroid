@@ -10,15 +10,16 @@ import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
+
 /* loaded from: classes.dex */
 public final class Loader implements LoaderErrorThrower {
+    public static final LoadErrorAction DONT_RETRY;
+    public static final LoadErrorAction DONT_RETRY_FATAL;
+    public static final LoadErrorAction RETRY = createRetryAction(false, -9223372036854775807L);
+    public static final LoadErrorAction RETRY_RESET_ERROR_COUNT = createRetryAction(true, -9223372036854775807L);
     private LoadTask currentTask;
     private final ExecutorService downloadExecutorService;
     private IOException fatalError;
-    public static final LoadErrorAction RETRY = createRetryAction(false, -9223372036854775807L);
-    public static final LoadErrorAction RETRY_RESET_ERROR_COUNT = createRetryAction(true, -9223372036854775807L);
-    public static final LoadErrorAction DONT_RETRY = new LoadErrorAction(2, -9223372036854775807L);
-    public static final LoadErrorAction DONT_RETRY_FATAL = new LoadErrorAction(3, -9223372036854775807L);
 
     /* loaded from: classes.dex */
     public interface Callback {
@@ -118,41 +119,45 @@ public final class Loader implements LoaderErrorThrower {
             int i = message.what;
             if (i == 0) {
                 execute();
-            } else if (i == 3) {
+                return;
+            }
+            if (i == 3) {
                 throw ((Error) message.obj);
-            } else {
-                finish();
-                long elapsedRealtime = SystemClock.elapsedRealtime();
-                long j = elapsedRealtime - this.startTimeMs;
-                Callback callback = (Callback) Assertions.checkNotNull(this.callback);
-                if (this.canceled) {
-                    callback.onLoadCanceled(this.loadable, elapsedRealtime, j, false);
+            }
+            finish();
+            long elapsedRealtime = SystemClock.elapsedRealtime();
+            long j = elapsedRealtime - this.startTimeMs;
+            Callback callback = (Callback) Assertions.checkNotNull(this.callback);
+            if (this.canceled) {
+                callback.onLoadCanceled(this.loadable, elapsedRealtime, j, false);
+                return;
+            }
+            int i2 = message.what;
+            if (i2 == 1) {
+                try {
+                    callback.onLoadCompleted(this.loadable, elapsedRealtime, j);
+                    return;
+                } catch (RuntimeException e) {
+                    Log.e("LoadTask", "Unexpected exception handling load completed", e);
+                    Loader.this.fatalError = new UnexpectedLoaderException(e);
                     return;
                 }
-                int i2 = message.what;
-                if (i2 == 1) {
-                    try {
-                        callback.onLoadCompleted(this.loadable, elapsedRealtime, j);
-                    } catch (RuntimeException e) {
-                        Log.e("LoadTask", "Unexpected exception handling load completed", e);
-                        Loader.this.fatalError = new UnexpectedLoaderException(e);
-                    }
-                } else if (i2 != 2) {
-                } else {
-                    IOException iOException = (IOException) message.obj;
-                    this.currentError = iOException;
-                    int i3 = this.errorCount + 1;
-                    this.errorCount = i3;
-                    LoadErrorAction onLoadError = callback.onLoadError(this.loadable, elapsedRealtime, j, iOException, i3);
-                    if (onLoadError.type == 3) {
-                        Loader.this.fatalError = this.currentError;
-                    } else if (onLoadError.type != 2) {
-                        if (onLoadError.type == 1) {
-                            this.errorCount = 1;
-                        }
-                        start(onLoadError.retryDelayMillis != -9223372036854775807L ? onLoadError.retryDelayMillis : getRetryDelayMillis());
-                    }
+            }
+            if (i2 != 2) {
+                return;
+            }
+            IOException iOException = (IOException) message.obj;
+            this.currentError = iOException;
+            int i3 = this.errorCount + 1;
+            this.errorCount = i3;
+            LoadErrorAction onLoadError = callback.onLoadError(this.loadable, elapsedRealtime, j, iOException, i3);
+            if (onLoadError.type == 3) {
+                Loader.this.fatalError = this.currentError;
+            } else if (onLoadError.type != 2) {
+                if (onLoadError.type == 1) {
+                    this.errorCount = 1;
                 }
+                start(onLoadError.retryDelayMillis != -9223372036854775807L ? onLoadError.retryDelayMillis : getRetryDelayMillis());
             }
         }
 
@@ -174,8 +179,13 @@ public final class Loader implements LoaderErrorThrower {
                 }
                 if (z) {
                     TraceUtil.beginSection("load:" + this.loadable.getClass().getSimpleName());
-                    this.loadable.load();
-                    TraceUtil.endSection();
+                    try {
+                        this.loadable.load();
+                        TraceUtil.endSection();
+                    } catch (Throwable th) {
+                        TraceUtil.endSection();
+                        throw th;
+                    }
                 }
                 synchronized (this) {
                     this.executorThread = null;
@@ -253,6 +263,12 @@ public final class Loader implements LoaderErrorThrower {
         }
     }
 
+    static {
+        long j = -9223372036854775807L;
+        DONT_RETRY = new LoadErrorAction(2, j);
+        DONT_RETRY_FATAL = new LoadErrorAction(3, j);
+    }
+
     public Loader(String str) {
         this.downloadExecutorService = Util.newSingleThreadExecutor("ExoPlayer:Loader:" + str);
     }
@@ -312,9 +328,10 @@ public final class Loader implements LoaderErrorThrower {
     }
 
     public long startLoading(Loadable loadable, Callback callback, int i) {
+        Looper looper = (Looper) Assertions.checkStateNotNull(Looper.myLooper());
         this.fatalError = null;
         long elapsedRealtime = SystemClock.elapsedRealtime();
-        new LoadTask((Looper) Assertions.checkStateNotNull(Looper.myLooper()), loadable, callback, i, elapsedRealtime).start(0L);
+        new LoadTask(looper, loadable, callback, i, elapsedRealtime).start(0L);
         return elapsedRealtime;
     }
 }

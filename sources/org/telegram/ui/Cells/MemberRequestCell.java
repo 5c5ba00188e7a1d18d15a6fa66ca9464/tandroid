@@ -16,6 +16,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class MemberRequestCell extends FrameLayout {
     private final AvatarDrawable avatarDrawable;

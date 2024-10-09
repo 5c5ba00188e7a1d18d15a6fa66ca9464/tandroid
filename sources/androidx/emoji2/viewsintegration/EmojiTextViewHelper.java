@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import android.widget.TextView;
 import androidx.core.util.Preconditions;
 import androidx.emoji2.text.EmojiCompat;
+
 /* loaded from: classes.dex */
 public final class EmojiTextViewHelper {
     private final HelperInternal mHelper;

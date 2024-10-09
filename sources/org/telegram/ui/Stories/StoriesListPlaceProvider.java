@@ -7,7 +7,6 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessageObject;
@@ -29,6 +28,7 @@ import org.telegram.ui.Components.BlurredRecyclerView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.DialogStoriesCell;
 import org.telegram.ui.Stories.StoryViewer;
+
 /* loaded from: classes4.dex */
 public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
     public int addBottomClip;
@@ -110,22 +110,25 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
         return new StoriesListPlaceProvider(recyclerListView, z);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     private void updateClip(StoryViewer.TransitionViewHolder transitionViewHolder) {
+        View view;
         int measuredHeight;
-        View view = transitionViewHolder.clipParent;
-        if (view == null) {
+        View view2 = transitionViewHolder.clipParent;
+        if (view2 == 0) {
             return;
         }
-        if (view instanceof ClippedView) {
-            ((ClippedView) view).updateClip(this.clipPoint);
+        if (view2 instanceof ClippedView) {
+            ((ClippedView) view2).updateClip(this.clipPoint);
             int[] iArr = this.clipPoint;
             transitionViewHolder.clipTop = iArr[0];
             measuredHeight = iArr[1];
         } else {
-            if (view instanceof BlurredRecyclerView) {
-                transitionViewHolder.clipTop = ((BlurredRecyclerView) view).blurTopPadding;
+            if (view2 instanceof BlurredRecyclerView) {
+                transitionViewHolder.clipTop = ((BlurredRecyclerView) view2).blurTopPadding;
+                view = view2;
             } else {
-                transitionViewHolder.clipTop = view.getPaddingTop();
+                transitionViewHolder.clipTop = view2.getPaddingTop();
                 view = transitionViewHolder.clipParent;
             }
             measuredHeight = view.getMeasuredHeight() - transitionViewHolder.clipParent.getPaddingBottom();
@@ -145,7 +148,7 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
         ImageReceiver imageReceiver;
         Paint paint;
         ManageChatUserCell manageChatUserCell;
-        ViewParent parent;
+        Object parent;
         ManageChatUserCell manageChatUserCell2;
         ManageChatUserCell manageChatUserCell3;
         ImageReceiver photoImage;

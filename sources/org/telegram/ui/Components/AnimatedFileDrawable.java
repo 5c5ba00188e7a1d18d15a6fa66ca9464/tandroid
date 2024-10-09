@@ -30,6 +30,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedFileDrawable;
+
 /* loaded from: classes3.dex */
 public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
     private final int MAX_TRIES;
@@ -190,8 +191,9 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         this(file, z, j, i, document, imageLocation, obj, j2, i2, z2, i3, i4, cacheOptions, document != null ? 1 : 0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0150, code lost:
-        if (r13[1] > 3840) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x0150, code lost:
+    
+        if (r13[1] > 3840) goto L39;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -411,14 +413,18 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                             return;
                         }
                         if (AnimatedFileDrawable.this.backgroundBitmap == null && AnimatedFileDrawable.this.metaData[0] > 0 && AnimatedFileDrawable.this.metaData[1] > 0) {
-                            if (AnimatedFileDrawable.this.unusedBitmaps.isEmpty()) {
-                                animatedFileDrawable = AnimatedFileDrawable.this;
-                                createBitmap = Bitmap.createBitmap((int) (animatedFileDrawable.metaData[0] * AnimatedFileDrawable.this.scaleFactor), (int) (AnimatedFileDrawable.this.metaData[1] * AnimatedFileDrawable.this.scaleFactor), Bitmap.Config.ARGB_8888);
-                            } else {
-                                animatedFileDrawable = AnimatedFileDrawable.this;
-                                createBitmap = (Bitmap) animatedFileDrawable.unusedBitmaps.remove(0);
+                            try {
+                                if (AnimatedFileDrawable.this.unusedBitmaps.isEmpty()) {
+                                    animatedFileDrawable = AnimatedFileDrawable.this;
+                                    createBitmap = Bitmap.createBitmap((int) (animatedFileDrawable.metaData[0] * AnimatedFileDrawable.this.scaleFactor), (int) (AnimatedFileDrawable.this.metaData[1] * AnimatedFileDrawable.this.scaleFactor), Bitmap.Config.ARGB_8888);
+                                } else {
+                                    animatedFileDrawable = AnimatedFileDrawable.this;
+                                    createBitmap = (Bitmap) animatedFileDrawable.unusedBitmaps.remove(0);
+                                }
+                                animatedFileDrawable.backgroundBitmap = createBitmap;
+                            } catch (Throwable th) {
+                                FileLog.e(th);
                             }
-                            animatedFileDrawable.backgroundBitmap = createBitmap;
                             if (AnimatedFileDrawable.this.USE_BITMAP_SHADER && AnimatedFileDrawable.this.backgroundShader[0] == null && AnimatedFileDrawable.this.backgroundBitmap != null && AnimatedFileDrawable.this.hasRoundRadius()) {
                                 BitmapShader[] bitmapShaderArr = AnimatedFileDrawable.this.backgroundShader;
                                 Bitmap bitmap = AnimatedFileDrawable.this.backgroundBitmap;
@@ -454,8 +460,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                             AnimatedFileDrawable animatedFileDrawable13 = AnimatedFileDrawable.this;
                             animatedFileDrawable13.backgroundBitmapTime = animatedFileDrawable13.metaData[3];
                         }
-                    } catch (Throwable th) {
-                        FileLog.e(th);
+                    } catch (Throwable th2) {
+                        FileLog.e(th2);
                     }
                 }
                 AndroidUtilities.runOnUIThread(AnimatedFileDrawable.this.uiRunnable);
@@ -667,12 +673,13 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                             this.loadFrameTask = runnable;
                             DispatchQueuePoolBackground.execute(runnable);
                             return;
+                        } else {
+                            ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = executor;
+                            Runnable runnable2 = this.loadFrameRunnable;
+                            this.loadFrameTask = runnable2;
+                            scheduledThreadPoolExecutor.schedule(runnable2, j, TimeUnit.MILLISECONDS);
+                            return;
                         }
-                        ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = executor;
-                        Runnable runnable2 = this.loadFrameRunnable;
-                        this.loadFrameTask = runnable2;
-                        scheduledThreadPoolExecutor.schedule(runnable2, j, TimeUnit.MILLISECONDS);
-                        return;
                     }
                     if (this.decodeQueue == null) {
                         this.decodeQueue = new DispatchQueue("decodeQueue" + this);
@@ -744,8 +751,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             };
             this.cancelCache = runnable2;
             AndroidUtilities.runOnUIThread(runnable2, 600L);
-        } else if (isEmpty || (runnable = this.cancelCache) == null) {
         } else {
+            if (isEmpty || (runnable = this.cancelCache) == null) {
+                return;
+            }
             AndroidUtilities.cancelRunOnUIThread(runnable);
             this.cancelCache = null;
         }
@@ -795,8 +804,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         drawInternal(canvas, true, 0L, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00a4  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x017b  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x017b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -830,79 +839,80 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             }
             f2 = rectF.width() / width;
             height = rectF.height() / height2;
-        } else if (!this.applyTransformation) {
-            f = f4;
-            f2 = f3;
-            if (hasRoundRadius()) {
-                drawBitmap(rectF, paint, canvas, f2, f);
-                return;
-            }
-            int i4 = z ? i + 1 : 0;
-            if (this.USE_BITMAP_SHADER) {
-                BitmapShader[] bitmapShaderArr = this.renderingShader;
-                if (bitmapShaderArr[i4] == null) {
-                    Bitmap bitmap2 = this.renderingBitmap;
-                    Shader.TileMode tileMode = Shader.TileMode.CLAMP;
-                    bitmapShaderArr[i4] = new BitmapShader(bitmap2, tileMode, tileMode);
-                }
-                paint.setShader(this.renderingShader[i4]);
-                Matrix[] matrixArr = this.shaderMatrix;
-                Matrix matrix = matrixArr[i4];
-                if (matrix == null) {
-                    matrix = new Matrix();
-                    matrixArr[i4] = matrix;
-                }
-                matrix.reset();
-                matrix.setTranslate(rectF.left, rectF.top);
-                int i5 = this.metaData[2];
-                if (i5 == 90) {
-                    matrix.preRotate(90.0f);
-                    matrix.preTranslate(0.0f, -rectF.width());
-                } else if (i5 == 180) {
-                    matrix.preRotate(180.0f);
-                    matrix.preTranslate(-rectF.width(), -rectF.height());
-                } else if (i5 == 270) {
-                    matrix.preRotate(270.0f);
-                    matrix.preTranslate(-rectF.height(), 0.0f);
-                }
-                matrix.preScale(f2, f);
-                this.renderingShader[i4].setLocalMatrix(matrix);
-            }
-            Path[] pathArr = this.roundPath;
-            Path path = pathArr[i4];
-            if (path == null) {
-                path = new Path();
-                pathArr[i4] = path;
-            }
-            if (this.invalidatePath || z) {
-                if (!z) {
-                    this.invalidatePath = false;
-                }
-                while (true) {
-                    int[] iArr = this.roundRadius;
-                    if (i2 >= iArr.length) {
-                        break;
-                    }
-                    float[] fArr = radii;
-                    int i6 = i2 * 2;
-                    float f5 = iArr[i2];
-                    fArr[i6] = f5;
-                    fArr[i6 + 1] = f5;
-                    i2++;
-                }
-                path.rewind();
-                path.addRoundRect(z ? rectF : this.actualDrawRect, radii, Path.Direction.CW);
-            }
-            if (this.USE_BITMAP_SHADER) {
-                canvas.drawPath(path, paint);
-                return;
-            }
-            canvas.save();
-            canvas.clipPath(path);
-            drawBitmap(rectF, paint, canvas, f2, f);
-            canvas.restore();
-            return;
         } else {
+            if (!this.applyTransformation) {
+                f = f4;
+                f2 = f3;
+                if (hasRoundRadius()) {
+                    drawBitmap(rectF, paint, canvas, f2, f);
+                    return;
+                }
+                int i4 = z ? i + 1 : 0;
+                if (this.USE_BITMAP_SHADER) {
+                    BitmapShader[] bitmapShaderArr = this.renderingShader;
+                    if (bitmapShaderArr[i4] == null) {
+                        Bitmap bitmap2 = this.renderingBitmap;
+                        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+                        bitmapShaderArr[i4] = new BitmapShader(bitmap2, tileMode, tileMode);
+                    }
+                    paint.setShader(this.renderingShader[i4]);
+                    Matrix[] matrixArr = this.shaderMatrix;
+                    Matrix matrix = matrixArr[i4];
+                    if (matrix == null) {
+                        matrix = new Matrix();
+                        matrixArr[i4] = matrix;
+                    }
+                    matrix.reset();
+                    matrix.setTranslate(rectF.left, rectF.top);
+                    int i5 = this.metaData[2];
+                    if (i5 == 90) {
+                        matrix.preRotate(90.0f);
+                        matrix.preTranslate(0.0f, -rectF.width());
+                    } else if (i5 == 180) {
+                        matrix.preRotate(180.0f);
+                        matrix.preTranslate(-rectF.width(), -rectF.height());
+                    } else if (i5 == 270) {
+                        matrix.preRotate(270.0f);
+                        matrix.preTranslate(-rectF.height(), 0.0f);
+                    }
+                    matrix.preScale(f2, f);
+                    this.renderingShader[i4].setLocalMatrix(matrix);
+                }
+                Path[] pathArr = this.roundPath;
+                Path path = pathArr[i4];
+                if (path == null) {
+                    path = new Path();
+                    pathArr[i4] = path;
+                }
+                if (this.invalidatePath || z) {
+                    if (!z) {
+                        this.invalidatePath = false;
+                    }
+                    while (true) {
+                        int[] iArr = this.roundRadius;
+                        if (i2 >= iArr.length) {
+                            break;
+                        }
+                        float[] fArr = radii;
+                        int i6 = i2 * 2;
+                        float f5 = iArr[i2];
+                        fArr[i6] = f5;
+                        fArr[i6 + 1] = f5;
+                        i2++;
+                    }
+                    path.rewind();
+                    path.addRoundRect(z ? rectF : this.actualDrawRect, radii, Path.Direction.CW);
+                }
+                if (this.USE_BITMAP_SHADER) {
+                    canvas.drawPath(path, paint);
+                    return;
+                }
+                canvas.save();
+                canvas.clipPath(path);
+                drawBitmap(rectF, paint, canvas, f2, f);
+                canvas.restore();
+                return;
+            }
             int width2 = bitmap.getWidth();
             int height3 = this.renderingBitmap.getHeight();
             int i7 = this.metaData[2];
@@ -1087,27 +1097,27 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         Bitmap bitmap2 = this.generatingCacheBitmap;
         getVideoFrame(j, bitmap2, this.metaData, bitmap2.getRowBytes(), false, this.startTime, this.endTime, true);
         long j2 = this.cacheGenerateTimestamp;
-        if (j2 == 0 || ((i = this.metaData[3]) != 0 && j2 <= i)) {
-            int i2 = this.lastMetadata;
-            int i3 = this.metaData[3];
-            if (i2 == i3) {
-                int i4 = this.tryCount + 1;
-                this.tryCount = i4;
-                if (i4 > 5) {
-                    return 0;
-                }
-            }
-            this.lastMetadata = i3;
-            bitmap.eraseColor(0);
-            canvas.save();
-            float width = this.renderingWidth / this.generatingCacheBitmap.getWidth();
-            canvas.scale(width, width);
-            canvas.drawBitmap(this.generatingCacheBitmap, 0.0f, 0.0f, (Paint) null);
-            canvas.restore();
-            this.cacheGenerateTimestamp = this.metaData[3];
-            return 1;
+        if (j2 != 0 && ((i = this.metaData[3]) == 0 || j2 > i)) {
+            return 0;
         }
-        return 0;
+        int i2 = this.lastMetadata;
+        int i3 = this.metaData[3];
+        if (i2 == i3) {
+            int i4 = this.tryCount + 1;
+            this.tryCount = i4;
+            if (i4 > 5) {
+                return 0;
+            }
+        }
+        this.lastMetadata = i3;
+        bitmap.eraseColor(0);
+        canvas.save();
+        float width = this.renderingWidth / this.generatingCacheBitmap.getWidth();
+        canvas.scale(width, width);
+        canvas.drawBitmap(this.generatingCacheBitmap, 0.0f, 0.0f, (Paint) null);
+        canvas.restore();
+        this.cacheGenerateTimestamp = this.metaData[3];
+        return 1;
     }
 
     public Bitmap getNextFrame(boolean z) {
@@ -1117,9 +1127,9 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
         if (this.backgroundBitmap == null) {
             if (this.unusedBitmaps.isEmpty()) {
-                int[] iArr = this.metaData;
-                float f = this.scaleFactor;
-                createBitmap = Bitmap.createBitmap((int) (iArr[0] * f), (int) (iArr[1] * f), Bitmap.Config.ARGB_8888);
+                float f = this.metaData[0];
+                float f2 = this.scaleFactor;
+                createBitmap = Bitmap.createBitmap((int) (f * f2), (int) (r0[1] * f2), Bitmap.Config.ARGB_8888);
             } else {
                 createBitmap = (Bitmap) this.unusedBitmaps.remove(0);
             }
@@ -1457,20 +1467,20 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 }
             }
             scheduleNextGetFrame();
-        } else if (this.isRunning || !this.decodeSingleFrame || Math.abs(j - this.lastFrameTime) < this.invalidateAfter || this.nextRenderingBitmap == null) {
+        }
+        if (this.isRunning || !this.decodeSingleFrame || Math.abs(j - this.lastFrameTime) < this.invalidateAfter || this.nextRenderingBitmap == null) {
             return;
-        } else {
-            this.unusedBitmaps.add(this.renderingBitmap);
-            this.renderingBitmap = this.nextRenderingBitmap;
-            this.renderingBitmapTime = this.nextRenderingBitmapTime;
-            for (int i2 = 0; i2 < this.backgroundShader.length; i2++) {
-                BitmapShader[] bitmapShaderArr4 = this.renderingShader;
-                BitmapShader[] bitmapShaderArr5 = this.nextRenderingShader;
-                bitmapShaderArr4[i2] = bitmapShaderArr5[i2];
-                BitmapShader[] bitmapShaderArr6 = this.nextRenderingShader2;
-                bitmapShaderArr5[i2] = bitmapShaderArr6[i2];
-                bitmapShaderArr6[i2] = null;
-            }
+        }
+        this.unusedBitmaps.add(this.renderingBitmap);
+        this.renderingBitmap = this.nextRenderingBitmap;
+        this.renderingBitmapTime = this.nextRenderingBitmapTime;
+        for (int i2 = 0; i2 < this.backgroundShader.length; i2++) {
+            BitmapShader[] bitmapShaderArr4 = this.renderingShader;
+            BitmapShader[] bitmapShaderArr5 = this.nextRenderingShader;
+            bitmapShaderArr4[i2] = bitmapShaderArr5[i2];
+            BitmapShader[] bitmapShaderArr6 = this.nextRenderingShader2;
+            bitmapShaderArr5[i2] = bitmapShaderArr6[i2];
+            bitmapShaderArr6[i2] = null;
         }
         this.nextRenderingBitmap = this.nextRenderingBitmap2;
         this.nextRenderingBitmapTime = this.nextRenderingBitmapTime2;

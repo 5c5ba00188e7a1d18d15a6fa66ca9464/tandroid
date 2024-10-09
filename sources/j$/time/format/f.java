@@ -1,6 +1,7 @@
 package j$.time.format;
 
 import java.util.ArrayList;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class f implements g {

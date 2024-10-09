@@ -3,6 +3,7 @@ package com.google.android.gms.internal.vision;
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzkq implements zzlc {
     private final zzkk zza;
@@ -56,13 +57,13 @@ final class zzkq implements zzlc {
 
     @Override // com.google.android.gms.internal.vision.zzlc
     public final boolean zza(Object obj, Object obj2) {
-        if (this.zzb.zzb(obj).equals(this.zzb.zzb(obj2))) {
-            if (this.zzc) {
-                return this.zzd.zza(obj).equals(this.zzd.zza(obj2));
-            }
-            return true;
+        if (!this.zzb.zzb(obj).equals(this.zzb.zzb(obj2))) {
+            return false;
         }
-        return false;
+        if (this.zzc) {
+            return this.zzd.zza(obj).equals(this.zzd.zza(obj2));
+        }
+        return true;
     }
 
     @Override // com.google.android.gms.internal.vision.zzlc

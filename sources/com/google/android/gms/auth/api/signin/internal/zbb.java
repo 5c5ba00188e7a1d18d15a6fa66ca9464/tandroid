@@ -9,6 +9,7 @@ import com.google.android.gms.common.logging.Logger;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 /* loaded from: classes.dex */
 public final class zbb implements Runnable {
     private static final Logger zba = new Logger("RevokeAccessOperation", new String[0]);
@@ -32,8 +33,7 @@ public final class zbb implements Runnable {
     public final void run() {
         Status status = Status.RESULT_INTERNAL_ERROR;
         try {
-            String str = this.zbb;
-            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://accounts.google.com/o/oauth2/revoke?token=" + str).openConnection();
+            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://accounts.google.com/o/oauth2/revoke?token=" + this.zbb).openConnection();
             httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             int responseCode = httpURLConnection.getResponseCode();
             if (responseCode == 200) {
@@ -41,8 +41,7 @@ public final class zbb implements Runnable {
             } else {
                 zba.e("Unable to revoke access!", new Object[0]);
             }
-            Logger logger = zba;
-            logger.d("Response Code: " + responseCode, new Object[0]);
+            zba.d("Response Code: " + responseCode, new Object[0]);
         } catch (IOException e) {
             zba.e("IOException when revoking access: ".concat(String.valueOf(e.toString())), new Object[0]);
         } catch (Exception e2) {

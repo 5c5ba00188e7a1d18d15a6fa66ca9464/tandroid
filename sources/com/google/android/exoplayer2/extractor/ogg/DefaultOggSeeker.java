@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class DefaultOggSeeker implements OggSeeker {
@@ -79,26 +80,26 @@ public final class DefaultOggSeeker implements OggSeeker {
         long j3 = oggPageHeader.granulePosition;
         long j4 = j2 - j3;
         int i = oggPageHeader.headerSize + oggPageHeader.bodySize;
-        if (0 > j4 || j4 >= 72000) {
-            if (j4 < 0) {
-                this.end = position;
-                this.endGranule = j3;
-            } else {
-                this.start = extractorInput.getPosition() + i;
-                this.startGranule = this.pageHeader.granulePosition;
-            }
-            long j5 = this.end;
-            long j6 = this.start;
-            if (j5 - j6 < 100000) {
-                this.end = j6;
-                return j6;
-            }
-            long position2 = extractorInput.getPosition() - (i * (j4 <= 0 ? 2L : 1L));
-            long j7 = this.end;
-            long j8 = this.start;
-            return Util.constrainValue(position2 + ((j4 * (j7 - j8)) / (this.endGranule - this.startGranule)), j8, j7 - 1);
+        if (0 <= j4 && j4 < 72000) {
+            return -1L;
         }
-        return -1L;
+        if (j4 < 0) {
+            this.end = position;
+            this.endGranule = j3;
+        } else {
+            this.start = extractorInput.getPosition() + i;
+            this.startGranule = this.pageHeader.granulePosition;
+        }
+        long j5 = this.end;
+        long j6 = this.start;
+        if (j5 - j6 < 100000) {
+            this.end = j6;
+            return j6;
+        }
+        long position2 = extractorInput.getPosition() - (i * (j4 <= 0 ? 2L : 1L));
+        long j7 = this.end;
+        long j8 = this.start;
+        return Util.constrainValue(position2 + ((j4 * (j7 - j8)) / (this.endGranule - this.startGranule)), j8, j7 - 1);
     }
 
     private void skipToPageOfTargetGranule(ExtractorInput extractorInput) {
@@ -109,10 +110,11 @@ public final class DefaultOggSeeker implements OggSeeker {
             if (oggPageHeader.granulePosition > this.targetGranule) {
                 extractorInput.resetPeekPosition();
                 return;
+            } else {
+                extractorInput.skipFully(oggPageHeader.headerSize + oggPageHeader.bodySize);
+                this.start = extractorInput.getPosition();
+                this.startGranule = this.pageHeader.granulePosition;
             }
-            extractorInput.skipFully(oggPageHeader.headerSize + oggPageHeader.bodySize);
-            this.start = extractorInput.getPosition();
-            this.startGranule = this.pageHeader.granulePosition;
         }
     }
 
@@ -161,21 +163,21 @@ public final class DefaultOggSeeker implements OggSeeker {
         long j;
         OggPageHeader oggPageHeader;
         this.pageHeader.reset();
-        if (this.pageHeader.skipToNextPage(extractorInput)) {
-            this.pageHeader.populate(extractorInput, false);
-            OggPageHeader oggPageHeader2 = this.pageHeader;
-            extractorInput.skipFully(oggPageHeader2.headerSize + oggPageHeader2.bodySize);
-            do {
-                j = this.pageHeader.granulePosition;
-                OggPageHeader oggPageHeader3 = this.pageHeader;
-                if ((oggPageHeader3.type & 4) == 4 || !oggPageHeader3.skipToNextPage(extractorInput) || extractorInput.getPosition() >= this.payloadEndPosition || !this.pageHeader.populate(extractorInput, true)) {
-                    break;
-                }
-                oggPageHeader = this.pageHeader;
-            } while (ExtractorUtil.skipFullyQuietly(extractorInput, oggPageHeader.headerSize + oggPageHeader.bodySize));
-            return j;
+        if (!this.pageHeader.skipToNextPage(extractorInput)) {
+            throw new EOFException();
         }
-        throw new EOFException();
+        this.pageHeader.populate(extractorInput, false);
+        OggPageHeader oggPageHeader2 = this.pageHeader;
+        extractorInput.skipFully(oggPageHeader2.headerSize + oggPageHeader2.bodySize);
+        do {
+            j = this.pageHeader.granulePosition;
+            OggPageHeader oggPageHeader3 = this.pageHeader;
+            if ((oggPageHeader3.type & 4) == 4 || !oggPageHeader3.skipToNextPage(extractorInput) || extractorInput.getPosition() >= this.payloadEndPosition || !this.pageHeader.populate(extractorInput, true)) {
+                break;
+            }
+            oggPageHeader = this.pageHeader;
+        } while (ExtractorUtil.skipFullyQuietly(extractorInput, oggPageHeader.headerSize + oggPageHeader.bodySize));
+        return j;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker

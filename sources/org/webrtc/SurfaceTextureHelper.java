@@ -9,6 +9,7 @@ import java.util.concurrent.Callable;
 import org.webrtc.EglBase;
 import org.webrtc.TextureBufferImpl;
 import org.webrtc.VideoFrame;
+
 /* loaded from: classes.dex */
 public class SurfaceTextureHelper {
     private static final String TAG = "SurfaceTextureHelper";
@@ -308,7 +309,8 @@ public class SurfaceTextureHelper {
     public void setTextureSize(final int i, final int i2) {
         if (i <= 0) {
             throw new IllegalArgumentException("Texture width must be positive, but was " + i);
-        } else if (i2 > 0) {
+        }
+        if (i2 > 0) {
             this.surfaceTexture.setDefaultBufferSize(i, i2);
             this.handler.post(new Runnable() { // from class: org.webrtc.SurfaceTextureHelper$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable

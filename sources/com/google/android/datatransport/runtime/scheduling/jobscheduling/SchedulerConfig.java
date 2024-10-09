@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class SchedulerConfig {
 
@@ -24,15 +25,15 @@ public abstract class SchedulerConfig {
         }
 
         public SchedulerConfig build() {
-            if (this.clock != null) {
-                if (this.values.keySet().size() >= Priority.values().length) {
-                    Map map = this.values;
-                    this.values = new HashMap();
-                    return SchedulerConfig.create(this.clock, map);
-                }
+            if (this.clock == null) {
+                throw new NullPointerException("missing required property: clock");
+            }
+            if (this.values.keySet().size() < Priority.values().length) {
                 throw new IllegalStateException("Not all priorities have been configured");
             }
-            throw new NullPointerException("missing required property: clock");
+            Map map = this.values;
+            this.values = new HashMap();
+            return SchedulerConfig.create(this.clock, map);
         }
 
         public Builder setClock(Clock clock) {

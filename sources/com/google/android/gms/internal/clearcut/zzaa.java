@@ -3,6 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import android.content.Context;
 import android.os.Build;
 import android.os.UserManager;
+
 /* loaded from: classes.dex */
 public abstract class zzaa {
     private static volatile UserManager zzdc;
@@ -26,7 +27,7 @@ public abstract class zzaa {
                     try {
                         userManager = zzdc;
                         if (userManager == null) {
-                            systemService = context.getSystemService(UserManager.class);
+                            systemService = context.getSystemService((Class<Object>) UserManager.class);
                             UserManager userManager2 = (UserManager) systemService;
                             zzdc = userManager2;
                             if (userManager2 == null) {

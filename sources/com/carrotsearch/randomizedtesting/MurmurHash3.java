@@ -1,4 +1,5 @@
 package com.carrotsearch.randomizedtesting;
+
 /* loaded from: classes.dex */
 abstract class MurmurHash3 {
     public static long hash(long j) {

@@ -17,6 +17,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 /* loaded from: classes.dex */
 public class ConfigCacheClient {
     private Task cachedContainerTask = null;
@@ -70,13 +71,13 @@ public class ConfigCacheClient {
         task.addOnSuccessListener(executor, awaitListener);
         task.addOnFailureListener(executor, awaitListener);
         task.addOnCanceledListener(executor, awaitListener);
-        if (awaitListener.await(j, timeUnit)) {
-            if (task.isSuccessful()) {
-                return task.getResult();
-            }
-            throw new ExecutionException(task.getException());
+        if (!awaitListener.await(j, timeUnit)) {
+            throw new TimeoutException("Task await timed out.");
         }
-        throw new TimeoutException("Task await timed out.");
+        if (task.isSuccessful()) {
+            return task.getResult();
+        }
+        throw new ExecutionException(task.getException());
     }
 
     public static synchronized ConfigCacheClient getInstance(ExecutorService executorService, ConfigStorageClient configStorageClient) {

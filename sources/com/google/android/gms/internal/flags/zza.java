@@ -2,6 +2,7 @@ package com.google.android.gms.internal.flags;
 
 import android.os.IBinder;
 import android.os.IInterface;
+
 /* loaded from: classes.dex */
 public abstract class zza implements IInterface {
     private final IBinder zza;

@@ -1,4 +1,5 @@
 package com.google.android.gms.base;
+
 /* loaded from: classes.dex */
 public abstract class R$string {
     public static final int common_google_play_services_enable_button = 2131697627;

@@ -21,15 +21,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
+
 /* loaded from: classes.dex */
 public final class DefaultDateTypeAdapter extends TypeAdapter {
     public static final TypeAdapterFactory DEFAULT_STYLE_FACTORY = new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.DefaultDateTypeAdapter.1
         @Override // com.google.gson.TypeAdapterFactory
         public TypeAdapter create(Gson gson, TypeToken typeToken) {
-            if (typeToken.getRawType() == Date.class) {
-                return new DefaultDateTypeAdapter(DateType.DATE, 2, 2);
+            if (typeToken.getRawType() != Date.class) {
+                return null;
             }
-            return null;
+            int i = 2;
+            return new DefaultDateTypeAdapter(DateType.DATE, i, i);
         }
 
         public String toString() {
@@ -104,9 +106,11 @@ public final class DefaultDateTypeAdapter extends TypeAdapter {
                 for (DateFormat dateFormat : this.dateFormats) {
                     TimeZone timeZone = dateFormat.getTimeZone();
                     try {
-                        Date parse = dateFormat.parse(nextString);
-                        dateFormat.setTimeZone(timeZone);
-                        return parse;
+                        try {
+                            return dateFormat.parse(nextString);
+                        } finally {
+                            dateFormat.setTimeZone(timeZone);
+                        }
                     } catch (ParseException unused) {
                         dateFormat.setTimeZone(timeZone);
                     }

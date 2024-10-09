@@ -14,6 +14,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes4.dex */
 public class DraftSavedHint extends View {
     private final Paint backgroundPaint;

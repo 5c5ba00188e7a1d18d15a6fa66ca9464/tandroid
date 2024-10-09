@@ -5,6 +5,7 @@ import com.coremedia.iso.Utf8;
 import com.coremedia.iso.boxes.Container;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
+
 /* loaded from: classes.dex */
 public final class VisualSampleEntry extends AbstractSampleEntry implements Container {
     private String compressorname;

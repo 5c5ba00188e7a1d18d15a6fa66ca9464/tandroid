@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 abstract class r3 extends u3 implements j$.util.N {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -14,7 +15,7 @@ abstract class r3 extends u3 implements j$.util.N {
     }
 
     @Override // j$.util.N
-    /* renamed from: forEachRemaining */
+    /* renamed from: forEachRemaining, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public final void e(Object obj) {
         obj.getClass();
         Y2 y2 = null;
@@ -26,7 +27,7 @@ abstract class r3 extends u3 implements j$.util.N {
             t3 t3Var = t3.MAYBE_MORE;
             j$.util.Q q = this.a;
             if (v != t3Var) {
-                ((j$.util.N) q).forEachRemaining(obj);
+                ((j$.util.N) q).e(obj);
                 return;
             }
             if (y2 == null) {
@@ -35,7 +36,7 @@ abstract class r3 extends u3 implements j$.util.N {
                 y2.b = 0;
             }
             long j = 0;
-            while (((j$.util.N) q).tryAdvance(y2)) {
+            while (((j$.util.N) q).p(y2)) {
                 j++;
                 if (j >= 128) {
                     break;
@@ -43,8 +44,9 @@ abstract class r3 extends u3 implements j$.util.N {
             }
             if (j == 0) {
                 return;
+            } else {
+                y2.a(obj, t(j));
             }
-            y2.a(obj, t(j));
         }
     }
 
@@ -64,10 +66,10 @@ abstract class r3 extends u3 implements j$.util.N {
     }
 
     @Override // j$.util.N
-    /* renamed from: tryAdvance */
+    /* renamed from: tryAdvance, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public final boolean p(Object obj) {
         obj.getClass();
-        while (v() != t3.NO_MORE && ((j$.util.N) this.a).tryAdvance(this)) {
+        while (v() != t3.NO_MORE && ((j$.util.N) this.a).p(this)) {
             if (t(1L) == 1) {
                 w(obj);
                 return true;

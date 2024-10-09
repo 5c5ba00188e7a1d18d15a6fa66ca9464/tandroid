@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class CustomPropertiesLog extends AbstractLog {
     private Map properties;
@@ -37,14 +38,14 @@ public class CustomPropertiesLog extends AbstractLog {
                 return obj;
             }
             throw new JSONException("Invalid value type");
-        } else if (string.equals("dateTime")) {
-            return JSONDateUtils.toDate(jSONObject.getString("value"));
-        } else {
-            if (string.equals("string")) {
-                return jSONObject.getString("value");
-            }
-            throw new JSONException("Invalid value type");
         }
+        if (string.equals("dateTime")) {
+            return JSONDateUtils.toDate(jSONObject.getString("value"));
+        }
+        if (string.equals("string")) {
+            return jSONObject.getString("value");
+        }
+        throw new JSONException("Invalid value type");
     }
 
     private static void writeProperties(JSONStringer jSONStringer, Map map) {
@@ -75,9 +76,10 @@ public class CustomPropertiesLog extends AbstractLog {
             JSONUtils.write(jSONStringer, "type", "dateTime");
             obj = JSONDateUtils.toString((Date) obj);
             JSONUtils.write(jSONStringer, "value", obj);
-        } else if (!(obj instanceof String)) {
-            throw new JSONException("Invalid value type");
         } else {
+            if (!(obj instanceof String)) {
+                throw new JSONException("Invalid value type");
+            }
             str = "string";
         }
         JSONUtils.write(jSONStringer, "type", str);
@@ -89,12 +91,12 @@ public class CustomPropertiesLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            Map map = this.properties;
-            Map map2 = ((CustomPropertiesLog) obj).properties;
-            return map != null ? map.equals(map2) : map2 == null;
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
+            return false;
         }
-        return false;
+        Map map = this.properties;
+        Map map2 = ((CustomPropertiesLog) obj).properties;
+        return map != null ? map.equals(map2) : map2 == null;
     }
 
     public Map getProperties() {

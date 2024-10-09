@@ -34,6 +34,7 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
+
 /* loaded from: classes3.dex */
 public class TableCell extends FrameLayout {
     private final TextView dateNameTextView;
@@ -59,8 +60,8 @@ public class TableCell extends FrameLayout {
 
     public TableCell(Context context, final Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        TextView textView;
-        TextView textView2;
+        View view;
+        View view2;
         Paint paint = new Paint();
         this.linePaint = paint;
         this.roundPath = new Path();
@@ -106,12 +107,12 @@ public class TableCell extends FrameLayout {
         if (LocaleController.isRTL) {
             tableRow.addView(this.fromFrameLayout, layoutParams);
             layoutParams = new TableRow.LayoutParams(-2, -2);
-            textView = createTextView;
+            view = createTextView;
         } else {
             tableRow.addView(createTextView, new TableRow.LayoutParams(-2, -2));
-            textView = this.fromFrameLayout;
+            view = this.fromFrameLayout;
         }
-        tableRow.addView(textView, layoutParams);
+        tableRow.addView(view, layoutParams);
         this.fromFrameLayout.setPadding(0, AndroidUtilities.dp(6.0f), 0, AndroidUtilities.dp(6.0f));
         TableRow tableRow2 = new TableRow(context);
         FrameLayout frameLayout3 = new FrameLayout(context);
@@ -126,12 +127,12 @@ public class TableCell extends FrameLayout {
         if (LocaleController.isRTL) {
             tableRow2.addView(this.toFrameLayout, layoutParams2);
             layoutParams2 = new TableRow.LayoutParams(-2, -2);
-            textView2 = createTextView2;
+            view2 = createTextView2;
         } else {
             tableRow2.addView(createTextView2, new TableRow.LayoutParams(-2, -2));
-            textView2 = this.toFrameLayout;
+            view2 = this.toFrameLayout;
         }
-        tableRow2.addView(textView2, layoutParams2);
+        tableRow2.addView(view2, layoutParams2);
         this.toFrameLayout.setPadding(0, AndroidUtilities.dp(6.0f), 0, AndroidUtilities.dp(6.0f));
         TableRow tableRow3 = new TableRow(context);
         if (LocaleController.isRTL) {
@@ -195,8 +196,8 @@ public class TableCell extends FrameLayout {
         if (Build.VERSION.SDK_INT >= 21) {
             tableLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.Components.Premium.boosts.cells.TableCell.2
                 @Override // android.view.ViewOutlineProvider
-                public void getOutline(View view, Outline outline) {
-                    outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(6.0f));
+                public void getOutline(View view3, Outline outline) {
+                    outline.setRoundRect(0, 0, view3.getMeasuredWidth(), view3.getMeasuredHeight(), AndroidUtilities.dp(6.0f));
                 }
             });
             tableLayout.setClipToOutline(true);

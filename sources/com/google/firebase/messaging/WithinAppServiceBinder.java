@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.WithinAppServiceConnection;
+
 /* loaded from: classes.dex */
 class WithinAppServiceBinder extends Binder {
     private final IntentHandler intentHandler;

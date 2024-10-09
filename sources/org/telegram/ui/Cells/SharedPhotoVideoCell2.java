@@ -61,6 +61,7 @@ import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoryWidgetsImageDecorator;
 import org.telegram.ui.Stories.recorder.DominantColors;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
+
 /* loaded from: classes4.dex */
 public class SharedPhotoVideoCell2 extends FrameLayout {
     static boolean lastAutoDownload;
@@ -145,12 +146,12 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
 
         public String getFilterString(int i) {
             String str = (String) this.imageFilters.get(i);
-            if (str == null) {
-                String str2 = i + "_" + i + "_isc";
-                this.imageFilters.put(i, str2);
-                return str2;
+            if (str != null) {
+                return str;
             }
-            return str;
+            String str2 = i + "_" + i + "_isc";
+            this.imageFilters.put(i, str2);
+            return str2;
         }
 
         public Bitmap getPrivacyBitmap(Context context, int i) {
@@ -375,14 +376,14 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00a6  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00ab  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00b8  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00dd  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0160  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00a6  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00b1  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00dd  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0160  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00e4  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00b8  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00ab  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -404,7 +405,9 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                 canvas.clipRect(0.0f, 0.0f, rectF.width(), rectF.height());
                 int i = this.currentParentColumnsCount;
                 if (i == 9 || this.videoInfoLayot != null || (str = this.videoText) == null) {
-                    staticLayout = ((i >= 9 || this.videoText == null) && this.videoInfoLayot != null) ? null : null;
+                    if ((i >= 9 || this.videoText == null) && this.videoInfoLayot != null) {
+                        staticLayout = null;
+                    }
                     boolean viewsOnLeft = viewsOnLeft(width);
                     int dp = AndroidUtilities.dp(8.0f);
                     StaticLayout staticLayout2 = this.videoInfoLayot;
@@ -432,7 +435,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                     }
                     canvas.restore();
                 }
-                new StaticLayout(this.videoText, this.sharedResources.textPaint, (int) Math.ceil(this.sharedResources.textPaint.measureText(str)), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                staticLayout = new StaticLayout(this.videoText, this.sharedResources.textPaint, (int) Math.ceil(this.sharedResources.textPaint.measureText(str)), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.videoInfoLayot = staticLayout;
                 boolean viewsOnLeft2 = viewsOnLeft(width);
                 int dp2 = AndroidUtilities.dp(8.0f);
@@ -556,7 +559,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         }
     }
 
-    /* renamed from: onCheckBoxPressed */
+    /* renamed from: onCheckBoxPressed, reason: merged with bridge method [inline-methods] */
     public void lambda$setStyle$1() {
     }
 
@@ -578,8 +581,9 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:137:0x03fa, code lost:
-        if (r1.getProgress() != 0.0f) goto L104;
+    /* JADX WARN: Code restructure failed: missing block: B:103:0x03fa, code lost:
+    
+        if (r1.getProgress() != 0.0f) goto L140;
      */
     @Override // android.view.View
     /*
@@ -897,13 +901,11 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x033b  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x0372  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x0380  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x0386  */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x03be  */
-    /* JADX WARN: Type inference failed for: r4v69, types: [org.telegram.tgnet.tl.TL_stories$StoryItem] */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x0386  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x033b  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0372  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0380  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x03be  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -999,7 +1001,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         }
         animatedTextDrawable.setText(str8, false);
         this.viewsAlpha.set(this.drawViews ? 1.0f : 0.0f, true);
-        MessageObject messageObject5 = messageObject.parentStoriesList != null ? messageObject.storyItem : messageObject;
+        Object obj = messageObject.parentStoriesList != null ? messageObject.storyItem : messageObject;
         if (TextUtils.isEmpty(restrictionReason)) {
             TL_stories.StoryItem storyItem3 = messageObject.storyItem;
             if (storyItem3 == null || !(storyItem3.media instanceof TLRPC.TL_messageMediaUnsupported)) {
@@ -1030,7 +1032,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                             bitmapDrawable = null;
                             j = 0;
                             imageLocation2 = imageLocation3;
-                            imageReceiver.setImage(imageLocation, filterString, imageLocation2, str, bitmapDrawable, j, str2, messageObject5, i3);
+                            imageReceiver.setImage(imageLocation, filterString, imageLocation2, str, bitmapDrawable, j, str2, obj, i3);
                         }
                         bitmapDrawable4 = bitmapDrawable2;
                         imageReceiver3 = this.imageReceiver;
@@ -1059,7 +1061,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                                 i3 = 0;
                                 bitmapDrawable = null;
                                 j = 0;
-                                imageReceiver.setImage(imageLocation, filterString, imageLocation2, str, bitmapDrawable, j, str2, messageObject5, i3);
+                                imageReceiver.setImage(imageLocation, filterString, imageLocation2, str, bitmapDrawable, j, str2, obj, i3);
                             }
                         }
                     }
@@ -1080,7 +1082,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                                 bitmapDrawable = null;
                                 j = 0;
                                 imageLocation2 = imageLocation3;
-                                imageReceiver.setImage(imageLocation, filterString, imageLocation2, str, bitmapDrawable, j, str2, messageObject5, i3);
+                                imageReceiver.setImage(imageLocation, filterString, imageLocation2, str, bitmapDrawable, j, str2, obj, i3);
                             }
                             bitmapDrawable4 = bitmapDrawable2;
                             imageReceiver3 = this.imageReceiver;
@@ -1104,9 +1106,9 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                                 imageReceiver = imageReceiver4;
                                 imageLocation = forObject2;
                                 bitmapDrawable = bitmapDrawable5;
-                                imageReceiver.setImage(imageLocation, filterString, imageLocation2, str, bitmapDrawable, j, str2, messageObject5, i3);
+                                imageReceiver.setImage(imageLocation, filterString, imageLocation2, str, bitmapDrawable, j, str2, obj, i3);
                             } else {
-                                this.imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject), filterString, ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), filterString + "_b", closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L, null, messageObject5, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
+                                this.imageReceiver.setImage(ImageLocation.getForObject(closestPhotoSizeWithSize4, messageObject.photoThumbsObject), filterString, ImageLocation.getForObject(closestPhotoSizeWithSize3, messageObject.photoThumbsObject), filterString + "_b", closestPhotoSizeWithSize4 != null ? closestPhotoSizeWithSize4.size : 0L, null, obj, messageObject.shouldEncryptPhotoOrVideo() ? 2 : 1);
                             }
                         }
                     } else {
@@ -1134,10 +1136,10 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                             j2 = 0;
                             imageReceiver2 = imageReceiver5;
                         }
-                        imageReceiver2.setImage(imageLocation4, str4, forObject, str5, bitmapDrawable3, j2, str3, messageObject5, i4);
+                        imageReceiver2.setImage(imageLocation4, str4, forObject, str5, bitmapDrawable3, j2, str3, obj, i4);
                     }
                 }
-                imageReceiver3.setImage(imageLocation, filterString, bitmapDrawable4, str6, messageObject5, i5);
+                imageReceiver3.setImage(imageLocation, filterString, bitmapDrawable4, str6, obj, i5);
             } else {
                 storyItem3.dialogId = messageObject.getDialogId();
                 Drawable mutate = getContext().getResources().getDrawable(R.drawable.msg_emoji_recent).mutate();
@@ -1273,11 +1275,11 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         if (!this.isStory || (messageObject = this.currentMessageObject) == null || (storyItem = messageObject.storyItem) == null || (storyViews = storyItem.views) == null) {
             this.drawViews = false;
             this.viewsText.setText("", false);
-            return;
+        } else {
+            int i = storyViews.views_count;
+            this.drawViews = i > 0;
+            this.viewsText.setText(AndroidUtilities.formatWholeNumber(i, 0), true);
         }
-        int i = storyViews.views_count;
-        this.drawViews = i > 0;
-        this.viewsText.setText(AndroidUtilities.formatWholeNumber(i, 0), true);
     }
 
     @Override // android.view.View

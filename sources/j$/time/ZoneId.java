@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+
 /* loaded from: classes2.dex */
 public abstract class ZoneId implements Serializable {
     public static final Map a;
@@ -59,13 +60,13 @@ public abstract class ZoneId implements Serializable {
         if (str.length() == 0) {
             return zoneOffset;
         }
-        if (str.equals("GMT") || str.equals("UTC") || str.equals("UT")) {
-            if (zoneOffset.getTotalSeconds() != 0) {
-                str = str.concat(zoneOffset.getId());
-            }
-            return new n(str, ZoneRules.e(zoneOffset));
+        if (!str.equals("GMT") && !str.equals("UTC") && !str.equals("UT")) {
+            throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: ".concat(str));
         }
-        throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: ".concat(str));
+        if (zoneOffset.getTotalSeconds() != 0) {
+            str = str.concat(zoneOffset.getId());
+        }
+        return new n(str, ZoneRules.e(zoneOffset));
     }
 
     private static ZoneId g(String str, int i) {
@@ -73,15 +74,15 @@ public abstract class ZoneId implements Serializable {
         if (str.length() == i) {
             return f(substring, ZoneOffset.f);
         }
-        if (str.charAt(i) == '+' || str.charAt(i) == '-') {
-            try {
-                ZoneOffset h = ZoneOffset.h(str.substring(i));
-                return h == ZoneOffset.f ? f(substring, h) : f(substring, h);
-            } catch (c e) {
-                throw new c("Invalid ID for offset-based ZoneId: ".concat(str), e);
-            }
+        if (str.charAt(i) != '+' && str.charAt(i) != '-') {
+            return n.h(str);
         }
-        return n.h(str);
+        try {
+            ZoneOffset h = ZoneOffset.h(str.substring(i));
+            return h == ZoneOffset.f ? f(substring, h) : f(substring, h);
+        } catch (c e) {
+            throw new c("Invalid ID for offset-based ZoneId: ".concat(str), e);
+        }
     }
 
     public static ZoneId of(String str) {
@@ -92,9 +93,10 @@ public abstract class ZoneId implements Serializable {
         }
         if (str.startsWith("UTC") || str.startsWith("GMT")) {
             i = 3;
-        } else if (!str.startsWith("UT")) {
-            return n.h(str);
         } else {
+            if (!str.startsWith("UT")) {
+                return n.h(str);
+            }
             i = 2;
         }
         return g(str, i);

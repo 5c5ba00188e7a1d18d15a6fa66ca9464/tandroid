@@ -40,6 +40,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ContactsActivity;
 import org.telegram.ui.GroupCreateActivity;
 import org.telegram.ui.PrivacyUsersActivity;
+
 /* loaded from: classes4.dex */
 public class PrivacyUsersActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ContactsActivity.ContactsActivityDelegate {
     private int blockUserDetailRow;
@@ -72,10 +73,10 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$onCreateViewHolder$0(ManageChatUserCell manageChatUserCell, boolean z) {
-            if (z) {
-                PrivacyUsersActivity.this.showUnblockAlert((Long) manageChatUserCell.getTag(), manageChatUserCell);
+            if (!z) {
                 return true;
             }
+            PrivacyUsersActivity.this.showUnblockAlert((Long) manageChatUserCell.getTag(), manageChatUserCell);
             return true;
         }
 
@@ -104,24 +105,28 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             return itemViewType == 0 || itemViewType == 2 || itemViewType == 4;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:56:0x0185, code lost:
-            if (r10 != (r8.this$0.usersEndRow - 1)) goto L57;
+        /* JADX WARN: Code restructure failed: missing block: B:54:0x0185, code lost:
+        
+            if (r10 != (r8.this$0.usersEndRow - 1)) goto L73;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:72:0x01c4, code lost:
-            if (r10 != (r8.this$0.usersEndRow - 1)) goto L57;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:73:0x01c6, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:57:0x01c6, code lost:
+        
             r1 = true;
             r0 = r0;
          */
+        /* JADX WARN: Code restructure failed: missing block: B:71:0x01c4, code lost:
+        
+            if (r10 != (r8.this$0.usersEndRow - 1)) goto L73;
+         */
+        /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             String string;
-            TLRPC.User user;
-            TLRPC.User user2;
+            TLRPC.Chat chat;
+            TLRPC.Chat chat2;
             Context context;
             int i2;
             String string2;
@@ -133,43 +138,44 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                 long keyAt = PrivacyUsersActivity.this.currentType == 1 ? PrivacyUsersActivity.this.getMessagesController().blockePeers.keyAt(i - PrivacyUsersActivity.this.usersStartRow) : ((Long) PrivacyUsersActivity.this.uidArray.get(i - PrivacyUsersActivity.this.usersStartRow)).longValue();
                 manageChatUserCell.setTag(Long.valueOf(keyAt));
                 if (keyAt > 0) {
-                    TLRPC.User user3 = PrivacyUsersActivity.this.getMessagesController().getUser(Long.valueOf(keyAt));
-                    if (user3 == null) {
+                    TLRPC.User user = PrivacyUsersActivity.this.getMessagesController().getUser(Long.valueOf(keyAt));
+                    if (user == 0) {
                         return;
                     }
-                    if (user3.bot) {
+                    if (user.bot) {
                         StringBuilder sb = new StringBuilder();
                         int i4 = R.string.Bot;
                         sb.append(LocaleController.getString(i4).substring(0, 1).toUpperCase());
                         sb.append(LocaleController.getString(i4).substring(1));
                         string = sb.toString();
                     } else {
-                        String str = user3.phone;
+                        String str = user.phone;
                         if (str == null || str.length() == 0) {
                             string = LocaleController.getString(R.string.NumberUnknown);
                         } else {
-                            PhoneFormat phoneFormat = PhoneFormat.getInstance();
-                            string = phoneFormat.format("+" + user3.phone);
+                            string = PhoneFormat.getInstance().format("+" + user.phone);
                         }
                     }
-                    user2 = user3;
-                    user = user3;
+                    chat2 = user;
+                    chat = user;
                 } else {
-                    TLRPC.Chat chat = PrivacyUsersActivity.this.getMessagesController().getChat(Long.valueOf(-keyAt));
-                    if (chat == null) {
+                    TLRPC.Chat chat3 = PrivacyUsersActivity.this.getMessagesController().getChat(Long.valueOf(-keyAt));
+                    if (chat3 == null) {
                         return;
                     }
-                    int i5 = chat.participants_count;
+                    int i5 = chat3.participants_count;
                     if (i5 != 0) {
                         string = LocaleController.formatPluralString("Members", i5, new Object[0]);
                     } else {
-                        string = LocaleController.getString(chat.has_geo ? R.string.MegaLocation : !ChatObject.isPublic(chat) ? R.string.MegaPrivate : R.string.MegaPublic);
+                        string = LocaleController.getString(chat3.has_geo ? R.string.MegaLocation : !ChatObject.isPublic(chat3) ? R.string.MegaPrivate : R.string.MegaPublic);
                     }
-                    user2 = chat;
-                    user = chat;
+                    chat2 = chat3;
+                    chat = chat3;
                 }
-                manageChatUserCell.setData(user2, null, string, z);
-            } else if (itemViewType != 1) {
+                manageChatUserCell.setData(chat2, null, string, z);
+                return;
+            }
+            if (itemViewType != 1) {
                 if (itemViewType != 2) {
                     if (itemViewType != 3) {
                         return;
@@ -194,36 +200,37 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                     }
                 }
                 manageChatTextCell.setText(string2, null, i3, z);
-            } else {
-                TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                if (i == PrivacyUsersActivity.this.blockUserDetailRow) {
-                    if (PrivacyUsersActivity.this.currentType == 1) {
-                        textInfoPrivacyCell.setFixedSize(0);
-                        textInfoPrivacyCell.setText(LocaleController.getString(R.string.BlockedUsersInfo));
-                    } else {
-                        textInfoPrivacyCell.setFixedSize(8);
-                        textInfoPrivacyCell.setText(null);
-                    }
-                    if (PrivacyUsersActivity.this.usersStartRow != -1) {
-                        context = this.mContext;
-                        i2 = R.drawable.greydivider;
-                        textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
-                    }
-                } else if (i != PrivacyUsersActivity.this.usersDetailRow) {
-                    return;
-                } else {
-                    textInfoPrivacyCell.setFixedSize(12);
-                    textInfoPrivacyCell.setText("");
-                }
-                context = this.mContext;
-                i2 = R.drawable.greydivider_bottom;
-                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
+                return;
             }
+            TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
+            if (i == PrivacyUsersActivity.this.blockUserDetailRow) {
+                if (PrivacyUsersActivity.this.currentType == 1) {
+                    textInfoPrivacyCell.setFixedSize(0);
+                    textInfoPrivacyCell.setText(LocaleController.getString(R.string.BlockedUsersInfo));
+                } else {
+                    textInfoPrivacyCell.setFixedSize(8);
+                    textInfoPrivacyCell.setText(null);
+                }
+                if (PrivacyUsersActivity.this.usersStartRow != -1) {
+                    context = this.mContext;
+                    i2 = R.drawable.greydivider;
+                    textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
+                }
+            } else {
+                if (i != PrivacyUsersActivity.this.usersDetailRow) {
+                    return;
+                }
+                textInfoPrivacyCell.setFixedSize(12);
+                textInfoPrivacyCell.setText("");
+            }
+            context = this.mContext;
+            i2 = R.drawable.greydivider_bottom;
+            textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            HeaderCell headerCell;
+            FrameLayout frameLayout;
             if (i == 0) {
                 ManageChatUserCell manageChatUserCell = new ManageChatUserCell(this.mContext, 7, 6, true);
                 manageChatUserCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
@@ -235,26 +242,26 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                         return lambda$onCreateViewHolder$0;
                     }
                 });
-                headerCell = manageChatUserCell;
+                frameLayout = manageChatUserCell;
             } else if (i == 1) {
-                headerCell = new TextInfoPrivacyCell(this.mContext);
+                frameLayout = new TextInfoPrivacyCell(this.mContext);
             } else if (i == 2) {
                 FrameLayout manageChatTextCell = new ManageChatTextCell(this.mContext);
                 manageChatTextCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                headerCell = manageChatTextCell;
+                frameLayout = manageChatTextCell;
             } else if (i != 4) {
-                HeaderCell headerCell2 = new HeaderCell(this.mContext, Theme.key_windowBackgroundWhiteBlueHeader, 21, 11, false);
-                headerCell2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                headerCell2.setHeight(43);
-                headerCell = headerCell2;
+                HeaderCell headerCell = new HeaderCell(this.mContext, Theme.key_windowBackgroundWhiteBlueHeader, 21, 11, false);
+                headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                headerCell.setHeight(43);
+                frameLayout = headerCell;
             } else {
                 TextCell textCell = new TextCell(viewGroup.getContext());
                 textCell.setText(LocaleController.getString(R.string.NotificationsDeleteAllException), false);
                 textCell.setColors(-1, Theme.key_text_RedRegular);
                 textCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                headerCell = textCell;
+                frameLayout = textCell;
             }
-            return new RecyclerListView.Holder(headerCell);
+            return new RecyclerListView.Holder(frameLayout);
         }
     }
 
@@ -270,7 +277,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     public /* synthetic */ void lambda$createView$1() {
         this.uidArray.clear();
         updateRows();
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -286,8 +293,9 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Multi-variable type inference failed */
     public /* synthetic */ void lambda$createView$3(View view, int i) {
-        GroupCreateActivity groupCreateActivity;
+        ProfileActivity profileActivity;
         if (i == this.deleteAllRow) {
             AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString(R.string.NotificationsDeleteAllExceptionTitle), LocaleController.getString(R.string.NotificationsDeleteAllExceptionAlert), LocaleController.getString(R.string.Delete), new Runnable() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
@@ -314,21 +322,22 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             if (this.isAlwaysShare && this.rulesType == 1) {
                 bundle.putBoolean("allowPremium", true);
             }
-            GroupCreateActivity groupCreateActivity2 = new GroupCreateActivity(bundle);
-            groupCreateActivity2.setDelegate(new GroupCreateActivity.GroupCreateActivityDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda7
+            GroupCreateActivity groupCreateActivity = new GroupCreateActivity(bundle);
+            groupCreateActivity.setDelegate(new GroupCreateActivity.GroupCreateActivityDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda7
                 @Override // org.telegram.ui.GroupCreateActivity.GroupCreateActivityDelegate
                 public final void didSelectUsers(boolean z, ArrayList arrayList) {
                     PrivacyUsersActivity.this.lambda$createView$2(z, arrayList);
                 }
             });
-            groupCreateActivity = groupCreateActivity2;
-        } else if (i < this.usersStartRow || i >= this.usersEndRow) {
-            return;
+            profileActivity = groupCreateActivity;
         } else {
+            if (i < this.usersStartRow || i >= this.usersEndRow) {
+                return;
+            }
             if (this.currentType == 1) {
                 Bundle bundle2 = new Bundle();
                 bundle2.putLong("user_id", getMessagesController().blockePeers.keyAt(i - this.usersStartRow));
-                groupCreateActivity = new ProfileActivity(bundle2);
+                profileActivity = new ProfileActivity(bundle2);
             } else {
                 Bundle bundle3 = new Bundle();
                 long longValue = ((Long) this.uidArray.get(i - this.usersStartRow)).longValue();
@@ -337,10 +346,10 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                 } else {
                     bundle3.putLong("chat_id", -longValue);
                 }
-                groupCreateActivity = new ProfileActivity(bundle3);
+                profileActivity = new ProfileActivity(bundle3);
             }
         }
-        presentFragment(groupCreateActivity);
+        presentFragment(profileActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -377,7 +386,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         this.uidArray.remove(l);
         updateRows();
         if (this.uidArray.isEmpty()) {
-            finishFragment();
+            lambda$onBackPressed$300();
         }
     }
 
@@ -501,7 +510,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    PrivacyUsersActivity.this.finishFragment();
+                    PrivacyUsersActivity.this.lambda$onBackPressed$300();
                 }
             }
         });

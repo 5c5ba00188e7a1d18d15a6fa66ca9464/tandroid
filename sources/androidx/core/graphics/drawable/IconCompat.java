@@ -36,6 +36,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public class IconCompat extends CustomVersionedParcelable {
     static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
@@ -56,18 +57,18 @@ public class IconCompat extends CustomVersionedParcelable {
         static IconCompat createFromIconInner(Object obj) {
             Preconditions.checkNotNull(obj);
             int type = getType(obj);
-            if (type != 2) {
-                if (type != 4) {
-                    if (type != 6) {
-                        IconCompat iconCompat = new IconCompat(-1);
-                        iconCompat.mObj1 = obj;
-                        return iconCompat;
-                    }
-                    return IconCompat.createWithAdaptiveBitmapContentUri(getUri(obj));
-                }
+            if (type == 2) {
+                return IconCompat.createWithResource(null, getResPackage(obj), getResId(obj));
+            }
+            if (type == 4) {
                 return IconCompat.createWithContentUri(getUri(obj));
             }
-            return IconCompat.createWithResource(null, getResPackage(obj), getResId(obj));
+            if (type == 6) {
+                return IconCompat.createWithAdaptiveBitmapContentUri(getUri(obj));
+            }
+            IconCompat iconCompat = new IconCompat(-1);
+            iconCompat.mObj1 = obj;
+            return iconCompat;
         }
 
         static int getResId(Object obj) {
@@ -159,9 +160,13 @@ public class IconCompat extends CustomVersionedParcelable {
             return icon.loadDrawable(context);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x002c, code lost:
-            if (r0 >= 26) goto L21;
+        /* JADX WARN: Code restructure failed: missing block: B:20:0x002c, code lost:
+        
+            if (r0 >= 26) goto L14;
          */
+        /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0005. Please report as an issue. */
+        /* JADX WARN: Removed duplicated region for block: B:11:0x00ab  */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x00b4  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -169,6 +174,8 @@ public class IconCompat extends CustomVersionedParcelable {
             Bitmap bitmap;
             Icon createWithResource;
             Bitmap bitmap2;
+            ColorStateList colorStateList;
+            PorterDuff.Mode mode;
             switch (iconCompat.mType) {
                 case -1:
                     return (Icon) iconCompat.mObj1;
@@ -178,52 +185,86 @@ public class IconCompat extends CustomVersionedParcelable {
                 case 1:
                     bitmap = (Bitmap) iconCompat.mObj1;
                     createWithResource = Icon.createWithBitmap(bitmap);
-                    break;
+                    colorStateList = iconCompat.mTintList;
+                    if (colorStateList != null) {
+                        createWithResource.setTintList(colorStateList);
+                    }
+                    mode = iconCompat.mTintMode;
+                    if (mode != IconCompat.DEFAULT_TINT_MODE) {
+                        createWithResource.setTintMode(mode);
+                    }
+                    return createWithResource;
                 case 2:
                     createWithResource = Icon.createWithResource(iconCompat.getResPackage(), iconCompat.mInt1);
-                    break;
+                    colorStateList = iconCompat.mTintList;
+                    if (colorStateList != null) {
+                    }
+                    mode = iconCompat.mTintMode;
+                    if (mode != IconCompat.DEFAULT_TINT_MODE) {
+                    }
+                    return createWithResource;
                 case 3:
                     createWithResource = Icon.createWithData((byte[]) iconCompat.mObj1, iconCompat.mInt1, iconCompat.mInt2);
-                    break;
+                    colorStateList = iconCompat.mTintList;
+                    if (colorStateList != null) {
+                    }
+                    mode = iconCompat.mTintMode;
+                    if (mode != IconCompat.DEFAULT_TINT_MODE) {
+                    }
+                    return createWithResource;
                 case 4:
                     createWithResource = Icon.createWithContentUri((String) iconCompat.mObj1);
-                    break;
+                    colorStateList = iconCompat.mTintList;
+                    if (colorStateList != null) {
+                    }
+                    mode = iconCompat.mTintMode;
+                    if (mode != IconCompat.DEFAULT_TINT_MODE) {
+                    }
+                    return createWithResource;
                 case 5:
-                    if (Build.VERSION.SDK_INT < 26) {
-                        bitmap2 = (Bitmap) iconCompat.mObj1;
-                        bitmap = IconCompat.createLegacyIconFromAdaptiveIcon(bitmap2, false);
-                        createWithResource = Icon.createWithBitmap(bitmap);
-                        break;
-                    } else {
+                    if (Build.VERSION.SDK_INT >= 26) {
                         bitmap2 = (Bitmap) iconCompat.mObj1;
                         createWithResource = Api26Impl.createWithAdaptiveBitmap(bitmap2);
-                        break;
+                        colorStateList = iconCompat.mTintList;
+                        if (colorStateList != null) {
+                        }
+                        mode = iconCompat.mTintMode;
+                        if (mode != IconCompat.DEFAULT_TINT_MODE) {
+                        }
+                        return createWithResource;
                     }
+                    bitmap2 = (Bitmap) iconCompat.mObj1;
+                    bitmap = IconCompat.createLegacyIconFromAdaptiveIcon(bitmap2, false);
+                    createWithResource = Icon.createWithBitmap(bitmap);
+                    colorStateList = iconCompat.mTintList;
+                    if (colorStateList != null) {
+                    }
+                    mode = iconCompat.mTintMode;
+                    if (mode != IconCompat.DEFAULT_TINT_MODE) {
+                    }
+                    return createWithResource;
                 case 6:
                     int i = Build.VERSION.SDK_INT;
                     if (i >= 30) {
                         createWithResource = Api30Impl.createWithAdaptiveBitmapContentUri(iconCompat.getUri());
-                        break;
-                    } else if (context == null) {
-                        throw new IllegalArgumentException("Context is required to resolve the file uri of the icon: " + iconCompat.getUri());
-                    } else {
-                        InputStream uriInputStream = iconCompat.getUriInputStream(context);
-                        if (uriInputStream == null) {
-                            throw new IllegalStateException("Cannot load adaptive icon from uri: " + iconCompat.getUri());
+                        colorStateList = iconCompat.mTintList;
+                        if (colorStateList != null) {
                         }
-                        bitmap2 = BitmapFactory.decodeStream(uriInputStream);
-                        break;
+                        mode = iconCompat.mTintMode;
+                        if (mode != IconCompat.DEFAULT_TINT_MODE) {
+                        }
+                        return createWithResource;
                     }
+                    if (context == null) {
+                        throw new IllegalArgumentException("Context is required to resolve the file uri of the icon: " + iconCompat.getUri());
+                    }
+                    InputStream uriInputStream = iconCompat.getUriInputStream(context);
+                    if (uriInputStream == null) {
+                        throw new IllegalStateException("Cannot load adaptive icon from uri: " + iconCompat.getUri());
+                    }
+                    bitmap2 = BitmapFactory.decodeStream(uriInputStream);
+                    break;
             }
-            ColorStateList colorStateList = iconCompat.mTintList;
-            if (colorStateList != null) {
-                createWithResource.setTintList(colorStateList);
-            }
-            PorterDuff.Mode mode = iconCompat.mTintMode;
-            if (mode != IconCompat.DEFAULT_TINT_MODE) {
-                createWithResource.setTintMode(mode);
-            }
-            return createWithResource;
         }
     }
 
@@ -374,22 +415,22 @@ public class IconCompat extends CustomVersionedParcelable {
 
     public static IconCompat createWithResource(Resources resources, String str, int i) {
         ObjectsCompat.requireNonNull(str);
-        if (i != 0) {
-            IconCompat iconCompat = new IconCompat(2);
-            iconCompat.mInt1 = i;
-            if (resources != null) {
-                try {
-                    iconCompat.mObj1 = resources.getResourceName(i);
-                } catch (Resources.NotFoundException unused) {
-                    throw new IllegalArgumentException("Icon resource cannot be found");
-                }
-            } else {
-                iconCompat.mObj1 = str;
-            }
-            iconCompat.mString1 = str;
-            return iconCompat;
+        if (i == 0) {
+            throw new IllegalArgumentException("Drawable resource ID must not be 0");
         }
-        throw new IllegalArgumentException("Drawable resource ID must not be 0");
+        IconCompat iconCompat = new IconCompat(2);
+        iconCompat.mInt1 = i;
+        if (resources != null) {
+            try {
+                iconCompat.mObj1 = resources.getResourceName(i);
+            } catch (Resources.NotFoundException unused) {
+                throw new IllegalArgumentException("Icon resource cannot be found");
+            }
+        } else {
+            iconCompat.mObj1 = str;
+        }
+        iconCompat.mString1 = str;
+        return iconCompat;
     }
 
     static Resources getResources(Context context, String str) {
@@ -457,9 +498,10 @@ public class IconCompat extends CustomVersionedParcelable {
             } catch (PackageManager.NameNotFoundException e) {
                 throw new IllegalArgumentException("Can't find package " + this.mObj1, e);
             }
-        } else if (i != 5) {
-            throw new IllegalArgumentException("Icon type not supported for intent shortcuts");
         } else {
+            if (i != 5) {
+                throw new IllegalArgumentException("Icon type not supported for intent shortcuts");
+            }
             bitmap = createLegacyIconFromAdaptiveIcon((Bitmap) this.mObj1, true);
         }
         if (drawable != null) {
@@ -503,37 +545,37 @@ public class IconCompat extends CustomVersionedParcelable {
                 return (Bitmap) obj;
             }
             return null;
-        } else if (i == 1) {
-            return (Bitmap) this.mObj1;
-        } else {
-            if (i == 5) {
-                return createLegacyIconFromAdaptiveIcon((Bitmap) this.mObj1, true);
-            }
-            throw new IllegalStateException("called getBitmap() on " + this);
         }
+        if (i == 1) {
+            return (Bitmap) this.mObj1;
+        }
+        if (i == 5) {
+            return createLegacyIconFromAdaptiveIcon((Bitmap) this.mObj1, true);
+        }
+        throw new IllegalStateException("called getBitmap() on " + this);
     }
 
     public int getResId() {
         int i = this.mType;
-        if (i != -1 || Build.VERSION.SDK_INT < 23) {
-            if (i == 2) {
-                return this.mInt1;
-            }
-            throw new IllegalStateException("called getResId() on " + this);
+        if (i == -1 && Build.VERSION.SDK_INT >= 23) {
+            return Api23Impl.getResId(this.mObj1);
         }
-        return Api23Impl.getResId(this.mObj1);
+        if (i == 2) {
+            return this.mInt1;
+        }
+        throw new IllegalStateException("called getResId() on " + this);
     }
 
     public String getResPackage() {
         int i = this.mType;
-        if (i != -1 || Build.VERSION.SDK_INT < 23) {
-            if (i == 2) {
-                String str = this.mString1;
-                return (str == null || TextUtils.isEmpty(str)) ? ((String) this.mObj1).split(":", -1)[0] : this.mString1;
-            }
-            throw new IllegalStateException("called getResPackage() on " + this);
+        if (i == -1 && Build.VERSION.SDK_INT >= 23) {
+            return Api23Impl.getResPackage(this.mObj1);
         }
-        return Api23Impl.getResPackage(this.mObj1);
+        if (i == 2) {
+            String str = this.mString1;
+            return (str == null || TextUtils.isEmpty(str)) ? ((String) this.mObj1).split(":", -1)[0] : this.mString1;
+        }
+        throw new IllegalStateException("called getResPackage() on " + this);
     }
 
     public int getType() {
@@ -543,13 +585,13 @@ public class IconCompat extends CustomVersionedParcelable {
 
     public Uri getUri() {
         int i = this.mType;
-        if (i != -1 || Build.VERSION.SDK_INT < 23) {
-            if (i == 4 || i == 6) {
-                return Uri.parse((String) this.mObj1);
-            }
-            throw new IllegalStateException("called getUri() on " + this);
+        if (i == -1 && Build.VERSION.SDK_INT >= 23) {
+            return Api23Impl.getUri(this.mObj1);
         }
-        return Api23Impl.getUri(this.mObj1);
+        if (i == 4 || i == 6) {
+            return Uri.parse((String) this.mObj1);
+        }
+        throw new IllegalStateException("called getUri() on " + this);
     }
 
     public InputStream getUriInputStream(Context context) {
@@ -636,8 +678,9 @@ public class IconCompat extends CustomVersionedParcelable {
             case 1:
             case 5:
                 if (z) {
+                    Bitmap bitmap = (Bitmap) this.mObj1;
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    ((Bitmap) this.mObj1).compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream);
                     this.mData = byteArrayOutputStream.toByteArray();
                     return;
                 }
@@ -656,14 +699,34 @@ public class IconCompat extends CustomVersionedParcelable {
         this.mParcelable = (Parcelable) this.mObj1;
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0009. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x005c  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0051  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public Bundle toBundle() {
         Parcelable parcelable;
+        ColorStateList colorStateList;
+        PorterDuff.Mode mode;
         Bundle bundle = new Bundle();
         switch (this.mType) {
             case -1:
                 parcelable = (Parcelable) this.mObj1;
                 bundle.putParcelable("obj", parcelable);
-                break;
+                bundle.putInt("type", this.mType);
+                bundle.putInt("int1", this.mInt1);
+                bundle.putInt("int2", this.mInt2);
+                bundle.putString("string1", this.mString1);
+                colorStateList = this.mTintList;
+                if (colorStateList != null) {
+                    bundle.putParcelable("tint_list", colorStateList);
+                }
+                mode = this.mTintMode;
+                if (mode != DEFAULT_TINT_MODE) {
+                    bundle.putString("tint_mode", mode.name());
+                }
+                return bundle;
             case 0:
             default:
                 throw new IllegalArgumentException("Invalid icon");
@@ -671,29 +734,46 @@ public class IconCompat extends CustomVersionedParcelable {
             case 5:
                 parcelable = (Bitmap) this.mObj1;
                 bundle.putParcelable("obj", parcelable);
-                break;
+                bundle.putInt("type", this.mType);
+                bundle.putInt("int1", this.mInt1);
+                bundle.putInt("int2", this.mInt2);
+                bundle.putString("string1", this.mString1);
+                colorStateList = this.mTintList;
+                if (colorStateList != null) {
+                }
+                mode = this.mTintMode;
+                if (mode != DEFAULT_TINT_MODE) {
+                }
+                return bundle;
             case 2:
             case 4:
             case 6:
                 bundle.putString("obj", (String) this.mObj1);
-                break;
+                bundle.putInt("type", this.mType);
+                bundle.putInt("int1", this.mInt1);
+                bundle.putInt("int2", this.mInt2);
+                bundle.putString("string1", this.mString1);
+                colorStateList = this.mTintList;
+                if (colorStateList != null) {
+                }
+                mode = this.mTintMode;
+                if (mode != DEFAULT_TINT_MODE) {
+                }
+                return bundle;
             case 3:
                 bundle.putByteArray("obj", (byte[]) this.mObj1);
-                break;
+                bundle.putInt("type", this.mType);
+                bundle.putInt("int1", this.mInt1);
+                bundle.putInt("int2", this.mInt2);
+                bundle.putString("string1", this.mString1);
+                colorStateList = this.mTintList;
+                if (colorStateList != null) {
+                }
+                mode = this.mTintMode;
+                if (mode != DEFAULT_TINT_MODE) {
+                }
+                return bundle;
         }
-        bundle.putInt("type", this.mType);
-        bundle.putInt("int1", this.mInt1);
-        bundle.putInt("int2", this.mInt2);
-        bundle.putString("string1", this.mString1);
-        ColorStateList colorStateList = this.mTintList;
-        if (colorStateList != null) {
-            bundle.putParcelable("tint_list", colorStateList);
-        }
-        PorterDuff.Mode mode = this.mTintMode;
-        if (mode != DEFAULT_TINT_MODE) {
-            bundle.putString("tint_mode", mode.name());
-        }
-        return bundle;
     }
 
     public Icon toIcon() {

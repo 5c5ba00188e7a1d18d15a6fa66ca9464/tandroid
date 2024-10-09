@@ -14,6 +14,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.LongSparseArray;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ import org.telegram.ui.Cells.SharedAudioCell;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertAudioLayout;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private ArrayList audioEntries;
@@ -89,7 +91,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
-            return ChatAttachAlertAudioLayout.this.audioEntries.size() + 1 + (!ChatAttachAlertAudioLayout.this.audioEntries.isEmpty());
+            return ChatAttachAlertAudioLayout.this.audioEntries.size() + 1 + (!ChatAttachAlertAudioLayout.this.audioEntries.isEmpty() ? 1 : 0);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -174,7 +176,9 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 return;
             }
             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-            translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
+            if (lowerCase.equals(translitString) || translitString.length() == 0) {
+                translitString = null;
+            }
             int i2 = (translitString != null ? 1 : 0) + 1;
             String[] strArr = new String[i2];
             strArr[0] = lowerCase;
@@ -241,7 +245,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
-            return this.searchResult.size() + 1 + (!this.searchResult.isEmpty());
+            return this.searchResult.size() + 1 + (!this.searchResult.isEmpty() ? 1 : 0);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -502,59 +506,62 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
             Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, strArr, "is_music != 0", null, "title");
             int i = -2000000000;
             while (query.moveToNext()) {
-                MediaController.AudioEntry audioEntry = new MediaController.AudioEntry();
-                audioEntry.id = query.getInt(0);
-                audioEntry.author = query.getString(1);
-                audioEntry.title = query.getString(2);
-                audioEntry.path = query.getString(3);
-                audioEntry.duration = (int) (query.getLong(4) / 1000);
-                audioEntry.genre = query.getString(5);
-                File file = new File(audioEntry.path);
-                TLRPC.TL_message tL_message = new TLRPC.TL_message();
-                tL_message.out = true;
-                tL_message.id = i;
-                tL_message.peer_id = new TLRPC.TL_peerUser();
-                TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
-                tL_message.from_id = tL_peerUser;
-                TLRPC.Peer peer = tL_message.peer_id;
-                long clientUserId = UserConfig.getInstance(this.parentAlert.currentAccount).getClientUserId();
-                tL_peerUser.user_id = clientUserId;
-                peer.user_id = clientUserId;
-                tL_message.date = (int) (System.currentTimeMillis() / 1000);
-                tL_message.message = "";
-                tL_message.attachPath = audioEntry.path;
-                TLRPC.TL_messageMediaDocument tL_messageMediaDocument = new TLRPC.TL_messageMediaDocument();
-                tL_message.media = tL_messageMediaDocument;
-                tL_messageMediaDocument.flags |= 3;
-                tL_messageMediaDocument.document = new TLRPC.TL_document();
-                tL_message.flags |= 768;
-                String fileExtension = FileLoader.getFileExtension(file);
-                TLRPC.Document document = tL_message.media.document;
-                document.id = 0L;
-                document.access_hash = 0L;
-                document.file_reference = new byte[0];
-                document.date = tL_message.date;
-                StringBuilder sb = new StringBuilder();
-                sb.append("audio/");
-                if (fileExtension.length() <= 0) {
-                    fileExtension = "mp3";
+                try {
+                    MediaController.AudioEntry audioEntry = new MediaController.AudioEntry();
+                    audioEntry.id = query.getInt(0);
+                    audioEntry.author = query.getString(1);
+                    audioEntry.title = query.getString(2);
+                    audioEntry.path = query.getString(3);
+                    audioEntry.duration = (int) (query.getLong(4) / 1000);
+                    audioEntry.genre = query.getString(5);
+                    File file = new File(audioEntry.path);
+                    TLRPC.TL_message tL_message = new TLRPC.TL_message();
+                    tL_message.out = true;
+                    tL_message.id = i;
+                    tL_message.peer_id = new TLRPC.TL_peerUser();
+                    TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
+                    tL_message.from_id = tL_peerUser;
+                    TLRPC.Peer peer = tL_message.peer_id;
+                    long clientUserId = UserConfig.getInstance(this.parentAlert.currentAccount).getClientUserId();
+                    tL_peerUser.user_id = clientUserId;
+                    peer.user_id = clientUserId;
+                    tL_message.date = (int) (System.currentTimeMillis() / 1000);
+                    tL_message.message = "";
+                    tL_message.attachPath = audioEntry.path;
+                    TLRPC.TL_messageMediaDocument tL_messageMediaDocument = new TLRPC.TL_messageMediaDocument();
+                    tL_message.media = tL_messageMediaDocument;
+                    tL_messageMediaDocument.flags |= 3;
+                    tL_messageMediaDocument.document = new TLRPC.TL_document();
+                    tL_message.flags |= 768;
+                    String fileExtension = FileLoader.getFileExtension(file);
+                    TLRPC.Document document = tL_message.media.document;
+                    document.id = 0L;
+                    document.access_hash = 0L;
+                    document.file_reference = new byte[0];
+                    document.date = tL_message.date;
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("audio/");
+                    if (fileExtension.length() <= 0) {
+                        fileExtension = "mp3";
+                    }
+                    sb.append(fileExtension);
+                    document.mime_type = sb.toString();
+                    tL_message.media.document.size = (int) file.length();
+                    tL_message.media.document.dc_id = 0;
+                    TLRPC.TL_documentAttributeAudio tL_documentAttributeAudio = new TLRPC.TL_documentAttributeAudio();
+                    tL_documentAttributeAudio.duration = audioEntry.duration;
+                    tL_documentAttributeAudio.title = audioEntry.title;
+                    tL_documentAttributeAudio.performer = audioEntry.author;
+                    tL_documentAttributeAudio.flags = 3 | tL_documentAttributeAudio.flags;
+                    tL_message.media.document.attributes.add(tL_documentAttributeAudio);
+                    TLRPC.TL_documentAttributeFilename tL_documentAttributeFilename = new TLRPC.TL_documentAttributeFilename();
+                    tL_documentAttributeFilename.file_name = file.getName();
+                    tL_message.media.document.attributes.add(tL_documentAttributeFilename);
+                    audioEntry.messageObject = new MessageObject(this.parentAlert.currentAccount, tL_message, false, true);
+                    arrayList.add(audioEntry);
+                    i--;
+                } finally {
                 }
-                sb.append(fileExtension);
-                document.mime_type = sb.toString();
-                tL_message.media.document.size = (int) file.length();
-                tL_message.media.document.dc_id = 0;
-                TLRPC.TL_documentAttributeAudio tL_documentAttributeAudio = new TLRPC.TL_documentAttributeAudio();
-                tL_documentAttributeAudio.duration = audioEntry.duration;
-                tL_documentAttributeAudio.title = audioEntry.title;
-                tL_documentAttributeAudio.performer = audioEntry.author;
-                tL_documentAttributeAudio.flags = 3 | tL_documentAttributeAudio.flags;
-                tL_message.media.document.attributes.add(tL_documentAttributeAudio);
-                TLRPC.TL_documentAttributeFilename tL_documentAttributeFilename = new TLRPC.TL_documentAttributeFilename();
-                tL_documentAttributeFilename.file_name = file.getName();
-                tL_message.media.document.attributes.add(tL_documentAttributeFilename);
-                audioEntry.messageObject = new MessageObject(this.parentAlert.currentAccount, tL_message, false, true);
-                arrayList.add(audioEntry);
-                i--;
             }
             query.close();
         } catch (Exception e) {
@@ -594,7 +601,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x008a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -608,12 +615,13 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 ArrayList arrayList = new ArrayList();
                 arrayList.add(audioEntry.messageObject);
                 this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), false, 0, 0L, false);
-            } else if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
-                this.selectedAudios.remove(audioEntry.id);
-                this.selectedAudiosOrder.remove(audioEntry);
-                sharedAudioCell.setChecked(false, true);
-                this.parentAlert.updateCountButton(z ? 1 : 2);
             } else {
+                if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
+                    this.selectedAudios.remove(audioEntry.id);
+                    this.selectedAudiosOrder.remove(audioEntry);
+                    sharedAudioCell.setChecked(false, true);
+                    this.parentAlert.updateCountButton(z ? 1 : 2);
+                }
                 if (this.maxSelectedFiles >= 0) {
                     int size = this.selectedAudios.size();
                     int i = this.maxSelectedFiles;
@@ -645,7 +653,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.shadowAnimation = animatorSet2;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, (Property<View, Float>) View.ALPHA, z ? 1.0f : 0.0f));
         this.shadowAnimation.setDuration(150L);
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout.5
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -706,8 +714,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
     public void updateEmptyViewPosition() {
         View childAt;
         if (this.currentEmptyView.getVisibility() == 0 && (childAt = this.listView.getChildAt(0)) != null) {
-            View view = this.currentEmptyView;
-            view.setTranslationY((((view.getMeasuredHeight() - getMeasuredHeight()) + childAt.getTop()) / 2) - (this.currentPanTranslationProgress / 2.0f));
+            this.currentEmptyView.setTranslationY((((r1.getMeasuredHeight() - getMeasuredHeight()) + childAt.getTop()) / 2) - (this.currentPanTranslationProgress / 2.0f));
         }
     }
 
@@ -726,7 +733,9 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                         }
                     }
                 }
-            } else if (i == NotificationCenter.messagePlayingDidStart && ((MessageObject) objArr[0]).eventId == 0) {
+                return;
+            }
+            if (i == NotificationCenter.messagePlayingDidStart && ((MessageObject) objArr[0]).eventId == 0) {
                 int childCount2 = this.listView.getChildCount();
                 for (int i5 = 0; i5 < childCount2; i5++) {
                     View childAt2 = this.listView.getChildAt(i5);

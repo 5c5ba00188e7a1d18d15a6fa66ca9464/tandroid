@@ -4,6 +4,7 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.view.View;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class RendererCommon {
     private static float BALANCED_VISIBLE_FRACTION = 0.5625f;
@@ -67,8 +68,9 @@ public class RendererCommon {
             this.visibleFractionMismatchOrientation = RendererCommon.convertScalingTypeToVisibleFraction(scalingType);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:33:0x0055, code lost:
-            if ((r11 > 1.0f) == (r12 > 1.0f)) goto L29;
+        /* JADX WARN: Code restructure failed: missing block: B:27:0x0055, code lost:
+        
+            if ((r11 > 1.0f) == (r12 > 1.0f)) goto L34;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -133,16 +135,16 @@ public class RendererCommon {
     /* JADX INFO: Access modifiers changed from: private */
     public static float convertScalingTypeToVisibleFraction(ScalingType scalingType) {
         int i = 1.$SwitchMap$org$webrtc$RendererCommon$ScalingType[scalingType.ordinal()];
-        if (i != 1) {
-            if (i != 2) {
-                if (i == 3) {
-                    return BALANCED_VISIBLE_FRACTION;
-                }
-                throw new IllegalArgumentException();
-            }
+        if (i == 1) {
+            return 1.0f;
+        }
+        if (i == 2) {
             return 0.0f;
         }
-        return 1.0f;
+        if (i == 3) {
+            return BALANCED_VISIBLE_FRACTION;
+        }
+        throw new IllegalArgumentException();
     }
 
     public static Point getDisplaySize(float f, float f2, int i, int i2) {

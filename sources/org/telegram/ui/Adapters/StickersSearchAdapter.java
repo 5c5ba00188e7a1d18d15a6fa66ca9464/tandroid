@@ -9,6 +9,7 @@ import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
@@ -37,6 +38,7 @@ import org.telegram.ui.Cells.StickerEmojiCell;
 import org.telegram.ui.Cells.StickerSetNameCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     boolean cleared;
@@ -172,10 +174,12 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:16:0x0073, code lost:
-            if (r7.charAt(r10) <= 57343) goto L17;
+        
+            if (r7.charAt(r10) <= 57343) goto L23;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:22:0x008d, code lost:
-            if (r7.charAt(r10) != 9794) goto L27;
+        /* JADX WARN: Code restructure failed: missing block: B:26:0x008d, code lost:
+        
+            if (r7.charAt(r10) != 9794) goto L25;
          */
         @Override // java.lang.Runnable
         /*
@@ -427,10 +431,10 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
         if (!featuredStickerSetInfoCell.isInstalled()) {
             installStickerSet(stickerSet, featuredStickerSetInfoCell);
-            return;
+        } else {
+            this.removingStickerSets.put(stickerSet.set.id, stickerSet);
+            this.delegate.onStickerSetRemove(featuredStickerSetInfoCell.getStickerSet());
         }
-        this.removingStickerSets.put(stickerSet.set.id, stickerSet);
-        this.delegate.onStickerSetRemove(featuredStickerSetInfoCell.getStickerSet());
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -447,13 +451,13 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
             return 4;
         }
         Object obj = this.cache.get(i);
-        if (obj != null) {
-            if (obj instanceof TLRPC.Document) {
-                return 0;
-            }
-            return obj instanceof TLRPC.StickerSetCovered ? 3 : 2;
+        if (obj == null) {
+            return 1;
         }
-        return 1;
+        if (obj instanceof TLRPC.Document) {
+            return 0;
+        }
+        return obj instanceof TLRPC.StickerSetCovered ? 3 : 2;
     }
 
     public TLRPC.StickerSetCovered getSetForPosition(int i) {
@@ -487,76 +491,99 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x003f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x003f, code lost:
+    
         r1 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0040, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0040, code lost:
+    
         r2 = r7.primaryInstallingStickerSets;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0044, code lost:
-        if (r1 >= r2.length) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0044, code lost:
+    
+        if (r1 >= r2.length) goto L44;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0048, code lost:
-        if (r2[r1] != null) goto L17;
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0048, code lost:
+    
+        if (r2[r1] != null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x004a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x004e, code lost:
+    
+        r1 = r1 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x004a, code lost:
+    
         r2[r1] = r8;
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x004e, code lost:
-        r1 = r1 + 1;
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0052, code lost:
+    
+        if (r1 != false) goto L27;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0051, code lost:
-        r1 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0054, code lost:
+    
+        if (r9 == null) goto L27;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0052, code lost:
-        if (r1 != false) goto L23;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0054, code lost:
-        if (r9 == null) goto L23;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0056, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0056, code lost:
+    
         r9.setAddDrawProgress(true, true);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0059, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0059, code lost:
+    
         r7.installingStickerSets.put(r8.set.id, r8);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0062, code lost:
-        if (r9 == null) goto L28;
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0062, code lost:
+    
+        if (r9 == null) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0064, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0064, code lost:
+    
         r7.delegate.onStickerSetAdd(r9.getStickerSet(), r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x006e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0098, code lost:
+    
+        return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x006e, code lost:
+    
         r9 = r7.positionsToSets.size();
         r1 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0075, code lost:
-        if (r1 >= r9) goto L40;
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0075, code lost:
+    
+        if (r1 >= r9) goto L46;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0077, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x0077, code lost:
+    
         r2 = (org.telegram.tgnet.TLRPC.StickerSetCovered) r7.positionsToSets.get(r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x007f, code lost:
-        if (r2 == null) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x007f, code lost:
+    
+        if (r2 == null) goto L48;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x008b, code lost:
-        if (r2.set.id != r8.set.id) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x008b, code lost:
+    
+        if (r2.set.id != r8.set.id) goto L49;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x008d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x008d, code lost:
+    
         notifyItemChanged(r1, 0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0095, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:?, code lost:
+    
+        return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0095, code lost:
+    
         r1 = r1 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0098, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:?, code lost:
+    
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:?, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:51:?, code lost:
-        return;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0051, code lost:
+    
+        r1 = false;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -601,7 +628,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.totalItems = 0;
         int size = this.serverPacks.size();
         int size2 = this.localPacks.size();
-        int i2 = !this.emojiArrays.isEmpty();
+        int i2 = !this.emojiArrays.isEmpty() ? 1 : 0;
         int i3 = 0;
         int i4 = 0;
         while (i3 < size + size2 + i2) {
@@ -700,33 +727,37 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         int itemViewType = viewHolder.getItemViewType();
         if (itemViewType == 0) {
             ((StickerEmojiCell) viewHolder.itemView).setSticker((TLRPC.Document) this.cache.get(i), null, this.cacheParent.get(i), (String) this.positionToEmoji.get(i), false);
-        } else if (itemViewType == 1) {
+            return;
+        }
+        if (itemViewType == 1) {
             ((EmptyCell) viewHolder.itemView).setHeight(0);
-        } else if (itemViewType != 2) {
+            return;
+        }
+        if (itemViewType != 2) {
             if (itemViewType != 3) {
                 return;
             }
             bindFeaturedStickerSetInfoCell((FeaturedStickerSetInfoCell) viewHolder.itemView, i, false);
-        } else {
-            StickerSetNameCell stickerSetNameCell = (StickerSetNameCell) viewHolder.itemView;
-            Object obj = this.cache.get(i);
-            if (obj instanceof TLRPC.TL_messages_stickerSet) {
-                TLRPC.TL_messages_stickerSet tL_messages_stickerSet = (TLRPC.TL_messages_stickerSet) obj;
-                if (!TextUtils.isEmpty(this.searchQuery) && this.localPacksByShortName.containsKey(tL_messages_stickerSet)) {
-                    TLRPC.StickerSet stickerSet = tL_messages_stickerSet.set;
-                    if (stickerSet != null) {
-                        stickerSetNameCell.setText(stickerSet.title, 0);
-                    }
-                    stickerSetNameCell.setUrl(tL_messages_stickerSet.set.short_name, this.searchQuery.length());
-                    return;
+            return;
+        }
+        StickerSetNameCell stickerSetNameCell = (StickerSetNameCell) viewHolder.itemView;
+        Object obj = this.cache.get(i);
+        if (obj instanceof TLRPC.TL_messages_stickerSet) {
+            TLRPC.TL_messages_stickerSet tL_messages_stickerSet = (TLRPC.TL_messages_stickerSet) obj;
+            if (!TextUtils.isEmpty(this.searchQuery) && this.localPacksByShortName.containsKey(tL_messages_stickerSet)) {
+                TLRPC.StickerSet stickerSet = tL_messages_stickerSet.set;
+                if (stickerSet != null) {
+                    stickerSetNameCell.setText(stickerSet.title, 0);
                 }
-                Integer num = (Integer) this.localPacksByName.get(tL_messages_stickerSet);
-                TLRPC.StickerSet stickerSet2 = tL_messages_stickerSet.set;
-                if (stickerSet2 != null && num != null) {
-                    stickerSetNameCell.setText(stickerSet2.title, 0, num.intValue(), !TextUtils.isEmpty(this.searchQuery) ? this.searchQuery.length() : 0);
-                }
-                stickerSetNameCell.setUrl(null, 0);
+                stickerSetNameCell.setUrl(tL_messages_stickerSet.set.short_name, this.searchQuery.length());
+                return;
             }
+            Integer num = (Integer) this.localPacksByName.get(tL_messages_stickerSet);
+            TLRPC.StickerSet stickerSet2 = tL_messages_stickerSet.set;
+            if (stickerSet2 != null && num != null) {
+                stickerSetNameCell.setText(stickerSet2.title, 0, num.intValue(), !TextUtils.isEmpty(this.searchQuery) ? this.searchQuery.length() : 0);
+            }
+            stickerSetNameCell.setUrl(null, 0);
         }
     }
 
@@ -739,32 +770,36 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r7v10, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r7v8, types: [android.view.View] */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view;
-        LinearLayout linearLayout;
+        FrameLayout frameLayout;
+        FrameLayout frameLayout2;
+        boolean z = false;
         if (i != 0) {
             if (i == 1) {
-                linearLayout = new EmptyCell(this.context);
+                frameLayout2 = new EmptyCell(this.context);
             } else if (i == 2) {
-                view = new StickerSetNameCell(this.context, false, true, this.resourcesProvider);
+                frameLayout = new StickerSetNameCell(this.context, false, true, this.resourcesProvider);
             } else if (i == 3) {
                 FeaturedStickerSetInfoCell featuredStickerSetInfoCell = new FeaturedStickerSetInfoCell(this.context, 17, true, true, this.resourcesProvider);
                 featuredStickerSetInfoCell.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view2) {
-                        StickersSearchAdapter.this.lambda$onCreateViewHolder$0(view2);
+                    public final void onClick(View view) {
+                        StickersSearchAdapter.this.lambda$onCreateViewHolder$0(view);
                     }
                 });
-                linearLayout = featuredStickerSetInfoCell;
+                frameLayout2 = featuredStickerSetInfoCell;
             } else if (i == 4) {
-                linearLayout = new View(this.context);
+                frameLayout2 = new View(this.context);
             } else if (i != 5) {
-                linearLayout = null;
+                frameLayout2 = null;
             } else {
-                LinearLayout linearLayout2 = new LinearLayout(this.context);
-                linearLayout2.setOrientation(1);
-                linearLayout2.setGravity(17);
+                ?? linearLayout = new LinearLayout(this.context);
+                linearLayout.setOrientation(1);
+                linearLayout.setGravity(17);
                 ImageView imageView = new ImageView(this.context);
                 this.emptyImageView = imageView;
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -772,30 +807,30 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 ImageView imageView2 = this.emptyImageView;
                 int i2 = Theme.key_chat_emojiPanelEmptyText;
                 imageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i2), PorterDuff.Mode.MULTIPLY));
-                linearLayout2.addView(this.emptyImageView, LayoutHelper.createLinear(-2, -2));
-                linearLayout2.addView(new Space(this.context), LayoutHelper.createLinear(-1, 15));
+                linearLayout.addView(this.emptyImageView, LayoutHelper.createLinear(-2, -2));
+                linearLayout.addView(new Space(this.context), LayoutHelper.createLinear(-1, 15));
                 TextView textView = new TextView(this.context);
                 this.emptyTextView = textView;
                 textView.setText(LocaleController.getString(R.string.NoStickersFound));
                 this.emptyTextView.setTextSize(1, 16.0f);
                 this.emptyTextView.setTextColor(getThemedColor(i2));
-                linearLayout2.addView(this.emptyTextView, LayoutHelper.createLinear(-2, -2));
-                linearLayout2.setMinimumHeight(AndroidUtilities.dp(112.0f));
-                linearLayout2.setLayoutParams(LayoutHelper.createFrame(-1, -1.0f));
-                linearLayout = linearLayout2;
+                linearLayout.addView(this.emptyTextView, LayoutHelper.createLinear(-2, -2));
+                linearLayout.setMinimumHeight(AndroidUtilities.dp(112.0f));
+                linearLayout.setLayoutParams(LayoutHelper.createFrame(-1, -1.0f));
+                frameLayout2 = linearLayout;
             }
-            return new RecyclerListView.Holder(linearLayout);
+            return new RecyclerListView.Holder(frameLayout2);
         }
-        StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this.context, false, this.resourcesProvider) { // from class: org.telegram.ui.Adapters.StickersSearchAdapter.2
+        StickerEmojiCell stickerEmojiCell = new StickerEmojiCell(this.context, z, this.resourcesProvider) { // from class: org.telegram.ui.Adapters.StickersSearchAdapter.2
             @Override // android.widget.FrameLayout, android.view.View
             public void onMeasure(int i3, int i4) {
                 super.onMeasure(i3, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(82.0f), 1073741824));
             }
         };
         stickerEmojiCell.getImageView().setLayerNum(3);
-        view = stickerEmojiCell;
-        linearLayout = view;
-        return new RecyclerListView.Holder(linearLayout);
+        frameLayout = stickerEmojiCell;
+        frameLayout2 = frameLayout;
+        return new RecyclerListView.Holder(frameLayout2);
     }
 
     public void search(String str) {

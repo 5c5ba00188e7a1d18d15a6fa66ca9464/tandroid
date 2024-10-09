@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import j$.util.function.Predicate;
+
 /* loaded from: classes2.dex */
 public interface Predicate<T> {
 

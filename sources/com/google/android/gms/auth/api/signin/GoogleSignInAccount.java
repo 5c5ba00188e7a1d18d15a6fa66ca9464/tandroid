@@ -21,6 +21,7 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class GoogleSignInAccount extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<GoogleSignInAccount> CREATOR = new zab();
@@ -85,11 +86,11 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
         if (obj == this) {
             return true;
         }
-        if (obj instanceof GoogleSignInAccount) {
-            GoogleSignInAccount googleSignInAccount = (GoogleSignInAccount) obj;
-            return googleSignInAccount.zak.equals(this.zak) && googleSignInAccount.getRequestedScopes().equals(getRequestedScopes());
+        if (!(obj instanceof GoogleSignInAccount)) {
+            return false;
         }
-        return false;
+        GoogleSignInAccount googleSignInAccount = (GoogleSignInAccount) obj;
+        return googleSignInAccount.zak.equals(this.zak) && googleSignInAccount.getRequestedScopes().equals(getRequestedScopes());
     }
 
     public String getDisplayName() {

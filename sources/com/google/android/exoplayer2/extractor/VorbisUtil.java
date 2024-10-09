@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class VorbisUtil {
 
@@ -191,9 +192,10 @@ public abstract class VorbisUtil {
                 for (int i2 = 0; i2 < readBits3; i2++) {
                     vorbisBitArray.skipBits(8);
                 }
-            } else if (readBits2 != 1) {
-                throw ParserException.createForMalformedContainer("floor type greater than 1 not decodable: " + readBits2, null);
             } else {
+                if (readBits2 != 1) {
+                    throw ParserException.createForMalformedContainer("floor type greater than 1 not decodable: " + readBits2, null);
+                }
                 int readBits4 = vorbisBitArray.readBits(5);
                 int[] iArr = new int[readBits4];
                 int i3 = -1;
@@ -373,18 +375,19 @@ public abstract class VorbisUtil {
                 return false;
             }
             throw ParserException.createForMalformedContainer("too short header: " + parsableByteArray.bytesLeft(), null);
-        } else if (parsableByteArray.readUnsignedByte() != i) {
+        }
+        if (parsableByteArray.readUnsignedByte() != i) {
             if (z) {
                 return false;
             }
             throw ParserException.createForMalformedContainer("expected header type " + Integer.toHexString(i), null);
-        } else if (parsableByteArray.readUnsignedByte() == 118 && parsableByteArray.readUnsignedByte() == 111 && parsableByteArray.readUnsignedByte() == 114 && parsableByteArray.readUnsignedByte() == 98 && parsableByteArray.readUnsignedByte() == 105 && parsableByteArray.readUnsignedByte() == 115) {
-            return true;
-        } else {
-            if (z) {
-                return false;
-            }
-            throw ParserException.createForMalformedContainer("expected characters 'vorbis'", null);
         }
+        if (parsableByteArray.readUnsignedByte() == 118 && parsableByteArray.readUnsignedByte() == 111 && parsableByteArray.readUnsignedByte() == 114 && parsableByteArray.readUnsignedByte() == 98 && parsableByteArray.readUnsignedByte() == 105 && parsableByteArray.readUnsignedByte() == 115) {
+            return true;
+        }
+        if (z) {
+            return false;
+        }
+        throw ParserException.createForMalformedContainer("expected characters 'vorbis'", null);
     }
 }

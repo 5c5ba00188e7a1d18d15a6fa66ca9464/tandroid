@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.primitives.Longs;
 import java.util.Arrays;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class Metadata implements Parcelable {
     public static final Parcelable.Creator<Metadata> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.Metadata.1

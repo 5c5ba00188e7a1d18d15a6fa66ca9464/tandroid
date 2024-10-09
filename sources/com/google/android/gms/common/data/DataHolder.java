@@ -10,6 +10,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 /* loaded from: classes.dex */
 public final class DataHolder extends AbstractSafeParcelable implements Closeable {
     public static final Parcelable.Creator<DataHolder> CREATOR = new zaf();
@@ -67,8 +68,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
         try {
             if (this.zak && this.zah.length > 0 && !isClosed()) {
                 close();
-                String obj = toString();
-                Log.e("DataBuffer", "Internal data leak within a DataBuffer object detected!  Be sure to explicitly call release() on all DataBuffer extending objects when you are done with them. (internal object: " + obj + ")");
+                Log.e("DataBuffer", "Internal data leak within a DataBuffer object detected!  Be sure to explicitly call release() on all DataBuffer extending objects when you are done with them. (internal object: " + toString() + ")");
             }
         } finally {
             super.finalize();

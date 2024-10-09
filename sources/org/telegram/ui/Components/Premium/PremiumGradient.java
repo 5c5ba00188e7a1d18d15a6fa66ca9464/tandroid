@@ -22,6 +22,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class PremiumGradient {
     private static PremiumGradient instance;
@@ -146,11 +147,17 @@ public class PremiumGradient {
             } else {
                 float f9 = this.x1;
                 if (color5 == 0) {
+                    float f10 = this.y1 * 100.0f;
+                    float f11 = this.x2 * 100.0f;
+                    float f12 = this.y2 * 100.0f;
                     int[] iArr4 = this.colors;
-                    linearGradient = new LinearGradient(f9 * 100.0f, this.y1 * 100.0f, this.x2 * 100.0f, this.y2 * 100.0f, new int[]{iArr4[0], iArr4[1], iArr4[2], iArr4[3]}, new float[]{0.0f, 0.5f, 0.78f, 1.0f}, Shader.TileMode.CLAMP);
+                    linearGradient = new LinearGradient(f9 * 100.0f, f10, f11, f12, new int[]{iArr4[0], iArr4[1], iArr4[2], iArr4[3]}, new float[]{0.0f, 0.5f, 0.78f, 1.0f}, Shader.TileMode.CLAMP);
                 } else {
+                    float f13 = this.y1 * 100.0f;
+                    float f14 = this.x2 * 100.0f;
+                    float f15 = this.y2 * 100.0f;
                     int[] iArr5 = this.colors;
-                    linearGradient = new LinearGradient(f9 * 100.0f, this.y1 * 100.0f, this.x2 * 100.0f, this.y2 * 100.0f, new int[]{iArr5[0], iArr5[1], iArr5[2], iArr5[3], iArr5[4]}, new float[]{0.0f, 0.425f, 0.655f, 0.78f, 1.0f}, Shader.TileMode.CLAMP);
+                    linearGradient = new LinearGradient(f9 * 100.0f, f13, f14, f15, new int[]{iArr5[0], iArr5[1], iArr5[2], iArr5[3], iArr5[4]}, new float[]{0.0f, 0.425f, 0.655f, 0.78f, 1.0f}, Shader.TileMode.CLAMP);
                 }
                 this.shader = linearGradient;
             }
@@ -160,7 +167,10 @@ public class PremiumGradient {
 
         private int getColor(int i) {
             int themeColorByKey = getThemeColorByKey(i);
-            return this.darkColors ? Color.argb(Color.alpha(themeColorByKey), Color.red(themeColorByKey) - 15, Color.green(themeColorByKey) - 15, Color.blue(themeColorByKey) - 15) : themeColorByKey;
+            if (!this.darkColors) {
+                return themeColorByKey;
+            }
+            return Color.argb(Color.alpha(themeColorByKey), Color.red(themeColorByKey) - 15, Color.green(themeColorByKey) - 15, Color.blue(themeColorByKey) - 15);
         }
 
         protected int getThemeColorByKey(int i) {
@@ -175,11 +185,10 @@ public class PremiumGradient {
                 this.matrix.postScale((i3 - i) / 100.0f, i5 / 100.0f, this.cx * 100.0f, this.cy * 100.0f);
                 this.matrix.postTranslate(f, f2);
             } else {
-                int i6 = i5 + i5;
                 chekColors();
                 this.matrix.reset();
-                this.matrix.postScale((i3 - i) / 100.0f, i6 / 100.0f, 75.0f, 50.0f);
-                this.matrix.postTranslate(f, (-i6) + f2);
+                this.matrix.postScale((i3 - i) / 100.0f, (i5 + i5) / 100.0f, 75.0f, 50.0f);
+                this.matrix.postTranslate(f, (-r6) + f2);
             }
             this.shader.setLocalMatrix(this.matrix);
         }
@@ -266,14 +275,14 @@ public class PremiumGradient {
     }
 
     public Paint getMainGradientPaint() {
-        if (MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked()) {
-            if (this.lockedPremiumPaint == null) {
-                this.lockedPremiumPaint = new Paint(1);
-            }
-            this.lockedPremiumPaint.setColor(Theme.getColor(Theme.key_featuredStickers_addButton));
-            return this.lockedPremiumPaint;
+        if (!MessagesController.getInstance(UserConfig.selectedAccount).premiumFeaturesBlocked()) {
+            return this.mainGradientPaint;
         }
-        return this.mainGradientPaint;
+        if (this.lockedPremiumPaint == null) {
+            this.lockedPremiumPaint = new Paint(1);
+        }
+        this.lockedPremiumPaint.setColor(Theme.getColor(Theme.key_featuredStickers_addButton));
+        return this.lockedPremiumPaint;
     }
 
     public Paint getPremiumLocakedPaint() {

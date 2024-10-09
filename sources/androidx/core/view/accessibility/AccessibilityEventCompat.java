@@ -1,6 +1,7 @@
 package androidx.core.view.accessibility;
 
 import android.view.accessibility.AccessibilityEvent;
+
 /* loaded from: classes.dex */
 public abstract class AccessibilityEventCompat {
 

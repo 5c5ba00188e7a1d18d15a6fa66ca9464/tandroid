@@ -26,6 +26,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ProfileBirthdayEffect;
+
 /* loaded from: classes4.dex */
 public class ProfileBirthdayEffect extends View {
     public static String[] interactions = {"🎉", "🎆", "🎈"};
@@ -159,8 +160,7 @@ public class ProfileBirthdayEffect extends View {
             this.allAssets.add(imageReceiverAsset);
             int filterWidth = EmojiAnimationsOverlay.getFilterWidth();
             this.interactionAsset.setAutoRepeat(0);
-            ImageReceiverAsset imageReceiverAsset2 = this.interactionAsset;
-            imageReceiverAsset2.setEmoji(findSticker, filterWidth + "_" + filterWidth + "_precache", tL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda2
+            this.interactionAsset.setEmoji(findSticker, filterWidth + "_" + filterWidth + "_precache", tL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ProfileBirthdayEffect.BirthdayEffectFetcher.this.lambda$new$2();
@@ -174,10 +174,10 @@ public class ProfileBirthdayEffect extends View {
         public static BirthdayEffectFetcher of(int i, TLRPC.UserFull userFull, BirthdayEffectFetcher birthdayEffectFetcher) {
             TLRPC.TL_birthday tL_birthday;
             if (!LiteMode.isEnabled(2) || !BirthdayController.isToday(userFull)) {
-                if (birthdayEffectFetcher != null) {
-                    birthdayEffectFetcher.detach(false);
+                if (birthdayEffectFetcher == null) {
                     return null;
                 }
+                birthdayEffectFetcher.detach(false);
                 return null;
             }
             int years = (userFull == null || (tL_birthday = userFull.birthday) == null || (tL_birthday.flags & 1) == 0) ? 0 : Period.between(LocalDate.of(tL_birthday.year, tL_birthday.month, tL_birthday.day), LocalDate.now()).getYears();
@@ -388,14 +388,16 @@ public class ProfileBirthdayEffect extends View {
                     float cascade = AndroidUtilities.cascade(this.t, f, this.fetcher.digitAssets.size(), 1.8f);
                     float f2 = dp;
                     float f3 = 0.88f * f2;
+                    float width = (getWidth() - ((this.fetcher.digitAssets.size() - i) * f3)) / 2.0f;
                     PointF pointF = this.sourcePoint;
                     float f4 = pointF.x;
                     float f5 = pointF.y;
-                    float width = f4 + (f3 * f) + ((((getWidth() - ((this.fetcher.digitAssets.size() - i) * f3)) / 2.0f) - f4) * cascade);
+                    float f6 = f4 + (f3 * f) + ((width - f4) * cascade);
+                    float pow = f5 - ((f5 + f2) * ((float) Math.pow(this.t, 2.0d)));
                     float interpolation = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(Utilities.clamp(cascade / 0.4f, 1.0f, 0.0f));
-                    float f6 = (f2 / 2.0f) * interpolation;
-                    float f7 = f2 * interpolation;
-                    imageReceiverAsset.setImageCoords(width - f6, (f5 - ((f5 + f2) * ((float) Math.pow(this.t, 2.0d)))) - f6, f7, f7);
+                    float f7 = (f2 / 2.0f) * interpolation;
+                    float f8 = f2 * interpolation;
+                    imageReceiverAsset.setImageCoords(f6 - f7, pow - f7, f8, f8);
                     imageReceiverAsset.draw(canvas);
                     size--;
                     i = 1;
@@ -411,19 +413,19 @@ public class ProfileBirthdayEffect extends View {
         }
     }
 
-    /* renamed from: start */
+    /* renamed from: start, reason: merged with bridge method [inline-methods] */
     public boolean lambda$onDraw$0() {
-        if (this.fetcher.loaded && this.t >= 1.0f) {
-            if (this.fetcher.interactionAsset.getLottieAnimation() != null) {
-                this.fetcher.interactionAsset.getLottieAnimation().setCurrentFrame(0, false);
-                this.fetcher.interactionAsset.getLottieAnimation().restart(true);
-            }
-            this.isPlaying = true;
-            this.t = 0.0f;
-            invalidate();
-            return true;
+        if (!this.fetcher.loaded || this.t < 1.0f) {
+            return false;
         }
-        return false;
+        if (this.fetcher.interactionAsset.getLottieAnimation() != null) {
+            this.fetcher.interactionAsset.getLottieAnimation().setCurrentFrame(0, false);
+            this.fetcher.interactionAsset.getLottieAnimation().restart(true);
+        }
+        this.isPlaying = true;
+        this.t = 0.0f;
+        invalidate();
+        return true;
     }
 
     public void updateFetcher(BirthdayEffectFetcher birthdayEffectFetcher) {

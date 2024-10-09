@@ -1,6 +1,7 @@
 package androidx.biometric;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 class BiometricErrorData {
     private final int mErrorCode;
@@ -26,11 +27,11 @@ class BiometricErrorData {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof BiometricErrorData) {
-            BiometricErrorData biometricErrorData = (BiometricErrorData) obj;
-            return this.mErrorCode == biometricErrorData.mErrorCode && isErrorMessageEqualTo(biometricErrorData.mErrorMessage);
+        if (!(obj instanceof BiometricErrorData)) {
+            return false;
         }
-        return false;
+        BiometricErrorData biometricErrorData = (BiometricErrorData) obj;
+        return this.mErrorCode == biometricErrorData.mErrorCode && isErrorMessageEqualTo(biometricErrorData.mErrorMessage);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

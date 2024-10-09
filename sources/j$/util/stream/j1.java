@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class j1 implements D0 {
@@ -67,7 +68,7 @@ public class j1 implements D0 {
     }
 
     @Override // j$.util.stream.F0
-    /* renamed from: k */
+    /* renamed from: k, reason: merged with bridge method [inline-methods] */
     public final /* synthetic */ void i(Long[] lArr, int i) {
         t0.p(this, lArr, i);
     }

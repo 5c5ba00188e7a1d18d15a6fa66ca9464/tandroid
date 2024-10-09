@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.EOFException;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public final class DummyTrackOutput implements TrackOutput {
     private final byte[] readBuffer = new byte[LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM];
@@ -24,13 +25,13 @@ public final class DummyTrackOutput implements TrackOutput {
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
     public int sampleData(DataReader dataReader, int i, boolean z, int i2) {
         int read = dataReader.read(this.readBuffer, 0, Math.min(this.readBuffer.length, i));
-        if (read == -1) {
-            if (z) {
-                return -1;
-            }
-            throw new EOFException();
+        if (read != -1) {
+            return read;
         }
-        return read;
+        if (z) {
+            return -1;
+        }
+        throw new EOFException();
     }
 
     @Override // com.google.android.exoplayer2.extractor.TrackOutput

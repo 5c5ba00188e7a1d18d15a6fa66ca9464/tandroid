@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 final class PsDurationReader {
     private boolean isDurationRead;
@@ -125,25 +126,25 @@ final class PsDurationReader {
     }
 
     public int readDuration(ExtractorInput extractorInput, PositionHolder positionHolder) {
-        if (this.isLastScrValueRead) {
-            if (this.lastScrValue == -9223372036854775807L) {
-                return finishReadDuration(extractorInput);
-            }
-            if (this.isFirstScrValueRead) {
-                long j = this.firstScrValue;
-                if (j == -9223372036854775807L) {
-                    return finishReadDuration(extractorInput);
-                }
-                long adjustTsTimestamp = this.scrTimestampAdjuster.adjustTsTimestamp(this.lastScrValue) - this.scrTimestampAdjuster.adjustTsTimestamp(j);
-                this.durationUs = adjustTsTimestamp;
-                if (adjustTsTimestamp < 0) {
-                    Log.w("PsDurationReader", "Invalid duration: " + this.durationUs + ". Using TIME_UNSET instead.");
-                    this.durationUs = -9223372036854775807L;
-                }
-                return finishReadDuration(extractorInput);
-            }
+        if (!this.isLastScrValueRead) {
+            return readLastScrValue(extractorInput, positionHolder);
+        }
+        if (this.lastScrValue == -9223372036854775807L) {
+            return finishReadDuration(extractorInput);
+        }
+        if (!this.isFirstScrValueRead) {
             return readFirstScrValue(extractorInput, positionHolder);
         }
-        return readLastScrValue(extractorInput, positionHolder);
+        long j = this.firstScrValue;
+        if (j == -9223372036854775807L) {
+            return finishReadDuration(extractorInput);
+        }
+        long adjustTsTimestamp = this.scrTimestampAdjuster.adjustTsTimestamp(this.lastScrValue) - this.scrTimestampAdjuster.adjustTsTimestamp(j);
+        this.durationUs = adjustTsTimestamp;
+        if (adjustTsTimestamp < 0) {
+            Log.w("PsDurationReader", "Invalid duration: " + this.durationUs + ". Using TIME_UNSET instead.");
+            this.durationUs = -9223372036854775807L;
+        }
+        return finishReadDuration(extractorInput);
     }
 }

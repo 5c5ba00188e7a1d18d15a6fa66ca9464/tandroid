@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.analytics.MediaMetricsListener$$ExternalSyn
 import com.google.android.exoplayer2.analytics.MediaMetricsListener$$ExternalSyntheticApiModelOutline51;
 import com.google.android.exoplayer2.drm.DefaultDrmSessionManager;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public abstract class DrmUtil {
 
@@ -46,36 +47,36 @@ public abstract class DrmUtil {
 
     public static int getErrorCodeForMediaDrmException(Exception exc, int i) {
         int i2 = Util.SDK_INT;
-        if (i2 < 21 || !Api21.isMediaDrmStateException(exc)) {
-            if (i2 < 23 || !Api23.isMediaDrmResetException(exc)) {
-                if (i2 < 18 || !Api18.isNotProvisionedException(exc)) {
-                    if (i2 < 18 || !Api18.isDeniedByServerException(exc)) {
-                        if (exc instanceof UnsupportedDrmException) {
-                            return 6001;
-                        }
-                        if (exc instanceof DefaultDrmSessionManager.MissingSchemeDataException) {
-                            return 6003;
-                        }
-                        if (exc instanceof KeysExpiredException) {
-                            return 6008;
-                        }
-                        if (i == 1) {
-                            return 6006;
-                        }
-                        if (i == 2) {
-                            return 6004;
-                        }
-                        if (i == 3) {
-                            return 6002;
-                        }
-                        throw new IllegalArgumentException();
-                    }
-                    return 6007;
-                }
-                return 6002;
-            }
+        if (i2 >= 21 && Api21.isMediaDrmStateException(exc)) {
+            return Api21.mediaDrmStateExceptionToErrorCode(exc);
+        }
+        if (i2 >= 23 && Api23.isMediaDrmResetException(exc)) {
             return 6006;
         }
-        return Api21.mediaDrmStateExceptionToErrorCode(exc);
+        if (i2 >= 18 && Api18.isNotProvisionedException(exc)) {
+            return 6002;
+        }
+        if (i2 >= 18 && Api18.isDeniedByServerException(exc)) {
+            return 6007;
+        }
+        if (exc instanceof UnsupportedDrmException) {
+            return 6001;
+        }
+        if (exc instanceof DefaultDrmSessionManager.MissingSchemeDataException) {
+            return 6003;
+        }
+        if (exc instanceof KeysExpiredException) {
+            return 6008;
+        }
+        if (i == 1) {
+            return 6006;
+        }
+        if (i == 2) {
+            return 6004;
+        }
+        if (i == 3) {
+            return 6002;
+        }
+        throw new IllegalArgumentException();
     }
 }

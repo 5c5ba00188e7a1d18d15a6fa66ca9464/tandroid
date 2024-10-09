@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.identity.intents.model.UserAddress;
+
 /* loaded from: classes.dex */
 public final class zzaa implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

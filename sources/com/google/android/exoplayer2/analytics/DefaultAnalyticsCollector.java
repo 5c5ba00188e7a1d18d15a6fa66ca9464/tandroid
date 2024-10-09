@@ -36,6 +36,7 @@ import com.google.common.collect.Iterables;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class DefaultAnalyticsCollector implements AnalyticsCollector {
     private final Clock clock;
@@ -98,14 +99,17 @@ public class DefaultAnalyticsCollector implements AnalyticsCollector {
             return false;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:10:0x0032, code lost:
-            if (com.google.common.base.Objects.equal(r3.currentPlayerMediaPeriod, r3.readingMediaPeriod) == false) goto L10;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:17:0x0054, code lost:
-            if (r3.mediaPeriodQueue.contains(r3.currentPlayerMediaPeriod) == false) goto L10;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x0056, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:10:0x0056, code lost:
+        
             addTimelineForMediaPeriodId(r0, r3.currentPlayerMediaPeriod, r4);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:20:0x0054, code lost:
+        
+            if (r3.mediaPeriodQueue.contains(r3.currentPlayerMediaPeriod) == false) goto L18;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:9:0x0032, code lost:
+        
+            if (com.google.common.base.Objects.equal(r3.currentPlayerMediaPeriod, r3.readingMediaPeriod) == false) goto L18;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -190,15 +194,15 @@ public class DefaultAnalyticsCollector implements AnalyticsCollector {
     private AnalyticsListener.EventTime generateEventTime(MediaSource.MediaPeriodId mediaPeriodId) {
         Assertions.checkNotNull(this.player);
         Timeline mediaPeriodIdTimeline = mediaPeriodId == null ? null : this.mediaPeriodQueueTracker.getMediaPeriodIdTimeline(mediaPeriodId);
-        if (mediaPeriodId == null || mediaPeriodIdTimeline == null) {
-            int currentMediaItemIndex = this.player.getCurrentMediaItemIndex();
-            Timeline currentTimeline = this.player.getCurrentTimeline();
-            if (currentMediaItemIndex >= currentTimeline.getWindowCount()) {
-                currentTimeline = Timeline.EMPTY;
-            }
-            return generateEventTime(currentTimeline, currentMediaItemIndex, null);
+        if (mediaPeriodId != null && mediaPeriodIdTimeline != null) {
+            return generateEventTime(mediaPeriodIdTimeline, mediaPeriodIdTimeline.getPeriodByUid(mediaPeriodId.periodUid, this.period).windowIndex, mediaPeriodId);
         }
-        return generateEventTime(mediaPeriodIdTimeline, mediaPeriodIdTimeline.getPeriodByUid(mediaPeriodId.periodUid, this.period).windowIndex, mediaPeriodId);
+        int currentMediaItemIndex = this.player.getCurrentMediaItemIndex();
+        Timeline currentTimeline = this.player.getCurrentTimeline();
+        if (currentMediaItemIndex >= currentTimeline.getWindowCount()) {
+            currentTimeline = Timeline.EMPTY;
+        }
+        return generateEventTime(currentTimeline, currentMediaItemIndex, null);
     }
 
     private AnalyticsListener.EventTime generateLoadingMediaPeriodEventTime() {

@@ -55,6 +55,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.SlideChooseView;
 import org.telegram.ui.Stories.recorder.KeyboardNotifier;
+
 /* loaded from: classes4.dex */
 public class LinkEditActivity extends BaseFragment {
     private TextCheckCell approveCell;
@@ -154,9 +155,8 @@ public class LinkEditActivity extends BaseFragment {
                 if (j2 < 86400) {
                     strArr[i5] = LocaleController.getString(R.string.MessageScheduleToday);
                 } else {
-                    int i6 = (j2 > 31449600L ? 1 : (j2 == 31449600L ? 0 : -1));
                     LocaleController localeController = LocaleController.getInstance();
-                    if (i6 < 0) {
+                    if (j2 < 31449600) {
                         strArr[i5] = localeController.getFormatterScheduleDay().format(j * 1000);
                     } else {
                         strArr[i5] = localeController.getFormatterYear().format(j * 1000);
@@ -357,7 +357,7 @@ public class LinkEditActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$9(DialogInterface dialogInterface, int i) {
         this.callback.revokeLink(this.inviteToEdit);
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -406,7 +406,7 @@ public class LinkEditActivity extends BaseFragment {
         if (callback != null) {
             callback.onLinkCreated(tLObject);
         }
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -437,7 +437,7 @@ public class LinkEditActivity extends BaseFragment {
         if (callback != null) {
             callback.onLinkEdited(this.inviteToEdit, tLObject);
         }
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -452,12 +452,12 @@ public class LinkEditActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x023a  */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x0255  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0143  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x01fb  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x022f  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0143  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x01fb  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x022f  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x023a  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0255  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -468,9 +468,9 @@ public class LinkEditActivity extends BaseFragment {
         boolean z2;
         TextCheckCell textCheckCell;
         String obj;
-        ConnectionsManager connectionsManager;
         RequestDelegate requestDelegate;
         TLRPC.TL_messages_editExportedChatInvite tL_messages_editExportedChatInvite;
+        ConnectionsManager connectionsManager;
         if (this.loading) {
             return;
         }
@@ -492,7 +492,6 @@ public class LinkEditActivity extends BaseFragment {
                 FileLog.e(e);
             }
             i = this.type;
-            boolean z3 = true;
             if (i != 0) {
                 AlertDialog alertDialog = this.progressDialog;
                 if (alertDialog != null) {
@@ -520,7 +519,7 @@ public class LinkEditActivity extends BaseFragment {
                     tL_messages_exportChatInvite.usage_limit = 0;
                 }
                 TextCheckCell textCheckCell3 = this.approveCell;
-                z3 = (textCheckCell3 == null || !textCheckCell3.isChecked()) ? false : false;
+                boolean z3 = textCheckCell3 != null && textCheckCell3.isChecked();
                 tL_messages_exportChatInvite.request_needed = z3;
                 if (z3) {
                     tL_messages_exportChatInvite.usage_limit = 0;
@@ -537,17 +536,19 @@ public class LinkEditActivity extends BaseFragment {
                     tL_starsSubscriptionPricing.period = getConnectionsManager().isTestBackend() ? NotificationCenter.onReceivedChannelDifference : 2592000;
                     tL_messages_exportChatInvite.subscription_pricing.amount = j;
                 }
-                connectionsManager = getConnectionsManager();
+                ConnectionsManager connectionsManager2 = getConnectionsManager();
                 requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda14
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                         LinkEditActivity.this.lambda$onCreateClicked$13(tLObject, tL_error);
                     }
                 };
+                connectionsManager = connectionsManager2;
                 tL_messages_editExportedChatInvite = tL_messages_exportChatInvite;
-            } else if (i != 1) {
-                return;
             } else {
+                if (i != 1) {
+                    return;
+                }
                 AlertDialog alertDialog3 = this.progressDialog;
                 if (alertDialog3 != null) {
                     alertDialog3.dismiss();
@@ -600,20 +601,21 @@ public class LinkEditActivity extends BaseFragment {
                         z = true;
                     }
                     if (z) {
-                        finishFragment();
+                        lambda$onBackPressed$300();
                         return;
                     }
                     this.loading = true;
                     AlertDialog alertDialog4 = new AlertDialog(getParentActivity(), 3);
                     this.progressDialog = alertDialog4;
                     alertDialog4.showDelayed(500L);
-                    connectionsManager = getConnectionsManager();
+                    ConnectionsManager connectionsManager3 = getConnectionsManager();
                     requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda15
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                             LinkEditActivity.this.lambda$onCreateClicked$15(tLObject, tL_error);
                         }
                     };
+                    connectionsManager = connectionsManager3;
                     tL_messages_editExportedChatInvite = tL_messages_editExportedChatInvite2;
                 } else {
                     if (this.inviteToEdit.usage_limit != 0) {
@@ -636,7 +638,6 @@ public class LinkEditActivity extends BaseFragment {
         }
         j = 0;
         i = this.type;
-        boolean z32 = true;
         if (i != 0) {
         }
         connectionsManager.sendRequest(tL_messages_editExportedChatInvite, requestDelegate);
@@ -650,9 +651,10 @@ public class LinkEditActivity extends BaseFragment {
             if (i >= iArr.length) {
                 this.timeChooseView.setOptions(3, LocaleController.formatPluralString("Hours", 1, new Object[0]), LocaleController.formatPluralString("Days", 1, new Object[0]), LocaleController.formatPluralString("Weeks", 1, new Object[0]), LocaleController.getString(R.string.NoLimit));
                 return;
+            } else {
+                this.dispalyedDates.add(Integer.valueOf(iArr[i]));
+                i++;
             }
-            this.dispalyedDates.add(Integer.valueOf(iArr[i]));
-            i++;
         }
     }
 
@@ -665,9 +667,10 @@ public class LinkEditActivity extends BaseFragment {
             if (i >= iArr.length) {
                 this.usesChooseView.setOptions(3, "1", "10", "100", LocaleController.getString(R.string.NoLimit));
                 return;
+            } else {
+                this.dispalyedUses.add(Integer.valueOf(iArr[i]));
+                i++;
             }
-            this.dispalyedUses.add(Integer.valueOf(iArr[i]));
-            i++;
         }
     }
 
@@ -679,20 +682,20 @@ public class LinkEditActivity extends BaseFragment {
         this.divider.setBackground(Theme.getThemedDrawableByKey(getParentActivity(), z ? R.drawable.greydivider : R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0059  */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x00a8  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x00b2  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x013f  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x014b  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0168  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0202  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x024a  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x028e  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0291  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x033d  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0347  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0512  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x013f  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0168  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0512  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0202  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x024a  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x028e  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x033d  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0347  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0291  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x014b  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00b2  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0059  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -722,7 +725,7 @@ public class LinkEditActivity extends BaseFragment {
                 @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                 public void onItemClick(int i9) {
                     if (i9 == -1) {
-                        LinkEditActivity.this.finishFragment();
+                        LinkEditActivity.this.lambda$onBackPressed$300();
                         AndroidUtilities.hideKeyboard(LinkEditActivity.this.usesEditText);
                     }
                 }
@@ -2362,7 +2365,7 @@ public class LinkEditActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i93) {
                 if (i93 == -1) {
-                    LinkEditActivity.this.finishFragment();
+                    LinkEditActivity.this.lambda$onBackPressed$300();
                     AndroidUtilities.hideKeyboard(LinkEditActivity.this.usesEditText);
                 }
             }
@@ -2783,10 +2786,11 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void finishFragment() {
+    /* renamed from: finishFragment */
+    public void lambda$onBackPressed$300() {
         this.scrollView.getLayoutParams().height = this.scrollView.getHeight();
         this.finished = true;
-        super.finishFragment();
+        super.lambda$onBackPressed$300();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

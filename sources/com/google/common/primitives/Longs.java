@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Collection;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public abstract class Longs {
 

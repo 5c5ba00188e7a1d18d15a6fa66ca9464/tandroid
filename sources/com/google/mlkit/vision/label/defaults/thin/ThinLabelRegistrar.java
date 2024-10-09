@@ -11,6 +11,7 @@ import com.google.mlkit.common.sdkinternal.MlKitContext;
 import com.google.mlkit.vision.common.internal.MultiFlavorDetectorCreator;
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class ThinLabelRegistrar implements ComponentRegistrar {
     @Override // com.google.firebase.components.ComponentRegistrar

@@ -11,9 +11,11 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import java.io.Closeable;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 /* loaded from: classes.dex */
 public class NetworkStateHelper implements Closeable {
     private static NetworkStateHelper sSharedInstance;
@@ -107,8 +109,9 @@ public class NetworkStateHelper implements Closeable {
         sb.append("Network has been ");
         sb.append(z ? "connected." : "disconnected.");
         AppCenterLog.debug("AppCenter", sb.toString());
-        for (Listener listener : this.mListeners) {
-            listener.onNetworkStateUpdated(z);
+        Iterator it = this.mListeners.iterator();
+        while (it.hasNext()) {
+            ((Listener) it.next()).onNetworkStateUpdated(z);
         }
     }
 

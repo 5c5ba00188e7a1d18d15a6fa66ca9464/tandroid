@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class zzc implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

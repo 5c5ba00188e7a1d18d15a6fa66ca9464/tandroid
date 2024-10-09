@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.FormatHolder;
 import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
 import com.google.android.exoplayer2.source.SampleStream;
 import com.google.android.exoplayer2.util.Assertions;
+
 /* loaded from: classes.dex */
 final class HlsSampleStream implements SampleStream {
     private int sampleQueueIndex = -1;
@@ -48,11 +49,11 @@ final class HlsSampleStream implements SampleStream {
         if (this.sampleQueueIndex == -3) {
             decoderInputBuffer.addFlag(4);
             return -4;
-        } else if (hasValidSampleQueueIndex()) {
-            return this.sampleStreamWrapper.readData(this.sampleQueueIndex, formatHolder, decoderInputBuffer, i);
-        } else {
-            return -3;
         }
+        if (hasValidSampleQueueIndex()) {
+            return this.sampleStreamWrapper.readData(this.sampleQueueIndex, formatHolder, decoderInputBuffer, i);
+        }
+        return -3;
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream

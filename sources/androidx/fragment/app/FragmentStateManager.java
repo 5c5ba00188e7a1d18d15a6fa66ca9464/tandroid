@@ -15,6 +15,7 @@ import androidx.fragment.R$id;
 import androidx.fragment.app.SpecialEffectsController;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelStoreOwner;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FragmentStateManager {
@@ -286,9 +287,10 @@ public class FragmentStateManager {
             int i = fragment2.mContainerId;
             if (i == 0) {
                 viewGroup = null;
-            } else if (i == -1) {
-                throw new IllegalArgumentException("Cannot create fragment " + this.mFragment + " for a container view with no id");
             } else {
+                if (i == -1) {
+                    throw new IllegalArgumentException("Cannot create fragment " + this.mFragment + " for a container view with no id");
+                }
                 viewGroup = (ViewGroup) fragment2.mFragmentManager.getContainer().onFindViewById(this.mFragment.mContainerId);
                 if (viewGroup == null) {
                     Fragment fragment3 = this.mFragment;
@@ -523,55 +525,23 @@ public class FragmentStateManager {
                     }
                     this.mMovingToState = false;
                     return;
-                } else if (computeExpectedState > i) {
-                    switch (i + 1) {
-                        case 0:
-                            attach();
-                            continue;
-                        case 1:
-                            create();
-                            continue;
-                        case 2:
-                            ensureInflatedView();
-                            createView();
-                            continue;
-                        case 3:
-                            activityCreated();
-                            continue;
-                        case 4:
-                            if (fragment.mView != null && (viewGroup2 = fragment.mContainer) != null) {
-                                SpecialEffectsController.getOrCreateController(viewGroup2, fragment.getParentFragmentManager()).enqueueAdd(SpecialEffectsController.Operation.State.from(this.mFragment.mView.getVisibility()), this);
-                            }
-                            this.mFragment.mState = 4;
-                            continue;
-                        case 5:
-                            start();
-                            continue;
-                        case 6:
-                            fragment.mState = 6;
-                            continue;
-                        case 7:
-                            resume();
-                            continue;
-                        default:
-                            continue;
-                    }
-                } else {
+                }
+                if (computeExpectedState <= i) {
                     switch (i - 1) {
                         case -1:
                             detach();
-                            continue;
+                            break;
                         case 0:
                             destroy();
-                            continue;
+                            break;
                         case 1:
                             destroyFragmentView();
                             this.mFragment.mState = 1;
-                            continue;
+                            break;
                         case 2:
                             fragment.mInLayout = false;
                             fragment.mState = 2;
-                            continue;
+                            break;
                         case 3:
                             if (FragmentManager.isLoggingEnabled(3)) {
                                 Log.d("FragmentManager", "movefrom ACTIVITY_CREATED: " + this.mFragment);
@@ -585,18 +555,47 @@ public class FragmentStateManager {
                                 SpecialEffectsController.getOrCreateController(viewGroup3, fragment5.getParentFragmentManager()).enqueueRemove(this);
                             }
                             this.mFragment.mState = 3;
-                            continue;
+                            break;
                         case 4:
                             stop();
-                            continue;
+                            break;
                         case 5:
                             fragment.mState = 5;
-                            continue;
+                            break;
                         case 6:
                             pause();
-                            continue;
-                        default:
-                            continue;
+                            break;
+                    }
+                } else {
+                    switch (i + 1) {
+                        case 0:
+                            attach();
+                            break;
+                        case 1:
+                            create();
+                            break;
+                        case 2:
+                            ensureInflatedView();
+                            createView();
+                            break;
+                        case 3:
+                            activityCreated();
+                            break;
+                        case 4:
+                            if (fragment.mView != null && (viewGroup2 = fragment.mContainer) != null) {
+                                SpecialEffectsController.getOrCreateController(viewGroup2, fragment.getParentFragmentManager()).enqueueAdd(SpecialEffectsController.Operation.State.from(this.mFragment.mView.getVisibility()), this);
+                            }
+                            this.mFragment.mState = 4;
+                            break;
+                        case 5:
+                            start();
+                            break;
+                        case 6:
+                            fragment.mState = 6;
+                            break;
+                        case 7:
+                            resume();
+                            break;
                     }
                 }
             }

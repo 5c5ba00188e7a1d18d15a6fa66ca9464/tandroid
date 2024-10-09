@@ -13,6 +13,7 @@ import com.microsoft.appcenter.ingestion.models.Device;
 import com.microsoft.appcenter.ingestion.models.WrapperSdk;
 import java.util.Locale;
 import java.util.TimeZone;
+
 /* loaded from: classes.dex */
 public abstract class DeviceInfoHelper {
     private static WrapperSdk sWrapperSdk;

@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.DoubleFunction;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class p implements DoubleFunction {
     public final /* synthetic */ q a;

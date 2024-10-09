@@ -18,6 +18,7 @@ import kotlin.TuplesKt;
 import kotlin.collections.MapsKt__MapsKt;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class SavedStateHandle {
     private static final Class[] ACCEPTABLE_CLASSES;
@@ -67,7 +68,6 @@ public final class SavedStateHandle {
         }
 
         public final boolean validateValue(Object obj) {
-            Class[] clsArr;
             if (obj == null) {
                 return true;
             }

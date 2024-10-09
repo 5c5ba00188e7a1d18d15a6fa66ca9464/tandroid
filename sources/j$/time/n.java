@@ -1,6 +1,7 @@
 package j$.time;
 
 import j$.time.zone.ZoneRules;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class n extends ZoneId {
@@ -17,16 +18,16 @@ public final class n extends ZoneId {
     public static n h(String str) {
         j$.util.a.B(str, "zoneId");
         int length = str.length();
-        if (length >= 2) {
-            for (int i = 0; i < length; i++) {
-                char charAt = str.charAt(i);
-                if ((charAt < 'a' || charAt > 'z') && ((charAt < 'A' || charAt > 'Z') && ((charAt != '/' || i == 0) && ((charAt < '0' || charAt > '9' || i == 0) && ((charAt != '~' || i == 0) && ((charAt != '.' || i == 0) && ((charAt != '_' || i == 0) && ((charAt != '+' || i == 0) && (charAt != '-' || i == 0))))))))) {
-                    throw new c("Invalid ID for region-based ZoneId, invalid format: ".concat(str));
-                }
-            }
-            return new n(str, j$.time.zone.f.a(str, true));
+        if (length < 2) {
+            throw new c("Invalid ID for region-based ZoneId, invalid format: ".concat(str));
         }
-        throw new c("Invalid ID for region-based ZoneId, invalid format: ".concat(str));
+        for (int i = 0; i < length; i++) {
+            char charAt = str.charAt(i);
+            if ((charAt < 'a' || charAt > 'z') && ((charAt < 'A' || charAt > 'Z') && ((charAt != '/' || i == 0) && ((charAt < '0' || charAt > '9' || i == 0) && ((charAt != '~' || i == 0) && ((charAt != '.' || i == 0) && ((charAt != '_' || i == 0) && ((charAt != '+' || i == 0) && (charAt != '-' || i == 0))))))))) {
+                throw new c("Invalid ID for region-based ZoneId, invalid format: ".concat(str));
+            }
+        }
+        return new n(str, j$.time.zone.f.a(str, true));
     }
 
     @Override // j$.time.ZoneId

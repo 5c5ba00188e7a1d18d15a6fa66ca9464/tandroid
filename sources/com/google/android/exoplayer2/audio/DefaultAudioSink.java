@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 public final class DefaultAudioSink implements AudioSink {
     public static boolean failOnSpuriousAudioTimestamp = false;
@@ -595,9 +596,9 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x002f  */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x0018  */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:15:0x0029 -> B:5:0x0009). Please submit an issue!!! */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x002f  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0018  */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:14:0x0029 -> B:4:0x0009). Please report as a decompilation issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -744,52 +745,50 @@ public final class DefaultAudioSink implements AudioSink {
 
     /* JADX INFO: Access modifiers changed from: private */
     public long getSubmittedFrames() {
-        Configuration configuration = this.configuration;
-        return configuration.outputMode == 0 ? this.submittedPcmBytes / configuration.inputPcmFrameSize : this.submittedEncodedFrames;
+        return this.configuration.outputMode == 0 ? this.submittedPcmBytes / r0.inputPcmFrameSize : this.submittedEncodedFrames;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public long getWrittenFrames() {
-        Configuration configuration = this.configuration;
-        return configuration.outputMode == 0 ? this.writtenPcmBytes / configuration.outputPcmFrameSize : this.writtenEncodedFrames;
+        return this.configuration.outputMode == 0 ? this.writtenPcmBytes / r0.outputPcmFrameSize : this.writtenEncodedFrames;
     }
 
     private boolean initializeAudioTrack() {
         PlayerId playerId;
-        if (this.releasingConditionVariable.isOpen()) {
-            AudioTrack buildAudioTrackWithRetry = buildAudioTrackWithRetry();
-            this.audioTrack = buildAudioTrackWithRetry;
-            if (isOffloadedPlayback(buildAudioTrackWithRetry)) {
-                registerStreamEventCallbackV29(this.audioTrack);
-                if (this.offloadMode != 3) {
-                    AudioTrack audioTrack = this.audioTrack;
-                    Format format = this.configuration.inputFormat;
-                    audioTrack.setOffloadDelayPadding(format.encoderDelay, format.encoderPadding);
-                }
-            }
-            int i = Util.SDK_INT;
-            if (i >= 31 && (playerId = this.playerId) != null) {
-                Api31.setLogSessionIdOnAudioTrack(this.audioTrack, playerId);
-            }
-            this.audioSessionId = this.audioTrack.getAudioSessionId();
-            AudioTrackPositionTracker audioTrackPositionTracker = this.audioTrackPositionTracker;
-            AudioTrack audioTrack2 = this.audioTrack;
-            Configuration configuration = this.configuration;
-            audioTrackPositionTracker.setAudioTrack(audioTrack2, configuration.outputMode == 2, configuration.outputEncoding, configuration.outputPcmFrameSize, configuration.bufferSize);
-            setVolumeInternal();
-            int i2 = this.auxEffectInfo.effectId;
-            if (i2 != 0) {
-                this.audioTrack.attachAuxEffect(i2);
-                this.audioTrack.setAuxEffectSendLevel(this.auxEffectInfo.sendLevel);
-            }
-            AudioDeviceInfoApi23 audioDeviceInfoApi23 = this.preferredDevice;
-            if (audioDeviceInfoApi23 != null && i >= 23) {
-                Api23.setPreferredDeviceOnAudioTrack(this.audioTrack, audioDeviceInfoApi23);
-            }
-            this.startMediaTimeUsNeedsInit = true;
-            return true;
+        if (!this.releasingConditionVariable.isOpen()) {
+            return false;
         }
-        return false;
+        AudioTrack buildAudioTrackWithRetry = buildAudioTrackWithRetry();
+        this.audioTrack = buildAudioTrackWithRetry;
+        if (isOffloadedPlayback(buildAudioTrackWithRetry)) {
+            registerStreamEventCallbackV29(this.audioTrack);
+            if (this.offloadMode != 3) {
+                AudioTrack audioTrack = this.audioTrack;
+                Format format = this.configuration.inputFormat;
+                audioTrack.setOffloadDelayPadding(format.encoderDelay, format.encoderPadding);
+            }
+        }
+        int i = Util.SDK_INT;
+        if (i >= 31 && (playerId = this.playerId) != null) {
+            Api31.setLogSessionIdOnAudioTrack(this.audioTrack, playerId);
+        }
+        this.audioSessionId = this.audioTrack.getAudioSessionId();
+        AudioTrackPositionTracker audioTrackPositionTracker = this.audioTrackPositionTracker;
+        AudioTrack audioTrack2 = this.audioTrack;
+        Configuration configuration = this.configuration;
+        audioTrackPositionTracker.setAudioTrack(audioTrack2, configuration.outputMode == 2, configuration.outputEncoding, configuration.outputPcmFrameSize, configuration.bufferSize);
+        setVolumeInternal();
+        int i2 = this.auxEffectInfo.effectId;
+        if (i2 != 0) {
+            this.audioTrack.attachAuxEffect(i2);
+            this.audioTrack.setAuxEffectSendLevel(this.auxEffectInfo.sendLevel);
+        }
+        AudioDeviceInfoApi23 audioDeviceInfoApi23 = this.preferredDevice;
+        if (audioDeviceInfoApi23 != null && i >= 23) {
+            Api23.setPreferredDeviceOnAudioTrack(this.audioTrack, audioDeviceInfoApi23);
+        }
+        this.startMediaTimeUsNeedsInit = true;
+        return true;
     }
 
     private static boolean isAudioTrackDeadObject(int i) {
@@ -889,8 +888,9 @@ public final class DefaultAudioSink implements AudioSink {
             }
             if (byteBuffer.hasRemaining()) {
                 return;
+            } else {
+                i--;
             }
-            i--;
         }
     }
 
@@ -1037,11 +1037,11 @@ public final class DefaultAudioSink implements AudioSink {
         }
         if (offloadedPlaybackSupport == 1) {
             return ((format.encoderDelay != 0 || format.encoderPadding != 0) && (this.offloadMode == 1)) ? false : true;
-        } else if (offloadedPlaybackSupport == 2) {
-            return true;
-        } else {
-            throw new IllegalStateException();
         }
+        if (offloadedPlaybackSupport == 2) {
+            return true;
+        }
+        throw new IllegalStateException();
     }
 
     private void writeBuffer(ByteBuffer byteBuffer, long j) {
@@ -1085,7 +1085,7 @@ public final class DefaultAudioSink implements AudioSink {
             }
             this.lastFeedElapsedRealtimeMs = SystemClock.elapsedRealtime();
             if (writeNonBlockingV21 < 0) {
-                AudioSink.WriteException writeException = new AudioSink.WriteException(writeNonBlockingV21, this.configuration.inputFormat, (!isAudioTrackDeadObject(writeNonBlockingV21) || this.writtenEncodedFrames <= 0) ? false : false);
+                AudioSink.WriteException writeException = new AudioSink.WriteException(writeNonBlockingV21, this.configuration.inputFormat, isAudioTrackDeadObject(writeNonBlockingV21) && this.writtenEncodedFrames > 0);
                 AudioSink.Listener listener2 = this.listener;
                 if (listener2 != null) {
                     listener2.onAudioSinkError(writeException);
@@ -1150,7 +1150,8 @@ public final class DefaultAudioSink implements AudioSink {
             if (write < 0) {
                 this.bytesUntilNextAvSync = 0;
                 return write;
-            } else if (write < remaining) {
+            }
+            if (write < remaining) {
                 return 0;
             }
         }
@@ -1240,29 +1241,29 @@ public final class DefaultAudioSink implements AudioSink {
         }
         if (i3 == 0) {
             throw new AudioSink.ConfigurationException("Invalid output encoding (mode=" + i6 + ") for: " + format, format);
-        } else if (intValue == 0) {
+        }
+        if (intValue == 0) {
             throw new AudioSink.ConfigurationException("Invalid output channel config (mode=" + i6 + ") for: " + format, format);
+        }
+        if (i != 0) {
+            bufferSizeInBytes = i;
+            i7 = i3;
+            i8 = intValue;
+            i9 = i5;
+            i10 = i2;
         } else {
-            if (i != 0) {
-                bufferSizeInBytes = i;
-                i7 = i3;
-                i8 = intValue;
-                i9 = i5;
-                i10 = i2;
-            } else {
-                i7 = i3;
-                i8 = intValue;
-                i9 = i5;
-                i10 = i2;
-                bufferSizeInBytes = this.audioTrackBufferSizeProvider.getBufferSizeInBytes(getAudioTrackMinBufferSize(i2, intValue, i3), i3, i6, i5 != -1 ? i5 : 1, i2, format.bitrate, this.enableAudioTrackPlaybackParams ? 8.0d : 1.0d);
-            }
-            this.offloadDisabledUntilNextConfiguration = false;
-            Configuration configuration = new Configuration(format, i4, i6, i9, i10, i8, i7, bufferSizeInBytes, audioProcessorArr);
-            if (isAudioTrackInitialized()) {
-                this.pendingConfiguration = configuration;
-            } else {
-                this.configuration = configuration;
-            }
+            i7 = i3;
+            i8 = intValue;
+            i9 = i5;
+            i10 = i2;
+            bufferSizeInBytes = this.audioTrackBufferSizeProvider.getBufferSizeInBytes(getAudioTrackMinBufferSize(i2, intValue, i3), i3, i6, i5 != -1 ? i5 : 1, i2, format.bitrate, this.enableAudioTrackPlaybackParams ? 8.0d : 1.0d);
+        }
+        this.offloadDisabledUntilNextConfiguration = false;
+        Configuration configuration = new Configuration(format, i4, i6, i9, i10, i8, i7, bufferSizeInBytes, audioProcessorArr);
+        if (isAudioTrackInitialized()) {
+            this.pendingConfiguration = configuration;
+        } else {
+            this.configuration = configuration;
         }
     }
 
@@ -1346,13 +1347,13 @@ public final class DefaultAudioSink implements AudioSink {
     public int getFormatSupport(Format format) {
         if (!"audio/raw".equals(format.sampleMimeType)) {
             return ((this.offloadDisabledUntilNextConfiguration || !useOffloadedPlayback(format, this.audioAttributes)) && !this.audioCapabilities.isPassthroughPlaybackSupported(format)) ? 0 : 2;
-        } else if (Util.isEncodingLinearPcm(format.pcmEncoding)) {
+        }
+        if (Util.isEncodingLinearPcm(format.pcmEncoding)) {
             int i = format.pcmEncoding;
             return (i == 2 || (this.enableFloatOutput && i == 4)) ? 2 : 1;
-        } else {
-            Log.w("DefaultAudioSink", "Invalid PCM encoding: " + format.pcmEncoding);
-            return 0;
         }
+        Log.w("DefaultAudioSink", "Invalid PCM encoding: " + format.pcmEncoding);
+        return 0;
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioSink
@@ -1419,70 +1420,70 @@ public final class DefaultAudioSink implements AudioSink {
                 play();
             }
         }
-        if (this.audioTrackPositionTracker.mayHandleBuffer(getWrittenFrames())) {
-            if (this.inputBuffer == null) {
-                Assertions.checkArgument(byteBuffer.order() == ByteOrder.LITTLE_ENDIAN);
-                if (!byteBuffer.hasRemaining()) {
+        if (!this.audioTrackPositionTracker.mayHandleBuffer(getWrittenFrames())) {
+            return false;
+        }
+        if (this.inputBuffer == null) {
+            Assertions.checkArgument(byteBuffer.order() == ByteOrder.LITTLE_ENDIAN);
+            if (!byteBuffer.hasRemaining()) {
+                return true;
+            }
+            Configuration configuration = this.configuration;
+            if (configuration.outputMode != 0 && this.framesPerEncodedSample == 0) {
+                int framesPerEncodedSample = getFramesPerEncodedSample(configuration.outputEncoding, byteBuffer);
+                this.framesPerEncodedSample = framesPerEncodedSample;
+                if (framesPerEncodedSample == 0) {
                     return true;
                 }
-                Configuration configuration = this.configuration;
-                if (configuration.outputMode != 0 && this.framesPerEncodedSample == 0) {
-                    int framesPerEncodedSample = getFramesPerEncodedSample(configuration.outputEncoding, byteBuffer);
-                    this.framesPerEncodedSample = framesPerEncodedSample;
-                    if (framesPerEncodedSample == 0) {
-                        return true;
-                    }
-                }
-                if (this.afterDrainParameters != null) {
-                    if (!drainToEndOfStream()) {
-                        return false;
-                    }
-                    applyAudioProcessorPlaybackParametersAndSkipSilence(j);
-                    this.afterDrainParameters = null;
-                }
-                long inputFramesToDurationUs = this.startMediaTimeUs + this.configuration.inputFramesToDurationUs(getSubmittedFrames() - this.trimmingAudioProcessor.getTrimmedFrameCount());
-                if (!this.startMediaTimeUsNeedsSync && Math.abs(inputFramesToDurationUs - j) > 200000) {
-                    AudioSink.Listener listener = this.listener;
-                    if (listener != null) {
-                        listener.onAudioSinkError(new AudioSink.UnexpectedDiscontinuityException(j, inputFramesToDurationUs));
-                    }
-                    this.startMediaTimeUsNeedsSync = true;
-                }
-                if (this.startMediaTimeUsNeedsSync) {
-                    if (!drainToEndOfStream()) {
-                        return false;
-                    }
-                    long j2 = j - inputFramesToDurationUs;
-                    this.startMediaTimeUs += j2;
-                    this.startMediaTimeUsNeedsSync = false;
-                    applyAudioProcessorPlaybackParametersAndSkipSilence(j);
-                    AudioSink.Listener listener2 = this.listener;
-                    if (listener2 != null && j2 != 0) {
-                        listener2.onPositionDiscontinuity();
-                    }
-                }
-                if (this.configuration.outputMode == 0) {
-                    this.submittedPcmBytes += byteBuffer.remaining();
-                } else {
-                    this.submittedEncodedFrames += this.framesPerEncodedSample * i;
-                }
-                this.inputBuffer = byteBuffer;
-                this.inputBufferAccessUnitCount = i;
             }
-            processBuffers(j);
-            if (!this.inputBuffer.hasRemaining()) {
-                this.inputBuffer = null;
-                this.inputBufferAccessUnitCount = 0;
-                return true;
-            } else if (this.audioTrackPositionTracker.isStalled(getWrittenFrames())) {
-                Log.w("DefaultAudioSink", "Resetting stalled audio track");
-                flush();
-                return true;
+            if (this.afterDrainParameters != null) {
+                if (!drainToEndOfStream()) {
+                    return false;
+                }
+                applyAudioProcessorPlaybackParametersAndSkipSilence(j);
+                this.afterDrainParameters = null;
+            }
+            long inputFramesToDurationUs = this.startMediaTimeUs + this.configuration.inputFramesToDurationUs(getSubmittedFrames() - this.trimmingAudioProcessor.getTrimmedFrameCount());
+            if (!this.startMediaTimeUsNeedsSync && Math.abs(inputFramesToDurationUs - j) > 200000) {
+                AudioSink.Listener listener = this.listener;
+                if (listener != null) {
+                    listener.onAudioSinkError(new AudioSink.UnexpectedDiscontinuityException(j, inputFramesToDurationUs));
+                }
+                this.startMediaTimeUsNeedsSync = true;
+            }
+            if (this.startMediaTimeUsNeedsSync) {
+                if (!drainToEndOfStream()) {
+                    return false;
+                }
+                long j2 = j - inputFramesToDurationUs;
+                this.startMediaTimeUs += j2;
+                this.startMediaTimeUsNeedsSync = false;
+                applyAudioProcessorPlaybackParametersAndSkipSilence(j);
+                AudioSink.Listener listener2 = this.listener;
+                if (listener2 != null && j2 != 0) {
+                    listener2.onPositionDiscontinuity();
+                }
+            }
+            if (this.configuration.outputMode == 0) {
+                this.submittedPcmBytes += byteBuffer.remaining();
             } else {
-                return false;
+                this.submittedEncodedFrames += this.framesPerEncodedSample * i;
             }
+            this.inputBuffer = byteBuffer;
+            this.inputBufferAccessUnitCount = i;
         }
-        return false;
+        processBuffers(j);
+        if (!this.inputBuffer.hasRemaining()) {
+            this.inputBuffer = null;
+            this.inputBufferAccessUnitCount = 0;
+            return true;
+        }
+        if (!this.audioTrackPositionTracker.isStalled(getWrittenFrames())) {
+            return false;
+        }
+        Log.w("DefaultAudioSink", "Resetting stalled audio track");
+        flush();
+        return true;
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioSink

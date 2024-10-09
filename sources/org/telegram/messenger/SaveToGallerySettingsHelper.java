@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.util.LongSparseArray;
 import org.telegram.messenger.FilePathDatabase;
 import org.telegram.messenger.NotificationBadge;
+
 /* loaded from: classes3.dex */
 public class SaveToGallerySettingsHelper {
     public static String CHANNELS_PREF_NAME = "channels_save_gallery_exceptions";
@@ -58,10 +59,10 @@ public class SaveToGallerySettingsHelper {
             if (enabled()) {
                 this.saveVideo = false;
                 this.savePhoto = false;
-                return;
+            } else {
+                this.savePhoto = true;
+                this.saveVideo = true;
             }
-            this.savePhoto = true;
-            this.saveVideo = true;
         }
     }
 
@@ -72,25 +73,25 @@ public class SaveToGallerySettingsHelper {
         /* JADX INFO: Access modifiers changed from: private */
         public boolean needSave(FilePathDatabase.FileMeta fileMeta, MessageObject messageObject, int i) {
             DialogException dialogException = UserConfig.getInstance(i).getSaveGalleryExceptions(this.type).get(fileMeta.dialogId);
-            if (messageObject == null || !(messageObject.isOutOwner() || messageObject.isSecretMedia())) {
-                boolean z = (messageObject != null && messageObject.isVideo()) || fileMeta.messageType == 3;
-                long size = messageObject != null ? messageObject.getSize() : fileMeta.messageSize;
-                boolean z2 = this.saveVideo;
-                boolean z3 = this.savePhoto;
-                long j = this.limitVideo;
-                if (dialogException != null) {
-                    z2 = dialogException.saveVideo;
-                    z3 = dialogException.savePhoto;
-                    j = dialogException.limitVideo;
-                }
-                if (z) {
-                    if (z2 && (j == -1 || size < j)) {
-                        return true;
-                    }
-                } else if (z3) {
+            if (messageObject != null && (messageObject.isOutOwner() || messageObject.isSecretMedia())) {
+                return false;
+            }
+            boolean z = (messageObject != null && messageObject.isVideo()) || fileMeta.messageType == 3;
+            long size = messageObject != null ? messageObject.getSize() : fileMeta.messageSize;
+            boolean z2 = this.saveVideo;
+            boolean z3 = this.savePhoto;
+            long j = this.limitVideo;
+            if (dialogException != null) {
+                z2 = dialogException.saveVideo;
+                z3 = dialogException.savePhoto;
+                j = dialogException.limitVideo;
+            }
+            if (z) {
+                if (z2 && (j == -1 || size < j)) {
                     return true;
                 }
-                return false;
+            } else if (z3) {
+                return true;
             }
             return false;
         }
@@ -106,13 +107,10 @@ public class SaveToGallerySettingsHelper {
 
         /* JADX INFO: Access modifiers changed from: private */
         public void save(String str, SharedPreferences sharedPreferences) {
-            SharedPreferences.Editor edit = sharedPreferences.edit();
-            SharedPreferences.Editor putBoolean = edit.putBoolean(str + "_save_gallery_photo", this.savePhoto);
-            SharedPreferences.Editor putBoolean2 = putBoolean.putBoolean(str + "_save_gallery_video", this.saveVideo);
-            putBoolean2.putLong(str + "_save_gallery_limitVideo", this.limitVideo).apply();
+            sharedPreferences.edit().putBoolean(str + "_save_gallery_photo", this.savePhoto).putBoolean(str + "_save_gallery_video", this.saveVideo).putLong(str + "_save_gallery_limitVideo", this.limitVideo).apply();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:21:0x006e  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x006e  */
         @Override // org.telegram.messenger.SaveToGallerySettingsHelper.Settings
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -233,9 +231,10 @@ public class SaveToGallerySettingsHelper {
             sharedSettings = user;
         } else if (i == 4) {
             sharedSettings = channels;
-        } else if (i != 2) {
-            return false;
         } else {
+            if (i != 2) {
+                return false;
+            }
             sharedSettings = groups;
         }
         return sharedSettings.needSave(fileMeta, messageObject, i2);
@@ -265,9 +264,10 @@ public class SaveToGallerySettingsHelper {
         } else if (i == 2) {
             sharedSettings = groups;
             str = "groups";
-        } else if (i != 4) {
-            return;
         } else {
+            if (i != 4) {
+                return;
+            }
             sharedSettings = channels;
             str = "channels";
         }

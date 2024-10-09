@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public final class LoopingMediaSource extends WrappingMediaSource {
     private final Map childMediaPeriodIdToMediaPeriodId;

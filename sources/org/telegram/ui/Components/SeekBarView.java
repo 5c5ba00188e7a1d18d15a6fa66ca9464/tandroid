@@ -1,5 +1,6 @@
 package org.telegram.ui.Components;
 
+import android.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -31,6 +32,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class SeekBarView extends FrameLayout {
     private static Path tmpPath;
@@ -79,6 +81,43 @@ public class SeekBarView extends FrameLayout {
     private int transitionThumbX;
     private boolean twoSided;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: classes3.dex */
+    public class 1 extends FloatSeekBarAccessibilityDelegate {
+        1(boolean z) {
+            super(z);
+        }
+
+        @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
+        public CharSequence getContentDescription(View view) {
+            SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
+            if (seekBarViewDelegate != null) {
+                return seekBarViewDelegate.getContentDescription();
+            }
+            return null;
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+        public float getDelta() {
+            int stepsCount = SeekBarView.this.delegate.getStepsCount();
+            return stepsCount > 0 ? 1.0f / stepsCount : super.getDelta();
+        }
+
+        @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+        public float getProgress() {
+            return SeekBarView.this.getProgress();
+        }
+
+        @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
+        public void setProgress(float f) {
+            SeekBarView.this.pressed = true;
+            SeekBarView.this.setProgress(f);
+            SeekBarView.this.setSeekBarDrag(true, f);
+            SeekBarView.this.pressed = false;
+        }
+    }
+
     /* loaded from: classes3.dex */
     public interface SeekBarViewDelegate {
 
@@ -117,7 +156,7 @@ public class SeekBarView extends FrameLayout {
         super(context);
         this.animatedThumbX = new AnimatedFloat(this, 0L, 80L, CubicBezierInterpolator.EASE_OUT);
         this.progressToSet = -100.0f;
-        this.pressedState = new int[]{16842910, 16842919};
+        this.pressedState = new int[]{R.attr.state_enabled, R.attr.state_pressed};
         this.transitionProgress = 1.0f;
         this.lineWidthDp = 3;
         this.timestampsAppearing = 0.0f;
@@ -144,9 +183,9 @@ public class SeekBarView extends FrameLayout {
             this.hoverDrawable.setVisible(true, false);
         }
         setImportantForAccessibility(1);
-        FloatSeekBarAccessibilityDelegate floatSeekBarAccessibilityDelegate = new FloatSeekBarAccessibilityDelegate(z) { // from class: org.telegram.ui.Components.SeekBarView.1
-            {
-                SeekBarView.this = this;
+        1 r8 = new FloatSeekBarAccessibilityDelegate(z) { // from class: org.telegram.ui.Components.SeekBarView.1
+            1(boolean z2) {
+                super(z2);
             }
 
             @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
@@ -178,8 +217,8 @@ public class SeekBarView extends FrameLayout {
                 SeekBarView.this.pressed = false;
             }
         };
-        this.seekBarAccessibilityDelegate = floatSeekBarAccessibilityDelegate;
-        setAccessibilityDelegate(floatSeekBarAccessibilityDelegate);
+        this.seekBarAccessibilityDelegate = r8;
+        setAccessibilityDelegate(r8);
     }
 
     private void drawProgressBar(Canvas canvas, RectF rectF, Paint paint) {
@@ -221,12 +260,12 @@ public class SeekBarView extends FrameLayout {
         while (true) {
             if (size < 0) {
                 break;
-            } else if (1.0f - ((Float) ((Pair) seekBarView.timestamps.get(size)).first).floatValue() >= dp3) {
+            }
+            if (1.0f - ((Float) ((Pair) seekBarView.timestamps.get(size)).first).floatValue() >= dp3) {
                 i = size + 1;
                 break;
-            } else {
-                size--;
             }
+            size--;
         }
         if (i < 0) {
             i = seekBarView.timestamps.size();
@@ -303,8 +342,9 @@ public class SeekBarView extends FrameLayout {
         canvas.drawPath(tmpPath, paint);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:147:0x0104, code lost:
-        if (r1 > r5) goto L50;
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x0104, code lost:
+    
+        if (r1 > r5) goto L148;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -441,11 +481,11 @@ public class SeekBarView extends FrameLayout {
             textPaint.setTextSize(AndroidUtilities.dp(12.0f));
         }
         this.timestampLabelPaint.setColor(getThemedColor(Theme.key_player_time));
-        String str = charSequence == null ? "" : charSequence;
+        CharSequence charSequence2 = charSequence == null ? "" : charSequence;
         if (Build.VERSION.SDK_INT < 23) {
-            return new StaticLayout(str, 0, str.length(), this.timestampLabelPaint, i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, Math.min(AndroidUtilities.dp(400.0f), i));
+            return new StaticLayout(charSequence2, 0, charSequence2.length(), this.timestampLabelPaint, i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, Math.min(AndroidUtilities.dp(400.0f), i));
         }
-        obtain = StaticLayout.Builder.obtain(str, 0, str.length(), this.timestampLabelPaint, i);
+        obtain = StaticLayout.Builder.obtain(charSequence2, 0, charSequence2.length(), this.timestampLabelPaint, i);
         maxLines = obtain.setMaxLines(1);
         alignment = maxLines.setAlignment(Layout.Alignment.ALIGN_CENTER);
         ellipsize = alignment.setEllipsize(TextUtils.TruncateAt.END);
@@ -459,9 +499,8 @@ public class SeekBarView extends FrameLayout {
         if (seekBarViewDelegate != null) {
             seekBarViewDelegate.onSeekBarDrag(z, f);
         }
-        int i = this.separatorsCount;
-        if (i > 1) {
-            int round = Math.round((i - 1) * f);
+        if (this.separatorsCount > 1) {
+            int round = Math.round((r0 - 1) * f);
             if (!z && round != this.lastValue) {
                 AndroidUtilities.vibrateCursor(this);
             }
@@ -498,22 +537,26 @@ public class SeekBarView extends FrameLayout {
         return this.twoSided;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x01aa, code lost:
-        if (r4 > r1) goto L50;
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x01aa, code lost:
+    
+        if (r4 > r1) goto L94;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x01bb, code lost:
-        if (r4 < r1) goto L50;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x01bd, code lost:
-        r15.currentRadius = r1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x01bf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x01bf, code lost:
+    
         r1 = true;
      */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x01dd  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x0225  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x023d  */
-    /* JADX WARN: Removed duplicated region for block: B:115:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x01bd, code lost:
+    
+        r15.currentRadius = r1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x01bb, code lost:
+    
+        if (r4 < r1) goto L94;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x01dd  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:47:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0225  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -524,11 +567,10 @@ public class SeekBarView extends FrameLayout {
         float f2;
         float measuredHeight;
         int measuredWidth;
-        float measuredWidth2;
         int i = this.thumbX;
         boolean z2 = true;
         if (!this.twoSided && this.separatorsCount > 1) {
-            i = (int) this.animatedThumbX.set(Math.round(i / measuredWidth2) * ((getMeasuredWidth() - this.selectorWidth) / (this.separatorsCount - 1.0f)));
+            i = (int) this.animatedThumbX.set(Math.round(i / r2) * ((getMeasuredWidth() - this.selectorWidth) / (this.separatorsCount - 1.0f)));
         }
         int i2 = i;
         int measuredHeight2 = (getMeasuredHeight() - this.thumbSize) / 2;
@@ -546,9 +588,9 @@ public class SeekBarView extends FrameLayout {
         }
         if (this.twoSided) {
             canvas.drawRect((getMeasuredWidth() / 2) - AndroidUtilities.dp(1.0f), (getMeasuredHeight() / 2) - AndroidUtilities.dp(6.0f), (getMeasuredWidth() / 2) + AndroidUtilities.dp(1.0f), (getMeasuredHeight() / 2) + AndroidUtilities.dp(6.0f), this.outerPaint1);
-            int measuredWidth3 = getMeasuredWidth();
+            int measuredWidth2 = getMeasuredWidth();
             int i3 = this.selectorWidth;
-            if (i2 > (measuredWidth3 - i3) / 2) {
+            if (i2 > (measuredWidth2 - i3) / 2) {
                 f2 = getMeasuredWidth() / 2;
                 measuredHeight = (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f);
                 measuredWidth = (this.selectorWidth / 2) + i2;
@@ -811,12 +853,9 @@ public class SeekBarView extends FrameLayout {
             }
             this.thumbX = ceil;
             if (ceil >= 0) {
-                if (ceil > getMeasuredWidth() - this.selectorWidth) {
-                    measuredWidth2 = getMeasuredWidth() - this.selectorWidth;
-                }
+                measuredWidth2 = ceil > getMeasuredWidth() - this.selectorWidth ? getMeasuredWidth() - this.selectorWidth : 0;
                 invalidate();
             }
-            measuredWidth2 = 0;
             this.thumbX = measuredWidth2;
             invalidate();
         }

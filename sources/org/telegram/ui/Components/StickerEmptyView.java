@@ -25,6 +25,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public class StickerEmptyView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private boolean animateLayoutChange;
@@ -463,11 +464,12 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
                     this.progressBar.setScaleX(1.0f);
                     this.progressBar.setScaleY(1.0f);
                     return;
+                } else {
+                    view3.animate().setListener(null).cancel();
+                    this.progressView.setAlpha(1.0f);
+                    view = this.progressView;
+                    i = 0;
                 }
-                view3.animate().setListener(null).cancel();
-                this.progressView.setAlpha(1.0f);
-                view = this.progressView;
-                i = 0;
             } else {
                 this.linearLayout.animate().cancel();
                 this.linearLayout.setAlpha(1.0f);
@@ -479,10 +481,11 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
                     this.progressBar.setScaleX(0.5f);
                     this.progressBar.setScaleY(0.5f);
                     return;
+                } else {
+                    view4.animate().setListener(null).cancel();
+                    view = this.progressView;
+                    i = 8;
                 }
-                view4.animate().setListener(null).cancel();
-                view = this.progressView;
-                i = 8;
             }
             view.setVisibility(i);
         }

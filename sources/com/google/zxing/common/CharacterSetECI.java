@@ -4,6 +4,7 @@ import com.google.zxing.FormatException;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public enum CharacterSetECI {
     Cp437(new int[]{0, 2}, new String[0]),
@@ -33,14 +34,13 @@ public enum CharacterSetECI {
     Big5(28),
     GB18030(29, "GB2312", "EUC_CN", "GBK"),
     EUC_KR(30, "EUC-KR");
-    
+
     private final String[] otherEncodingNames;
     private final int[] values;
     private static final Map VALUE_TO_ECI = new HashMap();
     private static final Map NAME_TO_ECI = new HashMap();
 
     static {
-        CharacterSetECI[] values;
         for (CharacterSetECI characterSetECI : values()) {
             for (int i : characterSetECI.values) {
                 VALUE_TO_ECI.put(Integer.valueOf(i), characterSetECI);

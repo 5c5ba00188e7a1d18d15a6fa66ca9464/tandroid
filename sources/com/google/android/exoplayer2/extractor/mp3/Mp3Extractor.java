@@ -26,6 +26,7 @@ import java.io.EOFException;
 import java.util.Map;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class Mp3Extractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp3.Mp3Extractor$$ExternalSyntheticLambda0
@@ -141,18 +142,18 @@ public final class Mp3Extractor implements Extractor {
     }
 
     private static long getId3TlenUs(Metadata metadata) {
-        if (metadata != null) {
-            int length = metadata.length();
-            for (int i = 0; i < length; i++) {
-                Metadata.Entry entry = metadata.get(i);
-                if (entry instanceof TextInformationFrame) {
-                    TextInformationFrame textInformationFrame = (TextInformationFrame) entry;
-                    if (textInformationFrame.id.equals("TLEN")) {
-                        return Util.msToUs(Long.parseLong((String) textInformationFrame.values.get(0)));
-                    }
+        if (metadata == null) {
+            return -9223372036854775807L;
+        }
+        int length = metadata.length();
+        for (int i = 0; i < length; i++) {
+            Metadata.Entry entry = metadata.get(i);
+            if (entry instanceof TextInformationFrame) {
+                TextInformationFrame textInformationFrame = (TextInformationFrame) entry;
+                if (textInformationFrame.id.equals("TLEN")) {
+                    return Util.msToUs(Long.parseLong((String) textInformationFrame.values.get(0)));
                 }
             }
-            return -9223372036854775807L;
         }
         return -9223372036854775807L;
     }
@@ -165,11 +166,11 @@ public final class Mp3Extractor implements Extractor {
                 return readInt;
             }
         }
-        if (parsableByteArray.limit() >= 40) {
-            parsableByteArray.setPosition(36);
-            return parsableByteArray.readInt() == 1447187017 ? 1447187017 : 0;
+        if (parsableByteArray.limit() < 40) {
+            return 0;
         }
-        return 0;
+        parsableByteArray.setPosition(36);
+        return parsableByteArray.readInt() == 1447187017 ? 1447187017 : 0;
     }
 
     private static boolean headersMatch(int i, long j) {
@@ -187,15 +188,15 @@ public final class Mp3Extractor implements Extractor {
     }
 
     private static MlltSeeker maybeHandleSeekMetadata(Metadata metadata, long j) {
-        if (metadata != null) {
-            int length = metadata.length();
-            for (int i = 0; i < length; i++) {
-                Metadata.Entry entry = metadata.get(i);
-                if (entry instanceof MlltFrame) {
-                    return MlltSeeker.create(j, (MlltFrame) entry, getId3TlenUs(metadata));
-                }
-            }
+        if (metadata == null) {
             return null;
+        }
+        int length = metadata.length();
+        for (int i = 0; i < length; i++) {
+            Metadata.Entry entry = metadata.get(i);
+            if (entry instanceof MlltFrame) {
+                return MlltSeeker.create(j, (MlltFrame) entry, getId3TlenUs(metadata));
+            }
         }
         return null;
     }
@@ -280,7 +281,6 @@ public final class Mp3Extractor implements Extractor {
     }
 
     private int readSample(ExtractorInput extractorInput) {
-        MpegAudioUtil.Header header;
         if (this.sampleBytesRemaining == 0) {
             extractorInput.resetPeekPosition();
             if (peekEndOfStreamOrHeader(extractorInput)) {
@@ -304,7 +304,7 @@ public final class Mp3Extractor implements Extractor {
             Seeker seeker = this.seeker;
             if (seeker instanceof IndexSeeker) {
                 IndexSeeker indexSeeker = (IndexSeeker) seeker;
-                indexSeeker.maybeAddSeekPoint(computeTimeUs(this.samplesRead + header.samplesPerFrame), extractorInput.getPosition() + this.synchronizedHeader.frameSize);
+                indexSeeker.maybeAddSeekPoint(computeTimeUs(this.samplesRead + r0.samplesPerFrame), extractorInput.getPosition() + this.synchronizedHeader.frameSize);
                 if (this.isSeekInProgress && indexSeeker.isTimeUsInIndex(this.seekTimeUs)) {
                     this.isSeekInProgress = false;
                     this.currentTrackOutput = this.realTrackOutput;
@@ -326,20 +326,25 @@ public final class Mp3Extractor implements Extractor {
         return 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x009a, code lost:
-        if (r13 == false) goto L52;
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x009a, code lost:
+    
+        if (r13 == false) goto L49;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x009c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x009c, code lost:
+    
         r12.skipFully(r2 + r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x00a1, code lost:
-        r12.resetPeekPosition();
-     */
     /* JADX WARN: Code restructure failed: missing block: B:50:0x00a4, code lost:
+    
         r11.synchronizedHeaderData = r1;
      */
     /* JADX WARN: Code restructure failed: missing block: B:51:0x00a6, code lost:
+    
         return true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x00a1, code lost:
+    
+        r12.resetPeekPosition();
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

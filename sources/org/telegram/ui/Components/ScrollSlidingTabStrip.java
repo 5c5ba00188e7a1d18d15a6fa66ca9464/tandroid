@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
@@ -41,6 +42,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ScrollSlidingTabStrip;
+
 /* loaded from: classes3.dex */
 public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
     public static float EXPANDED_WIDTH = 64.0f;
@@ -195,8 +197,9 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
             public void run() {
                 ScrollSlidingTabStrip scrollSlidingTabStrip = ScrollSlidingTabStrip.this;
                 scrollSlidingTabStrip.longClickRunning = false;
+                float scrollX = scrollSlidingTabStrip.getScrollX();
                 ScrollSlidingTabStrip scrollSlidingTabStrip2 = ScrollSlidingTabStrip.this;
-                scrollSlidingTabStrip.startDragFromX = scrollSlidingTabStrip.getScrollX() + scrollSlidingTabStrip2.pressedX;
+                scrollSlidingTabStrip.startDragFromX = scrollX + scrollSlidingTabStrip2.pressedX;
                 scrollSlidingTabStrip2.dragDx = 0.0f;
                 int ceil = ((int) Math.ceil(scrollSlidingTabStrip2.startDragFromX / scrollSlidingTabStrip2.getTabSize())) - 1;
                 ScrollSlidingTabStrip scrollSlidingTabStrip3 = ScrollSlidingTabStrip.this;
@@ -225,17 +228,21 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         this.showSelected = true;
         this.showSelectedAlpha = new AnimatedFloat(this, 350L, cubicBezierInterpolator);
         this.scrollRunnable = new Runnable() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip.6
-            /* JADX WARN: Code restructure failed: missing block: B:10:0x0035, code lost:
-                if (r6.this$0.scrollRight != false) goto L6;
+            /* JADX WARN: Code restructure failed: missing block: B:12:0x0035, code lost:
+            
+                if (r6.this$0.scrollRight != false) goto L16;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:13:0x0046, code lost:
-                if (r6.this$0.scrollRight != false) goto L6;
+            /* JADX WARN: Code restructure failed: missing block: B:14:0x0046, code lost:
+            
+                if (r6.this$0.scrollRight != false) goto L16;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:15:0x0049, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:4:0x001e, code lost:
+            
+                if (r6.this$0.scrollRight != false) goto L16;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:5:0x0049, code lost:
+            
                 r4 = -1;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:5:0x001e, code lost:
-                if (r6.this$0.scrollRight != false) goto L6;
              */
             @Override // java.lang.Runnable
             /*
@@ -384,8 +391,9 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
             if (left >= scrollX) {
                 if (this.scrollOffset + left <= (scrollX + getWidth()) - (this.scrollOffset * 2)) {
                     return;
+                } else {
+                    left = (left - getWidth()) + (this.scrollOffset * 3);
                 }
-                left = (left - getWidth()) + (this.scrollOffset * 3);
             }
             this.lastScrollX = left;
             smoothScrollTo(left, 0);
@@ -675,8 +683,9 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
     public void commitUpdate() {
         HashMap hashMap = this.prevTypes;
         if (hashMap != null) {
-            for (Map.Entry entry : hashMap.entrySet()) {
-                this.tabsContainer.removeView((View) entry.getValue());
+            Iterator it = hashMap.entrySet().iterator();
+            while (it.hasNext()) {
+                this.tabsContainer.removeView((View) ((Map.Entry) it.next()).getValue());
             }
             this.prevTypes.clear();
         }
@@ -696,7 +705,6 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
     protected void dispatchDraw(Canvas canvas) {
         float f;
         float textWidth;
-        Paint paint;
         float f2 = this.stickerTabWidth - this.stickerTabExpandedWidth;
         float f3 = this.expandOffset * (1.0f - this.expandProgress);
         for (int i = 0; i < this.tabsContainer.getChildCount(); i++) {
@@ -754,7 +762,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
             float lerp4 = (abs2 * AndroidUtilities.lerp(1.0f, 0.55f, interpolation)) / 2.0f;
             this.tabBounds.set(f - lerp3, lerp2 - lerp4, f + lerp3, lerp2 + lerp4);
             this.selectorPaint.setColor(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_chat_emojiPanelIcon), 46));
-            this.selectorPaint.setAlpha((int) (paint.getAlpha() * f5));
+            this.selectorPaint.setAlpha((int) (r2.getAlpha() * f5));
             canvas.drawRoundRect(this.tabBounds, AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), this.selectorPaint);
         }
         super.dispatchDraw(canvas);
@@ -824,8 +832,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                     if (f3 - f2 < 0.0f) {
                         f3 = f2;
                     }
-                    ScrollSlidingTabStrip scrollSlidingTabStrip2 = ScrollSlidingTabStrip.this;
-                    scrollSlidingTabStrip2.expandOffset = (scrollSlidingTabStrip2.getScrollX() + f2) - f3;
+                    ScrollSlidingTabStrip.this.expandOffset = (r1.getScrollX() + f2) - f3;
                     ScrollSlidingTabStrip.this.scrollByOnNextMeasure = (int) (f3 - f2);
                     if (ScrollSlidingTabStrip.this.scrollByOnNextMeasure < 0) {
                         ScrollSlidingTabStrip.this.scrollByOnNextMeasure = 0;
@@ -837,9 +844,9 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
                         }
                         childAt.getLayoutParams().width = AndroidUtilities.dp(33.0f);
                     }
-                    ScrollSlidingTabStrip scrollSlidingTabStrip3 = ScrollSlidingTabStrip.this;
-                    scrollSlidingTabStrip3.animateToExpanded = false;
-                    scrollSlidingTabStrip3.getLayoutParams().height = AndroidUtilities.dp(36.0f);
+                    ScrollSlidingTabStrip scrollSlidingTabStrip2 = ScrollSlidingTabStrip.this;
+                    scrollSlidingTabStrip2.animateToExpanded = false;
+                    scrollSlidingTabStrip2.getLayoutParams().height = AndroidUtilities.dp(36.0f);
                     ScrollSlidingTabStrip.this.tabsContainer.requestLayout();
                 }
             });
@@ -915,9 +922,8 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         if (i3 == i) {
             return;
         }
-        View childAt = this.tabsContainer.getChildAt(i3);
-        if (childAt != null) {
-            this.startAnimationPosition = childAt.getLeft();
+        if (this.tabsContainer.getChildAt(i3) != null) {
+            this.startAnimationPosition = r0.getLeft();
             this.positionAnimationProgress = 0.0f;
             this.animateFromPosition = true;
             this.lastAnimationTime = SystemClock.elapsedRealtime();
@@ -977,12 +983,11 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         this.imageReceiversPlayingNum = i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x01ee  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x01ee  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setImages() {
-        float dp;
         int i;
         String str;
         ImageLocation forSticker;
@@ -998,9 +1003,11 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         SvgHelper.SvgDrawable svgDrawable;
         int i4;
         ArrayList<TLRPC.PhotoSize> arrayList;
+        float dp = AndroidUtilities.dp(33.0f);
+        float dp2 = AndroidUtilities.dp(EXPANDED_WIDTH - 33.0f);
         float f = this.expandProgress;
-        int scrollX = (int) (((getScrollX() - (this.animateToExpanded ? this.expandOffset * (1.0f - f) : 0.0f)) - this.tabsContainer.getPaddingLeft()) / (AndroidUtilities.dp(33.0f) + (AndroidUtilities.dp(EXPANDED_WIDTH - 33.0f) * f)));
-        int min = Math.min(this.tabsContainer.getChildCount(), ((int) Math.ceil(getMeasuredWidth() / dp)) + scrollX + 1);
+        int scrollX = (int) (((getScrollX() - (this.animateToExpanded ? this.expandOffset * (1.0f - f) : 0.0f)) - this.tabsContainer.getPaddingLeft()) / (dp + (dp2 * f)));
+        int min = Math.min(this.tabsContainer.getChildCount(), ((int) Math.ceil(getMeasuredWidth() / r2)) + scrollX + 1);
         if (this.animateToExpanded) {
             scrollX -= 2;
             min += 2;
@@ -1174,8 +1181,10 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         int i = 7.$SwitchMap$org$telegram$ui$Components$ScrollSlidingTabStrip$Type[type.ordinal()];
         if (i == 1) {
             this.indicatorDrawable.setCornerRadius(0.0f);
-        } else if (i != 2) {
         } else {
+            if (i != 2) {
+                return;
+            }
             float dpf2 = AndroidUtilities.dpf2(3.0f);
             this.indicatorDrawable.setCornerRadii(new float[]{dpf2, dpf2, dpf2, dpf2, 0.0f, 0.0f, 0.0f, 0.0f});
         }

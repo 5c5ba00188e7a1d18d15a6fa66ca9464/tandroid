@@ -5,6 +5,7 @@ import android.os.Binder;
 import android.os.Process;
 import androidx.core.app.AppOpsManagerCompat;
 import androidx.core.util.ObjectsCompat;
+
 /* loaded from: classes.dex */
 public abstract class PermissionChecker {
     public static int checkCallingOrSelfPermission(Context context, String str) {

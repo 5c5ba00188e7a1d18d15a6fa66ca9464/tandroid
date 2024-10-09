@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.clearcut;
+
 /* loaded from: classes.dex */
 interface zzef {
     boolean equals(Object obj, Object obj2);

@@ -1,5 +1,6 @@
 package kotlinx.coroutines;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 import kotlin.ExceptionsKt__ExceptionsKt;
@@ -10,6 +11,7 @@ import kotlin.coroutines.CoroutineContext;
 import kotlin.sequences.Sequence;
 import kotlin.sequences.SequencesKt__SequencesKt;
 import kotlin.sequences.SequencesKt___SequencesKt;
+
 /* loaded from: classes.dex */
 public abstract class CoroutineExceptionHandlerImplKt {
     private static final List handlers;
@@ -23,9 +25,10 @@ public abstract class CoroutineExceptionHandlerImplKt {
     }
 
     public static final void handleCoroutineExceptionImpl(CoroutineContext coroutineContext, Throwable th) {
-        for (CoroutineExceptionHandler coroutineExceptionHandler : handlers) {
+        Iterator it = handlers.iterator();
+        while (it.hasNext()) {
             try {
-                coroutineExceptionHandler.handleException(coroutineContext, th);
+                ((CoroutineExceptionHandler) it.next()).handleException(coroutineContext, th);
             } catch (Throwable th2) {
                 Thread currentThread = Thread.currentThread();
                 currentThread.getUncaughtExceptionHandler().uncaughtException(currentThread, CoroutineExceptionHandlerKt.handlerException(th, th2));

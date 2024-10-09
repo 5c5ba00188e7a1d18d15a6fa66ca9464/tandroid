@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class j2 extends Z1 {
     long b;

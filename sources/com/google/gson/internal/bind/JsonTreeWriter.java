@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 /* loaded from: classes.dex */
 public final class JsonTreeWriter extends JsonWriter {
     private String pendingName;
@@ -41,8 +42,7 @@ public final class JsonTreeWriter extends JsonWriter {
     }
 
     private JsonElement peek() {
-        List list = this.stack;
-        return (JsonElement) list.get(list.size() - 1);
+        return (JsonElement) this.stack.get(r0.size() - 1);
     }
 
     private void put(JsonElement jsonElement) {
@@ -51,15 +51,17 @@ public final class JsonTreeWriter extends JsonWriter {
                 ((JsonObject) peek()).add(this.pendingName, jsonElement);
             }
             this.pendingName = null;
-        } else if (this.stack.isEmpty()) {
-            this.product = jsonElement;
-        } else {
-            JsonElement peek = peek();
-            if (!(peek instanceof JsonArray)) {
-                throw new IllegalStateException();
-            }
-            ((JsonArray) peek).add(jsonElement);
+            return;
         }
+        if (this.stack.isEmpty()) {
+            this.product = jsonElement;
+            return;
+        }
+        JsonElement peek = peek();
+        if (!(peek instanceof JsonArray)) {
+            throw new IllegalStateException();
+        }
+        ((JsonArray) peek).add(jsonElement);
     }
 
     @Override // com.google.gson.stream.JsonWriter
@@ -91,12 +93,11 @@ public final class JsonTreeWriter extends JsonWriter {
         if (this.stack.isEmpty() || this.pendingName != null) {
             throw new IllegalStateException();
         }
-        if (peek() instanceof JsonArray) {
-            List list = this.stack;
-            list.remove(list.size() - 1);
-            return this;
+        if (!(peek() instanceof JsonArray)) {
+            throw new IllegalStateException();
         }
-        throw new IllegalStateException();
+        this.stack.remove(r0.size() - 1);
+        return this;
     }
 
     @Override // com.google.gson.stream.JsonWriter
@@ -104,12 +105,11 @@ public final class JsonTreeWriter extends JsonWriter {
         if (this.stack.isEmpty() || this.pendingName != null) {
             throw new IllegalStateException();
         }
-        if (peek() instanceof JsonObject) {
-            List list = this.stack;
-            list.remove(list.size() - 1);
-            return this;
+        if (!(peek() instanceof JsonObject)) {
+            throw new IllegalStateException();
         }
-        throw new IllegalStateException();
+        this.stack.remove(r0.size() - 1);
+        return this;
     }
 
     @Override // com.google.gson.stream.JsonWriter, java.io.Flushable
@@ -129,11 +129,11 @@ public final class JsonTreeWriter extends JsonWriter {
         if (this.stack.isEmpty() || this.pendingName != null) {
             throw new IllegalStateException("Did not expect a name");
         }
-        if (peek() instanceof JsonObject) {
-            this.pendingName = str;
-            return this;
+        if (!(peek() instanceof JsonObject)) {
+            throw new IllegalStateException("Please begin an object before writing a name.");
         }
-        throw new IllegalStateException("Please begin an object before writing a name.");
+        this.pendingName = str;
+        return this;
     }
 
     @Override // com.google.gson.stream.JsonWriter

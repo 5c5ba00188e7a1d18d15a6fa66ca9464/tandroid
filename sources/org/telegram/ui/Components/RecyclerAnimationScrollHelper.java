@@ -16,6 +16,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.RecyclerAnimationScrollHelper;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class RecyclerAnimationScrollHelper {
     private AnimationCallback animationCallback;
@@ -235,14 +236,15 @@ public class RecyclerAnimationScrollHelper {
                 if (measuredHeight >= 300) {
                     j2 = measuredHeight;
                 }
-            } else if (z) {
-                j = 600;
-                RecyclerAnimationScrollHelper.this.animator.setDuration(j);
-                valueAnimator = RecyclerAnimationScrollHelper.this.animator;
-                cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
-                valueAnimator.setInterpolator(cubicBezierInterpolator);
-                RecyclerAnimationScrollHelper.this.animator.start();
             } else {
+                if (z) {
+                    j = 600;
+                    RecyclerAnimationScrollHelper.this.animator.setDuration(j);
+                    valueAnimator = RecyclerAnimationScrollHelper.this.animator;
+                    cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+                    valueAnimator.setInterpolator(cubicBezierInterpolator);
+                    RecyclerAnimationScrollHelper.this.animator.start();
+                }
                 long measuredHeight2 = ((height / recyclerAnimationScrollHelper.recyclerView.getMeasuredHeight()) + 1.0f) * 200.0f;
                 if (measuredHeight2 >= 300) {
                     j2 = measuredHeight2;
@@ -285,10 +287,10 @@ public class RecyclerAnimationScrollHelper {
         public void notifyItemInserted(int i) {
             if (!this.animationRunning) {
                 super.notifyItemInserted(i);
-                return;
+            } else {
+                this.rangeInserted.add(Integer.valueOf(i));
+                this.rangeInserted.add(1);
             }
-            this.rangeInserted.add(Integer.valueOf(i));
-            this.rangeInserted.add(1);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -303,30 +305,30 @@ public class RecyclerAnimationScrollHelper {
         public void notifyItemRangeInserted(int i, int i2) {
             if (!this.animationRunning) {
                 super.notifyItemRangeInserted(i, i2);
-                return;
+            } else {
+                this.rangeInserted.add(Integer.valueOf(i));
+                this.rangeInserted.add(Integer.valueOf(i2));
             }
-            this.rangeInserted.add(Integer.valueOf(i));
-            this.rangeInserted.add(Integer.valueOf(i2));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemRangeRemoved(int i, int i2) {
             if (!this.animationRunning) {
                 super.notifyItemRangeRemoved(i, i2);
-                return;
+            } else {
+                this.rangeRemoved.add(Integer.valueOf(i));
+                this.rangeRemoved.add(Integer.valueOf(i2));
             }
-            this.rangeRemoved.add(Integer.valueOf(i));
-            this.rangeRemoved.add(Integer.valueOf(i2));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyItemRemoved(int i) {
             if (!this.animationRunning) {
                 super.notifyItemRemoved(i);
-                return;
+            } else {
+                this.rangeRemoved.add(Integer.valueOf(i));
+                this.rangeRemoved.add(1);
             }
-            this.rangeRemoved.add(Integer.valueOf(i));
-            this.rangeRemoved.add(1);
         }
 
         public void onAnimationEnd() {

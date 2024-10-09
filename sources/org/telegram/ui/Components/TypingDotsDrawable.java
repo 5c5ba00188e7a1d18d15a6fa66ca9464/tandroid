@@ -8,6 +8,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class TypingDotsDrawable extends StatusDrawable {
     private Paint currentPaint;

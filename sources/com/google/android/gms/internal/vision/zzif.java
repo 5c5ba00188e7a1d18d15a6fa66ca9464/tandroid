@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public abstract class zzif {
     int zzb;

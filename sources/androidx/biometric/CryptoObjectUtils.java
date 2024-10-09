@@ -22,6 +22,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class CryptoObjectUtils {
@@ -101,8 +102,9 @@ public abstract class CryptoObjectUtils {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES", "AndroidKeyStore");
             Api23Impl.initKeyGenerator(keyGenerator, Api23Impl.buildKeyGenParameterSpec(createKeyGenParameterSpecBuilder));
             keyGenerator.generateKey();
+            SecretKey secretKey = (SecretKey) keyStore.getKey("androidxBiometric", null);
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-            cipher.init(1, (SecretKey) keyStore.getKey("androidxBiometric", null));
+            cipher.init(1, secretKey);
             return new BiometricPrompt.CryptoObject(cipher);
         } catch (IOException | InvalidAlgorithmParameterException | InvalidKeyException | KeyStoreException | NoSuchAlgorithmException | NoSuchProviderException | UnrecoverableKeyException | CertificateException | NoSuchPaddingException e) {
             Log.w("CryptoObjectUtils", "Failed to create fake crypto object.", e);

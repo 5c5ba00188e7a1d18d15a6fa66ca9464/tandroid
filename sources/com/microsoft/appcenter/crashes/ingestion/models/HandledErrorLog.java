@@ -4,6 +4,7 @@ import com.microsoft.appcenter.ingestion.models.LogWithProperties;
 import java.util.UUID;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class HandledErrorLog extends LogWithProperties {
     private Exception exception;
@@ -14,17 +15,17 @@ public class HandledErrorLog extends LogWithProperties {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            HandledErrorLog handledErrorLog = (HandledErrorLog) obj;
-            UUID uuid = this.id;
-            if (uuid == null ? handledErrorLog.id == null : uuid.equals(handledErrorLog.id)) {
-                Exception exception = this.exception;
-                Exception exception2 = handledErrorLog.exception;
-                return exception != null ? exception.equals(exception2) : exception2 == null;
-            }
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
             return false;
         }
-        return false;
+        HandledErrorLog handledErrorLog = (HandledErrorLog) obj;
+        UUID uuid = this.id;
+        if (uuid == null ? handledErrorLog.id != null : !uuid.equals(handledErrorLog.id)) {
+            return false;
+        }
+        Exception exception = this.exception;
+        Exception exception2 = handledErrorLog.exception;
+        return exception != null ? exception.equals(exception2) : exception2 == null;
     }
 
     public Exception getException() {

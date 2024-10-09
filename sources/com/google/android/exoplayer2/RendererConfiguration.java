@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2;
+
 /* loaded from: classes.dex */
 public final class RendererConfiguration {
     public static final RendererConfiguration DEFAULT = new RendererConfiguration(false);

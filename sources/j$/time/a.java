@@ -1,6 +1,7 @@
 package j$.time;
 
 import java.io.Serializable;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class a extends b implements Serializable {
@@ -21,10 +22,10 @@ public final class a extends b implements Serializable {
     }
 
     public final boolean equals(Object obj) {
-        if (obj instanceof a) {
-            return this.a.equals(((a) obj).a);
+        if (!(obj instanceof a)) {
+            return false;
         }
-        return false;
+        return this.a.equals(((a) obj).a);
     }
 
     public final int hashCode() {

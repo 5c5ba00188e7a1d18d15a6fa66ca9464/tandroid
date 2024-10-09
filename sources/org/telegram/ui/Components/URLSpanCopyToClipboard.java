@@ -3,6 +3,7 @@ package org.telegram.ui.Components;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.BaseFragment;
+
 /* loaded from: classes3.dex */
 public class URLSpanCopyToClipboard extends URLSpanNoUnderline {
     private BaseFragment fragment;

@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.extractor.mp3;
 
 import com.google.android.exoplayer2.audio.MpegAudioUtil;
 import com.google.android.exoplayer2.extractor.ConstantBitrateSeekMap;
+
 /* loaded from: classes.dex */
 final class ConstantBitrateSeeker extends ConstantBitrateSeekMap implements Seeker {
     public ConstantBitrateSeeker(long j, long j2, MpegAudioUtil.Header header, boolean z) {

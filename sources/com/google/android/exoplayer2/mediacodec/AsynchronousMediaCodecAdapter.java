@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.mediacodec.MediaCodecAdapter;
 import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.common.base.Supplier;
 import java.nio.ByteBuffer;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AsynchronousMediaCodecAdapter implements MediaCodecAdapter {

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class FragmentManagerViewModel extends ViewModel {
@@ -47,8 +48,10 @@ public final class FragmentManagerViewModel extends ViewModel {
             if (FragmentManager.isLoggingEnabled(2)) {
                 Log.v("FragmentManager", "Ignoring addRetainedFragment as the state is already saved");
             }
-        } else if (this.mRetainedFragments.containsKey(fragment.mWho)) {
         } else {
+            if (this.mRetainedFragments.containsKey(fragment.mWho)) {
+                return;
+            }
             this.mRetainedFragments.put(fragment.mWho, fragment);
             if (FragmentManager.isLoggingEnabled(2)) {
                 Log.v("FragmentManager", "Updating retained Fragments: Added " + fragment);
@@ -92,12 +95,12 @@ public final class FragmentManagerViewModel extends ViewModel {
     /* JADX INFO: Access modifiers changed from: package-private */
     public FragmentManagerViewModel getChildNonConfig(Fragment fragment) {
         FragmentManagerViewModel fragmentManagerViewModel = (FragmentManagerViewModel) this.mChildNonConfigs.get(fragment.mWho);
-        if (fragmentManagerViewModel == null) {
-            FragmentManagerViewModel fragmentManagerViewModel2 = new FragmentManagerViewModel(this.mStateAutomaticallySaved);
-            this.mChildNonConfigs.put(fragment.mWho, fragmentManagerViewModel2);
-            return fragmentManagerViewModel2;
+        if (fragmentManagerViewModel != null) {
+            return fragmentManagerViewModel;
         }
-        return fragmentManagerViewModel;
+        FragmentManagerViewModel fragmentManagerViewModel2 = new FragmentManagerViewModel(this.mStateAutomaticallySaved);
+        this.mChildNonConfigs.put(fragment.mWho, fragmentManagerViewModel2);
+        return fragmentManagerViewModel2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -108,12 +111,12 @@ public final class FragmentManagerViewModel extends ViewModel {
     /* JADX INFO: Access modifiers changed from: package-private */
     public ViewModelStore getViewModelStore(Fragment fragment) {
         ViewModelStore viewModelStore = (ViewModelStore) this.mViewModelStores.get(fragment.mWho);
-        if (viewModelStore == null) {
-            ViewModelStore viewModelStore2 = new ViewModelStore();
-            this.mViewModelStores.put(fragment.mWho, viewModelStore2);
-            return viewModelStore2;
+        if (viewModelStore != null) {
+            return viewModelStore;
         }
-        return viewModelStore;
+        ViewModelStore viewModelStore2 = new ViewModelStore();
+        this.mViewModelStores.put(fragment.mWho, viewModelStore2);
+        return viewModelStore2;
     }
 
     public int hashCode() {
@@ -140,8 +143,10 @@ public final class FragmentManagerViewModel extends ViewModel {
             if (FragmentManager.isLoggingEnabled(2)) {
                 Log.v("FragmentManager", "Ignoring removeRetainedFragment as the state is already saved");
             }
-        } else if (this.mRetainedFragments.remove(fragment.mWho) == null || !FragmentManager.isLoggingEnabled(2)) {
         } else {
+            if (this.mRetainedFragments.remove(fragment.mWho) == null || !FragmentManager.isLoggingEnabled(2)) {
+                return;
+            }
             Log.v("FragmentManager", "Updating retained Fragments: Removed " + fragment);
         }
     }

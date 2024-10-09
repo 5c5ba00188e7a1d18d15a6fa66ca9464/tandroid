@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
+
 /* loaded from: classes.dex */
 final class zzdj implements zzdp {
     private final zzdf zza;
@@ -24,21 +25,21 @@ final class zzdj implements zzdp {
     public final int zza(Object obj) {
         zzeg zzegVar = this.zzb;
         int zzb = zzegVar.zzb(zzegVar.zzd(obj));
-        if (this.zzc) {
-            this.zzd.zza(obj);
-            throw null;
+        if (!this.zzc) {
+            return zzb;
         }
-        return zzb;
+        this.zzd.zza(obj);
+        throw null;
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzdp
     public final int zzb(Object obj) {
         int hashCode = this.zzb.zzd(obj).hashCode();
-        if (this.zzc) {
-            this.zzd.zza(obj);
-            throw null;
+        if (!this.zzc) {
+            return hashCode;
         }
-        return hashCode;
+        this.zzd.zza(obj);
+        throw null;
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzdp
@@ -80,15 +81,15 @@ final class zzdj implements zzdp {
 
     @Override // com.google.android.gms.internal.play_billing.zzdp
     public final boolean zzj(Object obj, Object obj2) {
-        if (this.zzb.zzd(obj).equals(this.zzb.zzd(obj2))) {
-            if (this.zzc) {
-                this.zzd.zza(obj);
-                this.zzd.zza(obj2);
-                throw null;
-            }
+        if (!this.zzb.zzd(obj).equals(this.zzb.zzd(obj2))) {
+            return false;
+        }
+        if (!this.zzc) {
             return true;
         }
-        return false;
+        this.zzd.zza(obj);
+        this.zzd.zza(obj2);
+        throw null;
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzdp

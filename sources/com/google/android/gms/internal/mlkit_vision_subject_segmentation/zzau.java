@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzau extends zzav {
@@ -49,7 +50,8 @@ public final class zzau extends zzav {
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzav
-    public final zzav zzf(int i, int i2) {
+    /* renamed from: zzf */
+    public final zzav subList(int i, int i2) {
         zzi.zzc(i, i2, this.zzb);
         int i3 = this.zza;
         return this.zzc.subList(i + i3, i2 + i3);

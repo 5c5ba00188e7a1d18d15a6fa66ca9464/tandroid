@@ -30,6 +30,7 @@ import org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.cells.ActionBtnCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class PremiumPreviewGiftSentBottomSheet extends PremiumPreviewBottomSheet {
     private final List selectedUsers;
@@ -112,8 +113,9 @@ public class PremiumPreviewGiftSentBottomSheet extends PremiumPreviewBottomSheet
                 frameLayout.addView(frameLayout2, LayoutHelper.createFrame(-1, 83.0f, 0, 0.0f, 0.0f, 0.0f, 0.0f));
                 int i = 0;
                 for (int i2 = 0; i2 < list.size(); i2++) {
+                    TLRPC.User user = (TLRPC.User) list.get(i2);
                     AvatarHolderView avatarHolderView2 = new AvatarHolderView(context, 41.5f);
-                    avatarHolderView2.setUser((TLRPC.User) list.get(i2));
+                    avatarHolderView2.setUser(user);
                     frameLayout2.addView(avatarHolderView2, 0, LayoutHelper.createFrame(83, 83, 17));
                     avatarHolderView2.setTranslationX((-i2) * AndroidUtilities.dp(29.0f));
                     if (i2 == 0 && list.size() > 3) {

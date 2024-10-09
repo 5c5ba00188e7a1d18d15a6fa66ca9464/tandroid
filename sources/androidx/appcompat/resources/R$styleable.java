@@ -1,4 +1,7 @@
 package androidx.appcompat.resources;
+
+import android.R;
+
 /* loaded from: classes.dex */
 public abstract class R$styleable {
     public static final int AnimatedStateListDrawableCompat_android_constantSize = 3;
@@ -13,9 +16,9 @@ public abstract class R$styleable {
     public static final int AnimatedStateListDrawableTransition_android_fromId = 2;
     public static final int AnimatedStateListDrawableTransition_android_reversible = 3;
     public static final int AnimatedStateListDrawableTransition_android_toId = 1;
-    public static final int[] AnimatedStateListDrawableCompat = {16843036, 16843156, 16843157, 16843158, 16843532, 16843533};
-    public static final int[] AnimatedStateListDrawableItem = {16842960, 16843161};
-    public static final int[] AnimatedStateListDrawableTransition = {16843161, 16843849, 16843850, 16843851};
-    public static final int[] StateListDrawable = {16843036, 16843156, 16843157, 16843158, 16843532, 16843533};
-    public static final int[] StateListDrawableItem = {16843161};
+    public static final int[] AnimatedStateListDrawableCompat = {R.attr.dither, R.attr.visible, R.attr.variablePadding, R.attr.constantSize, R.attr.enterFadeDuration, R.attr.exitFadeDuration};
+    public static final int[] AnimatedStateListDrawableItem = {R.attr.id, R.attr.drawable};
+    public static final int[] AnimatedStateListDrawableTransition = {R.attr.drawable, R.attr.toId, R.attr.fromId, R.attr.reversible};
+    public static final int[] StateListDrawable = {R.attr.dither, R.attr.visible, R.attr.variablePadding, R.attr.constantSize, R.attr.enterFadeDuration, R.attr.exitFadeDuration};
+    public static final int[] StateListDrawableItem = {R.attr.drawable};
 }

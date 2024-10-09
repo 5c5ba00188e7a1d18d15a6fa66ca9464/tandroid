@@ -48,6 +48,7 @@ import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.ReportBottomSheet;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes4.dex */
 public class ReportBottomSheet extends BottomSheet {
     private final Paint backgroundPaint;
@@ -589,10 +590,10 @@ public class ReportBottomSheet extends BottomSheet {
             if (this.listView != null) {
                 if (((BottomSheet) ReportBottomSheet.this).containerView.getMeasuredHeight() - AndroidUtilities.statusBarHeight < AndroidUtilities.dp(measuredHeight)) {
                     this.listView.layoutManager.setReverseLayout(false);
-                    return;
+                } else {
+                    Collections.reverse(arrayList);
+                    this.listView.layoutManager.setReverseLayout(true);
                 }
-                Collections.reverse(arrayList);
-                this.listView.layoutManager.setReverseLayout(true);
             }
         }
 
@@ -920,8 +921,9 @@ public class ReportBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x00c6, code lost:
-        if (r4 != null) goto L29;
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x00c6, code lost:
+    
+        if (r4 != null) goto L27;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -955,22 +957,25 @@ public class ReportBottomSheet extends BottomSheet {
                     return;
                 }
                 return;
-            } else if (tLObject instanceof TLRPC.TL_channels_sponsoredMessageReportResultAdsHidden) {
+            }
+            if (tLObject instanceof TLRPC.TL_channels_sponsoredMessageReportResultAdsHidden) {
                 MessagesController.getInstance(this.currentAccount).disableAds(false);
                 Listener listener2 = this.listener;
                 if (listener2 == null) {
                     return;
+                } else {
+                    listener2.onHidden();
                 }
-                listener2.onHidden();
             } else {
                 if ((!(tLObject instanceof TLRPC.TL_channels_sponsoredMessageReportResultReported) && !(tLObject instanceof TLRPC.TL_reportResultReported)) || (listener = this.listener) == null) {
                     return;
                 }
                 listener.onReported();
             }
-        } else if (tL_error == null) {
-            return;
         } else {
+            if (tL_error == null) {
+                return;
+            }
             if (!this.sponsored && "MESSAGE_ID_REQUIRED".equals(tL_error.text)) {
                 ChatActivity.openReportChat(this.dialogId, charSequence.toString(), bArr);
             } else if ("PREMIUM_ACCOUNT_REQUIRED".equals(tL_error.text)) {
@@ -1162,10 +1167,9 @@ public class ReportBottomSheet extends BottomSheet {
         }
         if (this.viewPager.getCurrentPosition() <= 0) {
             super.onBackPressed();
-            return;
+        } else {
+            this.viewPager.scrollToPosition(r0.getCurrentPosition() - 1);
         }
-        ViewPagerFixed viewPagerFixed = this.viewPager;
-        viewPagerFixed.scrollToPosition(viewPagerFixed.getCurrentPosition() - 1);
     }
 
     public ReportBottomSheet setListener(Listener listener) {

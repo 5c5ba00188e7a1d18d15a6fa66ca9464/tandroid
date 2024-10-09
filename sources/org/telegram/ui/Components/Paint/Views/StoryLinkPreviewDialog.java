@@ -47,6 +47,7 @@ import org.telegram.ui.Components.MessagePreviewView;
 import org.telegram.ui.Components.Paint.Views.LinkPreview;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.PreviewView;
+
 /* loaded from: classes3.dex */
 public class StoryLinkPreviewDialog extends Dialog {
     private final FrameLayout actionBarContainer;
@@ -96,11 +97,11 @@ public class StoryLinkPreviewDialog extends Dialog {
 
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchKeyEventPreIme(KeyEvent keyEvent) {
-                if (keyEvent != null && keyEvent.getKeyCode() == 4 && keyEvent.getAction() == 1) {
-                    StoryLinkPreviewDialog.this.onBackPressed();
-                    return true;
+                if (keyEvent == null || keyEvent.getKeyCode() != 4 || keyEvent.getAction() != 1) {
+                    return super.dispatchKeyEventPreIme(keyEvent);
                 }
-                return super.dispatchKeyEventPreIme(keyEvent);
+                StoryLinkPreviewDialog.this.onBackPressed();
+                return true;
             }
         };
         this.windowView = frameLayout;
@@ -174,14 +175,14 @@ public class StoryLinkPreviewDialog extends Dialog {
 
             @Override // android.view.ViewGroup
             protected boolean drawChild(Canvas canvas, View view, long j) {
-                if (view == StoryLinkPreviewDialog.this.linkView) {
-                    canvas.save();
-                    canvas.translate(this.x.set(view.getX()), this.y.set(view.getY()));
-                    StoryLinkPreviewDialog.this.linkView.drawInternal(canvas);
-                    canvas.restore();
-                    return true;
+                if (view != StoryLinkPreviewDialog.this.linkView) {
+                    return super.drawChild(canvas, view, j);
                 }
-                return super.drawChild(canvas, view, j);
+                canvas.save();
+                canvas.translate(this.x.set(view.getX()), this.y.set(view.getY()));
+                StoryLinkPreviewDialog.this.linkView.drawInternal(canvas);
+                canvas.restore();
+                return true;
             }
         };
         this.previewInnerContainer = frameLayout4;

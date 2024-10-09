@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.source.SampleQueue;
 import com.google.android.exoplayer2.source.chunk.ChunkExtractor;
 import com.google.android.exoplayer2.util.Log;
+
 /* loaded from: classes.dex */
 public final class BaseMediaChunkOutput implements ChunkExtractor.TrackOutputProvider {
     private final SampleQueue[] sampleQueues;
@@ -42,11 +43,11 @@ public final class BaseMediaChunkOutput implements ChunkExtractor.TrackOutputPro
             if (i3 >= iArr.length) {
                 Log.e("BaseMediaChunkOutput", "Unmatched track of type: " + i2);
                 return new DummyTrackOutput();
-            } else if (i2 == iArr[i3]) {
-                return this.sampleQueues[i3];
-            } else {
-                i3++;
             }
+            if (i2 == iArr[i3]) {
+                return this.sampleQueues[i3];
+            }
+            i3++;
         }
     }
 }

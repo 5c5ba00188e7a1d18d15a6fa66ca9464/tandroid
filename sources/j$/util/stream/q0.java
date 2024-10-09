@@ -1,10 +1,11 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 enum q0 {
     ANY(true, true),
     ALL(false, false),
     NONE(true, false);
-    
+
     private final boolean a;
     private final boolean b;
 

@@ -19,6 +19,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class TtmlRenderUtil {
@@ -160,9 +161,10 @@ public abstract class TtmlRenderUtil {
                 }
                 return ttmlStyle2;
             }
-        } else if (strArr != null && strArr.length == 1) {
-            return ttmlStyle.chain((TtmlStyle) map.get(strArr[0]));
         } else {
+            if (strArr != null && strArr.length == 1) {
+                return ttmlStyle.chain((TtmlStyle) map.get(strArr[0]));
+            }
             if (strArr != null && strArr.length > 1) {
                 int length2 = strArr.length;
                 while (i < length2) {

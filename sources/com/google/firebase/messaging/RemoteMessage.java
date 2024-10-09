@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.firebase.messaging.Constants;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class RemoteMessage extends AbstractSafeParcelable {
     public static final Parcelable.Creator<RemoteMessage> CREATOR = new RemoteMessageCreator();
@@ -33,19 +34,19 @@ public final class RemoteMessage extends AbstractSafeParcelable {
         if (obj instanceof Long) {
             return ((Long) obj).longValue();
         }
-        if (obj instanceof String) {
-            try {
-                return Long.parseLong((String) obj);
-            } catch (NumberFormatException unused) {
-                String valueOf = String.valueOf(obj);
-                StringBuilder sb = new StringBuilder(valueOf.length() + 19);
-                sb.append("Invalid sent time: ");
-                sb.append(valueOf);
-                Log.w("FirebaseMessaging", sb.toString());
-                return 0L;
-            }
+        if (!(obj instanceof String)) {
+            return 0L;
         }
-        return 0L;
+        try {
+            return Long.parseLong((String) obj);
+        } catch (NumberFormatException unused) {
+            String valueOf = String.valueOf(obj);
+            StringBuilder sb = new StringBuilder(valueOf.length() + 19);
+            sb.append("Invalid sent time: ");
+            sb.append(valueOf);
+            Log.w("FirebaseMessaging", sb.toString());
+            return 0L;
+        }
     }
 
     @Override // android.os.Parcelable

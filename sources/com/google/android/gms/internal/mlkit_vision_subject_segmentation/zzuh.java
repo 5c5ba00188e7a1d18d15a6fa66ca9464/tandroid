@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class zzuh extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzuh> CREATOR = new zzui();

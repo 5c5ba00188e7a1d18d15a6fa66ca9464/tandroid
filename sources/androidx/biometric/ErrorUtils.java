@@ -2,6 +2,7 @@ package androidx.biometric;
 
 import android.content.Context;
 import android.util.Log;
+
 /* loaded from: classes.dex */
 abstract class ErrorUtils {
     /* JADX INFO: Access modifiers changed from: package-private */

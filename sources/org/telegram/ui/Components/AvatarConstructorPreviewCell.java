@@ -16,6 +16,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarConstructorFragment;
+
 /* loaded from: classes3.dex */
 public abstract class AvatarConstructorPreviewCell extends FrameLayout {
     private AnimatedEmojiDrawable animatedEmojiDrawable;
@@ -162,7 +163,6 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
 
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
-        BackupImageView backupImageView;
         GradientTools gradientTools = this.currentBackgroundDrawable;
         if (gradientTools != null) {
             gradientTools.setBounds(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
@@ -194,13 +194,13 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
             this.nextImage.setAlpha(interpolation);
             this.nextImage.setScaleX(interpolation);
             this.nextImage.setScaleY(interpolation);
-            this.nextImage.setPivotY(backupImageView.getMeasuredHeight());
+            this.nextImage.setPivotY(r0.getMeasuredHeight());
             if (this.progressToNext > 1.0f) {
                 this.progressToNext = 1.0f;
                 this.currentBackgroundDrawable = this.nextBackgroundDrawable;
-                BackupImageView backupImageView2 = this.currentImage;
+                BackupImageView backupImageView = this.currentImage;
                 this.currentImage = this.nextImage;
-                this.nextImage = backupImageView2;
+                this.nextImage = backupImageView;
             }
             invalidate();
         }
@@ -237,16 +237,15 @@ public abstract class AvatarConstructorPreviewCell extends FrameLayout {
     @Override // android.widget.FrameLayout, android.view.View
     public void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
-        int top = this.textView.getTop();
-        int i3 = (int) (top * 0.7f);
-        int i4 = (int) ((top - i3) * 0.7f);
+        int top = (int) (this.textView.getTop() * 0.7f);
+        int i3 = (int) ((r3 - top) * 0.7f);
         ViewGroup.LayoutParams layoutParams = this.currentImage.getLayoutParams();
-        this.currentImage.getLayoutParams().height = i3;
-        layoutParams.width = i3;
+        this.currentImage.getLayoutParams().height = top;
+        layoutParams.width = top;
         ViewGroup.LayoutParams layoutParams2 = this.nextImage.getLayoutParams();
-        this.nextImage.getLayoutParams().height = i3;
-        layoutParams2.width = i3;
-        ((FrameLayout.LayoutParams) this.currentImage.getLayoutParams()).topMargin = i4;
-        ((FrameLayout.LayoutParams) this.nextImage.getLayoutParams()).topMargin = i4;
+        this.nextImage.getLayoutParams().height = top;
+        layoutParams2.width = top;
+        ((FrameLayout.LayoutParams) this.currentImage.getLayoutParams()).topMargin = i3;
+        ((FrameLayout.LayoutParams) this.nextImage.getLayoutParams()).topMargin = i3;
     }
 }

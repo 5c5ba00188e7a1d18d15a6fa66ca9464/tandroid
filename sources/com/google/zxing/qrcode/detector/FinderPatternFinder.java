@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class FinderPatternFinder {
     private static final EstimatedModuleComparator moduleComparator = new EstimatedModuleComparator();
@@ -103,50 +105,65 @@ public class FinderPatternFinder {
         return foundPatternDiagonal(crossCheckStateCount);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0082, code lost:
-        if (r2[3] < r13) goto L52;
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0082, code lost:
+    
+        if (r2[3] < r13) goto L49;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x0086, code lost:
-        if (r11 >= r1) goto L72;
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0086, code lost:
+    
+        if (r11 >= r1) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x008c, code lost:
-        if (r0.get(r11, r12) == false) goto L71;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x008c, code lost:
+    
+        if (r0.get(r11, r12) == false) goto L81;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x008e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x008e, code lost:
+    
         r9 = r2[4];
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x0090, code lost:
-        if (r9 >= r13) goto L59;
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0090, code lost:
+    
+        if (r9 >= r13) goto L79;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0092, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x0092, code lost:
+    
         r2[4] = r9 + 1;
         r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x0099, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x0099, code lost:
+    
         r12 = r2[4];
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x009b, code lost:
-        if (r12 < r13) goto L63;
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x009b, code lost:
+    
+        if (r12 < r13) goto L59;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x009d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:62:0x009d, code lost:
+    
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00b1, code lost:
-        if ((java.lang.Math.abs(((((r2[0] + r2[1]) + r2[2]) + r2[3]) + r12) - r14) * 5) < r14) goto L66;
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x00b1, code lost:
+    
+        if ((java.lang.Math.abs(((((r2[0] + r2[1]) + r2[2]) + r2[3]) + r12) - r14) * 5) < r14) goto L62;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x00b3, code lost:
+    
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x00b8, code lost:
-        if (foundPatternCross(r2) == false) goto L70;
+    /* JADX WARN: Code restructure failed: missing block: B:67:0x00b8, code lost:
+    
+        if (foundPatternCross(r2) == false) goto L84;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x00be, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x00be, code lost:
+    
         return centerFromEnd(r2, r11);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:84:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:70:?, code lost:
+    
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:73:?, code lost:
+    
         return Float.NaN;
      */
     /*
@@ -199,50 +216,65 @@ public class FinderPatternFinder {
         return Float.NaN;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0082, code lost:
-        if (r2[3] < r13) goto L52;
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0082, code lost:
+    
+        if (r2[3] < r13) goto L49;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x0086, code lost:
-        if (r11 >= r1) goto L72;
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0086, code lost:
+    
+        if (r11 >= r1) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x008c, code lost:
-        if (r0.get(r12, r11) == false) goto L71;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x008c, code lost:
+    
+        if (r0.get(r12, r11) == false) goto L81;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x008e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x008e, code lost:
+    
         r9 = r2[4];
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x0090, code lost:
-        if (r9 >= r13) goto L59;
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0090, code lost:
+    
+        if (r9 >= r13) goto L79;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0092, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x0092, code lost:
+    
         r2[4] = r9 + 1;
         r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x0099, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x0099, code lost:
+    
         r12 = r2[4];
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x009b, code lost:
-        if (r12 < r13) goto L63;
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x009b, code lost:
+    
+        if (r12 < r13) goto L59;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x009d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:62:0x009d, code lost:
+    
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00b3, code lost:
-        if ((java.lang.Math.abs(((((r2[0] + r2[1]) + r2[2]) + r2[3]) + r12) - r14) * 5) < (r14 * 2)) goto L66;
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x00b3, code lost:
+    
+        if ((java.lang.Math.abs(((((r2[0] + r2[1]) + r2[2]) + r2[3]) + r12) - r14) * 5) < (r14 * 2)) goto L62;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00b5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x00b5, code lost:
+    
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x00ba, code lost:
-        if (foundPatternCross(r2) == false) goto L70;
+    /* JADX WARN: Code restructure failed: missing block: B:67:0x00ba, code lost:
+    
+        if (foundPatternCross(r2) == false) goto L84;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x00c0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x00c0, code lost:
+    
         return centerFromEnd(r2, r11);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:84:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:70:?, code lost:
+    
         return Float.NaN;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:73:?, code lost:
+    
         return Float.NaN;
      */
     /*
@@ -366,51 +398,52 @@ public class FinderPatternFinder {
             return false;
         }
         float f3 = f2 / size;
-        for (FinderPattern finderPattern2 : this.possibleCenters) {
-            f += Math.abs(finderPattern2.getEstimatedModuleSize() - f3);
+        Iterator it = this.possibleCenters.iterator();
+        while (it.hasNext()) {
+            f += Math.abs(((FinderPattern) it.next()).getEstimatedModuleSize() - f3);
         }
         return f <= f2 * 0.05f;
     }
 
     private FinderPattern[] selectBestPatterns() {
         int i = 2;
-        if (this.possibleCenters.size() >= 3) {
-            Collections.sort(this.possibleCenters, moduleComparator);
-            FinderPattern[] finderPatternArr = new FinderPattern[3];
-            int i2 = 0;
-            double d = Double.MAX_VALUE;
-            while (i2 < this.possibleCenters.size() - i) {
-                FinderPattern finderPattern = (FinderPattern) this.possibleCenters.get(i2);
-                float estimatedModuleSize = finderPattern.getEstimatedModuleSize();
-                i2++;
-                int i3 = i2;
-                while (i3 < this.possibleCenters.size() - 1) {
-                    FinderPattern finderPattern2 = (FinderPattern) this.possibleCenters.get(i3);
-                    double squaredDistance = squaredDistance(finderPattern, finderPattern2);
-                    i3++;
-                    int i4 = i3;
-                    while (i4 < this.possibleCenters.size()) {
-                        FinderPattern finderPattern3 = (FinderPattern) this.possibleCenters.get(i4);
-                        if (finderPattern3.getEstimatedModuleSize() <= 1.4f * estimatedModuleSize) {
-                            double[] dArr = {squaredDistance, squaredDistance(finderPattern2, finderPattern3), squaredDistance(finderPattern, finderPattern3)};
-                            Arrays.sort(dArr);
-                            double abs = Math.abs(dArr[2] - (dArr[1] * 2.0d)) + Math.abs(dArr[2] - (dArr[0] * 2.0d));
-                            if (abs < d) {
-                                finderPatternArr[0] = finderPattern;
-                                finderPatternArr[1] = finderPattern2;
-                                finderPatternArr[2] = finderPattern3;
-                                d = abs;
-                            }
+        if (this.possibleCenters.size() < 3) {
+            throw NotFoundException.getNotFoundInstance();
+        }
+        Collections.sort(this.possibleCenters, moduleComparator);
+        FinderPattern[] finderPatternArr = new FinderPattern[3];
+        int i2 = 0;
+        double d = Double.MAX_VALUE;
+        while (i2 < this.possibleCenters.size() - i) {
+            FinderPattern finderPattern = (FinderPattern) this.possibleCenters.get(i2);
+            float estimatedModuleSize = finderPattern.getEstimatedModuleSize();
+            i2++;
+            int i3 = i2;
+            while (i3 < this.possibleCenters.size() - 1) {
+                FinderPattern finderPattern2 = (FinderPattern) this.possibleCenters.get(i3);
+                double squaredDistance = squaredDistance(finderPattern, finderPattern2);
+                i3++;
+                int i4 = i3;
+                while (i4 < this.possibleCenters.size()) {
+                    FinderPattern finderPattern3 = (FinderPattern) this.possibleCenters.get(i4);
+                    if (finderPattern3.getEstimatedModuleSize() <= 1.4f * estimatedModuleSize) {
+                        double[] dArr = {squaredDistance, squaredDistance(finderPattern2, finderPattern3), squaredDistance(finderPattern, finderPattern3)};
+                        Arrays.sort(dArr);
+                        double abs = Math.abs(dArr[2] - (dArr[1] * 2.0d)) + Math.abs(dArr[2] - (dArr[0] * 2.0d));
+                        if (abs < d) {
+                            finderPatternArr[0] = finderPattern;
+                            finderPatternArr[1] = finderPattern2;
+                            finderPatternArr[2] = finderPattern3;
+                            d = abs;
                         }
-                        i4++;
-                        i = 2;
                     }
+                    i4++;
+                    i = 2;
                 }
             }
-            if (d != Double.MAX_VALUE) {
-                return finderPatternArr;
-            }
-            throw NotFoundException.getNotFoundInstance();
+        }
+        if (d != Double.MAX_VALUE) {
+            return finderPatternArr;
         }
         throw NotFoundException.getNotFoundInstance();
     }
@@ -434,7 +467,10 @@ public class FinderPatternFinder {
         boolean z = map != null && map.containsKey(DecodeHintType.TRY_HARDER);
         int height = this.image.getHeight();
         int width = this.image.getWidth();
-        int i = ((height * 3) / 388 < 3 || z) ? 3 : 3;
+        int i = (height * 3) / 388;
+        if (i < 3 || z) {
+            i = 3;
+        }
         int[] iArr = new int[5];
         int i2 = i - 1;
         boolean z2 = false;

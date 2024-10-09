@@ -2,6 +2,7 @@ package kotlin.collections;
 
 import java.util.List;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 abstract class ArraysKt___ArraysJvmKt extends ArraysKt__ArraysKt {
     public static final List asList(Object[] objArr) {

@@ -14,6 +14,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes3.dex */
 public class BoostCounterView extends View {
     private final Paint bgPaint;
@@ -116,8 +117,7 @@ public class BoostCounterView extends View {
         }
         this.lastCount = i;
         int length = this.countText.getText().length();
-        AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.countText;
-        animatedTextDrawable.setText("x" + i, z);
+        this.countText.setText("x" + i, z);
         int length2 = this.countText.getText().length();
         invalidate();
         if (length != length2) {

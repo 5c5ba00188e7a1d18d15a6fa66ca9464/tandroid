@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_common;
+
 /* loaded from: classes.dex */
 final class zzma extends zzme {
     private final String zza;
@@ -30,10 +31,7 @@ final class zzma extends zzme {
     }
 
     public final String toString() {
-        String str = this.zza;
-        boolean z = this.zzb;
-        int i = this.zzc;
-        return "MLKitLoggingOptions{libraryName=" + str + ", enableFirelog=" + z + ", firelogEventType=" + i + "}";
+        return "MLKitLoggingOptions{libraryName=" + this.zza + ", enableFirelog=" + this.zzb + ", firelogEventType=" + this.zzc + "}";
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_common.zzme

@@ -95,6 +95,7 @@ import org.telegram.ui.PeerColorActivity;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stars.BotStarsActivity;
 import org.telegram.ui.Stars.BotStarsController;
+
 /* loaded from: classes4.dex */
 public class ChatEditActivity extends BaseFragment implements ImageUpdater.ImageUpdaterDelegate, NotificationCenter.NotificationCenterDelegate {
     private TextCell adminCell;
@@ -203,11 +204,13 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             return false;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x0036, code lost:
-            if (r9 != null) goto L15;
+        /* JADX WARN: Code restructure failed: missing block: B:14:0x0036, code lost:
+        
+            if (r9 != null) goto L25;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:22:0x0055, code lost:
-            if (r9 != null) goto L15;
+        /* JADX WARN: Code restructure failed: missing block: B:39:0x0055, code lost:
+        
+            if (r9 != null) goto L25;
          */
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         /*
@@ -237,23 +240,23 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 }
                 fileLocation2 = null;
             }
-            if (fileLocation2 != null && fileLocation2.local_id == fileLocation.local_id && fileLocation2.volume_id == fileLocation.volume_id && fileLocation2.dc_id == fileLocation.dc_id) {
-                int[] iArr = new int[2];
-                ChatEditActivity.this.avatarImage.getLocationInWindow(iArr);
-                PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
-                placeProviderObject.viewX = iArr[0];
-                placeProviderObject.viewY = iArr[1] - (Build.VERSION.SDK_INT < 21 ? AndroidUtilities.statusBarHeight : 0);
-                placeProviderObject.parentView = ChatEditActivity.this.avatarImage;
-                placeProviderObject.imageReceiver = ChatEditActivity.this.avatarImage.getImageReceiver();
-                placeProviderObject.dialogId = ChatEditActivity.this.userId != 0 ? ChatEditActivity.this.userId : -ChatEditActivity.this.chatId;
-                placeProviderObject.thumb = placeProviderObject.imageReceiver.getBitmapSafe();
-                placeProviderObject.size = -1L;
-                placeProviderObject.radius = ChatEditActivity.this.avatarImage.getImageReceiver().getRoundRadius(true);
-                placeProviderObject.scale = ChatEditActivity.this.avatarContainer.getScaleX();
-                placeProviderObject.canEdit = true;
-                return placeProviderObject;
+            if (fileLocation2 == null || fileLocation2.local_id != fileLocation.local_id || fileLocation2.volume_id != fileLocation.volume_id || fileLocation2.dc_id != fileLocation.dc_id) {
+                return null;
             }
-            return null;
+            int[] iArr = new int[2];
+            ChatEditActivity.this.avatarImage.getLocationInWindow(iArr);
+            PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
+            placeProviderObject.viewX = iArr[0];
+            placeProviderObject.viewY = iArr[1] - (Build.VERSION.SDK_INT < 21 ? AndroidUtilities.statusBarHeight : 0);
+            placeProviderObject.parentView = ChatEditActivity.this.avatarImage;
+            placeProviderObject.imageReceiver = ChatEditActivity.this.avatarImage.getImageReceiver();
+            placeProviderObject.dialogId = ChatEditActivity.this.userId != 0 ? ChatEditActivity.this.userId : -ChatEditActivity.this.chatId;
+            placeProviderObject.thumb = placeProviderObject.imageReceiver.getBitmapSafe();
+            placeProviderObject.size = -1L;
+            placeProviderObject.radius = ChatEditActivity.this.avatarImage.getImageReceiver().getRoundRadius(true);
+            placeProviderObject.scale = ChatEditActivity.this.avatarContainer.getScaleX();
+            placeProviderObject.canEdit = true;
+            return placeProviderObject;
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
@@ -299,10 +302,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         this.userId = bundle.getLong("user_id", 0L);
         if (this.chatId == 0) {
             this.imageUpdater = new ImageUpdater(false, 0, false);
-            return;
+        } else {
+            TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
+            this.imageUpdater = new ImageUpdater(true, (chat == null || !ChatObject.isChannelAndNotMegaGroup(chat)) ? 2 : 1, true);
         }
-        TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
-        this.imageUpdater = new ImageUpdater(true, (chat == null || !ChatObject.isChannelAndNotMegaGroup(chat)) ? 2 : 1, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -409,7 +412,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$39(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -419,7 +422,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$41(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -558,13 +561,13 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             TLRPC.ChatFull chatFull = this.info;
             BulletinFactory.of(this).createSimpleBulletin(R.raw.topics, AndroidUtilities.replaceTags((chatFull == null || chatFull.linked_chat_id == 0) ? LocaleController.formatPluralString("ChannelTopicsForbidden", getMessagesController().forumUpgradeParticipantsMin, new Object[0]) : LocaleController.getString("ChannelTopicsDiscussionForbidden", R.string.ChannelTopicsDiscussionForbidden))).show();
             frameLayout.performHapticFeedback(3);
-            return;
+        } else {
+            boolean z = !this.forum;
+            this.forum = z;
+            this.avatarImage.animateToRoundRadius(AndroidUtilities.dp(z ? 16.0f : 32.0f));
+            ((TextCell) view).setChecked(this.forum);
+            updateFields(false, true);
         }
-        boolean z = !this.forum;
-        this.forum = z;
-        this.avatarImage.animateToRoundRadius(AndroidUtilities.dp(z ? 16.0f : 32.0f));
-        ((TextCell) view).setChecked(this.forum);
-        updateFields(false, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -696,20 +699,17 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$30(View view) {
-        Context context = view.getContext();
-        Browser.openUrl(context, "https://t.me/BotFather?start=" + getActiveUsername(this.currentUser) + "-intro");
+        Browser.openUrl(view.getContext(), "https://t.me/BotFather?start=" + getActiveUsername(this.currentUser) + "-intro");
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$31(View view) {
-        Context context = view.getContext();
-        Browser.openUrl(context, "https://t.me/BotFather?start=" + getActiveUsername(this.currentUser) + "-commands");
+        Browser.openUrl(view.getContext(), "https://t.me/BotFather?start=" + getActiveUsername(this.currentUser) + "-commands");
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$32(View view) {
-        Context context = view.getContext();
-        Browser.openUrl(context, "https://t.me/BotFather?start=" + getActiveUsername(this.currentUser));
+        Browser.openUrl(view.getContext(), "https://t.me/BotFather?start=" + getActiveUsername(this.currentUser));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -719,7 +719,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         } else {
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
         }
-        finishFragment();
+        lambda$onBackPressed$300();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needDeleteDialog, Long.valueOf(-this.currentChat.id), null, this.currentChat, Boolean.valueOf(z));
     }
 
@@ -794,10 +794,10 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     public /* synthetic */ void lambda$createView$7(DialogInterface dialogInterface) {
         if (this.imageUpdater.isUploadingImage()) {
             this.cameraDrawable.setCurrentFrame(0, false);
-            return;
+        } else {
+            this.cameraDrawable.setCustomEndFrame(86);
+            this.setAvatarCell.imageView.playAnimation();
         }
-        this.cameraDrawable.setCustomEndFrame(86);
-        this.setAvatarCell.imageView.playAnimation();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -955,7 +955,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$42() {
         this.progressDialog.dismiss();
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1007,9 +1007,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     public /* synthetic */ void lambda$updateHistoryShow$47(ArrayList arrayList, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.historyCell.setAlpha(floatValue);
-        TextCell textCell = this.historyCell;
         float f = 1.0f - floatValue;
-        textCell.setTranslationY(((-textCell.getHeight()) / 2.0f) * f);
+        this.historyCell.setTranslationY(((-r0.getHeight()) / 2.0f) * f);
         this.historyCell.setScaleY((floatValue * 0.8f) + 0.2f);
         for (int i = 0; i < arrayList.size(); i++) {
             ((View) arrayList.get(i)).setTranslationY((-this.historyCell.getHeight()) * f);
@@ -1079,61 +1078,63 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 }
             });
             this.progressDialog.show();
-        } else if (!ChatObject.isChannel(this.currentChat) && (!this.historyHidden || this.forum)) {
+            return;
+        }
+        if (!ChatObject.isChannel(this.currentChat) && (!this.historyHidden || this.forum)) {
             getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda42
                 @Override // org.telegram.messenger.MessagesStorage.LongCallback
                 public final void run(long j) {
                     ChatEditActivity.this.lambda$processDone$45(j);
                 }
             });
-        } else {
-            if (this.info != null && ChatObject.isChannel(this.currentChat)) {
-                TLRPC.ChatFull chatFull = this.info;
-                boolean z = chatFull.hidden_prehistory;
-                boolean z2 = this.historyHidden;
-                if (z != z2) {
-                    chatFull.hidden_prehistory = z2;
-                    getMessagesController().toggleChannelInvitesHistory(this.chatId, this.historyHidden);
-                }
-            }
-            if (this.imageUpdater.isUploadingImage()) {
-                this.createAfterUpload = true;
-                AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
-                this.progressDialog = alertDialog;
-                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda43
-                    @Override // android.content.DialogInterface.OnCancelListener
-                    public final void onCancel(DialogInterface dialogInterface) {
-                        ChatEditActivity.this.lambda$processDone$46(dialogInterface);
-                    }
-                });
-                this.progressDialog.show();
-                return;
-            }
-            if (!this.currentChat.title.equals(this.nameTextView.getText().toString())) {
-                getMessagesController().changeChatTitle(this.chatId, this.nameTextView.getText().toString());
-            }
-            TLRPC.ChatFull chatFull2 = this.info;
-            if (chatFull2 != null && (str = chatFull2.about) != null) {
-                str3 = str;
-            }
-            EditTextBoldCursor editTextBoldCursor2 = this.descriptionTextView;
-            if (editTextBoldCursor2 != null && !str3.equals(editTextBoldCursor2.getText().toString())) {
-                getMessagesController().updateChatAbout(this.chatId, this.descriptionTextView.getText().toString(), this.info);
-            }
-            if (this.forum != this.currentChat.forum) {
-                getMessagesController().toggleChannelForum(this.chatId, this.forum);
-                List fragmentStack = getParentLayout().getFragmentStack();
-                for (int i = 0; i < fragmentStack.size(); i++) {
-                    if ((fragmentStack.get(i) instanceof ChatActivity) && ((ChatActivity) fragmentStack.get(i)).getArguments().getLong("chat_id") == this.chatId) {
-                        getParentLayout().removeFragmentFromStack(i);
-                        Bundle bundle = new Bundle();
-                        bundle.putLong("chat_id", this.chatId);
-                        getParentLayout().addFragmentToStack(TopicsFragment.getTopicsOrChat(this, bundle), i);
-                    }
-                }
-            }
-            finishFragment();
+            return;
         }
+        if (this.info != null && ChatObject.isChannel(this.currentChat)) {
+            TLRPC.ChatFull chatFull = this.info;
+            boolean z = chatFull.hidden_prehistory;
+            boolean z2 = this.historyHidden;
+            if (z != z2) {
+                chatFull.hidden_prehistory = z2;
+                getMessagesController().toggleChannelInvitesHistory(this.chatId, this.historyHidden);
+            }
+        }
+        if (this.imageUpdater.isUploadingImage()) {
+            this.createAfterUpload = true;
+            AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
+            this.progressDialog = alertDialog;
+            alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda43
+                @Override // android.content.DialogInterface.OnCancelListener
+                public final void onCancel(DialogInterface dialogInterface) {
+                    ChatEditActivity.this.lambda$processDone$46(dialogInterface);
+                }
+            });
+            this.progressDialog.show();
+            return;
+        }
+        if (!this.currentChat.title.equals(this.nameTextView.getText().toString())) {
+            getMessagesController().changeChatTitle(this.chatId, this.nameTextView.getText().toString());
+        }
+        TLRPC.ChatFull chatFull2 = this.info;
+        if (chatFull2 != null && (str = chatFull2.about) != null) {
+            str3 = str;
+        }
+        EditTextBoldCursor editTextBoldCursor2 = this.descriptionTextView;
+        if (editTextBoldCursor2 != null && !str3.equals(editTextBoldCursor2.getText().toString())) {
+            getMessagesController().updateChatAbout(this.chatId, this.descriptionTextView.getText().toString(), this.info);
+        }
+        if (this.forum != this.currentChat.forum) {
+            getMessagesController().toggleChannelForum(this.chatId, this.forum);
+            List fragmentStack = getParentLayout().getFragmentStack();
+            for (int i = 0; i < fragmentStack.size(); i++) {
+                if ((fragmentStack.get(i) instanceof ChatActivity) && ((ChatActivity) fragmentStack.get(i)).getArguments().getLong("chat_id") == this.chatId) {
+                    getParentLayout().removeFragmentFromStack(i);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("chat_id", this.chatId);
+                    getParentLayout().addFragmentToStack(TopicsFragment.getTopicsOrChat(this, bundle), i);
+                }
+            }
+        }
+        lambda$onBackPressed$300();
     }
 
     private void setAvatar() {
@@ -1216,11 +1217,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             AnimatorSet animatorSet3 = this.avatarAnimation;
             RadialProgressView radialProgressView = this.avatarProgressView;
             Property property = View.ALPHA;
-            animatorSet3.playTogether(ObjectAnimator.ofFloat(radialProgressView, property, 1.0f), ObjectAnimator.ofFloat(this.avatarOverlay, property, 1.0f));
+            animatorSet3.playTogether(ObjectAnimator.ofFloat(radialProgressView, (Property<RadialProgressView, Float>) property, 1.0f), ObjectAnimator.ofFloat(this.avatarOverlay, (Property<View, Float>) property, 1.0f));
         } else {
             RadialProgressView radialProgressView2 = this.avatarProgressView;
             Property property2 = View.ALPHA;
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(radialProgressView2, property2, 0.0f), ObjectAnimator.ofFloat(this.avatarOverlay, property2, 0.0f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(radialProgressView2, (Property<RadialProgressView, Float>) property2, 0.0f), ObjectAnimator.ofFloat(this.avatarOverlay, (Property<View, Float>) property2, 0.0f));
         }
         this.avatarAnimation.setDuration(180L);
         this.avatarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChatEditActivity.10
@@ -1244,11 +1245,12 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         this.avatarAnimation.start();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0026, code lost:
-        if (java.lang.Math.max(r0 == null ? 0 : r0.participants_count, r6.currentChat.participants_count) >= getMessagesController().forumUpgradeParticipantsMin) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0026, code lost:
+    
+        if (java.lang.Math.max(r0 == null ? 0 : r0.participants_count, r6.currentChat.participants_count) >= getMessagesController().forumUpgradeParticipantsMin) goto L14;
      */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x003c  */
-    /* JADX WARN: Removed duplicated region for block: B:29:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x003c  */
+    /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1280,56 +1282,72 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01ea, code lost:
-        if (r5.getVisibility() == 0) goto L92;
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x01ea, code lost:
+    
+        if (r5.getVisibility() == 0) goto L144;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:122:0x0238, code lost:
-        if (r5.getVisibility() == 0) goto L92;
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x0238, code lost:
+    
+        if (r5.getVisibility() == 0) goto L144;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:126:0x0242, code lost:
-        if (r5.getVisibility() == 0) goto L92;
+    /* JADX WARN: Code restructure failed: missing block: B:119:0x0242, code lost:
+    
+        if (r5.getVisibility() == 0) goto L144;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:130:0x024c, code lost:
-        if (r5.getVisibility() == 0) goto L92;
+    /* JADX WARN: Code restructure failed: missing block: B:123:0x024c, code lost:
+    
+        if (r5.getVisibility() == 0) goto L144;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:135:0x0263, code lost:
-        if (r5.getVisibility() == 0) goto L92;
+    /* JADX WARN: Code restructure failed: missing block: B:127:0x0263, code lost:
+    
+        if (r5.getVisibility() == 0) goto L144;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:139:0x026d, code lost:
-        if (r5.getVisibility() == 0) goto L92;
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x026d, code lost:
+    
+        if (r5.getVisibility() == 0) goto L144;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:143:0x0277, code lost:
-        if (r5.getVisibility() == 0) goto L92;
+    /* JADX WARN: Code restructure failed: missing block: B:135:0x0277, code lost:
+    
+        if (r5.getVisibility() == 0) goto L144;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:144:0x0279, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:188:0x0364, code lost:
+    
+        if (r5.getVisibility() == 0) goto L241;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:189:0x047e, code lost:
+    
         r5 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:192:0x0364, code lost:
-        if (r5.getVisibility() == 0) goto L189;
+    /* JADX WARN: Code restructure failed: missing block: B:229:0x047c, code lost:
+    
+        if (r5.getVisibility() == 0) goto L241;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:240:0x047c, code lost:
-        if (r5.getVisibility() == 0) goto L189;
+    /* JADX WARN: Code restructure failed: missing block: B:265:0x04d1, code lost:
+    
+        if (r4.getVisibility() == 0) goto L268;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:241:0x047e, code lost:
-        r5 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:254:0x04d1, code lost:
-        if (r4.getVisibility() == 0) goto L266;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:267:0x0504, code lost:
-        if (r4.getVisibility() == 0) goto L266;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:268:0x0506, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:266:0x0506, code lost:
+    
         r4 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x01d6, code lost:
-        if (r5.getVisibility() == 0) goto L92;
+    /* JADX WARN: Code restructure failed: missing block: B:280:0x0504, code lost:
+    
+        if (r4.getVisibility() == 0) goto L268;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:98:0x01e0, code lost:
-        if (r5.getVisibility() == 0) goto L92;
+    /* JADX WARN: Code restructure failed: missing block: B:91:0x01d6, code lost:
+    
+        if (r5.getVisibility() == 0) goto L144;
      */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x0494  */
-    /* JADX WARN: Removed duplicated region for block: B:247:0x0499  */
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x0279, code lost:
+    
+        r5 = true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:97:0x01e0, code lost:
+    
+        if (r5.getVisibility() == 0) goto L144;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x0494  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x0499  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1668,8 +1686,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
         if (this.historyCell.getVisibility() != 0) {
             this.historyCell.setAlpha(0.0f);
-            TextCell textCell = this.historyCell;
-            textCell.setTranslationY((-textCell.getHeight()) / 2.0f);
+            this.historyCell.setTranslationY((-r6.getHeight()) / 2.0f);
         }
         this.historyCell.setVisibility(0);
         for (int i3 = 0; i3 < arrayList.size(); i3++) {
@@ -1699,8 +1716,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             return;
         }
         this.historyCell.setAlpha(z ? 1.0f : 0.0f);
-        TextCell textCell2 = this.historyCell;
-        textCell2.setTranslationY(((-textCell2.getHeight()) / 2.0f) * (z ? 0.0f : 1.0f));
+        this.historyCell.setTranslationY(((-r13.getHeight()) / 2.0f) * (z ? 0.0f : 1.0f));
         this.historyCell.setScaleY(((z ? 1.0f : 0.0f) * 0.8f) + 0.2f);
         this.historyCell.setVisibility(z ? 0 : 8);
         for (int i4 = 0; i4 < arrayList.size(); i4++) {
@@ -1803,19 +1819,19 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x06ee  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x0741  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x078c  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x07c6  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x07f0  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x07fd  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x0a28  */
-    /* JADX WARN: Removed duplicated region for block: B:278:0x0a34  */
-    /* JADX WARN: Removed duplicated region for block: B:286:0x0a83  */
-    /* JADX WARN: Removed duplicated region for block: B:293:0x0ab6  */
-    /* JADX WARN: Removed duplicated region for block: B:294:0x0abb  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x0ae7  */
-    /* JADX WARN: Removed duplicated region for block: B:299:0x0aef  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x06ee  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x0741  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x078c  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x07c6  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x07f0  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x07fd  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0a28  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0a34  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x0a83  */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x0ab6  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x0ae7  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x0aef  */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x0abb  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1863,7 +1879,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             public void onItemClick(int i10) {
                 if (i10 == -1) {
                     if (ChatEditActivity.this.checkDiscard()) {
-                        ChatEditActivity.this.finishFragment();
+                        ChatEditActivity.this.lambda$onBackPressed$300();
                     }
                 } else if (i10 == 1) {
                     ChatEditActivity.this.processDone();
@@ -1874,11 +1890,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             private boolean ignoreLayout;
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:28:0x006f  */
-            /* JADX WARN: Removed duplicated region for block: B:36:0x008b  */
-            /* JADX WARN: Removed duplicated region for block: B:39:0x009d  */
-            /* JADX WARN: Removed duplicated region for block: B:43:0x00af  */
-            /* JADX WARN: Removed duplicated region for block: B:45:0x00b9  */
+            /* JADX WARN: Removed duplicated region for block: B:22:0x006f  */
+            /* JADX WARN: Removed duplicated region for block: B:29:0x009d  */
+            /* JADX WARN: Removed duplicated region for block: B:33:0x00af  */
+            /* JADX WARN: Removed duplicated region for block: B:35:0x00b9  */
+            /* JADX WARN: Removed duplicated region for block: B:42:0x008b  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -2774,17 +2790,24 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 updateFields(false, false);
                 if (z2) {
                     loadLinksCount();
+                    return;
                 }
+                return;
             }
-        } else if (i == NotificationCenter.updateInterfaces) {
+            return;
+        }
+        if (i == NotificationCenter.updateInterfaces) {
             int intValue = ((Integer) objArr[0]).intValue();
             if ((MessagesController.UPDATE_MASK_AVATAR & intValue) != 0) {
                 setAvatar();
             }
             if ((intValue & MessagesController.UPDATE_MASK_NAME) != 0) {
                 updatePublicLinksCount();
+                return;
             }
-        } else if (i == NotificationCenter.chatAvailableReactionsUpdated) {
+            return;
+        }
+        if (i == NotificationCenter.chatAvailableReactionsUpdated) {
             long longValue = ((Long) objArr[0]).longValue();
             if (longValue == this.chatId) {
                 TLRPC.ChatFull chatFull2 = getMessagesController().getChatFull(longValue);
@@ -2793,8 +2816,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     this.availableReactions = chatFull2.available_reactions;
                 }
                 updateReactionsCell(true);
+                return;
             }
-        } else if (i == NotificationCenter.botStarsUpdated && ((Long) objArr[0]).longValue() == this.userId && this.balanceCell != null) {
+            return;
+        }
+        if (i == NotificationCenter.botStarsUpdated && ((Long) objArr[0]).longValue() == this.userId && this.balanceCell != null) {
             BotStarsController botStarsController = BotStarsController.getInstance(this.currentAccount);
             this.balanceCell.setVisibility(botStarsController.hasStars(this.userId) ? 0 : 8);
             this.balanceCell.setValue(LocaleController.formatNumber(botStarsController.getBalance(this.userId), ' '), true);
@@ -2983,16 +3009,19 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0055, code lost:
-        if (r0 == null) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0055, code lost:
+    
+        if (r0 == null) goto L12;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00f9, code lost:
-        if (java.lang.Math.max(r1 == null ? 0 : r1.participants_count, r0.participants_count) >= getMessagesController().forumUpgradeParticipantsMin) goto L29;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x00f9, code lost:
+    
+        if (java.lang.Math.max(r1 == null ? 0 : r1.participants_count, r0.participants_count) >= getMessagesController().forumUpgradeParticipantsMin) goto L44;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0103, code lost:
-        if (r0.linked_chat_id != 0) goto L40;
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0103, code lost:
+    
+        if (r0.linked_chat_id != 0) goto L49;
      */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x015f  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x015f  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3088,8 +3117,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         return super.onFragmentCreate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x004e  */
-    /* JADX WARN: Removed duplicated region for block: B:16:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x004e  */
+    /* JADX WARN: Removed duplicated region for block: B:13:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.

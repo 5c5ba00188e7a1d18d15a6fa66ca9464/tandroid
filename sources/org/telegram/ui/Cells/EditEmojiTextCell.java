@@ -27,6 +27,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.TypefaceSpan;
+
 /* loaded from: classes4.dex */
 public abstract class EditEmojiTextCell extends FrameLayout {
     public boolean autofocused;
@@ -61,7 +62,7 @@ public abstract class EditEmojiTextCell extends FrameLayout {
                     return;
                 }
                 if (Build.VERSION.SDK_INT >= 23) {
-                    menu.removeItem(16908341);
+                    menu.removeItem(android.R.id.shareText);
                 }
                 int i4 = R.id.menu_groupbolditalic;
                 menu.add(i4, R.id.menu_spoiler, 6, LocaleController.getString(R.string.Spoiler));
@@ -155,8 +156,9 @@ public abstract class EditEmojiTextCell extends FrameLayout {
                         int indexOf = editable.toString().indexOf("\n");
                         if (indexOf < 0) {
                             break;
+                        } else {
+                            editable.delete(indexOf, indexOf + 1);
                         }
-                        editable.delete(indexOf, indexOf + 1);
                     }
                 }
                 AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = EditEmojiTextCell.this.limit;
@@ -273,11 +275,11 @@ public abstract class EditEmojiTextCell extends FrameLayout {
         this.editTextEmoji.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Cells.EditEmojiTextCell.1
             @Override // android.widget.TextView.OnEditorActionListener
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == 6) {
-                    runnable.run();
-                    return true;
+                if (i != 6) {
+                    return false;
                 }
-                return false;
+                runnable.run();
+                return true;
             }
         });
     }

@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.ClientIdentity;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.location.LocationRequest;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class zzde implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -29,28 +30,28 @@ public final class zzde implements Parcelable.Creator {
                 switch (fieldId) {
                     case 8:
                         z = SafeParcelReader.readBoolean(parcel, readHeader);
-                        continue;
+                        break;
                     case 9:
                         z2 = SafeParcelReader.readBoolean(parcel, readHeader);
-                        continue;
+                        break;
                     case 10:
                         str = SafeParcelReader.createString(parcel, readHeader);
-                        continue;
+                        break;
                     case 11:
                         z3 = SafeParcelReader.readBoolean(parcel, readHeader);
-                        continue;
+                        break;
                     case 12:
                         z4 = SafeParcelReader.readBoolean(parcel, readHeader);
-                        continue;
+                        break;
                     case 13:
                         str2 = SafeParcelReader.createString(parcel, readHeader);
-                        continue;
+                        break;
                     case 14:
                         j = SafeParcelReader.readLong(parcel, readHeader);
-                        continue;
+                        break;
                     default:
                         SafeParcelReader.skipUnknownField(parcel, readHeader);
-                        continue;
+                        break;
                 }
             } else {
                 arrayList = SafeParcelReader.createTypedList(parcel, readHeader, ClientIdentity.CREATOR);

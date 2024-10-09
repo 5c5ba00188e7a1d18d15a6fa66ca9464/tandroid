@@ -14,6 +14,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
+
 /* loaded from: classes3.dex */
 public class FiltersListBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private ListAdapter adapter;
@@ -171,9 +173,9 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:17:0x009a  */
-            /* JADX WARN: Removed duplicated region for block: B:19:0x00ed  */
-            /* JADX WARN: Removed duplicated region for block: B:22:0x011e  */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x009a  */
+            /* JADX WARN: Removed duplicated region for block: B:15:0x00ed  */
+            /* JADX WARN: Removed duplicated region for block: B:18:0x011e  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -261,10 +263,11 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                     FiltersListBottomSheet.this.ignoreLayout = false;
                 }
                 int dp = AndroidUtilities.dp(48.0f) + (AndroidUtilities.dp(48.0f) * FiltersListBottomSheet.this.adapter.getItemCount()) + ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop + AndroidUtilities.statusBarHeight;
+                double d = dp;
                 int i4 = size / 5;
-                double d = i4;
-                Double.isNaN(d);
-                int i5 = ((double) dp) < d * 3.2d ? 0 : i4 * 2;
+                double d2 = i4;
+                Double.isNaN(d2);
+                int i5 = d < d2 * 3.2d ? 0 : i4 * 2;
                 if (i5 != 0 && dp < size) {
                     i5 -= size - dp;
                 }
@@ -424,7 +427,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.shadowAnimation = animatorSet2;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, (Property<View, Float>) View.ALPHA, z ? 1.0f : 0.0f));
         this.shadowAnimation.setDuration(150L);
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FiltersListBottomSheet.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

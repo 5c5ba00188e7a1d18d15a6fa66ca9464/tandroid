@@ -3,6 +3,7 @@ package androidx.core.content;
 import android.content.LocusId;
 import android.os.Build;
 import androidx.core.util.Preconditions;
+
 /* loaded from: classes.dex */
 public final class LocusIdCompat {
     private final String mId;
@@ -25,8 +26,7 @@ public final class LocusIdCompat {
     }
 
     private String getSanitizedId() {
-        int length = this.mId.length();
-        return length + "_chars";
+        return this.mId.length() + "_chars";
     }
 
     public static LocusIdCompat toLocusIdCompat(LocusId locusId) {
@@ -38,12 +38,12 @@ public final class LocusIdCompat {
         if (this == obj) {
             return true;
         }
-        if (obj != null && LocusIdCompat.class == obj.getClass()) {
-            String str = this.mId;
-            String str2 = ((LocusIdCompat) obj).mId;
-            return str == null ? str2 == null : str.equals(str2);
+        if (obj == null || LocusIdCompat.class != obj.getClass()) {
+            return false;
         }
-        return false;
+        String str = this.mId;
+        String str2 = ((LocusIdCompat) obj).mId;
+        return str == null ? str2 == null : str.equals(str2);
     }
 
     public String getId() {

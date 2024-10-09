@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import org.telegram.messenger.FileLog;
+
 /* loaded from: classes.dex */
 public class GlShader {
     private static final String TAG = "GlShader";
@@ -48,26 +49,26 @@ public class GlShader {
 
     public int getAttribLocation(String str) {
         int i = this.program;
-        if (i != -1) {
-            int glGetAttribLocation = GLES20.glGetAttribLocation(i, str);
-            if (glGetAttribLocation >= 0) {
-                return glGetAttribLocation;
-            }
-            throw new RuntimeException("Could not locate '" + str + "' in program");
+        if (i == -1) {
+            throw new RuntimeException("The program has been released");
         }
-        throw new RuntimeException("The program has been released");
+        int glGetAttribLocation = GLES20.glGetAttribLocation(i, str);
+        if (glGetAttribLocation >= 0) {
+            return glGetAttribLocation;
+        }
+        throw new RuntimeException("Could not locate '" + str + "' in program");
     }
 
     public int getUniformLocation(String str) {
         int i = this.program;
-        if (i != -1) {
-            int glGetUniformLocation = GLES20.glGetUniformLocation(i, str);
-            if (glGetUniformLocation >= 0) {
-                return glGetUniformLocation;
-            }
-            throw new RuntimeException("Could not locate uniform '" + str + "' in program");
+        if (i == -1) {
+            throw new RuntimeException("The program has been released");
         }
-        throw new RuntimeException("The program has been released");
+        int glGetUniformLocation = GLES20.glGetUniformLocation(i, str);
+        if (glGetUniformLocation >= 0) {
+            return glGetUniformLocation;
+        }
+        throw new RuntimeException("Could not locate uniform '" + str + "' in program");
     }
 
     public void release() {

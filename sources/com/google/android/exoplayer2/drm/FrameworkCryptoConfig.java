@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.drm;
 import com.google.android.exoplayer2.decoder.CryptoConfig;
 import com.google.android.exoplayer2.util.Util;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public final class FrameworkCryptoConfig implements CryptoConfig {
     public static final boolean WORKAROUND_DEVICE_NEEDS_KEYS_TO_CONFIGURE_CODEC;

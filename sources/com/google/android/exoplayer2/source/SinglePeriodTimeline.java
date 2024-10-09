@@ -4,6 +4,7 @@ import android.net.Uri;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.util.Assertions;
+
 /* loaded from: classes.dex */
 public final class SinglePeriodTimeline extends Timeline {
     private final long elapsedRealtimeEpochOffsetMs;
@@ -68,8 +69,9 @@ public final class SinglePeriodTimeline extends Timeline {
         return UID;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0029, code lost:
-        if (r1 > r3) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0029, code lost:
+    
+        if (r1 > r3) goto L13;
      */
     @Override // com.google.android.exoplayer2.Timeline
     /*

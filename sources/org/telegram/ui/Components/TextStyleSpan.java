@@ -6,6 +6,7 @@ import android.text.style.MetricAffectingSpan;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class TextStyleSpan extends MetricAffectingSpan {
     private int color;
@@ -44,21 +45,22 @@ public class TextStyleSpan extends MetricAffectingSpan {
         public Typeface getTypeface() {
             String str;
             int i = this.flags;
-            if ((i & 4) == 0 && (i & 2048) == 0) {
-                int i2 = i & 1;
-                if (i2 != 0 && (i & 2) != 0) {
-                    str = AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC;
-                } else if (i2 != 0) {
-                    return AndroidUtilities.bold();
-                } else {
-                    if ((i & 2) == 0) {
-                        return null;
-                    }
-                    str = "fonts/ritalic.ttf";
-                }
-                return AndroidUtilities.getTypeface(str);
+            if ((i & 4) != 0 || (i & 2048) != 0) {
+                return Typeface.MONOSPACE;
             }
-            return Typeface.MONOSPACE;
+            int i2 = i & 1;
+            if (i2 != 0 && (i & 2) != 0) {
+                str = AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC;
+            } else {
+                if (i2 != 0) {
+                    return AndroidUtilities.bold();
+                }
+                if ((i & 2) == 0) {
+                    return null;
+                }
+                str = "fonts/ritalic.ttf";
+            }
+            return AndroidUtilities.getTypeface(str);
         }
 
         public void merge(TextStyleRun textStyleRun) {

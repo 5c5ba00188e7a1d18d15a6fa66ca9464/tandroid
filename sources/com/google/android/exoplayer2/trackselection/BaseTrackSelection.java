@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class BaseTrackSelection implements ExoTrackSelection {
     private final long[] excludeUntilTimes;
@@ -94,12 +95,12 @@ public abstract class BaseTrackSelection implements ExoTrackSelection {
             isTrackExcluded = (i2 == i || isTrackExcluded(i2, elapsedRealtime)) ? false : true;
             i2++;
         }
-        if (isTrackExcluded) {
-            long[] jArr = this.excludeUntilTimes;
-            jArr[i] = Math.max(jArr[i], Util.addWithOverflowDefault(elapsedRealtime, j, Long.MAX_VALUE));
-            return true;
+        if (!isTrackExcluded) {
+            return false;
         }
-        return false;
+        long[] jArr = this.excludeUntilTimes;
+        jArr[i] = Math.max(jArr[i], Util.addWithOverflowDefault(elapsedRealtime, j, Long.MAX_VALUE));
+        return true;
     }
 
     @Override // com.google.android.exoplayer2.trackselection.TrackSelection

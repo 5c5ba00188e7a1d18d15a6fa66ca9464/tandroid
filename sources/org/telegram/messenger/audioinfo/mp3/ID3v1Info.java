@@ -3,6 +3,7 @@ package org.telegram.messenger.audioinfo.mp3;
 import java.io.EOFException;
 import java.io.InputStream;
 import org.telegram.messenger.audioinfo.AudioInfo;
+
 /* loaded from: classes3.dex */
 public class ID3v1Info extends AudioInfo {
     public ID3v1Info(InputStream inputStream) {

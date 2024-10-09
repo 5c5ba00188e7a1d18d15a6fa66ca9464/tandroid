@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.net.ssl.HttpsURLConnection;
+
 /* loaded from: classes.dex */
 class HttpConnectionDownloadFileTask extends AsyncTask {
     private final Uri mDownloadUri;
@@ -78,10 +79,10 @@ class HttpConnectionDownloadFileTask extends AsyncTask {
             AppCenterLog.warn("AppCenterDistribute", "The requested download has not expected content type.");
         }
         int responseCode = createHttpsConnection.getResponseCode();
-        if (responseCode < 200 || responseCode >= 300) {
-            throw new IOException("Download failed with HTTP error code: " + responseCode);
+        if (responseCode >= 200 && responseCode < 300) {
+            return createHttpsConnection;
         }
-        return createHttpsConnection;
+        throw new IOException("Download failed with HTTP error code: " + responseCode);
     }
 
     private long downloadFile(URLConnection uRLConnection) {
@@ -121,11 +122,11 @@ class HttpConnectionDownloadFileTask extends AsyncTask {
             } catch (IOException e) {
                 this.mDownloader.onDownloadError(e.getMessage());
             }
-            if (downloadFile(createConnection()) > 0) {
-                this.mDownloader.onDownloadComplete(this.mTargetFile);
-                return null;
+            if (downloadFile(createConnection()) <= 0) {
+                throw new IOException("The content of downloaded file is empty");
             }
-            throw new IOException("The content of downloaded file is empty");
+            this.mDownloader.onDownloadComplete(this.mTargetFile);
+            return null;
         } finally {
             TrafficStats.clearThreadStatsTag();
         }

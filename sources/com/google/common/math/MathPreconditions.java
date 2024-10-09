@@ -1,4 +1,5 @@
 package com.google.common.math;
+
 /* loaded from: classes.dex */
 abstract class MathPreconditions {
     /* JADX INFO: Access modifiers changed from: package-private */

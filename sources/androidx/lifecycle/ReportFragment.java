@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.lifecycle.Lifecycle;
+
 /* loaded from: classes.dex */
 public class ReportFragment extends Fragment {
     private ActivityInitializationListener mProcessListener;
@@ -89,6 +90,7 @@ public class ReportFragment extends Fragment {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     static void dispatch(Activity activity, Lifecycle.Event event) {
         if (activity instanceof LifecycleOwner) {
             Lifecycle lifecycle = ((LifecycleOwner) activity).getLifecycle();

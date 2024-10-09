@@ -16,10 +16,12 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.Lock;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zaaa implements zaca {
@@ -47,11 +49,13 @@ public final class zaaa implements zaca {
         this.zad = new zabi(context, zabeVar, lock, looper, googleApiAvailabilityLight, map2, null, map4, null, arrayList2, new zax(this, null));
         this.zae = new zabi(context, zabeVar, lock, looper, googleApiAvailabilityLight, map, clientSettings, map3, abstractClientBuilder, arrayList, new zaz(this, null));
         ArrayMap arrayMap = new ArrayMap();
-        for (Api.AnyClientKey anyClientKey : map2.keySet()) {
-            arrayMap.put(anyClientKey, this.zad);
+        Iterator it = map2.keySet().iterator();
+        while (it.hasNext()) {
+            arrayMap.put((Api.AnyClientKey) it.next(), this.zad);
         }
-        for (Api.AnyClientKey anyClientKey2 : map.keySet()) {
-            arrayMap.put(anyClientKey2, this.zae);
+        Iterator it2 = map.keySet().iterator();
+        while (it2.hasNext()) {
+            arrayMap.put((Api.AnyClientKey) it2.next(), this.zae);
         }
         this.zaf = Collections.unmodifiableMap(arrayMap);
     }
@@ -70,8 +74,9 @@ public final class zaaa implements zaca {
     }
 
     private final void zaB() {
-        for (SignInConnectionListener signInConnectionListener : this.zag) {
-            signInConnectionListener.onComplete();
+        Iterator it = this.zag.iterator();
+        while (it.hasNext()) {
+            ((SignInConnectionListener) it.next()).onComplete();
         }
         this.zag.clear();
     }
@@ -115,9 +120,10 @@ public final class zaaa implements zaca {
             Api.AnyClientKey zab = api.zab();
             if (arrayMap.containsKey(zab)) {
                 arrayMap3.put(api, (Boolean) map2.get(api));
-            } else if (!arrayMap2.containsKey(zab)) {
-                throw new IllegalStateException("Each API in the isOptionalMap must have a corresponding client in the clients map.");
             } else {
+                if (!arrayMap2.containsKey(zab)) {
+                    throw new IllegalStateException("Each API in the isOptionalMap must have a corresponding client in the clients map.");
+                }
                 arrayMap4.put(api, (Boolean) map2.get(api));
             }
         }
@@ -128,9 +134,10 @@ public final class zaaa implements zaca {
             zat zatVar = (zat) arrayList.get(i);
             if (arrayMap3.containsKey(zatVar.zaa)) {
                 arrayList2.add(zatVar);
-            } else if (!arrayMap4.containsKey(zatVar.zaa)) {
-                throw new IllegalStateException("Each ClientCallbacks must have a corresponding API in the isOptionalMap");
             } else {
+                if (!arrayMap4.containsKey(zatVar.zaa)) {
+                    throw new IllegalStateException("Each ClientCallbacks must have a corresponding API in the isOptionalMap");
+                }
                 arrayList3.add(zatVar);
             }
         }
@@ -171,28 +178,32 @@ public final class zaaa implements zaca {
                 connectionResult2 = connectionResult;
             }
             zaaaVar.zaA(connectionResult2);
-        } else if (!zaE(zaaaVar.zak) && !zaaaVar.zaC()) {
+            return;
+        }
+        if (!zaE(zaaaVar.zak) && !zaaaVar.zaC()) {
             ConnectionResult connectionResult3 = zaaaVar.zak;
             if (connectionResult3 != null) {
                 if (zaaaVar.zan == 1) {
                     zaaaVar.zaB();
                     return;
+                } else {
+                    zaaaVar.zaA(connectionResult3);
+                    zaaaVar.zad.zar();
+                    return;
                 }
-                zaaaVar.zaA(connectionResult3);
-                zaaaVar.zad.zar();
             }
-        } else {
-            int i = zaaaVar.zan;
-            if (i != 1) {
-                if (i != 2) {
-                    Log.wtf("CompositeGAC", "Attempted to call success callbacks in CONNECTION_MODE_NONE. Callbacks should be disabled via GmsClientSupervisor", new AssertionError());
-                    zaaaVar.zan = 0;
-                }
-                ((zabe) Preconditions.checkNotNull(zaaaVar.zab)).zab(zaaaVar.zai);
-            }
-            zaaaVar.zaB();
-            zaaaVar.zan = 0;
+            return;
         }
+        int i = zaaaVar.zan;
+        if (i != 1) {
+            if (i != 2) {
+                Log.wtf("CompositeGAC", "Attempted to call success callbacks in CONNECTION_MODE_NONE. Callbacks should be disabled via GmsClientSupervisor", new AssertionError());
+                zaaaVar.zan = 0;
+            }
+            ((zabe) Preconditions.checkNotNull(zaaaVar.zab)).zab(zaaaVar.zai);
+        }
+        zaaaVar.zaB();
+        zaaaVar.zan = 0;
     }
 
     private final PendingIntent zaz() {
@@ -207,25 +218,25 @@ public final class zaaa implements zaca {
         if (!zaD(baseImplementation$ApiMethodImpl)) {
             this.zad.zae(baseImplementation$ApiMethodImpl);
             return baseImplementation$ApiMethodImpl;
-        } else if (zaC()) {
+        }
+        if (zaC()) {
             baseImplementation$ApiMethodImpl.setFailedResult(new Status(4, (String) null, zaz()));
             return baseImplementation$ApiMethodImpl;
-        } else {
-            this.zae.zae(baseImplementation$ApiMethodImpl);
-            return baseImplementation$ApiMethodImpl;
         }
+        this.zae.zae(baseImplementation$ApiMethodImpl);
+        return baseImplementation$ApiMethodImpl;
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
     public final BaseImplementation$ApiMethodImpl zaf(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
-        if (zaD(baseImplementation$ApiMethodImpl)) {
-            if (zaC()) {
-                baseImplementation$ApiMethodImpl.setFailedResult(new Status(4, (String) null, zaz()));
-                return baseImplementation$ApiMethodImpl;
-            }
+        if (!zaD(baseImplementation$ApiMethodImpl)) {
+            return this.zad.zaf(baseImplementation$ApiMethodImpl);
+        }
+        if (!zaC()) {
             return this.zae.zaf(baseImplementation$ApiMethodImpl);
         }
-        return this.zad.zaf(baseImplementation$ApiMethodImpl);
+        baseImplementation$ApiMethodImpl.setFailedResult(new Status(4, (String) null, zaz()));
+        return baseImplementation$ApiMethodImpl;
     }
 
     @Override // com.google.android.gms.common.api.internal.zaca
@@ -276,7 +287,8 @@ public final class zaaa implements zaca {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:10:0x001f, code lost:
-        if (r3.zan == 1) goto L12;
+    
+        if (r3.zan == 1) goto L11;
      */
     @Override // com.google.android.gms.common.api.internal.zaca
     /*

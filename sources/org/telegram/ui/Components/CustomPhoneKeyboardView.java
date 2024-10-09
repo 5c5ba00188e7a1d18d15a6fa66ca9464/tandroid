@@ -18,6 +18,7 @@ import androidx.core.view.GestureDetectorCompat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class CustomPhoneKeyboardView extends ViewGroup {
     private ImageView backButton;
@@ -302,7 +303,6 @@ public class CustomPhoneKeyboardView extends ViewGroup {
 
     @Override // android.view.View
     protected void onMeasure(int i, int i2) {
-        View[] viewArr;
         setMeasuredDimension(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
         int width = (getWidth() - AndroidUtilities.dp(32.0f)) / 3;
         int height = (getHeight() - AndroidUtilities.dp(42.0f)) / 4;
@@ -327,7 +327,6 @@ public class CustomPhoneKeyboardView extends ViewGroup {
     }
 
     public void updateColors() {
-        View[] viewArr;
         this.backButton.setColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         for (View view : this.views) {
             if (view != null) {

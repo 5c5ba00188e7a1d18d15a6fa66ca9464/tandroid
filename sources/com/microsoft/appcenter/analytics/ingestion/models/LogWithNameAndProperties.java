@@ -3,6 +3,7 @@ package com.microsoft.appcenter.analytics.ingestion.models;
 import com.microsoft.appcenter.ingestion.models.LogWithProperties;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public abstract class LogWithNameAndProperties extends LogWithProperties {
     private String name;
@@ -12,12 +13,12 @@ public abstract class LogWithNameAndProperties extends LogWithProperties {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            String str = this.name;
-            String str2 = ((LogWithNameAndProperties) obj).name;
-            return str != null ? str.equals(str2) : str2 == null;
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
+            return false;
         }
-        return false;
+        String str = this.name;
+        String str2 = ((LogWithNameAndProperties) obj).name;
+        return str != null ? str.equals(str2) : str2 == null;
     }
 
     public String getName() {

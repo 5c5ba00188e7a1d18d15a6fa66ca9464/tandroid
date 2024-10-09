@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
+
 /* loaded from: classes.dex */
 public abstract class ai {
     private static final s a = new s("PhoneskyVerificationUtils");
@@ -21,7 +22,7 @@ public abstract class ai {
     }
 
     private static boolean c(Signature[] signatureArr) {
-        if (signatureArr == null || (r1 = signatureArr.length) == 0) {
+        if (signatureArr == null || (signatureArr.length) == 0) {
             a.e("Phonesky package is not signed -- possibly self-built package. Could not verify.", new Object[0]);
             return false;
         }

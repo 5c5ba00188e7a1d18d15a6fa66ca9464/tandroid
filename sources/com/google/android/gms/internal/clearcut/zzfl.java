@@ -1,10 +1,11 @@
 package com.google.android.gms.internal.clearcut;
+
 /* JADX WARN: Enum visitor error
-jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzqe uses external variables
-	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
-	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:391)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:320)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
+jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'zzqe' uses external variables
+	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
+	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:395)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:324)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:262)
 	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
@@ -39,8 +40,10 @@ public class zzfl {
         zzfl zzflVar2 = new zzfl("FLOAT", 1, zzfq.zzqz, 5);
         zzqd = zzflVar2;
         zzfq zzfqVar = zzfq.zzqy;
+        final int i = 2;
         zzfl zzflVar3 = new zzfl("INT64", 2, zzfqVar, 0);
         zzqe = zzflVar3;
+        final int i2 = 3;
         zzfl zzflVar4 = new zzfl("UINT64", 3, zzfqVar, 0);
         zzqf = zzflVar4;
         zzfq zzfqVar2 = zzfq.zzqx;
@@ -52,19 +55,48 @@ public class zzfl {
         zzqi = zzflVar7;
         zzfl zzflVar8 = new zzfl("BOOL", 7, zzfq.zzrb, 0);
         zzqj = zzflVar8;
+        final int i3 = 8;
         final zzfq zzfqVar3 = zzfq.zzrc;
-        zzfl zzflVar9 = new zzfl("STRING", 8, zzfqVar3, 2) { // from class: com.google.android.gms.internal.clearcut.zzfm
+        final String str = "STRING";
+        zzfl zzflVar9 = new zzfl(str, i3, zzfqVar3, i) { // from class: com.google.android.gms.internal.clearcut.zzfm
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i4 = 2;
+                int i5 = 8;
+            }
         };
         zzqk = zzflVar9;
         final zzfq zzfqVar4 = zzfq.zzrf;
-        zzfl zzflVar10 = new zzfl("GROUP", 9, zzfqVar4, 3) { // from class: com.google.android.gms.internal.clearcut.zzfn
+        final String str2 = "GROUP";
+        final int i4 = 9;
+        zzfl zzflVar10 = new zzfl(str2, i4, zzfqVar4, i2) { // from class: com.google.android.gms.internal.clearcut.zzfn
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i5 = 3;
+                int i6 = 9;
+            }
         };
         zzql = zzflVar10;
-        zzfl zzflVar11 = new zzfl("MESSAGE", 10, zzfqVar4, 2) { // from class: com.google.android.gms.internal.clearcut.zzfo
+        final String str3 = "MESSAGE";
+        final int i5 = 10;
+        final int i6 = 2;
+        zzfl zzflVar11 = new zzfl(str3, i5, zzfqVar4, i6) { // from class: com.google.android.gms.internal.clearcut.zzfo
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i7 = 2;
+                int i8 = 10;
+            }
         };
         zzqm = zzflVar11;
+        final int i7 = 11;
         final zzfq zzfqVar5 = zzfq.zzrd;
-        zzfl zzflVar12 = new zzfl("BYTES", 11, zzfqVar5, 2) { // from class: com.google.android.gms.internal.clearcut.zzfp
+        final String str4 = "BYTES";
+        zzfl zzflVar12 = new zzfl(str4, i7, zzfqVar5, i6) { // from class: com.google.android.gms.internal.clearcut.zzfp
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i8 = 2;
+                int i9 = 11;
+            }
         };
         zzqn = zzflVar12;
         zzfl zzflVar13 = new zzfl("UINT32", 12, zzfqVar2, 0);

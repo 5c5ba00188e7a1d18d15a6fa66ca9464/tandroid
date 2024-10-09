@@ -16,10 +16,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
+
 /* loaded from: classes.dex */
 public final class zaaw implements zabf {
     private final zabi zaa;
@@ -72,7 +74,6 @@ public final class zaaw implements zabf {
                 zaeVar.zaa();
             }
             zaeVar.disconnect();
-            ClientSettings clientSettings = (ClientSettings) Preconditions.checkNotNull(this.zar);
             this.zao = null;
         }
     }
@@ -87,8 +88,9 @@ public final class zaaw implements zabf {
             }
             zaB(false);
         }
-        for (Api.AnyClientKey anyClientKey : this.zaa.zab.keySet()) {
-            ((Api.Client) Preconditions.checkNotNull((Api.Client) this.zaa.zaa.get(anyClientKey))).disconnect();
+        Iterator it = this.zaa.zab.keySet().iterator();
+        while (it.hasNext()) {
+            ((Api.Client) Preconditions.checkNotNull((Api.Client) this.zaa.zaa.get((Api.AnyClientKey) it.next()))).disconnect();
         }
         this.zaa.zah.zab(this.zai.isEmpty() ? null : this.zai);
     }
@@ -136,17 +138,15 @@ public final class zaaw implements zabf {
 
     /* JADX INFO: Access modifiers changed from: private */
     public final boolean zaG(int i) {
-        if (this.zag != i) {
-            Log.w("GACConnecting", this.zaa.zag.zaf());
-            Log.w("GACConnecting", "Unexpected callback in ".concat(toString()));
-            int i2 = this.zah;
-            Log.w("GACConnecting", "mRemainingConnections=" + i2);
-            int i3 = this.zag;
-            Log.e("GACConnecting", "GoogleApiClient connecting is in step " + zaJ(i3) + " but received callback for step " + zaJ(i), new Exception());
-            zaD(new ConnectionResult(8, null));
-            return false;
+        if (this.zag == i) {
+            return true;
         }
-        return true;
+        Log.w("GACConnecting", this.zaa.zag.zaf());
+        Log.w("GACConnecting", "Unexpected callback in ".concat(toString()));
+        Log.w("GACConnecting", "mRemainingConnections=" + this.zah);
+        Log.e("GACConnecting", "GoogleApiClient connecting is in step " + zaJ(this.zag) + " but received callback for step " + zaJ(i), new Exception());
+        zaD(new ConnectionResult(8, null));
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -206,10 +206,11 @@ public final class zaaw implements zabf {
                 if (!zaawVar.zaI(zaa)) {
                     zaawVar.zaD(zaa);
                     return;
+                } else {
+                    zaawVar.zaA();
+                    zaawVar.zaF();
+                    return;
                 }
-                zaawVar.zaA();
-                zaawVar.zaF();
-                return;
             }
             com.google.android.gms.common.internal.zav zavVar = (com.google.android.gms.common.internal.zav) Preconditions.checkNotNull(zakVar.zab());
             ConnectionResult zaa2 = zavVar.zaa();
@@ -252,6 +253,7 @@ public final class zaaw implements zabf {
     public final void zad() {
         this.zaa.zab.clear();
         this.zam = false;
+        zaas zaasVar = null;
         this.zae = null;
         this.zag = 0;
         this.zal = true;
@@ -280,7 +282,7 @@ public final class zaaw implements zabf {
             Preconditions.checkNotNull(this.zar);
             Preconditions.checkNotNull(this.zat);
             this.zar.zae(Integer.valueOf(System.identityHashCode(this.zaa.zag)));
-            zaat zaatVar = new zaat(this, null);
+            zaat zaatVar = new zaat(this, zaasVar);
             Api.AbstractClientBuilder abstractClientBuilder = this.zat;
             Context context = this.zac;
             Looper looper = this.zaa.zag.getLooper();

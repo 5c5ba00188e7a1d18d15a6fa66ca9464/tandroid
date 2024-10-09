@@ -2,6 +2,7 @@ package com.google.android.play.integrity.internal;
 
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class w extends t {

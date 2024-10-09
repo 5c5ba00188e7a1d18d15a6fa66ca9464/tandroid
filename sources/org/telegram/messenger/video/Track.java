@@ -27,6 +27,7 @@ import java.util.Map;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.video.Track;
+
 /* loaded from: classes3.dex */
 public class Track {
     private static Map<Integer, Integer> samplingFrequencyIndexMap;
@@ -78,7 +79,7 @@ public class Track {
         samplingFrequencyIndexMap.put(8000, 11);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0168  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0168  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -148,57 +149,57 @@ public class Track {
                 visualSampleEntry.setHeight(this.height);
                 this.sampleDescriptionBox.addBox(visualSampleEntry);
                 return;
-            } else if (!string2.equals("video/hevc") || mediaFormat.getByteBuffer("csd-0") == null) {
+            }
+            if (!string2.equals("video/hevc") || mediaFormat.getByteBuffer("csd-0") == null) {
                 return;
-            } else {
-                byte[] array = mediaFormat.getByteBuffer("csd-0").array();
-                int i4 = -1;
-                int i5 = -1;
-                int i6 = 0;
-                int i7 = -1;
-                for (int i8 = 0; i8 < array.length; i8++) {
-                    if (i6 == 3 && array[i8] == 1) {
-                        if (i7 == -1) {
-                            i7 = i8 - 3;
-                        } else if (i5 == -1) {
-                            i5 = i8 - 3;
-                        } else if (i4 == -1) {
-                            i4 = i8 - 3;
-                        }
-                    }
-                    i6 = array[i8] == 0 ? i6 + 1 : 0;
-                }
-                byte[] bArr = new byte[i5 - 4];
-                byte[] bArr2 = new byte[(i4 - i5) - 4];
-                byte[] bArr3 = new byte[(array.length - i4) - 4];
-                for (int i9 = 0; i9 < array.length; i9++) {
-                    if (i9 < i5) {
-                        int i10 = i9 - 4;
-                        if (i10 >= 0) {
-                            bArr[i10] = array[i9];
-                        }
-                    } else if (i9 < i4) {
-                        int i11 = (i9 - i5) - 4;
-                        if (i11 >= 0) {
-                            bArr2[i11] = array[i9];
-                        }
-                    } else {
-                        int i12 = (i9 - i4) - 4;
-                        if (i12 >= 0) {
-                            bArr3[i12] = array[i9];
-                        }
+            }
+            byte[] array = mediaFormat.getByteBuffer("csd-0").array();
+            int i4 = -1;
+            int i5 = -1;
+            int i6 = 0;
+            int i7 = -1;
+            for (int i8 = 0; i8 < array.length; i8++) {
+                if (i6 == 3 && array[i8] == 1) {
+                    if (i7 == -1) {
+                        i7 = i8 - 3;
+                    } else if (i5 == -1) {
+                        i5 = i8 - 3;
+                    } else if (i4 == -1) {
+                        i4 = i8 - 3;
                     }
                 }
-                try {
-                    VisualSampleEntry parseFromCsd = HevcDecoderConfigurationRecord.parseFromCsd(Arrays.asList(ByteBuffer.wrap(bArr), ByteBuffer.wrap(bArr3), ByteBuffer.wrap(bArr2)));
-                    parseFromCsd.setWidth(this.width);
-                    parseFromCsd.setHeight(this.height);
-                    this.sampleDescriptionBox.addBox(parseFromCsd);
-                    return;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
+                i6 = array[i8] == 0 ? i6 + 1 : 0;
+            }
+            byte[] bArr = new byte[i5 - 4];
+            byte[] bArr2 = new byte[(i4 - i5) - 4];
+            byte[] bArr3 = new byte[(array.length - i4) - 4];
+            for (int i9 = 0; i9 < array.length; i9++) {
+                if (i9 < i5) {
+                    int i10 = i9 - 4;
+                    if (i10 >= 0) {
+                        bArr[i10] = array[i9];
+                    }
+                } else if (i9 < i4) {
+                    int i11 = (i9 - i5) - 4;
+                    if (i11 >= 0) {
+                        bArr2[i11] = array[i9];
+                    }
+                } else {
+                    int i12 = (i9 - i4) - 4;
+                    if (i12 >= 0) {
+                        bArr3[i12] = array[i9];
+                    }
                 }
+            }
+            try {
+                VisualSampleEntry parseFromCsd = HevcDecoderConfigurationRecord.parseFromCsd(Arrays.asList(ByteBuffer.wrap(bArr), ByteBuffer.wrap(bArr3), ByteBuffer.wrap(bArr2)));
+                parseFromCsd.setWidth(this.width);
+                parseFromCsd.setHeight(this.height);
+                this.sampleDescriptionBox.addBox(parseFromCsd);
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
             }
         }
         VisualSampleEntry visualSampleEntry2 = new VisualSampleEntry("avc1");
@@ -257,37 +258,50 @@ public class Track {
                     i2 = 5;
                 } else if (integer == 32768) {
                     i2 = 51;
-                } else if (integer != 65536) {
-                    if (integer == 2) {
-                        i2 = 27;
-                    }
-                    if (mediaFormat.containsKey("profile")) {
-                        int integer2 = mediaFormat.getInteger("profile");
-                        if (integer2 == 1) {
-                            i3 = 66;
-                        } else if (integer2 == 2) {
-                            i3 = 77;
-                        } else if (integer2 == 4) {
-                            i3 = 88;
-                        } else if (integer2 != 8) {
-                            if (integer2 == 16) {
-                                i3 = 110;
-                            } else if (integer2 != 32) {
-                                if (integer2 == 64) {
-                                    i3 = NotificationCenter.reloadInterface;
-                                }
-                                avcConfigurationBox.setBitDepthLumaMinus8(-1);
-                                avcConfigurationBox.setBitDepthChromaMinus8(-1);
-                                avcConfigurationBox.setChromaFormat(-1);
-                                avcConfigurationBox.setConfigurationVersion(1);
-                                avcConfigurationBox.setLengthSizeMinusOne(3);
-                                avcConfigurationBox.setProfileCompatibility(0);
-                                visualSampleEntry2.addBox(avcConfigurationBox);
-                                this.sampleDescriptionBox.addBox(visualSampleEntry2);
-                            } else {
-                                i3 = 122;
-                            }
+                } else {
+                    if (integer != 65536) {
+                        if (integer == 2) {
+                            i2 = 27;
                         }
+                        if (mediaFormat.containsKey("profile")) {
+                            int integer2 = mediaFormat.getInteger("profile");
+                            if (integer2 == 1) {
+                                i3 = 66;
+                            } else if (integer2 == 2) {
+                                i3 = 77;
+                            } else if (integer2 == 4) {
+                                i3 = 88;
+                            } else if (integer2 != 8) {
+                                if (integer2 == 16) {
+                                    i3 = 110;
+                                } else {
+                                    if (integer2 != 32) {
+                                        if (integer2 == 64) {
+                                            i3 = NotificationCenter.reloadInterface;
+                                        }
+                                        avcConfigurationBox.setBitDepthLumaMinus8(-1);
+                                        avcConfigurationBox.setBitDepthChromaMinus8(-1);
+                                        avcConfigurationBox.setChromaFormat(-1);
+                                        avcConfigurationBox.setConfigurationVersion(1);
+                                        avcConfigurationBox.setLengthSizeMinusOne(3);
+                                        avcConfigurationBox.setProfileCompatibility(0);
+                                        visualSampleEntry2.addBox(avcConfigurationBox);
+                                        this.sampleDescriptionBox.addBox(visualSampleEntry2);
+                                    }
+                                    i3 = 122;
+                                }
+                            }
+                            avcConfigurationBox.setAvcProfileIndication(i3);
+                            avcConfigurationBox.setBitDepthLumaMinus8(-1);
+                            avcConfigurationBox.setBitDepthChromaMinus8(-1);
+                            avcConfigurationBox.setChromaFormat(-1);
+                            avcConfigurationBox.setConfigurationVersion(1);
+                            avcConfigurationBox.setLengthSizeMinusOne(3);
+                            avcConfigurationBox.setProfileCompatibility(0);
+                            visualSampleEntry2.addBox(avcConfigurationBox);
+                            this.sampleDescriptionBox.addBox(visualSampleEntry2);
+                        }
+                        i3 = 100;
                         avcConfigurationBox.setAvcProfileIndication(i3);
                         avcConfigurationBox.setBitDepthLumaMinus8(-1);
                         avcConfigurationBox.setBitDepthChromaMinus8(-1);
@@ -298,17 +312,6 @@ public class Track {
                         visualSampleEntry2.addBox(avcConfigurationBox);
                         this.sampleDescriptionBox.addBox(visualSampleEntry2);
                     }
-                    i3 = 100;
-                    avcConfigurationBox.setAvcProfileIndication(i3);
-                    avcConfigurationBox.setBitDepthLumaMinus8(-1);
-                    avcConfigurationBox.setBitDepthChromaMinus8(-1);
-                    avcConfigurationBox.setChromaFormat(-1);
-                    avcConfigurationBox.setConfigurationVersion(1);
-                    avcConfigurationBox.setLengthSizeMinusOne(3);
-                    avcConfigurationBox.setProfileCompatibility(0);
-                    visualSampleEntry2.addBox(avcConfigurationBox);
-                    this.sampleDescriptionBox.addBox(visualSampleEntry2);
-                } else {
                     i2 = 52;
                 }
             }
@@ -350,8 +353,9 @@ public class Track {
         return samplePresentationTime.presentationTime < samplePresentationTime2.presentationTime ? -1 : 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:5:0x0008, code lost:
-        if ((r8.flags & 1) != 0) goto L5;
+    /* JADX WARN: Code restructure failed: missing block: B:4:0x0008, code lost:
+    
+        if ((r8.flags & 1) != 0) goto L8;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -384,9 +388,7 @@ public class Track {
     }
 
     public long getLastFrameTimestamp() {
-        long j = this.duration;
-        long[] jArr = this.sampleDurations;
-        return (((j - jArr[jArr.length - 1]) * 1000000) - 500000) / this.timeScale;
+        return (((this.duration - this.sampleDurations[r2.length - 1]) * 1000000) - 500000) / this.timeScale;
     }
 
     public AbstractMediaHeaderBox getMediaHeaderBox() {

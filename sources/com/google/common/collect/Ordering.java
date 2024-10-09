@@ -2,6 +2,7 @@ package com.google.common.collect;
 
 import com.google.common.base.Function;
 import java.util.Comparator;
+
 /* loaded from: classes.dex */
 public abstract class Ordering implements Comparator {
     public static Ordering from(Comparator comparator) {

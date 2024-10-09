@@ -7,6 +7,7 @@ import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import org.telegram.messenger.AndroidUtilities;
+
 /* loaded from: classes3.dex */
 public class AnimatedArrowDrawable extends Drawable {
     private float animProgress;
@@ -28,14 +29,17 @@ public class AnimatedArrowDrawable extends Drawable {
         updatePath();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x002b, code lost:
-        if (r0 < r1) goto L10;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x002d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x002d, code lost:
+    
         r6.animProgress = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x0023, code lost:
-        if (r0 > r1) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x002b, code lost:
+    
+        if (r0 < r1) goto L11;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0023, code lost:
+    
+        if (r0 > r1) goto L11;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -67,11 +71,11 @@ public class AnimatedArrowDrawable extends Drawable {
             this.path.moveTo(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(6.0f) - (AndroidUtilities.dp(2.0f) * f));
             this.path.lineTo(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(6.0f) + (AndroidUtilities.dp(2.0f) * f));
             this.path.lineTo(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(6.0f) - (AndroidUtilities.dp(2.0f) * f));
-            return;
+        } else {
+            this.path.moveTo(AndroidUtilities.dp(4.5f), AndroidUtilities.dp(12.0f) - (AndroidUtilities.dp(4.0f) * f));
+            this.path.lineTo(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(12.0f) + (AndroidUtilities.dp(4.0f) * f));
+            this.path.lineTo(AndroidUtilities.dp(21.5f), AndroidUtilities.dp(12.0f) - (AndroidUtilities.dp(4.0f) * f));
         }
-        this.path.moveTo(AndroidUtilities.dp(4.5f), AndroidUtilities.dp(12.0f) - (AndroidUtilities.dp(4.0f) * f));
-        this.path.lineTo(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(12.0f) + (AndroidUtilities.dp(4.0f) * f));
-        this.path.lineTo(AndroidUtilities.dp(21.5f), AndroidUtilities.dp(12.0f) - (AndroidUtilities.dp(4.0f) * f));
     }
 
     @Override // android.graphics.drawable.Drawable

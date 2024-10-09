@@ -1,6 +1,7 @@
 package j$.util.concurrent;
 
 import java.util.concurrent.ConcurrentMap;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class ConcurrentMap$-EL {
     public static Object getOrDefault(ConcurrentMap concurrentMap, Object obj, Object obj2) {

@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor.avi;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 final class AviStreamHeaderChunk implements AviChunk {
     public final int initialFrames;
@@ -40,17 +41,17 @@ final class AviStreamHeaderChunk implements AviChunk {
 
     public int getTrackType() {
         int i = this.streamType;
-        if (i != 1935960438) {
-            if (i != 1935963489) {
-                if (i != 1937012852) {
-                    Log.w("AviStreamHeaderChunk", "Found unsupported streamType fourCC: " + Integer.toHexString(this.streamType));
-                    return -1;
-                }
-                return 3;
-            }
+        if (i == 1935960438) {
+            return 2;
+        }
+        if (i == 1935963489) {
             return 1;
         }
-        return 2;
+        if (i == 1937012852) {
+            return 3;
+        }
+        Log.w("AviStreamHeaderChunk", "Found unsupported streamType fourCC: " + Integer.toHexString(this.streamType));
+        return -1;
     }
 
     @Override // com.google.android.exoplayer2.extractor.avi.AviChunk

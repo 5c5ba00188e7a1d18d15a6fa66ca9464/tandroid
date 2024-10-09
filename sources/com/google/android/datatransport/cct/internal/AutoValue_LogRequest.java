@@ -2,6 +2,7 @@ package com.google.android.datatransport.cct.internal;
 
 import com.google.android.datatransport.cct.internal.LogRequest;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class AutoValue_LogRequest extends LogRequest {
     private final ClientInfo clientInfo;
@@ -98,20 +99,20 @@ final class AutoValue_LogRequest extends LogRequest {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof LogRequest) {
-            LogRequest logRequest = (LogRequest) obj;
-            if (this.requestTimeMs == logRequest.getRequestTimeMs() && this.requestUptimeMs == logRequest.getRequestUptimeMs() && ((clientInfo = this.clientInfo) != null ? clientInfo.equals(logRequest.getClientInfo()) : logRequest.getClientInfo() == null) && ((num = this.logSource) != null ? num.equals(logRequest.getLogSource()) : logRequest.getLogSource() == null) && ((str = this.logSourceName) != null ? str.equals(logRequest.getLogSourceName()) : logRequest.getLogSourceName() == null) && ((list = this.logEvents) != null ? list.equals(logRequest.getLogEvents()) : logRequest.getLogEvents() == null)) {
-                QosTier qosTier = this.qosTier;
-                QosTier qosTier2 = logRequest.getQosTier();
-                if (qosTier == null) {
-                    if (qosTier2 == null) {
-                        return true;
-                    }
-                } else if (qosTier.equals(qosTier2)) {
+        if (!(obj instanceof LogRequest)) {
+            return false;
+        }
+        LogRequest logRequest = (LogRequest) obj;
+        if (this.requestTimeMs == logRequest.getRequestTimeMs() && this.requestUptimeMs == logRequest.getRequestUptimeMs() && ((clientInfo = this.clientInfo) != null ? clientInfo.equals(logRequest.getClientInfo()) : logRequest.getClientInfo() == null) && ((num = this.logSource) != null ? num.equals(logRequest.getLogSource()) : logRequest.getLogSource() == null) && ((str = this.logSourceName) != null ? str.equals(logRequest.getLogSourceName()) : logRequest.getLogSourceName() == null) && ((list = this.logEvents) != null ? list.equals(logRequest.getLogEvents()) : logRequest.getLogEvents() == null)) {
+            QosTier qosTier = this.qosTier;
+            QosTier qosTier2 = logRequest.getQosTier();
+            if (qosTier == null) {
+                if (qosTier2 == null) {
                     return true;
                 }
+            } else if (qosTier.equals(qosTier2)) {
+                return true;
             }
-            return false;
         }
         return false;
     }

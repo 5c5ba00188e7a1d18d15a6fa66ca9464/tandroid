@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzgc implements zzgp {
     private final zzfz zza;
@@ -41,13 +42,13 @@ final class zzgc implements zzgp {
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     public final boolean zza(Object obj, Object obj2) {
-        if (this.zzb.zza(obj).equals(this.zzb.zza(obj2))) {
-            if (this.zzc) {
-                return this.zzd.zza(obj).equals(this.zzd.zza(obj2));
-            }
-            return true;
+        if (!this.zzb.zza(obj).equals(this.zzb.zza(obj2))) {
+            return false;
         }
-        return false;
+        if (this.zzc) {
+            return this.zzd.zza(obj).equals(this.zzd.zza(obj2));
+        }
+        return true;
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp

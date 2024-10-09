@@ -53,6 +53,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorBtnCell;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     private final ButtonWithCounterView actionButton;
@@ -277,38 +278,40 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
                 if (!it2.hasNext()) {
                     break;
                 }
+                TLRPC.Chat chat4 = (TLRPC.Chat) it2.next();
                 AvatarHolderView avatarHolderView3 = new AvatarHolderView(getContext());
                 avatarHolderView3.setLayerType(2, null);
-                avatarHolderView3.setChat((TLRPC.Chat) it2.next());
+                avatarHolderView3.setChat(chat4);
                 int size = arrayList3.size();
                 this.avatarsWrapper.addView(avatarHolderView3, 0, LayoutHelper.createFrame(70, 70, 17));
                 avatarHolderView3.setTranslationX((-size) * AndroidUtilities.dp(23.0f));
                 avatarHolderView3.setAlpha(0.0f);
                 avatarHolderView3.setScaleX(0.1f);
                 avatarHolderView3.setScaleY(0.1f);
-                avatarHolderView3.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setInterpolator(cubicBezierInterpolator).setDuration((long) NotificationCenter.storyQualityUpdate).start();
+                avatarHolderView3.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setInterpolator(cubicBezierInterpolator).setDuration(NotificationCenter.storyQualityUpdate).start();
                 if (size == 0) {
                     avatarHolderView3.boostIconView.setScaleY(1.0f);
                     avatarHolderView3.boostIconView.setScaleX(1.0f);
                     avatarHolderView3.boostIconView.setAlpha(1.0f);
                 }
             }
-            for (TLRPC.Chat chat4 : arrayList) {
+            for (TLRPC.Chat chat5 : arrayList) {
                 Iterator it3 = arrayList3.iterator();
                 while (true) {
-                    if (!it3.hasNext()) {
+                    if (it3.hasNext()) {
+                        avatarHolderView = (AvatarHolderView) it3.next();
+                        if (avatarHolderView.chat == chat5) {
+                            break;
+                        }
+                    } else {
                         avatarHolderView = null;
-                        break;
-                    }
-                    avatarHolderView = (AvatarHolderView) it3.next();
-                    if (avatarHolderView.chat == chat4) {
                         break;
                     }
                 }
                 if (avatarHolderView != null) {
                     avatarHolderView.setTag("REMOVED");
                     ViewPropertyAnimator interpolator2 = avatarHolderView.animate().alpha(f).translationXBy(AndroidUtilities.dp(23.0f)).scaleX(f2).scaleY(f2).setInterpolator(cubicBezierInterpolator);
-                    long j2 = (long) NotificationCenter.storyQualityUpdate;
+                    long j2 = NotificationCenter.storyQualityUpdate;
                     interpolator2.setDuration(j2).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Premium.boosts.ReassignBoostBottomSheet.TopCell.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
@@ -353,12 +356,12 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
             if (this.addedChats.isEmpty()) {
                 dp = 0.0f;
                 ViewPropertyAnimator translationX2 = this.avatarsWrapper.animate().setInterpolator(cubicBezierInterpolator).translationX(0.0f);
-                j = (long) NotificationCenter.storyQualityUpdate;
+                j = NotificationCenter.storyQualityUpdate;
                 translationX2.setDuration(j).start();
                 interpolator = this.toAvatar.animate().setInterpolator(cubicBezierInterpolator);
             } else {
                 ViewPropertyAnimator translationX3 = this.avatarsWrapper.animate().setInterpolator(cubicBezierInterpolator).translationX(-AndroidUtilities.dp(48.0f));
-                j = (long) NotificationCenter.storyQualityUpdate;
+                j = NotificationCenter.storyQualityUpdate;
                 translationX3.setDuration(j).start();
                 interpolator = this.toAvatar.animate().setInterpolator(cubicBezierInterpolator);
                 dp = AndroidUtilities.dp(48.0f);
@@ -555,17 +558,17 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public int getItemViewType(int i) {
-                if (i != 0) {
-                    int i2 = 1;
-                    if (i != 1) {
-                        i2 = 2;
-                        if (i != 2) {
-                            return 3;
-                        }
-                    }
-                    return i2;
+                if (i == 0) {
+                    return 0;
                 }
-                return 0;
+                int i2 = 1;
+                if (i != 1) {
+                    i2 = 2;
+                    if (i != 2) {
+                        return 3;
+                    }
+                }
+                return i2;
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -580,12 +583,16 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
                     SelectorUserCell selectorUserCell = (SelectorUserCell) viewHolder.itemView;
                     selectorUserCell.setBoost(tL_myBoost);
                     selectorUserCell.setChecked(ReassignBoostBottomSheet.this.selectedBoosts.contains(tL_myBoost), false);
-                } else if (viewHolder.getItemViewType() == 2) {
+                    return;
+                }
+                if (viewHolder.getItemViewType() == 2) {
                     HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                     headerCell.setTextSize(15.0f);
                     headerCell.setPadding(0, 0, 0, AndroidUtilities.dp(2.0f));
                     headerCell.setText(LocaleController.getString(R.string.BoostingRemoveBoostFrom));
-                } else if (viewHolder.getItemViewType() == 0) {
+                    return;
+                }
+                if (viewHolder.getItemViewType() == 0) {
                     ReassignBoostBottomSheet.this.topCell = (TopCell) viewHolder.itemView;
                     ReassignBoostBottomSheet.this.topCell.setData(ReassignBoostBottomSheet.this.currentChat, ReassignBoostBottomSheet.this);
                 }

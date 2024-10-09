@@ -1,6 +1,7 @@
 package com.google.firebase.messaging.reporting;
 
 import com.google.android.gms.internal.firebase_messaging.zze;
+
 /* loaded from: classes.dex */
 public final class MessagingClientEventExtension {
     private static final MessagingClientEventExtension DEFAULT_INSTANCE = new Builder().build();

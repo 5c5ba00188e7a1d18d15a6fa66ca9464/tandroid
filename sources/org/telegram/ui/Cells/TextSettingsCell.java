@@ -24,6 +24,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
+
 /* loaded from: classes4.dex */
 public class TextSettingsCell extends FrameLayout {
     private boolean canDisable;
@@ -161,8 +162,7 @@ public class TextSettingsCell extends FrameLayout {
         this.valueTextView.setAlpha(1.0f - this.drawLoadingProgress);
         super.dispatchDraw(canvas);
         if (this.needDivider) {
-            int dp = AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? 71.0f : 20.0f);
-            canvas.drawLine(LocaleController.isRTL ? 0.0f : dp, getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? dp : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
+            canvas.drawLine(LocaleController.isRTL ? 0.0f : AndroidUtilities.dp(this.imageView.getVisibility() == 0 ? 71.0f : 20.0f), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? r0 : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
         }
     }
 
@@ -323,10 +323,10 @@ public class TextSettingsCell extends FrameLayout {
             if (LocaleController.isRTL) {
                 dp2 = AndroidUtilities.dp(this.padding);
                 marginLayoutParams.rightMargin = dp2;
-                return;
+            } else {
+                dp = AndroidUtilities.dp(this.padding);
+                marginLayoutParams.leftMargin = dp;
             }
-            dp = AndroidUtilities.dp(this.padding);
-            marginLayoutParams.leftMargin = dp;
         }
         this.imageView.setImageResource(i);
         this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
@@ -335,10 +335,10 @@ public class TextSettingsCell extends FrameLayout {
         if (LocaleController.isRTL) {
             dp2 = AndroidUtilities.dp(71.0f);
             marginLayoutParams.rightMargin = dp2;
-            return;
+        } else {
+            dp = AndroidUtilities.dp(71.0f);
+            marginLayoutParams.leftMargin = dp;
         }
-        dp = AndroidUtilities.dp(71.0f);
-        marginLayoutParams.leftMargin = dp;
     }
 
     public void setText(CharSequence charSequence, boolean z) {

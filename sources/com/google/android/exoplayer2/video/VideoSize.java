@@ -4,6 +4,7 @@ import android.os.Bundle;
 import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Util;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class VideoSize implements Bundleable {
     public final int height;
@@ -44,11 +45,11 @@ public final class VideoSize implements Bundleable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof VideoSize) {
-            VideoSize videoSize = (VideoSize) obj;
-            return this.width == videoSize.width && this.height == videoSize.height && this.unappliedRotationDegrees == videoSize.unappliedRotationDegrees && this.pixelWidthHeightRatio == videoSize.pixelWidthHeightRatio;
+        if (!(obj instanceof VideoSize)) {
+            return false;
         }
-        return false;
+        VideoSize videoSize = (VideoSize) obj;
+        return this.width == videoSize.width && this.height == videoSize.height && this.unappliedRotationDegrees == videoSize.unappliedRotationDegrees && this.pixelWidthHeightRatio == videoSize.pixelWidthHeightRatio;
     }
 
     public int hashCode() {

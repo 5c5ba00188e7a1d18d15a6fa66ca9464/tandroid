@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.telegram.messenger.LiteMode;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class HlsMediaChunk extends MediaChunk {
@@ -92,11 +93,11 @@ public final class HlsMediaChunk extends MediaChunk {
     }
 
     private static DataSource buildDataSource(DataSource dataSource, byte[] bArr, byte[] bArr2) {
-        if (bArr != null) {
-            Assertions.checkNotNull(bArr2);
-            return new Aes128DataSource(dataSource, bArr, bArr2);
+        if (bArr == null) {
+            return dataSource;
         }
-        return dataSource;
+        Assertions.checkNotNull(bArr2);
+        return new Aes128DataSource(dataSource, bArr, bArr2);
     }
 
     public static HlsMediaChunk createInstance(HlsExtractorFactory hlsExtractorFactory, DataSource dataSource, Format format, long j, HlsMediaPlaylist hlsMediaPlaylist, HlsChunkSource.SegmentBaseHolder segmentBaseHolder, Uri uri, List list, int i, Object obj, boolean z, TimestampAdjusterProvider timestampAdjusterProvider, long j2, HlsMediaChunk hlsMediaChunk, byte[] bArr, byte[] bArr2, boolean z2, PlayerId playerId, CmcdData$Factory cmcdData$Factory) {
@@ -156,19 +157,21 @@ public final class HlsMediaChunk extends MediaChunk {
             if (r0) {
                 prepareExtraction.skipFully(this.nextLoadPosition);
             }
-            do {
+            while (!this.loadCanceled && this.extractor.read(prepareExtraction)) {
                 try {
-                    if (this.loadCanceled) {
-                        break;
+                    try {
+                    } catch (EOFException e) {
+                        if ((this.trackFormat.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) == 0) {
+                            throw e;
+                        }
+                        this.extractor.onTruncatedSegmentParsed();
+                        position = prepareExtraction.getPosition();
                     }
-                } catch (EOFException e) {
-                    if ((this.trackFormat.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) == 0) {
-                        throw e;
-                    }
-                    this.extractor.onTruncatedSegmentParsed();
-                    position = prepareExtraction.getPosition();
+                } catch (Throwable th) {
+                    this.nextLoadPosition = (int) (prepareExtraction.getPosition() - dataSpec.position);
+                    throw th;
                 }
-            } while (this.extractor.read(prepareExtraction));
+            }
             position = prepareExtraction.getPosition();
             this.nextLoadPosition = (int) (position - dataSpec.position);
         } finally {

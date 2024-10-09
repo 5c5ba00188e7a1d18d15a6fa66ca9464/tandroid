@@ -1,6 +1,7 @@
 package org.telegram.ui;
 
 import org.telegram.messenger.browser.Browser;
+
 /* loaded from: classes4.dex */
 public final /* synthetic */ class ChatActivity$ChatMessageCellDelegate$$ExternalSyntheticLambda11 implements Runnable {
     public final /* synthetic */ Browser.Progress f$0;

@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.source;
 
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.common.base.Objects;
+
 /* loaded from: classes.dex */
 public final class LoadingInfo {
     public final long lastRebufferRealtimeMs;
@@ -62,11 +63,11 @@ public final class LoadingInfo {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof LoadingInfo) {
-            LoadingInfo loadingInfo = (LoadingInfo) obj;
-            return this.playbackPositionUs == loadingInfo.playbackPositionUs && this.playbackSpeed == loadingInfo.playbackSpeed && this.lastRebufferRealtimeMs == loadingInfo.lastRebufferRealtimeMs;
+        if (!(obj instanceof LoadingInfo)) {
+            return false;
         }
-        return false;
+        LoadingInfo loadingInfo = (LoadingInfo) obj;
+        return this.playbackPositionUs == loadingInfo.playbackPositionUs && this.playbackSpeed == loadingInfo.playbackSpeed && this.lastRebufferRealtimeMs == loadingInfo.lastRebufferRealtimeMs;
     }
 
     public int hashCode() {

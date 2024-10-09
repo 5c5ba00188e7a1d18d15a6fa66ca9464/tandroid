@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor.wav;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 final class WavSeekMap implements SeekMap {
     private final long blockCount;

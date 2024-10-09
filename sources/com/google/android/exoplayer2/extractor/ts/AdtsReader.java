@@ -14,6 +14,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 import java.util.Collections;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 public final class AdtsReader implements ElementaryStreamReader {
     private static final byte[] ID3_IDENTIFIER = {73, 68, 51};
@@ -83,59 +84,59 @@ public final class AdtsReader implements ElementaryStreamReader {
 
     private boolean checkSyncPositionValid(ParsableByteArray parsableByteArray, int i) {
         parsableByteArray.setPosition(i + 1);
-        if (tryRead(parsableByteArray, this.adtsScratch.data, 1)) {
-            this.adtsScratch.setPosition(4);
-            int readBits = this.adtsScratch.readBits(1);
-            int i2 = this.firstFrameVersion;
-            if (i2 == -1 || readBits == i2) {
-                if (this.firstFrameSampleRateIndex != -1) {
-                    if (!tryRead(parsableByteArray, this.adtsScratch.data, 1)) {
-                        return true;
-                    }
-                    this.adtsScratch.setPosition(2);
-                    if (this.adtsScratch.readBits(4) != this.firstFrameSampleRateIndex) {
-                        return false;
-                    }
-                    parsableByteArray.setPosition(i + 2);
-                }
-                if (tryRead(parsableByteArray, this.adtsScratch.data, 4)) {
-                    this.adtsScratch.setPosition(14);
-                    int readBits2 = this.adtsScratch.readBits(13);
-                    if (readBits2 < 7) {
-                        return false;
-                    }
-                    byte[] data = parsableByteArray.getData();
-                    int limit = parsableByteArray.limit();
-                    int i3 = i + readBits2;
-                    if (i3 >= limit) {
-                        return true;
-                    }
-                    byte b = data[i3];
-                    if (b == -1) {
-                        int i4 = i3 + 1;
-                        if (i4 == limit) {
-                            return true;
-                        }
-                        return isAdtsSyncBytes((byte) -1, data[i4]) && ((data[i4] & 8) >> 3) == readBits;
-                    } else if (b != 73) {
-                        return false;
-                    } else {
-                        int i5 = i3 + 1;
-                        if (i5 == limit) {
-                            return true;
-                        }
-                        if (data[i5] != 68) {
-                            return false;
-                        }
-                        int i6 = i3 + 2;
-                        return i6 == limit || data[i6] == 51;
-                    }
-                }
-                return true;
-            }
+        if (!tryRead(parsableByteArray, this.adtsScratch.data, 1)) {
             return false;
         }
-        return false;
+        this.adtsScratch.setPosition(4);
+        int readBits = this.adtsScratch.readBits(1);
+        int i2 = this.firstFrameVersion;
+        if (i2 != -1 && readBits != i2) {
+            return false;
+        }
+        if (this.firstFrameSampleRateIndex != -1) {
+            if (!tryRead(parsableByteArray, this.adtsScratch.data, 1)) {
+                return true;
+            }
+            this.adtsScratch.setPosition(2);
+            if (this.adtsScratch.readBits(4) != this.firstFrameSampleRateIndex) {
+                return false;
+            }
+            parsableByteArray.setPosition(i + 2);
+        }
+        if (!tryRead(parsableByteArray, this.adtsScratch.data, 4)) {
+            return true;
+        }
+        this.adtsScratch.setPosition(14);
+        int readBits2 = this.adtsScratch.readBits(13);
+        if (readBits2 < 7) {
+            return false;
+        }
+        byte[] data = parsableByteArray.getData();
+        int limit = parsableByteArray.limit();
+        int i3 = i + readBits2;
+        if (i3 >= limit) {
+            return true;
+        }
+        byte b = data[i3];
+        if (b == -1) {
+            int i4 = i3 + 1;
+            if (i4 == limit) {
+                return true;
+            }
+            return isAdtsSyncBytes((byte) -1, data[i4]) && ((data[i4] & 8) >> 3) == readBits;
+        }
+        if (b != 73) {
+            return false;
+        }
+        int i5 = i3 + 1;
+        if (i5 == limit) {
+            return true;
+        }
+        if (data[i5] != 68) {
+            return false;
+        }
+        int i6 = i3 + 2;
+        return i6 == limit || data[i6] == 51;
     }
 
     private boolean continueRead(ParsableByteArray parsableByteArray, byte[] bArr, int i) {
@@ -307,9 +308,10 @@ public final class AdtsReader implements ElementaryStreamReader {
                     if (continueRead(parsableByteArray, this.adtsScratch.data, this.hasCrc ? 7 : 5)) {
                         parseAdtsHeader();
                     }
-                } else if (i != 4) {
-                    throw new IllegalStateException();
                 } else {
+                    if (i != 4) {
+                        throw new IllegalStateException();
+                    }
                     readSample(parsableByteArray);
                 }
             } else if (continueRead(parsableByteArray, this.id3HeaderBuffer.getData(), 10)) {

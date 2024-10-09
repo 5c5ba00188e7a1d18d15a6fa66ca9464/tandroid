@@ -43,6 +43,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.VoIPFragment;
 import org.telegram.ui.VoIPPermissionActivity;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes3.dex */
 public class VoIPPreNotificationService {
     public static State currentState;
@@ -126,8 +127,11 @@ public class VoIPPreNotificationService {
             State state = currentState;
             if (state != null) {
                 state.destroy();
+                return;
             }
-        } else if (!XiaomiUtilities.isMIUI() || XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_SHOW_WHEN_LOCKED) || !((KeyguardManager) context.getSystemService("keyguard")).inKeyguardRestrictedInputMode()) {
+            return;
+        }
+        if (!XiaomiUtilities.isMIUI() || XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_SHOW_WHEN_LOCKED) || !((KeyguardManager) context.getSystemService("keyguard")).inKeyguardRestrictedInputMode()) {
             TLRPC.TL_phone_receivedCall tL_phone_receivedCall = new TLRPC.TL_phone_receivedCall();
             TLRPC.TL_inputPhoneCall tL_inputPhoneCall = new TLRPC.TL_inputPhoneCall();
             tL_phone_receivedCall.peer = tL_inputPhoneCall;
@@ -139,16 +143,16 @@ public class VoIPPreNotificationService {
                     VoIPPreNotificationService.lambda$acknowledge$3(context, runnable, tLObject, tL_error);
                 }
             }, 2);
-        } else {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.e("MIUI: no permission to show when locked but the screen is locked. ¯\\_(ツ)_/¯");
-            }
-            pendingVoIP = null;
-            pendingCall = null;
-            State state2 = currentState;
-            if (state2 != null) {
-                state2.destroy();
-            }
+            return;
+        }
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.e("MIUI: no permission to show when locked but the screen is locked. ¯\\_(ツ)_/¯");
+        }
+        pendingVoIP = null;
+        pendingCall = null;
+        State state2 = currentState;
+        if (state2 != null) {
+            state2.destroy();
         }
     }
 
@@ -167,7 +171,7 @@ public class VoIPPreNotificationService {
             pendingVoIP.putExtra("openFragment", true);
             if (!PermissionRequest.hasPermission("android.permission.RECORD_AUDIO") || (isVideo() && !PermissionRequest.hasPermission("android.permission.CAMERA"))) {
                 try {
-                    PendingIntent.getActivity(context, 0, new Intent(context, VoIPPermissionActivity.class).addFlags(268435456), 1107296256).send();
+                    PendingIntent.getActivity(context, 0, new Intent(context, (Class<?>) VoIPPermissionActivity.class).addFlags(268435456), 1107296256).send();
                     return;
                 } catch (Exception e) {
                     if (BuildVars.LOGS_ENABLED) {
@@ -304,9 +308,9 @@ public class VoIPPreNotificationService {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0207  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x027d  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0207  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x027d  */
     /* JADX WARN: Type inference failed for: r9v12 */
     /* JADX WARN: Type inference failed for: r9v14 */
     /*
@@ -339,7 +343,7 @@ public class VoIPPreNotificationService {
         }
         TLRPC.User user = MessagesController.getInstance(i).getUser(Long.valueOf(j));
         NotificationManager notificationManager = (NotificationManager) context.getSystemService("notification");
-        Intent action = new Intent(context, LaunchActivity.class).setAction("voip");
+        Intent action = new Intent(context, (Class<?>) LaunchActivity.class).setAction("voip");
         Notification.Builder contentIntent = new Notification.Builder(context).setContentTitle(LocaleController.getString(z ? R.string.VoipInVideoCallBranding : R.string.VoipInCallBranding)).setSmallIcon(R.drawable.ic_call).setContentIntent(PendingIntent.getActivity(context, 0, action, 301989888));
         SharedPreferences globalNotificationsSettings = MessagesController.getGlobalNotificationsSettings();
         int i5 = globalNotificationsSettings.getInt("calls_notification_channel", 0);
@@ -383,7 +387,7 @@ public class VoIPPreNotificationService {
                         }
                     }
                     contentIntent.setChannelId("incoming_calls4" + i5);
-                    Intent intent = new Intent(context, VoIPActionsReceiver.class);
+                    Intent intent = new Intent(context, (Class<?>) VoIPActionsReceiver.class);
                     intent.setAction(context.getPackageName() + ".DECLINE_CALL");
                     intent.putExtra("call_id", j2);
                     String string = LocaleController.getString(R.string.VoipDeclineCall);
@@ -396,7 +400,7 @@ public class VoIPPreNotificationService {
                         spannableString.setSpan(new ForegroundColorSpan(-769226), 0, spannableString.length(), 0);
                     }
                     PendingIntent broadcast = PendingIntent.getBroadcast(context, i3, intent, 301989888);
-                    Intent intent2 = new Intent(context, VoIPActionsReceiver.class);
+                    Intent intent2 = new Intent(context, (Class<?>) VoIPActionsReceiver.class);
                     intent2.setAction(context.getPackageName() + ".ANSWER_CALL");
                     intent2.putExtra("call_id", j2);
                     String string2 = LocaleController.getString(R.string.VoipAnswerCall);
@@ -407,7 +411,7 @@ public class VoIPPreNotificationService {
                         i4 = 0;
                         spannableString2.setSpan(new ForegroundColorSpan(-16733696), 0, spannableString2.length(), 0);
                     }
-                    PendingIntent activity = PendingIntent.getActivity(context, i4, new Intent(context, LaunchActivity.class).setAction("voip_answer"), 301989888);
+                    PendingIntent activity = PendingIntent.getActivity(context, i4, new Intent(context, (Class<?>) LaunchActivity.class).setAction("voip_answer"), 301989888);
                     contentIntent.setPriority(2);
                     contentIntent.setShowWhen(i4);
                     if (i2 >= 21) {
@@ -419,7 +423,7 @@ public class VoIPPreNotificationService {
                             contentIntent.addPerson("tel:" + user.phone);
                         }
                     }
-                    Intent intent3 = new Intent(ApplicationLoader.applicationContext, VoIPActionsReceiver.class);
+                    Intent intent3 = new Intent(ApplicationLoader.applicationContext, (Class<?>) VoIPActionsReceiver.class);
                     intent3.setAction(context.getPackageName() + ".HIDE_CALL");
                     contentIntent.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent3, 167772160));
                     Bitmap roundAvatarBitmap = VoIPService.getRoundAvatarBitmap(context, i, user);
@@ -447,7 +451,7 @@ public class VoIPPreNotificationService {
         if (z2) {
         }
         contentIntent.setChannelId("incoming_calls4" + i5);
-        Intent intent4 = new Intent(context, VoIPActionsReceiver.class);
+        Intent intent4 = new Intent(context, (Class<?>) VoIPActionsReceiver.class);
         intent4.setAction(context.getPackageName() + ".DECLINE_CALL");
         intent4.putExtra("call_id", j2);
         String string3 = LocaleController.getString(R.string.VoipDeclineCall);
@@ -456,19 +460,19 @@ public class VoIPPreNotificationService {
         }
         i3 = 0;
         PendingIntent broadcast2 = PendingIntent.getBroadcast(context, i3, intent4, 301989888);
-        Intent intent22 = new Intent(context, VoIPActionsReceiver.class);
+        Intent intent22 = new Intent(context, (Class<?>) VoIPActionsReceiver.class);
         intent22.setAction(context.getPackageName() + ".ANSWER_CALL");
         intent22.putExtra("call_id", j2);
         String string22 = LocaleController.getString(R.string.VoipAnswerCall);
         if (i2 >= 24) {
         }
         i4 = 0;
-        PendingIntent activity2 = PendingIntent.getActivity(context, i4, new Intent(context, LaunchActivity.class).setAction("voip_answer"), 301989888);
+        PendingIntent activity2 = PendingIntent.getActivity(context, i4, new Intent(context, (Class<?>) LaunchActivity.class).setAction("voip_answer"), 301989888);
         contentIntent.setPriority(2);
         contentIntent.setShowWhen(i4);
         if (i2 >= 21) {
         }
-        Intent intent32 = new Intent(ApplicationLoader.applicationContext, VoIPActionsReceiver.class);
+        Intent intent32 = new Intent(ApplicationLoader.applicationContext, (Class<?>) VoIPActionsReceiver.class);
         intent32.setAction(context.getPackageName() + ".HIDE_CALL");
         contentIntent.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent32, 167772160));
         Bitmap roundAvatarBitmap2 = VoIPService.getRoundAvatarBitmap(context, i, user);
@@ -530,10 +534,10 @@ public class VoIPPreNotificationService {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00eb A[Catch: all -> 0x002d, TryCatch #1 {all -> 0x002d, Exception -> 0x007b, blocks: (B:13:0x0027, B:15:0x002b, B:19:0x0030, B:21:0x0046, B:24:0x0052, B:26:0x0069, B:30:0x007f, B:32:0x0085, B:40:0x00a0, B:45:0x00d4, B:47:0x00eb, B:49:0x0100, B:52:0x0109, B:54:0x010f, B:59:0x011d, B:65:0x0134, B:66:0x0143, B:57:0x0117, B:33:0x008a, B:35:0x008e, B:39:0x009b, B:42:0x00c8, B:44:0x00cf, B:22:0x004c), top: B:73:0x0027 }] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00fd  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x012a  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x012d  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00eb A[Catch: all -> 0x002d, TryCatch #1 {all -> 0x002d, Exception -> 0x007b, blocks: (B:13:0x0027, B:15:0x002b, B:17:0x0030, B:19:0x0046, B:22:0x0052, B:24:0x0069, B:25:0x007f, B:27:0x0085, B:29:0x00a0, B:30:0x00d4, B:32:0x00eb, B:33:0x0100, B:36:0x0109, B:38:0x010f, B:40:0x011d, B:43:0x0134, B:44:0x0143, B:51:0x0117, B:55:0x008a, B:57:0x008e, B:60:0x009b, B:64:0x00c8, B:66:0x00cf, B:67:0x004c), top: B:12:0x0027 }] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x012d  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00fd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

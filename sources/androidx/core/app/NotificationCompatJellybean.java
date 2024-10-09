@@ -6,8 +6,10 @@ import android.util.SparseArray;
 import androidx.core.app.NotificationCompat;
 import androidx.core.graphics.drawable.IconCompat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class NotificationCompatJellybean {
@@ -52,11 +54,12 @@ public abstract class NotificationCompatJellybean {
         bundle.putCharSequenceArray("choices", remoteInput.getChoices());
         bundle.putBoolean("allowFreeFormInput", remoteInput.getAllowFreeFormInput());
         bundle.putBundle("extras", remoteInput.getExtras());
-        Set<String> allowedDataTypes = remoteInput.getAllowedDataTypes();
+        Set allowedDataTypes = remoteInput.getAllowedDataTypes();
         if (allowedDataTypes != null && !allowedDataTypes.isEmpty()) {
             ArrayList<String> arrayList = new ArrayList<>(allowedDataTypes.size());
-            for (String str : allowedDataTypes) {
-                arrayList.add(str);
+            Iterator it = allowedDataTypes.iterator();
+            while (it.hasNext()) {
+                arrayList.add((String) it.next());
             }
             bundle.putStringArrayList("allowedDataTypes", arrayList);
         }

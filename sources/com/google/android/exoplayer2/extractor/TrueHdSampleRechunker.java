@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor;
 import com.google.android.exoplayer2.audio.Ac3Util;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.util.Assertions;
+
 /* loaded from: classes.dex */
 public final class TrueHdSampleRechunker {
     private int chunkFlags;

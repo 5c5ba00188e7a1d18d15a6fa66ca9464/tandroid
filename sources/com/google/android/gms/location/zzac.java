@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class zzac extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzac> CREATOR = new zzad();
@@ -36,11 +37,7 @@ public final class zzac extends AbstractSafeParcelable {
     }
 
     public final String toString() {
-        int i = this.zza;
-        int i2 = this.zzb;
-        long j = this.zzd;
-        long j2 = this.zzc;
-        return "NetworkLocationStatus: Wifi status: " + i + " Cell status: " + i2 + " elapsed time NS: " + j + " system time ms: " + j2;
+        return "NetworkLocationStatus: Wifi status: " + this.zza + " Cell status: " + this.zzb + " elapsed time NS: " + this.zzd + " system time ms: " + this.zzc;
     }
 
     @Override // android.os.Parcelable

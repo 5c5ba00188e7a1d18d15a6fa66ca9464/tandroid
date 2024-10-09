@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.Optional;
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 final class C1 implements N1 {
     private boolean a;
@@ -32,7 +33,8 @@ final class C1 implements N1 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         if (this.a) {
             this.a = false;
         } else {
@@ -57,7 +59,7 @@ final class C1 implements N1 {
         if (c1.a) {
             return;
         }
-        accept(c1.b);
+        r(c1.b);
     }
 
     @Override // j$.util.stream.e2

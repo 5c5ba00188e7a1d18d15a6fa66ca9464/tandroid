@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.metadata;
 
 import com.google.android.exoplayer2.util.Assertions;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public abstract class SimpleMetadataDecoder implements MetadataDecoder {
     @Override // com.google.android.exoplayer2.metadata.MetadataDecoder

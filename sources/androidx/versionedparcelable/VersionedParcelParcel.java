@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.SparseIntArray;
 import androidx.collection.ArrayMap;
+
 /* loaded from: classes.dex */
 class VersionedParcelParcel extends VersionedParcel {
     private int mCurrentField;
@@ -53,8 +54,7 @@ class VersionedParcelParcel extends VersionedParcel {
         if (i == this.mOffset) {
             i = this.mEnd;
         }
-        int i2 = i;
-        return new VersionedParcelParcel(parcel, dataPosition, i2, this.mPrefix + "  ", this.mReadCache, this.mWriteCache, this.mParcelizerCache);
+        return new VersionedParcelParcel(parcel, dataPosition, i, this.mPrefix + "  ", this.mReadCache, this.mWriteCache, this.mParcelizerCache);
     }
 
     @Override // androidx.versionedparcelable.VersionedParcel
@@ -129,10 +129,10 @@ class VersionedParcelParcel extends VersionedParcel {
     public void writeByteArray(byte[] bArr) {
         if (bArr == null) {
             this.mParcel.writeInt(-1);
-            return;
+        } else {
+            this.mParcel.writeInt(bArr.length);
+            this.mParcel.writeByteArray(bArr);
         }
-        this.mParcel.writeInt(bArr.length);
-        this.mParcel.writeByteArray(bArr);
     }
 
     @Override // androidx.versionedparcelable.VersionedParcel

@@ -28,6 +28,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class Mp4Extractor implements Extractor, SeekMap {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp4.Mp4Extractor$$ExternalSyntheticLambda1
@@ -372,8 +373,8 @@ public final class Mp4Extractor implements Extractor, SeekMap {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0108  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0108  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -402,43 +403,43 @@ public final class Mp4Extractor implements Extractor, SeekMap {
                     position = (length - extractorInput.getPosition()) + this.atomHeaderBytesRead;
                 }
             }
-            if (this.atomSize < this.atomHeaderBytesRead) {
-                if (shouldParseContainerAtom(this.atomType)) {
-                    long position2 = extractorInput.getPosition();
-                    long j2 = this.atomSize;
-                    long j3 = this.atomHeaderBytesRead;
-                    long j4 = (position2 + j2) - j3;
-                    if (j2 != j3 && this.atomType == 1835365473) {
-                        maybeSkipRemainingMetaAtomHeaderBytes(extractorInput);
-                    }
-                    this.containerAtoms.push(new Atom.ContainerAtom(this.atomType, j4));
-                    if (this.atomSize == this.atomHeaderBytesRead) {
-                        processAtomEnded(j4);
-                    } else {
-                        enterReadingAtomHeaderState();
-                    }
-                } else {
-                    if (shouldParseLeafAtom(this.atomType)) {
-                        Assertions.checkState(this.atomHeaderBytesRead == 8);
-                        Assertions.checkState(this.atomSize <= 2147483647L);
-                        parsableByteArray = new ParsableByteArray((int) this.atomSize);
-                        System.arraycopy(this.atomHeader.getData(), 0, parsableByteArray.getData(), 0, 8);
-                    } else {
-                        processUnparsedAtom(extractorInput.getPosition() - this.atomHeaderBytesRead);
-                        parsableByteArray = null;
-                    }
-                    this.atomData = parsableByteArray;
-                    this.parserState = 1;
-                }
-                return true;
+            if (this.atomSize >= this.atomHeaderBytesRead) {
+                throw ParserException.createForUnsupportedContainerFeature("Atom size less than header length (unsupported).");
             }
-            throw ParserException.createForUnsupportedContainerFeature("Atom size less than header length (unsupported).");
+            if (shouldParseContainerAtom(this.atomType)) {
+                long position2 = extractorInput.getPosition();
+                long j2 = this.atomSize;
+                long j3 = this.atomHeaderBytesRead;
+                long j4 = (position2 + j2) - j3;
+                if (j2 != j3 && this.atomType == 1835365473) {
+                    maybeSkipRemainingMetaAtomHeaderBytes(extractorInput);
+                }
+                this.containerAtoms.push(new Atom.ContainerAtom(this.atomType, j4));
+                if (this.atomSize == this.atomHeaderBytesRead) {
+                    processAtomEnded(j4);
+                } else {
+                    enterReadingAtomHeaderState();
+                }
+            } else {
+                if (shouldParseLeafAtom(this.atomType)) {
+                    Assertions.checkState(this.atomHeaderBytesRead == 8);
+                    Assertions.checkState(this.atomSize <= 2147483647L);
+                    parsableByteArray = new ParsableByteArray((int) this.atomSize);
+                    System.arraycopy(this.atomHeader.getData(), 0, parsableByteArray.getData(), 0, 8);
+                } else {
+                    processUnparsedAtom(extractorInput.getPosition() - this.atomHeaderBytesRead);
+                    parsableByteArray = null;
+                }
+                this.atomData = parsableByteArray;
+                this.parserState = 1;
+            }
+            return true;
         }
         extractorInput.readFully(this.atomHeader.getData(), 8, 8);
         this.atomHeaderBytesRead += 8;
         position = this.atomHeader.readUnsignedLongToLong();
         this.atomSize = position;
-        if (this.atomSize < this.atomHeaderBytesRead) {
+        if (this.atomSize >= this.atomHeaderBytesRead) {
         }
     }
 
@@ -454,12 +455,13 @@ public final class Mp4Extractor implements Extractor, SeekMap {
             } else if (!this.containerAtoms.isEmpty()) {
                 ((Atom.ContainerAtom) this.containerAtoms.peek()).add(new Atom.LeafAtom(this.atomType, parsableByteArray));
             }
-        } else if (j >= 262144) {
-            positionHolder.position = extractorInput.getPosition() + j;
-            z = true;
-            processAtomEnded(position);
-            return (z || this.parserState == 2) ? false : true;
         } else {
+            if (j >= 262144) {
+                positionHolder.position = extractorInput.getPosition() + j;
+                z = true;
+                processAtomEnded(position);
+                return (z || this.parserState == 2) ? false : true;
+            }
             extractorInput.skipFully((int) j);
         }
         z = false;
@@ -490,83 +492,84 @@ public final class Mp4Extractor implements Extractor, SeekMap {
         if (j2 < 0) {
             i = 1;
             positionHolder2 = positionHolder;
-        } else if (j2 < 262144) {
-            if (mp4Track.track.sampleTransformation == 1) {
-                j2 += 8;
-                i3 -= 8;
-            }
-            extractorInput.skipFully((int) j2);
-            Track track = mp4Track.track;
-            if (track.nalUnitLengthFieldLength == 0) {
-                if ("audio/ac4".equals(track.format.sampleMimeType)) {
-                    if (this.sampleBytesWritten == 0) {
-                        Ac4Util.getAc4SampleHeader(i3, this.scratch);
-                        trackOutput.sampleData(this.scratch, 7);
-                        this.sampleBytesWritten += 7;
-                    }
-                    i3 += 7;
-                } else if (trueHdSampleRechunker != null) {
-                    trueHdSampleRechunker.startSample(extractorInput);
-                }
-                while (true) {
-                    int i4 = this.sampleBytesWritten;
-                    if (i4 >= i3) {
-                        break;
-                    }
-                    int sampleData = trackOutput.sampleData((DataReader) extractorInput, i3 - i4, false);
-                    this.sampleBytesRead += sampleData;
-                    this.sampleBytesWritten += sampleData;
-                    this.sampleCurrentNalBytesRemaining -= sampleData;
-                }
-            } else {
-                byte[] data = this.nalLength.getData();
-                data[0] = 0;
-                data[1] = 0;
-                data[2] = 0;
-                int i5 = mp4Track.track.nalUnitLengthFieldLength;
-                int i6 = 4 - i5;
-                while (this.sampleBytesWritten < i3) {
-                    int i7 = this.sampleCurrentNalBytesRemaining;
-                    if (i7 == 0) {
-                        extractorInput.readFully(data, i6, i5);
-                        this.sampleBytesRead += i5;
-                        this.nalLength.setPosition(0);
-                        int readInt = this.nalLength.readInt();
-                        if (readInt < 0) {
-                            throw ParserException.createForMalformedContainer("Invalid NAL length", null);
-                        }
-                        this.sampleCurrentNalBytesRemaining = readInt;
-                        this.nalStartCode.setPosition(0);
-                        trackOutput.sampleData(this.nalStartCode, 4);
-                        this.sampleBytesWritten += 4;
-                        i3 += i6;
-                    } else {
-                        int sampleData2 = trackOutput.sampleData((DataReader) extractorInput, i7, false);
-                        this.sampleBytesRead += sampleData2;
-                        this.sampleBytesWritten += sampleData2;
-                        this.sampleCurrentNalBytesRemaining -= sampleData2;
-                    }
-                }
-            }
-            int i8 = i3;
-            TrackSampleTable trackSampleTable2 = mp4Track.sampleTable;
-            long j3 = trackSampleTable2.timestampsUs[i2];
-            int i9 = trackSampleTable2.flags[i2];
-            if (trueHdSampleRechunker != null) {
-                trueHdSampleRechunker.sampleMetadata(trackOutput, j3, i9, i8, 0, null);
-                if (i2 + 1 == mp4Track.sampleTable.sampleCount) {
-                    trueHdSampleRechunker.outputPendingSampleMetadata(trackOutput, null);
-                }
-            } else {
-                trackOutput.sampleMetadata(j3, i9, i8, 0, null);
-            }
-            mp4Track.sampleIndex++;
-            this.sampleTrackIndex = -1;
-            this.sampleBytesRead = 0;
-            this.sampleBytesWritten = 0;
-            this.sampleCurrentNalBytesRemaining = 0;
-            return 0;
         } else {
+            if (j2 < 262144) {
+                if (mp4Track.track.sampleTransformation == 1) {
+                    j2 += 8;
+                    i3 -= 8;
+                }
+                extractorInput.skipFully((int) j2);
+                Track track = mp4Track.track;
+                if (track.nalUnitLengthFieldLength == 0) {
+                    if ("audio/ac4".equals(track.format.sampleMimeType)) {
+                        if (this.sampleBytesWritten == 0) {
+                            Ac4Util.getAc4SampleHeader(i3, this.scratch);
+                            trackOutput.sampleData(this.scratch, 7);
+                            this.sampleBytesWritten += 7;
+                        }
+                        i3 += 7;
+                    } else if (trueHdSampleRechunker != null) {
+                        trueHdSampleRechunker.startSample(extractorInput);
+                    }
+                    while (true) {
+                        int i4 = this.sampleBytesWritten;
+                        if (i4 >= i3) {
+                            break;
+                        }
+                        int sampleData = trackOutput.sampleData((DataReader) extractorInput, i3 - i4, false);
+                        this.sampleBytesRead += sampleData;
+                        this.sampleBytesWritten += sampleData;
+                        this.sampleCurrentNalBytesRemaining -= sampleData;
+                    }
+                } else {
+                    byte[] data = this.nalLength.getData();
+                    data[0] = 0;
+                    data[1] = 0;
+                    data[2] = 0;
+                    int i5 = mp4Track.track.nalUnitLengthFieldLength;
+                    int i6 = 4 - i5;
+                    while (this.sampleBytesWritten < i3) {
+                        int i7 = this.sampleCurrentNalBytesRemaining;
+                        if (i7 == 0) {
+                            extractorInput.readFully(data, i6, i5);
+                            this.sampleBytesRead += i5;
+                            this.nalLength.setPosition(0);
+                            int readInt = this.nalLength.readInt();
+                            if (readInt < 0) {
+                                throw ParserException.createForMalformedContainer("Invalid NAL length", null);
+                            }
+                            this.sampleCurrentNalBytesRemaining = readInt;
+                            this.nalStartCode.setPosition(0);
+                            trackOutput.sampleData(this.nalStartCode, 4);
+                            this.sampleBytesWritten += 4;
+                            i3 += i6;
+                        } else {
+                            int sampleData2 = trackOutput.sampleData((DataReader) extractorInput, i7, false);
+                            this.sampleBytesRead += sampleData2;
+                            this.sampleBytesWritten += sampleData2;
+                            this.sampleCurrentNalBytesRemaining -= sampleData2;
+                        }
+                    }
+                }
+                int i8 = i3;
+                TrackSampleTable trackSampleTable2 = mp4Track.sampleTable;
+                long j3 = trackSampleTable2.timestampsUs[i2];
+                int i9 = trackSampleTable2.flags[i2];
+                if (trueHdSampleRechunker != null) {
+                    trueHdSampleRechunker.sampleMetadata(trackOutput, j3, i9, i8, 0, null);
+                    if (i2 + 1 == mp4Track.sampleTable.sampleCount) {
+                        trueHdSampleRechunker.outputPendingSampleMetadata(trackOutput, null);
+                    }
+                } else {
+                    trackOutput.sampleMetadata(j3, i9, i8, 0, null);
+                }
+                mp4Track.sampleIndex++;
+                this.sampleTrackIndex = -1;
+                this.sampleBytesRead = 0;
+                this.sampleBytesWritten = 0;
+                this.sampleCurrentNalBytesRemaining = 0;
+                return 0;
+            }
             positionHolder2 = positionHolder;
             i = 1;
         }
@@ -609,7 +612,7 @@ public final class Mp4Extractor implements Extractor, SeekMap {
         return getSeekPoints(j, -1);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0062  */
     /* JADX WARN: Removed duplicated region for block: B:39:0x0089  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x008f  */
     /*
@@ -687,14 +690,15 @@ public final class Mp4Extractor implements Extractor, SeekMap {
             int i = this.parserState;
             if (i != 0) {
                 if (i != 1) {
-                    if (i != 2) {
-                        if (i == 3) {
-                            return readSefData(extractorInput, positionHolder);
-                        }
-                        throw new IllegalStateException();
+                    if (i == 2) {
+                        return readSample(extractorInput, positionHolder);
                     }
-                    return readSample(extractorInput, positionHolder);
-                } else if (readAtomPayload(extractorInput, positionHolder)) {
+                    if (i == 3) {
+                        return readSefData(extractorInput, positionHolder);
+                    }
+                    throw new IllegalStateException();
+                }
+                if (readAtomPayload(extractorInput, positionHolder)) {
                     return 1;
                 }
             } else if (!readAtomHeader(extractorInput)) {
@@ -709,7 +713,6 @@ public final class Mp4Extractor implements Extractor, SeekMap {
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
-        Mp4Track[] mp4TrackArr;
         this.containerAtoms.clear();
         this.atomHeaderBytesRead = 0;
         this.sampleTrackIndex = -1;
@@ -720,10 +723,11 @@ public final class Mp4Extractor implements Extractor, SeekMap {
             if (this.parserState != 3) {
                 enterReadingAtomHeaderState();
                 return;
+            } else {
+                this.sefReader.reset();
+                this.slowMotionMetadataEntries.clear();
+                return;
             }
-            this.sefReader.reset();
-            this.slowMotionMetadataEntries.clear();
-            return;
         }
         for (Mp4Track mp4Track : this.tracks) {
             updateSampleIndex(mp4Track, j2);

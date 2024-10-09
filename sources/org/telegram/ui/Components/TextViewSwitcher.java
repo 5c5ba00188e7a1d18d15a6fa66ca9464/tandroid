@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
 /* loaded from: classes3.dex */
 public class TextViewSwitcher extends ViewSwitcher {
     public TextViewSwitcher(Context context) {
@@ -44,15 +45,15 @@ public class TextViewSwitcher extends ViewSwitcher {
     }
 
     public boolean setText(CharSequence charSequence, boolean z, boolean z2) {
-        if (z2 || !TextUtils.equals(charSequence, getCurrentView().getText())) {
-            if (!z) {
-                getCurrentView().setText(charSequence);
-                return false;
-            }
-            getNextView().setText(charSequence);
-            showNext();
-            return true;
+        if (!z2 && TextUtils.equals(charSequence, getCurrentView().getText())) {
+            return false;
         }
-        return false;
+        if (!z) {
+            getCurrentView().setText(charSequence);
+            return false;
+        }
+        getNextView().setText(charSequence);
+        showNext();
+        return true;
     }
 }

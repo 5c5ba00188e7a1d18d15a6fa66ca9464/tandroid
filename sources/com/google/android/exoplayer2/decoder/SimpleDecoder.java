@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.decoder;
 
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.ArrayDeque;
+
 /* loaded from: classes.dex */
 public abstract class SimpleDecoder implements Decoder {
     private int availableInputBufferCount;

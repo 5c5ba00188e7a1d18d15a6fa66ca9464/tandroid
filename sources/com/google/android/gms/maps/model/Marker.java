@@ -4,6 +4,7 @@ import android.os.RemoteException;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.android.gms.internal.maps.zzaa;
+
 /* loaded from: classes.dex */
 public final class Marker {
     private final zzaa zza;
@@ -13,14 +14,14 @@ public final class Marker {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof Marker) {
-            try {
-                return this.zza.zzC(((Marker) obj).zza);
-            } catch (RemoteException e) {
-                throw new RuntimeRemoteException(e);
-            }
+        if (!(obj instanceof Marker)) {
+            return false;
         }
-        return false;
+        try {
+            return this.zza.zzC(((Marker) obj).zza);
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
     }
 
     public LatLng getPosition() {
@@ -59,9 +60,9 @@ public final class Marker {
         try {
             if (bitmapDescriptor == null) {
                 this.zza.zzs(null);
-                return;
+            } else {
+                this.zza.zzs(bitmapDescriptor.zza());
             }
-            this.zza.zzs(bitmapDescriptor.zza());
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

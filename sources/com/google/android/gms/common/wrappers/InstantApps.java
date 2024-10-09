@@ -2,6 +2,7 @@ package com.google.android.gms.common.wrappers;
 
 import android.content.Context;
 import com.google.android.gms.common.util.PlatformVersion;
+
 /* loaded from: classes.dex */
 public abstract class InstantApps {
     private static Context zza;

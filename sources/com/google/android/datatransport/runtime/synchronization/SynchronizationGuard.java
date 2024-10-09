@@ -1,4 +1,5 @@
 package com.google.android.datatransport.runtime.synchronization;
+
 /* loaded from: classes.dex */
 public interface SynchronizationGuard {
 

@@ -25,6 +25,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.GroupCreateCheckBox;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
+
 /* loaded from: classes4.dex */
 public class DrawerUserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private int accountNumber;
@@ -135,8 +136,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         int dp = AndroidUtilities.dp(12.5f);
         int ceil = (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(format));
         int max = Math.max(AndroidUtilities.dp(10.0f), ceil);
-        int measuredWidth = ((getMeasuredWidth() - max) - AndroidUtilities.dp(25.0f)) - AndroidUtilities.dp(5.5f);
-        this.rect.set(measuredWidth, dp, measuredWidth + max + AndroidUtilities.dp(14.0f), AndroidUtilities.dp(23.0f) + dp);
+        this.rect.set(((getMeasuredWidth() - max) - AndroidUtilities.dp(25.0f)) - AndroidUtilities.dp(5.5f), dp, r4 + max + AndroidUtilities.dp(14.0f), AndroidUtilities.dp(23.0f) + dp);
         RectF rectF = this.rect;
         float f = AndroidUtilities.density * 11.5f;
         canvas.drawRoundRect(rectF, f, f, Theme.dialogs_countPaint);
@@ -156,7 +156,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00a9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -177,14 +177,15 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         if (emojiStatusDocumentId != null) {
             this.textView.setDrawablePadding(AndroidUtilities.dp(4.0f));
             this.status.set(emojiStatusDocumentId.longValue(), true);
-        } else if (!MessagesController.getInstance(i).isPremiumUser(currentUser)) {
-            this.status.set((Drawable) null, true);
-            this.textView.setRightDrawableOutside(false);
-            this.status.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground)));
-            this.imageView.getImageReceiver().setCurrentAccount(i);
-            this.imageView.setForUserOrChat(currentUser, this.avatarDrawable);
-            this.checkBox.setVisibility(i != UserConfig.selectedAccount ? 4 : 0);
         } else {
+            if (!MessagesController.getInstance(i).isPremiumUser(currentUser)) {
+                this.status.set((Drawable) null, true);
+                this.textView.setRightDrawableOutside(false);
+                this.status.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground)));
+                this.imageView.getImageReceiver().setCurrentAccount(i);
+                this.imageView.setForUserOrChat(currentUser, this.avatarDrawable);
+                this.checkBox.setVisibility(i != UserConfig.selectedAccount ? 4 : 0);
+            }
             this.textView.setDrawablePadding(AndroidUtilities.dp(6.0f));
             this.status.set(PremiumGradient.getInstance().premiumStarDrawableMini, true);
         }

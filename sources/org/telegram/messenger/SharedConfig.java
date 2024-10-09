@@ -34,6 +34,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes.dex */
 public class SharedConfig {
     private static final int[] LOW_SOC;
@@ -358,7 +359,8 @@ public class SharedConfig {
                     while (true) {
                         if (i3 >= codecInfoAt.getSupportedTypes().length) {
                             break;
-                        } else if (codecInfoAt.getSupportedTypes()[i3].contains("video/hevc")) {
+                        }
+                        if (codecInfoAt.getSupportedTypes()[i3].contains("video/hevc")) {
                             maxSupportedInstances = codecInfoAt.getCapabilitiesForType("video/hevc").getMaxSupportedInstances();
                             if (maxSupportedInstances > i) {
                                 i = maxSupportedInstances;
@@ -559,7 +561,6 @@ public class SharedConfig {
                             }
                         }
                     }
-                    continue;
                 }
             }
             goodHevcEncoder = "";
@@ -581,11 +582,11 @@ public class SharedConfig {
         int i2 = chatSwipeAction;
         if (i2 < 0) {
             return !MessagesController.getInstance(i).dialogFilters.isEmpty() ? 5 : 2;
-        } else if (i2 == 5 && MessagesController.getInstance(i).dialogFilters.isEmpty()) {
-            return 2;
-        } else {
-            return chatSwipeAction;
         }
+        if (i2 == 5 && MessagesController.getInstance(i).dialogFilters.isEmpty()) {
+            return 2;
+        }
+        return chatSwipeAction;
     }
 
     public static HashMap<String, String> getCountryLangs() {
@@ -867,15 +868,15 @@ public class SharedConfig {
         return Long.compare(proxyInfo.ping + j, proxyInfo2.ping + j2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0179 A[Catch: all -> 0x00e4, Exception -> 0x0154, TryCatch #2 {Exception -> 0x0154, blocks: (B:24:0x0125, B:26:0x012d, B:28:0x013f, B:31:0x0156, B:42:0x0179, B:44:0x017f, B:45:0x0181, B:47:0x0185, B:49:0x018b, B:51:0x0191, B:53:0x0195, B:40:0x0173), top: B:90:0x0125, outer: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x017f A[Catch: all -> 0x00e4, Exception -> 0x0154, TryCatch #2 {Exception -> 0x0154, blocks: (B:24:0x0125, B:26:0x012d, B:28:0x013f, B:31:0x0156, B:42:0x0179, B:44:0x017f, B:45:0x0181, B:47:0x0185, B:49:0x018b, B:51:0x0191, B:53:0x0195, B:40:0x0173), top: B:90:0x0125, outer: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0241  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0244  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x041f  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0420 A[Catch: all -> 0x00e4, TryCatch #1 {all -> 0x00e4, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00dd, B:14:0x00e7, B:16:0x00ef, B:18:0x00f3, B:19:0x0100, B:21:0x010e, B:23:0x0119, B:24:0x0125, B:26:0x012d, B:28:0x013f, B:31:0x0156, B:33:0x015a, B:34:0x016c, B:42:0x0179, B:44:0x017f, B:45:0x0181, B:47:0x0185, B:49:0x018b, B:51:0x0191, B:53:0x0195, B:40:0x0173, B:56:0x01a3, B:58:0x0212, B:62:0x021d, B:66:0x0246, B:70:0x042a, B:74:0x0437, B:75:0x047a, B:77:0x047e, B:81:0x0486, B:80:0x0483, B:69:0x0420, B:55:0x01a0, B:22:0x0115, B:83:0x0488), top: B:89:0x0003, inners: #2, #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0434  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0436  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x047e A[Catch: all -> 0x00e4, Exception -> 0x0482, TRY_LEAVE, TryCatch #3 {Exception -> 0x0482, blocks: (B:75:0x047a, B:77:0x047e), top: B:92:0x047a, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x041f  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0434  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x047e A[Catch: all -> 0x00e4, Exception -> 0x0482, TRY_LEAVE, TryCatch #3 {Exception -> 0x0482, blocks: (B:45:0x047a, B:47:0x047e), top: B:44:0x047a, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0436  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0420 A[Catch: all -> 0x00e4, TryCatch #1 {all -> 0x00e4, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000d, B:11:0x00dd, B:12:0x00e7, B:14:0x00ef, B:16:0x00f3, B:17:0x0100, B:19:0x010e, B:20:0x0119, B:22:0x0125, B:24:0x012d, B:26:0x013f, B:27:0x0156, B:59:0x015a, B:61:0x016c, B:63:0x0179, B:65:0x017f, B:66:0x0181, B:68:0x0185, B:70:0x018b, B:72:0x0191, B:74:0x0195, B:78:0x0173, B:29:0x01a3, B:31:0x0212, B:34:0x021d, B:37:0x0246, B:40:0x042a, B:43:0x0437, B:45:0x047a, B:47:0x047e, B:49:0x0486, B:53:0x0483, B:55:0x0420, B:84:0x01a0, B:85:0x0115, B:86:0x0488), top: B:3:0x0003, inners: #2, #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0244  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0179 A[Catch: all -> 0x00e4, Exception -> 0x0154, TryCatch #2 {Exception -> 0x0154, blocks: (B:22:0x0125, B:24:0x012d, B:26:0x013f, B:27:0x0156, B:63:0x0179, B:65:0x017f, B:66:0x0181, B:68:0x0185, B:70:0x018b, B:72:0x0191, B:74:0x0195, B:78:0x0173), top: B:21:0x0125, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x017f A[Catch: all -> 0x00e4, Exception -> 0x0154, TryCatch #2 {Exception -> 0x0154, blocks: (B:22:0x0125, B:24:0x012d, B:26:0x013f, B:27:0x0156, B:63:0x0179, B:65:0x017f, B:66:0x0181, B:68:0x0185, B:70:0x018b, B:72:0x0191, B:74:0x0195, B:78:0x0173), top: B:21:0x0125, outer: #1 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1237,7 +1238,8 @@ public class SharedConfig {
         return LiteMode.isEnabled(2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:4:0x0018, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:3:0x0018, code lost:
+    
         r5 = android.os.Build.SOC_MODEL;
      */
     /*
@@ -1257,11 +1259,11 @@ public class SharedConfig {
                 int[] iArr = LOW_SOC;
                 if (i4 >= iArr.length) {
                     break;
-                } else if (iArr[i4] == hashCode) {
-                    return 0;
-                } else {
-                    i4++;
                 }
+                if (iArr[i4] == hashCode) {
+                    return 0;
+                }
+                i4++;
             }
         }
         int i5 = 0;
@@ -1504,8 +1506,8 @@ public class SharedConfig {
         edit.apply();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0020  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0026  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0026  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0020  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -13,6 +13,7 @@ import com.google.common.collect.ComparisonChain;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class SlowMotionData implements Metadata.Entry {
     public static final Parcelable.Creator<SlowMotionData> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.mp4.SlowMotionData.1

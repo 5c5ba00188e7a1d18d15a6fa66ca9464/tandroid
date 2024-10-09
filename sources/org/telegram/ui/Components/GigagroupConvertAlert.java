@@ -18,6 +18,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public abstract class GigagroupConvertAlert extends BottomSheet {
 
@@ -55,8 +56,8 @@ public abstract class GigagroupConvertAlert extends BottomSheet {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x010a  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0123  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -72,7 +73,7 @@ public abstract class GigagroupConvertAlert extends BottomSheet {
         rLottieImageView.setAutoRepeat(true);
         rLottieImageView.setAnimation(R.raw.utyan_gigagroup, 120, 120);
         rLottieImageView.playAnimation();
-        linearLayout.addView(rLottieImageView, LayoutHelper.createLinear((int) NotificationCenter.audioRouteChanged, (int) NotificationCenter.audioRouteChanged, 49, 17, 30, 17, 0));
+        linearLayout.addView(rLottieImageView, LayoutHelper.createLinear(NotificationCenter.audioRouteChanged, NotificationCenter.audioRouteChanged, 49, 17, 30, 17, 0));
         TextView textView = new TextView(context);
         textView.setTypeface(AndroidUtilities.bold());
         textView.setTextSize(1, 24.0f);

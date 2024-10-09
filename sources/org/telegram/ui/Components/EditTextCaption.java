@@ -40,6 +40,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextSelectionHelper$$ExternalSyntheticApiModelOutline4;
 import org.telegram.ui.Components.QuoteSpan;
 import org.telegram.ui.Components.TextStyleSpan;
+
 /* loaded from: classes3.dex */
 public class EditTextCaption extends EditTextBoldCursor {
     private static final int ACCESSIBILITY_ACTION_SHARE = 268435456;
@@ -577,15 +578,15 @@ public class EditTextCaption extends EditTextBoldCursor {
             return;
         }
         TextPaint paint = getPaint();
-        int i3 = indexOf + 1;
-        CharSequence subSequence = text.subSequence(0, i3);
-        int ceil = (int) Math.ceil(paint.measureText(text, 0, i3));
+        CharSequence subSequence = text.subSequence(0, indexOf + 1);
+        int ceil = (int) Math.ceil(paint.measureText(text, 0, r13));
+        int measuredWidth = (getMeasuredWidth() - getPaddingLeft()) - getPaddingRight();
         this.userNameLength = subSequence.length();
-        int measuredWidth = ((getMeasuredWidth() - getPaddingLeft()) - getPaddingRight()) - ceil;
-        CharSequence ellipsize = TextUtils.ellipsize(this.caption, paint, measuredWidth, TextUtils.TruncateAt.END);
+        int i3 = measuredWidth - ceil;
+        CharSequence ellipsize = TextUtils.ellipsize(this.caption, paint, i3, TextUtils.TruncateAt.END);
         this.xOffset = ceil;
         try {
-            StaticLayout staticLayout = new StaticLayout(ellipsize, getPaint(), measuredWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            StaticLayout staticLayout = new StaticLayout(ellipsize, getPaint(), i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.captionLayout = staticLayout;
             if (staticLayout.getLineCount() > 0) {
                 this.xOffset = (int) (this.xOffset + (-this.captionLayout.getLineLeft(0)));
@@ -596,7 +597,7 @@ public class EditTextCaption extends EditTextBoldCursor {
         }
     }
 
-    @Override // android.widget.TextView
+    @Override // android.widget.EditText, android.widget.TextView
     public boolean onTextContextMenuItem(int i) {
         if (i == 16908322) {
             ClipData primaryClip = ((ClipboardManager) getContext().getSystemService("clipboard")).getPrimaryClip();
@@ -642,7 +643,8 @@ public class EditTextCaption extends EditTextBoldCursor {
                     }
                     setSelection(max2, min2);
                     return true;
-                } else if (i == 16908320) {
+                }
+                if (i == 16908320) {
                     int max3 = Math.max(0, getSelectionStart());
                     int min3 = Math.min(getText().length(), getSelectionEnd());
                     AndroidUtilities.addToClipboard(getText().subSequence(max3, min3));
@@ -683,33 +685,40 @@ public class EditTextCaption extends EditTextBoldCursor {
         if (i == R.id.menu_regular) {
             makeSelectedRegular();
             return true;
-        } else if (i == R.id.menu_bold) {
+        }
+        if (i == R.id.menu_bold) {
             makeSelectedBold();
             return true;
-        } else if (i == R.id.menu_italic) {
+        }
+        if (i == R.id.menu_italic) {
             makeSelectedItalic();
             return true;
-        } else if (i == R.id.menu_mono) {
+        }
+        if (i == R.id.menu_mono) {
             makeSelectedMono();
             return true;
-        } else if (i == R.id.menu_link) {
+        }
+        if (i == R.id.menu_link) {
             makeSelectedUrl();
             return true;
-        } else if (i == R.id.menu_strike) {
+        }
+        if (i == R.id.menu_strike) {
             makeSelectedStrike();
             return true;
-        } else if (i == R.id.menu_underline) {
+        }
+        if (i == R.id.menu_underline) {
             makeSelectedUnderline();
             return true;
-        } else if (i == R.id.menu_spoiler) {
+        }
+        if (i == R.id.menu_spoiler) {
             makeSelectedSpoiler();
             return true;
-        } else if (i == R.id.menu_quote) {
-            makeSelectedQuote();
-            return true;
-        } else {
+        }
+        if (i != R.id.menu_quote) {
             return false;
         }
+        makeSelectedQuote();
+        return true;
     }
 
     public void setAllowTextEntitiesIntersection(boolean z) {

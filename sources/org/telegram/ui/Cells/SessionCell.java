@@ -34,6 +34,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.DotDividerSpan;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class SessionCell extends FrameLayout {
     private AvatarDrawable avatarDrawable;
@@ -97,8 +98,9 @@ public class SessionCell extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x0213, code lost:
-        if (r25 == 0) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0213, code lost:
+    
+        if (r25 == 0) goto L92;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -211,9 +213,9 @@ public class SessionCell extends FrameLayout {
         return createDrawable(i, tL_authorization);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x012a  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0131  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0131  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x012a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -241,34 +243,35 @@ public class SessionCell extends FrameLayout {
                 if (!lowerCase.contains("ios")) {
                     if (lowerCase.contains("windows")) {
                         i2 = R.drawable.device_desktop_win;
-                    } else if (!lowerCase.contains("macos")) {
-                        if (lowerCase.contains("android")) {
-                            i2 = lowerCase2.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
-                            i3 = Theme.key_avatar_backgroundGreen;
-                            i4 = Theme.key_avatar_background2Green;
-                        } else {
-                            if (lowerCase.contains("fragment")) {
-                                i2 = R.drawable.fragment;
-                            } else if (lowerCase.contains("anonymous")) {
-                                i2 = R.drawable.large_hidden;
-                            } else if (lowerCase.contains("premiumbot")) {
-                                i2 = R.drawable.filled_star_plus;
-                                i3 = Theme.key_color_yellow;
-                                i4 = Theme.key_color_orange;
-                            } else if (lowerCase.contains("ads")) {
-                                i2 = R.drawable.msg_channel;
-                            } else if (lowerCase.equals("?")) {
-                                i2 = R.drawable.msg_emoji_question;
-                            } else if (tL_authorization.app_name.toLowerCase().contains("desktop")) {
-                                i2 = R.drawable.device_desktop_other;
-                            }
-                            i3 = -1;
-                            i4 = -1;
-                        }
-                        Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
-                        mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
-                        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate);
                     } else {
+                        if (!lowerCase.contains("macos")) {
+                            if (lowerCase.contains("android")) {
+                                i2 = lowerCase2.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
+                                i3 = Theme.key_avatar_backgroundGreen;
+                                i4 = Theme.key_avatar_background2Green;
+                            } else {
+                                if (lowerCase.contains("fragment")) {
+                                    i2 = R.drawable.fragment;
+                                } else if (lowerCase.contains("anonymous")) {
+                                    i2 = R.drawable.large_hidden;
+                                } else if (lowerCase.contains("premiumbot")) {
+                                    i2 = R.drawable.filled_star_plus;
+                                    i3 = Theme.key_color_yellow;
+                                    i4 = Theme.key_color_orange;
+                                } else if (lowerCase.contains("ads")) {
+                                    i2 = R.drawable.msg_channel;
+                                } else if (lowerCase.equals("?")) {
+                                    i2 = R.drawable.msg_emoji_question;
+                                } else if (tL_authorization.app_name.toLowerCase().contains("desktop")) {
+                                    i2 = R.drawable.device_desktop_other;
+                                }
+                                i3 = -1;
+                                i4 = -1;
+                            }
+                            Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                            mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                            return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate);
+                        }
                         i2 = R.drawable.device_desktop_osx;
                     }
                     i3 = Theme.key_avatar_backgroundCyan;
@@ -369,8 +372,8 @@ public class SessionCell extends FrameLayout {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.currentType == 0 ? 70.0f : 90.0f) + (this.needDivider ? 1 : 0), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:63:0x019d  */
-    /* JADX WARN: Removed duplicated region for block: B:65:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x019d  */
+    /* JADX WARN: Removed duplicated region for block: B:34:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

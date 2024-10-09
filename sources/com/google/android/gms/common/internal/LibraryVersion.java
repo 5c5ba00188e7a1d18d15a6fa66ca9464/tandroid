@@ -5,6 +5,7 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
 /* loaded from: classes.dex */
 public class LibraryVersion {
     private static final GmsLogger zza = new GmsLogger("LibraryVersion", "");
@@ -18,7 +19,7 @@ public class LibraryVersion {
         return zzb;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x009b  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x009b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

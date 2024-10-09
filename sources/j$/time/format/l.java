@@ -1,4 +1,5 @@
 package j$.time.format;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public enum l implements g {
@@ -15,18 +16,18 @@ public enum l implements g {
     @Override // java.lang.Enum
     public final String toString() {
         int ordinal = ordinal();
-        if (ordinal != 0) {
-            if (ordinal != 1) {
-                if (ordinal != 2) {
-                    if (ordinal == 3) {
-                        return "ParseStrict(false)";
-                    }
-                    throw new IllegalStateException("Unreachable");
-                }
-                return "ParseStrict(true)";
-            }
+        if (ordinal == 0) {
+            return "ParseCaseSensitive(true)";
+        }
+        if (ordinal == 1) {
             return "ParseCaseSensitive(false)";
         }
-        return "ParseCaseSensitive(true)";
+        if (ordinal == 2) {
+            return "ParseStrict(true)";
+        }
+        if (ordinal == 3) {
+            return "ParseStrict(false)";
+        }
+        throw new IllegalStateException("Unreachable");
     }
 }

@@ -2,6 +2,7 @@ package com.google.common.collect;
 
 import com.google.common.base.Objects;
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class CompactHashing {

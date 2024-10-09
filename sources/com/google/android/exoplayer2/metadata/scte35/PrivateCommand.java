@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class PrivateCommand extends SpliceCommand {
     public static final Parcelable.Creator<PrivateCommand> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.scte35.PrivateCommand.1

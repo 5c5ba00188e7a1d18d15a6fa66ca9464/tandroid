@@ -1,6 +1,7 @@
 package com.google.zxing.common;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class BitArray implements Cloneable {
     private int[] bits;
@@ -68,11 +69,11 @@ public final class BitArray implements Cloneable {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof BitArray) {
-            BitArray bitArray = (BitArray) obj;
-            return this.size == bitArray.size && Arrays.equals(this.bits, bitArray.bits);
+        if (!(obj instanceof BitArray)) {
+            return false;
         }
-        return false;
+        BitArray bitArray = (BitArray) obj;
+        return this.size == bitArray.size && Arrays.equals(this.bits, bitArray.bits);
     }
 
     public boolean get(int i) {

@@ -39,6 +39,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.web.AddressBarList;
 import org.telegram.ui.web.BookmarksFragment;
 import org.telegram.ui.web.WebMetadataCache;
+
 /* loaded from: classes.dex */
 public class BookmarksFragment extends UniversalFragment {
     private final Runnable closeToTabs;
@@ -73,7 +74,7 @@ public class BookmarksFragment extends UniversalFragment {
         public void onItemClick(int i) {
             if (i == -1) {
                 if (!((BaseFragment) BookmarksFragment.this).actionBar.isActionModeShowed()) {
-                    BookmarksFragment.this.finishFragment();
+                    BookmarksFragment.this.lambda$onBackPressed$300();
                     return;
                 }
                 ((BaseFragment) BookmarksFragment.this).actionBar.hideActionMode();
@@ -84,7 +85,9 @@ public class BookmarksFragment extends UniversalFragment {
                         BookmarksFragment.1.lambda$onItemClick$0((View) obj);
                     }
                 });
-            } else if (i == R.id.menu_delete) {
+                return;
+            }
+            if (i == R.id.menu_delete) {
                 BookmarksFragment.this.deleteSelectedMessages();
             } else if (i == R.id.menu_link) {
                 BookmarksFragment.this.gotoMessage();
@@ -247,9 +250,10 @@ public class BookmarksFragment extends UniversalFragment {
                 i = childAt.getTop();
                 i2 = childAdapterPosition;
                 break;
+            } else {
+                i3++;
+                i2 = childAdapterPosition;
             }
-            i3++;
-            i2 = childAdapterPosition;
         }
         this.listView.adapter.update(true);
         if (i2 >= 0) {
@@ -321,22 +325,65 @@ public class BookmarksFragment extends UniversalFragment {
         searchField.setHintTextColor(getThemedColor(Theme.key_player_time));
         searchField.setCursorColor(getThemedColor(i2));
         this.listView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.web.BookmarksFragment.3
-            /* JADX WARN: Code restructure failed: missing block: B:9:0x0023, code lost:
-                if (r1 != null) goto L6;
-             */
+            /*  JADX ERROR: JadxRuntimeException in pass: IfRegionVisitor
+                jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r1v10 org.telegram.ui.web.AddressBarList$BookmarksList, still in use, count: 2, list:
+                  (r1v10 org.telegram.ui.web.AddressBarList$BookmarksList) from 0x0023: IF  (r1v10 org.telegram.ui.web.AddressBarList$BookmarksList) != (null org.telegram.ui.web.AddressBarList$BookmarksList)  -> B:6:0x001b A[HIDDEN]
+                  (r1v10 org.telegram.ui.web.AddressBarList$BookmarksList) from 0x001b: PHI (r1v11 org.telegram.ui.web.AddressBarList$BookmarksList) = (r1v10 org.telegram.ui.web.AddressBarList$BookmarksList) binds: [B:8:0x0023] A[DONT_GENERATE, DONT_INLINE]
+                	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
+                	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+                	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:125)
+                	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
+                	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
+                	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:67)
+                	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
+                	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+                	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
+                	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
+                	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+                	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+                	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
+                	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
+                	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+                	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
+                	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverse(DepthRegionTraversal.java:19)
+                	at jadx.core.dex.visitors.regions.TernaryMod.process(TernaryMod.java:35)
+                	at jadx.core.dex.visitors.regions.IfRegionVisitor.process(IfRegionVisitor.java:34)
+                	at jadx.core.dex.visitors.regions.IfRegionVisitor.visit(IfRegionVisitor.java:30)
+                */
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            /*
-                Code decompiled incorrectly, please refer to instructions dump.
-            */
-            public void onScrolled(RecyclerView recyclerView, int i4, int i5) {
-                if (!BookmarksFragment.this.listView.canScrollVertically(1)) {
-                    AddressBarList.BookmarksList bookmarksList = TextUtils.isEmpty(BookmarksFragment.this.query) ? BookmarksFragment.this.list : BookmarksFragment.this.searchList;
-                    bookmarksList.load();
-                }
-                BookmarksFragment bookmarksFragment = BookmarksFragment.this;
-                if (bookmarksFragment.listView.scrollingByUser) {
-                    AndroidUtilities.hideKeyboard(bookmarksFragment.fragmentView);
-                }
+            public void onScrolled(androidx.recyclerview.widget.RecyclerView r1, int r2, int r3) {
+                /*
+                    r0 = this;
+                    org.telegram.ui.web.BookmarksFragment r1 = org.telegram.ui.web.BookmarksFragment.this
+                    org.telegram.ui.Components.UniversalRecyclerView r1 = r1.listView
+                    r2 = 1
+                    boolean r1 = r1.canScrollVertically(r2)
+                    if (r1 != 0) goto L26
+                    org.telegram.ui.web.BookmarksFragment r1 = org.telegram.ui.web.BookmarksFragment.this
+                    java.lang.String r1 = org.telegram.ui.web.BookmarksFragment.access$200(r1)
+                    boolean r1 = android.text.TextUtils.isEmpty(r1)
+                    if (r1 == 0) goto L1f
+                    org.telegram.ui.web.BookmarksFragment r1 = org.telegram.ui.web.BookmarksFragment.this
+                    org.telegram.ui.web.AddressBarList$BookmarksList r1 = r1.list
+                L1b:
+                    r1.load()
+                    goto L26
+                L1f:
+                    org.telegram.ui.web.BookmarksFragment r1 = org.telegram.ui.web.BookmarksFragment.this
+                    org.telegram.ui.web.AddressBarList$BookmarksList r1 = r1.searchList
+                    if (r1 == 0) goto L26
+                    goto L1b
+                L26:
+                    org.telegram.ui.web.BookmarksFragment r1 = org.telegram.ui.web.BookmarksFragment.this
+                    org.telegram.ui.Components.UniversalRecyclerView r2 = r1.listView
+                    boolean r2 = r2.scrollingByUser
+                    if (r2 == 0) goto L33
+                    android.view.View r1 = r1.fragmentView
+                    org.telegram.messenger.AndroidUtilities.hideKeyboard(r1)
+                L33:
+                    return
+                */
+                throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.web.BookmarksFragment.3.onScrolled(androidx.recyclerview.widget.RecyclerView, int, int):void");
             }
         });
         StickerEmptyView stickerEmptyView = new StickerEmptyView(context, null, 1);
@@ -399,13 +446,16 @@ public class BookmarksFragment extends UniversalFragment {
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0060, code lost:
-        if (r10.list.endReached == false) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x015a, code lost:
+    
+        if (r10.searchList.endReached == false) goto L81;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x015a, code lost:
-        if (r10.searchList.endReached == false) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0060, code lost:
+    
+        if (r10.list.endReached == false) goto L81;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:81:0x015c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x015c, code lost:
+    
         r11.add(org.telegram.ui.Components.UItem.asFlicker(r11.size(), 32));
         r11.add(org.telegram.ui.Components.UItem.asFlicker(r11.size(), 32));
         r11.add(org.telegram.ui.Components.UItem.asFlicker(r11.size(), 32));
@@ -472,7 +522,7 @@ public class BookmarksFragment extends UniversalFragment {
         }
         final long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
         final int intValue = ((Integer) this.selected.iterator().next()).intValue();
-        finishFragment();
+        lambda$onBackPressed$300();
         Runnable runnable = this.closeToTabs;
         if (runnable != null) {
             runnable.run();
@@ -499,10 +549,10 @@ public class BookmarksFragment extends UniversalFragment {
         if (uItem.instanceOf(AddressBarList.BookmarkView.Factory.class)) {
             if (this.actionBar.isActionModeShowed()) {
                 clickSelect(uItem, view);
-                return;
+            } else {
+                lambda$onBackPressed$300();
+                this.whenClicked.run(AddressBarList.getLink((MessageObject) uItem.object2));
             }
-            finishFragment();
-            this.whenClicked.run(AddressBarList.getLink((MessageObject) uItem.object2));
         }
     }
 
@@ -520,11 +570,11 @@ public class BookmarksFragment extends UniversalFragment {
 
     @Override // org.telegram.ui.Components.UniversalFragment
     protected boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
-        if (uItem.instanceOf(AddressBarList.BookmarkView.Factory.class)) {
-            clickSelect(uItem, view);
-            return true;
+        if (!uItem.instanceOf(AddressBarList.BookmarkView.Factory.class)) {
+            return false;
         }
-        return false;
+        clickSelect(uItem, view);
+        return true;
     }
 
     public void setSelected(MessageObject messageObject, boolean z) {

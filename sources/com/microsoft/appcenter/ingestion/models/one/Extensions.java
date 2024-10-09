@@ -3,6 +3,7 @@ package com.microsoft.appcenter.ingestion.models.one;
 import com.microsoft.appcenter.ingestion.models.Model;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class Extensions implements Model {
     private AppExtension app;
@@ -24,40 +25,40 @@ public class Extensions implements Model {
         }
         Extensions extensions = (Extensions) obj;
         MetadataExtension metadataExtension = this.metadata;
-        if (metadataExtension == null ? extensions.metadata == null : metadataExtension.equals(extensions.metadata)) {
-            ProtocolExtension protocolExtension = this.protocol;
-            if (protocolExtension == null ? extensions.protocol == null : protocolExtension.equals(extensions.protocol)) {
-                UserExtension userExtension = this.user;
-                if (userExtension == null ? extensions.user == null : userExtension.equals(extensions.user)) {
-                    DeviceExtension deviceExtension = this.device;
-                    if (deviceExtension == null ? extensions.device == null : deviceExtension.equals(extensions.device)) {
-                        OsExtension osExtension = this.os;
-                        if (osExtension == null ? extensions.os == null : osExtension.equals(extensions.os)) {
-                            AppExtension appExtension = this.app;
-                            if (appExtension == null ? extensions.app == null : appExtension.equals(extensions.app)) {
-                                NetExtension netExtension = this.net;
-                                if (netExtension == null ? extensions.net == null : netExtension.equals(extensions.net)) {
-                                    SdkExtension sdkExtension = this.sdk;
-                                    if (sdkExtension == null ? extensions.sdk == null : sdkExtension.equals(extensions.sdk)) {
-                                        LocExtension locExtension = this.loc;
-                                        LocExtension locExtension2 = extensions.loc;
-                                        return locExtension != null ? locExtension.equals(locExtension2) : locExtension2 == null;
-                                    }
-                                    return false;
-                                }
-                                return false;
-                            }
-                            return false;
-                        }
-                        return false;
-                    }
-                    return false;
-                }
-                return false;
-            }
+        if (metadataExtension == null ? extensions.metadata != null : !metadataExtension.equals(extensions.metadata)) {
             return false;
         }
-        return false;
+        ProtocolExtension protocolExtension = this.protocol;
+        if (protocolExtension == null ? extensions.protocol != null : !protocolExtension.equals(extensions.protocol)) {
+            return false;
+        }
+        UserExtension userExtension = this.user;
+        if (userExtension == null ? extensions.user != null : !userExtension.equals(extensions.user)) {
+            return false;
+        }
+        DeviceExtension deviceExtension = this.device;
+        if (deviceExtension == null ? extensions.device != null : !deviceExtension.equals(extensions.device)) {
+            return false;
+        }
+        OsExtension osExtension = this.os;
+        if (osExtension == null ? extensions.os != null : !osExtension.equals(extensions.os)) {
+            return false;
+        }
+        AppExtension appExtension = this.app;
+        if (appExtension == null ? extensions.app != null : !appExtension.equals(extensions.app)) {
+            return false;
+        }
+        NetExtension netExtension = this.net;
+        if (netExtension == null ? extensions.net != null : !netExtension.equals(extensions.net)) {
+            return false;
+        }
+        SdkExtension sdkExtension = this.sdk;
+        if (sdkExtension == null ? extensions.sdk != null : !sdkExtension.equals(extensions.sdk)) {
+            return false;
+        }
+        LocExtension locExtension = this.loc;
+        LocExtension locExtension2 = extensions.loc;
+        return locExtension != null ? locExtension.equals(locExtension2) : locExtension2 == null;
     }
 
     public AppExtension getApp() {

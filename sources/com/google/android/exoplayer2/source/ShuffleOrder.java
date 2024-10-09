@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.source;
 
 import java.util.Arrays;
 import java.util.Random;
+
 /* loaded from: classes.dex */
 public interface ShuffleOrder {
 

@@ -19,10 +19,12 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.voip.JNIUtilities$$ExternalSyntheticApiModelOutline3;
 import org.webrtc.NetworkChangeDetector;
 import org.webrtc.NetworkMonitorAutoDetect;
+
 /* loaded from: classes.dex */
 public class NetworkMonitorAutoDetect extends BroadcastReceiver implements NetworkChangeDetector {
     private static final long INVALID_NET_ID = -1;
@@ -117,17 +119,17 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
 
         List<NetworkChangeDetector.NetworkInformation> getActiveNetworkList() {
-            if (supportNetworkCallback()) {
-                ArrayList arrayList = new ArrayList();
-                for (Network network : getAllNetworks()) {
-                    NetworkChangeDetector.NetworkInformation networkToInfo = networkToInfo(network);
-                    if (networkToInfo != null) {
-                        arrayList.add(networkToInfo);
-                    }
-                }
-                return arrayList;
+            if (!supportNetworkCallback()) {
+                return null;
             }
-            return null;
+            ArrayList arrayList = new ArrayList();
+            for (Network network : getAllNetworks()) {
+                NetworkChangeDetector.NetworkInformation networkToInfo = networkToInfo(network);
+                if (networkToInfo != null) {
+                    arrayList.add(networkToInfo);
+                }
+            }
+            return arrayList;
         }
 
         Network[] getAllNetworks() {
@@ -140,7 +142,8 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
             return allNetworks;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x0024, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:12:0x0024, code lost:
+        
             r9 = r11.connectivityManager.getNetworkInfo(r8);
          */
         /*
@@ -149,34 +152,35 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         long getDefaultNetId() {
             NetworkInfo activeNetworkInfo;
             NetworkInfo networkInfo;
-            if (supportNetworkCallback() && (activeNetworkInfo = this.connectivityManager.getActiveNetworkInfo()) != null) {
-                Network[] allNetworks = getAllNetworks();
-                int length = allNetworks.length;
-                long j = -1;
-                for (int i = 0; i < length; i++) {
-                    Network network = allNetworks[i];
-                    if (hasInternetCapability(network) && networkInfo != null && networkInfo.getType() == activeNetworkInfo.getType()) {
-                        if (j != -1) {
-                            throw new RuntimeException("Multiple connected networks of same type are not supported.");
-                        }
-                        j = NetworkMonitorAutoDetect.networkToNetId(network);
-                    }
-                }
-                return j;
+            if (!supportNetworkCallback() || (activeNetworkInfo = this.connectivityManager.getActiveNetworkInfo()) == null) {
+                return -1L;
             }
-            return -1L;
+            Network[] allNetworks = getAllNetworks();
+            int length = allNetworks.length;
+            long j = -1;
+            for (int i = 0; i < length; i++) {
+                Network network = allNetworks[i];
+                if (hasInternetCapability(network) && networkInfo != null && networkInfo.getType() == activeNetworkInfo.getType()) {
+                    if (j != -1) {
+                        throw new RuntimeException("Multiple connected networks of same type are not supported.");
+                    }
+                    j = NetworkMonitorAutoDetect.networkToNetId(network);
+                }
+            }
+            return j;
         }
 
         NetworkChangeDetector.IPAddress[] getIPAddresses(LinkProperties linkProperties) {
             List linkAddresses;
-            List<Object> linkAddresses2;
+            List linkAddresses2;
             InetAddress address;
             linkAddresses = linkProperties.getLinkAddresses();
             NetworkChangeDetector.IPAddress[] iPAddressArr = new NetworkChangeDetector.IPAddress[linkAddresses.size()];
             linkAddresses2 = linkProperties.getLinkAddresses();
+            Iterator it = linkAddresses2.iterator();
             int i = 0;
-            for (Object obj : linkAddresses2) {
-                address = JNIUtilities$$ExternalSyntheticApiModelOutline3.m(obj).getAddress();
+            while (it.hasNext()) {
+                address = JNIUtilities$$ExternalSyntheticApiModelOutline3.m(it.next()).getAddress();
                 iPAddressArr[i] = new NetworkChangeDetector.IPAddress(address.getAddress());
                 i++;
             }
@@ -208,7 +212,8 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
                 sb.append(network2);
                 Logging.w(NetworkMonitorAutoDetect.TAG, sb.toString());
                 return new NetworkState(false, -1, -1, -1, -1);
-            } else if (networkInfo.getType() != 17) {
+            }
+            if (networkInfo.getType() != 17) {
                 networkCapabilities = this.connectivityManager.getNetworkCapabilities(network);
                 if (networkCapabilities != null) {
                     hasTransport = networkCapabilities.hasTransport(4);
@@ -217,21 +222,22 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
                     }
                 }
                 return getNetworkState(networkInfo);
-            } else if (networkInfo.getType() == 17) {
-                if (Build.VERSION.SDK_INT >= 23) {
-                    activeNetwork = this.connectivityManager.getActiveNetwork();
-                    equals = network.equals(activeNetwork);
-                    if (equals && (activeNetworkInfo = this.connectivityManager.getActiveNetworkInfo()) != null && activeNetworkInfo.getType() != 17) {
-                        return new NetworkState(networkInfo.isConnected(), 17, -1, activeNetworkInfo.getType(), activeNetworkInfo.getSubtype());
-                    }
-                }
-                return new NetworkState(networkInfo.isConnected(), 17, -1, -1, -1);
-            } else {
+            }
+            if (networkInfo.getType() != 17) {
                 return getNetworkState(networkInfo);
             }
+            if (Build.VERSION.SDK_INT >= 23) {
+                activeNetwork = this.connectivityManager.getActiveNetwork();
+                equals = network.equals(activeNetwork);
+                if (equals && (activeNetworkInfo = this.connectivityManager.getActiveNetworkInfo()) != null && activeNetworkInfo.getType() != 17) {
+                    return new NetworkState(networkInfo.isConnected(), 17, -1, activeNetworkInfo.getType(), activeNetworkInfo.getSubtype());
+                }
+            }
+            return new NetworkState(networkInfo.isConnected(), 17, -1, -1, -1);
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:5:0x0006, code lost:
+        
             r3 = r0.getNetworkCapabilities(r3);
          */
         /*
@@ -416,7 +422,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* renamed from: onWifiP2pGroupChange */
+        /* renamed from: onWifiP2pGroupChange, reason: merged with bridge method [inline-methods] */
         public void lambda$new$0(WifiP2pGroup wifiP2pGroup) {
             if (wifiP2pGroup == null || wifiP2pGroup.getInterface() == null) {
                 return;
@@ -530,40 +536,40 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
     }
 
     private static NetworkChangeDetector.ConnectionType getConnectionType(boolean z, int i, int i2) {
-        if (z) {
-            if (i != 0) {
-                return i != 1 ? i != 6 ? i != 7 ? i != 9 ? i != 17 ? NetworkChangeDetector.ConnectionType.CONNECTION_UNKNOWN : NetworkChangeDetector.ConnectionType.CONNECTION_VPN : NetworkChangeDetector.ConnectionType.CONNECTION_ETHERNET : NetworkChangeDetector.ConnectionType.CONNECTION_BLUETOOTH : NetworkChangeDetector.ConnectionType.CONNECTION_4G : NetworkChangeDetector.ConnectionType.CONNECTION_WIFI;
-            }
-            switch (i2) {
-                case 1:
-                case 2:
-                case 4:
-                case 7:
-                case 11:
-                case 16:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_2G;
-                case 3:
-                case 5:
-                case 6:
-                case 8:
-                case 9:
-                case 10:
-                case 12:
-                case 14:
-                case 15:
-                case 17:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_3G;
-                case 13:
-                case 18:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_4G;
-                case 19:
-                default:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_UNKNOWN_CELLULAR;
-                case 20:
-                    return NetworkChangeDetector.ConnectionType.CONNECTION_5G;
-            }
+        if (!z) {
+            return NetworkChangeDetector.ConnectionType.CONNECTION_NONE;
         }
-        return NetworkChangeDetector.ConnectionType.CONNECTION_NONE;
+        if (i != 0) {
+            return i != 1 ? i != 6 ? i != 7 ? i != 9 ? i != 17 ? NetworkChangeDetector.ConnectionType.CONNECTION_UNKNOWN : NetworkChangeDetector.ConnectionType.CONNECTION_VPN : NetworkChangeDetector.ConnectionType.CONNECTION_ETHERNET : NetworkChangeDetector.ConnectionType.CONNECTION_BLUETOOTH : NetworkChangeDetector.ConnectionType.CONNECTION_4G : NetworkChangeDetector.ConnectionType.CONNECTION_WIFI;
+        }
+        switch (i2) {
+            case 1:
+            case 2:
+            case 4:
+            case 7:
+            case 11:
+            case 16:
+                return NetworkChangeDetector.ConnectionType.CONNECTION_2G;
+            case 3:
+            case 5:
+            case 6:
+            case 8:
+            case 9:
+            case 10:
+            case 12:
+            case 14:
+            case 15:
+            case 17:
+                return NetworkChangeDetector.ConnectionType.CONNECTION_3G;
+            case 13:
+            case 18:
+                return NetworkChangeDetector.ConnectionType.CONNECTION_4G;
+            case 19:
+            default:
+                return NetworkChangeDetector.ConnectionType.CONNECTION_UNKNOWN_CELLULAR;
+            case 20:
+                return NetworkChangeDetector.ConnectionType.CONNECTION_5G;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class AudioSpecificConfig extends BaseDescriptor {
     public boolean aacScalefactorDataResilienceFlag;
@@ -420,59 +421,48 @@ public class AudioSpecificConfig extends BaseDescriptor {
         int i3 = this.audioObjectType;
         if (i3 != 17 && i3 != 39) {
             switch (i3) {
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                    break;
-                default:
-                    if (this.extensionAudioObjectType != 5 || bitReaderBuffer.remainingBits() < 16) {
-                    }
-                    int readBits3 = bitReaderBuffer.readBits(11);
-                    this.syncExtensionType = readBits3;
-                    if (readBits3 == 695) {
-                        int audioObjectType2 = getAudioObjectType(bitReaderBuffer);
-                        this.extensionAudioObjectType = audioObjectType2;
-                        if (audioObjectType2 == 5) {
-                            boolean readBool = bitReaderBuffer.readBool();
-                            this.sbrPresentFlag = readBool;
-                            if (readBool) {
-                                int readBits4 = bitReaderBuffer.readBits(4);
-                                this.extensionSamplingFrequencyIndex = readBits4;
-                                if (readBits4 == 15) {
-                                    this.extensionSamplingFrequency = bitReaderBuffer.readBits(24);
-                                }
-                                if (bitReaderBuffer.remainingBits() >= 12) {
-                                    int readBits5 = bitReaderBuffer.readBits(11);
-                                    this.syncExtensionType = readBits5;
-                                    if (readBits5 == 1352) {
-                                        this.psPresentFlag = bitReaderBuffer.readBool();
-                                    }
-                                }
-                            }
-                        }
-                        if (this.extensionAudioObjectType == 22) {
-                            boolean readBool2 = bitReaderBuffer.readBool();
-                            this.sbrPresentFlag = readBool2;
-                            if (readBool2) {
-                                int readBits6 = bitReaderBuffer.readBits(4);
-                                this.extensionSamplingFrequencyIndex = readBits6;
-                                if (readBits6 == 15) {
-                                    this.extensionSamplingFrequency = bitReaderBuffer.readBits(24);
-                                }
-                            }
-                            this.extensionChannelConfiguration = bitReaderBuffer.readBits(4);
-                            return;
-                        }
-                        return;
-                    }
-                    return;
             }
+            if (this.extensionAudioObjectType != 5 || bitReaderBuffer.remainingBits() < 16) {
+            }
+            int readBits3 = bitReaderBuffer.readBits(11);
+            this.syncExtensionType = readBits3;
+            if (readBits3 == 695) {
+                int audioObjectType2 = getAudioObjectType(bitReaderBuffer);
+                this.extensionAudioObjectType = audioObjectType2;
+                if (audioObjectType2 == 5) {
+                    boolean readBool = bitReaderBuffer.readBool();
+                    this.sbrPresentFlag = readBool;
+                    if (readBool) {
+                        int readBits4 = bitReaderBuffer.readBits(4);
+                        this.extensionSamplingFrequencyIndex = readBits4;
+                        if (readBits4 == 15) {
+                            this.extensionSamplingFrequency = bitReaderBuffer.readBits(24);
+                        }
+                        if (bitReaderBuffer.remainingBits() >= 12) {
+                            int readBits5 = bitReaderBuffer.readBits(11);
+                            this.syncExtensionType = readBits5;
+                            if (readBits5 == 1352) {
+                                this.psPresentFlag = bitReaderBuffer.readBool();
+                            }
+                        }
+                    }
+                }
+                if (this.extensionAudioObjectType == 22) {
+                    boolean readBool2 = bitReaderBuffer.readBool();
+                    this.sbrPresentFlag = readBool2;
+                    if (readBool2) {
+                        int readBits6 = bitReaderBuffer.readBits(4);
+                        this.extensionSamplingFrequencyIndex = readBits6;
+                        if (readBits6 == 15) {
+                            this.extensionSamplingFrequency = bitReaderBuffer.readBits(24);
+                        }
+                    }
+                    this.extensionChannelConfiguration = bitReaderBuffer.readBits(4);
+                    return;
+                }
+                return;
+            }
+            return;
         }
         int readBits7 = bitReaderBuffer.readBits(2);
         this.epConfig = readBits7;
@@ -497,11 +487,11 @@ public class AudioSpecificConfig extends BaseDescriptor {
         BitWriterBuffer bitWriterBuffer = new BitWriterBuffer(allocate);
         bitWriterBuffer.writeBits(this.audioObjectType, 5);
         bitWriterBuffer.writeBits(this.samplingFrequencyIndex, 4);
-        if (this.samplingFrequencyIndex != 15) {
-            bitWriterBuffer.writeBits(this.channelConfiguration, 4);
-            return allocate;
+        if (this.samplingFrequencyIndex == 15) {
+            throw new UnsupportedOperationException("can't serialize that yet");
         }
-        throw new UnsupportedOperationException("can't serialize that yet");
+        bitWriterBuffer.writeBits(this.channelConfiguration, 4);
+        return allocate;
     }
 
     public int serializedSize() {

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class ScriptTagPayloadReader extends TagPayloadReader {
     private long durationUs;
@@ -25,28 +26,28 @@ final class ScriptTagPayloadReader extends TagPayloadReader {
     }
 
     private static Object readAmfData(ParsableByteArray parsableByteArray, int i) {
-        if (i != 8) {
-            if (i != 10) {
-                if (i != 11) {
-                    if (i != 0) {
-                        if (i != 1) {
-                            if (i != 2) {
-                                if (i != 3) {
-                                    return null;
-                                }
-                                return readAmfObject(parsableByteArray);
-                            }
-                            return readAmfString(parsableByteArray);
-                        }
-                        return readAmfBoolean(parsableByteArray);
-                    }
-                    return readAmfDouble(parsableByteArray);
-                }
-                return readAmfDate(parsableByteArray);
-            }
+        if (i == 8) {
+            return readAmfEcmaArray(parsableByteArray);
+        }
+        if (i == 10) {
             return readAmfStrictArray(parsableByteArray);
         }
-        return readAmfEcmaArray(parsableByteArray);
+        if (i == 11) {
+            return readAmfDate(parsableByteArray);
+        }
+        if (i == 0) {
+            return readAmfDouble(parsableByteArray);
+        }
+        if (i == 1) {
+            return readAmfBoolean(parsableByteArray);
+        }
+        if (i == 2) {
+            return readAmfString(parsableByteArray);
+        }
+        if (i != 3) {
+            return null;
+        }
+        return readAmfObject(parsableByteArray);
     }
 
     private static Date readAmfDate(ParsableByteArray parsableByteArray) {
@@ -129,40 +130,40 @@ final class ScriptTagPayloadReader extends TagPayloadReader {
 
     @Override // com.google.android.exoplayer2.extractor.flv.TagPayloadReader
     protected boolean parsePayload(ParsableByteArray parsableByteArray, long j) {
-        if (readAmfType(parsableByteArray) == 2 && "onMetaData".equals(readAmfString(parsableByteArray)) && parsableByteArray.bytesLeft() != 0 && readAmfType(parsableByteArray) == 8) {
-            HashMap readAmfEcmaArray = readAmfEcmaArray(parsableByteArray);
-            Object obj = readAmfEcmaArray.get("duration");
-            if (obj instanceof Double) {
-                double doubleValue = ((Double) obj).doubleValue();
-                if (doubleValue > 0.0d) {
-                    this.durationUs = (long) (doubleValue * 1000000.0d);
-                }
-            }
-            Object obj2 = readAmfEcmaArray.get("keyframes");
-            if (obj2 instanceof Map) {
-                Map map = (Map) obj2;
-                Object obj3 = map.get("filepositions");
-                Object obj4 = map.get("times");
-                if ((obj3 instanceof List) && (obj4 instanceof List)) {
-                    List list = (List) obj3;
-                    List list2 = (List) obj4;
-                    int size = list2.size();
-                    this.keyFrameTimesUs = new long[size];
-                    this.keyFrameTagPositions = new long[size];
-                    for (int i = 0; i < size; i++) {
-                        Object obj5 = list.get(i);
-                        Object obj6 = list2.get(i);
-                        if (!(obj6 instanceof Double) || !(obj5 instanceof Double)) {
-                            this.keyFrameTimesUs = new long[0];
-                            this.keyFrameTagPositions = new long[0];
-                            break;
-                        }
-                        this.keyFrameTimesUs[i] = (long) (((Double) obj6).doubleValue() * 1000000.0d);
-                        this.keyFrameTagPositions[i] = ((Double) obj5).longValue();
-                    }
-                }
-            }
+        if (readAmfType(parsableByteArray) != 2 || !"onMetaData".equals(readAmfString(parsableByteArray)) || parsableByteArray.bytesLeft() == 0 || readAmfType(parsableByteArray) != 8) {
             return false;
+        }
+        HashMap readAmfEcmaArray = readAmfEcmaArray(parsableByteArray);
+        Object obj = readAmfEcmaArray.get("duration");
+        if (obj instanceof Double) {
+            double doubleValue = ((Double) obj).doubleValue();
+            if (doubleValue > 0.0d) {
+                this.durationUs = (long) (doubleValue * 1000000.0d);
+            }
+        }
+        Object obj2 = readAmfEcmaArray.get("keyframes");
+        if (obj2 instanceof Map) {
+            Map map = (Map) obj2;
+            Object obj3 = map.get("filepositions");
+            Object obj4 = map.get("times");
+            if ((obj3 instanceof List) && (obj4 instanceof List)) {
+                List list = (List) obj3;
+                List list2 = (List) obj4;
+                int size = list2.size();
+                this.keyFrameTimesUs = new long[size];
+                this.keyFrameTagPositions = new long[size];
+                for (int i = 0; i < size; i++) {
+                    Object obj5 = list.get(i);
+                    Object obj6 = list2.get(i);
+                    if (!(obj6 instanceof Double) || !(obj5 instanceof Double)) {
+                        this.keyFrameTimesUs = new long[0];
+                        this.keyFrameTagPositions = new long[0];
+                        break;
+                    }
+                    this.keyFrameTimesUs[i] = (long) (((Double) obj6).doubleValue() * 1000000.0d);
+                    this.keyFrameTagPositions[i] = ((Double) obj5).longValue();
+                }
+            }
         }
         return false;
     }

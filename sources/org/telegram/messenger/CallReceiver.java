@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
 import org.telegram.PhoneFormat.PhoneFormat;
+
 /* loaded from: classes3.dex */
 public class CallReceiver extends BroadcastReceiver {
     public static void checkLastReceivedCall() {

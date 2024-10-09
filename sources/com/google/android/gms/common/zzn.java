@@ -2,6 +2,7 @@ package com.google.android.gms.common;
 
 import android.content.Context;
 import android.util.Log;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzn {

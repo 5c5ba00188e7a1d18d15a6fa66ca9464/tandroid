@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class BackStackRecord extends FragmentTransaction implements FragmentManager.OpGenerator {
@@ -27,14 +28,14 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void bumpBackStackNesting(int i) {
-        FragmentTransaction.Op op;
         if (this.mAddToBackStack) {
             if (FragmentManager.isLoggingEnabled(2)) {
                 Log.v("FragmentManager", "Bump nesting in " + this + " by " + i);
             }
             int size = this.mOps.size();
             for (int i2 = 0; i2 < size; i2++) {
-                Fragment fragment = ((FragmentTransaction.Op) this.mOps.get(i2)).mFragment;
+                FragmentTransaction.Op op = (FragmentTransaction.Op) this.mOps.get(i2);
+                Fragment fragment = op.mFragment;
                 if (fragment != null) {
                     fragment.mBackStackNesting += i;
                     if (FragmentManager.isLoggingEnabled(2)) {
@@ -400,10 +401,10 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         }
         arrayList.add(this);
         arrayList2.add(Boolean.FALSE);
-        if (this.mAddToBackStack) {
-            this.mManager.addBackStackState(this);
+        if (!this.mAddToBackStack) {
             return true;
         }
+        this.mManager.addBackStackState(this);
         return true;
     }
 

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.nio.charset.Charset;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class zzax extends zzaw {
@@ -17,43 +18,41 @@ public class zzax extends zzaw {
         if (obj == this) {
             return true;
         }
-        if ((obj instanceof zzba) && zzd() == ((zzba) obj).zzd()) {
-            if (zzd() == 0) {
-                return true;
-            }
-            if (obj instanceof zzax) {
-                zzax zzaxVar = (zzax) obj;
-                int zzk = zzk();
-                int zzk2 = zzaxVar.zzk();
-                if (zzk == 0 || zzk2 == 0 || zzk == zzk2) {
-                    int zzd = zzd();
-                    if (zzd > zzaxVar.zzd()) {
-                        int zzd2 = zzd();
-                        throw new IllegalArgumentException("Length too large: " + zzd + zzd2);
-                    } else if (zzd > zzaxVar.zzd()) {
-                        int zzd3 = zzaxVar.zzd();
-                        throw new IllegalArgumentException("Ran off end of other: 0, " + zzd + ", " + zzd3);
-                    } else {
-                        byte[] bArr = this.zza;
-                        byte[] bArr2 = zzaxVar.zza;
-                        zzaxVar.zzc();
-                        int i = 0;
-                        int i2 = 0;
-                        while (i < zzd) {
-                            if (bArr[i] != bArr2[i2]) {
-                                return false;
-                            }
-                            i++;
-                            i2++;
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            }
+        if (!(obj instanceof zzba) || zzd() != ((zzba) obj).zzd()) {
+            return false;
+        }
+        if (zzd() == 0) {
+            return true;
+        }
+        if (!(obj instanceof zzax)) {
             return obj.equals(this);
         }
-        return false;
+        zzax zzaxVar = (zzax) obj;
+        int zzk = zzk();
+        int zzk2 = zzaxVar.zzk();
+        if (zzk != 0 && zzk2 != 0 && zzk != zzk2) {
+            return false;
+        }
+        int zzd = zzd();
+        if (zzd > zzaxVar.zzd()) {
+            throw new IllegalArgumentException("Length too large: " + zzd + zzd());
+        }
+        if (zzd > zzaxVar.zzd()) {
+            throw new IllegalArgumentException("Ran off end of other: 0, " + zzd + ", " + zzaxVar.zzd());
+        }
+        byte[] bArr = this.zza;
+        byte[] bArr2 = zzaxVar.zza;
+        zzaxVar.zzc();
+        int i = 0;
+        int i2 = 0;
+        while (i < zzd) {
+            if (bArr[i] != bArr2[i2]) {
+                return false;
+            }
+            i++;
+            i2++;
+        }
+        return true;
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzba

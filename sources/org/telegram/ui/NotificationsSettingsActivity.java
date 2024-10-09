@@ -64,6 +64,7 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public class NotificationsSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int accountsAllRow;
@@ -159,13 +160,13 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             return (adapterPosition == NotificationsSettingsActivity.this.notificationsSectionRow || adapterPosition == NotificationsSettingsActivity.this.notificationsSection2Row || adapterPosition == NotificationsSettingsActivity.this.inappSectionRow || adapterPosition == NotificationsSettingsActivity.this.eventsSectionRow || adapterPosition == NotificationsSettingsActivity.this.otherSectionRow || adapterPosition == NotificationsSettingsActivity.this.resetSectionRow || adapterPosition == NotificationsSettingsActivity.this.badgeNumberSection || adapterPosition == NotificationsSettingsActivity.this.otherSection2Row || adapterPosition == NotificationsSettingsActivity.this.resetSection2Row || adapterPosition == NotificationsSettingsActivity.this.callsSection2Row || adapterPosition == NotificationsSettingsActivity.this.callsSectionRow || adapterPosition == NotificationsSettingsActivity.this.badgeNumberSection2Row || adapterPosition == NotificationsSettingsActivity.this.accountsSectionRow || adapterPosition == NotificationsSettingsActivity.this.accountsInfoRow || adapterPosition == NotificationsSettingsActivity.this.resetNotificationsSectionRow || adapterPosition == NotificationsSettingsActivity.this.eventsSection2Row) ? false : true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:109:0x02b0  */
-        /* JADX WARN: Removed duplicated region for block: B:134:0x0324  */
-        /* JADX WARN: Removed duplicated region for block: B:135:0x0326  */
-        /* JADX WARN: Removed duplicated region for block: B:70:0x020a  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x020d  */
-        /* JADX WARN: Removed duplicated region for block: B:81:0x0231  */
-        /* JADX WARN: Removed duplicated region for block: B:93:0x026a  */
+        /* JADX WARN: Removed duplicated region for block: B:122:0x020d  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x020a  */
+        /* JADX WARN: Removed duplicated region for block: B:64:0x0231  */
+        /* JADX WARN: Removed duplicated region for block: B:68:0x0324  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x0326  */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x026a  */
+        /* JADX WARN: Removed duplicated region for block: B:93:0x02b0  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -226,9 +227,10 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                     } else if (i == NotificationsSettingsActivity.this.badgeNumberSection) {
                         i2 = R.string.BadgeNumber;
                         str = "BadgeNumber";
-                    } else if (i != NotificationsSettingsActivity.this.accountsSectionRow) {
-                        return;
                     } else {
+                        if (i != NotificationsSettingsActivity.this.accountsSectionRow) {
+                            return;
+                        }
                         i2 = R.string.ShowNotificationsFor;
                         str = "ShowNotificationsFor";
                     }
@@ -242,67 +244,71 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                         if (i == NotificationsSettingsActivity.this.inappVibrateRow) {
                             string2 = LocaleController.getString(R.string.InAppVibrate);
                             str2 = "EnableInAppVibrate";
-                        } else if (i != NotificationsSettingsActivity.this.inappPreviewRow) {
-                            if (i == NotificationsSettingsActivity.this.inappPriorityRow) {
-                                string3 = LocaleController.getString(R.string.InAppPopup);
-                                string4 = LocaleController.getString(R.string.InAppPopupInfo);
-                                z5 = notificationsSettings.getBoolean("EnableInAppPopup", true);
-                                z6 = true;
-                                z7 = false;
-                            } else if (i == NotificationsSettingsActivity.this.contactJoinedRow) {
-                                string2 = LocaleController.getString("ContactJoined", R.string.ContactJoined);
-                                str2 = "EnableContactJoined";
-                            } else {
-                                z = true;
-                                if (i == NotificationsSettingsActivity.this.pinnedMessageRow) {
-                                    textCheckCell.setTextAndCheck(LocaleController.getString("PinnedMessages", R.string.PinnedMessages), notificationsSettings.getBoolean("PinnedMessages", true), false);
-                                    return;
-                                } else if (i == NotificationsSettingsActivity.this.androidAutoAlertRow) {
-                                    z8 = notificationsSettings.getBoolean("EnableAutoNotifications", false);
-                                    string2 = "Android Auto";
-                                    textCheckCell.setTextAndCheck(string2, z8, z);
-                                    return;
+                        } else {
+                            if (i != NotificationsSettingsActivity.this.inappPreviewRow) {
+                                if (i == NotificationsSettingsActivity.this.inappPriorityRow) {
+                                    string3 = LocaleController.getString(R.string.InAppPopup);
+                                    string4 = LocaleController.getString(R.string.InAppPopupInfo);
+                                    z5 = notificationsSettings.getBoolean("EnableInAppPopup", true);
+                                    z6 = true;
+                                    z7 = false;
+                                } else if (i == NotificationsSettingsActivity.this.contactJoinedRow) {
+                                    string2 = LocaleController.getString("ContactJoined", R.string.ContactJoined);
+                                    str2 = "EnableContactJoined";
                                 } else {
+                                    z = true;
+                                    if (i == NotificationsSettingsActivity.this.pinnedMessageRow) {
+                                        textCheckCell.setTextAndCheck(LocaleController.getString("PinnedMessages", R.string.PinnedMessages), notificationsSettings.getBoolean("PinnedMessages", true), false);
+                                        return;
+                                    }
+                                    if (i == NotificationsSettingsActivity.this.androidAutoAlertRow) {
+                                        z8 = notificationsSettings.getBoolean("EnableAutoNotifications", false);
+                                        string2 = "Android Auto";
+                                        textCheckCell.setTextAndCheck(string2, z8, z);
+                                        return;
+                                    }
                                     if (i == NotificationsSettingsActivity.this.notificationsServiceRow) {
                                         string3 = LocaleController.getString("NotificationsService", R.string.NotificationsService);
                                         string4 = LocaleController.getString("NotificationsServiceInfo", R.string.NotificationsServiceInfo);
                                         z4 = NotificationsSettingsActivity.this.getMessagesController().keepAliveService;
                                         str3 = "pushService";
-                                    } else if (i != NotificationsSettingsActivity.this.notificationsServiceConnectionRow) {
-                                        if (i == NotificationsSettingsActivity.this.badgeNumberShowRow) {
-                                            string = LocaleController.getString("BadgeNumberShow", R.string.BadgeNumberShow);
-                                            z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeNumber;
-                                            z2 = true;
-                                        } else {
-                                            z2 = true;
-                                            if (i == NotificationsSettingsActivity.this.badgeNumberMutedRow) {
-                                                string = LocaleController.getString("BadgeNumberMutedChats", R.string.BadgeNumberMutedChats);
-                                                z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeMuted;
-                                            } else {
-                                                if (i == NotificationsSettingsActivity.this.badgeNumberMessagesRow) {
-                                                    string = LocaleController.getString("BadgeNumberUnread", R.string.BadgeNumberUnread);
-                                                    z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeMessages;
-                                                } else if (i == NotificationsSettingsActivity.this.inchatSoundRow) {
-                                                    string2 = LocaleController.getString("InChatSound", R.string.InChatSound);
-                                                    str2 = "EnableInChatSound";
-                                                } else {
-                                                    z = true;
-                                                    if (i == NotificationsSettingsActivity.this.callsVibrateRow) {
-                                                        string2 = LocaleController.getString("Vibrate", R.string.Vibrate);
-                                                        str2 = "EnableCallVibrate";
-                                                    } else if (i != NotificationsSettingsActivity.this.accountsAllRow) {
-                                                        return;
-                                                    } else {
-                                                        string = LocaleController.getString("AllAccounts", R.string.AllAccounts);
-                                                        z3 = MessagesController.getGlobalNotificationsSettings().getBoolean("AllAccounts", true);
-                                                    }
-                                                }
-                                                z2 = false;
-                                            }
-                                        }
-                                        textCheckCell.setTextAndCheck(string, z3, z2);
-                                        return;
                                     } else {
+                                        if (i != NotificationsSettingsActivity.this.notificationsServiceConnectionRow) {
+                                            if (i == NotificationsSettingsActivity.this.badgeNumberShowRow) {
+                                                string = LocaleController.getString("BadgeNumberShow", R.string.BadgeNumberShow);
+                                                z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeNumber;
+                                                z2 = true;
+                                            } else {
+                                                z2 = true;
+                                                if (i == NotificationsSettingsActivity.this.badgeNumberMutedRow) {
+                                                    string = LocaleController.getString("BadgeNumberMutedChats", R.string.BadgeNumberMutedChats);
+                                                    z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeMuted;
+                                                } else {
+                                                    if (i == NotificationsSettingsActivity.this.badgeNumberMessagesRow) {
+                                                        string = LocaleController.getString("BadgeNumberUnread", R.string.BadgeNumberUnread);
+                                                        z3 = NotificationsSettingsActivity.this.getNotificationsController().showBadgeMessages;
+                                                    } else if (i == NotificationsSettingsActivity.this.inchatSoundRow) {
+                                                        string2 = LocaleController.getString("InChatSound", R.string.InChatSound);
+                                                        str2 = "EnableInChatSound";
+                                                    } else {
+                                                        z = true;
+                                                        if (i == NotificationsSettingsActivity.this.callsVibrateRow) {
+                                                            string2 = LocaleController.getString("Vibrate", R.string.Vibrate);
+                                                            str2 = "EnableCallVibrate";
+                                                        } else {
+                                                            if (i != NotificationsSettingsActivity.this.accountsAllRow) {
+                                                                return;
+                                                            }
+                                                            string = LocaleController.getString("AllAccounts", R.string.AllAccounts);
+                                                            z3 = MessagesController.getGlobalNotificationsSettings().getBoolean("AllAccounts", true);
+                                                        }
+                                                    }
+                                                    z2 = false;
+                                                }
+                                            }
+                                            textCheckCell.setTextAndCheck(string, z3, z2);
+                                            return;
+                                        }
                                         string3 = LocaleController.getString("NotificationsServiceConnection", R.string.NotificationsServiceConnection);
                                         string4 = LocaleController.getString("NotificationsServiceConnectionInfo", R.string.NotificationsServiceConnectionInfo);
                                         z4 = NotificationsSettingsActivity.this.getMessagesController().backgroundConnection;
@@ -312,10 +318,9 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                                     z6 = true;
                                     z7 = true;
                                 }
+                                textCheckCell.setTextAndValueAndCheck(string3, string4, z5, z6, z7);
+                                return;
                             }
-                            textCheckCell.setTextAndValueAndCheck(string3, string4, z5, z6, z7);
-                            return;
-                        } else {
                             string2 = LocaleController.getString(R.string.InAppPreview);
                             str2 = "EnableInAppPreview";
                         }
@@ -347,91 +352,92 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                         arrayList = NotificationsSettingsActivity.this.exceptionUsers;
                         i4 = notificationsSettings2.getInt("EnableAll2", 0);
                         i5 = R.drawable.msg_openprofile;
-                    } else if (i != NotificationsSettingsActivity.this.groupRow) {
-                        int i8 = NotificationsSettingsActivity.this.storiesRow;
-                        i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                        if (i == i8) {
-                            string5 = LocaleController.getString(R.string.NotificationStories);
-                            arrayList3 = NotificationsSettingsActivity.this.exceptionStories;
-                            arrayList2 = NotificationsSettingsActivity.this.exceptionAutoStories;
-                            if (notificationsSettings2.getBoolean("EnableAllStories", false)) {
-                                i3 = 0;
+                    } else {
+                        if (i != NotificationsSettingsActivity.this.groupRow) {
+                            int i8 = NotificationsSettingsActivity.this.storiesRow;
+                            i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                            if (i == i8) {
+                                string5 = LocaleController.getString(R.string.NotificationStories);
+                                arrayList3 = NotificationsSettingsActivity.this.exceptionStories;
+                                arrayList2 = NotificationsSettingsActivity.this.exceptionAutoStories;
+                                if (notificationsSettings2.getBoolean("EnableAllStories", false)) {
+                                    i3 = 0;
+                                }
+                                i5 = R.drawable.msg_menu_stories;
+                            } else if (i == NotificationsSettingsActivity.this.reactionsRow) {
+                                string5 = LocaleController.getString(R.string.NotificationReactions);
+                                int i9 = (notificationsSettings2.getBoolean("EnableReactionsMessages", true) || notificationsSettings2.getBoolean("EnableReactionsStories", true)) ? 0 : ConnectionsManager.DEFAULT_DATACENTER_ID;
+                                i5 = R.drawable.msg_reactions;
+                                i3 = i9;
+                                arrayList2 = null;
+                            } else {
+                                string5 = LocaleController.getString(R.string.NotificationsChannels);
+                                arrayList = NotificationsSettingsActivity.this.exceptionChannels;
+                                i4 = notificationsSettings2.getInt("EnableChannel2", 0);
+                                i5 = R.drawable.msg_channel;
                             }
-                            i5 = R.drawable.msg_menu_stories;
-                        } else if (i == NotificationsSettingsActivity.this.reactionsRow) {
-                            string5 = LocaleController.getString(R.string.NotificationReactions);
-                            int i9 = (notificationsSettings2.getBoolean("EnableReactionsMessages", true) || notificationsSettings2.getBoolean("EnableReactionsStories", true)) ? 0 : ConnectionsManager.DEFAULT_DATACENTER_ID;
-                            i5 = R.drawable.msg_reactions;
-                            i3 = i9;
-                            arrayList2 = null;
-                        } else {
-                            string5 = LocaleController.getString(R.string.NotificationsChannels);
-                            arrayList = NotificationsSettingsActivity.this.exceptionChannels;
-                            i4 = notificationsSettings2.getInt("EnableChannel2", 0);
-                            i5 = R.drawable.msg_channel;
-                        }
-                        boolean z10 = i3 >= currentTime;
-                        int i10 = (!z10 && i3 - 31536000 < currentTime) ? 2 : 0;
-                        StringBuilder sb = new StringBuilder();
-                        int i11 = i5;
-                        if (i != NotificationsSettingsActivity.this.reactionsRow) {
-                            if (arrayList3 != null && !arrayList3.isEmpty()) {
-                                boolean z11 = i3 < currentTime;
-                                if (z11) {
-                                    string7 = LocaleController.getString("NotificationsOn", R.string.NotificationsOn);
-                                } else if (i3 - 31536000 >= currentTime) {
-                                    string7 = LocaleController.getString("NotificationsOff", R.string.NotificationsOff);
-                                } else {
+                            boolean z10 = i3 >= currentTime;
+                            int i10 = (!z10 && i3 - 31536000 < currentTime) ? 2 : 0;
+                            StringBuilder sb = new StringBuilder();
+                            int i11 = i5;
+                            if (i != NotificationsSettingsActivity.this.reactionsRow) {
+                                if (arrayList3 != null && !arrayList3.isEmpty()) {
+                                    boolean z11 = i3 < currentTime;
+                                    if (z11) {
+                                        string7 = LocaleController.getString("NotificationsOn", R.string.NotificationsOn);
+                                    } else if (i3 - 31536000 >= currentTime) {
+                                        string7 = LocaleController.getString("NotificationsOff", R.string.NotificationsOff);
+                                    } else {
+                                        z10 = z11;
+                                        sb.append(LocaleController.formatString("NotificationsOffUntil", R.string.NotificationsOffUntil, LocaleController.stringForMessageListDate(i3)));
+                                        if (sb.length() != 0) {
+                                            sb.append(", ");
+                                        }
+                                        size = arrayList3.size();
+                                        if (i == NotificationsSettingsActivity.this.storiesRow && !notificationsSettings2.contains("EnableAllStories") && arrayList2 != null) {
+                                            size += arrayList2.size();
+                                        }
+                                        string6 = LocaleController.formatPluralString("Exception", size, new Object[0]);
+                                    }
+                                    sb.append(string7);
                                     z10 = z11;
-                                    sb.append(LocaleController.formatString("NotificationsOffUntil", R.string.NotificationsOffUntil, LocaleController.stringForMessageListDate(i3)));
                                     if (sb.length() != 0) {
-                                        sb.append(", ");
                                     }
                                     size = arrayList3.size();
-                                    if (i == NotificationsSettingsActivity.this.storiesRow && !notificationsSettings2.contains("EnableAllStories") && arrayList2 != null) {
+                                    if (i == NotificationsSettingsActivity.this.storiesRow) {
                                         size += arrayList2.size();
                                     }
                                     string6 = LocaleController.formatPluralString("Exception", size, new Object[0]);
+                                } else if (arrayList2 == null || arrayList2.isEmpty()) {
+                                    string6 = LocaleController.getString("TapToChange", R.string.TapToChange);
+                                } else {
+                                    sb.append(i3 > 0 ? LocaleController.getString("NotificationsOff", R.string.NotificationsOff) : LocaleController.getString("NotificationsOn", R.string.NotificationsOn));
+                                    if (!arrayList2.isEmpty() && !notificationsSettings2.contains("EnableAllStories")) {
+                                        sb.append(", ");
+                                        string6 = LocaleController.formatPluralString("AutoException", arrayList2.size(), new Object[0]);
+                                    }
+                                    z9 = z10;
                                 }
-                                sb.append(string7);
-                                z10 = z11;
-                                if (sb.length() != 0) {
-                                }
-                                size = arrayList3.size();
-                                if (i == NotificationsSettingsActivity.this.storiesRow) {
-                                    size += arrayList2.size();
-                                }
-                                string6 = LocaleController.formatPluralString("Exception", size, new Object[0]);
-                            } else if (arrayList2 == null || arrayList2.isEmpty()) {
-                                string6 = LocaleController.getString("TapToChange", R.string.TapToChange);
-                            } else {
-                                sb.append(i3 > 0 ? LocaleController.getString("NotificationsOff", R.string.NotificationsOff) : LocaleController.getString("NotificationsOn", R.string.NotificationsOn));
-                                if (!arrayList2.isEmpty() && !notificationsSettings2.contains("EnableAllStories")) {
-                                    sb.append(", ");
-                                    string6 = LocaleController.formatPluralString("AutoException", arrayList2.size(), new Object[0]);
-                                }
+                                sb.append(string6);
                                 z9 = z10;
-                            }
-                            sb.append(string6);
-                            z9 = z10;
-                        } else if (i3 > 0) {
-                            sb.append(LocaleController.getString("NotificationsOff", R.string.NotificationsOff));
-                            z9 = false;
-                        } else {
-                            if (notificationsSettings2.getBoolean("EnableReactionsMessages", true)) {
-                                sb.append(LocaleController.getString(R.string.NotificationReactionsMessages));
-                            }
-                            if (notificationsSettings2.getBoolean("EnableReactionsStories", true)) {
-                                if (sb.length() > 0) {
-                                    sb.append(", ");
+                            } else if (i3 > 0) {
+                                sb.append(LocaleController.getString("NotificationsOff", R.string.NotificationsOff));
+                                z9 = false;
+                            } else {
+                                if (notificationsSettings2.getBoolean("EnableReactionsMessages", true)) {
+                                    sb.append(LocaleController.getString(R.string.NotificationReactionsMessages));
                                 }
-                                sb.append(LocaleController.getString(R.string.NotificationReactionsStories));
+                                if (notificationsSettings2.getBoolean("EnableReactionsStories", true)) {
+                                    if (sb.length() > 0) {
+                                        sb.append(", ");
+                                    }
+                                    sb.append(LocaleController.getString(R.string.NotificationReactionsStories));
+                                }
+                                z9 = true;
                             }
-                            z9 = true;
+                            notificationsCheckCell.setTextAndValueAndIconAndCheck(string5, sb, i11, z9, i10, false, i != NotificationsSettingsActivity.this.reactionsRow);
+                            return;
                         }
-                        notificationsCheckCell.setTextAndValueAndIconAndCheck(string5, sb, i11, z9, i10, false, i != NotificationsSettingsActivity.this.reactionsRow);
-                        return;
-                    } else {
                         string5 = LocaleController.getString(R.string.NotificationsGroups);
                         arrayList = NotificationsSettingsActivity.this.exceptionChats;
                         i4 = notificationsSettings2.getInt("EnableGroup2", 0);
@@ -480,7 +486,8 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                         textSettingsCell.setTextAndValue(LocaleController.getString("VoipSettingsRingtone", R.string.VoipSettingsRingtone), string9, NotificationsSettingsActivity.this.updateRingtone, false);
                         NotificationsSettingsActivity.this.updateRingtone = false;
                         return;
-                    } else if (i != NotificationsSettingsActivity.this.callsVibrateRow) {
+                    }
+                    if (i != NotificationsSettingsActivity.this.callsVibrateRow) {
                         if (i == NotificationsSettingsActivity.this.repeatRow) {
                             int i14 = notificationsSettings3.getInt("repeat_messages", 60);
                             textSettingsCell.setTextAndValue(LocaleController.getString("RepeatNotifications", R.string.RepeatNotifications), i14 == 0 ? LocaleController.getString("RepeatNotificationsNever", R.string.RepeatNotificationsNever) : i14 < 60 ? LocaleController.formatPluralString("Minutes", i14, new Object[0]) : LocaleController.formatPluralString("Hours", i14 / 60, new Object[0]), NotificationsSettingsActivity.this.updateRepeatNotifications, false);
@@ -488,21 +495,22 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                             return;
                         }
                         return;
+                    }
+                    int i15 = notificationsSettings3.getInt("vibrate_calls", 0);
+                    if (i15 == 0) {
+                        string8 = LocaleController.getString("Vibrate", R.string.Vibrate);
+                        i7 = R.string.VibrationDefault;
+                        str4 = "VibrationDefault";
+                    } else if (i15 == 1) {
+                        string8 = LocaleController.getString("Vibrate", R.string.Vibrate);
+                        i7 = R.string.Short;
+                        str4 = "Short";
+                    } else if (i15 == 2) {
+                        string8 = LocaleController.getString("Vibrate", R.string.Vibrate);
+                        i7 = R.string.VibrationDisabled;
+                        str4 = "VibrationDisabled";
                     } else {
-                        int i15 = notificationsSettings3.getInt("vibrate_calls", 0);
-                        if (i15 == 0) {
-                            string8 = LocaleController.getString("Vibrate", R.string.Vibrate);
-                            i7 = R.string.VibrationDefault;
-                            str4 = "VibrationDefault";
-                        } else if (i15 == 1) {
-                            string8 = LocaleController.getString("Vibrate", R.string.Vibrate);
-                            i7 = R.string.Short;
-                            str4 = "Short";
-                        } else if (i15 == 2) {
-                            string8 = LocaleController.getString("Vibrate", R.string.Vibrate);
-                            i7 = R.string.VibrationDisabled;
-                            str4 = "VibrationDisabled";
-                        } else if (i15 != 3) {
+                        if (i15 != 3) {
                             if (i15 == 4) {
                                 string8 = LocaleController.getString("Vibrate", R.string.Vibrate);
                                 i7 = R.string.OnlyIfSilent;
@@ -510,15 +518,14 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                             }
                             NotificationsSettingsActivity.this.updateVibrate = false;
                             return;
-                        } else {
-                            string8 = LocaleController.getString("Vibrate", R.string.Vibrate);
-                            i7 = R.string.Long;
-                            str4 = "Long";
                         }
-                        textSettingsCell.setTextAndValue(string8, LocaleController.getString(str4, i7), NotificationsSettingsActivity.this.updateVibrate, true);
-                        NotificationsSettingsActivity.this.updateVibrate = false;
-                        return;
+                        string8 = LocaleController.getString("Vibrate", R.string.Vibrate);
+                        i7 = R.string.Long;
+                        str4 = "Long";
                     }
+                    textSettingsCell.setTextAndValue(string8, LocaleController.getString(str4, i7), NotificationsSettingsActivity.this.updateVibrate, true);
+                    NotificationsSettingsActivity.this.updateVibrate = false;
+                    return;
                 case 6:
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                     if (i == NotificationsSettingsActivity.this.accountsInfoRow) {
@@ -540,17 +547,18 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 headerCell = new TextCheckCell(this.mContext, ((BaseFragment) NotificationsSettingsActivity.this).resourceProvider);
             } else if (i == 2) {
                 headerCell = new TextDetailSettingsCell(this.mContext);
-            } else if (i != 3) {
-                if (i == 4) {
-                    headerCell = new ShadowSectionCell(this.mContext, ((BaseFragment) NotificationsSettingsActivity.this).resourceProvider);
-                } else if (i != 5) {
-                    headerCell = new TextInfoPrivacyCell(this.mContext, ((BaseFragment) NotificationsSettingsActivity.this).resourceProvider);
-                    headerCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                } else {
-                    headerCell = new TextSettingsCell(this.mContext, ((BaseFragment) NotificationsSettingsActivity.this).resourceProvider);
-                }
-                return new RecyclerListView.Holder(headerCell);
             } else {
+                if (i != 3) {
+                    if (i == 4) {
+                        headerCell = new ShadowSectionCell(this.mContext, ((BaseFragment) NotificationsSettingsActivity.this).resourceProvider);
+                    } else if (i != 5) {
+                        headerCell = new TextInfoPrivacyCell(this.mContext, ((BaseFragment) NotificationsSettingsActivity.this).resourceProvider);
+                        headerCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    } else {
+                        headerCell = new TextSettingsCell(this.mContext, ((BaseFragment) NotificationsSettingsActivity.this).resourceProvider);
+                    }
+                    return new RecyclerListView.Holder(headerCell);
+                }
                 headerCell = new NotificationsCheckCell(this.mContext, 21, 64, true, ((BaseFragment) NotificationsSettingsActivity.this).resourceProvider);
             }
             headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
@@ -580,13 +588,12 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
         String str2;
         boolean z2;
         SharedPreferences notificationsSettings;
+        r3 = false;
+        r3 = false;
+        r3 = false;
+        r3 = false;
+        r3 = false;
         boolean z3 = false;
-        r3 = false;
-        r3 = false;
-        r3 = false;
-        r3 = false;
-        r3 = false;
-        boolean z4 = false;
         final int i2 = 0;
         if (getParentActivity() == null) {
             return;
@@ -612,7 +619,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 arrayList2 = arrayList4;
             } else if (i == this.reactionsRow) {
                 arrayList = null;
-                isGlobalNotificationsEnabled = (getNotificationsSettings().getBoolean("EnableReactionsMessages", true) || getNotificationsSettings().getBoolean("EnableReactionsStories", true)) ? true : true;
+                isGlobalNotificationsEnabled = getNotificationsSettings().getBoolean("EnableReactionsMessages", true) || getNotificationsSettings().getBoolean("EnableReactionsStories", true);
                 i2 = 4;
             } else {
                 arrayList = this.exceptionChannels;
@@ -626,15 +633,15 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             if ((!LocaleController.isRTL || f > AndroidUtilities.dp(76.0f)) && (LocaleController.isRTL || f < view.getMeasuredWidth() - AndroidUtilities.dp(76.0f))) {
                 presentFragment(new NotificationsCustomSettingsActivity(i2, arrayList, arrayList2));
             } else {
-                final boolean z5 = isGlobalNotificationsEnabled;
+                final boolean z4 = isGlobalNotificationsEnabled;
                 showExceptionsAlert(i, new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
-                        NotificationsSettingsActivity.this.lambda$createView$3(i2, z5, notificationsCheckCell, i);
+                        NotificationsSettingsActivity.this.lambda$createView$3(i2, z4, notificationsCheckCell, i);
                     }
                 });
             }
-            z4 = isGlobalNotificationsEnabled;
+            z3 = isGlobalNotificationsEnabled;
         } else if (i == this.callsRingtoneRow) {
             try {
                 SharedPreferences notificationsSettings2 = MessagesController.getNotificationsSettings(this.currentAccount);
@@ -687,11 +694,11 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             } else if (i == this.inchatSoundRow) {
                 SharedPreferences notificationsSettings3 = MessagesController.getNotificationsSettings(this.currentAccount);
                 SharedPreferences.Editor edit3 = notificationsSettings3.edit();
-                z4 = notificationsSettings3.getBoolean("EnableInChatSound", true);
-                boolean z6 = !z4;
-                edit3.putBoolean("EnableInChatSound", z6);
+                z3 = notificationsSettings3.getBoolean("EnableInChatSound", true);
+                boolean z5 = !z3;
+                edit3.putBoolean("EnableInChatSound", z5);
                 edit3.commit();
-                getNotificationsController().setInChatSoundEnabled(z6);
+                getNotificationsController().setInChatSoundEnabled(z5);
             } else if (i == this.inappPriorityRow) {
                 notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
                 edit2 = notificationsSettings.edit();
@@ -699,13 +706,13 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             } else if (i == this.contactJoinedRow) {
                 SharedPreferences notificationsSettings4 = MessagesController.getNotificationsSettings(this.currentAccount);
                 SharedPreferences.Editor edit4 = notificationsSettings4.edit();
-                z4 = notificationsSettings4.getBoolean("EnableContactJoined", true);
-                boolean z7 = !z4;
-                MessagesController.getInstance(this.currentAccount).enableJoined = z7;
-                edit4.putBoolean("EnableContactJoined", z7);
+                z3 = notificationsSettings4.getBoolean("EnableContactJoined", true);
+                boolean z6 = !z3;
+                MessagesController.getInstance(this.currentAccount).enableJoined = z6;
+                edit4.putBoolean("EnableContactJoined", z6);
                 edit4.commit();
                 TLRPC.TL_account_setContactSignUpNotification tL_account_setContactSignUpNotification = new TLRPC.TL_account_setContactSignUpNotification();
-                tL_account_setContactSignUpNotification.silent = z4;
+                tL_account_setContactSignUpNotification.silent = z3;
                 ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_setContactSignUpNotification, new RequestDelegate() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda3
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
@@ -721,51 +728,51 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 edit2 = notificationsSettings5.edit();
                 str2 = "EnableAutoNotifications";
                 z2 = notificationsSettings5.getBoolean("EnableAutoNotifications", false);
-                z4 = z2;
-                edit2.putBoolean(str2, !z4);
+                z3 = z2;
+                edit2.putBoolean(str2, !z3);
                 edit2.commit();
             } else {
                 if (i == this.badgeNumberShowRow) {
                     edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                    z4 = getNotificationsController().showBadgeNumber;
-                    getNotificationsController().showBadgeNumber = !z4;
+                    z3 = getNotificationsController().showBadgeNumber;
+                    getNotificationsController().showBadgeNumber = !z3;
                     z = getNotificationsController().showBadgeNumber;
                     str = "badgeNumber";
                 } else if (i == this.badgeNumberMutedRow) {
                     SharedPreferences.Editor edit5 = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                    z4 = getNotificationsController().showBadgeMuted;
-                    getNotificationsController().showBadgeMuted = !z4;
+                    z3 = getNotificationsController().showBadgeMuted;
+                    getNotificationsController().showBadgeMuted = !z3;
                     edit5.putBoolean("badgeNumberMuted", getNotificationsController().showBadgeMuted);
                     edit5.commit();
                     getNotificationsController().updateBadge();
                     getMessagesStorage().updateMutedDialogsFiltersCounters();
                 } else if (i == this.badgeNumberMessagesRow) {
                     edit = MessagesController.getNotificationsSettings(this.currentAccount).edit();
-                    z4 = getNotificationsController().showBadgeMessages;
-                    getNotificationsController().showBadgeMessages = !z4;
+                    z3 = getNotificationsController().showBadgeMessages;
+                    getNotificationsController().showBadgeMessages = !z3;
                     z = getNotificationsController().showBadgeMessages;
                     str = "badgeNumberMessages";
                 } else if (i == this.notificationsServiceConnectionRow) {
                     SharedPreferences notificationsSettings6 = MessagesController.getNotificationsSettings(this.currentAccount);
-                    boolean z8 = notificationsSettings6.getBoolean("pushConnection", getMessagesController().backgroundConnection);
+                    boolean z7 = notificationsSettings6.getBoolean("pushConnection", getMessagesController().backgroundConnection);
                     SharedPreferences.Editor edit6 = notificationsSettings6.edit();
-                    edit6.putBoolean("pushConnection", !z8);
+                    edit6.putBoolean("pushConnection", !z7);
                     edit6.commit();
                     ConnectionsManager connectionsManager = ConnectionsManager.getInstance(this.currentAccount);
-                    if (z8) {
+                    if (z7) {
                         connectionsManager.setPushConnectionEnabled(false);
                     } else {
                         connectionsManager.setPushConnectionEnabled(true);
                     }
-                    z4 = z8;
+                    z3 = z7;
                 } else if (i == this.accountsAllRow) {
                     SharedPreferences globalNotificationsSettings = MessagesController.getGlobalNotificationsSettings();
-                    boolean z9 = globalNotificationsSettings.getBoolean("AllAccounts", true);
+                    boolean z8 = globalNotificationsSettings.getBoolean("AllAccounts", true);
                     SharedPreferences.Editor edit7 = globalNotificationsSettings.edit();
-                    boolean z10 = !z9;
-                    edit7.putBoolean("AllAccounts", z10);
+                    boolean z9 = !z8;
+                    edit7.putBoolean("AllAccounts", z9);
                     edit7.commit();
-                    SharedConfig.showNotificationsForAllAccounts = z10;
+                    SharedConfig.showNotificationsForAllAccounts = z9;
                     for (int i4 = 0; i4 < 4; i4++) {
                         if (SharedConfig.showNotificationsForAllAccounts || i4 == this.currentAccount) {
                             NotificationsController.getInstance(i4).showNotifications();
@@ -773,25 +780,26 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                             NotificationsController.getInstance(i4).hideNotifications();
                         }
                     }
-                    z4 = z9;
+                    z3 = z8;
                 } else if (i == this.notificationsServiceRow) {
                     SharedPreferences notificationsSettings7 = MessagesController.getNotificationsSettings(this.currentAccount);
-                    z4 = notificationsSettings7.getBoolean("pushService", getMessagesController().keepAliveService);
+                    z3 = notificationsSettings7.getBoolean("pushService", getMessagesController().keepAliveService);
                     SharedPreferences.Editor edit8 = notificationsSettings7.edit();
-                    edit8.putBoolean("pushService", !z4);
+                    edit8.putBoolean("pushService", !z3);
                     edit8.commit();
                     ApplicationLoader.startPushService();
                 } else {
                     if (i == this.callsVibrateRow) {
                         if (getParentActivity() == null) {
                             return;
+                        } else {
+                            create = AlertsCreator.createVibrationSelectDialog(getParentActivity(), 0L, 0L, i == this.callsVibrateRow ? "vibrate_calls" : null, new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda4
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    NotificationsSettingsActivity.this.lambda$createView$8(i);
+                                }
+                            });
                         }
-                        create = AlertsCreator.createVibrationSelectDialog(getParentActivity(), 0L, 0L, i == this.callsVibrateRow ? "vibrate_calls" : null, new Runnable() { // from class: org.telegram.ui.NotificationsSettingsActivity$$ExternalSyntheticLambda4
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                NotificationsSettingsActivity.this.lambda$createView$8(i);
-                            }
-                        });
                     } else if (i == this.repeatRow) {
                         AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
                         builder2.setTitle(LocaleController.getString("RepeatNotifications", R.string.RepeatNotifications));
@@ -811,12 +819,12 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 getNotificationsController().updateBadge();
             }
             z2 = notificationsSettings.getBoolean(str2, true);
-            z4 = z2;
-            edit2.putBoolean(str2, !z4);
+            z3 = z2;
+            edit2.putBoolean(str2, !z3);
             edit2.commit();
         }
         if (view instanceof TextCheckCell) {
-            ((TextCheckCell) view).setChecked(!z4);
+            ((TextCheckCell) view).setChecked(!z3);
         }
     }
 
@@ -924,19 +932,22 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x02bb, code lost:
-        if (r7.deleted != false) goto L132;
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x02bb, code lost:
+    
+        if (r7.deleted != false) goto L102;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x013d, code lost:
-        if (r0.deleted != false) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x013d, code lost:
+    
+        if (r0.deleted != false) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0166, code lost:
-        if (r0.deleted != false) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x0166, code lost:
+    
+        if (r0.deleted != false) goto L30;
      */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0348  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0391  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x03ab A[LOOP:5: B:167:0x03a9->B:168:0x03ab, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x03c5  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x0348  */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x0391  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x03ab A[LOOP:5: B:190:0x03a9->B:191:0x03ab, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x03c5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1409,10 +1420,11 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
                 arrayList2 = null;
             }
             arrayList2 = null;
-        } else if (i == this.reactionsRow) {
-            runnable.run();
-            return;
         } else {
+            if (i == this.reactionsRow) {
+                runnable.run();
+                return;
+            }
             arrayList = this.exceptionChannels;
             if (arrayList != null && !arrayList.isEmpty()) {
                 formatPluralString = LocaleController.formatPluralString("Channels", arrayList.size(), new Object[0]);
@@ -1452,7 +1464,7 @@ public class NotificationsSettingsActivity extends BaseFragment implements Notif
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    NotificationsSettingsActivity.this.finishFragment();
+                    NotificationsSettingsActivity.this.lambda$onBackPressed$300();
                 }
             }
         });

@@ -9,6 +9,7 @@ import android.view.animation.DecelerateInterpolator;
 import androidx.viewpager.widget.ViewPager;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class BottomPagesView extends View {
     private int colorKey;
@@ -38,7 +39,6 @@ public class BottomPagesView extends View {
         RectF rectF;
         float dp;
         float dp2;
-        int dp3;
         AndroidUtilities.dp(5.0f);
         int i = this.colorKey;
         if (i >= 0) {
@@ -49,7 +49,7 @@ public class BottomPagesView extends View {
         this.currentPage = this.viewPager.getCurrentItem();
         for (int i2 = 0; i2 < this.pagesCount; i2++) {
             if (i2 != this.currentPage) {
-                this.rect.set(AndroidUtilities.dp(11.0f) * i2, 0.0f, dp3 + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(5.0f));
+                this.rect.set(AndroidUtilities.dp(11.0f) * i2, 0.0f, r2 + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(5.0f));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.5f), AndroidUtilities.dp(2.5f), this.paint);
             }
         }
@@ -59,20 +59,20 @@ public class BottomPagesView extends View {
         } else {
             this.paint.setColor(-13851168);
         }
-        int dp4 = this.currentPage * AndroidUtilities.dp(11.0f);
+        int dp3 = this.currentPage * AndroidUtilities.dp(11.0f);
         if (this.progress != 0.0f) {
             if (this.scrollPosition >= this.currentPage) {
                 rectF = this.rect;
-                dp = dp4;
-                dp2 = dp4 + AndroidUtilities.dp(5.0f) + (AndroidUtilities.dp(11.0f) * this.progress);
+                dp = dp3;
+                dp2 = dp3 + AndroidUtilities.dp(5.0f) + (AndroidUtilities.dp(11.0f) * this.progress);
             } else {
                 rectF = this.rect;
-                dp = dp4 - (AndroidUtilities.dp(11.0f) * (1.0f - this.progress));
-                dp2 = dp4 + AndroidUtilities.dp(5.0f);
+                dp = dp3 - (AndroidUtilities.dp(11.0f) * (1.0f - this.progress));
+                dp2 = dp3 + AndroidUtilities.dp(5.0f);
             }
             rectF.set(dp, 0.0f, dp2, AndroidUtilities.dp(5.0f));
         } else {
-            this.rect.set(dp4, 0.0f, dp4 + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(5.0f));
+            this.rect.set(dp3, 0.0f, dp3 + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(5.0f));
         }
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.5f), AndroidUtilities.dp(2.5f), this.paint);
     }

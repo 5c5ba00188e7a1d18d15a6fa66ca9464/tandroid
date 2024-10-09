@@ -57,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.ReleaseCallback, SequenceableLoader, ExtractorOutput, SampleQueue.UpstreamFormatChangedListener {
@@ -135,9 +136,10 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
             this.delegate = trackOutput;
             if (i == 1) {
                 format = ID3_FORMAT;
-            } else if (i != 3) {
-                throw new IllegalArgumentException("Unknown metadataType: " + i);
             } else {
+                if (i != 3) {
+                    throw new IllegalArgumentException("Unknown metadataType: " + i);
+                }
                 format = EMSG_FORMAT;
             }
             this.delegateFormat = format;
@@ -186,11 +188,11 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
             if (read != -1) {
                 this.bufferPosition += read;
                 return read;
-            } else if (z) {
-                return -1;
-            } else {
-                throw new EOFException();
             }
+            if (z) {
+                return -1;
+            }
+            throw new EOFException();
         }
 
         @Override // com.google.android.exoplayer2.extractor.TrackOutput
@@ -565,16 +567,15 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
         int trackType = MimeTypes.getTrackType(str);
         if (trackType != 3) {
             return trackType == MimeTypes.getTrackType(str2);
-        } else if (Util.areEqual(str, str2)) {
-            return !("application/cea-608".equals(str) || "application/cea-708".equals(str)) || format.accessibilityChannel == format2.accessibilityChannel;
-        } else {
-            return false;
         }
+        if (Util.areEqual(str, str2)) {
+            return !("application/cea-608".equals(str) || "application/cea-708".equals(str)) || format.accessibilityChannel == format2.accessibilityChannel;
+        }
+        return false;
     }
 
     private HlsMediaChunk getLastMediaChunk() {
-        ArrayList arrayList = this.mediaChunks;
-        return (HlsMediaChunk) arrayList.get(arrayList.size() - 1);
+        return (HlsMediaChunk) this.mediaChunks.get(r0.size() - 1);
     }
 
     private TrackOutput getMappedTrackOutput(int i, int i2) {
@@ -590,17 +591,16 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
     }
 
     private static int getTrackTypeScore(int i) {
-        if (i != 1) {
-            if (i != 2) {
-                return i != 3 ? 0 : 1;
-            }
-            return 3;
+        if (i == 1) {
+            return 2;
         }
-        return 2;
+        if (i != 2) {
+            return i != 3 ? 0 : 1;
+        }
+        return 3;
     }
 
     private void initMediaChunkLoad(HlsMediaChunk hlsMediaChunk) {
-        HlsSampleQueue[] hlsSampleQueueArr;
         this.sourceChunk = hlsMediaChunk;
         this.upstreamTrackFormat = hlsMediaChunk.trackFormat;
         this.pendingResetPositionUs = -9223372036854775807L;
@@ -642,12 +642,12 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
                 HlsSampleQueue[] hlsSampleQueueArr = this.sampleQueues;
                 if (i3 >= hlsSampleQueueArr.length) {
                     break;
-                } else if (formatsMatch((Format) Assertions.checkStateNotNull(hlsSampleQueueArr[i3].getUpstreamFormat()), this.trackGroups.get(i2).getFormat(0))) {
+                }
+                if (formatsMatch((Format) Assertions.checkStateNotNull(hlsSampleQueueArr[i3].getUpstreamFormat()), this.trackGroups.get(i2).getFormat(0))) {
                     this.trackGroupToSampleQueueIndex[i2] = i3;
                     break;
-                } else {
-                    i3++;
                 }
+                i3++;
             }
         }
         Iterator it = this.hlsSampleStreams.iterator();
@@ -756,19 +756,19 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
             this.pendingResetPositionUs = -9223372036854775807L;
             this.loadingFinished = true;
             return true;
-        } else if (chunk == null) {
+        }
+        if (chunk == null) {
             if (uri != null) {
                 this.callback.onPlaylistRefreshRequired(uri);
             }
             return false;
-        } else {
-            if (isMediaChunk(chunk)) {
-                initMediaChunkLoad((HlsMediaChunk) chunk);
-            }
-            this.loadingChunk = chunk;
-            this.mediaSourceEventDispatcher.loadStarted(new LoadEventInfo(chunk.loadTaskId, chunk.dataSpec, this.loader.startLoading(chunk, this, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(chunk.type))), chunk.type, this.trackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs);
-            return true;
         }
+        if (isMediaChunk(chunk)) {
+            initMediaChunkLoad((HlsMediaChunk) chunk);
+        }
+        this.loadingChunk = chunk;
+        this.mediaSourceEventDispatcher.loadStarted(new LoadEventInfo(chunk.loadTaskId, chunk.dataSpec, this.loader.startLoading(chunk, this, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(chunk.type))), chunk.type, this.trackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs);
+        return true;
     }
 
     public void continuePreparing() {
@@ -798,29 +798,62 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
         return this.chunkSource.getAdjustedSeekPositionUs(j, seekParameters);
     }
 
+    /*  JADX ERROR: NullPointerException in pass: LoopRegionVisitor
+        java.lang.NullPointerException
+        */
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
     public long getBufferedPositionUs() {
-        ArrayList arrayList;
-        if (this.loadingFinished) {
-            return Long.MIN_VALUE;
-        }
-        if (isPendingReset()) {
-            return this.pendingResetPositionUs;
-        }
-        long j = this.lastSeekPositionUs;
-        HlsMediaChunk lastMediaChunk = getLastMediaChunk();
-        if (!lastMediaChunk.isLoadCompleted()) {
-            lastMediaChunk = this.mediaChunks.size() > 1 ? (HlsMediaChunk) this.mediaChunks.get(arrayList.size() - 2) : null;
-        }
-        if (lastMediaChunk != null) {
-            j = Math.max(j, lastMediaChunk.endTimeUs);
-        }
-        if (this.sampleQueuesBuilt) {
-            for (HlsSampleQueue hlsSampleQueue : this.sampleQueues) {
-                j = Math.max(j, hlsSampleQueue.getLargestQueuedTimestampUs());
-            }
-        }
-        return j;
+        /*
+            r7 = this;
+            boolean r0 = r7.loadingFinished
+            if (r0 == 0) goto L7
+            r0 = -9223372036854775808
+            return r0
+        L7:
+            boolean r0 = r7.isPendingReset()
+            if (r0 == 0) goto L10
+            long r0 = r7.pendingResetPositionUs
+            return r0
+        L10:
+            long r0 = r7.lastSeekPositionUs
+            com.google.android.exoplayer2.source.hls.HlsMediaChunk r2 = r7.getLastMediaChunk()
+            boolean r3 = r2.isLoadCompleted()
+            if (r3 == 0) goto L1d
+            goto L36
+        L1d:
+            java.util.ArrayList r2 = r7.mediaChunks
+            int r2 = r2.size()
+            r3 = 1
+            if (r2 <= r3) goto L35
+            java.util.ArrayList r2 = r7.mediaChunks
+            int r3 = r2.size()
+            int r3 = r3 + (-2)
+            java.lang.Object r2 = r2.get(r3)
+            com.google.android.exoplayer2.source.hls.HlsMediaChunk r2 = (com.google.android.exoplayer2.source.hls.HlsMediaChunk) r2
+            goto L36
+        L35:
+            r2 = 0
+        L36:
+            if (r2 == 0) goto L3e
+            long r2 = r2.endTimeUs
+            long r0 = java.lang.Math.max(r0, r2)
+        L3e:
+            boolean r2 = r7.sampleQueuesBuilt
+            if (r2 == 0) goto L55
+            com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$HlsSampleQueue[] r2 = r7.sampleQueues
+            int r3 = r2.length
+            r4 = 0
+        L46:
+            if (r4 >= r3) goto L55
+            r5 = r2[r4]
+            long r5 = r5.getLargestQueuedTimestampUs()
+            long r0 = java.lang.Math.max(r0, r5)
+            int r4 = r4 + 1
+            goto L46
+        L55:
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper.getBufferedPositionUs():long");
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
@@ -958,11 +991,11 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
 
     public boolean onPlaylistError(Uri uri, LoadErrorHandlingPolicy.LoadErrorInfo loadErrorInfo, boolean z) {
         LoadErrorHandlingPolicy.FallbackSelection fallbackSelectionFor;
-        if (this.chunkSource.obtainsChunksForPlaylist(uri)) {
-            long j = (z || (fallbackSelectionFor = this.loadErrorHandlingPolicy.getFallbackSelectionFor(TrackSelectionUtil.createFallbackOptions(this.chunkSource.getTrackSelection()), loadErrorInfo)) == null || fallbackSelectionFor.type != 2) ? -9223372036854775807L : fallbackSelectionFor.exclusionDurationMs;
-            return this.chunkSource.onPlaylistError(uri, j) && j != -9223372036854775807L;
+        if (!this.chunkSource.obtainsChunksForPlaylist(uri)) {
+            return true;
         }
-        return true;
+        long j = (z || (fallbackSelectionFor = this.loadErrorHandlingPolicy.getFallbackSelectionFor(TrackSelectionUtil.createFallbackOptions(this.chunkSource.getTrackSelection()), loadErrorInfo)) == null || fallbackSelectionFor.type != 2) ? -9223372036854775807L : fallbackSelectionFor.exclusionDurationMs;
+        return this.chunkSource.onPlaylistError(uri, j) && j != -9223372036854775807L;
     }
 
     public void onPlaylistUpdated() {
@@ -973,7 +1006,9 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
         int chunkPublicationState = this.chunkSource.getChunkPublicationState(hlsMediaChunk);
         if (chunkPublicationState == 1) {
             hlsMediaChunk.publish();
-        } else if (chunkPublicationState == 0) {
+            return;
+        }
+        if (chunkPublicationState == 0) {
             this.handler.post(new Runnable() { // from class: com.google.android.exoplayer2.source.hls.HlsSampleStreamWrapper$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -1027,22 +1062,22 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
             }
             this.downstreamTrackFormat = format;
         }
-        if (this.mediaChunks.isEmpty() || ((HlsMediaChunk) this.mediaChunks.get(0)).isPublished()) {
-            int read = this.sampleQueues[i].read(formatHolder, decoderInputBuffer, i2, this.loadingFinished);
-            if (read == -5) {
-                Format format2 = (Format) Assertions.checkNotNull(formatHolder.format);
-                if (i == this.primarySampleQueueIndex) {
-                    int checkedCast = Ints.checkedCast(this.sampleQueues[i].peekSourceId());
-                    while (i3 < this.mediaChunks.size() && ((HlsMediaChunk) this.mediaChunks.get(i3)).uid != checkedCast) {
-                        i3++;
-                    }
-                    format2 = format2.withManifestFormatInfo(i3 < this.mediaChunks.size() ? ((HlsMediaChunk) this.mediaChunks.get(i3)).trackFormat : (Format) Assertions.checkNotNull(this.upstreamTrackFormat));
-                }
-                formatHolder.format = format2;
-            }
-            return read;
+        if (!this.mediaChunks.isEmpty() && !((HlsMediaChunk) this.mediaChunks.get(0)).isPublished()) {
+            return -3;
         }
-        return -3;
+        int read = this.sampleQueues[i].read(formatHolder, decoderInputBuffer, i2, this.loadingFinished);
+        if (read == -5) {
+            Format format2 = (Format) Assertions.checkNotNull(formatHolder.format);
+            if (i == this.primarySampleQueueIndex) {
+                int checkedCast = Ints.checkedCast(this.sampleQueues[i].peekSourceId());
+                while (i3 < this.mediaChunks.size() && ((HlsMediaChunk) this.mediaChunks.get(i3)).uid != checkedCast) {
+                    i3++;
+                }
+                format2 = format2.withManifestFormatInfo(i3 < this.mediaChunks.size() ? ((HlsMediaChunk) this.mediaChunks.get(i3)).trackFormat : (Format) Assertions.checkNotNull(this.upstreamTrackFormat));
+            }
+            formatHolder.format = format2;
+        }
+        return read;
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
@@ -1124,10 +1159,11 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
         return true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:66:0x0119, code lost:
-        if (r11.getSelectedIndexInTrackGroup() != r19.chunkSource.getTrackGroup().indexOf(r1.trackFormat)) goto L75;
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x0119, code lost:
+    
+        if (r11.getSelectedIndexInTrackGroup() != r19.chunkSource.getTrackGroup().indexOf(r1.trackFormat)) goto L67;
      */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0125  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0125  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1273,12 +1309,12 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
                 if (i3 >= trackOutputArr.length) {
                     trackOutput = null;
                     break;
-                } else if (this.sampleQueueTrackIds[i3] == i) {
+                }
+                if (this.sampleQueueTrackIds[i3] == i) {
                     trackOutput = trackOutputArr[i3];
                     break;
-                } else {
-                    i3++;
                 }
+                i3++;
             }
         } else {
             trackOutput = getMappedTrackOutput(i, i2);
@@ -1289,13 +1325,13 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
             }
             trackOutput = createSampleQueue(i, i2);
         }
-        if (i2 == 5) {
-            if (this.emsgUnwrappingTrackOutput == null) {
-                this.emsgUnwrappingTrackOutput = new EmsgUnwrappingTrackOutput(trackOutput, this.metadataType);
-            }
-            return this.emsgUnwrappingTrackOutput;
+        if (i2 != 5) {
+            return trackOutput;
         }
-        return trackOutput;
+        if (this.emsgUnwrappingTrackOutput == null) {
+            this.emsgUnwrappingTrackOutput = new EmsgUnwrappingTrackOutput(trackOutput, this.metadataType);
+        }
+        return this.emsgUnwrappingTrackOutput;
     }
 
     public void unbindSampleQueue(int i) {

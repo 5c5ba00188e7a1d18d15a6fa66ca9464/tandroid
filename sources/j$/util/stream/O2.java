@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Spliterator;
+
 /* loaded from: classes2.dex */
 class O2 extends d implements Consumer, Iterable {
     protected Object[] e = new Object[1 << 4];
     protected Object[][] f;
 
     @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
+    /* renamed from: accept */
+    public void r(Object obj) {
         long length;
         int i = this.b;
         Object[] objArr = this.e;
@@ -77,11 +79,11 @@ class O2 extends d implements Consumer, Iterable {
     public void forEach(Consumer consumer) {
         for (int i = 0; i < this.c; i++) {
             for (Object obj : this.f[i]) {
-                consumer.accept(obj);
+                consumer.r(obj);
             }
         }
         for (int i2 = 0; i2 < this.b; i2++) {
-            consumer.accept(this.e[i2]);
+            consumer.r(this.e[i2]);
         }
     }
 
@@ -113,35 +115,33 @@ class O2 extends d implements Consumer, Iterable {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final void u(long j) {
-        Object[][] objArr;
-        int i;
-        int i2 = this.c;
-        long length = i2 == 0 ? this.e.length : this.d[i2] + this.f[i2].length;
+        int i = this.c;
+        long length = i == 0 ? this.e.length : this.d[i] + this.f[i].length;
         if (j > length) {
             if (this.f == null) {
-                Object[][] objArr2 = new Object[8];
-                this.f = objArr2;
+                Object[][] objArr = new Object[8];
+                this.f = objArr;
                 this.d = new long[8];
-                objArr2[0] = this.e;
+                objArr[0] = this.e;
             }
-            int i3 = i2 + 1;
+            int i2 = i + 1;
             while (j > length) {
-                Object[][] objArr3 = this.f;
-                if (i3 >= objArr3.length) {
-                    int length2 = objArr3.length * 2;
-                    this.f = (Object[][]) Arrays.copyOf(objArr3, length2);
+                Object[][] objArr2 = this.f;
+                if (i2 >= objArr2.length) {
+                    int length2 = objArr2.length * 2;
+                    this.f = (Object[][]) Arrays.copyOf(objArr2, length2);
                     this.d = Arrays.copyOf(this.d, length2);
                 }
-                int i4 = this.a;
-                if (i3 != 0 && i3 != 1) {
-                    i4 = Math.min((i4 + i3) - 1, 30);
+                int i3 = this.a;
+                if (i2 != 0 && i2 != 1) {
+                    i3 = Math.min((i3 + i2) - 1, 30);
                 }
-                int i5 = 1 << i4;
-                this.f[i3] = new Object[i5];
+                int i4 = 1 << i3;
+                this.f[i2] = new Object[i4];
                 long[] jArr = this.d;
-                jArr[i3] = jArr[i3 - 1] + objArr[i].length;
-                length += i5;
-                i3++;
+                jArr[i2] = jArr[i2 - 1] + r5[r7].length;
+                length += i4;
+                i2++;
             }
         }
     }

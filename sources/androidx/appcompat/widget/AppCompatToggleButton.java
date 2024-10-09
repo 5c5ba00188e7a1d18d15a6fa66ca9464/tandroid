@@ -1,5 +1,6 @@
 package androidx.appcompat.widget;
 
+import android.R;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
@@ -9,6 +10,7 @@ import android.util.AttributeSet;
 import android.widget.ToggleButton;
 import androidx.core.view.TintableBackgroundView;
 import androidx.core.widget.TintableCompoundDrawablesView;
+
 /* loaded from: classes.dex */
 public class AppCompatToggleButton extends ToggleButton implements TintableBackgroundView, TintableCompoundDrawablesView {
     private AppCompatEmojiTextHelper mAppCompatEmojiTextHelper;
@@ -16,7 +18,7 @@ public class AppCompatToggleButton extends ToggleButton implements TintableBackg
     private final AppCompatTextHelper mTextHelper;
 
     public AppCompatToggleButton(Context context, AttributeSet attributeSet) {
-        this(context, attributeSet, 16842827);
+        this(context, attributeSet, R.attr.buttonStyleToggle);
     }
 
     public AppCompatToggleButton(Context context, AttributeSet attributeSet, int i) {

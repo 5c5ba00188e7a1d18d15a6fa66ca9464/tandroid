@@ -6,6 +6,7 @@ import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class LocationSettingsResult extends AbstractSafeParcelable implements Result {
     public static final Parcelable.Creator<LocationSettingsResult> CREATOR = new zzaa();

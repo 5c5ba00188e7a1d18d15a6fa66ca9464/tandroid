@@ -18,6 +18,7 @@ import org.telegram.messenger.SaveToGallerySettingsHelper;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SeekBarView;
+
 /* loaded from: classes4.dex */
 public abstract class MaxFileSizeCell extends FrameLayout {
     private long currentSize;
@@ -84,7 +85,7 @@ public abstract class MaxFileSizeCell extends FrameLayout {
                 } else {
                     float f5 = f - 0.25f;
                     if (f5 < 0.25f) {
-                        f2 = (float) FileLoaderPriorityQueue.PRIORITY_VALUE_MAX;
+                        f2 = FileLoaderPriorityQueue.PRIORITY_VALUE_MAX;
                         f3 = f5 / 0.25f;
                         f4 = 9437184.0f;
                     } else {
@@ -169,11 +170,11 @@ public abstract class MaxFileSizeCell extends FrameLayout {
             arrayList.add(ObjectAnimator.ofFloat(this.textView, "alpha", z ? 1.0f : 0.5f));
             arrayList.add(ObjectAnimator.ofFloat(this.seekBarView, "alpha", z ? 1.0f : 0.5f));
             arrayList.add(ObjectAnimator.ofFloat(this.sizeTextView, "alpha", z ? 1.0f : 0.5f));
-            return;
+        } else {
+            this.textView.setAlpha(z ? 1.0f : 0.5f);
+            this.seekBarView.setAlpha(z ? 1.0f : 0.5f);
+            this.sizeTextView.setAlpha(z ? 1.0f : 0.5f);
         }
-        this.textView.setAlpha(z ? 1.0f : 0.5f);
-        this.seekBarView.setAlpha(z ? 1.0f : 0.5f);
-        this.sizeTextView.setAlpha(z ? 1.0f : 0.5f);
     }
 
     public void setSize(long j) {

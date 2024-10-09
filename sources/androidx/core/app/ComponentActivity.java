@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.ReportFragment;
+
 /* loaded from: classes.dex */
 public abstract class ComponentActivity extends Activity implements LifecycleOwner, KeyEventDispatcher.Component {
     private SimpleArrayMap mExtraDataMap = new SimpleArrayMap();

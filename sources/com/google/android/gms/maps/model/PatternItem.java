@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public class PatternItem extends AbstractSafeParcelable {
     public static final Parcelable.Creator<PatternItem> CREATOR = new zzj();
@@ -26,11 +27,11 @@ public class PatternItem extends AbstractSafeParcelable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof PatternItem) {
-            PatternItem patternItem = (PatternItem) obj;
-            return this.zzb == patternItem.zzb && Objects.equal(this.zzc, patternItem.zzc);
+        if (!(obj instanceof PatternItem)) {
+            return false;
         }
-        return false;
+        PatternItem patternItem = (PatternItem) obj;
+        return this.zzb == patternItem.zzb && Objects.equal(this.zzc, patternItem.zzc);
     }
 
     public int hashCode() {
@@ -38,9 +39,7 @@ public class PatternItem extends AbstractSafeParcelable {
     }
 
     public String toString() {
-        int i = this.zzb;
-        Float f = this.zzc;
-        return "[PatternItem: type=" + i + " length=" + f + "]";
+        return "[PatternItem: type=" + this.zzb + " length=" + this.zzc + "]";
     }
 
     @Override // android.os.Parcelable

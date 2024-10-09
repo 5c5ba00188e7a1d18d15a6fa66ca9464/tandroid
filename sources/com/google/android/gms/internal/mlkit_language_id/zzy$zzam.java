@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
+
 /* loaded from: classes.dex */
 public final class zzy$zzam extends zzeo implements zzgb {
     private static final zzy$zzam zzh;
@@ -56,11 +57,12 @@ public final class zzy$zzam extends zzeo implements zzgb {
         /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
         @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
         public final Object zza(int i, Object obj, Object obj2) {
+            zzx zzxVar = null;
             switch (zzx.zza[i - 1]) {
                 case 1:
                     return new zzb();
                 case 2:
-                    return new zza(null);
+                    return new zza(zzxVar);
                 case 3:
                     return zzeo.zza(zzh, "\u0001\u0004\u0000\u0001\u0001\u0004\u0004\u0000\u0000\u0000\u0001ဇ\u0000\u0002ဇ\u0001\u0003ဇ\u0002\u0004ဇ\u0003", new Object[]{"zzc", "zzd", "zze", "zzf", "zzg"});
                 case 4:
@@ -106,11 +108,12 @@ public final class zzy$zzam extends zzeo implements zzgb {
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
+        zzx zzxVar = null;
         switch (zzx.zza[i - 1]) {
             case 1:
                 return new zzy$zzam();
             case 2:
-                return new zza(null);
+                return new zza(zzxVar);
             case 3:
                 return zzeo.zza(zzh, "\u0001\u0004\u0000\u0001\u0001\u0004\u0004\u0000\u0000\u0000\u0001ဉ\u0000\u0002ဉ\u0001\u0003ဉ\u0002\u0004ဇ\u0003", new Object[]{"zzc", "zzd", "zze", "zzf", "zzg"});
             case 4:

@@ -1,4 +1,5 @@
 package com.google.zxing;
+
 /* loaded from: classes.dex */
 public final class ChecksumException extends ReaderException {
     private static final ChecksumException INSTANCE;

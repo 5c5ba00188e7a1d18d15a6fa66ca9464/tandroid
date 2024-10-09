@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
+
 /* loaded from: classes.dex */
 abstract class zzam {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -8,16 +9,20 @@ abstract class zzam {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x002b, code lost:
-        if (r5 != (-1)) goto L16;
+    
+        if (r5 != (-1)) goto L14;
      */
     /* JADX WARN: Code restructure failed: missing block: B:13:0x002d, code lost:
+    
         zze(r11, r1, r7);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0031, code lost:
-        r12[r5] = (r12[r5] & r4) | (r7 & r10);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0039, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0039, code lost:
+    
         return r2;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0031, code lost:
+    
+        r12[r5] = (r12[r5] & r4) | (r7 & r10);
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

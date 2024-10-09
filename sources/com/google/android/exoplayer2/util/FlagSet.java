@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.util;
 
 import android.util.SparseBooleanArray;
+
 /* loaded from: classes.dex */
 public final class FlagSet {
     private final SparseBooleanArray flags;
@@ -53,22 +54,22 @@ public final class FlagSet {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof FlagSet) {
-            FlagSet flagSet = (FlagSet) obj;
-            if (Util.SDK_INT < 24) {
-                if (size() != flagSet.size()) {
-                    return false;
-                }
-                for (int i = 0; i < size(); i++) {
-                    if (get(i) != flagSet.get(i)) {
-                        return false;
-                    }
-                }
-                return true;
-            }
+        if (!(obj instanceof FlagSet)) {
+            return false;
+        }
+        FlagSet flagSet = (FlagSet) obj;
+        if (Util.SDK_INT >= 24) {
             return this.flags.equals(flagSet.flags);
         }
-        return false;
+        if (size() != flagSet.size()) {
+            return false;
+        }
+        for (int i = 0; i < size(); i++) {
+            if (get(i) != flagSet.get(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public int get(int i) {
@@ -77,14 +78,14 @@ public final class FlagSet {
     }
 
     public int hashCode() {
-        if (Util.SDK_INT < 24) {
-            int size = size();
-            for (int i = 0; i < size(); i++) {
-                size = (size * 31) + get(i);
-            }
-            return size;
+        if (Util.SDK_INT >= 24) {
+            return this.flags.hashCode();
         }
-        return this.flags.hashCode();
+        int size = size();
+        for (int i = 0; i < size(); i++) {
+            size = (size * 31) + get(i);
+        }
+        return size;
     }
 
     public int size() {

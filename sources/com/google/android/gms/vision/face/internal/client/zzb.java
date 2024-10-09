@@ -15,6 +15,7 @@ import com.google.android.gms.vision.face.Contour;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.Landmark;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public final class zzb extends zzt {
     private final zzf zza;
@@ -78,28 +79,29 @@ public final class zzb extends zzt {
     }
 
     public final Face[] zza(ByteBuffer byteBuffer, zzs zzsVar) {
-        if (zzb()) {
-            try {
-                FaceParcel[] zza = ((zzh) Preconditions.checkNotNull((zzh) zzd())).zza(ObjectWrapper.wrap(byteBuffer), zzsVar);
-                Face[] faceArr = new Face[zza.length];
-                for (int i = 0; i < zza.length; i++) {
-                    faceArr[i] = zza(zza[i]);
-                }
-                return faceArr;
-            } catch (RemoteException e) {
-                Log.e("FaceNativeHandle", "Could not call native face detector", e);
-                return new Face[0];
-            }
+        if (!zzb()) {
+            return new Face[0];
         }
-        return new Face[0];
+        try {
+            FaceParcel[] zza = ((zzh) Preconditions.checkNotNull((zzh) zzd())).zza(ObjectWrapper.wrap(byteBuffer), zzsVar);
+            Face[] faceArr = new Face[zza.length];
+            for (int i = 0; i < zza.length; i++) {
+                faceArr[i] = zza(zza[i]);
+            }
+            return faceArr;
+        } catch (RemoteException e) {
+            Log.e("FaceNativeHandle", "Could not call native face detector", e);
+            return new Face[0];
+        }
     }
 
     public final Face[] zza(Image.Plane[] planeArr, zzs zzsVar) {
         if (!zzb()) {
             Log.e("FaceNativeHandle", "Native handle is not ready to be used.");
-        } else if (planeArr != null && planeArr.length != 3) {
-            throw new IllegalArgumentException("Only android.graphics.ImageFormat#YUV_420_888 is supported which should have 3 planes.");
         } else {
+            if (planeArr != null && planeArr.length != 3) {
+                throw new IllegalArgumentException("Only android.graphics.ImageFormat#YUV_420_888 is supported which should have 3 planes.");
+            }
             try {
                 FaceParcel[] zza = ((zzh) Preconditions.checkNotNull((zzh) zzd())).zza(ObjectWrapper.wrap(planeArr[0].getBuffer()), ObjectWrapper.wrap(planeArr[1].getBuffer()), ObjectWrapper.wrap(planeArr[2].getBuffer()), planeArr[0].getPixelStride(), planeArr[1].getPixelStride(), planeArr[2].getPixelStride(), planeArr[0].getRowStride(), planeArr[1].getRowStride(), planeArr[2].getRowStride(), zzsVar);
                 Face[] faceArr = new Face[zza.length];

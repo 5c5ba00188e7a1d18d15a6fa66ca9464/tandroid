@@ -7,6 +7,7 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+
 /* loaded from: classes.dex */
 public abstract class SearchActionVerificationClientUtil {
     public static boolean isPackageGoogleSigned(Context context, String str) {

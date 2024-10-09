@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
+
 /* loaded from: classes.dex */
 public final class zzfi$zzg extends zzjb implements zzkm {
     private static final zzfi$zzg zzj;
@@ -29,7 +30,7 @@ public final class zzfi$zzg extends zzjb implements zzkm {
         zzc(0),
         zza(1),
         zzb(2);
-        
+
         private static final zzjh zzd = new zzfq();
         private final int zze;
 
@@ -38,16 +39,16 @@ public final class zzfi$zzg extends zzjb implements zzkm {
         }
 
         public static zzb zza(int i) {
-            if (i != 0) {
-                if (i != 1) {
-                    if (i != 2) {
-                        return null;
-                    }
-                    return zzb;
-                }
+            if (i == 0) {
+                return zzc;
+            }
+            if (i == 1) {
                 return zza;
             }
-            return zzc;
+            if (i != 2) {
+                return null;
+            }
+            return zzb;
         }
 
         public static zzjg zzb() {
@@ -71,7 +72,7 @@ public final class zzfi$zzg extends zzjb implements zzkm {
         zza(1),
         zzb(2),
         zzc(3);
-        
+
         private static final zzjh zze = new zzft();
         private final int zzf;
 
@@ -80,19 +81,19 @@ public final class zzfi$zzg extends zzjb implements zzkm {
         }
 
         public static zzc zza(int i) {
-            if (i != 0) {
-                if (i != 1) {
-                    if (i != 2) {
-                        if (i != 3) {
-                            return null;
-                        }
-                        return zzc;
-                    }
-                    return zzb;
-                }
+            if (i == 0) {
+                return zzd;
+            }
+            if (i == 1) {
                 return zza;
             }
-            return zzd;
+            if (i == 2) {
+                return zzb;
+            }
+            if (i != 3) {
+                return null;
+            }
+            return zzc;
         }
 
         public static zzjg zzb() {
@@ -116,7 +117,7 @@ public final class zzfi$zzg extends zzjb implements zzkm {
         zza(1),
         zzb(2),
         zzc(3);
-        
+
         private static final zzjh zze = new zzfu();
         private final int zzf;
 
@@ -125,19 +126,19 @@ public final class zzfi$zzg extends zzjb implements zzkm {
         }
 
         public static zzd zza(int i) {
-            if (i != 0) {
-                if (i != 1) {
-                    if (i != 2) {
-                        if (i != 3) {
-                            return null;
-                        }
-                        return zzc;
-                    }
-                    return zzb;
-                }
+            if (i == 0) {
+                return zzd;
+            }
+            if (i == 1) {
                 return zza;
             }
-            return zzd;
+            if (i == 2) {
+                return zzb;
+            }
+            if (i != 3) {
+                return null;
+            }
+            return zzc;
         }
 
         public static zzjg zzb() {
@@ -168,11 +169,12 @@ public final class zzfi$zzg extends zzjb implements zzkm {
     /* JADX WARN: Type inference failed for: r5v21, types: [com.google.android.gms.internal.vision.zzkx, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {
+        zzfk zzfkVar = null;
         switch (zzfk.zza[i - 1]) {
             case 1:
                 return new zzfi$zzg();
             case 2:
-                return new zza(null);
+                return new zza(zzfkVar);
             case 3:
                 return zzjb.zza(zzj, "\u0001\u0006\u0000\u0001\u0001\u0006\u0006\u0000\u0000\u0000\u0001ဌ\u0000\u0002ဌ\u0001\u0003ဌ\u0002\u0004ဇ\u0003\u0005ဇ\u0004\u0006ခ\u0005", new Object[]{"zzc", "zzd", zzd.zzb(), "zze", zzc.zzb(), "zzf", zzb.zzb(), "zzg", "zzh", "zzi"});
             case 4:

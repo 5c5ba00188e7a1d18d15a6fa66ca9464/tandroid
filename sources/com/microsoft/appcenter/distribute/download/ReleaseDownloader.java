@@ -2,6 +2,7 @@ package com.microsoft.appcenter.distribute.download;
 
 import android.net.Uri;
 import com.microsoft.appcenter.distribute.ReleaseDetails;
+
 /* loaded from: classes.dex */
 public interface ReleaseDownloader {
 

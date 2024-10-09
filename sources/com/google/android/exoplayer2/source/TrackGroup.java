@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.TranslateController;
+
 /* loaded from: classes.dex */
 public final class TrackGroup implements Bundleable {
     private final Format[] formats;
@@ -77,10 +78,11 @@ public final class TrackGroup implements Bundleable {
                 Format[] formatArr2 = this.formats;
                 logErrorMessage("languages", formatArr2[0].language, formatArr2[i].language, i);
                 return;
-            } else if (normalizeRoleFlags != normalizeRoleFlags(this.formats[i].roleFlags)) {
-                logErrorMessage("role flags", Integer.toBinaryString(this.formats[0].roleFlags), Integer.toBinaryString(this.formats[i].roleFlags), i);
-                return;
             } else {
+                if (normalizeRoleFlags != normalizeRoleFlags(this.formats[i].roleFlags)) {
+                    logErrorMessage("role flags", Integer.toBinaryString(this.formats[0].roleFlags), Integer.toBinaryString(this.formats[i].roleFlags), i);
+                    return;
+                }
                 i++;
             }
         }

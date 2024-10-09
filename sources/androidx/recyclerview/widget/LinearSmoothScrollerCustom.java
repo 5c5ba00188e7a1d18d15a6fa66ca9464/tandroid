@@ -8,6 +8,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
+
 /* loaded from: classes.dex */
 public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
     private final float MILLISECONDS_PER_PX;
@@ -83,7 +84,7 @@ public class LinearSmoothScrollerCustom extends RecyclerView.SmoothScroller {
 
     @Override // androidx.recyclerview.widget.RecyclerView.SmoothScroller
     public PointF computeScrollVectorForPosition(int i) {
-        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        Object layoutManager = getLayoutManager();
         if (layoutManager instanceof RecyclerView.SmoothScroller.ScrollVectorProvider) {
             return ((RecyclerView.SmoothScroller.ScrollVectorProvider) layoutManager).computeScrollVectorForPosition(i);
         }

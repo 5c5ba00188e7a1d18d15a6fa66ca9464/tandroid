@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_common;
+
 /* loaded from: classes.dex */
 final class zzar {
     private final Object zza;
@@ -17,10 +18,6 @@ final class zzar {
         Object obj = this.zzc;
         Object obj2 = this.zzb;
         Object obj3 = this.zza;
-        String valueOf = String.valueOf(obj3);
-        String valueOf2 = String.valueOf(obj2);
-        String valueOf3 = String.valueOf(obj3);
-        String valueOf4 = String.valueOf(obj);
-        return new IllegalArgumentException("Multiple entries with same key: " + valueOf + "=" + valueOf2 + " and " + valueOf3 + "=" + valueOf4);
+        return new IllegalArgumentException("Multiple entries with same key: " + String.valueOf(obj3) + "=" + String.valueOf(obj2) + " and " + String.valueOf(obj3) + "=" + String.valueOf(obj));
     }
 }

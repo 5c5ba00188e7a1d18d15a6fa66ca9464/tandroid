@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.LongUnaryOperator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class d0 implements f0 {
     public final /* synthetic */ LongUnaryOperator a;

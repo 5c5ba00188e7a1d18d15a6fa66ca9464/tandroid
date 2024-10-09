@@ -2,6 +2,7 @@ package com.google.gson;
 
 import com.google.gson.internal.LinkedTreeMap;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class JsonObject extends JsonElement {
     private final LinkedTreeMap members = new LinkedTreeMap(false);

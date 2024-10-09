@@ -5,6 +5,7 @@ import android.os.SystemClock;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 final class AudioTrackPositionTracker {
     private AudioTimestampPoller audioTimestampPoller;
@@ -115,10 +116,11 @@ final class AudioTrackPositionTracker {
             long timestampPositionFrames = audioTimestampPoller.getTimestampPositionFrames();
             if (Math.abs(timestampSystemTimeUs - j) > 5000000) {
                 this.listener.onSystemTimeUsMismatch(timestampPositionFrames, timestampSystemTimeUs, j, j2);
-            } else if (Math.abs(framesToDurationUs(timestampPositionFrames) - j2) <= 5000000) {
-                audioTimestampPoller.acceptTimestamp();
-                return;
             } else {
+                if (Math.abs(framesToDurationUs(timestampPositionFrames) - j2) <= 5000000) {
+                    audioTimestampPoller.acceptTimestamp();
+                    return;
+                }
                 this.listener.onPositionFramesMismatch(timestampPositionFrames, timestampSystemTimeUs, j, j2);
             }
             audioTimestampPoller.rejectTimestamp();
@@ -219,8 +221,9 @@ final class AudioTrackPositionTracker {
         }
         long j = nanoTime - this.previousModeSystemTimeUs;
         if (j < 1000000) {
+            long mediaDurationForPlayoutDuration = this.previousModePositionUs + Util.getMediaDurationForPlayoutDuration(j, this.audioTrackPlaybackSpeed);
             long j2 = (j * 1000) / 1000000;
-            playbackHeadPositionUs = ((playbackHeadPositionUs * j2) + ((1000 - j2) * (this.previousModePositionUs + Util.getMediaDurationForPlayoutDuration(j, this.audioTrackPlaybackSpeed)))) / 1000;
+            playbackHeadPositionUs = ((playbackHeadPositionUs * j2) + ((1000 - j2) * mediaDurationForPlayoutDuration)) / 1000;
         }
         if (!this.notifiedPositionIncreasing) {
             long j3 = this.lastPositionUs;
@@ -259,7 +262,8 @@ final class AudioTrackPositionTracker {
             if (playState == 2) {
                 this.hasData = false;
                 return false;
-            } else if (playState == 1 && getPlaybackHeadPosition() == 0) {
+            }
+            if (playState == 1 && getPlaybackHeadPosition() == 0) {
                 return false;
             }
         }
@@ -274,11 +278,11 @@ final class AudioTrackPositionTracker {
 
     public boolean pause() {
         resetSyncParams();
-        if (this.stopTimestampUs == -9223372036854775807L) {
-            ((AudioTimestampPoller) Assertions.checkNotNull(this.audioTimestampPoller)).reset();
-            return true;
+        if (this.stopTimestampUs != -9223372036854775807L) {
+            return false;
         }
-        return false;
+        ((AudioTimestampPoller) Assertions.checkNotNull(this.audioTimestampPoller)).reset();
+        return true;
     }
 
     public void reset() {

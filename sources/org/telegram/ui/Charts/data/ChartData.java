@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.telegram.messenger.SegmentTree;
 import org.telegram.ui.ActionBar.ThemeColors;
+
 /* loaded from: classes4.dex */
 public class ChartData {
     public String[] daysLookup;
@@ -139,26 +140,25 @@ public class ChartData {
     }
 
     public int findEndIndex(int i, float f) {
-        int i2 = (f > 1.0f ? 1 : (f == 1.0f ? 0 : -1));
         int length = this.xPercentage.length - 1;
-        if (i2 == 0) {
+        if (f == 1.0f) {
             return length;
         }
-        int i3 = length;
-        while (i <= i3) {
-            int i4 = (i3 + i) >> 1;
+        int i2 = length;
+        while (i <= i2) {
+            int i3 = (i2 + i) >> 1;
             float[] fArr = this.xPercentage;
-            float f2 = fArr[i4];
-            if ((f > f2 && (i4 == length || f < fArr[i4 + 1])) || f == f2) {
-                return i4;
+            float f2 = fArr[i3];
+            if ((f > f2 && (i3 == length || f < fArr[i3 + 1])) || f == f2) {
+                return i3;
             }
             if (f < f2) {
-                i3 = i4 - 1;
+                i2 = i3 - 1;
             } else if (f > f2) {
-                i = i4 + 1;
+                i = i3 + 1;
             }
         }
-        return i3;
+        return i2;
     }
 
     public int findIndex(int i, int i2, float f) {
@@ -189,24 +189,24 @@ public class ChartData {
     public int findStartIndex(float f) {
         int length;
         int i = 0;
-        if (f != 0.0f && (length = this.xPercentage.length) >= 2) {
-            int i2 = length - 1;
-            while (i <= i2) {
-                int i3 = (i2 + i) >> 1;
-                float[] fArr = this.xPercentage;
-                float f2 = fArr[i3];
-                if ((f < f2 && (i3 == 0 || f > fArr[i3 - 1])) || f == f2) {
-                    return i3;
-                }
-                if (f < f2) {
-                    i2 = i3 - 1;
-                } else if (f > f2) {
-                    i = i3 + 1;
-                }
-            }
-            return i;
+        if (f == 0.0f || (length = this.xPercentage.length) < 2) {
+            return 0;
         }
-        return 0;
+        int i2 = length - 1;
+        while (i <= i2) {
+            int i3 = (i2 + i) >> 1;
+            float[] fArr = this.xPercentage;
+            float f2 = fArr[i3];
+            if ((f < f2 && (i3 == 0 || f > fArr[i3 - 1])) || f == f2) {
+                return i3;
+            }
+            if (f < f2) {
+                i2 = i3 - 1;
+            } else if (f > f2) {
+                i = i3 + 1;
+            }
+        }
+        return i;
     }
 
     public String getDayString(int i) {
@@ -259,16 +259,18 @@ public class ChartData {
         while (true) {
             String[] strArr = this.daysLookup;
             if (i3 >= strArr.length) {
+                float f = (float) this.timeStep;
                 long[] jArr2 = this.x;
-                this.oneDayPercentage = ((float) this.timeStep) / ((float) (jArr2[jArr2.length - 1] - jArr2[0]));
+                this.oneDayPercentage = f / ((float) (jArr2[jArr2.length - 1] - jArr2[0]));
                 return;
-            }
-            if (this.timeStep == 1) {
-                strArr[i3] = String.format(Locale.ENGLISH, "%02d:00", Integer.valueOf(i3));
             } else {
-                strArr[i3] = simpleDateFormat.format(new Date((i3 * this.timeStep) + j));
+                if (this.timeStep == 1) {
+                    strArr[i3] = String.format(Locale.ENGLISH, "%02d:00", Integer.valueOf(i3));
+                } else {
+                    strArr[i3] = simpleDateFormat.format(new Date((i3 * this.timeStep) + j));
+                }
+                i3++;
             }
-            i3++;
         }
     }
 }

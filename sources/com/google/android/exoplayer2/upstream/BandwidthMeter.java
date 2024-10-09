@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 /* loaded from: classes.dex */
 public interface BandwidthMeter {
 

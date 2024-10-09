@@ -31,6 +31,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CacheChart;
 import org.telegram.ui.Components.Premium.StarParticlesView;
+
 /* loaded from: classes3.dex */
 public abstract class CacheChart extends View {
     private static final int[] DEFAULT_COLORS;
@@ -160,39 +161,42 @@ public abstract class CacheChart extends View {
                 while (floor <= ceil) {
                     float f14 = floor * f13;
                     double d = 100.0f + f11;
+                    double sin = ((Math.sin(2000.0f * f14) + 1.0d) * 0.25d) + 1.0d;
                     Double.isNaN(d);
-                    float sin = (float) ((d * (((Math.sin(2000.0f * f14) + 1.0d) * 0.25d) + 1.0d)) % 1.0d);
-                    float f15 = f12 * sqrt;
+                    float f15 = (float) ((d * sin) % 1.0d);
+                    float f16 = f12 * sqrt;
                     double d2 = f;
-                    float f16 = f12;
+                    float f17 = f12;
                     int i = ceil;
-                    double lerp = AndroidUtilities.lerp(f7 - f15, f8 + f15, sin);
+                    double lerp = AndroidUtilities.lerp(f7 - f16, f8 + f16, f15);
                     double cos = Math.cos(CacheChart.toRad(f14));
                     Double.isNaN(lerp);
                     Double.isNaN(d2);
-                    float f17 = (float) (d2 + (cos * lerp));
+                    float f18 = (float) (d2 + (cos * lerp));
                     double d3 = f2;
                     double sin2 = Math.sin(CacheChart.toRad(f14));
                     Double.isNaN(lerp);
                     Double.isNaN(d3);
-                    float f18 = (float) (d3 + (lerp * sin2));
-                    double d4 = sin;
+                    float f19 = (float) (d3 + (lerp * sin2));
+                    float abs = 0.65f * f10 * ((Math.abs(f15 - 0.5f) * (-1.75f)) + 1.0f);
+                    double d4 = f15;
                     Double.isNaN(d4);
                     double d5 = d4 * 3.141592653589793d;
-                    this.particlePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, 0.65f * f10 * ((Math.abs(sin - 0.5f) * (-1.75f)) + 1.0f) * ((((float) (Math.sin(d5) - 1.0d)) * 0.25f) + 1.0f) * AndroidUtilities.lerp(1.0f, Math.min(MathUtils.distance(f17, f18, f3, f4) / AndroidUtilities.dpf2(64.0f), 1.0f), f9))) * 255.0f));
+                    this.particlePaint.setAlpha((int) (Math.max(0.0f, Math.min(1.0f, abs * ((((float) (Math.sin(d5) - 1.0d)) * 0.25f) + 1.0f) * AndroidUtilities.lerp(1.0f, Math.min(MathUtils.distance(f18, f19, f3, f4) / AndroidUtilities.dpf2(64.0f), 1.0f), f9))) * 255.0f));
                     double sin3 = ((((float) (Math.sin(d5) - 1.0d)) * 0.25f) + 1.0f) * 0.75f;
+                    double sin4 = ((Math.sin(f14) + 1.0d) * 0.25d) + 0.800000011920929d;
                     Double.isNaN(sin3);
-                    float sin4 = ((float) (sin3 * (((Math.sin(f14) + 1.0d) * 0.25d) + 0.800000011920929d))) * dpf2;
+                    float f20 = ((float) (sin3 * sin4)) * dpf2;
                     canvas.save();
-                    canvas.translate(f17, f18);
-                    canvas.scale(sin4, sin4);
-                    float f19 = -(width >> 1);
-                    canvas.drawBitmap(this.particle, f19, f19, this.particlePaint);
+                    canvas.translate(f18, f19);
+                    canvas.scale(f20, f20);
+                    float f21 = -(width >> 1);
+                    canvas.drawBitmap(this.particle, f21, f21, this.particlePaint);
                     canvas.restore();
                     floor++;
                     ceil = i;
                     f11 = f11;
-                    f12 = f16;
+                    f12 = f17;
                     f13 = 7.0f;
                 }
             }
@@ -207,9 +211,6 @@ public abstract class CacheChart extends View {
         private void setupPath(RectF rectF, RectF rectF2, float f, float f2, float f3) {
             float f4;
             float f5;
-            float f6;
-            float f7;
-            float f8;
             float min = Math.min(f3, (rectF.width() - rectF2.width()) / 4.0f);
             double d = f2 / 180.0f;
             Double.isNaN(d);
@@ -227,21 +228,21 @@ public abstract class CacheChart extends View {
             this.lastWidth = rectF.width();
             this.lastCx = rectF.centerX();
             this.lastCy = rectF.centerY();
-            float f9 = f - f2;
-            float f10 = f + f2;
+            float f6 = f - f2;
+            float f7 = f + f2;
             boolean z = min2 > 0.0f;
-            float f11 = min2 * 2.0f;
-            double width3 = rectF.width() - f11;
+            float f8 = min2 * 2.0f;
+            double width3 = rectF.width() - f8;
             Double.isNaN(width3);
-            float f12 = (min2 / ((float) (width3 * 3.141592653589793d))) * 360.0f;
-            double width4 = rectF2.width() + f11;
+            float f9 = (min2 / ((float) (width3 * 3.141592653589793d))) * 360.0f;
+            double width4 = rectF2.width() + f8;
             Double.isNaN(width4);
-            float f13 = ((min2 / ((float) (width4 * 3.141592653589793d))) * 360.0f) + ((f2 > 175.0f ? 0 : 1) * 0.5f);
+            float f10 = ((min2 / ((float) (width4 * 3.141592653589793d))) * 360.0f) + ((f2 > 175.0f ? 0 : 1) * 0.5f);
             float width5 = (rectF.width() / 2.0f) - min2;
             float width6 = (rectF2.width() / 2.0f) + min2;
             this.path.rewind();
-            float f14 = f10 - f9;
-            if (f14 < 0.5f) {
+            float f11 = f7 - f6;
+            if (f11 < 0.5f) {
                 return;
             }
             if (z) {
@@ -249,67 +250,67 @@ public abstract class CacheChart extends View {
                 double centerX = rectF.centerX();
                 double d2 = width5;
                 f4 = width6;
-                double cos = Math.cos(CacheChart.toRad(f8));
+                double cos = Math.cos(CacheChart.toRad(r19));
                 Double.isNaN(d2);
                 Double.isNaN(centerX);
                 double d3 = centerX + (cos * d2);
                 double centerY = rectF.centerY();
-                double sin = Math.sin(CacheChart.toRad(f8));
+                double sin = Math.sin(CacheChart.toRad(r19));
                 Double.isNaN(d2);
                 Double.isNaN(centerY);
                 CacheChart.setCircleBounds(rectF3, d3, (d2 * sin) + centerY, min2);
-                this.path.arcTo(CacheChart.this.roundingRect, (f9 + f12) - 90.0f, 90.0f);
+                this.path.arcTo(CacheChart.this.roundingRect, (f6 + f9) - 90.0f, 90.0f);
             } else {
                 f4 = width6;
             }
-            this.path.arcTo(rectF, f9 + f12, f14 - (f12 * 2.0f));
+            this.path.arcTo(rectF, f6 + f9, f11 - (f9 * 2.0f));
             if (z) {
                 RectF rectF4 = CacheChart.this.roundingRect;
                 double centerX2 = rectF.centerX();
                 double d4 = width5;
-                float f15 = f10 - f12;
-                double cos2 = Math.cos(CacheChart.toRad(f15));
+                float f12 = f7 - f9;
+                double cos2 = Math.cos(CacheChart.toRad(f12));
                 Double.isNaN(d4);
                 Double.isNaN(centerX2);
                 double d5 = centerX2 + (cos2 * d4);
                 double centerY2 = rectF.centerY();
-                f5 = f9;
-                double sin2 = Math.sin(CacheChart.toRad(f15));
+                f5 = f6;
+                double sin2 = Math.sin(CacheChart.toRad(f12));
                 Double.isNaN(d4);
                 Double.isNaN(centerY2);
                 CacheChart.setCircleBounds(rectF4, d5, centerY2 + (d4 * sin2), min2);
-                this.path.arcTo(CacheChart.this.roundingRect, f15, 90.0f);
+                this.path.arcTo(CacheChart.this.roundingRect, f12, 90.0f);
                 RectF rectF5 = CacheChart.this.roundingRect;
                 double centerX3 = rectF2.centerX();
                 double d6 = f4;
-                double cos3 = Math.cos(CacheChart.toRad(f7));
+                double cos3 = Math.cos(CacheChart.toRad(r2));
                 Double.isNaN(d6);
                 Double.isNaN(centerX3);
                 double d7 = centerX3 + (cos3 * d6);
                 double centerY3 = rectF2.centerY();
-                double sin3 = Math.sin(CacheChart.toRad(f7));
+                double sin3 = Math.sin(CacheChart.toRad(r2));
                 Double.isNaN(d6);
                 Double.isNaN(centerY3);
                 CacheChart.setCircleBounds(rectF5, d7, centerY3 + (d6 * sin3), min2);
-                this.path.arcTo(CacheChart.this.roundingRect, (f10 - f13) + 90.0f, 90.0f);
+                this.path.arcTo(CacheChart.this.roundingRect, (f7 - f10) + 90.0f, 90.0f);
             } else {
-                f5 = f9;
+                f5 = f6;
             }
-            this.path.arcTo(rectF2, f10 - f13, -(f14 - (f13 * 2.0f)));
+            this.path.arcTo(rectF2, f7 - f10, -(f11 - (f10 * 2.0f)));
             if (z) {
                 RectF rectF6 = CacheChart.this.roundingRect;
                 double centerX4 = rectF2.centerX();
                 double d8 = f4;
-                double cos4 = Math.cos(CacheChart.toRad(f6));
+                double cos4 = Math.cos(CacheChart.toRad(r4));
                 Double.isNaN(d8);
                 Double.isNaN(centerX4);
                 double d9 = centerX4 + (cos4 * d8);
                 double centerY4 = rectF2.centerY();
-                double sin4 = Math.sin(CacheChart.toRad(f6));
+                double sin4 = Math.sin(CacheChart.toRad(r4));
                 Double.isNaN(d8);
                 Double.isNaN(centerY4);
                 CacheChart.setCircleBounds(rectF6, d9, centerY4 + (d8 * sin4), min2);
-                this.path.arcTo(CacheChart.this.roundingRect, f5 + f13 + 180.0f, 90.0f);
+                this.path.arcTo(CacheChart.this.roundingRect, f5 + f10 + 180.0f, 90.0f);
             }
             this.path.close();
             this.path.computeBounds(this.pathBounds, false);
@@ -530,24 +531,26 @@ public abstract class CacheChart extends View {
         return (float) (d * 3.141592653589793d);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x0328, code lost:
-        if (r0.equals(r25.chartMeasureBounds) != false) goto L65;
+    /* JADX WARN: Code restructure failed: missing block: B:86:0x0328, code lost:
+    
+        if (r0.equals(r25.chartMeasureBounds) != false) goto L92;
      */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0575  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x01cd A[EDGE_INSN: B:114:0x01cd->B:63:0x01cd ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:117:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0098  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0106  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x01d5  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0222  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x02e5  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0098  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0106  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x01cd A[EDGE_INSN: B:54:0x01cd->B:55:0x01cd BREAK  A[LOOP:0: B:28:0x0101->B:36:0x01c2], SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x01d5  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x02e5  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0575  */
+    /* JADX WARN: Removed duplicated region for block: B:92:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0222  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void dispatchDraw(Canvas canvas) {
+        Long l;
         float f;
         char c;
         float f2;
@@ -573,7 +576,6 @@ public abstract class CacheChart extends View {
         float f12;
         float f13;
         float f14;
-        Long l;
         float f15 = 0.0f;
         float f16 = this.loadingFloat.set(this.loading ? 1.0f : 0.0f);
         float f17 = this.completeFloat.set(this.complete ? 1.0f : 0.0f);
@@ -590,7 +592,9 @@ public abstract class CacheChart extends View {
         }
         boolean z = this.loading;
         if (z || loadedStart != null) {
-            l = (z && loadedStart != null) ? null : null;
+            if (z && loadedStart != null) {
+                l = null;
+            }
             Long l2 = loadedStart;
             float currentTimeMillis = ((float) ((l2 != null ? System.currentTimeMillis() : l2.longValue()) - start.longValue())) * 0.6f;
             CircularProgressDrawable.getSegments(currentTimeMillis % 5400.0f, this.segmentsTmp);
@@ -785,7 +789,7 @@ public abstract class CacheChart extends View {
             if (this.isAttached) {
             }
         } else {
-            Long.valueOf(System.currentTimeMillis());
+            l = Long.valueOf(System.currentTimeMillis());
         }
         loadedStart = l;
         Long l22 = loadedStart;
@@ -820,8 +824,8 @@ public abstract class CacheChart extends View {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0087  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0087  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00a4  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -829,10 +833,8 @@ public abstract class CacheChart extends View {
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         int i;
         boolean z;
-        float x = motionEvent.getX();
-        float y = motionEvent.getY();
-        float distance = MathUtils.distance(this.chartBounds.centerX(), this.chartBounds.centerY(), x, y);
-        float atan2 = (float) ((Math.atan2(y - this.chartBounds.centerY(), x - this.chartBounds.centerX()) / 3.141592653589793d) * 180.0d);
+        float distance = MathUtils.distance(this.chartBounds.centerX(), this.chartBounds.centerY(), motionEvent.getX(), motionEvent.getY());
+        float atan2 = (float) ((Math.atan2(r1 - this.chartBounds.centerY(), r0 - this.chartBounds.centerX()) / 3.141592653589793d) * 180.0d);
         if (atan2 < 0.0f) {
             atan2 += 360.0f;
         }

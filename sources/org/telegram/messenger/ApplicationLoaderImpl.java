@@ -18,6 +18,7 @@ import com.microsoft.appcenter.utils.async.AppCenterConsumer;
 import java.io.File;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AlertsCreator;
+
 /* loaded from: classes.dex */
 public class ApplicationLoaderImpl extends ApplicationLoader {
     private static long lastUpdateCheckTime;
@@ -40,15 +41,15 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
     @Override // org.telegram.messenger.ApplicationLoader
     public boolean checkApkInstallPermissions(Context context) {
         boolean canRequestPackageInstalls;
-        if (Build.VERSION.SDK_INT >= 26) {
-            canRequestPackageInstalls = ApplicationLoader.applicationContext.getPackageManager().canRequestPackageInstalls();
-            if (canRequestPackageInstalls) {
-                return true;
-            }
-            AlertsCreator.createApkRestrictedDialog(context, null).show();
-            return false;
+        if (Build.VERSION.SDK_INT < 26) {
+            return true;
         }
-        return true;
+        canRequestPackageInstalls = ApplicationLoader.applicationContext.getPackageManager().canRequestPackageInstalls();
+        if (canRequestPackageInstalls) {
+            return true;
+        }
+        AlertsCreator.createApkRestrictedDialog(context, null).show();
+        return false;
     }
 
     @Override // org.telegram.messenger.ApplicationLoader
@@ -71,9 +72,7 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
             sb.append("dual-camera[");
             sb.append((Build.MANUFACTURER + " " + Build.DEVICE).toUpperCase());
             sb.append("]");
-            String sb2 = sb.toString();
-            EventProperties eventProperties = new EventProperties().set("success", z).set("vendor", z2);
-            Analytics.trackEvent(sb2, eventProperties.set("product", Build.PRODUCT + "").set("model", Build.MODEL));
+            Analytics.trackEvent(sb.toString(), new EventProperties().set("success", z).set("vendor", z2).set("product", Build.PRODUCT + "").set("model", Build.MODEL));
         } catch (Throwable unused) {
         }
     }

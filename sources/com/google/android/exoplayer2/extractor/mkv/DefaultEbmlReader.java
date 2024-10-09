@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.ArrayDeque;
+
 /* loaded from: classes.dex */
 final class DefaultEbmlReader implements EbmlReader {
     private long elementContentSize;
@@ -42,8 +43,7 @@ final class DefaultEbmlReader implements EbmlReader {
     }
 
     private double readFloat(ExtractorInput extractorInput, int i) {
-        long readInteger = readInteger(extractorInput, i);
-        return i == 4 ? Float.intBitsToFloat((int) readInteger) : Double.longBitsToDouble(readInteger);
+        return i == 4 ? Float.intBitsToFloat((int) r0) : Double.longBitsToDouble(readInteger(extractorInput, i));
     }
 
     private long readInteger(ExtractorInput extractorInput, int i) {
@@ -104,7 +104,8 @@ final class DefaultEbmlReader implements EbmlReader {
                     this.processor.startMasterElement(this.elementId, position, this.elementContentSize);
                     this.elementState = 0;
                     return true;
-                } else if (elementType == 2) {
+                }
+                if (elementType == 2) {
                     long j = this.elementContentSize;
                     if (j <= 8) {
                         this.processor.integerElement(this.elementId, readInteger(extractorInput, (int) j));
@@ -112,7 +113,8 @@ final class DefaultEbmlReader implements EbmlReader {
                         return true;
                     }
                     throw ParserException.createForMalformedContainer("Invalid integer size: " + this.elementContentSize, null);
-                } else if (elementType == 3) {
+                }
+                if (elementType == 3) {
                     long j2 = this.elementContentSize;
                     if (j2 <= 2147483647L) {
                         this.processor.stringElement(this.elementId, readString(extractorInput, (int) j2));
@@ -120,21 +122,22 @@ final class DefaultEbmlReader implements EbmlReader {
                         return true;
                     }
                     throw ParserException.createForMalformedContainer("String element size: " + this.elementContentSize, null);
-                } else if (elementType == 4) {
+                }
+                if (elementType == 4) {
                     this.processor.binaryElement(this.elementId, (int) this.elementContentSize, extractorInput);
                     this.elementState = 0;
                     return true;
-                } else if (elementType != 5) {
-                    throw ParserException.createForMalformedContainer("Invalid element type " + elementType, null);
-                } else {
-                    long j3 = this.elementContentSize;
-                    if (j3 == 4 || j3 == 8) {
-                        this.processor.floatElement(this.elementId, readFloat(extractorInput, (int) j3));
-                        this.elementState = 0;
-                        return true;
-                    }
-                    throw ParserException.createForMalformedContainer("Invalid float size: " + this.elementContentSize, null);
                 }
+                if (elementType != 5) {
+                    throw ParserException.createForMalformedContainer("Invalid element type " + elementType, null);
+                }
+                long j3 = this.elementContentSize;
+                if (j3 == 4 || j3 == 8) {
+                    this.processor.floatElement(this.elementId, readFloat(extractorInput, (int) j3));
+                    this.elementState = 0;
+                    return true;
+                }
+                throw ParserException.createForMalformedContainer("Invalid float size: " + this.elementContentSize, null);
             }
             extractorInput.skipFully((int) this.elementContentSize);
             this.elementState = 0;

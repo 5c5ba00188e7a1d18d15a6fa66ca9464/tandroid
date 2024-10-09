@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.DoubleToLongFunction;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class u implements DoubleToLongFunction {
     public final /* synthetic */ v a;

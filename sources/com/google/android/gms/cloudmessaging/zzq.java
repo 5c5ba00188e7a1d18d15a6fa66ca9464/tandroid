@@ -3,6 +3,7 @@ package com.google.android.gms.cloudmessaging;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 abstract class zzq {
     final int zza;

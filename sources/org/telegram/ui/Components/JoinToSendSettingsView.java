@@ -14,6 +14,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
+
 /* loaded from: classes3.dex */
 public class JoinToSendSettingsView extends LinearLayout {
     private final int MAXSPEC;
@@ -226,7 +227,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         textCheckCell.setEnabled(z);
     }
 
-    /* renamed from: setJoinRequest */
+    /* renamed from: setJoinRequest, reason: merged with bridge method [inline-methods] */
     public void lambda$new$3(boolean z) {
         this.isJoinRequest = z;
         this.joinRequestCell.setChecked(z);

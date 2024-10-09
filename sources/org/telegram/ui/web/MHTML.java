@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 /* loaded from: classes.dex */
 public class MHTML {
     public final String boundary;
@@ -121,16 +122,16 @@ public class MHTML {
         }
 
         private int hexDigitToInt(int i) {
-            if (i < 48 || i > 57) {
-                if (i < 65 || i > 70) {
-                    if (i < 97 || i > 102) {
-                        throw new IllegalArgumentException("Invalid hexadecimal digit");
-                    }
-                    return i - 87;
-                }
+            if (i >= 48 && i <= 57) {
+                return i - 48;
+            }
+            if (i >= 65 && i <= 70) {
                 return i - 55;
             }
-            return i - 48;
+            if (i < 97 || i > 102) {
+                throw new IllegalArgumentException("Invalid hexadecimal digit");
+            }
+            return i - 87;
         }
 
         private int hexToByte(int i, int i2) {
@@ -140,15 +141,15 @@ public class MHTML {
         @Override // java.io.FilterInputStream, java.io.InputStream
         public int read() {
             int read = ((FilterInputStream) this).in.read();
-            if (read == 61) {
-                int read2 = ((FilterInputStream) this).in.read();
-                int read3 = ((FilterInputStream) this).in.read();
-                if (read2 == -1 || read3 == -1) {
-                    throw new IOException("Invalid quoted-printable encoding");
-                }
-                return (read2 == 13 && read3 == 10) ? read() : (read2 == 10 || read3 == 10) ? read3 : hexToByte(read2, read3);
+            if (read != 61) {
+                return read;
             }
-            return read;
+            int read2 = ((FilterInputStream) this).in.read();
+            int read3 = ((FilterInputStream) this).in.read();
+            if (read2 == -1 || read3 == -1) {
+                throw new IOException("Invalid quoted-printable encoding");
+            }
+            return (read2 == 13 && read3 == 10) ? read() : (read2 == 10 || read3 == 10) ? read3 : hexToByte(read2, read3);
         }
 
         @Override // java.io.FilterInputStream, java.io.InputStream
@@ -258,7 +259,8 @@ public class MHTML {
                 String trim = readLine.trim();
                 if (trim.isEmpty()) {
                     break loop0;
-                } else if (str == null || sb == null) {
+                }
+                if (str == null || sb == null) {
                     int indexOf = trim.indexOf(58);
                     if (indexOf >= 0) {
                         String trim2 = trim.substring(0, indexOf).trim();

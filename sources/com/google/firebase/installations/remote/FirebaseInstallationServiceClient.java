@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class FirebaseInstallationServiceClient {
     private static final Pattern EXPIRATION_TIMESTAMP_PATTERN = Pattern.compile("[0-9]+s");
@@ -83,11 +84,11 @@ public class FirebaseInstallationServiceClient {
         try {
             Context context = this.context;
             byte[] packageCertificateHashBytes = AndroidUtilsLight.getPackageCertificateHashBytes(context, context.getPackageName());
-            if (packageCertificateHashBytes == null) {
-                Log.e("ContentValues", "Could not get fingerprint hash for package: " + this.context.getPackageName());
-                return null;
+            if (packageCertificateHashBytes != null) {
+                return Hex.bytesToStringUppercase(packageCertificateHashBytes, false);
             }
-            return Hex.bytesToStringUppercase(packageCertificateHashBytes, false);
+            Log.e("ContentValues", "Could not get fingerprint hash for package: " + this.context.getPackageName());
+            return null;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e("ContentValues", "No such package: " + this.context.getPackageName(), e);
             return null;
@@ -280,11 +281,14 @@ public class FirebaseInstallationServiceClient {
     public InstallationResponse createFirebaseInstallation(String str, String str2, String str3, String str4, String str5) {
         int responseCode;
         InstallationResponse readCreateResponse;
-        if (this.requestLimiter.isRequestAllowed()) {
-            URL fullyQualifiedRequestUri = getFullyQualifiedRequestUri(String.format("projects/%s/installations", str3));
-            for (int i = 0; i <= 1; i++) {
-                TrafficStats.setThreadStatsTag(32769);
-                HttpURLConnection openHttpURLConnection = openHttpURLConnection(fullyQualifiedRequestUri, str);
+        if (!this.requestLimiter.isRequestAllowed()) {
+            throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
+        }
+        URL fullyQualifiedRequestUri = getFullyQualifiedRequestUri(String.format("projects/%s/installations", str3));
+        for (int i = 0; i <= 1; i++) {
+            TrafficStats.setThreadStatsTag(32769);
+            HttpURLConnection openHttpURLConnection = openHttpURLConnection(fullyQualifiedRequestUri, str);
+            try {
                 try {
                     openHttpURLConnection.setRequestMethod("POST");
                     openHttpURLConnection.setDoOutput(true);
@@ -295,10 +299,6 @@ public class FirebaseInstallationServiceClient {
                     responseCode = openHttpURLConnection.getResponseCode();
                     this.requestLimiter.setNextRequestTime(responseCode);
                 } catch (IOException | AssertionError unused) {
-                } catch (Throwable th) {
-                    openHttpURLConnection.disconnect();
-                    TrafficStats.clearThreadStatsTag();
-                    throw th;
                 }
                 if (isSuccessfulResponseCode(responseCode)) {
                     readCreateResponse = readCreateResponse(openHttpURLConnection);
@@ -317,8 +317,11 @@ public class FirebaseInstallationServiceClient {
                 openHttpURLConnection.disconnect();
                 TrafficStats.clearThreadStatsTag();
                 return readCreateResponse;
+            } catch (Throwable th) {
+                openHttpURLConnection.disconnect();
+                TrafficStats.clearThreadStatsTag();
+                throw th;
             }
-            throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
         }
         throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
     }
@@ -327,11 +330,14 @@ public class FirebaseInstallationServiceClient {
         int responseCode;
         TokenResult readGenerateAuthTokenResponse;
         TokenResult.Builder responseCode2;
-        if (this.requestLimiter.isRequestAllowed()) {
-            URL fullyQualifiedRequestUri = getFullyQualifiedRequestUri(String.format("projects/%s/installations/%s/authTokens:generate", str3, str2));
-            for (int i = 0; i <= 1; i++) {
-                TrafficStats.setThreadStatsTag(32771);
-                HttpURLConnection openHttpURLConnection = openHttpURLConnection(fullyQualifiedRequestUri, str);
+        if (!this.requestLimiter.isRequestAllowed()) {
+            throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
+        }
+        URL fullyQualifiedRequestUri = getFullyQualifiedRequestUri(String.format("projects/%s/installations/%s/authTokens:generate", str3, str2));
+        for (int i = 0; i <= 1; i++) {
+            TrafficStats.setThreadStatsTag(32771);
+            HttpURLConnection openHttpURLConnection = openHttpURLConnection(fullyQualifiedRequestUri, str);
+            try {
                 try {
                     openHttpURLConnection.setRequestMethod("POST");
                     openHttpURLConnection.addRequestProperty("Authorization", "FIS_v2 " + str4);
@@ -339,35 +345,30 @@ public class FirebaseInstallationServiceClient {
                     writeGenerateAuthTokenRequestBodyToOutputStream(openHttpURLConnection);
                     responseCode = openHttpURLConnection.getResponseCode();
                     this.requestLimiter.setNextRequestTime(responseCode);
-                } catch (IOException | AssertionError unused) {
-                } catch (Throwable th) {
+                } finally {
                     openHttpURLConnection.disconnect();
                     TrafficStats.clearThreadStatsTag();
-                    throw th;
                 }
-                if (isSuccessfulResponseCode(responseCode)) {
-                    readGenerateAuthTokenResponse = readGenerateAuthTokenResponse(openHttpURLConnection);
-                } else {
-                    logFisCommunicationError(openHttpURLConnection, null, str, str3);
-                    if (responseCode == 401 || responseCode == 404) {
-                        responseCode2 = TokenResult.builder().setResponseCode(TokenResult.ResponseCode.AUTH_ERROR);
-                    } else if (responseCode == 429) {
-                        throw new FirebaseInstallationsException("Firebase servers have received too many requests from this client in a short period of time. Please try again later.", FirebaseInstallationsException.Status.TOO_MANY_REQUESTS);
-                    } else {
-                        if (responseCode < 500 || responseCode >= 600) {
-                            logBadConfigError();
-                            responseCode2 = TokenResult.builder().setResponseCode(TokenResult.ResponseCode.BAD_CONFIG);
-                        }
-                        openHttpURLConnection.disconnect();
-                        TrafficStats.clearThreadStatsTag();
-                    }
-                    readGenerateAuthTokenResponse = responseCode2.build();
-                }
-                openHttpURLConnection.disconnect();
-                TrafficStats.clearThreadStatsTag();
-                return readGenerateAuthTokenResponse;
+            } catch (IOException | AssertionError unused) {
             }
-            throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
+            if (isSuccessfulResponseCode(responseCode)) {
+                readGenerateAuthTokenResponse = readGenerateAuthTokenResponse(openHttpURLConnection);
+            } else {
+                logFisCommunicationError(openHttpURLConnection, null, str, str3);
+                if (responseCode == 401 || responseCode == 404) {
+                    responseCode2 = TokenResult.builder().setResponseCode(TokenResult.ResponseCode.AUTH_ERROR);
+                } else {
+                    if (responseCode == 429) {
+                        throw new FirebaseInstallationsException("Firebase servers have received too many requests from this client in a short period of time. Please try again later.", FirebaseInstallationsException.Status.TOO_MANY_REQUESTS);
+                    }
+                    if (responseCode < 500 || responseCode >= 600) {
+                        logBadConfigError();
+                        responseCode2 = TokenResult.builder().setResponseCode(TokenResult.ResponseCode.BAD_CONFIG);
+                    }
+                }
+                readGenerateAuthTokenResponse = responseCode2.build();
+            }
+            return readGenerateAuthTokenResponse;
         }
         throw new FirebaseInstallationsException("Firebase Installations Service is unavailable. Please try again later.", FirebaseInstallationsException.Status.UNAVAILABLE);
     }

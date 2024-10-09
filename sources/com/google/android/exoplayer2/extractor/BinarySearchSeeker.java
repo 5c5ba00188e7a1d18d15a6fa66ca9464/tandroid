@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public abstract class BinarySearchSeeker {
     private static final long MAX_SKIP_BYTES = 262144;
@@ -205,27 +206,29 @@ public abstract class BinarySearchSeeker {
             if (ceilingBytePosition - floorBytePosition <= this.minimumSearchRange) {
                 markSeekOperationFinished(false, floorBytePosition);
                 return seekToPosition(extractorInput, floorBytePosition, positionHolder);
-            } else if (!skipInputUntilPosition(extractorInput, nextSearchBytePosition)) {
+            }
+            if (!skipInputUntilPosition(extractorInput, nextSearchBytePosition)) {
                 return seekToPosition(extractorInput, nextSearchBytePosition, positionHolder);
+            }
+            extractorInput.resetPeekPosition();
+            TimestampSearchResult searchForTimestamp = this.timestampSeeker.searchForTimestamp(extractorInput, seekOperationParams.getTargetTimePosition());
+            int i = searchForTimestamp.type;
+            if (i == -3) {
+                markSeekOperationFinished(false, nextSearchBytePosition);
+                return seekToPosition(extractorInput, nextSearchBytePosition, positionHolder);
+            }
+            if (i == -2) {
+                seekOperationParams.updateSeekFloor(searchForTimestamp.timestampToUpdate, searchForTimestamp.bytePositionToUpdate);
             } else {
-                extractorInput.resetPeekPosition();
-                TimestampSearchResult searchForTimestamp = this.timestampSeeker.searchForTimestamp(extractorInput, seekOperationParams.getTargetTimePosition());
-                int i = searchForTimestamp.type;
-                if (i == -3) {
-                    markSeekOperationFinished(false, nextSearchBytePosition);
-                    return seekToPosition(extractorInput, nextSearchBytePosition, positionHolder);
-                } else if (i == -2) {
-                    seekOperationParams.updateSeekFloor(searchForTimestamp.timestampToUpdate, searchForTimestamp.bytePositionToUpdate);
-                } else if (i != -1) {
-                    if (i == 0) {
-                        skipInputUntilPosition(extractorInput, searchForTimestamp.bytePositionToUpdate);
-                        markSeekOperationFinished(true, searchForTimestamp.bytePositionToUpdate);
-                        return seekToPosition(extractorInput, searchForTimestamp.bytePositionToUpdate, positionHolder);
+                if (i != -1) {
+                    if (i != 0) {
+                        throw new IllegalStateException("Invalid case");
                     }
-                    throw new IllegalStateException("Invalid case");
-                } else {
-                    seekOperationParams.updateSeekCeiling(searchForTimestamp.timestampToUpdate, searchForTimestamp.bytePositionToUpdate);
+                    skipInputUntilPosition(extractorInput, searchForTimestamp.bytePositionToUpdate);
+                    markSeekOperationFinished(true, searchForTimestamp.bytePositionToUpdate);
+                    return seekToPosition(extractorInput, searchForTimestamp.bytePositionToUpdate, positionHolder);
                 }
+                seekOperationParams.updateSeekCeiling(searchForTimestamp.timestampToUpdate, searchForTimestamp.bytePositionToUpdate);
             }
         }
     }

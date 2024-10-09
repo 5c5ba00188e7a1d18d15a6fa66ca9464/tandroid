@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
+
 /* loaded from: classes.dex */
 final class zzjc implements zzkl {
     private static final zzjc zza = new zzjc();

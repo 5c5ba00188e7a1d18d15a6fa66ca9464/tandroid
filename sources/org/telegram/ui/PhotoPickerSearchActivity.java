@@ -40,6 +40,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScrollSlidingTextTabStrip;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.PhotoPickerActivity;
+
 /* loaded from: classes4.dex */
 public class PhotoPickerSearchActivity extends BaseFragment {
     private static final Interpolator interpolator = new Interpolator() { // from class: org.telegram.ui.PhotoPickerSearchActivity$$ExternalSyntheticLambda0
@@ -169,7 +170,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    PhotoPickerSearchActivity.this.finishFragment();
+                    PhotoPickerSearchActivity.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -177,7 +178,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.PhotoPickerSearchActivity.2
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
             public boolean canCollapseSearch() {
-                PhotoPickerSearchActivity.this.finishFragment();
+                PhotoPickerSearchActivity.this.lambda$onBackPressed$300();
                 return false;
             }
 
@@ -308,34 +309,34 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 return true;
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:21:0x00a4  */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x00a4  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             public boolean checkTabsAnimationInProgress() {
-                if (PhotoPickerSearchActivity.this.tabsAnimationInProgress) {
-                    if (!PhotoPickerSearchActivity.this.backAnimation) {
-                        if (Math.abs(PhotoPickerSearchActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
-                            PhotoPickerSearchActivity.this.viewPages[0].setTranslationX(PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth() * (PhotoPickerSearchActivity.this.animatingForward ? -1 : 1));
-                            PhotoPickerSearchActivity.this.viewPages[1].setTranslationX(0.0f);
-                            if (PhotoPickerSearchActivity.this.tabsAnimation != null) {
-                            }
-                            PhotoPickerSearchActivity.this.tabsAnimationInProgress = false;
-                        }
-                        return PhotoPickerSearchActivity.this.tabsAnimationInProgress;
-                    }
-                    if (Math.abs(PhotoPickerSearchActivity.this.viewPages[0].getTranslationX()) < 1.0f) {
-                        PhotoPickerSearchActivity.this.viewPages[0].setTranslationX(0.0f);
-                        PhotoPickerSearchActivity.this.viewPages[1].setTranslationX(PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth() * (PhotoPickerSearchActivity.this.animatingForward ? 1 : -1));
+                if (!PhotoPickerSearchActivity.this.tabsAnimationInProgress) {
+                    return false;
+                }
+                if (!PhotoPickerSearchActivity.this.backAnimation) {
+                    if (Math.abs(PhotoPickerSearchActivity.this.viewPages[1].getTranslationX()) < 1.0f) {
+                        PhotoPickerSearchActivity.this.viewPages[0].setTranslationX(PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth() * (PhotoPickerSearchActivity.this.animatingForward ? -1 : 1));
+                        PhotoPickerSearchActivity.this.viewPages[1].setTranslationX(0.0f);
                         if (PhotoPickerSearchActivity.this.tabsAnimation != null) {
-                            PhotoPickerSearchActivity.this.tabsAnimation.cancel();
-                            PhotoPickerSearchActivity.this.tabsAnimation = null;
                         }
                         PhotoPickerSearchActivity.this.tabsAnimationInProgress = false;
                     }
                     return PhotoPickerSearchActivity.this.tabsAnimationInProgress;
                 }
-                return false;
+                if (Math.abs(PhotoPickerSearchActivity.this.viewPages[0].getTranslationX()) < 1.0f) {
+                    PhotoPickerSearchActivity.this.viewPages[0].setTranslationX(0.0f);
+                    PhotoPickerSearchActivity.this.viewPages[1].setTranslationX(PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth() * (PhotoPickerSearchActivity.this.animatingForward ? 1 : -1));
+                    if (PhotoPickerSearchActivity.this.tabsAnimation != null) {
+                        PhotoPickerSearchActivity.this.tabsAnimation.cancel();
+                        PhotoPickerSearchActivity.this.tabsAnimation = null;
+                    }
+                    PhotoPickerSearchActivity.this.tabsAnimationInProgress = false;
+                }
+                return PhotoPickerSearchActivity.this.tabsAnimationInProgress;
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -363,9 +364,9 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:28:0x0078  */
-            /* JADX WARN: Removed duplicated region for block: B:36:0x0094  */
-            /* JADX WARN: Removed duplicated region for block: B:39:0x00a6  */
+            /* JADX WARN: Removed duplicated region for block: B:22:0x0078  */
+            /* JADX WARN: Removed duplicated region for block: B:29:0x00a6  */
+            /* JADX WARN: Removed duplicated region for block: B:38:0x0094  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -486,7 +487,6 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 float f;
                 float f2;
                 float measuredWidth;
-                float abs;
                 ViewPage viewPage;
                 int measuredWidth2;
                 if (((BaseFragment) PhotoPickerSearchActivity.this).parentLayout.checkTransitionAnimation() || checkTabsAnimationInProgress()) {
@@ -506,7 +506,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                     this.velocityTracker.clear();
                 } else if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
                     int x = (int) (motionEvent.getX() - this.startedTrackingX);
-                    int abs2 = Math.abs(((int) motionEvent.getY()) - this.startedTrackingY);
+                    int abs = Math.abs(((int) motionEvent.getY()) - this.startedTrackingY);
                     if (this.startedTracking && ((PhotoPickerSearchActivity.this.animatingForward && x > 0) || (!PhotoPickerSearchActivity.this.animatingForward && x < 0))) {
                         if (!prepareForMoving(motionEvent, x < 0)) {
                             this.maybeStartTracking = true;
@@ -529,7 +529,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                             viewPage.setTranslationX(measuredWidth2);
                             PhotoPickerSearchActivity.this.scrollSlidingTextTabStrip.selectTabWithId(PhotoPickerSearchActivity.this.viewPages[1].selectedType, Math.abs(x) / PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth());
                         }
-                    } else if (Math.abs(x) >= AndroidUtilities.getPixelsInCM(0.3f, true) && Math.abs(x) > abs2) {
+                    } else if (Math.abs(x) >= AndroidUtilities.getPixelsInCM(0.3f, true) && Math.abs(x) > abs) {
                         prepareForMoving(motionEvent, x < 0);
                     }
                 } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
@@ -554,12 +554,12 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                                 AnimatorSet animatorSet = PhotoPickerSearchActivity.this.tabsAnimation;
                                 ViewPage viewPage2 = PhotoPickerSearchActivity.this.viewPages[0];
                                 Property property = View.TRANSLATION_X;
-                                animatorSet.playTogether(ObjectAnimator.ofFloat(viewPage2, property, 0.0f), ObjectAnimator.ofFloat(PhotoPickerSearchActivity.this.viewPages[1], property, PhotoPickerSearchActivity.this.viewPages[1].getMeasuredWidth()));
+                                animatorSet.playTogether(ObjectAnimator.ofFloat(viewPage2, (Property<ViewPage, Float>) property, 0.0f), ObjectAnimator.ofFloat(PhotoPickerSearchActivity.this.viewPages[1], (Property<ViewPage, Float>) property, PhotoPickerSearchActivity.this.viewPages[1].getMeasuredWidth()));
                             } else {
                                 AnimatorSet animatorSet2 = PhotoPickerSearchActivity.this.tabsAnimation;
                                 ViewPage viewPage3 = PhotoPickerSearchActivity.this.viewPages[0];
                                 Property property2 = View.TRANSLATION_X;
-                                animatorSet2.playTogether(ObjectAnimator.ofFloat(viewPage3, property2, 0.0f), ObjectAnimator.ofFloat(PhotoPickerSearchActivity.this.viewPages[1], property2, -PhotoPickerSearchActivity.this.viewPages[1].getMeasuredWidth()));
+                                animatorSet2.playTogether(ObjectAnimator.ofFloat(viewPage3, (Property<ViewPage, Float>) property2, 0.0f), ObjectAnimator.ofFloat(PhotoPickerSearchActivity.this.viewPages[1], (Property<ViewPage, Float>) property2, -PhotoPickerSearchActivity.this.viewPages[1].getMeasuredWidth()));
                             }
                         } else {
                             measuredWidth = PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth() - Math.abs(x2);
@@ -567,19 +567,19 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                                 AnimatorSet animatorSet3 = PhotoPickerSearchActivity.this.tabsAnimation;
                                 ViewPage viewPage4 = PhotoPickerSearchActivity.this.viewPages[0];
                                 Property property3 = View.TRANSLATION_X;
-                                animatorSet3.playTogether(ObjectAnimator.ofFloat(viewPage4, property3, -PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(PhotoPickerSearchActivity.this.viewPages[1], property3, 0.0f));
+                                animatorSet3.playTogether(ObjectAnimator.ofFloat(viewPage4, (Property<ViewPage, Float>) property3, -PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(PhotoPickerSearchActivity.this.viewPages[1], (Property<ViewPage, Float>) property3, 0.0f));
                             } else {
                                 AnimatorSet animatorSet4 = PhotoPickerSearchActivity.this.tabsAnimation;
                                 ViewPage viewPage5 = PhotoPickerSearchActivity.this.viewPages[0];
                                 Property property4 = View.TRANSLATION_X;
-                                animatorSet4.playTogether(ObjectAnimator.ofFloat(viewPage5, property4, PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(PhotoPickerSearchActivity.this.viewPages[1], property4, 0.0f));
+                                animatorSet4.playTogether(ObjectAnimator.ofFloat(viewPage5, (Property<ViewPage, Float>) property4, PhotoPickerSearchActivity.this.viewPages[0].getMeasuredWidth()), ObjectAnimator.ofFloat(PhotoPickerSearchActivity.this.viewPages[1], (Property<ViewPage, Float>) property4, 0.0f));
                             }
                         }
                         PhotoPickerSearchActivity.this.tabsAnimation.setInterpolator(PhotoPickerSearchActivity.interpolator);
                         int measuredWidth3 = getMeasuredWidth();
                         float f3 = measuredWidth3 / 2;
                         float distanceInfluenceForSnapDuration = f3 + (AndroidUtilities.distanceInfluenceForSnapDuration(Math.min(1.0f, (measuredWidth * 1.0f) / measuredWidth3)) * f3);
-                        PhotoPickerSearchActivity.this.tabsAnimation.setDuration(Math.max(150, Math.min(Math.abs(f) > 0.0f ? Math.round(Math.abs(distanceInfluenceForSnapDuration / abs) * 1000.0f) * 4 : (int) (((measuredWidth / getMeasuredWidth()) + 1.0f) * 100.0f), 600)));
+                        PhotoPickerSearchActivity.this.tabsAnimation.setDuration(Math.max(150, Math.min(Math.abs(f) > 0.0f ? Math.round(Math.abs(distanceInfluenceForSnapDuration / r4) * 1000.0f) * 4 : (int) (((measuredWidth / getMeasuredWidth()) + 1.0f) * 100.0f), 600)));
                         PhotoPickerSearchActivity.this.tabsAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoPickerSearchActivity.4.1
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {

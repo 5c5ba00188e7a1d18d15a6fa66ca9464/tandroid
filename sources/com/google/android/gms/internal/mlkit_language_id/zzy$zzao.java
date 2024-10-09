@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public final class zzy$zzao extends zzeo implements zzgb {
     private static final zzex zzg = new zzbk();
@@ -31,7 +32,7 @@ public final class zzy$zzao extends zzeo implements zzgb {
         zzl(1024),
         zzm(2048),
         zzn(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM);
-        
+
         private static final zzes zzo = new zzbl();
         private final int zzp;
 
@@ -69,7 +70,7 @@ public final class zzy$zzao extends zzeo implements zzgb {
         zzk(10),
         zzl(11),
         zzm(12);
-        
+
         private static final zzes zzn = new zzbo();
         private final int zzo;
 
@@ -118,11 +119,12 @@ public final class zzy$zzao extends zzeo implements zzgb {
     /* JADX WARN: Type inference failed for: r4v17, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
+        zzx zzxVar = null;
         switch (zzx.zza[i - 1]) {
             case 1:
                 return new zzy$zzao();
             case 2:
-                return new zzc(null);
+                return new zzc(zzxVar);
             case 3:
                 return zzeo.zza(zzk, "\u0001\u0005\u0000\u0001\u0001\u0005\u0005\u0000\u0002\u0000\u0001ဉ\u0000\u0002ဉ\u0001\u0003\u001e\u0004\u001e\u0005ဉ\u0002", new Object[]{"zzc", "zzd", "zze", "zzf", zza.zzb(), "zzh", zzb.zzb(), "zzj"});
             case 4:

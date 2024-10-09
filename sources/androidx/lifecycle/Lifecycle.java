@@ -1,6 +1,7 @@
 package androidx.lifecycle;
 
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes.dex */
 public abstract class Lifecycle {
     AtomicReference mInternalScopeRef = new AtomicReference();
@@ -78,30 +79,30 @@ public abstract class Lifecycle {
 
         public static Event downFrom(State state) {
             int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 3) {
-                        return null;
-                    }
-                    return ON_PAUSE;
-                }
+            if (i == 1) {
+                return ON_DESTROY;
+            }
+            if (i == 2) {
                 return ON_STOP;
             }
-            return ON_DESTROY;
+            if (i != 3) {
+                return null;
+            }
+            return ON_PAUSE;
         }
 
         public static Event upFrom(State state) {
             int i = 1.$SwitchMap$androidx$lifecycle$Lifecycle$State[state.ordinal()];
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 5) {
-                        return null;
-                    }
-                    return ON_CREATE;
-                }
+            if (i == 1) {
+                return ON_START;
+            }
+            if (i == 2) {
                 return ON_RESUME;
             }
-            return ON_START;
+            if (i != 5) {
+                return null;
+            }
+            return ON_CREATE;
         }
 
         public State getTargetState() {

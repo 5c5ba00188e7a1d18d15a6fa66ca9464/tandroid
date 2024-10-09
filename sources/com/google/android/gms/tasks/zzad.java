@@ -2,6 +2,7 @@ package com.google.android.gms.tasks;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 final class zzad implements zzae {
     private final CountDownLatch zza = new CountDownLatch(1);

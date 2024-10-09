@@ -29,6 +29,7 @@ import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Paint.Painting;
 import org.telegram.ui.Components.Paint.RenderView;
 import org.telegram.ui.Components.Size;
+
 /* loaded from: classes3.dex */
 public class RenderView extends TextureView {
     private Bitmap bitmap;
@@ -245,61 +246,61 @@ public class RenderView extends TextureView {
                 }
                 finish();
                 return false;
-            } else if (iArr[0] <= 0) {
+            }
+            if (iArr[0] <= 0) {
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.e("eglConfig not initialized");
                 }
                 finish();
                 return false;
-            } else {
-                EGLConfig eGLConfig = eGLConfigArr[0];
-                int[] iArr2 = {12440, 2, 12344};
-                BlurringShader.BlurManager blurManager = this.blurManager;
-                EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, blurManager != null ? blurManager.getParentContext() : EGL10.EGL_NO_CONTEXT, iArr2);
-                this.eglContext = eglCreateContext;
-                if (eglCreateContext == null) {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.e("eglCreateContext failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                    }
-                    finish();
-                    return false;
-                }
-                BlurringShader.BlurManager blurManager2 = this.blurManager;
-                if (blurManager2 != null) {
-                    blurManager2.acquiredContext(eglCreateContext);
-                    this.blurManager.attach(this.safeRequestRender);
-                }
-                SurfaceTexture surfaceTexture = this.surfaceTexture;
-                if (!(surfaceTexture instanceof SurfaceTexture)) {
-                    finish();
-                    return false;
-                }
-                EGLSurface eglCreateWindowSurface = this.egl10.eglCreateWindowSurface(this.eglDisplay, eGLConfig, surfaceTexture, null);
-                this.eglSurface = eglCreateWindowSurface;
-                if (eglCreateWindowSurface == null || eglCreateWindowSurface == EGL10.EGL_NO_SURFACE) {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.e("createWindowSurface failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                    }
-                    finish();
-                    return false;
-                } else if (!this.egl10.eglMakeCurrent(this.eglDisplay, eglCreateWindowSurface, eglCreateWindowSurface, this.eglContext)) {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                    }
-                    finish();
-                    return false;
-                } else {
-                    GLES20.glEnable(3042);
-                    GLES20.glDisable(3024);
-                    GLES20.glDisable(2960);
-                    GLES20.glDisable(2929);
-                    RenderView.this.painting.setupShaders();
-                    checkBitmap();
-                    RenderView.this.painting.setBitmap(RenderView.this.bitmap, RenderView.this.blurBitmap);
-                    Utils.HasGLError();
-                    return true;
-                }
             }
+            EGLConfig eGLConfig = eGLConfigArr[0];
+            int[] iArr2 = {12440, 2, 12344};
+            BlurringShader.BlurManager blurManager = this.blurManager;
+            EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, blurManager != null ? blurManager.getParentContext() : EGL10.EGL_NO_CONTEXT, iArr2);
+            this.eglContext = eglCreateContext;
+            if (eglCreateContext == null) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("eglCreateContext failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                }
+                finish();
+                return false;
+            }
+            BlurringShader.BlurManager blurManager2 = this.blurManager;
+            if (blurManager2 != null) {
+                blurManager2.acquiredContext(eglCreateContext);
+                this.blurManager.attach(this.safeRequestRender);
+            }
+            SurfaceTexture surfaceTexture = this.surfaceTexture;
+            if (!(surfaceTexture instanceof SurfaceTexture)) {
+                finish();
+                return false;
+            }
+            EGLSurface eglCreateWindowSurface = this.egl10.eglCreateWindowSurface(this.eglDisplay, eGLConfig, surfaceTexture, null);
+            this.eglSurface = eglCreateWindowSurface;
+            if (eglCreateWindowSurface == null || eglCreateWindowSurface == EGL10.EGL_NO_SURFACE) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("createWindowSurface failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                }
+                finish();
+                return false;
+            }
+            if (!this.egl10.eglMakeCurrent(this.eglDisplay, eglCreateWindowSurface, eglCreateWindowSurface, this.eglContext)) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                }
+                finish();
+                return false;
+            }
+            GLES20.glEnable(3042);
+            GLES20.glDisable(3024);
+            GLES20.glDisable(2960);
+            GLES20.glDisable(2929);
+            RenderView.this.painting.setupShaders();
+            checkBitmap();
+            RenderView.this.painting.setBitmap(RenderView.this.bitmap, RenderView.this.blurBitmap);
+            Utils.HasGLError();
+            return true;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -339,16 +340,16 @@ public class RenderView extends TextureView {
 
         /* JADX INFO: Access modifiers changed from: private */
         public boolean setCurrentContext() {
-            if (this.initialized) {
-                if (this.eglContext.equals(this.egl10.eglGetCurrentContext()) && this.eglSurface.equals(this.egl10.eglGetCurrentSurface(12377))) {
-                    return true;
-                }
-                EGL10 egl10 = this.egl10;
-                EGLDisplay eGLDisplay = this.eglDisplay;
-                EGLSurface eGLSurface = this.eglSurface;
-                return egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext);
+            if (!this.initialized) {
+                return false;
             }
-            return false;
+            if (this.eglContext.equals(this.egl10.eglGetCurrentContext()) && this.eglSurface.equals(this.egl10.eglGetCurrentSurface(12377))) {
+                return true;
+            }
+            EGL10 egl10 = this.egl10;
+            EGLDisplay eGLDisplay = this.eglDisplay;
+            EGLSurface eGLSurface = this.eglSurface;
+            return egl10.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext);
         }
 
         public void finish() {
@@ -381,23 +382,23 @@ public class RenderView extends TextureView {
         }
 
         public Bitmap getTexture(final boolean z, final boolean z2) {
-            if (this.initialized) {
-                final CountDownLatch countDownLatch = new CountDownLatch(1);
-                final Bitmap[] bitmapArr = new Bitmap[1];
-                try {
-                    postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            RenderView.CanvasInternal.this.lambda$getTexture$3(z, z2, bitmapArr, countDownLatch);
-                        }
-                    });
-                    countDownLatch.await();
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-                return bitmapArr[0];
+            if (!this.initialized) {
+                return null;
             }
-            return null;
+            final CountDownLatch countDownLatch = new CountDownLatch(1);
+            final Bitmap[] bitmapArr = new Bitmap[1];
+            try {
+                postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$CanvasInternal$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        RenderView.CanvasInternal.this.lambda$getTexture$3(z, z2, bitmapArr, countDownLatch);
+                    }
+                });
+                countDownLatch.await();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            return bitmapArr[0];
         }
 
         public void requestRender() {

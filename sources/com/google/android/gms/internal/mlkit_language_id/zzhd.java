@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 abstract class zzhd {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -44,7 +45,6 @@ abstract class zzhd {
                         }
                         sb.append((char) zza);
                         continue;
-                        break;
                 }
             } else {
                 str = "\\\\";

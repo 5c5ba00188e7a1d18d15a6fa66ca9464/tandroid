@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.List;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 public final class MediaCodecInfo {
     public final boolean adaptive;
@@ -93,7 +94,8 @@ public final class MediaCodecInfo {
         return areSizeAndRateSupported;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:4:0x0004, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:3:0x0004, code lost:
+    
         r3 = r3.getVideoCapabilities();
      */
     /*
@@ -134,27 +136,25 @@ public final class MediaCodecInfo {
         int intValue = ((Integer) codecProfileAndLevel.first).intValue();
         int intValue2 = ((Integer) codecProfileAndLevel.second).intValue();
         if ("video/dolby-vision".equals(format.sampleMimeType)) {
-            if (MediaController.VIDEO_MIME_TYPE.equals(this.mimeType)) {
-                intValue = 8;
-            } else {
-                intValue = "video/hevc".equals(this.mimeType) ? 2 : 2;
+            if (!MediaController.VIDEO_MIME_TYPE.equals(this.mimeType)) {
+                intValue = "video/hevc".equals(this.mimeType) ? 2 : 8;
             }
             intValue2 = 0;
         }
-        if (this.isVideo || intValue == 42) {
-            MediaCodecInfo.CodecProfileLevel[] profileLevels = getProfileLevels();
-            if (Util.SDK_INT <= 23 && "video/x-vnd.on2.vp9".equals(this.mimeType) && profileLevels.length == 0) {
-                profileLevels = estimateLegacyVp9ProfileLevels(this.capabilities);
-            }
-            for (MediaCodecInfo.CodecProfileLevel codecProfileLevel : profileLevels) {
-                if (codecProfileLevel.profile == intValue && ((codecProfileLevel.level >= intValue2 || !z) && !needsProfileExcludedWorkaround(this.mimeType, intValue))) {
-                    return true;
-                }
-            }
-            logNoSupport("codec.profileLevel, " + format.codecs + ", " + this.codecMimeType);
-            return false;
+        if (!this.isVideo && intValue != 42) {
+            return true;
         }
-        return true;
+        MediaCodecInfo.CodecProfileLevel[] profileLevels = getProfileLevels();
+        if (Util.SDK_INT <= 23 && "video/x-vnd.on2.vp9".equals(this.mimeType) && profileLevels.length == 0) {
+            profileLevels = estimateLegacyVp9ProfileLevels(this.capabilities);
+        }
+        for (MediaCodecInfo.CodecProfileLevel codecProfileLevel : profileLevels) {
+            if (codecProfileLevel.profile == intValue && ((codecProfileLevel.level >= intValue2 || !z) && !needsProfileExcludedWorkaround(this.mimeType, intValue))) {
+                return true;
+            }
+        }
+        logNoSupport("codec.profileLevel, " + format.codecs + ", " + this.codecMimeType);
+        return false;
     }
 
     private boolean isSampleMimeTypeSupported(Format format) {
@@ -222,6 +222,7 @@ public final class MediaCodecInfo {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:5:0x0006, code lost:
+    
         r0 = r0.getVideoCapabilities();
      */
     /*
@@ -348,34 +349,34 @@ public final class MediaCodecInfo {
 
     public boolean isFormatSupported(Format format) {
         int i;
-        if (isSampleMimeTypeSupported(format) && isCodecProfileAndLevelSupported(format, true)) {
-            if (!this.isVideo) {
-                if (Util.SDK_INT >= 21) {
-                    int i2 = format.sampleRate;
-                    if (i2 != -1 && !isAudioSampleRateSupportedV21(i2)) {
-                        return false;
-                    }
-                    int i3 = format.channelCount;
-                    if (i3 != -1 && !isAudioChannelCountSupportedV21(i3)) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            int i4 = format.width;
-            if (i4 <= 0 || (i = format.height) <= 0) {
-                return true;
-            }
-            if (Util.SDK_INT >= 21) {
-                return isVideoSizeAndRateSupportedV21(i4, i, format.frameRate);
-            }
-            boolean z = i4 * i <= MediaCodecUtil.maxH264DecodableFrameSize();
-            if (!z) {
-                logNoSupport("legacyFrameSize, " + format.width + "x" + format.height);
-            }
-            return z;
+        if (!isSampleMimeTypeSupported(format) || !isCodecProfileAndLevelSupported(format, true)) {
+            return false;
         }
-        return false;
+        if (!this.isVideo) {
+            if (Util.SDK_INT >= 21) {
+                int i2 = format.sampleRate;
+                if (i2 != -1 && !isAudioSampleRateSupportedV21(i2)) {
+                    return false;
+                }
+                int i3 = format.channelCount;
+                if (i3 != -1 && !isAudioChannelCountSupportedV21(i3)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        int i4 = format.width;
+        if (i4 <= 0 || (i = format.height) <= 0) {
+            return true;
+        }
+        if (Util.SDK_INT >= 21) {
+            return isVideoSizeAndRateSupportedV21(i4, i, format.frameRate);
+        }
+        boolean z = i4 * i <= MediaCodecUtil.maxH264DecodableFrameSize();
+        if (!z) {
+            logNoSupport("legacyFrameSize, " + format.width + "x" + format.height);
+        }
+        return z;
     }
 
     public boolean isHdr10PlusOutOfBandMetadataSupported() {

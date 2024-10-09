@@ -1,6 +1,7 @@
 package com.google.android.gms.wallet;
 
 import com.google.android.gms.common.Feature;
+
 /* loaded from: classes.dex */
 public abstract class zzk {
     public static final Feature zza;

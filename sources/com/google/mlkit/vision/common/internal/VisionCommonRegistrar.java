@@ -8,6 +8,7 @@ import com.google.firebase.components.ComponentRegistrar;
 import com.google.firebase.components.Dependency;
 import com.google.mlkit.vision.common.internal.MultiFlavorDetectorCreator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class VisionCommonRegistrar implements ComponentRegistrar {
     @Override // com.google.firebase.components.ComponentRegistrar

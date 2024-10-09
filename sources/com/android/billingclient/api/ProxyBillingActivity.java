@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import com.android.billingclient.api.BillingResult;
 import com.google.android.gms.internal.play_billing.zzb;
+
 /* loaded from: classes.dex */
 public class ProxyBillingActivity extends Activity {
     private ResultReceiver inAppMessageResultReceiver;
@@ -28,8 +29,8 @@ public class ProxyBillingActivity extends Activity {
         return intent;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0074  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x007f  */
     @Override // android.app.Activity
     /*
         Code decompiled incorrectly, please refer to instructions dump.

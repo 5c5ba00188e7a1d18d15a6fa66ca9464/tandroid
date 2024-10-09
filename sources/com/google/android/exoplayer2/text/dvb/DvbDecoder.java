@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.text.SimpleSubtitleDecoder;
 import com.google.android.exoplayer2.text.Subtitle;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class DvbDecoder extends SimpleSubtitleDecoder {
     private final DvbParser parser;

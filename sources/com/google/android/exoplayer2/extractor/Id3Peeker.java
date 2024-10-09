@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.id3.Id3Decoder;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.EOFException;
+
 /* loaded from: classes.dex */
 public final class Id3Peeker {
     private final ParsableByteArray scratch = new ParsableByteArray(10);

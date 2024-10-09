@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 public abstract class BaseMediaSource implements MediaSource {
     private Looper looper;

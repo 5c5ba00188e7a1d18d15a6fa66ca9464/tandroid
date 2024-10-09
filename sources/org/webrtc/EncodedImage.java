@@ -2,6 +2,7 @@ package org.webrtc;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public class EncodedImage implements RefCounted {
     public final ByteBuffer buffer;
@@ -80,7 +81,7 @@ public class EncodedImage implements RefCounted {
         EmptyFrame(0),
         VideoFrameKey(3),
         VideoFrameDelta(4);
-        
+
         private final int nativeIndex;
 
         FrameType(int i) {
@@ -88,7 +89,6 @@ public class EncodedImage implements RefCounted {
         }
 
         static FrameType fromNativeIndex(int i) {
-            FrameType[] values;
             for (FrameType frameType : values()) {
                 if (frameType.getNative() == i) {
                     return frameType;

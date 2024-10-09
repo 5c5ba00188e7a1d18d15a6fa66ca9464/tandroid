@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.io.Serializable;
+
 /* loaded from: classes.dex */
 final class zzar extends zzx implements Serializable {
     final Object zza;

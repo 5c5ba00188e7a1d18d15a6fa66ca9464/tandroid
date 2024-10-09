@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class FlacStreamMetadata {
     public static final int NOT_IN_LOOKUP_TABLE = -1;
@@ -83,19 +84,19 @@ public final class FlacStreamMetadata {
     }
 
     private static int getBitsPerSampleLookupKey(int i) {
-        if (i != 8) {
-            if (i != 12) {
-                if (i != 16) {
-                    if (i != 20) {
-                        return i != 24 ? -1 : 6;
-                    }
-                    return 5;
-                }
-                return 4;
-            }
+        if (i == 8) {
+            return 1;
+        }
+        if (i == 12) {
             return 2;
         }
-        return 1;
+        if (i == 16) {
+            return 4;
+        }
+        if (i != 20) {
+            return i != 24 ? -1 : 6;
+        }
+        return 5;
     }
 
     private static int getSampleRateLookupKey(int i) {

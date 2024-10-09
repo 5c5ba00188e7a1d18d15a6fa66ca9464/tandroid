@@ -8,6 +8,7 @@ import com.microsoft.appcenter.ingestion.models.LogContainer;
 import com.microsoft.appcenter.ingestion.models.json.LogSerializer;
 import java.util.HashMap;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public class AppCenterIngestion implements Ingestion {
     private final HttpClient mHttpClient;
@@ -51,8 +52,7 @@ public class AppCenterIngestion implements Ingestion {
         hashMap.put("Install-ID", uuid.toString());
         hashMap.put("App-Secret", str);
         IngestionCallTemplate ingestionCallTemplate = new IngestionCallTemplate(this.mLogSerializer, logContainer);
-        HttpClient httpClient = this.mHttpClient;
-        return httpClient.callAsync(this.mLogUrl + "/logs?api-version=1.0.0", "POST", hashMap, ingestionCallTemplate, serviceCallback);
+        return this.mHttpClient.callAsync(this.mLogUrl + "/logs?api-version=1.0.0", "POST", hashMap, ingestionCallTemplate, serviceCallback);
     }
 
     @Override // com.microsoft.appcenter.ingestion.Ingestion

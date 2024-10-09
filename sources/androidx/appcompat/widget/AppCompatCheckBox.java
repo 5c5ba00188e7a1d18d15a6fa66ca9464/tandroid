@@ -12,6 +12,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.view.TintableBackgroundView;
 import androidx.core.widget.TintableCompoundButton;
 import androidx.core.widget.TintableCompoundDrawablesView;
+
 /* loaded from: classes.dex */
 public class AppCompatCheckBox extends CheckBox implements TintableCompoundButton, TintableBackgroundView, TintableCompoundDrawablesView {
     private AppCompatEmojiTextHelper mAppCompatEmojiTextHelper;

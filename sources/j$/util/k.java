@@ -1,4 +1,5 @@
 package j$.util;
+
 /* loaded from: classes2.dex */
 public final class k implements j$.util.function.W, j$.util.function.F {
     private long count;

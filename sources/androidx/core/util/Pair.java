@@ -1,4 +1,5 @@
 package androidx.core.util;
+
 /* loaded from: classes.dex */
 public class Pair {
     public final Object first;
@@ -14,11 +15,11 @@ public class Pair {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof Pair) {
-            Pair pair = (Pair) obj;
-            return ObjectsCompat.equals(pair.first, this.first) && ObjectsCompat.equals(pair.second, this.second);
+        if (!(obj instanceof Pair)) {
+            return false;
         }
-        return false;
+        Pair pair = (Pair) obj;
+        return ObjectsCompat.equals(pair.first, this.first) && ObjectsCompat.equals(pair.second, this.second);
     }
 
     public int hashCode() {

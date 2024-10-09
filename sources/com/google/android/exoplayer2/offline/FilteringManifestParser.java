@@ -4,6 +4,7 @@ import android.net.Uri;
 import com.google.android.exoplayer2.upstream.ParsingLoadable;
 import java.io.InputStream;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class FilteringManifestParser implements ParsingLoadable.Parser {
     private final ParsingLoadable.Parser parser;

@@ -50,6 +50,7 @@ import org.telegram.ui.Components.SlideChooseView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
+
 /* loaded from: classes3.dex */
 public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView implements SelectorBottomSheet.SelectedObjectsListener, NotificationCenter.NotificationCenterDelegate {
     private ActionBtnCell actionBtn;
@@ -500,35 +501,45 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
             }
             this.selectedParticipantsType = selectedType2;
             updateRows(false, false);
-        } else if (view instanceof DurationCell) {
+            return;
+        }
+        if (view instanceof DurationCell) {
             this.selectedMonths = ((TLRPC.TL_premiumGiftCodeOption) ((DurationCell) view).getGifCode()).months;
             updateRows(false, false);
             this.adapter.notifyAllVisibleTextDividers();
-        } else if (view instanceof DateEndCell) {
+            return;
+        }
+        if (view instanceof DateEndCell) {
             BoostDialogs.showDatePicker(baseFragment.getContext(), this.selectedEndDate, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda10
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z2, int i2) {
                     BoostViaGiftsBottomSheet.this.lambda$new$1(z2, i2);
                 }
             }, this.resourcesProvider);
-        } else if (view instanceof AddChannelCell) {
+            return;
+        }
+        if (view instanceof AddChannelCell) {
             ActionListener actionListener4 = this.actionListener;
             if (actionListener4 != null) {
                 actionListener4.onAddChat(this.selectedChats);
+                return;
             }
-        } else if (!(view instanceof StarGiveawayOptionCell)) {
+            return;
+        }
+        if (!(view instanceof StarGiveawayOptionCell)) {
             if (view instanceof StarsIntroActivity.ExpandView) {
                 this.starOptionsExpanded = true;
                 updateRows(true, true);
+                return;
             }
-        } else {
-            TL_stars.TL_starsGiveawayOption option = ((StarGiveawayOptionCell) view).getOption();
-            if (option != null) {
-                this.selectedStars = option.stars;
-                updateRows(true, true);
-                updateActionButton(true);
-                updateTitle();
-            }
+            return;
+        }
+        TL_stars.TL_starsGiveawayOption option = ((StarGiveawayOptionCell) view).getOption();
+        if (option != null) {
+            this.selectedStars = option.stars;
+            updateRows(true, true);
+            updateActionButton(true);
+            updateTitle();
         }
     }
 
@@ -569,7 +580,9 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
                     BoostViaGiftsBottomSheet.this.lambda$new$12(selectedStarsOption, (Boolean) obj, (String) obj2);
                 }
             });
-        } else if (this.selectedBoostSubType == BoostTypeCell.TYPE_SPECIFIC_USERS) {
+            return;
+        }
+        if (this.selectedBoostSubType == BoostTypeCell.TYPE_SPECIFIC_USERS) {
             List filterGiftOptions = BoostRepository.filterGiftOptions(this.giftCodeOptions, this.selectedUsers.size());
             for (int i = 0; i < filterGiftOptions.size(); i++) {
                 TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption = (TLRPC.TL_premiumGiftCodeOption) filterGiftOptions.get(i);
@@ -592,35 +605,35 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
                     return;
                 }
             }
-        } else {
-            List filterGiftOptions2 = BoostRepository.filterGiftOptions(this.giftCodeOptions, getSelectedSliderValue());
-            for (int i2 = 0; i2 < filterGiftOptions2.size(); i2++) {
-                TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption2 = (TLRPC.TL_premiumGiftCodeOption) filterGiftOptions2.get(i2);
-                if (tL_premiumGiftCodeOption2.months == this.selectedMonths) {
-                    if (BoostRepository.isGoogleBillingAvailable() && BoostDialogs.checkReduceQuantity(this.sliderValues, getContext(), this.resourcesProvider, this.giftCodeOptions, tL_premiumGiftCodeOption2, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda15
-                        @Override // org.telegram.messenger.Utilities.Callback
-                        public final void run(Object obj) {
-                            BoostViaGiftsBottomSheet.this.lambda$new$16((TLRPC.TL_premiumGiftCodeOption) obj);
-                        }
-                    })) {
-                        return;
+            return;
+        }
+        List filterGiftOptions2 = BoostRepository.filterGiftOptions(this.giftCodeOptions, getSelectedSliderValue());
+        for (int i2 = 0; i2 < filterGiftOptions2.size(); i2++) {
+            TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption2 = (TLRPC.TL_premiumGiftCodeOption) filterGiftOptions2.get(i2);
+            if (tL_premiumGiftCodeOption2.months == this.selectedMonths) {
+                if (BoostRepository.isGoogleBillingAvailable() && BoostDialogs.checkReduceQuantity(this.sliderValues, getContext(), this.resourcesProvider, this.giftCodeOptions, tL_premiumGiftCodeOption2, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda15
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        BoostViaGiftsBottomSheet.this.lambda$new$16((TLRPC.TL_premiumGiftCodeOption) obj);
                     }
-                    boolean z = this.selectedParticipantsType == ParticipantsTypeCell.TYPE_NEW;
-                    int prepareServerDate = BoostRepository.prepareServerDate(this.selectedEndDate);
-                    this.actionBtn.updateLoading(true);
-                    BoostRepository.payGiveAway(this.selectedChats, this.selectedCountries, tL_premiumGiftCodeOption2, this.currentChat, prepareServerDate, z, baseFragment, this.isShowWinnersSelected, this.isAdditionalPrizeSelected, this.additionalPrize, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda16
-                        @Override // org.telegram.messenger.Utilities.Callback
-                        public final void run(Object obj) {
-                            BoostViaGiftsBottomSheet.this.lambda$new$18((Void) obj);
-                        }
-                    }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda17
-                        @Override // org.telegram.messenger.Utilities.Callback
-                        public final void run(Object obj) {
-                            BoostViaGiftsBottomSheet.this.lambda$new$19((TLRPC.TL_error) obj);
-                        }
-                    });
+                })) {
                     return;
                 }
+                boolean z = this.selectedParticipantsType == ParticipantsTypeCell.TYPE_NEW;
+                int prepareServerDate = BoostRepository.prepareServerDate(this.selectedEndDate);
+                this.actionBtn.updateLoading(true);
+                BoostRepository.payGiveAway(this.selectedChats, this.selectedCountries, tL_premiumGiftCodeOption2, this.currentChat, prepareServerDate, z, baseFragment, this.isShowWinnersSelected, this.isAdditionalPrizeSelected, this.additionalPrize, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda16
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        BoostViaGiftsBottomSheet.this.lambda$new$18((Void) obj);
+                    }
+                }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda17
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        BoostViaGiftsBottomSheet.this.lambda$new$19((TLRPC.TL_error) obj);
+                    }
+                });
+                return;
             }
         }
     }
@@ -773,14 +786,14 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         actionBtnCell.setStartGiveAwayStyle(selectedSliderValueWithBoosts, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:140:0x0452  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x04f8  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x052b  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x0579  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x05c5  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x05d5  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x062a  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x0632  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x052b  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x05c5  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x05d5  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0579  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x04f8  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x062a  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0632  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0452  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -974,7 +987,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
                 arrayList7.add(asDivider2);
             }
             boostAdapter = this.adapter;
-            if (boostAdapter == null && z2) {
+            if (boostAdapter != null && z2) {
                 if (z) {
                     boostAdapter.notifyDataSetChanged();
                     return;
@@ -1091,10 +1104,9 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         }
         arrayList7.add(asDivider2);
         boostAdapter = this.adapter;
-        if (boostAdapter == null) {
-            return;
-        }
-        if (z) {
+        if (boostAdapter != null) {
+            if (z) {
+            }
         }
     }
 
@@ -1128,14 +1140,14 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
 
     public TL_stars.TL_starsGiveawayOption getSelectedStarsOption(long j) {
         ArrayList giveawayOptions = StarsController.getInstance(this.currentAccount).getGiveawayOptions();
-        if (giveawayOptions != null) {
-            for (int i = 0; i < giveawayOptions.size(); i++) {
-                TL_stars.TL_starsGiveawayOption tL_starsGiveawayOption = (TL_stars.TL_starsGiveawayOption) giveawayOptions.get(i);
-                if (tL_starsGiveawayOption != null && tL_starsGiveawayOption.stars == j) {
-                    return tL_starsGiveawayOption;
-                }
-            }
+        if (giveawayOptions == null) {
             return null;
+        }
+        for (int i = 0; i < giveawayOptions.size(); i++) {
+            TL_stars.TL_starsGiveawayOption tL_starsGiveawayOption = (TL_stars.TL_starsGiveawayOption) giveawayOptions.get(i);
+            if (tL_starsGiveawayOption != null && tL_starsGiveawayOption.stars == j) {
+                return tL_starsGiveawayOption;
+            }
         }
         return null;
     }

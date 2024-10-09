@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class FragmentTransition {
@@ -57,24 +58,28 @@ public abstract class FragmentTransition {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0039, code lost:
-        if (r0.mAdded != false) goto L60;
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x0039, code lost:
+    
+        if (r0.mAdded != false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x003b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x003b, code lost:
+    
         r9 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0052, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x0052, code lost:
+    
         r9 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x008d, code lost:
-        if (r0.mHidden == false) goto L60;
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x008d, code lost:
+    
+        if (r0.mHidden == false) goto L32;
      */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0098  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x00a5 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x00b3  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x00c5 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x00d7 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:97:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0098  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00a5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00b3  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00c5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00d7 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:52:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -143,36 +148,38 @@ public abstract class FragmentTransition {
                             return;
                         }
                     }
-                } else if (z2) {
-                    if (fragment.mHiddenChanged) {
-                        if (!fragment.mHidden) {
-                        }
-                    }
-                    z3 = false;
-                    z6 = z3;
-                    z4 = false;
-                    z5 = false;
-                    fragmentContainerTransition = (FragmentContainerTransition) sparseArray.get(i);
-                    if (z6) {
-                    }
-                    if (!z2) {
-                        if (fragmentContainerTransition != null) {
-                            fragmentContainerTransition.firstOut = null;
-                        }
-                        if (!backStackRecord.mReorderingAllowed) {
-                        }
-                    }
-                    if (z5) {
-                        fragmentContainerTransition = ensureContainer(fragmentContainerTransition, sparseArray, i);
-                        fragmentContainerTransition.firstOut = fragment;
-                        fragmentContainerTransition.firstOutIsPop = z;
-                        fragmentContainerTransition.firstOutTransaction = backStackRecord;
-                    }
-                    if (z2) {
-                        return;
-                    }
-                    return;
                 } else {
+                    if (z2) {
+                        if (fragment.mHiddenChanged) {
+                            if (!fragment.mHidden) {
+                            }
+                        }
+                        z3 = false;
+                        z6 = z3;
+                        z4 = false;
+                        z5 = false;
+                        fragmentContainerTransition = (FragmentContainerTransition) sparseArray.get(i);
+                        if (z6) {
+                        }
+                        if (!z2) {
+                            if (fragmentContainerTransition != null) {
+                                fragmentContainerTransition.firstOut = null;
+                            }
+                            if (!backStackRecord.mReorderingAllowed) {
+                            }
+                        }
+                        if (z5) {
+                            fragmentContainerTransition = ensureContainer(fragmentContainerTransition, sparseArray, i);
+                            fragmentContainerTransition.firstOut = fragment;
+                            fragmentContainerTransition.firstOutIsPop = z;
+                            fragmentContainerTransition.firstOutTransaction = backStackRecord;
+                        }
+                        if (z2) {
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
                     z3 = fragment.mHidden;
                     z6 = z3;
                     z4 = false;
@@ -390,37 +397,37 @@ public abstract class FragmentTransition {
             return null;
         }
         FragmentTransitionImpl fragmentTransitionImpl = PLATFORM_IMPL;
-        if (fragmentTransitionImpl == null || !canHandleAll(fragmentTransitionImpl, arrayList)) {
-            FragmentTransitionImpl fragmentTransitionImpl2 = SUPPORT_IMPL;
-            if (fragmentTransitionImpl2 == null || !canHandleAll(fragmentTransitionImpl2, arrayList)) {
-                if (fragmentTransitionImpl == null && fragmentTransitionImpl2 == null) {
-                    return null;
-                }
-                throw new IllegalArgumentException("Invalid Transition types");
-            }
+        if (fragmentTransitionImpl != null && canHandleAll(fragmentTransitionImpl, arrayList)) {
+            return fragmentTransitionImpl;
+        }
+        FragmentTransitionImpl fragmentTransitionImpl2 = SUPPORT_IMPL;
+        if (fragmentTransitionImpl2 != null && canHandleAll(fragmentTransitionImpl2, arrayList)) {
             return fragmentTransitionImpl2;
         }
-        return fragmentTransitionImpl;
+        if (fragmentTransitionImpl == null && fragmentTransitionImpl2 == null) {
+            return null;
+        }
+        throw new IllegalArgumentException("Invalid Transition types");
     }
 
     static ArrayList configureEnteringExitingViews(FragmentTransitionImpl fragmentTransitionImpl, Object obj, Fragment fragment, ArrayList arrayList, View view) {
-        if (obj != null) {
-            ArrayList arrayList2 = new ArrayList();
-            View view2 = fragment.getView();
-            if (view2 != null) {
-                fragmentTransitionImpl.captureTransitioningViews(arrayList2, view2);
-            }
-            if (arrayList != null) {
-                arrayList2.removeAll(arrayList);
-            }
-            if (arrayList2.isEmpty()) {
-                return arrayList2;
-            }
-            arrayList2.add(view);
-            fragmentTransitionImpl.addTargets(obj, arrayList2);
+        if (obj == null) {
+            return null;
+        }
+        ArrayList arrayList2 = new ArrayList();
+        View view2 = fragment.getView();
+        if (view2 != null) {
+            fragmentTransitionImpl.captureTransitioningViews(arrayList2, view2);
+        }
+        if (arrayList != null) {
+            arrayList2.removeAll(arrayList);
+        }
+        if (arrayList2.isEmpty()) {
             return arrayList2;
         }
-        return null;
+        arrayList2.add(view);
+        fragmentTransitionImpl.addTargets(obj, arrayList2);
+        return arrayList2;
     }
 
     private static Object configureSharedElementsOrdered(final FragmentTransitionImpl fragmentTransitionImpl, ViewGroup viewGroup, final View view, final ArrayMap arrayMap, final FragmentContainerTransition fragmentContainerTransition, final ArrayList arrayList, final ArrayList arrayList2, final Object obj, Object obj2) {
@@ -571,7 +578,10 @@ public abstract class FragmentTransition {
             obj = exitTransition;
         }
         ArrayList configureEnteringExitingViews = configureEnteringExitingViews(chooseImpl, obj, fragment2, arrayList, view);
-        Object obj2 = (configureEnteringExitingViews == null || configureEnteringExitingViews.isEmpty()) ? null : null;
+        if (configureEnteringExitingViews == null || configureEnteringExitingViews.isEmpty()) {
+            obj = null;
+        }
+        Object obj2 = obj;
         chooseImpl.addTarget(enterTransition, view);
         Object mergeTransitions = mergeTransitions(chooseImpl, enterTransition, obj2, configureSharedElementsOrdered, fragment, fragmentContainerTransition.lastInIsPop);
         if (fragment2 != null && configureEnteringExitingViews != null && (configureEnteringExitingViews.size() > 0 || arrayList.size() > 0)) {
@@ -643,12 +653,12 @@ public abstract class FragmentTransition {
     }
 
     private static FragmentContainerTransition ensureContainer(FragmentContainerTransition fragmentContainerTransition, SparseArray sparseArray, int i) {
-        if (fragmentContainerTransition == null) {
-            FragmentContainerTransition fragmentContainerTransition2 = new FragmentContainerTransition();
-            sparseArray.put(i, fragmentContainerTransition2);
-            return fragmentContainerTransition2;
+        if (fragmentContainerTransition != null) {
+            return fragmentContainerTransition;
         }
-        return fragmentContainerTransition;
+        FragmentContainerTransition fragmentContainerTransition2 = new FragmentContainerTransition();
+        sparseArray.put(i, fragmentContainerTransition2);
+        return fragmentContainerTransition2;
     }
 
     private static Object getEnterTransition(FragmentTransitionImpl fragmentTransitionImpl, Fragment fragment, boolean z) {

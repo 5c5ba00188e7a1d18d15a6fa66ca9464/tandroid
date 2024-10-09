@@ -6,6 +6,7 @@ import android.os.IInterface;
 import android.os.Parcel;
 import com.google.android.gms.wallet.IsReadyToPayRequest;
 import com.google.android.gms.wallet.PaymentDataRequest;
+
 /* loaded from: classes.dex */
 public final class zzs extends zza implements IInterface {
     /* JADX INFO: Access modifiers changed from: package-private */

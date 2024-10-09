@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.android.gms.common.util.PlatformVersion;
 import com.google.firebase.FirebaseApp;
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class Metadata {
@@ -30,18 +31,18 @@ public class Metadata {
             return gcmSenderId;
         }
         String applicationId = firebaseApp.getOptions().getApplicationId();
-        if (applicationId.startsWith("1:")) {
-            String[] split = applicationId.split(":");
-            if (split.length < 2) {
-                return null;
-            }
-            String str = split[1];
-            if (str.isEmpty()) {
-                return null;
-            }
-            return str;
+        if (!applicationId.startsWith("1:")) {
+            return applicationId;
         }
-        return applicationId;
+        String[] split = applicationId.split(":");
+        if (split.length < 2) {
+            return null;
+        }
+        String str = split[1];
+        if (str.isEmpty()) {
+            return null;
+        }
+        return str;
     }
 
     private PackageInfo getPackageInfo(String str) {

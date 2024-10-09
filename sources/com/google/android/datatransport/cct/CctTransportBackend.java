@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class CctTransportBackend implements TransportBackend {
@@ -129,41 +130,47 @@ public final class CctTransportBackend implements TransportBackend {
             OutputStream outputStream = httpURLConnection.getOutputStream();
             try {
                 GZIPOutputStream gZIPOutputStream = new GZIPOutputStream(outputStream);
-                this.dataEncoder.encode(httpRequest.requestBody, new BufferedWriter(new OutputStreamWriter(gZIPOutputStream)));
-                gZIPOutputStream.close();
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-                int responseCode = httpURLConnection.getResponseCode();
-                Logging.i("CctTransportBackend", "Status Code: %d", Integer.valueOf(responseCode));
-                Logging.d("CctTransportBackend", "Content-Type: %s", httpURLConnection.getHeaderField("Content-Type"));
-                Logging.d("CctTransportBackend", "Content-Encoding: %s", httpURLConnection.getHeaderField("Content-Encoding"));
-                if (responseCode == 302 || responseCode == 301 || responseCode == 307) {
-                    return new HttpResponse(responseCode, new URL(httpURLConnection.getHeaderField("Location")), 0L);
-                }
-                if (responseCode != 200) {
-                    return new HttpResponse(responseCode, null, 0L);
-                }
-                InputStream inputStream = httpURLConnection.getInputStream();
                 try {
-                    InputStream maybeUnGzip = maybeUnGzip(inputStream, httpURLConnection.getHeaderField("Content-Encoding"));
-                    HttpResponse httpResponse = new HttpResponse(responseCode, null, LogResponse.fromJson(new BufferedReader(new InputStreamReader(maybeUnGzip))).getNextRequestWaitMillis());
-                    if (maybeUnGzip != null) {
-                        maybeUnGzip.close();
+                    this.dataEncoder.encode(httpRequest.requestBody, new BufferedWriter(new OutputStreamWriter(gZIPOutputStream)));
+                    gZIPOutputStream.close();
+                    if (outputStream != null) {
+                        outputStream.close();
                     }
-                    if (inputStream != null) {
-                        inputStream.close();
+                    int responseCode = httpURLConnection.getResponseCode();
+                    Logging.i("CctTransportBackend", "Status Code: %d", Integer.valueOf(responseCode));
+                    Logging.d("CctTransportBackend", "Content-Type: %s", httpURLConnection.getHeaderField("Content-Type"));
+                    Logging.d("CctTransportBackend", "Content-Encoding: %s", httpURLConnection.getHeaderField("Content-Encoding"));
+                    if (responseCode == 302 || responseCode == 301 || responseCode == 307) {
+                        return new HttpResponse(responseCode, new URL(httpURLConnection.getHeaderField("Location")), 0L);
                     }
-                    return httpResponse;
-                } catch (Throwable th) {
-                    if (inputStream != null) {
+                    if (responseCode != 200) {
+                        return new HttpResponse(responseCode, null, 0L);
+                    }
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    try {
+                        InputStream maybeUnGzip = maybeUnGzip(inputStream, httpURLConnection.getHeaderField("Content-Encoding"));
                         try {
-                            inputStream.close();
-                        } catch (Throwable th2) {
-                            th.addSuppressed(th2);
+                            HttpResponse httpResponse = new HttpResponse(responseCode, null, LogResponse.fromJson(new BufferedReader(new InputStreamReader(maybeUnGzip))).getNextRequestWaitMillis());
+                            if (maybeUnGzip != null) {
+                                maybeUnGzip.close();
+                            }
+                            if (inputStream != null) {
+                                inputStream.close();
+                            }
+                            return httpResponse;
+                        } finally {
                         }
+                    } catch (Throwable th) {
+                        if (inputStream != null) {
+                            try {
+                                inputStream.close();
+                            } catch (Throwable th2) {
+                                th.addSuppressed(th2);
+                            }
+                        }
+                        throw th;
                     }
-                    throw th;
+                } finally {
                 }
             } catch (Throwable th3) {
                 if (outputStream != null) {
@@ -281,11 +288,11 @@ public final class CctTransportBackend implements TransportBackend {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ HttpRequest lambda$send$0(HttpRequest httpRequest, HttpResponse httpResponse) {
         URL url = httpResponse.redirectUrl;
-        if (url != null) {
-            Logging.d("CctTransportBackend", "Following redirect to: %s", url);
-            return httpRequest.withUrl(httpResponse.redirectUrl);
+        if (url == null) {
+            return null;
         }
-        return null;
+        Logging.d("CctTransportBackend", "Following redirect to: %s", url);
+        return httpRequest.withUrl(httpResponse.redirectUrl);
     }
 
     private static InputStream maybeUnGzip(InputStream inputStream, String str) {

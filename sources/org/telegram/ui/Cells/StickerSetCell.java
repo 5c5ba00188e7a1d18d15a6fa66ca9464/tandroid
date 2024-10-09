@@ -48,6 +48,7 @@ import org.telegram.ui.Components.ForegroundColorSpanThemable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumButtonView;
 import org.telegram.ui.Components.RadialProgressView;
+
 /* loaded from: classes4.dex */
 public class StickerSetCell extends FrameLayout {
     private TextView addButtonView;
@@ -384,13 +385,16 @@ public class StickerSetCell extends FrameLayout {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:16:0x0045, code lost:
-        if (r8 != false) goto L19;
+    
+        if (r8 != false) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00a5, code lost:
-        if (r8 != false) goto L19;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x00a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x00a7, code lost:
+    
         r5 = 1.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00a5, code lost:
+    
+        if (r8 != false) goto L39;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -438,9 +442,10 @@ public class StickerSetCell extends FrameLayout {
                     }
                 }
             }).alpha(z ? 1.0f : 0.0f).scaleX(z ? 1.0f : 0.1f);
-        } else if (!this.emojis) {
-            return;
         } else {
+            if (!this.emojis) {
+                return;
+            }
             if (!z2) {
                 this.sideButtons.setVisibility(z ? 0 : 4);
                 if (z) {
@@ -641,8 +646,9 @@ public class StickerSetCell extends FrameLayout {
                 document = arrayList.get(i);
                 if (document != null && document.id == tL_messages_stickerSet.set.thumb_document_id) {
                     break;
+                } else {
+                    i++;
                 }
-                i++;
             }
             if (document == null) {
                 document = arrayList.get(0);
@@ -692,12 +698,12 @@ public class StickerSetCell extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0049  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0051  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0053  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0059  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0155  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0053  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0047  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0051  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0155  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -744,13 +750,13 @@ public class StickerSetCell extends FrameLayout {
             this.stateAnimator = animatorSet2;
             PremiumButtonView premiumButtonView2 = this.premiumButtonView;
             Property property = FrameLayout.ALPHA;
-            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(premiumButtonView2, property, (i == 1 || i == 2) ? 1.0f : 0.0f);
+            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(premiumButtonView2, (Property<PremiumButtonView, Float>) property, (i == 1 || i == 2) ? 1.0f : 0.0f);
             PremiumButtonView premiumButtonView3 = this.premiumButtonView;
             Property property2 = FrameLayout.SCALE_X;
-            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(premiumButtonView3, property2, (i == 1 || i == 2) ? 1.0f : 0.6f);
+            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(premiumButtonView3, (Property<PremiumButtonView, Float>) property2, (i == 1 || i == 2) ? 1.0f : 0.6f);
             PremiumButtonView premiumButtonView4 = this.premiumButtonView;
             Property property3 = FrameLayout.SCALE_Y;
-            animatorSet2.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(premiumButtonView4, property3, (i == 1 || i == 2) ? 1.0f : 0.6f), ObjectAnimator.ofFloat(this.addButtonView, property, i == 3 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.addButtonView, property2, i == 3 ? 1.0f : 0.6f), ObjectAnimator.ofFloat(this.addButtonView, property3, i == 3 ? 1.0f : 0.6f), ObjectAnimator.ofFloat(this.removeButtonView, property, i == 4 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.removeButtonView, property2, i == 4 ? 1.0f : 0.6f), ObjectAnimator.ofFloat(this.removeButtonView, property3, i == 4 ? 1.0f : 0.6f));
+            animatorSet2.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(premiumButtonView4, (Property<PremiumButtonView, Float>) property3, (i == 1 || i == 2) ? 1.0f : 0.6f), ObjectAnimator.ofFloat(this.addButtonView, (Property<TextView, Float>) property, i == 3 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.addButtonView, (Property<TextView, Float>) property2, i == 3 ? 1.0f : 0.6f), ObjectAnimator.ofFloat(this.addButtonView, (Property<TextView, Float>) property3, i == 3 ? 1.0f : 0.6f), ObjectAnimator.ofFloat(this.removeButtonView, (Property<TextView, Float>) property, i == 4 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.removeButtonView, (Property<TextView, Float>) property2, i == 4 ? 1.0f : 0.6f), ObjectAnimator.ofFloat(this.removeButtonView, (Property<TextView, Float>) property3, i == 4 ? 1.0f : 0.6f));
             this.stateAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.StickerSetCell.4
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
@@ -796,9 +802,9 @@ public class StickerSetCell extends FrameLayout {
         if (LocaleController.isRTL) {
             ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).leftMargin = dp;
             ((ViewGroup.MarginLayoutParams) this.valueTextView.getLayoutParams()).leftMargin = dp;
-            return;
+        } else {
+            ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).rightMargin = dp;
+            ((ViewGroup.MarginLayoutParams) this.valueTextView.getLayoutParams()).rightMargin = dp;
         }
-        ((ViewGroup.MarginLayoutParams) this.textView.getLayoutParams()).rightMargin = dp;
-        ((ViewGroup.MarginLayoutParams) this.valueTextView.getLayoutParams()).rightMargin = dp;
     }
 }

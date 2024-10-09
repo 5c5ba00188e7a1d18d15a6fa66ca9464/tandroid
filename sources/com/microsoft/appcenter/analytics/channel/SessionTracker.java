@@ -10,6 +10,7 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.context.SessionContext;
 import java.util.Date;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public class SessionTracker extends AbstractChannelListener {
     private final Channel mChannel;
@@ -69,11 +70,11 @@ public class SessionTracker extends AbstractChannelListener {
         if (timestamp == null) {
             log.setSid(this.mSid);
             this.mLastQueuedLogTime = SystemClock.elapsedRealtime();
-            return;
-        }
-        SessionContext.SessionInfo sessionAt = SessionContext.getInstance().getSessionAt(timestamp.getTime());
-        if (sessionAt != null) {
-            log.setSid(sessionAt.getSessionId());
+        } else {
+            SessionContext.SessionInfo sessionAt = SessionContext.getInstance().getSessionAt(timestamp.getTime());
+            if (sessionAt != null) {
+                log.setSid(sessionAt.getSessionId());
+            }
         }
     }
 }

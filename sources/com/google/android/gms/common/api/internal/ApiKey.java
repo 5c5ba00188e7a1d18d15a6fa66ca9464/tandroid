@@ -2,6 +2,7 @@ package com.google.android.gms.common.api.internal;
 
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
+
 /* loaded from: classes.dex */
 public final class ApiKey {
     private final int zaa;
@@ -27,11 +28,11 @@ public final class ApiKey {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof ApiKey) {
-            ApiKey apiKey = (ApiKey) obj;
-            return Objects.equal(this.zab, apiKey.zab) && Objects.equal(this.zac, apiKey.zac) && Objects.equal(this.zad, apiKey.zad);
+        if (!(obj instanceof ApiKey)) {
+            return false;
         }
-        return false;
+        ApiKey apiKey = (ApiKey) obj;
+        return Objects.equal(this.zab, apiKey.zab) && Objects.equal(this.zac, apiKey.zac) && Objects.equal(this.zad, apiKey.zad);
     }
 
     public final int hashCode() {

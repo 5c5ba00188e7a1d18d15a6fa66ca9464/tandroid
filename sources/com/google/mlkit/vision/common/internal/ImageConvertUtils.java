@@ -13,6 +13,7 @@ import com.google.mlkit.vision.common.InputImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public class ImageConvertUtils {
     private static final ImageConvertUtils zza = new ImageConvertUtils();
@@ -64,10 +65,22 @@ public class ImageConvertUtils {
         YuvImage yuvImage = new YuvImage(bArr, 17, i, i2, null);
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            yuvImage.compressToJpeg(new Rect(0, 0, i, i2), 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
-            byteArrayOutputStream.close();
-            return byteArray;
+            try {
+                yuvImage.compressToJpeg(new Rect(0, 0, i, i2), 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                byteArrayOutputStream.close();
+                return byteArray;
+            } catch (Throwable th) {
+                try {
+                    byteArrayOutputStream.close();
+                } catch (Throwable th2) {
+                    try {
+                        Throwable.class.getDeclaredMethod("addSuppressed", Throwable.class).invoke(th, th2);
+                    } catch (Exception unused) {
+                    }
+                }
+                throw th;
+            }
         } catch (IOException e) {
             Log.w("ImageConvertUtils", "Error closing ByteArrayOutputStream");
             throw new MlKitException("Image conversion error from NV21 format", 13, e);
@@ -107,19 +120,19 @@ public class ImageConvertUtils {
 
     public Bitmap convertToUpRightBitmap(InputImage inputImage) {
         int format = inputImage.getFormat();
-        if (format != -1) {
-            if (format != 17) {
-                if (format != 35) {
-                    if (format == 842094169) {
-                        return yv12ToBitmap((ByteBuffer) Preconditions.checkNotNull(inputImage.getByteBuffer()), inputImage.getWidth(), inputImage.getHeight(), inputImage.getRotationDegrees());
-                    }
-                    throw new MlKitException("Unsupported image format", 13);
-                }
-                return nv21ToBitmap(yuv420ThreePlanesToNV21((Image.Plane[]) Preconditions.checkNotNull(inputImage.getPlanes()), inputImage.getWidth(), inputImage.getHeight()), inputImage.getWidth(), inputImage.getHeight(), inputImage.getRotationDegrees());
-            }
+        if (format == -1) {
+            return zza((Bitmap) Preconditions.checkNotNull(inputImage.getBitmapInternal()), inputImage.getRotationDegrees(), inputImage.getWidth(), inputImage.getHeight());
+        }
+        if (format == 17) {
             return nv21ToBitmap((ByteBuffer) Preconditions.checkNotNull(inputImage.getByteBuffer()), inputImage.getWidth(), inputImage.getHeight(), inputImage.getRotationDegrees());
         }
-        return zza((Bitmap) Preconditions.checkNotNull(inputImage.getBitmapInternal()), inputImage.getRotationDegrees(), inputImage.getWidth(), inputImage.getHeight());
+        if (format == 35) {
+            return nv21ToBitmap(yuv420ThreePlanesToNV21((Image.Plane[]) Preconditions.checkNotNull(inputImage.getPlanes()), inputImage.getWidth(), inputImage.getHeight()), inputImage.getWidth(), inputImage.getHeight(), inputImage.getRotationDegrees());
+        }
+        if (format == 842094169) {
+            return yv12ToBitmap((ByteBuffer) Preconditions.checkNotNull(inputImage.getByteBuffer()), inputImage.getWidth(), inputImage.getHeight(), inputImage.getRotationDegrees());
+        }
+        throw new MlKitException("Unsupported image format", 13);
     }
 
     public Bitmap nv21ToBitmap(ByteBuffer byteBuffer, int i, int i2, int i3) {

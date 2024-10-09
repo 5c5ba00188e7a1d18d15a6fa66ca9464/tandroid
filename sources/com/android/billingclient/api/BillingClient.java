@@ -2,6 +2,7 @@ package com.android.billingclient.api;
 
 import android.app.Activity;
 import android.content.Context;
+
 /* loaded from: classes.dex */
 public abstract class BillingClient {
 
@@ -16,16 +17,16 @@ public abstract class BillingClient {
         }
 
         public BillingClient build() {
-            if (this.zzc != null) {
-                if (this.zzd != null) {
-                    if (this.zzb != null) {
-                        return this.zzd != null ? new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, null, null) : new BillingClientImpl(null, this.zzb, this.zzc, null, null);
-                    }
-                    throw new IllegalArgumentException("Pending purchases for one-time products must be supported.");
-                }
+            if (this.zzc == null) {
+                throw new IllegalArgumentException("Please provide a valid Context.");
+            }
+            if (this.zzd == null) {
                 throw new IllegalArgumentException("Please provide a valid listener for purchases updates.");
             }
-            throw new IllegalArgumentException("Please provide a valid Context.");
+            if (this.zzb != null) {
+                return this.zzd != null ? new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, null, null) : new BillingClientImpl(null, this.zzb, this.zzc, null, null);
+            }
+            throw new IllegalArgumentException("Pending purchases for one-time products must be supported.");
         }
 
         public Builder enablePendingPurchases() {

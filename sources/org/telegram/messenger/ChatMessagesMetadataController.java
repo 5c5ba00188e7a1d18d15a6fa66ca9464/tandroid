@@ -7,6 +7,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Stories.StoriesStorage;
+
 /* loaded from: classes3.dex */
 public class ChatMessagesMetadataController {
     final ChatActivity chatActivity;

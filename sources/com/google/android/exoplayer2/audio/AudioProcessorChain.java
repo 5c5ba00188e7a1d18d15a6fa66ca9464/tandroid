@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.audio;
 
 import com.google.android.exoplayer2.PlaybackParameters;
+
 /* loaded from: classes.dex */
 public interface AudioProcessorChain {
     PlaybackParameters applyPlaybackParameters(PlaybackParameters playbackParameters);

@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.upstream.SlidingPercentile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
 /* loaded from: classes.dex */
 public class SlidingPercentile {
     private static final Comparator INDEX_COMPARATOR = new Comparator() { // from class: com.google.android.exoplayer2.upstream.SlidingPercentile$$ExternalSyntheticLambda0
@@ -132,8 +133,7 @@ public class SlidingPercentile {
         if (this.samples.isEmpty()) {
             return Float.NaN;
         }
-        ArrayList arrayList = this.samples;
-        return ((Sample) arrayList.get(arrayList.size() - 1)).value;
+        return ((Sample) this.samples.get(r5.size() - 1)).value;
     }
 
     public void reset() {

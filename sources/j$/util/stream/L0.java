@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.LongFunction;
 import java.util.concurrent.CountedCompleter;
+
 /* loaded from: classes2.dex */
 class L0 extends e {
     protected final b h;

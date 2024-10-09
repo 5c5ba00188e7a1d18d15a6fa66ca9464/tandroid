@@ -19,6 +19,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
+
 /* loaded from: classes3.dex */
 public class ReplyMessageLine {
     public int backgroundColor;
@@ -232,28 +233,33 @@ public class ReplyMessageLine {
         this.hasColor2 = false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:106:0x017f, code lost:
-        if (r22 == 3) goto L154;
+    /* JADX WARN: Code restructure failed: missing block: B:153:0x017f, code lost:
+    
+        if (r22 == 3) goto L114;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:124:0x01c2, code lost:
-        if (r22 == 3) goto L154;
+    /* JADX WARN: Code restructure failed: missing block: B:171:0x01c2, code lost:
+    
+        if (r22 == 3) goto L114;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:168:0x025e, code lost:
-        if (r2 != null) goto L214;
+    /* JADX WARN: Code restructure failed: missing block: B:212:0x025e, code lost:
+    
+        if (r2 != null) goto L174;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:173:0x027f, code lost:
-        if (r2 != null) goto L214;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:174:0x0281, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:214:0x0281, code lost:
+    
         r6 = org.telegram.messenger.UserObject.getColorId(r2);
         r7 = org.telegram.messenger.UserObject.getEmojiId(r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x02e1  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x02f8  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x0366 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x0372  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x037c  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x03b0  */
+    /* JADX WARN: Code restructure failed: missing block: B:220:0x027f, code lost:
+    
+        if (r2 != null) goto L174;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0366 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x037c  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x03b0  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0372  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x02f8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -374,9 +380,8 @@ public class ReplyMessageLine {
                             i4 = this.nameColor;
                         } else {
                             long peerDialogId = DialogObject.getPeerDialogId(peer);
-                            int i7 = (peerDialogId > 0L ? 1 : (peerDialogId == 0L ? 0 : -1));
                             MessagesController messagesController = MessagesController.getInstance(messageObject.currentAccount);
-                            if (i7 < 0) {
+                            if (peerDialogId < 0) {
                                 TLRPC.Chat chat4 = messagesController.getChat(Long.valueOf(-peerDialogId));
                                 colorId2 = chat4 != null ? ChatObject.getColorId(chat4) : 5;
                                 if (i == 3) {
@@ -478,9 +483,9 @@ public class ReplyMessageLine {
                 animatedColor = this.nameColorAnimated;
                 i4 = this.nameColor;
             } else {
-                int i8 = messageObject.overrideLinkColor;
-                if (i8 >= 0) {
-                    colorId = i8;
+                int i7 = messageObject.overrideLinkColor;
+                if (i7 >= 0) {
+                    colorId = i7;
                 } else if (DialogObject.isEncryptedDialog(messageObject.replyMessageObject.getDialogId())) {
                     user2 = messageObject.replyMessageObject.isOutOwner() ? UserConfig.getInstance(messageObject.replyMessageObject.currentAccount).getCurrentUser() : user;
                 } else {
@@ -547,8 +552,7 @@ public class ReplyMessageLine {
             this.backgroundPath.rewind();
             this.backgroundPath.addRoundRect(rectF, this.radii, Path.Direction.CW);
             this.backgroundPaint.setColor(this.backgroundColorAnimated.set(this.backgroundColor));
-            Paint paint = this.backgroundPaint;
-            paint.setAlpha((int) (paint.getAlpha() * f));
+            this.backgroundPaint.setAlpha((int) (r5.getAlpha() * f));
             canvas.drawPath(this.backgroundPath, this.backgroundPaint);
         }
         if (this.emoji == null) {
@@ -608,9 +612,13 @@ public class ReplyMessageLine {
         RectF rectF2 = this.rectF;
         float f3 = rectF.left;
         rectF2.set(f3, rectF.top, Math.max(AndroidUtilities.dp(3.0f), AndroidUtilities.dp(floor * 2)) + f3, rectF.bottom);
+        Path path = this.clipPath;
+        RectF rectF3 = this.rectF;
         float f4 = floor;
+        float dp = AndroidUtilities.dp(f4);
+        float dp2 = AndroidUtilities.dp(f4);
         Path.Direction direction = Path.Direction.CW;
-        this.clipPath.addRoundRect(this.rectF, AndroidUtilities.dp(f4), AndroidUtilities.dp(f4), direction);
+        path.addRoundRect(rectF3, dp, dp2, direction);
         canvas.clipPath(this.clipPath);
         float f5 = rectF.left;
         canvas.clipRect(f5, rectF.top, AndroidUtilities.dp(3.0f) + f5, rectF.bottom);

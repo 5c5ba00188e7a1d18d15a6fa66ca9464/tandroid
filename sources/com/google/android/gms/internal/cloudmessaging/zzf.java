@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.cloudmessaging;
+
 /* loaded from: classes.dex */
 public abstract class zzf {
     public static final int zza = 1;

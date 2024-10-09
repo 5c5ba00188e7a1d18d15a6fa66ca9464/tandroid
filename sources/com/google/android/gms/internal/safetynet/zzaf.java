@@ -10,6 +10,7 @@ import android.os.Looper;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
+
 /* loaded from: classes.dex */
 public final class zzaf extends GmsClient {
     private final Context zze;

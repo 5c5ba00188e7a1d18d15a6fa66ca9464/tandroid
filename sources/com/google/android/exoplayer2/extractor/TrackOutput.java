@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.upstream.DataReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public interface TrackOutput {
 

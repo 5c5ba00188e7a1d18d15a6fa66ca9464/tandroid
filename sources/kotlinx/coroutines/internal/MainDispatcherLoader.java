@@ -7,6 +7,7 @@ import kotlin.sequences.Sequence;
 import kotlin.sequences.SequencesKt__SequencesKt;
 import kotlin.sequences.SequencesKt___SequencesKt;
 import kotlinx.coroutines.MainCoroutineDispatcher;
+
 /* loaded from: classes.dex */
 public final class MainDispatcherLoader {
     public static final MainDispatcherLoader INSTANCE;

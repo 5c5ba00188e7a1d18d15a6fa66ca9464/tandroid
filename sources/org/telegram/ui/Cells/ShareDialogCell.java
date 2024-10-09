@@ -47,6 +47,7 @@ import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RLottieDrawable;
+
 /* loaded from: classes4.dex */
 public class ShareDialogCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final AvatarDrawable avatarDrawable;
@@ -251,10 +252,10 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x01a2  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x01a5  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x01df  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x01f3  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01a2  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x01df  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x01f3  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x01a5  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -263,7 +264,6 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         TLRPC.User user;
         boolean z;
         TLRPC.UserStatus userStatus;
-        Drawable drawable;
         boolean drawChild = super.drawChild(canvas, view, j);
         if (view == this.imageView && this.currentType != 2 && (user = this.user) != null && !MessagesController.isSupportUser(user)) {
             long elapsedRealtime = SystemClock.elapsedRealtime();
@@ -291,7 +291,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                     this.lockDrawable = mutate;
                     mutate.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
                 }
-                this.lockDrawable.setBounds((int) (f2 - (((drawable.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (f3 - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (f2 + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (f3 + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
+                this.lockDrawable.setBounds((int) (f2 - (((r5.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (f3 - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (f2 + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (f3 + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
                 this.lockDrawable.setAlpha((int) (f * 255.0f));
                 this.lockDrawable.draw(canvas);
                 canvas.restore();

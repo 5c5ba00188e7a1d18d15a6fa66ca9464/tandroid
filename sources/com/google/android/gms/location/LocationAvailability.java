@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class LocationAvailability extends AbstractSafeParcelable implements ReflectedParcelable {
     int zzc;
@@ -46,8 +47,7 @@ public final class LocationAvailability extends AbstractSafeParcelable implement
     }
 
     public String toString() {
-        boolean isLocationAvailable = isLocationAvailable();
-        return "LocationAvailability[" + isLocationAvailable + "]";
+        return "LocationAvailability[" + isLocationAvailable() + "]";
     }
 
     @Override // android.os.Parcelable

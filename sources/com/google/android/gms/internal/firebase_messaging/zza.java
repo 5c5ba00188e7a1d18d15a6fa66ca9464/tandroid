@@ -4,6 +4,7 @@ import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.messaging.reporting.MessagingClientEvent;
+
 /* loaded from: classes.dex */
 final class zza implements ObjectEncoder {
     static final zza zza = new zza();

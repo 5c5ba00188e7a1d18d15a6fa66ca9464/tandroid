@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.BiConsumer;
 import j$.util.function.Supplier;
+
 /* loaded from: classes2.dex */
 final class D1 extends t0 {
     final /* synthetic */ j$.util.function.f h;

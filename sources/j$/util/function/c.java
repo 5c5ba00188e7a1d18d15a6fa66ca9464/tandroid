@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class c implements f {
     public final /* synthetic */ int a;

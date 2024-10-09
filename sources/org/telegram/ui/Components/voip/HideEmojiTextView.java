@@ -8,6 +8,7 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+
 /* loaded from: classes3.dex */
 public class HideEmojiTextView extends TextView {
     private final VoIPBackgroundProvider backgroundProvider;

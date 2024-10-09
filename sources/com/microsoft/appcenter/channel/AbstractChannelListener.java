@@ -2,6 +2,7 @@ package com.microsoft.appcenter.channel;
 
 import com.microsoft.appcenter.channel.Channel;
 import com.microsoft.appcenter.ingestion.models.Log;
+
 /* loaded from: classes.dex */
 public abstract class AbstractChannelListener implements Channel.Listener {
     @Override // com.microsoft.appcenter.channel.Channel.Listener

@@ -15,6 +15,7 @@ import com.google.android.gms.common.internal.ApiExceptionUtil;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public abstract class AutoResolveHelper {
     private static final long zzb = TimeUnit.MINUTES.toMillis(10);
@@ -66,15 +67,14 @@ public abstract class AutoResolveHelper {
         if (createPendingResult == null) {
             if (Log.isLoggable("AutoResolveHelper", 5)) {
                 Log.w("AutoResolveHelper", "Null pending result returned when trying to deliver task result!");
-                return;
             }
-            return;
-        }
-        try {
-            createPendingResult.send(i2);
-        } catch (PendingIntent.CanceledException e) {
-            if (Log.isLoggable("AutoResolveHelper", 6)) {
-                Log.e("AutoResolveHelper", "Exception sending pending result", e);
+        } else {
+            try {
+                createPendingResult.send(i2);
+            } catch (PendingIntent.CanceledException e) {
+                if (Log.isLoggable("AutoResolveHelper", 6)) {
+                    Log.e("AutoResolveHelper", "Exception sending pending result", e);
+                }
             }
         }
     }

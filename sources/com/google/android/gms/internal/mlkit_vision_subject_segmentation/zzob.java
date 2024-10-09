@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public enum zzob implements zzcb {
     zza(0),
@@ -293,7 +294,7 @@ public enum zzob implements zzcb {
     zzeB(762),
     zzeC(763),
     zzeD(764);
-    
+
     private final int zzeF;
 
     zzob(int i) {

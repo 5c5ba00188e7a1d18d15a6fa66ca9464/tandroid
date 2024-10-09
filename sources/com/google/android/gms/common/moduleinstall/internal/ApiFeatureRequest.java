@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
+
 /* loaded from: classes.dex */
 public class ApiFeatureRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<ApiFeatureRequest> CREATOR = new zac();
@@ -55,11 +56,11 @@ public class ApiFeatureRequest extends AbstractSafeParcelable {
     }
 
     public final boolean equals(Object obj) {
-        if (obj != null && (obj instanceof ApiFeatureRequest)) {
-            ApiFeatureRequest apiFeatureRequest = (ApiFeatureRequest) obj;
-            return this.zac == apiFeatureRequest.zac && Objects.equal(this.zab, apiFeatureRequest.zab) && Objects.equal(this.zad, apiFeatureRequest.zad) && Objects.equal(this.zae, apiFeatureRequest.zae);
+        if (obj == null || !(obj instanceof ApiFeatureRequest)) {
+            return false;
         }
-        return false;
+        ApiFeatureRequest apiFeatureRequest = (ApiFeatureRequest) obj;
+        return this.zac == apiFeatureRequest.zac && Objects.equal(this.zab, apiFeatureRequest.zab) && Objects.equal(this.zad, apiFeatureRequest.zad) && Objects.equal(this.zae, apiFeatureRequest.zae);
     }
 
     public List getApiFeatures() {

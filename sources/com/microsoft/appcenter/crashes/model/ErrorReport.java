@@ -2,6 +2,7 @@ package com.microsoft.appcenter.crashes.model;
 
 import com.microsoft.appcenter.ingestion.models.Device;
 import java.util.Date;
+
 /* loaded from: classes.dex */
 public class ErrorReport {
     private Date appErrorTime;

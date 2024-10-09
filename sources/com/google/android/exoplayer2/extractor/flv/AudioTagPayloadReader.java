@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.extractor.flv.TagPayloadReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Collections;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 final class AudioTagPayloadReader extends TagPayloadReader {
     private static final int[] AUDIO_SAMPLING_RATE_TABLE = {5512, 11025, 22050, 44100};
@@ -54,13 +55,13 @@ final class AudioTagPayloadReader extends TagPayloadReader {
         }
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         if (readUnsignedByte != 0 || this.hasOutputFormat) {
-            if (this.audioFormat != 10 || readUnsignedByte == 1) {
-                int bytesLeft2 = parsableByteArray.bytesLeft();
-                this.output.sampleData(parsableByteArray, bytesLeft2);
-                this.output.sampleMetadata(j, 1, bytesLeft2, 0, null);
-                return true;
+            if (this.audioFormat == 10 && readUnsignedByte != 1) {
+                return false;
             }
-            return false;
+            int bytesLeft2 = parsableByteArray.bytesLeft();
+            this.output.sampleData(parsableByteArray, bytesLeft2);
+            this.output.sampleMetadata(j, 1, bytesLeft2, 0, null);
+            return true;
         }
         int bytesLeft3 = parsableByteArray.bytesLeft();
         byte[] bArr = new byte[bytesLeft3];

@@ -4,6 +4,7 @@ import android.os.SystemClock;
 import android.view.Choreographer;
 import androidx.collection.SimpleArrayMap;
 import java.util.ArrayList;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class AnimationHandler {
@@ -99,11 +100,11 @@ public class AnimationHandler {
         if (l == null) {
             return true;
         }
-        if (l.longValue() < j) {
-            this.mDelayedCallbackStartTime.remove(animationFrameCallback);
-            return true;
+        if (l.longValue() >= j) {
+            return false;
         }
-        return false;
+        this.mDelayedCallbackStartTime.remove(animationFrameCallback);
+        return true;
     }
 
     public void addAnimationFrameCallback(AnimationFrameCallback animationFrameCallback, long j) {

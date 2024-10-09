@@ -1,6 +1,7 @@
 package org.telegram.ui.Components;
 
 import androidx.dynamicanimation.animation.FloatPropertyCompat;
+
 /* loaded from: classes3.dex */
 public class SimpleFloatPropertyCompat extends FloatPropertyCompat {
     private Getter getter;

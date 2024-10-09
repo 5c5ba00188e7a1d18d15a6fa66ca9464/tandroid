@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.common.base.Charsets;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class AppInfoTableDecoder extends SimpleMetadataDecoder {
     private static Metadata parseAit(ParsableBitArray parsableBitArray) {

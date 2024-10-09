@@ -1,4 +1,5 @@
 package com.google.firebase.components;
+
 /* loaded from: classes.dex */
 public final class Dependency {
     private final Class anInterface;
@@ -12,16 +13,16 @@ public final class Dependency {
     }
 
     private static String describeInjection(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i == 2) {
-                    return "deferred";
-                }
-                throw new AssertionError("Unsupported injection: " + i);
-            }
+        if (i == 0) {
+            return "direct";
+        }
+        if (i == 1) {
             return "provider";
         }
-        return "direct";
+        if (i == 2) {
+            return "deferred";
+        }
+        throw new AssertionError("Unsupported injection: " + i);
     }
 
     public static Dependency optional(Class cls) {
@@ -45,11 +46,11 @@ public final class Dependency {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof Dependency) {
-            Dependency dependency = (Dependency) obj;
-            return this.anInterface == dependency.anInterface && this.type == dependency.type && this.injection == dependency.injection;
+        if (!(obj instanceof Dependency)) {
+            return false;
         }
-        return false;
+        Dependency dependency = (Dependency) obj;
+        return this.anInterface == dependency.anInterface && this.type == dependency.type && this.injection == dependency.injection;
     }
 
     public Class getInterface() {

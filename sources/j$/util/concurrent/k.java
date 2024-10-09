@@ -1,6 +1,7 @@
 package j$.util.concurrent;
 
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class k implements Map.Entry {
@@ -20,16 +21,16 @@ public class k implements Map.Entry {
     /* JADX INFO: Access modifiers changed from: package-private */
     public k a(Object obj, int i) {
         Object obj2;
-        if (obj != null) {
-            k kVar = this;
-            do {
-                if (kVar.a == i && ((obj2 = kVar.b) == obj || (obj2 != null && obj.equals(obj2)))) {
-                    return kVar;
-                }
-                kVar = kVar.d;
-            } while (kVar != null);
+        if (obj == null) {
             return null;
         }
+        k kVar = this;
+        do {
+            if (kVar.a == i && ((obj2 = kVar.b) == obj || (obj2 != null && obj.equals(obj2)))) {
+                return kVar;
+            }
+            kVar = kVar.d;
+        } while (kVar != null);
         return null;
     }
 

@@ -3,6 +3,7 @@ package com.google.zxing.common;
 import com.google.zxing.Binarizer;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.NotFoundException;
+
 /* loaded from: classes.dex */
 public class GlobalHistogramBinarizer extends Binarizer {
     private static final byte[] EMPTY = new byte[0];
@@ -45,22 +46,22 @@ public class GlobalHistogramBinarizer extends Binarizer {
             i3 = i6;
             i6 = i11;
         }
-        if (i3 - i6 > length / 16) {
-            int i12 = i3 - 1;
-            int i13 = i12;
-            int i14 = -1;
-            while (i12 > i6) {
-                int i15 = i12 - i6;
-                int i16 = i15 * i15 * (i3 - i12) * (i2 - iArr[i12]);
-                if (i16 > i14) {
-                    i13 = i12;
-                    i14 = i16;
-                }
-                i12--;
-            }
-            return i13 << 3;
+        if (i3 - i6 <= length / 16) {
+            throw NotFoundException.getNotFoundInstance();
         }
-        throw NotFoundException.getNotFoundInstance();
+        int i12 = i3 - 1;
+        int i13 = i12;
+        int i14 = -1;
+        while (i12 > i6) {
+            int i15 = i12 - i6;
+            int i16 = i15 * i15 * (i3 - i12) * (i2 - iArr[i12]);
+            if (i16 > i14) {
+                i13 = i12;
+                i14 = i16;
+            }
+            i12--;
+        }
+        return i13 << 3;
     }
 
     private void initArrays(int i) {

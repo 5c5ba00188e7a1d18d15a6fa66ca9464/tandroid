@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 final class X implements E {
     private final double[] a;
@@ -27,8 +28,7 @@ final class X implements E {
     }
 
     @Override // j$.util.N
-    /* renamed from: e */
-    public final void forEachRemaining(j$.util.function.n nVar) {
+    public final void e(j$.util.function.n nVar) {
         int i;
         nVar.getClass();
         double[] dArr = this.a;
@@ -38,12 +38,13 @@ final class X implements E {
             return;
         }
         this.b = i2;
-        if (i < i2) {
-            do {
-                nVar.accept(dArr[i]);
-                i++;
-            } while (i < i2);
+        if (i >= i2) {
+            return;
         }
+        do {
+            nVar.accept(dArr[i]);
+            i++;
+        } while (i < i2);
     }
 
     @Override // j$.util.Q
@@ -70,8 +71,7 @@ final class X implements E {
     }
 
     @Override // j$.util.N
-    /* renamed from: p */
-    public final boolean tryAdvance(j$.util.function.n nVar) {
+    public final boolean p(j$.util.function.n nVar) {
         nVar.getClass();
         int i = this.b;
         if (i < 0 || i >= this.c) {

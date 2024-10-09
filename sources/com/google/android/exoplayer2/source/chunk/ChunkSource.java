@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.source.LoadingInfo;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public interface ChunkSource {
     long getAdjustedSeekPositionUs(long j, SeekParameters seekParameters);

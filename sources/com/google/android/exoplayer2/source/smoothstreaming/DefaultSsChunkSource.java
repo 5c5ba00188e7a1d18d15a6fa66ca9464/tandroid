@@ -31,6 +31,7 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Assertions;
 import java.io.IOException;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class DefaultSsChunkSource implements SsChunkSource {
     private final ChunkExtractor[] chunkExtractors;
@@ -107,12 +108,12 @@ public class DefaultSsChunkSource implements SsChunkSource {
 
     private long resolveTimeToLiveEdgeUs(long j) {
         SsManifest ssManifest = this.manifest;
-        if (ssManifest.isLive) {
-            SsManifest.StreamElement streamElement = ssManifest.streamElements[this.streamElementIndex];
-            int i = streamElement.chunkCount - 1;
-            return (streamElement.getStartTimeUs(i) + streamElement.getChunkDurationUs(i)) - j;
+        if (!ssManifest.isLive) {
+            return -9223372036854775807L;
         }
-        return -9223372036854775807L;
+        SsManifest.StreamElement streamElement = ssManifest.streamElements[this.streamElementIndex];
+        int i = streamElement.chunkCount - 1;
+        return (streamElement.getStartTimeUs(i) + streamElement.getChunkDurationUs(i)) - j;
     }
 
     @Override // com.google.android.exoplayer2.source.chunk.ChunkSource
@@ -129,10 +130,9 @@ public class DefaultSsChunkSource implements SsChunkSource {
         if (this.fatalError != null) {
             return;
         }
-        SsManifest ssManifest = this.manifest;
-        SsManifest.StreamElement streamElement = ssManifest.streamElements[this.streamElementIndex];
+        SsManifest.StreamElement streamElement = this.manifest.streamElements[this.streamElementIndex];
         if (streamElement.chunkCount == 0) {
-            chunkHolder.endOfStream = !ssManifest.isLive;
+            chunkHolder.endOfStream = !r4.isLive;
             return;
         }
         if (list.isEmpty()) {

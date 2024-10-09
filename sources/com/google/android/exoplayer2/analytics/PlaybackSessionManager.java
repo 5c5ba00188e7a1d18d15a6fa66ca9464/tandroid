@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.analytics;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.source.MediaSource;
+
 /* loaded from: classes.dex */
 public interface PlaybackSessionManager {
 

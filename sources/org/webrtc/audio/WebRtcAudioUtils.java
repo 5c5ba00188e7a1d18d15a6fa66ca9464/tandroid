@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.os.Build;
 import java.util.Arrays;
 import org.webrtc.Logging;
+
 /* loaded from: classes.dex */
 final class WebRtcAudioUtils {
     private static final String TAG = "WebRtcAudioUtilsExternal";
@@ -14,28 +15,28 @@ final class WebRtcAudioUtils {
     }
 
     public static String audioEncodingToString(int i) {
-        if (i != 0) {
-            switch (i) {
-                case 2:
-                    return "PCM_16BIT";
-                case 3:
-                    return "PCM_8BIT";
-                case 4:
-                    return "PCM_FLOAT";
-                case 5:
-                case 6:
-                    return "AC3";
-                case 7:
-                    return "DTS";
-                case 8:
-                    return "DTS_HD";
-                case 9:
-                    return "MP3";
-                default:
-                    return "Invalid encoding: " + i;
-            }
+        if (i == 0) {
+            return "INVALID";
         }
-        return "INVALID";
+        switch (i) {
+            case 2:
+                return "PCM_16BIT";
+            case 3:
+                return "PCM_8BIT";
+            case 4:
+                return "PCM_FLOAT";
+            case 5:
+            case 6:
+                return "AC3";
+            case 7:
+                return "DTS";
+            case 8:
+                return "DTS_HD";
+            case 9:
+                return "MP3";
+            default:
+                return "Invalid encoding: " + i;
+        }
     }
 
     public static String audioSourceToString(int i) {

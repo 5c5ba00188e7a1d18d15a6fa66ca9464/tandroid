@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+
 /* loaded from: classes.dex */
 public final class zzua implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

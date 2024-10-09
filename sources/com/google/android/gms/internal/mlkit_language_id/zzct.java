@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import com.google.android.gms.internal.mlkit_language_id.zzcv;
 import com.google.firebase.components.Component;
 import com.google.firebase.components.Dependency;
+
 /* loaded from: classes.dex */
 public final class zzct implements zzcv.zzb {
     public static final Component zza = Component.builder(zzcv.zzb.class).add(Dependency.required(zzcr.class)).factory(zzcs.zza).build();

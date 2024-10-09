@@ -1,6 +1,7 @@
 package kotlin.jvm.internal;
 
 import kotlin.reflect.KClass;
+
 /* loaded from: classes.dex */
 public class ReflectionFactory {
     public KClass getOrCreateKotlinClass(Class cls) {

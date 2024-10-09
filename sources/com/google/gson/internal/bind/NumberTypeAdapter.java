@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+
 /* loaded from: classes.dex */
 public final class NumberTypeAdapter extends TypeAdapter {
     private static final TypeAdapterFactory LAZILY_PARSED_NUMBER_FACTORY = newFactory(ToNumberPolicy.LAZILY_PARSED_NUMBER);
@@ -65,11 +66,11 @@ public final class NumberTypeAdapter extends TypeAdapter {
         if (i == 1) {
             jsonReader.nextNull();
             return null;
-        } else if (i == 2 || i == 3) {
-            return this.toNumberStrategy.readNumber(jsonReader);
-        } else {
-            throw new JsonSyntaxException("Expecting number, got: " + peek + "; at path " + jsonReader.getPath());
         }
+        if (i == 2 || i == 3) {
+            return this.toNumberStrategy.readNumber(jsonReader);
+        }
+        throw new JsonSyntaxException("Expecting number, got: " + peek + "; at path " + jsonReader.getPath());
     }
 
     @Override // com.google.gson.TypeAdapter

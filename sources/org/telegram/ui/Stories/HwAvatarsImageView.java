@@ -2,6 +2,7 @@ package org.telegram.ui.Stories;
 
 import android.content.Context;
 import org.telegram.ui.Components.AvatarsImageView;
+
 /* loaded from: classes4.dex */
 class HwAvatarsImageView extends AvatarsImageView {
     public HwAvatarsImageView(Context context, boolean z) {

@@ -1,6 +1,7 @@
 package j$.util;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class w implements j$.util.function.W {
     public final /* synthetic */ Consumer a;
@@ -11,7 +12,7 @@ public final /* synthetic */ class w implements j$.util.function.W {
 
     @Override // j$.util.function.W
     public final void accept(long j) {
-        this.a.accept(Long.valueOf(j));
+        this.a.r(Long.valueOf(j));
     }
 
     @Override // j$.util.function.W

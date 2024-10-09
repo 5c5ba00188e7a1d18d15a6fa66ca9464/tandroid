@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class SendingFileDrawable extends StatusDrawable {
     Paint currentPaint;

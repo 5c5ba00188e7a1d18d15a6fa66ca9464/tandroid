@@ -3,6 +3,7 @@ package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 import com.coremedia.iso.IsoTypeReader;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class BaseDescriptor {
     int sizeBytes;

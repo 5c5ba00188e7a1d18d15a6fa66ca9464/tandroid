@@ -13,6 +13,7 @@ import org.telegram.ui.Components.Paint.Views.LocationMarker;
 import org.telegram.ui.Components.Reactions.ReactionImageHolder;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Stories.recorder.Weather;
+
 /* loaded from: classes4.dex */
 public class StoryWidgetsImageDecorator extends ImageReceiver.Decorator {
     ArrayList drawingObjects;
@@ -137,8 +138,6 @@ public class StoryWidgetsImageDecorator extends ImageReceiver.Decorator {
 
         @Override // org.telegram.ui.Stories.StoryWidgetsImageDecorator.DrawingObject
         public void draw(Canvas canvas, ImageReceiver imageReceiver, float f) {
-            int widthInternal;
-            int heightInternal;
             StoryWidgetsImageDecorator storyWidgetsImageDecorator = StoryWidgetsImageDecorator.this;
             double d = storyWidgetsImageDecorator.imageX;
             double d2 = storyWidgetsImageDecorator.imageW;
@@ -146,26 +145,27 @@ public class StoryWidgetsImageDecorator extends ImageReceiver.Decorator {
             double d3 = mediaAreaCoordinates.x;
             Double.isNaN(d2);
             Double.isNaN(d);
+            float f2 = (float) (d + ((d3 * d2) / 100.0d));
             double d4 = storyWidgetsImageDecorator.imageY;
             double d5 = storyWidgetsImageDecorator.imageH;
             double d6 = mediaAreaCoordinates.y;
             Double.isNaN(d5);
             Double.isNaN(d4);
-            float f2 = (float) (d4 + ((d6 * d5) / 100.0d));
+            float f3 = (float) (d4 + ((d6 * d5) / 100.0d));
             double d7 = mediaAreaCoordinates.w;
             Double.isNaN(d2);
-            float f3 = (float) ((d2 * d7) / 100.0d);
+            float f4 = (float) ((d2 * d7) / 100.0d);
             double d8 = mediaAreaCoordinates.h;
             Double.isNaN(d5);
             canvas.save();
-            canvas.translate((float) (d + ((d3 * d2) / 100.0d)), f2);
-            float min = Math.min(f3 / ((this.marker.getWidthInternal() - this.marker.getPaddingLeft()) - this.marker.getPaddingRight()), ((float) ((d5 * d8) / 100.0d)) / ((this.marker.getHeightInternal() - this.marker.getPaddingTop()) - this.marker.getPaddingBottom()));
+            canvas.translate(f2, f3);
+            float min = Math.min(f4 / ((this.marker.getWidthInternal() - this.marker.getPaddingLeft()) - this.marker.getPaddingRight()), ((float) ((d5 * d8) / 100.0d)) / ((this.marker.getHeightInternal() - this.marker.getPaddingTop()) - this.marker.getPaddingBottom()));
             canvas.scale(min, min);
             double d9 = this.mediaArea.coordinates.rotation;
             if (d9 != 0.0d) {
                 canvas.rotate((float) d9);
             }
-            canvas.translate(((-widthInternal) / 2.0f) - this.marker.getPaddingLeft(), ((-heightInternal) / 2.0f) - this.marker.getPaddingTop());
+            canvas.translate(((-r14) / 2.0f) - this.marker.getPaddingLeft(), ((-r0) / 2.0f) - this.marker.getPaddingTop());
             this.marker.drawInternal(canvas);
             canvas.restore();
         }

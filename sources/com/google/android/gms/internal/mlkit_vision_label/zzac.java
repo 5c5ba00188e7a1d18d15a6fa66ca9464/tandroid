@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 class zzac implements Iterator {
     final Iterator zza;

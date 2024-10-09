@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewParent;
 import androidx.appcompat.view.menu.ShowableListMenu;
+
 /* loaded from: classes.dex */
 public abstract class ForwardingListener implements View.OnTouchListener, View.OnAttachStateChangeListener {
     private int mActivePointerId;
@@ -83,39 +84,40 @@ public abstract class ForwardingListener implements View.OnTouchListener, View.O
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:12:0x0017, code lost:
-        if (r1 != 3) goto L13;
+    
+        if (r1 != 3) goto L28;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private boolean onTouchObserved(MotionEvent motionEvent) {
         View view = this.mSrc;
-        if (view.isEnabled()) {
-            int actionMasked = motionEvent.getActionMasked();
-            if (actionMasked != 0) {
-                if (actionMasked != 1) {
-                    if (actionMasked == 2) {
-                        int findPointerIndex = motionEvent.findPointerIndex(this.mActivePointerId);
-                        if (findPointerIndex >= 0 && !pointInView(view, motionEvent.getX(findPointerIndex), motionEvent.getY(findPointerIndex), this.mScaledTouchSlop)) {
-                            clearCallbacks();
-                            view.getParent().requestDisallowInterceptTouchEvent(true);
-                            return true;
-                        }
+        if (!view.isEnabled()) {
+            return false;
+        }
+        int actionMasked = motionEvent.getActionMasked();
+        if (actionMasked != 0) {
+            if (actionMasked != 1) {
+                if (actionMasked == 2) {
+                    int findPointerIndex = motionEvent.findPointerIndex(this.mActivePointerId);
+                    if (findPointerIndex >= 0 && !pointInView(view, motionEvent.getX(findPointerIndex), motionEvent.getY(findPointerIndex), this.mScaledTouchSlop)) {
+                        clearCallbacks();
+                        view.getParent().requestDisallowInterceptTouchEvent(true);
+                        return true;
                     }
                 }
-                clearCallbacks();
-            } else {
-                this.mActivePointerId = motionEvent.getPointerId(0);
-                if (this.mDisallowIntercept == null) {
-                    this.mDisallowIntercept = new DisallowIntercept();
-                }
-                view.postDelayed(this.mDisallowIntercept, this.mTapTimeout);
-                if (this.mTriggerLongPress == null) {
-                    this.mTriggerLongPress = new TriggerLongPress();
-                }
-                view.postDelayed(this.mTriggerLongPress, this.mLongPressTimeout);
             }
-            return false;
+            clearCallbacks();
+        } else {
+            this.mActivePointerId = motionEvent.getPointerId(0);
+            if (this.mDisallowIntercept == null) {
+                this.mDisallowIntercept = new DisallowIntercept();
+            }
+            view.postDelayed(this.mDisallowIntercept, this.mTapTimeout);
+            if (this.mTriggerLongPress == null) {
+                this.mTriggerLongPress = new TriggerLongPress();
+            }
+            view.postDelayed(this.mTriggerLongPress, this.mLongPressTimeout);
         }
         return false;
     }
@@ -126,16 +128,14 @@ public abstract class ForwardingListener implements View.OnTouchListener, View.O
     }
 
     private boolean toGlobalMotionEvent(View view, MotionEvent motionEvent) {
-        int[] iArr = this.mTmpLocation;
-        view.getLocationOnScreen(iArr);
-        motionEvent.offsetLocation(iArr[0], iArr[1]);
+        view.getLocationOnScreen(this.mTmpLocation);
+        motionEvent.offsetLocation(r0[0], r0[1]);
         return true;
     }
 
     private boolean toLocalMotionEvent(View view, MotionEvent motionEvent) {
-        int[] iArr = this.mTmpLocation;
-        view.getLocationOnScreen(iArr);
-        motionEvent.offsetLocation(-iArr[0], -iArr[1]);
+        view.getLocationOnScreen(this.mTmpLocation);
+        motionEvent.offsetLocation(-r0[0], -r0[1]);
         return true;
     }
 

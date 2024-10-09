@@ -4,6 +4,7 @@ import j$.util.function.Consumer;
 import java.util.Arrays;
 import java.util.Iterator;
 import org.telegram.messenger.NotificationCenter;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class H2 extends N2 implements j$.util.function.n {
@@ -17,7 +18,7 @@ public class H2 extends N2 implements j$.util.function.n {
     }
 
     @Override // j$.util.stream.N2, java.lang.Iterable
-    /* renamed from: A */
+    /* renamed from: A, reason: merged with bridge method [inline-methods] */
     public j$.util.E spliterator() {
         return new G2(this, 0, this.c, 0, this.b);
     }
@@ -25,9 +26,10 @@ public class H2 extends N2 implements j$.util.function.n {
     @Override // j$.util.function.n
     public void accept(double d) {
         z();
+        double[] dArr = (double[]) this.e;
         int i = this.b;
         this.b = i + 1;
-        ((double[]) this.e)[i] = d;
+        dArr[i] = d;
     }
 
     @Override // j$.util.stream.N2
@@ -38,10 +40,11 @@ public class H2 extends N2 implements j$.util.function.n {
     public final void forEach(Consumer consumer) {
         if (consumer instanceof j$.util.function.n) {
             g((j$.util.function.n) consumer);
-        } else if (A3.a) {
-            A3.a(getClass(), "{0} calling SpinedBuffer.OfDouble.forEach(Consumer)");
-            throw null;
         } else {
+            if (A3.a) {
+                A3.a(getClass(), "{0} calling SpinedBuffer.OfDouble.forEach(Consumer)");
+                throw null;
+            }
             j$.util.a.b((G2) spliterator(), consumer);
         }
     }
@@ -61,7 +64,7 @@ public class H2 extends N2 implements j$.util.function.n {
         if (dArr.length < 200) {
             return String.format("%s[length=%d, chunks=%d]%s", getClass().getSimpleName(), Integer.valueOf(dArr.length), Integer.valueOf(this.c), Arrays.toString(dArr));
         }
-        return String.format("%s[length=%d, chunks=%d]%s...", getClass().getSimpleName(), Integer.valueOf(dArr.length), Integer.valueOf(this.c), Arrays.toString(Arrays.copyOf(dArr, (int) NotificationCenter.storyQualityUpdate)));
+        return String.format("%s[length=%d, chunks=%d]%s...", getClass().getSimpleName(), Integer.valueOf(dArr.length), Integer.valueOf(this.c), Arrays.toString(Arrays.copyOf(dArr, NotificationCenter.storyQualityUpdate)));
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

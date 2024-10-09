@@ -4,6 +4,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Message;
 import android.os.Parcel;
+
 /* loaded from: classes.dex */
 interface IMessengerCompat extends IInterface {
 

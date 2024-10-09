@@ -20,6 +20,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.ProfileGalleryView;
+
 /* loaded from: classes4.dex */
 public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryView.Callback {
     private float alpha;
@@ -157,11 +158,11 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x02fc  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x01cb  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x01ec  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0204  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0207  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x02fc  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x01cb  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0204  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0207  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x01ec  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -192,7 +193,9 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         }
         long elapsedRealtime = SystemClock.elapsedRealtime();
         long j = elapsedRealtime - this.lastTime;
-        j = (j < 0 || j > 20) ? 17L : 17L;
+        if (j < 0 || j > 20) {
+            j = 17;
+        }
         this.lastTime = elapsedRealtime;
         float f4 = 1.0f;
         if (realCount <= 1 || realCount > 20) {
@@ -252,7 +255,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
                     if (i3 != this.selectedPosition) {
                         this.alphas[i3] = 0.75f;
                     } else if (this.overlayCountVisible == 3) {
-                        this.barPaint.setAlpha((int) (AndroidUtilities.lerp(i2, (int) NotificationCenter.closeSearchByActiveAction, CubicBezierInterpolator.EASE_BOTH.getInterpolation(this.alphas[i3])) * this.alpha));
+                        this.barPaint.setAlpha((int) (AndroidUtilities.lerp(i2, NotificationCenter.closeSearchByActiveAction, CubicBezierInterpolator.EASE_BOTH.getInterpolation(this.alphas[i3])) * this.alpha));
                     }
                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), i3 != this.selectedPosition ? this.selectedBarPaint : this.barPaint);
                     i6 = i3 + 1;

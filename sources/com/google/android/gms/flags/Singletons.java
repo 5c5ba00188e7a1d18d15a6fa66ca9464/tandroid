@@ -1,4 +1,5 @@
 package com.google.android.gms.flags;
+
 /* loaded from: classes.dex */
 public final class Singletons {
     private static Singletons zzl;

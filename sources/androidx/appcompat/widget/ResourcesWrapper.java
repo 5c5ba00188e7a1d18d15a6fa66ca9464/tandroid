@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import androidx.appcompat.resources.Compatibility$Api15Impl;
 import androidx.core.content.res.ResourcesCompat;
 import java.io.InputStream;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class ResourcesWrapper extends Resources {

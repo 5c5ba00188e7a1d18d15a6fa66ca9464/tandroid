@@ -1,6 +1,7 @@
 package com.google.android.gms.vision.face;
 
 import android.graphics.PointF;
+
 /* loaded from: classes.dex */
 public final class Contour {
     private final PointF[] zza;

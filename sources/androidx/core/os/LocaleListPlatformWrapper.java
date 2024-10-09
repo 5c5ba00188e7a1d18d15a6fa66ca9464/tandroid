@@ -2,6 +2,7 @@ package androidx.core.os;
 
 import android.os.LocaleList;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 final class LocaleListPlatformWrapper implements LocaleListInterface {
     private final LocaleList mLocaleList;

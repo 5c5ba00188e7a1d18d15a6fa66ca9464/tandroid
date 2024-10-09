@@ -29,6 +29,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
+
 /* loaded from: classes4.dex */
 public class StoriesStorage {
     int currentAccount;
@@ -224,11 +225,12 @@ public class StoriesStorage {
                         tL_storyItemDeleted.id = getStoryId(messageObject);
                         i = this.currentAccount;
                         break;
-                    } else if (tL_stories_stories.stories.get(i3).id == getStoryId(messageObject)) {
-                        i = this.currentAccount;
-                        tL_storyItemDeleted = tL_stories_stories.stories.get(i3);
-                        break;
                     } else {
+                        if (tL_stories_stories.stories.get(i3).id == getStoryId(messageObject)) {
+                            i = this.currentAccount;
+                            tL_storyItemDeleted = tL_stories_stories.stories.get(i3);
+                            break;
+                        }
                         i3++;
                     }
                 }
@@ -254,13 +256,13 @@ public class StoriesStorage {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$getAllStories$1(TL_stories.PeerStories peerStories) {
-        ArrayList<TL_stories.StoryItem> arrayList = peerStories.stories;
-        return -arrayList.get(arrayList.size() - 1).date;
+        return -peerStories.stories.get(r1.size() - 1).date;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01c1  */
-    /* JADX WARN: Type inference failed for: r3v18, types: [int, boolean] */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x01c1  */
+    /* JADX WARN: Type inference failed for: r3v18, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v20 */
     /* JADX WARN: Type inference failed for: r3v26 */
     /*
@@ -269,6 +271,7 @@ public class StoriesStorage {
     public /* synthetic */ void lambda$getAllStories$3(final Consumer consumer) {
         final Consumer consumer2;
         SQLiteCursor sQLiteCursor;
+        SQLiteCursor sQLiteCursor2;
         ArrayList<TL_stories.StoryItem> arrayList;
         SQLiteDatabase sQLiteDatabase;
         int i;
@@ -313,14 +316,14 @@ public class StoriesStorage {
                         Locale locale = Locale.US;
                         Object[] objArr = new Object[i5];
                         objArr[i4] = Long.valueOf(keyAt);
-                        sQLiteCursor = database.queryFinalized(String.format(locale, "SELECT data, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i4]);
+                        SQLiteCursor queryFinalized2 = database.queryFinalized(String.format(locale, "SELECT data, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i4]);
                         try {
                             arrayList = new ArrayList<>();
                             ?? r3 = i5;
-                            while (sQLiteCursor.next()) {
-                                NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(i4);
-                                NativeByteBuffer byteBufferValue2 = sQLiteCursor.byteBufferValue(r3);
-                                if (byteBufferValue != null) {
+                            while (queryFinalized2.next()) {
+                                NativeByteBuffer byteBufferValue = queryFinalized2.byteBufferValue(i4);
+                                NativeByteBuffer byteBufferValue2 = queryFinalized2.byteBufferValue(r3);
+                                if (byteBufferValue != 0) {
                                     sQLiteDatabase2 = database;
                                     TL_stories.StoryItem TLdeserialize = TL_stories.StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(r3), r3);
                                     TLdeserialize.dialogId = keyAt;
@@ -368,9 +371,10 @@ public class StoriesStorage {
                             sQLiteDatabase = database;
                             i = i6;
                             longSparseIntArray = longSparseIntArray3;
-                            sQLiteCursor.dispose();
+                            queryFinalized2.dispose();
                         } catch (Throwable th) {
                             th = th;
+                            sQLiteCursor2 = queryFinalized2;
                         }
                         try {
                             TL_stories.TL_peerStories tL_peerStories = new TL_stories.TL_peerStories();
@@ -386,8 +390,9 @@ public class StoriesStorage {
                             i5 = 1;
                         } catch (Throwable th2) {
                             th = th2;
-                            sQLiteCursor = null;
+                            sQLiteCursor2 = null;
                             consumer2 = consumer;
+                            sQLiteCursor = sQLiteCursor2;
                             try {
                                 FileLog.e(th);
                                 if (sQLiteCursor != null) {
@@ -400,15 +405,11 @@ public class StoriesStorage {
                                     }
                                 });
                                 return;
-                            } catch (Throwable th3) {
-                                if (sQLiteCursor != null) {
-                                    sQLiteCursor.dispose();
-                                }
-                                throw th3;
+                            } finally {
                             }
                         }
-                    } catch (Throwable th4) {
-                        th = th4;
+                    } catch (Throwable th3) {
+                        th = th3;
                         consumer2 = consumer;
                         sQLiteCursor = null;
                         FileLog.e(th);
@@ -452,13 +453,13 @@ public class StoriesStorage {
                         Consumer.this.accept(tL_stories_allStories);
                     }
                 });
-            } catch (Throwable th5) {
-                th = th5;
+            } catch (Throwable th4) {
+                th = th4;
                 consumer2 = consumer3;
                 sQLiteCursor = queryFinalized;
             }
-        } catch (Throwable th6) {
-            th = th6;
+        } catch (Throwable th5) {
+            th = th5;
             consumer2 = consumer3;
         }
     }
@@ -484,8 +485,8 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00cf A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:3:0x0009, B:5:0x0017, B:7:0x0039, B:9:0x0043, B:13:0x0057, B:16:0x005d, B:25:0x00b2, B:27:0x00cf, B:29:0x00d5, B:19:0x0083, B:21:0x0087), top: B:33:0x0009 }] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00d4  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x00cf A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:3:0x0009, B:5:0x0017, B:7:0x0039, B:9:0x0043, B:11:0x0057, B:13:0x005d, B:16:0x00b2, B:18:0x00cf, B:19:0x00d5, B:26:0x0083, B:28:0x0087), top: B:2:0x0009 }] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00d4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -630,7 +631,7 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: updateStoryItemInternal */
+    /* renamed from: updateStoryItemInternal, reason: merged with bridge method [inline-methods] */
     public void lambda$updateStoryItem$7(long j, TL_stories.StoryItem storyItem) {
         if (j == 0 || storyItem == null) {
             return;
@@ -880,9 +881,8 @@ public class StoriesStorage {
     public void updateMaxReadId(final long j, final int i) {
         TL_stories.PeerStories peerStories;
         TL_stories.PeerStories peerStories2;
-        int i2 = (j > 0L ? 1 : (j == 0L ? 0 : -1));
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-        if (i2 > 0) {
+        if (j > 0) {
             TLRPC.UserFull userFull = messagesController.getUserFull(j);
             if (userFull != null && (peerStories2 = userFull.stories) != null) {
                 peerStories2.max_read_id = i;
@@ -903,7 +903,7 @@ public class StoriesStorage {
         });
     }
 
-    /* renamed from: updateMessagesWithStories */
+    /* renamed from: updateMessagesWithStories, reason: merged with bridge method [inline-methods] */
     public void lambda$fillMessagesWithStories$13(List list) {
         SQLitePreparedStatement sQLitePreparedStatement;
         long dialogId;

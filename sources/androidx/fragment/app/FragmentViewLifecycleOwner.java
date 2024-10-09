@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.savedstate.SavedStateRegistry;
 import androidx.savedstate.SavedStateRegistryController;
 import androidx.savedstate.SavedStateRegistryOwner;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FragmentViewLifecycleOwner implements HasDefaultViewModelProviderFactory, SavedStateRegistryOwner, ViewModelStoreOwner {
@@ -51,12 +52,12 @@ public class FragmentViewLifecycleOwner implements HasDefaultViewModelProviderFa
                 if (!(applicationContext instanceof ContextWrapper)) {
                     application = null;
                     break;
-                } else if (applicationContext instanceof Application) {
+                }
+                if (applicationContext instanceof Application) {
                     application = (Application) applicationContext;
                     break;
-                } else {
-                    applicationContext = ((ContextWrapper) applicationContext).getBaseContext();
                 }
+                applicationContext = ((ContextWrapper) applicationContext).getBaseContext();
             }
             this.mDefaultFactory = new SavedStateViewModelFactory(application, this, this.mFragment.getArguments());
         }

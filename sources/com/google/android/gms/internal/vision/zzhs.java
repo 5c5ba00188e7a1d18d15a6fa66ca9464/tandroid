@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.util.NoSuchElementException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzhs extends zzhu {
@@ -22,10 +23,10 @@ public final class zzhs extends zzhu {
     @Override // com.google.android.gms.internal.vision.zzhy
     public final byte zza() {
         int i = this.zza;
-        if (i < this.zzb) {
-            this.zza = i + 1;
-            return this.zzc.zzb(i);
+        if (i >= this.zzb) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        this.zza = i + 1;
+        return this.zzc.zzb(i);
     }
 }

@@ -9,6 +9,7 @@ import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Charts.view_data.BarViewData;
 import org.telegram.ui.Charts.view_data.ChartHorizontalLinesData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
+
 /* loaded from: classes4.dex */
 public class BarChartView extends BaseChartView {
     public BarChartView(Context context) {
@@ -22,7 +23,7 @@ public class BarChartView extends BaseChartView {
         return new BarViewData(line, this.resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0093  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -63,83 +64,85 @@ public class BarChartView extends BaseChartView {
                 float f10 = transitionParams.progress;
                 f2 = 1.0f - f10;
                 canvas.scale((f10 * 2.0f) + 1.0f, 1.0f, transitionParams.pX, transitionParams.pY);
-            } else if (i8 != 1) {
-                f = 1.0f;
-                i = 0;
-                while (i < this.lines.size()) {
-                    BarViewData barViewData = (BarViewData) this.lines.get(i);
-                    if (barViewData.enabled || barViewData.alpha != f8) {
-                        float[] fArr = this.chartData.xPercentage;
-                        float f11 = fArr.length < i9 ? 1.0f : fArr[c] * f6;
-                        long[] jArr = barViewData.line.y;
-                        float f12 = barViewData.alpha;
-                        int i10 = i5;
-                        float f13 = 0.0f;
-                        float f14 = 0.0f;
-                        boolean z = false;
-                        while (i10 <= i7) {
-                            float f15 = ((f11 / f9) + (this.chartData.xPercentage[i10] * f6)) - f7;
-                            long[] jArr2 = jArr;
-                            float measuredHeight = (getMeasuredHeight() - this.chartBottom) - (((((float) jArr[i10]) / this.currentMaxHeight) * f12) * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT));
-                            if (i10 == this.selectedIndex && this.legendShowing) {
-                                f13 = measuredHeight;
-                                f14 = f15;
-                                z = true;
-                            } else {
-                                float[] fArr2 = barViewData.linesPath;
-                                fArr2[i4] = f15;
-                                fArr2[i4 + 1] = measuredHeight;
-                                int i11 = i4 + 3;
-                                fArr2[i4 + 2] = f15;
-                                i4 += 4;
-                                fArr2[i11] = getMeasuredHeight() - this.chartBottom;
-                            }
-                            i10++;
-                            jArr = jArr2;
-                            f9 = 2.0f;
-                        }
-                        Paint paint = (z || this.postTransition) ? barViewData.unselectedPaint : barViewData.paint;
-                        paint.setStrokeWidth(f11);
-                        if (z) {
-                            barViewData.unselectedPaint.setColor(ColorUtils.blendARGB(barViewData.lineColor, barViewData.blendColor, 1.0f - this.selectionA));
-                        }
-                        if (this.postTransition) {
-                            f8 = 0.0f;
-                            barViewData.unselectedPaint.setColor(ColorUtils.blendARGB(barViewData.lineColor, barViewData.blendColor, 0.0f));
-                        } else {
-                            f8 = 0.0f;
-                        }
-                        int i12 = (int) (255.0f * f);
-                        paint.setAlpha(i12);
-                        canvas.drawLines(barViewData.linesPath, 0, i4, paint);
-                        if (z) {
-                            barViewData.paint.setStrokeWidth(f11);
-                            barViewData.paint.setAlpha(i12);
-                            Paint paint2 = barViewData.paint;
-                            float f16 = f13;
-                            i2 = i;
-                            canvas.drawLine(f14, f16, f14, getMeasuredHeight() - this.chartBottom, paint2);
-                            barViewData.paint.setAlpha(NotificationCenter.closeSearchByActiveAction);
-                            i = i2 + 1;
-                            i9 = 2;
-                            c = 1;
-                            i4 = 0;
-                            f9 = 2.0f;
-                        } else {
-                            i2 = i;
-                        }
-                    } else {
-                        i2 = i;
-                    }
-                    i = i2 + 1;
-                    i9 = 2;
-                    c = 1;
-                    i4 = 0;
-                    f9 = 2.0f;
-                }
-                canvas.restore();
-                canvas.restore();
             } else {
+                if (i8 != 1) {
+                    f = 1.0f;
+                    i = 0;
+                    while (i < this.lines.size()) {
+                        BarViewData barViewData = (BarViewData) this.lines.get(i);
+                        if (barViewData.enabled || barViewData.alpha != f8) {
+                            float[] fArr = this.chartData.xPercentage;
+                            float f11 = fArr.length < i9 ? 1.0f : fArr[c] * f6;
+                            long[] jArr = barViewData.line.y;
+                            float f12 = barViewData.alpha;
+                            int i10 = i5;
+                            float f13 = 0.0f;
+                            float f14 = 0.0f;
+                            boolean z = false;
+                            while (i10 <= i7) {
+                                float f15 = ((f11 / f9) + (this.chartData.xPercentage[i10] * f6)) - f7;
+                                long[] jArr2 = jArr;
+                                float measuredHeight = (getMeasuredHeight() - this.chartBottom) - (((((float) jArr[i10]) / this.currentMaxHeight) * f12) * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT));
+                                if (i10 == this.selectedIndex && this.legendShowing) {
+                                    f13 = measuredHeight;
+                                    f14 = f15;
+                                    z = true;
+                                } else {
+                                    float[] fArr2 = barViewData.linesPath;
+                                    fArr2[i4] = f15;
+                                    fArr2[i4 + 1] = measuredHeight;
+                                    int i11 = i4 + 3;
+                                    fArr2[i4 + 2] = f15;
+                                    i4 += 4;
+                                    fArr2[i11] = getMeasuredHeight() - this.chartBottom;
+                                }
+                                i10++;
+                                jArr = jArr2;
+                                f9 = 2.0f;
+                            }
+                            Paint paint = (z || this.postTransition) ? barViewData.unselectedPaint : barViewData.paint;
+                            paint.setStrokeWidth(f11);
+                            if (z) {
+                                barViewData.unselectedPaint.setColor(ColorUtils.blendARGB(barViewData.lineColor, barViewData.blendColor, 1.0f - this.selectionA));
+                            }
+                            if (this.postTransition) {
+                                f8 = 0.0f;
+                                barViewData.unselectedPaint.setColor(ColorUtils.blendARGB(barViewData.lineColor, barViewData.blendColor, 0.0f));
+                            } else {
+                                f8 = 0.0f;
+                            }
+                            int i12 = (int) (255.0f * f);
+                            paint.setAlpha(i12);
+                            canvas.drawLines(barViewData.linesPath, 0, i4, paint);
+                            if (z) {
+                                barViewData.paint.setStrokeWidth(f11);
+                                barViewData.paint.setAlpha(i12);
+                                float measuredHeight2 = getMeasuredHeight() - this.chartBottom;
+                                Paint paint2 = barViewData.paint;
+                                float f16 = f13;
+                                i2 = i;
+                                canvas.drawLine(f14, f16, f14, measuredHeight2, paint2);
+                                barViewData.paint.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                                i = i2 + 1;
+                                i9 = 2;
+                                c = 1;
+                                i4 = 0;
+                                f9 = 2.0f;
+                            } else {
+                                i2 = i;
+                            }
+                        } else {
+                            i2 = i;
+                        }
+                        i = i2 + 1;
+                        i9 = 2;
+                        c = 1;
+                        i4 = 0;
+                        f9 = 2.0f;
+                    }
+                    canvas.restore();
+                    canvas.restore();
+                }
                 TransitionParams transitionParams2 = this.transitionParams;
                 f2 = transitionParams2.progress;
                 canvas.scale(f2, 1.0f, transitionParams2.pX, transitionParams2.pY);

@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Map;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public final class ErrorStateDrmSession implements DrmSession {
     private final DrmSession.DrmSessionException error;

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class zzs extends zzl implements Set {
     private transient zzp zza;
@@ -31,12 +32,12 @@ public abstract class zzs extends zzl implements Set {
 
     public final zzp zzf() {
         zzp zzpVar = this.zza;
-        if (zzpVar == null) {
-            zzp zzg = zzg();
-            this.zza = zzg;
-            return zzg;
+        if (zzpVar != null) {
+            return zzpVar;
         }
-        return zzpVar;
+        zzp zzg = zzg();
+        this.zza = zzg;
+        return zzg;
     }
 
     zzp zzg() {

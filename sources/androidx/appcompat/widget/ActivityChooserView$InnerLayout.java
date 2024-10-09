@@ -1,11 +1,13 @@
 package androidx.appcompat.widget;
 
+import android.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+
 /* loaded from: classes.dex */
 public class ActivityChooserView$InnerLayout extends LinearLayout {
-    private static final int[] TINT_ATTRS = {16842964};
+    private static final int[] TINT_ATTRS = {R.attr.background};
 
     public ActivityChooserView$InnerLayout(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);

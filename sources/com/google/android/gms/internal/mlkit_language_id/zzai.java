@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 public enum zzai implements zzet {
     zza(0),
@@ -29,7 +30,7 @@ public enum zzai implements zzet {
     zzaa(115),
     zzab(116),
     zzb(9999);
-    
+
     private static final zzes zzac = new zzes() { // from class: com.google.android.gms.internal.mlkit_language_id.zzah
     };
     private final int zzad;

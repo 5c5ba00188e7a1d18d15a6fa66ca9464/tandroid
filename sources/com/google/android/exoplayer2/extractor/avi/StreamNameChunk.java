@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.extractor.avi;
 
 import com.google.android.exoplayer2.util.ParsableByteArray;
+
 /* loaded from: classes.dex */
 final class StreamNameChunk implements AviChunk {
     public final String name;

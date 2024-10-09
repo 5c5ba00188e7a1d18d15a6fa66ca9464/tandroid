@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.mediacodec;
 
 import com.google.android.exoplayer2.decoder.DecoderException;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public class MediaCodecDecoderException extends DecoderException {
     public final MediaCodecInfo codecInfo;
@@ -22,10 +23,10 @@ public class MediaCodecDecoderException extends DecoderException {
 
     private static String getDiagnosticInfoV21(Throwable th) {
         String diagnosticInfo;
-        if (MediaCodecDecoderException$$ExternalSyntheticApiModelOutline0.m(th)) {
-            diagnosticInfo = MediaCodecDecoderException$$ExternalSyntheticApiModelOutline1.m(th).getDiagnosticInfo();
-            return diagnosticInfo;
+        if (!MediaCodecDecoderException$$ExternalSyntheticApiModelOutline0.m(th)) {
+            return null;
         }
-        return null;
+        diagnosticInfo = MediaCodecDecoderException$$ExternalSyntheticApiModelOutline1.m(th).getDiagnosticInfo();
+        return diagnosticInfo;
     }
 }

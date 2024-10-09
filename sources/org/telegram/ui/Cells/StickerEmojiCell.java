@@ -33,6 +33,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ListView.RecyclerListViewWithOverlayDraw;
 import org.telegram.ui.Components.Premium.PremiumLockIconView;
+
 /* loaded from: classes4.dex */
 public abstract class StickerEmojiCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, RecyclerListViewWithOverlayDraw.OverlayView {
     private static AccelerateInterpolator interpolator = new AccelerateInterpolator(0.5f);
@@ -235,12 +236,12 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
             this.editModeIcon.setAlpha(1.0f);
             this.editModeIcon.setScaleX(1.0f);
             this.editModeIcon.setScaleY(1.0f);
-            return;
+        } else {
+            this.editModeIcon.setAlpha(0.0f);
+            this.editModeIcon.setScaleX(0.4f);
+            this.editModeIcon.setScaleY(0.4f);
+            this.editModeIcon.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(200L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
         }
-        this.editModeIcon.setAlpha(0.0f);
-        this.editModeIcon.setScaleX(0.4f);
-        this.editModeIcon.setScaleY(0.4f);
-        this.editModeIcon.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f).setDuration(200L).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
     }
 
     public String getEmoji() {
@@ -257,17 +258,16 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
 
     public MessageObject.SendAnimationData getSendAnimationData() {
         ImageReceiver imageReceiver = this.imageView;
-        if (imageReceiver.hasNotThumb()) {
-            MessageObject.SendAnimationData sendAnimationData = new MessageObject.SendAnimationData();
-            int[] iArr = new int[2];
-            getLocationInWindow(iArr);
-            sendAnimationData.x = imageReceiver.getCenterX() + iArr[0];
-            sendAnimationData.y = imageReceiver.getCenterY() + iArr[1];
-            sendAnimationData.width = imageReceiver.getImageWidth();
-            sendAnimationData.height = imageReceiver.getImageHeight();
-            return sendAnimationData;
+        if (!imageReceiver.hasNotThumb()) {
+            return null;
         }
-        return null;
+        MessageObject.SendAnimationData sendAnimationData = new MessageObject.SendAnimationData();
+        getLocationInWindow(new int[2]);
+        sendAnimationData.x = imageReceiver.getCenterX() + r2[0];
+        sendAnimationData.y = imageReceiver.getCenterY() + r2[1];
+        sendAnimationData.width = imageReceiver.getImageWidth();
+        sendAnimationData.height = imageReceiver.getImageHeight();
+        return sendAnimationData;
     }
 
     public TLRPC.Document getSticker() {
@@ -376,10 +376,11 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
         setSticker(document, importingSticker, obj, str, z, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x009d, code lost:
-        if (r28 != null) goto L26;
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x009d, code lost:
+    
+        if (r28 != null) goto L65;
      */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x017d  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x017d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -538,10 +539,10 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
         this.imageView.setAlpha(this.alpha * this.premiumAlpha);
         if (!this.drawInParentView) {
             this.imageView.setParentView(this);
-            return;
+        } else {
+            this.imageView.setInvalidateAll(true);
+            this.imageView.setParentView((View) getParent());
         }
-        this.imageView.setInvalidateAll(true);
-        this.imageView.setParentView((View) getParent());
     }
 
     public boolean showingBitmap() {

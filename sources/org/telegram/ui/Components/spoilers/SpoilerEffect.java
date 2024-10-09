@@ -47,6 +47,7 @@ import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.QuoteSpan;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.TextStyleSpan;
+
 /* loaded from: classes3.dex */
 public class SpoilerEffect extends Drawable {
     private static WeakHashMap lazyLayoutLines;
@@ -118,7 +119,7 @@ public class SpoilerEffect extends Drawable {
         float[] fArr = ALPHAS;
         this.particlePaints = new Paint[fArr.length];
         this.particlesPool = new Stack();
-        this.particlePoints = (float[][]) Array.newInstance(Float.TYPE, fArr.length, MAX_PARTICLES_PER_ENTITY * 5);
+        this.particlePoints = (float[][]) Array.newInstance((Class<?>) Float.TYPE, fArr.length, MAX_PARTICLES_PER_ENTITY * 5);
         this.particleRands = new float[14];
         this.renderCount = new int[fArr.length];
         this.particles = new ArrayList();
@@ -197,11 +198,11 @@ public class SpoilerEffect extends Drawable {
         if (layout == null) {
             return;
         }
-        Object[] objArr = (TextStyleSpan[]) spanned.getSpans(0, layout.getText().length(), TextStyleSpan.class);
-        for (int i5 = 0; i5 < objArr.length; i5++) {
-            if (objArr[i5].isSpoiler()) {
-                int spanStart = spanned.getSpanStart(objArr[i5]);
-                int spanEnd = spanned.getSpanEnd(objArr[i5]);
+        TextStyleSpan[] textStyleSpanArr = (TextStyleSpan[]) spanned.getSpans(0, layout.getText().length(), TextStyleSpan.class);
+        for (int i5 = 0; i5 < textStyleSpanArr.length; i5++) {
+            if (textStyleSpanArr[i5].isSpoiler()) {
+                int spanStart = spanned.getSpanStart(textStyleSpanArr[i5]);
+                int spanEnd = spanned.getSpanEnd(textStyleSpanArr[i5]);
                 if (i == -1 && i2 == -1) {
                     int lineForOffset = layout.getLineForOffset(spanEnd);
                     i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
@@ -548,8 +549,10 @@ public class SpoilerEffect extends Drawable {
                 double d = f;
                 Double.isNaN(d);
                 double d2 = ((d * 3.141592653589793d) * 2.0d) - 3.141592653589793d;
-                particle.vecX = (float) Math.cos(d2);
-                particle.vecY = (float) Math.sin(d2);
+                float cos = (float) Math.cos(d2);
+                float sin = (float) Math.sin(d2);
+                particle.vecX = cos;
+                particle.vecY = sin;
                 particle.currentTime = 0.0f;
                 particle.lifeTime = Math.abs(Utilities.fastRandom.nextInt(2000)) + 1000;
                 particle.velocity = (f * 6.0f) + 4.0f;

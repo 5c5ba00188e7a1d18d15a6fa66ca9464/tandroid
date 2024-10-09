@@ -16,6 +16,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes4.dex */
 public abstract class BasePermissionsActivity extends FragmentActivity {
     protected int currentAccount = -1;
@@ -36,8 +37,9 @@ public abstract class BasePermissionsActivity extends FragmentActivity {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x009f, code lost:
-        if (r2 == false) goto L56;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x009f, code lost:
+    
+        if (r2 == false) goto L82;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -104,10 +106,11 @@ public abstract class BasePermissionsActivity extends FragmentActivity {
             i2 = R.raw.permission_request_camera;
             i3 = R.string.PermissionNoCameraWithHint;
             showPermissionErrorAlert(i2, LocaleController.getString(i3));
-        } else if (!z) {
-            showPermissionErrorAlert(R.raw.permission_request_contacts, LocaleController.getString(R.string.PermissionNoContactsSharing));
-            return false;
         } else {
+            if (!z) {
+                showPermissionErrorAlert(R.raw.permission_request_contacts, LocaleController.getString(R.string.PermissionNoContactsSharing));
+                return false;
+            }
             ContactsController.getInstance(this.currentAccount).forceImportContacts();
         }
         return true;

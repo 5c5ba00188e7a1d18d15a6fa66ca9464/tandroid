@@ -1,4 +1,5 @@
 package j$.time.format;
+
 /* loaded from: classes2.dex */
 abstract /* synthetic */ class d {
     static final /* synthetic */ int[] a;

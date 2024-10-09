@@ -41,6 +41,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.NotificationsSettingsActivity;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
 import org.telegram.ui.Stories.StoriesUtilities;
+
 /* loaded from: classes4.dex */
 public class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private TextView addButton;
@@ -87,8 +88,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this(context, i, i2, z, z2, null);
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x02f5  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x02f5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -104,10 +104,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         float f4;
         float f5;
         float f6;
-        CheckBox2 checkBox2;
-        CheckBox2 checkBox22;
+        View view;
+        View view2;
         FrameLayout.LayoutParams createFrame;
-        ImageView imageView;
+        View view3;
         this.currentAccount = UserConfig.selectedAccount;
         this.storyParams = new StoriesUtilities.AvatarStoryParams(false) { // from class: org.telegram.ui.Cells.UserCell.1
             @Override // org.telegram.ui.Stories.StoriesUtilities.AvatarStoryParams
@@ -192,76 +192,76 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         SimpleTextView simpleTextView4 = this.statusTextView;
         boolean z6 = LocaleController.isRTL;
         addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z6 ? 5 : 3) | 48, z6 ? i3 + 28 : i + 64, 32.0f, z6 ? i + 64 : i3 + 28, 0.0f));
-        ImageView imageView2 = new ImageView(context);
-        this.imageView = imageView2;
+        ImageView imageView = new ImageView(context);
+        this.imageView = imageView;
         ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
-        imageView2.setScaleType(scaleType);
-        ImageView imageView3 = this.imageView;
+        imageView.setScaleType(scaleType);
+        ImageView imageView2 = this.imageView;
         int color = Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon, resourcesProvider);
         PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
-        imageView3.setColorFilter(new PorterDuffColorFilter(color, mode));
+        imageView2.setColorFilter(new PorterDuffColorFilter(color, mode));
         this.imageView.setVisibility(8);
-        ImageView imageView4 = this.imageView;
+        ImageView imageView3 = this.imageView;
         boolean z7 = LocaleController.isRTL;
-        addView(imageView4, LayoutHelper.createFrame(-2, -2.0f, (z7 ? 5 : 3) | 16, z7 ? 0.0f : 16.0f, 0.0f, z7 ? 16.0f : 0.0f, 0.0f));
+        addView(imageView3, LayoutHelper.createFrame(-2, -2.0f, (z7 ? 5 : 3) | 16, z7 ? 0.0f : 16.0f, 0.0f, z7 ? 16.0f : 0.0f, 0.0f));
         if (i2 != 2) {
             if (i2 == 1) {
-                CheckBox2 checkBox23 = new CheckBox2(context, 21, resourcesProvider);
-                this.checkBox = checkBox23;
-                checkBox23.setDrawUnchecked(false);
+                CheckBox2 checkBox2 = new CheckBox2(context, 21, resourcesProvider);
+                this.checkBox = checkBox2;
+                checkBox2.setDrawUnchecked(false);
                 this.checkBox.setDrawBackgroundAsArc(3);
                 this.checkBox.setColor(-1, Theme.key_windowBackgroundWhite, Theme.key_checkboxCheck);
-                CheckBox2 checkBox24 = this.checkBox;
+                CheckBox2 checkBox22 = this.checkBox;
                 boolean z8 = LocaleController.isRTL;
                 i5 = (z8 ? 5 : 3) | 48;
                 f2 = z8 ? 0.0f : i + 37;
                 f6 = 36.0f;
-                checkBox2 = checkBox24;
+                view = checkBox22;
                 if (z8) {
                     f3 = i + 37;
                     i6 = i5;
                     f4 = f2;
                     f5 = 36.0f;
-                    checkBox22 = checkBox24;
+                    view2 = checkBox22;
                     createFrame = LayoutHelper.createFrame(24, 24.0f, i6, f4, f5, f3, 0.0f);
-                    imageView = checkBox22;
+                    view3 = view2;
                 }
                 i6 = i5;
                 f4 = f2;
                 f5 = f6;
                 f3 = 0.0f;
-                checkBox22 = checkBox2;
+                view2 = view;
                 createFrame = LayoutHelper.createFrame(24, 24.0f, i6, f4, f5, f3, 0.0f);
-                imageView = checkBox22;
+                view3 = view2;
             } else if (i2 == 3) {
-                ImageView imageView5 = new ImageView(context);
-                this.checkBox3 = imageView5;
-                imageView5.setScaleType(scaleType);
+                ImageView imageView4 = new ImageView(context);
+                this.checkBox3 = imageView4;
+                imageView4.setScaleType(scaleType);
                 this.checkBox3.setImageResource(R.drawable.account_check);
                 this.checkBox3.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), mode));
                 this.checkBox3.setVisibility(8);
-                ImageView imageView6 = this.checkBox3;
+                ImageView imageView5 = this.checkBox3;
                 boolean z9 = LocaleController.isRTL;
                 i5 = (z9 ? 3 : 5) | 16;
                 f2 = z9 ? i + 10 : 0.0f;
                 if (z9) {
                     f6 = 0.0f;
-                    checkBox2 = imageView6;
+                    view = imageView5;
                     i6 = i5;
                     f4 = f2;
                     f5 = f6;
                     f3 = 0.0f;
-                    checkBox22 = checkBox2;
+                    view2 = view;
                     createFrame = LayoutHelper.createFrame(24, 24.0f, i6, f4, f5, f3, 0.0f);
-                    imageView = checkBox22;
+                    view3 = view2;
                 } else {
                     f3 = i + 10;
                     i6 = i5;
                     f4 = f2;
                     f5 = 0.0f;
-                    checkBox22 = imageView6;
+                    view2 = imageView5;
                     createFrame = LayoutHelper.createFrame(24, 24.0f, i6, f4, f5, f3, 0.0f);
-                    imageView = checkBox22;
+                    view3 = view2;
                 }
             }
             if (z) {
@@ -279,8 +279,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.checkBoxBig = checkBoxSquare;
         boolean z11 = LocaleController.isRTL;
         createFrame = LayoutHelper.createFrame(18, 18.0f, (z11 ? 3 : 5) | 16, z11 ? 19.0f : 0.0f, 0.0f, z11 ? 0.0f : 19.0f, 0.0f);
-        imageView = checkBoxSquare;
-        addView(imageView, createFrame);
+        view3 = checkBoxSquare;
+        addView(view3, createFrame);
         if (z) {
         }
         setFocusable(true);
@@ -391,10 +391,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.adminTextView.setText(str);
         if (str == null) {
             setRightPadding(0, true, false);
-            return;
+        } else {
+            CharSequence text = this.adminTextView.getText();
+            setRightPadding((int) Math.ceil(this.adminTextView.getPaint().measureText(text, 0, text.length())), true, false);
         }
-        CharSequence text = this.adminTextView.getText();
-        setRightPadding((int) Math.ceil(this.adminTextView.getPaint().measureText(text, 0, text.length())), true, false);
     }
 
     public void setAvatarPadding(int i) {
@@ -450,11 +450,11 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 this.checkBoxBig.setVisibility(0);
             }
             this.checkBoxBig.setChecked(z, z2);
-            return;
-        }
-        ImageView imageView = this.checkBox3;
-        if (imageView != null) {
-            imageView.setVisibility(z ? 0 : 8);
+        } else {
+            ImageView imageView = this.checkBox3;
+            if (imageView != null) {
+                imageView.setVisibility(z ? 0 : 8);
+            }
         }
     }
 
@@ -526,11 +526,12 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         update(0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x003a, code lost:
-        if (r2 != false) goto L49;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x003a, code lost:
+    
+        if (r2 != false) goto L41;
      */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00ca  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -538,7 +539,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         int i;
         String str;
         Object chat;
-        TLRPC.User user;
+        Object obj;
         TLRPC.EncryptedChat encryptedChat;
         int i2;
         UserCell userCell;
@@ -584,7 +585,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         String str2 = str;
         if (DialogObject.isEncryptedDialog(notificationException.did)) {
             encryptedChat = MessagesController.getInstance(this.currentAccount).getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(notificationException.did)));
-            if (encryptedChat == null || (user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(encryptedChat.user_id))) == null) {
+            if (encryptedChat == null || (obj = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(encryptedChat.user_id))) == null) {
                 return;
             }
             i2 = 0;
@@ -603,14 +604,14 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     return;
                 }
             }
-            user = chat;
+            obj = chat;
             encryptedChat = null;
             i2 = 0;
             userCell = this;
             charSequence2 = charSequence;
             z2 = z;
         }
-        userCell.setData(user, encryptedChat, charSequence2, str2, i2, z2);
+        userCell.setData(obj, encryptedChat, charSequence2, str2, i2, z2);
     }
 
     public void setFromUItem(int i, UItem uItem, boolean z) {
@@ -626,9 +627,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             return;
         }
         long j = uItem.dialogId;
-        int i4 = (j > 0L ? 1 : (j == 0L ? 0 : -1));
         MessagesController messagesController = MessagesController.getInstance(i);
-        if (i4 > 0) {
+        if (j > 0) {
             TLRPC.User user = messagesController.getUser(Long.valueOf(j));
             if (user == null) {
                 return;
@@ -659,7 +659,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 formatPluralStringComma = LocaleController.formatPluralStringComma(str, i3);
                 chat = chat3;
                 setData(chat, null, formatPluralStringComma, 0, z);
-            } else if (ChatObject.isPublic(chat3)) {
+            }
+            if (ChatObject.isPublic(chat3)) {
                 if (!ChatObject.isChannel(chat3) || chat3.megagroup) {
                     i2 = R.string.MegaPublic;
                     chat2 = chat3;
@@ -708,14 +709,14 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.selfAsSavedMessages = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:216:0x03c8  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x03cb  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x03da  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x03e2  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x03f3  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0416  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0240 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:239:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x03c8  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x03da  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x03f3  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0416  */
+    /* JADX WARN: Removed duplicated region for block: B:130:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x03e2  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x03cb  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0240 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

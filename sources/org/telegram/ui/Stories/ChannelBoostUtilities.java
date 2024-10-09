@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes4.dex */
 public abstract class ChannelBoostUtilities {
     public static String createLink(int i, long j) {

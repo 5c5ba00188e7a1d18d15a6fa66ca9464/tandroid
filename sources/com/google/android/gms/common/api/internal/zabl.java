@@ -2,6 +2,7 @@ package com.google.android.gms.common.api.internal;
 
 import android.os.Handler;
 import com.google.android.gms.common.api.internal.BackgroundDetector;
+
 /* loaded from: classes.dex */
 final class zabl implements BackgroundDetector.BackgroundStateChangeListener {
     final /* synthetic */ GoogleApiManager zaa;

@@ -3,6 +3,7 @@ package com.google.android.gms.internal.vision;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public abstract class zzw {
     public static ByteBuffer zza(Bitmap bitmap, boolean z) {

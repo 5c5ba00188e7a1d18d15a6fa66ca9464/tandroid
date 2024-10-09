@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TextStyleSpan;
+
 /* loaded from: classes3.dex */
 public class CodeHighlighting {
     public static final int MATCH_COMMENT = 6;
@@ -115,11 +116,12 @@ public class CodeHighlighting {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     public static class LinkedList {
-        public Node tail;
+        public Node head;
         public int length = 0;
-        public Node head = new Node();
+        public Node tail;
 
         public LinkedList() {
+            this.head = new Node();
             Node node = new Node();
             this.tail = node;
             Node node2 = this.head;
@@ -298,10 +300,10 @@ public class CodeHighlighting {
             TextStyleSpan.TextStyleRun textStyleRun = this.style;
             if (textStyleRun != null) {
                 textStyleRun.applyStyle(textPaint);
-                return;
+            } else {
+                textPaint.setTypeface(Typeface.MONOSPACE);
+                textPaint.setUnderlineText(false);
             }
-            textPaint.setTypeface(Typeface.MONOSPACE);
-            textPaint.setUnderlineText(false);
         }
     }
 
@@ -586,8 +588,8 @@ public class CodeHighlighting {
             if (rematchOptions != null && rematchOptions.cause == tokenPattern3) {
                 return;
             }
-            Node node3 = node.next;
             int i8 = i;
+            Node node3 = node.next;
             while (node3 != linkedList.tail) {
                 if (rematchOptions != null && i8 >= rematchOptions.reach) {
                     return;
@@ -606,30 +608,32 @@ public class CodeHighlighting {
                         }
                         int i9 = matchPattern.index;
                         int i10 = matchPattern.length + i9;
+                        Node node4 = node3;
                         while (true) {
-                            i8 += node3.value.length();
+                            i8 += node4.value.length();
                             if (i9 < i8) {
                                 break;
+                            } else {
+                                node4 = node4.next;
                             }
-                            node3 = node3.next;
                         }
-                        i8 -= node3.value.length();
-                        StringToken stringToken3 = node3.value;
+                        i8 -= node4.value.length();
+                        StringToken stringToken3 = node4.value;
                         if (stringToken3.string == null || stringToken3.token) {
                             tokenPattern2 = tokenPattern3;
                             i3 = length;
-                            node3 = node3;
+                            node3 = node4;
                             i8 += node3.value.length();
-                            node3 = node3.next;
                             str2 = str;
                             tokenPattern3 = tokenPattern2;
                             length = i3;
+                            node3 = node3.next;
                         } else {
                             int i11 = i8;
                             int i12 = 1;
-                            for (Node node4 = node3; node4 != linkedList.tail && (i11 < i10 || !node4.value.token); node4 = node4.next) {
+                            for (Node node5 = node4; node5 != linkedList.tail && (i11 < i10 || !node5.value.token); node5 = node5.next) {
                                 i12++;
-                                i11 += node4.value.length();
+                                i11 += node5.value.length();
                             }
                             str3 = str2.substring(i8, i11);
                             matchPattern.index -= i8;
@@ -652,13 +656,13 @@ public class CodeHighlighting {
                     if (rematchOptions != null && length2 > rematchOptions.reach) {
                         rematchOptions.reach = length2;
                     }
-                    Node node5 = node2.prev;
+                    Node node6 = node2.prev;
                     if (substring.length() > 0) {
-                        node5 = linkedList.addAfter(node5, new StringToken(substring));
+                        node6 = linkedList.addAfter(node6, new StringToken(substring));
                         i8 += substring.length();
                     }
                     int i14 = i8;
-                    linkedList.removeRange(node5, i5);
+                    linkedList.removeRange(node6, i5);
                     TokenPattern[] tokenPatternArr3 = tokenPattern3.insideTokenPatterns;
                     if (tokenPatternArr3 != null) {
                         i3 = length;
@@ -668,7 +672,7 @@ public class CodeHighlighting {
                         String str4 = tokenPattern3.insideLanguage;
                         stringToken = str4 != null ? new StringToken(tokenPattern3.group, tokenize(matchPattern.string, compiledPatterns.get(str4), tokenPattern3, i2 + 1), matchPattern.length) : new StringToken(tokenPattern3.group, matchPattern.string);
                     }
-                    Node addAfter = linkedList.addAfter(node5, stringToken);
+                    Node addAfter = linkedList.addAfter(node6, stringToken);
                     if (substring2.length() > 0) {
                         linkedList.addAfter(addAfter, new StringToken(substring2));
                     }
@@ -687,18 +691,18 @@ public class CodeHighlighting {
                     node3 = addAfter;
                     i8 = i14;
                     i8 += node3.value.length();
-                    node3 = node3.next;
                     str2 = str;
                     tokenPattern3 = tokenPattern2;
                     length = i3;
+                    node3 = node3.next;
                 }
                 tokenPattern2 = tokenPattern3;
                 i3 = length;
                 i8 += node3.value.length();
-                node3 = node3.next;
                 str2 = str;
                 tokenPattern3 = tokenPattern2;
                 length = i3;
+                node3 = node3.next;
             }
             i7++;
             str2 = str;
@@ -711,20 +715,20 @@ public class CodeHighlighting {
         try {
             Matcher matcher = tokenPattern.pattern.getPattern().matcher(str);
             matcher.region(i, str.length());
-            if (matcher.find()) {
-                Match match = new Match();
-                match.index = matcher.start();
-                if (tokenPattern.lookbehind && matcher.groupCount() >= 1) {
-                    match.index += matcher.end(1) - matcher.start(1);
-                }
-                int end = matcher.end();
-                int i2 = match.index;
-                int i3 = end - i2;
-                match.length = i3;
-                match.string = str.substring(i2, i3 + i2);
-                return match;
+            if (!matcher.find()) {
+                return null;
             }
-            return null;
+            Match match = new Match();
+            match.index = matcher.start();
+            if (tokenPattern.lookbehind && matcher.groupCount() >= 1) {
+                match.index += matcher.end(1) - matcher.start(1);
+            }
+            int end = matcher.end();
+            int i2 = match.index;
+            int i3 = end - i2;
+            match.length = i3;
+            match.string = str.substring(i2, i3 + i2);
+            return match;
         } catch (Exception e) {
             FileLog.e(e);
             return null;
@@ -732,9 +736,10 @@ public class CodeHighlighting {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0139 A[Catch: Exception -> 0x0135, TryCatch #7 {Exception -> 0x0135, blocks: (B:71:0x0131, B:75:0x0139, B:77:0x013e), top: B:86:0x0131 }] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x013e A[Catch: Exception -> 0x0135, TRY_LEAVE, TryCatch #7 {Exception -> 0x0135, blocks: (B:71:0x0131, B:75:0x0139, B:77:0x013e), top: B:86:0x0131 }] */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0131 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0139 A[Catch: Exception -> 0x0135, TryCatch #7 {Exception -> 0x0135, blocks: (B:82:0x0131, B:71:0x0139, B:73:0x013e), top: B:81:0x0131 }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x013e A[Catch: Exception -> 0x0135, TRY_LEAVE, TryCatch #7 {Exception -> 0x0135, blocks: (B:82:0x0131, B:71:0x0139, B:73:0x013e), top: B:81:0x0131 }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:? A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0131 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -746,6 +751,9 @@ public class CodeHighlighting {
         GZIPInputStream gZIPInputStream2;
         BufferedInputStream bufferedInputStream3;
         BufferedInputStream bufferedInputStream4;
+        1 r1 = null;
+        r1 = null;
+        r1 = null;
         GZIPInputStream gZIPInputStream3 = null;
         try {
             try {
@@ -760,7 +768,7 @@ public class CodeHighlighting {
                         bufferedInputStream3 = null;
                     } catch (Throwable th) {
                         th = th;
-                        bufferedInputStream2 = 0;
+                        bufferedInputStream2 = null;
                     }
                     try {
                         StreamReader streamReader = new StreamReader(bufferedInputStream4);
@@ -816,7 +824,7 @@ public class CodeHighlighting {
                             if (gZIPInputStream3 != null) {
                                 gZIPInputStream3.close();
                             }
-                            if (bufferedInputStream != 0) {
+                            if (bufferedInputStream != null) {
                                 bufferedInputStream.close();
                             }
                             if (inputStream != null) {
@@ -825,8 +833,8 @@ public class CodeHighlighting {
                         } catch (Throwable th2) {
                             th = th2;
                             gZIPInputStream = gZIPInputStream3;
-                            gZIPInputStream3 = bufferedInputStream;
-                            bufferedInputStream2 = gZIPInputStream3;
+                            r1 = bufferedInputStream;
+                            bufferedInputStream2 = r1;
                             gZIPInputStream2 = gZIPInputStream;
                             Throwable th3 = th;
                             if (gZIPInputStream2 != null) {
@@ -837,12 +845,13 @@ public class CodeHighlighting {
                                     throw th3;
                                 }
                             }
-                            if (bufferedInputStream2 != 0) {
+                            if (bufferedInputStream2 != null) {
                                 bufferedInputStream2.close();
                             }
-                            if (inputStream != null) {
-                                inputStream.close();
+                            if (inputStream == null) {
+                                throw th3;
                             }
+                            inputStream.close();
                             throw th3;
                         }
                     } catch (Throwable th4) {
@@ -851,28 +860,26 @@ public class CodeHighlighting {
                         Throwable th32 = th;
                         if (gZIPInputStream2 != null) {
                         }
-                        if (bufferedInputStream2 != 0) {
+                        if (bufferedInputStream2 != null) {
                         }
-                        if (inputStream != null) {
+                        if (inputStream == null) {
                         }
-                        throw th32;
                     }
                 } catch (Exception e4) {
                     e = e4;
-                    bufferedInputStream = 0;
+                    bufferedInputStream = null;
                 } catch (Throwable th5) {
                     th = th5;
                     gZIPInputStream = null;
-                    bufferedInputStream2 = gZIPInputStream3;
+                    bufferedInputStream2 = r1;
                     gZIPInputStream2 = gZIPInputStream;
                     Throwable th322 = th;
                     if (gZIPInputStream2 != null) {
                     }
-                    if (bufferedInputStream2 != 0) {
+                    if (bufferedInputStream2 != null) {
                     }
-                    if (inputStream != null) {
+                    if (inputStream == null) {
                     }
-                    throw th322;
                 }
             } catch (Exception e5) {
                 FileLog.e(e5);

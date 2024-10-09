@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ReadOnlyBufferException;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class zzfs {
     private final ByteBuffer zzgd;
@@ -96,6 +97,8 @@ public final class zzfs {
         return zzr(i) + zzo(j);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r5v20 */
     private static void zzd(CharSequence charSequence, ByteBuffer byteBuffer) {
         int i;
         char charAt;
@@ -173,36 +176,37 @@ public final class zzfs {
                         array[i] = (byte) ((charAt4 >>> 6) | 960);
                         i += 2;
                         array[i6] = (byte) ((charAt4 & '?') | 128);
-                    } else if ((charAt4 >= 55296 && c >= charAt4) || i > i4 - 3) {
-                        if (i > i4 - 4) {
-                            StringBuilder sb2 = new StringBuilder(37);
-                            sb2.append("Failed writing ");
-                            sb2.append(charAt4);
-                            sb2.append(" at index ");
-                            sb2.append(i);
-                            throw new ArrayIndexOutOfBoundsException(sb2.toString());
-                        }
-                        int i7 = i2 + 1;
-                        if (i7 != charSequence.length()) {
-                            char charAt5 = charSequence.charAt(i7);
-                            if (Character.isSurrogatePair(charAt4, charAt5)) {
-                                int codePoint2 = Character.toCodePoint(charAt4, charAt5);
-                                array[i] = (byte) ((codePoint2 >>> 18) | NotificationCenter.needSetDayNightTheme);
-                                array[i + 1] = (byte) (((codePoint2 >>> 12) & 63) | 128);
-                                int i8 = i + 3;
-                                array[i + 2] = (byte) (((codePoint2 >>> 6) & 63) | 128);
-                                i += 4;
-                                array[i8] = (byte) ((codePoint2 & 63) | 128);
-                                i2 = i7;
-                            } else {
-                                i2 = i7;
-                            }
-                        }
-                        StringBuilder sb3 = new StringBuilder(39);
-                        sb3.append("Unpaired surrogate at index ");
-                        sb3.append(i2 - 1);
-                        throw new IllegalArgumentException(sb3.toString());
                     } else {
+                        if ((charAt4 >= 55296 && c >= charAt4) || i > i4 - 3) {
+                            if (i > i4 - 4) {
+                                StringBuilder sb2 = new StringBuilder(37);
+                                sb2.append("Failed writing ");
+                                sb2.append(charAt4);
+                                sb2.append(" at index ");
+                                sb2.append(i);
+                                throw new ArrayIndexOutOfBoundsException(sb2.toString());
+                            }
+                            int i7 = i2 + 1;
+                            if (i7 != charSequence.length()) {
+                                char charAt5 = charSequence.charAt(i7);
+                                if (Character.isSurrogatePair(charAt4, charAt5)) {
+                                    int codePoint2 = Character.toCodePoint(charAt4, charAt5);
+                                    array[i] = (byte) ((codePoint2 >>> 18) | NotificationCenter.needSetDayNightTheme);
+                                    array[i + 1] = (byte) (((codePoint2 >>> 12) & 63) | 128);
+                                    int i8 = i + 3;
+                                    array[i + 2] = (byte) (((codePoint2 >>> 6) & 63) | 128);
+                                    i += 4;
+                                    array[i8] = (byte) ((codePoint2 & 63) | 128);
+                                    i2 = i7;
+                                } else {
+                                    i2 = i7;
+                                }
+                            }
+                            StringBuilder sb3 = new StringBuilder(39);
+                            sb3.append("Unpaired surrogate at index ");
+                            sb3.append(i2 - 1);
+                            throw new IllegalArgumentException(sb3.toString());
+                        }
                         array[i] = (byte) ((charAt4 >>> '\f') | 480);
                         int i9 = i + 2;
                         array[i + 1] = (byte) (((charAt4 >>> 6) & 63) | 128);

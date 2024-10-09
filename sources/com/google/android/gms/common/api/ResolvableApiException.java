@@ -1,6 +1,7 @@
 package com.google.android.gms.common.api;
 
 import android.app.Activity;
+
 /* loaded from: classes.dex */
 public class ResolvableApiException extends ApiException {
     public ResolvableApiException(Status status) {

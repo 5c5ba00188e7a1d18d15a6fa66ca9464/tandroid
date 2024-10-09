@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 final class zzfp implements zzfw {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfw

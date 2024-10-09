@@ -11,6 +11,7 @@ import com.google.firebase.components.ComponentRegistrar;
 import com.google.firebase.components.Dependency;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class TransportRegistrar implements ComponentRegistrar {
     /* JADX INFO: Access modifiers changed from: private */

@@ -15,6 +15,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import java.util.Calendar;
 import java.util.HashMap;
+
 /* loaded from: classes3.dex */
 public class MrzRecognizer {
 
@@ -392,20 +393,20 @@ public class MrzRecognizer {
     public static Result recognize(Bitmap bitmap, boolean z) {
         Result recognizeBarcode;
         Result recognizeBarcode2;
-        if (!z || (recognizeBarcode2 = recognizeBarcode(bitmap)) == null) {
-            try {
-                Result recognizeMRZ = recognizeMRZ(bitmap);
-                if (recognizeMRZ != null) {
-                    return recognizeMRZ;
-                }
-            } catch (Exception unused) {
-            }
-            if (z || (recognizeBarcode = recognizeBarcode(bitmap)) == null) {
-                return null;
-            }
-            return recognizeBarcode;
+        if (z && (recognizeBarcode2 = recognizeBarcode(bitmap)) != null) {
+            return recognizeBarcode2;
         }
-        return recognizeBarcode2;
+        try {
+            Result recognizeMRZ = recognizeMRZ(bitmap);
+            if (recognizeMRZ != null) {
+                return recognizeMRZ;
+            }
+        } catch (Exception unused) {
+        }
+        if (z || (recognizeBarcode = recognizeBarcode(bitmap)) == null) {
+            return null;
+        }
+        return recognizeBarcode;
     }
 
     public static Result recognize(byte[] bArr, int i, int i2, int i3) {
@@ -420,8 +421,8 @@ public class MrzRecognizer {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(16:12|13|(1:15)(1:49)|16|(12:18|(1:20)|22|(2:24|(2:26|(1:28))(1:29))|30|(1:32)|33|34|(1:38)|39|(1:43)|45)(1:48)|21|22|(0)|30|(0)|33|34|(2:36|38)|39|(2:41|43)|45) */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00d1  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00ef  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00d1  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00ef  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -536,8 +537,8 @@ public class MrzRecognizer {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:189:0x0278 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x01f7  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x0278 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x01f7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -736,9 +737,10 @@ public class MrzRecognizer {
                         result.firstName = capitalize(result.firstName);
                         result.middleName = capitalize(result.middleName);
                     }
-                } else if (charAt != 'I' && charAt != 'A' && charAt != 'C') {
-                    return null;
                 } else {
+                    if (charAt != 'I' && charAt != 'A' && charAt != 'C') {
+                        return null;
+                    }
                     result.type = 2;
                     if (split.length == 3 && split[0].length() == 30 && split[2].length() == 30) {
                         result.issuingCountry = split[0].substring(2, 5);

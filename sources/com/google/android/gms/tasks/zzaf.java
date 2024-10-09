@@ -1,6 +1,7 @@
 package com.google.android.gms.tasks;
 
 import java.util.concurrent.ExecutionException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzaf implements zzae {
@@ -29,10 +30,7 @@ public final class zzaf implements zzae {
                     return;
                 }
             }
-            zzw zzwVar = this.zzc;
-            int i = this.zze;
-            int i2 = this.zzb;
-            zzwVar.zza(new ExecutionException(i + " out of " + i2 + " underlying tasks failed", this.zzg));
+            this.zzc.zza(new ExecutionException(this.zze + " out of " + this.zzb + " underlying tasks failed", this.zzg));
         }
     }
 

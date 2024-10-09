@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
+
 /* loaded from: classes.dex */
 public final class zzy$zzbc extends zzeo implements zzgb {
     private static final zzy$zzbc zzi;
@@ -21,7 +22,7 @@ public final class zzy$zzbc extends zzeo implements zzgb {
         zze(101),
         zzf(1001),
         zzg(1002);
-        
+
         private static final zzes zzh = new zzbx();
         private final int zzi;
 
@@ -86,11 +87,12 @@ public final class zzy$zzbc extends zzeo implements zzgb {
         /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
         @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
         public final Object zza(int i, Object obj, Object obj2) {
+            zzx zzxVar = null;
             switch (zzx.zza[i - 1]) {
                 case 1:
                     return new zzc();
                 case 2:
-                    return new zza(null);
+                    return new zza(zzxVar);
                 case 3:
                     return zzeo.zza(zze, "\u0001\u0001\u0000\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0001ခ\u0000", new Object[]{"zzc", "zzd"});
                 case 4:
@@ -136,11 +138,12 @@ public final class zzy$zzbc extends zzeo implements zzgb {
     /* JADX WARN: Type inference failed for: r3v16, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
+        zzx zzxVar = null;
         switch (zzx.zza[i - 1]) {
             case 1:
                 return new zzy$zzbc();
             case 2:
-                return new zzb(null);
+                return new zzb(zzxVar);
             case 3:
                 return zzeo.zza(zzi, "\u0001\u0005\u0000\u0001\u0001\u0005\u0005\u0000\u0001\u0000\u0001ဉ\u0000\u0002\u001b\u0003ဌ\u0001\u0004င\u0002\u0005င\u0003", new Object[]{"zzc", "zzd", "zze", zzc.class, "zzf", zza.zzb(), "zzg", "zzh"});
             case 4:

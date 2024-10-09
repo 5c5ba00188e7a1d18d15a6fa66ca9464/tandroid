@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSource {
     private final boolean allowCrossProtocolRedirects;
@@ -190,29 +191,30 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
     }
 
     private URL handleRedirect(URL url, String str, DataSpec dataSpec) {
-        if (str != null) {
-            try {
-                URL url2 = new URL(url, str);
-                String protocol = url2.getProtocol();
-                if (!"https".equals(protocol) && !"http".equals(protocol)) {
-                    throw new HttpDataSource.HttpDataSourceException("Unsupported protocol redirect: " + protocol, dataSpec, 2001, 1);
-                } else if (this.allowCrossProtocolRedirects || protocol.equals(url.getProtocol())) {
-                    return url2;
-                } else {
-                    throw new HttpDataSource.HttpDataSourceException("Disallowed cross-protocol redirect (" + url.getProtocol() + " to " + protocol + ")", dataSpec, 2001, 1);
-                }
-            } catch (MalformedURLException e) {
-                throw new HttpDataSource.HttpDataSourceException(e, dataSpec, 2001, 1);
-            }
+        if (str == null) {
+            throw new HttpDataSource.HttpDataSourceException("Null location redirect", dataSpec, 2001, 1);
         }
-        throw new HttpDataSource.HttpDataSourceException("Null location redirect", dataSpec, 2001, 1);
+        try {
+            URL url2 = new URL(url, str);
+            String protocol = url2.getProtocol();
+            if (!"https".equals(protocol) && !"http".equals(protocol)) {
+                throw new HttpDataSource.HttpDataSourceException("Unsupported protocol redirect: " + protocol, dataSpec, 2001, 1);
+            }
+            if (this.allowCrossProtocolRedirects || protocol.equals(url.getProtocol())) {
+                return url2;
+            }
+            throw new HttpDataSource.HttpDataSourceException("Disallowed cross-protocol redirect (" + url.getProtocol() + " to " + protocol + ")", dataSpec, 2001, 1);
+        } catch (MalformedURLException e) {
+            throw new HttpDataSource.HttpDataSourceException(e, dataSpec, 2001, 1);
+        }
     }
 
     private static boolean isCompressed(HttpURLConnection httpURLConnection) {
         return "gzip".equalsIgnoreCase(httpURLConnection.getHeaderField("Content-Encoding"));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00b1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x00b1, code lost:
+    
         return r0;
      */
     /*
@@ -250,9 +252,10 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
                 makeConnection.disconnect();
                 url3 = handleRedirect(url4, headerField, dataSpec);
                 i3 = i5;
-            } else if (i5 != 2 || (responseCode != 300 && responseCode != 301 && responseCode != 302 && responseCode != 303)) {
-                break;
             } else {
+                if (i5 != 2 || (responseCode != 300 && responseCode != 301 && responseCode != 302 && responseCode != 303)) {
+                    break;
+                }
                 makeConnection.disconnect();
                 if (this.keepPostFor302Redirects && responseCode == 302) {
                     i3 = i5;
@@ -359,7 +362,7 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         }
         byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM];
         while (j > 0) {
-            int read = ((InputStream) Util.castNonNull(this.inputStream)).read(bArr, 0, (int) Math.min(j, (long) LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM));
+            int read = ((InputStream) Util.castNonNull(this.inputStream)).read(bArr, 0, (int) Math.min(j, LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM));
             if (Thread.currentThread().isInterrupted()) {
                 throw new HttpDataSource.HttpDataSourceException(new InterruptedIOException(), dataSpec, 2000, 1);
             }

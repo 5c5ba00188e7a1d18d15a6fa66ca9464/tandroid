@@ -1,4 +1,5 @@
 package j$.util.function;
+
 /* loaded from: classes2.dex */
 public interface Consumer<T> {
 
@@ -13,7 +14,6 @@ public interface Consumer<T> {
     /* loaded from: classes2.dex */
     public final /* synthetic */ class Wrapper implements java.util.function.Consumer {
         private /* synthetic */ Wrapper() {
-            Consumer.this = r1;
         }
 
         public static /* synthetic */ java.util.function.Consumer convert(Consumer consumer) {

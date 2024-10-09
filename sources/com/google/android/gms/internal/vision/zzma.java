@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzma {
@@ -447,25 +448,25 @@ public abstract class zzma {
 
     /* JADX WARN: Multi-variable type inference failed */
     private static boolean zzd(Class cls) {
-        if (zzhi.zza()) {
-            try {
-                Class cls2 = zzc;
-                Class cls3 = Boolean.TYPE;
-                cls2.getMethod("peekLong", cls, cls3);
-                cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
-                Class cls4 = Integer.TYPE;
-                cls2.getMethod("pokeInt", cls, cls4, cls3);
-                cls2.getMethod("peekInt", cls, cls3);
-                cls2.getMethod("pokeByte", cls, Byte.TYPE);
-                cls2.getMethod("peekByte", cls);
-                cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
-                cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
-                return true;
-            } catch (Throwable unused) {
-                return false;
-            }
+        if (!zzhi.zza()) {
+            return false;
         }
-        return false;
+        try {
+            Class cls2 = zzc;
+            Class cls3 = Boolean.TYPE;
+            cls2.getMethod("peekLong", cls, cls3);
+            cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
+            Class cls4 = Integer.TYPE;
+            cls2.getMethod("pokeInt", cls, cls4, cls3);
+            cls2.getMethod("peekInt", cls, cls3);
+            cls2.getMethod("pokeByte", cls, Byte.TYPE);
+            cls2.getMethod("peekByte", cls);
+            cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
+            cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
+            return true;
+        } catch (Throwable unused) {
+            return false;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -522,14 +523,14 @@ public abstract class zzma {
 
     private static Field zzf() {
         Field zza2;
-        if (!zzhi.zza() || (zza2 = zza(Buffer.class, "effectiveDirectAddress")) == null) {
-            Field zza3 = zza(Buffer.class, "address");
-            if (zza3 == null || zza3.getType() != Long.TYPE) {
-                return null;
-            }
-            return zza3;
+        if (zzhi.zza() && (zza2 = zza(Buffer.class, "effectiveDirectAddress")) != null) {
+            return zza2;
         }
-        return zza2;
+        Field zza3 = zza(Buffer.class, "address");
+        if (zza3 == null || zza3.getType() != Long.TYPE) {
+            return null;
+        }
+        return zza3;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

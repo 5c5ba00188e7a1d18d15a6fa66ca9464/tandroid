@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
+
 /* loaded from: classes.dex */
 public final class SonicAudioProcessor implements AudioProcessor {
     private ByteBuffer buffer;
@@ -39,18 +40,18 @@ public final class SonicAudioProcessor implements AudioProcessor {
 
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
     public AudioProcessor.AudioFormat configure(AudioProcessor.AudioFormat audioFormat) {
-        if (audioFormat.encoding == 2) {
-            int i = this.pendingOutputSampleRate;
-            if (i == -1) {
-                i = audioFormat.sampleRate;
-            }
-            this.pendingInputAudioFormat = audioFormat;
-            AudioProcessor.AudioFormat audioFormat2 = new AudioProcessor.AudioFormat(i, audioFormat.channelCount, 2);
-            this.pendingOutputAudioFormat = audioFormat2;
-            this.pendingSonicRecreation = true;
-            return audioFormat2;
+        if (audioFormat.encoding != 2) {
+            throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
         }
-        throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
+        int i = this.pendingOutputSampleRate;
+        if (i == -1) {
+            i = audioFormat.sampleRate;
+        }
+        this.pendingInputAudioFormat = audioFormat;
+        AudioProcessor.AudioFormat audioFormat2 = new AudioProcessor.AudioFormat(i, audioFormat.channelCount, 2);
+        this.pendingOutputAudioFormat = audioFormat2;
+        this.pendingSonicRecreation = true;
+        return audioFormat2;
     }
 
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
@@ -135,10 +136,11 @@ public final class SonicAudioProcessor implements AudioProcessor {
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
     public void queueInput(ByteBuffer byteBuffer) {
         if (byteBuffer.hasRemaining()) {
+            Sonic sonic = (Sonic) Assertions.checkNotNull(this.sonic);
             ShortBuffer asShortBuffer = byteBuffer.asShortBuffer();
             int remaining = byteBuffer.remaining();
             this.inputBytes += remaining;
-            ((Sonic) Assertions.checkNotNull(this.sonic)).queueInput(asShortBuffer);
+            sonic.queueInput(asShortBuffer);
             byteBuffer.position(byteBuffer.position() + remaining);
         }
     }

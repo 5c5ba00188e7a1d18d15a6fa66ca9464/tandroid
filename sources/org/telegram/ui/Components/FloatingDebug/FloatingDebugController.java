@@ -4,6 +4,7 @@ import android.widget.FrameLayout;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public abstract class FloatingDebugController {
     private static FloatingDebugView debugView;

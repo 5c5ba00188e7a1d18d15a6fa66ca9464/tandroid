@@ -3,6 +3,7 @@ package com.googlecode.mp4parser.util;
 import com.coremedia.iso.IsoTypeReader;
 import com.coremedia.iso.IsoTypeWriter;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public class Matrix {
     double a;
@@ -65,14 +66,21 @@ public class Matrix {
     public int hashCode() {
         long doubleToLongBits = Double.doubleToLongBits(this.u);
         long doubleToLongBits2 = Double.doubleToLongBits(this.v);
+        int i = (((int) (doubleToLongBits ^ (doubleToLongBits >>> 32))) * 31) + ((int) (doubleToLongBits2 ^ (doubleToLongBits2 >>> 32)));
         long doubleToLongBits3 = Double.doubleToLongBits(this.w);
+        int i2 = (i * 31) + ((int) (doubleToLongBits3 ^ (doubleToLongBits3 >>> 32)));
         long doubleToLongBits4 = Double.doubleToLongBits(this.a);
+        int i3 = (i2 * 31) + ((int) (doubleToLongBits4 ^ (doubleToLongBits4 >>> 32)));
         long doubleToLongBits5 = Double.doubleToLongBits(this.b);
+        int i4 = (i3 * 31) + ((int) (doubleToLongBits5 ^ (doubleToLongBits5 >>> 32)));
         long doubleToLongBits6 = Double.doubleToLongBits(this.c);
+        int i5 = (i4 * 31) + ((int) (doubleToLongBits6 ^ (doubleToLongBits6 >>> 32)));
         long doubleToLongBits7 = Double.doubleToLongBits(this.d);
+        int i6 = (i5 * 31) + ((int) (doubleToLongBits7 ^ (doubleToLongBits7 >>> 32)));
         long doubleToLongBits8 = Double.doubleToLongBits(this.tx);
+        int i7 = (i6 * 31) + ((int) (doubleToLongBits8 ^ (doubleToLongBits8 >>> 32)));
         long doubleToLongBits9 = Double.doubleToLongBits(this.ty);
-        return (((((((((((((((((int) (doubleToLongBits ^ (doubleToLongBits >>> 32))) * 31) + ((int) (doubleToLongBits2 ^ (doubleToLongBits2 >>> 32)))) * 31) + ((int) (doubleToLongBits3 ^ (doubleToLongBits3 >>> 32)))) * 31) + ((int) (doubleToLongBits4 ^ (doubleToLongBits4 >>> 32)))) * 31) + ((int) (doubleToLongBits5 ^ (doubleToLongBits5 >>> 32)))) * 31) + ((int) (doubleToLongBits6 ^ (doubleToLongBits6 >>> 32)))) * 31) + ((int) (doubleToLongBits7 ^ (doubleToLongBits7 >>> 32)))) * 31) + ((int) (doubleToLongBits8 ^ (doubleToLongBits8 >>> 32)))) * 31) + ((int) (doubleToLongBits9 ^ (doubleToLongBits9 >>> 32)));
+        return (i7 * 31) + ((int) (doubleToLongBits9 ^ (doubleToLongBits9 >>> 32)));
     }
 
     public String toString() {

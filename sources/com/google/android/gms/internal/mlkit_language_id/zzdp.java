@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Comparator;
+
 /* loaded from: classes.dex */
 final class zzdp implements Comparator {
     @Override // java.util.Comparator

@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class zzdn implements Serializable, Iterable {
     public static final zzdn zza = new zzdx(zzeq.zzb);
@@ -14,7 +15,8 @@ public abstract class zzdn implements Serializable, Iterable {
 
     /* JADX WARN: Multi-variable type inference failed */
     static {
-        zzb = zzdl.zza() ? new zzdw(null) : new zzdr(null);
+        zzdm zzdmVar = null;
+        zzb = zzdl.zza() ? new zzdw(zzdmVar) : new zzdr(zzdmVar);
         zzd = new zzdp();
     }
 
@@ -30,30 +32,30 @@ public abstract class zzdn implements Serializable, Iterable {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(int i, int i2, int i3) {
         int i4 = i2 - i;
-        if ((i | i2 | i4 | (i3 - i2)) < 0) {
-            if (i < 0) {
-                StringBuilder sb = new StringBuilder(32);
-                sb.append("Beginning index: ");
-                sb.append(i);
-                sb.append(" < 0");
-                throw new IndexOutOfBoundsException(sb.toString());
-            } else if (i2 < i) {
-                StringBuilder sb2 = new StringBuilder(66);
-                sb2.append("Beginning index larger than ending index: ");
-                sb2.append(i);
-                sb2.append(", ");
-                sb2.append(i2);
-                throw new IndexOutOfBoundsException(sb2.toString());
-            } else {
-                StringBuilder sb3 = new StringBuilder(37);
-                sb3.append("End index: ");
-                sb3.append(i2);
-                sb3.append(" >= ");
-                sb3.append(i3);
-                throw new IndexOutOfBoundsException(sb3.toString());
-            }
+        if ((i | i2 | i4 | (i3 - i2)) >= 0) {
+            return i4;
         }
-        return i4;
+        if (i < 0) {
+            StringBuilder sb = new StringBuilder(32);
+            sb.append("Beginning index: ");
+            sb.append(i);
+            sb.append(" < 0");
+            throw new IndexOutOfBoundsException(sb.toString());
+        }
+        if (i2 < i) {
+            StringBuilder sb2 = new StringBuilder(66);
+            sb2.append("Beginning index larger than ending index: ");
+            sb2.append(i);
+            sb2.append(", ");
+            sb2.append(i2);
+            throw new IndexOutOfBoundsException(sb2.toString());
+        }
+        StringBuilder sb3 = new StringBuilder(37);
+        sb3.append("End index: ");
+        sb3.append(i2);
+        sb3.append(" >= ");
+        sb3.append(i3);
+        throw new IndexOutOfBoundsException(sb3.toString());
     }
 
     public abstract boolean equals(Object obj);

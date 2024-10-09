@@ -4,7 +4,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import androidx.core.view.GestureDetectorCompat;
+import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes3.dex */
 public class SpoilersClickDetector {
     private GestureDetectorCompat gestureDetector;
@@ -33,8 +35,9 @@ public class SpoilersClickDetector {
                 }
                 int i = x - SpoilersClickDetector.this.horizontalPadding;
                 int i2 = y - SpoilersClickDetector.this.verticalPadding;
-                for (SpoilerEffect spoilerEffect : list) {
-                    if (spoilerEffect.getBounds().contains(i, i2)) {
+                Iterator it = list.iterator();
+                while (it.hasNext()) {
+                    if (((SpoilerEffect) it.next()).getBounds().contains(i, i2)) {
                         SpoilersClickDetector.this.trackingTap = true;
                         return true;
                     }

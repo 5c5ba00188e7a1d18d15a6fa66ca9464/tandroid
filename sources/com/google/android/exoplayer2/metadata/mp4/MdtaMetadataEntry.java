@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class MdtaMetadataEntry implements Metadata.Entry {
     public static final Parcelable.Creator<MdtaMetadataEntry> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.mp4.MdtaMetadataEntry.1

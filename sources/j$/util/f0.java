@@ -1,6 +1,7 @@
 package j$.util;
 
 import java.util.Iterator;
+
 /* loaded from: classes2.dex */
 public abstract class f0 {
     private static final Q a = new b0();

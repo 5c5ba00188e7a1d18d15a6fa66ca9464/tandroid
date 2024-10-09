@@ -11,6 +11,7 @@ import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.android.gms.dynamite.DynamiteModule;
 import com.google.android.gms.vision.barcode.Barcode;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public final class zzm extends zzt {
     private final zzk zza;
@@ -45,26 +46,26 @@ public final class zzm extends zzt {
     }
 
     public final Barcode[] zza(Bitmap bitmap, zzs zzsVar) {
-        if (zzb()) {
-            try {
-                return ((zzl) Preconditions.checkNotNull((zzl) zzd())).zzb(ObjectWrapper.wrap(bitmap), zzsVar);
-            } catch (RemoteException e) {
-                Log.e("BarcodeNativeHandle", "Error calling native barcode detector", e);
-                return new Barcode[0];
-            }
+        if (!zzb()) {
+            return new Barcode[0];
         }
-        return new Barcode[0];
+        try {
+            return ((zzl) Preconditions.checkNotNull((zzl) zzd())).zzb(ObjectWrapper.wrap(bitmap), zzsVar);
+        } catch (RemoteException e) {
+            Log.e("BarcodeNativeHandle", "Error calling native barcode detector", e);
+            return new Barcode[0];
+        }
     }
 
     public final Barcode[] zza(ByteBuffer byteBuffer, zzs zzsVar) {
-        if (zzb()) {
-            try {
-                return ((zzl) Preconditions.checkNotNull((zzl) zzd())).zza(ObjectWrapper.wrap(byteBuffer), zzsVar);
-            } catch (RemoteException e) {
-                Log.e("BarcodeNativeHandle", "Error calling native barcode detector", e);
-                return new Barcode[0];
-            }
+        if (!zzb()) {
+            return new Barcode[0];
         }
-        return new Barcode[0];
+        try {
+            return ((zzl) Preconditions.checkNotNull((zzl) zzd())).zza(ObjectWrapper.wrap(byteBuffer), zzsVar);
+        } catch (RemoteException e) {
+            Log.e("BarcodeNativeHandle", "Error calling native barcode detector", e);
+            return new Barcode[0];
+        }
     }
 }

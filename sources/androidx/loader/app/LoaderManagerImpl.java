@@ -17,6 +17,7 @@ import androidx.loader.content.Loader;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class LoaderManagerImpl extends LoaderManager {
@@ -71,14 +72,12 @@ public class LoaderManagerImpl extends LoaderManager {
             printWriter.print(str);
             printWriter.print("mLoader=");
             printWriter.println(this.mLoader);
-            Loader loader = this.mLoader;
-            loader.dump(str + "  ", fileDescriptor, printWriter, strArr);
+            this.mLoader.dump(str + "  ", fileDescriptor, printWriter, strArr);
             if (this.mObserver != null) {
                 printWriter.print(str);
                 printWriter.print("mCallbacks=");
                 printWriter.println(this.mObserver);
-                LoaderObserver loaderObserver = this.mObserver;
-                loaderObserver.dump(str + "  ", printWriter);
+                this.mObserver.dump(str + "  ", printWriter);
             }
             printWriter.print(str);
             printWriter.print("mData=");
@@ -310,19 +309,19 @@ public class LoaderManagerImpl extends LoaderManager {
         try {
             this.mLoaderViewModel.startCreatingLoader();
             Loader onCreateLoader = loaderCallbacks.onCreateLoader(i, bundle);
-            if (onCreateLoader != null) {
-                if (onCreateLoader.getClass().isMemberClass() && !Modifier.isStatic(onCreateLoader.getClass().getModifiers())) {
-                    throw new IllegalArgumentException("Object returned from onCreateLoader must not be a non-static inner member class: " + onCreateLoader);
-                }
-                LoaderInfo loaderInfo = new LoaderInfo(i, bundle, onCreateLoader, loader);
-                if (DEBUG) {
-                    Log.v("LoaderManager", "  Created new loader " + loaderInfo);
-                }
-                this.mLoaderViewModel.putLoader(i, loaderInfo);
-                this.mLoaderViewModel.finishCreatingLoader();
-                return loaderInfo.setCallback(this.mLifecycleOwner, loaderCallbacks);
+            if (onCreateLoader == null) {
+                throw new IllegalArgumentException("Object returned from onCreateLoader must not be null");
             }
-            throw new IllegalArgumentException("Object returned from onCreateLoader must not be null");
+            if (onCreateLoader.getClass().isMemberClass() && !Modifier.isStatic(onCreateLoader.getClass().getModifiers())) {
+                throw new IllegalArgumentException("Object returned from onCreateLoader must not be a non-static inner member class: " + onCreateLoader);
+            }
+            LoaderInfo loaderInfo = new LoaderInfo(i, bundle, onCreateLoader, loader);
+            if (DEBUG) {
+                Log.v("LoaderManager", "  Created new loader " + loaderInfo);
+            }
+            this.mLoaderViewModel.putLoader(i, loaderInfo);
+            this.mLoaderViewModel.finishCreatingLoader();
+            return loaderInfo.setCallback(this.mLifecycleOwner, loaderCallbacks);
         } catch (Throwable th) {
             this.mLoaderViewModel.finishCreatingLoader();
             throw th;
@@ -339,20 +338,20 @@ public class LoaderManagerImpl extends LoaderManager {
         if (this.mLoaderViewModel.isCreatingLoader()) {
             throw new IllegalStateException("Called while creating a loader");
         }
-        if (Looper.getMainLooper() == Looper.myLooper()) {
-            LoaderInfo loader = this.mLoaderViewModel.getLoader(i);
-            if (DEBUG) {
-                Log.v("LoaderManager", "initLoader in " + this + ": args=" + bundle);
-            }
-            if (loader == null) {
-                return createAndInstallLoader(i, bundle, loaderCallbacks, null);
-            }
-            if (DEBUG) {
-                Log.v("LoaderManager", "  Re-using existing loader " + loader);
-            }
-            return loader.setCallback(this.mLifecycleOwner, loaderCallbacks);
+        if (Looper.getMainLooper() != Looper.myLooper()) {
+            throw new IllegalStateException("initLoader must be called on the main thread");
         }
-        throw new IllegalStateException("initLoader must be called on the main thread");
+        LoaderInfo loader = this.mLoaderViewModel.getLoader(i);
+        if (DEBUG) {
+            Log.v("LoaderManager", "initLoader in " + this + ": args=" + bundle);
+        }
+        if (loader == null) {
+            return createAndInstallLoader(i, bundle, loaderCallbacks, null);
+        }
+        if (DEBUG) {
+            Log.v("LoaderManager", "  Re-using existing loader " + loader);
+        }
+        return loader.setCallback(this.mLifecycleOwner, loaderCallbacks);
     }
 
     @Override // androidx.loader.app.LoaderManager

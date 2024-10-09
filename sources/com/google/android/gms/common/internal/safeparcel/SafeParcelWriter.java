@@ -5,6 +5,7 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class SafeParcelWriter {
     public static int beginObjectHeader(Parcel parcel) {
@@ -24,13 +25,12 @@ public abstract class SafeParcelWriter {
         if (bundle == null) {
             if (z) {
                 zzc(parcel, i, 0);
-                return;
             }
-            return;
+        } else {
+            int zza = zza(parcel, i);
+            parcel.writeBundle(bundle);
+            zzb(parcel, zza);
         }
-        int zza = zza(parcel, i);
-        parcel.writeBundle(bundle);
-        zzb(parcel, zza);
     }
 
     public static void writeByte(Parcel parcel, int i, byte b) {
@@ -42,13 +42,12 @@ public abstract class SafeParcelWriter {
         if (bArr == null) {
             if (z) {
                 zzc(parcel, i, 0);
-                return;
             }
-            return;
+        } else {
+            int zza = zza(parcel, i);
+            parcel.writeByteArray(bArr);
+            zzb(parcel, zza);
         }
-        int zza = zza(parcel, i);
-        parcel.writeByteArray(bArr);
-        zzb(parcel, zza);
     }
 
     public static void writeByteArrayArray(Parcel parcel, int i, byte[][] bArr, boolean z) {
@@ -81,13 +80,12 @@ public abstract class SafeParcelWriter {
         if (fArr == null) {
             if (z) {
                 zzc(parcel, i, 0);
-                return;
             }
-            return;
+        } else {
+            int zza = zza(parcel, i);
+            parcel.writeFloatArray(fArr);
+            zzb(parcel, zza);
         }
-        int zza = zza(parcel, i);
-        parcel.writeFloatArray(fArr);
-        zzb(parcel, zza);
     }
 
     public static void writeFloatList(Parcel parcel, int i, List list, boolean z) {
@@ -120,13 +118,12 @@ public abstract class SafeParcelWriter {
         if (iBinder == null) {
             if (z) {
                 zzc(parcel, i, 0);
-                return;
             }
-            return;
+        } else {
+            int zza = zza(parcel, i);
+            parcel.writeStrongBinder(iBinder);
+            zzb(parcel, zza);
         }
-        int zza = zza(parcel, i);
-        parcel.writeStrongBinder(iBinder);
-        zzb(parcel, zza);
     }
 
     public static void writeInt(Parcel parcel, int i, int i2) {
@@ -138,13 +135,12 @@ public abstract class SafeParcelWriter {
         if (iArr == null) {
             if (z) {
                 zzc(parcel, i, 0);
-                return;
             }
-            return;
+        } else {
+            int zza = zza(parcel, i);
+            parcel.writeIntArray(iArr);
+            zzb(parcel, zza);
         }
-        int zza = zza(parcel, i);
-        parcel.writeIntArray(iArr);
-        zzb(parcel, zza);
     }
 
     public static void writeIntegerList(Parcel parcel, int i, List list, boolean z) {
@@ -182,52 +178,48 @@ public abstract class SafeParcelWriter {
         if (parcelable == null) {
             if (z) {
                 zzc(parcel, i, 0);
-                return;
             }
-            return;
+        } else {
+            int zza = zza(parcel, i);
+            parcelable.writeToParcel(parcel, i2);
+            zzb(parcel, zza);
         }
-        int zza = zza(parcel, i);
-        parcelable.writeToParcel(parcel, i2);
-        zzb(parcel, zza);
     }
 
     public static void writeString(Parcel parcel, int i, String str, boolean z) {
         if (str == null) {
             if (z) {
                 zzc(parcel, i, 0);
-                return;
             }
-            return;
+        } else {
+            int zza = zza(parcel, i);
+            parcel.writeString(str);
+            zzb(parcel, zza);
         }
-        int zza = zza(parcel, i);
-        parcel.writeString(str);
-        zzb(parcel, zza);
     }
 
     public static void writeStringArray(Parcel parcel, int i, String[] strArr, boolean z) {
         if (strArr == null) {
             if (z) {
                 zzc(parcel, i, 0);
-                return;
             }
-            return;
+        } else {
+            int zza = zza(parcel, i);
+            parcel.writeStringArray(strArr);
+            zzb(parcel, zza);
         }
-        int zza = zza(parcel, i);
-        parcel.writeStringArray(strArr);
-        zzb(parcel, zza);
     }
 
     public static void writeStringList(Parcel parcel, int i, List list, boolean z) {
         if (list == null) {
             if (z) {
                 zzc(parcel, i, 0);
-                return;
             }
-            return;
+        } else {
+            int zza = zza(parcel, i);
+            parcel.writeStringList(list);
+            zzb(parcel, zza);
         }
-        int zza = zza(parcel, i);
-        parcel.writeStringList(list);
-        zzb(parcel, zza);
     }
 
     public static void writeTypedArray(Parcel parcel, int i, Parcelable[] parcelableArr, int i2, boolean z) {

@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ImageSpan;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.voip.VoIPHelper;
 import org.telegram.ui.ContactsActivity;
+
 /* loaded from: classes4.dex */
 public class CallLogActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ArrayList activeGroupCalls;
@@ -109,9 +111,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onScrolled$0(CallLogRow callLogRow) {
-            CallLogActivity callLogActivity = CallLogActivity.this;
-            ArrayList arrayList = callLogRow.calls;
-            callLogActivity.getCalls(((TLRPC.Message) arrayList.get(arrayList.size() - 1)).id, 100);
+            CallLogActivity.this.getCalls(((TLRPC.Message) callLogRow.calls.get(r3.size() - 1)).id, 100);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -325,9 +325,8 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             super(context);
             setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             String string = LocaleController.getString(R.string.VoipChatJoin);
-            ProgressButton progressButton = new ProgressButton(context);
-            this.button = progressButton;
-            int ceil = (int) Math.ceil(progressButton.getPaint().measureText(string));
+            this.button = new ProgressButton(context);
+            int ceil = (int) Math.ceil(r0.getPaint().measureText(string));
             ProfileSearchCell profileSearchCell = new ProfileSearchCell(context);
             this.profileSearchCell = profileSearchCell;
             profileSearchCell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(44.0f) + ceil : 0, 0, LocaleController.isRTL ? 0 : AndroidUtilities.dp(44.0f) + ceil, 0);
@@ -357,12 +356,12 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             if (groupCall == null) {
                 CallLogActivity.this.waitingForCallChatId = l;
                 CallLogActivity.this.getMessagesController().loadFullChat(l.longValue(), 0, true);
-                return;
+            } else {
+                TLRPC.Chat chat = CallLogActivity.this.lastCallChat;
+                Activity parentActivity = CallLogActivity.this.getParentActivity();
+                CallLogActivity callLogActivity2 = CallLogActivity.this;
+                VoIPHelper.startCall(chat, null, null, false, parentActivity, callLogActivity2, callLogActivity2.getAccountInstance());
             }
-            TLRPC.Chat chat = CallLogActivity.this.lastCallChat;
-            Activity parentActivity = CallLogActivity.this.getParentActivity();
-            CallLogActivity callLogActivity2 = CallLogActivity.this;
-            VoIPHelper.startCall(chat, null, null, false, parentActivity, callLogActivity2, callLogActivity2.getAccountInstance());
         }
 
         public void setChat(TLRPC.Chat chat) {
@@ -440,16 +439,16 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             if (i == this.activeHeaderRow || i == this.callsHeaderRow) {
                 return 3;
             }
-            if (i < this.callsStartRow || i >= this.callsEndRow) {
-                if (i < this.activeStartRow || i >= this.activeEndRow) {
-                    if (i == this.loadingCallsRow) {
-                        return 1;
-                    }
-                    return i == this.sectionRow ? 5 : 2;
-                }
+            if (i >= this.callsStartRow && i < this.callsEndRow) {
+                return 0;
+            }
+            if (i >= this.activeStartRow && i < this.activeEndRow) {
                 return 4;
             }
-            return 0;
+            if (i == this.loadingCallsRow) {
+                return 1;
+            }
+            return i == this.sectionRow ? 5 : 2;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -514,7 +513,6 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             int i3;
             String string;
             int itemViewType = viewHolder.getItemViewType();
-            boolean z = false;
             if (itemViewType == 0) {
                 int i4 = i - this.callsStartRow;
                 CallLogRow callLogRow = (CallLogRow) CallLogActivity.this.calls.get(i4);
@@ -531,21 +529,25 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                 int i5 = callLogRow.type;
                 if (i5 == 0) {
                     imageSpan = CallLogActivity.this.iconOut;
-                } else if (i5 != 1) {
-                    if (i5 == 2) {
-                        imageSpan = CallLogActivity.this.iconMissed;
-                    }
-                    callCell.profileSearchCell.setData(callLogRow.user, null, null, spannableString2, false, false);
-                    callCell.profileSearchCell.useSeparator = (i4 == CallLogActivity.this.calls.size() - 1 || !CallLogActivity.this.endReached) ? true : true;
-                    callCell.imageView.setTag(callLogRow);
                 } else {
+                    if (i5 != 1) {
+                        if (i5 == 2) {
+                            imageSpan = CallLogActivity.this.iconMissed;
+                        }
+                        callCell.profileSearchCell.setData(callLogRow.user, null, null, spannableString2, false, false);
+                        callCell.profileSearchCell.useSeparator = i4 == CallLogActivity.this.calls.size() - 1 || !CallLogActivity.this.endReached;
+                        callCell.imageView.setTag(callLogRow);
+                        return;
+                    }
                     imageSpan = CallLogActivity.this.iconIn;
                 }
                 spannableString2.setSpan(imageSpan, str.length(), str.length() + 1, 0);
                 callCell.profileSearchCell.setData(callLogRow.user, null, null, spannableString2, false, false);
-                callCell.profileSearchCell.useSeparator = (i4 == CallLogActivity.this.calls.size() - 1 || !CallLogActivity.this.endReached) ? true : true;
+                callCell.profileSearchCell.useSeparator = i4 == CallLogActivity.this.calls.size() - 1 || !CallLogActivity.this.endReached;
                 callCell.imageView.setTag(callLogRow);
-            } else if (itemViewType == 3) {
+                return;
+            }
+            if (itemViewType == 3) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i == this.activeHeaderRow) {
                     i2 = R.string.VoipChatActiveChats;
@@ -555,36 +557,39 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                     i2 = R.string.VoipChatRecentCalls;
                 }
                 headerCell.setText(LocaleController.getString(i2));
-            } else if (itemViewType != 4) {
+                return;
+            }
+            if (itemViewType != 4) {
+                return;
+            }
+            int i6 = i - this.activeStartRow;
+            TLRPC.Chat chat = CallLogActivity.this.getMessagesController().getChat((Long) CallLogActivity.this.activeGroupCalls.get(i6));
+            GroupCallCell groupCallCell = (GroupCallCell) viewHolder.itemView;
+            groupCallCell.setChat(chat);
+            groupCallCell.button.setTag(Long.valueOf(chat.id));
+            if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                i3 = !ChatObject.isPublic(chat) ? R.string.ChannelPrivate : R.string.ChannelPublic;
             } else {
-                int i6 = i - this.activeStartRow;
-                TLRPC.Chat chat = CallLogActivity.this.getMessagesController().getChat((Long) CallLogActivity.this.activeGroupCalls.get(i6));
-                GroupCallCell groupCallCell = (GroupCallCell) viewHolder.itemView;
-                groupCallCell.setChat(chat);
-                groupCallCell.button.setTag(Long.valueOf(chat.id));
-                if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                    i3 = !ChatObject.isPublic(chat) ? R.string.ChannelPrivate : R.string.ChannelPublic;
-                } else if (chat.has_geo) {
+                if (chat.has_geo) {
                     string = LocaleController.getString(R.string.MegaLocation);
                     String str2 = string;
                     ProfileSearchCell profileSearchCell = groupCallCell.profileSearchCell;
                     if (i6 != CallLogActivity.this.activeGroupCalls.size() - 1 && !CallLogActivity.this.endReached) {
-                        z = true;
+                        r5 = true;
                     }
-                    profileSearchCell.useSeparator = z;
+                    profileSearchCell.useSeparator = r5;
                     groupCallCell.profileSearchCell.setData(chat, null, null, str2, false, false);
-                } else {
-                    i3 = !ChatObject.isPublic(chat) ? R.string.MegaPrivate : R.string.MegaPublic;
                 }
-                string = LocaleController.getString(i3).toLowerCase();
-                String str22 = string;
-                ProfileSearchCell profileSearchCell2 = groupCallCell.profileSearchCell;
-                if (i6 != CallLogActivity.this.activeGroupCalls.size() - 1) {
-                    z = true;
-                }
-                profileSearchCell2.useSeparator = z;
-                groupCallCell.profileSearchCell.setData(chat, null, null, str22, false, false);
+                i3 = !ChatObject.isPublic(chat) ? R.string.MegaPrivate : R.string.MegaPublic;
             }
+            string = LocaleController.getString(i3).toLowerCase();
+            String str22 = string;
+            ProfileSearchCell profileSearchCell2 = groupCallCell.profileSearchCell;
+            if (i6 != CallLogActivity.this.activeGroupCalls.size() - 1) {
+                r5 = true;
+            }
+            profileSearchCell2.useSeparator = r5;
+            groupCallCell.profileSearchCell.setData(chat, null, null, str22, false, false);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -772,11 +777,11 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(View view, int i) {
-        if (view instanceof CallCell) {
-            addOrRemoveSelectedDialog(((CallLogRow) this.calls.get(i - this.listViewAdapter.callsStartRow)).calls, (CallCell) view);
-            return true;
+        if (!(view instanceof CallCell)) {
+            return false;
         }
-        return false;
+        addOrRemoveSelectedDialog(((CallLogRow) this.calls.get(i - this.listViewAdapter.callsStartRow)).calls, (CallCell) view);
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1000,8 +1005,9 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                     RecyclerView.ViewHolder childViewHolder = CallLogActivity.this.listView.getChildViewHolder(childAt2);
                     if (childAt2 != view && CallLogActivity.this.listView.getChildAdapterPosition(childAt2) >= i && !(childAt2 instanceof GroupCallCell) && (!(childAt2 instanceof HeaderCell) || childViewHolder.getAdapterPosition() != CallLogActivity.this.listViewAdapter.activeHeaderRow)) {
                         childAt2.setAlpha(0.0f);
-                        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(childAt2, View.ALPHA, 0.0f, 1.0f);
-                        ofFloat.setStartDelay((int) ((Math.min(CallLogActivity.this.listView.getMeasuredHeight(), Math.max(0, childAt2.getTop())) / CallLogActivity.this.listView.getMeasuredHeight()) * 100.0f));
+                        int min = (int) ((Math.min(CallLogActivity.this.listView.getMeasuredHeight(), Math.max(0, childAt2.getTop())) / CallLogActivity.this.listView.getMeasuredHeight()) * 100.0f);
+                        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(childAt2, (Property<View, Float>) View.ALPHA, 0.0f, 1.0f);
+                        ofFloat.setStartDelay(min);
                         ofFloat.setDuration(200L);
                         animatorSet.playTogether(ofFloat);
                     }
@@ -1013,7 +1019,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                     if (layoutManager != null) {
                         layoutManager.ignoreView(view);
                         View view3 = view;
-                        ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(view3, View.ALPHA, view3.getAlpha(), 0.0f);
+                        ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(view3, (Property<View, Float>) View.ALPHA, view3.getAlpha(), 0.0f);
                         ofFloat2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.CallLogActivity.4.1
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
@@ -1042,7 +1048,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                 View view = (View) this.actionModeViews.get(i);
                 view.setPivotY(ActionBar.getCurrentActionBarHeight() / 2);
                 AndroidUtilities.clearDrawableAnimation(view);
-                arrayList.add(ObjectAnimator.ofFloat(view, View.SCALE_Y, 0.1f, 1.0f));
+                arrayList.add(ObjectAnimator.ofFloat(view, (Property<View, Float>) View.SCALE_Y, 0.1f, 1.0f));
             }
             animatorSet.playTogether(arrayList);
             animatorSet.setDuration(200L);
@@ -1087,10 +1093,13 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                 if (i3 == -1) {
                     if (((BaseFragment) CallLogActivity.this).actionBar.isActionModeShowed()) {
                         CallLogActivity.this.hideActionMode(true);
+                        return;
                     } else {
-                        CallLogActivity.this.finishFragment();
+                        CallLogActivity.this.lambda$onBackPressed$300();
+                        return;
                     }
-                } else if (i3 == 1) {
+                }
+                if (i3 == 1) {
                     CallLogActivity.this.showDeleteAlert(true);
                 } else if (i3 == 2) {
                     CallLogActivity.this.showDeleteAlert(false);
@@ -1165,7 +1174,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         this.floatingButton.setContentDescription(LocaleController.getString(R.string.Call));
         if (i3 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
-            stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButton, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
+            stateListAnimator.addState(new int[]{android.R.attr.state_pressed}, ObjectAnimator.ofFloat(this.floatingButton, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButton, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             this.floatingButton.setStateListAnimator(stateListAnimator);
             this.floatingButton.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.CallLogActivity.3
@@ -1255,19 +1264,20 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             if (r3 == 0 || (listAdapter = this.listViewAdapter) == null) {
                 return;
             }
-        } else if (i != NotificationCenter.activeGroupCallsUpdated) {
-            if (i == NotificationCenter.chatInfoDidLoad) {
-                Long l2 = this.waitingForCallChatId;
-                if (l2 == null || ((TLRPC.ChatFull) objArr[0]).id != l2.longValue() || getMessagesController().getGroupCall(this.waitingForCallChatId.longValue(), true) == null) {
+        } else {
+            if (i != NotificationCenter.activeGroupCallsUpdated) {
+                if (i == NotificationCenter.chatInfoDidLoad) {
+                    Long l2 = this.waitingForCallChatId;
+                    if (l2 == null || ((TLRPC.ChatFull) objArr[0]).id != l2.longValue() || getMessagesController().getGroupCall(this.waitingForCallChatId.longValue(), true) == null) {
+                        return;
+                    }
+                } else if (i != NotificationCenter.groupCallUpdated || (l = this.waitingForCallChatId) == null || !l.equals((Long) objArr[0])) {
                     return;
                 }
-            } else if (i != NotificationCenter.groupCallUpdated || (l = this.waitingForCallChatId) == null || !l.equals((Long) objArr[0])) {
+                VoIPHelper.startCall(this.lastCallChat, null, null, false, getParentActivity(), this, getAccountInstance());
+                this.waitingForCallChatId = null;
                 return;
             }
-            VoIPHelper.startCall(this.lastCallChat, null, null, false, getParentActivity(), this, getAccountInstance());
-            this.waitingForCallChatId = null;
-            return;
-        } else {
             this.activeGroupCalls = getMessagesController().getActiveGroupCalls();
             listAdapter = this.listViewAdapter;
             if (listAdapter == null) {
@@ -1375,10 +1385,11 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                 if (i2 >= iArr.length) {
                     z = true;
                     break;
-                } else if (iArr[i2] != 0) {
-                    z = false;
-                    break;
                 } else {
+                    if (iArr[i2] != 0) {
+                        z = false;
+                        break;
+                    }
                     i2++;
                 }
             }

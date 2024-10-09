@@ -16,6 +16,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.UUID;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public final class Format implements Bundleable {
     public final int accessibilityChannel;

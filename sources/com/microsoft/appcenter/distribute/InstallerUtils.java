@@ -9,6 +9,7 @@ import android.provider.Settings;
 import com.microsoft.appcenter.utils.AppCenterLog;
 import java.util.HashSet;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class InstallerUtils {
     private static final Set LOCAL_STORES;

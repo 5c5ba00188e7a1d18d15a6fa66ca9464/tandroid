@@ -21,6 +21,7 @@ import androidx.core.content.res.TypedArrayUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import java.util.ArrayList;
 import org.xmlpull.v1.XmlPullParser;
+
 /* loaded from: classes.dex */
 public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implements Animatable {
     private AnimatedVectorDrawableCompatState mAnimatedVectorState;
@@ -390,11 +391,11 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
     public boolean isRunning() {
         boolean isRunning;
         Drawable drawable = this.mDelegateDrawable;
-        if (drawable != null) {
-            isRunning = AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0.m(drawable).isRunning();
-            return isRunning;
+        if (drawable == null) {
+            return this.mAnimatedVectorState.mAnimatorSet.isRunning();
         }
-        return this.mAnimatedVectorState.mAnimatorSet.isRunning();
+        isRunning = AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0.m(drawable).isRunning();
+        return isRunning;
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -544,8 +545,10 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
         Drawable drawable = this.mDelegateDrawable;
         if (drawable != null) {
             AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0.m(drawable).start();
-        } else if (this.mAnimatedVectorState.mAnimatorSet.isStarted()) {
         } else {
+            if (this.mAnimatedVectorState.mAnimatorSet.isStarted()) {
+                return;
+            }
             this.mAnimatedVectorState.mAnimatorSet.start();
             invalidateSelf();
         }

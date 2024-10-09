@@ -19,6 +19,7 @@ import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class AbstractMapBasedMultimap extends AbstractMultimap implements Serializable {
@@ -52,13 +53,13 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
             @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
             public boolean remove(Object obj) {
-                if (contains(obj)) {
-                    Map.Entry entry = (Map.Entry) obj;
-                    Objects.requireNonNull(entry);
-                    AbstractMapBasedMultimap.this.removeValuesForKey(entry.getKey());
-                    return true;
+                if (!contains(obj)) {
+                    return false;
                 }
-                return false;
+                Map.Entry entry = (Map.Entry) obj;
+                Objects.requireNonNull(entry);
+                AbstractMapBasedMultimap.this.removeValuesForKey(entry.getKey());
+                return true;
             }
         }
 
@@ -399,14 +400,14 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
 
         Map.Entry pollAsMapEntry(Iterator it) {
-            if (it.hasNext()) {
-                Map.Entry entry = (Map.Entry) it.next();
-                Collection createCollection = AbstractMapBasedMultimap.this.createCollection();
-                createCollection.addAll((Collection) entry.getValue());
-                it.remove();
-                return Maps.immutableEntry(entry.getKey(), AbstractMapBasedMultimap.this.unmodifiableCollectionSubclass(createCollection));
+            if (!it.hasNext()) {
+                return null;
             }
-            return null;
+            Map.Entry entry = (Map.Entry) it.next();
+            Collection createCollection = AbstractMapBasedMultimap.this.createCollection();
+            createCollection.addAll((Collection) entry.getValue());
+            it.remove();
+            return Maps.immutableEntry(entry.getKey(), AbstractMapBasedMultimap.this.unmodifiableCollectionSubclass(createCollection));
         }
 
         @Override // java.util.NavigableMap
@@ -568,12 +569,12 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         @Override // com.google.common.collect.AbstractMapBasedMultimap.AsMap, java.util.AbstractMap, java.util.Map
         public SortedSet keySet() {
             SortedSet sortedSet = this.sortedKeySet;
-            if (sortedSet == null) {
-                SortedSet createKeySet = createKeySet();
-                this.sortedKeySet = createKeySet;
-                return createKeySet;
+            if (sortedSet != null) {
+                return sortedSet;
             }
-            return sortedSet;
+            SortedSet createKeySet = createKeySet();
+            this.sortedKeySet = createKeySet;
+            return createKeySet;
         }
 
         @Override // java.util.SortedMap
@@ -800,8 +801,10 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
                 if (this.ancestor.getDelegate() != this.ancestorDelegate) {
                     throw new ConcurrentModificationException();
                 }
-            } else if (!this.delegate.isEmpty() || (collection = (Collection) AbstractMapBasedMultimap.this.map.get(this.key)) == null) {
             } else {
+                if (!this.delegate.isEmpty() || (collection = (Collection) AbstractMapBasedMultimap.this.map.get(this.key)) == null) {
+                    return;
+                }
                 this.delegate = collection;
             }
         }
@@ -1053,8 +1056,9 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
     @Override // com.google.common.collect.Multimap
     public void clear() {
-        for (Collection collection : this.map.values()) {
-            collection.clear();
+        Iterator it = this.map.values().iterator();
+        while (it.hasNext()) {
+            ((Collection) it.next()).clear();
         }
         this.map.clear();
         this.totalSize = 0;
@@ -1117,19 +1121,19 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
     public boolean put(Object obj, Object obj2) {
         Collection collection = (Collection) this.map.get(obj);
         if (collection != null) {
-            if (collection.add(obj2)) {
-                this.totalSize++;
-                return true;
+            if (!collection.add(obj2)) {
+                return false;
             }
-            return false;
-        }
-        Collection createCollection = createCollection(obj);
-        if (createCollection.add(obj2)) {
             this.totalSize++;
-            this.map.put(obj, createCollection);
             return true;
         }
-        throw new AssertionError("New Collection violated the Collection spec");
+        Collection createCollection = createCollection(obj);
+        if (!createCollection.add(obj2)) {
+            throw new AssertionError("New Collection violated the Collection spec");
+        }
+        this.totalSize++;
+        this.map.put(obj, createCollection);
+        return true;
     }
 
     @Override // com.google.common.collect.Multimap

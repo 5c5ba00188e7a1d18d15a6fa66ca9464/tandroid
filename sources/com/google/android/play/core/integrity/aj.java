@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.play.integrity.internal.d;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 final class aj {
     final com.google.android.play.integrity.internal.ae a;
@@ -32,10 +33,10 @@ final class aj {
                     return com.google.android.play.integrity.internal.m.b(iBinder);
                 }
             }, null);
-            return;
+        } else {
+            sVar.b("Phonesky is not installed.", new Object[0]);
+            this.a = null;
         }
-        sVar.b("Phonesky is not installed.", new Object[0]);
-        this.a = null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -63,7 +64,6 @@ final class aj {
             byte[] decode = Base64.decode(integrityTokenRequest.nonce(), 10);
             Long cloudProjectNumber = integrityTokenRequest.cloudProjectNumber();
             if (Build.VERSION.SDK_INT >= 23 && (integrityTokenRequest instanceof ao)) {
-                ao aoVar = (ao) integrityTokenRequest;
             }
             this.b.d("requestIntegrityToken(%s)", integrityTokenRequest);
             TaskCompletionSource taskCompletionSource = new TaskCompletionSource();

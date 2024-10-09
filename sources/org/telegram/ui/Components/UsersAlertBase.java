@@ -38,6 +38,7 @@ import org.telegram.ui.Cells.GroupCallUserCell;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UsersAlertBase;
+
 /* loaded from: classes3.dex */
 public abstract class UsersAlertBase extends BottomSheet {
     public static final Property COLOR_PROGRESS = new AnimationProperties.FloatProperty("colorProgress") { // from class: org.telegram.ui.Components.UsersAlertBase.3
@@ -126,9 +127,9 @@ public abstract class UsersAlertBase extends BottomSheet {
             canvas.restore();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:15:0x00c6  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0171  */
-        /* JADX WARN: Removed duplicated region for block: B:23:0x01ae  */
+        /* JADX WARN: Removed duplicated region for block: B:11:0x00c6  */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0171  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x01ae  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -136,8 +137,6 @@ public abstract class UsersAlertBase extends BottomSheet {
         protected void onDraw(Canvas canvas) {
             float f;
             int i;
-            int i2;
-            int i3;
             canvas.save();
             UsersAlertBase usersAlertBase = UsersAlertBase.this;
             int dp = (usersAlertBase.scrollOffsetY - ((BottomSheet) usersAlertBase).backgroundPaddingTop) + AndroidUtilities.dp(6.0f);
@@ -145,14 +144,14 @@ public abstract class UsersAlertBase extends BottomSheet {
             int dp2 = (usersAlertBase2.scrollOffsetY - ((BottomSheet) usersAlertBase2).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
             int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(50.0f) + ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop;
             if (Build.VERSION.SDK_INT >= 21) {
-                int i4 = AndroidUtilities.statusBarHeight;
-                dp2 += i4;
-                dp += i4;
-                measuredHeight -= i4;
+                int i2 = AndroidUtilities.statusBarHeight;
+                dp2 += i2;
+                dp += i2;
+                measuredHeight -= i2;
                 float translationY = ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + getTranslationY();
-                int i5 = AndroidUtilities.statusBarHeight;
-                if (translationY < i5 * 2) {
-                    int min = (int) Math.min(i5, ((i2 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
+                int i3 = AndroidUtilities.statusBarHeight;
+                if (translationY < i3 * 2) {
+                    int min = (int) Math.min(i3, ((r7 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
                     dp2 -= min;
                     measuredHeight += min;
                     f = 1.0f - Math.min(1.0f, (min * 2) / AndroidUtilities.statusBarHeight);
@@ -162,7 +161,7 @@ public abstract class UsersAlertBase extends BottomSheet {
                 float translationY2 = ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + getTranslationY();
                 float f2 = AndroidUtilities.statusBarHeight;
                 if (translationY2 < f2) {
-                    i = (int) Math.min(f2, ((i3 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
+                    i = (int) Math.min(f2, ((r7 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
                     UsersAlertBase.this.shadowDrawable.setBounds(0, dp2, getMeasuredWidth(), measuredHeight);
                     UsersAlertBase.this.shadowDrawable.draw(canvas);
                     if (!UsersAlertBase.this.drawTitle) {
@@ -420,13 +419,13 @@ public abstract class UsersAlertBase extends BottomSheet {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
-            if (keyEvent != null) {
-                if ((keyEvent.getAction() == 1 && keyEvent.getKeyCode() == 84) || (keyEvent.getAction() == 0 && keyEvent.getKeyCode() == 66)) {
-                    AndroidUtilities.hideKeyboard(this.searchEditText);
-                    return false;
-                }
+            if (keyEvent == null) {
                 return false;
             }
+            if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
+                return false;
+            }
+            AndroidUtilities.hideKeyboard(this.searchEditText);
             return false;
         }
 
@@ -573,7 +572,7 @@ public abstract class UsersAlertBase extends BottomSheet {
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.shadowAnimation = animatorSet2;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, (Property<View, Float>) View.ALPHA, z ? 1.0f : 0.0f));
         this.shadowAnimation.setDuration(150L);
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.UsersAlertBase.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -704,8 +703,9 @@ public abstract class UsersAlertBase extends BottomSheet {
                                 childAt = ((GraySectionCell) childAt).getTextView();
                             }
                             childAt.setAlpha(0.0f);
-                            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(childAt, View.ALPHA, 0.0f, 1.0f);
-                            ofFloat.setStartDelay((int) ((Math.min(UsersAlertBase.this.listView.getMeasuredHeight(), Math.max(0, childAt.getTop())) / UsersAlertBase.this.listView.getMeasuredHeight()) * 100.0f));
+                            int min = (int) ((Math.min(UsersAlertBase.this.listView.getMeasuredHeight(), Math.max(0, childAt.getTop())) / UsersAlertBase.this.listView.getMeasuredHeight()) * 100.0f);
+                            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(childAt, (Property<View, Float>) View.ALPHA, 0.0f, 1.0f);
+                            ofFloat.setStartDelay(min);
                             ofFloat.setDuration(200L);
                             animatorSet.playTogether(ofFloat);
                         }

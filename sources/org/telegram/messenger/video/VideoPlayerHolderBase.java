@@ -17,6 +17,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.video.VideoPlayerHolderBase;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.VideoPlayer;
+
 /* loaded from: classes3.dex */
 public class VideoPlayerHolderBase {
     boolean audioDisabled;
@@ -363,10 +364,10 @@ public class VideoPlayerHolderBase {
         if (!isPlaying || z2) {
             this.videoPlayer.setPlayWhenReady(false);
             this.videoPlayer.pause();
-            return;
+        } else {
+            this.videoPlayer.setPlayWhenReady(true);
+            this.videoPlayer.play();
         }
-        this.videoPlayer.setPlayWhenReady(true);
-        this.videoPlayer.play();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

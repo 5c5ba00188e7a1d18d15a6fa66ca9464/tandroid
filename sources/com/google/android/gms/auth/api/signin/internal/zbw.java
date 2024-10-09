@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import com.google.android.gms.common.api.GoogleApiClient;
+
 /* loaded from: classes.dex */
 final class zbw implements LoaderManager.LoaderCallbacks {
     final /* synthetic */ SignInHubActivity zba;
@@ -20,7 +21,6 @@ final class zbw implements LoaderManager.LoaderCallbacks {
 
     @Override // androidx.loader.app.LoaderManager.LoaderCallbacks
     public final /* bridge */ /* synthetic */ void onLoadFinished(Loader loader, Object obj) {
-        Void r3 = (Void) obj;
         SignInHubActivity signInHubActivity = this.zba;
         signInHubActivity.setResult(SignInHubActivity.zba(signInHubActivity), SignInHubActivity.zbb(signInHubActivity));
         this.zba.finish();

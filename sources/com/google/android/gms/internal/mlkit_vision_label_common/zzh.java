@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label_common;
 
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 abstract class zzh {
     private static final Logger zza = Logger.getLogger(zzh.class.getName());

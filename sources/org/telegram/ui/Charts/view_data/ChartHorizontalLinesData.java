@@ -13,6 +13,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ChannelMonetizationLayout;
 import org.telegram.ui.Stars.StarsIntroActivity;
+
 /* loaded from: classes4.dex */
 public class ChartHorizontalLinesData {
     public int alpha;
@@ -24,14 +25,14 @@ public class ChartHorizontalLinesData {
     public CharSequence[] valuesStr;
     public CharSequence[] valuesStr2;
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0068  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0079  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x007f  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0134  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0144  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0146  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0079  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0134  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0144  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x014a  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0146  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -197,33 +198,33 @@ public class ChartHorizontalLinesData {
 
     public CharSequence format(int i, TextPaint textPaint, long j, int i2) {
         if (i2 != 1) {
-            if (i2 == 2) {
-                if (i == 1) {
-                    return "≈" + BillingController.getInstance().formatCurrency(j, "USD");
-                }
-                return StarsIntroActivity.replaceStarsWithPlain("XTR " + LocaleController.formatNumber(j, ' '), 0.65f);
+            if (i2 != 2) {
+                return AndroidUtilities.formatWholeNumber((int) j, 0);
             }
-            return AndroidUtilities.formatWholeNumber((int) j, 0);
-        } else if (i == 1) {
-            return "≈" + BillingController.getInstance().formatCurrency(j, "USD");
-        } else {
-            if (this.formatterTON == null) {
-                DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-                decimalFormatSymbols.setDecimalSeparator('.');
-                DecimalFormat decimalFormat = new DecimalFormat("#.##", decimalFormatSymbols);
-                this.formatterTON = decimalFormat;
-                decimalFormat.setMinimumFractionDigits(2);
-                this.formatterTON.setMaximumFractionDigits(6);
-                this.formatterTON.setGroupingUsed(false);
+            if (i == 1) {
+                return "≈" + BillingController.getInstance().formatCurrency(j, "USD");
             }
-            this.formatterTON.setMaximumFractionDigits(j <= 1000000000 ? 6 : 2);
-            StringBuilder sb = new StringBuilder();
-            sb.append("TON ");
-            DecimalFormat decimalFormat2 = this.formatterTON;
-            double d = j;
-            Double.isNaN(d);
-            sb.append(decimalFormat2.format(d / 1.0E9d));
-            return ChannelMonetizationLayout.replaceTON(sb.toString(), textPaint, 0.8f, -AndroidUtilities.dp(0.66f), false);
+            return StarsIntroActivity.replaceStarsWithPlain("XTR " + LocaleController.formatNumber(j, ' '), 0.65f);
         }
+        if (i == 1) {
+            return "≈" + BillingController.getInstance().formatCurrency(j, "USD");
+        }
+        if (this.formatterTON == null) {
+            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+            decimalFormatSymbols.setDecimalSeparator('.');
+            DecimalFormat decimalFormat = new DecimalFormat("#.##", decimalFormatSymbols);
+            this.formatterTON = decimalFormat;
+            decimalFormat.setMinimumFractionDigits(2);
+            this.formatterTON.setMaximumFractionDigits(6);
+            this.formatterTON.setGroupingUsed(false);
+        }
+        this.formatterTON.setMaximumFractionDigits(j <= 1000000000 ? 6 : 2);
+        StringBuilder sb = new StringBuilder();
+        sb.append("TON ");
+        DecimalFormat decimalFormat2 = this.formatterTON;
+        double d = j;
+        Double.isNaN(d);
+        sb.append(decimalFormat2.format(d / 1.0E9d));
+        return ChannelMonetizationLayout.replaceTON(sb.toString(), textPaint, 0.8f, -AndroidUtilities.dp(0.66f), false);
     }
 }

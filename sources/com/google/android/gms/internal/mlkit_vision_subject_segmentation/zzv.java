@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class zzv extends zzt implements List {
@@ -37,18 +38,18 @@ public class zzv extends zzt implements List {
         }
         int size = size();
         boolean addAll = ((List) this.zzb).addAll(i, collection);
-        if (addAll) {
-            int size2 = this.zzb.size();
-            zzw zzwVar = this.zzf;
-            i2 = zzwVar.zzb;
-            zzwVar.zzb = i2 + (size2 - size);
-            if (size == 0) {
-                zza();
-                return true;
-            }
+        if (!addAll) {
             return addAll;
         }
-        return addAll;
+        int size2 = this.zzb.size();
+        zzw zzwVar = this.zzf;
+        i2 = zzwVar.zzb;
+        zzwVar.zzb = i2 + (size2 - size);
+        if (size != 0) {
+            return addAll;
+        }
+        zza();
+        return true;
     }
 
     @Override // java.util.List

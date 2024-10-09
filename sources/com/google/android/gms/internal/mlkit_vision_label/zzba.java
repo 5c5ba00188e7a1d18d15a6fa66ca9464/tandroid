@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.io.Serializable;
+
 /* loaded from: classes.dex */
 final class zzba extends zzah implements Serializable {
     final Object zza;

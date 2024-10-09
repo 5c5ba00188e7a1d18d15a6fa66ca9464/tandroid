@@ -3,6 +3,7 @@ package j$.util;
 import java.util.PrimitiveIterator;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class u implements PrimitiveIterator.OfInt {
     public final /* synthetic */ v a;

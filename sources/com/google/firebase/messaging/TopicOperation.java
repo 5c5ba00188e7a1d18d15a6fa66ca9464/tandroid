@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.google.android.gms.common.internal.Objects;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 final class TopicOperation {
     private static final Pattern TOPIC_NAME_REGEXP = Pattern.compile("[a-zA-Z0-9-_.~%]{1,900}");
@@ -45,11 +46,11 @@ final class TopicOperation {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof TopicOperation) {
-            TopicOperation topicOperation = (TopicOperation) obj;
-            return this.topic.equals(topicOperation.topic) && this.operation.equals(topicOperation.operation);
+        if (!(obj instanceof TopicOperation)) {
+            return false;
         }
-        return false;
+        TopicOperation topicOperation = (TopicOperation) obj;
+        return this.topic.equals(topicOperation.topic) && this.operation.equals(topicOperation.operation);
     }
 
     public String getOperation() {

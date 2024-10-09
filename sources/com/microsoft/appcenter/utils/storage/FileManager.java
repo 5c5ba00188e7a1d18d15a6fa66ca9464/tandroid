@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public abstract class FileManager {
     private static Context sContext;
@@ -66,29 +67,29 @@ public abstract class FileManager {
         new File(str).mkdirs();
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r4v0, types: [java.io.File] */
-    /* JADX WARN: Type inference failed for: r4v1, types: [java.io.File] */
-    /* JADX WARN: Type inference failed for: r4v5, types: [java.lang.String] */
     public static String read(File file) {
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader((File) file));
-            String property = System.getProperty("line.separator");
-            StringBuilder sb = new StringBuilder();
-            String readLine = bufferedReader.readLine();
-            if (readLine != null) {
-                while (true) {
-                    sb.append(readLine);
-                    readLine = bufferedReader.readLine();
-                    if (readLine == null) {
-                        break;
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            try {
+                String property = System.getProperty("line.separator");
+                StringBuilder sb = new StringBuilder();
+                String readLine = bufferedReader.readLine();
+                if (readLine != null) {
+                    while (true) {
+                        sb.append(readLine);
+                        readLine = bufferedReader.readLine();
+                        if (readLine == null) {
+                            break;
+                        }
+                        sb.append(property);
                     }
-                    sb.append(property);
                 }
+                bufferedReader.close();
+                return sb.toString();
+            } catch (Throwable th) {
+                bufferedReader.close();
+                throw th;
             }
-            bufferedReader.close();
-            file = sb.toString();
-            return file;
         } catch (IOException e) {
             AppCenterLog.error("AppCenter", "Could not read file " + file.getAbsolutePath(), e);
             return null;
@@ -99,9 +100,12 @@ public abstract class FileManager {
         byte[] bArr = new byte[(int) file.length()];
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
-            new DataInputStream(fileInputStream).readFully(bArr);
-            fileInputStream.close();
-            return bArr;
+            try {
+                new DataInputStream(fileInputStream).readFully(bArr);
+                return bArr;
+            } finally {
+                fileInputStream.close();
+            }
         } catch (IOException e) {
             AppCenterLog.error("AppCenter", "Could not read file " + file.getAbsolutePath(), e);
             return null;

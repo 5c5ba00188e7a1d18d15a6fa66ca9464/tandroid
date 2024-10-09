@@ -1,6 +1,7 @@
 package kotlin.jvm.internal;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public abstract class Intrinsics {
     public static boolean areEqual(Object obj, Object obj2) {
@@ -50,9 +51,7 @@ public abstract class Intrinsics {
             i++;
         }
         StackTraceElement stackTraceElement = stackTrace[i];
-        String className = stackTraceElement.getClassName();
-        String methodName = stackTraceElement.getMethodName();
-        return "Parameter specified as non-null is null: method " + className + "." + methodName + ", parameter " + str;
+        return "Parameter specified as non-null is null: method " + stackTraceElement.getClassName() + "." + stackTraceElement.getMethodName() + ", parameter " + str;
     }
 
     private static Throwable sanitizeStackTrace(Throwable th) {

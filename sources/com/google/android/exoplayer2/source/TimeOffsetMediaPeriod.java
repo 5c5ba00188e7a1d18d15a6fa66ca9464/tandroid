@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
 import com.google.android.exoplayer2.source.MediaPeriod;
 import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.util.Assertions;
+
 /* loaded from: classes.dex */
 final class TimeOffsetMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
     private MediaPeriod.Callback callback;

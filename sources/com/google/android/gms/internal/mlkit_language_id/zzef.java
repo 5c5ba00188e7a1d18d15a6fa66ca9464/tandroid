@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Collections;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class zzef {
     private static volatile zzef zzc;

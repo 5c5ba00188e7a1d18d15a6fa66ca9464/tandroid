@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class zzgw$zza extends zzcg implements zzdq {
     private static volatile zzdz zzbg;
@@ -98,11 +99,12 @@ public final class zzgw$zza extends zzcg implements zzdq {
         /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
         @Override // com.google.android.gms.internal.clearcut.zzcg
         public final Object zza(int i, Object obj, Object obj2) {
+            zzgx zzgxVar = null;
             switch (zzgx.zzba[i - 1]) {
                 case 1:
                     return new zzb();
                 case 2:
-                    return new zza(null);
+                    return new zza(zzgxVar);
                 case 3:
                     return zzcg.zza(zzbiv, "\u0001\u0004\u0000\u0001\u0001\u0004\u0004\u0005\u0000\u0000\u0000\u0001\u0004\u0000\u0002\b\u0001\u0003\u0002\u0002\u0004\u0002\u0003", new Object[]{"zzbb", "zzya", "zzbis", "zzbit", "zzbiu"});
                 case 4:
@@ -172,11 +174,12 @@ public final class zzgw$zza extends zzcg implements zzdq {
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
     public final Object zza(int i, Object obj, Object obj2) {
+        zzgx zzgxVar = null;
         switch (zzgx.zzba[i - 1]) {
             case 1:
                 return new zzgw$zza();
             case 2:
-                return new zza(null);
+                return new zza(zzgxVar);
             case 3:
                 return zzcg.zza(zzbir, "\u0001\u0001\u0000\u0000\u0001\u0001\u0001\u0002\u0000\u0001\u0000\u0001\u001b", new Object[]{"zzbiq", zzb.class});
             case 4:

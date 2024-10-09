@@ -15,8 +15,10 @@ import com.google.gson.stream.JsonWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class Excluder implements TypeAdapterFactory, Cloneable {
     public static final Excluder DEFAULT = new Excluder();
@@ -79,11 +81,11 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
 
                 @Override // com.google.gson.TypeAdapter
                 public Object read(JsonReader jsonReader) {
-                    if (excludeClass2) {
-                        jsonReader.skipValue();
-                        return null;
+                    if (!excludeClass2) {
+                        return delegate().read(jsonReader);
                     }
-                    return delegate().read(jsonReader);
+                    jsonReader.skipValue();
+                    return null;
                 }
 
                 @Override // com.google.gson.TypeAdapter
@@ -100,21 +102,22 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
     }
 
     public boolean excludeClass(Class cls, boolean z) {
-        if (this.version == -1.0d || isValidVersion((Since) cls.getAnnotation(Since.class), (Until) cls.getAnnotation(Until.class))) {
-            if (this.serializeInnerClasses || !isInnerClass(cls)) {
-                if (z || Enum.class.isAssignableFrom(cls) || !ReflectionHelper.isAnonymousOrNonStaticLocal(cls)) {
-                    for (ExclusionStrategy exclusionStrategy : z ? this.serializationStrategies : this.deserializationStrategies) {
-                        if (exclusionStrategy.shouldSkipClass(cls)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                return true;
-            }
+        if (this.version != -1.0d && !isValidVersion((Since) cls.getAnnotation(Since.class), (Until) cls.getAnnotation(Until.class))) {
             return true;
         }
-        return true;
+        if (!this.serializeInnerClasses && isInnerClass(cls)) {
+            return true;
+        }
+        if (!z && !Enum.class.isAssignableFrom(cls) && ReflectionHelper.isAnonymousOrNonStaticLocal(cls)) {
+            return true;
+        }
+        Iterator it = (z ? this.serializationStrategies : this.deserializationStrategies).iterator();
+        while (it.hasNext()) {
+            if (((ExclusionStrategy) it.next()).shouldSkipClass(cls)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean excludeField(Field field, boolean z) {
@@ -122,23 +125,24 @@ public final class Excluder implements TypeAdapterFactory, Cloneable {
         if ((this.modifiers & field.getModifiers()) != 0) {
             return true;
         }
-        if ((this.version == -1.0d || isValidVersion((Since) field.getAnnotation(Since.class), (Until) field.getAnnotation(Until.class))) && !field.isSynthetic()) {
-            if ((!this.requireExpose || ((expose = (Expose) field.getAnnotation(Expose.class)) != null && (!z ? !expose.deserialize() : !expose.serialize()))) && !excludeClass(field.getType(), z)) {
-                List<ExclusionStrategy> list = z ? this.serializationStrategies : this.deserializationStrategies;
-                if (list.isEmpty()) {
-                    return false;
-                }
-                FieldAttributes fieldAttributes = new FieldAttributes(field);
-                for (ExclusionStrategy exclusionStrategy : list) {
-                    if (exclusionStrategy.shouldSkipField(fieldAttributes)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
+        if ((this.version != -1.0d && !isValidVersion((Since) field.getAnnotation(Since.class), (Until) field.getAnnotation(Until.class))) || field.isSynthetic()) {
             return true;
         }
-        return true;
+        if ((this.requireExpose && ((expose = (Expose) field.getAnnotation(Expose.class)) == null || (!z ? expose.deserialize() : expose.serialize()))) || excludeClass(field.getType(), z)) {
+            return true;
+        }
+        List list = z ? this.serializationStrategies : this.deserializationStrategies;
+        if (list.isEmpty()) {
+            return false;
+        }
+        FieldAttributes fieldAttributes = new FieldAttributes(field);
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            if (((ExclusionStrategy) it.next()).shouldSkipField(fieldAttributes)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Excluder withExclusionStrategy(ExclusionStrategy exclusionStrategy, boolean z, boolean z2) {

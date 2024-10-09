@@ -18,6 +18,7 @@ import android.graphics.Shader;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Property;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,6 +44,7 @@ import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.GroupCreateSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell;
+
 /* loaded from: classes3.dex */
 public abstract class SelectorSearchCell extends ScrollView {
     public ArrayList allSpans;
@@ -128,7 +130,7 @@ public abstract class SelectorSearchCell extends ScrollView {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00d9  */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x00d9  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -172,13 +174,13 @@ public abstract class SelectorSearchCell extends ScrollView {
                                 float f2 = dp4;
                                 if (childAt.getTranslationX() != f2) {
                                     i3 = childCount;
-                                    this.animators.add(ObjectAnimator.ofFloat(childAt, View.TRANSLATION_X, f2));
+                                    this.animators.add(ObjectAnimator.ofFloat(childAt, (Property<View, Float>) View.TRANSLATION_X, f2));
                                 } else {
                                     i3 = childCount;
                                 }
                                 float f3 = dp2;
                                 if (childAt.getTranslationY() != f3) {
-                                    this.animators.add(ObjectAnimator.ofFloat(childAt, View.TRANSLATION_Y, f3));
+                                    this.animators.add(ObjectAnimator.ofFloat(childAt, (Property<View, Float>) View.TRANSLATION_Y, f3));
                                 }
                             }
                             if (!contains) {
@@ -228,10 +230,10 @@ public abstract class SelectorSearchCell extends ScrollView {
                     }
                     float f5 = dp6;
                     if (SelectorSearchCell.this.editText.getTranslationX() != f5) {
-                        this.animators.add(ObjectAnimator.ofFloat(SelectorSearchCell.this.editText, View.TRANSLATION_X, f5));
+                        this.animators.add(ObjectAnimator.ofFloat(SelectorSearchCell.this.editText, (Property<EditTextBoldCursor, Float>) View.TRANSLATION_X, f5));
                     }
                     if (SelectorSearchCell.this.editText.getTranslationY() != SelectorSearchCell.this.fieldY) {
-                        this.animators.add(ObjectAnimator.ofFloat(SelectorSearchCell.this.editText, View.TRANSLATION_Y, SelectorSearchCell.this.fieldY));
+                        this.animators.add(ObjectAnimator.ofFloat(SelectorSearchCell.this.editText, (Property<EditTextBoldCursor, Float>) View.TRANSLATION_Y, SelectorSearchCell.this.fieldY));
                     }
                     SelectorSearchCell.this.editText.setAllowDrawCursor(false);
                     this.currentAnimation.playTogether(this.animators);
@@ -314,9 +316,9 @@ public abstract class SelectorSearchCell extends ScrollView {
                 for (int i2 = 0; i2 < arrayList.size(); i2++) {
                     GroupCreateSpan groupCreateSpan = (GroupCreateSpan) arrayList.get(i2);
                     this.animAddingSpans.add(groupCreateSpan);
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_X, 1.0f, 0.01f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_Y, 1.0f, 0.01f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.ALPHA, 1.0f, 0.0f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, (Property<GroupCreateSpan, Float>) View.SCALE_X, 1.0f, 0.01f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, (Property<GroupCreateSpan, Float>) View.SCALE_Y, 1.0f, 0.01f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, (Property<GroupCreateSpan, Float>) View.ALPHA, 1.0f, 0.0f));
                 }
             } else {
                 for (int i3 = 0; i3 < arrayList.size(); i3++) {
@@ -361,9 +363,9 @@ public abstract class SelectorSearchCell extends ScrollView {
             this.animRemovingSpans.clear();
             this.animAddingSpans.add(groupCreateSpan);
             this.animators.clear();
-            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_X, 1.0f, 0.01f));
-            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_Y, 1.0f, 0.01f));
-            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.ALPHA, 1.0f, 0.0f));
+            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, (Property<GroupCreateSpan, Float>) View.SCALE_X, 1.0f, 0.01f));
+            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, (Property<GroupCreateSpan, Float>) View.SCALE_Y, 1.0f, 0.01f));
+            this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, (Property<GroupCreateSpan, Float>) View.ALPHA, 1.0f, 0.0f));
             requestLayout();
         }
 
@@ -407,16 +409,16 @@ public abstract class SelectorSearchCell extends ScrollView {
                 for (int i2 = 0; i2 < arrayList.size(); i2++) {
                     GroupCreateSpan groupCreateSpan = (GroupCreateSpan) arrayList.get(i2);
                     this.animRemovingSpans.add(groupCreateSpan);
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_X, 1.0f, 0.01f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.SCALE_Y, 1.0f, 0.01f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, View.ALPHA, 1.0f, 0.0f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, (Property<GroupCreateSpan, Float>) View.SCALE_X, 1.0f, 0.01f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, (Property<GroupCreateSpan, Float>) View.SCALE_Y, 1.0f, 0.01f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan, (Property<GroupCreateSpan, Float>) View.ALPHA, 1.0f, 0.0f));
                 }
                 for (int i3 = 0; i3 < arrayList2.size(); i3++) {
                     GroupCreateSpan groupCreateSpan2 = (GroupCreateSpan) arrayList2.get(i3);
                     this.animAddingSpans.add(groupCreateSpan2);
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, View.SCALE_X, 0.01f, 1.0f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, View.SCALE_Y, 0.01f, 1.0f));
-                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, View.ALPHA, 0.0f, 1.0f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, (Property<GroupCreateSpan, Float>) View.SCALE_X, 0.01f, 1.0f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, (Property<GroupCreateSpan, Float>) View.SCALE_Y, 0.01f, 1.0f));
+                    this.animators.add(ObjectAnimator.ofFloat(groupCreateSpan2, (Property<GroupCreateSpan, Float>) View.ALPHA, 0.0f, 1.0f));
                 }
             } else {
                 for (int i4 = 0; i4 < arrayList.size(); i4++) {
@@ -530,7 +532,7 @@ public abstract class SelectorSearchCell extends ScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: onDeleteSpanClicked */
+    /* renamed from: onDeleteSpanClicked, reason: merged with bridge method [inline-methods] */
     public void lambda$updateSpans$0(View view, HashSet hashSet, Runnable runnable) {
         if (this.allSpans.contains(view)) {
             GroupCreateSpan groupCreateSpan = (GroupCreateSpan) view;
@@ -553,23 +555,22 @@ public abstract class SelectorSearchCell extends ScrollView {
 
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
-        int scrollY;
-        float scrollY2 = getScrollY();
-        canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, NotificationCenter.closeSearchByActiveAction, 31);
+        float scrollY = getScrollY();
+        canvas.saveLayerAlpha(0.0f, scrollY, getWidth(), getHeight() + r0, NotificationCenter.closeSearchByActiveAction, 31);
         super.dispatchDraw(canvas);
         canvas.save();
         float f = this.topGradientAlpha.set(canScrollVertically(-1));
         this.topGradientMatrix.reset();
-        this.topGradientMatrix.postTranslate(0.0f, scrollY2);
+        this.topGradientMatrix.postTranslate(0.0f, scrollY);
         this.topGradient.setLocalMatrix(this.topGradientMatrix);
         this.topGradientPaint.setAlpha((int) (f * 255.0f));
-        canvas.drawRect(0.0f, scrollY2, getWidth(), AndroidUtilities.dp(8.0f) + scrollY, this.topGradientPaint);
+        canvas.drawRect(0.0f, scrollY, getWidth(), AndroidUtilities.dp(8.0f) + r0, this.topGradientPaint);
         float f2 = this.bottomGradientAlpha.set(canScrollVertically(1));
         this.bottomGradientMatrix.reset();
-        this.bottomGradientMatrix.postTranslate(0.0f, (getHeight() + scrollY) - AndroidUtilities.dp(8.0f));
+        this.bottomGradientMatrix.postTranslate(0.0f, (getHeight() + r0) - AndroidUtilities.dp(8.0f));
         this.bottomGradient.setLocalMatrix(this.bottomGradientMatrix);
         this.bottomGradientPaint.setAlpha((int) (f2 * 255.0f));
-        canvas.drawRect(0.0f, (getHeight() + scrollY) - AndroidUtilities.dp(8.0f), getWidth(), scrollY + getHeight(), this.bottomGradientPaint);
+        canvas.drawRect(0.0f, (getHeight() + r0) - AndroidUtilities.dp(8.0f), getWidth(), r0 + getHeight(), this.bottomGradientPaint);
         canvas.restore();
         canvas.restore();
     }
@@ -634,7 +635,7 @@ public abstract class SelectorSearchCell extends ScrollView {
     }
 
     public void updateSpans(boolean z, final HashSet hashSet, final Runnable runnable, List list) {
-        TLRPC.TL_help_country tL_help_country;
+        Object obj;
         MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
@@ -655,16 +656,16 @@ public abstract class SelectorSearchCell extends ScrollView {
                     if (list != null) {
                         Iterator it2 = list.iterator();
                         while (it2.hasNext()) {
-                            TLRPC.TL_help_country tL_help_country2 = (TLRPC.TL_help_country) it2.next();
-                            if (tL_help_country2.default_name.hashCode() == longValue) {
-                                tL_help_country = tL_help_country2;
+                            TLRPC.TL_help_country tL_help_country = (TLRPC.TL_help_country) it2.next();
+                            if (tL_help_country.default_name.hashCode() == longValue) {
+                                obj = tL_help_country;
                                 break;
                             }
                         }
                     }
-                    tL_help_country = user;
-                    if (tL_help_country != null) {
-                        GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), tL_help_country, null, true, this.resourcesProvider);
+                    obj = user;
+                    if (obj != null) {
+                        GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), obj, null, true, this.resourcesProvider);
                         groupCreateSpan2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda1
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {

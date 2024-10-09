@@ -2,6 +2,7 @@ package com.android.billingclient.api;
 
 import android.content.Context;
 import android.content.IntentFilter;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzh {
@@ -15,9 +16,10 @@ public final class zzh {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Multi-variable type inference failed */
     public zzh(Context context, zzaz zzazVar, zzar zzarVar) {
         this.zza = context;
-        this.zzb = new zzg(this, null, zzarVar, null);
+        this.zzb = new zzg(this, null, zzarVar, 0 == true ? 1 : 0);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

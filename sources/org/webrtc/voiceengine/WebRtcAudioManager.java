@@ -9,6 +9,7 @@ import java.util.TimerTask;
 import org.webrtc.ContextUtils;
 import org.webrtc.Logging;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes.dex */
 public class WebRtcAudioManager {
     private static final int BITS_PER_SAMPLE = 16;
@@ -68,9 +69,10 @@ public class WebRtcAudioManager {
                     sb.append(VolumeLogger.this.audioManager.getStreamVolume(2));
                     sb.append(" (max=");
                     i = this.maxRingVolume;
-                } else if (mode != 3) {
-                    return;
                 } else {
+                    if (mode != 3) {
+                        return;
+                    }
                     sb = new StringBuilder();
                     sb.append("VOICE_CALL stream volume: ");
                     sb.append(VolumeLogger.this.audioManager.getStreamVolume(0));
@@ -153,14 +155,14 @@ public class WebRtcAudioManager {
         if (WebRtcAudioUtils.runningOnEmulator()) {
             Logging.d(TAG, "Running emulator, overriding sample rate to 8 kHz.");
             return 8000;
-        } else if (WebRtcAudioUtils.isDefaultSampleRateOverridden()) {
+        }
+        if (WebRtcAudioUtils.isDefaultSampleRateOverridden()) {
             Logging.d(TAG, "Default sample rate is overriden to " + WebRtcAudioUtils.getDefaultSampleRateHz() + " Hz");
             return WebRtcAudioUtils.getDefaultSampleRateHz();
-        } else {
-            int sampleRateForApiLevel = getSampleRateForApiLevel();
-            Logging.d(TAG, "Sample rate is set to " + sampleRateForApiLevel + " Hz");
-            return sampleRateForApiLevel;
         }
+        int sampleRateForApiLevel = getSampleRateForApiLevel();
+        Logging.d(TAG, "Sample rate is set to " + sampleRateForApiLevel + " Hz");
+        return sampleRateForApiLevel;
     }
 
     private int getSampleRateForApiLevel() {
@@ -213,10 +215,10 @@ public class WebRtcAudioManager {
     }
 
     private boolean isDeviceBlacklistedForOpenSLESUsage() {
-        if (blacklistDeviceForOpenSLESUsageIsOverridden ? blacklistDeviceForOpenSLESUsage : WebRtcAudioUtils.deviceIsBlacklistedForOpenSLESUsage()) {
-            Logging.d(TAG, Build.MODEL + " is blacklisted for OpenSL ES usage!");
+        if (!(blacklistDeviceForOpenSLESUsageIsOverridden ? blacklistDeviceForOpenSLESUsage : WebRtcAudioUtils.deviceIsBlacklistedForOpenSLESUsage())) {
             return true;
         }
+        Logging.d(TAG, Build.MODEL + " is blacklisted for OpenSL ES usage!");
         return true;
     }
 

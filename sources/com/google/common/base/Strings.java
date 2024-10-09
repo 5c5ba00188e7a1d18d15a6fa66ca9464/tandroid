@@ -2,6 +2,7 @@ package com.google.common.base;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public abstract class Strings {
     public static String lenientFormat(String str, Object... objArr) {

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class VideoFrameReleaseHelper {
     private int changeFrameRateStrategy;
@@ -207,15 +208,16 @@ public final class VideoFrameReleaseHelper {
             if (i == 0) {
                 createChoreographerInstanceInternal();
                 return true;
-            } else if (i == 1) {
+            }
+            if (i == 1) {
                 addObserverInternal();
                 return true;
-            } else if (i != 2) {
-                return false;
-            } else {
-                removeObserverInternal();
-                return true;
             }
+            if (i != 2) {
+                return false;
+            }
+            removeObserverInternal();
+            return true;
         }
 
         public void removeObserver() {
@@ -260,12 +262,12 @@ public final class VideoFrameReleaseHelper {
     }
 
     private static DisplayHelper maybeBuildDisplayHelper(Context context) {
-        if (context != null) {
-            Context applicationContext = context.getApplicationContext();
-            DisplayHelper maybeBuildNewInstance = Util.SDK_INT >= 17 ? DisplayHelperV17.maybeBuildNewInstance(applicationContext) : null;
-            return maybeBuildNewInstance == null ? DisplayHelperV16.maybeBuildNewInstance(applicationContext) : maybeBuildNewInstance;
+        if (context == null) {
+            return null;
         }
-        return null;
+        Context applicationContext = context.getApplicationContext();
+        DisplayHelper maybeBuildNewInstance = Util.SDK_INT >= 17 ? DisplayHelperV17.maybeBuildNewInstance(applicationContext) : null;
+        return maybeBuildNewInstance == null ? DisplayHelperV16.maybeBuildNewInstance(applicationContext) : maybeBuildNewInstance;
     }
 
     private void resetAdjustment() {

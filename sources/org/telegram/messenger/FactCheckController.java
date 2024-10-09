@@ -42,6 +42,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class FactCheckController {
     private static AlertDialog currentDialog;
@@ -115,15 +116,15 @@ public class FactCheckController {
         }
         if (arrayList == null || arrayList.isEmpty()) {
             callback.run(new ArrayList<>());
-            return;
+        } else {
+            final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
+            messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda12
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FactCheckController.lambda$getFromDatabase$5(MessagesStorage.this, arrayList, callback);
+                }
+            });
         }
-        final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda12
-            @Override // java.lang.Runnable
-            public final void run() {
-                FactCheckController.lambda$getFromDatabase$5(MessagesStorage.this, arrayList, callback);
-            }
-        });
     }
 
     public static FactCheckController getInstance(int i) {
@@ -148,11 +149,10 @@ public class FactCheckController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$applyFactCheck$14(TLObject tLObject, TLRPC.TL_textWithEntities tL_textWithEntities, boolean z, AlertDialog alertDialog) {
         if (tLObject instanceof TLRPC.Updates) {
-            boolean z2 = false;
             MessagesController.getInstance(this.currentAccount).processUpdates((TLRPC.Updates) tLObject, false);
             BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
             if (safeLastFragment != null) {
-                z2 = (tL_textWithEntities == null || TextUtils.isEmpty(tL_textWithEntities.text)) ? true : true;
+                boolean z2 = tL_textWithEntities == null || TextUtils.isEmpty(tL_textWithEntities.text);
                 if (z2 || !z) {
                     BulletinFactory.of(safeLastFragment).createSimpleBulletin(z2 ? R.raw.ic_delete : R.raw.contact_check, LocaleController.getString(z2 ? R.string.FactCheckDeleted : R.string.FactCheckEdited)).show();
                 }
@@ -174,8 +174,7 @@ public class FactCheckController {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$clearExpiredInDatabase$7(MessagesStorage messagesStorage) {
         try {
-            SQLiteDatabase database = messagesStorage.getDatabase();
-            database.executeFast("DELETE FROM fact_checks WHERE expires > " + System.currentTimeMillis()).stepThis().dispose();
+            messagesStorage.getDatabase().executeFast("DELETE FROM fact_checks WHERE expires > " + System.currentTimeMillis()).stepThis().dispose();
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -427,9 +426,10 @@ public class FactCheckController {
             tL_editFactCheck.msg_id = messageObject.getId();
             tL_editFactCheck.text = tL_textWithEntities;
             tL_deleteFactCheck = tL_editFactCheck;
-        } else if (z) {
-            return;
         } else {
+            if (z) {
+                return;
+            }
             TLRPC.TL_deleteFactCheck tL_deleteFactCheck2 = new TLRPC.TL_deleteFactCheck();
             tL_deleteFactCheck2.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(messageObject.getDialogId());
             tL_deleteFactCheck2.msg_id = messageObject.getId();
@@ -464,7 +464,8 @@ public class FactCheckController {
             if (tL_factCheck2 != null) {
                 messageObject.messageOwner.factcheck = tL_factCheck2;
                 return tL_factCheck2;
-            } else if (!this.loading.contains(of)) {
+            }
+            if (!this.loading.contains(of)) {
                 HashMap<Key, Utilities.Callback<TLRPC.TL_factCheck>> hashMap = this.toload.get(of.dialogId);
                 if (hashMap == null) {
                     LongSparseArray<HashMap<Key, Utilities.Callback<TLRPC.TL_factCheck>>> longSparseArray = this.toload;
@@ -541,7 +542,7 @@ public class FactCheckController {
                     return;
                 }
                 if (Build.VERSION.SDK_INT >= 23) {
-                    menu.removeItem(16908341);
+                    menu.removeItem(android.R.id.shareText);
                 }
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.Bold));
                 spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableStringBuilder.length(), 33);
@@ -581,31 +582,31 @@ public class FactCheckController {
         editTextCaption.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.messenger.FactCheckController.2
             @Override // android.widget.TextView.OnEditorActionListener
             public boolean onEditorAction(TextView textView, int i2, KeyEvent keyEvent) {
-                if (i2 == 6) {
-                    if (editTextCaption.getText().toString().length() > i) {
-                        AndroidUtilities.shakeView(editTextCaption);
-                        return true;
-                    }
-                    TLRPC.TL_textWithEntities tL_textWithEntities2 = new TLRPC.TL_textWithEntities();
-                    CharSequence[] charSequenceArr = {editTextCaption.getText()};
-                    tL_textWithEntities2.entities = MediaDataController.getInstance(FactCheckController.this.currentAccount).getEntities(charSequenceArr, true);
-                    CharSequence charSequence = charSequenceArr[0];
-                    tL_textWithEntities2.text = charSequence == null ? "" : charSequence.toString();
-                    FactCheckController.this.applyFactCheck(messageObject, tL_textWithEntities2, z4);
-                    AlertDialog alertDialog = alertDialogArr[0];
-                    if (alertDialog != null) {
-                        alertDialog.dismiss();
-                    }
-                    if (alertDialogArr[0] == FactCheckController.currentDialog) {
-                        AlertDialog unused = FactCheckController.currentDialog = null;
-                    }
-                    View view2 = view;
-                    if (view2 != null) {
-                        view2.requestFocus();
-                    }
+                if (i2 != 6) {
+                    return false;
+                }
+                if (editTextCaption.getText().toString().length() > i) {
+                    AndroidUtilities.shakeView(editTextCaption);
                     return true;
                 }
-                return false;
+                TLRPC.TL_textWithEntities tL_textWithEntities2 = new TLRPC.TL_textWithEntities();
+                CharSequence[] charSequenceArr = {editTextCaption.getText()};
+                tL_textWithEntities2.entities = MediaDataController.getInstance(FactCheckController.this.currentAccount).getEntities(charSequenceArr, true);
+                CharSequence charSequence = charSequenceArr[0];
+                tL_textWithEntities2.text = charSequence == null ? "" : charSequence.toString();
+                FactCheckController.this.applyFactCheck(messageObject, tL_textWithEntities2, z4);
+                AlertDialog alertDialog = alertDialogArr[0];
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
+                }
+                if (alertDialogArr[0] == FactCheckController.currentDialog) {
+                    AlertDialog unused = FactCheckController.currentDialog = null;
+                }
+                View view2 = view;
+                if (view2 != null) {
+                    view2.requestFocus();
+                }
+                return true;
             }
         });
         MediaDataController.getInstance(this.currentAccount).fetchNewEmojiKeywords(AndroidUtilities.getCurrentKeyboardLanguage(), true);

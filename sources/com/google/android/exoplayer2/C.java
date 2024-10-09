@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2;
 
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public abstract class C {
     public static final UUID UUID_NIL = new UUID(0, 0);

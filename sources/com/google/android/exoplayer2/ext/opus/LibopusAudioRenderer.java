@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.audio.DecoderAudioRenderer;
 import com.google.android.exoplayer2.decoder.CryptoConfig;
 import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public class LibopusAudioRenderer extends DecoderAudioRenderer {
     private static final int DEFAULT_INPUT_BUFFER_SIZE = 5760;
@@ -63,12 +64,12 @@ public class LibopusAudioRenderer extends DecoderAudioRenderer {
     @Override // com.google.android.exoplayer2.audio.DecoderAudioRenderer
     protected int supportsFormatInternal(Format format) {
         boolean supportsCryptoType = OpusLibrary.supportsCryptoType(format.cryptoType);
-        if (OpusLibrary.isAvailable() && "audio/opus".equalsIgnoreCase(format.sampleMimeType)) {
-            if (sinkSupportsFormat(Util.getPcmFormat(2, format.channelCount, format.sampleRate))) {
-                return !supportsCryptoType ? 2 : 4;
-            }
-            return 1;
+        if (!OpusLibrary.isAvailable() || !"audio/opus".equalsIgnoreCase(format.sampleMimeType)) {
+            return 0;
         }
-        return 0;
+        if (sinkSupportsFormat(Util.getPcmFormat(2, format.channelCount, format.sampleRate))) {
+            return !supportsCryptoType ? 2 : 4;
+        }
+        return 1;
     }
 }

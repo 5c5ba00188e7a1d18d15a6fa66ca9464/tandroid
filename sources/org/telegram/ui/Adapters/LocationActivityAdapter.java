@@ -29,6 +29,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.LocationActivity;
+
 /* loaded from: classes4.dex */
 public class LocationActivityAdapter extends BaseLocationAdapter implements LocationController.LocationFetchCallback {
     private String addressName;
@@ -85,8 +86,9 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
         onDirectionClick();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x00fd, code lost:
-        if (r9.myLocationDenied == false) goto L47;
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x00fd, code lost:
+    
+        if (r9.myLocationDenied == false) goto L53;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -137,11 +139,12 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                         i = R.string.SendSelectedLocation;
                     }
                     sendLocationCell.setText(LocaleController.getString(i), str);
-                } else if (this.gpsLocation == null) {
-                    sendLocationCell2.setText(LocaleController.getString(R.string.SendLocation), this.myLocationDenied ? "" : LocaleController.getString(R.string.Loading));
-                    this.sendLocationCell.setHasLocation(!this.myLocationDenied);
-                    return;
                 } else {
+                    if (this.gpsLocation == null) {
+                        sendLocationCell2.setText(LocaleController.getString(R.string.SendLocation), this.myLocationDenied ? "" : LocaleController.getString(R.string.Loading));
+                        this.sendLocationCell.setHasLocation(!this.myLocationDenied);
+                        return;
+                    }
                     sendLocationCell2.setText(LocaleController.getString(R.string.SendLocation), LocaleController.formatString(R.string.AccurateTo, LocaleController.formatPluralString("Meters", (int) this.gpsLocation.getAccuracy(), new Object[0])));
                 }
             }
@@ -162,20 +165,21 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
             this.fetchingLocation = true;
             updateCell();
             i = this.biz;
-        } else if (i2 == 4) {
-            Location location2 = this.customLocation;
-            if (location2 == null && (location2 = this.gpsLocation) == null) {
+        } else {
+            if (i2 == 4) {
+                Location location2 = this.customLocation;
+                if (location2 == null && (location2 = this.gpsLocation) == null) {
+                    return;
+                }
+                Location location3 = this.previousFetchedLocation;
+                if (location3 == null || location3.distanceTo(location2) > 100.0f) {
+                    this.addressName = null;
+                }
+                this.fetchingLocation = true;
+                updateCell();
+                LocationController.fetchLocationAddress(location2, this);
                 return;
             }
-            Location location3 = this.previousFetchedLocation;
-            if (location3 == null || location3.distanceTo(location2) > 100.0f) {
-                this.addressName = null;
-            }
-            this.fetchingLocation = true;
-            updateCell();
-            LocationController.fetchLocationAddress(location2, this);
-            return;
-        } else {
             location = this.customLocation;
             if (location == null) {
                 return;
@@ -290,7 +294,7 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 r1 = 2 + r5;
             } else if (i == 2) {
                 LocationController.SharingLocationInfo sharingLocationInfo = LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId);
-                r1 = this.currentLiveLocations.size() + 2 + ((sharingLocationInfo == null || sharingLocationInfo.period == Integer.MAX_VALUE) ? 0 : 0);
+                r1 = this.currentLiveLocations.size() + 2 + ((sharingLocationInfo == null || sharingLocationInfo.period == Integer.MAX_VALUE) ? 0 : 1);
             } else if (this.searching || !this.searched || this.places.isEmpty()) {
                 int i2 = this.locationType;
                 if (i2 == 0) {
@@ -307,8 +311,8 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
         return (this.sharedMediaLayout == null || !this.sharedMediaLayoutVisible) ? r1 : r1 + 1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:109:0x00ee A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x00ef  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x00ee A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x00ef  */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -340,9 +344,10 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 if (i == 2) {
                     return 9;
                 }
-            } else if (i == 2) {
-                return 10;
             } else {
+                if (i == 2) {
+                    return 10;
+                }
                 if (i == 3) {
                     return 2;
                 }
@@ -355,17 +360,17 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
         }
         int i4 = this.locationType;
         if (i4 == 2) {
-            if (i != 2 || sharingLocationInfo == null || sharingLocationInfo.period == Integer.MAX_VALUE) {
-                if (i == 1) {
-                    if (sharingLocationInfo == null || sharingLocationInfo.period != Integer.MAX_VALUE) {
-                        this.shareLiveLocationPotistion = i;
-                        return 6;
-                    }
-                    return 7;
-                }
+            if (i == 2 && sharingLocationInfo != null && sharingLocationInfo.period != Integer.MAX_VALUE) {
+                return 7;
+            }
+            if (i != 1) {
                 return 8;
             }
-            return 7;
+            if (sharingLocationInfo != null && sharingLocationInfo.period == Integer.MAX_VALUE) {
+                return 7;
+            }
+            this.shareLiveLocationPotistion = i;
+            return 6;
         }
         if (i4 != 1) {
             int size = this.places.size() + this.locations.size();
@@ -390,7 +395,8 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                     }
                     if (this.searching || (this.places.isEmpty() && this.locations.isEmpty())) {
                         return (i > 6 || (!this.searching && this.searched) || this.myLocationDenied) ? 4 : 3;
-                    } else if (i == size + i2) {
+                    }
+                    if (i == size + i2) {
                         return 5;
                     }
                 }
@@ -398,9 +404,10 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
             i2 = 4;
             if (i != 1) {
             }
-        } else if (i == 1) {
-            return 1;
         } else {
+            if (i == 1) {
+                return 1;
+            }
             if (i == 2) {
                 if (sharingLocationInfo != null) {
                     this.shareLiveLocationPotistion = -1;
@@ -408,17 +415,18 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 }
                 this.shareLiveLocationPotistion = i;
                 return 6;
-            } else if (i == 3) {
+            }
+            if (i == 3) {
                 return 10;
-            } else {
-                if (i == 4) {
-                    return 2;
-                }
-                if (this.searching || this.places.isEmpty() || !this.searched) {
-                    return (i > 7 || (!this.searching && this.searched) || this.myLocationDenied) ? 4 : 3;
-                } else if (i == this.places.size() + 5) {
-                    return 5;
-                }
+            }
+            if (i == 4) {
+                return 2;
+            }
+            if (this.searching || this.places.isEmpty() || !this.searched) {
+                return (i > 7 || (!this.searching && this.searched) || this.myLocationDenied) ? 4 : 3;
+            }
+            if (i == this.places.size() + 5) {
+                return 5;
             }
         }
         return 3;
@@ -478,10 +486,11 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                         tL_messageMediaVenue2 = (TLRPC.TL_messageMediaVenue) this.locations.get(i2);
                         locationCell.setLocation(tL_messageMediaVenue2, r3, true);
                         return;
-                    }
-                    int size = i2 - this.locations.size();
-                    if (size >= 0 && size < this.places.size()) {
-                        tL_messageMediaVenue2 = (TLRPC.TL_messageMediaVenue) this.places.get(size);
+                    } else {
+                        int size = i2 - this.locations.size();
+                        if (size >= 0 && size < this.places.size()) {
+                            tL_messageMediaVenue2 = (TLRPC.TL_messageMediaVenue) this.places.get(size);
+                        }
                     }
                 }
                 r3 = i2;
@@ -762,12 +771,12 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
     }
 
     public boolean setSharedMediaLayoutVisible(boolean z) {
-        if (this.sharedMediaLayoutVisible != z) {
-            this.sharedMediaLayoutVisible = z;
-            notifyDataSetChanged();
-            return true;
+        if (this.sharedMediaLayoutVisible == z) {
+            return false;
         }
-        return false;
+        this.sharedMediaLayoutVisible = z;
+        notifyDataSetChanged();
+        return true;
     }
 
     public void setUpdateRunnable(Runnable runnable) {

@@ -6,6 +6,7 @@ import android.util.Log;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 final class SharedPreferencesQueue {
     private final SharedPreferences sharedPreferences;
@@ -57,7 +58,7 @@ final class SharedPreferencesQueue {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: syncState */
+    /* renamed from: syncState, reason: merged with bridge method [inline-methods] */
     public void bridge$lambda$0$SharedPreferencesQueue() {
         synchronized (this.internalQueue) {
             this.sharedPreferences.edit().putString(this.queueName, serialize()).commit();

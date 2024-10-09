@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public final class MpegAudioReader implements ElementaryStreamReader {
     private String formatId;
@@ -89,10 +90,9 @@ public final class MpegAudioReader implements ElementaryStreamReader {
             this.state = 1;
             return;
         }
-        MpegAudioUtil.Header header = this.header;
-        this.frameSize = header.frameSize;
+        this.frameSize = this.header.frameSize;
         if (!this.hasOutputFormat) {
-            this.frameDurationUs = (header.samplesPerFrame * 1000000) / header.sampleRate;
+            this.frameDurationUs = (r8.samplesPerFrame * 1000000) / r8.sampleRate;
             this.output.format(new Format.Builder().setId(this.formatId).setSampleMimeType(this.header.mimeType).setMaxInputSize(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM).setChannelCount(this.header.channels).setSampleRate(this.header.sampleRate).setLanguage(this.language).build());
             this.hasOutputFormat = true;
         }
@@ -110,9 +110,10 @@ public final class MpegAudioReader implements ElementaryStreamReader {
                 findHeader(parsableByteArray);
             } else if (i == 1) {
                 readHeaderRemainder(parsableByteArray);
-            } else if (i != 2) {
-                throw new IllegalStateException();
             } else {
+                if (i != 2) {
+                    throw new IllegalStateException();
+                }
                 readFrameRemainder(parsableByteArray);
             }
         }

@@ -1,4 +1,5 @@
 package androidx.core.util;
+
 /* loaded from: classes.dex */
 public abstract class DebugUtils {
     public static void buildShortClassTag(Object obj, StringBuilder sb) {

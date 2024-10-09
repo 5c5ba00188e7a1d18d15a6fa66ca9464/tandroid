@@ -3,6 +3,7 @@ package androidx.emoji2.text;
 import android.graphics.Paint;
 import android.text.style.ReplacementSpan;
 import androidx.core.util.Preconditions;
+
 /* loaded from: classes.dex */
 public abstract class EmojiSpan extends ReplacementSpan {
     private final EmojiMetadata mMetadata;

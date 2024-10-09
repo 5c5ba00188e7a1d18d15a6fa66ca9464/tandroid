@@ -4,6 +4,7 @@ import android.content.Context;
 import com.google.android.datatransport.runtime.dagger.internal.Factory;
 import com.google.android.datatransport.runtime.time.Clock;
 import javax.inject.Provider;
+
 /* loaded from: classes.dex */
 public final class CreationContextFactory_Factory implements Factory {
     private final Provider applicationContextProvider;

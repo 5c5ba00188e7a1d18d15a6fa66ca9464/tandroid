@@ -1,4 +1,5 @@
 package androidx.appcompat;
+
 /* loaded from: classes.dex */
 public abstract class R$string {
     public static final int abc_action_bar_up_description = 2131697570;

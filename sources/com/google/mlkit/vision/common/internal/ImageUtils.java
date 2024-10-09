@@ -9,6 +9,7 @@ import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.mlkit.common.MlKitException;
 import com.google.mlkit.vision.common.InputImage;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public class ImageUtils {
     private static final GmsLogger zza = new GmsLogger("MLKitImageUtils", "");
@@ -29,8 +30,7 @@ public class ImageUtils {
                 if (format == 35) {
                     obj = inputImage.getMediaImage();
                 } else if (format != 842094169) {
-                    int format2 = inputImage.getFormat();
-                    throw new MlKitException("Unsupported image format: " + format2, 3);
+                    throw new MlKitException("Unsupported image format: " + inputImage.getFormat(), 3);
                 }
             }
             obj = (ByteBuffer) Preconditions.checkNotNull(inputImage.getByteBuffer());

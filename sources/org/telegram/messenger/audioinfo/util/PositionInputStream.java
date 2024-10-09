@@ -2,6 +2,7 @@ package org.telegram.messenger.audioinfo.util;
 
 import java.io.FilterInputStream;
 import java.io.InputStream;
+
 /* loaded from: classes3.dex */
 public class PositionInputStream extends FilterInputStream {
     private long position;

@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
 import com.google.android.exoplayer2.util.Log;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NativeLoader;
+
 /* loaded from: classes.dex */
 public final class FfmpegLibrary {
     private static final String TAG = "FfmpegLibrary";
@@ -177,23 +178,23 @@ public final class FfmpegLibrary {
     }
 
     public static int getInputBufferPaddingSize() {
-        if (isAvailable()) {
-            if (inputBufferPaddingSize == -1) {
-                inputBufferPaddingSize = ffmpegGetInputBufferPaddingSize();
-            }
-            return inputBufferPaddingSize;
+        if (!isAvailable()) {
+            return -1;
         }
-        return -1;
+        if (inputBufferPaddingSize == -1) {
+            inputBufferPaddingSize = ffmpegGetInputBufferPaddingSize();
+        }
+        return inputBufferPaddingSize;
     }
 
     public static String getVersion() {
-        if (isAvailable()) {
-            if (version == null) {
-                version = ffmpegGetVersion();
-            }
-            return version;
+        if (!isAvailable()) {
+            return null;
         }
-        return null;
+        if (version == null) {
+            version = ffmpegGetVersion();
+        }
+        return version;
     }
 
     public static boolean isAvailable() {
@@ -205,13 +206,13 @@ public final class FfmpegLibrary {
 
     public static boolean supportsFormat(String str) {
         String codecName;
-        if (isAvailable() && (codecName = getCodecName(str)) != null) {
-            if (ffmpegHasDecoder(codecName)) {
-                return true;
-            }
-            Log.w(TAG, "No " + codecName + " decoder available. Check the FFmpeg build configuration.");
+        if (!isAvailable() || (codecName = getCodecName(str)) == null) {
             return false;
         }
+        if (ffmpegHasDecoder(codecName)) {
+            return true;
+        }
+        Log.w(TAG, "No " + codecName + " decoder available. Check the FFmpeg build configuration.");
         return false;
     }
 }

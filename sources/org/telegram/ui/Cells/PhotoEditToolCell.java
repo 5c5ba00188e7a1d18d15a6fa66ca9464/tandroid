@@ -15,6 +15,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PhotoEditorSeekBar;
+
 /* loaded from: classes4.dex */
 public class PhotoEditToolCell extends FrameLayout {
     private Runnable hideValueRunnable;
@@ -34,7 +35,7 @@ public class PhotoEditToolCell extends FrameLayout {
                 AnimatorSet animatorSet = PhotoEditToolCell.this.valueAnimation;
                 TextView textView = PhotoEditToolCell.this.valueTextView;
                 Property property = View.ALPHA;
-                animatorSet.playTogether(ObjectAnimator.ofFloat(textView, property, 0.0f), ObjectAnimator.ofFloat(PhotoEditToolCell.this.nameTextView, property, 1.0f));
+                animatorSet.playTogether(ObjectAnimator.ofFloat(textView, (Property<TextView, Float>) property, 0.0f), ObjectAnimator.ofFloat(PhotoEditToolCell.this.nameTextView, (Property<TextView, Float>) property, 1.0f));
                 PhotoEditToolCell.this.valueAnimation.setDuration(250L);
                 PhotoEditToolCell.this.valueAnimation.setInterpolator(new DecelerateInterpolator());
                 PhotoEditToolCell.this.valueAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.1.1
@@ -104,7 +105,7 @@ public class PhotoEditToolCell extends FrameLayout {
         this.valueAnimation = animatorSet2;
         TextView textView2 = this.valueTextView;
         Property property = View.ALPHA;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(textView2, property, 1.0f), ObjectAnimator.ofFloat(this.nameTextView, property, 0.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(textView2, (Property<TextView, Float>) property, 1.0f), ObjectAnimator.ofFloat(this.nameTextView, (Property<TextView, Float>) property, 0.0f));
         this.valueAnimation.setDuration(250L);
         this.valueAnimation.setInterpolator(new DecelerateInterpolator());
         this.valueAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.2
@@ -132,8 +133,7 @@ public class PhotoEditToolCell extends FrameLayout {
         }
         AndroidUtilities.cancelRunOnUIThread(this.hideValueRunnable);
         this.valueTextView.setTag(null);
-        TextView textView2 = this.nameTextView;
-        textView2.setText(str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase());
+        this.nameTextView.setText(str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase());
         if (f > 0.0f) {
             textView = this.valueTextView;
             sb = new StringBuilder();

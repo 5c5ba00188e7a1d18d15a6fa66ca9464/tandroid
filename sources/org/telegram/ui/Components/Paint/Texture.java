@@ -9,6 +9,7 @@ import java.nio.IntBuffer;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.Size;
+
 /* loaded from: classes3.dex */
 public class Texture {
     private Bitmap bitmap;
@@ -84,8 +85,9 @@ public class Texture {
         }
         if (!this.bitmap.isRecycled() && Build.VERSION.SDK_INT <= 28) {
             int pixel = this.bitmap.getPixel(0, 0);
+            int i6 = ((-16711936) & pixel) | ((pixel & NotificationCenter.closeSearchByActiveAction) << 16) | ((pixel >> 16) & NotificationCenter.closeSearchByActiveAction);
             ByteBuffer allocateDirect = ByteBuffer.allocateDirect(4);
-            allocateDirect.putInt(((-16711936) & pixel) | ((pixel & NotificationCenter.closeSearchByActiveAction) << 16) | ((pixel >> 16) & NotificationCenter.closeSearchByActiveAction)).position(0);
+            allocateDirect.putInt(i6).position(0);
             GLES20.glTexSubImage2D(3553, 0, 0, 0, 1, 1, 6408, 5121, allocateDirect);
         }
         Utils.HasGLError();

@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class AdPlaybackState implements Bundleable {
     public final int adGroupCount;
@@ -149,9 +150,11 @@ public final class AdPlaybackState implements Bundleable {
         }
 
         public int hashCode() {
+            int i = ((this.count * 31) + this.originalCount) * 31;
             long j = this.timeUs;
+            int hashCode = (((((((i + ((int) (j ^ (j >>> 32)))) * 31) + Arrays.hashCode(this.uris)) * 31) + Arrays.hashCode(this.states)) * 31) + Arrays.hashCode(this.durationsUs)) * 31;
             long j2 = this.contentResumeOffsetUs;
-            return (((((((((((((this.count * 31) + this.originalCount) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + Arrays.hashCode(this.uris)) * 31) + Arrays.hashCode(this.states)) * 31) + Arrays.hashCode(this.durationsUs)) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.isServerSideInserted ? 1 : 0);
+            return ((hashCode + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.isServerSideInserted ? 1 : 0);
         }
 
         public boolean shouldPlayAdGroup() {
@@ -231,18 +234,18 @@ public final class AdPlaybackState implements Bundleable {
     }
 
     public int getAdGroupIndexAfterPositionUs(long j, long j2) {
-        if (j != Long.MIN_VALUE) {
-            if (j2 == -9223372036854775807L || j < j2) {
-                int i = this.removedAdGroupCount;
-                while (i < this.adGroupCount && ((getAdGroup(i).timeUs != Long.MIN_VALUE && getAdGroup(i).timeUs <= j) || !getAdGroup(i).shouldPlayAdGroup())) {
-                    i++;
-                }
-                if (i < this.adGroupCount) {
-                    return i;
-                }
-                return -1;
-            }
+        if (j == Long.MIN_VALUE) {
             return -1;
+        }
+        if (j2 != -9223372036854775807L && j >= j2) {
+            return -1;
+        }
+        int i = this.removedAdGroupCount;
+        while (i < this.adGroupCount && ((getAdGroup(i).timeUs != Long.MIN_VALUE && getAdGroup(i).timeUs <= j) || !getAdGroup(i).shouldPlayAdGroup())) {
+            i++;
+        }
+        if (i < this.adGroupCount) {
+            return i;
         }
         return -1;
     }

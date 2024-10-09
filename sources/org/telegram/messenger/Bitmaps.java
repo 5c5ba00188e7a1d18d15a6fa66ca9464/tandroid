@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
+
 /* loaded from: classes3.dex */
 public class Bitmaps {
     private static volatile Matrix sScaleMatrix;
@@ -107,53 +108,53 @@ public class Bitmaps {
         checkXYSign(i, i2);
         checkWidthHeight(i3, i4);
         int i6 = i + i3;
-        if (i6 <= bitmap.getWidth()) {
-            int i7 = i2 + i4;
-            if (i7 <= bitmap.getHeight()) {
-                if (!bitmap.isMutable() && i == 0 && i2 == 0 && i3 == bitmap.getWidth() && i4 == bitmap.getHeight() && (matrix == null || matrix.isIdentity())) {
-                    return bitmap;
-                }
-                Canvas canvas = new Canvas();
-                Rect rect = new Rect(i, i2, i6, i7);
-                RectF rectF = new RectF(0.0f, 0.0f, i3, i4);
-                Bitmap.Config config = Bitmap.Config.ARGB_8888;
-                Bitmap.Config config2 = bitmap.getConfig();
-                Bitmap.Config config3 = (config2 == null || (i5 = 2.$SwitchMap$android$graphics$Bitmap$Config[config2.ordinal()]) == 1 || i5 != 2) ? config : Bitmap.Config.ALPHA_8;
-                if (matrix == null || matrix.isIdentity()) {
-                    createBitmap = createBitmap(i3, i4, config3);
-                    paint = null;
-                } else {
-                    boolean z2 = !matrix.rectStaysRect();
-                    RectF rectF2 = new RectF();
-                    matrix.mapRect(rectF2, rectF);
-                    int round = Math.round(rectF2.width());
-                    int round2 = Math.round(rectF2.height());
-                    if (!z2) {
-                        config = config3;
-                    }
-                    createBitmap = createBitmap(round, round2, config);
-                    canvas.translate(-rectF2.left, -rectF2.top);
-                    canvas.concat(matrix);
-                    paint = new Paint();
-                    paint.setFilterBitmap(z);
-                    if (z2) {
-                        paint.setAntiAlias(true);
-                    }
-                }
-                createBitmap.setDensity(bitmap.getDensity());
-                createBitmap.setHasAlpha(bitmap.hasAlpha());
-                createBitmap.setPremultiplied(bitmap.isPremultiplied());
-                canvas.setBitmap(createBitmap);
-                canvas.drawBitmap(bitmap, rect, rectF, paint);
-                try {
-                    canvas.setBitmap(null);
-                } catch (Exception unused) {
-                }
-                return createBitmap;
-            }
+        if (i6 > bitmap.getWidth()) {
+            throw new IllegalArgumentException("x + width must be <= bitmap.width()");
+        }
+        int i7 = i2 + i4;
+        if (i7 > bitmap.getHeight()) {
             throw new IllegalArgumentException("y + height must be <= bitmap.height()");
         }
-        throw new IllegalArgumentException("x + width must be <= bitmap.width()");
+        if (!bitmap.isMutable() && i == 0 && i2 == 0 && i3 == bitmap.getWidth() && i4 == bitmap.getHeight() && (matrix == null || matrix.isIdentity())) {
+            return bitmap;
+        }
+        Canvas canvas = new Canvas();
+        Rect rect = new Rect(i, i2, i6, i7);
+        RectF rectF = new RectF(0.0f, 0.0f, i3, i4);
+        Bitmap.Config config = Bitmap.Config.ARGB_8888;
+        Bitmap.Config config2 = bitmap.getConfig();
+        Bitmap.Config config3 = (config2 == null || (i5 = 2.$SwitchMap$android$graphics$Bitmap$Config[config2.ordinal()]) == 1 || i5 != 2) ? config : Bitmap.Config.ALPHA_8;
+        if (matrix == null || matrix.isIdentity()) {
+            createBitmap = createBitmap(i3, i4, config3);
+            paint = null;
+        } else {
+            boolean z2 = !matrix.rectStaysRect();
+            RectF rectF2 = new RectF();
+            matrix.mapRect(rectF2, rectF);
+            int round = Math.round(rectF2.width());
+            int round2 = Math.round(rectF2.height());
+            if (!z2) {
+                config = config3;
+            }
+            createBitmap = createBitmap(round, round2, config);
+            canvas.translate(-rectF2.left, -rectF2.top);
+            canvas.concat(matrix);
+            paint = new Paint();
+            paint.setFilterBitmap(z);
+            if (z2) {
+                paint.setAntiAlias(true);
+            }
+        }
+        createBitmap.setDensity(bitmap.getDensity());
+        createBitmap.setHasAlpha(bitmap.hasAlpha());
+        createBitmap.setPremultiplied(bitmap.isPremultiplied());
+        canvas.setBitmap(createBitmap);
+        canvas.drawBitmap(bitmap, rect, rectF, paint);
+        try {
+            canvas.setBitmap(null);
+        } catch (Exception unused) {
+        }
+        return createBitmap;
     }
 
     public static Bitmap createScaledBitmap(Bitmap bitmap, int i, int i2, boolean z) {

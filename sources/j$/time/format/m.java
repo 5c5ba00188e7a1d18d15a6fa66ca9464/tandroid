@@ -1,4 +1,5 @@
 package j$.time.format;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class m implements g {
@@ -16,7 +17,6 @@ public final class m implements g {
     }
 
     public final String toString() {
-        String replace = this.a.replace("'", "''");
-        return "'" + replace + "'";
+        return "'" + this.a.replace("'", "''") + "'";
     }
 }

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import kotlin.jvm.internal.Intrinsics;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class ArraysKt___ArraysKt extends ArraysKt___ArraysJvmKt {
@@ -55,13 +56,13 @@ public abstract class ArraysKt___ArraysKt extends ArraysKt___ArraysJvmKt {
     public static char single(char[] cArr) {
         Intrinsics.checkNotNullParameter(cArr, "<this>");
         int length = cArr.length;
-        if (length != 0) {
-            if (length == 1) {
-                return cArr[0];
-            }
-            throw new IllegalArgumentException("Array has more than one element.");
+        if (length == 0) {
+            throw new NoSuchElementException("Array is empty.");
         }
-        throw new NoSuchElementException("Array is empty.");
+        if (length == 1) {
+            return cArr[0];
+        }
+        throw new IllegalArgumentException("Array has more than one element.");
     }
 
     public static Object singleOrNull(Object[] objArr) {
@@ -76,14 +77,14 @@ public abstract class ArraysKt___ArraysKt extends ArraysKt___ArraysJvmKt {
         List listOf;
         Intrinsics.checkNotNullParameter(objArr, "<this>");
         int length = objArr.length;
-        if (length != 0) {
-            if (length != 1) {
-                return toMutableList(objArr);
-            }
-            listOf = CollectionsKt__CollectionsJVMKt.listOf(objArr[0]);
-            return listOf;
+        if (length == 0) {
+            return CollectionsKt__CollectionsKt.emptyList();
         }
-        return CollectionsKt__CollectionsKt.emptyList();
+        if (length != 1) {
+            return toMutableList(objArr);
+        }
+        listOf = CollectionsKt__CollectionsJVMKt.listOf(objArr[0]);
+        return listOf;
     }
 
     public static final List toMutableList(Object[] objArr) {

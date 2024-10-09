@@ -1,5 +1,6 @@
 package androidx.appcompat.widget;
 
+import android.R;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
@@ -28,9 +29,10 @@ import androidx.core.view.NestedScrollingParentHelper;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class ActionBarOverlayLayout extends ViewGroup implements DecorContentParent, NestedScrollingParent, NestedScrollingParent2, NestedScrollingParent3 {
-    static final int[] ATTRS = {R$attr.actionBarSize, 16842841};
+    static final int[] ATTRS = {R$attr.actionBarSize, R.attr.windowContentOverlay};
     private int mActionBarHeight;
     ActionBarContainer mActionBarTop;
     private ActionBarVisibilityCallback mActionBarVisibilityCallback;
@@ -148,9 +150,9 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
         this.mAddActionBarHideOffset.run();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0021  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x002c  */
-    /* JADX WARN: Removed duplicated region for block: B:9:0x0016  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0021  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x002c  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0016  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -200,6 +202,7 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
         return z5;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     private DecorToolbar getDecorToolbar(View view) {
         if (view instanceof DecorToolbar) {
             return (DecorToolbar) view;
@@ -348,8 +351,10 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
             this.mDecorToolbar.initProgress();
         } else if (i == 5) {
             this.mDecorToolbar.initIndeterminateProgress();
-        } else if (i != 109) {
         } else {
+            if (i != 109) {
+                return;
+            }
             setOverlayMode(true);
         }
     }
@@ -487,16 +492,16 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
 
     @Override // android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent
     public boolean onNestedFling(View view, float f, float f2, boolean z) {
-        if (this.mHideOnContentScroll && z) {
-            if (shouldHideActionBarOnFling(f2)) {
-                addActionBarHideOffset();
-            } else {
-                removeActionBarHideOffset();
-            }
-            this.mAnimatingForFling = true;
-            return true;
+        if (!this.mHideOnContentScroll || !z) {
+            return false;
         }
-        return false;
+        if (shouldHideActionBarOnFling(f2)) {
+            addActionBarHideOffset();
+        } else {
+            removeActionBarHideOffset();
+        }
+        this.mAnimatingForFling = true;
+        return true;
     }
 
     @Override // android.view.ViewGroup, android.view.ViewParent, androidx.core.view.NestedScrollingParent

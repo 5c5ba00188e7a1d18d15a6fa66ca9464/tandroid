@@ -4,6 +4,7 @@ import android.content.Context;
 import com.google.android.datatransport.runtime.dagger.internal.Factory;
 import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
 import javax.inject.Provider;
+
 /* loaded from: classes.dex */
 public final class EventStoreModule_PackageNameFactory implements Factory {
     private final Provider contextProvider;

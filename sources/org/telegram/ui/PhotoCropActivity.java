@@ -21,6 +21,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.PhotoCropActivity;
+
 /* loaded from: classes4.dex */
 public class PhotoCropActivity extends BaseFragment {
     private String bitmapKey;
@@ -91,16 +92,19 @@ public class PhotoCropActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:135:0x022c, code lost:
-            if (r6 < 160.0f) goto L138;
+        /* JADX WARN: Code restructure failed: missing block: B:137:0x022c, code lost:
+        
+            if (r6 < 160.0f) goto L156;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:155:0x028a, code lost:
-            if (r13.rectSizeY < 160.0f) goto L138;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:156:0x028c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:138:0x028c, code lost:
+        
             r13.rectSizeY = 160.0f;
          */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x00b5  */
+        /* JADX WARN: Code restructure failed: missing block: B:153:0x028a, code lost:
+        
+            if (r13.rectSizeY < 160.0f) goto L156;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:14:0x00b5  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -191,20 +195,22 @@ public class PhotoCropActivity extends BaseFragment {
                         this.rectX = f19;
                     } else {
                         float f20 = this.rectSizeX;
-                        float f21 = i2 + this.bitmapWidth;
-                        if (f17 + f20 > f21) {
-                            this.rectX = f21 - f20;
+                        float f21 = f17 + f20;
+                        float f22 = i2 + this.bitmapWidth;
+                        if (f21 > f22) {
+                            this.rectX = f22 - f20;
                         }
                     }
                     int i3 = this.bitmapY;
-                    float f22 = i3;
-                    if (f18 < f22) {
-                        this.rectY = f22;
+                    float f23 = i3;
+                    if (f18 < f23) {
+                        this.rectY = f23;
                     } else {
-                        float f23 = this.rectSizeY;
-                        float f24 = i3 + this.bitmapHeight;
-                        if (f18 + f23 > f24) {
-                            this.rectY = f24 - f23;
+                        float f24 = this.rectSizeY;
+                        float f25 = f18 + f24;
+                        float f26 = i3 + this.bitmapHeight;
+                        if (f25 > f26) {
+                            this.rectY = f26 - f24;
                         }
                     }
                 } else if (i == 1) {
@@ -212,68 +218,74 @@ public class PhotoCropActivity extends BaseFragment {
                     if (f - f15 < 160.0f) {
                         f15 = f - 160.0f;
                     }
-                    float f25 = this.rectX;
-                    float f26 = this.bitmapX;
-                    if (f25 + f15 < f26) {
-                        f15 = f26 - f25;
+                    float f27 = this.rectX;
+                    float f28 = f27 + f15;
+                    float f29 = this.bitmapX;
+                    if (f28 < f29) {
+                        f15 = f29 - f27;
                     }
                     if (this.freeform) {
-                        float f27 = this.rectSizeY;
-                        if (f27 - f16 < 160.0f) {
-                            f16 = f27 - 160.0f;
+                        float f30 = this.rectSizeY;
+                        if (f30 - f16 < 160.0f) {
+                            f16 = f30 - 160.0f;
                         }
-                        float f28 = this.rectY;
-                        float f29 = this.bitmapY;
-                        if (f28 + f16 < f29) {
-                            f16 = f29 - f28;
+                        float f31 = this.rectY;
+                        float f32 = f31 + f16;
+                        float f33 = this.bitmapY;
+                        if (f32 < f33) {
+                            f16 = f33 - f31;
                         }
-                        this.rectX = f25 + f15;
-                        this.rectY = f28 + f16;
+                        this.rectX = f27 + f15;
+                        this.rectY = f31 + f16;
                         this.rectSizeX = f - f15;
-                        this.rectSizeY = f27 - f16;
+                        this.rectSizeY = f30 - f16;
                     } else {
-                        float f30 = this.rectY;
-                        float f31 = this.bitmapY;
-                        if (f30 + f15 < f31) {
-                            f15 = f31 - f30;
+                        float f34 = this.rectY;
+                        float f35 = f34 + f15;
+                        float f36 = this.bitmapY;
+                        if (f35 < f36) {
+                            f15 = f36 - f34;
                         }
-                        this.rectX = f25 + f15;
-                        this.rectY = f30 + f15;
+                        this.rectX = f27 + f15;
+                        this.rectY = f34 + f15;
                         this.rectSizeX = f - f15;
                         f2 = this.rectSizeY - f15;
                         this.rectSizeY = f2;
                     }
                 } else if (i == 2) {
-                    float f32 = this.rectSizeX;
-                    if (f32 + f15 < 160.0f) {
-                        f15 = -(f32 - 160.0f);
+                    float f37 = this.rectSizeX;
+                    if (f37 + f15 < 160.0f) {
+                        f15 = -(f37 - 160.0f);
                     }
-                    float f33 = this.rectX;
-                    float f34 = this.bitmapX + this.bitmapWidth;
-                    if (f33 + f32 + f15 > f34) {
-                        f15 = (f34 - f33) - f32;
+                    float f38 = this.rectX;
+                    float f39 = f38 + f37 + f15;
+                    float f40 = this.bitmapX + this.bitmapWidth;
+                    if (f39 > f40) {
+                        f15 = (f40 - f38) - f37;
                     }
                     if (this.freeform) {
-                        float f35 = this.rectSizeY;
-                        if (f35 - f16 < 160.0f) {
-                            f16 = f35 - 160.0f;
+                        float f41 = this.rectSizeY;
+                        if (f41 - f16 < 160.0f) {
+                            f16 = f41 - 160.0f;
                         }
-                        float f36 = this.rectY;
-                        float f37 = this.bitmapY;
-                        if (f36 + f16 < f37) {
-                            f16 = f37 - f36;
+                        float f42 = this.rectY;
+                        float f43 = f42 + f16;
+                        float f44 = this.bitmapY;
+                        if (f43 < f44) {
+                            f16 = f44 - f42;
                         }
-                        this.rectY = f36 + f16;
-                        this.rectSizeX = f32 + f15;
-                        this.rectSizeY = f35 - f16;
+                        this.rectY = f42 + f16;
+                        this.rectSizeX = f37 + f15;
+                        this.rectSizeY = f41 - f16;
                     } else {
-                        float f38 = this.rectY;
-                        float f39 = this.bitmapY;
-                        if (f38 - f15 < f39) {
-                            f15 = f38 - f39;
+                        float f45 = this.rectY;
+                        float f46 = f45 - f15;
+                        float f47 = this.bitmapY;
+                        if (f46 < f47) {
+                            f15 = f45 - f47;
                         }
-                        this.rectY = f38 - f15;
-                        this.rectSizeX = f32 + f15;
+                        this.rectY = f45 - f15;
+                        this.rectSizeX = f37 + f15;
                         f2 = this.rectSizeY + f15;
                         this.rectSizeY = f2;
                     }
@@ -282,57 +294,63 @@ public class PhotoCropActivity extends BaseFragment {
                     if (f - f15 < 160.0f) {
                         f15 = f - 160.0f;
                     }
-                    float f40 = this.rectX;
-                    float f41 = this.bitmapX;
-                    if (f40 + f15 < f41) {
-                        f15 = f41 - f40;
+                    float f48 = this.rectX;
+                    float f49 = f48 + f15;
+                    float f50 = this.bitmapX;
+                    if (f49 < f50) {
+                        f15 = f50 - f48;
                     }
                     if (this.freeform) {
-                        float f42 = this.rectY;
-                        float f43 = this.rectSizeY;
-                        float f44 = this.bitmapY + this.bitmapHeight;
-                        if (f42 + f43 + f16 > f44) {
-                            f16 = (f44 - f42) - f43;
+                        float f51 = this.rectY;
+                        float f52 = this.rectSizeY;
+                        float f53 = f51 + f52 + f16;
+                        float f54 = this.bitmapY + this.bitmapHeight;
+                        if (f53 > f54) {
+                            f16 = (f54 - f51) - f52;
                         }
-                        this.rectX = f40 + f15;
+                        this.rectX = f48 + f15;
                         this.rectSizeX = f - f15;
-                        float f45 = f43 + f16;
-                        this.rectSizeY = f45;
+                        float f55 = f52 + f16;
+                        this.rectSizeY = f55;
                     } else {
-                        float f46 = this.rectY + f;
+                        float f56 = this.rectY + f;
+                        float f57 = f56 - f15;
                         int i4 = this.bitmapY;
                         int i5 = this.bitmapHeight;
-                        if (f46 - f15 > i4 + i5) {
-                            f15 = (f46 - i4) - i5;
+                        if (f57 > i4 + i5) {
+                            f15 = (f56 - i4) - i5;
                         }
-                        this.rectX = f40 + f15;
+                        this.rectX = f48 + f15;
                         this.rectSizeX = f - f15;
                         f2 = this.rectSizeY - f15;
                         this.rectSizeY = f2;
                     }
                 } else if (i == 4) {
-                    float f47 = this.rectX;
-                    float f48 = this.rectSizeX;
-                    float f49 = this.bitmapX + this.bitmapWidth;
-                    if (f47 + f48 + f15 > f49) {
-                        f15 = (f49 - f47) - f48;
+                    float f58 = this.rectX;
+                    float f59 = this.rectSizeX;
+                    float f60 = f58 + f59 + f15;
+                    float f61 = this.bitmapX + this.bitmapWidth;
+                    if (f60 > f61) {
+                        f15 = (f61 - f58) - f59;
                     }
                     if (this.freeform) {
-                        float f50 = this.rectY;
-                        float f51 = this.rectSizeY;
-                        float f52 = this.bitmapY + this.bitmapHeight;
-                        if (f50 + f51 + f16 > f52) {
-                            f16 = (f52 - f50) - f51;
+                        float f62 = this.rectY;
+                        float f63 = this.rectSizeY;
+                        float f64 = f62 + f63 + f16;
+                        float f65 = this.bitmapY + this.bitmapHeight;
+                        if (f64 > f65) {
+                            f16 = (f65 - f62) - f63;
                         }
-                        this.rectSizeX = f48 + f15;
-                        this.rectSizeY = f51 + f16;
+                        this.rectSizeX = f59 + f15;
+                        this.rectSizeY = f63 + f16;
                     } else {
-                        float f53 = this.rectY;
-                        float f54 = this.bitmapY + this.bitmapHeight;
-                        if (f53 + f48 + f15 > f54) {
-                            f15 = (f54 - f53) - f48;
+                        float f66 = this.rectY;
+                        float f67 = f66 + f59 + f15;
+                        float f68 = this.bitmapY + this.bitmapHeight;
+                        if (f67 > f68) {
+                            f15 = (f68 - f66) - f59;
                         }
-                        this.rectSizeX = f48 + f15;
+                        this.rectSizeX = f59 + f15;
                         this.rectSizeY += f15;
                     }
                     if (this.rectSizeX < 160.0f) {
@@ -347,33 +365,30 @@ public class PhotoCropActivity extends BaseFragment {
         }
 
         private void updateBitmapSize() {
-            float f;
             int i;
-            int i2;
-            int i3;
-            float f2;
+            float f;
             if (this.viewWidth == 0 || this.viewHeight == 0 || PhotoCropActivity.this.imageToCrop == null) {
                 return;
             }
-            float f3 = this.rectX - this.bitmapX;
-            float f4 = this.bitmapWidth;
-            float f5 = f3 / f4;
-            float f6 = this.rectY - this.bitmapY;
-            float f7 = this.bitmapHeight;
-            float f8 = f6 / f7;
-            float f9 = this.rectSizeX / f4;
-            float f10 = this.rectSizeY / f7;
+            float f2 = this.rectX - this.bitmapX;
+            float f3 = this.bitmapWidth;
+            float f4 = f2 / f3;
+            float f5 = this.rectY - this.bitmapY;
+            float f6 = this.bitmapHeight;
+            float f7 = f5 / f6;
+            float f8 = this.rectSizeX / f3;
+            float f9 = this.rectSizeY / f6;
             float width = PhotoCropActivity.this.imageToCrop.getWidth();
             float height = PhotoCropActivity.this.imageToCrop.getHeight();
-            int i4 = this.viewWidth;
-            float f11 = i4 / width;
-            int i5 = this.viewHeight;
-            if (f11 > i5 / height) {
-                this.bitmapHeight = i5;
-                this.bitmapWidth = (int) Math.ceil(width * f);
+            int i2 = this.viewWidth;
+            float f10 = i2 / width;
+            int i3 = this.viewHeight;
+            if (f10 > i3 / height) {
+                this.bitmapHeight = i3;
+                this.bitmapWidth = (int) Math.ceil(width * r9);
             } else {
-                this.bitmapWidth = i4;
-                this.bitmapHeight = (int) Math.ceil(height * f11);
+                this.bitmapWidth = i2;
+                this.bitmapHeight = (int) Math.ceil(height * f10);
             }
             this.bitmapX = ((this.viewWidth - this.bitmapWidth) / 2) + AndroidUtilities.dp(14.0f);
             int dp = ((this.viewHeight - this.bitmapHeight) / 2) + AndroidUtilities.dp(14.0f);
@@ -383,28 +398,28 @@ public class PhotoCropActivity extends BaseFragment {
                     this.rectY = dp;
                     this.rectX = this.bitmapX;
                     this.rectSizeX = this.bitmapWidth;
-                    f2 = this.bitmapHeight;
+                    f = this.bitmapHeight;
                 } else {
                     if (this.bitmapWidth > this.bitmapHeight) {
                         this.rectY = dp;
-                        this.rectX = ((this.viewWidth - i2) / 2) + AndroidUtilities.dp(14.0f);
-                        i3 = this.bitmapHeight;
+                        this.rectX = ((this.viewWidth - r1) / 2) + AndroidUtilities.dp(14.0f);
+                        i = this.bitmapHeight;
                     } else {
                         this.rectX = this.bitmapX;
-                        this.rectY = ((this.viewHeight - i) / 2) + AndroidUtilities.dp(14.0f);
-                        i3 = this.bitmapWidth;
+                        this.rectY = ((this.viewHeight - r0) / 2) + AndroidUtilities.dp(14.0f);
+                        i = this.bitmapWidth;
                     }
-                    f2 = i3;
-                    this.rectSizeX = f2;
+                    f = i;
+                    this.rectSizeX = f;
                 }
-                this.rectSizeY = f2;
+                this.rectSizeY = f;
             } else {
-                float f12 = this.bitmapWidth;
-                this.rectX = (f5 * f12) + this.bitmapX;
-                float f13 = this.bitmapHeight;
-                this.rectY = (f8 * f13) + dp;
-                this.rectSizeX = f9 * f12;
-                this.rectSizeY = f10 * f13;
+                float f11 = this.bitmapWidth;
+                this.rectX = (f4 * f11) + this.bitmapX;
+                float f12 = this.bitmapHeight;
+                this.rectY = (f7 * f12) + dp;
+                this.rectSizeX = f8 * f11;
+                this.rectSizeY = f9 * f12;
             }
             invalidate();
         }
@@ -445,102 +460,104 @@ public class PhotoCropActivity extends BaseFragment {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:16:0x01a3 A[LOOP:0: B:15:0x01a1->B:16:0x01a3, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:6:0x01a3 A[LOOP:0: B:5:0x01a1->B:6:0x01a3, LOOP_END] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onDraw(Canvas canvas) {
             int i;
-            int i2;
-            int i3;
             if (PhotoCropActivity.this.drawable != null) {
                 try {
                     BitmapDrawable bitmapDrawable = PhotoCropActivity.this.drawable;
-                    int i4 = this.bitmapX;
-                    int i5 = this.bitmapY;
-                    bitmapDrawable.setBounds(i4, i5, this.bitmapWidth + i4, this.bitmapHeight + i5);
+                    int i2 = this.bitmapX;
+                    int i3 = this.bitmapY;
+                    bitmapDrawable.setBounds(i2, i3, this.bitmapWidth + i2, this.bitmapHeight + i3);
                     try {
                         PhotoCropActivity.this.drawable.draw(canvas);
                     } catch (Throwable th) {
                         th = th;
                         FileLog.e(th);
-                        canvas.drawRect(this.bitmapX, this.bitmapY, i + this.bitmapWidth, this.rectY, this.halfPaint);
-                        float f = this.rectY;
-                        canvas.drawRect(this.bitmapX, f, this.rectX, f + this.rectSizeY, this.halfPaint);
+                        canvas.drawRect(this.bitmapX, this.bitmapY, r0 + this.bitmapWidth, this.rectY, this.halfPaint);
+                        float f = this.bitmapX;
                         float f2 = this.rectY;
-                        canvas.drawRect(this.rectX + this.rectSizeX, f2, this.bitmapX + this.bitmapWidth, f2 + this.rectSizeY, this.halfPaint);
-                        canvas.drawRect(this.bitmapX, this.rectSizeY + this.rectY, i2 + this.bitmapWidth, this.bitmapY + this.bitmapHeight, this.halfPaint);
-                        float f3 = this.rectX;
+                        canvas.drawRect(f, f2, this.rectX, f2 + this.rectSizeY, this.halfPaint);
+                        float f3 = this.rectX + this.rectSizeX;
                         float f4 = this.rectY;
-                        canvas.drawRect(f3, f4, f3 + this.rectSizeX, f4 + this.rectSizeY, this.rectPaint);
+                        canvas.drawRect(f3, f4, this.bitmapX + this.bitmapWidth, f4 + this.rectSizeY, this.halfPaint);
+                        canvas.drawRect(this.bitmapX, this.rectSizeY + this.rectY, r0 + this.bitmapWidth, this.bitmapY + this.bitmapHeight, this.halfPaint);
+                        float f5 = this.rectX;
+                        float f6 = this.rectY;
+                        canvas.drawRect(f5, f6, f5 + this.rectSizeX, f6 + this.rectSizeY, this.rectPaint);
                         int dp = AndroidUtilities.dp(1.0f);
-                        float f5 = dp;
-                        float f6 = this.rectX + f5;
-                        float f7 = dp * 3;
-                        canvas.drawRect(f6, this.rectY + f5, f6 + AndroidUtilities.dp(20.0f), this.rectY + f7, this.circlePaint);
-                        float f8 = this.rectX;
-                        float f9 = this.rectY + f5;
-                        canvas.drawRect(f8 + f5, f9, f8 + f7, f9 + AndroidUtilities.dp(20.0f), this.circlePaint);
-                        float dp2 = ((this.rectX + this.rectSizeX) - f5) - AndroidUtilities.dp(20.0f);
-                        float f10 = this.rectY;
-                        canvas.drawRect(dp2, f10 + f5, (this.rectX + this.rectSizeX) - f5, f10 + f7, this.circlePaint);
-                        float f11 = this.rectX + this.rectSizeX;
-                        float f12 = this.rectY + f5;
-                        canvas.drawRect(f11 - f7, f12, f11 - f5, f12 + AndroidUtilities.dp(20.0f), this.circlePaint);
-                        canvas.drawRect(this.rectX + f5, ((this.rectY + this.rectSizeY) - f5) - AndroidUtilities.dp(20.0f), this.rectX + f7, (this.rectY + this.rectSizeY) - f5, this.circlePaint);
-                        float f13 = this.rectX + f5;
-                        canvas.drawRect(f13, (this.rectY + this.rectSizeY) - f7, f13 + AndroidUtilities.dp(20.0f), (this.rectY + this.rectSizeY) - f5, this.circlePaint);
-                        float dp3 = ((this.rectX + this.rectSizeX) - f5) - AndroidUtilities.dp(20.0f);
-                        float f14 = this.rectY + this.rectSizeY;
-                        canvas.drawRect(dp3, f14 - f7, (this.rectX + this.rectSizeX) - f5, f14 - f5, this.circlePaint);
-                        canvas.drawRect((this.rectX + this.rectSizeX) - f7, ((this.rectY + this.rectSizeY) - f5) - AndroidUtilities.dp(20.0f), (this.rectX + this.rectSizeX) - f5, (this.rectY + this.rectSizeY) - f5, this.circlePaint);
-                        while (i3 < 3) {
+                        float f7 = dp;
+                        float f8 = this.rectX + f7;
+                        float f9 = dp * 3;
+                        canvas.drawRect(f8, this.rectY + f7, f8 + AndroidUtilities.dp(20.0f), this.rectY + f9, this.circlePaint);
+                        float f10 = this.rectX;
+                        float f11 = this.rectY + f7;
+                        canvas.drawRect(f10 + f7, f11, f10 + f9, f11 + AndroidUtilities.dp(20.0f), this.circlePaint);
+                        float dp2 = ((this.rectX + this.rectSizeX) - f7) - AndroidUtilities.dp(20.0f);
+                        float f12 = this.rectY;
+                        canvas.drawRect(dp2, f12 + f7, (this.rectX + this.rectSizeX) - f7, f12 + f9, this.circlePaint);
+                        float f13 = this.rectX + this.rectSizeX;
+                        float f14 = this.rectY + f7;
+                        canvas.drawRect(f13 - f9, f14, f13 - f7, f14 + AndroidUtilities.dp(20.0f), this.circlePaint);
+                        canvas.drawRect(this.rectX + f7, ((this.rectY + this.rectSizeY) - f7) - AndroidUtilities.dp(20.0f), this.rectX + f9, (this.rectY + this.rectSizeY) - f7, this.circlePaint);
+                        float f15 = this.rectX + f7;
+                        canvas.drawRect(f15, (this.rectY + this.rectSizeY) - f9, f15 + AndroidUtilities.dp(20.0f), (this.rectY + this.rectSizeY) - f7, this.circlePaint);
+                        float dp3 = ((this.rectX + this.rectSizeX) - f7) - AndroidUtilities.dp(20.0f);
+                        float f16 = this.rectY + this.rectSizeY;
+                        canvas.drawRect(dp3, f16 - f9, (this.rectX + this.rectSizeX) - f7, f16 - f7, this.circlePaint);
+                        canvas.drawRect((this.rectX + this.rectSizeX) - f9, ((this.rectY + this.rectSizeY) - f7) - AndroidUtilities.dp(20.0f), (this.rectX + this.rectSizeX) - f7, (this.rectY + this.rectSizeY) - f7, this.circlePaint);
+                        while (i < 3) {
                         }
                     }
                 } catch (Throwable th2) {
                     th = th2;
                 }
             }
-            canvas.drawRect(this.bitmapX, this.bitmapY, i + this.bitmapWidth, this.rectY, this.halfPaint);
-            float f15 = this.rectY;
-            canvas.drawRect(this.bitmapX, f15, this.rectX, f15 + this.rectSizeY, this.halfPaint);
+            canvas.drawRect(this.bitmapX, this.bitmapY, r0 + this.bitmapWidth, this.rectY, this.halfPaint);
+            float f17 = this.bitmapX;
             float f22 = this.rectY;
-            canvas.drawRect(this.rectX + this.rectSizeX, f22, this.bitmapX + this.bitmapWidth, f22 + this.rectSizeY, this.halfPaint);
-            canvas.drawRect(this.bitmapX, this.rectSizeY + this.rectY, i2 + this.bitmapWidth, this.bitmapY + this.bitmapHeight, this.halfPaint);
-            float f32 = this.rectX;
+            canvas.drawRect(f17, f22, this.rectX, f22 + this.rectSizeY, this.halfPaint);
+            float f32 = this.rectX + this.rectSizeX;
             float f42 = this.rectY;
-            canvas.drawRect(f32, f42, f32 + this.rectSizeX, f42 + this.rectSizeY, this.rectPaint);
+            canvas.drawRect(f32, f42, this.bitmapX + this.bitmapWidth, f42 + this.rectSizeY, this.halfPaint);
+            canvas.drawRect(this.bitmapX, this.rectSizeY + this.rectY, r0 + this.bitmapWidth, this.bitmapY + this.bitmapHeight, this.halfPaint);
+            float f52 = this.rectX;
+            float f62 = this.rectY;
+            canvas.drawRect(f52, f62, f52 + this.rectSizeX, f62 + this.rectSizeY, this.rectPaint);
             int dp4 = AndroidUtilities.dp(1.0f);
-            float f52 = dp4;
-            float f62 = this.rectX + f52;
-            float f72 = dp4 * 3;
-            canvas.drawRect(f62, this.rectY + f52, f62 + AndroidUtilities.dp(20.0f), this.rectY + f72, this.circlePaint);
-            float f82 = this.rectX;
-            float f92 = this.rectY + f52;
-            canvas.drawRect(f82 + f52, f92, f82 + f72, f92 + AndroidUtilities.dp(20.0f), this.circlePaint);
-            float dp22 = ((this.rectX + this.rectSizeX) - f52) - AndroidUtilities.dp(20.0f);
-            float f102 = this.rectY;
-            canvas.drawRect(dp22, f102 + f52, (this.rectX + this.rectSizeX) - f52, f102 + f72, this.circlePaint);
-            float f112 = this.rectX + this.rectSizeX;
-            float f122 = this.rectY + f52;
-            canvas.drawRect(f112 - f72, f122, f112 - f52, f122 + AndroidUtilities.dp(20.0f), this.circlePaint);
-            canvas.drawRect(this.rectX + f52, ((this.rectY + this.rectSizeY) - f52) - AndroidUtilities.dp(20.0f), this.rectX + f72, (this.rectY + this.rectSizeY) - f52, this.circlePaint);
-            float f132 = this.rectX + f52;
-            canvas.drawRect(f132, (this.rectY + this.rectSizeY) - f72, f132 + AndroidUtilities.dp(20.0f), (this.rectY + this.rectSizeY) - f52, this.circlePaint);
-            float dp32 = ((this.rectX + this.rectSizeX) - f52) - AndroidUtilities.dp(20.0f);
-            float f142 = this.rectY + this.rectSizeY;
-            canvas.drawRect(dp32, f142 - f72, (this.rectX + this.rectSizeX) - f52, f142 - f52, this.circlePaint);
-            canvas.drawRect((this.rectX + this.rectSizeX) - f72, ((this.rectY + this.rectSizeY) - f52) - AndroidUtilities.dp(20.0f), (this.rectX + this.rectSizeX) - f52, (this.rectY + this.rectSizeY) - f52, this.circlePaint);
-            for (i3 = 1; i3 < 3; i3++) {
-                float f16 = this.rectX;
-                float f17 = i3;
-                float f18 = (this.rectSizeX / 3.0f) * f17;
-                float f19 = this.rectY;
-                canvas.drawRect(f16 + f18, f19 + f52, f16 + f52 + f18, (f19 + this.rectSizeY) - f52, this.circlePaint);
-                float f20 = this.rectX;
-                float f21 = this.rectY + ((this.rectSizeY / 3.0f) * f17);
-                canvas.drawRect(f20 + f52, f21, this.rectSizeX + (f20 - f52), f21 + f52, this.circlePaint);
+            float f72 = dp4;
+            float f82 = this.rectX + f72;
+            float f92 = dp4 * 3;
+            canvas.drawRect(f82, this.rectY + f72, f82 + AndroidUtilities.dp(20.0f), this.rectY + f92, this.circlePaint);
+            float f102 = this.rectX;
+            float f112 = this.rectY + f72;
+            canvas.drawRect(f102 + f72, f112, f102 + f92, f112 + AndroidUtilities.dp(20.0f), this.circlePaint);
+            float dp22 = ((this.rectX + this.rectSizeX) - f72) - AndroidUtilities.dp(20.0f);
+            float f122 = this.rectY;
+            canvas.drawRect(dp22, f122 + f72, (this.rectX + this.rectSizeX) - f72, f122 + f92, this.circlePaint);
+            float f132 = this.rectX + this.rectSizeX;
+            float f142 = this.rectY + f72;
+            canvas.drawRect(f132 - f92, f142, f132 - f72, f142 + AndroidUtilities.dp(20.0f), this.circlePaint);
+            canvas.drawRect(this.rectX + f72, ((this.rectY + this.rectSizeY) - f72) - AndroidUtilities.dp(20.0f), this.rectX + f92, (this.rectY + this.rectSizeY) - f72, this.circlePaint);
+            float f152 = this.rectX + f72;
+            canvas.drawRect(f152, (this.rectY + this.rectSizeY) - f92, f152 + AndroidUtilities.dp(20.0f), (this.rectY + this.rectSizeY) - f72, this.circlePaint);
+            float dp32 = ((this.rectX + this.rectSizeX) - f72) - AndroidUtilities.dp(20.0f);
+            float f162 = this.rectY + this.rectSizeY;
+            canvas.drawRect(dp32, f162 - f92, (this.rectX + this.rectSizeX) - f72, f162 - f72, this.circlePaint);
+            canvas.drawRect((this.rectX + this.rectSizeX) - f92, ((this.rectY + this.rectSizeY) - f72) - AndroidUtilities.dp(20.0f), (this.rectX + this.rectSizeX) - f72, (this.rectY + this.rectSizeY) - f72, this.circlePaint);
+            for (i = 1; i < 3; i++) {
+                float f18 = this.rectX;
+                float f19 = i;
+                float f20 = (this.rectSizeX / 3.0f) * f19;
+                float f21 = this.rectY;
+                canvas.drawRect(f18 + f20, f21 + f72, f18 + f72 + f20, (f21 + this.rectSizeY) - f72, this.circlePaint);
+                float f23 = this.rectX;
+                float f24 = this.rectY + ((this.rectSizeY / 3.0f) * f19);
+                canvas.drawRect(f23 + f72, f24, this.rectSizeX + (f23 - f72), f24 + f72, this.circlePaint);
             }
         }
 
@@ -590,7 +607,7 @@ public class PhotoCropActivity extends BaseFragment {
                         PhotoCropActivity.this.doneButtonPressed = true;
                     }
                 }
-                PhotoCropActivity.this.finishFragment();
+                PhotoCropActivity.this.lambda$onBackPressed$300();
             }
         });
         this.actionBar.createMenu().addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f), LocaleController.getString(R.string.Done));

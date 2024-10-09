@@ -16,6 +16,7 @@ import androidx.core.math.MathUtils;
 import org.telegram.messenger.NotificationCenter;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* loaded from: classes.dex */
 public abstract class ColorStateListInflaterCompat {
     private static final ThreadLocal sTempTypedValue = new ThreadLocal();
@@ -46,12 +47,12 @@ public abstract class ColorStateListInflaterCompat {
     private static TypedValue getTypedValue() {
         ThreadLocal threadLocal = sTempTypedValue;
         TypedValue typedValue = (TypedValue) threadLocal.get();
-        if (typedValue == null) {
-            TypedValue typedValue2 = new TypedValue();
-            threadLocal.set(typedValue2);
-            return typedValue2;
+        if (typedValue != null) {
+            return typedValue;
         }
-        return typedValue;
+        TypedValue typedValue2 = new TypedValue();
+        threadLocal.set(typedValue2);
+        return typedValue2;
     }
 
     public static ColorStateList inflate(Resources resources, int i, Resources.Theme theme) {
@@ -63,15 +64,17 @@ public abstract class ColorStateListInflaterCompat {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0075, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x0086, code lost:
+    
+        if (r9.hasValue(r11) != false) goto L33;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0075, code lost:
+    
         if (r9.hasValue(r11) != false) goto L25;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0086, code lost:
-        if (r9.hasValue(r11) != false) goto L30;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0080  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0080  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x006f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -174,15 +177,15 @@ public abstract class ColorStateListInflaterCompat {
 
     private static int modulateColorAlpha(int i, float f, float f2) {
         boolean z = f2 >= 0.0f && f2 <= 100.0f;
-        if (f != 1.0f || z) {
-            int clamp = MathUtils.clamp((int) ((Color.alpha(i) * f) + 0.5f), 0, (int) NotificationCenter.closeSearchByActiveAction);
-            if (z) {
-                CamColor fromColor = CamColor.fromColor(i);
-                i = CamColor.toColor(fromColor.getHue(), fromColor.getChroma(), f2);
-            }
-            return (i & 16777215) | (clamp << 24);
+        if (f == 1.0f && !z) {
+            return i;
         }
-        return i;
+        int clamp = MathUtils.clamp((int) ((Color.alpha(i) * f) + 0.5f), 0, NotificationCenter.closeSearchByActiveAction);
+        if (z) {
+            CamColor fromColor = CamColor.fromColor(i);
+            i = CamColor.toColor(fromColor.getHue(), fromColor.getChroma(), f2);
+        }
+        return (i & 16777215) | (clamp << 24);
     }
 
     private static TypedArray obtainAttributes(Resources resources, Resources.Theme theme, AttributeSet attributeSet, int[] iArr) {

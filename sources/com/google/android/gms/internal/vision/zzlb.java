@@ -3,6 +3,7 @@ package com.google.android.gms.internal.vision;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 final class zzlb extends zzhj implements RandomAccess {
     private static final zzlb zza;
@@ -85,13 +86,12 @@ final class zzlb extends zzhj implements RandomAccess {
 
     @Override // com.google.android.gms.internal.vision.zzhj, java.util.AbstractList, java.util.List
     public final Object remove(int i) {
-        int i2;
         zzc();
         zzb(i);
         Object[] objArr = this.zzb;
         Object obj = objArr[i];
         if (i < this.zzc - 1) {
-            System.arraycopy(objArr, i + 1, objArr, i, (i2 - i) - 1);
+            System.arraycopy(objArr, i + 1, objArr, i, (r2 - i) - 1);
         }
         this.zzc--;
         ((AbstractList) this).modCount++;

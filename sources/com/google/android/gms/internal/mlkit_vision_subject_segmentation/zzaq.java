@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
+
 /* loaded from: classes.dex */
 public abstract class zzaq extends AbstractCollection implements Serializable {
     private static final Object[] zza = new Object[0];

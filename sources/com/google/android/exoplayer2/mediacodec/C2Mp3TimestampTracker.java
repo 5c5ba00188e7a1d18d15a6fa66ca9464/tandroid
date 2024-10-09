@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 final class C2Mp3TimestampTracker {
     private long anchorTimestampUs;

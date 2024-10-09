@@ -11,6 +11,7 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.HandlerUtils;
 import java.text.NumberFormat;
 import java.util.Locale;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
@@ -109,17 +110,17 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized ProgressDialog showDownloadProgress(Activity activity) {
-        if (this.mReleaseDetails.isMandatoryUpdate()) {
-            ProgressDialog progressDialog = new ProgressDialog(activity);
-            this.mProgressDialog = progressDialog;
-            progressDialog.setTitle(R$string.appcenter_distribute_downloading_update);
-            this.mProgressDialog.setCancelable(false);
-            this.mProgressDialog.setProgressStyle(1);
-            this.mProgressDialog.setIndeterminate(true);
-            this.mProgressDialog.setProgressNumberFormat(null);
-            this.mProgressDialog.setProgressPercentFormat(null);
-            return this.mProgressDialog;
+        if (!this.mReleaseDetails.isMandatoryUpdate()) {
+            return null;
         }
-        return null;
+        ProgressDialog progressDialog = new ProgressDialog(activity);
+        this.mProgressDialog = progressDialog;
+        progressDialog.setTitle(R$string.appcenter_distribute_downloading_update);
+        this.mProgressDialog.setCancelable(false);
+        this.mProgressDialog.setProgressStyle(1);
+        this.mProgressDialog.setIndeterminate(true);
+        this.mProgressDialog.setProgressNumberFormat(null);
+        this.mProgressDialog.setProgressPercentFormat(null);
+        return this.mProgressDialog;
     }
 }

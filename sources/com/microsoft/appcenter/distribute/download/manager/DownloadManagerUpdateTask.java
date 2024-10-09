@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 class DownloadManagerUpdateTask extends AsyncTask {
     private final DownloadManagerReleaseDownloader mDownloader;
@@ -30,25 +31,26 @@ class DownloadManagerUpdateTask extends AsyncTask {
         }
         if (query == null) {
             throw new NoSuchElementException("Cannot find download with id=" + downloadId);
-        } else if (!query.moveToFirst()) {
-            throw new NoSuchElementException("Cannot find download with id=" + downloadId);
-        } else if (isCancelled()) {
-            query.close();
-            return null;
-        } else {
-            int i = query.getInt(query.getColumnIndexOrThrow("status"));
-            if (i == 16) {
-                int i2 = query.getInt(query.getColumnIndexOrThrow("reason"));
-                throw new IllegalStateException("The download has failed with reason code: " + i2);
-            } else if (i != 8) {
-                this.mDownloader.onDownloadProgress(query);
-                query.close();
-                return null;
-            } else {
-                this.mDownloader.onDownloadComplete(query);
-                query.close();
+        }
+        try {
+            if (!query.moveToFirst()) {
+                throw new NoSuchElementException("Cannot find download with id=" + downloadId);
+            }
+            if (isCancelled()) {
                 return null;
             }
+            int i = query.getInt(query.getColumnIndexOrThrow("status"));
+            if (i != 16) {
+                if (i != 8) {
+                    this.mDownloader.onDownloadProgress(query);
+                    return null;
+                }
+                this.mDownloader.onDownloadComplete(query);
+                return null;
+            }
+            throw new IllegalStateException("The download has failed with reason code: " + query.getInt(query.getColumnIndexOrThrow("reason")));
+        } finally {
+            query.close();
         }
     }
 }

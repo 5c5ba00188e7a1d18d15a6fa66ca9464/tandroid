@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
+
 /* loaded from: classes.dex */
 abstract /* synthetic */ class zzic {
     static final /* synthetic */ int[] zza;

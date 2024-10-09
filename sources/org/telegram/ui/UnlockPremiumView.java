@@ -13,12 +13,13 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumButtonView;
+
 /* loaded from: classes4.dex */
 public class UnlockPremiumView extends FrameLayout {
     public final PremiumButtonView premiumButtonView;
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0062  */
     /* JADX WARN: Removed duplicated region for block: B:12:0x0069  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0062  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

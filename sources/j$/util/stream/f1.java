@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 final class f1 extends g1 implements j$.util.K {
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -37,6 +37,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class SsMediaSource extends BaseMediaSource implements Loader.Callback {
     private final SsChunkSource.Factory chunkSourceFactory;
@@ -129,7 +130,6 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
     }
 
     private void processManifest() {
-        SsManifest.StreamElement[] streamElementArr;
         SinglePeriodTimeline singlePeriodTimeline;
         for (int i = 0; i < this.mediaPeriods.size(); i++) {
             ((SsMediaPeriod) this.mediaPeriods.get(i)).updateManifest(this.manifest);

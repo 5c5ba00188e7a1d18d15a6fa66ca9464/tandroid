@@ -28,6 +28,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Stories.recorder.HintView2;
+
 /* loaded from: classes3.dex */
 public class LocationMarker extends View {
     private AnimatedFloat animatedVideo;
@@ -122,7 +123,6 @@ public class LocationMarker extends View {
                             return tL_messages_stickerSet.documents.get(i2);
                         }
                     }
-                    continue;
                 }
             }
         }
@@ -221,46 +221,51 @@ public class LocationMarker extends View {
         RectF rectF2 = this.bounds;
         float f3 = this.h * 0.2f;
         canvas.drawRoundRect(rectF2, f3, f3, this.outlinePaint);
-        float f4 = 0.0f;
         if (this.hasFlag) {
-            float f5 = this.animatedVideo.set(this.isVideo);
-            if (f5 > 0.0f) {
+            float f4 = this.animatedVideo.set(this.isVideo);
+            if (f4 > 0.0f) {
                 ImageReceiver imageReceiver = this.flagAnimatedImageReceiver;
-                float f6 = this.density;
-                float f7 = f6 * 21.33f;
-                imageReceiver.setImageCoords(this.padx + ((this.padding.left + 2.25f) * f6), this.pady + ((this.h - f7) / 2.0f), f7, f7);
+                float f5 = this.padx;
+                float f6 = this.padding.left + 2.25f;
+                float f7 = this.density;
+                float f8 = f5 + (f6 * f7);
+                float f9 = f7 * 21.33f;
+                imageReceiver.setImageCoords(f8, this.pady + ((this.h - f9) / 2.0f), f9, f9);
                 canvas.save();
                 canvas.scale(1.2f, 1.2f, this.flagAnimatedImageReceiver.getCenterX(), this.flagAnimatedImageReceiver.getCenterY());
-                this.flagAnimatedImageReceiver.setAlpha(f5);
+                this.flagAnimatedImageReceiver.setAlpha(f4);
                 this.flagAnimatedImageReceiver.draw(canvas);
                 canvas.restore();
             }
-            if (f5 < 1.0f) {
+            if (f4 < 1.0f) {
                 ImageReceiver imageReceiver2 = this.flagImageReceiver;
-                float f8 = this.density;
-                float f9 = f8 * 21.33f;
-                imageReceiver2.setImageCoords(this.padx + ((this.padding.left + 2.25f) * f8), this.pady + ((this.h - f9) / 2.0f), f9, f9);
+                float f10 = this.padx;
+                float f11 = this.padding.left + 2.25f;
+                float f12 = this.density;
+                float f13 = f10 + (f11 * f12);
+                float f14 = f12 * 21.33f;
+                imageReceiver2.setImageCoords(f13, this.pady + ((this.h - f14) / 2.0f), f14, f14);
                 canvas.save();
                 canvas.scale(1.2f, 1.2f, this.flagImageReceiver.getCenterX(), this.flagImageReceiver.getCenterY());
-                this.flagImageReceiver.setAlpha(1.0f - f5);
+                this.flagImageReceiver.setAlpha(1.0f - f4);
                 this.flagImageReceiver.draw(canvas);
                 canvas.restore();
             }
         } else if (!this.forceEmoji) {
             Drawable drawable = this.icon;
             int i = this.padx;
-            float f10 = this.padding.left;
-            float f11 = this.density;
+            float f15 = this.padding.left;
+            float f16 = this.density;
             int i2 = this.pady;
-            float f12 = this.h;
-            float f13 = f11 * 21.33f;
-            drawable.setBounds(((int) (f10 * f11)) + i, ((int) ((f12 - f13) / 2.0f)) + i2, i + ((int) ((f10 + 21.33f) * f11)), i2 + ((int) ((f12 + f13) / 2.0f)));
+            float f17 = this.h;
+            float f18 = f16 * 21.33f;
+            drawable.setBounds(((int) (f15 * f16)) + i, ((int) ((f17 - f18) / 2.0f)) + i2, i + ((int) ((f15 + 21.33f) * f16)), i2 + ((int) ((f17 + f18) / 2.0f)));
             this.icon.draw(canvas);
         }
         canvas.save();
-        canvas.translate(this.padx + ((this.padding.left + ((this.hasFlag || this.forceEmoji) ? 2.25f : 2.25f) + 21.33f + 3.25f) * this.density), this.pady + (this.h / 2.0f));
-        float f14 = this.textScale;
-        canvas.scale(f14, f14);
+        canvas.translate(this.padx + ((this.padding.left + ((this.hasFlag || this.forceEmoji) ? 2.25f : 0.0f) + 21.33f + 3.25f) * this.density), this.pady + (this.h / 2.0f));
+        float f19 = this.textScale;
+        canvas.scale(f19, f19);
         canvas.translate(-this.layoutLeft, (-this.layout.getHeight()) / 2.0f);
         this.layout.draw(canvas);
         canvas.restore();

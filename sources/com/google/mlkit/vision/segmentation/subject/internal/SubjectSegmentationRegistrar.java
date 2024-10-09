@@ -9,6 +9,7 @@ import com.google.firebase.components.Dependency;
 import com.google.mlkit.common.sdkinternal.ExecutorSelector;
 import com.google.mlkit.common.sdkinternal.MlKitContext;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class SubjectSegmentationRegistrar implements ComponentRegistrar {
     @Override // com.google.firebase.components.ComponentRegistrar

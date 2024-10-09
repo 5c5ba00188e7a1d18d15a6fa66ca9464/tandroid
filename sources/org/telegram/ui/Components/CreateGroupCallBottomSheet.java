@@ -29,6 +29,7 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Components.CreateGroupCallBottomSheet;
 import org.telegram.ui.Components.JoinCallAlert;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView {
     private final List chats;
@@ -62,17 +63,17 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemViewType(int i) {
-            if (i != 0) {
-                int i2 = 1;
-                if (i != 1) {
-                    i2 = 2;
-                    if (i != 2) {
-                        return 3;
-                    }
-                }
-                return i2;
+            if (i == 0) {
+                return 0;
             }
-            return 0;
+            int i2 = 1;
+            if (i != 1) {
+                i2 = 2;
+                if (i != 2) {
+                    return 3;
+                }
+            }
+            return i2;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -96,18 +97,18 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
                         return;
                     }
                     return;
+                } else {
+                    HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
+                    headerCell.setTextSize(15.0f);
+                    headerCell.setPadding(0, 0, 0, AndroidUtilities.dp(2.0f));
+                    headerCell.setText(LocaleController.getString(R.string.VoipChatDisplayedAs).replace(":", ""));
+                    return;
                 }
-                HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
-                headerCell.setTextSize(15.0f);
-                headerCell.setPadding(0, 0, 0, AndroidUtilities.dp(2.0f));
-                headerCell.setText(LocaleController.getString(R.string.VoipChatDisplayedAs).replace(":", ""));
-                return;
             }
             TLRPC.Peer peer = (TLRPC.Peer) CreateGroupCallBottomSheet.this.chats.get(i - 3);
             long peerId = MessageObject.getPeerId(peer);
-            int i2 = (peerId > 0L ? 1 : (peerId == 0L ? 0 : -1));
             CreateGroupCallBottomSheet createGroupCallBottomSheet = CreateGroupCallBottomSheet.this;
-            if (i2 > 0) {
+            if (peerId > 0) {
                 chat = MessagesController.getInstance(((BottomSheet) createGroupCallBottomSheet).currentAccount).getUser(Long.valueOf(peerId));
                 str = LocaleController.getString(R.string.VoipGroupPersonalAccount);
             } else {

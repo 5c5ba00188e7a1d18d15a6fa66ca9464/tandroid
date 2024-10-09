@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 abstract class p0 implements e2 {
     boolean a;

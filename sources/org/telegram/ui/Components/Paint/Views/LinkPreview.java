@@ -34,6 +34,7 @@ import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Text;
+
 /* loaded from: classes3.dex */
 public class LinkPreview extends View {
     private boolean animated;
@@ -433,12 +434,13 @@ public class LinkPreview extends View {
             this.layoutPaint.setColor(-1);
             drawable = this.icon;
             porterDuffColorFilter = new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN);
-        } else if (i != 2) {
-            this.backgroundColor = -1;
-            this.layoutPaint.setColor(-13397548);
-            this.icon.setColorFilter(new PorterDuffColorFilter(-13397548, PorterDuff.Mode.SRC_IN));
-            invalidate();
         } else {
+            if (i != 2) {
+                this.backgroundColor = -1;
+                this.layoutPaint.setColor(-13397548);
+                this.icon.setColorFilter(new PorterDuffColorFilter(-13397548, PorterDuff.Mode.SRC_IN));
+                invalidate();
+            }
             this.backgroundColor = 1275068416;
             this.layoutPaint.setColor(-1);
             drawable = this.icon;
@@ -452,16 +454,15 @@ public class LinkPreview extends View {
         this.video = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:105:0x02fc  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x03c3  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x020d  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0279  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0285  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0279  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0285  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02fc  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x03c3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setupLayout() {
-        double d;
         int color1;
         int i;
         int i2;
@@ -664,22 +665,23 @@ public class LinkPreview extends View {
             String upperCase = TextUtils.isEmpty(this.webpage.name) ? fromUrlWithoutSchema(this.webpage.url).toUpperCase() : this.webpage.name;
             int i9 = this.maxWidth;
             int i10 = this.padx;
+            float f11 = (i9 - i10) - i10;
             RectF rectF = this.padding;
-            float f11 = ((i9 - i10) - i10) - ((((rectF.left + 30.0f) + 3.25f) + rectF.right) * this.density);
+            float f12 = f11 - ((((rectF.left + 30.0f) + 3.25f) + rectF.right) * this.density);
             this.textScale = 1.0f;
-            this.layout = new StaticLayout(TextUtils.ellipsize(upperCase, this.layoutPaint, (int) Math.ceil(d), TextUtils.TruncateAt.END), this.layoutPaint, (int) Math.ceil(f11), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            this.layout = new StaticLayout(TextUtils.ellipsize(upperCase, this.layoutPaint, (int) Math.ceil(r10), TextUtils.TruncateAt.END), this.layoutPaint, (int) Math.ceil(f12), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.layoutWidth = 0.0f;
             this.layoutLeft = Float.MAX_VALUE;
             for (int i11 = 0; i11 < this.layout.getLineCount(); i11++) {
                 this.layoutWidth = Math.max(this.layoutWidth, this.layout.getLineWidth(i11));
                 this.layoutLeft = Math.min(this.layoutLeft, this.layout.getLineLeft(i11));
             }
-            this.textScale = this.layout.getLineCount() > 2 ? 0.3f : Math.min(1.0f, f11 / this.layoutWidth);
+            this.textScale = this.layout.getLineCount() > 2 ? 0.3f : Math.min(1.0f, f12 / this.layoutWidth);
             RectF rectF2 = this.padding;
-            float f12 = rectF2.left + 30.0f + 3.25f + rectF2.right;
-            float f13 = this.density;
-            this.w = (f12 * f13) + (this.layoutWidth * this.textScale);
-            this.h = ((rectF2.top + rectF2.bottom) * f13) + Math.max(f13 * 30.0f, this.layout.getHeight() * this.textScale);
+            float f13 = rectF2.left + 30.0f + 3.25f + rectF2.right;
+            float f14 = this.density;
+            this.w = (f13 * f14) + (this.layoutWidth * this.textScale);
+            this.h = ((rectF2.top + rectF2.bottom) * f14) + Math.max(f14 * 30.0f, this.layout.getHeight() * this.textScale);
         }
         if (this.animated) {
             invalidate();

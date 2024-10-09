@@ -1,4 +1,5 @@
 package j$.time.temporal;
+
 /* loaded from: classes2.dex */
 public enum b implements o {
     NANOS("Nanos"),
@@ -17,7 +18,7 @@ public enum b implements o {
     MILLENNIA("Millennia"),
     ERAS("Eras"),
     FOREVER("Forever");
-    
+
     private final String a;
 
     static {

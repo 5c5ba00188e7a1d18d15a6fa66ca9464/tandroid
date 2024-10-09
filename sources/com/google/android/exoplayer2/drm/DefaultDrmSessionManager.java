@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public class DefaultDrmSessionManager implements DrmSessionManager {
     private final MediaDrmCallback callback;
@@ -316,6 +317,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Multi-variable type inference failed */
     public DrmSession acquireSession(Looper looper, DrmSessionEventListener.EventDispatcher eventDispatcher, Format format, boolean z) {
         List list;
         maybeCreateMediaDrmHandler(looper);
@@ -324,6 +326,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
             return maybeAcquirePlaceholderSession(MimeTypes.getTrackType(format.sampleMimeType), z);
         }
         DefaultDrmSession defaultDrmSession = null;
+        Object[] objArr = 0;
         if (this.offlineLicenseKeySetId == null) {
             list = getSchemeDatas((DrmInitData) Assertions.checkNotNull(drmInitData), this.uuid, false);
             if (list.isEmpty()) {
@@ -402,15 +405,15 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
             undoAcquisition(createAndAcquireSession, eventDispatcher);
             createAndAcquireSession = createAndAcquireSession(list, z, eventDispatcher);
         }
-        if (acquisitionFailedIndicatingResourceShortage(createAndAcquireSession) && z2 && !this.preacquiredSessionReferences.isEmpty()) {
-            releaseAllPreacquiredSessions();
-            if (!this.keepaliveSessions.isEmpty()) {
-                releaseAllKeepaliveSessions();
-            }
-            undoAcquisition(createAndAcquireSession, eventDispatcher);
-            return createAndAcquireSession(list, z, eventDispatcher);
+        if (!acquisitionFailedIndicatingResourceShortage(createAndAcquireSession) || !z2 || this.preacquiredSessionReferences.isEmpty()) {
+            return createAndAcquireSession;
         }
-        return createAndAcquireSession;
+        releaseAllPreacquiredSessions();
+        if (!this.keepaliveSessions.isEmpty()) {
+            releaseAllKeepaliveSessions();
+        }
+        undoAcquisition(createAndAcquireSession, eventDispatcher);
+        return createAndAcquireSession(list, z, eventDispatcher);
     }
 
     private static List getSchemeDatas(DrmInitData drmInitData, UUID uuid, boolean z) {

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class TtmlNode {
@@ -79,7 +80,6 @@ public final class TtmlNode {
     }
 
     private static void cleanUpText(SpannableStringBuilder spannableStringBuilder) {
-        DeleteTextSpan[] deleteTextSpanArr;
         for (DeleteTextSpan deleteTextSpan : (DeleteTextSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), DeleteTextSpan.class)) {
             spannableStringBuilder.replace(spannableStringBuilder.getSpanStart(deleteTextSpan), spannableStringBuilder.getSpanEnd(deleteTextSpan), "");
         }
@@ -201,9 +201,13 @@ public final class TtmlNode {
         }
         if (this.isTextNode && z) {
             getRegionOutputText(str, map).append((CharSequence) Assertions.checkNotNull(this.text));
-        } else if ("br".equals(this.tag) && z) {
+            return;
+        }
+        if ("br".equals(this.tag) && z) {
             getRegionOutputText(str, map).append('\n');
-        } else if (isActive(j)) {
+            return;
+        }
+        if (isActive(j)) {
             for (Map.Entry entry : map.entrySet()) {
                 this.nodeStartsByRegion.put((String) entry.getKey(), Integer.valueOf(((CharSequence) Assertions.checkNotNull(((Cue.Builder) entry.getValue()).getText())).length()));
             }

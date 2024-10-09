@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 abstract class l3 extends n3 implements j$.util.N {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -16,7 +17,7 @@ abstract class l3 extends n3 implements j$.util.N {
     protected abstract Object f();
 
     @Override // j$.util.N
-    /* renamed from: forEachRemaining */
+    /* renamed from: forEachRemaining, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public final void e(Object obj) {
         obj.getClass();
         long j = this.e;
@@ -29,16 +30,16 @@ abstract class l3 extends n3 implements j$.util.N {
             return;
         }
         if (j3 >= j2 && ((j$.util.N) this.c).estimateSize() + j3 <= this.b) {
-            ((j$.util.N) this.c).forEachRemaining(obj);
+            ((j$.util.N) this.c).e(obj);
             this.d = this.e;
             return;
         }
         while (j2 > this.d) {
-            ((j$.util.N) this.c).tryAdvance(f());
+            ((j$.util.N) this.c).p(f());
             this.d++;
         }
         while (this.d < this.e) {
-            ((j$.util.N) this.c).tryAdvance(obj);
+            ((j$.util.N) this.c).p(obj);
             this.d++;
         }
     }
@@ -59,7 +60,7 @@ abstract class l3 extends n3 implements j$.util.N {
     }
 
     @Override // j$.util.N
-    /* renamed from: tryAdvance */
+    /* renamed from: tryAdvance, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public final boolean p(Object obj) {
         long j;
         obj.getClass();
@@ -73,13 +74,13 @@ abstract class l3 extends n3 implements j$.util.N {
             if (j3 <= j) {
                 break;
             }
-            ((j$.util.N) this.c).tryAdvance(f());
+            ((j$.util.N) this.c).p(f());
             this.d++;
         }
         if (j >= this.e) {
             return false;
         }
         this.d = j + 1;
-        return ((j$.util.N) this.c).tryAdvance(obj);
+        return ((j$.util.N) this.c).p(obj);
     }
 }

@@ -29,6 +29,7 @@ import org.telegram.ui.Components.CreateRtmpStreamBottomSheet;
 import org.telegram.ui.Components.JoinCallAlert;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UItem;
+
 /* loaded from: classes3.dex */
 public class CreateRtmpStreamBottomSheet extends BottomSheetWithRecyclerListView {
     private UniversalAdapter adapter;

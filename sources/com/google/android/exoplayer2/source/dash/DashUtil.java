@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.source.dash.manifest.RangedUri;
 import com.google.android.exoplayer2.source.dash.manifest.Representation;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class DashUtil {
     public static DataSpec buildDataSpec(Representation representation, String str, RangedUri rangedUri, int i, Map map) {

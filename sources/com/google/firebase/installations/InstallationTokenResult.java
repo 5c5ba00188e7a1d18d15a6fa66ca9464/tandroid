@@ -1,6 +1,7 @@
 package com.google.firebase.installations;
 
 import com.google.firebase.installations.AutoValue_InstallationTokenResult;
+
 /* loaded from: classes.dex */
 public abstract class InstallationTokenResult {
 

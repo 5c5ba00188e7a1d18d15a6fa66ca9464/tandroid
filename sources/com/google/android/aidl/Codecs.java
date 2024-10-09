@@ -2,6 +2,7 @@ package com.google.android.aidl;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* loaded from: classes.dex */
 public abstract class Codecs {
     private static final ClassLoader CLASS_LOADER = Codecs.class.getClassLoader();
@@ -13,9 +14,9 @@ public abstract class Codecs {
     public static void writeParcelable(Parcel parcel, Parcelable parcelable) {
         if (parcelable == null) {
             parcel.writeInt(0);
-            return;
+        } else {
+            parcel.writeInt(1);
+            parcelable.writeToParcel(parcel, 0);
         }
-        parcel.writeInt(1);
-        parcelable.writeToParcel(parcel, 0);
     }
 }

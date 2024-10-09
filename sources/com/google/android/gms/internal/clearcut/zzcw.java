@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public final class zzcw extends zzav implements zzcx, RandomAccess {
     private static final zzcw zzlq;
@@ -148,12 +149,12 @@ public final class zzcw extends zzav implements zzcx, RandomAccess {
 
     @Override // com.google.android.gms.internal.clearcut.zzcn
     public final /* synthetic */ zzcn zzi(int i) {
-        if (i >= size()) {
-            ArrayList arrayList = new ArrayList(i);
-            arrayList.addAll(this.zzls);
-            return new zzcw(arrayList);
+        if (i < size()) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        ArrayList arrayList = new ArrayList(i);
+        arrayList.addAll(this.zzls);
+        return new zzcw(arrayList);
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzav, com.google.android.gms.internal.clearcut.zzcn

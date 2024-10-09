@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class DvbSubtitleReader implements ElementaryStreamReader {
     private int bytesToCheck;
@@ -34,7 +35,6 @@ public final class DvbSubtitleReader implements ElementaryStreamReader {
 
     @Override // com.google.android.exoplayer2.extractor.ts.ElementaryStreamReader
     public void consume(ParsableByteArray parsableByteArray) {
-        TrackOutput[] trackOutputArr;
         if (this.writingSample) {
             if (this.bytesToCheck != 2 || checkNextByte(parsableByteArray, 32)) {
                 if (this.bytesToCheck != 1 || checkNextByte(parsableByteArray, 0)) {

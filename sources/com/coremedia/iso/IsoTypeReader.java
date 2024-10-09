@@ -2,6 +2,7 @@ package com.coremedia.iso;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public abstract class IsoTypeReader {
     public static int byte2int(byte b) {
@@ -35,9 +36,8 @@ public abstract class IsoTypeReader {
     }
 
     public static float readFixedPoint88(ByteBuffer byteBuffer) {
-        byte[] bArr = new byte[2];
-        byteBuffer.get(bArr);
-        return ((short) (((short) ((bArr[0] << 8) & 65280)) | (bArr[1] & 255))) / 256.0f;
+        byteBuffer.get(new byte[2]);
+        return ((short) (((short) ((r0[0] << 8) & 65280)) | (r0[1] & 255))) / 256.0f;
     }
 
     public static String readIso639(ByteBuffer byteBuffer) {

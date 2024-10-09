@@ -20,6 +20,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 final class MultiDexExtractor implements Closeable {
     private final FileLock cacheLock;
@@ -119,33 +120,39 @@ final class MultiDexExtractor implements Closeable {
         Log.i("MultiDex", "Extracting " + createTempFile.getPath());
         try {
             ZipOutputStream zipOutputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(createTempFile)));
-            ZipEntry zipEntry2 = new ZipEntry("classes.dex");
-            zipEntry2.setTime(zipEntry.getTime());
-            zipOutputStream.putNextEntry(zipEntry2);
-            byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM];
-            while (true) {
-                int read = inputStream.read(bArr);
-                if (read == -1) {
-                    break;
+            try {
+                ZipEntry zipEntry2 = new ZipEntry("classes.dex");
+                zipEntry2.setTime(zipEntry.getTime());
+                zipOutputStream.putNextEntry(zipEntry2);
+                byte[] bArr = new byte[LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM];
+                while (true) {
+                    int read = inputStream.read(bArr);
+                    if (read == -1) {
+                        break;
+                    } else {
+                        zipOutputStream.write(bArr, 0, read);
+                    }
                 }
-                zipOutputStream.write(bArr, 0, read);
+                zipOutputStream.closeEntry();
+                zipOutputStream.close();
+                if (!createTempFile.setReadOnly()) {
+                    throw new IOException("Failed to mark readonly \"" + createTempFile.getAbsolutePath() + "\" (tmp of \"" + file.getAbsolutePath() + "\")");
+                }
+                Log.i("MultiDex", "Renaming to " + file.getPath());
+                if (createTempFile.renameTo(file)) {
+                    closeQuietly(inputStream);
+                    createTempFile.delete();
+                    return;
+                }
+                throw new IOException("Failed to rename \"" + createTempFile.getAbsolutePath() + "\" to \"" + file.getAbsolutePath() + "\"");
+            } catch (Throwable th) {
+                zipOutputStream.close();
+                throw th;
             }
-            zipOutputStream.closeEntry();
-            zipOutputStream.close();
-            if (!createTempFile.setReadOnly()) {
-                throw new IOException("Failed to mark readonly \"" + createTempFile.getAbsolutePath() + "\" (tmp of \"" + file.getAbsolutePath() + "\")");
-            }
-            Log.i("MultiDex", "Renaming to " + file.getPath());
-            if (createTempFile.renameTo(file)) {
-                closeQuietly(inputStream);
-                createTempFile.delete();
-                return;
-            }
-            throw new IOException("Failed to rename \"" + createTempFile.getAbsolutePath() + "\" to \"" + file.getAbsolutePath() + "\"");
-        } catch (Throwable th) {
+        } catch (Throwable th2) {
             closeQuietly(inputStream);
             createTempFile.delete();
-            throw th;
+            throw th2;
         }
     }
 
@@ -260,13 +267,7 @@ final class MultiDexExtractor implements Closeable {
                 Log.w("MultiDex", "Failed to close resource", e2);
             }
             return arrayList;
-        } catch (Throwable th) {
-            try {
-                zipFile.close();
-            } catch (IOException e3) {
-                Log.w("MultiDex", "Failed to close resource", e3);
-            }
-            throw th;
+        } finally {
         }
     }
 
@@ -297,23 +298,23 @@ final class MultiDexExtractor implements Closeable {
     public List load(Context context, String str, boolean z) {
         List list;
         Log.i("MultiDex", "MultiDexExtractor.load(" + this.sourceApk.getPath() + ", " + z + ", " + str + ")");
-        if (this.cacheLock.isValid()) {
-            if (!z && !isModified(context, this.sourceApk, this.sourceCrc, str)) {
-                try {
-                    list = loadExistingExtractions(context, str);
-                } catch (IOException e) {
-                    Log.w("MultiDex", "Failed to reload existing extracted secondary dex files, falling back to fresh extraction", e);
-                }
-                Log.i("MultiDex", "load found " + list.size() + " secondary dex files");
-                return list;
+        if (!this.cacheLock.isValid()) {
+            throw new IllegalStateException("MultiDexExtractor was closed");
+        }
+        if (!z && !isModified(context, this.sourceApk, this.sourceCrc, str)) {
+            try {
+                list = loadExistingExtractions(context, str);
+            } catch (IOException e) {
+                Log.w("MultiDex", "Failed to reload existing extracted secondary dex files, falling back to fresh extraction", e);
             }
-            Log.i("MultiDex", z ? "Forced extraction must be performed." : "Detected that extraction must be performed.");
-            List performExtractions = performExtractions();
-            putStoredApkInfo(context, str, getTimeStamp(this.sourceApk), this.sourceCrc, performExtractions);
-            list = performExtractions;
             Log.i("MultiDex", "load found " + list.size() + " secondary dex files");
             return list;
         }
-        throw new IllegalStateException("MultiDexExtractor was closed");
+        Log.i("MultiDex", z ? "Forced extraction must be performed." : "Detected that extraction must be performed.");
+        List performExtractions = performExtractions();
+        putStoredApkInfo(context, str, getTimeStamp(this.sourceApk), this.sourceCrc, performExtractions);
+        list = performExtractions;
+        Log.i("MultiDex", "load found " + list.size() + " secondary dex files");
+        return list;
     }
 }

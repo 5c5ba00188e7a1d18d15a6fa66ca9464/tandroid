@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.LockSupport;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public abstract class AbstractResolvableFuture implements ListenableFuture {
     static final AtomicHelper ATOMIC_HELPER;
@@ -53,10 +54,10 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
             if (AbstractResolvableFuture.GENERATE_CANCELLATION_CAUSES) {
                 CAUSELESS_CANCELLED = null;
                 CAUSELESS_INTERRUPTED = null;
-                return;
+            } else {
+                CAUSELESS_CANCELLED = new Cancellation(false, null);
+                CAUSELESS_INTERRUPTED = new Cancellation(true, null);
             }
-            CAUSELESS_CANCELLED = new Cancellation(false, null);
-            CAUSELESS_INTERRUPTED = new Cancellation(true, null);
         }
 
         Cancellation(boolean z, Throwable th) {
@@ -153,11 +154,11 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         boolean casListeners(AbstractResolvableFuture abstractResolvableFuture, Listener listener, Listener listener2) {
             synchronized (abstractResolvableFuture) {
                 try {
-                    if (abstractResolvableFuture.listeners == listener) {
-                        abstractResolvableFuture.listeners = listener2;
-                        return true;
+                    if (abstractResolvableFuture.listeners != listener) {
+                        return false;
                     }
-                    return false;
+                    abstractResolvableFuture.listeners = listener2;
+                    return true;
                 } catch (Throwable th) {
                     throw th;
                 }
@@ -168,11 +169,11 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         boolean casValue(AbstractResolvableFuture abstractResolvableFuture, Object obj, Object obj2) {
             synchronized (abstractResolvableFuture) {
                 try {
-                    if (abstractResolvableFuture.value == obj) {
-                        abstractResolvableFuture.value = obj2;
-                        return true;
+                    if (abstractResolvableFuture.value != obj) {
+                        return false;
                     }
-                    return false;
+                    abstractResolvableFuture.value = obj2;
+                    return true;
                 } catch (Throwable th) {
                     throw th;
                 }
@@ -183,11 +184,11 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         boolean casWaiters(AbstractResolvableFuture abstractResolvableFuture, Waiter waiter, Waiter waiter2) {
             synchronized (abstractResolvableFuture) {
                 try {
-                    if (abstractResolvableFuture.waiters == waiter) {
-                        abstractResolvableFuture.waiters = waiter2;
-                        return true;
+                    if (abstractResolvableFuture.waiters != waiter) {
+                        return false;
                     }
-                    return false;
+                    abstractResolvableFuture.waiters = waiter2;
+                    return true;
                 } catch (Throwable th) {
                     throw th;
                 }
@@ -307,10 +308,9 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
             if (runnable instanceof SetFuture) {
                 ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(runnable);
                 throw null;
-            } else {
-                executeListener(runnable, clearListeners.executor);
-                clearListeners = listener;
             }
+            executeListener(runnable, clearListeners.executor);
+            clearListeners = listener;
         }
     }
 
@@ -318,9 +318,7 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         try {
             executor.execute(runnable);
         } catch (RuntimeException e) {
-            Logger logger = log;
-            Level level = Level.SEVERE;
-            logger.log(level, "RuntimeException while executing runnable " + runnable + " with executor " + executor, (Throwable) e);
+            log.log(Level.SEVERE, "RuntimeException while executing runnable " + runnable + " with executor " + executor, (Throwable) e);
         }
     }
 
@@ -405,17 +403,17 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         checkNotNull(runnable);
         checkNotNull(executor);
         Listener listener = this.listeners;
-        if (listener == Listener.TOMBSTONE) {
-            executeListener(runnable, executor);
+        if (listener != Listener.TOMBSTONE) {
+            Listener listener2 = new Listener(runnable, executor);
+            do {
+                listener2.next = listener;
+                if (ATOMIC_HELPER.casListeners(this, listener, listener2)) {
+                    return;
+                } else {
+                    listener = this.listeners;
+                }
+            } while (listener != Listener.TOMBSTONE);
         }
-        Listener listener2 = new Listener(runnable, executor);
-        do {
-            listener2.next = listener;
-            if (ATOMIC_HELPER.casListeners(this, listener, listener2)) {
-                return;
-            }
-            listener = this.listeners;
-        } while (listener != Listener.TOMBSTONE);
         executeListener(runnable, executor);
     }
 
@@ -465,14 +463,12 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
                 }
                 waiter = this.waiters;
             } while (waiter != Waiter.TOMBSTONE);
-            return getDoneValue(this.value);
         }
         return getDoneValue(this.value);
     }
 
     @Override // java.util.concurrent.Future
     public final Object get(long j, TimeUnit timeUnit) {
-        Locale locale;
         long nanos = timeUnit.toNanos(j);
         if (Thread.interrupted()) {
             throw new InterruptedException();
@@ -506,7 +502,6 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
                         waiter = this.waiters;
                     }
                 } while (waiter != Waiter.TOMBSTONE);
-                return getDoneValue(this.value);
             }
             return getDoneValue(this.value);
         }
@@ -521,7 +516,9 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
             nanos = nanoTime - System.nanoTime();
         }
         String abstractResolvableFuture = toString();
-        String lowerCase = timeUnit.toString().toLowerCase(Locale.ROOT);
+        String obj4 = timeUnit.toString();
+        Locale locale = Locale.ROOT;
+        String lowerCase = obj4.toLowerCase(locale);
         String str = "Waited " + j + " " + timeUnit.toString().toLowerCase(locale);
         if (nanos + 1000 < 0) {
             String str2 = str + " (plus ";
@@ -560,11 +557,12 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         return (this.value != null) & true;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     protected String pendingToString() {
-        if (this instanceof ScheduledFuture) {
-            return "remaining delay=[" + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS) + " ms]";
+        if (!(this instanceof ScheduledFuture)) {
+            return null;
         }
-        return null;
+        return "remaining delay=[" + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS) + " ms]";
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -572,20 +570,20 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         if (obj == null) {
             obj = NULL;
         }
-        if (ATOMIC_HELPER.casValue(this, null, obj)) {
-            complete(this);
-            return true;
+        if (!ATOMIC_HELPER.casValue(this, null, obj)) {
+            return false;
         }
-        return false;
+        complete(this);
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public boolean setException(Throwable th) {
-        if (ATOMIC_HELPER.casValue(this, null, new Failure((Throwable) checkNotNull(th)))) {
-            complete(this);
-            return true;
+        if (!ATOMIC_HELPER.casValue(this, null, new Failure((Throwable) checkNotNull(th)))) {
+            return false;
         }
-        return false;
+        complete(this);
+        return true;
     }
 
     public String toString() {
@@ -608,13 +606,12 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
                     sb.append("]");
                     return sb.toString();
                 }
-                str2 = isDone() ? "PENDING" : "PENDING";
+                str2 = isDone() ? "CANCELLED" : "PENDING";
             }
             addDoneString(sb);
             sb.append("]");
             return sb.toString();
         }
-        str2 = "CANCELLED";
         sb.append(str2);
         sb.append("]");
         return sb.toString();

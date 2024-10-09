@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class g implements Consumer {
     public final /* synthetic */ java.util.function.Consumer a;

@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+
 /* loaded from: classes3.dex */
 public abstract class LayoutHelper {
     public static FrameLayout.LayoutParams createFrame(float f, float f2, int i) {

@@ -20,6 +20,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.NumberPicker;
+
 /* loaded from: classes3.dex */
 public class SwipeGestureSettingsView extends FrameLayout {
     int[] backgroundKeys;
@@ -192,16 +193,15 @@ public class SwipeGestureSettingsView extends FrameLayout {
         return this.icons[i];
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00af  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00d0  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x00af  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00d0  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onDraw(Canvas canvas) {
         RLottieImageView rLottieImageView;
-        int measuredHeight;
         float f;
         super.onDraw(canvas);
         boolean z = this.picker.getValue() == 5;
@@ -222,8 +222,8 @@ public class SwipeGestureSettingsView extends FrameLayout {
                     int measuredWidth = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
                     int dp = AndroidUtilities.dp(21.0f);
                     float f4 = dp;
-                    float measuredHeight2 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
-                    this.rect.set(f4, measuredHeight2, measuredWidth, getMeasuredHeight() - measuredHeight);
+                    float measuredHeight = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
+                    this.rect.set(f4, measuredHeight, measuredWidth, getMeasuredHeight() - r4);
                     if (this.currentColorKey < 0) {
                     }
                     f = this.colorProgress;
@@ -235,7 +235,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
                     this.filledPaint.setColor(Theme.getColor(i3));
                     this.filledPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
-                    this.rect.set(f4, measuredHeight2, measuredWidth - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
+                    this.rect.set(f4, measuredHeight, measuredWidth - AndroidUtilities.dp(58.0f), getMeasuredHeight() - r4);
                     this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
                     canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
                     this.outlinePaint.setAlpha(31);
@@ -261,8 +261,8 @@ public class SwipeGestureSettingsView extends FrameLayout {
                 int measuredWidth2 = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
                 int dp2 = AndroidUtilities.dp(21.0f);
                 float f42 = dp2;
-                float measuredHeight22 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
-                this.rect.set(f42, measuredHeight22, measuredWidth2, getMeasuredHeight() - measuredHeight);
+                float measuredHeight2 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
+                this.rect.set(f42, measuredHeight2, measuredWidth2, getMeasuredHeight() - r4);
                 if (this.currentColorKey < 0) {
                     this.currentColorKey = this.backgroundKeys[this.picker.getValue()];
                     this.colorProgress = 1.0f;
@@ -288,7 +288,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
                 this.filledPaint.setColor(Theme.getColor(i32));
                 this.filledPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
-                this.rect.set(f42, measuredHeight22, measuredWidth2 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
+                this.rect.set(f42, measuredHeight2, measuredWidth2 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - r4);
                 this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
                 this.outlinePaint.setAlpha(31);
@@ -329,8 +329,8 @@ public class SwipeGestureSettingsView extends FrameLayout {
         int measuredWidth22 = getMeasuredWidth() - ((AndroidUtilities.dp(132.0f) + AndroidUtilities.dp(21.0f)) + AndroidUtilities.dp(16.0f));
         int dp22 = AndroidUtilities.dp(21.0f);
         float f422 = dp22;
-        float measuredHeight222 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
-        this.rect.set(f422, measuredHeight222, measuredWidth22, getMeasuredHeight() - measuredHeight);
+        float measuredHeight22 = (getMeasuredHeight() - AndroidUtilities.dp(48.0f)) / 2;
+        this.rect.set(f422, measuredHeight22, measuredWidth22, getMeasuredHeight() - r4);
         if (this.currentColorKey < 0) {
         }
         f = this.colorProgress;
@@ -342,7 +342,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
         this.filledPaint.setColor(Theme.getColor(i322));
         this.filledPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
-        this.rect.set(f422, measuredHeight222, measuredWidth22 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
+        this.rect.set(f422, measuredHeight22, measuredWidth22 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - r4);
         this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
         this.outlinePaint.setAlpha(31);
@@ -366,7 +366,10 @@ public class SwipeGestureSettingsView extends FrameLayout {
         super.onInitializeAccessibilityEvent(accessibilityEvent);
         if (accessibilityEvent.getEventType() == 1) {
             int value = this.picker.getValue() + 1;
-            setContentDescription(this.strings[(value > this.picker.getMaxValue() || value < 0) ? 0 : 0]);
+            if (value > this.picker.getMaxValue() || value < 0) {
+                value = 0;
+            }
+            setContentDescription(this.strings[value]);
             this.picker.changeValueByOne(true);
         }
     }

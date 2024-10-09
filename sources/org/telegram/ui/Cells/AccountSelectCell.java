@@ -20,6 +20,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class AccountSelectCell extends FrameLayout {
     private int accountNumber;
@@ -126,26 +127,26 @@ public class AccountSelectCell extends FrameLayout {
     public void setObject(TLObject tLObject) {
         TextView textView;
         String str;
-        TLRPC.User user;
+        TLRPC.Chat chat;
         if (tLObject instanceof TLRPC.User) {
-            TLRPC.User user2 = (TLRPC.User) tLObject;
-            this.avatarDrawable.setInfo(user2);
+            TLRPC.User user = (TLRPC.User) tLObject;
+            this.avatarDrawable.setInfo(user);
             textView = this.infoTextView;
-            str = ContactsController.formatName(user2.first_name, user2.last_name);
-            user = user2;
+            str = ContactsController.formatName(user.first_name, user.last_name);
+            chat = user;
         } else {
-            TLRPC.Chat chat = (TLRPC.Chat) tLObject;
-            this.avatarDrawable.setInfo(chat);
+            TLRPC.Chat chat2 = (TLRPC.Chat) tLObject;
+            this.avatarDrawable.setInfo(chat2);
             textView = this.infoTextView;
-            if (chat == null) {
+            if (chat2 == null) {
                 str = "";
-                user = chat;
+                chat = chat2;
             } else {
-                str = chat.title;
-                user = chat;
+                str = chat2.title;
+                chat = chat2;
             }
         }
         textView.setText(str);
-        this.imageView.setForUserOrChat(user, this.avatarDrawable);
+        this.imageView.setForUserOrChat(chat, this.avatarDrawable);
     }
 }

@@ -2,6 +2,7 @@ package com.microsoft.appcenter.ingestion.models.properties;
 
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class DoubleTypedProperty extends TypedProperty {
     private double value;

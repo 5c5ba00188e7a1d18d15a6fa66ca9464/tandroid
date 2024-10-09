@@ -1,6 +1,7 @@
 package com.google.zxing.common;
 
 import com.google.zxing.NotFoundException;
+
 /* loaded from: classes.dex */
 public final class DefaultGridSampler extends GridSampler {
     @Override // com.google.zxing.common.GridSampler

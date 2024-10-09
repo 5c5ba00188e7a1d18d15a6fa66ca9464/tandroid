@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.source.ads.AdPlaybackState;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class MaskingMediaSource extends WrappingMediaSource {
     private boolean hasRealTimeline;
@@ -129,10 +130,10 @@ public final class MaskingMediaSource extends WrappingMediaSource {
         Timeline initialTimeline = mediaSource.getInitialTimeline();
         if (initialTimeline == null) {
             this.timeline = MaskingTimeline.createWithPlaceholderTimeline(mediaSource.getMediaItem());
-            return;
+        } else {
+            this.timeline = MaskingTimeline.createWithRealTimeline(initialTimeline, null, null);
+            this.hasRealTimeline = true;
         }
-        this.timeline = MaskingTimeline.createWithRealTimeline(initialTimeline, null, null);
-        this.hasRealTimeline = true;
     }
 
     private Object getExternalPeriodUid(Object obj) {
@@ -185,11 +186,11 @@ public final class MaskingMediaSource extends WrappingMediaSource {
     public void maybeThrowSourceInfoRefreshError() {
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0094  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00bb  */
-    /* JADX WARN: Removed duplicated region for block: B:32:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:12:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0094  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x00bb  */
     @Override // com.google.android.exoplayer2.source.WrappingMediaSource
     /*
         Code decompiled incorrectly, please refer to instructions dump.

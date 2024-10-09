@@ -64,6 +64,7 @@ import kotlin.collections.MapsKt__MapsKt;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.ranges.RangesKt___RangesKt;
+
 /* loaded from: classes.dex */
 public abstract class FragmentManager {
     private static boolean DEBUG = false;
@@ -350,8 +351,9 @@ public abstract class FragmentManager {
 
     private Set collectAllSpecialEffectsController() {
         HashSet hashSet = new HashSet();
-        for (FragmentStateManager fragmentStateManager : this.mFragmentStore.getActiveFragmentStateManagers()) {
-            ViewGroup viewGroup = fragmentStateManager.getFragment().mContainer;
+        Iterator it = this.mFragmentStore.getActiveFragmentStateManagers().iterator();
+        while (it.hasNext()) {
+            ViewGroup viewGroup = ((FragmentStateManager) it.next()).getFragment().mContainer;
             if (viewGroup != null) {
                 hashSet.add(SpecialEffectsController.getOrCreateController(viewGroup, getSpecialEffectsControllerFactory()));
             }
@@ -443,8 +445,9 @@ public abstract class FragmentManager {
             this.mFragmentStore.dispatchStateChange(i);
             moveToState(i, false);
             if (USE_STATE_MANAGER) {
-                for (SpecialEffectsController specialEffectsController : collectAllSpecialEffectsController()) {
-                    specialEffectsController.forceCompleteAllOperations();
+                Iterator it = collectAllSpecialEffectsController().iterator();
+                while (it.hasNext()) {
+                    ((SpecialEffectsController) it.next()).forceCompleteAllOperations();
                 }
             }
             this.mExecutingActions = false;
@@ -464,10 +467,14 @@ public abstract class FragmentManager {
 
     private void endAnimatingAwayFragments() {
         if (USE_STATE_MANAGER) {
-            for (SpecialEffectsController specialEffectsController : collectAllSpecialEffectsController()) {
-                specialEffectsController.forceCompleteAllOperations();
+            Iterator it = collectAllSpecialEffectsController().iterator();
+            while (it.hasNext()) {
+                ((SpecialEffectsController) it.next()).forceCompleteAllOperations();
             }
-        } else if (!this.mExitAnimationCancellationSignals.isEmpty()) {
+        } else {
+            if (this.mExitAnimationCancellationSignals.isEmpty()) {
+                return;
+            }
             for (Fragment fragment : this.mExitAnimationCancellationSignals.keySet()) {
                 cancelExitAnimation(fragment);
                 moveToState(fragment);
@@ -484,22 +491,22 @@ public abstract class FragmentManager {
                 throw new IllegalStateException("FragmentManager has not been attached to a host.");
             }
             throw new IllegalStateException("FragmentManager has been destroyed");
-        } else if (Looper.myLooper() != this.mHost.getHandler().getLooper()) {
+        }
+        if (Looper.myLooper() != this.mHost.getHandler().getLooper()) {
             throw new IllegalStateException("Must be called from main thread of fragment host");
-        } else {
-            if (!z) {
-                checkStateLoss();
-            }
-            if (this.mTmpRecords == null) {
-                this.mTmpRecords = new ArrayList();
-                this.mTmpIsPop = new ArrayList();
-            }
-            this.mExecutingActions = true;
-            try {
-                executePostponedTransaction(null, null);
-            } finally {
-                this.mExecutingActions = false;
-            }
+        }
+        if (!z) {
+            checkStateLoss();
+        }
+        if (this.mTmpRecords == null) {
+            this.mTmpRecords = new ArrayList();
+            this.mTmpIsPop = new ArrayList();
+        }
+        this.mExecutingActions = true;
+        try {
+            executePostponedTransaction(null, null);
+        } finally {
+            this.mExecutingActions = false;
         }
     }
 
@@ -518,14 +525,14 @@ public abstract class FragmentManager {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:110:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00c5  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0143  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x019d  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01be  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00c5  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x019d  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x01be  */
+    /* JADX WARN: Removed duplicated region for block: B:96:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0143  */
     /* JADX WARN: Type inference failed for: r1v17 */
     /* JADX WARN: Type inference failed for: r1v3 */
-    /* JADX WARN: Type inference failed for: r1v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v4, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -691,8 +698,9 @@ public abstract class FragmentManager {
 
     private void forcePostponedTransactions() {
         if (USE_STATE_MANAGER) {
-            for (SpecialEffectsController specialEffectsController : collectAllSpecialEffectsController()) {
-                specialEffectsController.forcePostponedExecutePendingOperations();
+            Iterator it = collectAllSpecialEffectsController().iterator();
+            while (it.hasNext()) {
+                ((SpecialEffectsController) it.next()).forcePostponedExecutePendingOperations();
             }
         } else if (this.mPostponedTransactions != null) {
             while (!this.mPostponedTransactions.isEmpty()) {
@@ -773,22 +781,22 @@ public abstract class FragmentManager {
         execPendingActions(false);
         ensureExecReady(true);
         Fragment fragment = this.mPrimaryNav;
-        if (fragment == null || i >= 0 || str != null || !fragment.getChildFragmentManager().popBackStackImmediate()) {
-            boolean popBackStackState = popBackStackState(this.mTmpRecords, this.mTmpIsPop, str, i, i2);
-            if (popBackStackState) {
-                this.mExecutingActions = true;
-                try {
-                    removeRedundantOperationsAndExecute(this.mTmpRecords, this.mTmpIsPop);
-                } finally {
-                    cleanupExec();
-                }
-            }
-            updateOnBackPressedCallbackEnabled();
-            doPendingDeferredStart();
-            this.mFragmentStore.burpActive();
-            return popBackStackState;
+        if (fragment != null && i < 0 && str == null && fragment.getChildFragmentManager().popBackStackImmediate()) {
+            return true;
         }
-        return true;
+        boolean popBackStackState = popBackStackState(this.mTmpRecords, this.mTmpIsPop, str, i, i2);
+        if (popBackStackState) {
+            this.mExecutingActions = true;
+            try {
+                removeRedundantOperationsAndExecute(this.mTmpRecords, this.mTmpIsPop);
+            } finally {
+                cleanupExec();
+            }
+        }
+        updateOnBackPressedCallbackEnabled();
+        doPendingDeferredStart();
+        this.mFragmentStore.burpActive();
+        return popBackStackState;
     }
 
     private int postponePostponableTransactions(ArrayList arrayList, ArrayList arrayList2, int i, int i2, ArraySet arraySet) {
@@ -862,13 +870,13 @@ public abstract class FragmentManager {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int reverseTransit(int i) {
-        if (i != 4097) {
-            if (i != 4099) {
-                return i != 8194 ? 0 : 4097;
-            }
-            return 4099;
+        if (i == 4097) {
+            return 8194;
         }
-        return 8194;
+        if (i != 4099) {
+            return i != 8194 ? 0 : 4097;
+        }
+        return 4099;
     }
 
     private void setVisibleRemovingFragment(Fragment fragment) {
@@ -884,17 +892,17 @@ public abstract class FragmentManager {
     }
 
     private void startPendingDeferredFragments() {
-        for (FragmentStateManager fragmentStateManager : this.mFragmentStore.getActiveFragmentStateManagers()) {
-            performPendingDeferredStart(fragmentStateManager);
+        Iterator it = this.mFragmentStore.getActiveFragmentStateManagers().iterator();
+        while (it.hasNext()) {
+            performPendingDeferredStart((FragmentStateManager) it.next());
         }
     }
 
     private void updateOnBackPressedCallbackEnabled() {
         synchronized (this.mPendingActions) {
             try {
-                boolean z = true;
                 if (this.mPendingActions.isEmpty()) {
-                    this.mOnBackPressedCallback.setEnabled((getBackStackEntryCount() <= 0 || !isPrimaryNavigation(this.mParent)) ? false : false);
+                    this.mOnBackPressedCallback.setEnabled(getBackStackEntryCount() > 0 && isPrimaryNavigation(this.mParent));
                 } else {
                     this.mOnBackPressedCallback.setEnabled(true);
                 }
@@ -950,18 +958,19 @@ public abstract class FragmentManager {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0021  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0028  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x003b  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0044  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0070  */
-    /* JADX WARN: Removed duplicated region for block: B:38:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0028  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0070  */
+    /* JADX WARN: Removed duplicated region for block: B:28:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0044  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0021  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void attachController(FragmentHostCallback fragmentHostCallback, FragmentContainer fragmentContainer, final Fragment fragment) {
         FragmentOnAttachListener fragmentOnAttachListener;
-        FragmentHostCallback fragmentHostCallback2;
+        Object obj;
         String str;
         if (this.mHost != null) {
             throw new IllegalStateException("Already attached");
@@ -989,11 +998,11 @@ public abstract class FragmentManager {
             this.mNonConfig = fragment == null ? fragment.mFragmentManager.getChildNonConfig(fragment) : fragmentHostCallback instanceof ViewModelStoreOwner ? FragmentManagerViewModel.getInstance(((ViewModelStoreOwner) fragmentHostCallback).getViewModelStore()) : new FragmentManagerViewModel(false);
             this.mNonConfig.setIsStateSaved(isStateSaved());
             this.mFragmentStore.setNonConfig(this.mNonConfig);
-            fragmentHostCallback2 = this.mHost;
-            if (fragmentHostCallback2 instanceof ActivityResultRegistryOwner) {
+            obj = this.mHost;
+            if (obj instanceof ActivityResultRegistryOwner) {
                 return;
             }
-            ActivityResultRegistry activityResultRegistry = ((ActivityResultRegistryOwner) fragmentHostCallback2).getActivityResultRegistry();
+            ActivityResultRegistry activityResultRegistry = ((ActivityResultRegistryOwner) obj).getActivityResultRegistry();
             if (fragment != null) {
                 str = fragment.mWho + ":";
             } else {
@@ -1124,25 +1133,25 @@ public abstract class FragmentManager {
                     if (i != -1) {
                         emptyMap3 = MapsKt__MapsKt.emptyMap();
                         return emptyMap3;
-                    } else if (intent == null) {
+                    }
+                    if (intent == null) {
                         emptyMap2 = MapsKt__MapsKt.emptyMap();
                         return emptyMap2;
-                    } else {
-                        String[] stringArrayExtra = intent.getStringArrayExtra("androidx.activity.result.contract.extra.PERMISSIONS");
-                        int[] intArrayExtra = intent.getIntArrayExtra("androidx.activity.result.contract.extra.PERMISSION_GRANT_RESULTS");
-                        if (intArrayExtra == null || stringArrayExtra == null) {
-                            emptyMap = MapsKt__MapsKt.emptyMap();
-                            return emptyMap;
-                        }
-                        ArrayList arrayList = new ArrayList(intArrayExtra.length);
-                        for (int i2 : intArrayExtra) {
-                            arrayList.add(Boolean.valueOf(i2 == 0));
-                        }
-                        filterNotNull = ArraysKt___ArraysKt.filterNotNull(stringArrayExtra);
-                        zip = CollectionsKt___CollectionsKt.zip(filterNotNull, arrayList);
-                        map = MapsKt__MapsKt.toMap(zip);
-                        return map;
                     }
+                    String[] stringArrayExtra = intent.getStringArrayExtra("androidx.activity.result.contract.extra.PERMISSIONS");
+                    int[] intArrayExtra = intent.getIntArrayExtra("androidx.activity.result.contract.extra.PERMISSION_GRANT_RESULTS");
+                    if (intArrayExtra == null || stringArrayExtra == null) {
+                        emptyMap = MapsKt__MapsKt.emptyMap();
+                        return emptyMap;
+                    }
+                    ArrayList arrayList = new ArrayList(intArrayExtra.length);
+                    for (int i2 : intArrayExtra) {
+                        arrayList.add(Boolean.valueOf(i2 == 0));
+                    }
+                    filterNotNull = ArraysKt___ArraysKt.filterNotNull(stringArrayExtra);
+                    zip = CollectionsKt___CollectionsKt.zip(filterNotNull, arrayList);
+                    map = MapsKt__MapsKt.toMap(zip);
+                    return map;
                 }
             }, new ActivityResultCallback() { // from class: androidx.fragment.app.FragmentManager.11
                 @Override // androidx.activity.result.ActivityResultCallback
@@ -1166,10 +1175,11 @@ public abstract class FragmentManager {
                         if (findFragmentByWho != null) {
                             findFragmentByWho.onRequestPermissionsResult(i2, strArr, iArr);
                             return;
+                        } else {
+                            sb = new StringBuilder();
+                            sb.append("Permission request result delivered for unknown Fragment ");
+                            sb.append(str3);
                         }
-                        sb = new StringBuilder();
-                        sb.append("Permission request result delivered for unknown Fragment ");
-                        sb.append(str3);
                     }
                     Log.w("FragmentManager", sb.toString());
                 }
@@ -1190,8 +1200,8 @@ public abstract class FragmentManager {
         this.mNonConfig = fragment == null ? fragment.mFragmentManager.getChildNonConfig(fragment) : fragmentHostCallback instanceof ViewModelStoreOwner ? FragmentManagerViewModel.getInstance(((ViewModelStoreOwner) fragmentHostCallback).getViewModelStore()) : new FragmentManagerViewModel(false);
         this.mNonConfig.setIsStateSaved(isStateSaved());
         this.mFragmentStore.setNonConfig(this.mNonConfig);
-        fragmentHostCallback2 = this.mHost;
-        if (fragmentHostCallback2 instanceof ActivityResultRegistryOwner) {
+        obj = this.mHost;
+        if (obj instanceof ActivityResultRegistryOwner) {
         }
     }
 
@@ -1224,7 +1234,6 @@ public abstract class FragmentManager {
         for (Fragment fragment : this.mFragmentStore.getActiveFragments()) {
             if (fragment != null) {
                 z = isMenuAvailable(fragment);
-                continue;
             }
             if (z) {
                 return true;
@@ -1521,11 +1530,12 @@ public abstract class FragmentManager {
             printWriter.print(str);
             printWriter.println("Fragments Created Menus:");
             for (int i = 0; i < size2; i++) {
+                Fragment fragment = (Fragment) this.mCreatedMenus.get(i);
                 printWriter.print(str);
                 printWriter.print("  #");
                 printWriter.print(i);
                 printWriter.print(": ");
-                printWriter.println(((Fragment) this.mCreatedMenus.get(i)).toString());
+                printWriter.println(fragment.toString());
             }
         }
         ArrayList arrayList2 = this.mBackStack;
@@ -1551,11 +1561,12 @@ public abstract class FragmentManager {
                     printWriter.print(str);
                     printWriter.println("Pending Actions:");
                     for (int i3 = 0; i3 < size3; i3++) {
+                        OpGenerator opGenerator = (OpGenerator) this.mPendingActions.get(i3);
                         printWriter.print(str);
                         printWriter.print("  #");
                         printWriter.print(i3);
                         printWriter.print(": ");
-                        printWriter.println((OpGenerator) this.mPendingActions.get(i3));
+                        printWriter.println(opGenerator);
                     }
                 }
             } catch (Throwable th) {
@@ -1608,10 +1619,10 @@ public abstract class FragmentManager {
                     if (!z) {
                         throw new IllegalStateException("Activity has been destroyed");
                     }
-                    return;
+                } else {
+                    this.mPendingActions.add(opGenerator);
+                    scheduleCommit();
                 }
-                this.mPendingActions.add(opGenerator);
-                scheduleCommit();
             } catch (Throwable th) {
                 throw th;
             }
@@ -1867,15 +1878,16 @@ public abstract class FragmentManager {
             if (USE_STATE_MANAGER) {
                 this.mFragmentStore.moveToExpectedState();
             } else {
-                for (Fragment fragment : this.mFragmentStore.getFragments()) {
-                    moveFragmentToExpectedState(fragment);
+                Iterator it = this.mFragmentStore.getFragments().iterator();
+                while (it.hasNext()) {
+                    moveFragmentToExpectedState((Fragment) it.next());
                 }
                 for (FragmentStateManager fragmentStateManager : this.mFragmentStore.getActiveFragmentStateManagers()) {
-                    Fragment fragment2 = fragmentStateManager.getFragment();
-                    if (!fragment2.mIsNewlyAdded) {
-                        moveFragmentToExpectedState(fragment2);
+                    Fragment fragment = fragmentStateManager.getFragment();
+                    if (!fragment.mIsNewlyAdded) {
+                        moveFragmentToExpectedState(fragment);
                     }
-                    if (fragment2.mRemoving && !fragment2.isInBackStack()) {
+                    if (fragment.mRemoving && !fragment.isInBackStack()) {
                         this.mFragmentStore.makeInactive(fragmentStateManager);
                     }
                 }
@@ -1893,15 +1905,16 @@ public abstract class FragmentManager {
         moveToState(fragment, this.mCurState);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0053, code lost:
-        if (r2 != 5) goto L26;
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0053, code lost:
+    
+        if (r2 != 5) goto L102;
      */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0161  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0063  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0068  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x006d  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x0161  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x006d  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0068  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

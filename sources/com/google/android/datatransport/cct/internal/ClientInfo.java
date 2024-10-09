@@ -1,6 +1,7 @@
 package com.google.android.datatransport.cct.internal;
 
 import com.google.android.datatransport.cct.internal.AutoValue_ClientInfo;
+
 /* loaded from: classes.dex */
 public abstract class ClientInfo {
 
@@ -17,7 +18,7 @@ public abstract class ClientInfo {
     public enum ClientType {
         UNKNOWN(0),
         ANDROID_FIREBASE(23);
-        
+
         private final int value;
 
         ClientType(int i) {

@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import org.telegram.messenger.voip.VoIPController;
+
 /* loaded from: classes.dex */
 public class DefaultLoadControl implements LoadControl {
     private final DefaultAllocator allocator;
@@ -46,8 +47,7 @@ public class DefaultLoadControl implements LoadControl {
     }
 
     private static void assertGreaterOrEqual(int i, int i2, String str, String str2) {
-        boolean z = i >= i2;
-        Assertions.checkArgument(z, str + " cannot be less than " + str2);
+        Assertions.checkArgument(i >= i2, str + " cannot be less than " + str2);
     }
 
     private static int getDefaultBufferSize(int i) {

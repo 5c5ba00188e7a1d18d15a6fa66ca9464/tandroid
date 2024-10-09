@@ -2,6 +2,7 @@ package com.googlecode.mp4parser;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.NoAspectBoundException;
+
 /* loaded from: classes.dex */
 public class RequiresParseDetailAspect {
     private static /* synthetic */ Throwable ajc$initFailureCause;
@@ -33,8 +34,8 @@ public class RequiresParseDetailAspect {
                 return;
             }
             ((AbstractBox) joinPoint.getTarget()).parseDetails();
-            return;
+        } else {
+            throw new RuntimeException("Only methods in subclasses of " + AbstractBox.class.getName() + " can  be annotated with ParseDetail");
         }
-        throw new RuntimeException("Only methods in subclasses of " + AbstractBox.class.getName() + " can  be annotated with ParseDetail");
     }
 }

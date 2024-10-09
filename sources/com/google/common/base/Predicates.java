@@ -3,6 +3,7 @@ package com.google.common.base;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class Predicates {
 

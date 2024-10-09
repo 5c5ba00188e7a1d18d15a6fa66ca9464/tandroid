@@ -13,6 +13,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class TextColorCell extends FrameLayout {
     private static Paint colorPaint;
@@ -66,12 +67,12 @@ public class TextColorCell extends FrameLayout {
         if (arrayList == null) {
             this.textView.setAlpha(z ? 1.0f : 0.5f);
             setAlpha(z ? 1.0f : 0.5f);
-            return;
+        } else {
+            TextView textView = this.textView;
+            Property property = View.ALPHA;
+            arrayList.add(ObjectAnimator.ofFloat(textView, (Property<TextView, Float>) property, z ? 1.0f : 0.5f));
+            arrayList.add(ObjectAnimator.ofFloat(this, (Property<TextColorCell, Float>) property, z ? 1.0f : 0.5f));
         }
-        TextView textView = this.textView;
-        Property property = View.ALPHA;
-        arrayList.add(ObjectAnimator.ofFloat(textView, property, z ? 1.0f : 0.5f));
-        arrayList.add(ObjectAnimator.ofFloat(this, property, z ? 1.0f : 0.5f));
     }
 
     public void setTextAndColor(String str, int i, boolean z) {

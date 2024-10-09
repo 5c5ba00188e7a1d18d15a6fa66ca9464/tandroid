@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.nio.ByteBuffer;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzff {
@@ -102,16 +103,16 @@ public abstract class zzff {
     public static int zzf(byte[] bArr, int i, int i2) {
         byte b = bArr[i - 1];
         int i3 = i2 - i;
-        if (i3 != 0) {
-            if (i3 != 1) {
-                if (i3 == 2) {
-                    return zzd(b, bArr[i], bArr[i + 1]);
-                }
-                throw new AssertionError();
-            }
+        if (i3 == 0) {
+            return zzam(b);
+        }
+        if (i3 == 1) {
             return zzp(b, bArr[i]);
         }
-        return zzam(b);
+        if (i3 == 2) {
+            return zzd(b, bArr[i], bArr[i + 1]);
+        }
+        throw new AssertionError();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

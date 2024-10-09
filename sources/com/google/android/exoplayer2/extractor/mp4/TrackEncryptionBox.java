@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor.mp4;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
+
 /* loaded from: classes.dex */
 public final class TrackEncryptionBox {
     public final TrackOutput.CryptoData cryptoData;
@@ -20,7 +21,6 @@ public final class TrackEncryptionBox {
         this.cryptoData = new TrackOutput.CryptoData(schemeToCryptoMode(str), bArr, i2, i3);
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     private static int schemeToCryptoMode(String str) {
         if (str == null) {
             return 1;
@@ -56,13 +56,11 @@ public final class TrackEncryptionBox {
             case 0:
             case 1:
                 return 2;
-            case 2:
-            case 3:
-                break;
             default:
                 Log.w("TrackEncryptionBox", "Unsupported protection scheme type '" + str + "'. Assuming AES-CTR crypto mode.");
-                break;
+            case 2:
+            case 3:
+                return 1;
         }
-        return 1;
     }
 }

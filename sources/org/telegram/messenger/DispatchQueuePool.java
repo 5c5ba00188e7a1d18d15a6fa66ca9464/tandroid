@@ -4,6 +4,7 @@ import android.os.SystemClock;
 import android.util.SparseIntArray;
 import java.util.LinkedList;
 import org.telegram.ui.Components.Reactions.HwEmojis;
+
 /* loaded from: classes3.dex */
 public class DispatchQueuePool {
     private boolean cleanupScheduled;
@@ -34,10 +35,10 @@ public class DispatchQueuePool {
             }
             if (DispatchQueuePool.this.queues.isEmpty() && DispatchQueuePool.this.busyQueues.isEmpty()) {
                 DispatchQueuePool.this.cleanupScheduled = false;
-                return;
+            } else {
+                AndroidUtilities.runOnUIThread(this, 30000L);
+                DispatchQueuePool.this.cleanupScheduled = true;
             }
-            AndroidUtilities.runOnUIThread(this, 30000L);
-            DispatchQueuePool.this.cleanupScheduled = true;
         }
     };
     private int guid = Utilities.random.nextInt();
@@ -76,9 +77,9 @@ public class DispatchQueuePool {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x006d  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0096  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x009a  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x006d  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0096  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x009a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -87,29 +88,30 @@ public class DispatchQueuePool {
         final DispatchQueue dispatchQueue;
         if (!this.busyQueues.isEmpty() && (this.totalTasksCount / 2 <= this.busyQueues.size() || (this.queues.isEmpty() && this.createdCount >= this.maxCount))) {
             linkedList = this.busyQueues;
-        } else if (this.queues.isEmpty()) {
-            dispatchQueue = new DispatchQueue("DispatchQueuePool" + this.guid + "_" + Utilities.random.nextInt());
-            dispatchQueue.setPriority(10);
-            this.createdCount = this.createdCount + 1;
-            if (!this.cleanupScheduled) {
-                AndroidUtilities.runOnUIThread(this.cleanupRunnable, 30000L);
-                this.cleanupScheduled = true;
-            }
-            this.totalTasksCount++;
-            this.busyQueues.add(dispatchQueue);
-            this.busyQueuesMap.put(dispatchQueue.index, this.busyQueuesMap.get(dispatchQueue.index, 0) + 1);
-            if (!HwEmojis.isHwEnabled()) {
-                dispatchQueue.setPriority(1);
-            } else if (dispatchQueue.getPriority() != 10) {
-                dispatchQueue.setPriority(10);
-            }
-            dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    DispatchQueuePool.this.lambda$execute$1(runnable, dispatchQueue);
-                }
-            });
         } else {
+            if (this.queues.isEmpty()) {
+                dispatchQueue = new DispatchQueue("DispatchQueuePool" + this.guid + "_" + Utilities.random.nextInt());
+                dispatchQueue.setPriority(10);
+                this.createdCount = this.createdCount + 1;
+                if (!this.cleanupScheduled) {
+                    AndroidUtilities.runOnUIThread(this.cleanupRunnable, 30000L);
+                    this.cleanupScheduled = true;
+                }
+                this.totalTasksCount++;
+                this.busyQueues.add(dispatchQueue);
+                this.busyQueuesMap.put(dispatchQueue.index, this.busyQueuesMap.get(dispatchQueue.index, 0) + 1);
+                if (!HwEmojis.isHwEnabled()) {
+                    dispatchQueue.setPriority(1);
+                } else if (dispatchQueue.getPriority() != 10) {
+                    dispatchQueue.setPriority(10);
+                }
+                dispatchQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DispatchQueuePool.this.lambda$execute$1(runnable, dispatchQueue);
+                    }
+                });
+            }
             linkedList = this.queues;
         }
         dispatchQueue = linkedList.remove(0);

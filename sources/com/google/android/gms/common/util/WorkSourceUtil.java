@@ -11,6 +11,7 @@ import com.google.android.gms.common.wrappers.Wrappers;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class WorkSourceUtil {
     private static final int zza = Process.myUid();
@@ -24,16 +25,18 @@ public abstract class WorkSourceUtil {
     private static final Method zzi;
 
     /* JADX WARN: Can't wrap try/catch for region: R(24:1|(2:2|3)|4|(21:49|50|7|8|9|10|11|12|13|(12:41|42|16|(9:36|37|19|(6:31|32|22|(2:27|28)|24|25)|21|22|(0)|24|25)|18|19|(0)|21|22|(0)|24|25)|15|16|(0)|18|19|(0)|21|22|(0)|24|25)|6|7|8|9|10|11|12|13|(0)|15|16|(0)|18|19|(0)|21|22|(0)|24|25) */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x003c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x004c, code lost:
+    
         r3 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x004c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x003c, code lost:
+    
         r3 = null;
      */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0085 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x006f A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0056 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00a9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00a9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0085 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x006f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0056 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     static {
         Method method;
         Method method2;
@@ -187,15 +190,15 @@ public abstract class WorkSourceUtil {
 
     public static String getName(WorkSource workSource, int i) {
         Method method = zzf;
-        if (method != null) {
-            try {
-                return (String) method.invoke(workSource, Integer.valueOf(i));
-            } catch (Exception e) {
-                Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
-                return null;
-            }
+        if (method == null) {
+            return null;
         }
-        return null;
+        try {
+            return (String) method.invoke(workSource, Integer.valueOf(i));
+        } catch (Exception e) {
+            Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
+            return null;
+        }
     }
 
     public static List getNames(WorkSource workSource) {
@@ -233,16 +236,16 @@ public abstract class WorkSourceUtil {
 
     public static int size(WorkSource workSource) {
         Method method = zzd;
-        if (method != null) {
-            try {
-                Object invoke = method.invoke(workSource, null);
-                Preconditions.checkNotNull(invoke);
-                return ((Integer) invoke).intValue();
-            } catch (Exception e) {
-                Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
-                return 0;
-            }
+        if (method == null) {
+            return 0;
         }
-        return 0;
+        try {
+            Object invoke = method.invoke(workSource, null);
+            Preconditions.checkNotNull(invoke);
+            return ((Integer) invoke).intValue();
+        } catch (Exception e) {
+            Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
+            return 0;
+        }
     }
 }

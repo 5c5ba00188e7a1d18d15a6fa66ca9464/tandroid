@@ -2,6 +2,7 @@ package kotlinx.coroutines.internal;
 
 import kotlin.text.StringsKt__StringNumberConversionsKt;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract /* synthetic */ class SystemPropsKt__SystemProps_commonKt {
@@ -20,10 +21,10 @@ public abstract /* synthetic */ class SystemPropsKt__SystemProps_commonKt {
             throw new IllegalStateException(("System property '" + str + "' has unrecognized value '" + systemProp + '\'').toString());
         }
         long longValue = longOrNull.longValue();
-        if (j2 > longValue || longValue > j3) {
-            throw new IllegalStateException(("System property '" + str + "' should be in range " + j2 + ".." + j3 + ", but is '" + longValue + '\'').toString());
+        if (j2 <= longValue && longValue <= j3) {
+            return longValue;
         }
-        return longValue;
+        throw new IllegalStateException(("System property '" + str + "' should be in range " + j2 + ".." + j3 + ", but is '" + longValue + '\'').toString());
     }
 
     public static final boolean systemProp(String str, boolean z) {

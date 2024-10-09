@@ -13,6 +13,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes3.dex */
 public class VoIpCoverView extends View {
     private final boolean allowAnimations;

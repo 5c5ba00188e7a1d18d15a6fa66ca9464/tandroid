@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public abstract class TypedPropertyUtils {
     public static TypedProperty create(String str) {
@@ -28,16 +29,16 @@ public abstract class TypedPropertyUtils {
 
     public static List read(JSONObject jSONObject) {
         JSONArray optJSONArray = jSONObject.optJSONArray("typedProperties");
-        if (optJSONArray != null) {
-            ArrayList arrayList = new ArrayList(optJSONArray.length());
-            for (int i = 0; i < optJSONArray.length(); i++) {
-                JSONObject jSONObject2 = optJSONArray.getJSONObject(i);
-                TypedProperty create = create(jSONObject2.getString("type"));
-                create.read(jSONObject2);
-                arrayList.add(create);
-            }
-            return arrayList;
+        if (optJSONArray == null) {
+            return null;
         }
-        return null;
+        ArrayList arrayList = new ArrayList(optJSONArray.length());
+        for (int i = 0; i < optJSONArray.length(); i++) {
+            JSONObject jSONObject2 = optJSONArray.getJSONObject(i);
+            TypedProperty create = create(jSONObject2.getString("type"));
+            create.read(jSONObject2);
+            arrayList.add(create);
+        }
+        return arrayList;
     }
 }

@@ -16,9 +16,11 @@ import android.util.SparseArray;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.stats.ConnectionTracker;
 import java.util.ArrayDeque;
+import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzf implements ServiceConnection {
@@ -217,9 +219,10 @@ public final class zzf implements ServiceConnection {
                 if (i2 == 3) {
                     this.zza = 4;
                     return;
-                } else if (i2 == 4) {
-                    return;
                 } else {
+                    if (i2 == 4) {
+                        return;
+                    }
                     int i3 = this.zza;
                     StringBuilder sb = new StringBuilder(26);
                     sb.append("Unknown state: ");
@@ -235,8 +238,9 @@ public final class zzf implements ServiceConnection {
             context = this.zzf.zzb;
             connectionTracker.unbindService(context, this);
             zzp zzpVar = new zzp(i, str);
-            for (zzq zzqVar : this.zzd) {
-                zzqVar.zza(zzpVar);
+            Iterator it = this.zzd.iterator();
+            while (it.hasNext()) {
+                ((zzq) it.next()).zza(zzpVar);
             }
             this.zzd.clear();
             for (int i4 = 0; i4 < this.zze.size(); i4++) {
@@ -317,23 +321,24 @@ public final class zzf implements ServiceConnection {
                 zza(0, "Unable to bind to service");
             }
             return true;
-        } else if (i == 1) {
+        }
+        if (i == 1) {
             this.zzd.add(zzqVar);
             return true;
-        } else if (i == 2) {
+        }
+        if (i == 2) {
             this.zzd.add(zzqVar);
             zza();
             return true;
-        } else {
-            if (i != 3 && i != 4) {
-                int i2 = this.zza;
-                StringBuilder sb = new StringBuilder(26);
-                sb.append("Unknown state: ");
-                sb.append(i2);
-                throw new IllegalStateException(sb.toString());
-            }
-            return false;
         }
+        if (i != 3 && i != 4) {
+            int i2 = this.zza;
+            StringBuilder sb = new StringBuilder(26);
+            sb.append("Unknown state: ");
+            sb.append(i2);
+            throw new IllegalStateException(sb.toString());
+        }
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -4,6 +4,7 @@ import j$.util.function.Consumer;
 import j$.util.function.LongFunction;
 import j$.util.function.Supplier;
 import java.util.List;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class a implements Supplier, LongFunction, Consumer, e2 {
     public final /* synthetic */ int a;
@@ -63,16 +64,17 @@ public final /* synthetic */ class a implements Supplier, LongFunction, Consumer
     }
 
     @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
+    /* renamed from: accept */
+    public void r(Object obj) {
         switch (this.a) {
             case 2:
-                ((e2) this.b).accept((e2) obj);
+                ((e2) this.b).r((e2) obj);
                 return;
             case 6:
-                ((O2) this.b).accept(obj);
+                ((O2) this.b).r(obj);
                 return;
             case 8:
-                ((Consumer) this.b).accept(obj);
+                ((Consumer) this.b).r(obj);
                 return;
             default:
                 ((List) this.b).add(obj);

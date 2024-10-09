@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class Q0 extends H0 {
@@ -26,12 +27,12 @@ public final class Q0 extends H0 {
     @Override // j$.util.stream.F0
     public final Object[] s(j$.util.function.I i) {
         long count = count();
-        if (count < 2147483639) {
-            Object[] objArr = (Object[]) i.apply((int) count);
-            i(objArr, 0);
-            return objArr;
+        if (count >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        Object[] objArr = (Object[]) i.apply((int) count);
+        i(objArr, 0);
+        return objArr;
     }
 
     @Override // j$.util.stream.F0
@@ -47,11 +48,11 @@ public final class Q0 extends H0 {
         long count = this.a.count();
         if (j >= count) {
             return this.b.t(j - count, j2 - count, i);
-        } else if (j2 <= count) {
-            return this.a.t(j, j2, i);
-        } else {
-            return t0.I(T2.REFERENCE, this.a.t(j, count, i), this.b.t(0L, j2 - count, i));
         }
+        if (j2 <= count) {
+            return this.a.t(j, j2, i);
+        }
+        return t0.I(T2.REFERENCE, this.a.t(j, count, i), this.b.t(0L, j2 - count, i));
     }
 
     public final String toString() {

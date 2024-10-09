@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableList;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class MediaCodecAudioRenderer extends MediaCodecRenderer implements MediaClock {
     private boolean allowFirstBufferPositionDiscontinuity;
@@ -138,12 +139,12 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         if (str == null) {
             return ImmutableList.of();
         }
-        if (!audioSink.supportsFormat(format) || (decryptOnlyDecoderInfo = MediaCodecUtil.getDecryptOnlyDecoderInfo()) == null) {
-            List decoderInfos = mediaCodecSelector.getDecoderInfos(str, z, false);
-            String alternativeCodecMimeType = MediaCodecUtil.getAlternativeCodecMimeType(format);
-            return alternativeCodecMimeType == null ? ImmutableList.copyOf((Collection) decoderInfos) : ImmutableList.builder().addAll((Iterable) decoderInfos).addAll((Iterable) mediaCodecSelector.getDecoderInfos(alternativeCodecMimeType, z, false)).build();
+        if (audioSink.supportsFormat(format) && (decryptOnlyDecoderInfo = MediaCodecUtil.getDecryptOnlyDecoderInfo()) != null) {
+            return ImmutableList.of((Object) decryptOnlyDecoderInfo);
         }
-        return ImmutableList.of((Object) decryptOnlyDecoderInfo);
+        List decoderInfos = mediaCodecSelector.getDecoderInfos(str, z, false);
+        String alternativeCodecMimeType = MediaCodecUtil.getAlternativeCodecMimeType(format);
+        return alternativeCodecMimeType == null ? ImmutableList.copyOf((Collection) decoderInfos) : ImmutableList.builder().addAll((Iterable) decoderInfos).addAll((Iterable) mediaCodecSelector.getDecoderInfos(alternativeCodecMimeType, z, false)).build();
     }
 
     private void updateCurrentPosition() {
@@ -263,31 +264,35 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
     public void handleMessage(int i, Object obj) {
         if (i == 2) {
             this.audioSink.setVolume(((Float) obj).floatValue());
-        } else if (i == 3) {
+            return;
+        }
+        if (i == 3) {
             this.audioSink.setAudioAttributes((AudioAttributes) obj);
-        } else if (i == 6) {
+            return;
+        }
+        if (i == 6) {
             this.audioSink.setAuxEffectInfo((AuxEffectInfo) obj);
-        } else {
-            switch (i) {
-                case 9:
-                    this.audioSink.setSkipSilenceEnabled(((Boolean) obj).booleanValue());
+            return;
+        }
+        switch (i) {
+            case 9:
+                this.audioSink.setSkipSilenceEnabled(((Boolean) obj).booleanValue());
+                return;
+            case 10:
+                this.audioSink.setAudioSessionId(((Integer) obj).intValue());
+                return;
+            case 11:
+                this.wakeupListener = (Renderer.WakeupListener) obj;
+                return;
+            case 12:
+                if (Util.SDK_INT >= 23) {
+                    Api23.setAudioSinkPreferredDevice(this.audioSink, obj);
                     return;
-                case 10:
-                    this.audioSink.setAudioSessionId(((Integer) obj).intValue());
-                    return;
-                case 11:
-                    this.wakeupListener = (Renderer.WakeupListener) obj;
-                    return;
-                case 12:
-                    if (Util.SDK_INT >= 23) {
-                        Api23.setAudioSinkPreferredDevice(this.audioSink, obj);
-                        return;
-                    }
-                    return;
-                default:
-                    super.handleMessage(i, obj);
-                    return;
-            }
+                }
+                return;
+            default:
+                super.handleMessage(i, obj);
+                return;
         }
     }
 
@@ -456,28 +461,28 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         if (this.decryptOnlyCodecFormat != null && (i2 & 2) != 0) {
             ((MediaCodecAdapter) Assertions.checkNotNull(mediaCodecAdapter)).releaseOutputBuffer(i, false);
             return true;
-        } else if (z) {
+        }
+        if (z) {
             if (mediaCodecAdapter != null) {
                 mediaCodecAdapter.releaseOutputBuffer(i, false);
             }
             this.decoderCounters.skippedOutputBufferCount += i3;
             this.audioSink.handleDiscontinuity();
             return true;
-        } else {
-            try {
-                if (this.audioSink.handleBuffer(byteBuffer, j3, i3)) {
-                    if (mediaCodecAdapter != null) {
-                        mediaCodecAdapter.releaseOutputBuffer(i, false);
-                    }
-                    this.decoderCounters.renderedOutputBufferCount += i3;
-                    return true;
-                }
+        }
+        try {
+            if (!this.audioSink.handleBuffer(byteBuffer, j3, i3)) {
                 return false;
-            } catch (AudioSink.InitializationException e) {
-                throw createRendererException(e, e.format, e.isRecoverable, 5001);
-            } catch (AudioSink.WriteException e2) {
-                throw createRendererException(e2, format, e2.isRecoverable, 5002);
             }
+            if (mediaCodecAdapter != null) {
+                mediaCodecAdapter.releaseOutputBuffer(i, false);
+            }
+            this.decoderCounters.renderedOutputBufferCount += i3;
+            return true;
+        } catch (AudioSink.InitializationException e) {
+            throw createRendererException(e, e.format, e.isRecoverable, 5001);
+        } catch (AudioSink.WriteException e2) {
+            throw createRendererException(e2, format, e2.isRecoverable, 5002);
         }
     }
 
@@ -503,45 +508,45 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
     protected int supportsFormat(MediaCodecSelector mediaCodecSelector, Format format) {
         boolean z;
-        if (MimeTypes.isAudio(format.sampleMimeType)) {
-            int i = Util.SDK_INT >= 21 ? 32 : 0;
-            boolean z2 = true;
-            boolean z3 = format.cryptoType != 0;
-            boolean supportsFormatDrm = MediaCodecRenderer.supportsFormatDrm(format);
-            int i2 = 8;
-            if (supportsFormatDrm && this.audioSink.supportsFormat(format) && (!z3 || MediaCodecUtil.getDecryptOnlyDecoderInfo() != null)) {
-                return RendererCapabilities.-CC.create(4, 8, i);
+        if (!MimeTypes.isAudio(format.sampleMimeType)) {
+            return RendererCapabilities.-CC.create(0);
+        }
+        int i = Util.SDK_INT >= 21 ? 32 : 0;
+        boolean z2 = true;
+        boolean z3 = format.cryptoType != 0;
+        boolean supportsFormatDrm = MediaCodecRenderer.supportsFormatDrm(format);
+        int i2 = 8;
+        if (supportsFormatDrm && this.audioSink.supportsFormat(format) && (!z3 || MediaCodecUtil.getDecryptOnlyDecoderInfo() != null)) {
+            return RendererCapabilities.-CC.create(4, 8, i);
+        }
+        if ((!"audio/raw".equals(format.sampleMimeType) || this.audioSink.supportsFormat(format)) && this.audioSink.supportsFormat(Util.getPcmFormat(2, format.channelCount, format.sampleRate))) {
+            List decoderInfos = getDecoderInfos(mediaCodecSelector, format, false, this.audioSink);
+            if (decoderInfos.isEmpty()) {
+                return RendererCapabilities.-CC.create(1);
             }
-            if ((!"audio/raw".equals(format.sampleMimeType) || this.audioSink.supportsFormat(format)) && this.audioSink.supportsFormat(Util.getPcmFormat(2, format.channelCount, format.sampleRate))) {
-                List decoderInfos = getDecoderInfos(mediaCodecSelector, format, false, this.audioSink);
-                if (decoderInfos.isEmpty()) {
-                    return RendererCapabilities.-CC.create(1);
-                }
-                if (supportsFormatDrm) {
-                    MediaCodecInfo mediaCodecInfo = (MediaCodecInfo) decoderInfos.get(0);
-                    boolean isFormatSupported = mediaCodecInfo.isFormatSupported(format);
-                    if (!isFormatSupported) {
-                        for (int i3 = 1; i3 < decoderInfos.size(); i3++) {
-                            MediaCodecInfo mediaCodecInfo2 = (MediaCodecInfo) decoderInfos.get(i3);
-                            if (mediaCodecInfo2.isFormatSupported(format)) {
-                                mediaCodecInfo = mediaCodecInfo2;
-                                z = false;
-                                break;
-                            }
-                        }
-                    }
-                    z2 = isFormatSupported;
-                    z = true;
-                    int i4 = z2 ? 4 : 3;
-                    if (z2 && mediaCodecInfo.isSeamlessAdaptationSupported(format)) {
-                        i2 = 16;
-                    }
-                    return RendererCapabilities.-CC.create(i4, i2, i, mediaCodecInfo.hardwareAccelerated ? 64 : 0, z ? 128 : 0);
-                }
+            if (!supportsFormatDrm) {
                 return RendererCapabilities.-CC.create(2);
             }
-            return RendererCapabilities.-CC.create(1);
+            MediaCodecInfo mediaCodecInfo = (MediaCodecInfo) decoderInfos.get(0);
+            boolean isFormatSupported = mediaCodecInfo.isFormatSupported(format);
+            if (!isFormatSupported) {
+                for (int i3 = 1; i3 < decoderInfos.size(); i3++) {
+                    MediaCodecInfo mediaCodecInfo2 = (MediaCodecInfo) decoderInfos.get(i3);
+                    if (mediaCodecInfo2.isFormatSupported(format)) {
+                        mediaCodecInfo = mediaCodecInfo2;
+                        z = false;
+                        break;
+                    }
+                }
+            }
+            z2 = isFormatSupported;
+            z = true;
+            int i4 = z2 ? 4 : 3;
+            if (z2 && mediaCodecInfo.isSeamlessAdaptationSupported(format)) {
+                i2 = 16;
+            }
+            return RendererCapabilities.-CC.create(i4, i2, i, mediaCodecInfo.hardwareAccelerated ? 64 : 0, z ? 128 : 0);
         }
-        return RendererCapabilities.-CC.create(0);
+        return RendererCapabilities.-CC.create(1);
     }
 }

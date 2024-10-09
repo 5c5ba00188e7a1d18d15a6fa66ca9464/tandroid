@@ -1,6 +1,7 @@
 package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public class BitWriterBuffer {
     private ByteBuffer buffer;

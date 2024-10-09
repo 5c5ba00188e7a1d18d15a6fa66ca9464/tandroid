@@ -8,6 +8,7 @@ import java.net.SocketTimeoutException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public interface HttpDataSource extends DataSource {
 

@@ -13,6 +13,7 @@ import com.google.firebase.installations.FirebaseInstallationsApi;
 import com.google.firebase.platforminfo.LibraryVersionComponent;
 import java.util.Arrays;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class RemoteConfigRegistrar implements ComponentRegistrar {
     /* JADX INFO: Access modifiers changed from: private */

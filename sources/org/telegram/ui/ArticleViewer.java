@@ -199,6 +199,7 @@ import org.telegram.ui.web.SearchEngine;
 import org.telegram.ui.web.WebActionBar;
 import org.telegram.ui.web.WebBrowserSettings;
 import org.telegram.ui.web.WebInstantView;
+
 /* loaded from: classes4.dex */
 public class ArticleViewer implements NotificationCenter.NotificationCenterDelegate {
     private static volatile ArticleViewer Instance;
@@ -459,22 +460,26 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (i == 0) {
                 if (!MediaController.getInstance().setPlaylist(this.parentAdapter.audioMessages, this.currentMessageObject, 0L, false, null)) {
                     return;
+                } else {
+                    this.buttonState = 1;
                 }
-                this.buttonState = 1;
             } else if (i == 1) {
                 if (!MediaController.getInstance().lambda$startAudioAgain$7(this.currentMessageObject)) {
                     return;
+                } else {
+                    this.buttonState = 0;
                 }
-                this.buttonState = 0;
-            } else if (i == 2) {
-                this.radialProgress.setProgress(0.0f, false);
-                FileLoader.getInstance(ArticleViewer.this.currentAccount).loadFile(this.currentDocument, this.parentAdapter.currentPage, 1, 1);
-                this.buttonState = 3;
-                this.radialProgress.setIcon(getIconForCurrentState(), true, z);
-                invalidate();
-            } else if (i != 3) {
-                return;
             } else {
+                if (i == 2) {
+                    this.radialProgress.setProgress(0.0f, false);
+                    FileLoader.getInstance(ArticleViewer.this.currentAccount).loadFile(this.currentDocument, this.parentAdapter.currentPage, 1, 1);
+                    this.buttonState = 3;
+                    this.radialProgress.setIcon(getIconForCurrentState(), true, z);
+                    invalidate();
+                }
+                if (i != 3) {
+                    return;
+                }
                 FileLoader.getInstance(ArticleViewer.this.currentAccount).cancelLoadFile(this.currentDocument);
                 this.buttonState = 2;
             }
@@ -615,16 +620,15 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int dp2 = AndroidUtilities.dp(54.0f);
             TLRPC.TL_pageBlockAudio tL_pageBlockAudio = this.currentBlock;
             if (tL_pageBlockAudio != null) {
-                int i4 = tL_pageBlockAudio.level;
-                this.textX = i4 > 0 ? AndroidUtilities.dp(i4 * 14) + AndroidUtilities.dp(18.0f) : AndroidUtilities.dp(18.0f);
+                this.textX = tL_pageBlockAudio.level > 0 ? AndroidUtilities.dp(r0 * 14) + AndroidUtilities.dp(18.0f) : AndroidUtilities.dp(18.0f);
                 int dp3 = (size - this.textX) - AndroidUtilities.dp(18.0f);
                 int dp4 = AndroidUtilities.dp(44.0f);
                 this.buttonX = AndroidUtilities.dp(16.0f);
                 int dp5 = AndroidUtilities.dp(5.0f);
                 this.buttonY = dp5;
                 RadialProgress2 radialProgress2 = this.radialProgress;
-                int i5 = this.buttonX;
-                radialProgress2.setProgressRect(i5, dp5, i5 + dp4, dp5 + dp4);
+                int i4 = this.buttonX;
+                radialProgress2.setProgressRect(i4, dp5, i4 + dp4, dp5 + dp4);
                 ArticleViewer articleViewer = ArticleViewer.this;
                 TLRPC.TL_pageBlockAudio tL_pageBlockAudio2 = this.currentBlock;
                 DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tL_pageBlockAudio2.caption.text, dp3, this.textY, tL_pageBlockAudio2, this.parentAdapter);
@@ -634,16 +638,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.creditOffset = dp6;
                     dp2 += dp6 + AndroidUtilities.dp(8.0f);
                 }
-                int i6 = dp2;
+                int i5 = dp2;
                 ArticleViewer articleViewer2 = ArticleViewer.this;
                 TLRPC.TL_pageBlockAudio tL_pageBlockAudio3 = this.currentBlock;
                 DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tL_pageBlockAudio3.caption.credit, dp3, this.textY + this.creditOffset, tL_pageBlockAudio3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
                 this.creditLayout = createLayoutForText2;
                 if (createLayoutForText2 != null) {
-                    i6 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
+                    i5 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
                 }
                 if (!this.isFirst && this.currentBlock.level <= 0) {
-                    i6 += AndroidUtilities.dp(8.0f);
+                    i5 += AndroidUtilities.dp(8.0f);
                 }
                 String musicAuthor = this.currentMessageObject.getMusicAuthor(false);
                 String musicTitle = this.currentMessageObject.getMusicTitle(false);
@@ -667,7 +671,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 this.seekBarY = dp;
                 this.seekBar.setSize(dp8, AndroidUtilities.dp(30.0f));
-                i3 = i6;
+                i3 = i5;
             }
             setMeasuredDimension(size, i3);
             updatePlayingMessageProgress();
@@ -692,13 +696,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:20:0x0064, code lost:
-            if (r1 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L21;
+        
+            if (r1 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L23;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:22:0x0068, code lost:
-            if (r12.buttonState == 0) goto L21;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:23:0x006a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:21:0x006a, code lost:
+        
             r12.buttonPressed = 1;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:37:0x0068, code lost:
+        
+            if (r12.buttonState == 0) goto L23;
          */
         @Override // android.view.View
         /*
@@ -713,7 +720,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 invalidate();
                 return true;
-            } else if (motionEvent.getAction() != 0) {
+            }
+            if (motionEvent.getAction() != 0) {
                 if (motionEvent.getAction() == 1) {
                     if (this.buttonPressed == 1) {
                         this.buttonPressed = 0;
@@ -725,11 +733,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.buttonPressed = 0;
                 }
                 return this.buttonPressed != 0 || ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.captionLayout, this.textX, this.textY) || ArticleViewer.this.checkLayoutForLinks(this.parentAdapter, motionEvent, this, this.creditLayout, this.textX, this.textY + this.creditOffset) || super.onTouchEvent(motionEvent);
-            } else if (this.buttonState != -1) {
-                int i = this.buttonX;
-                if (x >= i && x <= i + AndroidUtilities.dp(48.0f)) {
-                    int i2 = this.buttonY;
-                    if (y >= i2) {
+            }
+            if (this.buttonState != -1) {
+                if (x >= this.buttonX && x <= r2 + AndroidUtilities.dp(48.0f)) {
+                    if (y >= this.buttonY) {
                     }
                 }
             }
@@ -900,7 +907,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     spannable = null;
                     metricAffectingSpanArr = null;
                 }
-                ?? formatString = (this.currentBlock.published_date == 0 || TextUtils.isEmpty(text)) ? !TextUtils.isEmpty(text) ? LocaleController.formatString("ArticleByAuthor", R.string.ArticleByAuthor, text) : LocaleController.getInstance().getChatFullDate().format(this.currentBlock.published_date * 1000) : LocaleController.formatString("ArticleDateByAuthor", R.string.ArticleDateByAuthor, LocaleController.getInstance().getChatFullDate().format(this.currentBlock.published_date * 1000), text);
+                CharSequence formatString = (this.currentBlock.published_date == 0 || TextUtils.isEmpty(text)) ? !TextUtils.isEmpty(text) ? LocaleController.formatString("ArticleByAuthor", R.string.ArticleByAuthor, text) : LocaleController.getInstance().getChatFullDate().format(this.currentBlock.published_date * 1000) : LocaleController.formatString("ArticleDateByAuthor", R.string.ArticleDateByAuthor, LocaleController.getInstance().getChatFullDate().format(this.currentBlock.published_date * 1000), text);
                 if (metricAffectingSpanArr != null) {
                     try {
                         if (metricAffectingSpanArr.length > 0 && (indexOf = TextUtils.indexOf((CharSequence) formatString, text)) != -1) {
@@ -1012,17 +1019,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:25:0x00a0  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x00ae  */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x00b7  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00c3  */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x00a0  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x00ae  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x00b7  */
+        /* JADX WARN: Removed duplicated region for block: B:26:0x00c3  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onMeasure(int i, int i2) {
             int i3;
-            int i4;
             int dp;
             float f;
             DrawingText createLayoutForText;
@@ -1032,7 +1038,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (this.currentBlock != null) {
                 int dp2 = size - AndroidUtilities.dp(50.0f);
                 if (this.currentBlock.level > 0) {
-                    dp2 -= AndroidUtilities.dp(i4 * 14);
+                    dp2 -= AndroidUtilities.dp(r0 * 14);
                 }
                 ArticleViewer articleViewer = ArticleViewer.this;
                 TLRPC.TL_pageBlockBlockquote tL_pageBlockBlockquote = this.currentBlock;
@@ -1317,13 +1323,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.currentAnimation = animatorSet2;
             TextView textView = this.textView;
             Property property = View.ALPHA;
-            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView, property, i == 0 ? 1.0f : 0.0f);
+            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView, (Property<TextView, Float>) property, i == 0 ? 1.0f : 0.0f);
             TextView textView2 = this.textView;
             Property property2 = View.SCALE_X;
-            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(textView2, property2, i == 0 ? 1.0f : 0.1f);
+            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(textView2, (Property<TextView, Float>) property2, i == 0 ? 1.0f : 0.1f);
             TextView textView3 = this.textView;
             Property property3 = View.SCALE_Y;
-            animatorSet2.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(textView3, property3, i == 0 ? 1.0f : 0.1f), ObjectAnimator.ofFloat(this.progressView, property, i == 1 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.progressView, property2, i == 1 ? 1.0f : 0.1f), ObjectAnimator.ofFloat(this.progressView, property3, i == 1 ? 1.0f : 0.1f), ObjectAnimator.ofFloat(this.imageView, property, i == 2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.imageView, property2, i == 2 ? 1.0f : 0.1f), ObjectAnimator.ofFloat(this.imageView, property3, i == 2 ? 1.0f : 0.1f));
+            animatorSet2.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(textView3, (Property<TextView, Float>) property3, i == 0 ? 1.0f : 0.1f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) property, i == 1 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) property2, i == 1 ? 1.0f : 0.1f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) property3, i == 1 ? 1.0f : 0.1f), ObjectAnimator.ofFloat(this.imageView, (Property<ImageView, Float>) property, i == 2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.imageView, (Property<ImageView, Float>) property2, i == 2 ? 1.0f : 0.1f), ObjectAnimator.ofFloat(this.imageView, (Property<ImageView, Float>) property3, i == 2 ? 1.0f : 0.1f));
             this.currentAnimation.setDuration(150L);
             this.currentAnimation.start();
         }
@@ -1386,18 +1392,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 return this.maxSizeWidth / f;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:161:0x0698, code lost:
-                if (r9[2] > r9[3]) goto L188;
+            /* JADX WARN: Code restructure failed: missing block: B:187:0x0698, code lost:
+            
+                if (r9[2] > r9[3]) goto L162;
              */
-            /* JADX WARN: Removed duplicated region for block: B:23:0x0085  */
-            /* JADX WARN: Removed duplicated region for block: B:24:0x0087  */
-            /* JADX WARN: Removed duplicated region for block: B:27:0x008c  */
-            /* JADX WARN: Removed duplicated region for block: B:28:0x008f  */
-            /* JADX WARN: Removed duplicated region for block: B:31:0x009c  */
-            /* JADX WARN: Removed duplicated region for block: B:33:0x00a2  */
-            /* JADX WARN: Removed duplicated region for block: B:39:0x00b8  */
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0085  */
+            /* JADX WARN: Removed duplicated region for block: B:19:0x008c  */
+            /* JADX WARN: Removed duplicated region for block: B:22:0x009c  */
+            /* JADX WARN: Removed duplicated region for block: B:26:0x00b8  */
+            /* JADX WARN: Removed duplicated region for block: B:30:0x00a2  */
+            /* JADX WARN: Removed duplicated region for block: B:34:0x008f  */
+            /* JADX WARN: Removed duplicated region for block: B:35:0x0087  */
             /* JADX WARN: Type inference failed for: r8v1 */
-            /* JADX WARN: Type inference failed for: r8v20, types: [int, boolean] */
+            /* JADX WARN: Type inference failed for: r8v20, types: [boolean, int] */
             /* JADX WARN: Type inference failed for: r8v24 */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -1422,12 +1429,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 int i14;
                 int i15;
                 MessageObject.GroupedMessagePosition groupedMessagePosition;
-                float f2;
                 int i16;
                 TLRPC.Document documentWithId;
                 ArrayList<TLRPC.PhotoSize> arrayList;
                 int i17;
-                float f3;
+                float f2;
                 this.posArray.clear();
                 this.positions.clear();
                 int size = BlockCollageCell.this.currentBlock.items.size();
@@ -1438,7 +1444,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.hasSibling = false;
                 int i18 = 0;
                 boolean z = false;
-                float f4 = 1.0f;
+                float f3 = 1.0f;
                 while (i18 < size) {
                     TLRPC.PageBlock pageBlock = BlockCollageCell.this.currentBlock.items.get(i18);
                     if (pageBlock instanceof TLRPC.TL_pageBlockPhoto) {
@@ -1451,12 +1457,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, i17);
                             MessageObject.GroupedMessagePosition groupedMessagePosition2 = new MessageObject.GroupedMessagePosition();
                             groupedMessagePosition2.last = i18 != size + (-1);
-                            float f5 = closestPhotoSizeWithSize != null ? 1.0f : closestPhotoSizeWithSize.w / closestPhotoSizeWithSize.h;
-                            groupedMessagePosition2.aspectRatio = f5;
-                            sb.append(f5 <= 1.2f ? "w" : f5 < 0.8f ? "n" : "q");
-                            f3 = groupedMessagePosition2.aspectRatio;
-                            f4 += f3;
-                            if (f3 > 2.0f) {
+                            float f4 = closestPhotoSizeWithSize != null ? 1.0f : closestPhotoSizeWithSize.w / closestPhotoSizeWithSize.h;
+                            groupedMessagePosition2.aspectRatio = f4;
+                            sb.append(f4 <= 1.2f ? "w" : f4 < 0.8f ? "n" : "q");
+                            f2 = groupedMessagePosition2.aspectRatio;
+                            f3 += f2;
+                            if (f2 > 2.0f) {
                                 z = true;
                             }
                             this.positions.put(pageBlock, groupedMessagePosition2);
@@ -1472,11 +1478,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             groupedMessagePosition22.last = i18 != size + (-1);
                             if (closestPhotoSizeWithSize2 != null) {
                             }
-                            groupedMessagePosition22.aspectRatio = f5;
-                            sb.append(f5 <= 1.2f ? "w" : f5 < 0.8f ? "n" : "q");
-                            f3 = groupedMessagePosition22.aspectRatio;
-                            f4 += f3;
-                            if (f3 > 2.0f) {
+                            groupedMessagePosition22.aspectRatio = f4;
+                            sb.append(f4 <= 1.2f ? "w" : f4 < 0.8f ? "n" : "q");
+                            f2 = groupedMessagePosition22.aspectRatio;
+                            f3 += f2;
+                            if (f2 > 2.0f) {
                             }
                             this.positions.put(pageBlock, groupedMessagePosition22);
                             this.posArray.add(groupedMessagePosition22);
@@ -1485,191 +1491,194 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 }
                 int dp = AndroidUtilities.dp(120.0f);
+                float dp2 = AndroidUtilities.dp(120.0f);
                 Point point = AndroidUtilities.displaySize;
-                int dp2 = (int) (AndroidUtilities.dp(120.0f) / (Math.min(point.x, point.y) / this.maxSizeWidth));
+                int min2 = (int) (dp2 / (Math.min(point.x, point.y) / this.maxSizeWidth));
+                float dp3 = AndroidUtilities.dp(40.0f);
                 Point point2 = AndroidUtilities.displaySize;
-                float f6 = this.maxSizeWidth;
-                int dp3 = (int) (AndroidUtilities.dp(40.0f) / (Math.min(point2.x, point2.y) / f6));
-                float f7 = f6 / 814.0f;
-                float f8 = f4 / size;
+                float min3 = Math.min(point2.x, point2.y);
+                float f5 = this.maxSizeWidth;
+                int i19 = (int) (dp3 / (min3 / f5));
+                float f6 = f5 / 814.0f;
+                float f7 = f3 / size;
                 if (z || !(size == 2 || size == 3 || size == 4)) {
                     int size2 = this.posArray.size();
                     float[] fArr = new float[size2];
-                    for (int i19 = 0; i19 < size; i19++) {
-                        if (f8 > 1.1f) {
-                            fArr[i19] = Math.max(1.0f, ((MessageObject.GroupedMessagePosition) this.posArray.get(i19)).aspectRatio);
+                    for (int i20 = 0; i20 < size; i20++) {
+                        if (f7 > 1.1f) {
+                            fArr[i20] = Math.max(1.0f, ((MessageObject.GroupedMessagePosition) this.posArray.get(i20)).aspectRatio);
                         } else {
-                            fArr[i19] = Math.min(1.0f, ((MessageObject.GroupedMessagePosition) this.posArray.get(i19)).aspectRatio);
+                            fArr[i20] = Math.min(1.0f, ((MessageObject.GroupedMessagePosition) this.posArray.get(i20)).aspectRatio);
                         }
-                        fArr[i19] = Math.max(0.66667f, Math.min(1.7f, fArr[i19]));
+                        fArr[i20] = Math.max(0.66667f, Math.min(1.7f, fArr[i20]));
                     }
                     ArrayList arrayList2 = new ArrayList();
-                    for (int i20 = 1; i20 < size2; i20++) {
-                        int i21 = size2 - i20;
-                        if (i20 <= 3) {
-                            if (i21 <= 3) {
-                                arrayList2.add(new MessageGroupedLayoutAttempt(i20, i21, multiHeight(fArr, 0, i20), multiHeight(fArr, i20, size2)));
+                    for (int i21 = 1; i21 < size2; i21++) {
+                        int i22 = size2 - i21;
+                        if (i21 <= 3) {
+                            if (i22 <= 3) {
+                                arrayList2.add(new MessageGroupedLayoutAttempt(i21, i22, multiHeight(fArr, 0, i21), multiHeight(fArr, i21, size2)));
                             }
                         }
                     }
-                    for (int i22 = 1; i22 < size2 - 1; i22++) {
-                        int i23 = 1;
+                    for (int i23 = 1; i23 < size2 - 1; i23++) {
+                        int i24 = 1;
                         while (true) {
-                            int i24 = size2 - i22;
-                            if (i23 < i24) {
-                                int i25 = i24 - i23;
-                                if (i22 <= 3) {
-                                    if (i23 <= (f8 < 0.85f ? 4 : 3) && i25 <= 3) {
-                                        int i26 = i22 + i23;
-                                        f = f8;
-                                        i9 = i23;
-                                        arrayList2.add(new MessageGroupedLayoutAttempt(i22, i23, i25, multiHeight(fArr, 0, i22), multiHeight(fArr, i22, i26), multiHeight(fArr, i26, size2)));
-                                        i23 = i9 + 1;
-                                        f8 = f;
+                            int i25 = size2 - i23;
+                            if (i24 < i25) {
+                                int i26 = i25 - i24;
+                                if (i23 <= 3) {
+                                    if (i24 <= (f7 < 0.85f ? 4 : 3) && i26 <= 3) {
+                                        int i27 = i23 + i24;
+                                        f = f7;
+                                        i9 = i24;
+                                        arrayList2.add(new MessageGroupedLayoutAttempt(i23, i24, i26, multiHeight(fArr, 0, i23), multiHeight(fArr, i23, i27), multiHeight(fArr, i27, size2)));
+                                        i24 = i9 + 1;
+                                        f7 = f;
                                     }
                                 }
-                                f = f8;
-                                i9 = i23;
-                                i23 = i9 + 1;
-                                f8 = f;
+                                f = f7;
+                                i9 = i24;
+                                i24 = i9 + 1;
+                                f7 = f;
                             }
                         }
                     }
-                    int i27 = 1;
-                    while (i27 < size2 - 2) {
-                        int i28 = 1;
+                    int i28 = 1;
+                    while (i28 < size2 - 2) {
+                        int i29 = 1;
                         while (true) {
-                            int i29 = size2 - i27;
-                            if (i28 < i29) {
-                                int i30 = 1;
+                            int i30 = size2 - i28;
+                            if (i29 < i30) {
+                                int i31 = 1;
                                 while (true) {
-                                    int i31 = i29 - i28;
-                                    if (i30 < i31) {
-                                        int i32 = i31 - i30;
-                                        if (i27 > 3 || i28 > 3 || i30 > 3) {
-                                            i3 = i30;
-                                            i4 = i29;
-                                            i5 = i28;
+                                    int i32 = i30 - i29;
+                                    if (i31 < i32) {
+                                        int i33 = i32 - i31;
+                                        if (i28 > 3 || i29 > 3 || i31 > 3) {
+                                            i3 = i31;
+                                            i4 = i30;
+                                            i5 = i29;
                                             i6 = size2;
                                             i7 = size;
-                                            i8 = dp2;
-                                        } else if (i32 > 3) {
-                                            i3 = i30;
-                                            i4 = i29;
-                                            i5 = i28;
+                                            i8 = min2;
+                                        } else if (i33 > 3) {
+                                            i3 = i31;
+                                            i4 = i30;
+                                            i5 = i29;
                                             i6 = size2;
                                             i7 = size;
-                                            i8 = dp2;
-                                            i30 = i3 + 1;
-                                            dp2 = i8;
-                                            i29 = i4;
+                                            i8 = min2;
+                                            i31 = i3 + 1;
+                                            min2 = i8;
+                                            i30 = i4;
                                             size = i7;
-                                            i28 = i5;
+                                            i29 = i5;
                                             size2 = i6;
                                         } else {
-                                            int i33 = i27 + i28;
-                                            int i34 = i33 + i30;
+                                            int i34 = i28 + i29;
+                                            int i35 = i34 + i31;
                                             i6 = size2;
-                                            i3 = i30;
-                                            i4 = i29;
-                                            i5 = i28;
+                                            i3 = i31;
+                                            i4 = i30;
+                                            i5 = i29;
                                             i7 = size;
-                                            i8 = dp2;
-                                            arrayList2.add(new MessageGroupedLayoutAttempt(i27, i28, i30, i32, multiHeight(fArr, 0, i27), multiHeight(fArr, i27, i33), multiHeight(fArr, i33, i34), multiHeight(fArr, i34, size2)));
+                                            i8 = min2;
+                                            arrayList2.add(new MessageGroupedLayoutAttempt(i28, i29, i31, i33, multiHeight(fArr, 0, i28), multiHeight(fArr, i28, i34), multiHeight(fArr, i34, i35), multiHeight(fArr, i35, size2)));
                                         }
-                                        i30 = i3 + 1;
-                                        dp2 = i8;
-                                        i29 = i4;
+                                        i31 = i3 + 1;
+                                        min2 = i8;
+                                        i30 = i4;
                                         size = i7;
-                                        i28 = i5;
+                                        i29 = i5;
                                         size2 = i6;
                                     }
                                 }
-                                i28++;
+                                i29++;
                                 size = size;
                             }
                         }
-                        i27++;
+                        i28++;
                         size = size;
                     }
                     i = size;
-                    int i35 = dp2;
-                    float f9 = (this.maxSizeWidth / 3) * 4;
+                    int i36 = min2;
+                    float f8 = (this.maxSizeWidth / 3) * 4;
                     MessageGroupedLayoutAttempt messageGroupedLayoutAttempt = null;
-                    float f10 = 0.0f;
-                    for (int i36 = 0; i36 < arrayList2.size(); i36++) {
-                        MessageGroupedLayoutAttempt messageGroupedLayoutAttempt2 = (MessageGroupedLayoutAttempt) arrayList2.get(i36);
-                        int i37 = 0;
-                        float f11 = Float.MAX_VALUE;
-                        float f12 = 0.0f;
+                    float f9 = 0.0f;
+                    for (int i37 = 0; i37 < arrayList2.size(); i37++) {
+                        MessageGroupedLayoutAttempt messageGroupedLayoutAttempt2 = (MessageGroupedLayoutAttempt) arrayList2.get(i37);
+                        int i38 = 0;
+                        float f10 = Float.MAX_VALUE;
+                        float f11 = 0.0f;
                         while (true) {
                             float[] fArr2 = messageGroupedLayoutAttempt2.heights;
-                            if (i37 >= fArr2.length) {
+                            if (i38 >= fArr2.length) {
                                 break;
                             }
-                            float f13 = fArr2[i37];
-                            f12 += f13;
-                            if (f13 < f11) {
-                                f11 = f13;
+                            float f12 = fArr2[i38];
+                            f11 += f12;
+                            if (f12 < f10) {
+                                f10 = f12;
                             }
-                            i37++;
+                            i38++;
                         }
-                        float abs = Math.abs(f12 - f9);
+                        float abs = Math.abs(f11 - f8);
                         int[] iArr = messageGroupedLayoutAttempt2.lineCounts;
                         if (iArr.length > 1) {
-                            int i38 = iArr[0];
-                            int i39 = iArr[1];
-                            if (i38 <= i39 && (iArr.length <= 2 || i39 <= iArr[2])) {
+                            int i39 = iArr[0];
+                            int i40 = iArr[1];
+                            if (i39 <= i40 && (iArr.length <= 2 || i40 <= iArr[2])) {
                                 if (iArr.length > 3) {
                                 }
                             }
                             abs *= 1.2f;
                         }
-                        if (f11 < i35) {
+                        if (f10 < i36) {
                             abs *= 1.5f;
                         }
-                        if (messageGroupedLayoutAttempt == null || abs < f10) {
+                        if (messageGroupedLayoutAttempt == null || abs < f9) {
                             messageGroupedLayoutAttempt = messageGroupedLayoutAttempt2;
-                            f10 = abs;
+                            f9 = abs;
                         }
                     }
                     if (messageGroupedLayoutAttempt == null) {
                         return;
                     }
-                    int i40 = 0;
                     int i41 = 0;
+                    int i42 = 0;
                     while (true) {
                         int[] iArr2 = messageGroupedLayoutAttempt.lineCounts;
-                        if (i41 >= iArr2.length) {
+                        if (i42 >= iArr2.length) {
                             break;
                         }
-                        int i42 = iArr2[i41];
-                        float f14 = messageGroupedLayoutAttempt.heights[i41];
-                        int i43 = this.maxSizeWidth;
+                        int i43 = iArr2[i42];
+                        float f13 = messageGroupedLayoutAttempt.heights[i42];
+                        int i44 = this.maxSizeWidth;
                         MessageObject.GroupedMessagePosition groupedMessagePosition3 = null;
-                        for (int i44 = 0; i44 < i42; i44++) {
-                            int i45 = (int) (fArr[i40] * f14);
-                            i43 -= i45;
-                            MessageObject.GroupedMessagePosition groupedMessagePosition4 = (MessageObject.GroupedMessagePosition) this.posArray.get(i40);
-                            int i46 = i41 == 0 ? 4 : 0;
-                            if (i41 == messageGroupedLayoutAttempt.lineCounts.length - 1) {
-                                i46 |= 8;
+                        for (int i45 = 0; i45 < i43; i45++) {
+                            int i46 = (int) (fArr[i41] * f13);
+                            i44 -= i46;
+                            MessageObject.GroupedMessagePosition groupedMessagePosition4 = (MessageObject.GroupedMessagePosition) this.posArray.get(i41);
+                            int i47 = i42 == 0 ? 4 : 0;
+                            if (i42 == messageGroupedLayoutAttempt.lineCounts.length - 1) {
+                                i47 |= 8;
                             }
-                            if (i44 == 0) {
-                                i46 |= 1;
+                            if (i45 == 0) {
+                                i47 |= 1;
                             }
-                            if (i44 == i42 - 1) {
-                                i2 = i46 | 2;
+                            if (i45 == i43 - 1) {
+                                i2 = i47 | 2;
                                 groupedMessagePosition3 = groupedMessagePosition4;
                             } else {
-                                i2 = i46;
+                                i2 = i47;
                             }
-                            groupedMessagePosition4.set(i44, i44, i41, i41, i45, f14 / 814.0f, i2);
-                            i40++;
+                            groupedMessagePosition4.set(i45, i45, i42, i42, i46, f13 / 814.0f, i2);
+                            i41++;
                         }
-                        groupedMessagePosition3.pw += i43;
-                        groupedMessagePosition3.spanSize += i43;
-                        i41++;
+                        groupedMessagePosition3.pw += i44;
+                        groupedMessagePosition3.spanSize += i44;
+                        i42++;
                     }
                     r8 = 1;
                 } else {
@@ -1678,17 +1687,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         MessageObject.GroupedMessagePosition groupedMessagePosition6 = (MessageObject.GroupedMessagePosition) this.posArray.get(1);
                         String sb2 = sb.toString();
                         if (sb2.equals("ww")) {
-                            double d = f8;
-                            double d2 = f7;
+                            double d = f7;
+                            double d2 = f6;
                             Double.isNaN(d2);
                             if (d > d2 * 1.4d) {
-                                float f15 = groupedMessagePosition5.aspectRatio;
-                                float f16 = groupedMessagePosition6.aspectRatio;
-                                if (f15 - f16 < 0.2d) {
-                                    float f17 = this.maxSizeWidth;
+                                float f14 = groupedMessagePosition5.aspectRatio;
+                                float f15 = groupedMessagePosition6.aspectRatio;
+                                if (f14 - f15 < 0.2d) {
+                                    float f16 = this.maxSizeWidth;
                                     i13 = 0;
                                     i14 = 0;
-                                    min = Math.round(Math.min(f17 / f15, Math.min(f17 / f16, 407.0f))) / 814.0f;
+                                    min = Math.round(Math.min(f16 / f14, Math.min(f16 / f15, 407.0f))) / 814.0f;
                                     groupedMessagePosition5.set(0, 0, 0, 0, this.maxSizeWidth, min, 7);
                                     i10 = this.maxSizeWidth;
                                     i11 = 1;
@@ -1699,30 +1708,30 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             }
                         }
                         if (sb2.equals("ww") || sb2.equals("qq")) {
-                            int i47 = this.maxSizeWidth / 2;
-                            float f18 = i47;
+                            int i48 = this.maxSizeWidth / 2;
+                            float f17 = i48;
                             i11 = 0;
                             i15 = 0;
-                            i16 = i47;
-                            min = Math.round(Math.min(f18 / groupedMessagePosition5.aspectRatio, Math.min(f18 / groupedMessagePosition6.aspectRatio, 814.0f))) / 814.0f;
+                            i16 = i48;
+                            min = Math.round(Math.min(f17 / groupedMessagePosition5.aspectRatio, Math.min(f17 / groupedMessagePosition6.aspectRatio, 814.0f))) / 814.0f;
                             groupedMessagePosition5.set(0, 0, 0, 0, i16, min, 13);
                             i12 = 14;
                             i13 = 1;
                             i14 = 1;
                             groupedMessagePosition = groupedMessagePosition6;
                         } else {
-                            float f19 = this.maxSizeWidth;
-                            float f20 = groupedMessagePosition5.aspectRatio;
-                            int max = (int) Math.max(0.4f * f19, Math.round((f19 / f20) / ((1.0f / f20) + (1.0f / groupedMessagePosition6.aspectRatio))));
-                            int i48 = this.maxSizeWidth - max;
-                            if (i48 < dp2) {
-                                max -= dp2 - i48;
-                                i48 = dp2;
+                            float f18 = this.maxSizeWidth;
+                            float f19 = groupedMessagePosition5.aspectRatio;
+                            int max = (int) Math.max(0.4f * f18, Math.round((f18 / f19) / ((1.0f / f19) + (1.0f / groupedMessagePosition6.aspectRatio))));
+                            int i49 = this.maxSizeWidth - max;
+                            if (i49 < min2) {
+                                max -= min2 - i49;
+                                i49 = min2;
                             }
                             i11 = 0;
                             i15 = 0;
-                            min = Math.min(814.0f, Math.round(Math.min(i48 / groupedMessagePosition5.aspectRatio, max / groupedMessagePosition6.aspectRatio))) / 814.0f;
-                            groupedMessagePosition5.set(0, 0, 0, 0, i48, min, 13);
+                            min = Math.min(814.0f, Math.round(Math.min(i49 / groupedMessagePosition5.aspectRatio, max / groupedMessagePosition6.aspectRatio))) / 814.0f;
+                            groupedMessagePosition5.set(0, 0, 0, 0, i49, min, 13);
                             i12 = 14;
                             i13 = 1;
                             i14 = 1;
@@ -1738,27 +1747,27 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             MessageObject.GroupedMessagePosition groupedMessagePosition8 = (MessageObject.GroupedMessagePosition) this.posArray.get(1);
                             MessageObject.GroupedMessagePosition groupedMessagePosition9 = (MessageObject.GroupedMessagePosition) this.posArray.get(2);
                             if (sb.charAt(0) == 'n') {
-                                float f21 = groupedMessagePosition8.aspectRatio;
-                                float min2 = Math.min(407.0f, Math.round((this.maxSizeWidth * f21) / (groupedMessagePosition9.aspectRatio + f21)));
-                                int max2 = (int) Math.max(dp2, Math.min(this.maxSizeWidth * 0.5f, Math.round(Math.min(groupedMessagePosition9.aspectRatio * min2, groupedMessagePosition8.aspectRatio * f2))));
-                                int round = Math.round(Math.min((groupedMessagePosition7.aspectRatio * 814.0f) + dp3, this.maxSizeWidth - max2));
+                                float f20 = groupedMessagePosition8.aspectRatio;
+                                float min4 = Math.min(407.0f, Math.round((this.maxSizeWidth * f20) / (groupedMessagePosition9.aspectRatio + f20)));
+                                int max2 = (int) Math.max(min2, Math.min(this.maxSizeWidth * 0.5f, Math.round(Math.min(groupedMessagePosition9.aspectRatio * min4, groupedMessagePosition8.aspectRatio * r3))));
+                                int round = Math.round(Math.min((groupedMessagePosition7.aspectRatio * 814.0f) + i19, this.maxSizeWidth - max2));
                                 groupedMessagePosition7.set(0, 0, 0, 1, round, 1.0f, 13);
-                                float f22 = (814.0f - min2) / 814.0f;
-                                groupedMessagePosition8.set(1, 1, 0, 0, max2, f22, 6);
-                                float f23 = min2 / 814.0f;
-                                groupedMessagePosition9.set(0, 1, 1, 1, max2, f23, 10);
-                                int i49 = this.maxSizeWidth;
-                                groupedMessagePosition9.spanSize = i49;
-                                groupedMessagePosition7.siblingHeights = new float[]{f23, f22};
-                                groupedMessagePosition8.spanSize = i49 - round;
+                                float f21 = (814.0f - min4) / 814.0f;
+                                groupedMessagePosition8.set(1, 1, 0, 0, max2, f21, 6);
+                                float f22 = min4 / 814.0f;
+                                groupedMessagePosition9.set(0, 1, 1, 1, max2, f22, 10);
+                                int i50 = this.maxSizeWidth;
+                                groupedMessagePosition9.spanSize = i50;
+                                groupedMessagePosition7.siblingHeights = new float[]{f22, f21};
+                                groupedMessagePosition8.spanSize = i50 - round;
                                 groupedMessagePosition9.leftSpanOffset = round;
                                 this.hasSibling = true;
                             } else {
                                 float round2 = Math.round(Math.min(this.maxSizeWidth / groupedMessagePosition7.aspectRatio, 537.24005f)) / 814.0f;
                                 groupedMessagePosition7.set(0, 1, 0, 0, this.maxSizeWidth, round2, 7);
                                 i10 = this.maxSizeWidth / 2;
-                                float f24 = i10;
-                                min = Math.min(814.0f - round2, Math.round(Math.min(f24 / groupedMessagePosition8.aspectRatio, f24 / groupedMessagePosition9.aspectRatio))) / 814.0f;
+                                float f23 = i10;
+                                min = Math.min(814.0f - round2, Math.round(Math.min(f23 / groupedMessagePosition8.aspectRatio, f23 / groupedMessagePosition9.aspectRatio))) / 814.0f;
                                 groupedMessagePosition8.set(0, 0, 1, 1, i10, min, 9);
                                 i11 = 1;
                                 i12 = 10;
@@ -1776,32 +1785,33 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 float round3 = Math.round(Math.min(this.maxSizeWidth / groupedMessagePosition10.aspectRatio, 537.24005f)) / 814.0f;
                                 groupedMessagePosition10.set(0, 2, 0, 0, this.maxSizeWidth, round3, 7);
                                 float round4 = Math.round(this.maxSizeWidth / ((groupedMessagePosition11.aspectRatio + groupedMessagePosition12.aspectRatio) + groupedMessagePosition13.aspectRatio));
-                                float f25 = dp2;
-                                int max3 = (int) Math.max(f25, Math.min(this.maxSizeWidth * 0.4f, groupedMessagePosition11.aspectRatio * round4));
-                                int max4 = (int) Math.max(Math.max(f25, this.maxSizeWidth * 0.33f), groupedMessagePosition13.aspectRatio * round4);
-                                float min3 = Math.min(814.0f - round3, round4) / 814.0f;
-                                groupedMessagePosition11.set(0, 0, 1, 1, max3, min3, 9);
-                                groupedMessagePosition12.set(1, 1, 1, 1, (this.maxSizeWidth - max3) - max4, min3, 8);
-                                groupedMessagePosition13.set(2, 2, 1, 1, max4, min3, 10);
+                                float f24 = min2;
+                                int max3 = (int) Math.max(f24, Math.min(this.maxSizeWidth * 0.4f, groupedMessagePosition11.aspectRatio * round4));
+                                int max4 = (int) Math.max(Math.max(f24, this.maxSizeWidth * 0.33f), groupedMessagePosition13.aspectRatio * round4);
+                                int i51 = (this.maxSizeWidth - max3) - max4;
+                                float min5 = Math.min(814.0f - round3, round4) / 814.0f;
+                                groupedMessagePosition11.set(0, 0, 1, 1, max3, min5, 9);
+                                groupedMessagePosition12.set(1, 1, 1, 1, i51, min5, 8);
+                                groupedMessagePosition13.set(2, 2, 1, 1, max4, min5, 10);
                             } else {
-                                int max5 = Math.max(dp2, Math.round(814.0f / (((1.0f / groupedMessagePosition11.aspectRatio) + (1.0f / groupedMessagePosition12.aspectRatio)) + (1.0f / ((MessageObject.GroupedMessagePosition) this.posArray.get(3)).aspectRatio))));
-                                float f26 = dp;
-                                float f27 = max5;
-                                float min4 = Math.min(0.33f, Math.max(f26, f27 / groupedMessagePosition11.aspectRatio) / 814.0f);
-                                float min5 = Math.min(0.33f, Math.max(f26, f27 / groupedMessagePosition12.aspectRatio) / 814.0f);
-                                float f28 = (1.0f - min4) - min5;
-                                int round5 = Math.round(Math.min((814.0f * groupedMessagePosition10.aspectRatio) + dp3, this.maxSizeWidth - max5));
-                                groupedMessagePosition10.set(0, 0, 0, 2, round5, min4 + min5 + f28, 13);
-                                groupedMessagePosition11.set(1, 1, 0, 0, max5, min4, 6);
-                                groupedMessagePosition12.set(0, 1, 1, 1, max5, min5, 2);
+                                int max5 = Math.max(min2, Math.round(814.0f / (((1.0f / groupedMessagePosition11.aspectRatio) + (1.0f / groupedMessagePosition12.aspectRatio)) + (1.0f / ((MessageObject.GroupedMessagePosition) this.posArray.get(3)).aspectRatio))));
+                                float f25 = dp;
+                                float f26 = max5;
+                                float min6 = Math.min(0.33f, Math.max(f25, f26 / groupedMessagePosition11.aspectRatio) / 814.0f);
+                                float min7 = Math.min(0.33f, Math.max(f25, f26 / groupedMessagePosition12.aspectRatio) / 814.0f);
+                                float f27 = (1.0f - min6) - min7;
+                                int round5 = Math.round(Math.min((814.0f * groupedMessagePosition10.aspectRatio) + i19, this.maxSizeWidth - max5));
+                                groupedMessagePosition10.set(0, 0, 0, 2, round5, min6 + min7 + f27, 13);
+                                groupedMessagePosition11.set(1, 1, 0, 0, max5, min6, 6);
+                                groupedMessagePosition12.set(0, 1, 1, 1, max5, min7, 2);
                                 groupedMessagePosition12.spanSize = this.maxSizeWidth;
-                                groupedMessagePosition13.set(0, 1, 2, 2, max5, f28, 10);
-                                int i50 = this.maxSizeWidth;
-                                groupedMessagePosition13.spanSize = i50;
-                                groupedMessagePosition11.spanSize = i50 - round5;
+                                groupedMessagePosition13.set(0, 1, 2, 2, max5, f27, 10);
+                                int i52 = this.maxSizeWidth;
+                                groupedMessagePosition13.spanSize = i52;
+                                groupedMessagePosition11.spanSize = i52 - round5;
                                 groupedMessagePosition12.leftSpanOffset = round5;
                                 groupedMessagePosition13.leftSpanOffset = round5;
-                                groupedMessagePosition10.siblingHeights = new float[]{min4, min5, f28};
+                                groupedMessagePosition10.siblingHeights = new float[]{min6, min7, f27};
                                 this.hasSibling = true;
                             }
                         }
@@ -1813,9 +1823,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     i = size;
                     r8 = 1;
                 }
-                int i51 = i;
-                for (int i52 = 0; i52 < i51; i52 += r8) {
-                    MessageObject.GroupedMessagePosition groupedMessagePosition14 = (MessageObject.GroupedMessagePosition) this.posArray.get(i52);
+                int i53 = i;
+                for (int i54 = 0; i54 < i53; i54 += r8) {
+                    MessageObject.GroupedMessagePosition groupedMessagePosition14 = (MessageObject.GroupedMessagePosition) this.posArray.get(i54);
                     if ((groupedMessagePosition14.flags & r8) != 0) {
                         groupedMessagePosition14.edge = r8;
                     }
@@ -1848,41 +1858,41 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if (view instanceof BlockPhotoCell) {
                         hashMap = BlockCollageCell.this.group.positions;
                         obj = ((BlockPhotoCell) view).currentBlock;
-                    } else if (!(view instanceof BlockVideoCell)) {
-                        groupedMessagePosition = null;
-                        if (groupedMessagePosition != null || groupedMessagePosition.siblingHeights == null) {
-                        }
-                        Point point = AndroidUtilities.displaySize;
-                        float max = Math.max(point.x, point.y) * 0.5f;
-                        int i2 = 0;
-                        int i3 = 0;
-                        while (true) {
-                            float[] fArr = groupedMessagePosition.siblingHeights;
-                            if (i2 >= fArr.length) {
-                                break;
+                    } else {
+                        if (!(view instanceof BlockVideoCell)) {
+                            groupedMessagePosition = null;
+                            if (groupedMessagePosition != null || groupedMessagePosition.siblingHeights == null) {
                             }
-                            i3 += (int) Math.ceil(fArr[i2] * max);
-                            i2++;
-                        }
-                        int dp2 = i3 + ((groupedMessagePosition.maxY - groupedMessagePosition.minY) * AndroidUtilities.dp2(11.0f));
-                        int size = BlockCollageCell.this.group.posArray.size();
-                        while (true) {
-                            if (i < size) {
-                                MessageObject.GroupedMessagePosition groupedMessagePosition2 = (MessageObject.GroupedMessagePosition) BlockCollageCell.this.group.posArray.get(i);
-                                byte b = groupedMessagePosition2.minY;
-                                byte b2 = groupedMessagePosition.minY;
-                                if (b == b2 && ((groupedMessagePosition2.minX != groupedMessagePosition.minX || groupedMessagePosition2.maxX != groupedMessagePosition.maxX || b != b2 || groupedMessagePosition2.maxY != groupedMessagePosition.maxY) && b == b2)) {
-                                    dp2 -= ((int) Math.ceil(max * groupedMessagePosition2.ph)) - AndroidUtilities.dp(4.0f);
+                            Point point = AndroidUtilities.displaySize;
+                            float max = Math.max(point.x, point.y) * 0.5f;
+                            int i2 = 0;
+                            int i3 = 0;
+                            while (true) {
+                                if (i2 >= groupedMessagePosition.siblingHeights.length) {
                                     break;
                                 }
-                                i++;
-                            } else {
-                                break;
+                                i3 += (int) Math.ceil(r2[i2] * max);
+                                i2++;
                             }
+                            int dp2 = i3 + ((groupedMessagePosition.maxY - groupedMessagePosition.minY) * AndroidUtilities.dp2(11.0f));
+                            int size = BlockCollageCell.this.group.posArray.size();
+                            while (true) {
+                                if (i < size) {
+                                    MessageObject.GroupedMessagePosition groupedMessagePosition2 = (MessageObject.GroupedMessagePosition) BlockCollageCell.this.group.posArray.get(i);
+                                    byte b = groupedMessagePosition2.minY;
+                                    byte b2 = groupedMessagePosition.minY;
+                                    if (b == b2 && ((groupedMessagePosition2.minX != groupedMessagePosition.minX || groupedMessagePosition2.maxX != groupedMessagePosition.maxX || b != b2 || groupedMessagePosition2.maxY != groupedMessagePosition.maxY) && b == b2)) {
+                                        dp2 -= ((int) Math.ceil(max * groupedMessagePosition2.ph)) - AndroidUtilities.dp(4.0f);
+                                        break;
+                                    }
+                                    i++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            rect.bottom = -dp2;
+                            return;
                         }
-                        rect.bottom = -dp2;
-                        return;
-                    } else {
                         hashMap = BlockCollageCell.this.group.positions;
                         obj = ((BlockVideoCell) view).currentBlock;
                     }
@@ -1953,12 +1963,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         BlockPhotoCell blockPhotoCell = (BlockPhotoCell) view;
                         blockPhotoCell.groupPosition = (MessageObject.GroupedMessagePosition) BlockCollageCell.this.group.positions.get(pageBlock);
                         blockPhotoCell.setBlock((TLRPC.TL_pageBlockPhoto) pageBlock, false, true, true);
-                        return;
+                    } else {
+                        BlockVideoCell blockVideoCell = (BlockVideoCell) view;
+                        blockVideoCell.groupPosition = (MessageObject.GroupedMessagePosition) BlockCollageCell.this.group.positions.get(pageBlock);
+                        TLRPC.TL_pageBlockVideo tL_pageBlockVideo = (TLRPC.TL_pageBlockVideo) pageBlock;
+                        blockVideoCell.setBlock(tL_pageBlockVideo, (BlockVideoCellState) ArticleViewer.this.videoStates.get(tL_pageBlockVideo.video_id), false, true, true);
                     }
-                    BlockVideoCell blockVideoCell = (BlockVideoCell) view;
-                    blockVideoCell.groupPosition = (MessageObject.GroupedMessagePosition) BlockCollageCell.this.group.positions.get(pageBlock);
-                    TLRPC.TL_pageBlockVideo tL_pageBlockVideo = (TLRPC.TL_pageBlockVideo) pageBlock;
-                    blockVideoCell.setBlock(tL_pageBlockVideo, (BlockVideoCellState) ArticleViewer.this.videoStates.get(tL_pageBlockVideo.video_id), false, true, true);
                 }
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -2034,9 +2044,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int size = View.MeasureSpec.getSize(i);
             TLRPC.TL_pageBlockCollage tL_pageBlockCollage = this.currentBlock;
             if (tL_pageBlockCollage != null) {
-                int i5 = tL_pageBlockCollage.level;
-                if (i5 > 0) {
-                    int dp2 = AndroidUtilities.dp(i5 * 14) + AndroidUtilities.dp(18.0f);
+                if (tL_pageBlockCollage.level > 0) {
+                    int dp2 = AndroidUtilities.dp(r15 * 14) + AndroidUtilities.dp(18.0f);
                     this.listX = dp2;
                     this.textX = dp2;
                     i3 = size - (dp2 + AndroidUtilities.dp(18.0f));
@@ -2226,8 +2235,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
-            int measuredWidth = getMeasuredWidth() / 3;
-            this.rect.set(measuredWidth, AndroidUtilities.dp(8.0f), measuredWidth * 2, AndroidUtilities.dp(10.0f));
+            this.rect.set(getMeasuredWidth() / 3, AndroidUtilities.dp(8.0f), r0 * 2, AndroidUtilities.dp(10.0f));
             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), ArticleViewer.dividerPaint);
         }
 
@@ -2333,25 +2341,25 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             @Override // android.webkit.WebViewClient
             public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
                 LaunchActivity launchActivity = LaunchActivity.instance;
-                if (launchActivity == null || !launchActivity.isFinishing()) {
-                    new AlertDialog.Builder(BlockEmbedCell.this.getContext(), null).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockEmbedCell$3$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            ArticleViewer.BlockEmbedCell.3.this.lambda$onRenderProcessGone$0();
-                        }
-                    })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+                if (launchActivity != null && launchActivity.isFinishing()) {
                     return true;
                 }
+                new AlertDialog.Builder(BlockEmbedCell.this.getContext(), null).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockEmbedCell$3$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ArticleViewer.BlockEmbedCell.3.this.lambda$onRenderProcessGone$0();
+                    }
+                })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
                 return true;
             }
 
             @Override // android.webkit.WebViewClient
             public boolean shouldOverrideUrlLoading(WebView webView, String str) {
-                if (BlockEmbedCell.this.wasUserInteraction) {
-                    Browser.openUrl(ArticleViewer.this.parentActivity, str);
-                    return true;
+                if (!BlockEmbedCell.this.wasUserInteraction) {
+                    return false;
                 }
-                return false;
+                Browser.openUrl(ArticleViewer.this.parentActivity, str);
+                return true;
             }
         }
 
@@ -2616,80 +2624,79 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int i4;
             int i5;
             int i6;
-            int i7;
             int size = View.MeasureSpec.getSize(i);
             TLRPC.TL_pageBlockEmbed tL_pageBlockEmbed = this.currentBlock;
             if (tL_pageBlockEmbed != null) {
                 if (tL_pageBlockEmbed.level > 0) {
-                    int dp = AndroidUtilities.dp(i4 * 14) + AndroidUtilities.dp(18.0f);
+                    int dp = AndroidUtilities.dp(r14 * 14) + AndroidUtilities.dp(18.0f);
                     this.listX = dp;
                     this.textX = dp;
-                    i5 = size - (dp + AndroidUtilities.dp(18.0f));
-                    i6 = i5;
+                    i4 = size - (dp + AndroidUtilities.dp(18.0f));
+                    i5 = i4;
                 } else {
                     this.listX = 0;
                     this.textX = AndroidUtilities.dp(18.0f);
                     int dp2 = size - AndroidUtilities.dp(36.0f);
                     if (this.currentBlock.full_width) {
-                        i5 = size;
+                        i4 = size;
                     } else {
-                        i5 = size - AndroidUtilities.dp(36.0f);
+                        i4 = size - AndroidUtilities.dp(36.0f);
                         this.listX += AndroidUtilities.dp(18.0f);
                     }
-                    i6 = dp2;
+                    i5 = dp2;
                 }
                 TLRPC.TL_pageBlockEmbed tL_pageBlockEmbed2 = this.currentBlock;
-                int i8 = tL_pageBlockEmbed2.w;
-                float f = i8 == 0 ? 1.0f : size / i8;
-                int i9 = this.exactWebViewHeight;
-                if (i9 != 0) {
-                    i7 = AndroidUtilities.dp(i9);
+                int i7 = tL_pageBlockEmbed2.w;
+                float f = i7 == 0 ? 1.0f : size / i7;
+                int i8 = this.exactWebViewHeight;
+                if (i8 != 0) {
+                    i6 = AndroidUtilities.dp(i8);
                 } else {
                     float f2 = tL_pageBlockEmbed2.h;
-                    if (i8 == 0) {
+                    if (i7 == 0) {
                         f2 = AndroidUtilities.dp(f2);
                     }
-                    i7 = (int) (f2 * f);
+                    i6 = (int) (f2 * f);
                 }
-                if (i7 == 0) {
-                    i7 = AndroidUtilities.dp(10.0f);
+                if (i6 == 0) {
+                    i6 = AndroidUtilities.dp(10.0f);
                 }
-                int i10 = i7;
+                int i9 = i6;
                 TouchyWebView touchyWebView = this.webView;
                 if (touchyWebView != null) {
-                    touchyWebView.measure(View.MeasureSpec.makeMeasureSpec(i5, 1073741824), View.MeasureSpec.makeMeasureSpec(i10, 1073741824));
+                    touchyWebView.measure(View.MeasureSpec.makeMeasureSpec(i4, 1073741824), View.MeasureSpec.makeMeasureSpec(i9, 1073741824));
                 }
                 WebPlayerView webPlayerView = this.videoView;
                 if (webPlayerView != null && webPlayerView.getParent() == this) {
-                    this.videoView.measure(View.MeasureSpec.makeMeasureSpec(i5, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(10.0f) + i10, 1073741824));
+                    this.videoView.measure(View.MeasureSpec.makeMeasureSpec(i4, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(10.0f) + i9, 1073741824));
                 }
-                int dp3 = AndroidUtilities.dp(8.0f) + i10;
+                int dp3 = AndroidUtilities.dp(8.0f) + i9;
                 this.textY = dp3;
                 ArticleViewer articleViewer = ArticleViewer.this;
                 TLRPC.TL_pageBlockEmbed tL_pageBlockEmbed3 = this.currentBlock;
-                DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tL_pageBlockEmbed3.caption.text, i6, dp3, tL_pageBlockEmbed3, this.parentAdapter);
+                DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tL_pageBlockEmbed3.caption.text, i5, dp3, tL_pageBlockEmbed3, this.parentAdapter);
                 this.captionLayout = createLayoutForText;
                 if (createLayoutForText != null) {
                     int dp4 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
                     this.creditOffset = dp4;
-                    i10 += dp4 + AndroidUtilities.dp(4.0f);
+                    i9 += dp4 + AndroidUtilities.dp(4.0f);
                 } else {
                     this.creditOffset = 0;
                 }
                 ArticleViewer articleViewer2 = ArticleViewer.this;
                 TLRPC.TL_pageBlockEmbed tL_pageBlockEmbed4 = this.currentBlock;
-                DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tL_pageBlockEmbed4.caption.credit, i6, this.textY + this.creditOffset, tL_pageBlockEmbed4, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
+                DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tL_pageBlockEmbed4.caption.credit, i5, this.textY + this.creditOffset, tL_pageBlockEmbed4, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
                 this.creditLayout = createLayoutForText2;
                 if (createLayoutForText2 != null) {
-                    i10 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
+                    i9 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
                     DrawingText drawingText = this.creditLayout;
                     drawingText.x = this.textX;
                     drawingText.y = this.creditOffset;
                 }
-                i3 = i10 + AndroidUtilities.dp(5.0f);
+                i3 = i9 + AndroidUtilities.dp(5.0f);
                 TLRPC.TL_pageBlockEmbed tL_pageBlockEmbed5 = this.currentBlock;
-                int i11 = tL_pageBlockEmbed5.level;
-                if ((i11 > 0 && !tL_pageBlockEmbed5.bottom) || (i11 == 0 && this.captionLayout != null)) {
+                int i10 = tL_pageBlockEmbed5.level;
+                if ((i10 > 0 && !tL_pageBlockEmbed5.bottom) || (i10 == 0 && this.captionLayout != null)) {
                     i3 += AndroidUtilities.dp(8.0f);
                 }
                 DrawingText drawingText2 = this.captionLayout;
@@ -2924,10 +2931,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                     ArticleViewer articleViewer3 = ArticleViewer.this;
                     String str = this.currentBlock.author;
-                    int i4 = this.avatarVisible ? 54 : 0;
+                    int dp3 = size - AndroidUtilities.dp((this.avatarVisible ? 54 : 0) + 50);
                     TLRPC.TL_pageBlockEmbedPost tL_pageBlockEmbedPost4 = this.currentBlock;
                     Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
-                    DrawingText createLayoutForText3 = articleViewer3.createLayoutForText(this, str, null, size - AndroidUtilities.dp(i4 + 50), 0, tL_pageBlockEmbedPost4, alignment, 1, this.parentAdapter);
+                    DrawingText createLayoutForText3 = articleViewer3.createLayoutForText(this, str, null, dp3, 0, tL_pageBlockEmbedPost4, alignment, 1, this.parentAdapter);
                     this.nameLayout = createLayoutForText3;
                     if (createLayoutForText3 != null) {
                         createLayoutForText3.x = AndroidUtilities.dp((this.avatarVisible ? 54 : 0) + 32);
@@ -2938,26 +2945,26 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     } else {
                         this.dateLayout = null;
                     }
-                    int dp3 = AndroidUtilities.dp(56.0f);
+                    int dp4 = AndroidUtilities.dp(56.0f);
                     if (this.currentBlock.blocks.isEmpty()) {
                         this.textX = AndroidUtilities.dp(32.0f);
                         this.textY = AndroidUtilities.dp(56.0f);
-                        int dp4 = size - AndroidUtilities.dp(50.0f);
+                        int dp5 = size - AndroidUtilities.dp(50.0f);
                         ArticleViewer articleViewer4 = ArticleViewer.this;
                         TLRPC.TL_pageBlockEmbedPost tL_pageBlockEmbedPost5 = this.currentBlock;
-                        DrawingText createLayoutForText4 = articleViewer4.createLayoutForText(this, null, tL_pageBlockEmbedPost5.caption.text, dp4, this.textY, tL_pageBlockEmbedPost5, this.parentAdapter);
+                        DrawingText createLayoutForText4 = articleViewer4.createLayoutForText(this, null, tL_pageBlockEmbedPost5.caption.text, dp5, this.textY, tL_pageBlockEmbedPost5, this.parentAdapter);
                         this.captionLayout = createLayoutForText4;
                         if (createLayoutForText4 != null) {
-                            int dp5 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
-                            this.creditOffset = dp5;
-                            dp3 += dp5 + AndroidUtilities.dp(4.0f);
+                            int dp6 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
+                            this.creditOffset = dp6;
+                            dp4 += dp6 + AndroidUtilities.dp(4.0f);
                         }
-                        int i5 = dp3;
+                        int i4 = dp4;
                         ArticleViewer articleViewer5 = ArticleViewer.this;
                         TLRPC.TL_pageBlockEmbedPost tL_pageBlockEmbedPost6 = this.currentBlock;
-                        DrawingText createLayoutForText5 = articleViewer5.createLayoutForText(this, null, tL_pageBlockEmbedPost6.caption.credit, dp4, this.textY + this.creditOffset, tL_pageBlockEmbedPost6, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : alignment, this.parentAdapter);
+                        DrawingText createLayoutForText5 = articleViewer5.createLayoutForText(this, null, tL_pageBlockEmbedPost6.caption.credit, dp5, this.textY + this.creditOffset, tL_pageBlockEmbedPost6, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : alignment, this.parentAdapter);
                         this.creditLayout = createLayoutForText5;
-                        dp3 = createLayoutForText5 != null ? i5 + AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight() : i5;
+                        dp4 = createLayoutForText5 != null ? i4 + AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight() : i4;
                     } else {
                         this.captionLayout = null;
                         this.creditLayout = null;
@@ -2977,7 +2984,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         drawingText3.x = this.textX;
                         drawingText3.y = this.textY;
                     }
-                    i3 = dp3;
+                    i3 = dp4;
                 }
                 this.lineHeight = i3;
             }
@@ -3043,14 +3050,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int size = View.MeasureSpec.getSize(i);
             TLRPC.TL_pageBlockFooter tL_pageBlockFooter = this.currentBlock;
             if (tL_pageBlockFooter != null) {
-                int i4 = tL_pageBlockFooter.level;
                 i3 = 0;
-                if (i4 == 0) {
+                if (tL_pageBlockFooter.level == 0) {
                     this.textY = AndroidUtilities.dp(8.0f);
                     dp = AndroidUtilities.dp(18.0f);
                 } else {
                     this.textY = 0;
-                    dp = AndroidUtilities.dp((i4 * 14) + 18);
+                    dp = AndroidUtilities.dp((r14 * 14) + 18);
                 }
                 this.textX = dp;
                 DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, null, this.currentBlock.text, (size - AndroidUtilities.dp(18.0f)) - this.textX, this.textY, this.currentBlock, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
@@ -3256,9 +3262,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void fillTextLayoutBlocks(ArrayList arrayList) {
             RecyclerView.ViewHolder viewHolder = this.blockLayout;
             if (viewHolder != null) {
-                View view = viewHolder.itemView;
-                if (view instanceof TextSelectionHelper.ArticleSelectableView) {
-                    ((TextSelectionHelper.ArticleSelectableView) view).fillTextLayoutBlocks(arrayList);
+                KeyEvent.Callback callback = viewHolder.itemView;
+                if (callback instanceof TextSelectionHelper.ArticleSelectableView) {
+                    ((TextSelectionHelper.ArticleSelectableView) callback).fillTextLayoutBlocks(arrayList);
                 }
             }
             DrawingText drawingText = this.textLayout;
@@ -3277,18 +3283,22 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:10:0x004a, code lost:
-            if (r6.drawDot != false) goto L12;
+        
+            if (r6.drawDot != false) goto L14;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x0086, code lost:
-            if (r6.drawDot != false) goto L12;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x0088, code lost:
-            r2 = org.telegram.messenger.AndroidUtilities.dp(1.0f);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x008e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x008e, code lost:
+        
             r7.translate(r0, r1 - r2);
             r6.currentBlock.numLayout.draw(r7, r6);
             r7.restore();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:12:0x0088, code lost:
+        
+            r2 = org.telegram.messenger.AndroidUtilities.dp(1.0f);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:14:0x0086, code lost:
+        
+            if (r6.drawDot != false) goto L14;
          */
         @Override // android.view.View
         /*
@@ -3615,10 +3625,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             accessibilityNodeInfo.setText(sb.toString());
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:35:0x0111  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x012b  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x0156  */
-        /* JADX WARN: Removed duplicated region for block: B:61:0x01ea  */
+        /* JADX WARN: Removed duplicated region for block: B:26:0x0111  */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x0156  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x01ea  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x012b  */
         @Override // android.widget.FrameLayout, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3772,8 +3782,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     TLRPC.GeoPoint geoPoint = this.currentBlock.geo;
                     double d = geoPoint.lat;
                     double d2 = geoPoint._long;
-                    Activity activity = ArticleViewer.this.parentActivity;
-                    activity.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("geo:" + d + "," + d2 + "?q=" + d + "," + d2)));
+                    ArticleViewer.this.parentActivity.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("geo:" + d + "," + d2 + "?q=" + d + "," + d2)));
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
@@ -3815,9 +3824,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void fillTextLayoutBlocks(ArrayList arrayList) {
             RecyclerView.ViewHolder viewHolder = this.blockLayout;
             if (viewHolder != null) {
-                View view = viewHolder.itemView;
-                if (view instanceof TextSelectionHelper.ArticleSelectableView) {
-                    ((TextSelectionHelper.ArticleSelectableView) view).fillTextLayoutBlocks(arrayList);
+                KeyEvent.Callback callback = viewHolder.itemView;
+                if (callback instanceof TextSelectionHelper.ArticleSelectableView) {
+                    ((TextSelectionHelper.ArticleSelectableView) callback).fillTextLayoutBlocks(arrayList);
                 }
             }
             DrawingText drawingText = this.textLayout;
@@ -4109,14 +4118,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int size = View.MeasureSpec.getSize(i);
             TLRPC.TL_pageBlockParagraph tL_pageBlockParagraph = this.currentBlock;
             if (tL_pageBlockParagraph != null) {
-                int i4 = tL_pageBlockParagraph.level;
                 i3 = 0;
-                if (i4 == 0) {
+                if (tL_pageBlockParagraph.level == 0) {
                     this.textY = AndroidUtilities.dp(8.0f);
                     dp = AndroidUtilities.dp(18.0f);
                 } else {
                     this.textY = 0;
-                    dp = AndroidUtilities.dp((i4 * 14) + 18);
+                    dp = AndroidUtilities.dp((r15 * 14) + 18);
                 }
                 this.textX = dp;
                 DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, null, this.currentBlock.text, (size - AndroidUtilities.dp(18.0f)) - this.textX, this.textY, this.currentBlock, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, this.parentAdapter);
@@ -4201,9 +4209,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.imageView.setImage(ImageLocation.getForPhoto(this.currentPhotoObject, this.currentPhoto), this.currentFilter, ImageLocation.getForPhoto(this.currentPhotoObjectThumb, this.currentPhoto), this.currentThumbFilter, this.currentPhotoObject.size, null, this.parentAdapter.currentPage, 1);
                 this.buttonState = 1;
                 this.radialProgress.setIcon(getIconForCurrentState(), true, z);
-            } else if (i != 1) {
-                return;
             } else {
+                if (i != 1) {
+                    return;
+                }
                 this.imageView.cancelLoadImage();
                 this.buttonState = 0;
                 this.radialProgress.setIcon(getIconForCurrentState(), false, z);
@@ -4315,12 +4324,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             accessibilityNodeInfo.setText(sb.toString());
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x0046  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x015a  */
-        /* JADX WARN: Removed duplicated region for block: B:65:0x0160  */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x018f  */
-        /* JADX WARN: Removed duplicated region for block: B:69:0x0191  */
-        /* JADX WARN: Removed duplicated region for block: B:73:0x019a  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x015a  */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x018f  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x019a  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x0046  */
+        /* JADX WARN: Removed duplicated region for block: B:98:0x0191  */
+        /* JADX WARN: Removed duplicated region for block: B:99:0x0160  */
         @Override // android.widget.FrameLayout, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4335,7 +4344,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int i7;
             int i8;
             int dp2;
-            int i9;
             ImageReceiver imageReceiver;
             ImageLocation forPhoto;
             String str;
@@ -4344,191 +4352,192 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             long j;
             TLRPC.WebPage webPage;
             String str3;
+            int i9;
             int i10;
             int i11;
-            int i12;
             int size = View.MeasureSpec.getSize(i);
-            int i13 = this.currentType;
-            int i14 = 1;
-            if (i13 == 1) {
+            int i12 = this.currentType;
+            int i13 = 1;
+            if (i12 == 1) {
                 size = ((View) getParent()).getMeasuredWidth();
                 i4 = ((View) getParent()).getMeasuredHeight();
-            } else if (i13 != 2) {
-                i3 = size;
-                i4 = 0;
-                tL_pageBlockPhoto = this.currentBlock;
-                if (tL_pageBlockPhoto != null) {
-                    this.currentPhoto = this.parentAdapter.getPhotoWithId(tL_pageBlockPhoto.photo_id);
-                    int dp3 = AndroidUtilities.dp(48.0f);
-                    if (this.currentType != 0 || (i12 = this.currentBlock.level) <= 0) {
-                        this.textX = AndroidUtilities.dp(18.0f);
-                        dp = i3 - AndroidUtilities.dp(36.0f);
-                        i5 = i3;
-                        i6 = 0;
-                    } else {
-                        i6 = AndroidUtilities.dp(i12 * 14) + AndroidUtilities.dp(18.0f);
-                        this.textX = i6;
-                        i5 = i3 - (AndroidUtilities.dp(18.0f) + i6);
-                        dp = i5;
-                    }
-                    TLRPC.Photo photo = this.currentPhoto;
-                    if (photo != null && (this.currentPhotoObject != null || (photo instanceof WebInstantView.WebPhoto))) {
-                        TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 40, true);
-                        this.currentPhotoObjectThumb = closestPhotoSizeWithSize;
-                        TLRPC.PhotoSize photoSize = this.currentPhotoObject;
-                        if (photoSize == closestPhotoSizeWithSize) {
-                            this.currentPhotoObjectThumb = null;
-                        }
-                        TLRPC.Photo photo2 = this.currentPhoto;
-                        if (photo2 instanceof WebInstantView.WebPhoto) {
-                            WebInstantView.WebPhoto webPhoto = (WebInstantView.WebPhoto) photo2;
-                            i7 = webPhoto.w;
-                            i8 = webPhoto.h;
+            } else {
+                if (i12 != 2) {
+                    i3 = size;
+                    i4 = 0;
+                    tL_pageBlockPhoto = this.currentBlock;
+                    if (tL_pageBlockPhoto != null) {
+                        this.currentPhoto = this.parentAdapter.getPhotoWithId(tL_pageBlockPhoto.photo_id);
+                        int dp3 = AndroidUtilities.dp(48.0f);
+                        if (this.currentType != 0 || (i11 = this.currentBlock.level) <= 0) {
+                            this.textX = AndroidUtilities.dp(18.0f);
+                            dp = i3 - AndroidUtilities.dp(36.0f);
+                            i5 = i3;
+                            i6 = 0;
                         } else {
-                            int i15 = photoSize.w;
-                            int i16 = photoSize.h;
-                            i7 = i15;
-                            i8 = i16;
+                            i6 = AndroidUtilities.dp(i11 * 14) + AndroidUtilities.dp(18.0f);
+                            this.textX = i6;
+                            i5 = i3 - (AndroidUtilities.dp(18.0f) + i6);
+                            dp = i5;
                         }
-                        int i17 = this.currentType;
-                        if (i17 == 0) {
-                            float f = i7;
-                            float f2 = i8;
-                            i4 = (int) ((i5 / f) * f2);
-                            if (this.parentBlock instanceof TLRPC.TL_pageBlockCover) {
-                                i4 = Math.min(i4, i5);
+                        TLRPC.Photo photo = this.currentPhoto;
+                        if (photo != null && (this.currentPhotoObject != null || (photo instanceof WebInstantView.WebPhoto))) {
+                            TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 40, true);
+                            this.currentPhotoObjectThumb = closestPhotoSizeWithSize;
+                            TLRPC.PhotoSize photoSize = this.currentPhotoObject;
+                            if (photoSize == closestPhotoSizeWithSize) {
+                                this.currentPhotoObjectThumb = null;
+                            }
+                            TLRPC.Photo photo2 = this.currentPhoto;
+                            if (photo2 instanceof WebInstantView.WebPhoto) {
+                                WebInstantView.WebPhoto webPhoto = (WebInstantView.WebPhoto) photo2;
+                                i7 = webPhoto.w;
+                                i8 = webPhoto.h;
                             } else {
-                                Point point = AndroidUtilities.displaySize;
-                                int max = (int) ((Math.max(point.x, point.y) - AndroidUtilities.dp(56.0f)) * 0.9f);
-                                if (i4 > max) {
-                                    i5 = (int) ((max / f2) * f);
-                                    i6 += ((i3 - i6) - i5) / 2;
-                                    i4 = max;
+                                int i14 = photoSize.w;
+                                int i15 = photoSize.h;
+                                i7 = i14;
+                                i8 = i15;
+                            }
+                            int i16 = this.currentType;
+                            if (i16 == 0) {
+                                float f = i7;
+                                float f2 = i8;
+                                i4 = (int) ((i5 / f) * f2);
+                                if (this.parentBlock instanceof TLRPC.TL_pageBlockCover) {
+                                    i4 = Math.min(i4, i5);
+                                } else {
+                                    Point point = AndroidUtilities.displaySize;
+                                    int max = (int) ((Math.max(point.x, point.y) - AndroidUtilities.dp(56.0f)) * 0.9f);
+                                    if (i4 > max) {
+                                        i5 = (int) ((max / f2) * f);
+                                        i6 += ((i3 - i6) - i5) / 2;
+                                        i4 = max;
+                                    }
                                 }
+                            } else if (i16 == 2) {
+                                if ((this.groupPosition.flags & 2) == 0) {
+                                    i5 -= AndroidUtilities.dp(2.0f);
+                                }
+                                dp2 = (this.groupPosition.flags & 8) == 0 ? i4 - AndroidUtilities.dp(2.0f) : i4;
+                                if (this.groupPosition.leftSpanOffset != 0) {
+                                    int ceil = (int) Math.ceil((r5 * i3) / 1000.0f);
+                                    i5 -= ceil;
+                                    i6 += ceil;
+                                }
+                                this.imageView.setImageCoords(i6, (!this.isFirst || (i10 = this.currentType) == 1 || i10 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i5, dp2);
+                                if (this.currentType != 0) {
+                                    this.currentFilter = null;
+                                } else {
+                                    this.currentFilter = String.format(Locale.US, "%d_%d", Integer.valueOf(i5), Integer.valueOf(dp2));
+                                }
+                                this.currentThumbFilter = "80_80_b";
+                                this.autoDownload = (DownloadController.getInstance(ArticleViewer.this.currentAccount).getCurrentDownloadMask() & 1) == 0;
+                                if (!this.calcHeight) {
+                                    if (this.currentPhoto instanceof WebInstantView.WebPhoto) {
+                                        this.autoDownload = true;
+                                        this.imageView.setStrippedLocation(null);
+                                        WebInstantView.loadPhoto((WebInstantView.WebPhoto) this.currentPhoto, this.imageView, new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockPhotoCell$$ExternalSyntheticLambda0
+                                            @Override // java.lang.Runnable
+                                            public final void run() {
+                                                ArticleViewer.BlockPhotoCell.this.lambda$onMeasure$0();
+                                            }
+                                        });
+                                    } else {
+                                        File pathToAttach = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentPhotoObject, true);
+                                        if (this.autoDownload || pathToAttach.exists()) {
+                                            this.imageView.setStrippedLocation(null);
+                                            imageReceiver = this.imageView;
+                                            forPhoto = ImageLocation.getForPhoto(this.currentPhotoObject, this.currentPhoto);
+                                            str = this.currentFilter;
+                                            forPhoto2 = ImageLocation.getForPhoto(this.currentPhotoObjectThumb, this.currentPhoto);
+                                            str2 = this.currentThumbFilter;
+                                            j = this.currentPhotoObject.size;
+                                            webPage = this.parentAdapter.currentPage;
+                                            str3 = null;
+                                            i9 = 1;
+                                        } else {
+                                            this.imageView.setStrippedLocation(ImageLocation.getForPhoto(this.currentPhotoObject, this.currentPhoto));
+                                            imageReceiver = this.imageView;
+                                            str = this.currentFilter;
+                                            forPhoto2 = ImageLocation.getForPhoto(this.currentPhotoObjectThumb, this.currentPhoto);
+                                            str2 = this.currentThumbFilter;
+                                            j = this.currentPhotoObject.size;
+                                            webPage = this.parentAdapter.currentPage;
+                                            str3 = null;
+                                            i9 = 1;
+                                            forPhoto = null;
+                                        }
+                                        imageReceiver.setImage(forPhoto, str, forPhoto2, str2, j, str3, webPage, i9);
+                                    }
+                                }
+                                float f3 = dp3;
+                                this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f3) / 2.0f));
+                                int imageY = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f3) / 2.0f));
+                                this.buttonY = imageY;
+                                RadialProgress2 radialProgress2 = this.radialProgress;
+                                int i17 = this.buttonX;
+                                radialProgress2.setProgressRect(i17, imageY, i17 + dp3, dp3 + imageY);
                             }
-                        } else if (i17 == 2) {
-                            if ((this.groupPosition.flags & 2) == 0) {
-                                i5 -= AndroidUtilities.dp(2.0f);
-                            }
-                            dp2 = (this.groupPosition.flags & 8) == 0 ? i4 - AndroidUtilities.dp(2.0f) : i4;
-                            if (this.groupPosition.leftSpanOffset != 0) {
-                                int ceil = (int) Math.ceil((i9 * i3) / 1000.0f);
-                                i5 -= ceil;
-                                i6 += ceil;
-                            }
-                            this.imageView.setImageCoords(i6, (!this.isFirst || (i11 = this.currentType) == 1 || i11 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i5, dp2);
+                            dp2 = i4;
+                            this.imageView.setImageCoords(i6, (!this.isFirst || (i10 = this.currentType) == 1 || i10 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i5, dp2);
                             if (this.currentType != 0) {
-                                this.currentFilter = null;
-                            } else {
-                                this.currentFilter = String.format(Locale.US, "%d_%d", Integer.valueOf(i5), Integer.valueOf(dp2));
                             }
                             this.currentThumbFilter = "80_80_b";
                             this.autoDownload = (DownloadController.getInstance(ArticleViewer.this.currentAccount).getCurrentDownloadMask() & 1) == 0;
                             if (!this.calcHeight) {
-                                if (this.currentPhoto instanceof WebInstantView.WebPhoto) {
-                                    this.autoDownload = true;
-                                    this.imageView.setStrippedLocation(null);
-                                    WebInstantView.loadPhoto((WebInstantView.WebPhoto) this.currentPhoto, this.imageView, new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockPhotoCell$$ExternalSyntheticLambda0
-                                        @Override // java.lang.Runnable
-                                        public final void run() {
-                                            ArticleViewer.BlockPhotoCell.this.lambda$onMeasure$0();
-                                        }
-                                    });
-                                } else {
-                                    File pathToAttach = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentPhotoObject, true);
-                                    if (this.autoDownload || pathToAttach.exists()) {
-                                        this.imageView.setStrippedLocation(null);
-                                        imageReceiver = this.imageView;
-                                        forPhoto = ImageLocation.getForPhoto(this.currentPhotoObject, this.currentPhoto);
-                                        str = this.currentFilter;
-                                        forPhoto2 = ImageLocation.getForPhoto(this.currentPhotoObjectThumb, this.currentPhoto);
-                                        str2 = this.currentThumbFilter;
-                                        j = this.currentPhotoObject.size;
-                                        webPage = this.parentAdapter.currentPage;
-                                        str3 = null;
-                                        i10 = 1;
-                                    } else {
-                                        this.imageView.setStrippedLocation(ImageLocation.getForPhoto(this.currentPhotoObject, this.currentPhoto));
-                                        imageReceiver = this.imageView;
-                                        str = this.currentFilter;
-                                        forPhoto2 = ImageLocation.getForPhoto(this.currentPhotoObjectThumb, this.currentPhoto);
-                                        str2 = this.currentThumbFilter;
-                                        j = this.currentPhotoObject.size;
-                                        webPage = this.parentAdapter.currentPage;
-                                        str3 = null;
-                                        i10 = 1;
-                                        forPhoto = null;
-                                    }
-                                    imageReceiver.setImage(forPhoto, str, forPhoto2, str2, j, str3, webPage, i10);
-                                }
                             }
-                            float f3 = dp3;
-                            this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f3) / 2.0f));
-                            int imageY = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f3) / 2.0f));
-                            this.buttonY = imageY;
-                            RadialProgress2 radialProgress2 = this.radialProgress;
-                            int i18 = this.buttonX;
-                            radialProgress2.setProgressRect(i18, imageY, i18 + dp3, dp3 + imageY);
+                            float f32 = dp3;
+                            this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f32) / 2.0f));
+                            int imageY2 = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f32) / 2.0f));
+                            this.buttonY = imageY2;
+                            RadialProgress2 radialProgress22 = this.radialProgress;
+                            int i172 = this.buttonX;
+                            radialProgress22.setProgressRect(i172, imageY2, i172 + dp3, dp3 + imageY2);
                         }
-                        dp2 = i4;
-                        this.imageView.setImageCoords(i6, (!this.isFirst || (i11 = this.currentType) == 1 || i11 == 2 || this.currentBlock.level > 0) ? 0.0f : AndroidUtilities.dp(8.0f), i5, dp2);
-                        if (this.currentType != 0) {
+                        int i18 = i4;
+                        int imageY3 = (int) (this.imageView.getImageY() + this.imageView.getImageHeight() + AndroidUtilities.dp(8.0f));
+                        this.textY = imageY3;
+                        if (this.currentType == 0) {
+                            ArticleViewer articleViewer = ArticleViewer.this;
+                            TLRPC.TL_pageBlockPhoto tL_pageBlockPhoto2 = this.currentBlock;
+                            DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tL_pageBlockPhoto2.caption.text, dp, imageY3, tL_pageBlockPhoto2, this.parentAdapter);
+                            this.captionLayout = createLayoutForText;
+                            if (createLayoutForText != null) {
+                                int dp4 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
+                                this.creditOffset = dp4;
+                                i18 += dp4 + AndroidUtilities.dp(4.0f);
+                            }
+                            int i19 = i18;
+                            ArticleViewer articleViewer2 = ArticleViewer.this;
+                            TLRPC.TL_pageBlockPhoto tL_pageBlockPhoto3 = this.currentBlock;
+                            DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tL_pageBlockPhoto3.caption.credit, dp, this.textY + this.creditOffset, tL_pageBlockPhoto3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, this.parentAdapter);
+                            this.creditLayout = createLayoutForText2;
+                            i18 = createLayoutForText2 != null ? i19 + AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight() : i19;
                         }
-                        this.currentThumbFilter = "80_80_b";
-                        this.autoDownload = (DownloadController.getInstance(ArticleViewer.this.currentAccount).getCurrentDownloadMask() & 1) == 0;
-                        if (!this.calcHeight) {
+                        if (!this.isFirst && this.currentType == 0 && this.currentBlock.level <= 0) {
+                            i18 += AndroidUtilities.dp(8.0f);
                         }
-                        float f32 = dp3;
-                        this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f32) / 2.0f));
-                        int imageY2 = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f32) / 2.0f));
-                        this.buttonY = imageY2;
-                        RadialProgress2 radialProgress22 = this.radialProgress;
-                        int i182 = this.buttonX;
-                        radialProgress22.setProgressRect(i182, imageY2, i182 + dp3, dp3 + imageY2);
-                    }
-                    int i19 = i4;
-                    int imageY3 = (int) (this.imageView.getImageY() + this.imageView.getImageHeight() + AndroidUtilities.dp(8.0f));
-                    this.textY = imageY3;
-                    if (this.currentType == 0) {
-                        ArticleViewer articleViewer = ArticleViewer.this;
-                        TLRPC.TL_pageBlockPhoto tL_pageBlockPhoto2 = this.currentBlock;
-                        DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tL_pageBlockPhoto2.caption.text, dp, imageY3, tL_pageBlockPhoto2, this.parentAdapter);
-                        this.captionLayout = createLayoutForText;
-                        if (createLayoutForText != null) {
-                            int dp4 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
-                            this.creditOffset = dp4;
-                            i19 += dp4 + AndroidUtilities.dp(4.0f);
+                        boolean z = (this.parentBlock instanceof TLRPC.TL_pageBlockCover) && this.parentAdapter.blocks != null && this.parentAdapter.blocks.size() > 1 && (this.parentAdapter.blocks.get(1) instanceof TLRPC.TL_pageBlockChannel);
+                        if (this.currentType != 2 && !z) {
+                            i18 += AndroidUtilities.dp(8.0f);
                         }
-                        int i20 = i19;
-                        ArticleViewer articleViewer2 = ArticleViewer.this;
-                        TLRPC.TL_pageBlockPhoto tL_pageBlockPhoto3 = this.currentBlock;
-                        DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tL_pageBlockPhoto3.caption.credit, dp, this.textY + this.creditOffset, tL_pageBlockPhoto3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, this.parentAdapter);
-                        this.creditLayout = createLayoutForText2;
-                        i19 = createLayoutForText2 != null ? i20 + AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight() : i20;
+                        i13 = i18;
+                        DrawingText drawingText = this.captionLayout;
+                        if (drawingText != null) {
+                            drawingText.x = this.textX;
+                            drawingText.y = this.textY;
+                        }
+                        DrawingText drawingText2 = this.creditLayout;
+                        if (drawingText2 != null) {
+                            drawingText2.x = this.textX;
+                            drawingText2.y = this.textY + this.creditOffset;
+                        }
                     }
-                    if (!this.isFirst && this.currentType == 0 && this.currentBlock.level <= 0) {
-                        i19 += AndroidUtilities.dp(8.0f);
-                    }
-                    boolean z = (this.parentBlock instanceof TLRPC.TL_pageBlockCover) && this.parentAdapter.blocks != null && this.parentAdapter.blocks.size() > 1 && (this.parentAdapter.blocks.get(1) instanceof TLRPC.TL_pageBlockChannel);
-                    if (this.currentType != 2 && !z) {
-                        i19 += AndroidUtilities.dp(8.0f);
-                    }
-                    i14 = i19;
-                    DrawingText drawingText = this.captionLayout;
-                    if (drawingText != null) {
-                        drawingText.x = this.textX;
-                        drawingText.y = this.textY;
-                    }
-                    DrawingText drawingText2 = this.creditLayout;
-                    if (drawingText2 != null) {
-                        drawingText2.x = this.textX;
-                        drawingText2.y = this.textY + this.creditOffset;
-                    }
+                    this.channelCell.measure(i, i2);
+                    this.channelCell.setTranslationY(this.imageView.getImageHeight() - AndroidUtilities.dp(39.0f));
+                    setMeasuredDimension(i3, i13);
                 }
-                this.channelCell.measure(i, i2);
-                this.channelCell.setTranslationY(this.imageView.getImageHeight() - AndroidUtilities.dp(39.0f));
-                setMeasuredDimension(i3, i14);
-            } else {
                 float f4 = this.groupPosition.ph;
                 Point point2 = AndroidUtilities.displaySize;
                 i4 = (int) Math.ceil(f4 * Math.max(point2.x, point2.y) * 0.5f);
@@ -4539,7 +4548,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             this.channelCell.measure(i, i2);
             this.channelCell.setTranslationY(this.imageView.getImageHeight() - AndroidUtilities.dp(39.0f));
-            setMeasuredDimension(i3, i14);
+            setMeasuredDimension(i3, i13);
         }
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
@@ -4561,10 +4570,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:30:0x00a9, code lost:
-            if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L31;
+        
+            if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L33;
          */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x00ea  */
-        /* JADX WARN: Removed duplicated region for block: B:60:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x00ea  */
+        /* JADX WARN: Removed duplicated region for block: B:48:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4581,7 +4591,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     ArticleViewer.this.close(false, true);
                 }
                 return true;
-            } else if (motionEvent.getAction() != 0 || !this.imageView.isInsideImage(x, y)) {
+            }
+            if (motionEvent.getAction() != 0 || !this.imageView.isInsideImage(x, y)) {
                 if (motionEvent.getAction() == 1) {
                     if (this.photoPressed) {
                         this.photoPressed = false;
@@ -4597,23 +4608,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.buttonPressed = 0;
                 }
                 return this.photoPressed ? true : true;
-            } else {
-                if (this.buttonState != -1) {
-                    int i = this.buttonX;
-                    if (x >= i && x <= i + AndroidUtilities.dp(48.0f)) {
-                        int i2 = this.buttonY;
-                        if (y >= i2) {
-                        }
+            }
+            if (this.buttonState != -1) {
+                if (x >= this.buttonX && x <= r3 + AndroidUtilities.dp(48.0f)) {
+                    if (y >= this.buttonY) {
                     }
                 }
-                if (this.buttonState != 0) {
-                    this.photoPressed = true;
-                    return this.photoPressed ? true : true;
-                }
-                this.buttonPressed = 1;
-                invalidate();
-                if (this.photoPressed) {
-                }
+            }
+            if (this.buttonState != 0) {
+                this.photoPressed = true;
+                return this.photoPressed ? true : true;
+            }
+            this.buttonPressed = 1;
+            invalidate();
+            if (this.photoPressed) {
             }
         }
 
@@ -4987,11 +4995,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int i3;
             boolean z;
             int i4;
-            int dp;
             int size = View.MeasureSpec.getSize(i);
             this.divider = this.currentBlock.num != this.currentBlock.parent.articles.size() - 1;
             TLRPC.TL_pageRelatedArticle tL_pageRelatedArticle = this.currentBlock.parent.articles.get(this.currentBlock.num);
-            int dp2 = AndroidUtilities.dp(SharedConfig.ivFontSize - 16);
+            int dp = AndroidUtilities.dp(SharedConfig.ivFontSize - 16);
             long j = tL_pageRelatedArticle.photo_id;
             TLRPC.Photo photoWithId = j != 0 ? this.parentAdapter.getPhotoWithId(j) : null;
             if (photoWithId != null) {
@@ -5002,37 +5009,38 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else {
                 this.drawImage = false;
             }
-            int dp3 = AndroidUtilities.dp(60.0f);
-            int dp4 = size - AndroidUtilities.dp(36.0f);
+            int dp2 = AndroidUtilities.dp(60.0f);
+            int dp3 = size - AndroidUtilities.dp(36.0f);
             if (this.drawImage) {
-                float dp5 = AndroidUtilities.dp(44.0f);
-                this.imageView.setImageCoords((size - dp) - AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), dp5, dp5);
-                dp4 = (int) (dp4 - (this.imageView.getImageWidth() + AndroidUtilities.dp(6.0f)));
+                float dp4 = AndroidUtilities.dp(44.0f);
+                this.imageView.setImageCoords((size - r1) - AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), dp4, dp4);
+                dp3 = (int) (dp3 - (this.imageView.getImageWidth() + AndroidUtilities.dp(6.0f)));
             }
-            int i5 = dp4;
-            int dp6 = AndroidUtilities.dp(18.0f);
+            int i5 = dp3;
+            int dp5 = AndroidUtilities.dp(18.0f);
             String str = tL_pageRelatedArticle.title;
             if (str != null) {
-                i3 = dp3;
+                i3 = dp2;
                 this.textLayout = ArticleViewer.this.createLayoutForText(this, str, null, i5, this.textY, this.currentBlock, Layout.Alignment.ALIGN_NORMAL, 3, this.parentAdapter);
             } else {
-                i3 = dp3;
+                i3 = dp2;
             }
             DrawingText drawingText = this.textLayout;
             if (drawingText != null) {
                 int lineCount = drawingText.getLineCount();
                 int i6 = 4 - lineCount;
-                this.textOffset = this.textLayout.getHeight() + AndroidUtilities.dp(6.0f) + dp2;
-                dp6 += this.textLayout.getHeight();
+                this.textOffset = this.textLayout.getHeight() + AndroidUtilities.dp(6.0f) + dp;
+                dp5 += this.textLayout.getHeight();
                 int i7 = 0;
                 while (true) {
                     if (i7 >= lineCount) {
                         z = false;
                         break;
-                    } else if (this.textLayout.getLineLeft(i7) != 0.0f) {
-                        z = true;
-                        break;
                     } else {
+                        if (this.textLayout.getLineLeft(i7) != 0.0f) {
+                            z = true;
+                            break;
+                        }
                         i7++;
                     }
                 }
@@ -5048,15 +5056,15 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             DrawingText createLayoutForText = ArticleViewer.this.createLayoutForText(this, (tL_pageRelatedArticle.published_date == 0 || TextUtils.isEmpty(tL_pageRelatedArticle.author)) ? !TextUtils.isEmpty(tL_pageRelatedArticle.author) ? LocaleController.formatString("ArticleByAuthor", R.string.ArticleByAuthor, tL_pageRelatedArticle.author) : tL_pageRelatedArticle.published_date != 0 ? LocaleController.getInstance().getChatFullDate().format(tL_pageRelatedArticle.published_date * 1000) : !TextUtils.isEmpty(tL_pageRelatedArticle.description) ? tL_pageRelatedArticle.description : tL_pageRelatedArticle.url : LocaleController.formatString("ArticleDateByAuthor", R.string.ArticleDateByAuthor, LocaleController.getInstance().getChatFullDate().format(tL_pageRelatedArticle.published_date * 1000), tL_pageRelatedArticle.author), null, i5, this.textY + this.textOffset, this.currentBlock, (this.parentAdapter.isRtl || z) ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, i4, this.parentAdapter);
             this.textLayout2 = createLayoutForText;
             if (createLayoutForText != null) {
-                dp6 += createLayoutForText.getHeight();
+                dp5 += createLayoutForText.getHeight();
                 if (this.textLayout != null) {
-                    dp6 += AndroidUtilities.dp(6.0f) + dp2;
+                    dp5 += AndroidUtilities.dp(6.0f) + dp;
                 }
                 DrawingText drawingText3 = this.textLayout2;
                 drawingText3.x = this.textX;
                 drawingText3.y = this.textY + this.textOffset;
             }
-            setMeasuredDimension(size, Math.max(i3, dp6) + (this.divider ? 1 : 0));
+            setMeasuredDimension(size, Math.max(i3, dp5) + (this.divider ? 1 : 0));
         }
 
         public void setBlock(TL_pageBlockRelatedArticlesChild tL_pageBlockRelatedArticlesChild) {
@@ -5197,12 +5205,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
                 @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
                 public void onPageScrolled(int i, float f, int i2) {
-                    BlockSlideshowCell blockSlideshowCell;
                     float measuredWidth = BlockSlideshowCell.this.innerListView.getMeasuredWidth();
                     if (measuredWidth == 0.0f) {
                         return;
                     }
-                    BlockSlideshowCell.this.pageOffset = (((i * measuredWidth) + i2) - (blockSlideshowCell.currentPage * measuredWidth)) / measuredWidth;
+                    BlockSlideshowCell.this.pageOffset = (((i * measuredWidth) + i2) - (r0.currentPage * measuredWidth)) / measuredWidth;
                     BlockSlideshowCell.this.dotsContainer.invalidate();
                 }
 
@@ -5764,8 +5771,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 int length = ArticleViewer.this.searchText.length() + indexOf;
                 if (indexOf == 0 || AndroidUtilities.isPunctuationCharacter(lowerCase.charAt(indexOf - 1))) {
+                    HashMap hashMap = ArticleViewer.this.pages[0].adapter.searchTextOffset;
+                    String str = ArticleViewer.this.searchText + this.currentBlock + drawingText.parentText + indexOf;
                     StaticLayout staticLayout = drawingText.textLayout;
-                    ArticleViewer.this.pages[0].adapter.searchTextOffset.put(ArticleViewer.this.searchText + this.currentBlock + drawingText.parentText + indexOf, Integer.valueOf(staticLayout.getLineTop(staticLayout.getLineForOffset(indexOf)) + i2));
+                    hashMap.put(str, Integer.valueOf(staticLayout.getLineTop(staticLayout.getLineForOffset(indexOf)) + i2));
                 }
                 i3 = length;
             }
@@ -5779,9 +5788,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int size = View.MeasureSpec.getSize(i);
             TLRPC.TL_pageBlockTable tL_pageBlockTable = this.currentBlock;
             if (tL_pageBlockTable != null) {
-                int i5 = tL_pageBlockTable.level;
-                if (i5 > 0) {
-                    int dp2 = AndroidUtilities.dp(i5 * 14);
+                if (tL_pageBlockTable.level > 0) {
+                    int dp2 = AndroidUtilities.dp(r14 * 14);
                     this.listX = dp2;
                     dp = dp2 + AndroidUtilities.dp(18.0f);
                     this.textX = dp;
@@ -5790,10 +5798,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.textX = AndroidUtilities.dp(18.0f);
                     dp = AndroidUtilities.dp(36.0f);
                 }
-                int i6 = size - dp;
+                int i5 = size - dp;
                 ArticleViewer articleViewer = ArticleViewer.this;
                 TLRPC.TL_pageBlockTable tL_pageBlockTable2 = this.currentBlock;
-                DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tL_pageBlockTable2.title, i6, 0, tL_pageBlockTable2, Layout.Alignment.ALIGN_CENTER, 0, this.parentAdapter);
+                DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tL_pageBlockTable2.title, i5, 0, tL_pageBlockTable2, Layout.Alignment.ALIGN_CENTER, 0, this.parentAdapter);
                 this.titleLayout = createLayoutForText;
                 if (createLayoutForText != null) {
                     this.textY = 0;
@@ -6039,20 +6047,22 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 this.buttonState = 1;
                 this.radialProgress.setIcon(getIconForCurrentState(), true, z);
-            } else if (i != 1) {
-                if (i != 2) {
-                    if (i == 3) {
-                        ArticleViewer.this.openPhoto(this.currentBlock, this.parentAdapter);
+            } else {
+                if (i != 1) {
+                    if (i != 2) {
+                        if (i == 3) {
+                            ArticleViewer.this.openPhoto(this.currentBlock, this.parentAdapter);
+                            return;
+                        }
+                        return;
+                    } else {
+                        this.imageView.setAllowStartAnimation(true);
+                        this.imageView.startAnimation();
+                        this.buttonState = -1;
+                        this.radialProgress.setIcon(getIconForCurrentState(), false, z);
                         return;
                     }
-                    return;
                 }
-                this.imageView.setAllowStartAnimation(true);
-                this.imageView.startAnimation();
-                this.buttonState = -1;
-                this.radialProgress.setIcon(getIconForCurrentState(), false, z);
-                return;
-            } else {
                 this.cancelLoading = true;
                 if (this.isGif) {
                     this.imageView.cancelLoadImage();
@@ -6229,8 +6239,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             accessibilityNodeInfo.setText(sb.toString());
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x0046  */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x015d  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x015d  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x0046  */
         @Override // android.widget.FrameLayout, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -6255,7 +6265,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             String str3;
             int i8;
             boolean z;
-            TLRPC.DocumentAttribute documentAttribute;
             int i9;
             int size = View.MeasureSpec.getSize(i);
             int i10 = this.currentType;
@@ -6263,177 +6272,178 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (i10 == 1) {
                 size = ((View) getParent()).getMeasuredWidth();
                 i4 = ((View) getParent()).getMeasuredHeight();
-            } else if (i10 != 2) {
-                i3 = size;
-                i4 = 0;
-                tL_pageBlockVideo = this.currentBlock;
-                if (tL_pageBlockVideo != null) {
-                    if (this.currentType != 0 || (i9 = tL_pageBlockVideo.level) <= 0) {
-                        this.textX = AndroidUtilities.dp(18.0f);
-                        dp = i3 - AndroidUtilities.dp(36.0f);
-                        i5 = i3;
-                        i6 = 0;
-                    } else {
-                        i6 = AndroidUtilities.dp(i9 * 14) + AndroidUtilities.dp(18.0f);
-                        this.textX = i6;
-                        i5 = i3 - (AndroidUtilities.dp(18.0f) + i6);
-                        dp = i5;
-                    }
-                    if (this.currentDocument != null) {
-                        int dp3 = AndroidUtilities.dp(48.0f);
-                        TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.currentDocument.thumbs, 48);
-                        int i12 = this.currentType;
-                        if (i12 == 0) {
-                            int size2 = this.currentDocument.attributes.size();
-                            int i13 = 0;
-                            while (true) {
-                                if (i13 >= size2) {
-                                    z = false;
-                                    break;
+            } else {
+                if (i10 != 2) {
+                    i3 = size;
+                    i4 = 0;
+                    tL_pageBlockVideo = this.currentBlock;
+                    if (tL_pageBlockVideo != null) {
+                        if (this.currentType != 0 || (i9 = tL_pageBlockVideo.level) <= 0) {
+                            this.textX = AndroidUtilities.dp(18.0f);
+                            dp = i3 - AndroidUtilities.dp(36.0f);
+                            i5 = i3;
+                            i6 = 0;
+                        } else {
+                            i6 = AndroidUtilities.dp(i9 * 14) + AndroidUtilities.dp(18.0f);
+                            this.textX = i6;
+                            i5 = i3 - (AndroidUtilities.dp(18.0f) + i6);
+                            dp = i5;
+                        }
+                        if (this.currentDocument != null) {
+                            int dp3 = AndroidUtilities.dp(48.0f);
+                            TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.currentDocument.thumbs, 48);
+                            int i12 = this.currentType;
+                            if (i12 == 0) {
+                                int size2 = this.currentDocument.attributes.size();
+                                int i13 = 0;
+                                while (true) {
+                                    if (i13 >= size2) {
+                                        z = false;
+                                        break;
+                                    }
+                                    if (this.currentDocument.attributes.get(i13) instanceof TLRPC.TL_documentAttributeVideo) {
+                                        i4 = (int) ((i5 / r15.w) * r15.h);
+                                        z = true;
+                                        break;
+                                    }
+                                    i13++;
                                 }
-                                if (this.currentDocument.attributes.get(i13) instanceof TLRPC.TL_documentAttributeVideo) {
-                                    i4 = (int) ((i5 / documentAttribute.w) * documentAttribute.h);
-                                    z = true;
-                                    break;
+                                float f = closestPhotoSizeWithSize != null ? closestPhotoSizeWithSize.w : 100.0f;
+                                float f2 = closestPhotoSizeWithSize != null ? closestPhotoSizeWithSize.h : 100.0f;
+                                if (!z) {
+                                    i4 = (int) ((i5 / f) * f2);
                                 }
-                                i13++;
-                            }
-                            float f = closestPhotoSizeWithSize != null ? closestPhotoSizeWithSize.w : 100.0f;
-                            float f2 = closestPhotoSizeWithSize != null ? closestPhotoSizeWithSize.h : 100.0f;
-                            if (!z) {
-                                i4 = (int) ((i5 / f) * f2);
-                            }
-                            if (this.parentBlock instanceof TLRPC.TL_pageBlockCover) {
-                                i4 = Math.min(i4, i5);
-                            } else {
-                                Point point = AndroidUtilities.displaySize;
-                                int max = (int) ((Math.max(point.x, point.y) - AndroidUtilities.dp(56.0f)) * 0.9f);
-                                if (i4 > max) {
-                                    i5 = (int) ((max / f2) * f);
-                                    i6 += ((i3 - i6) - i5) / 2;
-                                    i4 = max;
-                                }
-                            }
-                            if (i4 == 0) {
-                                i4 = AndroidUtilities.dp(100.0f);
-                            } else if (i4 < dp3) {
-                                i4 = dp3;
-                            }
-                        } else if (i12 == 2) {
-                            if ((this.groupPosition.flags & 2) == 0) {
-                                i5 -= AndroidUtilities.dp(2.0f);
-                            }
-                            if ((this.groupPosition.flags & 8) == 0) {
-                                dp2 = i4 - AndroidUtilities.dp(2.0f);
-                                this.imageView.setQualityThumbDocument(this.currentDocument);
-                                this.imageView.setImageCoords(i6, (!this.isFirst || (i8 = this.currentType) == 1 || i8 == 2 || this.currentBlock.level > 0) ? 0 : AndroidUtilities.dp(8.0f), i5, dp2);
-                                if (!this.calcHeight) {
-                                    if (this.isGif) {
-                                        BlockVideoCellState blockVideoCellState = this.videoState;
-                                        if (blockVideoCellState == null || blockVideoCellState.lastFrameBitmap == null) {
-                                            this.autoDownload = DownloadController.getInstance(ArticleViewer.this.currentAccount).canDownloadMedia(4, this.currentDocument.size);
-                                            File pathToAttach = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentDocument);
-                                            File pathToAttach2 = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentDocument, true);
-                                            if (this.autoDownload || pathToAttach.exists() || pathToAttach2.exists()) {
-                                                this.imageView.setStrippedLocation(null);
-                                                imageReceiver = this.imageView;
-                                                forDocument = ImageLocation.getForDocument(this.currentDocument);
-                                                forDocument2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument);
-                                                j = this.currentDocument.size;
-                                                webPage = this.parentAdapter.currentPage;
-                                                str = null;
-                                                i7 = 1;
-                                                imageLocation = null;
-                                                str2 = null;
-                                                str3 = "200_200_pframe";
-                                            } else {
-                                                this.imageView.setStrippedLocation(ImageLocation.getForDocument(this.currentDocument));
-                                                imageReceiver = this.imageView;
-                                                forDocument2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument);
-                                                j = this.currentDocument.size;
-                                                webPage = this.parentAdapter.currentPage;
-                                                str = null;
-                                                i7 = 1;
-                                                imageLocation = null;
-                                                str2 = null;
-                                                forDocument = null;
-                                                str3 = null;
-                                            }
-                                            imageReceiver.setImage(imageLocation, str2, forDocument, str3, forDocument2, "80_80_b", null, j, str, webPage, i7);
-                                        } else {
-                                            this.imageView.setStrippedLocation(null);
-                                            this.imageView.setImageBitmap(this.videoState.lastFrameBitmap);
-                                        }
-                                    } else {
-                                        this.imageView.setStrippedLocation(null);
-                                        this.imageView.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument), "80_80_b", 0L, null, this.parentAdapter.currentPage, 1);
+                                if (this.parentBlock instanceof TLRPC.TL_pageBlockCover) {
+                                    i4 = Math.min(i4, i5);
+                                } else {
+                                    Point point = AndroidUtilities.displaySize;
+                                    int max = (int) ((Math.max(point.x, point.y) - AndroidUtilities.dp(56.0f)) * 0.9f);
+                                    if (i4 > max) {
+                                        i5 = (int) ((max / f2) * f);
+                                        i6 += ((i3 - i6) - i5) / 2;
+                                        i4 = max;
                                     }
                                 }
-                                this.imageView.setAspectFit(true);
-                                float f3 = dp3;
-                                this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f3) / 2.0f));
-                                int imageY = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f3) / 2.0f));
-                                this.buttonY = imageY;
-                                RadialProgress2 radialProgress2 = this.radialProgress;
-                                int i14 = this.buttonX;
-                                radialProgress2.setProgressRect(i14, imageY, i14 + dp3, dp3 + imageY);
+                                if (i4 == 0) {
+                                    i4 = AndroidUtilities.dp(100.0f);
+                                } else if (i4 < dp3) {
+                                    i4 = dp3;
+                                }
+                            } else if (i12 == 2) {
+                                if ((this.groupPosition.flags & 2) == 0) {
+                                    i5 -= AndroidUtilities.dp(2.0f);
+                                }
+                                if ((this.groupPosition.flags & 8) == 0) {
+                                    dp2 = i4 - AndroidUtilities.dp(2.0f);
+                                    this.imageView.setQualityThumbDocument(this.currentDocument);
+                                    this.imageView.setImageCoords(i6, (!this.isFirst || (i8 = this.currentType) == 1 || i8 == 2 || this.currentBlock.level > 0) ? 0 : AndroidUtilities.dp(8.0f), i5, dp2);
+                                    if (!this.calcHeight) {
+                                        if (this.isGif) {
+                                            BlockVideoCellState blockVideoCellState = this.videoState;
+                                            if (blockVideoCellState == null || blockVideoCellState.lastFrameBitmap == null) {
+                                                this.autoDownload = DownloadController.getInstance(ArticleViewer.this.currentAccount).canDownloadMedia(4, this.currentDocument.size);
+                                                File pathToAttach = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentDocument);
+                                                File pathToAttach2 = FileLoader.getInstance(ArticleViewer.this.currentAccount).getPathToAttach(this.currentDocument, true);
+                                                if (this.autoDownload || pathToAttach.exists() || pathToAttach2.exists()) {
+                                                    this.imageView.setStrippedLocation(null);
+                                                    imageReceiver = this.imageView;
+                                                    forDocument = ImageLocation.getForDocument(this.currentDocument);
+                                                    forDocument2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument);
+                                                    j = this.currentDocument.size;
+                                                    webPage = this.parentAdapter.currentPage;
+                                                    str = null;
+                                                    i7 = 1;
+                                                    imageLocation = null;
+                                                    str2 = null;
+                                                    str3 = "200_200_pframe";
+                                                } else {
+                                                    this.imageView.setStrippedLocation(ImageLocation.getForDocument(this.currentDocument));
+                                                    imageReceiver = this.imageView;
+                                                    forDocument2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument);
+                                                    j = this.currentDocument.size;
+                                                    webPage = this.parentAdapter.currentPage;
+                                                    str = null;
+                                                    i7 = 1;
+                                                    imageLocation = null;
+                                                    str2 = null;
+                                                    forDocument = null;
+                                                    str3 = null;
+                                                }
+                                                imageReceiver.setImage(imageLocation, str2, forDocument, str3, forDocument2, "80_80_b", null, j, str, webPage, i7);
+                                            } else {
+                                                this.imageView.setStrippedLocation(null);
+                                                this.imageView.setImageBitmap(this.videoState.lastFrameBitmap);
+                                            }
+                                        } else {
+                                            this.imageView.setStrippedLocation(null);
+                                            this.imageView.setImage(null, null, ImageLocation.getForDocument(closestPhotoSizeWithSize, this.currentDocument), "80_80_b", 0L, null, this.parentAdapter.currentPage, 1);
+                                        }
+                                    }
+                                    this.imageView.setAspectFit(true);
+                                    float f3 = dp3;
+                                    this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f3) / 2.0f));
+                                    int imageY = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f3) / 2.0f));
+                                    this.buttonY = imageY;
+                                    RadialProgress2 radialProgress2 = this.radialProgress;
+                                    int i14 = this.buttonX;
+                                    radialProgress2.setProgressRect(i14, imageY, i14 + dp3, dp3 + imageY);
+                                }
+                            }
+                            dp2 = i4;
+                            this.imageView.setQualityThumbDocument(this.currentDocument);
+                            this.imageView.setImageCoords(i6, (!this.isFirst || (i8 = this.currentType) == 1 || i8 == 2 || this.currentBlock.level > 0) ? 0 : AndroidUtilities.dp(8.0f), i5, dp2);
+                            if (!this.calcHeight) {
+                            }
+                            this.imageView.setAspectFit(true);
+                            float f32 = dp3;
+                            this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f32) / 2.0f));
+                            int imageY2 = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f32) / 2.0f));
+                            this.buttonY = imageY2;
+                            RadialProgress2 radialProgress22 = this.radialProgress;
+                            int i142 = this.buttonX;
+                            radialProgress22.setProgressRect(i142, imageY2, i142 + dp3, dp3 + imageY2);
+                        }
+                        int i15 = i4;
+                        int imageY3 = (int) (this.imageView.getImageY() + this.imageView.getImageHeight() + AndroidUtilities.dp(8.0f));
+                        this.textY = imageY3;
+                        if (this.currentType == 0) {
+                            ArticleViewer articleViewer = ArticleViewer.this;
+                            TLRPC.TL_pageBlockVideo tL_pageBlockVideo2 = this.currentBlock;
+                            DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tL_pageBlockVideo2.caption.text, dp, imageY3, tL_pageBlockVideo2, this.parentAdapter);
+                            this.captionLayout = createLayoutForText;
+                            if (createLayoutForText != null) {
+                                int dp4 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
+                                this.creditOffset = dp4;
+                                i15 += dp4 + AndroidUtilities.dp(4.0f);
+                                DrawingText drawingText = this.captionLayout;
+                                drawingText.x = this.textX;
+                                drawingText.y = this.textY;
+                            }
+                            ArticleViewer articleViewer2 = ArticleViewer.this;
+                            TLRPC.TL_pageBlockVideo tL_pageBlockVideo3 = this.currentBlock;
+                            DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tL_pageBlockVideo3.caption.credit, dp, this.textY + this.creditOffset, tL_pageBlockVideo3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
+                            this.creditLayout = createLayoutForText2;
+                            if (createLayoutForText2 != null) {
+                                i15 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
+                                DrawingText drawingText2 = this.creditLayout;
+                                drawingText2.x = this.textX;
+                                drawingText2.y = this.textY + this.creditOffset;
                             }
                         }
-                        dp2 = i4;
-                        this.imageView.setQualityThumbDocument(this.currentDocument);
-                        this.imageView.setImageCoords(i6, (!this.isFirst || (i8 = this.currentType) == 1 || i8 == 2 || this.currentBlock.level > 0) ? 0 : AndroidUtilities.dp(8.0f), i5, dp2);
-                        if (!this.calcHeight) {
+                        if (!this.isFirst && this.currentType == 0 && this.currentBlock.level <= 0) {
+                            i15 += AndroidUtilities.dp(8.0f);
                         }
-                        this.imageView.setAspectFit(true);
-                        float f32 = dp3;
-                        this.buttonX = (int) (this.imageView.getImageX() + ((this.imageView.getImageWidth() - f32) / 2.0f));
-                        int imageY2 = (int) (this.imageView.getImageY() + ((this.imageView.getImageHeight() - f32) / 2.0f));
-                        this.buttonY = imageY2;
-                        RadialProgress2 radialProgress22 = this.radialProgress;
-                        int i142 = this.buttonX;
-                        radialProgress22.setProgressRect(i142, imageY2, i142 + dp3, dp3 + imageY2);
+                        i11 = (this.currentType == 2 || ((this.parentBlock instanceof TLRPC.TL_pageBlockCover) && this.parentAdapter.blocks.size() > 1 && (this.parentAdapter.blocks.get(1) instanceof TLRPC.TL_pageBlockChannel))) ? i15 : i15 + AndroidUtilities.dp(8.0f);
                     }
-                    int i15 = i4;
-                    int imageY3 = (int) (this.imageView.getImageY() + this.imageView.getImageHeight() + AndroidUtilities.dp(8.0f));
-                    this.textY = imageY3;
-                    if (this.currentType == 0) {
-                        ArticleViewer articleViewer = ArticleViewer.this;
-                        TLRPC.TL_pageBlockVideo tL_pageBlockVideo2 = this.currentBlock;
-                        DrawingText createLayoutForText = articleViewer.createLayoutForText(this, null, tL_pageBlockVideo2.caption.text, dp, imageY3, tL_pageBlockVideo2, this.parentAdapter);
-                        this.captionLayout = createLayoutForText;
-                        if (createLayoutForText != null) {
-                            int dp4 = AndroidUtilities.dp(4.0f) + this.captionLayout.getHeight();
-                            this.creditOffset = dp4;
-                            i15 += dp4 + AndroidUtilities.dp(4.0f);
-                            DrawingText drawingText = this.captionLayout;
-                            drawingText.x = this.textX;
-                            drawingText.y = this.textY;
-                        }
-                        ArticleViewer articleViewer2 = ArticleViewer.this;
-                        TLRPC.TL_pageBlockVideo tL_pageBlockVideo3 = this.currentBlock;
-                        DrawingText createLayoutForText2 = articleViewer2.createLayoutForText(this, null, tL_pageBlockVideo3.caption.credit, dp, this.textY + this.creditOffset, tL_pageBlockVideo3, this.parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, this.parentAdapter);
-                        this.creditLayout = createLayoutForText2;
-                        if (createLayoutForText2 != null) {
-                            i15 += AndroidUtilities.dp(4.0f) + this.creditLayout.getHeight();
-                            DrawingText drawingText2 = this.creditLayout;
-                            drawingText2.x = this.textX;
-                            drawingText2.y = this.textY + this.creditOffset;
-                        }
-                    }
-                    if (!this.isFirst && this.currentType == 0 && this.currentBlock.level <= 0) {
-                        i15 += AndroidUtilities.dp(8.0f);
-                    }
-                    i11 = (this.currentType == 2 || ((this.parentBlock instanceof TLRPC.TL_pageBlockCover) && this.parentAdapter.blocks.size() > 1 && (this.parentAdapter.blocks.get(1) instanceof TLRPC.TL_pageBlockChannel))) ? i15 : i15 + AndroidUtilities.dp(8.0f);
+                    this.channelCell.measure(i, i2);
+                    this.channelCell.setTranslationY(this.imageView.getImageHeight() - AndroidUtilities.dp(39.0f));
+                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.aspectRationContainer.getLayoutParams();
+                    layoutParams.leftMargin = (int) this.imageView.getImageX();
+                    layoutParams.topMargin = (int) this.imageView.getImageY();
+                    layoutParams.width = (int) this.imageView.getImageWidth();
+                    layoutParams.height = (int) this.imageView.getImageHeight();
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(i3, 1073741824), View.MeasureSpec.makeMeasureSpec(i11, 1073741824));
                 }
-                this.channelCell.measure(i, i2);
-                this.channelCell.setTranslationY(this.imageView.getImageHeight() - AndroidUtilities.dp(39.0f));
-                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.aspectRationContainer.getLayoutParams();
-                layoutParams.leftMargin = (int) this.imageView.getImageX();
-                layoutParams.topMargin = (int) this.imageView.getImageY();
-                layoutParams.width = (int) this.imageView.getImageWidth();
-                layoutParams.height = (int) this.imageView.getImageHeight();
-                super.onMeasure(View.MeasureSpec.makeMeasureSpec(i3, 1073741824), View.MeasureSpec.makeMeasureSpec(i11, 1073741824));
-            } else {
                 float f4 = this.groupPosition.ph;
                 Point point2 = AndroidUtilities.displaySize;
                 i4 = (int) Math.ceil(f4 * Math.max(point2.x, point2.y) * 0.5f);
@@ -6469,17 +6479,18 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.radialProgress.setProgress(1.0f, true);
             if (!this.isGif) {
                 updateButtonState(true);
-                return;
+            } else {
+                this.buttonState = 2;
+                didPressedButton(true);
             }
-            this.buttonState = 2;
-            didPressedButton(true);
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:30:0x00ab, code lost:
-            if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L31;
+        
+            if (r2 <= (r0 + org.telegram.messenger.AndroidUtilities.dp(48.0f))) goto L33;
          */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x00ea  */
-        /* JADX WARN: Removed duplicated region for block: B:60:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x00ea  */
+        /* JADX WARN: Removed duplicated region for block: B:48:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -6496,7 +6507,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     ArticleViewer.this.close(false, true);
                 }
                 return true;
-            } else if (motionEvent.getAction() != 0 || !this.imageView.isInsideImage(x, y)) {
+            }
+            if (motionEvent.getAction() != 0 || !this.imageView.isInsideImage(x, y)) {
                 if (motionEvent.getAction() == 1) {
                     if (this.photoPressed) {
                         this.photoPressed = false;
@@ -6511,23 +6523,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.photoPressed = false;
                 }
                 return this.photoPressed ? true : true;
-            } else {
-                if (this.buttonState != -1) {
-                    int i = this.buttonX;
-                    if (x >= i && x <= i + AndroidUtilities.dp(48.0f)) {
-                        int i2 = this.buttonY;
-                        if (y >= i2) {
-                        }
+            }
+            if (this.buttonState != -1) {
+                if (x >= this.buttonX && x <= r3 + AndroidUtilities.dp(48.0f)) {
+                    if (y >= this.buttonY) {
                     }
                 }
-                if (this.buttonState != 0) {
-                    this.photoPressed = true;
-                    return this.photoPressed ? true : true;
-                }
-                this.buttonPressed = 1;
-                invalidate();
-                if (this.photoPressed) {
-                }
+            }
+            if (this.buttonState != 0) {
+                this.photoPressed = true;
+                return this.photoPressed ? true : true;
+            }
+            this.buttonPressed = 1;
+            invalidate();
+            if (this.photoPressed) {
             }
         }
 
@@ -6832,12 +6841,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public DrawingText() {
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:18:0x008d  */
-        /* JADX WARN: Removed duplicated region for block: B:21:0x0098  */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x00a3  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x00b6  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x00d7  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x00e0  */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x008d  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x0098  */
+        /* JADX WARN: Removed duplicated region for block: B:22:0x00a3  */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x00b6  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x00d7  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x00e0  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -7052,17 +7061,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.titleView.setTextColor(!z ? -16777216 : -1);
                 this.descriptionView.setTextColor(!z ? -16777216 : -1);
                 this.codeView.setTextColor(z ? -1 : -16777216);
-                return;
+            } else {
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(z ? 0.0f : 1.0f, z ? 1.0f : 0.0f);
+                this.darkAnimator = ofFloat;
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ArticleViewer$ErrorContainer$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                        ArticleViewer.ErrorContainer.this.lambda$setDark$0(valueAnimator2);
+                    }
+                });
+                this.darkAnimator.start();
             }
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(z ? 0.0f : 1.0f, z ? 1.0f : 0.0f);
-            this.darkAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ArticleViewer$ErrorContainer$$ExternalSyntheticLambda0
-                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                    ArticleViewer.ErrorContainer.this.lambda$setDark$0(valueAnimator2);
-                }
-            });
-            this.darkAnimator.start();
         }
 
         @Override // android.view.View
@@ -7158,61 +7167,65 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             Bitmap bitmap;
             if (view instanceof BlockPhotoCell) {
                 BlockPhotoCell blockPhotoCell = (BlockPhotoCell) view;
-                if (blockPhotoCell.currentBlock == pageBlock) {
-                    view.getLocationInWindow(iArr);
-                    return blockPhotoCell.imageView;
+                if (blockPhotoCell.currentBlock != pageBlock) {
+                    return null;
                 }
-                return null;
-            } else if (view instanceof BlockVideoCell) {
+                view.getLocationInWindow(iArr);
+                return blockPhotoCell.imageView;
+            }
+            if (view instanceof BlockVideoCell) {
                 BlockVideoCell blockVideoCell = (BlockVideoCell) view;
-                if (blockVideoCell.currentBlock == pageBlock) {
-                    view.getLocationInWindow(iArr);
-                    ArticleViewer articleViewer = ArticleViewer.this;
-                    if (blockVideoCell == articleViewer.currentPlayer && (videoPlayerHolderBase = articleViewer.videoPlayer) != null && videoPlayerHolderBase.firstFrameRendered && blockVideoCell.textureView.getSurfaceTexture() != null) {
-                        if (Build.VERSION.SDK_INT >= 24) {
-                            Surface surface = new Surface(blockVideoCell.textureView.getSurfaceTexture());
-                            bitmap = Bitmap.createBitmap(blockVideoCell.textureView.getMeasuredWidth(), blockVideoCell.textureView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                            AndroidUtilities.getBitmapFromSurface(surface, bitmap);
-                            surface.release();
-                            imageReceiver = blockVideoCell.imageView;
-                        } else {
-                            imageReceiver = blockVideoCell.imageView;
-                            bitmap = blockVideoCell.textureView.getBitmap();
-                        }
-                        imageReceiver.setImageBitmap(bitmap);
-                        blockVideoCell.firstFrameRendered = false;
-                        blockVideoCell.textureView.setAlpha(0.0f);
-                    }
-                    return blockVideoCell.imageView;
+                if (blockVideoCell.currentBlock != pageBlock) {
+                    return null;
                 }
-                return null;
-            } else if (view instanceof BlockCollageCell) {
+                view.getLocationInWindow(iArr);
+                ArticleViewer articleViewer = ArticleViewer.this;
+                if (blockVideoCell == articleViewer.currentPlayer && (videoPlayerHolderBase = articleViewer.videoPlayer) != null && videoPlayerHolderBase.firstFrameRendered && blockVideoCell.textureView.getSurfaceTexture() != null) {
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        Surface surface = new Surface(blockVideoCell.textureView.getSurfaceTexture());
+                        bitmap = Bitmap.createBitmap(blockVideoCell.textureView.getMeasuredWidth(), blockVideoCell.textureView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                        AndroidUtilities.getBitmapFromSurface(surface, bitmap);
+                        surface.release();
+                        imageReceiver = blockVideoCell.imageView;
+                    } else {
+                        imageReceiver = blockVideoCell.imageView;
+                        bitmap = blockVideoCell.textureView.getBitmap();
+                    }
+                    imageReceiver.setImageBitmap(bitmap);
+                    blockVideoCell.firstFrameRendered = false;
+                    blockVideoCell.textureView.setAlpha(0.0f);
+                }
+                return blockVideoCell.imageView;
+            }
+            if (view instanceof BlockCollageCell) {
                 ImageReceiver imageReceiverFromListView = getImageReceiverFromListView(((BlockCollageCell) view).innerListView, pageBlock, iArr);
                 if (imageReceiverFromListView != null) {
                     return imageReceiverFromListView;
                 }
                 return null;
-            } else if (view instanceof BlockSlideshowCell) {
+            }
+            if (view instanceof BlockSlideshowCell) {
                 ImageReceiver imageReceiverFromListView2 = getImageReceiverFromListView(((BlockSlideshowCell) view).innerListView, pageBlock, iArr);
                 if (imageReceiverFromListView2 != null) {
                     return imageReceiverFromListView2;
                 }
                 return null;
-            } else if (view instanceof BlockListItemCell) {
+            }
+            if (view instanceof BlockListItemCell) {
                 BlockListItemCell blockListItemCell = (BlockListItemCell) view;
                 if (blockListItemCell.blockLayout == null || (imageReceiverView2 = getImageReceiverView(blockListItemCell.blockLayout.itemView, pageBlock, iArr)) == null) {
                     return null;
                 }
                 return imageReceiverView2;
-            } else if (view instanceof BlockOrderedListItemCell) {
-                BlockOrderedListItemCell blockOrderedListItemCell = (BlockOrderedListItemCell) view;
-                if (blockOrderedListItemCell.blockLayout == null || (imageReceiverView = getImageReceiverView(blockOrderedListItemCell.blockLayout.itemView, pageBlock, iArr)) == null) {
-                    return null;
-                }
-                return imageReceiverView;
-            } else {
+            }
+            if (!(view instanceof BlockOrderedListItemCell)) {
                 return null;
             }
+            BlockOrderedListItemCell blockOrderedListItemCell = (BlockOrderedListItemCell) view;
+            if (blockOrderedListItemCell.blockLayout == null || (imageReceiverView = getImageReceiverView(blockOrderedListItemCell.blockLayout.itemView, pageBlock, iArr)) == null) {
+                return null;
+            }
+            return imageReceiverView;
         }
 
         private BlockVideoCell getViewFromListView(ViewGroup viewGroup, TLRPC.PageBlock pageBlock) {
@@ -7428,7 +7441,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 @Override // org.telegram.ui.web.BotWebViewContainer
                 protected void onURLChanged(String str, boolean z, boolean z2) {
                     PageLayout pageLayout = PageLayout.this;
-                    boolean z3 = true;
                     pageLayout.backButton = !z;
                     pageLayout.forwardButton = !z2;
                     ArticleViewer.this.updateTitle(true);
@@ -7451,7 +7463,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     ArticleViewer.this.actionBar.setHasForward(PageLayout.this.forwardButton);
                     WebActionBar webActionBar2 = ArticleViewer.this.actionBar;
                     PageLayout pageLayout5 = ArticleViewer.this.pages[0];
-                    webActionBar2.setIsTonsite((pageLayout5 == null || !pageLayout5.isTonsite()) ? false : false);
+                    webActionBar2.setIsTonsite(pageLayout5 != null && pageLayout5.isTonsite());
                 }
 
                 @Override // org.telegram.ui.web.BotWebViewContainer
@@ -7676,14 +7688,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:10:0x002b, code lost:
-            if (r3 != null) goto L10;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x004e, code lost:
-            if (r3 != null) goto L10;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:19:0x0050, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:10:0x0050, code lost:
+        
             r3.checkNavColor();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:20:0x004e, code lost:
+        
+            if (r3 != null) goto L19;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:9:0x002b, code lost:
+        
+            if (r3 != null) goto L19;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -7812,7 +7827,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public float getProgress() {
             BotWebViewContainer.MyWebView webView;
             Sheet sheet;
-            int itemCount;
             if (!isArticle()) {
                 if (!isWeb() || (webView = this.webViewContainer.getWebView()) == null) {
                     return 0.0f;
@@ -7824,19 +7838,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 return f;
             }
             int findFirstVisibleItemPosition = this.layoutManager.findFirstVisibleItemPosition();
-            View findViewByPosition = this.layoutManager.findViewByPosition(findFirstVisibleItemPosition);
-            if (findViewByPosition == null) {
+            if (this.layoutManager.findViewByPosition(findFirstVisibleItemPosition) == null) {
                 return 0.0f;
             }
             int[] iArr = this.adapter.sumItemHeights;
-            int i = 0;
             if (iArr != null) {
-                int i2 = findFirstVisibleItemPosition - 1;
-                int i3 = (i2 < 0 || i2 >= iArr.length) ? 0 : iArr[i2];
-                if (findFirstVisibleItemPosition != 0 || (sheet = ArticleViewer.this.sheet) == null || !sheet.halfSize()) {
-                    i = -findViewByPosition.getTop();
-                }
-                return Utilities.clamp01((i3 + i) / Math.max(1, this.adapter.fullHeight - this.listView.getHeight()));
+                int i = findFirstVisibleItemPosition - 1;
+                return Utilities.clamp01((((i < 0 || i >= iArr.length) ? 0 : iArr[i]) + ((findFirstVisibleItemPosition == 0 && (sheet = ArticleViewer.this.sheet) != null && sheet.halfSize()) ? 0 : -r2.getTop())) / Math.max(1, this.adapter.fullHeight - this.listView.getHeight()));
             }
             int findLastVisibleItemPosition = this.layoutManager.findLastVisibleItemPosition();
             Sheet sheet2 = ArticleViewer.this.sheet;
@@ -7848,20 +7856,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     findLastVisibleItemPosition = 1;
                 }
             }
-            int itemCount2 = this.layoutManager.getItemCount() - 2;
+            int itemCount = this.layoutManager.getItemCount() - 2;
             LinearLayoutManager linearLayoutManager = this.layoutManager;
-            View findViewByPosition2 = findLastVisibleItemPosition >= itemCount2 ? linearLayoutManager.findViewByPosition(itemCount2) : linearLayoutManager.findViewByPosition(findFirstVisibleItemPosition);
-            if (findViewByPosition2 == null) {
+            View findViewByPosition = findLastVisibleItemPosition >= itemCount ? linearLayoutManager.findViewByPosition(itemCount) : linearLayoutManager.findViewByPosition(findFirstVisibleItemPosition);
+            if (findViewByPosition == null) {
                 return 0.0f;
             }
-            float width = getWidth() / (itemCount - 1);
-            float measuredHeight = findViewByPosition2.getMeasuredHeight();
-            return ((findFirstVisibleItemPosition * width) + (findLastVisibleItemPosition >= itemCount2 ? (((itemCount2 - findFirstVisibleItemPosition) * width) * (this.listView.getMeasuredHeight() - findViewByPosition2.getTop())) / measuredHeight : width * (1.0f - ((Math.min(0, findViewByPosition2.getTop() - this.listView.getPaddingTop()) + measuredHeight) / measuredHeight)))) / getWidth();
+            float width = getWidth() / (r3 - 1);
+            float measuredHeight = findViewByPosition.getMeasuredHeight();
+            return ((findFirstVisibleItemPosition * width) + (findLastVisibleItemPosition >= itemCount ? (((itemCount - findFirstVisibleItemPosition) * width) * (this.listView.getMeasuredHeight() - findViewByPosition.getTop())) / measuredHeight : width * (1.0f - ((Math.min(0, findViewByPosition.getTop() - this.listView.getPaddingTop()) + measuredHeight) / measuredHeight)))) / getWidth();
         }
 
         public String getSubtitle() {
             BotWebViewContainer.MyWebView webView;
-            String[] split;
             if (!isWeb() || (webView = this.webViewContainer.getWebView()) == null) {
                 return "";
             }
@@ -7878,7 +7885,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         try {
                             Uri parse2 = Uri.parse(uri);
                             String IDN_toUnicode = Browser.IDN_toUnicode(parse2.getHost());
-                            if (IDN_toUnicode.split("\\.").length > 2 && ArticleViewer.this.actionBar != null && HintView2.measureCorrectly(IDN_toUnicode, ArticleViewer.this.actionBar.titlePaint) > AndroidUtilities.displaySize.x - AndroidUtilities.dp(162.0f)) {
+                            String[] split = IDN_toUnicode.split("\\.");
+                            if (split.length > 2 && ArticleViewer.this.actionBar != null && HintView2.measureCorrectly(IDN_toUnicode, ArticleViewer.this.actionBar.titlePaint) > AndroidUtilities.displaySize.x - AndroidUtilities.dp(162.0f)) {
                                 IDN_toUnicode = split[split.length - 2] + '.' + split[split.length - 1];
                             }
                             uri = Browser.replace(parse2, null, "", IDN_toUnicode, null);
@@ -7976,7 +7984,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.currentInstantLoader = null;
                 }
                 return null;
-            } else if (getWebView() == null) {
+            }
+            if (getWebView() == null) {
                 WebInstantView.Loader loader2 = this.currentInstantLoader;
                 if (loader2 != null) {
                     loader2.cancel();
@@ -7984,25 +7993,25 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     this.currentInstantLoader = null;
                 }
                 return null;
-            } else {
-                WebInstantView.Loader loader3 = this.currentInstantLoader;
-                if (loader3 != null && (loader3.currentIsLoaded != getWebView().isPageLoaded() || this.currentInstantLoader.currentProgress != getWebView().getProgress())) {
-                    this.currentInstantLoader.retryLocal(getWebView());
-                } else if (this.currentInstantLoader != null && TextUtils.equals(getWebView().getUrl(), this.currentInstantLoader.currentUrl)) {
-                    return this.currentInstantLoader;
-                } else {
-                    WebInstantView.Loader loader4 = this.currentInstantLoader;
-                    if (loader4 != null) {
-                        loader4.cancel();
-                        this.currentInstantLoader.recycle();
-                        this.currentInstantLoader = null;
-                    }
-                    WebInstantView.Loader loader5 = new WebInstantView.Loader(ArticleViewer.this.currentAccount);
-                    this.currentInstantLoader = loader5;
-                    loader5.start(getWebView());
-                }
-                return this.currentInstantLoader;
             }
+            WebInstantView.Loader loader3 = this.currentInstantLoader;
+            if (loader3 != null && (loader3.currentIsLoaded != getWebView().isPageLoaded() || this.currentInstantLoader.currentProgress != getWebView().getProgress())) {
+                this.currentInstantLoader.retryLocal(getWebView());
+            } else {
+                if (this.currentInstantLoader != null && TextUtils.equals(getWebView().getUrl(), this.currentInstantLoader.currentUrl)) {
+                    return this.currentInstantLoader;
+                }
+                WebInstantView.Loader loader4 = this.currentInstantLoader;
+                if (loader4 != null) {
+                    loader4.cancel();
+                    this.currentInstantLoader.recycle();
+                    this.currentInstantLoader = null;
+                }
+                WebInstantView.Loader loader5 = new WebInstantView.Loader(ArticleViewer.this.currentAccount);
+                this.currentInstantLoader = loader5;
+                loader5.start(getWebView());
+            }
+            return this.currentInstantLoader;
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -8049,18 +8058,18 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = this.swipeContainer;
                         webViewSwipeContainer.stickTo((-webViewSwipeContainer.getOffsetY()) + this.swipeContainer.getTopActionBarOffsetY());
                         return;
+                    } else {
+                        ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer2 = this.swipeContainer;
+                        webViewSwipeContainer2.setSwipeOffsetY((-webViewSwipeContainer2.getOffsetY()) + this.swipeContainer.getTopActionBarOffsetY());
+                        return;
                     }
-                    ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer2 = this.swipeContainer;
-                    webViewSwipeContainer2.setSwipeOffsetY((-webViewSwipeContainer2.getOffsetY()) + this.swipeContainer.getTopActionBarOffsetY());
-                    return;
                 }
                 return;
             }
-            int i = 1;
             if (!z) {
                 LinearLayoutManager linearLayoutManager = this.layoutManager;
                 Sheet sheet = ArticleViewer.this.sheet;
-                linearLayoutManager.scrollToPositionWithOffset((sheet == null || !sheet.halfSize()) ? 0 : 0, ArticleViewer.this.sheet != null ? AndroidUtilities.dp(32.0f) : 0);
+                linearLayoutManager.scrollToPositionWithOffset((sheet == null || !sheet.halfSize()) ? 0 : 1, ArticleViewer.this.sheet != null ? AndroidUtilities.dp(32.0f) : 0);
                 return;
             }
             SmoothScroller smoothScroller = new SmoothScroller(getContext());
@@ -8090,9 +8099,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             if (ArticleViewer.this.windowView.movingPage) {
                 ArticleViewer.this.containerView.invalidate();
-                float measuredWidth = f / getMeasuredWidth();
                 ArticleViewer articleViewer = ArticleViewer.this;
-                articleViewer.setCurrentHeaderHeight((int) (articleViewer.windowView.startMovingHeaderHeight + ((AndroidUtilities.dp(56.0f) - ArticleViewer.this.windowView.startMovingHeaderHeight) * measuredWidth)));
+                articleViewer.setCurrentHeaderHeight((int) (articleViewer.windowView.startMovingHeaderHeight + ((AndroidUtilities.dp(56.0f) - ArticleViewer.this.windowView.startMovingHeaderHeight) * (f / getMeasuredWidth()))));
             }
             Sheet sheet = ArticleViewer.this.sheet;
             if (sheet != null) {
@@ -8151,7 +8159,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:9:0x002b  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x002b  */
         @Override // org.telegram.ui.PhotoViewer.PageBlocksAdapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -8172,32 +8180,32 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             articleViewer.openWebpageUrl(url, null, articleViewer2.makeProgress(articleViewer2.pressedLink, ArticleViewer.this.pressedLinkOwnerLayout));
                         }
                     }, 0, str.length(), 34);
-                    if (spannableStringBuilder != null) {
-                        TLRPC.RichText blockCaption = ArticleViewer.this.getBlockCaption(pageBlock, 2);
-                        CharSequence text = ArticleViewer.this.getText(this.page, (View) null, blockCaption, blockCaption, pageBlock, -AndroidUtilities.dp(100.0f));
-                        if (text instanceof Spannable) {
-                            Spannable spannable = (Spannable) text;
-                            TextPaintUrlSpan[] textPaintUrlSpanArr = (TextPaintUrlSpan[]) spannable.getSpans(0, text.length(), TextPaintUrlSpan.class);
-                            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(text.toString());
-                            if (textPaintUrlSpanArr != null && textPaintUrlSpanArr.length > 0) {
-                                for (int i2 = 0; i2 < textPaintUrlSpanArr.length; i2++) {
-                                    spannableStringBuilder2.setSpan(new URLSpan(textPaintUrlSpanArr[i2].getUrl()) { // from class: org.telegram.ui.ArticleViewer.RealPageBlocksAdapter.2
-                                        @Override // android.text.style.URLSpan, android.text.style.ClickableSpan
-                                        public void onClick(View view) {
-                                            ArticleViewer.this.openWebpageUrl(getURL(), null, null);
-                                        }
-                                    }, spannable.getSpanStart(textPaintUrlSpanArr[i2]), spannable.getSpanEnd(textPaintUrlSpanArr[i2]), 33);
-                                }
-                            }
-                            return spannableStringBuilder2;
-                        }
+                    if (spannableStringBuilder == null) {
+                        return spannableStringBuilder;
+                    }
+                    TLRPC.RichText blockCaption = ArticleViewer.this.getBlockCaption(pageBlock, 2);
+                    CharSequence text = ArticleViewer.this.getText(this.page, (View) null, blockCaption, blockCaption, pageBlock, -AndroidUtilities.dp(100.0f));
+                    if (!(text instanceof Spannable)) {
                         return text;
                     }
-                    return spannableStringBuilder;
+                    Spannable spannable = (Spannable) text;
+                    TextPaintUrlSpan[] textPaintUrlSpanArr = (TextPaintUrlSpan[]) spannable.getSpans(0, text.length(), TextPaintUrlSpan.class);
+                    SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(text.toString());
+                    if (textPaintUrlSpanArr != null && textPaintUrlSpanArr.length > 0) {
+                        for (int i2 = 0; i2 < textPaintUrlSpanArr.length; i2++) {
+                            spannableStringBuilder2.setSpan(new URLSpan(textPaintUrlSpanArr[i2].getUrl()) { // from class: org.telegram.ui.ArticleViewer.RealPageBlocksAdapter.2
+                                @Override // android.text.style.URLSpan, android.text.style.ClickableSpan
+                                public void onClick(View view) {
+                                    ArticleViewer.this.openWebpageUrl(getURL(), null, null);
+                                }
+                            }, spannable.getSpanStart(textPaintUrlSpanArr[i2]), spannable.getSpanEnd(textPaintUrlSpanArr[i2]), 33);
+                        }
+                    }
+                    return spannableStringBuilder2;
                 }
             }
             spannableStringBuilder = null;
-            if (spannableStringBuilder != null) {
+            if (spannableStringBuilder == null) {
             }
         }
 
@@ -8407,7 +8415,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
             protected void dispatchDraw(Canvas canvas) {
-                Paint paint;
                 if (this.drawingFromOverlay) {
                     return;
                 }
@@ -8470,7 +8477,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 canvas.translate(0.0f, emptyPadding);
                 if (f < 1.0f) {
                     this.handlePaint.setColor(ColorUtils.blendARGB(Theme.multAlpha((AndroidUtilities.computePerceivedBrightness(Sheet.this.getBackgroundColor()) > 0.721f ? 1 : (AndroidUtilities.computePerceivedBrightness(Sheet.this.getBackgroundColor()) == 0.721f ? 0 : -1)) < 0 ? -1 : -16777216, 0.15f), -16777216, f));
-                    this.handlePaint.setAlpha((int) (paint.getAlpha() * f3));
+                    this.handlePaint.setAlpha((int) (r1.getAlpha() * f3));
                     float width = getWidth() / 2.0f;
                     float listPaddingTop = (f2 + (Sheet.this.getListPaddingTop() / 2.0f)) - (AndroidUtilities.dp(8.0f) * f);
                     float lerp3 = AndroidUtilities.lerp(AndroidUtilities.dp(32.0f), AndroidUtilities.dp(48.0f), f) / 2.0f;
@@ -8484,9 +8491,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                 if (motionEvent.getAction() == 0) {
-                    float y = motionEvent.getY();
-                    Sheet sheet = Sheet.this;
-                    if (y < (sheet.attachedToActionBar ? 0 : sheet.getListTop())) {
+                    if (motionEvent.getY() < (Sheet.this.attachedToActionBar ? 0 : r1.getListTop())) {
                         Sheet.this.dismiss(true);
                         return true;
                     }
@@ -8496,7 +8501,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
             @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.SheetView
             public float drawInto(Canvas canvas, RectF rectF, float f, RectF rectF2, float f2, boolean z) {
-                Sheet sheet;
                 rectF2.set(getRect());
                 AndroidUtilities.lerp(rectF2, rectF, f, rectF2);
                 float min = Math.min(Sheet.this.openProgress, 1.0f - Sheet.this.dismissProgress);
@@ -8538,9 +8542,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
             @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.SheetView
             public RectF getRect() {
-                RectF rectF = this.clipRect;
-                Sheet sheet = Sheet.this;
-                rectF.set(0.0f, (sheet.attachedToActionBar ? 0 : sheet.getListTop() - Sheet.this.getListPaddingTop()) + (Sheet.this.getEmptyPadding() * Math.max(1.0f - Sheet.this.openProgress, Sheet.this.dismissProgress)), getWidth(), getHeight());
+                this.clipRect.set(0.0f, (Sheet.this.attachedToActionBar ? 0 : r1.getListTop() - Sheet.this.getListPaddingTop()) + (Sheet.this.getEmptyPadding() * Math.max(1.0f - Sheet.this.openProgress, Sheet.this.dismissProgress)), getWidth(), getHeight());
                 return this.clipRect;
             }
 
@@ -8874,10 +8876,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             BottomSheetTabDialog bottomSheetTabDialog2 = this.dialog;
             if (bottomSheetTabDialog2 != null) {
                 bottomSheetTabDialog2.updateNavigationBarColor();
-                return;
+            } else {
+                LaunchActivity.instance.checkSystemBarColors(true, true, true, false);
+                AndroidUtilities.setLightNavigationBar(getWindowView(), AndroidUtilities.computePerceivedBrightness(getNavigationBarColor(ArticleViewer.this.getThemedColor(Theme.key_windowBackgroundGray))) >= 0.721f);
             }
-            LaunchActivity.instance.checkSystemBarColors(true, true, true, false);
-            AndroidUtilities.setLightNavigationBar(getWindowView(), AndroidUtilities.computePerceivedBrightness(getNavigationBarColor(ArticleViewer.this.getThemedColor(Theme.key_windowBackgroundGray))) >= 0.721f);
         }
 
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet, android.content.DialogInterface
@@ -8988,22 +8990,25 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (ArticleViewer.this.keyboardVisible) {
                 AndroidUtilities.hideKeyboard(this.windowView);
                 return true;
-            } else if (ArticleViewer.this.actionBar.isSearching()) {
+            }
+            if (ArticleViewer.this.actionBar.isSearching()) {
                 ArticleViewer.this.actionBar.showSearch(false, true);
                 return true;
-            } else if (ArticleViewer.this.actionBar.isAddressing()) {
+            }
+            if (ArticleViewer.this.actionBar.isAddressing()) {
                 ArticleViewer.this.actionBar.showAddress(false, true);
                 return true;
-            } else if (ArticleViewer.this.isFirstArticle() && ArticleViewer.this.pages[0].hasBackButton()) {
+            }
+            if (ArticleViewer.this.isFirstArticle() && ArticleViewer.this.pages[0].hasBackButton()) {
                 ArticleViewer.this.pages[0].back();
                 return true;
-            } else if (ArticleViewer.this.pagesStack.size() > 1) {
+            }
+            if (ArticleViewer.this.pagesStack.size() > 1) {
                 ArticleViewer.this.goBack();
                 return true;
-            } else {
-                dismiss(false);
-                return true;
             }
+            dismiss(false);
+            return true;
         }
 
         @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
@@ -9154,6 +9159,24 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         private TL_pageBlockDetailsChild() {
         }
+
+        static /* synthetic */ TLRPC.PageBlock access$5900(TL_pageBlockDetailsChild tL_pageBlockDetailsChild) {
+            return tL_pageBlockDetailsChild.parent;
+        }
+
+        static /* synthetic */ TLRPC.PageBlock access$5902(TL_pageBlockDetailsChild tL_pageBlockDetailsChild, TLRPC.PageBlock pageBlock) {
+            tL_pageBlockDetailsChild.parent = pageBlock;
+            return pageBlock;
+        }
+
+        static /* synthetic */ TLRPC.PageBlock access$6000(TL_pageBlockDetailsChild tL_pageBlockDetailsChild) {
+            return tL_pageBlockDetailsChild.block;
+        }
+
+        static /* synthetic */ TLRPC.PageBlock access$6002(TL_pageBlockDetailsChild tL_pageBlockDetailsChild, TLRPC.PageBlock pageBlock) {
+            tL_pageBlockDetailsChild.block = pageBlock;
+            return pageBlock;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -9162,6 +9185,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private TLRPC.TL_pageBlockEmbedPost parent;
 
         private TL_pageBlockEmbedPostCaption() {
+        }
+
+        static /* synthetic */ TLRPC.TL_pageBlockEmbedPost access$10802(TL_pageBlockEmbedPostCaption tL_pageBlockEmbedPostCaption, TLRPC.TL_pageBlockEmbedPost tL_pageBlockEmbedPost) {
+            tL_pageBlockEmbedPostCaption.parent = tL_pageBlockEmbedPost;
+            return tL_pageBlockEmbedPost;
         }
     }
 
@@ -9178,6 +9206,31 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private TL_pageBlockListItem() {
             this.index = ConnectionsManager.DEFAULT_DATACENTER_ID;
         }
+
+        static /* synthetic */ TLRPC.RichText access$10302(TL_pageBlockListItem tL_pageBlockListItem, TLRPC.RichText richText) {
+            tL_pageBlockListItem.textItem = richText;
+            return richText;
+        }
+
+        static /* synthetic */ int access$11602(TL_pageBlockListItem tL_pageBlockListItem, int i) {
+            tL_pageBlockListItem.index = i;
+            return i;
+        }
+
+        static /* synthetic */ String access$11702(TL_pageBlockListItem tL_pageBlockListItem, String str) {
+            tL_pageBlockListItem.num = str;
+            return str;
+        }
+
+        static /* synthetic */ TLRPC.PageBlock access$5702(TL_pageBlockListItem tL_pageBlockListItem, TLRPC.PageBlock pageBlock) {
+            tL_pageBlockListItem.blockItem = pageBlock;
+            return pageBlock;
+        }
+
+        static /* synthetic */ TL_pageBlockListParent access$6202(TL_pageBlockListItem tL_pageBlockListItem, TL_pageBlockListParent tL_pageBlockListParent) {
+            tL_pageBlockListItem.parent = tL_pageBlockListParent;
+            return tL_pageBlockListParent;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -9192,6 +9245,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         private TL_pageBlockListParent() {
             this.items = new ArrayList();
+        }
+
+        static /* synthetic */ int access$11502(TL_pageBlockListParent tL_pageBlockListParent, int i) {
+            tL_pageBlockListParent.level = i;
+            return i;
+        }
+
+        static /* synthetic */ ArrayList access$11800(TL_pageBlockListParent tL_pageBlockListParent) {
+            return tL_pageBlockListParent.items;
+        }
+
+        static /* synthetic */ TLRPC.TL_pageBlockList access$8302(TL_pageBlockListParent tL_pageBlockListParent, TLRPC.TL_pageBlockList tL_pageBlockList) {
+            tL_pageBlockListParent.pageBlockList = tL_pageBlockList;
+            return tL_pageBlockList;
         }
     }
 
@@ -9208,6 +9275,31 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private TL_pageBlockOrderedListItem() {
             this.index = ConnectionsManager.DEFAULT_DATACENTER_ID;
         }
+
+        static /* synthetic */ TLRPC.RichText access$10402(TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem, TLRPC.RichText richText) {
+            tL_pageBlockOrderedListItem.textItem = richText;
+            return richText;
+        }
+
+        static /* synthetic */ int access$12302(TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem, int i) {
+            tL_pageBlockOrderedListItem.index = i;
+            return i;
+        }
+
+        static /* synthetic */ String access$12502(TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem, String str) {
+            tL_pageBlockOrderedListItem.num = str;
+            return str;
+        }
+
+        static /* synthetic */ TLRPC.PageBlock access$5802(TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem, TLRPC.PageBlock pageBlock) {
+            tL_pageBlockOrderedListItem.blockItem = pageBlock;
+            return pageBlock;
+        }
+
+        static /* synthetic */ TL_pageBlockOrderedListParent access$6402(TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem, TL_pageBlockOrderedListParent tL_pageBlockOrderedListParent) {
+            tL_pageBlockOrderedListItem.parent = tL_pageBlockOrderedListParent;
+            return tL_pageBlockOrderedListParent;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -9223,6 +9315,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private TL_pageBlockOrderedListParent() {
             this.items = new ArrayList();
         }
+
+        static /* synthetic */ TLRPC.TL_pageBlockOrderedList access$12102(TL_pageBlockOrderedListParent tL_pageBlockOrderedListParent, TLRPC.TL_pageBlockOrderedList tL_pageBlockOrderedList) {
+            tL_pageBlockOrderedListParent.pageBlockOrderedList = tL_pageBlockOrderedList;
+            return tL_pageBlockOrderedList;
+        }
+
+        static /* synthetic */ int access$12202(TL_pageBlockOrderedListParent tL_pageBlockOrderedListParent, int i) {
+            tL_pageBlockOrderedListParent.level = i;
+            return i;
+        }
+
+        static /* synthetic */ ArrayList access$12400(TL_pageBlockOrderedListParent tL_pageBlockOrderedListParent) {
+            return tL_pageBlockOrderedListParent.items;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -9233,6 +9339,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         private TL_pageBlockRelatedArticlesChild() {
         }
+
+        static /* synthetic */ int access$8102(TL_pageBlockRelatedArticlesChild tL_pageBlockRelatedArticlesChild, int i) {
+            tL_pageBlockRelatedArticlesChild.num = i;
+            return i;
+        }
+
+        static /* synthetic */ TLRPC.TL_pageBlockRelatedArticles access$8202(TL_pageBlockRelatedArticlesChild tL_pageBlockRelatedArticlesChild, TLRPC.TL_pageBlockRelatedArticles tL_pageBlockRelatedArticles) {
+            tL_pageBlockRelatedArticlesChild.parent = tL_pageBlockRelatedArticles;
+            return tL_pageBlockRelatedArticles;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -9241,6 +9357,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private TLRPC.TL_pageBlockRelatedArticles parent;
 
         private TL_pageBlockRelatedArticlesShadow() {
+        }
+
+        static /* synthetic */ TLRPC.TL_pageBlockRelatedArticles access$11002(TL_pageBlockRelatedArticlesShadow tL_pageBlockRelatedArticlesShadow, TLRPC.TL_pageBlockRelatedArticles tL_pageBlockRelatedArticles) {
+            tL_pageBlockRelatedArticlesShadow.parent = tL_pageBlockRelatedArticles;
+            return tL_pageBlockRelatedArticles;
         }
     }
 
@@ -9438,36 +9559,37 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 arrayList = photoWithId.sizes;
                 document = photoWithId;
                 tL_pageBlockVideo = tL_pageBlockPhoto;
-            } else if (!(pageBlock instanceof TLRPC.TL_pageBlockVideo) || !WebPageUtils.isVideo(webpageAdapter.currentPage, pageBlock)) {
-                int i = 0;
-                if (pageBlock instanceof TLRPC.TL_pageBlockSlideshow) {
-                    TLRPC.TL_pageBlockSlideshow tL_pageBlockSlideshow = (TLRPC.TL_pageBlockSlideshow) pageBlock;
-                    int size = tL_pageBlockSlideshow.items.size();
-                    while (i < size) {
-                        TLRPC.PageBlock pageBlock2 = tL_pageBlockSlideshow.items.get(i);
-                        pageBlock2.groupId = ArticleViewer.this.lastBlockNum;
-                        addAllMediaFromBlock(webpageAdapter, pageBlock2);
-                        i++;
-                    }
-                } else if (!(pageBlock instanceof TLRPC.TL_pageBlockCollage)) {
-                    if (pageBlock instanceof TLRPC.TL_pageBlockCover) {
-                        addAllMediaFromBlock(webpageAdapter, ((TLRPC.TL_pageBlockCover) pageBlock).cover);
-                        return;
-                    }
-                    return;
-                } else {
-                    TLRPC.TL_pageBlockCollage tL_pageBlockCollage = (TLRPC.TL_pageBlockCollage) pageBlock;
-                    int size2 = tL_pageBlockCollage.items.size();
-                    while (i < size2) {
-                        TLRPC.PageBlock pageBlock3 = tL_pageBlockCollage.items.get(i);
-                        pageBlock3.groupId = ArticleViewer.this.lastBlockNum;
-                        addAllMediaFromBlock(webpageAdapter, pageBlock3);
-                        i++;
-                    }
-                }
-                ArticleViewer.access$12608(ArticleViewer.this);
-                return;
             } else {
+                if (!(pageBlock instanceof TLRPC.TL_pageBlockVideo) || !WebPageUtils.isVideo(webpageAdapter.currentPage, pageBlock)) {
+                    int i = 0;
+                    if (pageBlock instanceof TLRPC.TL_pageBlockSlideshow) {
+                        TLRPC.TL_pageBlockSlideshow tL_pageBlockSlideshow = (TLRPC.TL_pageBlockSlideshow) pageBlock;
+                        int size = tL_pageBlockSlideshow.items.size();
+                        while (i < size) {
+                            TLRPC.PageBlock pageBlock2 = tL_pageBlockSlideshow.items.get(i);
+                            pageBlock2.groupId = ArticleViewer.this.lastBlockNum;
+                            addAllMediaFromBlock(webpageAdapter, pageBlock2);
+                            i++;
+                        }
+                    } else if (!(pageBlock instanceof TLRPC.TL_pageBlockCollage)) {
+                        if (pageBlock instanceof TLRPC.TL_pageBlockCover) {
+                            addAllMediaFromBlock(webpageAdapter, ((TLRPC.TL_pageBlockCover) pageBlock).cover);
+                            return;
+                        }
+                        return;
+                    } else {
+                        TLRPC.TL_pageBlockCollage tL_pageBlockCollage = (TLRPC.TL_pageBlockCollage) pageBlock;
+                        int size2 = tL_pageBlockCollage.items.size();
+                        while (i < size2) {
+                            TLRPC.PageBlock pageBlock3 = tL_pageBlockCollage.items.get(i);
+                            pageBlock3.groupId = ArticleViewer.this.lastBlockNum;
+                            addAllMediaFromBlock(webpageAdapter, pageBlock3);
+                            i++;
+                        }
+                    }
+                    ArticleViewer.access$12608(ArticleViewer.this);
+                    return;
+                }
                 TLRPC.TL_pageBlockVideo tL_pageBlockVideo2 = (TLRPC.TL_pageBlockVideo) pageBlock;
                 TLRPC.Document documentWithId = getDocumentWithId(tL_pageBlockVideo2.video_id);
                 if (documentWithId == null) {
@@ -9482,426 +9604,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.photoBlocks.add(pageBlock);
         }
 
+        /*  JADX ERROR: Type inference failed
+            jadx.core.utils.exceptions.JadxOverflowException: Type inference error: updates count limit reached
+            	at jadx.core.utils.ErrorsCounter.addError(ErrorsCounter.java:59)
+            	at jadx.core.utils.ErrorsCounter.error(ErrorsCounter.java:31)
+            	at jadx.core.dex.attributes.nodes.NotificationAttrNode.addError(NotificationAttrNode.java:19)
+            	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:77)
+            */
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r0v54, types: [org.telegram.tgnet.TLRPC$TL_pageBlockEmbedPost, org.telegram.ui.ArticleViewer$TL_pageBlockEmbedPostCaption] */
-        /* JADX WARN: Type inference failed for: r13v10, types: [org.telegram.ui.ArticleViewer$TL_pageBlockDetailsChild] */
-        /* JADX WARN: Type inference failed for: r1v20, types: [org.telegram.tgnet.TLRPC$PageBlock] */
-        /* JADX WARN: Type inference failed for: r1v61, types: [org.telegram.tgnet.TLRPC$PageBlock] */
-        /* JADX WARN: Type inference failed for: r3v21, types: [org.telegram.ui.ArticleViewer$TL_pageBlockDetailsChild] */
-        /* JADX WARN: Type inference failed for: r4v8, types: [org.telegram.ui.ArticleViewer$TL_pageBlockDetailsChild] */
-        public void addBlock(WebpageAdapter webpageAdapter, TLRPC.PageBlock pageBlock, int i, int i2, int i3) {
-            TLRPC.TL_pageBlockOrderedList tL_pageBlockOrderedList;
-            TLRPC.TL_pageListOrderedItemText tL_pageListOrderedItemText;
-            StringBuilder sb;
-            String sb2;
-            TLRPC.PageListOrderedItem pageListOrderedItem;
-            int i4;
-            int i5;
-            WebpageAdapter webpageAdapter2;
-            WebpageAdapter webpageAdapter3;
-            int i6;
-            TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem;
-            int i7;
-            int i8;
-            StringBuilder sb3;
-            String sb4;
-            String str;
-            TLRPC.TL_pageListItemText tL_pageListItemText;
-            int i9;
-            int i10;
-            TL_pageBlockListParent tL_pageBlockListParent;
-            TLRPC.TL_pageBlockList tL_pageBlockList;
-            int i11;
-            WebpageAdapter webpageAdapter4;
-            WebpageAdapter webpageAdapter5;
-            int i12;
-            TL_pageBlockListItem tL_pageBlockListItem;
-            TL_pageBlockListItem tL_pageBlockListItem2;
-            int i13;
-            int i14;
-            int i15;
-            WebpageAdapter webpageAdapter6;
-            WebpageAdapter webpageAdapter7;
-            TL_pageBlockListItem tL_pageBlockListItem3;
-            int i16;
-            TL_pageBlockRelatedArticlesShadow tL_pageBlockRelatedArticlesShadow;
-            int i17 = 0;
-            int i18 = 1;
-            boolean z = pageBlock instanceof TL_pageBlockDetailsChild;
-            TLRPC.PageBlock pageBlock2 = z ? ((TL_pageBlockDetailsChild) pageBlock).block : pageBlock;
-            if (!(pageBlock2 instanceof TLRPC.TL_pageBlockList) && !(pageBlock2 instanceof TLRPC.TL_pageBlockOrderedList)) {
-                setRichTextParents(pageBlock2);
-                addAllMediaFromBlock(webpageAdapter, pageBlock2);
-            }
-            TLRPC.PageBlock lastNonListPageBlock = ArticleViewer.this.getLastNonListPageBlock(pageBlock2);
-            if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockUnsupported) {
-                return;
-            }
-            if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockAnchor) {
-                this.anchors.put(((TLRPC.TL_pageBlockAnchor) lastNonListPageBlock).name.toLowerCase(), Integer.valueOf(this.blocks.size()));
-                return;
-            }
-            boolean z2 = lastNonListPageBlock instanceof TLRPC.TL_pageBlockList;
-            if (!z2 && !(lastNonListPageBlock instanceof TLRPC.TL_pageBlockOrderedList)) {
-                this.blocks.add(pageBlock);
-            }
-            if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockAudio) {
-                TLRPC.TL_pageBlockAudio tL_pageBlockAudio = (TLRPC.TL_pageBlockAudio) lastNonListPageBlock;
-                TLRPC.TL_message tL_message = new TLRPC.TL_message();
-                tL_message.out = true;
-                int i19 = -Long.valueOf(tL_pageBlockAudio.audio_id).hashCode();
-                lastNonListPageBlock.mid = i19;
-                tL_message.id = i19;
-                tL_message.peer_id = new TLRPC.TL_peerUser();
-                TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
-                tL_message.from_id = tL_peerUser;
-                TLRPC.Peer peer = tL_message.peer_id;
-                long clientUserId = UserConfig.getInstance(ArticleViewer.this.currentAccount).getClientUserId();
-                peer.user_id = clientUserId;
-                tL_peerUser.user_id = clientUserId;
-                tL_message.date = (int) (System.currentTimeMillis() / 1000);
-                tL_message.message = "";
-                TLRPC.TL_messageMediaDocument tL_messageMediaDocument = new TLRPC.TL_messageMediaDocument();
-                tL_message.media = tL_messageMediaDocument;
-                tL_messageMediaDocument.webpage = this.currentPage;
-                tL_messageMediaDocument.flags |= 3;
-                tL_messageMediaDocument.document = getDocumentWithId(tL_pageBlockAudio.audio_id);
-                tL_message.flags |= 768;
-                MessageObject messageObject = new MessageObject(UserConfig.selectedAccount, tL_message, false, true);
-                this.audioMessages.add(messageObject);
-                this.audioBlocks.put(tL_pageBlockAudio, messageObject);
-                String musicAuthor = messageObject.getMusicAuthor(false);
-                String musicTitle = messageObject.getMusicTitle(false);
-                if (TextUtils.isEmpty(musicTitle) && TextUtils.isEmpty(musicAuthor)) {
-                    return;
-                }
-                if (!TextUtils.isEmpty(musicTitle) && !TextUtils.isEmpty(musicAuthor)) {
-                    musicAuthor = String.format("%s - %s", musicAuthor, musicTitle);
-                } else if (!TextUtils.isEmpty(musicTitle)) {
-                    addTextBlock(musicTitle, lastNonListPageBlock);
-                    return;
-                }
-                addTextBlock(musicAuthor, lastNonListPageBlock);
-                return;
-            }
-            1 r13 = null;
-            if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockEmbedPost) {
-                TLRPC.TL_pageBlockEmbedPost tL_pageBlockEmbedPost = (TLRPC.TL_pageBlockEmbedPost) lastNonListPageBlock;
-                if (tL_pageBlockEmbedPost.blocks.isEmpty()) {
-                    return;
-                }
-                lastNonListPageBlock.level = -1;
-                while (i17 < tL_pageBlockEmbedPost.blocks.size()) {
-                    TLRPC.PageBlock pageBlock3 = tL_pageBlockEmbedPost.blocks.get(i17);
-                    if (!(pageBlock3 instanceof TLRPC.TL_pageBlockUnsupported)) {
-                        if (pageBlock3 instanceof TLRPC.TL_pageBlockAnchor) {
-                            this.anchors.put(((TLRPC.TL_pageBlockAnchor) pageBlock3).name.toLowerCase(), Integer.valueOf(this.blocks.size()));
-                        } else {
-                            pageBlock3.level = 1;
-                            if (i17 == tL_pageBlockEmbedPost.blocks.size() - 1) {
-                                pageBlock3.bottom = true;
-                            }
-                            this.blocks.add(pageBlock3);
-                            addAllMediaFromBlock(webpageAdapter, pageBlock3);
-                        }
-                    }
-                    i17++;
-                }
-                if (TextUtils.isEmpty(ArticleViewer.getPlainText(tL_pageBlockEmbedPost.caption.text)) && TextUtils.isEmpty(ArticleViewer.getPlainText(tL_pageBlockEmbedPost.caption.credit))) {
-                    return;
-                }
-                ?? tL_pageBlockEmbedPostCaption = new TL_pageBlockEmbedPostCaption();
-                ((TL_pageBlockEmbedPostCaption) tL_pageBlockEmbedPostCaption).parent = tL_pageBlockEmbedPost;
-                tL_pageBlockEmbedPostCaption.caption = tL_pageBlockEmbedPost.caption;
-                tL_pageBlockRelatedArticlesShadow = tL_pageBlockEmbedPostCaption;
-            } else if (!(lastNonListPageBlock instanceof TLRPC.TL_pageBlockRelatedArticles)) {
-                if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockDetails) {
-                    TLRPC.TL_pageBlockDetails tL_pageBlockDetails = (TLRPC.TL_pageBlockDetails) lastNonListPageBlock;
-                    int size = tL_pageBlockDetails.blocks.size();
-                    while (i17 < size) {
-                        TL_pageBlockDetailsChild tL_pageBlockDetailsChild = new TL_pageBlockDetailsChild();
-                        tL_pageBlockDetailsChild.parent = pageBlock;
-                        tL_pageBlockDetailsChild.block = tL_pageBlockDetails.blocks.get(i17);
-                        addBlock(webpageAdapter, ArticleViewer.this.wrapInTableBlock(pageBlock, tL_pageBlockDetailsChild), i + 1, i2, i3);
-                        i17++;
-                    }
-                    return;
-                }
-                String str2 = ".%d";
-                if (z2) {
-                    TLRPC.TL_pageBlockList tL_pageBlockList2 = (TLRPC.TL_pageBlockList) lastNonListPageBlock;
-                    TL_pageBlockListParent tL_pageBlockListParent2 = new TL_pageBlockListParent();
-                    tL_pageBlockListParent2.pageBlockList = tL_pageBlockList2;
-                    tL_pageBlockListParent2.level = i2;
-                    int size2 = tL_pageBlockList2.items.size();
-                    int i20 = 0;
-                    while (i20 < size2) {
-                        TLRPC.PageListItem pageListItem = tL_pageBlockList2.items.get(i20);
-                        TL_pageBlockListItem tL_pageBlockListItem4 = new TL_pageBlockListItem();
-                        tL_pageBlockListItem4.index = i20;
-                        tL_pageBlockListItem4.parent = tL_pageBlockListParent2;
-                        if (!tL_pageBlockList2.ordered) {
-                            str = "•";
-                        } else if (this.isRtl) {
-                            Object[] objArr = new Object[i18];
-                            objArr[0] = Integer.valueOf(i20 + 1);
-                            str = String.format(str2, objArr);
-                        } else {
-                            Object[] objArr2 = new Object[i18];
-                            objArr2[0] = Integer.valueOf(i20 + 1);
-                            str = String.format("%d.", objArr2);
-                        }
-                        tL_pageBlockListItem4.num = str;
-                        tL_pageBlockListParent2.items.add(tL_pageBlockListItem4);
-                        if (pageListItem instanceof TLRPC.TL_pageListItemText) {
-                            tL_pageBlockListItem4.textItem = ((TLRPC.TL_pageListItemText) pageListItem).text;
-                            tL_pageListItemText = pageListItem;
-                        } else {
-                            boolean z3 = pageListItem instanceof TLRPC.TL_pageListItemBlocks;
-                            tL_pageListItemText = pageListItem;
-                            if (z3) {
-                                TLRPC.TL_pageListItemBlocks tL_pageListItemBlocks = (TLRPC.TL_pageListItemBlocks) pageListItem;
-                                if (tL_pageListItemBlocks.blocks.isEmpty()) {
-                                    TLRPC.TL_pageListItemText tL_pageListItemText2 = new TLRPC.TL_pageListItemText();
-                                    TLRPC.TL_textPlain tL_textPlain = new TLRPC.TL_textPlain();
-                                    tL_textPlain.text = " ";
-                                    tL_pageListItemText2.text = tL_textPlain;
-                                    tL_pageListItemText = tL_pageListItemText2;
-                                } else {
-                                    tL_pageBlockListItem4.blockItem = tL_pageListItemBlocks.blocks.get(0);
-                                    tL_pageListItemText = pageListItem;
-                                }
-                            }
-                        }
-                        TLRPC.PageListItem pageListItem2 = tL_pageListItemText;
-                        if (z) {
-                            ?? tL_pageBlockDetailsChild2 = new TL_pageBlockDetailsChild();
-                            ((TL_pageBlockDetailsChild) tL_pageBlockDetailsChild2).parent = ((TL_pageBlockDetailsChild) pageBlock).parent;
-                            ((TL_pageBlockDetailsChild) tL_pageBlockDetailsChild2).block = tL_pageBlockListItem4;
-                            webpageAdapter4 = this;
-                            i9 = i20;
-                            webpageAdapter5 = webpageAdapter;
-                            i10 = size2;
-                            tL_pageBlockListItem = tL_pageBlockDetailsChild2;
-                            tL_pageBlockListParent = tL_pageBlockListParent2;
-                            i12 = i;
-                            tL_pageBlockList = tL_pageBlockList2;
-                            i11 = i2 + 1;
-                        } else {
-                            i9 = i20;
-                            i10 = size2;
-                            tL_pageBlockListParent = tL_pageBlockListParent2;
-                            tL_pageBlockList = tL_pageBlockList2;
-                            i11 = i2 + 1;
-                            webpageAdapter4 = this;
-                            webpageAdapter5 = webpageAdapter;
-                            i12 = i;
-                            tL_pageBlockListItem = i9 == 0 ? ArticleViewer.this.fixListBlock(pageBlock, tL_pageBlockListItem4) : tL_pageBlockListItem4;
-                        }
-                        String str3 = str2;
-                        webpageAdapter4.addBlock(webpageAdapter5, tL_pageBlockListItem, i12, i11, i3);
-                        if (pageListItem2 instanceof TLRPC.TL_pageListItemBlocks) {
-                            TLRPC.TL_pageListItemBlocks tL_pageListItemBlocks2 = (TLRPC.TL_pageListItemBlocks) pageListItem2;
-                            int size3 = tL_pageListItemBlocks2.blocks.size();
-                            int i21 = 1;
-                            while (i21 < size3) {
-                                TL_pageBlockListItem tL_pageBlockListItem5 = new TL_pageBlockListItem();
-                                tL_pageBlockListItem5.blockItem = tL_pageListItemBlocks2.blocks.get(i21);
-                                tL_pageBlockListItem5.parent = tL_pageBlockListParent;
-                                if (z) {
-                                    ?? tL_pageBlockDetailsChild3 = new TL_pageBlockDetailsChild();
-                                    ((TL_pageBlockDetailsChild) tL_pageBlockDetailsChild3).parent = ((TL_pageBlockDetailsChild) pageBlock).parent;
-                                    ((TL_pageBlockDetailsChild) tL_pageBlockDetailsChild3).block = tL_pageBlockListItem5;
-                                    webpageAdapter6 = this;
-                                    webpageAdapter7 = webpageAdapter;
-                                    tL_pageBlockListItem2 = tL_pageBlockListItem5;
-                                    i16 = i;
-                                    i13 = i21;
-                                    i15 = i2 + 1;
-                                    i14 = size3;
-                                    tL_pageBlockListItem3 = tL_pageBlockDetailsChild3;
-                                } else {
-                                    tL_pageBlockListItem2 = tL_pageBlockListItem5;
-                                    i13 = i21;
-                                    i14 = size3;
-                                    i15 = i2 + 1;
-                                    webpageAdapter6 = this;
-                                    webpageAdapter7 = webpageAdapter;
-                                    tL_pageBlockListItem3 = tL_pageBlockListItem2;
-                                    i16 = i;
-                                }
-                                webpageAdapter6.addBlock(webpageAdapter7, tL_pageBlockListItem3, i16, i15, i3);
-                                tL_pageBlockListParent.items.add(tL_pageBlockListItem2);
-                                i21 = i13 + 1;
-                                size3 = i14;
-                            }
-                        }
-                        i20 = i9 + 1;
-                        str2 = str3;
-                        tL_pageBlockListParent2 = tL_pageBlockListParent;
-                        size2 = i10;
-                        tL_pageBlockList2 = tL_pageBlockList;
-                        i18 = 1;
-                        r13 = null;
-                    }
-                    return;
-                } else if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockOrderedList) {
-                    TLRPC.TL_pageBlockOrderedList tL_pageBlockOrderedList2 = (TLRPC.TL_pageBlockOrderedList) lastNonListPageBlock;
-                    1 r1 = null;
-                    TL_pageBlockOrderedListParent tL_pageBlockOrderedListParent = new TL_pageBlockOrderedListParent();
-                    tL_pageBlockOrderedListParent.pageBlockOrderedList = tL_pageBlockOrderedList2;
-                    tL_pageBlockOrderedListParent.level = i2;
-                    int size4 = tL_pageBlockOrderedList2.items.size();
-                    int i22 = 0;
-                    while (i22 < size4) {
-                        TLRPC.PageListOrderedItem pageListOrderedItem2 = tL_pageBlockOrderedList2.items.get(i22);
-                        TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem2 = new TL_pageBlockOrderedListItem();
-                        tL_pageBlockOrderedListItem2.index = i22;
-                        tL_pageBlockOrderedListItem2.parent = tL_pageBlockOrderedListParent;
-                        tL_pageBlockOrderedListParent.items.add(tL_pageBlockOrderedListItem2);
-                        if (pageListOrderedItem2 instanceof TLRPC.TL_pageListOrderedItemText) {
-                            TLRPC.TL_pageListOrderedItemText tL_pageListOrderedItemText2 = (TLRPC.TL_pageListOrderedItemText) pageListOrderedItem2;
-                            tL_pageBlockOrderedListItem2.textItem = tL_pageListOrderedItemText2.text;
-                            if (!TextUtils.isEmpty(tL_pageListOrderedItemText2.num)) {
-                                if (this.isRtl) {
-                                    sb3 = new StringBuilder();
-                                    sb3.append(".");
-                                    sb3.append(tL_pageListOrderedItemText2.num);
-                                } else {
-                                    sb3 = new StringBuilder();
-                                    sb3.append(tL_pageListOrderedItemText2.num);
-                                    sb3.append(".");
-                                }
-                                sb4 = sb3.toString();
-                            } else if (this.isRtl) {
-                                tL_pageBlockOrderedListItem2.num = String.format(".%d", Integer.valueOf(i22 + 1));
-                                tL_pageBlockOrderedList = tL_pageBlockOrderedList2;
-                                pageListOrderedItem = pageListOrderedItem2;
-                            } else {
-                                sb4 = String.format("%d.", Integer.valueOf(i22 + 1));
-                            }
-                            tL_pageBlockOrderedListItem2.num = sb4;
-                            tL_pageBlockOrderedList = tL_pageBlockOrderedList2;
-                            pageListOrderedItem = pageListOrderedItem2;
-                        } else {
-                            if (pageListOrderedItem2 instanceof TLRPC.TL_pageListOrderedItemBlocks) {
-                                TLRPC.TL_pageListOrderedItemBlocks tL_pageListOrderedItemBlocks = (TLRPC.TL_pageListOrderedItemBlocks) pageListOrderedItem2;
-                                if (tL_pageListOrderedItemBlocks.blocks.isEmpty()) {
-                                    tL_pageBlockOrderedList = tL_pageBlockOrderedList2;
-                                    TLRPC.TL_pageListOrderedItemText tL_pageListOrderedItemText3 = new TLRPC.TL_pageListOrderedItemText();
-                                    TLRPC.TL_textPlain tL_textPlain2 = new TLRPC.TL_textPlain();
-                                    tL_textPlain2.text = " ";
-                                    tL_pageListOrderedItemText3.text = tL_textPlain2;
-                                    tL_pageListOrderedItemText = tL_pageListOrderedItemText3;
-                                } else {
-                                    tL_pageBlockOrderedList = tL_pageBlockOrderedList2;
-                                    tL_pageBlockOrderedListItem2.blockItem = tL_pageListOrderedItemBlocks.blocks.get(0);
-                                    tL_pageListOrderedItemText = pageListOrderedItem2;
-                                }
-                                if (!TextUtils.isEmpty(tL_pageListOrderedItemBlocks.num)) {
-                                    if (this.isRtl) {
-                                        sb = new StringBuilder();
-                                        sb.append(".");
-                                        sb.append(tL_pageListOrderedItemBlocks.num);
-                                    } else {
-                                        sb = new StringBuilder();
-                                        sb.append(tL_pageListOrderedItemBlocks.num);
-                                        sb.append(".");
-                                    }
-                                    sb2 = sb.toString();
-                                } else if (this.isRtl) {
-                                    tL_pageBlockOrderedListItem2.num = String.format(".%d", Integer.valueOf(i22 + 1));
-                                    pageListOrderedItem = tL_pageListOrderedItemText;
-                                } else {
-                                    sb2 = String.format("%d.", Integer.valueOf(i22 + 1));
-                                }
-                                tL_pageBlockOrderedListItem2.num = sb2;
-                                pageListOrderedItem = tL_pageListOrderedItemText;
-                            }
-                            tL_pageBlockOrderedList = tL_pageBlockOrderedList2;
-                            pageListOrderedItem = pageListOrderedItem2;
-                        }
-                        TLRPC.PageListOrderedItem pageListOrderedItem3 = pageListOrderedItem;
-                        if (z) {
-                            ?? tL_pageBlockDetailsChild4 = new TL_pageBlockDetailsChild();
-                            ((TL_pageBlockDetailsChild) tL_pageBlockDetailsChild4).parent = ((TL_pageBlockDetailsChild) pageBlock).parent;
-                            ((TL_pageBlockDetailsChild) tL_pageBlockDetailsChild4).block = tL_pageBlockOrderedListItem2;
-                            i5 = i2 + 1;
-                            webpageAdapter2 = this;
-                            webpageAdapter3 = webpageAdapter;
-                            tL_pageBlockOrderedListItem2 = tL_pageBlockDetailsChild4;
-                            i6 = i;
-                            i4 = i22;
-                        } else {
-                            i4 = i22;
-                            if (i4 == 0) {
-                                tL_pageBlockOrderedListItem2 = ArticleViewer.this.fixListBlock(pageBlock, tL_pageBlockOrderedListItem2);
-                            }
-                            i5 = i2 + 1;
-                            webpageAdapter2 = this;
-                            webpageAdapter3 = webpageAdapter;
-                            i6 = i;
-                        }
-                        webpageAdapter2.addBlock(webpageAdapter3, tL_pageBlockOrderedListItem2, i6, i5, i3);
-                        if (pageListOrderedItem3 instanceof TLRPC.TL_pageListOrderedItemBlocks) {
-                            TLRPC.TL_pageListOrderedItemBlocks tL_pageListOrderedItemBlocks2 = (TLRPC.TL_pageListOrderedItemBlocks) pageListOrderedItem3;
-                            int size5 = tL_pageListOrderedItemBlocks2.blocks.size();
-                            int i23 = 1;
-                            while (i23 < size5) {
-                                TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem3 = new TL_pageBlockOrderedListItem();
-                                tL_pageBlockOrderedListItem3.blockItem = tL_pageListOrderedItemBlocks2.blocks.get(i23);
-                                tL_pageBlockOrderedListItem3.parent = tL_pageBlockOrderedListParent;
-                                if (z) {
-                                    TL_pageBlockDetailsChild tL_pageBlockDetailsChild5 = new TL_pageBlockDetailsChild();
-                                    tL_pageBlockDetailsChild5.parent = ((TL_pageBlockDetailsChild) pageBlock).parent;
-                                    tL_pageBlockDetailsChild5.block = tL_pageBlockOrderedListItem3;
-                                    tL_pageBlockOrderedListItem = tL_pageBlockOrderedListItem3;
-                                    i7 = i23;
-                                    i8 = size5;
-                                    addBlock(webpageAdapter, tL_pageBlockDetailsChild5, i, i2 + 1, i3);
-                                } else {
-                                    tL_pageBlockOrderedListItem = tL_pageBlockOrderedListItem3;
-                                    i7 = i23;
-                                    i8 = size5;
-                                    addBlock(webpageAdapter, tL_pageBlockOrderedListItem, i, i2 + 1, i3);
-                                }
-                                tL_pageBlockOrderedListParent.items.add(tL_pageBlockOrderedListItem);
-                                i23 = i7 + 1;
-                                size5 = i8;
-                            }
-                            continue;
-                        }
-                        i22 = i4 + 1;
-                        tL_pageBlockOrderedList2 = tL_pageBlockOrderedList;
-                        r1 = null;
-                    }
-                    return;
-                } else {
-                    return;
-                }
-            } else {
-                TLRPC.TL_pageBlockRelatedArticles tL_pageBlockRelatedArticles = (TLRPC.TL_pageBlockRelatedArticles) lastNonListPageBlock;
-                TL_pageBlockRelatedArticlesShadow tL_pageBlockRelatedArticlesShadow2 = new TL_pageBlockRelatedArticlesShadow();
-                tL_pageBlockRelatedArticlesShadow2.parent = tL_pageBlockRelatedArticles;
-                ArrayList arrayList = this.blocks;
-                arrayList.add(arrayList.size() - 1, tL_pageBlockRelatedArticlesShadow2);
-                int size6 = tL_pageBlockRelatedArticles.articles.size();
-                while (i17 < size6) {
-                    TL_pageBlockRelatedArticlesChild tL_pageBlockRelatedArticlesChild = new TL_pageBlockRelatedArticlesChild();
-                    tL_pageBlockRelatedArticlesChild.parent = tL_pageBlockRelatedArticles;
-                    tL_pageBlockRelatedArticlesChild.num = i17;
-                    this.blocks.add(tL_pageBlockRelatedArticlesChild);
-                    i17++;
-                }
-                if (i3 != 0) {
-                    return;
-                }
-                TL_pageBlockRelatedArticlesShadow tL_pageBlockRelatedArticlesShadow3 = new TL_pageBlockRelatedArticlesShadow();
-                tL_pageBlockRelatedArticlesShadow3.parent = tL_pageBlockRelatedArticles;
-                tL_pageBlockRelatedArticlesShadow = tL_pageBlockRelatedArticlesShadow3;
-            }
-            this.blocks.add(tL_pageBlockRelatedArticlesShadow);
+        public void addBlock(org.telegram.ui.ArticleViewer.WebpageAdapter r26, org.telegram.tgnet.TLRPC.PageBlock r27, int r28, int r29, int r30) {
+            /*
+                Method dump skipped, instructions count: 1398
+                To view this dump add '--comments-level debug' option
+            */
+            throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ArticleViewer.WebpageAdapter.addBlock(org.telegram.ui.ArticleViewer$WebpageAdapter, org.telegram.tgnet.TLRPC$PageBlock, int, int, int):void");
         }
 
         private void addTextBlock(Object obj, TLRPC.PageBlock pageBlock) {
@@ -9927,7 +9643,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     ((BlockHeaderCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockHeader) pageBlock2);
                     return;
                 case 2:
-                    BlockDividerCell blockDividerCell = (BlockDividerCell) viewHolder.itemView;
                     return;
                 case 3:
                     ((BlockEmbedCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockEmbed) pageBlock2);
@@ -10007,7 +9722,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     ((BlockRelatedArticlesHeaderCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockRelatedArticles) pageBlock2);
                     return;
                 case 27:
-                    BlockDetailsBottomCell blockDetailsBottomCell = (BlockDetailsBottomCell) viewHolder.itemView;
                     return;
                 default:
                     return;
@@ -10129,9 +9843,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             if (pageBlock instanceof TL_pageBlockDetailsChild) {
                 pageBlock2 = ((TL_pageBlockDetailsChild) pageBlock).block;
-            } else if (!(pageBlock instanceof TLRPC.TL_pageBlockCover)) {
-                return 100;
             } else {
+                if (!(pageBlock instanceof TLRPC.TL_pageBlockCover)) {
+                    return 100;
+                }
                 pageBlock2 = ((TLRPC.TL_pageBlockCover) pageBlock).cover;
             }
             return getTypeForBlock(pageBlock2);
@@ -10142,13 +9857,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockDetails) {
                 return ((TLRPC.TL_pageBlockDetails) lastNonListPageBlock).open;
             }
-            if (lastNonListPageBlock instanceof TL_pageBlockDetailsChild) {
-                TL_pageBlockDetailsChild tL_pageBlockDetailsChild2 = (TL_pageBlockDetailsChild) lastNonListPageBlock;
-                TLRPC.PageBlock lastNonListPageBlock2 = ArticleViewer.this.getLastNonListPageBlock(tL_pageBlockDetailsChild2.block);
-                if (!(lastNonListPageBlock2 instanceof TLRPC.TL_pageBlockDetails) || ((TLRPC.TL_pageBlockDetails) lastNonListPageBlock2).open) {
-                    return isBlockOpened(tL_pageBlockDetailsChild2);
-                }
+            if (!(lastNonListPageBlock instanceof TL_pageBlockDetailsChild)) {
                 return false;
+            }
+            TL_pageBlockDetailsChild tL_pageBlockDetailsChild2 = (TL_pageBlockDetailsChild) lastNonListPageBlock;
+            TLRPC.PageBlock lastNonListPageBlock2 = ArticleViewer.this.getLastNonListPageBlock(tL_pageBlockDetailsChild2.block);
+            if (!(lastNonListPageBlock2 instanceof TLRPC.TL_pageBlockDetails) || ((TLRPC.TL_pageBlockDetails) lastNonListPageBlock2).open) {
+                return isBlockOpened(tL_pageBlockDetailsChild2);
             }
             return false;
         }
@@ -10162,8 +9877,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x00c2  */
-        /* JADX WARN: Removed duplicated region for block: B:43:0x00c4  */
+        /* JADX WARN: Removed duplicated region for block: B:22:0x00c2  */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x00c4  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -10235,39 +9950,39 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             Object obj;
             TLRPC.TL_pageCaption tL_pageCaption;
             TLRPC.PageBlock pageBlock2;
-            TLRPC.TL_pageBlockParagraph tL_pageBlockParagraph;
-            TLRPC.TL_pageBlockEmbedPost tL_pageBlockEmbedPost;
+            TLRPC.PageBlock pageBlock3;
+            TLRPC.PageBlock pageBlock4;
             if (!(pageBlock instanceof TLRPC.TL_pageBlockEmbedPost)) {
                 if (pageBlock instanceof TLRPC.TL_pageBlockParagraph) {
-                    TLRPC.TL_pageBlockParagraph tL_pageBlockParagraph2 = (TLRPC.TL_pageBlockParagraph) pageBlock;
-                    setRichTextParents(null, tL_pageBlockParagraph2.text);
-                    obj = tL_pageBlockParagraph2.text;
-                    tL_pageBlockParagraph = tL_pageBlockParagraph2;
+                    TLRPC.TL_pageBlockParagraph tL_pageBlockParagraph = (TLRPC.TL_pageBlockParagraph) pageBlock;
+                    setRichTextParents(null, tL_pageBlockParagraph.text);
+                    obj = tL_pageBlockParagraph.text;
+                    pageBlock3 = tL_pageBlockParagraph;
                 } else if (pageBlock instanceof TLRPC.TL_pageBlockKicker) {
                     TLRPC.TL_pageBlockKicker tL_pageBlockKicker = (TLRPC.TL_pageBlockKicker) pageBlock;
                     setRichTextParents(null, tL_pageBlockKicker.text);
                     obj = tL_pageBlockKicker.text;
-                    tL_pageBlockParagraph = tL_pageBlockKicker;
+                    pageBlock3 = tL_pageBlockKicker;
                 } else if (pageBlock instanceof TLRPC.TL_pageBlockFooter) {
                     TLRPC.TL_pageBlockFooter tL_pageBlockFooter = (TLRPC.TL_pageBlockFooter) pageBlock;
                     setRichTextParents(null, tL_pageBlockFooter.text);
                     obj = tL_pageBlockFooter.text;
-                    tL_pageBlockParagraph = tL_pageBlockFooter;
+                    pageBlock3 = tL_pageBlockFooter;
                 } else if (pageBlock instanceof TLRPC.TL_pageBlockHeader) {
                     TLRPC.TL_pageBlockHeader tL_pageBlockHeader = (TLRPC.TL_pageBlockHeader) pageBlock;
                     setRichTextParents(null, tL_pageBlockHeader.text);
                     obj = tL_pageBlockHeader.text;
-                    tL_pageBlockParagraph = tL_pageBlockHeader;
+                    pageBlock3 = tL_pageBlockHeader;
                 } else if (pageBlock instanceof TLRPC.TL_pageBlockPreformatted) {
                     TLRPC.TL_pageBlockPreformatted tL_pageBlockPreformatted = (TLRPC.TL_pageBlockPreformatted) pageBlock;
                     setRichTextParents(null, tL_pageBlockPreformatted.text);
                     obj = tL_pageBlockPreformatted.text;
-                    tL_pageBlockParagraph = tL_pageBlockPreformatted;
+                    pageBlock3 = tL_pageBlockPreformatted;
                 } else if (pageBlock instanceof TLRPC.TL_pageBlockSubheader) {
                     TLRPC.TL_pageBlockSubheader tL_pageBlockSubheader = (TLRPC.TL_pageBlockSubheader) pageBlock;
                     setRichTextParents(null, tL_pageBlockSubheader.text);
                     obj = tL_pageBlockSubheader.text;
-                    tL_pageBlockParagraph = tL_pageBlockSubheader;
+                    pageBlock3 = tL_pageBlockSubheader;
                 } else {
                     int i = 0;
                     if (pageBlock instanceof TLRPC.TL_pageBlockSlideshow) {
@@ -10282,13 +9997,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             i++;
                         }
                         return;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockPhoto) {
+                    }
+                    if (pageBlock instanceof TLRPC.TL_pageBlockPhoto) {
                         TLRPC.TL_pageBlockPhoto tL_pageBlockPhoto = (TLRPC.TL_pageBlockPhoto) pageBlock;
                         setRichTextParents(null, tL_pageBlockPhoto.caption.text);
                         setRichTextParents(null, tL_pageBlockPhoto.caption.credit);
                         addTextBlock(tL_pageBlockPhoto.caption.text, tL_pageBlockPhoto);
                         tL_pageCaption = tL_pageBlockPhoto.caption;
-                        tL_pageBlockEmbedPost = tL_pageBlockPhoto;
+                        pageBlock4 = tL_pageBlockPhoto;
                     } else if (pageBlock instanceof TL_pageBlockListItem) {
                         TL_pageBlockListItem tL_pageBlockListItem = (TL_pageBlockListItem) pageBlock;
                         if (tL_pageBlockListItem.textItem == null) {
@@ -10301,7 +10017,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                         setRichTextParents(null, tL_pageBlockListItem.textItem);
                         obj = tL_pageBlockListItem.textItem;
-                        tL_pageBlockParagraph = tL_pageBlockListItem;
+                        pageBlock3 = tL_pageBlockListItem;
                     } else if (pageBlock instanceof TL_pageBlockOrderedListItem) {
                         TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem = (TL_pageBlockOrderedListItem) pageBlock;
                         if (tL_pageBlockOrderedListItem.textItem == null) {
@@ -10314,124 +10030,137 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                         setRichTextParents(null, tL_pageBlockOrderedListItem.textItem);
                         obj = tL_pageBlockOrderedListItem.textItem;
-                        tL_pageBlockParagraph = tL_pageBlockOrderedListItem;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockCollage) {
-                        TLRPC.TL_pageBlockCollage tL_pageBlockCollage = (TLRPC.TL_pageBlockCollage) pageBlock;
-                        setRichTextParents(null, tL_pageBlockCollage.caption.text);
-                        setRichTextParents(null, tL_pageBlockCollage.caption.credit);
-                        addTextBlock(tL_pageBlockCollage.caption.text, tL_pageBlockCollage);
-                        addTextBlock(tL_pageBlockCollage.caption.credit, tL_pageBlockCollage);
-                        int size2 = tL_pageBlockCollage.items.size();
-                        while (i < size2) {
-                            setRichTextParents(tL_pageBlockCollage.items.get(i));
-                            i++;
+                        pageBlock3 = tL_pageBlockOrderedListItem;
+                    } else {
+                        if (pageBlock instanceof TLRPC.TL_pageBlockCollage) {
+                            TLRPC.TL_pageBlockCollage tL_pageBlockCollage = (TLRPC.TL_pageBlockCollage) pageBlock;
+                            setRichTextParents(null, tL_pageBlockCollage.caption.text);
+                            setRichTextParents(null, tL_pageBlockCollage.caption.credit);
+                            addTextBlock(tL_pageBlockCollage.caption.text, tL_pageBlockCollage);
+                            addTextBlock(tL_pageBlockCollage.caption.credit, tL_pageBlockCollage);
+                            int size2 = tL_pageBlockCollage.items.size();
+                            while (i < size2) {
+                                setRichTextParents(tL_pageBlockCollage.items.get(i));
+                                i++;
+                            }
+                            return;
                         }
-                        return;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockEmbed) {
-                        TLRPC.TL_pageBlockEmbed tL_pageBlockEmbed = (TLRPC.TL_pageBlockEmbed) pageBlock;
-                        setRichTextParents(null, tL_pageBlockEmbed.caption.text);
-                        setRichTextParents(null, tL_pageBlockEmbed.caption.credit);
-                        addTextBlock(tL_pageBlockEmbed.caption.text, tL_pageBlockEmbed);
-                        tL_pageCaption = tL_pageBlockEmbed.caption;
-                        tL_pageBlockEmbedPost = tL_pageBlockEmbed;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockSubtitle) {
-                        TLRPC.TL_pageBlockSubtitle tL_pageBlockSubtitle = (TLRPC.TL_pageBlockSubtitle) pageBlock;
-                        setRichTextParents(null, tL_pageBlockSubtitle.text);
-                        obj = tL_pageBlockSubtitle.text;
-                        tL_pageBlockParagraph = tL_pageBlockSubtitle;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockBlockquote) {
-                        TLRPC.TL_pageBlockBlockquote tL_pageBlockBlockquote = (TLRPC.TL_pageBlockBlockquote) pageBlock;
-                        setRichTextParents(null, tL_pageBlockBlockquote.text);
-                        setRichTextParents(null, tL_pageBlockBlockquote.caption);
-                        addTextBlock(tL_pageBlockBlockquote.text, tL_pageBlockBlockquote);
-                        obj = tL_pageBlockBlockquote.caption;
-                        tL_pageBlockParagraph = tL_pageBlockBlockquote;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockDetails) {
-                        TLRPC.TL_pageBlockDetails tL_pageBlockDetails = (TLRPC.TL_pageBlockDetails) pageBlock;
-                        setRichTextParents(null, tL_pageBlockDetails.title);
-                        addTextBlock(tL_pageBlockDetails.title, tL_pageBlockDetails);
-                        int size3 = tL_pageBlockDetails.blocks.size();
-                        while (i < size3) {
-                            setRichTextParents(tL_pageBlockDetails.blocks.get(i));
-                            i++;
-                        }
-                        return;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockVideo) {
-                        TLRPC.TL_pageBlockVideo tL_pageBlockVideo = (TLRPC.TL_pageBlockVideo) pageBlock;
-                        setRichTextParents(null, tL_pageBlockVideo.caption.text);
-                        setRichTextParents(null, tL_pageBlockVideo.caption.credit);
-                        addTextBlock(tL_pageBlockVideo.caption.text, tL_pageBlockVideo);
-                        tL_pageCaption = tL_pageBlockVideo.caption;
-                        tL_pageBlockEmbedPost = tL_pageBlockVideo;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockPullquote) {
-                        TLRPC.TL_pageBlockPullquote tL_pageBlockPullquote = (TLRPC.TL_pageBlockPullquote) pageBlock;
-                        setRichTextParents(null, tL_pageBlockPullquote.text);
-                        setRichTextParents(null, tL_pageBlockPullquote.caption);
-                        addTextBlock(tL_pageBlockPullquote.text, tL_pageBlockPullquote);
-                        obj = tL_pageBlockPullquote.caption;
-                        tL_pageBlockParagraph = tL_pageBlockPullquote;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockAudio) {
-                        TLRPC.TL_pageBlockAudio tL_pageBlockAudio = (TLRPC.TL_pageBlockAudio) pageBlock;
-                        setRichTextParents(null, tL_pageBlockAudio.caption.text);
-                        setRichTextParents(null, tL_pageBlockAudio.caption.credit);
-                        addTextBlock(tL_pageBlockAudio.caption.text, tL_pageBlockAudio);
-                        tL_pageCaption = tL_pageBlockAudio.caption;
-                        tL_pageBlockEmbedPost = tL_pageBlockAudio;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockTable) {
-                        TLRPC.TL_pageBlockTable tL_pageBlockTable = (TLRPC.TL_pageBlockTable) pageBlock;
-                        setRichTextParents(null, tL_pageBlockTable.title);
-                        addTextBlock(tL_pageBlockTable.title, tL_pageBlockTable);
-                        int size4 = tL_pageBlockTable.rows.size();
-                        for (int i2 = 0; i2 < size4; i2++) {
-                            TLRPC.TL_pageTableRow tL_pageTableRow = tL_pageBlockTable.rows.get(i2);
-                            int size5 = tL_pageTableRow.cells.size();
-                            for (int i3 = 0; i3 < size5; i3++) {
-                                TLRPC.TL_pageTableCell tL_pageTableCell = tL_pageTableRow.cells.get(i3);
-                                setRichTextParents(null, tL_pageTableCell.text);
-                                addTextBlock(tL_pageTableCell.text, tL_pageBlockTable);
+                        if (pageBlock instanceof TLRPC.TL_pageBlockEmbed) {
+                            TLRPC.TL_pageBlockEmbed tL_pageBlockEmbed = (TLRPC.TL_pageBlockEmbed) pageBlock;
+                            setRichTextParents(null, tL_pageBlockEmbed.caption.text);
+                            setRichTextParents(null, tL_pageBlockEmbed.caption.credit);
+                            addTextBlock(tL_pageBlockEmbed.caption.text, tL_pageBlockEmbed);
+                            tL_pageCaption = tL_pageBlockEmbed.caption;
+                            pageBlock4 = tL_pageBlockEmbed;
+                        } else if (pageBlock instanceof TLRPC.TL_pageBlockSubtitle) {
+                            TLRPC.TL_pageBlockSubtitle tL_pageBlockSubtitle = (TLRPC.TL_pageBlockSubtitle) pageBlock;
+                            setRichTextParents(null, tL_pageBlockSubtitle.text);
+                            obj = tL_pageBlockSubtitle.text;
+                            pageBlock3 = tL_pageBlockSubtitle;
+                        } else if (pageBlock instanceof TLRPC.TL_pageBlockBlockquote) {
+                            TLRPC.TL_pageBlockBlockquote tL_pageBlockBlockquote = (TLRPC.TL_pageBlockBlockquote) pageBlock;
+                            setRichTextParents(null, tL_pageBlockBlockquote.text);
+                            setRichTextParents(null, tL_pageBlockBlockquote.caption);
+                            addTextBlock(tL_pageBlockBlockquote.text, tL_pageBlockBlockquote);
+                            obj = tL_pageBlockBlockquote.caption;
+                            pageBlock3 = tL_pageBlockBlockquote;
+                        } else {
+                            if (pageBlock instanceof TLRPC.TL_pageBlockDetails) {
+                                TLRPC.TL_pageBlockDetails tL_pageBlockDetails = (TLRPC.TL_pageBlockDetails) pageBlock;
+                                setRichTextParents(null, tL_pageBlockDetails.title);
+                                addTextBlock(tL_pageBlockDetails.title, tL_pageBlockDetails);
+                                int size3 = tL_pageBlockDetails.blocks.size();
+                                while (i < size3) {
+                                    setRichTextParents(tL_pageBlockDetails.blocks.get(i));
+                                    i++;
+                                }
+                                return;
+                            }
+                            if (pageBlock instanceof TLRPC.TL_pageBlockVideo) {
+                                TLRPC.TL_pageBlockVideo tL_pageBlockVideo = (TLRPC.TL_pageBlockVideo) pageBlock;
+                                setRichTextParents(null, tL_pageBlockVideo.caption.text);
+                                setRichTextParents(null, tL_pageBlockVideo.caption.credit);
+                                addTextBlock(tL_pageBlockVideo.caption.text, tL_pageBlockVideo);
+                                tL_pageCaption = tL_pageBlockVideo.caption;
+                                pageBlock4 = tL_pageBlockVideo;
+                            } else if (pageBlock instanceof TLRPC.TL_pageBlockPullquote) {
+                                TLRPC.TL_pageBlockPullquote tL_pageBlockPullquote = (TLRPC.TL_pageBlockPullquote) pageBlock;
+                                setRichTextParents(null, tL_pageBlockPullquote.text);
+                                setRichTextParents(null, tL_pageBlockPullquote.caption);
+                                addTextBlock(tL_pageBlockPullquote.text, tL_pageBlockPullquote);
+                                obj = tL_pageBlockPullquote.caption;
+                                pageBlock3 = tL_pageBlockPullquote;
+                            } else if (pageBlock instanceof TLRPC.TL_pageBlockAudio) {
+                                TLRPC.TL_pageBlockAudio tL_pageBlockAudio = (TLRPC.TL_pageBlockAudio) pageBlock;
+                                setRichTextParents(null, tL_pageBlockAudio.caption.text);
+                                setRichTextParents(null, tL_pageBlockAudio.caption.credit);
+                                addTextBlock(tL_pageBlockAudio.caption.text, tL_pageBlockAudio);
+                                tL_pageCaption = tL_pageBlockAudio.caption;
+                                pageBlock4 = tL_pageBlockAudio;
+                            } else {
+                                if (pageBlock instanceof TLRPC.TL_pageBlockTable) {
+                                    TLRPC.TL_pageBlockTable tL_pageBlockTable = (TLRPC.TL_pageBlockTable) pageBlock;
+                                    setRichTextParents(null, tL_pageBlockTable.title);
+                                    addTextBlock(tL_pageBlockTable.title, tL_pageBlockTable);
+                                    int size4 = tL_pageBlockTable.rows.size();
+                                    for (int i2 = 0; i2 < size4; i2++) {
+                                        TLRPC.TL_pageTableRow tL_pageTableRow = tL_pageBlockTable.rows.get(i2);
+                                        int size5 = tL_pageTableRow.cells.size();
+                                        for (int i3 = 0; i3 < size5; i3++) {
+                                            TLRPC.TL_pageTableCell tL_pageTableCell = tL_pageTableRow.cells.get(i3);
+                                            setRichTextParents(null, tL_pageTableCell.text);
+                                            addTextBlock(tL_pageTableCell.text, tL_pageBlockTable);
+                                        }
+                                    }
+                                    return;
+                                }
+                                if (pageBlock instanceof TLRPC.TL_pageBlockTitle) {
+                                    TLRPC.TL_pageBlockTitle tL_pageBlockTitle = (TLRPC.TL_pageBlockTitle) pageBlock;
+                                    setRichTextParents(null, tL_pageBlockTitle.text);
+                                    obj = tL_pageBlockTitle.text;
+                                    pageBlock3 = tL_pageBlockTitle;
+                                } else {
+                                    if (pageBlock instanceof TLRPC.TL_pageBlockCover) {
+                                        setRichTextParents(((TLRPC.TL_pageBlockCover) pageBlock).cover);
+                                        return;
+                                    }
+                                    if (pageBlock instanceof TLRPC.TL_pageBlockAuthorDate) {
+                                        TLRPC.TL_pageBlockAuthorDate tL_pageBlockAuthorDate = (TLRPC.TL_pageBlockAuthorDate) pageBlock;
+                                        setRichTextParents(null, tL_pageBlockAuthorDate.author);
+                                        obj = tL_pageBlockAuthorDate.author;
+                                        pageBlock3 = tL_pageBlockAuthorDate;
+                                    } else if (pageBlock instanceof TLRPC.TL_pageBlockMap) {
+                                        TLRPC.TL_pageBlockMap tL_pageBlockMap = (TLRPC.TL_pageBlockMap) pageBlock;
+                                        setRichTextParents(null, tL_pageBlockMap.caption.text);
+                                        setRichTextParents(null, tL_pageBlockMap.caption.credit);
+                                        addTextBlock(tL_pageBlockMap.caption.text, tL_pageBlockMap);
+                                        tL_pageCaption = tL_pageBlockMap.caption;
+                                        pageBlock4 = tL_pageBlockMap;
+                                    } else {
+                                        if (!(pageBlock instanceof TLRPC.TL_pageBlockRelatedArticles)) {
+                                            return;
+                                        }
+                                        TLRPC.TL_pageBlockRelatedArticles tL_pageBlockRelatedArticles = (TLRPC.TL_pageBlockRelatedArticles) pageBlock;
+                                        setRichTextParents(null, tL_pageBlockRelatedArticles.title);
+                                        obj = tL_pageBlockRelatedArticles.title;
+                                        pageBlock3 = tL_pageBlockRelatedArticles;
+                                    }
+                                }
                             }
                         }
-                        return;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockTitle) {
-                        TLRPC.TL_pageBlockTitle tL_pageBlockTitle = (TLRPC.TL_pageBlockTitle) pageBlock;
-                        setRichTextParents(null, tL_pageBlockTitle.text);
-                        obj = tL_pageBlockTitle.text;
-                        tL_pageBlockParagraph = tL_pageBlockTitle;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockCover) {
-                        setRichTextParents(((TLRPC.TL_pageBlockCover) pageBlock).cover);
-                        return;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockAuthorDate) {
-                        TLRPC.TL_pageBlockAuthorDate tL_pageBlockAuthorDate = (TLRPC.TL_pageBlockAuthorDate) pageBlock;
-                        setRichTextParents(null, tL_pageBlockAuthorDate.author);
-                        obj = tL_pageBlockAuthorDate.author;
-                        tL_pageBlockParagraph = tL_pageBlockAuthorDate;
-                    } else if (pageBlock instanceof TLRPC.TL_pageBlockMap) {
-                        TLRPC.TL_pageBlockMap tL_pageBlockMap = (TLRPC.TL_pageBlockMap) pageBlock;
-                        setRichTextParents(null, tL_pageBlockMap.caption.text);
-                        setRichTextParents(null, tL_pageBlockMap.caption.credit);
-                        addTextBlock(tL_pageBlockMap.caption.text, tL_pageBlockMap);
-                        tL_pageCaption = tL_pageBlockMap.caption;
-                        tL_pageBlockEmbedPost = tL_pageBlockMap;
-                    } else if (!(pageBlock instanceof TLRPC.TL_pageBlockRelatedArticles)) {
-                        return;
-                    } else {
-                        TLRPC.TL_pageBlockRelatedArticles tL_pageBlockRelatedArticles = (TLRPC.TL_pageBlockRelatedArticles) pageBlock;
-                        setRichTextParents(null, tL_pageBlockRelatedArticles.title);
-                        obj = tL_pageBlockRelatedArticles.title;
-                        tL_pageBlockParagraph = tL_pageBlockRelatedArticles;
                     }
                 }
-                addTextBlock(obj, tL_pageBlockParagraph);
+                addTextBlock(obj, pageBlock3);
             }
-            TLRPC.TL_pageBlockEmbedPost tL_pageBlockEmbedPost2 = (TLRPC.TL_pageBlockEmbedPost) pageBlock;
-            setRichTextParents(null, tL_pageBlockEmbedPost2.caption.text);
-            setRichTextParents(null, tL_pageBlockEmbedPost2.caption.credit);
-            addTextBlock(tL_pageBlockEmbedPost2.caption.text, tL_pageBlockEmbedPost2);
-            tL_pageCaption = tL_pageBlockEmbedPost2.caption;
-            tL_pageBlockEmbedPost = tL_pageBlockEmbedPost2;
+            TLRPC.TL_pageBlockEmbedPost tL_pageBlockEmbedPost = (TLRPC.TL_pageBlockEmbedPost) pageBlock;
+            setRichTextParents(null, tL_pageBlockEmbedPost.caption.text);
+            setRichTextParents(null, tL_pageBlockEmbedPost.caption.credit);
+            addTextBlock(tL_pageBlockEmbedPost.caption.text, tL_pageBlockEmbedPost);
+            tL_pageCaption = tL_pageBlockEmbedPost.caption;
+            pageBlock4 = tL_pageBlockEmbedPost;
             obj = tL_pageCaption.credit;
-            tL_pageBlockParagraph = tL_pageBlockEmbedPost;
-            addTextBlock(obj, tL_pageBlockParagraph);
+            pageBlock3 = pageBlock4;
+            addTextBlock(obj, pageBlock3);
         }
 
         private void setRichTextParents(TLRPC.RichText richText, TLRPC.RichText richText2) {
@@ -10456,32 +10185,36 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 richText3 = (TLRPC.TL_textPhone) richText2;
             } else if (richText2 instanceof TLRPC.TL_textUrl) {
                 richText3 = (TLRPC.TL_textUrl) richText2;
-            } else if (richText2 instanceof TLRPC.TL_textConcat) {
-                int size = richText2.texts.size();
-                for (int i = 0; i < size; i++) {
-                    setRichTextParents(richText2, richText2.texts.get(i));
-                }
-                return;
-            } else if (richText2 instanceof TLRPC.TL_textSubscript) {
-                richText3 = (TLRPC.TL_textSubscript) richText2;
-            } else if (richText2 instanceof TLRPC.TL_textSuperscript) {
-                richText3 = (TLRPC.TL_textSuperscript) richText2;
-            } else if (!(richText2 instanceof TLRPC.TL_textMarked)) {
-                if (richText2 instanceof TLRPC.TL_textAnchor) {
-                    TLRPC.TL_textAnchor tL_textAnchor = (TLRPC.TL_textAnchor) richText2;
-                    setRichTextParents(richText2, tL_textAnchor.text);
-                    String lowerCase = tL_textAnchor.name.toLowerCase();
-                    this.anchors.put(lowerCase, Integer.valueOf(this.blocks.size()));
-                    TLRPC.RichText richText4 = tL_textAnchor.text;
-                    if (!(richText4 instanceof TLRPC.TL_textPlain) ? !(richText4 instanceof TLRPC.TL_textEmpty) : !TextUtils.isEmpty(((TLRPC.TL_textPlain) richText4).text)) {
-                        this.anchorsParent.put(lowerCase, tL_textAnchor);
+            } else {
+                if (richText2 instanceof TLRPC.TL_textConcat) {
+                    int size = richText2.texts.size();
+                    for (int i = 0; i < size; i++) {
+                        setRichTextParents(richText2, richText2.texts.get(i));
                     }
-                    this.anchorsOffset.put(lowerCase, -1);
                     return;
                 }
-                return;
-            } else {
-                richText3 = (TLRPC.TL_textMarked) richText2;
+                if (richText2 instanceof TLRPC.TL_textSubscript) {
+                    richText3 = (TLRPC.TL_textSubscript) richText2;
+                } else if (richText2 instanceof TLRPC.TL_textSuperscript) {
+                    richText3 = (TLRPC.TL_textSuperscript) richText2;
+                } else {
+                    if (!(richText2 instanceof TLRPC.TL_textMarked)) {
+                        if (richText2 instanceof TLRPC.TL_textAnchor) {
+                            TLRPC.TL_textAnchor tL_textAnchor = (TLRPC.TL_textAnchor) richText2;
+                            setRichTextParents(richText2, tL_textAnchor.text);
+                            String lowerCase = tL_textAnchor.name.toLowerCase();
+                            this.anchors.put(lowerCase, Integer.valueOf(this.blocks.size()));
+                            TLRPC.RichText richText4 = tL_textAnchor.text;
+                            if (!(richText4 instanceof TLRPC.TL_textPlain) ? !(richText4 instanceof TLRPC.TL_textEmpty) : !TextUtils.isEmpty(((TLRPC.TL_textPlain) richText4).text)) {
+                                this.anchorsParent.put(lowerCase, tL_textAnchor);
+                            }
+                            this.anchorsOffset.put(lowerCase, -1);
+                            return;
+                        }
+                        return;
+                    }
+                    richText3 = (TLRPC.TL_textMarked) richText2;
+                }
             }
             setRichTextParents(richText2, richText3.text);
         }
@@ -10525,11 +10258,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 i--;
             }
-            if (i == this.localBlocks.size()) {
-                TLRPC.WebPage webPage = this.currentPage;
-                return (webPage == null || (page = webPage.cached_page) == null || !page.web) ? 90 : 91;
+            if (i != this.localBlocks.size()) {
+                return getTypeForBlock((TLRPC.PageBlock) this.localBlocks.get(i));
             }
-            return getTypeForBlock((TLRPC.PageBlock) this.localBlocks.get(i));
+            TLRPC.WebPage webPage = this.currentPage;
+            return (webPage == null || (page = webPage.cached_page) == null || !page.web) ? 90 : 91;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -10594,119 +10327,119 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            TextView textView;
+            View view;
             if (i == 90) {
-                textView = new ReportCell(this.context, false);
+                view = new ReportCell(this.context, false);
             } else if (i == 91) {
-                textView = new ReportCell(this.context, true);
+                view = new ReportCell(this.context, true);
             } else if (i != 2147483646) {
                 switch (i) {
                     case 0:
-                        textView = new BlockParagraphCell(this.context, this);
+                        view = new BlockParagraphCell(this.context, this);
                         break;
                     case 1:
-                        textView = new BlockHeaderCell(this.context, this);
+                        view = new BlockHeaderCell(this.context, this);
                         break;
                     case 2:
-                        textView = new BlockDividerCell(this.context);
+                        view = new BlockDividerCell(this.context);
                         break;
                     case 3:
-                        textView = new BlockEmbedCell(this.context, this);
+                        view = new BlockEmbedCell(this.context, this);
                         break;
                     case 4:
-                        textView = new BlockSubtitleCell(this.context, this);
+                        view = new BlockSubtitleCell(this.context, this);
                         break;
                     case 5:
-                        textView = new BlockVideoCell(this.context, this, 0);
+                        view = new BlockVideoCell(this.context, this, 0);
                         break;
                     case 6:
-                        textView = new BlockPullquoteCell(this.context, this);
+                        view = new BlockPullquoteCell(this.context, this);
                         break;
                     case 7:
-                        textView = new BlockBlockquoteCell(this.context, this);
+                        view = new BlockBlockquoteCell(this.context, this);
                         break;
                     case 8:
-                        textView = new BlockSlideshowCell(this.context, this);
+                        view = new BlockSlideshowCell(this.context, this);
                         break;
                     case 9:
-                        textView = new BlockPhotoCell(this.context, this, 0);
+                        view = new BlockPhotoCell(this.context, this, 0);
                         break;
                     case 10:
-                        textView = new BlockAuthorDateCell(this.context, this);
+                        view = new BlockAuthorDateCell(this.context, this);
                         break;
                     case 11:
-                        textView = new BlockTitleCell(this.context, this);
+                        view = new BlockTitleCell(this.context, this);
                         break;
                     case 12:
-                        textView = new BlockListItemCell(this.context, this);
+                        view = new BlockListItemCell(this.context, this);
                         break;
                     case 13:
-                        textView = new BlockFooterCell(this.context, this);
+                        view = new BlockFooterCell(this.context, this);
                         break;
                     case 14:
-                        textView = new BlockPreformattedCell(this.context, this);
+                        view = new BlockPreformattedCell(this.context, this);
                         break;
                     case 15:
-                        textView = new BlockSubheaderCell(this.context, this);
+                        view = new BlockSubheaderCell(this.context, this);
                         break;
                     case 16:
-                        textView = new BlockEmbedPostCell(this.context, this);
+                        view = new BlockEmbedPostCell(this.context, this);
                         break;
                     case 17:
-                        textView = new BlockCollageCell(this.context, this);
+                        view = new BlockCollageCell(this.context, this);
                         break;
                     case 18:
-                        textView = new BlockChannelCell(this.context, this, 0);
+                        view = new BlockChannelCell(this.context, this, 0);
                         break;
                     case 19:
-                        textView = new BlockAudioCell(this.context, this);
+                        view = new BlockAudioCell(this.context, this);
                         break;
                     case 20:
-                        textView = new BlockKickerCell(this.context, this);
+                        view = new BlockKickerCell(this.context, this);
                         break;
                     case 21:
-                        textView = new BlockOrderedListItemCell(this.context, this);
+                        view = new BlockOrderedListItemCell(this.context, this);
                         break;
                     case 22:
-                        textView = new BlockMapCell(this.context, this, 0);
+                        view = new BlockMapCell(this.context, this, 0);
                         break;
                     case 23:
-                        textView = new BlockRelatedArticlesCell(this.context, this);
+                        view = new BlockRelatedArticlesCell(this.context, this);
                         break;
                     case 24:
-                        textView = new BlockDetailsCell(this.context, this);
+                        view = new BlockDetailsCell(this.context, this);
                         break;
                     case 25:
-                        textView = new BlockTableCell(this.context, this);
+                        view = new BlockTableCell(this.context, this);
                         break;
                     case 26:
-                        textView = new BlockRelatedArticlesHeaderCell(this.context, this);
+                        view = new BlockRelatedArticlesHeaderCell(this.context, this);
                         break;
                     case 27:
-                        textView = new BlockDetailsBottomCell(this.context);
+                        view = new BlockDetailsBottomCell(this.context);
                         break;
                     case 28:
-                        textView = new BlockRelatedArticlesShadowCell(this.context);
+                        view = new BlockRelatedArticlesShadowCell(this.context);
                         break;
                     default:
-                        TextView textView2 = new TextView(this.context);
-                        textView2.setBackgroundColor(-65536);
-                        textView2.setTextColor(-16777216);
-                        textView2.setTextSize(1, 20.0f);
-                        textView = textView2;
+                        TextView textView = new TextView(this.context);
+                        textView.setBackgroundColor(-65536);
+                        textView.setTextColor(-16777216);
+                        textView.setTextSize(1, 20.0f);
+                        view = textView;
                         break;
                 }
             } else {
-                textView = new View(this.context) { // from class: org.telegram.ui.ArticleViewer.WebpageAdapter.1
+                view = new View(this.context) { // from class: org.telegram.ui.ArticleViewer.WebpageAdapter.1
                     @Override // android.view.View
                     protected void onMeasure(int i2, int i3) {
                         super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec((int) (AndroidUtilities.displaySize.y * 0.4f), 1073741824));
                     }
                 };
             }
-            textView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-            textView.setFocusable(true);
-            return new RecyclerListView.Holder(textView);
+            view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+            view.setFocusable(true);
+            return new RecyclerListView.Holder(view);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -10832,8 +10565,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 ArticleViewer articleViewer = ArticleViewer.this;
                 articleViewer.pages[0].setBackgroundColor(articleViewer.sheet == null ? 0 : articleViewer.backgroundPaint.getColor());
                 ArticleViewer articleViewer2 = ArticleViewer.this;
-                ArrayList arrayList = articleViewer2.pagesStack;
-                articleViewer2.updateInterfaceForCurrentPage(arrayList.get(arrayList.size() - 2), true, -1);
+                articleViewer2.updateInterfaceForCurrentPage(articleViewer2.pagesStack.get(r2.size() - 2), true, -1);
                 if (ArticleViewer.this.containerView.indexOfChild(ArticleViewer.this.pages[0]) < ArticleViewer.this.containerView.indexOfChild(ArticleViewer.this.pages[1])) {
                     int indexOfChild = ArticleViewer.this.containerView.indexOfChild(ArticleViewer.this.pages[0]);
                     ArticleViewer.this.containerView.removeView(ArticleViewer.this.pages[1]);
@@ -10843,11 +10575,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             ArticleViewer.this.cancelCheckLongPress();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:19:0x005f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:16:0x005f, code lost:
+        
             r0 = r0.getBoundingRects();
          */
         /* JADX WARN: Code restructure failed: missing block: B:9:0x0026, code lost:
-            if (r0.equals(r1) == false) goto L26;
+        
+            if (r0.equals(r1) == false) goto L10;
          */
         @Override // android.view.ViewGroup, android.view.View
         /*
@@ -10912,11 +10646,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // android.view.ViewGroup, android.view.View
         public boolean dispatchKeyEventPreIme(KeyEvent keyEvent) {
             EditTextBoldCursor editTextBoldCursor;
-            if (keyEvent != null && keyEvent.getKeyCode() == 4 && keyEvent.getAction() == 1) {
-                if (ArticleViewer.this.actionBar.searchEditText.isFocused()) {
-                    ArticleViewer.this.actionBar.searchEditText.clearFocus();
-                    editTextBoldCursor = ArticleViewer.this.actionBar.searchEditText;
-                } else if (!ArticleViewer.this.actionBar.addressEditText.isFocused()) {
+            if (keyEvent == null || keyEvent.getKeyCode() != 4 || keyEvent.getAction() != 1) {
+                return super.dispatchKeyEventPreIme(keyEvent);
+            }
+            if (ArticleViewer.this.actionBar.searchEditText.isFocused()) {
+                ArticleViewer.this.actionBar.searchEditText.clearFocus();
+                editTextBoldCursor = ArticleViewer.this.actionBar.searchEditText;
+            } else {
+                if (!ArticleViewer.this.actionBar.addressEditText.isFocused()) {
                     if (ArticleViewer.this.keyboardVisible) {
                         AndroidUtilities.hideKeyboard(this);
                     } else {
@@ -10928,14 +10665,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                     }
                     return true;
-                } else {
-                    ArticleViewer.this.actionBar.addressEditText.clearFocus();
-                    editTextBoldCursor = ArticleViewer.this.actionBar.addressEditText;
                 }
-                AndroidUtilities.hideKeyboard(editTextBoldCursor);
-                return true;
+                ArticleViewer.this.actionBar.addressEditText.clearFocus();
+                editTextBoldCursor = ArticleViewer.this.actionBar.addressEditText;
             }
-            return super.dispatchKeyEventPreIme(keyEvent);
+            AndroidUtilities.hideKeyboard(editTextBoldCursor);
+            return true;
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -10960,13 +10695,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     motionEvent.setAction(1);
                 }
             }
-            if (motionEvent.getAction() == 0 && ArticleViewer.this.textSelectionHelper.isInSelectionMode() && (motionEvent.getY() < ArticleViewer.this.containerView.getTop() || motionEvent.getY() > ArticleViewer.this.containerView.getBottom())) {
-                if (ArticleViewer.this.textSelectionHelper.getOverlayView(getContext()).onTouchEvent(obtain)) {
-                    return super.dispatchTouchEvent(motionEvent);
-                }
-                return true;
+            if (motionEvent.getAction() != 0 || !ArticleViewer.this.textSelectionHelper.isInSelectionMode() || (motionEvent.getY() >= ArticleViewer.this.containerView.getTop() && motionEvent.getY() <= ArticleViewer.this.containerView.getBottom())) {
+                return super.dispatchTouchEvent(motionEvent);
             }
-            return super.dispatchTouchEvent(motionEvent);
+            if (ArticleViewer.this.textSelectionHelper.getOverlayView(getContext()).onTouchEvent(obtain)) {
+                return super.dispatchTouchEvent(motionEvent);
+            }
+            return true;
         }
 
         @Override // android.view.ViewGroup
@@ -11065,28 +10800,28 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if (!z) {
                         x = frameLayout.getMeasuredWidth() - x;
                         if (this.movingPage) {
-                            animatorSet.playTogether(ObjectAnimator.ofFloat(ArticleViewer.this.pages[0], View.TRANSLATION_X, frameLayout.getMeasuredWidth()));
+                            animatorSet.playTogether(ObjectAnimator.ofFloat(ArticleViewer.this.pages[0], (Property<PageLayout, Float>) View.TRANSLATION_X, frameLayout.getMeasuredWidth()));
                         } else {
                             ArticleViewer articleViewer2 = ArticleViewer.this;
                             Sheet sheet5 = articleViewer2.sheet;
                             if (sheet5 != null) {
                                 animatorSet.playTogether(sheet5.animateBackProgressTo(1.0f));
                             } else {
-                                animatorSet.playTogether(ObjectAnimator.ofFloat(articleViewer2.containerView, View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this, ArticleViewer.ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
+                                animatorSet.playTogether(ObjectAnimator.ofFloat(articleViewer2.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this, (Property<WindowView, Float>) ArticleViewer.ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
                             }
                         }
                     } else if (this.movingPage) {
-                        animatorSet.playTogether(ObjectAnimator.ofFloat(ArticleViewer.this.pages[0], View.TRANSLATION_X, 0.0f));
+                        animatorSet.playTogether(ObjectAnimator.ofFloat(ArticleViewer.this.pages[0], (Property<PageLayout, Float>) View.TRANSLATION_X, 0.0f));
                     } else {
                         ArticleViewer articleViewer3 = ArticleViewer.this;
                         Sheet sheet6 = articleViewer3.sheet;
                         if (sheet6 != null) {
                             animatorSet.playTogether(sheet6.animateBackProgressTo(0.0f));
                         } else {
-                            animatorSet.playTogether(ObjectAnimator.ofFloat(articleViewer3.containerView, View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this, ArticleViewer.ARTICLE_VIEWER_INNER_TRANSLATION_X, 0.0f));
+                            animatorSet.playTogether(ObjectAnimator.ofFloat(articleViewer3.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this, (Property<WindowView, Float>) ArticleViewer.ARTICLE_VIEWER_INNER_TRANSLATION_X, 0.0f));
                         }
                     }
-                    animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * x), (int) NotificationCenter.liveLocationsChanged));
+                    animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * x), NotificationCenter.liveLocationsChanged));
                     animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
                     animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.WindowView.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -11191,7 +10926,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
-            int measuredHeight;
             int systemWindowInsetTop;
             int stableInsetBottom;
             int systemWindowInsetLeft;
@@ -11199,8 +10933,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (ArticleViewer.this.sheet == null) {
                 int measuredWidth = getMeasuredWidth();
                 float f = measuredWidth;
-                float measuredHeight2 = getMeasuredHeight();
-                canvas.drawRect(this.innerTranslationX, 0.0f, f, measuredHeight2, ArticleViewer.this.backgroundPaint);
+                float measuredHeight = getMeasuredHeight();
+                canvas.drawRect(this.innerTranslationX, 0.0f, f, measuredHeight, ArticleViewer.this.backgroundPaint);
                 if (Build.VERSION.SDK_INT < 21 || ArticleViewer.this.lastInsets == null) {
                     return;
                 }
@@ -11211,15 +10945,15 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (ArticleViewer.this.hasCutout) {
                     systemWindowInsetLeft = m.getSystemWindowInsetLeft();
                     if (systemWindowInsetLeft != 0) {
-                        canvas.drawRect(0.0f, 0.0f, systemWindowInsetLeft, measuredHeight2, ArticleViewer.this.statusBarPaint);
+                        canvas.drawRect(0.0f, 0.0f, systemWindowInsetLeft, measuredHeight, ArticleViewer.this.statusBarPaint);
                     }
                     systemWindowInsetRight = m.getSystemWindowInsetRight();
                     if (systemWindowInsetRight != 0) {
-                        canvas.drawRect(measuredWidth - systemWindowInsetRight, 0.0f, f, measuredHeight2, ArticleViewer.this.statusBarPaint);
+                        canvas.drawRect(measuredWidth - systemWindowInsetRight, 0.0f, f, measuredHeight, ArticleViewer.this.statusBarPaint);
                     }
                 }
                 stableInsetBottom = m.getStableInsetBottom();
-                canvas.drawRect(0.0f, measuredHeight - stableInsetBottom, f, measuredHeight2, ArticleViewer.this.navigationBarPaint);
+                canvas.drawRect(0.0f, r1 - stableInsetBottom, f, measuredHeight, ArticleViewer.this.navigationBarPaint);
             }
         }
 
@@ -11249,8 +10983,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if (i8 >= pageLayoutArr.length) {
                         break;
                     }
-                    for (Map.Entry entry : pageLayoutArr[i8].adapter.anchorsOffset.entrySet()) {
-                        entry.setValue(-1);
+                    Iterator it = pageLayoutArr[i8].adapter.anchorsOffset.entrySet().iterator();
+                    while (it.hasNext()) {
+                        ((Map.Entry) it.next()).setValue(-1);
                     }
                     i8++;
                 }
@@ -11457,6 +11192,22 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         setParentActivity(baseFragment.getParentActivity(), baseFragment);
     }
 
+    static /* synthetic */ TLRPC.PageBlock access$10500(ArticleViewer articleViewer, TLRPC.PageBlock pageBlock) {
+        return articleViewer.getLastNonListPageBlock(pageBlock);
+    }
+
+    static /* synthetic */ int access$10600(ArticleViewer articleViewer) {
+        return articleViewer.currentAccount;
+    }
+
+    static /* synthetic */ TLRPC.PageBlock access$11300(ArticleViewer articleViewer, TLRPC.PageBlock pageBlock, TLRPC.PageBlock pageBlock2) {
+        return articleViewer.wrapInTableBlock(pageBlock, pageBlock2);
+    }
+
+    static /* synthetic */ TLRPC.PageBlock access$11900(ArticleViewer articleViewer, TLRPC.PageBlock pageBlock, TLRPC.PageBlock pageBlock2) {
+        return articleViewer.fixListBlock(pageBlock, pageBlock2);
+    }
+
     static /* synthetic */ int access$12608(ArticleViewer articleViewer) {
         int i = articleViewer.lastBlockNum;
         articleViewer.lastBlockNum = i + 1;
@@ -11499,13 +11250,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:113:0x01ea, code lost:
-        if (r0.isShowing() == false) goto L100;
+    /* JADX WARN: Code restructure failed: missing block: B:135:0x01ea, code lost:
+    
+        if (r0.isShowing() == false) goto L114;
      */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x01f5  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0206  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x021c  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x01f5  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0206  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x0214  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x021c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -11751,15 +11503,27 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't wrap try/catch for region: R(14:53|54|55|(3:59|(4:(1:63)(1:66)|64|65|60)|67)|69|70|71|(11:75|76|77|(5:80|(1:82)(1:92)|(3:(1:85)(1:89)|86|87)(2:90|91)|88|78)|93|94|96|97|(7:101|103|104|(5:107|(1:109)(1:119)|(3:(1:112)(1:116)|113|114)(2:117|118)|115|105)|120|121|122)|127|122)|131|96|97|(8:99|101|103|104|(1:105)|120|121|122)|127|122) */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x0378 A[Catch: Exception -> 0x03b6, TryCatch #4 {Exception -> 0x03b6, blocks: (B:142:0x0371, B:143:0x0375, B:145:0x0378, B:147:0x038f, B:153:0x03a2, B:155:0x03aa, B:156:0x03b3), top: B:175:0x0371 }] */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0378 A[Catch: Exception -> 0x03b6, TryCatch #4 {Exception -> 0x03b6, blocks: (B:104:0x0371, B:105:0x0375, B:107:0x0378, B:109:0x038f, B:113:0x03a2, B:115:0x03aa, B:121:0x03b3), top: B:103:0x0371 }] */
+    /* JADX WARN: Type inference failed for: r12v2 */
+    /* JADX WARN: Type inference failed for: r12v3 */
+    /* JADX WARN: Type inference failed for: r12v6, types: [android.graphics.Path, org.telegram.ui.Components.LinkPath] */
+    /* JADX WARN: Type inference failed for: r1v35 */
+    /* JADX WARN: Type inference failed for: r1v37, types: [android.text.StaticLayout, android.text.Layout] */
+    /* JADX WARN: Type inference failed for: r1v45 */
+    /* JADX WARN: Type inference failed for: r1v46 */
+    /* JADX WARN: Type inference failed for: r8v3 */
+    /* JADX WARN: Type inference failed for: r8v4 */
+    /* JADX WARN: Type inference failed for: r8v7, types: [android.graphics.Path, org.telegram.ui.Components.LinkPath] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public DrawingText createLayoutForText(View view, CharSequence charSequence, TLRPC.RichText richText, int i, int i2, TLRPC.PageBlock pageBlock, Layout.Alignment alignment, int i3, WebpageAdapter webpageAdapter) {
         TextPaint textPaint;
-        StaticLayout staticLayout;
+        ?? r1;
         LinkPath linkPath;
-        LinkPath linkPath2;
+        ?? r12;
+        ?? r8;
         TextPaintMarkSpan[] textPaintMarkSpanArr;
         int i4;
         TextPaintWebpageUrlSpan[] textPaintWebpageUrlSpanArr;
@@ -11773,17 +11537,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         TextPaint textPaint2;
         int i5;
         Layout.Alignment alignment2;
-        float dp;
-        LinkPath linkPath3 = null;
+        float f2;
+        LinkPath linkPath2 = null;
         if (charSequence == null && (richText == null || (richText instanceof TLRPC.TL_textEmpty))) {
             return null;
         }
-        int dp2 = i < 0 ? AndroidUtilities.dp(10.0f) : i;
-        CharSequence text = charSequence != null ? charSequence : getText(webpageAdapter, view, richText, richText, pageBlock, dp2);
+        int dp = i < 0 ? AndroidUtilities.dp(10.0f) : i;
+        CharSequence text = charSequence != null ? charSequence : getText(webpageAdapter, view, richText, richText, pageBlock, dp);
         if (TextUtils.isEmpty(text)) {
             return null;
         }
-        int dp3 = AndroidUtilities.dp(SharedConfig.ivFontSize - 16);
+        int dp2 = AndroidUtilities.dp(SharedConfig.ivFontSize - 16);
         if ((pageBlock instanceof TLRPC.TL_pageBlockEmbedPost) && richText == null) {
             if (((TLRPC.TL_pageBlockEmbedPost) pageBlock).author == charSequence) {
                 if (embedPostAuthorPaint == null) {
@@ -11791,7 +11555,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     embedPostAuthorPaint = textPaint3;
                     textPaint3.setColor(getTextColor());
                 }
-                embedPostAuthorPaint.setTextSize(AndroidUtilities.dp(15.0f) + dp3);
+                embedPostAuthorPaint.setTextSize(AndroidUtilities.dp(15.0f) + dp2);
                 textPaint = embedPostAuthorPaint;
             } else {
                 if (embedPostDatePaint == null) {
@@ -11799,7 +11563,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     embedPostDatePaint = textPaint4;
                     textPaint4.setColor(getGrayTextColor());
                 }
-                embedPostDatePaint.setTextSize(AndroidUtilities.dp(14.0f) + dp3);
+                embedPostDatePaint.setTextSize(AndroidUtilities.dp(14.0f) + dp2);
                 textPaint = embedPostDatePaint;
             }
         } else if (pageBlock instanceof TLRPC.TL_pageBlockChannel) {
@@ -11825,14 +11589,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     textPaint7.setTypeface(AndroidUtilities.bold());
                 }
                 relatedArticleHeaderPaint.setColor(getTextColor());
-                relatedArticleHeaderPaint.setTextSize(AndroidUtilities.dp(15.0f) + dp3);
+                relatedArticleHeaderPaint.setTextSize(AndroidUtilities.dp(15.0f) + dp2);
                 textPaint = relatedArticleHeaderPaint;
             } else {
                 if (relatedArticleTextPaint == null) {
                     relatedArticleTextPaint = new TextPaint(1);
                 }
                 relatedArticleTextPaint.setColor(getGrayTextColor());
-                relatedArticleTextPaint.setTextSize(AndroidUtilities.dp(14.0f) + dp3);
+                relatedArticleTextPaint.setTextSize(AndroidUtilities.dp(14.0f) + dp2);
                 textPaint = relatedArticleTextPaint;
             }
         } else if (!isListItemBlock(pageBlock) || charSequence == null) {
@@ -11848,8 +11612,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 listTextNumPaint = textPaint9;
                 textPaint9.setColor(getTextColor());
             }
-            listTextPointerPaint.setTextSize(AndroidUtilities.dp(19.0f) + dp3);
-            listTextNumPaint.setTextSize(AndroidUtilities.dp(16.0f) + dp3);
+            listTextPointerPaint.setTextSize(AndroidUtilities.dp(19.0f) + dp2);
+            listTextNumPaint.setTextSize(AndroidUtilities.dp(16.0f) + dp2);
             textPaint = (!(pageBlock instanceof TL_pageBlockListItem) || ((TL_pageBlockListItem) pageBlock).parent.pageBlockList.ordered) ? listTextNumPaint : listTextPointerPaint;
         }
         TextPaint textPaint10 = textPaint;
@@ -11858,33 +11622,34 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (pageBlock instanceof TLRPC.TL_pageBlockPullquote) {
                 alignment2 = Layout.Alignment.ALIGN_CENTER;
                 truncateAt = TextUtils.TruncateAt.END;
-                dp = 0.0f;
+                f2 = 0.0f;
                 z = false;
                 f = 1.0f;
                 charSequence2 = replaceEmoji;
                 textPaint2 = textPaint10;
-                i5 = dp2;
+                i5 = dp;
             } else {
+                float dp3 = AndroidUtilities.dp(4.0f);
                 truncateAt = TextUtils.TruncateAt.END;
                 f = 1.0f;
                 z = false;
                 charSequence2 = replaceEmoji;
                 textPaint2 = textPaint10;
-                i5 = dp2;
+                i5 = dp;
                 alignment2 = alignment;
-                dp = AndroidUtilities.dp(4.0f);
+                f2 = dp3;
             }
-            staticLayout = StaticLayoutEx.createStaticLayout(charSequence2, textPaint2, i5, alignment2, f, dp, z, truncateAt, dp2, i3);
+            r1 = StaticLayoutEx.createStaticLayout(charSequence2, textPaint2, i5, alignment2, f, f2, z, truncateAt, dp, i3);
         } else {
             if (replaceEmoji.charAt(replaceEmoji.length() - 1) == '\n') {
                 replaceEmoji = replaceEmoji.subSequence(0, replaceEmoji.length() - 1);
             }
-            staticLayout = pageBlock instanceof TLRPC.TL_pageBlockPullquote ? new StaticLayout(replaceEmoji, textPaint10, dp2, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false) : new StaticLayout(replaceEmoji, textPaint10, dp2, alignment, 1.0f, AndroidUtilities.dp(4.0f), false);
+            r1 = pageBlock instanceof TLRPC.TL_pageBlockPullquote ? new StaticLayout(replaceEmoji, textPaint10, dp, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false) : new StaticLayout(replaceEmoji, textPaint10, dp, alignment, 1.0f, AndroidUtilities.dp(4.0f), false);
         }
-        if (staticLayout == null) {
+        if (r1 == 0) {
             return null;
         }
-        CharSequence text2 = staticLayout.getText();
+        CharSequence text2 = r1.getText();
         if (i2 >= 0 && !this.searchResults.isEmpty() && this.searchText != null) {
             String lowerCase = replaceEmoji.toString().toLowerCase();
             int i6 = 0;
@@ -11895,7 +11660,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 int length = this.searchText.length() + indexOf;
                 if (indexOf == 0 || AndroidUtilities.isPunctuationCharacter(lowerCase.charAt(indexOf - 1))) {
-                    this.pages[0].adapter.searchTextOffset.put(this.searchText + pageBlock + richText + indexOf, Integer.valueOf(i2 + staticLayout.getLineTop(staticLayout.getLineForOffset(indexOf))));
+                    this.pages[0].adapter.searchTextOffset.put(this.searchText + pageBlock + richText + indexOf, Integer.valueOf(i2 + r1.getLineTop(r1.getLineForOffset(indexOf))));
                 }
                 i6 = length;
             }
@@ -11904,7 +11669,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             Spanned spanned = (Spanned) text2;
             try {
                 AnchorSpan[] anchorSpanArr = (AnchorSpan[]) spanned.getSpans(0, spanned.length(), AnchorSpan.class);
-                int lineCount = staticLayout.getLineCount();
+                int lineCount = r1.getLineCount();
                 if (anchorSpanArr != null && anchorSpanArr.length > 0) {
                     for (int i7 = 0; i7 < anchorSpanArr.length; i7++) {
                         if (lineCount <= 1) {
@@ -11914,7 +11679,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         } else {
                             hashMap = webpageAdapter.anchorsOffset;
                             name = anchorSpanArr[i7].getName();
-                            valueOf = Integer.valueOf(i2 + staticLayout.getLineTop(staticLayout.getLineForOffset(spanned.getSpanStart(anchorSpanArr[i7]))));
+                            valueOf = Integer.valueOf(i2 + r1.getLineTop(r1.getLineForOffset(spanned.getSpanStart(anchorSpanArr[i7]))));
                         }
                         hashMap.put(name, valueOf);
                     }
@@ -11926,59 +11691,63 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } catch (Exception unused2) {
             }
             if (textPaintWebpageUrlSpanArr != null && textPaintWebpageUrlSpanArr.length > 0) {
-                linkPath2 = new LinkPath(true);
+                r12 = new LinkPath(true);
                 try {
-                    linkPath2.setAllowReset(false);
+                    r12.setAllowReset(false);
                     for (int i8 = 0; i8 < textPaintWebpageUrlSpanArr.length; i8++) {
                         int spanStart = spanned.getSpanStart(textPaintWebpageUrlSpanArr[i8]);
                         int spanEnd = spanned.getSpanEnd(textPaintWebpageUrlSpanArr[i8]);
-                        linkPath2.setCurrentLayout(staticLayout, spanStart, 0.0f);
+                        r12.setCurrentLayout(r1, spanStart, 0.0f);
                         int i9 = textPaintWebpageUrlSpanArr[i8].getTextPaint() != null ? textPaintWebpageUrlSpanArr[i8].getTextPaint().baselineShift : 0;
-                        linkPath2.setBaselineShift(i9 != 0 ? i9 + AndroidUtilities.dp(i9 > 0 ? 5.0f : -2.0f) : 0);
-                        staticLayout.getSelectionPath(spanStart, spanEnd, linkPath2);
+                        r12.setBaselineShift(i9 != 0 ? i9 + AndroidUtilities.dp(i9 > 0 ? 5.0f : -2.0f) : 0);
+                        r1.getSelectionPath(spanStart, spanEnd, r12);
                     }
-                    linkPath2.setAllowReset(true);
+                    r12.setAllowReset(true);
                 } catch (Exception unused3) {
                 }
                 textPaintMarkSpanArr = (TextPaintMarkSpan[]) spanned.getSpans(0, spanned.length(), TextPaintMarkSpan.class);
                 if (textPaintMarkSpanArr != null && textPaintMarkSpanArr.length > 0) {
-                    linkPath = new LinkPath(true);
+                    r8 = new LinkPath(true);
                     try {
-                        linkPath.setAllowReset(false);
+                        r8.setAllowReset(false);
                         for (i4 = 0; i4 < textPaintMarkSpanArr.length; i4++) {
                             int spanStart2 = spanned.getSpanStart(textPaintMarkSpanArr[i4]);
                             int spanEnd2 = spanned.getSpanEnd(textPaintMarkSpanArr[i4]);
-                            linkPath.setCurrentLayout(staticLayout, spanStart2, 0.0f);
+                            r8.setCurrentLayout(r1, spanStart2, 0.0f);
                             int i10 = textPaintMarkSpanArr[i4].getTextPaint() != null ? textPaintMarkSpanArr[i4].getTextPaint().baselineShift : 0;
-                            linkPath.setBaselineShift(i10 != 0 ? i10 + AndroidUtilities.dp(i10 > 0 ? 5.0f : -2.0f) : 0);
-                            staticLayout.getSelectionPath(spanStart2, spanEnd2, linkPath);
+                            r8.setBaselineShift(i10 != 0 ? i10 + AndroidUtilities.dp(i10 > 0 ? 5.0f : -2.0f) : 0);
+                            r1.getSelectionPath(spanStart2, spanEnd2, r8);
                         }
-                        linkPath.setAllowReset(true);
+                        r8.setAllowReset(true);
                     } catch (Exception unused4) {
                     }
-                    linkPath3 = linkPath2;
+                    linkPath2 = r12;
+                    linkPath = r8;
                 }
-                linkPath = null;
-                linkPath3 = linkPath2;
+                r8 = 0;
+                linkPath2 = r12;
+                linkPath = r8;
             }
-            linkPath2 = null;
+            r12 = 0;
             textPaintMarkSpanArr = (TextPaintMarkSpan[]) spanned.getSpans(0, spanned.length(), TextPaintMarkSpan.class);
             if (textPaintMarkSpanArr != null) {
-                linkPath = new LinkPath(true);
-                linkPath.setAllowReset(false);
+                r8 = new LinkPath(true);
+                r8.setAllowReset(false);
                 while (i4 < textPaintMarkSpanArr.length) {
                 }
-                linkPath.setAllowReset(true);
-                linkPath3 = linkPath2;
+                r8.setAllowReset(true);
+                linkPath2 = r12;
+                linkPath = r8;
             }
-            linkPath = null;
-            linkPath3 = linkPath2;
+            r8 = 0;
+            linkPath2 = r12;
+            linkPath = r8;
         } else {
             linkPath = null;
         }
         DrawingText drawingText = new DrawingText();
-        drawingText.textLayout = staticLayout;
-        drawingText.textPath = linkPath3;
+        drawingText.textLayout = r1;
+        drawingText.textPath = linkPath2;
         drawingText.markPath = linkPath;
         drawingText.parentBlock = pageBlock;
         drawingText.parentText = richText;
@@ -12052,6 +11821,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Multi-variable type inference failed */
     public void drawTextSelection(Canvas canvas, TextSelectionHelper.ArticleSelectableView articleSelectableView, int i) {
         TextSelectionHelper.ArticleTextSelectionHelper articleTextSelectionHelper;
         View view = (View) articleSelectableView;
@@ -12066,12 +11836,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         if (pageBlock instanceof TL_pageBlockListItem) {
             ((TL_pageBlockListItem) pageBlock).blockItem = pageBlock2;
             return pageBlock;
-        } else if (pageBlock instanceof TL_pageBlockOrderedListItem) {
-            ((TL_pageBlockOrderedListItem) pageBlock).blockItem = pageBlock2;
-            return pageBlock;
-        } else {
+        }
+        if (!(pageBlock instanceof TL_pageBlockOrderedListItem)) {
             return pageBlock2;
         }
+        ((TL_pageBlockOrderedListItem) pageBlock).blockItem = pageBlock2;
+        return pageBlock;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -12085,22 +11855,22 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (blockCaption2 instanceof TLRPC.TL_textEmpty) {
                 blockCaption2 = null;
             }
-            if (blockCaption == null || blockCaption2 != null) {
-                if (blockCaption != null || blockCaption2 == null) {
-                    if (blockCaption == null || blockCaption2 == null) {
-                        return null;
-                    }
-                    TLRPC.TL_textPlain tL_textPlain = new TLRPC.TL_textPlain();
-                    tL_textPlain.text = " ";
-                    TLRPC.TL_textConcat tL_textConcat = new TLRPC.TL_textConcat();
-                    tL_textConcat.texts.add(blockCaption);
-                    tL_textConcat.texts.add(tL_textPlain);
-                    tL_textConcat.texts.add(blockCaption2);
-                    return tL_textConcat;
-                }
+            if (blockCaption != null && blockCaption2 == null) {
+                return blockCaption;
+            }
+            if (blockCaption == null && blockCaption2 != null) {
                 return blockCaption2;
             }
-            return blockCaption;
+            if (blockCaption == null || blockCaption2 == null) {
+                return null;
+            }
+            TLRPC.TL_textPlain tL_textPlain = new TLRPC.TL_textPlain();
+            tL_textPlain.text = " ";
+            TLRPC.TL_textConcat tL_textConcat = new TLRPC.TL_textConcat();
+            tL_textConcat.texts.add(blockCaption);
+            tL_textConcat.texts.add(tL_textPlain);
+            tL_textConcat.texts.add(blockCaption2);
+            return tL_textConcat;
         }
         if (pageBlock instanceof TLRPC.TL_pageBlockEmbedPost) {
             TLRPC.TL_pageBlockEmbedPost tL_pageBlockEmbedPost = (TLRPC.TL_pageBlockEmbedPost) pageBlock;
@@ -12142,9 +11912,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (i == 1) {
                 return tL_pageBlockEmbed.caption.credit;
             }
-        } else if (pageBlock instanceof TLRPC.TL_pageBlockBlockquote) {
-            return ((TLRPC.TL_pageBlockBlockquote) pageBlock).caption;
         } else {
+            if (pageBlock instanceof TLRPC.TL_pageBlockBlockquote) {
+                return ((TLRPC.TL_pageBlockBlockquote) pageBlock).caption;
+            }
             if (pageBlock instanceof TLRPC.TL_pageBlockVideo) {
                 TLRPC.TL_pageBlockVideo tL_pageBlockVideo = (TLRPC.TL_pageBlockVideo) pageBlock;
                 if (i == 0) {
@@ -12153,9 +11924,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (i == 1) {
                     return tL_pageBlockVideo.caption.credit;
                 }
-            } else if (pageBlock instanceof TLRPC.TL_pageBlockPullquote) {
-                return ((TLRPC.TL_pageBlockPullquote) pageBlock).caption;
             } else {
+                if (pageBlock instanceof TLRPC.TL_pageBlockPullquote) {
+                    return ((TLRPC.TL_pageBlockPullquote) pageBlock).caption;
+                }
                 if (pageBlock instanceof TLRPC.TL_pageBlockAudio) {
                     TLRPC.TL_pageBlockAudio tL_pageBlockAudio = (TLRPC.TL_pageBlockAudio) pageBlock;
                     if (i == 0) {
@@ -12164,9 +11936,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if (i == 1) {
                         return tL_pageBlockAudio.caption.credit;
                     }
-                } else if (pageBlock instanceof TLRPC.TL_pageBlockCover) {
-                    return getBlockCaption(((TLRPC.TL_pageBlockCover) pageBlock).cover, i);
                 } else {
+                    if (pageBlock instanceof TLRPC.TL_pageBlockCover) {
+                        return getBlockCaption(((TLRPC.TL_pageBlockCover) pageBlock).cover, i);
+                    }
                     if (pageBlock instanceof TLRPC.TL_pageBlockMap) {
                         TLRPC.TL_pageBlockMap tL_pageBlockMap = (TLRPC.TL_pageBlockMap) pageBlock;
                         if (i == 0) {
@@ -12231,14 +12004,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             TLRPC.PageBlock pageBlock2 = tL_pageBlockListItem.blockItem;
             TLRPC.PageBlock pageBlock3 = tL_pageBlockListItem.blockItem;
             return pageBlock2 != null ? getLastNonListPageBlock(pageBlock3) : pageBlock3;
-        } else if (pageBlock instanceof TL_pageBlockOrderedListItem) {
-            TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem = (TL_pageBlockOrderedListItem) pageBlock;
-            TLRPC.PageBlock pageBlock4 = tL_pageBlockOrderedListItem.blockItem;
-            TLRPC.PageBlock pageBlock5 = tL_pageBlockOrderedListItem.blockItem;
-            return pageBlock4 != null ? getLastNonListPageBlock(pageBlock5) : pageBlock5;
-        } else {
+        }
+        if (!(pageBlock instanceof TL_pageBlockOrderedListItem)) {
             return pageBlock;
         }
+        TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem = (TL_pageBlockOrderedListItem) pageBlock;
+        TLRPC.PageBlock pageBlock4 = tL_pageBlockOrderedListItem.blockItem;
+        TLRPC.PageBlock pageBlock5 = tL_pageBlockOrderedListItem.blockItem;
+        return pageBlock4 != null ? getLastNonListPageBlock(pageBlock5) : pageBlock5;
     }
 
     private TLRPC.RichText getLastRichText(TLRPC.RichText richText) {
@@ -12258,20 +12031,21 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             richText2 = (TLRPC.TL_textStrike) richText;
         } else if (richText instanceof TLRPC.TL_textEmail) {
             richText2 = (TLRPC.TL_textEmail) richText;
-        } else if (!(richText instanceof TLRPC.TL_textUrl)) {
-            if (richText instanceof TLRPC.TL_textAnchor) {
-                getLastRichText(((TLRPC.TL_textAnchor) richText).text);
-            } else if (richText instanceof TLRPC.TL_textSubscript) {
-                richText2 = (TLRPC.TL_textSubscript) richText;
-            } else if (richText instanceof TLRPC.TL_textSuperscript) {
-                richText2 = (TLRPC.TL_textSuperscript) richText;
-            } else if (richText instanceof TLRPC.TL_textMarked) {
-                richText2 = (TLRPC.TL_textMarked) richText;
-            } else if (richText instanceof TLRPC.TL_textPhone) {
-                return getLastRichText(((TLRPC.TL_textPhone) richText).text);
-            }
-            return richText;
         } else {
+            if (!(richText instanceof TLRPC.TL_textUrl)) {
+                if (richText instanceof TLRPC.TL_textAnchor) {
+                    getLastRichText(((TLRPC.TL_textAnchor) richText).text);
+                } else if (richText instanceof TLRPC.TL_textSubscript) {
+                    richText2 = (TLRPC.TL_textSubscript) richText;
+                } else if (richText instanceof TLRPC.TL_textSuperscript) {
+                    richText2 = (TLRPC.TL_textSuperscript) richText;
+                } else if (richText instanceof TLRPC.TL_textMarked) {
+                    richText2 = (TLRPC.TL_textMarked) richText;
+                } else if (richText instanceof TLRPC.TL_textPhone) {
+                    return getLastRichText(((TLRPC.TL_textPhone) richText).text);
+                }
+                return richText;
+            }
             richText2 = (TLRPC.TL_textUrl) richText;
         }
         return getLastRichText(richText2.text);
@@ -12323,21 +12097,21 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 sb.append(getPlainText(richText.texts.get(i)));
             }
             return sb;
-        } else if (richText instanceof TLRPC.TL_textSubscript) {
-            return getPlainText(((TLRPC.TL_textSubscript) richText).text);
-        } else {
-            if (richText instanceof TLRPC.TL_textSuperscript) {
-                return getPlainText(((TLRPC.TL_textSuperscript) richText).text);
-            }
-            if (richText instanceof TLRPC.TL_textMarked) {
-                return getPlainText(((TLRPC.TL_textMarked) richText).text);
-            }
-            if (richText instanceof TLRPC.TL_textPhone) {
-                return getPlainText(((TLRPC.TL_textPhone) richText).text);
-            }
-            boolean z = richText instanceof TLRPC.TL_textImage;
-            return "";
         }
+        if (richText instanceof TLRPC.TL_textSubscript) {
+            return getPlainText(((TLRPC.TL_textSubscript) richText).text);
+        }
+        if (richText instanceof TLRPC.TL_textSuperscript) {
+            return getPlainText(((TLRPC.TL_textSuperscript) richText).text);
+        }
+        if (richText instanceof TLRPC.TL_textMarked) {
+            return getPlainText(((TLRPC.TL_textMarked) richText).text);
+        }
+        if (richText instanceof TLRPC.TL_textPhone) {
+            return getPlainText(((TLRPC.TL_textPhone) richText).text);
+        }
+        boolean z = richText instanceof TLRPC.TL_textImage;
+        return "";
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -12351,7 +12125,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         int i4;
         int i5;
         int i6;
-        TextPaint textPaint = null;
         if (richText2 == null) {
             return null;
         }
@@ -12374,152 +12147,150 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(getText(webPage, view, richText, ((TLRPC.TL_textEmail) richText2).text, pageBlock, i));
             MetricAffectingSpan[] metricAffectingSpanArr = (MetricAffectingSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), MetricAffectingSpan.class);
             if (spannableStringBuilder.length() != 0) {
-                if (metricAffectingSpanArr == null || metricAffectingSpanArr.length == 0) {
-                    textPaint = getTextPaint(richText, richText2, pageBlock);
-                }
-                spannableStringBuilder.setSpan(new TextPaintUrlSpan(textPaint, "mailto:" + getUrl(richText2)), 0, spannableStringBuilder.length(), 33);
+                spannableStringBuilder.setSpan(new TextPaintUrlSpan((metricAffectingSpanArr == null || metricAffectingSpanArr.length == 0) ? getTextPaint(richText, richText2, pageBlock) : null, "mailto:" + getUrl(richText2)), 0, spannableStringBuilder.length(), 33);
             }
             return spannableStringBuilder;
-        } else if (richText2 instanceof TLRPC.TL_textUrl) {
+        }
+        if (richText2 instanceof TLRPC.TL_textUrl) {
             TLRPC.TL_textUrl tL_textUrl = (TLRPC.TL_textUrl) richText2;
             SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(getText(webPage, view, richText, tL_textUrl.text, pageBlock, i));
             MetricAffectingSpan[] metricAffectingSpanArr2 = (MetricAffectingSpan[]) spannableStringBuilder2.getSpans(0, spannableStringBuilder2.length(), MetricAffectingSpan.class);
-            TextPaint textPaint2 = (metricAffectingSpanArr2 == null || metricAffectingSpanArr2.length == 0) ? getTextPaint(richText, richText2, pageBlock) : null;
-            Object textPaintWebpageUrlSpan = tL_textUrl.webpage_id != 0 ? new TextPaintWebpageUrlSpan(textPaint2, getUrl(richText2)) : new TextPaintUrlSpan(textPaint2, getUrl(richText2));
+            TextPaint textPaint = (metricAffectingSpanArr2 == null || metricAffectingSpanArr2.length == 0) ? getTextPaint(richText, richText2, pageBlock) : null;
+            Object textPaintWebpageUrlSpan = tL_textUrl.webpage_id != 0 ? new TextPaintWebpageUrlSpan(textPaint, getUrl(richText2)) : new TextPaintUrlSpan(textPaint, getUrl(richText2));
             if (spannableStringBuilder2.length() != 0) {
                 spannableStringBuilder2.setSpan(textPaintWebpageUrlSpan, 0, spannableStringBuilder2.length(), 33);
             }
             return spannableStringBuilder2;
-        } else if (richText2 instanceof TLRPC.TL_textPlain) {
+        }
+        if (richText2 instanceof TLRPC.TL_textPlain) {
             return ((TLRPC.TL_textPlain) richText2).text;
-        } else {
-            if (richText2 instanceof TLRPC.TL_textAnchor) {
-                TLRPC.TL_textAnchor tL_textAnchor = (TLRPC.TL_textAnchor) richText2;
-                SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(getText(webPage, view, richText, tL_textAnchor.text, pageBlock, i));
-                spannableStringBuilder3.setSpan(new AnchorSpan(tL_textAnchor.name), 0, spannableStringBuilder3.length(), 17);
-                return spannableStringBuilder3;
-            }
-            ?? r2 = "";
-            if (richText2 instanceof TLRPC.TL_textEmpty) {
-                return "";
-            }
-            int i7 = 1;
-            if (richText2 instanceof TLRPC.TL_textConcat) {
-                SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
-                int size = richText2.texts.size();
-                int i8 = 0;
-                while (i8 < size) {
-                    TLRPC.RichText richText3 = richText2.texts.get(i8);
-                    TLRPC.RichText lastRichText = getLastRichText(richText3);
-                    boolean z = i >= 0 && (richText3 instanceof TLRPC.TL_textUrl) && ((TLRPC.TL_textUrl) richText3).webpage_id != 0;
-                    if (z && spannableStringBuilder4.length() != 0 && spannableStringBuilder4.charAt(spannableStringBuilder4.length() - i7) != '\n') {
+        }
+        if (richText2 instanceof TLRPC.TL_textAnchor) {
+            TLRPC.TL_textAnchor tL_textAnchor = (TLRPC.TL_textAnchor) richText2;
+            SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(getText(webPage, view, richText, tL_textAnchor.text, pageBlock, i));
+            spannableStringBuilder3.setSpan(new AnchorSpan(tL_textAnchor.name), 0, spannableStringBuilder3.length(), 17);
+            return spannableStringBuilder3;
+        }
+        ?? r2 = "";
+        if (richText2 instanceof TLRPC.TL_textEmpty) {
+            return "";
+        }
+        int i7 = 1;
+        if (richText2 instanceof TLRPC.TL_textConcat) {
+            SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
+            int size = richText2.texts.size();
+            int i8 = 0;
+            while (i8 < size) {
+                TLRPC.RichText richText3 = richText2.texts.get(i8);
+                TLRPC.RichText lastRichText = getLastRichText(richText3);
+                boolean z = i >= 0 && (richText3 instanceof TLRPC.TL_textUrl) && ((TLRPC.TL_textUrl) richText3).webpage_id != 0;
+                if (z && spannableStringBuilder4.length() != 0 && spannableStringBuilder4.charAt(spannableStringBuilder4.length() - i7) != '\n') {
+                    spannableStringBuilder4.append((CharSequence) " ");
+                    spannableStringBuilder4.setSpan(new TextSelectionHelper.IgnoreCopySpannable(), spannableStringBuilder4.length() - i7, spannableStringBuilder4.length(), 33);
+                }
+                int i9 = i8;
+                int i10 = size;
+                CharSequence text = getText(webPage, view, richText, richText3, pageBlock, i);
+                int textFlags = getTextFlags(lastRichText);
+                int length = spannableStringBuilder4.length();
+                spannableStringBuilder4.append(text);
+                if (textFlags != 0 && !(text instanceof SpannableStringBuilder)) {
+                    if ((textFlags & 8) != 0 || (textFlags & 512) != 0) {
+                        String url = getUrl(richText3);
+                        if (url == null) {
+                            url = getUrl(richText);
+                        }
+                        Object textPaintWebpageUrlSpan2 = (textFlags & 512) != 0 ? new TextPaintWebpageUrlSpan(getTextPaint(richText, lastRichText, pageBlock), url) : new TextPaintUrlSpan(getTextPaint(richText, lastRichText, pageBlock), url);
+                        if (length != spannableStringBuilder4.length()) {
+                            spannableStringBuilder4.setSpan(textPaintWebpageUrlSpan2, length, spannableStringBuilder4.length(), 33);
+                        }
+                    } else if (length != spannableStringBuilder4.length()) {
+                        spannableStringBuilder4.setSpan(new TextPaintSpan(getTextPaint(richText, lastRichText, pageBlock)), length, spannableStringBuilder4.length(), 33);
+                    }
+                }
+                if (z) {
+                    i6 = i9;
+                    if (i6 != i10 - 1) {
                         spannableStringBuilder4.append((CharSequence) " ");
-                        spannableStringBuilder4.setSpan(new TextSelectionHelper.IgnoreCopySpannable(), spannableStringBuilder4.length() - i7, spannableStringBuilder4.length(), 33);
+                        spannableStringBuilder4.setSpan(new TextSelectionHelper.IgnoreCopySpannable(), spannableStringBuilder4.length() - 1, spannableStringBuilder4.length(), 33);
+                        i8 = i6 + 1;
+                        size = i10;
+                        i7 = 1;
                     }
-                    int i9 = i8;
-                    int i10 = size;
-                    CharSequence text = getText(webPage, view, richText, richText3, pageBlock, i);
-                    int textFlags = getTextFlags(lastRichText);
-                    int length = spannableStringBuilder4.length();
-                    spannableStringBuilder4.append(text);
-                    if (textFlags != 0 && !(text instanceof SpannableStringBuilder)) {
-                        if ((textFlags & 8) != 0 || (textFlags & 512) != 0) {
-                            String url = getUrl(richText3);
-                            if (url == null) {
-                                url = getUrl(richText);
-                            }
-                            Object textPaintWebpageUrlSpan2 = (textFlags & 512) != 0 ? new TextPaintWebpageUrlSpan(getTextPaint(richText, lastRichText, pageBlock), url) : new TextPaintUrlSpan(getTextPaint(richText, lastRichText, pageBlock), url);
-                            if (length != spannableStringBuilder4.length()) {
-                                spannableStringBuilder4.setSpan(textPaintWebpageUrlSpan2, length, spannableStringBuilder4.length(), 33);
-                            }
-                        } else if (length != spannableStringBuilder4.length()) {
-                            spannableStringBuilder4.setSpan(new TextPaintSpan(getTextPaint(richText, lastRichText, pageBlock)), length, spannableStringBuilder4.length(), 33);
-                        }
-                    }
-                    if (z) {
-                        i6 = i9;
-                        if (i6 != i10 - 1) {
-                            spannableStringBuilder4.append((CharSequence) " ");
-                            spannableStringBuilder4.setSpan(new TextSelectionHelper.IgnoreCopySpannable(), spannableStringBuilder4.length() - 1, spannableStringBuilder4.length(), 33);
-                            i8 = i6 + 1;
-                            size = i10;
-                            i7 = 1;
-                        }
-                    } else {
-                        i6 = i9;
-                    }
-                    i8 = i6 + 1;
-                    size = i10;
-                    i7 = 1;
-                }
-                return spannableStringBuilder4;
-            } else if (richText2 instanceof TLRPC.TL_textSubscript) {
-                return getText(webPage, view, richText, ((TLRPC.TL_textSubscript) richText2).text, pageBlock, i);
-            } else {
-                if (richText2 instanceof TLRPC.TL_textSuperscript) {
-                    return getText(webPage, view, richText, ((TLRPC.TL_textSuperscript) richText2).text, pageBlock, i);
-                }
-                if (richText2 instanceof TLRPC.TL_textMarked) {
-                    SpannableStringBuilder spannableStringBuilder5 = new SpannableStringBuilder(getText(webPage, view, richText, ((TLRPC.TL_textMarked) richText2).text, pageBlock, i));
-                    MetricAffectingSpan[] metricAffectingSpanArr3 = (MetricAffectingSpan[]) spannableStringBuilder5.getSpans(0, spannableStringBuilder5.length(), MetricAffectingSpan.class);
-                    if (spannableStringBuilder5.length() != 0) {
-                        spannableStringBuilder5.setSpan(new TextPaintMarkSpan((metricAffectingSpanArr3 == null || metricAffectingSpanArr3.length == 0) ? getTextPaint(richText, richText2, pageBlock) : null), 0, spannableStringBuilder5.length(), 33);
-                    }
-                    return spannableStringBuilder5;
-                } else if (richText2 instanceof TLRPC.TL_textPhone) {
-                    SpannableStringBuilder spannableStringBuilder6 = new SpannableStringBuilder(getText(webPage, view, richText, ((TLRPC.TL_textPhone) richText2).text, pageBlock, i));
-                    MetricAffectingSpan[] metricAffectingSpanArr4 = (MetricAffectingSpan[]) spannableStringBuilder6.getSpans(0, spannableStringBuilder6.length(), MetricAffectingSpan.class);
-                    if (spannableStringBuilder6.length() != 0) {
-                        TextPaint textPaint3 = (metricAffectingSpanArr4 == null || metricAffectingSpanArr4.length == 0) ? getTextPaint(richText, richText2, pageBlock) : null;
-                        spannableStringBuilder6.setSpan(new TextPaintUrlSpan(textPaint3, "tel:" + getUrl(richText2)), 0, spannableStringBuilder6.length(), 33);
-                    }
-                    return spannableStringBuilder6;
-                } else if (!(richText2 instanceof TLRPC.TL_textImage)) {
-                    return "not supported " + richText2;
                 } else {
-                    TLRPC.TL_textImage tL_textImage = (TLRPC.TL_textImage) richText2;
-                    TLRPC.Document documentWithId = WebPageUtils.getDocumentWithId(webPage, tL_textImage.document_id);
-                    TLRPC.Photo photoWithId = WebPageUtils.getPhotoWithId(webPage, tL_textImage.photo_id);
-                    if (documentWithId != null) {
-                        SpannableStringBuilder spannableStringBuilder7 = new SpannableStringBuilder("*");
-                        int dp = AndroidUtilities.dp(tL_textImage.w);
-                        int dp2 = AndroidUtilities.dp(tL_textImage.h);
-                        int abs = Math.abs(i);
-                        if (dp > abs) {
-                            i4 = (int) (dp2 * (abs / dp));
-                            i5 = abs;
-                        } else {
-                            i4 = dp2;
-                            i5 = dp;
-                        }
-                        if (view != null) {
-                            int themedColor = getThemedColor(Theme.key_windowBackgroundWhite);
-                            spannableStringBuilder7.setSpan(new TextPaintImageReceiverSpan(view, documentWithId, (Object) webPage, i5, i4, false, (((((float) Color.red(themedColor)) * 0.2126f) + (((float) Color.green(themedColor)) * 0.7152f)) + (((float) Color.blue(themedColor)) * 0.0722f)) / 255.0f <= 0.705f), 0, spannableStringBuilder7.length(), 33);
-                        }
-                        return spannableStringBuilder7;
-                    }
-                    if (photoWithId instanceof WebInstantView.WebPhoto) {
-                        WebInstantView.WebPhoto webPhoto = (WebInstantView.WebPhoto) photoWithId;
-                        r2 = new SpannableStringBuilder("*");
-                        int dp3 = AndroidUtilities.dp(tL_textImage.w);
-                        int dp4 = AndroidUtilities.dp(tL_textImage.h);
-                        int abs2 = Math.abs(i);
-                        if (dp3 > abs2) {
-                            i2 = (int) (dp4 * (abs2 / dp3));
-                            i3 = abs2;
-                        } else {
-                            i2 = dp4;
-                            i3 = dp3;
-                        }
-                        if (view != null) {
-                            getThemedColor(Theme.key_windowBackgroundWhite);
-                            r2.setSpan(new TextPaintImageReceiverSpan(view, webPhoto, (Object) webPage, i3, i2, false, false), 0, r2.length(), 33);
-                        }
-                    }
-                    return r2;
+                    i6 = i9;
                 }
+                i8 = i6 + 1;
+                size = i10;
+                i7 = 1;
+            }
+            return spannableStringBuilder4;
+        }
+        if (richText2 instanceof TLRPC.TL_textSubscript) {
+            return getText(webPage, view, richText, ((TLRPC.TL_textSubscript) richText2).text, pageBlock, i);
+        }
+        if (richText2 instanceof TLRPC.TL_textSuperscript) {
+            return getText(webPage, view, richText, ((TLRPC.TL_textSuperscript) richText2).text, pageBlock, i);
+        }
+        if (richText2 instanceof TLRPC.TL_textMarked) {
+            SpannableStringBuilder spannableStringBuilder5 = new SpannableStringBuilder(getText(webPage, view, richText, ((TLRPC.TL_textMarked) richText2).text, pageBlock, i));
+            MetricAffectingSpan[] metricAffectingSpanArr3 = (MetricAffectingSpan[]) spannableStringBuilder5.getSpans(0, spannableStringBuilder5.length(), MetricAffectingSpan.class);
+            if (spannableStringBuilder5.length() != 0) {
+                spannableStringBuilder5.setSpan(new TextPaintMarkSpan((metricAffectingSpanArr3 == null || metricAffectingSpanArr3.length == 0) ? getTextPaint(richText, richText2, pageBlock) : null), 0, spannableStringBuilder5.length(), 33);
+            }
+            return spannableStringBuilder5;
+        }
+        if (richText2 instanceof TLRPC.TL_textPhone) {
+            SpannableStringBuilder spannableStringBuilder6 = new SpannableStringBuilder(getText(webPage, view, richText, ((TLRPC.TL_textPhone) richText2).text, pageBlock, i));
+            MetricAffectingSpan[] metricAffectingSpanArr4 = (MetricAffectingSpan[]) spannableStringBuilder6.getSpans(0, spannableStringBuilder6.length(), MetricAffectingSpan.class);
+            if (spannableStringBuilder6.length() != 0) {
+                spannableStringBuilder6.setSpan(new TextPaintUrlSpan((metricAffectingSpanArr4 == null || metricAffectingSpanArr4.length == 0) ? getTextPaint(richText, richText2, pageBlock) : null, "tel:" + getUrl(richText2)), 0, spannableStringBuilder6.length(), 33);
+            }
+            return spannableStringBuilder6;
+        }
+        if (!(richText2 instanceof TLRPC.TL_textImage)) {
+            return "not supported " + richText2;
+        }
+        TLRPC.TL_textImage tL_textImage = (TLRPC.TL_textImage) richText2;
+        TLRPC.Document documentWithId = WebPageUtils.getDocumentWithId(webPage, tL_textImage.document_id);
+        TLRPC.Photo photoWithId = WebPageUtils.getPhotoWithId(webPage, tL_textImage.photo_id);
+        if (documentWithId != null) {
+            SpannableStringBuilder spannableStringBuilder7 = new SpannableStringBuilder("*");
+            int dp = AndroidUtilities.dp(tL_textImage.w);
+            int dp2 = AndroidUtilities.dp(tL_textImage.h);
+            int abs = Math.abs(i);
+            if (dp > abs) {
+                i4 = (int) (dp2 * (abs / dp));
+                i5 = abs;
+            } else {
+                i4 = dp2;
+                i5 = dp;
+            }
+            if (view != null) {
+                int themedColor = getThemedColor(Theme.key_windowBackgroundWhite);
+                spannableStringBuilder7.setSpan(new TextPaintImageReceiverSpan(view, documentWithId, (Object) webPage, i5, i4, false, (((((float) Color.red(themedColor)) * 0.2126f) + (((float) Color.green(themedColor)) * 0.7152f)) + (((float) Color.blue(themedColor)) * 0.0722f)) / 255.0f <= 0.705f), 0, spannableStringBuilder7.length(), 33);
+            }
+            return spannableStringBuilder7;
+        }
+        if (photoWithId instanceof WebInstantView.WebPhoto) {
+            WebInstantView.WebPhoto webPhoto = (WebInstantView.WebPhoto) photoWithId;
+            r2 = new SpannableStringBuilder("*");
+            int dp3 = AndroidUtilities.dp(tL_textImage.w);
+            int dp4 = AndroidUtilities.dp(tL_textImage.h);
+            int abs2 = Math.abs(i);
+            if (dp3 > abs2) {
+                i2 = (int) (dp4 * (abs2 / dp3));
+                i3 = abs2;
+            } else {
+                i2 = dp4;
+                i3 = dp3;
+            }
+            if (view != null) {
+                getThemedColor(Theme.key_windowBackgroundWhite);
+                r2.setSpan(new TextPaintImageReceiverSpan(view, webPhoto, (Object) webPage, i3, i2, false, false), 0, r2.length(), 33);
             }
         }
+        return r2;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -12550,67 +12321,78 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         if (!(richText instanceof TLRPC.TL_textEmail) && !(richText instanceof TLRPC.TL_textPhone)) {
             if (richText instanceof TLRPC.TL_textUrl) {
-                int i = (((TLRPC.TL_textUrl) richText).webpage_id > 0L ? 1 : (((TLRPC.TL_textUrl) richText).webpage_id == 0L ? 0 : -1));
+                long j = ((TLRPC.TL_textUrl) richText).webpage_id;
                 int textFlags = getTextFlags(richText.parentRichText);
-                return i != 0 ? textFlags | 512 : textFlags | 8;
-            } else if (richText instanceof TLRPC.TL_textSubscript) {
-                return getTextFlags(richText.parentRichText) | 128;
-            } else {
-                if (richText instanceof TLRPC.TL_textSuperscript) {
-                    return getTextFlags(richText.parentRichText) | 256;
-                }
-                if (richText instanceof TLRPC.TL_textMarked) {
-                    return getTextFlags(richText.parentRichText) | 64;
-                }
-                if (richText != null) {
-                    return getTextFlags(richText.parentRichText);
-                }
-                return 0;
+                return j != 0 ? textFlags | 512 : textFlags | 8;
             }
+            if (richText instanceof TLRPC.TL_textSubscript) {
+                return getTextFlags(richText.parentRichText) | 128;
+            }
+            if (richText instanceof TLRPC.TL_textSuperscript) {
+                return getTextFlags(richText.parentRichText) | 256;
+            }
+            if (richText instanceof TLRPC.TL_textMarked) {
+                return getTextFlags(richText.parentRichText) | 64;
+            }
+            if (richText != null) {
+                return getTextFlags(richText.parentRichText);
+            }
+            return 0;
         }
         return getTextFlags(richText.parentRichText) | 8;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x0136, code lost:
-        if (r12 == ((org.telegram.tgnet.TLRPC.TL_pageBlockAudio) r13).caption.text) goto L181;
+    /* JADX WARN: Code restructure failed: missing block: B:101:0x0035, code lost:
+    
+        if (r2 != r11) goto L91;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x0138, code lost:
-        r11 = org.telegram.ui.ArticleViewer.mediaCaptionTextPaints;
-        r12 = org.telegram.messenger.AndroidUtilities.dp(14.0f);
+    /* JADX WARN: Code restructure failed: missing block: B:132:0x0091, code lost:
+    
+        if (r12.caption == r11) goto L88;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:104:0x013f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:142:0x00a8, code lost:
+    
+        if (r12.caption == r11) goto L88;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:157:0x00d4, code lost:
+    
+        if (r2 != r11) goto L91;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:162:0x00e4, code lost:
+    
+        if (r2 != r11) goto L91;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:167:0x00f4, code lost:
+    
+        if (r2 != r11) goto L91;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:179:0x0128, code lost:
+    
+        if (r12 == ((org.telegram.tgnet.TLRPC.TL_pageBlockVideo) r13).caption.text) goto L103;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:180:0x013f, code lost:
+    
         r11 = org.telegram.ui.ArticleViewer.mediaCreditTextPaints;
         r12 = org.telegram.messenger.AndroidUtilities.dp(12.0f);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0035, code lost:
-        if (r2 != r11) goto L6;
+    /* JADX WARN: Code restructure failed: missing block: B:181:0x0138, code lost:
+    
+        r11 = org.telegram.ui.ArticleViewer.mediaCaptionTextPaints;
+        r12 = org.telegram.messenger.AndroidUtilities.dp(14.0f);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x0091, code lost:
-        if (r12.caption == r11) goto L134;
+    /* JADX WARN: Code restructure failed: missing block: B:185:0x0136, code lost:
+    
+        if (r12 == ((org.telegram.tgnet.TLRPC.TL_pageBlockAudio) r13).caption.text) goto L103;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x00a8, code lost:
-        if (r12.caption == r11) goto L134;
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0024, code lost:
+    
+        if (r2 != r11) goto L91;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x0024, code lost:
-        if (r2 != r11) goto L6;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x00d4, code lost:
-        if (r2 != r11) goto L6;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x00e4, code lost:
-        if (r2 != r11) goto L6;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:82:0x00f4, code lost:
-        if (r2 != r11) goto L6;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x0128, code lost:
-        if (r12 == ((org.telegram.tgnet.TLRPC.TL_pageBlockVideo) r13).caption.text) goto L181;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x022b  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x0245  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x0256  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x0262  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x022b  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0245  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0256  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0262  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12909,9 +12691,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (sheet2 != null) {
                 animatorSet.playTogether(sheet2.animateBackProgressTo(1.0f));
             } else {
-                animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
+                animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, (Property<WindowView, Float>) ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
             }
-            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), (int) NotificationCenter.liveLocationsChanged));
+            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.liveLocationsChanged));
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -12979,7 +12761,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             pageLayout.getX();
             AnimatorSet animatorSet2 = new AnimatorSet();
             pageLayout.getMeasuredWidth();
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.pages[0], View.TRANSLATION_X, pageLayout.getMeasuredWidth()));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.pages[0], (Property<PageLayout, Float>) View.TRANSLATION_X, pageLayout.getMeasuredWidth()));
             animatorSet2.setDuration(420L);
             animatorSet2.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.4
@@ -13044,7 +12826,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: goBack */
+    /* renamed from: goBack, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public void lambda$setParentActivity$26(final int i) {
         boolean z = false;
         if (this.pagesStack.size() <= 1) {
@@ -13059,9 +12841,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (sheet2 != null) {
                 animatorSet.playTogether(sheet2.animateBackProgressTo(1.0f));
             } else {
-                animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
+                animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, (Property<WindowView, Float>) ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
             }
-            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), (int) NotificationCenter.liveLocationsChanged));
+            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.liveLocationsChanged));
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.5
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -13126,7 +12908,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             pageLayout.getX();
             AnimatorSet animatorSet2 = new AnimatorSet();
             pageLayout.getMeasuredWidth();
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.pages[0], View.TRANSLATION_X, pageLayout.getMeasuredWidth()));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.pages[0], (Property<PageLayout, Float>) View.TRANSLATION_X, pageLayout.getMeasuredWidth()));
             animatorSet2.setDuration(420L);
             animatorSet2.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.6
@@ -13474,47 +13256,54 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Boolean lambda$openWebpageUrl$7(String str, boolean[] zArr, final Browser.Progress progress) {
-        if (Browser.isInternalUri(Uri.parse(str), zArr)) {
-            if (progress != null) {
-                progress.onEnd(new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda65
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ArticleViewer.this.lambda$openWebpageUrl$6(progress);
-                    }
-                });
-            } else {
-                Sheet sheet = this.sheet;
-                if (sheet != null) {
-                    sheet.dismiss(true);
-                }
-            }
-            Browser.openUrl(this.parentActivity, Uri.parse(str), true, true, false, progress, null, true, true);
-            return Boolean.TRUE;
+        if (!Browser.isInternalUri(Uri.parse(str), zArr)) {
+            return Boolean.FALSE;
         }
-        return Boolean.FALSE;
+        if (progress != null) {
+            progress.onEnd(new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda65
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ArticleViewer.this.lambda$openWebpageUrl$6(progress);
+                }
+            });
+        } else {
+            Sheet sheet = this.sheet;
+            if (sheet != null) {
+                sheet.dismiss(true);
+            }
+        }
+        Browser.openUrl(this.parentActivity, Uri.parse(str), true, true, false, progress, null, true, true);
+        return Boolean.TRUE;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:21:0x004f, code lost:
-        if (org.telegram.messenger.SharedConfig.inappBrowser != false) goto L24;
+    
+        if (org.telegram.messenger.SharedConfig.inappBrowser != false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x005d, code lost:
-        if ((r3.cached_page instanceof org.telegram.tgnet.TLRPC.TL_page) != false) goto L15;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0071, code lost:
-        if (org.telegram.messenger.SharedConfig.inappBrowser != false) goto L24;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0073, code lost:
-        addPageToStack(r8.url, 1);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x0079, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0079, code lost:
+    
         org.telegram.messenger.browser.Browser.openUrl(r2.parentActivity, r8.url);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x0080, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0080, code lost:
+    
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0073, code lost:
+    
+        addPageToStack(r8.url, 1);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:25:?, code lost:
+    
         return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x005d, code lost:
+    
+        if ((r3.cached_page instanceof org.telegram.tgnet.TLRPC.TL_page) != false) goto L27;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0071, code lost:
+    
+        if (org.telegram.messenger.SharedConfig.inappBrowser != false) goto L32;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13593,9 +13382,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             TLRPC.PageBlock pageBlock3 = (TLRPC.PageBlock) hashMap.get(obj);
             if (obj instanceof TLRPC.RichText) {
                 TLRPC.RichText richText = (TLRPC.RichText) obj;
+                WebpageAdapter webpageAdapter = this.pages[c].adapter;
                 String str6 = null;
                 pageBlock = pageBlock3;
-                CharSequence text = getText(this.pages[c].adapter, (View) null, richText, richText, pageBlock3, 1000);
+                CharSequence text = getText(webpageAdapter, (View) null, richText, richText, pageBlock3, 1000);
                 str3 = str6;
                 if (!TextUtils.isEmpty(text)) {
                     str2 = text.toString();
@@ -13677,12 +13467,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$setParentActivity$12(View view, int i) {
-        if (view instanceof BlockRelatedArticlesCell) {
-            BlockRelatedArticlesCell blockRelatedArticlesCell = (BlockRelatedArticlesCell) view;
-            showCopyPopup(blockRelatedArticlesCell.currentBlock.parent.articles.get(blockRelatedArticlesCell.currentBlock.num).url);
-            return true;
+        if (!(view instanceof BlockRelatedArticlesCell)) {
+            return false;
         }
-        return false;
+        BlockRelatedArticlesCell blockRelatedArticlesCell = (BlockRelatedArticlesCell) view;
+        showCopyPopup(blockRelatedArticlesCell.currentBlock.parent.articles.get(blockRelatedArticlesCell.currentBlock.num).url);
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -13745,44 +13535,52 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 ArticleViewer.this.lambda$setParentActivity$14(i2, j, tLObject, tL_error);
                             }
                         });
+                        return;
                     }
+                    return;
                 }
-            } else if (i < 0 || i >= adapter.localBlocks.size()) {
-            } else {
-                TLRPC.PageBlock pageBlock = (TLRPC.PageBlock) adapter.localBlocks.get(i);
-                TLRPC.PageBlock lastNonListPageBlock = getLastNonListPageBlock(pageBlock);
-                if (lastNonListPageBlock instanceof TL_pageBlockDetailsChild) {
-                    lastNonListPageBlock = ((TL_pageBlockDetailsChild) lastNonListPageBlock).block;
-                }
-                if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockChannel) {
-                    MessagesController.getInstance(this.currentAccount).openByUserName(ChatObject.getPublicUsername(((TLRPC.TL_pageBlockChannel) lastNonListPageBlock).channel), this.parentFragment, 2);
-                    close(false, true);
-                } else if (lastNonListPageBlock instanceof TL_pageBlockRelatedArticlesChild) {
-                    TL_pageBlockRelatedArticlesChild tL_pageBlockRelatedArticlesChild = (TL_pageBlockRelatedArticlesChild) lastNonListPageBlock;
-                    openWebpageUrl(tL_pageBlockRelatedArticlesChild.parent.articles.get(tL_pageBlockRelatedArticlesChild.num).url, null, null);
-                } else if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockDetails) {
-                    View lastNonListCell = getLastNonListCell(view);
-                    if (lastNonListCell instanceof BlockDetailsCell) {
-                        this.pressedLinkOwnerLayout = null;
-                        this.pressedLinkOwnerView = null;
-                        if (adapter.blocks.indexOf(pageBlock) < 0) {
-                            return;
-                        }
-                        TLRPC.TL_pageBlockDetails tL_pageBlockDetails = (TLRPC.TL_pageBlockDetails) lastNonListPageBlock;
-                        tL_pageBlockDetails.open = !tL_pageBlockDetails.open;
-                        int itemCount = adapter.getItemCount();
-                        adapter.updateRows();
-                        int abs = Math.abs(adapter.getItemCount() - itemCount);
-                        BlockDetailsCell blockDetailsCell = (BlockDetailsCell) lastNonListCell;
-                        blockDetailsCell.arrow.setAnimationProgressAnimated(tL_pageBlockDetails.open ? 0.0f : 1.0f);
-                        blockDetailsCell.invalidate();
-                        if (abs != 0) {
-                            int i3 = i + 1;
-                            if (tL_pageBlockDetails.open) {
-                                adapter.notifyItemRangeInserted(i3, abs);
-                            } else {
-                                adapter.notifyItemRangeRemoved(i3, abs);
-                            }
+                return;
+            }
+            if (i < 0 || i >= adapter.localBlocks.size()) {
+                return;
+            }
+            TLRPC.PageBlock pageBlock = (TLRPC.PageBlock) adapter.localBlocks.get(i);
+            TLRPC.PageBlock lastNonListPageBlock = getLastNonListPageBlock(pageBlock);
+            if (lastNonListPageBlock instanceof TL_pageBlockDetailsChild) {
+                lastNonListPageBlock = ((TL_pageBlockDetailsChild) lastNonListPageBlock).block;
+            }
+            if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockChannel) {
+                MessagesController.getInstance(this.currentAccount).openByUserName(ChatObject.getPublicUsername(((TLRPC.TL_pageBlockChannel) lastNonListPageBlock).channel), this.parentFragment, 2);
+                close(false, true);
+                return;
+            }
+            if (lastNonListPageBlock instanceof TL_pageBlockRelatedArticlesChild) {
+                TL_pageBlockRelatedArticlesChild tL_pageBlockRelatedArticlesChild = (TL_pageBlockRelatedArticlesChild) lastNonListPageBlock;
+                openWebpageUrl(tL_pageBlockRelatedArticlesChild.parent.articles.get(tL_pageBlockRelatedArticlesChild.num).url, null, null);
+                return;
+            }
+            if (lastNonListPageBlock instanceof TLRPC.TL_pageBlockDetails) {
+                View lastNonListCell = getLastNonListCell(view);
+                if (lastNonListCell instanceof BlockDetailsCell) {
+                    this.pressedLinkOwnerLayout = null;
+                    this.pressedLinkOwnerView = null;
+                    if (adapter.blocks.indexOf(pageBlock) < 0) {
+                        return;
+                    }
+                    TLRPC.TL_pageBlockDetails tL_pageBlockDetails = (TLRPC.TL_pageBlockDetails) lastNonListPageBlock;
+                    tL_pageBlockDetails.open = !tL_pageBlockDetails.open;
+                    int itemCount = adapter.getItemCount();
+                    adapter.updateRows();
+                    int abs = Math.abs(adapter.getItemCount() - itemCount);
+                    BlockDetailsCell blockDetailsCell = (BlockDetailsCell) lastNonListCell;
+                    blockDetailsCell.arrow.setAnimationProgressAnimated(tL_pageBlockDetails.open ? 0.0f : 1.0f);
+                    blockDetailsCell.invalidate();
+                    if (abs != 0) {
+                        int i3 = i + 1;
+                        if (tL_pageBlockDetails.open) {
+                            adapter.notifyItemRangeInserted(i3, abs);
+                        } else {
+                            adapter.notifyItemRangeRemoved(i3, abs);
                         }
                     }
                 }
@@ -13896,46 +13694,48 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 smoothScroller.setTargetPosition(0);
             }
             pageLayout.layoutManager.startSmoothScroll(smoothScroller);
-        } else if (pageLayout.getWebView() == null || this.actionBar.isAddressing()) {
-        } else {
-            if (this.addressBarList != null) {
-                BotWebViewContainer.MyWebView webView = pageLayout.getWebView();
-                String title = webView != null ? webView.getTitle() : null;
-                final String magic2tonsite = BotWebViewContainer.magic2tonsite(webView != null ? webView.getUrl() : null);
-                AddressBarList addressBarList = this.addressBarList;
-                Bitmap favicon = webView != null ? webView.getFavicon() : null;
-                if (TextUtils.isEmpty(title)) {
-                    title = LocaleController.getString(R.string.WebEmpty);
-                }
-                addressBarList.setCurrent(favicon, title, TextUtils.isEmpty(magic2tonsite) ? "about:blank" : magic2tonsite, new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda31
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ArticleViewer.this.lambda$setParentActivity$16(magic2tonsite);
-                    }
-                }, new Utilities.Callback() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda32
-                    @Override // org.telegram.messenger.Utilities.Callback
-                    public final void run(Object obj) {
-                        ArticleViewer.this.lambda$setParentActivity$17(pageLayout, activity, (String) obj);
-                    }
-                }, new Utilities.Callback() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda33
-                    @Override // org.telegram.messenger.Utilities.Callback
-                    public final void run(Object obj) {
-                        ArticleViewer.this.lambda$setParentActivity$18((String) obj);
-                    }
-                }, new ArticleViewer$$ExternalSyntheticLambda34(this), new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda35
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view2) {
-                        ArticleViewer.this.lambda$setParentActivity$19(magic2tonsite, pageLayout, view2);
-                    }
-                });
+            return;
+        }
+        if (pageLayout.getWebView() == null || this.actionBar.isAddressing()) {
+            return;
+        }
+        if (this.addressBarList != null) {
+            BotWebViewContainer.MyWebView webView = pageLayout.getWebView();
+            String title = webView != null ? webView.getTitle() : null;
+            final String magic2tonsite = BotWebViewContainer.magic2tonsite(webView != null ? webView.getUrl() : null);
+            AddressBarList addressBarList = this.addressBarList;
+            Bitmap favicon = webView != null ? webView.getFavicon() : null;
+            if (TextUtils.isEmpty(title)) {
+                title = LocaleController.getString(R.string.WebEmpty);
             }
-            this.actionBar.showAddress("", new Utilities.Callback() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda36
+            addressBarList.setCurrent(favicon, title, TextUtils.isEmpty(magic2tonsite) ? "about:blank" : magic2tonsite, new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda31
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ArticleViewer.this.lambda$setParentActivity$16(magic2tonsite);
+                }
+            }, new Utilities.Callback() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda32
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
-                    ArticleViewer.lambda$setParentActivity$20(ArticleViewer.PageLayout.this, activity, (String) obj);
+                    ArticleViewer.this.lambda$setParentActivity$17(pageLayout, activity, (String) obj);
+                }
+            }, new Utilities.Callback() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda33
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    ArticleViewer.this.lambda$setParentActivity$18((String) obj);
+                }
+            }, new ArticleViewer$$ExternalSyntheticLambda34(this), new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda35
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view2) {
+                    ArticleViewer.this.lambda$setParentActivity$19(magic2tonsite, pageLayout, view2);
                 }
             });
         }
+        this.actionBar.showAddress("", new Utilities.Callback() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda36
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                ArticleViewer.lambda$setParentActivity$20(ArticleViewer.PageLayout.this, activity, (String) obj);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -13953,19 +13753,25 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     public /* synthetic */ void lambda$setParentActivity$23(View view) {
         if (this.actionBar.isSearching()) {
             this.actionBar.showSearch(false, true);
-        } else if (this.actionBar.isAddressing()) {
+            return;
+        }
+        if (this.actionBar.isAddressing()) {
             this.actionBar.showAddress(false, true);
-        } else if (isFirstArticle() && this.pages[0].hasBackButton()) {
+            return;
+        }
+        if (isFirstArticle() && this.pages[0].hasBackButton()) {
             this.pages[0].back();
-        } else if (this.pagesStack.size() > 1) {
+            return;
+        }
+        if (this.pagesStack.size() > 1) {
             goBack();
+            return;
+        }
+        Sheet sheet = this.sheet;
+        if (sheet != null) {
+            sheet.dismiss(false);
         } else {
-            Sheet sheet = this.sheet;
-            if (sheet != null) {
-                sheet.dismiss(false);
-            } else {
-                close(true, true);
-            }
+            close(true, true);
         }
     }
 
@@ -14199,7 +14005,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setParentActivity$34(String str, String str2, Boolean bool) {
-        RestrictedDomainsList.getInstance().setRestricted(true, str, (TextUtils.isEmpty(str2) || TextUtils.equals(str2, str)) ? null : null);
+        RestrictedDomainsList restrictedDomainsList = RestrictedDomainsList.getInstance();
+        if (TextUtils.isEmpty(str2) || TextUtils.equals(str2, str)) {
+            str2 = null;
+        }
+        restrictedDomainsList.setRestricted(true, str, str2);
         if (bool.booleanValue()) {
             LaunchActivity.whenResumed = new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda52
                 @Override // java.lang.Runnable
@@ -14280,9 +14090,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                     str3 = this.pages[0].getWebView().getUrl();
                     frameLayout = this.pages[0].webViewContainer;
-                } else if (this.pages[0].adapter.currentPage == null) {
-                    return;
                 } else {
+                    if (this.pages[0].adapter.currentPage == null) {
+                        return;
+                    }
                     str3 = this.pages[0].adapter.currentPage.url;
                     frameLayout = this.pages[0];
                 }
@@ -14318,128 +14129,135 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 safeLastFragment = LaunchActivity.getSafeLastFragment();
                 if (safeLastFragment == null) {
                     return;
+                } else {
+                    historyFragment = new BookmarksFragment(this.sheet != null ? new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda44
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ArticleViewer.this.lambda$setParentActivity$31();
+                        }
+                    } : null, new ArticleViewer$$ExternalSyntheticLambda34(this));
                 }
-                historyFragment = new BookmarksFragment(this.sheet != null ? new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda44
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ArticleViewer.this.lambda$setParentActivity$31();
-                    }
-                } : null, new ArticleViewer$$ExternalSyntheticLambda34(this));
             } else if (num.intValue() == 8) {
                 bottomSheetParams = new BaseFragment.BottomSheetParams();
                 bottomSheetParams.transitionFromLeft = true;
                 safeLastFragment = LaunchActivity.getSafeLastFragment();
                 if (safeLastFragment == null) {
                     return;
+                } else {
+                    historyFragment = new HistoryFragment(this.sheet != null ? new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda45
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ArticleViewer.this.lambda$setParentActivity$32();
+                        }
+                    } : null, new ArticleViewer$$ExternalSyntheticLambda46(this));
                 }
-                historyFragment = new HistoryFragment(this.sheet != null ? new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda45
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ArticleViewer.this.lambda$setParentActivity$32();
-                    }
-                } : null, new ArticleViewer$$ExternalSyntheticLambda46(this));
-            } else if (num.intValue() == 9) {
-                if (this.pages[0].getWebView() != null) {
-                    this.pages[0].getWebView().goForward();
-                    return;
-                }
-                return;
-            } else if (num.intValue() == 3) {
-                if (this.pages[0].isWeb()) {
-                    if (this.pages[0].getWebView() == null) {
+            } else {
+                if (num.intValue() == 9) {
+                    if (this.pages[0].getWebView() != null) {
+                        this.pages[0].getWebView().goForward();
                         return;
                     }
-                    str = this.pages[0].getWebView().getUrl();
-                    str2 = this.pages[0].getWebView().getOpenURL();
-                    BotWebViewContainer botWebViewContainer = this.pages[0].webViewContainer;
-                } else if (this.pages[0].adapter.currentPage == null) {
-                    return;
-                } else {
-                    str = this.pages[0].adapter.currentPage.url;
-                    PageLayout pageLayout = this.pages[0];
-                    str2 = null;
-                }
-                Activity activity2 = this.parentActivity;
-                if (activity2 == null || activity2.isFinishing() || str == null) {
                     return;
                 }
-                final String hostAuthority = AndroidUtilities.getHostAuthority(str2, true);
-                final String hostAuthority2 = AndroidUtilities.getHostAuthority(str, true);
-                final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda47
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ArticleViewer.this.lambda$setParentActivity$33(str);
+                if (num.intValue() == 3) {
+                    if (this.pages[0].isWeb()) {
+                        if (this.pages[0].getWebView() == null) {
+                            return;
+                        }
+                        str = this.pages[0].getWebView().getUrl();
+                        str2 = this.pages[0].getWebView().getOpenURL();
+                        BotWebViewContainer botWebViewContainer = this.pages[0].webViewContainer;
+                    } else {
+                        if (this.pages[0].adapter.currentPage == null) {
+                            return;
+                        }
+                        str = this.pages[0].adapter.currentPage.url;
+                        PageLayout pageLayout = this.pages[0];
+                        str2 = null;
                     }
-                };
-                final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda48
-                    @Override // org.telegram.messenger.Utilities.Callback
-                    public final void run(Object obj) {
-                        ArticleViewer.this.lambda$setParentActivity$34(hostAuthority2, hostAuthority, (Boolean) obj);
-                    }
-                };
-                if (!this.pages[0].isWeb() || RestrictedDomainsList.getInstance().isRestricted(hostAuthority2) || RestrictedDomainsList.getInstance().incrementOpen(hostAuthority2) < 2) {
-                    runnable.run();
-                    return;
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity, getResourcesProvider());
-                builder.setTitle(LocaleController.getString(R.string.BrowserExternalTitle));
-                LinearLayout linearLayout = new LinearLayout(activity);
-                linearLayout.setOrientation(1);
-                TextView textView = new TextView(activity);
-                if (Build.VERSION.SDK_INT >= 21) {
-                    textView.setLetterSpacing(0.025f);
-                }
-                textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-                textView.setTextSize(1, 16.0f);
-                linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 0, 24, 0, 24, 0));
-                final CheckBoxCell checkBoxCell = new CheckBoxCell(activity, 1, null);
-                checkBoxCell.setMultiline(true);
-                checkBoxCell.getTextView().getLayoutParams().width = -1;
-                checkBoxCell.getTextView().setSingleLine(false);
-                checkBoxCell.getTextView().setMaxLines(3);
-                checkBoxCell.getTextView().setTextSize(1, 16.0f);
-                checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda49
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        ArticleViewer.lambda$setParentActivity$35(CheckBoxCell.this, view);
-                    }
-                });
-                checkBoxCell.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector), 9, 9));
-                linearLayout.addView(checkBoxCell, LayoutHelper.createLinear(-1, -2, 3, 8, 6, 8, 4));
-                textView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.BrowserExternalText)));
-                checkBoxCell.setText(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BrowserExternalCheck, hostAuthority2)), "", false, false);
-                builder.setView(linearLayout);
-                builder.setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda50
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        ArticleViewer.lambda$setParentActivity$36(CheckBoxCell.this, callback, runnable, dialogInterface, i);
-                    }
-                });
-                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda42
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        ArticleViewer.lambda$setParentActivity$37(CheckBoxCell.this, callback, dialogInterface, i);
-                    }
-                });
-                builder.show();
-                return;
-            } else if (num.intValue() != 4) {
-                if (num.intValue() == 5) {
-                    if (!this.pages[0].isWeb() || this.pages[0].getWebView() == null) {
+                    Activity activity2 = this.parentActivity;
+                    if (activity2 == null || activity2.isFinishing() || str == null) {
                         return;
                     }
-                    this.pages[0].getWebView().reload();
+                    final String hostAuthority = AndroidUtilities.getHostAuthority(str2, true);
+                    final String hostAuthority2 = AndroidUtilities.getHostAuthority(str, true);
+                    final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda47
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ArticleViewer.this.lambda$setParentActivity$33(str);
+                        }
+                    };
+                    final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda48
+                        @Override // org.telegram.messenger.Utilities.Callback
+                        public final void run(Object obj) {
+                            ArticleViewer.this.lambda$setParentActivity$34(hostAuthority2, hostAuthority, (Boolean) obj);
+                        }
+                    };
+                    if (!this.pages[0].isWeb() || RestrictedDomainsList.getInstance().isRestricted(hostAuthority2) || RestrictedDomainsList.getInstance().incrementOpen(hostAuthority2) < 2) {
+                        runnable.run();
+                        return;
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity, getResourcesProvider());
+                    builder.setTitle(LocaleController.getString(R.string.BrowserExternalTitle));
+                    LinearLayout linearLayout = new LinearLayout(activity);
+                    linearLayout.setOrientation(1);
+                    TextView textView = new TextView(activity);
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        textView.setLetterSpacing(0.025f);
+                    }
+                    textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                    textView.setTextSize(1, 16.0f);
+                    linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 0, 24, 0, 24, 0));
+                    final CheckBoxCell checkBoxCell = new CheckBoxCell(activity, 1, null);
+                    checkBoxCell.setMultiline(true);
+                    checkBoxCell.getTextView().getLayoutParams().width = -1;
+                    checkBoxCell.getTextView().setSingleLine(false);
+                    checkBoxCell.getTextView().setMaxLines(3);
+                    checkBoxCell.getTextView().setTextSize(1, 16.0f);
+                    checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda49
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            ArticleViewer.lambda$setParentActivity$35(CheckBoxCell.this, view);
+                        }
+                    });
+                    checkBoxCell.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector), 9, 9));
+                    linearLayout.addView(checkBoxCell, LayoutHelper.createLinear(-1, -2, 3, 8, 6, 8, 4));
+                    textView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.BrowserExternalText)));
+                    checkBoxCell.setText(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BrowserExternalCheck, hostAuthority2)), "", false, false);
+                    builder.setView(linearLayout);
+                    builder.setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda50
+                        @Override // android.content.DialogInterface.OnClickListener
+                        public final void onClick(DialogInterface dialogInterface, int i) {
+                            ArticleViewer.lambda$setParentActivity$36(CheckBoxCell.this, callback, runnable, dialogInterface, i);
+                        }
+                    });
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda42
+                        @Override // android.content.DialogInterface.OnClickListener
+                        public final void onClick(DialogInterface dialogInterface, int i) {
+                            ArticleViewer.lambda$setParentActivity$37(CheckBoxCell.this, callback, dialogInterface, i);
+                        }
+                    });
+                    builder.show();
                     return;
-                } else if (num.intValue() != 10 || (loader = this.pages[0].currentInstantLoader) == null || loader.getWebPage() == null) {
-                    return;
-                } else {
+                }
+                if (num.intValue() != 4) {
+                    if (num.intValue() == 5) {
+                        if (!this.pages[0].isWeb() || this.pages[0].getWebView() == null) {
+                            return;
+                        }
+                        this.pages[0].getWebView().reload();
+                        return;
+                    }
+                    if (num.intValue() != 10 || (loader = this.pages[0].currentInstantLoader) == null || loader.getWebPage() == null) {
+                        return;
+                    }
                     addPageToStack(loader.getWebPage(), null, 1);
                     return;
                 }
-            } else if (this.pages[0].isWeb()) {
-                openWebSettings();
-                return;
-            } else {
+                if (this.pages[0].isWeb()) {
+                    openWebSettings();
+                    return;
+                }
                 BottomSheet.Builder builder2 = new BottomSheet.Builder(this.parentActivity);
                 builder2.setApplyTopPadding(false);
                 LinearLayout linearLayout2 = new LinearLayout(this.parentActivity);
@@ -14482,8 +14300,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         if (this.pages[0].isWeb()) {
             if (this.pages[0].getWebView() == null) {
                 return;
+            } else {
+                str4 = this.pages[0].getWebView().getUrl();
             }
-            str4 = this.pages[0].getWebView().getUrl();
         } else if (this.pages[0].adapter.currentPage == null) {
             return;
         } else {
@@ -14552,17 +14371,15 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (this.pages[0].adapter.currentPage == null) {
                 return;
             }
-            int i3 = 1;
             if (i != 0) {
                 if (i != 1 || str == null) {
                     return;
                 }
                 if (!str.startsWith("mailto:")) {
-                    i2 = str.startsWith("tel:") ? 4 : 4;
+                    i2 = str.startsWith("tel:") ? 4 : 7;
                     AndroidUtilities.addToClipboard(str);
                     return;
                 }
-                i2 = 7;
                 str = str.substring(i2);
                 AndroidUtilities.addToClipboard(str);
                 return;
@@ -14582,7 +14399,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                     LinearLayoutManager linearLayoutManager = this.pages[0].layoutManager;
                     Sheet sheet = this.sheet;
-                    linearLayoutManager.scrollToPositionWithOffset((sheet == null || !sheet.halfSize()) ? 0 : 0, this.sheet != null ? AndroidUtilities.dp(32.0f) : 0);
+                    linearLayoutManager.scrollToPositionWithOffset((sheet == null || !sheet.halfSize()) ? 0 : 1, this.sheet != null ? AndroidUtilities.dp(32.0f) : 0);
                     checkScrollAnimated();
                     return;
                 }
@@ -14604,14 +14421,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$showPopup$2(View view, MotionEvent motionEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
-        if (motionEvent.getActionMasked() == 0 && (actionBarPopupWindow = this.popupWindow) != null && actionBarPopupWindow.isShowing()) {
-            view.getHitRect(this.popupRect);
-            if (this.popupRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
-                return false;
-            }
-            this.popupWindow.dismiss();
+        if (motionEvent.getActionMasked() != 0 || (actionBarPopupWindow = this.popupWindow) == null || !actionBarPopupWindow.isShowing()) {
             return false;
         }
+        view.getHitRect(this.popupRect);
+        if (this.popupRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
+            return false;
+        }
+        this.popupWindow.dismiss();
         return false;
     }
 
@@ -14815,7 +14632,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             sheet2.animationsLock.lock();
         }
         if (webPage2 != null) {
-            substring = (addPageToStack(webPage2, substring, i3) || substring == null) ? null : null;
+            if (addPageToStack(webPage2, substring, i3) || substring == null) {
+                substring = null;
+            }
             TLRPC.TL_messages_getWebPage tL_messages_getWebPage = new TLRPC.TL_messages_getWebPage();
             tL_messages_getWebPage.url = webPage2.url;
             TLRPC.Page page = webPage2.cached_page;
@@ -14881,7 +14700,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 final AnimatorSet animatorSet = new AnimatorSet();
                 WindowView windowView = this.windowView;
                 Property property = View.ALPHA;
-                animatorSet.playTogether(ObjectAnimator.ofFloat(windowView, property, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.containerView, property, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.windowView, View.TRANSLATION_X, AndroidUtilities.dp(56.0f), 0.0f));
+                animatorSet.playTogether(ObjectAnimator.ofFloat(windowView, (Property<WindowView, Float>) property, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.containerView, (Property<FrameLayout, Float>) property, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.windowView, (Property<WindowView, Float>) View.TRANSLATION_X, AndroidUtilities.dp(56.0f), 0.0f));
                 this.animationEndRunnable = new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -14918,22 +14737,22 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             tL_pageBlockDetails.open = true;
             return true;
-        } else if (!(lastNonListPageBlock instanceof TL_pageBlockDetailsChild)) {
+        }
+        if (!(lastNonListPageBlock instanceof TL_pageBlockDetailsChild)) {
             return false;
-        } else {
-            TL_pageBlockDetailsChild tL_pageBlockDetailsChild2 = (TL_pageBlockDetailsChild) lastNonListPageBlock;
-            TLRPC.PageBlock lastNonListPageBlock2 = getLastNonListPageBlock(tL_pageBlockDetailsChild2.block);
-            if (lastNonListPageBlock2 instanceof TLRPC.TL_pageBlockDetails) {
-                TLRPC.TL_pageBlockDetails tL_pageBlockDetails2 = (TLRPC.TL_pageBlockDetails) lastNonListPageBlock2;
-                if (!tL_pageBlockDetails2.open) {
-                    tL_pageBlockDetails2.open = true;
-                    z = true;
-                    return !openAllParentBlocks(tL_pageBlockDetailsChild2) || z;
-                }
+        }
+        TL_pageBlockDetailsChild tL_pageBlockDetailsChild2 = (TL_pageBlockDetailsChild) lastNonListPageBlock;
+        TLRPC.PageBlock lastNonListPageBlock2 = getLastNonListPageBlock(tL_pageBlockDetailsChild2.block);
+        if (lastNonListPageBlock2 instanceof TLRPC.TL_pageBlockDetails) {
+            TLRPC.TL_pageBlockDetails tL_pageBlockDetails2 = (TLRPC.TL_pageBlockDetails) lastNonListPageBlock2;
+            if (!tL_pageBlockDetails2.open) {
+                tL_pageBlockDetails2.open = true;
+                z = true;
+                return !openAllParentBlocks(tL_pageBlockDetailsChild2) || z;
             }
-            z = false;
-            if (openAllParentBlocks(tL_pageBlockDetailsChild2)) {
-            }
+        }
+        z = false;
+        if (openAllParentBlocks(tL_pageBlockDetailsChild2)) {
         }
     }
 
@@ -15037,17 +14856,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             };
             this.searchRunnable = runnable2;
             AndroidUtilities.runOnUIThread(runnable2, 400L);
-            return;
-        }
-        showSearchPanel(true);
-        if (this.pages[0].getWebView() != null) {
-            this.pages[0].getWebView().search(str, new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda61
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ArticleViewer.this.updateSearchButtons();
-                }
-            });
-            updateSearchButtons();
+        } else {
+            showSearchPanel(true);
+            if (this.pages[0].getWebView() != null) {
+                this.pages[0].getWebView().search(str, new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda61
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ArticleViewer.this.updateSearchButtons();
+                    }
+                });
+                updateSearchButtons();
+            }
         }
     }
 
@@ -15125,8 +14944,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         View findViewByPosition = this.pages[0].layoutManager.findViewByPosition(findFirstVisibleItemPosition);
         int top = findViewByPosition != null ? findViewByPosition.getTop() : 0;
+        SharedPreferences.Editor edit = ApplicationLoader.applicationContext.getSharedPreferences("articles", 0).edit();
         String str = "article" + this.pages[0].adapter.currentPage.id;
-        SharedPreferences.Editor putInt = ApplicationLoader.applicationContext.getSharedPreferences("articles", 0).edit().putInt(str, findFirstVisibleItemPosition).putInt(str + "o", top);
+        SharedPreferences.Editor putInt = edit.putInt(str, findFirstVisibleItemPosition).putInt(str + "o", top);
         String str2 = str + "r";
         Point point = AndroidUtilities.displaySize;
         putInt.putBoolean(str2, point.x > point.y).commit();
@@ -15192,13 +15012,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         if (overlayView2.checkOnTap(motionEvent)) {
                             motionEvent.setAction(3);
                         }
-                        if (motionEvent.getAction() == 0 && ArticleViewer.this.textSelectionHelperBottomSheet.isInSelectionMode() && (motionEvent.getY() < linearLayout.getTop() || motionEvent.getY() > linearLayout.getBottom())) {
-                            if (ArticleViewer.this.textSelectionHelperBottomSheet.getOverlayView(getContext()).onTouchEvent(obtain)) {
-                                return super.dispatchTouchEvent(motionEvent);
-                            }
-                            return true;
+                        if (motionEvent.getAction() != 0 || !ArticleViewer.this.textSelectionHelperBottomSheet.isInSelectionMode() || (motionEvent.getY() >= linearLayout.getTop() && motionEvent.getY() <= linearLayout.getBottom())) {
+                            return super.dispatchTouchEvent(motionEvent);
                         }
-                        return super.dispatchTouchEvent(motionEvent);
+                        if (ArticleViewer.this.textSelectionHelperBottomSheet.getOverlayView(getContext()).onTouchEvent(obtain)) {
+                            return super.dispatchTouchEvent(motionEvent);
+                        }
+                        return true;
                     }
 
                     @Override // android.widget.FrameLayout, android.view.View
@@ -15269,10 +15089,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0087  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00bd A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00be  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00ba A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0087  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00bd A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00ba A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15514,9 +15334,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.progressViewAnimation = animatorSet2;
         if (z2) {
             this.progressView.setVisibility(0);
-            this.progressViewAnimation.playTogether(ObjectAnimator.ofFloat(this.progressView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.progressView, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.progressView, View.ALPHA, 1.0f));
+            this.progressViewAnimation.playTogether(ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) View.ALPHA, 1.0f));
         } else {
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.progressView, View.SCALE_X, 0.1f), ObjectAnimator.ofFloat(this.progressView, View.SCALE_Y, 0.1f), ObjectAnimator.ofFloat(this.progressView, View.ALPHA, 0.0f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) View.SCALE_X, 0.1f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) View.SCALE_Y, 0.1f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) View.ALPHA, 0.0f));
         }
         this.progressViewAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.24
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -15550,8 +15370,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         if (this.pages[0].isWeb()) {
             if (this.pages[0].getWebView() == null) {
                 return;
+            } else {
+                frameLayout = this.pages[0].webViewContainer;
             }
-            frameLayout = this.pages[0].webViewContainer;
         } else if (this.pages[0].adapter.currentPage == null) {
             return;
         } else {
@@ -15569,12 +15390,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         int i2 = i & 1;
         if (i2 != 0 && (i & 2) != 0) {
             textPaint.setTypeface(typeface2);
-        } else if (i2 != 0) {
+            return;
+        }
+        if (i2 != 0) {
             textPaint.setTypeface(typeface3);
         } else if ((i & 2) != 0) {
             textPaint.setTypeface(typeface4);
-        } else if ((i & 4) != 0) {
         } else {
+            if ((i & 4) != 0) {
+                return;
+            }
             textPaint.setTypeface(typeface);
         }
     }
@@ -15617,10 +15442,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 this.pages[i3].setLayerType(2, null);
                 if (i == 1) {
                     this.pages[0].setTranslationX(AndroidUtilities.displaySize.x);
-                    this.pageSwitchAnimation.playTogether(ObjectAnimator.ofFloat(this.pages[0], View.TRANSLATION_X, AndroidUtilities.displaySize.x, 0.0f));
+                    this.pageSwitchAnimation.playTogether(ObjectAnimator.ofFloat(this.pages[0], (Property<PageLayout, Float>) View.TRANSLATION_X, AndroidUtilities.displaySize.x, 0.0f));
                 } else if (i == -1) {
                     this.pages[0].setTranslationX(0.0f);
-                    this.pageSwitchAnimation.playTogether(ObjectAnimator.ofFloat(this.pages[1], View.TRANSLATION_X, 0.0f, AndroidUtilities.displaySize.x));
+                    this.pageSwitchAnimation.playTogether(ObjectAnimator.ofFloat(this.pages[1], (Property<PageLayout, Float>) View.TRANSLATION_X, 0.0f, AndroidUtilities.displaySize.x));
                 }
                 this.pageSwitchAnimation.setDuration(320L);
                 this.pageSwitchAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -15709,7 +15534,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     LinearLayoutManager linearLayoutManager = this.pages[z ? 1 : 0].layoutManager;
                     Sheet sheet2 = this.sheet;
-                    linearLayoutManager.scrollToPositionWithOffset((sheet2 == null || !sheet2.halfSize()) ? 0 : 0, this.sheet != null ? AndroidUtilities.dp(32.0f) : 0);
+                    linearLayoutManager.scrollToPositionWithOffset((sheet2 == null || !sheet2.halfSize()) ? 0 : 1, this.sheet != null ? AndroidUtilities.dp(32.0f) : 0);
                 }
             } else if (obj instanceof CachedWeb) {
                 this.pages[z ? 1 : 0].setType(1);
@@ -15983,15 +15808,15 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             tL_pageBlockListItem2.parent = tL_pageBlockListItem.parent;
             tL_pageBlockListItem2.blockItem = wrapInTableBlock(tL_pageBlockListItem.blockItem, pageBlock2);
             return tL_pageBlockListItem2;
-        } else if (pageBlock instanceof TL_pageBlockOrderedListItem) {
-            TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem = (TL_pageBlockOrderedListItem) pageBlock;
-            TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem2 = new TL_pageBlockOrderedListItem();
-            tL_pageBlockOrderedListItem2.parent = tL_pageBlockOrderedListItem.parent;
-            tL_pageBlockOrderedListItem2.blockItem = wrapInTableBlock(tL_pageBlockOrderedListItem.blockItem, pageBlock2);
-            return tL_pageBlockOrderedListItem2;
-        } else {
+        }
+        if (!(pageBlock instanceof TL_pageBlockOrderedListItem)) {
             return pageBlock2;
         }
+        TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem = (TL_pageBlockOrderedListItem) pageBlock;
+        TL_pageBlockOrderedListItem tL_pageBlockOrderedListItem2 = new TL_pageBlockOrderedListItem();
+        tL_pageBlockOrderedListItem2.parent = tL_pageBlockOrderedListItem.parent;
+        tL_pageBlockOrderedListItem2.blockItem = wrapInTableBlock(tL_pageBlockOrderedListItem.blockItem, pageBlock2);
+        return tL_pageBlockOrderedListItem2;
     }
 
     protected void cancelCheckLongPress() {
@@ -16035,74 +15860,78 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         if (this.textSelectionHelper.isInSelectionMode()) {
             this.textSelectionHelper.clear();
-        } else if (this.actionBar.isSearching()) {
-            this.actionBar.showSearch(false, true);
-        } else if (this.actionBar.isAddressing()) {
-            this.actionBar.showAddress(false, true);
-        } else {
-            if (this.openUrlReqId != 0) {
-                ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.openUrlReqId, true);
-                this.openUrlReqId = 0;
-                showProgressView(true, false);
-            }
-            if (this.previewsReqId != 0) {
-                ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.previewsReqId, true);
-                this.previewsReqId = 0;
-                showProgressView(true, false);
-            }
-            saveCurrentPagePosition();
-            if (z && !z2 && removeLastPageFromStack()) {
-                return;
-            }
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
-            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidStart);
-            this.parentFragment = null;
-            try {
-                Dialog dialog = this.visibleDialog;
-                if (dialog != null) {
-                    dialog.dismiss();
-                    this.visibleDialog = null;
-                }
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            AnimatorSet animatorSet = new AnimatorSet();
-            WindowView windowView = this.windowView;
-            Property property = View.ALPHA;
-            animatorSet.playTogether(ObjectAnimator.ofFloat(windowView, property, 0.0f), ObjectAnimator.ofFloat(this.containerView, property, 0.0f), ObjectAnimator.ofFloat(this.windowView, View.TRANSLATION_X, 0.0f, AndroidUtilities.dp(56.0f)));
-            this.animationInProgress = 2;
-            this.animationEndRunnable = new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda1
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ArticleViewer.this.lambda$close$56();
-                }
-            };
-            animatorSet.setDuration(150L);
-            animatorSet.setInterpolator(this.interpolator);
-            animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.25
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (ArticleViewer.this.animationEndRunnable != null) {
-                        ArticleViewer.this.animationEndRunnable.run();
-                        ArticleViewer.this.animationEndRunnable = null;
-                    }
-                }
-            });
-            this.transitionAnimationStartTime = System.currentTimeMillis();
-            this.containerView.setLayerType(2, null);
-            animatorSet.start();
-            for (int i = 0; i < this.videoStates.size(); i++) {
-                BlockVideoCellState blockVideoCellState = (BlockVideoCellState) this.videoStates.valueAt(i);
-                Bitmap bitmap = blockVideoCellState.lastFrameBitmap;
-                if (bitmap != null) {
-                    bitmap.recycle();
-                    blockVideoCellState.lastFrameBitmap = null;
-                }
-            }
-            this.videoStates.clear();
+            return;
         }
+        if (this.actionBar.isSearching()) {
+            this.actionBar.showSearch(false, true);
+            return;
+        }
+        if (this.actionBar.isAddressing()) {
+            this.actionBar.showAddress(false, true);
+            return;
+        }
+        if (this.openUrlReqId != 0) {
+            ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.openUrlReqId, true);
+            this.openUrlReqId = 0;
+            showProgressView(true, false);
+        }
+        if (this.previewsReqId != 0) {
+            ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.previewsReqId, true);
+            this.previewsReqId = 0;
+            showProgressView(true, false);
+        }
+        saveCurrentPagePosition();
+        if (z && !z2 && removeLastPageFromStack()) {
+            return;
+        }
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingProgressDidChanged);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidStart);
+        this.parentFragment = null;
+        try {
+            Dialog dialog = this.visibleDialog;
+            if (dialog != null) {
+                dialog.dismiss();
+                this.visibleDialog = null;
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        AnimatorSet animatorSet = new AnimatorSet();
+        WindowView windowView = this.windowView;
+        Property property = View.ALPHA;
+        animatorSet.playTogether(ObjectAnimator.ofFloat(windowView, (Property<WindowView, Float>) property, 0.0f), ObjectAnimator.ofFloat(this.containerView, (Property<FrameLayout, Float>) property, 0.0f), ObjectAnimator.ofFloat(this.windowView, (Property<WindowView, Float>) View.TRANSLATION_X, 0.0f, AndroidUtilities.dp(56.0f)));
+        this.animationInProgress = 2;
+        this.animationEndRunnable = new Runnable() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                ArticleViewer.this.lambda$close$56();
+            }
+        };
+        animatorSet.setDuration(150L);
+        animatorSet.setInterpolator(this.interpolator);
+        animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.25
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (ArticleViewer.this.animationEndRunnable != null) {
+                    ArticleViewer.this.animationEndRunnable.run();
+                    ArticleViewer.this.animationEndRunnable = null;
+                }
+            }
+        });
+        this.transitionAnimationStartTime = System.currentTimeMillis();
+        this.containerView.setLayerType(2, null);
+        animatorSet.start();
+        for (int i = 0; i < this.videoStates.size(); i++) {
+            BlockVideoCellState blockVideoCellState = (BlockVideoCellState) this.videoStates.valueAt(i);
+            Bitmap bitmap = blockVideoCellState.lastFrameBitmap;
+            if (bitmap != null) {
+                bitmap.recycle();
+                blockVideoCellState.lastFrameBitmap = null;
+            }
+        }
+        this.videoStates.clear();
     }
 
     public void destroy() {
@@ -16160,7 +15989,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         BlockAudioCell blockAudioCell;
         MessageObject messageObject;
         if (i == NotificationCenter.messagePlayingDidStart) {
-            MessageObject messageObject2 = (MessageObject) objArr[0];
             if (this.pages == null) {
                 return;
             }
@@ -16201,7 +16029,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 i5++;
             }
-        } else if (i == NotificationCenter.messagePlayingProgressDidChanged) {
+        } else {
+            if (i != NotificationCenter.messagePlayingProgressDidChanged) {
+                return;
+            }
             Integer num = (Integer) objArr[0];
             if (this.pages == null) {
                 return;
@@ -16262,8 +16093,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         if (this.pagesStack.isEmpty()) {
             return false;
         }
-        ArrayList arrayList = this.pagesStack;
-        return arrayList.get(arrayList.size() - 1) instanceof TLRPC.WebPage;
+        return this.pagesStack.get(r0.size() - 1) instanceof TLRPC.WebPage;
     }
 
     public boolean isVisible() {
@@ -16297,14 +16127,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 sheet.dismiss(true);
             }
             Browser.openAsInternalIntent(this.parentActivity, str);
-        } else if (Browser.openInExternalApp(this.parentActivity, str, false)) {
+            return;
+        }
+        if (Browser.openInExternalApp(this.parentActivity, str, false)) {
+            return;
+        }
+        PageLayout pageLayout = this.pages[0];
+        if (pageLayout == null || pageLayout.getWebView() == null) {
+            Browser.openInTelegramBrowser(this.parentActivity, str, null);
         } else {
-            PageLayout pageLayout = this.pages[0];
-            if (pageLayout == null || pageLayout.getWebView() == null) {
-                Browser.openInTelegramBrowser(this.parentActivity, str, null);
-            } else {
-                this.pages[0].getWebView().loadUrl(str);
-            }
+            this.pages[0].getWebView().loadUrl(str);
         }
     }
 
@@ -16399,7 +16231,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         this.windowView.setClipChildren(true);
         this.windowView.setFocusable(false);
         FrameLayout frameLayout = new FrameLayout(activity) { // from class: org.telegram.ui.ArticleViewer.12
-            /* JADX WARN: Removed duplicated region for block: B:17:0x0059  */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x0059  */
             @Override // android.view.ViewGroup
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -16889,16 +16721,14 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         if (this.actionBar == null || (pageLayout = (pageLayoutArr = this.pages)[0]) == null || pageLayoutArr[1] == null) {
             return;
         }
-        int visibility = pageLayout.getVisibility();
-        float f = 0.0f;
-        float translationX = visibility != 0 ? 0.0f : 1.0f - (this.pages[0].getTranslationX() / this.pages[0].getWidth());
-        float f2 = 1.0f - translationX;
+        float translationX = pageLayout.getVisibility() != 0 ? 0.0f : 1.0f - (this.pages[0].getTranslationX() / this.pages[0].getWidth());
+        float f = 1.0f - translationX;
         this.actionBar.setProgress(0, this.pages[0].getProgress());
         this.actionBar.setProgress(1, this.pages[1].getProgress());
-        this.actionBar.setTransitionProgress(f2);
+        this.actionBar.setTransitionProgress(f);
         if (!this.actionBar.isAddressing() && !this.actionBar.isSearching() && (this.windowView.movingPage || this.windowView.openingPage)) {
             if (isFirstArticle() || this.pagesStack.size() > 1) {
-                float lerp = AndroidUtilities.lerp((this.pages[0].hasBackButton() || this.pagesStack.size() > 1) ? 1.0f : 0.0f, (this.pages[1].hasBackButton() || this.pagesStack.size() > 2) ? 1.0f : 1.0f, f2);
+                float lerp = AndroidUtilities.lerp((this.pages[0].hasBackButton() || this.pagesStack.size() > 1) ? 1.0f : 0.0f, (this.pages[1].hasBackButton() || this.pagesStack.size() > 2) ? 1.0f : 0.0f, f);
                 this.actionBar.backButtonDrawable.setRotation(1.0f - lerp, false);
                 this.actionBar.forwardButtonDrawable.setState(false);
                 this.actionBar.setBackButtonCached(lerp > 0.5f);
@@ -16911,7 +16741,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         this.actionBar.setBackgroundColor(0, this.page0Background.set(this.pages[0].getActionBarColor(), this.windowView.movingPage || this.windowView.openingPage));
         this.actionBar.setBackgroundColor(1, this.page1Background.set(this.pages[1].getActionBarColor(), this.windowView.movingPage || this.windowView.openingPage));
-        this.actionBar.setColors(ColorUtils.blendARGB(this.pages[0].getActionBarColor(), this.pages[1].getActionBarColor(), f2), false);
+        this.actionBar.setColors(ColorUtils.blendARGB(this.pages[0].getActionBarColor(), this.pages[1].getActionBarColor(), f), false);
         this.actionBar.setMenuType((translationX > 0.5f ? this.pages[0] : this.pages[1]).type);
         Sheet sheet = this.sheet;
         if (sheet != null) {

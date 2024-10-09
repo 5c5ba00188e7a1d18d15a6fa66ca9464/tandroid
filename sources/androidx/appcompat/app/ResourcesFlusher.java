@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.LongSparseArray;
 import java.lang.reflect.Field;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 abstract class ResourcesFlusher {
     private static Field sDrawableCacheField;
@@ -66,8 +67,8 @@ abstract class ResourcesFlusher {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x002f A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0030  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x002f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0030  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

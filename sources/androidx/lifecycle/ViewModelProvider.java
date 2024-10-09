@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.MutableCreationExtras;
 import java.lang.reflect.InvocationTargetException;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public class ViewModelProvider {
     private final CreationExtras defaultCreationExtras;
@@ -39,12 +40,12 @@ public class ViewModelProvider {
 
             public final Factory defaultFactory$lifecycle_viewmodel_release(ViewModelStoreOwner owner) {
                 Intrinsics.checkNotNullParameter(owner, "owner");
-                if (owner instanceof HasDefaultViewModelProviderFactory) {
-                    Factory defaultViewModelProviderFactory = ((HasDefaultViewModelProviderFactory) owner).getDefaultViewModelProviderFactory();
-                    Intrinsics.checkNotNullExpressionValue(defaultViewModelProviderFactory, "owner.defaultViewModelProviderFactory");
-                    return defaultViewModelProviderFactory;
+                if (!(owner instanceof HasDefaultViewModelProviderFactory)) {
+                    return NewInstanceFactory.Companion.getInstance();
                 }
-                return NewInstanceFactory.Companion.getInstance();
+                Factory defaultViewModelProviderFactory = ((HasDefaultViewModelProviderFactory) owner).getDefaultViewModelProviderFactory();
+                Intrinsics.checkNotNullExpressionValue(defaultViewModelProviderFactory, "owner.defaultViewModelProviderFactory");
+                return defaultViewModelProviderFactory;
             }
 
             public final AndroidViewModelFactory getInstance(Application application) {
@@ -73,22 +74,22 @@ public class ViewModelProvider {
         }
 
         private final ViewModel create(Class cls, Application application) {
-            if (AndroidViewModel.class.isAssignableFrom(cls)) {
-                try {
-                    ViewModel viewModel = (ViewModel) cls.getConstructor(Application.class).newInstance(application);
-                    Intrinsics.checkNotNullExpressionValue(viewModel, "{\n                try {\n…          }\n            }");
-                    return viewModel;
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException("Cannot create an instance of " + cls, e);
-                } catch (InstantiationException e2) {
-                    throw new RuntimeException("Cannot create an instance of " + cls, e2);
-                } catch (NoSuchMethodException e3) {
-                    throw new RuntimeException("Cannot create an instance of " + cls, e3);
-                } catch (InvocationTargetException e4) {
-                    throw new RuntimeException("Cannot create an instance of " + cls, e4);
-                }
+            if (!AndroidViewModel.class.isAssignableFrom(cls)) {
+                return super.create(cls);
             }
-            return super.create(cls);
+            try {
+                ViewModel viewModel = (ViewModel) cls.getConstructor(Application.class).newInstance(application);
+                Intrinsics.checkNotNullExpressionValue(viewModel, "{\n                try {\n…          }\n            }");
+                return viewModel;
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException("Cannot create an instance of " + cls, e);
+            } catch (InstantiationException e2) {
+                throw new RuntimeException("Cannot create an instance of " + cls, e2);
+            } catch (NoSuchMethodException e3) {
+                throw new RuntimeException("Cannot create an instance of " + cls, e3);
+            } catch (InvocationTargetException e4) {
+                throw new RuntimeException("Cannot create an instance of " + cls, e4);
+            }
         }
 
         @Override // androidx.lifecycle.ViewModelProvider.NewInstanceFactory, androidx.lifecycle.ViewModelProvider.Factory
@@ -246,10 +247,10 @@ public class ViewModelProvider {
     public ViewModel get(Class modelClass) {
         Intrinsics.checkNotNullParameter(modelClass, "modelClass");
         String canonicalName = modelClass.getCanonicalName();
-        if (canonicalName != null) {
-            return get("androidx.lifecycle.ViewModelProvider.DefaultKey:" + canonicalName, modelClass);
+        if (canonicalName == null) {
+            throw new IllegalArgumentException("Local and anonymous classes can not be ViewModels");
         }
-        throw new IllegalArgumentException("Local and anonymous classes can not be ViewModels");
+        return get("androidx.lifecycle.ViewModelProvider.DefaultKey:" + canonicalName, modelClass);
     }
 
     public ViewModel get(String key, Class modelClass) {
@@ -268,8 +269,8 @@ public class ViewModelProvider {
             this.store.put(key, create);
             return create;
         }
-        Factory factory = this.factory;
-        OnRequeryFactory onRequeryFactory = factory instanceof OnRequeryFactory ? (OnRequeryFactory) factory : null;
+        Object obj = this.factory;
+        OnRequeryFactory onRequeryFactory = obj instanceof OnRequeryFactory ? (OnRequeryFactory) obj : null;
         if (onRequeryFactory != null) {
             Intrinsics.checkNotNullExpressionValue(viewModel, "viewModel");
             onRequeryFactory.onRequery(viewModel);

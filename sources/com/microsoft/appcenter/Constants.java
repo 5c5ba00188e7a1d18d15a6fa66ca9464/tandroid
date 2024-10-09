@@ -2,6 +2,7 @@ package com.microsoft.appcenter;
 
 import android.content.Context;
 import com.microsoft.appcenter.utils.AppCenterLog;
+
 /* loaded from: classes.dex */
 public abstract class Constants {
     public static boolean APPLICATION_DEBUGGABLE = false;

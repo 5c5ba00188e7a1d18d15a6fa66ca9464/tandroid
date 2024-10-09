@@ -5,9 +5,11 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzdh {
@@ -31,57 +33,67 @@ public abstract class zzdh {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void zzb(StringBuilder sb, int i, String str, Object obj) {
         if (obj instanceof List) {
-            for (Object obj2 : (List) obj) {
-                zzb(sb, i, str, obj2);
+            Iterator it = ((List) obj).iterator();
+            while (it.hasNext()) {
+                zzb(sb, i, str, it.next());
             }
-        } else if (obj instanceof Map) {
-            for (Map.Entry entry : ((Map) obj).entrySet()) {
-                zzb(sb, i, str, entry);
-            }
-        } else {
-            sb.append('\n');
-            zzc(i, sb);
-            if (!str.isEmpty()) {
-                StringBuilder sb2 = new StringBuilder();
-                sb2.append(Character.toLowerCase(str.charAt(0)));
-                for (int i2 = 1; i2 < str.length(); i2++) {
-                    char charAt = str.charAt(i2);
-                    if (Character.isUpperCase(charAt)) {
-                        sb2.append("_");
-                    }
-                    sb2.append(Character.toLowerCase(charAt));
-                }
-                str = sb2.toString();
-            }
-            sb.append(str);
-            if (obj instanceof String) {
-                sb.append(": \"");
-                sb.append(zzee.zza(new zzax(((String) obj).getBytes(zzcg.zzb))));
-                sb.append('\"');
-            } else if (obj instanceof zzba) {
-                sb.append(": \"");
-                sb.append(zzee.zza((zzba) obj));
-                sb.append('\"');
-            } else if (obj instanceof zzcb) {
-                sb.append(" {");
-                zzd((zzcb) obj, sb, i + 2);
-                sb.append("\n");
-                zzc(i, sb);
-                sb.append("}");
-            } else if (!(obj instanceof Map.Entry)) {
-                sb.append(": ");
-                sb.append(obj);
-            } else {
-                sb.append(" {");
-                Map.Entry entry2 = (Map.Entry) obj;
-                int i3 = i + 2;
-                zzb(sb, i3, "key", entry2.getKey());
-                zzb(sb, i3, "value", entry2.getValue());
-                sb.append("\n");
-                zzc(i, sb);
-                sb.append("}");
-            }
+            return;
         }
+        if (obj instanceof Map) {
+            Iterator it2 = ((Map) obj).entrySet().iterator();
+            while (it2.hasNext()) {
+                zzb(sb, i, str, (Map.Entry) it2.next());
+            }
+            return;
+        }
+        sb.append('\n');
+        zzc(i, sb);
+        if (!str.isEmpty()) {
+            StringBuilder sb2 = new StringBuilder();
+            sb2.append(Character.toLowerCase(str.charAt(0)));
+            for (int i2 = 1; i2 < str.length(); i2++) {
+                char charAt = str.charAt(i2);
+                if (Character.isUpperCase(charAt)) {
+                    sb2.append("_");
+                }
+                sb2.append(Character.toLowerCase(charAt));
+            }
+            str = sb2.toString();
+        }
+        sb.append(str);
+        if (obj instanceof String) {
+            sb.append(": \"");
+            sb.append(zzee.zza(new zzax(((String) obj).getBytes(zzcg.zzb))));
+            sb.append('\"');
+            return;
+        }
+        if (obj instanceof zzba) {
+            sb.append(": \"");
+            sb.append(zzee.zza((zzba) obj));
+            sb.append('\"');
+            return;
+        }
+        if (obj instanceof zzcb) {
+            sb.append(" {");
+            zzd((zzcb) obj, sb, i + 2);
+            sb.append("\n");
+            zzc(i, sb);
+            sb.append("}");
+            return;
+        }
+        if (!(obj instanceof Map.Entry)) {
+            sb.append(": ");
+            sb.append(obj);
+            return;
+        }
+        sb.append(" {");
+        Map.Entry entry = (Map.Entry) obj;
+        int i3 = i + 2;
+        zzb(sb, i3, "key", entry.getKey());
+        zzb(sb, i3, "value", entry.getValue());
+        sb.append("\n");
+        zzc(i, sb);
+        sb.append("}");
     }
 
     private static void zzc(int i, StringBuilder sb) {

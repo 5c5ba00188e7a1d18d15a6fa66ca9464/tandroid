@@ -4,6 +4,7 @@ import com.google.android.datatransport.runtime.ProtoEncoderDoNotUse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class ClientMetrics {
     private static final ClientMetrics DEFAULT_INSTANCE = new Builder().build();

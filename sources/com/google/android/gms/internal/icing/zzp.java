@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class zzp implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

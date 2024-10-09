@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.tgnet.NativeByteBuffer;
+
 /* loaded from: classes.dex */
 public class SQLitePreparedStatement {
     private boolean isFinalized = false;
@@ -99,29 +100,30 @@ public class SQLitePreparedStatement {
     native long prepare(long j, String str);
 
     public SQLiteCursor query(Object[] objArr) {
-        if (objArr != null) {
-            checkFinalized();
-            reset(this.sqliteStatementHandle);
-            int i = 1;
-            for (Object obj : objArr) {
-                if (obj == null) {
-                    bindNull(this.sqliteStatementHandle, i);
-                } else if (obj instanceof Integer) {
-                    bindInt(this.sqliteStatementHandle, i, ((Integer) obj).intValue());
-                } else if (obj instanceof Double) {
-                    bindDouble(this.sqliteStatementHandle, i, ((Double) obj).doubleValue());
-                } else if (obj instanceof String) {
-                    bindString(this.sqliteStatementHandle, i, (String) obj);
-                } else if (!(obj instanceof Long)) {
-                    throw new IllegalArgumentException();
-                } else {
-                    bindLong(this.sqliteStatementHandle, i, ((Long) obj).longValue());
-                }
-                i++;
-            }
-            return new SQLiteCursor(this);
+        if (objArr == null) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        checkFinalized();
+        reset(this.sqliteStatementHandle);
+        int i = 1;
+        for (Object obj : objArr) {
+            if (obj == null) {
+                bindNull(this.sqliteStatementHandle, i);
+            } else if (obj instanceof Integer) {
+                bindInt(this.sqliteStatementHandle, i, ((Integer) obj).intValue());
+            } else if (obj instanceof Double) {
+                bindDouble(this.sqliteStatementHandle, i, ((Double) obj).doubleValue());
+            } else if (obj instanceof String) {
+                bindString(this.sqliteStatementHandle, i, (String) obj);
+            } else {
+                if (!(obj instanceof Long)) {
+                    throw new IllegalArgumentException();
+                }
+                bindLong(this.sqliteStatementHandle, i, ((Long) obj).longValue());
+            }
+            i++;
+        }
+        return new SQLiteCursor(this);
     }
 
     public void requery() {

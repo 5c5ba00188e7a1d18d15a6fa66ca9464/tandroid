@@ -1,7 +1,6 @@
 package org.telegram.messenger;
 
 import android.content.SharedPreferences;
-import android.os.BatteryManager;
 import android.os.Build;
 import androidx.core.math.MathUtils;
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
+
 /* loaded from: classes3.dex */
 public class LiteMode {
     private static int BATTERY_HIGH = 10;
@@ -59,22 +59,52 @@ public class LiteMode {
         onPowerSaverAppliedListeners.add(callback);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:5:0x0010, code lost:
-        if ((r0 - org.telegram.messenger.LiteMode.lastBatteryLevelChecked) > 12000) goto L8;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
+    /*  JADX ERROR: JadxRuntimeException in pass: IfRegionVisitor
+        jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v4 long, still in use, count: 2, list:
+          (r0v4 long) from 0x000a: ARITH (r0v4 long) - (wrap:long:0x0008: SGET  A[WRAPPED] org.telegram.messenger.LiteMode.lastBatteryLevelChecked long) A[WRAPPED]
+          (r0v4 long) from 0x0015: PHI (r0v2 long) = (r0v1 long), (r0v4 long) binds: [B:11:0x0013, B:4:0x0010] A[DONT_GENERATE, DONT_INLINE]
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:114)
+        	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
+        	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:67)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverse(DepthRegionTraversal.java:19)
+        	at jadx.core.dex.visitors.regions.TernaryMod.process(TernaryMod.java:35)
+        	at jadx.core.dex.visitors.regions.IfRegionVisitor.process(IfRegionVisitor.java:34)
+        	at jadx.core.dex.visitors.regions.IfRegionVisitor.visit(IfRegionVisitor.java:30)
+        */
     public static int getBatteryLevel() {
-        int intProperty;
-        long currentTimeMillis = lastBatteryLevelCached >= 0 ? System.currentTimeMillis() : 0L;
-        BatteryManager batteryManager = (BatteryManager) ApplicationLoader.applicationContext.getSystemService("batterymanager");
-        if (batteryManager != null) {
-            intProperty = batteryManager.getIntProperty(4);
-            lastBatteryLevelCached = intProperty;
-            lastBatteryLevelChecked = currentTimeMillis;
-        }
-        return lastBatteryLevelCached;
+        /*
+            int r0 = org.telegram.messenger.LiteMode.lastBatteryLevelCached
+            if (r0 < 0) goto L13
+            long r0 = java.lang.System.currentTimeMillis()
+            long r2 = org.telegram.messenger.LiteMode.lastBatteryLevelChecked
+            long r2 = r0 - r2
+            r4 = 12000(0x2ee0, double:5.929E-320)
+            int r6 = (r2 > r4 ? 1 : (r2 == r4 ? 0 : -1))
+            if (r6 <= 0) goto L2a
+            goto L15
+        L13:
+            r0 = 0
+        L15:
+            android.content.Context r2 = org.telegram.messenger.ApplicationLoader.applicationContext
+            java.lang.String r3 = "batterymanager"
+            java.lang.Object r2 = r2.getSystemService(r3)
+            android.os.BatteryManager r2 = (android.os.BatteryManager) r2
+            if (r2 == 0) goto L2a
+            r3 = 4
+            int r2 = org.telegram.messenger.LiteMode$$ExternalSyntheticApiModelOutline0.m(r2, r3)
+            org.telegram.messenger.LiteMode.lastBatteryLevelCached = r2
+            org.telegram.messenger.LiteMode.lastBatteryLevelChecked = r0
+        L2a:
+            int r0 = org.telegram.messenger.LiteMode.lastBatteryLevelCached
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.LiteMode.getBatteryLevel():int");
     }
 
     public static int getPowerSaverLevel() {
@@ -101,7 +131,8 @@ public class LiteMode {
                     onPowerSaverApplied(true);
                 }
                 return PRESET_POWER_SAVER;
-            } else if (lastPowerSaverApplied) {
+            }
+            if (lastPowerSaverApplied) {
                 lastPowerSaverApplied = false;
                 onPowerSaverApplied(false);
             }

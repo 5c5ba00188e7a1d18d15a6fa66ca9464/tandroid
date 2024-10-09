@@ -26,6 +26,7 @@ import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.TextViewSwitcher;
+
 /* loaded from: classes4.dex */
 public class DialogsEmptyCell extends LinearLayout {
     private int currentAccount;
@@ -175,30 +176,31 @@ public class DialogsEmptyCell extends LinearLayout {
         if (i4 == 0 || i4 == 1) {
             i = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824);
             measureUtyanHeight = measureUtyanHeight(i2);
-        } else if (i4 == 2 || i4 == 3) {
-            if (getParent() instanceof View) {
-                View view = (View) getParent();
-                size = view.getMeasuredHeight();
-                if (view.getPaddingTop() != 0 && Build.VERSION.SDK_INT >= 21) {
-                    size -= AndroidUtilities.statusBarHeight;
-                }
-            } else {
-                size = View.MeasureSpec.getSize(i2);
-            }
-            if (size == 0) {
-                size = (AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
-            }
-            if (getParent() instanceof BlurredRecyclerView) {
-                size -= ((BlurredRecyclerView) getParent()).blurTopPadding;
-            }
-            ArrayList<TLRPC.RecentMeUrl> arrayList = MessagesController.getInstance(this.currentAccount).hintDialogs;
-            if (!arrayList.isEmpty()) {
-                size -= (((AndroidUtilities.dp(72.0f) * arrayList.size()) + arrayList.size()) - 1) + AndroidUtilities.dp(50.0f);
-            }
-            i = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824);
-            i3 = View.MeasureSpec.makeMeasureSpec(size, 1073741824);
-            super.onMeasure(i, i3);
         } else {
+            if (i4 == 2 || i4 == 3) {
+                if (getParent() instanceof View) {
+                    View view = (View) getParent();
+                    size = view.getMeasuredHeight();
+                    if (view.getPaddingTop() != 0 && Build.VERSION.SDK_INT >= 21) {
+                        size -= AndroidUtilities.statusBarHeight;
+                    }
+                } else {
+                    size = View.MeasureSpec.getSize(i2);
+                }
+                if (size == 0) {
+                    size = (AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
+                }
+                if (getParent() instanceof BlurredRecyclerView) {
+                    size -= ((BlurredRecyclerView) getParent()).blurTopPadding;
+                }
+                ArrayList<TLRPC.RecentMeUrl> arrayList = MessagesController.getInstance(this.currentAccount).hintDialogs;
+                if (!arrayList.isEmpty()) {
+                    size -= (((AndroidUtilities.dp(72.0f) * arrayList.size()) + arrayList.size()) - 1) + AndroidUtilities.dp(50.0f);
+                }
+                i = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824);
+                i3 = View.MeasureSpec.makeMeasureSpec(size, 1073741824);
+                super.onMeasure(i, i3);
+            }
             measureUtyanHeight = AndroidUtilities.dp(166.0f);
         }
         i3 = View.MeasureSpec.makeMeasureSpec(measureUtyanHeight, 1073741824);
@@ -213,8 +215,8 @@ public class DialogsEmptyCell extends LinearLayout {
         this.onUtyanAnimationUpdateListener = consumer;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00ad  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00ad  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -233,45 +235,46 @@ public class DialogsEmptyCell extends LinearLayout {
             string = LocaleController.getString(R.string.NoChatsHelp);
             textView = this.titleView;
             i3 = R.string.NoChats;
-        } else if (i == 2) {
-            this.imageView.setAutoRepeat(false);
-            i2 = R.raw.filter_no_chats;
-            if (z) {
-                this.titleView.setText(LocaleController.getString(R.string.FilterNoChatsToForward));
-                i4 = R.string.FilterNoChatsToForwardInfo;
-            } else {
-                this.titleView.setText(LocaleController.getString(R.string.FilterNoChatsToDisplay));
-                i4 = R.string.FilterNoChatsToDisplayInfo;
-            }
-            string = LocaleController.getString(i4);
-            if (i2 == 0) {
-                this.imageView.setVisibility(0);
-                if (this.currentType == 1) {
-                    if (isUtyanAnimationTriggered()) {
-                        this.utyanCollapseProgress = 1.0f;
-                        String string2 = LocaleController.getString(R.string.NoChatsContactsHelp);
-                        if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
-                            string2 = string2.replace('\n', ' ');
-                        }
-                        this.subtitleView.setText(string2, true);
-                        requestLayout();
-                    } else {
-                        startUtyanCollapseAnimation(true);
-                    }
-                }
-                if (this.prevIcon != i2) {
-                    this.imageView.setAnimation(i2, 100, 100);
-                    this.imageView.playAnimation();
-                    this.prevIcon = i2;
-                }
-            } else {
-                this.imageView.setVisibility(8);
-            }
-            if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
-                string = string.replace('\n', ' ');
-            }
-            this.subtitleView.setText(string, false);
         } else {
+            if (i == 2) {
+                this.imageView.setAutoRepeat(false);
+                i2 = R.raw.filter_no_chats;
+                if (z) {
+                    this.titleView.setText(LocaleController.getString(R.string.FilterNoChatsToForward));
+                    i4 = R.string.FilterNoChatsToForwardInfo;
+                } else {
+                    this.titleView.setText(LocaleController.getString(R.string.FilterNoChatsToDisplay));
+                    i4 = R.string.FilterNoChatsToDisplayInfo;
+                }
+                string = LocaleController.getString(i4);
+                if (i2 == 0) {
+                    this.imageView.setVisibility(0);
+                    if (this.currentType == 1) {
+                        if (isUtyanAnimationTriggered()) {
+                            this.utyanCollapseProgress = 1.0f;
+                            String string2 = LocaleController.getString(R.string.NoChatsContactsHelp);
+                            if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
+                                string2 = string2.replace('\n', ' ');
+                            }
+                            this.subtitleView.setText(string2, true);
+                            requestLayout();
+                        } else {
+                            startUtyanCollapseAnimation(true);
+                        }
+                    }
+                    if (this.prevIcon != i2) {
+                        this.imageView.setAnimation(i2, 100, 100);
+                        this.imageView.playAnimation();
+                        this.prevIcon = i2;
+                    }
+                } else {
+                    this.imageView.setVisibility(8);
+                }
+                if (AndroidUtilities.isTablet() && !AndroidUtilities.isSmallTablet()) {
+                    string = string.replace('\n', ' ');
+                }
+                this.subtitleView.setText(string, false);
+            }
             this.imageView.setAutoRepeat(true);
             i2 = R.raw.filter_new;
             string = LocaleController.getString(R.string.FilterAddingChatsInfo);

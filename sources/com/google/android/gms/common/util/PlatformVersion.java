@@ -1,6 +1,7 @@
 package com.google.android.gms.common.util;
 
 import android.os.Build;
+
 /* loaded from: classes.dex */
 public abstract class PlatformVersion {
     public static boolean isAtLeastIceCreamSandwich() {

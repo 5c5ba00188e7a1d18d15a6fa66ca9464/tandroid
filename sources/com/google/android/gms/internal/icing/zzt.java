@@ -3,6 +3,7 @@ package com.google.android.gms.internal.icing;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+
 /* loaded from: classes.dex */
 public final class zzt implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator
@@ -26,28 +27,28 @@ public final class zzt implements Parcelable.Creator {
                 switch (fieldId) {
                     case 1:
                         str = SafeParcelReader.createString(parcel, readHeader);
-                        continue;
+                        break;
                     case 2:
                         str2 = SafeParcelReader.createString(parcel, readHeader);
-                        continue;
+                        break;
                     case 3:
                         z = SafeParcelReader.readBoolean(parcel, readHeader);
-                        continue;
+                        break;
                     case 4:
                         i = SafeParcelReader.readInt(parcel, readHeader);
-                        continue;
+                        break;
                     case 5:
                         z2 = SafeParcelReader.readBoolean(parcel, readHeader);
-                        continue;
+                        break;
                     case 6:
                         str3 = SafeParcelReader.createString(parcel, readHeader);
-                        continue;
+                        break;
                     case 7:
                         zzmVarArr = (zzm[]) SafeParcelReader.createTypedArray(parcel, readHeader, zzm.CREATOR);
-                        continue;
+                        break;
                     default:
                         SafeParcelReader.skipUnknownField(parcel, readHeader);
-                        continue;
+                        break;
                 }
             } else {
                 zzuVar = (zzu) SafeParcelReader.createParcelable(parcel, readHeader, zzu.CREATOR);

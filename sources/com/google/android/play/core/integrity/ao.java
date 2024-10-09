@@ -1,6 +1,7 @@
 package com.google.android.play.core.integrity;
 
 import android.os.Build;
+
 /* loaded from: classes.dex */
 final class ao extends IntegrityTokenRequest {
     private final String a;
@@ -38,11 +39,11 @@ final class ao extends IntegrityTokenRequest {
                         return z;
                     }
                     ao aoVar = (ao) obj;
-                    if (z) {
-                        Object obj2 = aoVar.c;
-                        return true;
+                    if (!z) {
+                        return false;
                     }
-                    return false;
+                    Object obj2 = aoVar.c;
+                    return true;
                 }
             }
         }

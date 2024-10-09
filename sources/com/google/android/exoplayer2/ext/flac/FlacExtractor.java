@@ -26,6 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.nio.ByteBuffer;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class FlacExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.ext.flac.FlacExtractor$$ExternalSyntheticLambda0
@@ -188,22 +189,22 @@ public final class FlacExtractor implements Extractor {
         try {
             decodeStreamMetadata(extractorInput);
             FlacBinarySearchSeeker flacBinarySearchSeeker = this.binarySearchSeeker;
-            if (flacBinarySearchSeeker == null || !flacBinarySearchSeeker.isSeeking()) {
-                ByteBuffer byteBuffer = this.outputFrameHolder.byteBuffer;
-                long decodePosition = initDecoderJni.getDecodePosition();
-                try {
-                    initDecoderJni.decodeSampleWithBacktrackPosition(byteBuffer, decodePosition);
-                    int limit = byteBuffer.limit();
-                    if (limit == 0) {
-                        return -1;
-                    }
-                    outputSample(this.outputBuffer, limit, initDecoderJni.getLastFrameTimestamp(), this.trackOutput);
-                    return initDecoderJni.isEndOfData() ? -1 : 0;
-                } catch (FlacDecoderJni.FlacFrameDecodeException e) {
-                    throw new IOException("Cannot read frame at position " + decodePosition, e);
-                }
+            if (flacBinarySearchSeeker != null && flacBinarySearchSeeker.isSeeking()) {
+                return handlePendingSeek(extractorInput, positionHolder, this.outputBuffer, this.outputFrameHolder, this.trackOutput);
             }
-            return handlePendingSeek(extractorInput, positionHolder, this.outputBuffer, this.outputFrameHolder, this.trackOutput);
+            ByteBuffer byteBuffer = this.outputFrameHolder.byteBuffer;
+            long decodePosition = initDecoderJni.getDecodePosition();
+            try {
+                initDecoderJni.decodeSampleWithBacktrackPosition(byteBuffer, decodePosition);
+                int limit = byteBuffer.limit();
+                if (limit == 0) {
+                    return -1;
+                }
+                outputSample(this.outputBuffer, limit, initDecoderJni.getLastFrameTimestamp(), this.trackOutput);
+                return initDecoderJni.isEndOfData() ? -1 : 0;
+            } catch (FlacDecoderJni.FlacFrameDecodeException e) {
+                throw new IOException("Cannot read frame at position " + decodePosition, e);
+            }
         } finally {
             initDecoderJni.clearData();
         }

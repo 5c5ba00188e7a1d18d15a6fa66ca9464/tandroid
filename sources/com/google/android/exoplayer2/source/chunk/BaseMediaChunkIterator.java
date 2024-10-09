@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.source.chunk;
 
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 public abstract class BaseMediaChunkIterator implements MediaChunkIterator {
     private long currentIndex;

@@ -24,6 +24,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public abstract class VideoSeekPreviewImage extends View {
     private Paint bitmapPaint;
@@ -168,8 +169,7 @@ public abstract class VideoSeekPreviewImage extends View {
             tL_document.attributes.add(tL_documentAttributeFilename);
             tL_document.attributes.add(new TLRPC.TL_documentAttributeVideo());
             if (FileLoader.getInstance(intValue).isLoadingFile(FileLoader.getAttachFileName(tL_document))) {
-                File directory = FileLoader.getDirectory(4);
-                pathToAttach = new File(directory, tL_document.dc_id + "_" + tL_document.id + ".temp");
+                pathToAttach = new File(FileLoader.getDirectory(4), tL_document.dc_id + "_" + tL_document.id + ".temp");
             } else {
                 pathToAttach = FileLoader.getInstance(intValue).getPathToAttach(tL_document, false);
             }
@@ -236,7 +236,7 @@ public abstract class VideoSeekPreviewImage extends View {
             this.pendingProgress = f;
             return;
         }
-        int max = Math.max((int) NotificationCenter.storyQualityUpdate, AndroidUtilities.dp(100.0f));
+        int max = Math.max(NotificationCenter.storyQualityUpdate, AndroidUtilities.dp(100.0f));
         final Bitmap frameAtTime = this.fileDrawable.getFrameAtTime(j);
         if (frameAtTime != null) {
             int width = frameAtTime.getWidth();
@@ -324,9 +324,10 @@ public abstract class VideoSeekPreviewImage extends View {
             this.matrix.preScale(measuredWidth, measuredWidth);
             this.bitmapRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
             canvas.drawRoundRect(this.bitmapRect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.bitmapPaint);
-        } else if (!this.isYoutube) {
-            return;
         } else {
+            if (!this.isYoutube) {
+                return;
+            }
             canvas.save();
             this.ytPath.rewind();
             RectF rectF = AndroidUtilities.rectTmp;
@@ -335,8 +336,7 @@ public abstract class VideoSeekPreviewImage extends View {
             canvas.clipPath(this.ytPath);
             canvas.scale(getWidth() / this.ytImageWidth, getHeight() / this.ytImageHeight);
             canvas.translate(-this.ytImageX, -this.ytImageY);
-            ImageReceiver imageReceiver = this.youtubeBoardsReceiver;
-            imageReceiver.setImageCoords(0.0f, 0.0f, imageReceiver.getBitmapWidth(), this.youtubeBoardsReceiver.getBitmapHeight());
+            this.youtubeBoardsReceiver.setImageCoords(0.0f, 0.0f, r0.getBitmapWidth(), this.youtubeBoardsReceiver.getBitmapHeight());
             this.youtubeBoardsReceiver.draw(canvas);
             canvas.restore();
         }
@@ -368,7 +368,6 @@ public abstract class VideoSeekPreviewImage extends View {
     }
 
     public void setProgress(final float f, int i) {
-        String formatShortDuration;
         this.webView = null;
         this.isYoutube = false;
         this.youtubeBoardsReceiver.setImageBitmap((Drawable) null);
@@ -377,12 +376,13 @@ public abstract class VideoSeekPreviewImage extends View {
             int i2 = ((int) (i * f)) / 5;
             if (this.currentPixel == i2) {
                 return;
+            } else {
+                this.currentPixel = i2;
             }
-            this.currentPixel = i2;
         }
         final long j = ((float) this.duration) * f;
         this.frameTime = AndroidUtilities.formatShortDuration((int) (j / 1000));
-        this.timeWidth = (int) Math.ceil(this.textPaint.measureText(formatShortDuration));
+        this.timeWidth = (int) Math.ceil(this.textPaint.measureText(r8));
         invalidate();
         if (this.progressRunnable != null) {
             Utilities.globalQueue.cancelRunnable(this.progressRunnable);
@@ -410,12 +410,12 @@ public abstract class VideoSeekPreviewImage extends View {
             int i2 = ((int) (i * f)) / 5;
             if (this.currentPixel == i2) {
                 return;
+            } else {
+                this.currentPixel = i2;
             }
-            this.currentPixel = i2;
         }
-        String formatShortDuration = AndroidUtilities.formatShortDuration((int) ((photoViewerWebView.getVideoDuration() * f) / 1000));
-        this.frameTime = formatShortDuration;
-        this.timeWidth = (int) Math.ceil(this.textPaint.measureText(formatShortDuration));
+        this.frameTime = AndroidUtilities.formatShortDuration((int) ((photoViewerWebView.getVideoDuration() * f) / 1000));
+        this.timeWidth = (int) Math.ceil(this.textPaint.measureText(r10));
         invalidate();
         if (this.progressRunnable != null) {
             Utilities.globalQueue.cancelRunnable(this.progressRunnable);

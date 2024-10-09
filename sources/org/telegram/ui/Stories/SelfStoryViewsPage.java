@@ -87,6 +87,7 @@ import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
+
 /* loaded from: classes4.dex */
 public abstract class SelfStoryViewsPage extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private int TOP_PADDING;
@@ -278,12 +279,12 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                             });
                             addIf.addView(messageContainsEmojiButton);
                             z = true;
-                            if (addIf.getItemsCount() <= 0 || z) {
-                                addIf.show();
-                                SelfStoryViewsPage.this.performHapticFeedback(0, 1);
-                                return true;
+                            if (addIf.getItemsCount() > 0 && !z) {
+                                return false;
                             }
-                            return false;
+                            addIf.show();
+                            SelfStoryViewsPage.this.performHapticFeedback(0, 1);
+                            return true;
                         }
                     } else {
                         r2 = this;
@@ -297,7 +298,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                 return true;
             }
             z = false;
-            if (addIf.getItemsCount() <= 0) {
+            if (addIf.getItemsCount() > 0) {
             }
             addIf.show();
         }
@@ -715,12 +716,12 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
             return viewHolder.getItemViewType() == 1;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:115:0x01ee  */
-        /* JADX WARN: Removed duplicated region for block: B:116:0x01fa  */
-        /* JADX WARN: Removed duplicated region for block: B:66:0x0135  */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x0141  */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x015a  */
-        /* JADX WARN: Removed duplicated region for block: B:78:0x015e  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x0135  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x015a  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x015e  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x0141  */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x01ee  */
+        /* JADX WARN: Removed duplicated region for block: B:91:0x01fa  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -730,7 +731,6 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
             TLRPC.Message message;
             TLRPC.Chat chat;
             TLRPC.User user;
-            TLRPC.Message message2;
             TLRPC.Reaction reaction;
             boolean z;
             ReactedUserHolderView reactedUserHolderView;
@@ -752,7 +752,6 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
             boolean z6;
             long j2;
             TL_stories.StoryItem storyItem2;
-            TLRPC.Message message3;
             boolean z7;
             boolean z8;
             float f;
@@ -810,25 +809,26 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                         j = tL_storyReaction.date;
                         storyItem = null;
                         z3 = true;
-                    } else if (!(storyReaction2 instanceof TL_stories.TL_storyReactionPublicRepost)) {
-                        if (storyReaction2 instanceof TL_stories.TL_storyReactionPublicForward) {
-                            long j3 = storyReaction2.message != null ? message2.date : 0L;
-                            SelfStoryViewsView.StoryItemInternal storyItemInternal = SelfStoryViewsPage.this.storyItem;
-                            reaction = null;
-                            z = false;
-                            reactedUserHolderView = reactedUserHolderView3;
-                            user2 = user;
-                            chat2 = chat;
-                            j = j3;
-                            storyItem = storyItemInternal == null ? null : storyItemInternal.storyItem;
-                            z2 = true;
-                            z3 = true;
-                        }
-                        int i3 = i >= this.items.size() - 1 ? ((Item) this.items.get(i + 1)).viewType : -1;
-                        reactedUserHolderView3.drawDivider = i3 != 1 || i3 == 11 || i3 == 12;
-                        reactedUserHolderView3.animateAlpha(1.0f, false);
-                        return;
                     } else {
+                        if (!(storyReaction2 instanceof TL_stories.TL_storyReactionPublicRepost)) {
+                            if (storyReaction2 instanceof TL_stories.TL_storyReactionPublicForward) {
+                                long j3 = storyReaction2.message != null ? r2.date : 0L;
+                                SelfStoryViewsView.StoryItemInternal storyItemInternal = SelfStoryViewsPage.this.storyItem;
+                                reaction = null;
+                                z = false;
+                                reactedUserHolderView = reactedUserHolderView3;
+                                user2 = user;
+                                chat2 = chat;
+                                j = j3;
+                                storyItem = storyItemInternal == null ? null : storyItemInternal.storyItem;
+                                z2 = true;
+                                z3 = true;
+                            }
+                            int i3 = i >= this.items.size() - 1 ? ((Item) this.items.get(i + 1)).viewType : -1;
+                            reactedUserHolderView3.drawDivider = i3 != 1 || i3 == 11 || i3 == 12;
+                            reactedUserHolderView3.animateAlpha(1.0f, false);
+                            return;
+                        }
                         z2 = false;
                         z3 = true;
                         reaction = null;
@@ -866,7 +866,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
             } else {
                 i2 = 11;
                 if (storyView3 instanceof TL_stories.TL_storyViewPublicForward) {
-                    long j4 = storyView3.message != null ? message3.date : 0L;
+                    long j4 = storyView3.message != null ? r5.date : 0L;
                     SelfStoryViewsView.StoryItemInternal storyItemInternal2 = SelfStoryViewsPage.this.storyItem;
                     TL_stories.StoryItem storyItem4 = storyItemInternal2 == null ? null : storyItemInternal2.storyItem;
                     chat3 = null;
@@ -916,10 +916,10 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             FlickerLoadingView flickerLoadingView;
             int i2;
-            LinkSpanDrawable.LinksTextView linksTextView;
+            View view;
             switch (i) {
                 case 0:
-                    linksTextView = new View(SelfStoryViewsPage.this.getContext()) { // from class: org.telegram.ui.Stories.SelfStoryViewsPage.ListAdapter.1
+                    view = new View(SelfStoryViewsPage.this.getContext()) { // from class: org.telegram.ui.Stories.SelfStoryViewsPage.ListAdapter.1
                         @Override // android.view.View
                         protected void onMeasure(int i3, int i4) {
                             super.onMeasure(i3, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(SelfStoryViewsPage.this.TOP_PADDING), 1073741824));
@@ -929,7 +929,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                 case 1:
                     int i3 = ReactedUserHolderView.STYLE_STORY;
                     SelfStoryViewsPage selfStoryViewsPage = SelfStoryViewsPage.this;
-                    linksTextView = new ReactedUserHolderView(i3, selfStoryViewsPage.currentAccount, selfStoryViewsPage.getContext(), SelfStoryViewsPage.this.resourcesProvider, false, true) { // from class: org.telegram.ui.Stories.SelfStoryViewsPage.ListAdapter.2
+                    view = new ReactedUserHolderView(i3, selfStoryViewsPage.currentAccount, selfStoryViewsPage.getContext(), SelfStoryViewsPage.this.resourcesProvider, false, true) { // from class: org.telegram.ui.Stories.SelfStoryViewsPage.ListAdapter.2
                         @Override // org.telegram.ui.Cells.ReactedUserHolderView
                         public void openStory(long j, Runnable runnable) {
                             BaseFragment lastFragment = LaunchActivity.getLastFragment();
@@ -945,7 +945,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                 case 2:
                 case 9:
                 default:
-                    linksTextView = new View(SelfStoryViewsPage.this.getContext()) { // from class: org.telegram.ui.Stories.SelfStoryViewsPage.ListAdapter.3
+                    view = new View(SelfStoryViewsPage.this.getContext()) { // from class: org.telegram.ui.Stories.SelfStoryViewsPage.ListAdapter.3
                         @Override // android.view.View
                         protected void onMeasure(int i4, int i5) {
                             int lastItemHeight = SelfStoryViewsPage.this.layoutManager.getLastItemHeight();
@@ -957,14 +957,14 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                     };
                     break;
                 case 3:
-                    linksTextView = new FixedHeightEmptyCell(SelfStoryViewsPage.this.getContext(), 70);
+                    view = new FixedHeightEmptyCell(SelfStoryViewsPage.this.getContext(), 70);
                     break;
                 case 4:
                     flickerLoadingView = new FlickerLoadingView(SelfStoryViewsPage.this.getContext(), SelfStoryViewsPage.this.resourcesProvider);
                     flickerLoadingView.setIsSingleCell(true);
                     flickerLoadingView.setViewType(28);
                     flickerLoadingView.showDate(false);
-                    linksTextView = flickerLoadingView;
+                    view = flickerLoadingView;
                     break;
                 case 5:
                 case 7:
@@ -1011,7 +1011,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                         }
                         stickerEmptyView.subtitle.setText(spannableStringBuilder);
                         stickerEmptyView.showProgress(false, false);
-                        linksTextView = stickerEmptyView;
+                        view = stickerEmptyView;
                         break;
                     } else {
                         stickerEmptyView.title.setVisibility(0);
@@ -1025,7 +1025,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                     }
                     stickerEmptyView.setSubtitle(LocaleController.getString(i2));
                     stickerEmptyView.showProgress(false, false);
-                    linksTextView = stickerEmptyView;
+                    view = stickerEmptyView;
                 case 6:
                     flickerLoadingView = new FlickerLoadingView(SelfStoryViewsPage.this.getContext(), SelfStoryViewsPage.this.resourcesProvider);
                     flickerLoadingView.setIsSingleCell(true);
@@ -1033,31 +1033,31 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                     flickerLoadingView.setItemsCount(20);
                     flickerLoadingView.setViewType(28);
                     flickerLoadingView.showDate(false);
-                    linksTextView = flickerLoadingView;
+                    view = flickerLoadingView;
                     break;
                 case 11:
                 case 12:
-                    LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(SelfStoryViewsPage.this.getContext());
-                    linksTextView2.setTextSize(1, 13.0f);
-                    linksTextView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, SelfStoryViewsPage.this.resourcesProvider));
-                    linksTextView2.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText, SelfStoryViewsPage.this.resourcesProvider));
+                    LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(SelfStoryViewsPage.this.getContext());
+                    linksTextView.setTextSize(1, 13.0f);
+                    linksTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, SelfStoryViewsPage.this.resourcesProvider));
+                    linksTextView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText, SelfStoryViewsPage.this.resourcesProvider));
                     int dp = AndroidUtilities.dp(16.0f);
                     int dp2 = AndroidUtilities.dp(21.0f);
-                    linksTextView2.setPadding(dp2, dp, dp2, dp);
-                    linksTextView2.setMaxLines(ConnectionsManager.DEFAULT_DATACENTER_ID);
-                    linksTextView2.setGravity(17);
-                    linksTextView2.setDisablePaddingsOffsetY(true);
-                    linksTextView2.setText(i == 11 ? AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StoryViewsPremiumHint), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$ListAdapter$$ExternalSyntheticLambda0
+                    linksTextView.setPadding(dp2, dp, dp2, dp);
+                    linksTextView.setMaxLines(ConnectionsManager.DEFAULT_DATACENTER_ID);
+                    linksTextView.setGravity(17);
+                    linksTextView.setDisablePaddingsOffsetY(true);
+                    linksTextView.setText(i == 11 ? AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StoryViewsPremiumHint), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$ListAdapter$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             SelfStoryViewsPage.ListAdapter.this.lambda$onCreateViewHolder$0();
                         }
                     }) : LocaleController.getString(R.string.ServerErrorViewersFull));
-                    linksTextView2.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                    linksTextView = linksTextView2;
+                    linksTextView.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                    view = linksTextView;
                     break;
             }
-            return new RecyclerListView.Holder(linksTextView);
+            return new RecyclerListView.Holder(view);
         }
 
         public void updateRows() {
@@ -1066,24 +1066,26 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
             this.items.clear();
             SelfStoryViewsPage selfStoryViewsPage = SelfStoryViewsPage.this;
             ViewsModel viewsModel = selfStoryViewsPage.currentModel;
-            int i = 0;
+            int i = 6;
+            int i2 = 0;
             if (selfStoryViewsPage.isSearchDebounce) {
-                this.items.add(new Item(0));
+                this.items.add(new Item(i2));
                 arrayList = this.items;
-                item = new Item(6);
+                item = new Item(i);
             } else {
-                this.items.add(new Item(0));
+                this.items.add(new Item(i2));
                 if (viewsModel == null || viewsModel.getCount() > 0 || (!viewsModel.isExpiredViews && (viewsModel.loading || viewsModel.hasNext))) {
                     if (viewsModel != null) {
+                        int i3 = 1;
                         if (viewsModel.isChannel) {
-                            while (i < viewsModel.reactions.size()) {
-                                this.items.add(new Item(1, (TL_stories.StoryReaction) viewsModel.reactions.get(i)));
-                                i++;
+                            while (i2 < viewsModel.reactions.size()) {
+                                this.items.add(new Item(i3, (TL_stories.StoryReaction) viewsModel.reactions.get(i2)));
+                                i2++;
                             }
                         } else {
-                            while (i < viewsModel.views.size()) {
-                                this.items.add(new Item(1, (TL_stories.StoryView) viewsModel.views.get(i)));
-                                i++;
+                            while (i2 < viewsModel.views.size()) {
+                                this.items.add(new Item(i3, (TL_stories.StoryView) viewsModel.views.get(i2)));
+                                i2++;
                             }
                         }
                     }
@@ -1100,29 +1102,32 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                         item = new Item(11);
                     } else if (viewsModel.getCount() <= 0) {
                         arrayList = this.items;
-                        item = new Item(6);
+                        item = new Item(i);
                     } else {
                         arrayList = this.items;
                         item = new Item(4);
                     }
-                } else if (!TextUtils.isEmpty(viewsModel.state.searchQuery)) {
+                } else if (TextUtils.isEmpty(viewsModel.state.searchQuery)) {
+                    int i4 = 5;
+                    if (viewsModel.isExpiredViews) {
+                        arrayList = this.items;
+                        item = new Item(i4);
+                    } else {
+                        int i5 = viewsModel.totalCount;
+                        if (i5 > 0 && viewsModel.state.contactsOnly) {
+                            arrayList = this.items;
+                            item = new Item(8);
+                        } else if (i5 > 0) {
+                            arrayList = this.items;
+                            item = new Item(10);
+                        } else {
+                            arrayList = this.items;
+                            item = new Item(i4);
+                        }
+                    }
+                } else {
                     arrayList = this.items;
                     item = new Item(7);
-                } else if (viewsModel.isExpiredViews) {
-                    arrayList = this.items;
-                    item = new Item(5);
-                } else {
-                    int i2 = viewsModel.totalCount;
-                    if (i2 > 0 && viewsModel.state.contactsOnly) {
-                        arrayList = this.items;
-                        item = new Item(8);
-                    } else if (i2 > 0) {
-                        arrayList = this.items;
-                        item = new Item(10);
-                    } else {
-                        arrayList = this.items;
-                        item = new Item(5);
-                    }
                 }
             }
             arrayList.add(item);
@@ -1438,13 +1443,12 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
             if (this.loading || !this.hasNext || this.isExpiredViews) {
                 return;
             }
-            int i = 100;
             if (this.isChannel) {
                 TL_stories.TL_getStoryReactionsList tL_getStoryReactionsList = new TL_stories.TL_getStoryReactionsList();
                 tL_getStoryReactionsList.forwards_first = this.state.sortByReactions;
                 tL_getStoryReactionsList.id = this.storyItem.id;
                 tL_getStoryReactionsList.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-                tL_getStoryReactionsList.limit = (this.initial || this.reactions.size() < 20) ? 20 : 20;
+                tL_getStoryReactionsList.limit = (this.initial || this.reactions.size() < 20) ? 20 : 100;
                 String str = this.offset;
                 tL_getStoryReactionsList.offset = str;
                 if (str == null) {
@@ -1481,7 +1485,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                 tL_stories_getStoryViewsList.just_contacts = filtersState.contactsOnly;
                 tL_stories_getStoryViewsList.reactions_first = filtersState.sortByReactions;
             }
-            tL_stories_getStoryViewsList.limit = (this.initial || this.views.size() < 20) ? 20 : 20;
+            tL_stories_getStoryViewsList.limit = (this.initial || this.views.size() < 20) ? 20 : 100;
             String str3 = this.offset;
             tL_stories_getStoryViewsList.offset = str3;
             if (str3 == null) {
@@ -1657,25 +1661,25 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
         if (storyView == null) {
             return true;
         }
-        if (!MessagesController.getInstance(this.currentAccount).getStoriesController().isBlocked(storyView) && MessagesController.getInstance(this.currentAccount).blockePeers.indexOfKey(storyView.user_id) < 0) {
-            TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(storyView.user_id));
-            SelfStoryViewsView.StoryItemInternal storyItemInternal = this.storyItem;
-            if (storyItemInternal != null) {
-                TL_stories.StoryItem storyItem = storyItemInternal.storyItem;
-                if (storyItem != null) {
-                    if (storyItem.parsedPrivacy == null) {
-                        storyItem.parsedPrivacy = new StoryPrivacyBottomSheet.StoryPrivacy(this.currentAccount, storyItem.privacy);
-                    }
-                    return this.storyItem.storyItem.parsedPrivacy.containsUser(user);
-                }
-                StoriesController.UploadingStory uploadingStory = storyItemInternal.uploadingStory;
-                if (uploadingStory != null && (storyEntry = uploadingStory.entry) != null && (storyPrivacy = storyEntry.privacy) != null) {
-                    return storyPrivacy.containsUser(user);
-                }
-            }
-            return true;
+        if (MessagesController.getInstance(this.currentAccount).getStoriesController().isBlocked(storyView) || MessagesController.getInstance(this.currentAccount).blockePeers.indexOfKey(storyView.user_id) >= 0) {
+            return false;
         }
-        return false;
+        TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(storyView.user_id));
+        SelfStoryViewsView.StoryItemInternal storyItemInternal = this.storyItem;
+        if (storyItemInternal != null) {
+            TL_stories.StoryItem storyItem = storyItemInternal.storyItem;
+            if (storyItem != null) {
+                if (storyItem.parsedPrivacy == null) {
+                    storyItem.parsedPrivacy = new StoryPrivacyBottomSheet.StoryPrivacy(this.currentAccount, storyItem.privacy);
+                }
+                return this.storyItem.storyItem.parsedPrivacy.containsUser(user);
+            }
+            StoriesController.UploadingStory uploadingStory = storyItemInternal.uploadingStory;
+            if (uploadingStory != null && (storyEntry = uploadingStory.entry) != null && (storyPrivacy = storyEntry.privacy) != null) {
+                return storyPrivacy.containsUser(user);
+            }
+        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1700,25 +1704,26 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                 TL_stories.StoryReaction storyReaction = item.reaction;
                 if (storyReaction instanceof TL_stories.TL_storyReaction) {
                     peerDialogId = DialogObject.getPeerDialogId(storyReaction.peer_id);
-                } else if (!(storyReaction instanceof TL_stories.TL_storyReactionPublicRepost)) {
-                    boolean z = storyReaction instanceof TL_stories.TL_storyReactionPublicForward;
-                    if (z || (storyView instanceof TL_stories.TL_storyViewPublicForward)) {
-                        TLRPC.Message message = z ? storyReaction.message : storyView.message;
-                        Bundle bundle = new Bundle();
-                        long peerDialogId2 = DialogObject.getPeerDialogId(message.peer_id);
-                        if (peerDialogId2 >= 0) {
-                            str = "user_id";
-                        } else {
-                            peerDialogId2 = -peerDialogId2;
-                            str = "chat_id";
-                        }
-                        bundle.putLong(str, peerDialogId2);
-                        bundle.putInt("message_id", message.id);
-                        chatActivity = new ChatActivity(bundle);
-                        storyViewer.presentFragment(chatActivity);
-                    }
-                    return;
                 } else {
+                    if (!(storyReaction instanceof TL_stories.TL_storyReactionPublicRepost)) {
+                        boolean z = storyReaction instanceof TL_stories.TL_storyReactionPublicForward;
+                        if (z || (storyView instanceof TL_stories.TL_storyViewPublicForward)) {
+                            TLRPC.Message message = z ? storyReaction.message : storyView.message;
+                            Bundle bundle = new Bundle();
+                            long peerDialogId2 = DialogObject.getPeerDialogId(message.peer_id);
+                            if (peerDialogId2 >= 0) {
+                                str = "user_id";
+                            } else {
+                                peerDialogId2 = -peerDialogId2;
+                                str = "chat_id";
+                            }
+                            bundle.putLong(str, peerDialogId2);
+                            bundle.putInt("message_id", message.id);
+                            chatActivity = new ChatActivity(bundle);
+                            storyViewer.presentFragment(chatActivity);
+                        }
+                        return;
+                    }
                     createOverlayStoryViewer = storyViewer.fragment.createOverlayStoryViewer();
                     context = getContext();
                     storyItem = ((TL_stories.TL_storyReactionPublicRepost) item.reaction).story;
@@ -1795,25 +1800,30 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
         replaceableIconDrawable.setIcon(i, z);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:140:0x0223, code lost:
-        if (r17.currentModel.isChannel != false) goto L56;
+    /* JADX WARN: Code restructure failed: missing block: B:148:0x0223, code lost:
+    
+        if (r17.currentModel.isChannel != false) goto L76;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x013d, code lost:
-        if (r17.currentModel.isChannel != false) goto L56;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x013d, code lost:
+    
+        if (r17.currentModel.isChannel != false) goto L76;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:76:0x013f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x013f, code lost:
+    
         r3 = org.telegram.messenger.R.string.Reactions;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:77:0x0142, code lost:
-        r3 = org.telegram.messenger.R.string.Viewers;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:78:0x0144, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0144, code lost:
+    
         r2.setText(org.telegram.messenger.LocaleController.getString(r3));
         r17.searchField.setVisibility(8);
         r17.headerView.setVisibility(8);
      */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x01f6  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x01f9  */
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x0142, code lost:
+    
+        r3 = org.telegram.messenger.R.string.Viewers;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x01f6  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x01f9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1949,21 +1959,24 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
                     }
                     i3++;
                 }
+                return;
             }
-        } else if (this.storyItem.uploadingStory == null || (stories = MessagesController.getInstance(this.currentAccount).storiesController.getStories(UserConfig.getInstance(this.currentAccount).clientUserId)) == null) {
-        } else {
-            while (i3 < stories.stories.size()) {
-                TL_stories.StoryItem storyItem = stories.stories.get(i3);
-                String str = storyItem.attachPath;
-                if (str != null && str.equals(this.storyItem.uploadingStory.path)) {
-                    SelfStoryViewsView.StoryItemInternal storyItemInternal = this.storyItem;
-                    storyItemInternal.uploadingStory = null;
-                    storyItemInternal.storyItem = storyItem;
-                    setStoryItem(this.dialogId, storyItemInternal);
-                    return;
-                }
-                i3++;
+            return;
+        }
+        if (this.storyItem.uploadingStory == null || (stories = MessagesController.getInstance(this.currentAccount).storiesController.getStories(UserConfig.getInstance(this.currentAccount).clientUserId)) == null) {
+            return;
+        }
+        while (i3 < stories.stories.size()) {
+            TL_stories.StoryItem storyItem = stories.stories.get(i3);
+            String str = storyItem.attachPath;
+            if (str != null && str.equals(this.storyItem.uploadingStory.path)) {
+                SelfStoryViewsView.StoryItemInternal storyItemInternal = this.storyItem;
+                storyItemInternal.uploadingStory = null;
+                storyItemInternal.storyItem = storyItem;
+                setStoryItem(this.dialogId, storyItemInternal);
+                return;
             }
+            i3++;
         }
     }
 
@@ -2007,14 +2020,14 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
 
     @Override // android.view.ViewGroup
     protected boolean drawChild(Canvas canvas, View view, long j) {
-        if (view == this.recyclerListView) {
-            canvas.save();
-            canvas.clipRect(0, AndroidUtilities.dp(this.TOP_PADDING), getMeasuredWidth(), getMeasuredHeight());
-            super.drawChild(canvas, view, j);
-            canvas.restore();
-            return true;
+        if (view != this.recyclerListView) {
+            return super.drawChild(canvas, view, j);
         }
-        return super.drawChild(canvas, view, j);
+        canvas.save();
+        canvas.clipRect(0, AndroidUtilities.dp(this.TOP_PADDING), getMeasuredWidth(), getMeasuredHeight());
+        super.drawChild(canvas, view, j);
+        canvas.restore();
+        return true;
     }
 
     public float getTopOffset() {
@@ -2081,13 +2094,13 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
         if (customPopupMenu != null && customPopupMenu.isShowing()) {
             this.popupMenu.dismiss();
             return true;
-        } else if (Math.abs(this.topViewsContainer.getTranslationY() - this.recyclerListView.getPaddingTop()) > AndroidUtilities.dp(2.0f)) {
-            this.recyclerListView.dispatchTouchEvent(AndroidUtilities.emptyMotionEvent());
-            this.recyclerListView.smoothScrollToPosition(0);
-            return true;
-        } else {
+        }
+        if (Math.abs(this.topViewsContainer.getTranslationY() - this.recyclerListView.getPaddingTop()) <= AndroidUtilities.dp(2.0f)) {
             return false;
         }
+        this.recyclerListView.dispatchTouchEvent(AndroidUtilities.emptyMotionEvent());
+        this.recyclerListView.smoothScrollToPosition(0);
+        return true;
     }
 
     public void onDataRecieved(ViewsModel viewsModel) {

@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Tasks;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
 /* loaded from: classes.dex */
 public abstract class OptionalModuleUtils {
     public static final Feature[] EMPTY_FEATURES = new Feature[0];

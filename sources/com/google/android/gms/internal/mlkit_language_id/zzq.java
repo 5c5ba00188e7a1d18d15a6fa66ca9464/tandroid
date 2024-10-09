@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.io.PrintStream;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class zzq {
     private static final zzt zza;
@@ -17,7 +18,7 @@ public abstract class zzq {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0062  */
     static {
         Integer num;
         zzt zzaVar;

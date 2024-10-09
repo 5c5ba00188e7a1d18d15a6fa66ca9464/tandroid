@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class Ac3Reader implements ElementaryStreamReader {
     private int bytesRead;

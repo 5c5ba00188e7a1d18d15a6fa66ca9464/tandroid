@@ -36,6 +36,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
@@ -54,6 +55,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextSelectionHelper$$ExternalSyntheticApiModelOutline4;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.QuoteSpan;
+
 /* loaded from: classes3.dex */
 public class EditTextBoldCursor extends EditTextEffects {
     private static Class editorClass;
@@ -302,9 +304,10 @@ public class EditTextBoldCursor extends EditTextEffects {
             AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.hintAnimatedDrawable;
             if (animatedTextDrawable != null && !TextUtils.isEmpty(animatedTextDrawable.getText()) && (this.hintVisible || this.hintAlpha != 0.0f)) {
                 if (this.hintAnimatedDrawable2 != null) {
-                    int i = ((this.hintAnimatedDrawable.getCurrentWidth() + this.hintAnimatedDrawable2.getCurrentWidth()) > getMeasuredWidth() ? 1 : ((this.hintAnimatedDrawable.getCurrentWidth() + this.hintAnimatedDrawable2.getCurrentWidth()) == getMeasuredWidth() ? 0 : -1));
+                    float currentWidth = this.hintAnimatedDrawable.getCurrentWidth() + this.hintAnimatedDrawable2.getCurrentWidth();
+                    float measuredWidth = getMeasuredWidth();
                     canvas.save();
-                    if (i >= 0) {
+                    if (currentWidth >= measuredWidth) {
                         canvas.translate(this.rightHintOffset, 0.0f);
                         this.hintAnimatedDrawable2.setAlpha((int) (Color.alpha(this.hintColor) * this.hintAlpha));
                         this.hintAnimatedDrawable2.draw(canvas);
@@ -312,6 +315,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                         this.hintAnimatedDrawable.setRightPadding((this.hintAnimatedDrawable2.getCurrentWidth() + AndroidUtilities.dp(2.0f)) - this.rightHintOffset);
                         this.hintAnimatedDrawable.setAlpha((int) (Color.alpha(this.hintColor) * this.hintAlpha));
                         this.hintAnimatedDrawable.draw(canvas);
+                        return;
                     }
                     canvas.translate((this.hintAnimatedDrawable2.getCurrentWidth() - getMeasuredWidth()) + this.hintAnimatedDrawable.getCurrentWidth(), 0.0f);
                     this.hintAnimatedDrawable2.setAlpha((int) (Color.alpha(this.hintColor) * this.hintAlpha));
@@ -321,20 +325,22 @@ public class EditTextBoldCursor extends EditTextEffects {
                 this.hintAnimatedDrawable.setRightPadding(0.0f);
                 this.hintAnimatedDrawable.setAlpha((int) (Color.alpha(this.hintColor) * this.hintAlpha));
                 this.hintAnimatedDrawable.draw(canvas);
-            } else if (this.hintLayout != null) {
+                return;
+            }
+            if (this.hintLayout != null) {
                 if (this.hintVisible || this.hintAlpha != 0.0f) {
                     int color = getPaint().getColor();
                     canvas.save();
                     float lineLeft = this.hintLayout.getLineLeft(0);
                     float lineWidth = this.hintLayout.getLineWidth(0);
-                    int i2 = lineLeft != 0.0f ? (int) (0 - lineLeft) : 0;
+                    int i = lineLeft != 0.0f ? (int) (0 - lineLeft) : 0;
                     if (this.supportRtlHint && LocaleController.isRTL) {
-                        scrollX = i2 + getScrollX() + (getMeasuredWidth() - lineWidth);
+                        scrollX = i + getScrollX() + (getMeasuredWidth() - lineWidth);
                         this.hintLayoutX = scrollX;
                         height = this.lineY - this.hintLayout.getHeight();
                         dp2 = AndroidUtilities.dp(7.0f);
                     } else {
-                        scrollX = i2 + getScrollX();
+                        scrollX = i + getScrollX();
                         this.hintLayoutX = scrollX;
                         height = this.lineY - this.hintLayout.getHeight();
                         dp2 = AndroidUtilities.dp2(7.0f);
@@ -489,10 +495,10 @@ public class EditTextBoldCursor extends EditTextEffects {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$startActionMode$1() {
         FloatingActionMode floatingActionMode = this.floatingActionMode;
-        if (floatingActionMode != null) {
-            floatingActionMode.updateViewLocationInWindow();
+        if (floatingActionMode == null) {
             return true;
         }
+        floatingActionMode.updateViewLocationInWindow();
         return true;
     }
 
@@ -555,9 +561,10 @@ public class EditTextBoldCursor extends EditTextEffects {
         boolean z2;
         if (z) {
             z2 = false;
-        } else if (this.fixed) {
-            return;
         } else {
+            if (this.fixed) {
+                return;
+            }
             z2 = true;
             try {
                 if (editorClass == null) {
@@ -606,25 +613,25 @@ public class EditTextBoldCursor extends EditTextEffects {
     @Override // android.widget.TextView
     public int getExtendedPaddingBottom() {
         int i = this.ignoreBottomCount;
-        if (i != 0) {
-            this.ignoreBottomCount = i - 1;
-            int i2 = this.scrollY;
-            if (i2 != Integer.MAX_VALUE) {
-                return -i2;
-            }
-            return 0;
+        if (i == 0) {
+            return super.getExtendedPaddingBottom();
         }
-        return super.getExtendedPaddingBottom();
+        this.ignoreBottomCount = i - 1;
+        int i2 = this.scrollY;
+        if (i2 != Integer.MAX_VALUE) {
+            return -i2;
+        }
+        return 0;
     }
 
     @Override // android.widget.TextView
     public int getExtendedPaddingTop() {
         int i = this.ignoreTopCount;
-        if (i != 0) {
-            this.ignoreTopCount = i - 1;
-            return 0;
+        if (i == 0) {
+            return super.getExtendedPaddingTop();
         }
-        return super.getExtendedPaddingTop();
+        this.ignoreTopCount = i - 1;
+        return 0;
     }
 
     public float getHeaderAnimationProgress() {
@@ -719,19 +726,19 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x0277  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x02a8  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x02ab  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x02be  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x02c7  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x02c9  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x02e4  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x02ee  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x030c  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x0323  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0342  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x014c A[Catch: all -> 0x00c0, TryCatch #0 {all -> 0x00c0, blocks: (B:35:0x009e, B:37:0x00a2, B:39:0x00a6, B:41:0x00b8, B:48:0x00c9, B:51:0x00cf, B:53:0x00d6, B:55:0x00de, B:60:0x0104, B:62:0x014c, B:64:0x014f, B:65:0x0154, B:56:0x00f1, B:58:0x00f9, B:47:0x00c5), top: B:159:0x009e }] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0205 A[Catch: all -> 0x01a7, TryCatch #1 {all -> 0x01a7, blocks: (B:74:0x0185, B:76:0x018c, B:78:0x0194, B:85:0x01bd, B:87:0x0205, B:89:0x0208, B:90:0x020d, B:81:0x01aa, B:83:0x01b2), top: B:161:0x0185 }] */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x014c A[Catch: all -> 0x00c0, TryCatch #0 {all -> 0x00c0, blocks: (B:112:0x009e, B:114:0x00a2, B:116:0x00a6, B:118:0x00b8, B:121:0x00c9, B:124:0x00cf, B:126:0x00d6, B:128:0x00de, B:129:0x0104, B:131:0x014c, B:133:0x014f, B:134:0x0154, B:137:0x00f1, B:139:0x00f9, B:141:0x00c5), top: B:111:0x009e }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0277  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x02c7  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x02e4  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x030c  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0323  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0342  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x02ee  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x02c9  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x02a8  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x02be  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x02ab  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0205 A[Catch: all -> 0x01a7, TryCatch #1 {all -> 0x01a7, blocks: (B:89:0x0185, B:91:0x018c, B:93:0x0194, B:94:0x01bd, B:96:0x0205, B:98:0x0208, B:99:0x020d, B:102:0x01aa, B:104:0x01b2), top: B:88:0x0185 }] */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1449,17 +1456,18 @@ public class EditTextBoldCursor extends EditTextEffects {
         }
         this.isTextWatchersSuppressed = z;
         if (z) {
-            for (TextWatcher textWatcher : this.registeredTextWatchers) {
-                super.removeTextChangedListener(textWatcher);
+            Iterator<TextWatcher> it = this.registeredTextWatchers.iterator();
+            while (it.hasNext()) {
+                super.removeTextChangedListener(it.next());
             }
             return;
         }
-        for (TextWatcher textWatcher2 : this.registeredTextWatchers) {
-            super.addTextChangedListener(textWatcher2);
+        for (TextWatcher textWatcher : this.registeredTextWatchers) {
+            super.addTextChangedListener(textWatcher);
             if (z2) {
-                textWatcher2.beforeTextChanged("", 0, length(), length());
-                textWatcher2.onTextChanged(getText(), 0, length(), length());
-                textWatcher2.afterTextChanged(getText());
+                textWatcher.beforeTextChanged("", 0, length(), length());
+                textWatcher.onTextChanged(getText(), 0, length(), length());
+                textWatcher.afterTextChanged(getText());
             }
         }
     }

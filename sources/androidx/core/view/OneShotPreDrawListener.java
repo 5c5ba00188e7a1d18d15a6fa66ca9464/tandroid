@@ -2,6 +2,7 @@ package androidx.core.view;
 
 import android.view.View;
 import android.view.ViewTreeObserver;
+
 /* loaded from: classes.dex */
 public final class OneShotPreDrawListener implements ViewTreeObserver.OnPreDrawListener, View.OnAttachStateChangeListener {
     private final Runnable mRunnable;
@@ -15,16 +16,16 @@ public final class OneShotPreDrawListener implements ViewTreeObserver.OnPreDrawL
     }
 
     public static OneShotPreDrawListener add(View view, Runnable runnable) {
-        if (view != null) {
-            if (runnable != null) {
-                OneShotPreDrawListener oneShotPreDrawListener = new OneShotPreDrawListener(view, runnable);
-                view.getViewTreeObserver().addOnPreDrawListener(oneShotPreDrawListener);
-                view.addOnAttachStateChangeListener(oneShotPreDrawListener);
-                return oneShotPreDrawListener;
-            }
+        if (view == null) {
+            throw new NullPointerException("view == null");
+        }
+        if (runnable == null) {
             throw new NullPointerException("runnable == null");
         }
-        throw new NullPointerException("view == null");
+        OneShotPreDrawListener oneShotPreDrawListener = new OneShotPreDrawListener(view, runnable);
+        view.getViewTreeObserver().addOnPreDrawListener(oneShotPreDrawListener);
+        view.addOnAttachStateChangeListener(oneShotPreDrawListener);
+        return oneShotPreDrawListener;
     }
 
     @Override // android.view.ViewTreeObserver.OnPreDrawListener

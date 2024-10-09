@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.MissingFormatArgumentException;
 import org.json.JSONArray;
 import org.json.JSONException;
+
 /* loaded from: classes.dex */
 public class NotificationParams {
     private final Bundle data;
@@ -113,13 +114,13 @@ public class NotificationParams {
         }
         int[] iArr = new int[3];
         try {
-            if (jSONArray.length() == 3) {
-                iArr[0] = getLightColor(jSONArray.optString(0));
-                iArr[1] = jSONArray.optInt(1);
-                iArr[2] = jSONArray.optInt(2);
-                return iArr;
+            if (jSONArray.length() != 3) {
+                throw new JSONException("lightSettings don't have all three fields");
             }
-            throw new JSONException("lightSettings don't have all three fields");
+            iArr[0] = getLightColor(jSONArray.optString(0));
+            iArr[1] = jSONArray.optInt(1);
+            iArr[2] = jSONArray.optInt(2);
+            return iArr;
         } catch (IllegalArgumentException e) {
             String valueOf = String.valueOf(jSONArray);
             String message = e.getMessage();
@@ -238,16 +239,16 @@ public class NotificationParams {
         if (integer == null) {
             return null;
         }
-        if (integer.intValue() < 0) {
-            String valueOf = String.valueOf(integer);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 67);
-            sb.append("notificationCount is invalid: ");
-            sb.append(valueOf);
-            sb.append(". Skipping setting notificationCount.");
-            Log.w("FirebaseMessaging", sb.toString());
-            return null;
+        if (integer.intValue() >= 0) {
+            return integer;
         }
-        return integer;
+        String valueOf = String.valueOf(integer);
+        StringBuilder sb = new StringBuilder(valueOf.length() + 67);
+        sb.append("notificationCount is invalid: ");
+        sb.append(valueOf);
+        sb.append(". Skipping setting notificationCount.");
+        Log.w("FirebaseMessaging", sb.toString());
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -256,16 +257,16 @@ public class NotificationParams {
         if (integer == null) {
             return null;
         }
-        if (integer.intValue() < -2 || integer.intValue() > 2) {
-            String valueOf = String.valueOf(integer);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 72);
-            sb.append("notificationPriority is invalid ");
-            sb.append(valueOf);
-            sb.append(". Skipping setting notificationPriority.");
-            Log.w("FirebaseMessaging", sb.toString());
-            return null;
+        if (integer.intValue() >= -2 && integer.intValue() <= 2) {
+            return integer;
         }
-        return integer;
+        String valueOf = String.valueOf(integer);
+        StringBuilder sb = new StringBuilder(valueOf.length() + 72);
+        sb.append("notificationPriority is invalid ");
+        sb.append(valueOf);
+        sb.append(". Skipping setting notificationPriority.");
+        Log.w("FirebaseMessaging", sb.toString());
+        return null;
     }
 
     public String getPossiblyLocalizedString(Resources resources, String str, String str2) {
@@ -288,15 +289,15 @@ public class NotificationParams {
             return null;
         }
         try {
-            if (jSONArray.length() > 1) {
-                int length = jSONArray.length();
-                long[] jArr = new long[length];
-                for (int i = 0; i < length; i++) {
-                    jArr[i] = jSONArray.optLong(i);
-                }
-                return jArr;
+            if (jSONArray.length() <= 1) {
+                throw new JSONException("vibrateTimings have invalid length");
             }
-            throw new JSONException("vibrateTimings have invalid length");
+            int length = jSONArray.length();
+            long[] jArr = new long[length];
+            for (int i = 0; i < length; i++) {
+                jArr[i] = jSONArray.optLong(i);
+            }
+            return jArr;
         } catch (NumberFormatException | JSONException unused) {
             String valueOf = String.valueOf(jSONArray);
             StringBuilder sb = new StringBuilder(valueOf.length() + 74);
@@ -314,16 +315,16 @@ public class NotificationParams {
         if (integer == null) {
             return null;
         }
-        if (integer.intValue() < -1 || integer.intValue() > 1) {
-            String valueOf = String.valueOf(integer);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 53);
-            sb.append("visibility is invalid: ");
-            sb.append(valueOf);
-            sb.append(". Skipping setting visibility.");
-            Log.w("NotificationParams", sb.toString());
-            return null;
+        if (integer.intValue() >= -1 && integer.intValue() <= 1) {
+            return integer;
         }
-        return integer;
+        String valueOf = String.valueOf(integer);
+        StringBuilder sb = new StringBuilder(valueOf.length() + 53);
+        sb.append("visibility is invalid: ");
+        sb.append(valueOf);
+        sb.append(". Skipping setting visibility.");
+        Log.w("NotificationParams", sb.toString());
+        return null;
     }
 
     public Bundle paramsForAnalyticsIntent() {

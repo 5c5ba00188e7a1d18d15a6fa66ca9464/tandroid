@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class ChooserTargetServiceCompat extends ChooserTargetService {
 
@@ -87,12 +88,12 @@ public class ChooserTargetServiceCompat extends ChooserTargetService {
                 while (true) {
                     if (i >= length) {
                         break;
-                    } else if (intentFilter.hasDataType(targetDataArr[i].mMimeType)) {
+                    }
+                    if (intentFilter.hasDataType(targetDataArr[i].mMimeType)) {
                         arrayList.add(shareTargetCompat);
                         break;
-                    } else {
-                        i++;
                     }
+                    i++;
                 }
             }
         }

@@ -44,6 +44,7 @@ import org.telegram.ui.Stories.ProfileStoriesView;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
+
 /* loaded from: classes4.dex */
 public abstract class ProfileStoriesView extends View implements NotificationCenter.NotificationCenterDelegate {
     private float actionBarProgress;
@@ -460,24 +461,23 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
                 }
                 profileStoriesView.drawArc(canvas2, rectF, f6, f5, z, paint);
                 return;
-            } else if (storyCircle4 == null && storyCircle3 == null) {
+            }
+            if (storyCircle4 == null && storyCircle3 == null) {
                 return;
-            } else {
-                if (storyCircle4 == null) {
-                    storyCircle4 = storyCircle3;
+            }
+            if (storyCircle4 == null) {
+                storyCircle4 = storyCircle3;
+            }
+            float centerX4 = storyCircle4.borderRect.centerX();
+            float width4 = storyCircle4.borderRect.width() / 2.0f;
+            float centerX5 = storyCircle2.borderRect.centerX();
+            if (Math.abs(centerX4 - centerX5) <= width4 + (storyCircle2.borderRect.width() / 2.0f)) {
+                if (centerX4 > centerX5) {
+                    float degrees4 = (float) Math.toDegrees(Math.acos(Math.abs((((centerX4 - width4) + (centerX5 + r7)) / 2.0f) - centerX5) / r7));
+                    drawArc(canvas, storyCircle2.borderRect, degrees4, 360.0f - (2.0f * degrees4), false, paint);
+                    return;
                 }
-                float centerX4 = storyCircle4.borderRect.centerX();
-                float width4 = storyCircle4.borderRect.width() / 2.0f;
-                float centerX5 = storyCircle2.borderRect.centerX();
-                float width5 = storyCircle2.borderRect.width() / 2.0f;
-                if (Math.abs(centerX4 - centerX5) <= width4 + width5) {
-                    if (centerX4 > centerX5) {
-                        float degrees4 = (float) Math.toDegrees(Math.acos(Math.abs((((centerX4 - width4) + (centerX5 + width5)) / 2.0f) - centerX5) / width5));
-                        drawArc(canvas, storyCircle2.borderRect, degrees4, 360.0f - (2.0f * degrees4), false, paint);
-                        return;
-                    }
-                    degrees = (float) Math.toDegrees(Math.acos(Math.abs((((centerX4 + width4) + (centerX5 - width5)) / 2.0f) - centerX5) / width5));
-                }
+                degrees = (float) Math.toDegrees(Math.acos(Math.abs((((centerX4 + width4) + (centerX5 - r7)) / 2.0f) - centerX5) / r7));
             }
             drawArc(canvas, storyCircle2.borderRect, degrees + 180.0f, 360.0f - (degrees * 2.0f), false, paint);
             return;
@@ -529,18 +529,19 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public StoryCircle nearest(StoryCircle storyCircle, StoryCircle storyCircle2, StoryCircle storyCircle3) {
-        if (storyCircle3 != null) {
-            if (storyCircle == null && storyCircle2 == null) {
-                return null;
-            }
-            return (storyCircle == null || storyCircle2 == null) ? storyCircle != null ? storyCircle : storyCircle2 : Math.min(Math.abs(storyCircle.borderRect.left - storyCircle3.borderRect.right), Math.abs(storyCircle.borderRect.right - storyCircle3.borderRect.left)) > Math.min(Math.abs(storyCircle2.borderRect.left - storyCircle3.borderRect.right), Math.abs(storyCircle2.borderRect.right - storyCircle3.borderRect.left)) ? storyCircle : storyCircle2;
+        if (storyCircle3 == null) {
+            return null;
         }
-        return null;
+        if (storyCircle == null && storyCircle2 == null) {
+            return null;
+        }
+        return (storyCircle == null || storyCircle2 == null) ? storyCircle != null ? storyCircle : storyCircle2 : Math.min(Math.abs(storyCircle.borderRect.left - storyCircle3.borderRect.right), Math.abs(storyCircle.borderRect.right - storyCircle3.borderRect.left)) > Math.min(Math.abs(storyCircle2.borderRect.left - storyCircle3.borderRect.right), Math.abs(storyCircle2.borderRect.right - storyCircle3.borderRect.left)) ? storyCircle : storyCircle2;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x0188, code lost:
-        if (r10 != false) goto L105;
+    /* JADX WARN: Code restructure failed: missing block: B:108:0x0188, code lost:
+    
+        if (r10 != false) goto L101;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -604,12 +605,12 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
                             while (true) {
                                 if (i9 >= storiesFromFullPeer.stories.size()) {
                                     break;
-                                } else if (storiesFromFullPeer.stories.get(i9).id == i7) {
+                                }
+                                if (storiesFromFullPeer.stories.get(i9).id == i7) {
                                     storiesFromFullPeer.stories.get(i9);
                                     break;
-                                } else {
-                                    i9++;
                                 }
+                                i9++;
                             }
                         }
                     } else if (z4) {
@@ -637,12 +638,12 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
                         while (true) {
                             if (i13 >= stories.stories.size()) {
                                 break;
-                            } else if (stories.stories.get(i13).id == i12) {
+                            }
+                            if (stories.stories.get(i13).id == i12) {
                                 storyItem4 = stories.stories.get(i13);
                                 break;
-                            } else {
-                                i13++;
                             }
+                            i13++;
                         }
                     }
                     boolean z5 = storyItem4 instanceof TL_stories.TL_storyItemSkipped;
@@ -652,12 +653,12 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
                             while (true) {
                                 if (i14 >= storiesFromFullPeer.stories.size()) {
                                     break;
-                                } else if (storiesFromFullPeer.stories.get(i14).id == i12) {
+                                }
+                                if (storiesFromFullPeer.stories.get(i14).id == i12) {
                                     storiesFromFullPeer.stories.get(i14);
                                     break;
-                                } else {
-                                    i14++;
                                 }
+                                i14++;
                             }
                         }
                     }
@@ -678,12 +679,14 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
                     i16 = -1;
                     storyItem = null;
                     break;
+                } else {
+                    storyItem = (TL_stories.StoryItem) arrayList2.get(i16);
+                    if (storyItem.id == storyCircle.storyId) {
+                        break;
+                    } else {
+                        i16++;
+                    }
                 }
-                storyItem = (TL_stories.StoryItem) arrayList2.get(i16);
-                if (storyItem.id == storyCircle.storyId) {
-                    break;
-                }
-                i16++;
             }
             if (i16 == -1) {
                 storyCircle.scale = 0.0f;
@@ -747,13 +750,13 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
         }
         this.count = max2;
         this.titleDrawable.setText(max2 > 0 ? LocaleController.formatPluralString("Stories", max2, new Object[0]) : "", z && !LocaleController.isRTL);
-        int i20 = (this.dialogId > 0L ? 1 : (this.dialogId == 0L ? 0 : -1));
-        MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
         long j = this.dialogId;
-        if (i20 >= 0) {
-            this.gradientTools.setUser(messagesController.getUser(Long.valueOf(j)), z);
+        MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
+        long j2 = this.dialogId;
+        if (j >= 0) {
+            this.gradientTools.setUser(messagesController.getUser(Long.valueOf(j2)), z);
         } else {
-            this.gradientTools.setChat(messagesController.getChat(Long.valueOf(-j)), z);
+            this.gradientTools.setChat(messagesController.getChat(Long.valueOf(-j2)), z);
         }
         invalidate();
     }
@@ -811,12 +814,13 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:160:0x071e, code lost:
-        if (java.lang.Math.abs(r1.borderRect.centerX() - r6.borderRect.centerX()) > ((r1.borderRect.width() / 2.0f) + (r6.borderRect.width() / 2.0f))) goto L123;
+    /* JADX WARN: Code restructure failed: missing block: B:112:0x071e, code lost:
+    
+        if (java.lang.Math.abs(r1.borderRect.centerX() - r6.borderRect.centerX()) > ((r1.borderRect.width() / 2.0f) + (r6.borderRect.width() / 2.0f))) goto L163;
      */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x0731  */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x0753  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x0774 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x0731  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0753  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0774 A[SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1161,7 +1165,7 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* renamed from: onLongPress */
+    /* renamed from: onLongPress, reason: merged with bridge method [inline-methods] */
     public abstract void lambda$new$4();
 
     protected abstract void onTap(StoryViewer.PlaceProvider placeProvider);

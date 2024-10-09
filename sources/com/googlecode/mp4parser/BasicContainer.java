@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 public abstract class BasicContainer implements Container, Iterator, Closeable {
     private static final Box EOF = new AbstractBox("eof ") { // from class: com.googlecode.mp4parser.BasicContainer.1
@@ -109,8 +110,9 @@ public abstract class BasicContainer implements Container, Iterator, Closeable {
     }
 
     public final void writeContainer(WritableByteChannel writableByteChannel) {
-        for (Box box : getBoxes()) {
-            box.getBox(writableByteChannel);
+        Iterator it = getBoxes().iterator();
+        while (it.hasNext()) {
+            ((Box) it.next()).getBox(writableByteChannel);
         }
     }
 }

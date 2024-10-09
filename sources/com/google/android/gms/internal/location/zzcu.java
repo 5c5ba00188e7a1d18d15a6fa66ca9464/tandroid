@@ -3,6 +3,7 @@ package com.google.android.gms.internal.location;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
+
 /* loaded from: classes.dex */
 final class zzcu implements ListenerHolder.Notifier {
     final /* synthetic */ LocationAvailability zza;

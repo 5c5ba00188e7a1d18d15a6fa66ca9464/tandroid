@@ -48,6 +48,7 @@ import org.telegram.ui.bots.BotWebViewAttachedSheet;
 import org.telegram.ui.bots.BotWebViewSheet;
 import org.telegram.ui.bots.WebViewRequestProps;
 import org.telegram.ui.web.BotWebViewContainer;
+
 /* loaded from: classes4.dex */
 public class BottomSheetTabs extends FrameLayout {
     private static TextPaint textPaint;
@@ -508,26 +509,26 @@ public class BottomSheetTabs extends FrameLayout {
         BottomSheetTabsOverlay bottomSheetTabsOverlay = LaunchActivity.instance.getBottomSheetTabsOverlay();
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         int i = 0;
-        if (safeLastFragment != null) {
-            boolean z = false;
-            while (true) {
-                ArrayList arrayList = safeLastFragment.sheetsStack;
-                if (arrayList == null || i >= arrayList.size()) {
-                    break;
-                }
-                BaseFragment.AttachedSheet attachedSheet = (BaseFragment.AttachedSheet) safeLastFragment.sheetsStack.get(i);
-                if (attachedSheet instanceof BotWebViewAttachedSheet) {
-                    z = true;
-                    if (bottomSheetTabsOverlay != null) {
-                        bottomSheetTabsOverlay.setSlowerDismiss(true);
-                    }
-                    ((BotWebViewAttachedSheet) attachedSheet).dismiss(true, null);
-                }
-                i++;
-            }
-            return z;
+        if (safeLastFragment == null) {
+            return false;
         }
-        return false;
+        boolean z = false;
+        while (true) {
+            ArrayList arrayList = safeLastFragment.sheetsStack;
+            if (arrayList == null || i >= arrayList.size()) {
+                break;
+            }
+            BaseFragment.AttachedSheet attachedSheet = (BaseFragment.AttachedSheet) safeLastFragment.sheetsStack.get(i);
+            if (attachedSheet instanceof BotWebViewAttachedSheet) {
+                z = true;
+                if (bottomSheetTabsOverlay != null) {
+                    bottomSheetTabsOverlay.setSlowerDismiss(true);
+                }
+                ((BotWebViewAttachedSheet) attachedSheet).dismiss(true, null);
+            }
+            i++;
+        }
+        return z;
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -597,14 +598,14 @@ public class BottomSheetTabs extends FrameLayout {
 
     public ArrayList getTabDrawables(int i) {
         ArrayList arrayList = (ArrayList) this.tabDrawables.get(Integer.valueOf(i));
-        if (arrayList == null) {
-            HashMap hashMap = this.tabDrawables;
-            Integer valueOf = Integer.valueOf(i);
-            ArrayList arrayList2 = new ArrayList();
-            hashMap.put(valueOf, arrayList2);
-            return arrayList2;
+        if (arrayList != null) {
+            return arrayList;
         }
-        return arrayList;
+        HashMap hashMap = this.tabDrawables;
+        Integer valueOf = Integer.valueOf(i);
+        ArrayList arrayList2 = new ArrayList();
+        hashMap.put(valueOf, arrayList2);
+        return arrayList2;
     }
 
     public ArrayList<WebTabData> getTabs() {
@@ -613,14 +614,14 @@ public class BottomSheetTabs extends FrameLayout {
 
     public ArrayList getTabs(int i) {
         ArrayList arrayList = (ArrayList) this.tabs.get(Integer.valueOf(i));
-        if (arrayList == null) {
-            HashMap hashMap = this.tabs;
-            Integer valueOf = Integer.valueOf(i);
-            ArrayList arrayList2 = new ArrayList();
-            hashMap.put(valueOf, arrayList2);
-            return arrayList2;
+        if (arrayList != null) {
+            return arrayList;
         }
-        return arrayList;
+        HashMap hashMap = this.tabs;
+        Integer valueOf = Integer.valueOf(i);
+        ArrayList arrayList2 = new ArrayList();
+        hashMap.put(valueOf, arrayList2);
+        return arrayList2;
     }
 
     @Override // android.view.View
@@ -635,7 +636,7 @@ public class BottomSheetTabs extends FrameLayout {
                 boolean contains = findTabDrawable.closeRipple.getBounds().contains((int) (motionEvent.getX() - this.rect.left), (int) (motionEvent.getY() - this.rect.centerY()));
                 if (motionEvent.getAction() == 0 || motionEvent.getAction() == 2) {
                     this.closeRippleHit = contains;
-                    findTabDrawable.closeRipple.setState(contains ? new int[]{16842919, 16842910} : new int[0]);
+                    findTabDrawable.closeRipple.setState(contains ? new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled} : new int[0]);
                 } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
                     if (this.closeRippleHit && motionEvent.getAction() == 1) {
                         removeTab(webTabData, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda2
@@ -751,33 +752,35 @@ public class BottomSheetTabs extends FrameLayout {
     public void removeTab(final WebTabData webTabData, final Utilities.Callback callback) {
         if (webTabData == null) {
             callback.run(Boolean.TRUE);
-        } else if (!webTabData.confirmDismiss) {
+            return;
+        }
+        if (!webTabData.confirmDismiss) {
             removeTab(webTabData, true);
             callback.run(Boolean.TRUE);
-        } else {
-            TLRPC.User user = MessagesController.getInstance(webTabData.props.currentAccount).getUser(Long.valueOf(webTabData.props.botId));
-            final boolean[] zArr = {false};
-            AlertDialog create = new AlertDialog.Builder(getContext()).setTitle(user != null ? ContactsController.formatName(user.first_name, user.last_name) : null).setMessage(LocaleController.getString(R.string.BotWebViewChangesMayNotBeSaved)).setPositiveButton(LocaleController.getString(R.string.BotWebViewCloseAnyway), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda4
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    BottomSheetTabs.this.lambda$removeTab$3(zArr, webTabData, callback, r5, dialogInterface, i);
-                }
-            }).setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda5
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    BottomSheetTabs.lambda$removeTab$4(zArr, callback, r3, dialogInterface, i);
-                }
-            }).create();
-            final AlertDialog[] alertDialogArr = {create};
-            create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda6
-                @Override // android.content.DialogInterface.OnDismissListener
-                public final void onDismiss(DialogInterface dialogInterface) {
-                    BottomSheetTabs.lambda$removeTab$5(zArr, callback, dialogInterface);
-                }
-            });
-            alertDialogArr[0].show();
-            ((TextView) alertDialogArr[0].getButton(-1)).setTextColor(Theme.getColor(Theme.key_text_RedBold));
+            return;
         }
+        TLRPC.User user = MessagesController.getInstance(webTabData.props.currentAccount).getUser(Long.valueOf(webTabData.props.botId));
+        final boolean[] zArr = {false};
+        AlertDialog create = new AlertDialog.Builder(getContext()).setTitle(user != null ? ContactsController.formatName(user.first_name, user.last_name) : null).setMessage(LocaleController.getString(R.string.BotWebViewChangesMayNotBeSaved)).setPositiveButton(LocaleController.getString(R.string.BotWebViewCloseAnyway), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda4
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                BottomSheetTabs.this.lambda$removeTab$3(zArr, webTabData, callback, r5, dialogInterface, i);
+            }
+        }).setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda5
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                BottomSheetTabs.lambda$removeTab$4(zArr, callback, r3, dialogInterface, i);
+            }
+        }).create();
+        final AlertDialog[] alertDialogArr = {create};
+        create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda6
+            @Override // android.content.DialogInterface.OnDismissListener
+            public final void onDismiss(DialogInterface dialogInterface) {
+                BottomSheetTabs.lambda$removeTab$5(zArr, callback, dialogInterface);
+            }
+        });
+        alertDialogArr[0].show();
+        ((TextView) alertDialogArr[0].getButton(-1)).setTextColor(Theme.getColor(Theme.key_text_RedBold));
     }
 
     public boolean removeTab(int i, final WebTabData webTabData, boolean z) {
@@ -826,7 +829,9 @@ public class BottomSheetTabs extends FrameLayout {
     public void setNavigationBarColor(int i, boolean z) {
         if (i != this.backgroundColor) {
             ActionBarLayout actionBarLayout = this.actionBarLayout;
-            z = (!actionBarLayout.startedTracking || actionBarLayout.animationInProgress) ? false : false;
+            if (!actionBarLayout.startedTracking || actionBarLayout.animationInProgress) {
+                z = false;
+            }
             this.backgroundColor = i;
             int blendOver = Theme.blendOver(i, Theme.multAlpha(-1, (AndroidUtilities.computePerceivedBrightness(i) > 0.721f ? 1 : (AndroidUtilities.computePerceivedBrightness(i) == 0.721f ? 0 : -1)) < 0 ? 0.08f : 0.75f));
             this.tabColor = blendOver;
@@ -858,7 +863,6 @@ public class BottomSheetTabs extends FrameLayout {
                         return removeTab(i, webTabData, true);
                     }
                 }
-                continue;
             }
         }
         return false;
@@ -875,8 +879,7 @@ public class BottomSheetTabs extends FrameLayout {
             WebTabData webTabData = tabs.get(i);
             ArticleViewer articleViewer = webTabData.articleViewer;
             if (articleViewer != null && !articleViewer.pagesStack.isEmpty()) {
-                ArrayList arrayList = webTabData.articleViewer.pagesStack;
-                Object obj = arrayList.get(arrayList.size() - 1);
+                Object obj = webTabData.articleViewer.pagesStack.get(r5.size() - 1);
                 if (obj instanceof ArticleViewer.CachedWeb) {
                     BotWebViewContainer.MyWebView myWebView = ((ArticleViewer.CachedWeb) obj).webView;
                     if (myWebView == null && (pageLayoutArr = webTabData.articleViewer.pages) != null && (pageLayout = pageLayoutArr[0]) != null) {
@@ -918,8 +921,7 @@ public class BottomSheetTabs extends FrameLayout {
             WebTabData webTabData = tabs.get(i);
             ArticleViewer articleViewer = webTabData.articleViewer;
             if (articleViewer != null && !articleViewer.pagesStack.isEmpty()) {
-                ArrayList arrayList = webTabData.articleViewer.pagesStack;
-                Object obj = arrayList.get(arrayList.size() - 1);
+                Object obj = webTabData.articleViewer.pagesStack.get(r4.size() - 1);
                 if ((obj instanceof TLRPC.WebPage) && (webPage2 = (TLRPC.WebPage) obj) != null && webPage2.id == webPage.id) {
                     openTab(webTabData);
                     return webTabData;

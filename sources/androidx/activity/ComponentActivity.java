@@ -53,6 +53,7 @@ import androidx.tracing.Trace;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 public abstract class ComponentActivity extends androidx.core.app.ComponentActivity implements LifecycleOwner, ViewModelStoreOwner, HasDefaultViewModelProviderFactory, SavedStateRegistryOwner, OnBackPressedDispatcherOwner, ActivityResultRegistryOwner {
     private final ActivityResultRegistry mActivityResultRegistry;
@@ -151,20 +152,22 @@ public abstract class ComponentActivity extends androidx.core.app.ComponentActiv
                         stringArrayExtra = new String[0];
                     }
                     ActivityCompat.requestPermissions(componentActivity, stringArrayExtra, i);
-                } else if (!"androidx.activity.result.contract.action.INTENT_SENDER_REQUEST".equals(createIntent.getAction())) {
+                    return;
+                }
+                if (!"androidx.activity.result.contract.action.INTENT_SENDER_REQUEST".equals(createIntent.getAction())) {
                     ActivityCompat.startActivityForResult(componentActivity, createIntent, i, bundle);
-                } else {
-                    IntentSenderRequest intentSenderRequest = (IntentSenderRequest) createIntent.getParcelableExtra("androidx.activity.result.contract.extra.INTENT_SENDER_REQUEST");
-                    try {
-                        ActivityCompat.startIntentSenderForResult(componentActivity, intentSenderRequest.getIntentSender(), i, intentSenderRequest.getFillInIntent(), intentSenderRequest.getFlagsMask(), intentSenderRequest.getFlagsValues(), 0, bundle);
-                    } catch (IntentSender.SendIntentException e) {
-                        new Handler(Looper.getMainLooper()).post(new Runnable() { // from class: androidx.activity.ComponentActivity.2.2
-                            @Override // java.lang.Runnable
-                            public void run() {
-                                dispatchResult(i, 0, new Intent().setAction("androidx.activity.result.contract.action.INTENT_SENDER_REQUEST").putExtra("androidx.activity.result.contract.extra.SEND_INTENT_EXCEPTION", e));
-                            }
-                        });
-                    }
+                    return;
+                }
+                IntentSenderRequest intentSenderRequest = (IntentSenderRequest) createIntent.getParcelableExtra("androidx.activity.result.contract.extra.INTENT_SENDER_REQUEST");
+                try {
+                    ActivityCompat.startIntentSenderForResult(componentActivity, intentSenderRequest.getIntentSender(), i, intentSenderRequest.getFillInIntent(), intentSenderRequest.getFlagsMask(), intentSenderRequest.getFlagsValues(), 0, bundle);
+                } catch (IntentSender.SendIntentException e) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() { // from class: androidx.activity.ComponentActivity.2.2
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            dispatchResult(i, 0, new Intent().setAction("androidx.activity.result.contract.action.INTENT_SENDER_REQUEST").putExtra("androidx.activity.result.contract.extra.SEND_INTENT_EXCEPTION", e));
+                        }
+                    });
                 }
             }
         };
@@ -319,11 +322,11 @@ public abstract class ComponentActivity extends androidx.core.app.ComponentActiv
 
     @Override // androidx.lifecycle.ViewModelStoreOwner
     public ViewModelStore getViewModelStore() {
-        if (getApplication() != null) {
-            ensureViewModelStore();
-            return this.mViewModelStore;
+        if (getApplication() == null) {
+            throw new IllegalStateException("Your activity is not yet attached to the Application instance. You can't request ViewModel before onCreate call.");
         }
-        throw new IllegalStateException("Your activity is not yet attached to the Application instance. You can't request ViewModel before onCreate call.");
+        ensureViewModelStore();
+        return this.mViewModelStore;
     }
 
     public void invalidateMenu() {
@@ -371,11 +374,11 @@ public abstract class ComponentActivity extends androidx.core.app.ComponentActiv
 
     @Override // android.app.Activity, android.view.Window.Callback
     public boolean onCreatePanelMenu(int i, Menu menu) {
-        if (i == 0) {
-            super.onCreatePanelMenu(i, menu);
-            this.mMenuHostHelper.onCreateMenu(menu, getMenuInflater());
+        if (i != 0) {
             return true;
         }
+        super.onCreatePanelMenu(i, menu);
+        this.mMenuHostHelper.onCreateMenu(menu, getMenuInflater());
         return true;
     }
 
@@ -440,11 +443,11 @@ public abstract class ComponentActivity extends androidx.core.app.ComponentActiv
 
     @Override // android.app.Activity, android.view.Window.Callback
     public boolean onPreparePanel(int i, View view, Menu menu) {
-        if (i == 0) {
-            super.onPreparePanel(i, view, menu);
-            this.mMenuHostHelper.onPrepareMenu(menu);
+        if (i != 0) {
             return true;
         }
+        super.onPreparePanel(i, view, menu);
+        this.mMenuHostHelper.onPrepareMenu(menu);
         return true;
     }
 

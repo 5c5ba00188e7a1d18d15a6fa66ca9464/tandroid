@@ -1,6 +1,7 @@
 package com.google.firebase.appindexing.internal;
 
 import android.util.Log;
+
 /* loaded from: classes.dex */
 public abstract class zzw {
     public static int zza(String str) {

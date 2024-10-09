@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.text;
 import com.google.android.exoplayer2.decoder.SimpleDecoder;
 import com.google.android.exoplayer2.util.Assertions;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public abstract class SimpleSubtitleDecoder extends SimpleDecoder implements SubtitleDecoder {
     private final String name;

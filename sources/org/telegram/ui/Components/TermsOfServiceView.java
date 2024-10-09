@@ -22,6 +22,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class TermsOfServiceView extends FrameLayout {
     private int currentAccount;
@@ -155,7 +156,9 @@ public class TermsOfServiceView extends FrameLayout {
         }
         if (tLObject instanceof TLRPC.TL_boolTrue) {
             MessagesController.getInstance(this.currentAccount).performLogout(0);
-        } else if (tL_error == null || tL_error.code != -1000) {
+            return;
+        }
+        if (tL_error == null || tL_error.code != -1000) {
             String string = LocaleController.getString(R.string.ErrorOccurred);
             if (tL_error != null) {
                 string = string + "\n" + tL_error.text;

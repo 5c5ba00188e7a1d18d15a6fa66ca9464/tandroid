@@ -2,6 +2,7 @@ package com.google.android.gms.common.util;
 
 import com.google.android.gms.common.internal.Objects;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public abstract class ArrayUtils {
     public static boolean contains(int[] iArr, int i) {
@@ -22,7 +23,8 @@ public abstract class ArrayUtils {
         while (true) {
             if (i >= length) {
                 break;
-            } else if (!Objects.equal(objArr[i], obj)) {
+            }
+            if (!Objects.equal(objArr[i], obj)) {
                 i++;
             } else if (i >= 0) {
                 return true;

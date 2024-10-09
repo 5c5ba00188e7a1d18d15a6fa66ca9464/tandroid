@@ -2,6 +2,7 @@ package androidx.core.view.accessibility;
 
 import android.view.View;
 import android.view.accessibility.AccessibilityRecord;
+
 /* loaded from: classes.dex */
 public abstract class AccessibilityRecordCompat {
 

@@ -24,6 +24,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class MessageContainsEmojiButton extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     public boolean checkWidth;
@@ -99,70 +100,73 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 replaceTags.removeSpan(typefaceSpanArr[i3]);
                 replaceTags.setSpan(new BoldAndAccent(), spanStart, spanEnd, 33);
             }
-        } else if (arrayList.size() != 1) {
+            return;
+        }
+        if (arrayList.size() != 1) {
             if (i2 == 4) {
                 this.mainText = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StickersCheckStickersBotForMoreOptions), Theme.key_chat_messageLinkIn, 2, null, resourcesProvider);
-            }
-        } else {
-            String string = LocaleController.getString(i2 == 0 ? R.string.MessageContainsEmojiPack : i2 == 3 ? R.string.MessageContainsReactionPack : R.string.MessageContainsReactionsPack);
-            String[] split = string.split("%s");
-            if (split.length <= 1) {
-                this.mainText = string;
                 return;
             }
-            TLRPC.InputStickerSet inputStickerSet = (TLRPC.InputStickerSet) arrayList.get(0);
-            this.inputStickerSet = inputStickerSet;
-            if (inputStickerSet == null || (stickerSet = MediaDataController.getInstance(i).getStickerSet(this.inputStickerSet, false)) == null || (stickerSet2 = stickerSet.set) == null) {
-                str = null;
-                document = null;
-            } else {
-                str = stickerSet2.title;
-                int i4 = 0;
-                while (true) {
-                    ArrayList<TLRPC.Document> arrayList3 = stickerSet.documents;
-                    if (arrayList3 == null || i4 >= arrayList3.size()) {
-                        break;
-                    } else if (stickerSet.documents.get(i4).id == stickerSet.set.thumb_document_id) {
-                        document = stickerSet.documents.get(i4);
-                        break;
-                    } else {
-                        i4++;
-                    }
-                }
-                document = null;
-                if (document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
-                    document = stickerSet.documents.get(0);
-                }
-            }
-            if (str == null || document == null) {
-                this.mainText = split[0];
-                this.endText = split[1];
-                LoadingDrawable loadingDrawable = new LoadingDrawable(resourcesProvider);
-                this.loadingDrawable = loadingDrawable;
-                loadingDrawable.colorKey1 = Theme.key_actionBarDefaultSubmenuBackground;
-                loadingDrawable.colorKey2 = Theme.key_listSelector;
-                loadingDrawable.setRadiiDp(4.0f);
-                return;
-            }
-            SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(document));
-            spannableString.setSpan(new AnimatedEmojiSpan(document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.1
-                @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
-                public void draw(Canvas canvas, CharSequence charSequence, int i5, int i6, float f, int i7, int i8, int i9, Paint paint) {
-                    int i10 = i9 + i7;
-                    int i11 = this.measuredSize;
-                    MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i10 - i11) / 2, (int) (f + i11), (i10 + i11) / 2);
-                }
-            }, 0, spannableString.length(), 33);
-            AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, document);
-            this.emojiDrawable = make;
-            make.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider), PorterDuff.Mode.SRC_IN));
-            this.emojiDrawable.addView(this);
-            SpannableString spannableString2 = new SpannableString(str);
-            spannableString2.setSpan(new BoldAndAccent(), 0, spannableString2.length(), 33);
-            this.mainText = new SpannableStringBuilder().append((CharSequence) split[0]).append((CharSequence) spannableString).append(' ').append((CharSequence) spannableString2).append((CharSequence) split[1]);
-            this.loadT = 1.0f;
-            this.inputStickerSet = null;
+            return;
         }
+        String string = LocaleController.getString(i2 == 0 ? R.string.MessageContainsEmojiPack : i2 == 3 ? R.string.MessageContainsReactionPack : R.string.MessageContainsReactionsPack);
+        String[] split = string.split("%s");
+        if (split.length <= 1) {
+            this.mainText = string;
+            return;
+        }
+        TLRPC.InputStickerSet inputStickerSet = (TLRPC.InputStickerSet) arrayList.get(0);
+        this.inputStickerSet = inputStickerSet;
+        if (inputStickerSet == null || (stickerSet = MediaDataController.getInstance(i).getStickerSet(this.inputStickerSet, false)) == null || (stickerSet2 = stickerSet.set) == null) {
+            str = null;
+            document = null;
+        } else {
+            str = stickerSet2.title;
+            int i4 = 0;
+            while (true) {
+                ArrayList<TLRPC.Document> arrayList3 = stickerSet.documents;
+                if (arrayList3 == null || i4 >= arrayList3.size()) {
+                    break;
+                }
+                if (stickerSet.documents.get(i4).id == stickerSet.set.thumb_document_id) {
+                    document = stickerSet.documents.get(i4);
+                    break;
+                }
+                i4++;
+            }
+            document = null;
+            if (document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
+                document = stickerSet.documents.get(0);
+            }
+        }
+        if (str == null || document == null) {
+            this.mainText = split[0];
+            this.endText = split[1];
+            LoadingDrawable loadingDrawable = new LoadingDrawable(resourcesProvider);
+            this.loadingDrawable = loadingDrawable;
+            loadingDrawable.colorKey1 = Theme.key_actionBarDefaultSubmenuBackground;
+            loadingDrawable.colorKey2 = Theme.key_listSelector;
+            loadingDrawable.setRadiiDp(4.0f);
+            return;
+        }
+        SpannableString spannableString = new SpannableString(MessageObject.findAnimatedEmojiEmoticon(document));
+        spannableString.setSpan(new AnimatedEmojiSpan(document, this.textPaint.getFontMetricsInt()) { // from class: org.telegram.ui.Components.MessageContainsEmojiButton.1
+            @Override // org.telegram.ui.Components.AnimatedEmojiSpan, android.text.style.ReplacementSpan
+            public void draw(Canvas canvas, CharSequence charSequence, int i5, int i6, float f, int i7, int i8, int i9, Paint paint) {
+                int i10 = i9 + i7;
+                int i11 = this.measuredSize;
+                MessageContainsEmojiButton.this.emojiDrawableBounds.set((int) f, (i10 - i11) / 2, (int) (f + i11), (i10 + i11) / 2);
+            }
+        }, 0, spannableString.length(), 33);
+        AnimatedEmojiDrawable make = AnimatedEmojiDrawable.make(i, 0, document);
+        this.emojiDrawable = make;
+        make.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider), PorterDuff.Mode.SRC_IN));
+        this.emojiDrawable.addView(this);
+        SpannableString spannableString2 = new SpannableString(str);
+        spannableString2.setSpan(new BoldAndAccent(), 0, spannableString2.length(), 33);
+        this.mainText = new SpannableStringBuilder().append((CharSequence) split[0]).append((CharSequence) spannableString).append(' ').append((CharSequence) spannableString2).append((CharSequence) split[1]);
+        this.loadT = 1.0f;
+        this.inputStickerSet = null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -175,7 +179,6 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     }
 
     private int updateLayout(int i, boolean z) {
-        StaticLayout staticLayout;
         float f;
         if (i <= 0) {
             return 0;
@@ -184,10 +187,10 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         if (charSequence != this.lastMainTextText || this.lastMainTextWidth != i) {
             if (charSequence != null) {
                 CharSequence charSequence2 = this.mainText;
-                StaticLayout staticLayout2 = new StaticLayout(charSequence2, 0, charSequence2.length(), this.textPaint, Math.max(i, 0), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                this.mainTextLayout = staticLayout2;
+                StaticLayout staticLayout = new StaticLayout(charSequence2, 0, charSequence2.length(), this.textPaint, Math.max(i, 0), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                this.mainTextLayout = staticLayout;
                 if (this.loadingDrawable != null && this.loadingBoundsTo == null) {
-                    int lineCount = staticLayout2.getLineCount() - 1;
+                    int lineCount = staticLayout.getLineCount() - 1;
                     this.lastLineMargin = ((int) this.mainTextLayout.getPrimaryHorizontal(this.mainText.length())) + AndroidUtilities.dp(2.0f);
                     this.lastLineTop = this.mainTextLayout.getLineTop(lineCount);
                     this.lastLineHeight = r1 - this.lastLineTop;
@@ -219,17 +222,18 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             this.lastSecondPartText = this.secondPartText;
             this.lastSecondPartTextWidth = i;
         }
-        StaticLayout staticLayout3 = this.mainTextLayout;
-        int height = staticLayout3 != null ? staticLayout3.getHeight() : 0;
+        StaticLayout staticLayout2 = this.mainTextLayout;
+        int height = staticLayout2 != null ? staticLayout2.getHeight() : 0;
         if (this.secondPartTextLayout != null) {
-            f = (staticLayout.getHeight() - this.lastLineHeight) * (z ? 1.0f : this.loadT);
+            f = (r1.getHeight() - this.lastLineHeight) * (z ? 1.0f : this.loadT);
         } else {
             f = 0.0f;
         }
         return height + ((int) f);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0048, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0048, code lost:
+    
         r2 = null;
      */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -252,12 +256,12 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                 ArrayList<TLRPC.Document> arrayList2 = stickerSet.documents;
                 if (arrayList2 == null || i3 >= arrayList2.size()) {
                     break;
-                } else if (stickerSet.documents.get(i3).id == stickerSet.set.thumb_document_id) {
+                }
+                if (stickerSet.documents.get(i3).id == stickerSet.set.thumb_document_id) {
                     document = stickerSet.documents.get(i3);
                     break;
-                } else {
-                    i3++;
                 }
+                i3++;
             }
             if (document == null && (arrayList = stickerSet.documents) != null && arrayList.size() > 0) {
                 document = stickerSet.documents.get(0);

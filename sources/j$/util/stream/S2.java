@@ -3,13 +3,14 @@ package j$.util.stream;
 import j$.util.Map;
 import java.util.EnumMap;
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* JADX WARN: Enum visitor error
-jadx.core.utils.exceptions.JadxRuntimeException: Init of enum DISTINCT uses external variables
-	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
-	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:391)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:320)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
+jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'DISTINCT' uses external variables
+	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
+	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:395)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:324)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:262)
 	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
@@ -134,7 +135,6 @@ public final class S2 {
     }
 
     private static int b(R2 r2) {
-        S2[] values;
         int i2 = 0;
         for (S2 s2 : values()) {
             i2 |= ((Integer) s2.a.get(r2)).intValue() << s2.b;

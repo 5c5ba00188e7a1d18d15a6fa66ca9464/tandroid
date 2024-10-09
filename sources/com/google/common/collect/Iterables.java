@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public abstract class Iterables {
     public static boolean any(Iterable iterable, Predicate predicate) {
@@ -17,14 +18,14 @@ public abstract class Iterables {
     }
 
     public static Object getLast(Iterable iterable) {
-        if (iterable instanceof List) {
-            List list = (List) iterable;
-            if (list.isEmpty()) {
-                throw new NoSuchElementException();
-            }
-            return getLastInNonemptyList(list);
+        if (!(iterable instanceof List)) {
+            return Iterators.getLast(iterable.iterator());
         }
-        return Iterators.getLast(iterable.iterator());
+        List list = (List) iterable;
+        if (list.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return getLastInNonemptyList(list);
     }
 
     public static Object getLast(Iterable iterable, Object obj) {

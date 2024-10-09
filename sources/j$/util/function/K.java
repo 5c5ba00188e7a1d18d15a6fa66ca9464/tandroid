@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.IntToDoubleFunction;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class K {
     public final /* synthetic */ IntToDoubleFunction a;

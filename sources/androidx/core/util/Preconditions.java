@@ -2,6 +2,7 @@ package androidx.core.util;
 
 import android.text.TextUtils;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class Preconditions {
     public static void checkArgument(boolean z, Object obj) {
@@ -11,13 +12,13 @@ public abstract class Preconditions {
     }
 
     public static int checkArgumentInRange(int i, int i2, int i3, String str) {
-        if (i >= i2) {
-            if (i <= i3) {
-                return i;
-            }
-            throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%d, %d] (too high)", str, Integer.valueOf(i2), Integer.valueOf(i3)));
+        if (i < i2) {
+            throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%d, %d] (too low)", str, Integer.valueOf(i2), Integer.valueOf(i3)));
         }
-        throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%d, %d] (too low)", str, Integer.valueOf(i2), Integer.valueOf(i3)));
+        if (i <= i3) {
+            return i;
+        }
+        throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%d, %d] (too high)", str, Integer.valueOf(i2), Integer.valueOf(i3)));
     }
 
     public static int checkArgumentNonnegative(int i) {

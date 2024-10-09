@@ -17,6 +17,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.primitives.Ints;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class AudioCapabilities {
     private final int maxChannelCount;
@@ -138,41 +139,41 @@ public final class AudioCapabilities {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof AudioCapabilities) {
-            AudioCapabilities audioCapabilities = (AudioCapabilities) obj;
-            return Arrays.equals(this.supportedEncodings, audioCapabilities.supportedEncodings) && this.maxChannelCount == audioCapabilities.maxChannelCount;
+        if (!(obj instanceof AudioCapabilities)) {
+            return false;
         }
-        return false;
+        AudioCapabilities audioCapabilities = (AudioCapabilities) obj;
+        return Arrays.equals(this.supportedEncodings, audioCapabilities.supportedEncodings) && this.maxChannelCount == audioCapabilities.maxChannelCount;
     }
 
     public Pair getEncodingAndChannelConfigForPassthrough(Format format) {
         int encoding = MimeTypes.getEncoding((String) Assertions.checkNotNull(format.sampleMimeType), format.codecs);
-        if (ALL_SURROUND_ENCODINGS_AND_MAX_CHANNELS.containsKey(Integer.valueOf(encoding))) {
-            if (encoding == 18 && !supportsEncoding(18)) {
-                encoding = 6;
-            } else if (encoding == 8 && !supportsEncoding(8)) {
-                encoding = 7;
-            }
-            if (supportsEncoding(encoding)) {
-                int i = format.channelCount;
-                if (i == -1 || encoding == 18) {
-                    int i2 = format.sampleRate;
-                    if (i2 == -1) {
-                        i2 = 48000;
-                    }
-                    i = getMaxSupportedChannelCountForPassthrough(encoding, i2);
-                } else if (i > this.maxChannelCount) {
-                    return null;
-                }
-                int channelConfigForPassthrough = getChannelConfigForPassthrough(i);
-                if (channelConfigForPassthrough == 0) {
-                    return null;
-                }
-                return Pair.create(Integer.valueOf(encoding), Integer.valueOf(channelConfigForPassthrough));
-            }
+        if (!ALL_SURROUND_ENCODINGS_AND_MAX_CHANNELS.containsKey(Integer.valueOf(encoding))) {
             return null;
         }
-        return null;
+        if (encoding == 18 && !supportsEncoding(18)) {
+            encoding = 6;
+        } else if (encoding == 8 && !supportsEncoding(8)) {
+            encoding = 7;
+        }
+        if (!supportsEncoding(encoding)) {
+            return null;
+        }
+        int i = format.channelCount;
+        if (i == -1 || encoding == 18) {
+            int i2 = format.sampleRate;
+            if (i2 == -1) {
+                i2 = 48000;
+            }
+            i = getMaxSupportedChannelCountForPassthrough(encoding, i2);
+        } else if (i > this.maxChannelCount) {
+            return null;
+        }
+        int channelConfigForPassthrough = getChannelConfigForPassthrough(i);
+        if (channelConfigForPassthrough == 0) {
+            return null;
+        }
+        return Pair.create(Integer.valueOf(encoding), Integer.valueOf(channelConfigForPassthrough));
     }
 
     public int hashCode() {

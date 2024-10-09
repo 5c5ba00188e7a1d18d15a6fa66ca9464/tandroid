@@ -4,6 +4,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class d {
     public static final List a(List list) {

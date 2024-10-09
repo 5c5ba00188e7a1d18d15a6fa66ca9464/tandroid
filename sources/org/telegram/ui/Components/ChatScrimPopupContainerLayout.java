@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
+
 /* loaded from: classes3.dex */
 public abstract class ChatScrimPopupContainerLayout extends LinearLayout {
     private View bottomView;
@@ -121,9 +122,8 @@ public abstract class ChatScrimPopupContainerLayout extends LinearLayout {
             if (this.reactionsLayout.getMeasuredWidth() == measuredWidth && this.reactionsLayout.showCustomEmojiReaction()) {
                 float measuredWidth3 = (measuredWidth - childAt.getMeasuredWidth()) * 0.25f;
                 this.popupLayoutLeftOffset = measuredWidth3;
-                ReactionsContainerLayout reactionsContainerLayout2 = this.reactionsLayout;
-                int i5 = (int) (reactionsContainerLayout2.bigCircleOffset - measuredWidth3);
-                reactionsContainerLayout2.bigCircleOffset = i5;
+                int i5 = (int) (r6.bigCircleOffset - measuredWidth3);
+                this.reactionsLayout.bigCircleOffset = i5;
                 if (i5 < AndroidUtilities.dp(36.0f)) {
                     this.popupLayoutLeftOffset = 0.0f;
                     this.reactionsLayout.bigCircleOffset = AndroidUtilities.dp(36.0f);
@@ -205,8 +205,7 @@ public abstract class ChatScrimPopupContainerLayout extends LinearLayout {
         if (view != null) {
             view.setAlpha(f);
             float f2 = (f * 0.5f) + 0.5f;
-            View view2 = this.bottomView;
-            view2.setPivotX(view2.getMeasuredWidth());
+            this.bottomView.setPivotX(r0.getMeasuredWidth());
             this.bottomView.setPivotY(0.0f);
             this.bottomViewReactionsOffset = (-this.popupWindowLayout.getMeasuredHeight()) * (1.0f - f);
             updateBottomViewPosition();

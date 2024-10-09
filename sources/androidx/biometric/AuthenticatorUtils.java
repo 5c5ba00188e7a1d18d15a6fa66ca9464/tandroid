@@ -3,6 +3,7 @@ package androidx.biometric;
 import android.os.Build;
 import androidx.biometric.BiometricPrompt;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 abstract class AuthenticatorUtils {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -36,12 +37,12 @@ abstract class AuthenticatorUtils {
         }
         if (i == 32768) {
             return Build.VERSION.SDK_INT >= 30;
-        } else if (i != 32783) {
-            return i == 33023 || i == 0;
-        } else {
-            int i2 = Build.VERSION.SDK_INT;
-            return i2 < 28 || i2 > 29;
         }
+        if (i != 32783) {
+            return i == 33023 || i == 0;
+        }
+        int i2 = Build.VERSION.SDK_INT;
+        return i2 < 28 || i2 > 29;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class FlacDecoder extends SimpleDecoder {
     private final FlacDecoderJni decoderJni;

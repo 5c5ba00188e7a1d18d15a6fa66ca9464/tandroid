@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.icing;
+
 /* loaded from: classes.dex */
 public abstract class zzbp {
     public static Object zza(Object obj) {

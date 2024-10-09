@@ -14,6 +14,7 @@ import com.google.android.gms.common.util.WorkSourceUtil;
 import com.google.android.gms.internal.location.zzd;
 import com.google.android.gms.internal.location.zzdj;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public final class LocationRequest extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<LocationRequest> CREATOR = new zzx();

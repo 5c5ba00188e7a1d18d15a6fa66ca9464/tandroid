@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class FlvExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.flv.FlvExtractor$$ExternalSyntheticLambda0
@@ -82,29 +83,29 @@ public final class FlvExtractor implements Extractor {
     }
 
     private boolean readFlvHeader(ExtractorInput extractorInput) {
-        if (extractorInput.readFully(this.headerBuffer.getData(), 0, 9, true)) {
-            this.headerBuffer.setPosition(0);
-            this.headerBuffer.skipBytes(4);
-            int readUnsignedByte = this.headerBuffer.readUnsignedByte();
-            boolean z = (readUnsignedByte & 4) != 0;
-            boolean z2 = (readUnsignedByte & 1) != 0;
-            if (z && this.audioReader == null) {
-                this.audioReader = new AudioTagPayloadReader(this.extractorOutput.track(8, 1));
-            }
-            if (z2 && this.videoReader == null) {
-                this.videoReader = new VideoTagPayloadReader(this.extractorOutput.track(9, 2));
-            }
-            this.extractorOutput.endTracks();
-            this.bytesToNextTagHeader = this.headerBuffer.readInt() - 5;
-            this.state = 2;
-            return true;
+        if (!extractorInput.readFully(this.headerBuffer.getData(), 0, 9, true)) {
+            return false;
         }
-        return false;
+        this.headerBuffer.setPosition(0);
+        this.headerBuffer.skipBytes(4);
+        int readUnsignedByte = this.headerBuffer.readUnsignedByte();
+        boolean z = (readUnsignedByte & 4) != 0;
+        boolean z2 = (readUnsignedByte & 1) != 0;
+        if (z && this.audioReader == null) {
+            this.audioReader = new AudioTagPayloadReader(this.extractorOutput.track(8, 1));
+        }
+        if (z2 && this.videoReader == null) {
+            this.videoReader = new VideoTagPayloadReader(this.extractorOutput.track(9, 2));
+        }
+        this.extractorOutput.endTracks();
+        this.bytesToNextTagHeader = this.headerBuffer.readInt() - 5;
+        this.state = 2;
+        return true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0071 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x007f  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0083  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0071 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0083  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -117,12 +118,28 @@ public final class FlvExtractor implements Extractor {
         if (i == 8 && this.audioReader != null) {
             ensureReadyForMediaOutput();
             tagPayloadReader = this.audioReader;
-        } else if (i != 9 || this.videoReader == null) {
-            if (i != 18 || this.outputSeekMap) {
-                extractorInput.skipFully(this.tagDataSize);
-                z = false;
-                z2 = false;
-                if (!this.outputFirstSample && z) {
+        } else {
+            if (i != 9 || this.videoReader == null) {
+                if (i != 18 || this.outputSeekMap) {
+                    extractorInput.skipFully(this.tagDataSize);
+                    z = false;
+                    z2 = false;
+                    if (!this.outputFirstSample && z) {
+                        this.outputFirstSample = true;
+                        this.mediaTagTimestampOffsetUs = this.metadataReader.getDurationUs() != -9223372036854775807L ? -this.tagTimestampUs : 0L;
+                    }
+                    this.bytesToNextTagHeader = 4;
+                    this.state = 2;
+                    return z2;
+                }
+                z = this.metadataReader.consume(prepareTagData(extractorInput), currentTimestampUs);
+                long durationUs = this.metadataReader.getDurationUs();
+                if (durationUs != -9223372036854775807L) {
+                    this.extractorOutput.seekMap(new IndexSeekMap(this.metadataReader.getKeyFrameTagPositions(), this.metadataReader.getKeyFrameTimesUs(), durationUs));
+                    this.outputSeekMap = true;
+                }
+                z2 = true;
+                if (!this.outputFirstSample) {
                     this.outputFirstSample = true;
                     this.mediaTagTimestampOffsetUs = this.metadataReader.getDurationUs() != -9223372036854775807L ? -this.tagTimestampUs : 0L;
                 }
@@ -130,21 +147,6 @@ public final class FlvExtractor implements Extractor {
                 this.state = 2;
                 return z2;
             }
-            z = this.metadataReader.consume(prepareTagData(extractorInput), currentTimestampUs);
-            long durationUs = this.metadataReader.getDurationUs();
-            if (durationUs != -9223372036854775807L) {
-                this.extractorOutput.seekMap(new IndexSeekMap(this.metadataReader.getKeyFrameTagPositions(), this.metadataReader.getKeyFrameTimesUs(), durationUs));
-                this.outputSeekMap = true;
-            }
-            z2 = true;
-            if (!this.outputFirstSample) {
-                this.outputFirstSample = true;
-                this.mediaTagTimestampOffsetUs = this.metadataReader.getDurationUs() != -9223372036854775807L ? -this.tagTimestampUs : 0L;
-            }
-            this.bytesToNextTagHeader = 4;
-            this.state = 2;
-            return z2;
-        } else {
             ensureReadyForMediaOutput();
             tagPayloadReader = this.videoReader;
         }
@@ -158,17 +160,17 @@ public final class FlvExtractor implements Extractor {
     }
 
     private boolean readTagHeader(ExtractorInput extractorInput) {
-        if (extractorInput.readFully(this.tagHeaderBuffer.getData(), 0, 11, true)) {
-            this.tagHeaderBuffer.setPosition(0);
-            this.tagType = this.tagHeaderBuffer.readUnsignedByte();
-            this.tagDataSize = this.tagHeaderBuffer.readUnsignedInt24();
-            this.tagTimestampUs = this.tagHeaderBuffer.readUnsignedInt24();
-            this.tagTimestampUs = ((this.tagHeaderBuffer.readUnsignedByte() << 24) | this.tagTimestampUs) * 1000;
-            this.tagHeaderBuffer.skipBytes(3);
-            this.state = 4;
-            return true;
+        if (!extractorInput.readFully(this.tagHeaderBuffer.getData(), 0, 11, true)) {
+            return false;
         }
-        return false;
+        this.tagHeaderBuffer.setPosition(0);
+        this.tagType = this.tagHeaderBuffer.readUnsignedByte();
+        this.tagDataSize = this.tagHeaderBuffer.readUnsignedInt24();
+        this.tagTimestampUs = this.tagHeaderBuffer.readUnsignedInt24();
+        this.tagTimestampUs = ((this.tagHeaderBuffer.readUnsignedByte() << 24) | this.tagTimestampUs) * 1000;
+        this.tagHeaderBuffer.skipBytes(3);
+        this.state = 4;
+        return true;
     }
 
     private void skipToTagHeader(ExtractorInput extractorInput) {

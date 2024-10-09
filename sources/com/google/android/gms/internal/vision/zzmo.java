@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 public enum zzmo {
     zza(0),
@@ -10,7 +11,7 @@ public enum zzmo {
     zzg(zzht.zza),
     zzh(null),
     zzi(null);
-    
+
     private final Object zzj;
 
     zzmo(Object obj) {

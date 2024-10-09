@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label_common;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class zzd {
     private final String zza;
@@ -42,8 +43,7 @@ public final class zzd {
             if (obj == null || !obj.getClass().isArray()) {
                 sb.append(obj);
             } else {
-                String deepToString = Arrays.deepToString(new Object[]{obj});
-                sb.append((CharSequence) deepToString, 1, deepToString.length() - 1);
+                sb.append((CharSequence) Arrays.deepToString(new Object[]{obj}), 1, r3.length() - 1);
             }
             zzcVar = zzcVar.zzc;
             str = ", ";

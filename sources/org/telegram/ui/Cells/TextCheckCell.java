@@ -29,6 +29,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.Switch;
+
 /* loaded from: classes4.dex */
 public class TextCheckCell extends FrameLayout {
     public static final Property ANIMATION_PROGRESS = new AnimationProperties.FloatProperty("animationProgress") { // from class: org.telegram.ui.Cells.TextCheckCell.1
@@ -133,7 +134,8 @@ public class TextCheckCell extends FrameLayout {
     public void setAnimationProgress(float f) {
         this.animationProgress = f;
         float lastTouchX = getLastTouchX();
-        this.checkBox.setOverrideColorProgress(lastTouchX, getMeasuredHeight() / 2, (Math.max(lastTouchX, getMeasuredWidth() - lastTouchX) + AndroidUtilities.dp(40.0f)) * this.animationProgress);
+        float max = Math.max(lastTouchX, getMeasuredWidth() - lastTouchX) + AndroidUtilities.dp(40.0f);
+        this.checkBox.setOverrideColorProgress(lastTouchX, getMeasuredHeight() / 2, max * this.animationProgress);
     }
 
     public Switch getCheckBox() {
@@ -268,7 +270,7 @@ public class TextCheckCell extends FrameLayout {
         this.animatedColorBackground = i;
         this.animationPaint.setColor(i);
         this.animationProgress = 0.0f;
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, ANIMATION_PROGRESS, 0.0f, 1.0f);
+        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, (Property<TextCheckCell, Float>) ANIMATION_PROGRESS, 0.0f, 1.0f);
         this.animator = ofFloat;
         ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.TextCheckCell.2
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -299,7 +301,7 @@ public class TextCheckCell extends FrameLayout {
         setBackgroundColor(i);
         this.checkBox.setOverrideColor(1);
         this.animatedColorBackground = i;
-        ObjectAnimator duration = ObjectAnimator.ofFloat(this, ANIMATION_PROGRESS, 1.0f, 0.0f).setDuration(240L);
+        ObjectAnimator duration = ObjectAnimator.ofFloat(this, (Property<TextCheckCell, Float>) ANIMATION_PROGRESS, 1.0f, 0.0f).setDuration(240L);
         this.animator = duration;
         duration.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.TextCheckCell.3
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -372,10 +374,10 @@ public class TextCheckCell extends FrameLayout {
         }
         TextView textView = this.textView;
         Property property = View.ALPHA;
-        arrayList.add(ObjectAnimator.ofFloat(textView, property, z ? 1.0f : 0.5f));
-        arrayList.add(ObjectAnimator.ofFloat(this.checkBox, property, z ? 1.0f : 0.5f));
+        arrayList.add(ObjectAnimator.ofFloat(textView, (Property<TextView, Float>) property, z ? 1.0f : 0.5f));
+        arrayList.add(ObjectAnimator.ofFloat(this.checkBox, (Property<Switch, Float>) property, z ? 1.0f : 0.5f));
         if (this.valueTextView.getVisibility() == 0) {
-            arrayList.add(ObjectAnimator.ofFloat(this.valueTextView, property, z ? 1.0f : 0.5f));
+            arrayList.add(ObjectAnimator.ofFloat(this.valueTextView, (Property<TextView, Float>) property, z ? 1.0f : 0.5f));
         }
     }
 

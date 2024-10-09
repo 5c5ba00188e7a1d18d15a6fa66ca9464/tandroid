@@ -16,6 +16,7 @@ import androidx.core.view.OneShotPreDrawListener;
 import androidx.fragment.R$animator;
 import androidx.fragment.R$id;
 import androidx.fragment.app.FragmentTransition;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class FragmentAnim {
@@ -93,10 +94,10 @@ public abstract class FragmentAnim {
             if (this.mEnded || !this.mAnimating) {
                 this.mParent.endViewTransition(this.mChild);
                 this.mTransitionEnded = true;
-                return;
+            } else {
+                this.mAnimating = false;
+                this.mParent.post(this);
             }
-            this.mAnimating = false;
-            this.mParent.post(this);
         }
     }
 
@@ -182,47 +183,47 @@ public abstract class FragmentAnim {
             }
         }
         ViewGroup viewGroup2 = fragment.mContainer;
-        if (viewGroup2 == null || viewGroup2.getLayoutTransition() == null) {
-            Animation onCreateAnimation = fragment.onCreateAnimation(nextTransition, z, nextAnim);
-            if (onCreateAnimation != null) {
-                return new AnimationOrAnimator(onCreateAnimation);
-            }
-            Animator onCreateAnimator = fragment.onCreateAnimator(nextTransition, z, nextAnim);
-            if (onCreateAnimator != null) {
-                return new AnimationOrAnimator(onCreateAnimator);
-            }
-            if (nextAnim == 0 && nextTransition != 0) {
-                nextAnim = transitToAnimResourceId(nextTransition, z);
-            }
-            if (nextAnim != 0) {
-                boolean equals = "anim".equals(context.getResources().getResourceTypeName(nextAnim));
-                if (equals) {
-                    try {
-                        Animation loadAnimation = AnimationUtils.loadAnimation(context, nextAnim);
-                        if (loadAnimation != null) {
-                            return new AnimationOrAnimator(loadAnimation);
-                        }
-                    } catch (Resources.NotFoundException e) {
-                        throw e;
-                    } catch (RuntimeException unused) {
-                    }
-                }
-                try {
-                    Animator loadAnimator = AnimatorInflater.loadAnimator(context, nextAnim);
-                    if (loadAnimator != null) {
-                        return new AnimationOrAnimator(loadAnimator);
-                    }
-                } catch (RuntimeException e2) {
-                    if (equals) {
-                        throw e2;
-                    }
-                    Animation loadAnimation2 = AnimationUtils.loadAnimation(context, nextAnim);
-                    if (loadAnimation2 != null) {
-                        return new AnimationOrAnimator(loadAnimation2);
-                    }
-                }
-            }
+        if (viewGroup2 != null && viewGroup2.getLayoutTransition() != null) {
             return null;
+        }
+        Animation onCreateAnimation = fragment.onCreateAnimation(nextTransition, z, nextAnim);
+        if (onCreateAnimation != null) {
+            return new AnimationOrAnimator(onCreateAnimation);
+        }
+        Animator onCreateAnimator = fragment.onCreateAnimator(nextTransition, z, nextAnim);
+        if (onCreateAnimator != null) {
+            return new AnimationOrAnimator(onCreateAnimator);
+        }
+        if (nextAnim == 0 && nextTransition != 0) {
+            nextAnim = transitToAnimResourceId(nextTransition, z);
+        }
+        if (nextAnim != 0) {
+            boolean equals = "anim".equals(context.getResources().getResourceTypeName(nextAnim));
+            if (equals) {
+                try {
+                    Animation loadAnimation = AnimationUtils.loadAnimation(context, nextAnim);
+                    if (loadAnimation != null) {
+                        return new AnimationOrAnimator(loadAnimation);
+                    }
+                } catch (Resources.NotFoundException e) {
+                    throw e;
+                } catch (RuntimeException unused) {
+                }
+            }
+            try {
+                Animator loadAnimator = AnimatorInflater.loadAnimator(context, nextAnim);
+                if (loadAnimator != null) {
+                    return new AnimationOrAnimator(loadAnimator);
+                }
+            } catch (RuntimeException e2) {
+                if (equals) {
+                    throw e2;
+                }
+                Animation loadAnimation2 = AnimationUtils.loadAnimation(context, nextAnim);
+                if (loadAnimation2 != null) {
+                    return new AnimationOrAnimator(loadAnimation2);
+                }
+            }
         }
         return null;
     }
@@ -230,12 +231,13 @@ public abstract class FragmentAnim {
     private static int transitToAnimResourceId(int i, boolean z) {
         if (i == 4097) {
             return z ? R$animator.fragment_open_enter : R$animator.fragment_open_exit;
-        } else if (i == 4099) {
-            return z ? R$animator.fragment_fade_enter : R$animator.fragment_fade_exit;
-        } else if (i != 8194) {
-            return -1;
-        } else {
-            return z ? R$animator.fragment_close_enter : R$animator.fragment_close_exit;
         }
+        if (i == 4099) {
+            return z ? R$animator.fragment_fade_enter : R$animator.fragment_fade_exit;
+        }
+        if (i != 8194) {
+            return -1;
+        }
+        return z ? R$animator.fragment_close_enter : R$animator.fragment_close_exit;
     }
 }

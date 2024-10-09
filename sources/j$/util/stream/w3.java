@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class w3 implements Runnable {
     final /* synthetic */ Runnable a;

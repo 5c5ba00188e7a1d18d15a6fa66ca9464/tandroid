@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class TelemetryData extends AbstractSafeParcelable {
     public static final Parcelable.Creator<TelemetryData> CREATOR = new zaab();

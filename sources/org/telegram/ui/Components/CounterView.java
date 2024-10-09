@@ -19,6 +19,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CounterView;
+
 /* loaded from: classes3.dex */
 public class CounterView extends View {
     public CounterDrawable counterDrawable;
@@ -145,8 +146,8 @@ public class CounterView extends View {
             this.x = this.countLeft - dp;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:71:0x0179  */
-        /* JADX WARN: Removed duplicated region for block: B:78:0x01ae  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x0179  */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x01ae  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

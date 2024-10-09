@@ -7,6 +7,7 @@ import android.text.style.ReplacementSpan;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes4.dex */
 public class UploadingDotsSpannable extends ReplacementSpan {
     public boolean fixTop;

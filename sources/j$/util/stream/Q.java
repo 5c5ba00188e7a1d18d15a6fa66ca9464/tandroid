@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 abstract class Q implements x3, y3 {
     private final boolean a;

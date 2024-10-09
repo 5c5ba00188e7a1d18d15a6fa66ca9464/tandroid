@@ -7,6 +7,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.Cells.ShareDialogCell$RepostStoryDrawable$$ExternalSyntheticLambda0;
+
 /* loaded from: classes3.dex */
 public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
     private TransitState animatingState;
@@ -44,14 +45,14 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Enum visitor error
-    jadx.core.utils.exceptions.JadxRuntimeException: Init of enum VOICE_TO_VIDEO uses external variables
-    	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
-    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByField(EnumVisitor.java:368)
-    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByWrappedInsn(EnumVisitor.java:333)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:318)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInvoke(EnumVisitor.java:289)
+    jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'VOICE_TO_VIDEO' uses external variables
+    	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByField(EnumVisitor.java:372)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByWrappedInsn(EnumVisitor.java:337)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:322)
     	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:262)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInvoke(EnumVisitor.java:293)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:266)
     	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
@@ -122,17 +123,16 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
             @Override // java.util.HashMap, java.util.AbstractMap, java.util.Map
             public RLottieDrawable get(Object obj) {
                 RLottieDrawable rLottieDrawable = (RLottieDrawable) super.get(obj);
-                if (rLottieDrawable == null) {
-                    int i = ((TransitState) obj).resource;
-                    return new RLottieDrawable(i, String.valueOf(i), AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
+                if (rLottieDrawable != null) {
+                    return rLottieDrawable;
                 }
-                return rLottieDrawable;
+                int i = ((TransitState) obj).resource;
+                return new RLottieDrawable(i, String.valueOf(i), AndroidUtilities.dp(32.0f), AndroidUtilities.dp(32.0f));
             }
         };
     }
 
     private TransitState getAnyState(State state) {
-        TransitState[] values;
         for (TransitState transitState : TransitState.values()) {
             if (transitState.firstState == state) {
                 return transitState;
@@ -142,7 +142,6 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
     }
 
     private TransitState getState(State state, State state2) {
-        TransitState[] values;
         for (TransitState transitState : TransitState.values()) {
             if (transitState.firstState == state && transitState.secondState == state2) {
                 return transitState;

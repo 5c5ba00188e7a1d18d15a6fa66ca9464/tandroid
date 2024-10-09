@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class AtomParsers {
@@ -200,12 +201,12 @@ public abstract class AtomParsers {
             }
             int i2 = this.sampleIndex;
             this.sampleIndex = i2 + 1;
-            if (i2 % 2 == 0) {
-                int readUnsignedByte = this.data.readUnsignedByte();
-                this.currentByte = readUnsignedByte;
-                return (readUnsignedByte & NotificationCenter.needSetDayNightTheme) >> 4;
+            if (i2 % 2 != 0) {
+                return this.currentByte & 15;
             }
-            return this.currentByte & 15;
+            int readUnsignedByte = this.data.readUnsignedByte();
+            this.currentByte = readUnsignedByte;
+            return (readUnsignedByte & NotificationCenter.needSetDayNightTheme) >> 4;
         }
     }
 
@@ -269,7 +270,7 @@ public abstract class AtomParsers {
         parsableByteArray.setPosition(position);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0165  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0165  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -303,9 +304,10 @@ public abstract class AtomParsers {
                 parsableByteArray.skipBytes(16);
             }
             i7 = readUnsignedShort;
-        } else if (i6 != 2) {
-            return;
         } else {
+            if (i6 != 2) {
+                return;
+            }
             parsableByteArray.skipBytes(16);
             readUnsignedFixedPoint1616 = (int) Math.round(parsableByteArray.readDouble());
             i7 = parsableByteArray.readUnsignedIntToInt();
@@ -339,132 +341,133 @@ public abstract class AtomParsers {
             str2 = "audio/vnd.dts.uhd;profile=p2";
         } else if (i11 == 1935764850) {
             str2 = "audio/3gpp";
-        } else if (i11 != 1935767394) {
-            str3 = "audio/raw";
-            if (i11 == 1819304813 || i11 == 1936684916) {
-                i8 = 2;
-            } else if (i11 == 1953984371) {
-                i8 = 268435456;
-            } else if (i11 == 778924082 || i11 == 778924083) {
-                str2 = "audio/mpeg";
-            } else if (i11 == 1835557169) {
-                str2 = "audio/mha1";
-            } else if (i11 == 1835560241) {
-                str2 = "audio/mhm1";
-            } else if (i11 == 1634492771) {
-                str2 = "audio/alac";
-            } else if (i11 == 1634492791) {
-                str2 = "audio/g711-alaw";
-            } else if (i11 == 1970037111) {
-                str2 = "audio/g711-mlaw";
-            } else if (i11 == 1332770163) {
-                str2 = "audio/opus";
-            } else if (i11 == 1716281667) {
-                str2 = "audio/flac";
-            } else if (i11 == 1835823201) {
-                str2 = "audio/true-hd";
-            } else {
-                i8 = -1;
-                str3 = null;
-            }
-            String str4 = str3;
-            EsdsData esdsData = null;
-            String str5 = null;
-            List list = null;
-            while (position - i9 < i10) {
-                parsableByteArray.setPosition(position);
-                int readInt2 = parsableByteArray.readInt();
-                ExtractorUtil.checkContainerInput(readInt2 > 0, "childAtomSize must be positive");
-                int readInt3 = parsableByteArray.readInt();
-                if (readInt3 == 1835557187) {
-                    int i12 = readInt2 - 13;
-                    byte[] bArr = new byte[i12];
-                    parsableByteArray.setPosition(position + 13);
-                    parsableByteArray.readBytes(bArr, 0, i12);
-                    list = ImmutableList.of((Object) bArr);
+        } else {
+            if (i11 != 1935767394) {
+                str3 = "audio/raw";
+                if (i11 == 1819304813 || i11 == 1936684916) {
+                    i8 = 2;
+                } else if (i11 == 1953984371) {
+                    i8 = 268435456;
+                } else if (i11 == 778924082 || i11 == 778924083) {
+                    str2 = "audio/mpeg";
+                } else if (i11 == 1835557169) {
+                    str2 = "audio/mha1";
+                } else if (i11 == 1835560241) {
+                    str2 = "audio/mhm1";
+                } else if (i11 == 1634492771) {
+                    str2 = "audio/alac";
+                } else if (i11 == 1634492791) {
+                    str2 = "audio/g711-alaw";
+                } else if (i11 == 1970037111) {
+                    str2 = "audio/g711-mlaw";
+                } else if (i11 == 1332770163) {
+                    str2 = "audio/opus";
+                } else if (i11 == 1716281667) {
+                    str2 = "audio/flac";
+                } else if (i11 == 1835823201) {
+                    str2 = "audio/true-hd";
                 } else {
-                    if (readInt3 == 1702061171 || (z && readInt3 == 2002876005)) {
-                        int findBoxPosition = readInt3 == 1702061171 ? position : findBoxPosition(parsableByteArray, 1702061171, position, readInt2);
-                        if (findBoxPosition != -1) {
-                            esdsData = parseEsdsFromParent(parsableByteArray, findBoxPosition);
-                            String str6 = esdsData.mimeType;
-                            byte[] bArr2 = esdsData.initializationData;
-                            if (bArr2 != null) {
-                                if (MediaController.AUDIO_MIME_TYPE.equals(str6)) {
-                                    AacUtil.Config parseAudioSpecificConfig = AacUtil.parseAudioSpecificConfig(bArr2);
-                                    readUnsignedFixedPoint1616 = parseAudioSpecificConfig.sampleRateHz;
-                                    i7 = parseAudioSpecificConfig.channelCount;
-                                    str5 = parseAudioSpecificConfig.codecs;
-                                }
-                                list = ImmutableList.of((Object) bArr2);
-                            }
-                            str4 = str6;
-                        }
+                    i8 = -1;
+                    str3 = null;
+                }
+                String str4 = str3;
+                EsdsData esdsData = null;
+                String str5 = null;
+                List list = null;
+                while (position - i9 < i10) {
+                    parsableByteArray.setPosition(position);
+                    int readInt2 = parsableByteArray.readInt();
+                    ExtractorUtil.checkContainerInput(readInt2 > 0, "childAtomSize must be positive");
+                    int readInt3 = parsableByteArray.readInt();
+                    if (readInt3 == 1835557187) {
+                        int i12 = readInt2 - 13;
+                        byte[] bArr = new byte[i12];
+                        parsableByteArray.setPosition(position + 13);
+                        parsableByteArray.readBytes(bArr, 0, i12);
+                        list = ImmutableList.of((Object) bArr);
                     } else {
-                        if (readInt3 == 1684103987) {
-                            parsableByteArray.setPosition(position + 8);
-                            build = Ac3Util.parseAc3AnnexFFormat(parsableByteArray, Integer.toString(i4), str, drmInitData2);
-                        } else if (readInt3 == 1684366131) {
-                            parsableByteArray.setPosition(position + 8);
-                            build = Ac3Util.parseEAc3AnnexFFormat(parsableByteArray, Integer.toString(i4), str, drmInitData2);
-                        } else if (readInt3 == 1684103988) {
-                            parsableByteArray.setPosition(position + 8);
-                            build = Ac4Util.parseAc4AnnexEFormat(parsableByteArray, Integer.toString(i4), str, drmInitData2);
-                        } else if (readInt3 == 1684892784) {
-                            if (readInt <= 0) {
-                                throw ParserException.createForMalformedContainer("Invalid sample rate for Dolby TrueHD MLP stream: " + readInt, null);
+                        if (readInt3 == 1702061171 || (z && readInt3 == 2002876005)) {
+                            int findBoxPosition = readInt3 == 1702061171 ? position : findBoxPosition(parsableByteArray, 1702061171, position, readInt2);
+                            if (findBoxPosition != -1) {
+                                esdsData = parseEsdsFromParent(parsableByteArray, findBoxPosition);
+                                String str6 = esdsData.mimeType;
+                                byte[] bArr2 = esdsData.initializationData;
+                                if (bArr2 != null) {
+                                    if (MediaController.AUDIO_MIME_TYPE.equals(str6)) {
+                                        AacUtil.Config parseAudioSpecificConfig = AacUtil.parseAudioSpecificConfig(bArr2);
+                                        readUnsignedFixedPoint1616 = parseAudioSpecificConfig.sampleRateHz;
+                                        i7 = parseAudioSpecificConfig.channelCount;
+                                        str5 = parseAudioSpecificConfig.codecs;
+                                    }
+                                    list = ImmutableList.of((Object) bArr2);
+                                }
+                                str4 = str6;
                             }
-                            readUnsignedFixedPoint1616 = readInt;
-                            i7 = 2;
-                        } else if (readInt3 == 1684305011) {
-                            build = new Format.Builder().setId(i4).setSampleMimeType(str4).setChannelCount(i7).setSampleRate(readUnsignedFixedPoint1616).setDrmInitData(drmInitData2).setLanguage(str).build();
-                        } else if (readInt3 == 1682927731) {
-                            int i13 = readInt2 - 8;
-                            byte[] bArr3 = opusMagic;
-                            byte[] copyOf = Arrays.copyOf(bArr3, bArr3.length + i13);
-                            parsableByteArray.setPosition(position + 8);
-                            parsableByteArray.readBytes(copyOf, bArr3.length, i13);
-                            list = OpusUtil.buildInitializationData(copyOf);
-                        } else if (readInt3 == 1684425825) {
-                            byte[] bArr4 = new byte[readInt2 - 8];
-                            bArr4[0] = 102;
-                            bArr4[1] = 76;
-                            bArr4[2] = 97;
-                            bArr4[3] = 67;
-                            parsableByteArray.setPosition(position + 12);
-                            parsableByteArray.readBytes(bArr4, 4, readInt2 - 12);
-                            list = ImmutableList.of((Object) bArr4);
-                        } else if (readInt3 == 1634492771) {
-                            int i14 = readInt2 - 12;
-                            byte[] bArr5 = new byte[i14];
-                            parsableByteArray.setPosition(position + 12);
-                            parsableByteArray.readBytes(bArr5, 0, i14);
-                            Pair parseAlacAudioSpecificConfig = CodecSpecificDataUtil.parseAlacAudioSpecificConfig(bArr5);
-                            int intValue = ((Integer) parseAlacAudioSpecificConfig.first).intValue();
-                            int intValue2 = ((Integer) parseAlacAudioSpecificConfig.second).intValue();
-                            list = ImmutableList.of((Object) bArr5);
-                            i7 = intValue2;
-                            readUnsignedFixedPoint1616 = intValue;
+                        } else {
+                            if (readInt3 == 1684103987) {
+                                parsableByteArray.setPosition(position + 8);
+                                build = Ac3Util.parseAc3AnnexFFormat(parsableByteArray, Integer.toString(i4), str, drmInitData2);
+                            } else if (readInt3 == 1684366131) {
+                                parsableByteArray.setPosition(position + 8);
+                                build = Ac3Util.parseEAc3AnnexFFormat(parsableByteArray, Integer.toString(i4), str, drmInitData2);
+                            } else if (readInt3 == 1684103988) {
+                                parsableByteArray.setPosition(position + 8);
+                                build = Ac4Util.parseAc4AnnexEFormat(parsableByteArray, Integer.toString(i4), str, drmInitData2);
+                            } else if (readInt3 == 1684892784) {
+                                if (readInt <= 0) {
+                                    throw ParserException.createForMalformedContainer("Invalid sample rate for Dolby TrueHD MLP stream: " + readInt, null);
+                                }
+                                readUnsignedFixedPoint1616 = readInt;
+                                i7 = 2;
+                            } else if (readInt3 == 1684305011) {
+                                build = new Format.Builder().setId(i4).setSampleMimeType(str4).setChannelCount(i7).setSampleRate(readUnsignedFixedPoint1616).setDrmInitData(drmInitData2).setLanguage(str).build();
+                            } else if (readInt3 == 1682927731) {
+                                int i13 = readInt2 - 8;
+                                byte[] bArr3 = opusMagic;
+                                byte[] copyOf = Arrays.copyOf(bArr3, bArr3.length + i13);
+                                parsableByteArray.setPosition(position + 8);
+                                parsableByteArray.readBytes(copyOf, bArr3.length, i13);
+                                list = OpusUtil.buildInitializationData(copyOf);
+                            } else if (readInt3 == 1684425825) {
+                                byte[] bArr4 = new byte[readInt2 - 8];
+                                bArr4[0] = 102;
+                                bArr4[1] = 76;
+                                bArr4[2] = 97;
+                                bArr4[3] = 67;
+                                parsableByteArray.setPosition(position + 12);
+                                parsableByteArray.readBytes(bArr4, 4, readInt2 - 12);
+                                list = ImmutableList.of((Object) bArr4);
+                            } else if (readInt3 == 1634492771) {
+                                int i14 = readInt2 - 12;
+                                byte[] bArr5 = new byte[i14];
+                                parsableByteArray.setPosition(position + 12);
+                                parsableByteArray.readBytes(bArr5, 0, i14);
+                                Pair parseAlacAudioSpecificConfig = CodecSpecificDataUtil.parseAlacAudioSpecificConfig(bArr5);
+                                int intValue = ((Integer) parseAlacAudioSpecificConfig.first).intValue();
+                                int intValue2 = ((Integer) parseAlacAudioSpecificConfig.second).intValue();
+                                list = ImmutableList.of((Object) bArr5);
+                                i7 = intValue2;
+                                readUnsignedFixedPoint1616 = intValue;
+                            }
+                            stsdData.format = build;
                         }
-                        stsdData.format = build;
+                        position += readInt2;
+                        i9 = i2;
+                        i10 = i3;
                     }
                     position += readInt2;
                     i9 = i2;
                     i10 = i3;
                 }
-                position += readInt2;
-                i9 = i2;
-                i10 = i3;
+                if (stsdData.format == null || str4 == null) {
+                }
+                Format.Builder language = new Format.Builder().setId(i4).setSampleMimeType(str4).setCodecs(str5).setChannelCount(i7).setSampleRate(readUnsignedFixedPoint1616).setPcmEncoding(i8).setInitializationData(list).setDrmInitData(drmInitData2).setLanguage(str);
+                if (esdsData != null) {
+                    language.setAverageBitrate(Ints.saturatedCast(esdsData.bitrate)).setPeakBitrate(Ints.saturatedCast(esdsData.peakBitrate));
+                }
+                stsdData.format = language.build();
+                return;
             }
-            if (stsdData.format == null || str4 == null) {
-            }
-            Format.Builder language = new Format.Builder().setId(i4).setSampleMimeType(str4).setCodecs(str5).setChannelCount(i7).setSampleRate(readUnsignedFixedPoint1616).setPcmEncoding(i8).setInitializationData(list).setDrmInitData(drmInitData2).setLanguage(str);
-            if (esdsData != null) {
-                language.setAverageBitrate(Ints.saturatedCast(esdsData.bitrate)).setPeakBitrate(Ints.saturatedCast(esdsData.peakBitrate));
-            }
-            stsdData.format = language.build();
-            return;
-        } else {
             str2 = "audio/amr-wb";
         }
         str3 = str2;
@@ -500,14 +503,14 @@ public abstract class AtomParsers {
             }
             i3 += readInt;
         }
-        if ("cenc".equals(str) || "cbc1".equals(str) || "cens".equals(str) || "cbcs".equals(str)) {
-            ExtractorUtil.checkContainerInput(num != null, "frma atom is mandatory");
-            ExtractorUtil.checkContainerInput(i4 != -1, "schi atom is mandatory");
-            TrackEncryptionBox parseSchiFromParent = parseSchiFromParent(parsableByteArray, i4, i5, str);
-            ExtractorUtil.checkContainerInput(parseSchiFromParent != null, "tenc atom is mandatory");
-            return Pair.create(num, (TrackEncryptionBox) Util.castNonNull(parseSchiFromParent));
+        if (!"cenc".equals(str) && !"cbc1".equals(str) && !"cens".equals(str) && !"cbcs".equals(str)) {
+            return null;
         }
-        return null;
+        ExtractorUtil.checkContainerInput(num != null, "frma atom is mandatory");
+        ExtractorUtil.checkContainerInput(i4 != -1, "schi atom is mandatory");
+        TrackEncryptionBox parseSchiFromParent = parseSchiFromParent(parsableByteArray, i4, i5, str);
+        ExtractorUtil.checkContainerInput(parseSchiFromParent != null, "tenc atom is mandatory");
+        return Pair.create(num, (TrackEncryptionBox) Util.castNonNull(parseSchiFromParent));
     }
 
     private static Pair parseEdts(Atom.ContainerAtom containerAtom) {
@@ -741,37 +744,37 @@ public abstract class AtomParsers {
                 }
                 parsableByteArray.skipBytes(5);
                 int readUnsignedByte = parsableByteArray.readUnsignedByte();
-                if (readUnsignedByte == 12 || readUnsignedByte == 13) {
-                    float f = readUnsignedByte == 12 ? 240.0f : 120.0f;
-                    parsableByteArray.skipBytes(1);
-                    return new Metadata(new SmtaMetadataEntry(f, parsableByteArray.readUnsignedByte()));
+                if (readUnsignedByte != 12 && readUnsignedByte != 13) {
+                    return null;
                 }
-                return null;
+                float f = readUnsignedByte == 12 ? 240.0f : 120.0f;
+                parsableByteArray.skipBytes(1);
+                return new Metadata(new SmtaMetadataEntry(f, parsableByteArray.readUnsignedByte()));
             }
             parsableByteArray.setPosition(position + readInt);
         }
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:117:0x02af  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x02bf  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x03b2  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x03b4  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x03cc  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x0434  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x0436  */
-    /* JADX WARN: Removed duplicated region for block: B:177:0x043b  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x043e  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x0441  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x0444  */
-    /* JADX WARN: Removed duplicated region for block: B:183:0x0447  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x0449  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x044d  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x0450  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x045f  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x042a A[EDGE_INSN: B:212:0x042a->B:171:0x042a ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0100  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0132  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0434  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x043b  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0441  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x0447  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x044d  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x045f  */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x0450  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0449  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0444  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x043e  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x0436  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x03b4  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x0132  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0100  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x02af  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x02bf  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x03b2  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x03cc  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x042a A[EDGE_INSN: B:97:0x042a->B:98:0x042a BREAK  A[LOOP:2: B:76:0x03c7->B:92:0x0422], SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -963,9 +966,10 @@ public abstract class AtomParsers {
                             i13 = i5 - 1;
                         }
                         int i40 = i39;
+                        long j6 = j4 + iArr5[i23];
                         i26 = i33 - 1;
                         i23++;
-                        j3 = j4 + iArr5[i23];
+                        j3 = j6;
                         i22 = i38;
                         i29 = i12;
                         sampleCount = i35;
@@ -973,7 +977,7 @@ public abstract class AtomParsers {
                         i31 = i13;
                         i30 = i40;
                     }
-                    long j6 = j2 + i7;
+                    long j7 = j2 + i7;
                     if (parsableByteArray5 != null) {
                         while (i28 > 0) {
                             if (parsableByteArray5.readUnsignedIntToInt() != 0) {
@@ -993,7 +997,7 @@ public abstract class AtomParsers {
                             jArr = jArr7;
                             iArr = iArr5;
                             i11 = i24;
-                            j = j6;
+                            j = j7;
                             jArr2 = jArr8;
                             iArr2 = iArr6;
                         }
@@ -1020,7 +1024,7 @@ public abstract class AtomParsers {
                     jArr = jArr7;
                     iArr = iArr5;
                     i11 = i24;
-                    j = j6;
+                    j = j7;
                     jArr2 = jArr8;
                     iArr2 = iArr6;
                 } else {
@@ -1038,14 +1042,14 @@ public abstract class AtomParsers {
                     int i43 = rechunk.maximumSize;
                     long[] jArr11 = rechunk.timestamps;
                     int[] iArr9 = rechunk.flags;
-                    long j7 = rechunk.duration;
+                    long j8 = rechunk.duration;
                     track2 = track;
                     i10 = sampleCount;
                     jArr = jArr10;
                     iArr = iArr8;
                     i11 = i43;
                     iArr2 = iArr9;
-                    j = j7;
+                    j = j8;
                     jArr2 = jArr11;
                 }
                 long scaleLargeTimestamp = Util.scaleLargeTimestamp(j, 1000000L, track2.timescale);
@@ -1055,11 +1059,11 @@ public abstract class AtomParsers {
                     return new TrackSampleTable(track, jArr, iArr, i11, jArr2, iArr2, scaleLargeTimestamp);
                 }
                 if (jArr3.length == 1 && track2.type == 1 && jArr2.length >= 2) {
-                    long j8 = ((long[]) Assertions.checkNotNull(track2.editListMediaTimes))[0];
-                    long scaleLargeTimestamp2 = j8 + Util.scaleLargeTimestamp(track2.editListDurations[0], track2.timescale, track2.movieTimescale);
+                    long j9 = ((long[]) Assertions.checkNotNull(track2.editListMediaTimes))[0];
+                    long scaleLargeTimestamp2 = j9 + Util.scaleLargeTimestamp(track2.editListDurations[0], track2.timescale, track2.movieTimescale);
                     i14 = i10;
-                    if (canApplyEditWithGaplessInfo(jArr2, j, j8, scaleLargeTimestamp2)) {
-                        long scaleLargeTimestamp3 = Util.scaleLargeTimestamp(j8 - jArr2[0], track2.format.sampleRate, track2.timescale);
+                    if (canApplyEditWithGaplessInfo(jArr2, j, j9, scaleLargeTimestamp2)) {
+                        long scaleLargeTimestamp3 = Util.scaleLargeTimestamp(j9 - jArr2[0], track2.format.sampleRate, track2.timescale);
                         i15 = i11;
                         long scaleLargeTimestamp4 = Util.scaleLargeTimestamp(j - scaleLargeTimestamp2, track2.format.sampleRate, track2.timescale);
                         if ((scaleLargeTimestamp3 != 0 || scaleLargeTimestamp4 != 0) && scaleLargeTimestamp3 <= 2147483647L && scaleLargeTimestamp4 <= 2147483647L) {
@@ -1070,11 +1074,11 @@ public abstract class AtomParsers {
                         }
                         jArr4 = track2.editListDurations;
                         if (jArr4.length != 1 && jArr4[0] == 0) {
-                            long j9 = ((long[]) Assertions.checkNotNull(track2.editListMediaTimes))[0];
+                            long j10 = ((long[]) Assertions.checkNotNull(track2.editListMediaTimes))[0];
                             for (int i44 = 0; i44 < jArr2.length; i44++) {
-                                jArr2[i44] = Util.scaleLargeTimestamp(jArr2[i44] - j9, 1000000L, track2.timescale);
+                                jArr2[i44] = Util.scaleLargeTimestamp(jArr2[i44] - j10, 1000000L, track2.timescale);
                             }
-                            return new TrackSampleTable(track, jArr, iArr, i15, jArr2, iArr2, Util.scaleLargeTimestamp(j - j9, 1000000L, track2.timescale));
+                            return new TrackSampleTable(track, jArr, iArr, i15, jArr2, iArr2, Util.scaleLargeTimestamp(j - j10, 1000000L, track2.timescale));
                         }
                         z4 = track2.type != 1;
                         int[] iArr10 = new int[jArr4.length];
@@ -1091,15 +1095,15 @@ public abstract class AtomParsers {
                             }
                             long[] jArr13 = jArr;
                             int[] iArr12 = iArr;
-                            long j10 = jArr12[i16];
-                            if (j10 != -1) {
-                                long j11 = jArr5[i16];
+                            long j11 = jArr12[i16];
+                            if (j11 != -1) {
+                                long j12 = jArr5[i16];
                                 boolean z9 = z5;
                                 int i46 = i17;
-                                long scaleLargeTimestamp5 = Util.scaleLargeTimestamp(j11, track2.timescale, track2.movieTimescale);
-                                iArr10[i16] = Util.binarySearchFloor(jArr2, j10, true, true);
+                                long scaleLargeTimestamp5 = Util.scaleLargeTimestamp(j12, track2.timescale, track2.movieTimescale);
+                                iArr10[i16] = Util.binarySearchFloor(jArr2, j11, true, true);
                                 z6 = z4;
-                                iArr11[i16] = Util.binarySearchCeil(jArr2, j10 + scaleLargeTimestamp5, z6, false);
+                                iArr11[i16] = Util.binarySearchCeil(jArr2, j11 + scaleLargeTimestamp5, z6, false);
                                 while (true) {
                                     i21 = iArr10[i16];
                                     i20 = iArr11[i16];
@@ -1135,10 +1139,10 @@ public abstract class AtomParsers {
                         long[] jArr16 = new long[i45];
                         int i49 = i48;
                         int[] iArr16 = iArr13;
-                        long j12 = 0;
+                        long j13 = 0;
                         int i50 = 0;
                         while (i18 < track2.editListDurations.length) {
-                            long j13 = track2.editListMediaTimes[i18];
+                            long j14 = track2.editListMediaTimes[i18];
                             int i51 = iArr10[i18];
                             int[] iArr17 = iArr10;
                             int i52 = iArr11[i18];
@@ -1161,22 +1165,22 @@ public abstract class AtomParsers {
                                 if (i51 < i52) {
                                     long[] jArr17 = jArr2;
                                     int[] iArr19 = iArr2;
-                                    long j14 = j12;
-                                    jArr16[i50] = Util.scaleLargeTimestamp(j12, 1000000L, track2.movieTimescale) + Util.scaleLargeTimestamp(Math.max(0L, jArr2[i51] - j13), 1000000L, track2.timescale);
+                                    long j15 = j13;
+                                    jArr16[i50] = Util.scaleLargeTimestamp(j13, 1000000L, track2.movieTimescale) + Util.scaleLargeTimestamp(Math.max(0L, jArr2[i51] - j14), 1000000L, track2.timescale);
                                     if (z11 && iArr14[i50] > i54) {
                                         i54 = iArr3[i51];
                                     }
                                     i50++;
                                     i51++;
                                     iArr2 = iArr19;
-                                    j12 = j14;
+                                    j13 = j15;
                                     jArr2 = jArr17;
                                     iArr15 = iArr4;
                                     i18 = i19;
                                 }
                             }
                             i49 = i54;
-                            j12 += track2.editListDurations[i19];
+                            j13 += track2.editListDurations[i19];
                             iArr16 = iArr3;
                             iArr11 = iArr18;
                             jArr14 = jArr6;
@@ -1184,7 +1188,7 @@ public abstract class AtomParsers {
                             i18 = i19 + 1;
                             iArr10 = iArr17;
                         }
-                        return new TrackSampleTable(track, jArr15, iArr14, i49, jArr16, iArr15, Util.scaleLargeTimestamp(j12, 1000000L, track2.movieTimescale));
+                        return new TrackSampleTable(track, jArr15, iArr14, i49, jArr16, iArr15, Util.scaleLargeTimestamp(j13, 1000000L, track2.movieTimescale));
                     }
                 } else {
                     i14 = i10;
@@ -1229,11 +1233,11 @@ public abstract class AtomParsers {
                 long[] jArr162 = new long[i452];
                 int i492 = i48;
                 int[] iArr162 = iArr132;
-                long j122 = 0;
+                long j132 = 0;
                 int i502 = 0;
                 while (i18 < track2.editListDurations.length) {
                 }
-                return new TrackSampleTable(track, jArr15, iArr14, i492, jArr162, iArr15, Util.scaleLargeTimestamp(j122, 1000000L, track2.movieTimescale));
+                return new TrackSampleTable(track, jArr15, iArr14, i492, jArr162, iArr15, Util.scaleLargeTimestamp(j132, 1000000L, track2.movieTimescale));
             }
             parsableByteArray4 = null;
         } else {
@@ -1301,9 +1305,10 @@ public abstract class AtomParsers {
                 str2 = "application/x-mp4-vtt";
             } else if (i == 1937010800) {
                 j = 0;
-            } else if (i != 1664495672) {
-                throw new IllegalStateException();
             } else {
+                if (i != 1664495672) {
+                    throw new IllegalStateException();
+                }
                 stsdData.requiredSampleTransformation = 1;
                 str2 = "application/x-mp4-cea-608";
             }
@@ -1327,7 +1332,8 @@ public abstract class AtomParsers {
             if (i3 >= i) {
                 parsableByteArray.skipBytes(i);
                 break;
-            } else if (parsableByteArray.getData()[position + i3] != -1) {
+            }
+            if (parsableByteArray.getData()[position + i3] != -1) {
                 long readUnsignedInt = parseFullAtomVersion == 0 ? parsableByteArray.readUnsignedInt() : parsableByteArray.readUnsignedLongToLong();
                 if (readUnsignedInt != 0) {
                     j = readUnsignedInt;
@@ -1374,23 +1380,25 @@ public abstract class AtomParsers {
         }
         long parseMvhd = parseMvhd(leafAtom2.data);
         long scaleLargeTimestamp = j2 != -9223372036854775807L ? Util.scaleLargeTimestamp(j2, 1000000L, parseMvhd) : -9223372036854775807L;
+        Atom.ContainerAtom containerAtom3 = (Atom.ContainerAtom) Assertions.checkNotNull(((Atom.ContainerAtom) Assertions.checkNotNull(containerAtom2.getContainerAtomOfType(1835626086))).getContainerAtomOfType(1937007212));
         Pair parseMdhd = parseMdhd(((Atom.LeafAtom) Assertions.checkNotNull(containerAtom2.getLeafAtomOfType(1835296868))).data);
-        Atom.LeafAtom leafAtomOfType = ((Atom.ContainerAtom) Assertions.checkNotNull(((Atom.ContainerAtom) Assertions.checkNotNull(containerAtom2.getContainerAtomOfType(1835626086))).getContainerAtomOfType(1937007212))).getLeafAtomOfType(1937011556);
-        if (leafAtomOfType != null) {
-            StsdData parseStsd = parseStsd(leafAtomOfType.data, parseTkhd.id, parseTkhd.rotationDegrees, (String) parseMdhd.second, drmInitData, z2);
-            if (z || (containerAtomOfType = containerAtom.getContainerAtomOfType(1701082227)) == null || (parseEdts = parseEdts(containerAtomOfType)) == null) {
-                jArr = null;
-                jArr2 = null;
-            } else {
-                jArr2 = (long[]) parseEdts.second;
-                jArr = (long[]) parseEdts.first;
-            }
-            if (parseStsd.format == null) {
-                return null;
-            }
-            return new Track(parseTkhd.id, trackTypeForHdlr, ((Long) parseMdhd.first).longValue(), parseMvhd, scaleLargeTimestamp, parseStsd.format, parseStsd.requiredSampleTransformation, parseStsd.trackEncryptionBoxes, parseStsd.nalUnitLengthFieldLength, jArr, jArr2);
+        Atom.LeafAtom leafAtomOfType = containerAtom3.getLeafAtomOfType(1937011556);
+        if (leafAtomOfType == null) {
+            throw ParserException.createForMalformedContainer("Malformed sample table (stbl) missing sample description (stsd)", null);
         }
-        throw ParserException.createForMalformedContainer("Malformed sample table (stbl) missing sample description (stsd)", null);
+        StsdData parseStsd = parseStsd(leafAtomOfType.data, parseTkhd.id, parseTkhd.rotationDegrees, (String) parseMdhd.second, drmInitData, z2);
+        if (z || (containerAtomOfType = containerAtom.getContainerAtomOfType(1701082227)) == null || (parseEdts = parseEdts(containerAtomOfType)) == null) {
+            jArr = null;
+            jArr2 = null;
+        } else {
+            long[] jArr3 = (long[]) parseEdts.first;
+            jArr2 = (long[]) parseEdts.second;
+            jArr = jArr3;
+        }
+        if (parseStsd.format == null) {
+            return null;
+        }
+        return new Track(parseTkhd.id, trackTypeForHdlr, ((Long) parseMdhd.first).longValue(), parseMvhd, scaleLargeTimestamp, parseStsd.format, parseStsd.requiredSampleTransformation, parseStsd.trackEncryptionBoxes, parseStsd.nalUnitLengthFieldLength, jArr, jArr2);
     }
 
     public static List parseTraks(Atom.ContainerAtom containerAtom, GaplessInfoHolder gaplessInfoHolder, long j, DrmInitData drmInitData, boolean z, boolean z2, Function function) {

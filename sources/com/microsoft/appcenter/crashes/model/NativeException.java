@@ -1,4 +1,5 @@
 package com.microsoft.appcenter.crashes.model;
+
 /* loaded from: classes.dex */
 public class NativeException extends RuntimeException {
     public NativeException() {

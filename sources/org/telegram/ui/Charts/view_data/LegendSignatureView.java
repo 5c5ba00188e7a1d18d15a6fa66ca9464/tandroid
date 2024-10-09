@@ -29,6 +29,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Stars.StarsIntroActivity;
+
 /* loaded from: classes4.dex */
 public class LegendSignatureView extends FrameLayout {
     Drawable backgroundDrawable;
@@ -143,10 +144,10 @@ public class LegendSignatureView extends FrameLayout {
     }
 
     private String capitalize(String str) {
-        if (str.length() > 0) {
-            return Character.toUpperCase(str.charAt(0)) + str.substring(1);
+        if (str.length() <= 0) {
+            return str;
         }
-        return str;
+        return Character.toUpperCase(str.charAt(0)) + str.substring(1);
     }
 
     private String formatData(Date date) {
@@ -178,23 +179,23 @@ public class LegendSignatureView extends FrameLayout {
             Double.isNaN(d);
             sb.append(decimalFormat2.format(d / 1.0E9d));
             return ChannelMonetizationLayout.replaceTON(sb.toString(), textView.getPaint(), 0.82f, false);
-        } else if (i == 2) {
+        }
+        if (i == 2) {
             if (i2 == 0) {
                 return StarsIntroActivity.replaceStarsWithPlain("XTR " + LocaleController.formatNumber(j, ' '), 0.7f);
             }
             return "≈" + BillingController.getInstance().formatCurrency(((float) j) / f, "USD");
-        } else {
-            float f2 = (float) j;
-            if (j < 10000) {
-                return String.format("%d", Long.valueOf(j));
-            }
-            int i3 = 0;
-            while (f2 >= 1000.0f && i3 < AndroidUtilities.numbersSignatureArray.length - 1) {
-                f2 /= 1000.0f;
-                i3++;
-            }
-            return String.format("%.2f", Float.valueOf(f2)) + AndroidUtilities.numbersSignatureArray[i3];
         }
+        float f2 = (float) j;
+        if (j < 10000) {
+            return String.format("%d", Long.valueOf(j));
+        }
+        int i3 = 0;
+        while (f2 >= 1000.0f && i3 < AndroidUtilities.numbersSignatureArray.length - 1) {
+            f2 /= 1000.0f;
+            i3++;
+        }
+        return String.format("%.2f", Float.valueOf(f2)) + AndroidUtilities.numbersSignatureArray[i3];
     }
 
     public void recolor() {
@@ -213,10 +214,10 @@ public class LegendSignatureView extends FrameLayout {
         setBackground(combinedDrawable);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00b3  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00d1  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x022d  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0244  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x00b3  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00d1  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x022d  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0244  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -330,10 +331,11 @@ public class LegendSignatureView extends FrameLayout {
                 this.canGoZoom = false;
                 this.chevron.setVisibility(8);
                 return;
+            } else {
+                this.canGoZoom = j5 > 0;
+                this.chevron.setVisibility(j5 <= 0 ? 8 : 0);
+                return;
             }
-            this.canGoZoom = j5 > 0;
-            this.chevron.setVisibility(j5 <= 0 ? 8 : 0);
-            return;
         }
         textView2 = this.time;
         format = String.format(Locale.ENGLISH, "%02d:00", Long.valueOf(j));

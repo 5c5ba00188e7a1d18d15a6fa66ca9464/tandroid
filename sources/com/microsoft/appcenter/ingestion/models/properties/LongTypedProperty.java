@@ -2,6 +2,7 @@ package com.microsoft.appcenter.ingestion.models.properties;
 
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class LongTypedProperty extends TypedProperty {
     private long value;
@@ -25,8 +26,9 @@ public class LongTypedProperty extends TypedProperty {
 
     @Override // com.microsoft.appcenter.ingestion.models.properties.TypedProperty
     public int hashCode() {
+        int hashCode = super.hashCode() * 31;
         long j = this.value;
-        return (super.hashCode() * 31) + ((int) (j ^ (j >>> 32)));
+        return hashCode + ((int) (j ^ (j >>> 32)));
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.properties.TypedProperty, com.microsoft.appcenter.ingestion.models.Model

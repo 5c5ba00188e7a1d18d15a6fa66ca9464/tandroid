@@ -10,6 +10,7 @@ import com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkIni
 import com.google.android.datatransport.runtime.time.Clock;
 import java.util.Collections;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public class TransportRuntime implements TransportInternal {
     private static volatile TransportRuntimeComponent instance;

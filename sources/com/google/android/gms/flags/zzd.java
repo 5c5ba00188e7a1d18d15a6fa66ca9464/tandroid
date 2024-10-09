@@ -4,6 +4,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import com.google.android.gms.dynamic.IObjectWrapper;
+
 /* loaded from: classes.dex */
 public abstract class zzd extends com.google.android.gms.internal.flags.zzb implements zzc {
     public zzd() {
@@ -35,9 +36,10 @@ public abstract class zzd extends com.google.android.gms.internal.flags.zzb impl
             long longFlagValue = getLongFlagValue(parcel.readString(), parcel.readLong(), parcel.readInt());
             parcel2.writeNoException();
             parcel2.writeLong(longFlagValue);
-        } else if (i != 5) {
-            return false;
         } else {
+            if (i != 5) {
+                return false;
+            }
             String stringFlagValue = getStringFlagValue(parcel.readString(), parcel.readString(), parcel.readInt());
             parcel2.writeNoException();
             parcel2.writeString(stringFlagValue);

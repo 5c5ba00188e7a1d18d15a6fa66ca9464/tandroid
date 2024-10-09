@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
 import org.telegram.messenger.NotificationCenter;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class TsBinarySearchSeeker extends BinarySearchSeeker {
@@ -36,12 +37,12 @@ public final class TsBinarySearchSeeker extends BinarySearchSeeker {
                     long adjustTsTimestamp = this.pcrTimestampAdjuster.adjustTsTimestamp(readPcrFromPacket);
                     if (adjustTsTimestamp > j) {
                         return j5 == -9223372036854775807L ? BinarySearchSeeker.TimestampSearchResult.overestimatedResult(adjustTsTimestamp, j2) : BinarySearchSeeker.TimestampSearchResult.targetFoundResult(j2 + j4);
-                    } else if (100000 + adjustTsTimestamp > j) {
-                        return BinarySearchSeeker.TimestampSearchResult.targetFoundResult(j2 + findSyncBytePosition);
-                    } else {
-                        j4 = findSyncBytePosition;
-                        j5 = adjustTsTimestamp;
                     }
+                    if (100000 + adjustTsTimestamp > j) {
+                        return BinarySearchSeeker.TimestampSearchResult.targetFoundResult(j2 + findSyncBytePosition);
+                    }
+                    j4 = findSyncBytePosition;
+                    j5 = adjustTsTimestamp;
                 }
                 parsableByteArray.setPosition(findSyncBytePosition2);
                 j3 = findSyncBytePosition2;

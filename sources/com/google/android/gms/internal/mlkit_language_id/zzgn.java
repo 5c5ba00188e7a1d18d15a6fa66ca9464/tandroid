@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 final class zzgn extends zzdi implements RandomAccess {
     private static final zzgn zza;
@@ -85,13 +86,12 @@ final class zzgn extends zzdi implements RandomAccess {
 
     @Override // java.util.AbstractList, java.util.List
     public final Object remove(int i) {
-        int i2;
         zzc();
         zza(i);
         Object[] objArr = this.zzb;
         Object obj = objArr[i];
         if (i < this.zzc - 1) {
-            System.arraycopy(objArr, i + 1, objArr, i, (i2 - i) - 1);
+            System.arraycopy(objArr, i + 1, objArr, i, (r2 - i) - 1);
         }
         this.zzc--;
         ((AbstractList) this).modCount++;

@@ -1,4 +1,5 @@
 package com.google.android.gms.maps.model;
+
 /* loaded from: classes.dex */
 public final class Dash extends PatternItem {
     public final float length;
@@ -10,7 +11,6 @@ public final class Dash extends PatternItem {
 
     @Override // com.google.android.gms.maps.model.PatternItem
     public String toString() {
-        float f = this.length;
-        return "[Dash: length=" + f + "]";
+        return "[Dash: length=" + this.length + "]";
     }
 }

@@ -68,6 +68,7 @@ import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stars.StarsReactionsSheet;
 import org.telegram.ui.Stories.recorder.HintView2;
+
 /* loaded from: classes3.dex */
 public class GiftSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     private final int TAB_ALL;
@@ -175,7 +176,9 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                 Object obj = uItem.object;
                 if (obj instanceof GiftPremiumBottomSheet$GiftTier) {
                     ((GiftCell) view).setPremiumGift((GiftPremiumBottomSheet$GiftTier) obj);
-                } else if (obj instanceof TL_stars.StarGift) {
+                    return;
+                }
+                if (obj instanceof TL_stars.StarGift) {
                     ((GiftCell) view).setStarsGift((TL_stars.StarGift) obj);
                 } else if (obj instanceof TL_stars.UserStarGift) {
                     ((GiftCell) view).setStarsGift((TL_stars.UserStarGift) obj);
@@ -266,8 +269,10 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             if (document == null) {
                 this.imageView.clearImage();
                 this.lastDocument = null;
-            } else if (this.lastDocument == document) {
             } else {
+                if (this.lastDocument == document) {
+                    return;
+                }
                 this.lastDocument = document;
                 TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, AndroidUtilities.dp(100.0f));
                 this.imageView.setImage(ImageLocation.getForDocument(document), "100_100", ImageLocation.getForDocument(closestPhotoSizeWithSize, document), "100_100", DocumentObject.getSvgThumb(document, Theme.key_windowBackgroundGray, 0.3f), obj);
@@ -339,8 +344,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             }
             this.avatarView.setVisibility(8);
             this.priceView.setPadding(AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(10.0f), 0);
-            TextView textView = this.priceView;
-            textView.setText(StarsIntroActivity.replaceStarsWithPlain("XTR " + LocaleController.formatNumber(starGift.stars, ','), 0.71f));
+            this.priceView.setText(StarsIntroActivity.replaceStarsWithPlain("XTR " + LocaleController.formatNumber(starGift.stars, ','), 0.71f));
             this.priceView.setBackground(new StarsBackground());
             this.priceView.setTextColor(-4229632);
             ((ViewGroup.MarginLayoutParams) this.priceView.getLayoutParams()).topMargin = AndroidUtilities.dp(103.0f);
@@ -599,8 +603,8 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                     rectF.set(view.getLeft() + AndroidUtilities.dp(5.0f), view.getTop(), view.getRight() - AndroidUtilities.dp(5.0f), view.getBottom());
                 }
 
-                /* JADX WARN: Removed duplicated region for block: B:12:0x00a8  */
-                /* JADX WARN: Removed duplicated region for block: B:13:0x00be  */
+                /* JADX WARN: Removed duplicated region for block: B:11:0x00be  */
+                /* JADX WARN: Removed duplicated region for block: B:7:0x00a8  */
                 @Override // android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -616,20 +620,21 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                     if (clamp < Tabs.this.tabs.size()) {
                         rectF = Tabs.this.flooredRect;
                         obj = Tabs.this.tabs.get(clamp);
-                    } else if (clamp2 >= Tabs.this.tabs.size()) {
-                        Tabs.this.flooredRect.set(0.0f, 0.0f, 0.0f, 0.0f);
-                        if (clamp2 >= Tabs.this.tabs.size()) {
-                            setBounds(Tabs.this.ceiledRect, (View) Tabs.this.tabs.get(clamp2));
-                        } else if (clamp < Tabs.this.tabs.size()) {
-                            setBounds(Tabs.this.ceiledRect, (View) Tabs.this.tabs.get(clamp));
-                        } else {
-                            Tabs.this.ceiledRect.set(0.0f, 0.0f, 0.0f, 0.0f);
-                        }
-                        AndroidUtilities.lerp(Tabs.this.flooredRect, Tabs.this.ceiledRect, f - clamp, Tabs.this.selectedRect);
-                        float height = Tabs.this.selectedRect.height() / 2.0f;
-                        canvas.drawRoundRect(Tabs.this.selectedRect, height, height, Tabs.this.selectedPaint);
-                        super.dispatchDraw(canvas);
                     } else {
+                        if (clamp2 >= Tabs.this.tabs.size()) {
+                            Tabs.this.flooredRect.set(0.0f, 0.0f, 0.0f, 0.0f);
+                            if (clamp2 >= Tabs.this.tabs.size()) {
+                                setBounds(Tabs.this.ceiledRect, (View) Tabs.this.tabs.get(clamp2));
+                            } else if (clamp < Tabs.this.tabs.size()) {
+                                setBounds(Tabs.this.ceiledRect, (View) Tabs.this.tabs.get(clamp));
+                            } else {
+                                Tabs.this.ceiledRect.set(0.0f, 0.0f, 0.0f, 0.0f);
+                            }
+                            AndroidUtilities.lerp(Tabs.this.flooredRect, Tabs.this.ceiledRect, f - clamp, Tabs.this.selectedRect);
+                            float height = Tabs.this.selectedRect.height() / 2.0f;
+                            canvas.drawRoundRect(Tabs.this.selectedRect, height, height, Tabs.this.selectedPaint);
+                            super.dispatchDraw(canvas);
+                        }
                         rectF = Tabs.this.flooredRect;
                         obj = Tabs.this.tabs.get(clamp2);
                     }
@@ -887,7 +892,9 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                         GiftSheet.this.lambda$new$2(runnable);
                     }
                 }).show();
-            } else if (obj instanceof TL_stars.StarGift) {
+                return;
+            }
+            if (obj instanceof TL_stars.StarGift) {
                 TL_stars.StarGift starGift = (TL_stars.StarGift) obj;
                 if (!starGift.limited || starGift.availability_remains > 0) {
                     new SendGiftSheet(context, i, starGift, this.dialogId, new Runnable() { // from class: org.telegram.ui.Gifts.GiftSheet$$ExternalSyntheticLambda7
@@ -1041,9 +1048,10 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             if (universalAdapter == null) {
                 return;
             }
-        } else if (i != NotificationCenter.starGiftSoldOut || !isShown()) {
-            return;
         } else {
+            if (i != NotificationCenter.starGiftSoldOut || !isShown()) {
+                return;
+            }
             TL_stars.StarGift starGift = (TL_stars.StarGift) objArr[0];
             BulletinFactory.of(this.container, this.resourcesProvider).createEmojiBulletin(starGift.sticker, LocaleController.getString(R.string.Gift2SoldOutTitle), AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("Gift2SoldOut", starGift.availability_total))).show();
             universalAdapter = this.adapter;
@@ -1092,8 +1100,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         ArrayList arrayList5 = new ArrayList();
         while (it2.hasNext()) {
             Long l = (Long) it2.next();
-            long longValue = l.longValue();
-            arrayList4.add(StarsIntroActivity.replaceStarsWithPlain("⭐️ " + LocaleController.formatNumber(longValue, ','), 0.8f));
+            arrayList4.add(StarsIntroActivity.replaceStarsWithPlain("⭐️ " + LocaleController.formatNumber(l.longValue(), ','), 0.8f));
             arrayList5.add(l);
         }
         arrayList.add(Tabs.Factory.asTabs(1, arrayList4, this.selectedTab, new Utilities.Callback() { // from class: org.telegram.ui.Gifts.GiftSheet$$ExternalSyntheticLambda8
@@ -1103,11 +1110,11 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             }
         }));
         int i2 = this.selectedTab - 2;
-        long longValue2 = (i2 < 0 || i2 >= arrayList5.size()) ? 0L : ((Long) arrayList5.get(this.selectedTab - 2)).longValue();
+        long longValue = (i2 < 0 || i2 >= arrayList5.size()) ? 0L : ((Long) arrayList5.get(this.selectedTab - 2)).longValue();
         for (int i3 = 0; i3 < arrayList3.size(); i3++) {
             TL_stars.StarGift starGift = (TL_stars.StarGift) arrayList3.get(i3);
             int i4 = this.selectedTab;
-            if (i4 == 0 || ((i4 == 1 && starGift.limited) || (i4 >= 2 && starGift.stars == longValue2))) {
+            if (i4 == 0 || ((i4 == 1 && starGift.limited) || (i4 >= 2 && starGift.stars == longValue))) {
                 arrayList.add(GiftCell.Factory.asStarGift(i4, starGift));
             }
         }

@@ -1,6 +1,7 @@
 package androidx.core.text;
 
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class TextDirectionHeuristicsCompat {
     public static final TextDirectionHeuristicCompat ANYRTL_LTR;
@@ -80,13 +81,13 @@ public abstract class TextDirectionHeuristicsCompat {
 
         private boolean doCheck(CharSequence charSequence, int i, int i2) {
             int checkRtl = this.mAlgorithm.checkRtl(charSequence, i, i2);
-            if (checkRtl != 0) {
-                if (checkRtl != 1) {
-                    return defaultIsRtl();
-                }
-                return false;
+            if (checkRtl == 0) {
+                return true;
             }
-            return true;
+            if (checkRtl != 1) {
+                return defaultIsRtl();
+            }
+            return false;
         }
 
         protected abstract boolean defaultIsRtl();

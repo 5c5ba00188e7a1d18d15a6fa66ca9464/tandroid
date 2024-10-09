@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.firebase_messaging;
+
 /* loaded from: classes.dex */
 final class zzu implements zzz {
     private final int zza;
@@ -20,11 +21,11 @@ final class zzu implements zzz {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zzz) {
-            zzz zzzVar = (zzz) obj;
-            return this.zza == zzzVar.zza() && this.zzb.equals(zzzVar.zzb());
+        if (!(obj instanceof zzz)) {
+            return false;
         }
-        return false;
+        zzz zzzVar = (zzz) obj;
+        return this.zza == zzzVar.zza() && this.zzb.equals(zzzVar.zzb());
     }
 
     @Override // java.lang.annotation.Annotation

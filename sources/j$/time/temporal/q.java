@@ -1,6 +1,7 @@
 package j$.time.temporal;
 
 import java.io.Serializable;
+
 /* loaded from: classes2.dex */
 public final class q implements Serializable {
     private final long a;
@@ -30,13 +31,13 @@ public final class q implements Serializable {
     }
 
     public static q j(long j, long j2) {
-        if (j <= j2) {
-            if (1 <= j2) {
-                return new q(1L, 1L, j, j2);
-            }
-            throw new IllegalArgumentException("Minimum value must be less than maximum value");
+        if (j > j2) {
+            throw new IllegalArgumentException("Smallest maximum value must be less than largest maximum value");
         }
-        throw new IllegalArgumentException("Smallest maximum value must be less than largest maximum value");
+        if (1 <= j2) {
+            return new q(1L, 1L, j, j2);
+        }
+        throw new IllegalArgumentException("Minimum value must be less than maximum value");
     }
 
     public final int a(long j, l lVar) {
@@ -64,11 +65,11 @@ public final class q implements Serializable {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof q) {
-            q qVar = (q) obj;
-            return this.a == qVar.a && this.b == qVar.b && this.c == qVar.c && this.d == qVar.d;
+        if (!(obj instanceof q)) {
+            return false;
         }
-        return false;
+        q qVar = (q) obj;
+        return this.a == qVar.a && this.b == qVar.b && this.c == qVar.c && this.d == qVar.d;
     }
 
     public final boolean f() {

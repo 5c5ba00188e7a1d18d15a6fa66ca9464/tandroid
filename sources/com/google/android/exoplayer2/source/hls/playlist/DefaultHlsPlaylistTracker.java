@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Loader.Callback {
     public static final HlsPlaylistTracker.Factory FACTORY = new HlsPlaylistTracker.Factory() { // from class: com.google.android.exoplayer2.source.hls.playlist.DefaultHlsPlaylistTracker$$ExternalSyntheticLambda0
@@ -159,15 +160,15 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             long elapsedRealtime = SystemClock.elapsedRealtime();
             if (elapsedRealtime >= this.earliestNextLoadTimeMs) {
                 loadPlaylistImmediately(uri);
-                return;
+            } else {
+                this.loadPending = true;
+                DefaultHlsPlaylistTracker.this.playlistRefreshHandler.postDelayed(new Runnable() { // from class: com.google.android.exoplayer2.source.hls.playlist.DefaultHlsPlaylistTracker$MediaPlaylistBundle$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DefaultHlsPlaylistTracker.MediaPlaylistBundle.this.lambda$loadPlaylistInternal$0(uri);
+                    }
+                }, this.earliestNextLoadTimeMs - elapsedRealtime);
             }
-            this.loadPending = true;
-            DefaultHlsPlaylistTracker.this.playlistRefreshHandler.postDelayed(new Runnable() { // from class: com.google.android.exoplayer2.source.hls.playlist.DefaultHlsPlaylistTracker$MediaPlaylistBundle$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    DefaultHlsPlaylistTracker.MediaPlaylistBundle.this.lambda$loadPlaylistInternal$0(uri);
-                }
-            }, this.earliestNextLoadTimeMs - elapsedRealtime);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -185,16 +186,18 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
                 this.lastSnapshotChangeMs = elapsedRealtime;
                 DefaultHlsPlaylistTracker.this.onPlaylistUpdated(this.playlistUrl, latestPlaylistSnapshot);
             } else if (!latestPlaylistSnapshot.hasEndTag) {
+                long size = hlsMediaPlaylist.mediaSequence + hlsMediaPlaylist.segments.size();
                 HlsMediaPlaylist hlsMediaPlaylist3 = this.playlistSnapshot;
-                if (hlsMediaPlaylist.mediaSequence + hlsMediaPlaylist.segments.size() < hlsMediaPlaylist3.mediaSequence) {
+                if (size < hlsMediaPlaylist3.mediaSequence) {
                     iOException = new HlsPlaylistTracker.PlaylistResetException(this.playlistUrl);
                     z = true;
                 } else {
+                    double d = elapsedRealtime - this.lastSnapshotChangeMs;
                     double usToMs = Util.usToMs(hlsMediaPlaylist3.targetDurationUs);
-                    double d = DefaultHlsPlaylistTracker.this.playlistStuckTargetDurationCoefficient;
+                    double d2 = DefaultHlsPlaylistTracker.this.playlistStuckTargetDurationCoefficient;
                     Double.isNaN(usToMs);
                     z = false;
-                    if (elapsedRealtime - this.lastSnapshotChangeMs > usToMs * d) {
+                    if (d > usToMs * d2) {
                         iOException = new HlsPlaylistTracker.PlaylistStuckException(this.playlistUrl);
                     }
                 }
@@ -437,10 +440,10 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             HlsMediaPlaylist hlsMediaPlaylist2 = mediaPlaylistBundle.playlistSnapshot;
             if (hlsMediaPlaylist2 == null || !hlsMediaPlaylist2.hasEndTag) {
                 mediaPlaylistBundle.loadPlaylistInternal(getRequestUriForPrimaryChange(uri));
-                return;
+            } else {
+                this.primaryMediaPlaylistSnapshot = hlsMediaPlaylist2;
+                this.primaryPlaylistListener.onPrimaryPlaylistRefreshed(hlsMediaPlaylist2);
             }
-            this.primaryMediaPlaylistSnapshot = hlsMediaPlaylist2;
-            this.primaryPlaylistListener.onPrimaryPlaylistRefreshed(hlsMediaPlaylist2);
         }
     }
 
@@ -483,9 +486,8 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
 
     @Override // com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistTracker
     public boolean excludeMediaPlaylist(Uri uri, long j) {
-        MediaPlaylistBundle mediaPlaylistBundle = (MediaPlaylistBundle) this.playlistBundles.get(uri);
-        if (mediaPlaylistBundle != null) {
-            return !mediaPlaylistBundle.excludePlaylist(j);
+        if (((MediaPlaylistBundle) this.playlistBundles.get(uri)) != null) {
+            return !r2.excludePlaylist(j);
         }
         return false;
     }
@@ -606,8 +608,9 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
         this.initialStartTimeUs = -9223372036854775807L;
         this.initialPlaylistLoader.release();
         this.initialPlaylistLoader = null;
-        for (MediaPlaylistBundle mediaPlaylistBundle : this.playlistBundles.values()) {
-            mediaPlaylistBundle.release();
+        Iterator it = this.playlistBundles.values().iterator();
+        while (it.hasNext()) {
+            ((MediaPlaylistBundle) it.next()).release();
         }
         this.playlistRefreshHandler.removeCallbacksAndMessages(null);
         this.playlistRefreshHandler = null;

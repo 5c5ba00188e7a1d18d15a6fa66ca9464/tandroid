@@ -3,6 +3,7 @@ package com.google.android.gms.common.internal;
 import android.content.Context;
 import android.content.res.Resources;
 import com.google.android.gms.common.R$string;
+
 /* loaded from: classes.dex */
 public class StringResourceValueReader {
     private final Resources zza;

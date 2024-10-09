@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class p1 extends q1 {
@@ -21,7 +22,8 @@ public final class p1 extends q1 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         int i = this.f;
         if (i >= this.g) {
             throw new IndexOutOfBoundsException(Integer.toString(this.f));

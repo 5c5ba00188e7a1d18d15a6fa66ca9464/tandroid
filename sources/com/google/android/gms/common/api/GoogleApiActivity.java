@@ -14,12 +14,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.internal.GoogleApiManager;
 import com.google.android.gms.common.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public class GoogleApiActivity extends Activity implements DialogInterface.OnCancelListener {
     protected int zaa = 0;
 
     public static Intent zaa(Context context, PendingIntent pendingIntent, int i, boolean z) {
-        Intent intent = new Intent(context, GoogleApiActivity.class);
+        Intent intent = new Intent(context, (Class<?>) GoogleApiActivity.class);
         intent.putExtra("pending_intent", pendingIntent);
         intent.putExtra("failing_client_id", i);
         intent.putExtra("notify_manager", z);
@@ -38,29 +39,31 @@ public class GoogleApiActivity extends Activity implements DialogInterface.OnCan
         if (pendingIntent == null && num == null) {
             Log.e("GoogleApiActivity", "Activity started without resolution");
             finish();
-        } else if (pendingIntent == null) {
+            return;
+        }
+        if (pendingIntent == null) {
             GoogleApiAvailability.getInstance().showErrorDialogFragment(this, ((Integer) Preconditions.checkNotNull(num)).intValue(), 2, this);
             this.zaa = 1;
-        } else {
-            try {
-                startIntentSenderForResult(pendingIntent.getIntentSender(), 1, null, 0, 0, 0);
-                this.zaa = 1;
-            } catch (ActivityNotFoundException e) {
-                if (extras.getBoolean("notify_manager", true)) {
-                    GoogleApiManager.zam(this).zaz(new ConnectionResult(22, null), getIntent().getIntExtra("failing_client_id", -1));
-                } else {
-                    String str = "Activity not found while launching " + pendingIntent.toString() + ".";
-                    if (Build.FINGERPRINT.contains("generic")) {
-                        str = str.concat(" This may occur when resolving Google Play services connection issues on emulators with Google APIs but not Google Play Store.");
-                    }
-                    Log.e("GoogleApiActivity", str, e);
+            return;
+        }
+        try {
+            startIntentSenderForResult(pendingIntent.getIntentSender(), 1, null, 0, 0, 0);
+            this.zaa = 1;
+        } catch (ActivityNotFoundException e) {
+            if (extras.getBoolean("notify_manager", true)) {
+                GoogleApiManager.zam(this).zaz(new ConnectionResult(22, null), getIntent().getIntExtra("failing_client_id", -1));
+            } else {
+                String str = "Activity not found while launching " + pendingIntent.toString() + ".";
+                if (Build.FINGERPRINT.contains("generic")) {
+                    str = str.concat(" This may occur when resolving Google Play services connection issues on emulators with Google APIs but not Google Play Store.");
                 }
-                this.zaa = 1;
-                finish();
-            } catch (IntentSender.SendIntentException e2) {
-                Log.e("GoogleApiActivity", "Failed to launch pendingIntent", e2);
-                finish();
+                Log.e("GoogleApiActivity", str, e);
             }
+            this.zaa = 1;
+            finish();
+        } catch (IntentSender.SendIntentException e2) {
+            Log.e("GoogleApiActivity", "Failed to launch pendingIntent", e2);
+            finish();
         }
     }
 

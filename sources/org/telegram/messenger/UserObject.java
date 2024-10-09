@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.MessagesController;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class UserObject {
     public static final long ANONYMOUS = 2666000;
@@ -120,18 +121,18 @@ public class UserObject {
         if (user == null) {
             return null;
         }
-        if (TextUtils.isEmpty(user.username)) {
-            if (user.usernames != null) {
-                for (int i = 0; i < user.usernames.size(); i++) {
-                    TLRPC.TL_username tL_username = user.usernames.get(i);
-                    if (tL_username != null && (((tL_username.active && !z) || tL_username.editable) && !TextUtils.isEmpty(tL_username.username))) {
-                        return tL_username.username;
-                    }
+        if (!TextUtils.isEmpty(user.username)) {
+            return user.username;
+        }
+        if (user.usernames != null) {
+            for (int i = 0; i < user.usernames.size(); i++) {
+                TLRPC.TL_username tL_username = user.usernames.get(i);
+                if (tL_username != null && (((tL_username.active && !z) || tL_username.editable) && !TextUtils.isEmpty(tL_username.username))) {
+                    return tL_username.username;
                 }
             }
-            return null;
         }
-        return user.username;
+        return null;
     }
 
     public static String getUserName(TLRPC.User user) {
@@ -142,8 +143,7 @@ public class UserObject {
         if (formatName.length() != 0 || TextUtils.isEmpty(user.phone)) {
             return formatName;
         }
-        PhoneFormat phoneFormat = PhoneFormat.getInstance();
-        return phoneFormat.format("+" + user.phone);
+        return PhoneFormat.getInstance().format("+" + user.phone);
     }
 
     public static boolean hasFallbackPhoto(TLRPC.UserFull userFull) {

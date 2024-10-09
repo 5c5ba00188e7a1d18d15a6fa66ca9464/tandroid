@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzq extends zzbe {
@@ -44,14 +45,14 @@ public final class zzq extends zzbe {
     public final boolean remove(Object obj) {
         int i;
         Collection collection = (Collection) this.zzb.remove(obj);
-        if (collection != null) {
-            int size = collection.size();
-            collection.clear();
-            zzw zzwVar = this.zza;
-            i = zzwVar.zzb;
-            zzwVar.zzb = i - size;
-            return size > 0;
+        if (collection == null) {
+            return false;
         }
-        return false;
+        int size = collection.size();
+        collection.clear();
+        zzw zzwVar = this.zza;
+        i = zzwVar.zzb;
+        zzwVar.zzb = i - size;
+        return size > 0;
     }
 }

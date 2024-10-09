@@ -1,6 +1,7 @@
 package androidx.emoji2.text.flatbuffer;
 
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public abstract class Table {
     protected ByteBuffer bb;

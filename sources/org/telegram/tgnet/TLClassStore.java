@@ -3,6 +3,7 @@ package org.telegram.tgnet;
 import android.util.SparseArray;
 import org.telegram.messenger.FileLog;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class TLClassStore {
     static TLClassStore store;

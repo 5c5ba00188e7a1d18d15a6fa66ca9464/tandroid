@@ -1,6 +1,7 @@
 package com.google.common.base;
 
 import java.nio.charset.Charset;
+
 /* loaded from: classes.dex */
 public abstract class Charsets {
     public static final Charset US_ASCII = Charset.forName("US-ASCII");

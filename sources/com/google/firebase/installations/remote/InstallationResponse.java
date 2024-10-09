@@ -1,6 +1,7 @@
 package com.google.firebase.installations.remote;
 
 import com.google.firebase.installations.remote.AutoValue_InstallationResponse;
+
 /* loaded from: classes.dex */
 public abstract class InstallationResponse {
 

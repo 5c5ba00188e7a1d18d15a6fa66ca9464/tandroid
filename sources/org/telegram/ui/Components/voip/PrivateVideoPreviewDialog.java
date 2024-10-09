@@ -12,6 +12,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Parcelable;
 import android.view.MotionEvent;
@@ -42,6 +43,7 @@ import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.webrtc.RendererCommon;
+
 /* loaded from: classes3.dex */
 public abstract class PrivateVideoPreviewDialog extends FrameLayout implements VoIPService.StateListener {
     private boolean cameraReady;
@@ -195,7 +197,9 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                         PrivateVideoPreviewDialog.this.currentTexturePage = 2;
                     }
                     PrivateVideoPreviewDialog.this.onFinishMoveCameraPage();
-                } else if (i2 <= PrivateVideoPreviewDialog.this.needScreencast) {
+                    return;
+                }
+                if (i2 <= PrivateVideoPreviewDialog.this.needScreencast) {
                     this.willSetPage = 1;
                 } else {
                     this.willSetPage = 2;
@@ -259,8 +263,8 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                 super.onDraw(canvas);
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:21:0x0044  */
-            /* JADX WARN: Removed duplicated region for block: B:22:0x0058  */
+            /* JADX WARN: Removed duplicated region for block: B:11:0x0044  */
+            /* JADX WARN: Removed duplicated region for block: B:14:0x0058  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -397,8 +401,10 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             dismiss(false, true);
             return;
         }
-        createScreenCaptureIntent = PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0.m(getContext().getSystemService("media_projection")).createScreenCaptureIntent();
-        ((Activity) getContext()).startActivityForResult(createScreenCaptureIntent, 520);
+        MediaProjectionManager m = PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0.m(getContext().getSystemService("media_projection"));
+        Activity activity = (Activity) getContext();
+        createScreenCaptureIntent = m.createScreenCaptureIntent();
+        activity.startActivityForResult(createScreenCaptureIntent, 520);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -450,8 +456,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                             createBitmap.recycle();
                         }
                         Utilities.blurBitmap(createScaledBitmap, 7, 1, createScaledBitmap.getWidth(), createScaledBitmap.getHeight(), createScaledBitmap.getRowBytes());
-                        File filesDirFixed = ApplicationLoader.getFilesDirFixed();
-                        createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(new File(filesDirFixed, "cthumb" + this.visibleCameraPage + ".jpg")));
+                        createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(new File(ApplicationLoader.getFilesDirFixed(), "cthumb" + this.visibleCameraPage + ".jpg")));
                         View findViewWithTag = this.viewPager.findViewWithTag(Integer.valueOf(this.visibleCameraPage - (1 ^ (this.needScreencast ? 1 : 0))));
                         if (findViewWithTag instanceof ImageView) {
                             ((ImageView) findViewWithTag).setImageBitmap(createScaledBitmap);

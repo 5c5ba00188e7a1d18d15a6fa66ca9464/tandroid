@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
+
 /* loaded from: classes.dex */
 public class FirebaseMessagingService extends EnhancedIntentService {
     public static final String ACTION_DIRECT_BOOT_REMOTE_INTENT = "com.google.firebase.messaging.RECEIVE_DIRECT_BOOT";
@@ -23,13 +24,13 @@ public class FirebaseMessagingService extends EnhancedIntentService {
             }
             queue.add(str);
             return false;
-        } else if (Log.isLoggable("FirebaseMessaging", 3)) {
-            String valueOf = String.valueOf(str);
-            Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Received duplicate message: ".concat(valueOf) : new String("Received duplicate message: "));
-            return true;
-        } else {
+        }
+        if (!Log.isLoggable("FirebaseMessaging", 3)) {
             return true;
         }
+        String valueOf = String.valueOf(str);
+        Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Received duplicate message: ".concat(valueOf) : new String("Received duplicate message: "));
+        return true;
     }
 
     private void dispatchMessage(Intent intent) {
@@ -110,14 +111,18 @@ public class FirebaseMessagingService extends EnhancedIntentService {
         if (c == 0) {
             MessagingAnalytics.logNotificationReceived(intent);
             dispatchMessage(intent);
-        } else if (c == 1) {
-            onDeletedMessages();
-        } else if (c == 2) {
-            onMessageSent(intent.getStringExtra("google.message_id"));
-        } else if (c != 3) {
-            Log.w("FirebaseMessaging", stringExtra.length() != 0 ? "Received message with unknown type: ".concat(stringExtra) : new String("Received message with unknown type: "));
         } else {
-            onSendError(getMessageId(intent), new SendException(intent.getStringExtra("error")));
+            if (c == 1) {
+                onDeletedMessages();
+                return;
+            }
+            if (c == 2) {
+                onMessageSent(intent.getStringExtra("google.message_id"));
+            } else if (c != 3) {
+                Log.w("FirebaseMessaging", stringExtra.length() != 0 ? "Received message with unknown type: ".concat(stringExtra) : new String("Received message with unknown type: "));
+            } else {
+                onSendError(getMessageId(intent), new SendException(intent.getStringExtra("error")));
+            }
         }
     }
 

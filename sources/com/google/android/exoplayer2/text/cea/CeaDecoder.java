@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
 import java.util.PriorityQueue;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class CeaDecoder implements SubtitleDecoder {

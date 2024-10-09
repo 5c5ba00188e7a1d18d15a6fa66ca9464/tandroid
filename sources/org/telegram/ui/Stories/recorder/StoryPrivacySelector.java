@@ -16,6 +16,7 @@ import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
+
 /* loaded from: classes4.dex */
 public abstract class StoryPrivacySelector extends View {
     public static void applySaved(int i, StoryEntry storyEntry) {
@@ -46,8 +47,9 @@ public abstract class StoryPrivacySelector extends View {
             }
             final HashSet hashSet = new HashSet();
             hashSet.addAll(read.selectedUserIds);
-            for (ArrayList arrayList : read.selectedUserIdsByGroup.values()) {
-                hashSet.addAll(arrayList);
+            Iterator it = read.selectedUserIdsByGroup.values().iterator();
+            while (it.hasNext()) {
+                hashSet.addAll((ArrayList) it.next());
             }
             if (!hashSet.isEmpty()) {
                 final MessagesStorage messagesStorage = MessagesStorage.getInstance(i);
@@ -83,50 +85,51 @@ public abstract class StoryPrivacySelector extends View {
 
     private static StoryPrivacyBottomSheet.StoryPrivacy read(AbstractSerializedData abstractSerializedData) {
         int readInt32 = abstractSerializedData.readInt32(true);
-        if (abstractSerializedData.readInt32(true) == 481674261) {
-            int readInt322 = abstractSerializedData.readInt32(true);
-            ArrayList arrayList = new ArrayList(readInt322);
-            for (int i = 0; i < readInt322; i++) {
-                arrayList.add(TLRPC.InputUser.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(true), true));
-            }
-            if (abstractSerializedData.readInt32(true) == 481674261) {
-                int readInt323 = abstractSerializedData.readInt32(true);
-                ArrayList arrayList2 = new ArrayList(readInt323);
-                for (int i2 = 0; i2 < readInt323; i2++) {
-                    arrayList2.add(Long.valueOf(abstractSerializedData.readInt64(true)));
-                }
-                if (abstractSerializedData.readInt32(true) == 481674261) {
-                    int readInt324 = abstractSerializedData.readInt32(true);
-                    HashMap hashMap = new HashMap();
-                    for (int i3 = 0; i3 < readInt324; i3++) {
-                        long readInt64 = abstractSerializedData.readInt64(true);
-                        if (abstractSerializedData.readInt32(true) != 481674261) {
-                            throw new RuntimeException("wrong Vector magic in TL_StoryPrivacy (4)");
-                        }
-                        int readInt325 = abstractSerializedData.readInt32(true);
-                        ArrayList arrayList3 = new ArrayList(readInt325);
-                        for (int i4 = 0; i4 < readInt325; i4++) {
-                            arrayList3.add(Long.valueOf(abstractSerializedData.readInt64(true)));
-                        }
-                        hashMap.put(Long.valueOf(readInt64), arrayList3);
-                    }
-                    HashSet hashSet = new HashSet();
-                    hashSet.addAll(arrayList2);
-                    for (ArrayList arrayList4 : hashMap.values()) {
-                        hashSet.addAll(arrayList4);
-                    }
-                    StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy = new StoryPrivacyBottomSheet.StoryPrivacy(readInt32, arrayList, 0);
-                    storyPrivacy.selectedUserIds.clear();
-                    storyPrivacy.selectedUserIds.addAll(arrayList2);
-                    storyPrivacy.selectedUserIdsByGroup.clear();
-                    storyPrivacy.selectedUserIdsByGroup.putAll(hashMap);
-                    return storyPrivacy;
-                }
-                throw new RuntimeException("wrong Vector magic in TL_StoryPrivacy (3)");
-            }
+        if (abstractSerializedData.readInt32(true) != 481674261) {
+            throw new RuntimeException("wrong Vector magic in TL_StoryPrivacy");
+        }
+        int readInt322 = abstractSerializedData.readInt32(true);
+        ArrayList arrayList = new ArrayList(readInt322);
+        for (int i = 0; i < readInt322; i++) {
+            arrayList.add(TLRPC.InputUser.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(true), true));
+        }
+        if (abstractSerializedData.readInt32(true) != 481674261) {
             throw new RuntimeException("wrong Vector magic in TL_StoryPrivacy (2)");
         }
-        throw new RuntimeException("wrong Vector magic in TL_StoryPrivacy");
+        int readInt323 = abstractSerializedData.readInt32(true);
+        ArrayList arrayList2 = new ArrayList(readInt323);
+        for (int i2 = 0; i2 < readInt323; i2++) {
+            arrayList2.add(Long.valueOf(abstractSerializedData.readInt64(true)));
+        }
+        if (abstractSerializedData.readInt32(true) != 481674261) {
+            throw new RuntimeException("wrong Vector magic in TL_StoryPrivacy (3)");
+        }
+        int readInt324 = abstractSerializedData.readInt32(true);
+        HashMap hashMap = new HashMap();
+        for (int i3 = 0; i3 < readInt324; i3++) {
+            long readInt64 = abstractSerializedData.readInt64(true);
+            if (abstractSerializedData.readInt32(true) != 481674261) {
+                throw new RuntimeException("wrong Vector magic in TL_StoryPrivacy (4)");
+            }
+            int readInt325 = abstractSerializedData.readInt32(true);
+            ArrayList arrayList3 = new ArrayList(readInt325);
+            for (int i4 = 0; i4 < readInt325; i4++) {
+                arrayList3.add(Long.valueOf(abstractSerializedData.readInt64(true)));
+            }
+            hashMap.put(Long.valueOf(readInt64), arrayList3);
+        }
+        HashSet hashSet = new HashSet();
+        hashSet.addAll(arrayList2);
+        Iterator it = hashMap.values().iterator();
+        while (it.hasNext()) {
+            hashSet.addAll((ArrayList) it.next());
+        }
+        StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy = new StoryPrivacyBottomSheet.StoryPrivacy(readInt32, arrayList, 0);
+        storyPrivacy.selectedUserIds.clear();
+        storyPrivacy.selectedUserIds.addAll(arrayList2);
+        storyPrivacy.selectedUserIdsByGroup.clear();
+        storyPrivacy.selectedUserIdsByGroup.putAll(hashMap);
+        return storyPrivacy;
     }
 
     public static void save(int i, StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy) {

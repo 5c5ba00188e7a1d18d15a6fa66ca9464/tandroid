@@ -1,4 +1,5 @@
 package androidx.core;
+
 /* loaded from: classes.dex */
 public abstract class R$attr {
     public static final int alpha = 2130968618;

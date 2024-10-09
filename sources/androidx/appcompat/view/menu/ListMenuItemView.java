@@ -1,5 +1,6 @@
 package androidx.appcompat.view.menu;
 
+import android.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
@@ -22,6 +23,7 @@ import androidx.appcompat.R$styleable;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.TintTypedArray;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 public class ListMenuItemView extends LinearLayout implements MenuView.ItemView, AbsListView.SelectionBoundsAdjuster {
     private Drawable mBackground;
@@ -54,7 +56,7 @@ public class ListMenuItemView extends LinearLayout implements MenuView.ItemView,
         this.mPreserveIconSpacing = obtainStyledAttributes.getBoolean(R$styleable.MenuView_preserveIconSpacing, false);
         this.mTextAppearanceContext = context;
         this.mSubMenuArrow = obtainStyledAttributes.getDrawable(R$styleable.MenuView_subMenuArrow);
-        TypedArray obtainStyledAttributes2 = context.getTheme().obtainStyledAttributes(null, new int[]{16843049}, R$attr.dropDownListViewStyle, 0);
+        TypedArray obtainStyledAttributes2 = context.getTheme().obtainStyledAttributes(null, new int[]{R.attr.divider}, R$attr.dropDownListViewStyle, 0);
         this.mHasListDivider = obtainStyledAttributes2.hasValue(0);
         obtainStyledAttributes.recycle();
         obtainStyledAttributes2.recycle();
@@ -288,8 +290,9 @@ public class ListMenuItemView extends LinearLayout implements MenuView.ItemView,
             i = 8;
             if (this.mTitleView.getVisibility() == 8) {
                 return;
+            } else {
+                textView = this.mTitleView;
             }
-            textView = this.mTitleView;
         }
         textView.setVisibility(i);
     }

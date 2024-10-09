@@ -4,6 +4,7 @@ import j$.time.Instant;
 import j$.time.ZoneOffset;
 import j$.time.g;
 import java.io.Serializable;
+
 /* loaded from: classes2.dex */
 public final class a implements Comparable, Serializable {
     private final g a;
@@ -33,21 +34,18 @@ public final class a implements Comparable, Serializable {
     public final int compareTo(Object obj) {
         a aVar = (a) obj;
         ZoneOffset zoneOffset = this.b;
-        g gVar = this.a;
-        Instant l = Instant.l(gVar.k(zoneOffset), gVar.m().h());
-        g gVar2 = aVar.a;
-        return l.compareTo(Instant.l(gVar2.k(aVar.b), gVar2.m().h()));
+        return Instant.l(this.a.k(zoneOffset), r1.m().h()).compareTo(Instant.l(aVar.a.k(aVar.b), r1.m().h()));
     }
 
     public final boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof a) {
-            a aVar = (a) obj;
-            return this.a.equals(aVar.a) && this.b.equals(aVar.b) && this.c.equals(aVar.c);
+        if (!(obj instanceof a)) {
+            return false;
         }
-        return false;
+        a aVar = (a) obj;
+        return this.a.equals(aVar.a) && this.b.equals(aVar.b) && this.c.equals(aVar.c);
     }
 
     public final int hashCode() {

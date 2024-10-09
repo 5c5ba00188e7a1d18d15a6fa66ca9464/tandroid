@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class Ac3Util {
     private static final int[] BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD = {1, 2, 3, 6};
@@ -54,23 +55,23 @@ public abstract class Ac3Util {
 
     private static int getAc3SyncframeSize(int i, int i2) {
         int i3 = i2 / 2;
-        if (i >= 0) {
-            int[] iArr = SAMPLE_RATE_BY_FSCOD;
-            if (i >= iArr.length || i2 < 0) {
-                return -1;
-            }
-            int[] iArr2 = SYNCFRAME_SIZE_WORDS_BY_HALF_FRMSIZECOD_44_1;
-            if (i3 >= iArr2.length) {
-                return -1;
-            }
-            int i4 = iArr[i];
-            if (i4 == 44100) {
-                return (iArr2[i3] + (i2 % 2)) * 2;
-            }
-            int i5 = BITRATE_BY_HALF_FRMSIZECOD[i3];
-            return i4 == 32000 ? i5 * 6 : i5 * 4;
+        if (i < 0) {
+            return -1;
         }
-        return -1;
+        int[] iArr = SAMPLE_RATE_BY_FSCOD;
+        if (i >= iArr.length || i2 < 0) {
+            return -1;
+        }
+        int[] iArr2 = SYNCFRAME_SIZE_WORDS_BY_HALF_FRMSIZECOD_44_1;
+        if (i3 >= iArr2.length) {
+            return -1;
+        }
+        int i4 = iArr[i];
+        if (i4 == 44100) {
+            return (iArr2[i3] + (i2 % 2)) * 2;
+        }
+        int i5 = BITRATE_BY_HALF_FRMSIZECOD[i3];
+        return i4 == 32000 ? i5 * 6 : i5 * 4;
     }
 
     public static Format parseAc3AnnexFFormat(ParsableByteArray parsableByteArray, String str, String str2, DrmInitData drmInitData) {

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
+
 /* loaded from: classes.dex */
 public final class zzfi$zzb extends zzjb implements zzkm {
     private static final zzji zzd = new zzfl();
@@ -33,11 +34,12 @@ public final class zzfi$zzb extends zzjb implements zzkm {
     /* JADX WARN: Type inference failed for: r3v14, types: [com.google.android.gms.internal.vision.zzkx, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {
+        zzfk zzfkVar = null;
         switch (zzfk.zza[i - 1]) {
             case 1:
                 return new zzfi$zzb();
             case 2:
-                return new zza(null);
+                return new zza(zzfkVar);
             case 3:
                 return zzjb.zza(zze, "\u0001\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0001\u0000\u0001\u001e", new Object[]{"zzc", zzgz.zzb()});
             case 4:

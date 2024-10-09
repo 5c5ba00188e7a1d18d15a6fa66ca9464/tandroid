@@ -8,6 +8,7 @@ import com.google.firebase.components.Dependency;
 import com.google.mlkit.common.model.RemoteModel;
 import com.google.mlkit.common.sdkinternal.LazyInstanceMap;
 import com.google.mlkit.common.sdkinternal.SharedPrefManager;
+
 /* loaded from: classes.dex */
 public final class zzcz {
     private final zzcv zzc;
@@ -25,6 +26,7 @@ public final class zzcz {
             this.zzb = sharedPrefManager;
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
         @Override // com.google.mlkit.common.sdkinternal.LazyInstanceMap
         protected /* synthetic */ Object create(Object obj) {
             ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);

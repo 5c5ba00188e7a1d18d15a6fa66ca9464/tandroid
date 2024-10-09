@@ -6,6 +6,7 @@ import com.google.android.gms.maps.internal.ICameraUpdateFactoryDelegate;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
+
 /* loaded from: classes.dex */
 public abstract class CameraUpdateFactory {
     private static ICameraUpdateFactoryDelegate zza;

@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.video;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 final class FixedFrameRateEstimator {
     private boolean candidateMatcherActive;
@@ -102,12 +103,12 @@ final class FixedFrameRateEstimator {
     }
 
     public float getFrameRate() {
-        if (isSynced()) {
-            double frameDurationNs = this.currentMatcher.getFrameDurationNs();
-            Double.isNaN(frameDurationNs);
-            return (float) (1.0E9d / frameDurationNs);
+        if (!isSynced()) {
+            return -1.0f;
         }
-        return -1.0f;
+        double frameDurationNs = this.currentMatcher.getFrameDurationNs();
+        Double.isNaN(frameDurationNs);
+        return (float) (1.0E9d / frameDurationNs);
     }
 
     public int getFramesWithoutSyncCount() {

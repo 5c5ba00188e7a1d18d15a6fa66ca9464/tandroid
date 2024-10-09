@@ -1,6 +1,7 @@
 package com.google.android.gms.tasks;
 
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 final class zzj implements zzq {
     private final Executor zza;

@@ -1,6 +1,7 @@
 package j$.util.concurrent;
 
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class j implements Map.Entry {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Size;
 import android.util.SizeF;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 final class BundleApi21ImplKt {
     public static final BundleApi21ImplKt INSTANCE = new BundleApi21ImplKt();

@@ -1,4 +1,5 @@
 package com.stripe.android.util;
+
 /* loaded from: classes.dex */
 public abstract class StripeTextUtils {
     public static String asCardBrand(String str) {

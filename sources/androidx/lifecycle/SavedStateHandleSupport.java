@@ -10,6 +10,7 @@ import androidx.savedstate.SavedStateRegistryOwner;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.jvm.internal.Reflection;
+
 /* loaded from: classes.dex */
 public abstract class SavedStateHandleSupport {
     public static final CreationExtras.Key SAVED_STATE_REGISTRY_OWNER_KEY = new CreationExtras.Key() { // from class: androidx.lifecycle.SavedStateHandleSupport$SAVED_STATE_REGISTRY_OWNER_KEY$1
@@ -22,31 +23,31 @@ public abstract class SavedStateHandleSupport {
     public static final SavedStateHandle createSavedStateHandle(CreationExtras creationExtras) {
         Intrinsics.checkNotNullParameter(creationExtras, "<this>");
         SavedStateRegistryOwner savedStateRegistryOwner = (SavedStateRegistryOwner) creationExtras.get(SAVED_STATE_REGISTRY_OWNER_KEY);
-        if (savedStateRegistryOwner != null) {
-            ViewModelStoreOwner viewModelStoreOwner = (ViewModelStoreOwner) creationExtras.get(VIEW_MODEL_STORE_OWNER_KEY);
-            if (viewModelStoreOwner != null) {
-                Bundle bundle = (Bundle) creationExtras.get(DEFAULT_ARGS_KEY);
-                String str = (String) creationExtras.get(ViewModelProvider.NewInstanceFactory.VIEW_MODEL_KEY);
-                if (str != null) {
-                    return createSavedStateHandle(savedStateRegistryOwner, viewModelStoreOwner, str, bundle);
-                }
-                throw new IllegalArgumentException("CreationExtras must have a value by `VIEW_MODEL_KEY`");
-            }
+        if (savedStateRegistryOwner == null) {
+            throw new IllegalArgumentException("CreationExtras must have a value by `SAVED_STATE_REGISTRY_OWNER_KEY`");
+        }
+        ViewModelStoreOwner viewModelStoreOwner = (ViewModelStoreOwner) creationExtras.get(VIEW_MODEL_STORE_OWNER_KEY);
+        if (viewModelStoreOwner == null) {
             throw new IllegalArgumentException("CreationExtras must have a value by `VIEW_MODEL_STORE_OWNER_KEY`");
         }
-        throw new IllegalArgumentException("CreationExtras must have a value by `SAVED_STATE_REGISTRY_OWNER_KEY`");
+        Bundle bundle = (Bundle) creationExtras.get(DEFAULT_ARGS_KEY);
+        String str = (String) creationExtras.get(ViewModelProvider.NewInstanceFactory.VIEW_MODEL_KEY);
+        if (str != null) {
+            return createSavedStateHandle(savedStateRegistryOwner, viewModelStoreOwner, str, bundle);
+        }
+        throw new IllegalArgumentException("CreationExtras must have a value by `VIEW_MODEL_KEY`");
     }
 
     private static final SavedStateHandle createSavedStateHandle(SavedStateRegistryOwner savedStateRegistryOwner, ViewModelStoreOwner viewModelStoreOwner, String str, Bundle bundle) {
         SavedStateHandlesProvider savedStateHandlesProvider = getSavedStateHandlesProvider(savedStateRegistryOwner);
         SavedStateHandlesVM savedStateHandlesVM = getSavedStateHandlesVM(viewModelStoreOwner);
         SavedStateHandle savedStateHandle = (SavedStateHandle) savedStateHandlesVM.getHandles().get(str);
-        if (savedStateHandle == null) {
-            SavedStateHandle createHandle = SavedStateHandle.Companion.createHandle(savedStateHandlesProvider.consumeRestoredStateForKey(str), bundle);
-            savedStateHandlesVM.getHandles().put(str, createHandle);
-            return createHandle;
+        if (savedStateHandle != null) {
+            return savedStateHandle;
         }
-        return savedStateHandle;
+        SavedStateHandle createHandle = SavedStateHandle.Companion.createHandle(savedStateHandlesProvider.consumeRestoredStateForKey(str), bundle);
+        savedStateHandlesVM.getHandles().put(str, createHandle);
+        return createHandle;
     }
 
     public static final void enableSavedStateHandles(SavedStateRegistryOwner savedStateRegistryOwner) {

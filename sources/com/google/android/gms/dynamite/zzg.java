@@ -2,6 +2,7 @@ package com.google.android.gms.dynamite;
 
 import android.content.Context;
 import com.google.android.gms.dynamite.DynamiteModule;
+
 /* loaded from: classes.dex */
 final class zzg implements DynamiteModule.VersionPolicy {
     @Override // com.google.android.gms.dynamite.DynamiteModule.VersionPolicy

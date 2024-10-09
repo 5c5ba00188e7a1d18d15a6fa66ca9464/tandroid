@@ -18,6 +18,7 @@ import org.webrtc.EglRenderer;
 import org.webrtc.GlGenericDrawer;
 import org.webrtc.RendererCommon;
 import org.webrtc.TextureViewRenderer;
+
 /* loaded from: classes.dex */
 public class TextureViewRenderer extends TextureView implements TextureView.SurfaceTextureListener, VideoSink, RendererCommon.RendererEvents {
     private static final String TAG = "TextureViewRenderer";
@@ -272,8 +273,9 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         this.surfaceHeight = min2;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x001b, code lost:
-        if (r2 == 0) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x001b, code lost:
+    
+        if (r2 == 0) goto L28;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -384,17 +386,21 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
         this.eglRenderer.onFrame(videoFrame);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0023, code lost:
-        if (r10 == 0) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0023, code lost:
+    
+        if (r10 == 0) goto L43;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0036, code lost:
-        if (r10 != (-180)) goto L32;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0056, code lost:
-        if (r10 != (-180)) goto L32;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0059, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0059, code lost:
+    
         r6 = r8;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0036, code lost:
+    
+        if (r10 != (-180)) goto L43;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0056, code lost:
+    
+        if (r10 != (-180)) goto L43;
      */
     @Override // org.webrtc.RendererCommon.RendererEvents
     /*
@@ -546,10 +552,10 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
                     public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
                     }
                 });
-                return;
+            } else {
+                ThreadUtils.checkIsOnMainThread();
+                this.eglRenderer.releaseEglSurface(null, true);
             }
-            ThreadUtils.checkIsOnMainThread();
-            this.eglRenderer.releaseEglSurface(null, true);
         }
     }
 

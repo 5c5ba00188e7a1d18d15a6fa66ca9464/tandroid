@@ -1,5 +1,6 @@
 package com.google.android.gms.dynamic;
 
+import android.R;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.LinkedList;
+
 /* loaded from: classes.dex */
 public abstract class DeferredLifecycleHelper {
     private LifecycleDelegate zaa;
@@ -33,7 +35,7 @@ public abstract class DeferredLifecycleHelper {
         Intent errorResolutionIntent = googleApiAvailability.getErrorResolutionIntent(context, isGooglePlayServicesAvailable, null);
         if (errorResolutionIntent != null) {
             Button button = new Button(context);
-            button.setId(16908313);
+            button.setId(R.id.button1);
             button.setLayoutParams(new FrameLayout.LayoutParams(-2, -2));
             button.setText(zac);
             linearLayout.addView(button);

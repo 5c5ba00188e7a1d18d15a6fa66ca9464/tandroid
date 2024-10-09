@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class MergingMediaSource extends CompositeMediaSource {
     private static final MediaItem PLACEHOLDER_MEDIA_ITEM = new MediaItem.Builder().setMediaId("MergingMediaSource").build();
@@ -161,8 +162,9 @@ public final class MergingMediaSource extends CompositeMediaSource {
             }
             Object uidOfPeriod = timelineArr[0].getUidOfPeriod(i);
             this.clippedDurationsUs.put(uidOfPeriod, Long.valueOf(j));
-            for (ClippingMediaPeriod clippingMediaPeriod : this.clippedMediaPeriods.get(uidOfPeriod)) {
-                clippingMediaPeriod.updateClipping(0L, j);
+            Iterator it = this.clippedMediaPeriods.get(uidOfPeriod).iterator();
+            while (it.hasNext()) {
+                ((ClippingMediaPeriod) it.next()).updateClipping(0L, j);
             }
         }
     }
@@ -176,12 +178,12 @@ public final class MergingMediaSource extends CompositeMediaSource {
             mediaPeriodArr[i] = this.mediaSources[i].createPeriod(mediaPeriodId.copyWithPeriodUid(this.timelines[i].getUidOfPeriod(indexOfPeriod)), allocator, j - this.periodTimeOffsetsUs[indexOfPeriod][i]);
         }
         MergingMediaPeriod mergingMediaPeriod = new MergingMediaPeriod(this.compositeSequenceableLoaderFactory, this.periodTimeOffsetsUs[indexOfPeriod], mediaPeriodArr);
-        if (this.clipDurations) {
-            ClippingMediaPeriod clippingMediaPeriod = new ClippingMediaPeriod(mergingMediaPeriod, true, 0L, ((Long) Assertions.checkNotNull((Long) this.clippedDurationsUs.get(mediaPeriodId.periodUid))).longValue());
-            this.clippedMediaPeriods.put(mediaPeriodId.periodUid, clippingMediaPeriod);
-            return clippingMediaPeriod;
+        if (!this.clipDurations) {
+            return mergingMediaPeriod;
         }
-        return mergingMediaPeriod;
+        ClippingMediaPeriod clippingMediaPeriod = new ClippingMediaPeriod(mergingMediaPeriod, true, 0L, ((Long) Assertions.checkNotNull((Long) this.clippedDurationsUs.get(mediaPeriodId.periodUid))).longValue());
+        this.clippedMediaPeriods.put(mediaPeriodId.periodUid, clippingMediaPeriod);
+        return clippingMediaPeriod;
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource
@@ -210,7 +212,8 @@ public final class MergingMediaSource extends CompositeMediaSource {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.CompositeMediaSource
-    public void onChildSourceInfoRefreshed(Integer num, MediaSource mediaSource, Timeline timeline) {
+    /* renamed from: onChildSourceInfoRefreshed, reason: merged with bridge method [inline-methods] */
+    public void lambda$prepareChildSource$0(Integer num, MediaSource mediaSource, Timeline timeline) {
         if (this.mergeError != null) {
             return;
         }
@@ -221,7 +224,7 @@ public final class MergingMediaSource extends CompositeMediaSource {
             return;
         }
         if (this.periodTimeOffsetsUs.length == 0) {
-            this.periodTimeOffsetsUs = (long[][]) Array.newInstance(Long.TYPE, this.periodCount, this.timelines.length);
+            this.periodTimeOffsetsUs = (long[][]) Array.newInstance((Class<?>) Long.TYPE, this.periodCount, this.timelines.length);
         }
         this.pendingTimelineSources.remove(mediaSource);
         this.timelines[num.intValue()] = timeline;
@@ -229,12 +232,12 @@ public final class MergingMediaSource extends CompositeMediaSource {
             if (this.adjustPeriodTimeOffsets) {
                 computePeriodTimeOffsets();
             }
-            ClippedTimeline clippedTimeline = this.timelines[0];
+            Timeline timeline2 = this.timelines[0];
             if (this.clipDurations) {
                 updateClippedDuration();
-                clippedTimeline = new ClippedTimeline(clippedTimeline, this.clippedDurationsUs);
+                timeline2 = new ClippedTimeline(timeline2, this.clippedDurationsUs);
             }
-            refreshSourceInfo(clippedTimeline);
+            refreshSourceInfo(timeline2);
         }
     }
 

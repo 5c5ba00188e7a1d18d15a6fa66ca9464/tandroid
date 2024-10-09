@@ -26,6 +26,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes.dex */
 public class FileLog {
     private static volatile FileLog Instance = null;
@@ -63,7 +64,6 @@ public class FileLog {
 
         @Override // com.google.gson.JsonSerializer
         public JsonElement serialize(TLObject tLObject, Type type, JsonSerializationContext jsonSerializationContext) {
-            Field[] fields;
             JsonObject jsonObject = new JsonObject();
             String name = tLObject.getClass().getName();
             if (name.startsWith("org.telegram.tgnet.")) {
@@ -365,46 +365,43 @@ public class FileLog {
     }
 
     public static String getNetworkLogPath() {
-        if (BuildVars.LOGS_ENABLED) {
-            try {
-                File logsDir = AndroidUtilities.getLogsDir();
-                if (logsDir == null) {
-                    return "";
-                }
-                FileLog fileLog = getInstance();
-                fileLog.networkFile = new File(logsDir, getInstance().fileDateFormat.format(System.currentTimeMillis()) + "_net.txt");
-                return getInstance().networkFile.getAbsolutePath();
-            } catch (Throwable th) {
-                th.printStackTrace();
+        if (!BuildVars.LOGS_ENABLED) {
+            return "";
+        }
+        try {
+            File logsDir = AndroidUtilities.getLogsDir();
+            if (logsDir == null) {
                 return "";
             }
+            getInstance().networkFile = new File(logsDir, getInstance().fileDateFormat.format(System.currentTimeMillis()) + "_net.txt");
+            return getInstance().networkFile.getAbsolutePath();
+        } catch (Throwable th) {
+            th.printStackTrace();
+            return "";
         }
-        return "";
     }
 
     public static String getTonlibLogPath() {
-        if (BuildVars.LOGS_ENABLED) {
-            try {
-                File logsDir = AndroidUtilities.getLogsDir();
-                if (logsDir == null) {
-                    return "";
-                }
-                FileLog fileLog = getInstance();
-                fileLog.tonlibFile = new File(logsDir, getInstance().dateFormat.format(System.currentTimeMillis()) + "_tonlib.txt");
-                return getInstance().tonlibFile.getAbsolutePath();
-            } catch (Throwable th) {
-                th.printStackTrace();
+        if (!BuildVars.LOGS_ENABLED) {
+            return "";
+        }
+        try {
+            File logsDir = AndroidUtilities.getLogsDir();
+            if (logsDir == null) {
                 return "";
             }
+            getInstance().tonlibFile = new File(logsDir, getInstance().dateFormat.format(System.currentTimeMillis()) + "_tonlib.txt");
+            return getInstance().tonlibFile.getAbsolutePath();
+        } catch (Throwable th) {
+            th.printStackTrace();
+            return "";
         }
-        return "";
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$d$6(String str) {
         try {
-            OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
-            outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " D/tmessages: " + str + "\n");
+            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " D/tmessages: " + str + "\n");
             getInstance().streamWriter.flush();
         } catch (Exception e) {
             e.printStackTrace();
@@ -453,13 +450,11 @@ public class FileLog {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$e$2(String str, Throwable th) {
         try {
-            OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
-            outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + str + "\n");
+            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + str + "\n");
             getInstance().streamWriter.write(th.toString());
             StackTraceElement[] stackTrace = th.getStackTrace();
-            for (int i = 0; i < stackTrace.length; i++) {
-                OutputStreamWriter outputStreamWriter2 = getInstance().streamWriter;
-                outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTrace[i] + "\n");
+            for (StackTraceElement stackTraceElement : stackTrace) {
+                getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTraceElement + "\n");
             }
             getInstance().streamWriter.flush();
         } catch (Exception e) {
@@ -470,8 +465,7 @@ public class FileLog {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$e$3(String str) {
         try {
-            OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
-            outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + str + "\n");
+            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + str + "\n");
             getInstance().streamWriter.flush();
         } catch (Exception e) {
             e.printStackTrace();
@@ -481,21 +475,15 @@ public class FileLog {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$e$4(Throwable th) {
         try {
-            OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
-            outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + th + "\n");
-            StackTraceElement[] stackTrace = th.getStackTrace();
-            for (int i = 0; i < stackTrace.length; i++) {
-                OutputStreamWriter outputStreamWriter2 = getInstance().streamWriter;
-                outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTrace[i] + "\n");
+            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: " + th + "\n");
+            for (StackTraceElement stackTraceElement : th.getStackTrace()) {
+                getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTraceElement + "\n");
             }
             Throwable cause = th.getCause();
             if (cause != null) {
-                OutputStreamWriter outputStreamWriter3 = getInstance().streamWriter;
-                outputStreamWriter3.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: Caused by " + cause + "\n");
-                StackTraceElement[] stackTrace2 = cause.getStackTrace();
-                for (int i2 = 0; i2 < stackTrace2.length; i2++) {
-                    OutputStreamWriter outputStreamWriter4 = getInstance().streamWriter;
-                    outputStreamWriter4.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTrace2[i2] + "\n");
+                getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: Caused by " + cause + "\n");
+                for (StackTraceElement stackTraceElement2 : cause.getStackTrace()) {
+                    getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTraceElement2 + "\n");
                 }
             }
             getInstance().streamWriter.flush();
@@ -507,21 +495,15 @@ public class FileLog {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$fatal$5(Throwable th) {
         try {
-            OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
-            outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " FATAL/tmessages: " + th + "\n");
-            StackTraceElement[] stackTrace = th.getStackTrace();
-            for (int i = 0; i < stackTrace.length; i++) {
-                OutputStreamWriter outputStreamWriter2 = getInstance().streamWriter;
-                outputStreamWriter2.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " FATAL/tmessages: \tat " + stackTrace[i] + "\n");
+            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " FATAL/tmessages: " + th + "\n");
+            for (StackTraceElement stackTraceElement : th.getStackTrace()) {
+                getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " FATAL/tmessages: \tat " + stackTraceElement + "\n");
             }
             Throwable cause = th.getCause();
             if (cause != null) {
-                OutputStreamWriter outputStreamWriter3 = getInstance().streamWriter;
-                outputStreamWriter3.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: Caused by " + cause + "\n");
-                StackTraceElement[] stackTrace2 = cause.getStackTrace();
-                for (int i2 = 0; i2 < stackTrace2.length; i2++) {
-                    OutputStreamWriter outputStreamWriter4 = getInstance().streamWriter;
-                    outputStreamWriter4.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTrace2[i2] + "\n");
+                getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: Caused by " + cause + "\n");
+                for (StackTraceElement stackTraceElement2 : cause.getStackTrace()) {
+                    getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/tmessages: \tat " + stackTraceElement2 + "\n");
                 }
             }
             getInstance().streamWriter.flush();
@@ -536,8 +518,7 @@ public class FileLog {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$w$7(String str) {
         try {
-            OutputStreamWriter outputStreamWriter = getInstance().streamWriter;
-            outputStreamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " W/tmessages: " + str + "\n");
+            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " W/tmessages: " + str + "\n");
             getInstance().streamWriter.flush();
         } catch (Exception e) {
             e.printStackTrace();

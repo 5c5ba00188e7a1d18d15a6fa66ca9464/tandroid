@@ -27,6 +27,7 @@ import java.util.Iterator;
 import org.telegram.messenger.NotificationCenter;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* loaded from: classes.dex */
 public abstract class AnimatorInflaterCompat {
 
@@ -40,16 +41,16 @@ public abstract class AnimatorInflaterCompat {
 
         @Override // android.animation.TypeEvaluator
         public PathParser.PathDataNode[] evaluate(float f, PathParser.PathDataNode[] pathDataNodeArr, PathParser.PathDataNode[] pathDataNodeArr2) {
-            if (PathParser.canMorph(pathDataNodeArr, pathDataNodeArr2)) {
-                if (!PathParser.canMorph(this.mNodeArray, pathDataNodeArr)) {
-                    this.mNodeArray = PathParser.deepCopyNodes(pathDataNodeArr);
-                }
-                for (int i = 0; i < pathDataNodeArr.length; i++) {
-                    this.mNodeArray[i].interpolatePathDataNode(pathDataNodeArr[i], pathDataNodeArr2[i], f);
-                }
-                return this.mNodeArray;
+            if (!PathParser.canMorph(pathDataNodeArr, pathDataNodeArr2)) {
+                throw new IllegalArgumentException("Can't interpolate between two incompatible pathData");
             }
-            throw new IllegalArgumentException("Can't interpolate between two incompatible pathData");
+            if (!PathParser.canMorph(this.mNodeArray, pathDataNodeArr)) {
+                this.mNodeArray = PathParser.deepCopyNodes(pathDataNodeArr);
+            }
+            for (int i = 0; i < pathDataNodeArr.length; i++) {
+                this.mNodeArray[i].interpolatePathDataNode(pathDataNodeArr[i], pathDataNodeArr2[i], f);
+            }
+            return this.mNodeArray;
         }
     }
 
@@ -84,9 +85,10 @@ public abstract class AnimatorInflaterCompat {
                             createAnimatorFromXml(context, resources, theme, xmlPullParser, attributeSet, animatorSet2, TypedArrayUtils.getNamedInt(obtainAttributes, xmlPullParser, "ordering", 0, 0), f);
                             obtainAttributes.recycle();
                             valueAnimator = animatorSet2;
-                        } else if (!name.equals("propertyValuesHolder")) {
-                            throw new RuntimeException("Unknown animator name: " + xmlPullParser.getName());
                         } else {
+                            if (!name.equals("propertyValuesHolder")) {
+                                throw new RuntimeException("Unknown animator name: " + xmlPullParser.getName());
+                            }
                             PropertyValuesHolder[] loadValues = loadValues(context, resources, theme, xmlPullParser, Xml.asAttributeSet(xmlPullParser));
                             if (loadValues != null && (valueAnimator instanceof ValueAnimator)) {
                                 valueAnimator.setValues(loadValues);
@@ -196,9 +198,10 @@ public abstract class AnimatorInflaterCompat {
         PathDataEvaluator pathDataEvaluator = new PathDataEvaluator();
         if (createNodesFromPathData2 == null) {
             ofObject = PropertyValuesHolder.ofObject(str, pathDataEvaluator, createNodesFromPathData);
-        } else if (!PathParser.canMorph(createNodesFromPathData, createNodesFromPathData2)) {
-            throw new InflateException(" Can't morph from " + string + " to " + string2);
         } else {
+            if (!PathParser.canMorph(createNodesFromPathData, createNodesFromPathData2)) {
+                throw new InflateException(" Can't morph from " + string + " to " + string2);
+            }
             ofObject = PropertyValuesHolder.ofObject(str, pathDataEvaluator, createNodesFromPathData, createNodesFromPathData2);
         }
         return ofObject;
@@ -309,7 +312,8 @@ public abstract class AnimatorInflaterCompat {
             int next = xmlPullParser.next();
             if (next == 3 || next == 1) {
                 break;
-            } else if (xmlPullParser.getName().equals("keyframe")) {
+            }
+            if (xmlPullParser.getName().equals("keyframe")) {
                 if (i == 4) {
                     i = inferValueTypeOfKeyframe(resources, theme, Xml.asAttributeSet(xmlPullParser), xmlPullParser);
                 }

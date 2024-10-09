@@ -1,6 +1,7 @@
 package androidx.core.util;
 
 import java.io.PrintWriter;
+
 /* loaded from: classes.dex */
 public abstract class TimeUtils {
     private static final Object sFormatSync = new Object();
@@ -112,25 +113,25 @@ public abstract class TimeUtils {
 
     private static int printField(char[] cArr, int i, char c, int i2, boolean z, int i3) {
         int i4;
-        if (z || i > 0) {
-            if ((!z || i3 < 3) && i <= 99) {
-                i4 = i2;
-            } else {
-                int i5 = i / 100;
-                cArr[i2] = (char) (i5 + 48);
-                i4 = i2 + 1;
-                i -= i5 * 100;
-            }
-            if ((z && i3 >= 2) || i > 9 || i2 != i4) {
-                int i6 = i / 10;
-                cArr[i4] = (char) (i6 + 48);
-                i4++;
-                i -= i6 * 10;
-            }
-            cArr[i4] = (char) (i + 48);
-            cArr[i4 + 1] = c;
-            return i4 + 2;
+        if (!z && i <= 0) {
+            return i2;
         }
-        return i2;
+        if ((!z || i3 < 3) && i <= 99) {
+            i4 = i2;
+        } else {
+            int i5 = i / 100;
+            cArr[i2] = (char) (i5 + 48);
+            i4 = i2 + 1;
+            i -= i5 * 100;
+        }
+        if ((z && i3 >= 2) || i > 9 || i2 != i4) {
+            int i6 = i / 10;
+            cArr[i4] = (char) (i6 + 48);
+            i4++;
+            i -= i6 * 10;
+        }
+        cArr[i4] = (char) (i + 48);
+        cArr[i4 + 1] = c;
+        return i4 + 2;
     }
 }

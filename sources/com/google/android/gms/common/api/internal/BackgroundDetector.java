@@ -10,6 +10,7 @@ import com.google.android.gms.common.util.PlatformVersion;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 /* loaded from: classes.dex */
 public final class BackgroundDetector implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
     private static final BackgroundDetector zza = new BackgroundDetector();

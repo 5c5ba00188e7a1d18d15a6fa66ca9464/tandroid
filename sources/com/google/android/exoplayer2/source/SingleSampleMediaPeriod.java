@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callback {
@@ -82,27 +83,28 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
             if (i2 == 2) {
                 decoderInputBuffer.addFlag(4);
                 return -4;
-            } else if ((i & 2) != 0 || i2 == 0) {
+            }
+            if ((i & 2) != 0 || i2 == 0) {
                 formatHolder.format = singleSampleMediaPeriod.format;
                 this.streamState = 1;
                 return -5;
-            } else if (z) {
-                Assertions.checkNotNull(singleSampleMediaPeriod.sampleData);
-                decoderInputBuffer.addFlag(1);
-                decoderInputBuffer.timeUs = 0L;
-                if ((i & 4) == 0) {
-                    decoderInputBuffer.ensureSpaceForWrite(SingleSampleMediaPeriod.this.sampleSize);
-                    ByteBuffer byteBuffer = decoderInputBuffer.data;
-                    SingleSampleMediaPeriod singleSampleMediaPeriod2 = SingleSampleMediaPeriod.this;
-                    byteBuffer.put(singleSampleMediaPeriod2.sampleData, 0, singleSampleMediaPeriod2.sampleSize);
-                }
-                if ((i & 1) == 0) {
-                    this.streamState = 2;
-                }
-                return -4;
-            } else {
+            }
+            if (!z) {
                 return -3;
             }
+            Assertions.checkNotNull(singleSampleMediaPeriod.sampleData);
+            decoderInputBuffer.addFlag(1);
+            decoderInputBuffer.timeUs = 0L;
+            if ((i & 4) == 0) {
+                decoderInputBuffer.ensureSpaceForWrite(SingleSampleMediaPeriod.this.sampleSize);
+                ByteBuffer byteBuffer = decoderInputBuffer.data;
+                SingleSampleMediaPeriod singleSampleMediaPeriod2 = SingleSampleMediaPeriod.this;
+                byteBuffer.put(singleSampleMediaPeriod2.sampleData, 0, singleSampleMediaPeriod2.sampleSize);
+            }
+            if ((i & 1) == 0) {
+                this.streamState = 2;
+            }
+            return -4;
         }
 
         public void reset() {

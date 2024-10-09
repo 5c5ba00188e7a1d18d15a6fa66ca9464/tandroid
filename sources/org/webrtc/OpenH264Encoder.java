@@ -1,4 +1,5 @@
 package org.webrtc;
+
 /* loaded from: classes.dex */
 public class OpenH264Encoder extends WrappedNativeVideoEncoder {
     static native long nativeCreateEncoder();

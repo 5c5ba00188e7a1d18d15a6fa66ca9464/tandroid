@@ -10,6 +10,7 @@ import com.google.firebase.components.Dependency;
 import com.google.firebase.platforminfo.LibraryVersionComponent;
 import java.util.Arrays;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class AbtRegistrar implements ComponentRegistrar {
     /* JADX INFO: Access modifiers changed from: private */

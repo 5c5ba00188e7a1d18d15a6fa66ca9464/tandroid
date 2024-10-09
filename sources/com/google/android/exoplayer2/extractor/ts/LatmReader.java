@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Collections;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class LatmReader implements ElementaryStreamReader {
     private int audioMuxVersionA;
@@ -82,17 +83,19 @@ public final class LatmReader implements ElementaryStreamReader {
         this.frameLengthType = readBits;
         if (readBits == 0) {
             i = 8;
-        } else if (readBits != 1) {
-            if (readBits == 3 || readBits == 4 || readBits == 5) {
-                parsableBitArray.skipBits(6);
-                return;
-            } else if (readBits != 6 && readBits != 7) {
-                throw new IllegalStateException();
-            } else {
-                parsableBitArray.skipBits(1);
-                return;
-            }
         } else {
+            if (readBits != 1) {
+                if (readBits == 3 || readBits == 4 || readBits == 5) {
+                    parsableBitArray.skipBits(6);
+                    return;
+                } else {
+                    if (readBits != 6 && readBits != 7) {
+                        throw new IllegalStateException();
+                    }
+                    parsableBitArray.skipBits(1);
+                    return;
+                }
+            }
             i = 9;
         }
         parsableBitArray.skipBits(i);
@@ -100,15 +103,15 @@ public final class LatmReader implements ElementaryStreamReader {
 
     private int parsePayloadLengthInfo(ParsableBitArray parsableBitArray) {
         int readBits;
-        if (this.frameLengthType == 0) {
-            int i = 0;
-            do {
-                readBits = parsableBitArray.readBits(8);
-                i += readBits;
-            } while (readBits == 255);
-            return i;
+        if (this.frameLengthType != 0) {
+            throw ParserException.createForMalformedContainer(null, null);
         }
-        throw ParserException.createForMalformedContainer(null, null);
+        int i = 0;
+        do {
+            readBits = parsableBitArray.readBits(8);
+            i += readBits;
+        } while (readBits == 255);
+        return i;
     }
 
     private void parsePayloadMux(ParsableBitArray parsableBitArray, int i) {
@@ -169,12 +172,11 @@ public final class LatmReader implements ElementaryStreamReader {
         if (readBit2) {
             if (readBits == 1) {
                 this.otherDataLenBits = latmGetValue(parsableBitArray);
-            } else {
-                do {
-                    readBit = parsableBitArray.readBit();
-                    this.otherDataLenBits = (this.otherDataLenBits << 8) + parsableBitArray.readBits(8);
-                } while (readBit);
             }
+            do {
+                readBit = parsableBitArray.readBit();
+                this.otherDataLenBits = (this.otherDataLenBits << 8) + parsableBitArray.readBits(8);
+            } while (readBit);
         }
         if (parsableBitArray.readBit()) {
             parsableBitArray.skipBits(8);
@@ -208,9 +210,10 @@ public final class LatmReader implements ElementaryStreamReader {
                     }
                     this.bytesRead = 0;
                     this.state = 3;
-                } else if (i != 3) {
-                    throw new IllegalStateException();
                 } else {
+                    if (i != 3) {
+                        throw new IllegalStateException();
+                    }
                     int min = Math.min(parsableByteArray.bytesLeft(), this.sampleSize - this.bytesRead);
                     parsableByteArray.readBytes(this.sampleBitArray.data, this.bytesRead, min);
                     int i2 = this.bytesRead + min;

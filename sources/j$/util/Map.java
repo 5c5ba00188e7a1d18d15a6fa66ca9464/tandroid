@@ -6,6 +6,7 @@ import j$.util.function.Function;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+
 /* loaded from: classes2.dex */
 public interface Map<K, V> {
 
@@ -19,12 +20,12 @@ public interface Map<K, V> {
             if (apply != null) {
                 map.put(obj, apply);
                 return apply;
-            } else if (obj2 != null || map.containsKey(obj)) {
-                map.remove(obj);
-                return null;
-            } else {
+            }
+            if (obj2 == null && !map.containsKey(obj)) {
                 return null;
             }
+            map.remove(obj);
+            return null;
         }
 
         /* JADX WARN: Multi-variable type inference failed */
@@ -88,14 +89,14 @@ public interface Map<K, V> {
 
         public static boolean $default$remove(java.util.Map map, Object obj, Object obj2) {
             Object obj3 = map.get(obj);
-            if (a.A(obj3, obj2)) {
-                if (obj3 != null || map.containsKey(obj)) {
-                    map.remove(obj);
-                    return true;
-                }
+            if (!a.A(obj3, obj2)) {
                 return false;
             }
-            return false;
+            if (obj3 == null && !map.containsKey(obj)) {
+                return false;
+            }
+            map.remove(obj);
+            return true;
         }
 
         public static Object $default$replace(java.util.Map map, Object obj, Object obj2) {
@@ -105,22 +106,23 @@ public interface Map<K, V> {
 
         public static boolean $default$replace(java.util.Map map, Object obj, Object obj2, Object obj3) {
             Object obj4 = map.get(obj);
-            if (a.A(obj4, obj2)) {
-                if (obj4 != null || map.containsKey(obj)) {
-                    map.put(obj, obj3);
-                    return true;
-                }
+            if (!a.A(obj4, obj2)) {
                 return false;
             }
-            return false;
+            if (obj4 == null && !map.containsKey(obj)) {
+                return false;
+            }
+            map.put(obj, obj3);
+            return true;
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
         public static void $default$replaceAll(java.util.Map map, BiFunction biFunction) {
             biFunction.getClass();
             for (Map.Entry<K, V> entry : map.entrySet()) {
                 try {
                     try {
-                        entry.setValue((V) biFunction.apply(entry.getKey(), entry.getValue()));
+                        entry.setValue(biFunction.apply(entry.getKey(), entry.getValue()));
                     } catch (IllegalStateException e) {
                         throw new ConcurrentModificationException(e);
                     }
@@ -139,33 +141,31 @@ public interface Map<K, V> {
             if (map instanceof Map) {
                 return ((Map) map).compute(obj, biFunction);
             }
-            if (map instanceof ConcurrentMap) {
-                ConcurrentMap concurrentMap = (ConcurrentMap) map;
-                biFunction.getClass();
-                loop0: while (true) {
-                    Object obj2 = concurrentMap.get(obj);
-                    while (true) {
-                        apply = biFunction.apply(obj, obj2);
-                        if (apply != null) {
-                            if (obj2 == null) {
-                                obj2 = concurrentMap.putIfAbsent(obj, apply);
-                                if (obj2 == null) {
-                                    break loop0;
-                                }
-                            } else if (concurrentMap.replace(obj, obj2, apply)) {
-                                break;
-                            }
-                        } else {
-                            apply = null;
-                            if ((obj2 == null && !concurrentMap.containsKey(obj)) || concurrentMap.remove(obj, obj2)) {
-                                break;
-                            }
+            if (!(map instanceof ConcurrentMap)) {
+                return -CC.$default$compute(map, obj, biFunction);
+            }
+            ConcurrentMap concurrentMap = (ConcurrentMap) map;
+            biFunction.getClass();
+            loop0: while (true) {
+                Object obj2 = concurrentMap.get(obj);
+                while (true) {
+                    apply = biFunction.apply(obj, obj2);
+                    if (apply == null) {
+                        apply = null;
+                        if ((obj2 == null && !concurrentMap.containsKey(obj)) || concurrentMap.remove(obj, obj2)) {
+                            break;
                         }
+                    } else if (obj2 == null) {
+                        obj2 = concurrentMap.putIfAbsent(obj, apply);
+                        if (obj2 == null) {
+                            break loop0;
+                        }
+                    } else if (concurrentMap.replace(obj, obj2, apply)) {
+                        break;
                     }
                 }
-                return apply;
             }
-            return -CC.$default$compute(map, obj, biFunction);
+            return apply;
         }
 
         public static /* synthetic */ Object b(java.util.Map map, Object obj, Object obj2) {

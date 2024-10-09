@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public class MsgClockDrawable extends Drawable {
     private int alpha;

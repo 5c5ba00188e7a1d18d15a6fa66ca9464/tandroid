@@ -2,6 +2,7 @@ package com.microsoft.appcenter.distribute.download.http;
 
 import android.os.AsyncTask;
 import java.io.File;
+
 /* loaded from: classes.dex */
 class HttpConnectionCheckTask extends AsyncTask {
     private final HttpConnectionReleaseDownloader mDownloader;

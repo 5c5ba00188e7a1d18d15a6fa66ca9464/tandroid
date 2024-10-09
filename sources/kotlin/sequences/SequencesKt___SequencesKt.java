@@ -2,17 +2,20 @@ package kotlin.sequences;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import kotlin.collections.CollectionsKt__CollectionsKt;
 import kotlin.jvm.internal.Intrinsics;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class SequencesKt___SequencesKt extends SequencesKt___SequencesJvmKt {
     public static final Collection toCollection(Sequence sequence, Collection destination) {
         Intrinsics.checkNotNullParameter(sequence, "<this>");
         Intrinsics.checkNotNullParameter(destination, "destination");
-        for (Object obj : sequence) {
-            destination.add(obj);
+        Iterator it = sequence.iterator();
+        while (it.hasNext()) {
+            destination.add(it.next());
         }
         return destination;
     }

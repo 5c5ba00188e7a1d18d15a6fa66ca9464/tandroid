@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.text.Subtitle;
 import com.google.android.exoplayer2.text.SubtitleDecoderException;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class WebvttDecoder extends SimpleSubtitleDecoder {
     private final WebvttCssParser cssParser;

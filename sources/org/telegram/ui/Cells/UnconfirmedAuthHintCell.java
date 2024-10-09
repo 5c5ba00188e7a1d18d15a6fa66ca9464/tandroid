@@ -39,6 +39,7 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.SessionsActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes4.dex */
 public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
     private final LinearLayout buttonsLayout;
@@ -239,10 +240,10 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
     public static /* synthetic */ void lambda$showLoginPreventedSheet$6(ButtonWithCounterView buttonWithCounterView, BottomSheet bottomSheet, View view) {
         if (!buttonWithCounterView.isTimerActive()) {
             bottomSheet.dismiss();
-            return;
+        } else {
+            AndroidUtilities.shakeViewSpring(buttonWithCounterView, 3.0f);
+            BotWebViewVibrationEffect.APP_ERROR.vibrate();
         }
-        AndroidUtilities.shakeViewSpring(buttonWithCounterView, 3.0f);
-        BotWebViewVibrationEffect.APP_ERROR.vibrate();
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -273,12 +274,12 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
                 while (true) {
                     if (i2 >= arrayList.size()) {
                         break;
-                    } else if (!TextUtils.equals(str, arrayList.get(i2).location)) {
+                    }
+                    if (!TextUtils.equals(str, arrayList.get(i2).location)) {
                         str = null;
                         break;
-                    } else {
-                        i2++;
                     }
+                    i2++;
                 }
                 if (str == null) {
                     this.messageTextView.setText(LocaleController.formatPluralString("UnconfirmedAuthMultiple", arrayList.size(), new Object[0]));
@@ -304,8 +305,9 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
         if (!TextUtils.isEmpty(arrayList.get(0).location) && !str2.isEmpty()) {
             str2 = str2 + ", ";
         }
+        String str3 = str2 + arrayList.get(0).location;
         textView = this.messageTextView;
-        formatPluralString = LocaleController.formatString(R.string.UnconfirmedAuthSingle, str2 + arrayList.get(0).location);
+        formatPluralString = LocaleController.formatString(R.string.UnconfirmedAuthSingle, str3);
         textView.setText(formatPluralString);
         this.yesButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener

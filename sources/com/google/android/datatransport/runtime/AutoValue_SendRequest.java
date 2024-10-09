@@ -4,6 +4,7 @@ import com.google.android.datatransport.Encoding;
 import com.google.android.datatransport.Event;
 import com.google.android.datatransport.Transformer;
 import com.google.android.datatransport.runtime.SendRequest;
+
 /* loaded from: classes.dex */
 final class AutoValue_SendRequest extends SendRequest {
     private final Encoding encoding;
@@ -46,47 +47,47 @@ final class AutoValue_SendRequest extends SendRequest {
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         SendRequest.Builder setEncoding(Encoding encoding) {
-            if (encoding != null) {
-                this.encoding = encoding;
-                return this;
+            if (encoding == null) {
+                throw new NullPointerException("Null encoding");
             }
-            throw new NullPointerException("Null encoding");
+            this.encoding = encoding;
+            return this;
         }
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         SendRequest.Builder setEvent(Event event) {
-            if (event != null) {
-                this.event = event;
-                return this;
+            if (event == null) {
+                throw new NullPointerException("Null event");
             }
-            throw new NullPointerException("Null event");
+            this.event = event;
+            return this;
         }
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         SendRequest.Builder setTransformer(Transformer transformer) {
-            if (transformer != null) {
-                this.transformer = transformer;
-                return this;
+            if (transformer == null) {
+                throw new NullPointerException("Null transformer");
             }
-            throw new NullPointerException("Null transformer");
+            this.transformer = transformer;
+            return this;
         }
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         public SendRequest.Builder setTransportContext(TransportContext transportContext) {
-            if (transportContext != null) {
-                this.transportContext = transportContext;
-                return this;
+            if (transportContext == null) {
+                throw new NullPointerException("Null transportContext");
             }
-            throw new NullPointerException("Null transportContext");
+            this.transportContext = transportContext;
+            return this;
         }
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         public SendRequest.Builder setTransportName(String str) {
-            if (str != null) {
-                this.transportName = str;
-                return this;
+            if (str == null) {
+                throw new NullPointerException("Null transportName");
             }
-            throw new NullPointerException("Null transportName");
+            this.transportName = str;
+            return this;
         }
     }
 
@@ -102,11 +103,11 @@ final class AutoValue_SendRequest extends SendRequest {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof SendRequest) {
-            SendRequest sendRequest = (SendRequest) obj;
-            return this.transportContext.equals(sendRequest.getTransportContext()) && this.transportName.equals(sendRequest.getTransportName()) && this.event.equals(sendRequest.getEvent()) && this.transformer.equals(sendRequest.getTransformer()) && this.encoding.equals(sendRequest.getEncoding());
+        if (!(obj instanceof SendRequest)) {
+            return false;
         }
-        return false;
+        SendRequest sendRequest = (SendRequest) obj;
+        return this.transportContext.equals(sendRequest.getTransportContext()) && this.transportName.equals(sendRequest.getTransportName()) && this.event.equals(sendRequest.getEvent()) && this.transformer.equals(sendRequest.getTransformer()) && this.encoding.equals(sendRequest.getEncoding());
     }
 
     @Override // com.google.android.datatransport.runtime.SendRequest

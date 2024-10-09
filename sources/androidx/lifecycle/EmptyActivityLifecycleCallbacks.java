@@ -3,6 +3,7 @@ package androidx.lifecycle;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+
 /* loaded from: classes.dex */
 abstract class EmptyActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
     @Override // android.app.Application.ActivityLifecycleCallbacks

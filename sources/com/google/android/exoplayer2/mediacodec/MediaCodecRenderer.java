@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 public abstract class MediaCodecRenderer extends BaseRenderer {
     private static final byte[] ADAPTATION_WORKAROUND_BUFFER = {0, 0, 1, 103, 66, -64, 11, -38, 37, -112, 0, 0, 1, 104, -50, 15, 19, 32, 0, 0, 1, 101, -120, -124, 13, -50, 113, 24, -96, 0, 47, -65, 28, 49, -61, 39, 93, 120};
@@ -153,8 +154,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         }
 
         private static String buildCustomDiagnosticInfo(int i) {
-            String str = i < 0 ? "neg_" : "";
-            return "com.google.android.exoplayer2.mediacodec.MediaCodecRenderer_" + str + Math.abs(i);
+            return "com.google.android.exoplayer2.mediacodec.MediaCodecRenderer_" + (i < 0 ? "neg_" : "") + Math.abs(i);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -164,11 +164,11 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
 
         private static String getDiagnosticInfoV21(Throwable th) {
             String diagnosticInfo;
-            if (MediaCodecDecoderException$$ExternalSyntheticApiModelOutline0.m(th)) {
-                diagnosticInfo = MediaCodecDecoderException$$ExternalSyntheticApiModelOutline1.m(th).getDiagnosticInfo();
-                return diagnosticInfo;
+            if (!MediaCodecDecoderException$$ExternalSyntheticApiModelOutline0.m(th)) {
+                return null;
             }
-            return null;
+            diagnosticInfo = MediaCodecDecoderException$$ExternalSyntheticApiModelOutline1.m(th).getDiagnosticInfo();
+            return diagnosticInfo;
         }
     }
 
@@ -218,15 +218,17 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             if (readSource == -5) {
                 onInputFormatChanged(formatHolder);
                 return;
-            } else if (readSource != -4) {
+            }
+            if (readSource != -4) {
                 if (readSource != -3) {
                     throw new IllegalStateException();
                 }
                 return;
-            } else if (this.bypassSampleBuffer.isEndOfStream()) {
-                this.inputStreamEnded = true;
-                return;
             } else {
+                if (this.bypassSampleBuffer.isEndOfStream()) {
+                    this.inputStreamEnded = true;
+                    return;
+                }
                 if (this.waitingForFirstSampleInFormat) {
                     Format format = (Format) Assertions.checkNotNull(this.inputFormat);
                     this.outputFormat = format;
@@ -283,14 +285,14 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
                 return 2;
             }
         }
-        if (i < 24) {
-            if ("OMX.Nvidia.h264.decode".equals(str) || "OMX.Nvidia.h264.decode.secure".equals(str)) {
-                String str3 = Util.DEVICE;
-                return ("flounder".equals(str3) || "flounder_lte".equals(str3) || "grouper".equals(str3) || "tilapia".equals(str3)) ? 1 : 0;
-            }
+        if (i >= 24) {
             return 0;
         }
-        return 0;
+        if (!"OMX.Nvidia.h264.decode".equals(str) && !"OMX.Nvidia.h264.decode.secure".equals(str)) {
+            return 0;
+        }
+        String str3 = Util.DEVICE;
+        return ("flounder".equals(str3) || "flounder_lte".equals(str3) || "grouper".equals(str3) || "tilapia".equals(str3)) ? 1 : 0;
     }
 
     private static boolean codecNeedsDiscardToSpsWorkaround(String str, Format format) {
@@ -366,10 +368,10 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private void drainAndReinitializeCodec() {
         if (!this.codecReceivedBuffers) {
             reinitializeCodec();
-            return;
+        } else {
+            this.codecDrainState = 1;
+            this.codecDrainAction = 3;
         }
-        this.codecDrainState = 1;
-        this.codecDrainAction = 3;
     }
 
     private boolean drainAndUpdateCodecDrmSessionV23() {
@@ -413,40 +415,40 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
                     processEndOfStream();
                 }
                 return false;
-            } else if (this.shouldSkipAdaptationWorkaroundOutputBuffer) {
+            }
+            if (this.shouldSkipAdaptationWorkaroundOutputBuffer) {
                 this.shouldSkipAdaptationWorkaroundOutputBuffer = false;
                 this.codec.releaseOutputBuffer(dequeueOutputBufferIndex, false);
                 return true;
-            } else {
-                MediaCodec.BufferInfo bufferInfo = this.outputBufferInfo;
-                if (bufferInfo.size == 0 && (bufferInfo.flags & 4) != 0) {
-                    processEndOfStream();
-                    return false;
-                }
-                this.outputIndex = dequeueOutputBufferIndex;
-                ByteBuffer outputBuffer = this.codec.getOutputBuffer(dequeueOutputBufferIndex);
-                this.outputBuffer = outputBuffer;
-                if (outputBuffer != null) {
-                    outputBuffer.position(this.outputBufferInfo.offset);
-                    ByteBuffer byteBuffer = this.outputBuffer;
-                    MediaCodec.BufferInfo bufferInfo2 = this.outputBufferInfo;
-                    byteBuffer.limit(bufferInfo2.offset + bufferInfo2.size);
-                }
-                if (this.codecNeedsEosBufferTimestampWorkaround) {
-                    MediaCodec.BufferInfo bufferInfo3 = this.outputBufferInfo;
-                    if (bufferInfo3.presentationTimeUs == 0 && (bufferInfo3.flags & 4) != 0) {
-                        long j3 = this.largestQueuedPresentationTimeUs;
-                        if (j3 != -9223372036854775807L) {
-                            bufferInfo3.presentationTimeUs = j3;
-                        }
+            }
+            MediaCodec.BufferInfo bufferInfo = this.outputBufferInfo;
+            if (bufferInfo.size == 0 && (bufferInfo.flags & 4) != 0) {
+                processEndOfStream();
+                return false;
+            }
+            this.outputIndex = dequeueOutputBufferIndex;
+            ByteBuffer outputBuffer = this.codec.getOutputBuffer(dequeueOutputBufferIndex);
+            this.outputBuffer = outputBuffer;
+            if (outputBuffer != null) {
+                outputBuffer.position(this.outputBufferInfo.offset);
+                ByteBuffer byteBuffer = this.outputBuffer;
+                MediaCodec.BufferInfo bufferInfo2 = this.outputBufferInfo;
+                byteBuffer.limit(bufferInfo2.offset + bufferInfo2.size);
+            }
+            if (this.codecNeedsEosBufferTimestampWorkaround) {
+                MediaCodec.BufferInfo bufferInfo3 = this.outputBufferInfo;
+                if (bufferInfo3.presentationTimeUs == 0 && (bufferInfo3.flags & 4) != 0) {
+                    long j3 = this.largestQueuedPresentationTimeUs;
+                    if (j3 != -9223372036854775807L) {
+                        bufferInfo3.presentationTimeUs = j3;
                     }
                 }
-                this.isDecodeOnlyOutputBuffer = isDecodeOnlyBuffer(this.outputBufferInfo.presentationTimeUs);
-                long j4 = this.lastBufferInStreamPresentationTimeUs;
-                long j5 = this.outputBufferInfo.presentationTimeUs;
-                this.isLastOutputBuffer = j4 == j5;
-                updateOutputFormatForTime(j5);
             }
+            this.isDecodeOnlyOutputBuffer = isDecodeOnlyBuffer(this.outputBufferInfo.presentationTimeUs);
+            long j4 = this.lastBufferInStreamPresentationTimeUs;
+            long j5 = this.outputBufferInfo.presentationTimeUs;
+            this.isLastOutputBuffer = j4 == j5;
+            updateOutputFormatForTime(j5);
         }
         if (this.codecNeedsEosOutputExceptionWorkaround && this.codecReceivedEos) {
             try {
@@ -527,7 +529,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             }
             this.codecDrainState = 2;
             return false;
-        } else if (this.codecNeedsAdaptationWorkaroundBuffer) {
+        }
+        if (this.codecNeedsAdaptationWorkaroundBuffer) {
             this.codecNeedsAdaptationWorkaroundBuffer = false;
             ByteBuffer byteBuffer = this.buffer.data;
             byte[] bArr = ADAPTATION_WORKAROUND_BUFFER;
@@ -536,110 +539,110 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             resetInputBuffer();
             this.codecReceivedBuffers = true;
             return true;
-        } else {
-            if (this.codecReconfigurationState == 1) {
-                for (int i2 = 0; i2 < this.codecInputFormat.initializationData.size(); i2++) {
-                    this.buffer.data.put((byte[]) this.codecInputFormat.initializationData.get(i2));
-                }
-                this.codecReconfigurationState = 2;
+        }
+        if (this.codecReconfigurationState == 1) {
+            for (int i2 = 0; i2 < this.codecInputFormat.initializationData.size(); i2++) {
+                this.buffer.data.put((byte[]) this.codecInputFormat.initializationData.get(i2));
             }
-            int position = this.buffer.data.position();
-            FormatHolder formatHolder = getFormatHolder();
-            try {
-                int readSource = readSource(formatHolder, this.buffer, 0);
-                if (hasReadStreamToEnd()) {
-                    this.lastBufferInStreamPresentationTimeUs = this.largestQueuedPresentationTimeUs;
-                }
-                if (readSource == -3) {
-                    return false;
-                }
-                if (readSource == -5) {
-                    if (this.codecReconfigurationState == 2) {
-                        this.buffer.clear();
-                        this.codecReconfigurationState = 1;
-                    }
-                    onInputFormatChanged(formatHolder);
-                    return true;
-                } else if (this.buffer.isEndOfStream()) {
-                    if (this.codecReconfigurationState == 2) {
-                        this.buffer.clear();
-                        this.codecReconfigurationState = 1;
-                    }
-                    this.inputStreamEnded = true;
-                    if (!this.codecReceivedBuffers) {
-                        processEndOfStream();
-                        return false;
-                    }
-                    try {
-                        if (!this.codecNeedsEosPropagation) {
-                            this.codecReceivedEos = true;
-                            this.codec.queueInputBuffer(this.inputIndex, 0, 0, 0L, 4);
-                            resetInputBuffer();
-                        }
-                        return false;
-                    } catch (MediaCodec.CryptoException e) {
-                        throw createRendererException(e, this.inputFormat, Util.getErrorCodeForMediaDrmErrorCode(e.getErrorCode()));
-                    }
-                } else if (!this.codecReceivedBuffers && !this.buffer.isKeyFrame()) {
+            this.codecReconfigurationState = 2;
+        }
+        int position = this.buffer.data.position();
+        FormatHolder formatHolder = getFormatHolder();
+        try {
+            int readSource = readSource(formatHolder, this.buffer, 0);
+            if (hasReadStreamToEnd()) {
+                this.lastBufferInStreamPresentationTimeUs = this.largestQueuedPresentationTimeUs;
+            }
+            if (readSource == -3) {
+                return false;
+            }
+            if (readSource == -5) {
+                if (this.codecReconfigurationState == 2) {
                     this.buffer.clear();
-                    if (this.codecReconfigurationState == 2) {
-                        this.codecReconfigurationState = 1;
-                    }
-                    return true;
-                } else {
-                    boolean isEncrypted = this.buffer.isEncrypted();
-                    if (isEncrypted) {
-                        this.buffer.cryptoInfo.increaseClearDataFirstSubSampleBy(position);
-                    }
-                    if (this.codecNeedsDiscardToSpsWorkaround && !isEncrypted) {
-                        NalUnitUtil.discardToSps(this.buffer.data);
-                        if (this.buffer.data.position() == 0) {
-                            return true;
-                        }
-                        this.codecNeedsDiscardToSpsWorkaround = false;
-                    }
-                    DecoderInputBuffer decoderInputBuffer = this.buffer;
-                    long j = decoderInputBuffer.timeUs;
-                    C2Mp3TimestampTracker c2Mp3TimestampTracker = this.c2Mp3TimestampTracker;
-                    if (c2Mp3TimestampTracker != null) {
-                        j = c2Mp3TimestampTracker.updateAndGetPresentationTimeUs(this.inputFormat, decoderInputBuffer);
-                        this.largestQueuedPresentationTimeUs = Math.max(this.largestQueuedPresentationTimeUs, this.c2Mp3TimestampTracker.getLastOutputBufferPresentationTimeUs(this.inputFormat));
-                    }
-                    long j2 = j;
-                    if (this.buffer.isDecodeOnly()) {
-                        this.decodeOnlyPresentationTimestamps.add(Long.valueOf(j2));
-                    }
-                    if (this.waitingForFirstSampleInFormat) {
-                        this.formatQueue.add(j2, this.inputFormat);
-                        this.waitingForFirstSampleInFormat = false;
-                    }
-                    this.largestQueuedPresentationTimeUs = Math.max(this.largestQueuedPresentationTimeUs, j2);
-                    this.buffer.flip();
-                    if (this.buffer.hasSupplementalData()) {
-                        handleInputBufferSupplementalData(this.buffer);
-                    }
-                    onQueueInputBuffer(this.buffer);
-                    try {
-                        if (isEncrypted) {
-                            this.codec.queueSecureInputBuffer(this.inputIndex, 0, this.buffer.cryptoInfo, j2, 0);
-                        } else {
-                            this.codec.queueInputBuffer(this.inputIndex, 0, this.buffer.data.limit(), j2, 0);
-                        }
-                        resetInputBuffer();
-                        this.codecReceivedBuffers = true;
-                        this.codecReconfigurationState = 0;
-                        this.decoderCounters.queuedInputBufferCount++;
-                        return true;
-                    } catch (MediaCodec.CryptoException e2) {
-                        throw createRendererException(e2, this.inputFormat, Util.getErrorCodeForMediaDrmErrorCode(e2.getErrorCode()));
-                    }
+                    this.codecReconfigurationState = 1;
                 }
-            } catch (DecoderInputBuffer.InsufficientCapacityException e3) {
-                onCodecError(e3);
-                readSourceOmittingSampleData(0);
-                flushCodec();
+                onInputFormatChanged(formatHolder);
                 return true;
             }
+            if (this.buffer.isEndOfStream()) {
+                if (this.codecReconfigurationState == 2) {
+                    this.buffer.clear();
+                    this.codecReconfigurationState = 1;
+                }
+                this.inputStreamEnded = true;
+                if (!this.codecReceivedBuffers) {
+                    processEndOfStream();
+                    return false;
+                }
+                try {
+                    if (!this.codecNeedsEosPropagation) {
+                        this.codecReceivedEos = true;
+                        this.codec.queueInputBuffer(this.inputIndex, 0, 0, 0L, 4);
+                        resetInputBuffer();
+                    }
+                    return false;
+                } catch (MediaCodec.CryptoException e) {
+                    throw createRendererException(e, this.inputFormat, Util.getErrorCodeForMediaDrmErrorCode(e.getErrorCode()));
+                }
+            }
+            if (!this.codecReceivedBuffers && !this.buffer.isKeyFrame()) {
+                this.buffer.clear();
+                if (this.codecReconfigurationState == 2) {
+                    this.codecReconfigurationState = 1;
+                }
+                return true;
+            }
+            boolean isEncrypted = this.buffer.isEncrypted();
+            if (isEncrypted) {
+                this.buffer.cryptoInfo.increaseClearDataFirstSubSampleBy(position);
+            }
+            if (this.codecNeedsDiscardToSpsWorkaround && !isEncrypted) {
+                NalUnitUtil.discardToSps(this.buffer.data);
+                if (this.buffer.data.position() == 0) {
+                    return true;
+                }
+                this.codecNeedsDiscardToSpsWorkaround = false;
+            }
+            DecoderInputBuffer decoderInputBuffer = this.buffer;
+            long j = decoderInputBuffer.timeUs;
+            C2Mp3TimestampTracker c2Mp3TimestampTracker = this.c2Mp3TimestampTracker;
+            if (c2Mp3TimestampTracker != null) {
+                j = c2Mp3TimestampTracker.updateAndGetPresentationTimeUs(this.inputFormat, decoderInputBuffer);
+                this.largestQueuedPresentationTimeUs = Math.max(this.largestQueuedPresentationTimeUs, this.c2Mp3TimestampTracker.getLastOutputBufferPresentationTimeUs(this.inputFormat));
+            }
+            long j2 = j;
+            if (this.buffer.isDecodeOnly()) {
+                this.decodeOnlyPresentationTimestamps.add(Long.valueOf(j2));
+            }
+            if (this.waitingForFirstSampleInFormat) {
+                this.formatQueue.add(j2, this.inputFormat);
+                this.waitingForFirstSampleInFormat = false;
+            }
+            this.largestQueuedPresentationTimeUs = Math.max(this.largestQueuedPresentationTimeUs, j2);
+            this.buffer.flip();
+            if (this.buffer.hasSupplementalData()) {
+                handleInputBufferSupplementalData(this.buffer);
+            }
+            onQueueInputBuffer(this.buffer);
+            try {
+                if (isEncrypted) {
+                    this.codec.queueSecureInputBuffer(this.inputIndex, 0, this.buffer.cryptoInfo, j2, 0);
+                } else {
+                    this.codec.queueInputBuffer(this.inputIndex, 0, this.buffer.data.limit(), j2, 0);
+                }
+                resetInputBuffer();
+                this.codecReceivedBuffers = true;
+                this.codecReconfigurationState = 0;
+                this.decoderCounters.queuedInputBufferCount++;
+                return true;
+            } catch (MediaCodec.CryptoException e2) {
+                throw createRendererException(e2, this.inputFormat, Util.getErrorCodeForMediaDrmErrorCode(e2.getErrorCode()));
+            }
+        } catch (DecoderInputBuffer.InsufficientCapacityException e3) {
+            onCodecError(e3);
+            readSourceOmittingSampleData(0);
+            flushCodec();
+            return true;
         }
     }
 
@@ -746,11 +749,11 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     }
 
     private static boolean isMediaCodecException(IllegalStateException illegalStateException) {
-        if (Util.SDK_INT < 21 || !isMediaCodecExceptionV21(illegalStateException)) {
-            StackTraceElement[] stackTrace = illegalStateException.getStackTrace();
-            return stackTrace.length > 0 && stackTrace[0].getClassName().equals("android.media.MediaCodec");
+        if (Util.SDK_INT >= 21 && isMediaCodecExceptionV21(illegalStateException)) {
+            return true;
         }
-        return true;
+        StackTraceElement[] stackTrace = illegalStateException.getStackTrace();
+        return stackTrace.length > 0 && stackTrace[0].getClassName().equals("android.media.MediaCodec");
     }
 
     private static boolean isMediaCodecExceptionV21(IllegalStateException illegalStateException) {
@@ -759,17 +762,17 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
 
     private static boolean isRecoverableMediaCodecExceptionV21(IllegalStateException illegalStateException) {
         boolean isRecoverable;
-        if (MediaCodecDecoderException$$ExternalSyntheticApiModelOutline0.m(illegalStateException)) {
-            isRecoverable = MediaCodecDecoderException$$ExternalSyntheticApiModelOutline1.m(illegalStateException).isRecoverable();
-            return isRecoverable;
+        if (!MediaCodecDecoderException$$ExternalSyntheticApiModelOutline0.m(illegalStateException)) {
+            return false;
         }
-        return false;
+        isRecoverable = MediaCodecDecoderException$$ExternalSyntheticApiModelOutline1.m(illegalStateException).isRecoverable();
+        return isRecoverable;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00a1  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x00b0 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x004a A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00b0 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x004a A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00a1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -843,7 +846,9 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         int i = this.codecDrainAction;
         if (i == 1) {
             flushCodec();
-        } else if (i == 2) {
+            return;
+        }
+        if (i == 2) {
             flushCodec();
             updateDrmSessionV23();
         } else if (i == 3) {
@@ -875,13 +880,13 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         if (readSource == -5) {
             onInputFormatChanged(formatHolder);
             return true;
-        } else if (readSource == -4 && this.noDataBuffer.isEndOfStream()) {
-            this.inputStreamEnded = true;
-            processEndOfStream();
-            return false;
-        } else {
+        }
+        if (readSource != -4 || !this.noDataBuffer.isEndOfStream()) {
             return false;
         }
+        this.inputStreamEnded = true;
+        processEndOfStream();
+        return false;
     }
 
     private void reinitializeCodec() {
@@ -936,14 +941,14 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             if (codecOperatingRateV23 == -1.0f) {
                 drainAndReinitializeCodec();
                 return false;
-            } else if (f == -1.0f && codecOperatingRateV23 <= this.assumedMinimumCodecOperatingRate) {
-                return true;
-            } else {
-                Bundle bundle = new Bundle();
-                bundle.putFloat("operating-rate", codecOperatingRateV23);
-                this.codec.setParameters(bundle);
-                this.codecOperatingRate = codecOperatingRateV23;
             }
+            if (f == -1.0f && codecOperatingRateV23 <= this.assumedMinimumCodecOperatingRate) {
+                return true;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putFloat("operating-rate", codecOperatingRateV23);
+            this.codec.setParameters(bundle);
+            this.codecOperatingRate = codecOperatingRateV23;
         }
         return true;
     }
@@ -1081,7 +1086,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
                 if (state == 1) {
                     DrmSession.DrmSessionException drmSessionException = (DrmSession.DrmSessionException) Assertions.checkNotNull(this.codecDrmSession.getError());
                     throw createRendererException(drmSessionException, this.inputFormat, drmSessionException.errorCode);
-                } else if (state != 4) {
+                }
+                if (state != 4) {
                     return;
                 }
             }
@@ -1116,14 +1122,17 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x007e, code lost:
-        if (drainAndUpdateCodecDrmSessionV23() == false) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x007e, code lost:
+    
+        if (drainAndUpdateCodecDrmSessionV23() == false) goto L69;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x00b0, code lost:
-        if (drainAndUpdateCodecDrmSessionV23() == false) goto L35;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x00cf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00cf, code lost:
+    
         r7 = 2;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:62:0x00b0, code lost:
+    
+        if (drainAndUpdateCodecDrmSessionV23() == false) goto L69;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1180,9 +1189,10 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
                     }
                 }
                 i = 16;
-            } else if (i2 != 3) {
-                throw new IllegalStateException();
             } else {
+                if (i2 != 3) {
+                    throw new IllegalStateException();
+                }
                 if (updateCodecOperatingRate(format)) {
                     this.codecInputFormat = format;
                     if (z2) {
@@ -1298,7 +1308,6 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
 
     /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.exoplayer2.drm.DrmSession, android.media.MediaCrypto] */
     public void releaseCodec() {
         try {
             MediaCodecAdapter mediaCodecAdapter = this.codec;
@@ -1343,17 +1352,20 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         try {
             if (this.outputStreamEnded) {
                 renderToEndOfStream();
-            } else if (this.inputFormat != null || readSourceOmittingSampleData(2)) {
+                return;
+            }
+            if (this.inputFormat != null || readSourceOmittingSampleData(2)) {
                 maybeInitCodecOrBypass();
                 if (this.bypassEnabled) {
                     TraceUtil.beginSection("bypassRender");
-                    while (bypassRender(j, j2)) {
-                    }
-                } else if (this.codec == null) {
-                    this.decoderCounters.skippedInputBufferCount += skipSource(j);
-                    readSourceOmittingSampleData(1);
-                    this.decoderCounters.ensureUpdated();
+                    do {
+                    } while (bypassRender(j, j2));
                 } else {
+                    if (this.codec == null) {
+                        this.decoderCounters.skippedInputBufferCount += skipSource(j);
+                        readSourceOmittingSampleData(1);
+                        this.decoderCounters.ensureUpdated();
+                    }
                     long elapsedRealtime = SystemClock.elapsedRealtime();
                     TraceUtil.beginSection("drainAndFeed");
                     while (drainOutputBuffer(j, j2) && shouldContinueRendering(elapsedRealtime)) {

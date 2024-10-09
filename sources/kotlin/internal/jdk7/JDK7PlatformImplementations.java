@@ -2,6 +2,7 @@ package kotlin.internal.jdk7;
 
 import kotlin.internal.PlatformImplementations;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public class JDK7PlatformImplementations extends PlatformImplementations {
 

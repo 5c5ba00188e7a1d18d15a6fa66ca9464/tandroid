@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.base;
 
 import android.os.Build;
+
 /* loaded from: classes.dex */
 abstract class zan {
     /* JADX INFO: Access modifiers changed from: package-private */

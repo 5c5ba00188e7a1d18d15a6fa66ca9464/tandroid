@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 public abstract class zzkz {
     public static final int zza = 1;

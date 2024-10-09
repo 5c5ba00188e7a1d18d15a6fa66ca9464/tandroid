@@ -7,6 +7,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public class UpdateReactionsButton extends ButtonWithCounterView {
     private SpannableStringBuilder lock;

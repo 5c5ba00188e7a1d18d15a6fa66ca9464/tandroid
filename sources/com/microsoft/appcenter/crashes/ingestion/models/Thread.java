@@ -6,6 +6,7 @@ import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class Thread implements Model {
     private List frames;
@@ -24,12 +25,12 @@ public class Thread implements Model {
             return false;
         }
         String str = this.name;
-        if (str == null ? thread.name == null : str.equals(thread.name)) {
-            List list = this.frames;
-            List list2 = thread.frames;
-            return list != null ? list.equals(list2) : list2 == null;
+        if (str == null ? thread.name != null : !str.equals(thread.name)) {
+            return false;
         }
-        return false;
+        List list = this.frames;
+        List list2 = thread.frames;
+        return list != null ? list.equals(list2) : list2 == null;
     }
 
     public List getFrames() {

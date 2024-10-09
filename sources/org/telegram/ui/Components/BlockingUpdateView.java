@@ -35,6 +35,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
+
 /* loaded from: classes3.dex */
 public abstract class BlockingUpdateView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private FrameLayout acceptButton;
@@ -189,9 +190,10 @@ public abstract class BlockingUpdateView extends FrameLayout implements Notifica
         String str;
         if (!ApplicationLoader.isStandaloneBuild() && !BuildVars.DEBUG_VERSION) {
             str = BuildVars.isHuaweiStoreApp() ? BuildVars.HUAWEI_STORE_URL : BuildVars.PLAYSTORE_APP_URL;
-        } else if (!ApplicationLoader.applicationLoaderInstance.checkApkInstallPermissions(getContext())) {
-            return;
         } else {
+            if (!ApplicationLoader.applicationLoaderInstance.checkApkInstallPermissions(getContext())) {
+                return;
+            }
             TLRPC.TL_help_appUpdate tL_help_appUpdate = this.appUpdate;
             if (tL_help_appUpdate.document instanceof TLRPC.TL_document) {
                 if (ApplicationLoader.applicationLoaderInstance.openApkInstall((Activity) getContext(), this.appUpdate.document)) {
@@ -200,12 +202,12 @@ public abstract class BlockingUpdateView extends FrameLayout implements Notifica
                 FileLoader.getInstance(this.accountNum).loadFile(this.appUpdate.document, "update", 3, 1);
                 showProgress(true);
                 return;
-            } else if (tL_help_appUpdate.url == null) {
-                return;
-            } else {
-                context = getContext();
-                str = this.appUpdate.url;
             }
+            if (tL_help_appUpdate.url == null) {
+                return;
+            }
+            context = getContext();
+            str = this.appUpdate.url;
         }
         Browser.openUrl(context, str);
     }
@@ -242,26 +244,26 @@ public abstract class BlockingUpdateView extends FrameLayout implements Notifica
             AnimatorSet animatorSet2 = this.progressAnimation;
             TextView textView = this.acceptTextView;
             Property property = View.SCALE_X;
-            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView, property, 0.1f);
+            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView, (Property<TextView, Float>) property, 0.1f);
             TextView textView2 = this.acceptTextView;
             Property property2 = View.SCALE_Y;
-            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(textView2, property2, 0.1f);
+            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(textView2, (Property<TextView, Float>) property2, 0.1f);
             TextView textView3 = this.acceptTextView;
             Property property3 = View.ALPHA;
-            animatorSet2.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(textView3, property3, 0.0f), ObjectAnimator.ofFloat(this.radialProgressView, property, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, property2, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, property3, 1.0f));
+            animatorSet2.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(textView3, (Property<TextView, Float>) property3, 0.0f), ObjectAnimator.ofFloat(this.radialProgressView, (Property<FrameLayout, Float>) property, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, (Property<FrameLayout, Float>) property2, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, (Property<FrameLayout, Float>) property3, 1.0f));
         } else {
             this.acceptTextView.setVisibility(0);
             this.acceptButton.setEnabled(true);
             AnimatorSet animatorSet3 = this.progressAnimation;
             FrameLayout frameLayout = this.radialProgressView;
             Property property4 = View.SCALE_X;
-            ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(frameLayout, property4, 0.1f);
+            ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(frameLayout, (Property<FrameLayout, Float>) property4, 0.1f);
             FrameLayout frameLayout2 = this.radialProgressView;
             Property property5 = View.SCALE_Y;
-            ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(frameLayout2, property5, 0.1f);
+            ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(frameLayout2, (Property<FrameLayout, Float>) property5, 0.1f);
             FrameLayout frameLayout3 = this.radialProgressView;
             Property property6 = View.ALPHA;
-            animatorSet3.playTogether(ofFloat3, ofFloat4, ObjectAnimator.ofFloat(frameLayout3, property6, 0.0f), ObjectAnimator.ofFloat(this.acceptTextView, property4, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, property5, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, property6, 1.0f));
+            animatorSet3.playTogether(ofFloat3, ofFloat4, ObjectAnimator.ofFloat(frameLayout3, (Property<FrameLayout, Float>) property6, 0.0f), ObjectAnimator.ofFloat(this.acceptTextView, (Property<TextView, Float>) property4, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, (Property<TextView, Float>) property5, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, (Property<TextView, Float>) property6, 1.0f));
         }
         this.progressAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BlockingUpdateView.3
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -294,14 +296,18 @@ public abstract class BlockingUpdateView extends FrameLayout implements Notifica
             }
             showProgress(false);
             ApplicationLoader.applicationLoaderInstance.openApkInstall((Activity) getContext(), this.appUpdate.document);
-        } else if (i == NotificationCenter.fileLoadFailed) {
+            return;
+        }
+        if (i == NotificationCenter.fileLoadFailed) {
             String str3 = (String) objArr[0];
             String str4 = this.fileName;
             if (str4 == null || !str4.equals(str3)) {
                 return;
             }
             showProgress(false);
-        } else if (i == NotificationCenter.fileLoadProgressChanged) {
+            return;
+        }
+        if (i == NotificationCenter.fileLoadProgressChanged) {
             String str5 = (String) objArr[0];
             String str6 = this.fileName;
             if (str6 == null || !str6.equals(str5)) {

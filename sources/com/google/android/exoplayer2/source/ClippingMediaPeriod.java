@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
     private MediaPeriod.Callback callback;
@@ -211,10 +212,9 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         if (readDiscontinuity2 == -9223372036854775807L) {
             return -9223372036854775807L;
         }
-        boolean z = false;
         Assertions.checkState(readDiscontinuity2 >= this.startUs);
         long j2 = this.endUs;
-        Assertions.checkState((j2 == Long.MIN_VALUE || readDiscontinuity2 <= j2) ? true : true);
+        Assertions.checkState(j2 == Long.MIN_VALUE || readDiscontinuity2 <= j2);
         return readDiscontinuity2;
     }
 
@@ -223,15 +223,15 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         this.mediaPeriod.reevaluateBuffer(j);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0032, code lost:
-        if (r0 > r7) goto L18;
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0032, code lost:
+    
+        if (r0 > r7) goto L17;
      */
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public long seekToUs(long j) {
-        ClippingSampleStream[] clippingSampleStreamArr;
         this.pendingInitialDiscontinuityPositionUs = -9223372036854775807L;
         boolean z = false;
         for (ClippingSampleStream clippingSampleStream : this.sampleStreams) {
@@ -254,11 +254,12 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         return seekToUs;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x005e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x005e, code lost:
+    
         if (r2 > r4) goto L26;
      */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x004e  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x006a  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x004e  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x006a  */
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     /*
         Code decompiled incorrectly, please refer to instructions dump.

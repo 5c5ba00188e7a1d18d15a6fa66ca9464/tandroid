@@ -2,6 +2,7 @@ package androidx.lifecycle;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.savedstate.SavedStateRegistry;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class SavedStateHandleController implements LifecycleEventObserver {

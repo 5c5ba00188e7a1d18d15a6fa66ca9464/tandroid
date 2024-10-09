@@ -8,6 +8,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes3.dex */
 public class SelectorLetterCell extends FrameLayout {
     private final Theme.ResourcesProvider resourcesProvider;

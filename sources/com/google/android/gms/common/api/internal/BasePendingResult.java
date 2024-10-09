@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes.dex */
 public abstract class BasePendingResult<R extends Result> extends PendingResult {
     static final ThreadLocal zaa = new zaq();
@@ -50,11 +51,12 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult 
                     BasePendingResult.zal(result);
                     throw e;
                 }
-            } else if (i == 2) {
-                ((BasePendingResult) message.obj).forceFailureUnlessReady(Status.RESULT_TIMEOUT);
-            } else {
-                Log.wtf("BasePendingResult", "Don't know how to handle message: " + i, new Exception());
             }
+            if (i == 2) {
+                ((BasePendingResult) message.obj).forceFailureUnlessReady(Status.RESULT_TIMEOUT);
+                return;
+            }
+            Log.wtf("BasePendingResult", "Don't know how to handle message: " + i, new Exception());
         }
     }
 

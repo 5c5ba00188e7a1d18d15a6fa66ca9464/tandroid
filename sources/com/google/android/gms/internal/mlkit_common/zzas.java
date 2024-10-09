@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_common;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class zzas {
     Object[] zza = new Object[8];
@@ -27,14 +28,14 @@ public final class zzas {
 
     public final zzat zzb() {
         zzar zzarVar = this.zzc;
-        if (zzarVar == null) {
-            zzbb zzg = zzbb.zzg(this.zzb, this.zza, this);
-            zzar zzarVar2 = this.zzc;
-            if (zzarVar2 == null) {
-                return zzg;
-            }
-            throw zzarVar2.zza();
+        if (zzarVar != null) {
+            throw zzarVar.zza();
         }
-        throw zzarVar.zza();
+        zzbb zzg = zzbb.zzg(this.zzb, this.zza, this);
+        zzar zzarVar2 = this.zzc;
+        if (zzarVar2 == null) {
+            return zzg;
+        }
+        throw zzarVar2.zza();
     }
 }

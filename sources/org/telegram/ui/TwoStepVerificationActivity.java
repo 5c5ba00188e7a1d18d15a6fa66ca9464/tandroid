@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Property;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TransformableLoginButtonView;
 import org.telegram.ui.Components.VerticalPositionAutoAnimator;
+
 /* loaded from: classes4.dex */
 public class TwoStepVerificationActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private SimpleTextView bottomButton;
@@ -239,9 +241,10 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             TLRPC.SecurePasswordKdfAlgo securePasswordKdfAlgo = tL_secureSecretSettings.secure_algo;
             if (securePasswordKdfAlgo instanceof TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) {
                 computeSHA512 = Utilities.computePBKDF2(bArr, ((TLRPC.TL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000) securePasswordKdfAlgo).salt);
-            } else if (!(securePasswordKdfAlgo instanceof TLRPC.TL_securePasswordKdfAlgoSHA512)) {
-                return false;
             } else {
+                if (!(securePasswordKdfAlgo instanceof TLRPC.TL_securePasswordKdfAlgoSHA512)) {
+                    return false;
+                }
                 byte[] bArr2 = ((TLRPC.TL_securePasswordKdfAlgoSHA512) securePasswordKdfAlgo).salt;
                 computeSHA512 = Utilities.computeSHA512(bArr2, bArr, bArr2);
             }
@@ -417,8 +420,10 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             this.currentPasswordHash = new byte[0];
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.didRemoveTwoStepPassword, new Object[0]);
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetOrRemoveTwoStepPassword, new Object[0]);
-            finishFragment();
-        } else if (tL_error != null) {
+            lambda$onBackPressed$300();
+            return;
+        }
+        if (tL_error != null) {
             if (tL_error.text.startsWith("FLOOD_WAIT")) {
                 int intValue = Utilities.parseInt((CharSequence) tL_error.text).intValue();
                 String formatPluralString = intValue < 60 ? LocaleController.formatPluralString("Seconds", intValue, new Object[0]) : LocaleController.formatPluralString("Minutes", intValue / 60, new Object[0]);
@@ -471,11 +476,11 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5 || i == 6) {
-            processDone();
-            return true;
+        if (i != 5 && i != 6) {
+            return false;
         }
-        return false;
+        processDone();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -505,35 +510,36 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
             twoStepVerificationSetupActivity = new TwoStepVerificationSetupActivity(this.currentAccount, 0, this.currentPassword);
             twoStepVerificationSetupActivity.addFragmentToClose(this);
             twoStepVerificationSetupActivity.setCurrentPasswordParams(this.currentPasswordHash, this.currentSecretId, this.currentSecret, false);
-        } else if (i != this.setRecoveryEmailRow && i != this.changeRecoveryEmailRow) {
-            if (i == this.turnPasswordOffRow) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                String string = LocaleController.getString(R.string.TurnPasswordOffQuestion);
-                if (this.currentPassword.has_secure_values) {
-                    string = string + "\n\n" + LocaleController.getString(R.string.TurnPasswordOffPassport);
-                }
-                String string2 = LocaleController.getString(R.string.TurnPasswordOffQuestionTitle);
-                String string3 = LocaleController.getString(R.string.Disable);
-                builder.setMessage(string);
-                builder.setTitle(string2);
-                builder.setPositiveButton(string3, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda18
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        TwoStepVerificationActivity.this.lambda$createView$6(dialogInterface, i2);
+        } else {
+            if (i != this.setRecoveryEmailRow && i != this.changeRecoveryEmailRow) {
+                if (i == this.turnPasswordOffRow) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                    String string = LocaleController.getString(R.string.TurnPasswordOffQuestion);
+                    if (this.currentPassword.has_secure_values) {
+                        string = string + "\n\n" + LocaleController.getString(R.string.TurnPasswordOffPassport);
                     }
-                });
-                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-                AlertDialog create = builder.create();
-                showDialog(create);
-                TextView textView = (TextView) create.getButton(-1);
-                if (textView != null) {
-                    textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
+                    String string2 = LocaleController.getString(R.string.TurnPasswordOffQuestionTitle);
+                    String string3 = LocaleController.getString(R.string.Disable);
+                    builder.setMessage(string);
+                    builder.setTitle(string2);
+                    builder.setPositiveButton(string3, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda18
+                        @Override // android.content.DialogInterface.OnClickListener
+                        public final void onClick(DialogInterface dialogInterface, int i2) {
+                            TwoStepVerificationActivity.this.lambda$createView$6(dialogInterface, i2);
+                        }
+                    });
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+                    AlertDialog create = builder.create();
+                    showDialog(create);
+                    TextView textView = (TextView) create.getButton(-1);
+                    if (textView != null) {
+                        textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
+                        return;
+                    }
                     return;
                 }
                 return;
             }
-            return;
-        } else {
             twoStepVerificationSetupActivity = new TwoStepVerificationSetupActivity(this.currentAccount, 3, this.currentPassword);
             twoStepVerificationSetupActivity.addFragmentToClose(this);
             twoStepVerificationSetupActivity.setCurrentPasswordParams(this.currentPasswordHash, this.currentSecretId, this.currentSecret, true);
@@ -779,7 +785,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resetPassword$11(DialogInterface dialogInterface) {
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetOrRemoveTwoStepPassword, new Object[0]);
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -796,7 +802,9 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     TwoStepVerificationActivity.this.lambda$resetPassword$11(dialogInterface);
                 }
             });
-        } else if (tLObject instanceof TLRPC.TL_account_resetPasswordRequestedWait) {
+            return;
+        }
+        if (tLObject instanceof TLRPC.TL_account_resetPasswordRequestedWait) {
             this.currentPassword.pending_reset_date = ((TLRPC.TL_account_resetPasswordRequestedWait) tLObject).until_date;
             updateBottomButton();
         } else if (tLObject instanceof TLRPC.TL_account_resetPasswordFailedWait) {
@@ -817,7 +825,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showSetForcePasswordAlert$37(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -856,7 +864,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
         if (!this.passwordEntered) {
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(ObjectAnimator.ofFloat(this.radialProgressView, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_Y, 1.0f));
+            animatorSet.playTogether(ObjectAnimator.ofFloat(this.radialProgressView, (Property<RadialProgressView, Float>) View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, (Property<RadialProgressView, Float>) View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, (Property<RadialProgressView, Float>) View.SCALE_Y, 1.0f));
             animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
             animatorSet.start();
             return;
@@ -901,40 +909,44 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     TwoStepVerificationActivity.this.lambda$onPasswordForgot$15(tLObject, tL_error);
                 }
             }, 10);
-        } else if (getParentActivity() == null) {
-        } else {
-            if (this.currentPassword.pending_reset_date == 0) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda3
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        TwoStepVerificationActivity.this.lambda$onPasswordForgot$17(dialogInterface, i);
-                    }
-                });
-                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-                builder.setTitle(LocaleController.getString(R.string.ResetPassword));
-                builder.setMessage(LocaleController.getString(R.string.RestorePasswordNoEmailText2));
-                showDialog(builder.create());
-            } else if (getConnectionsManager().getCurrentTime() <= this.currentPassword.pending_reset_date) {
-                cancelPasswordReset();
-            } else {
-                AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
-                builder2.setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda2
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        TwoStepVerificationActivity.this.lambda$onPasswordForgot$16(dialogInterface, i);
-                    }
-                });
-                builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-                builder2.setTitle(LocaleController.getString(R.string.ResetPassword));
-                builder2.setMessage(LocaleController.getString(R.string.RestorePasswordResetPasswordText));
-                AlertDialog create = builder2.create();
-                showDialog(create);
-                TextView textView = (TextView) create.getButton(-1);
-                if (textView != null) {
-                    textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
+            return;
+        }
+        if (getParentActivity() == null) {
+            return;
+        }
+        if (this.currentPassword.pending_reset_date == 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            builder.setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda3
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    TwoStepVerificationActivity.this.lambda$onPasswordForgot$17(dialogInterface, i);
                 }
+            });
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+            builder.setTitle(LocaleController.getString(R.string.ResetPassword));
+            builder.setMessage(LocaleController.getString(R.string.RestorePasswordNoEmailText2));
+            showDialog(builder.create());
+            return;
+        }
+        if (getConnectionsManager().getCurrentTime() <= this.currentPassword.pending_reset_date) {
+            cancelPasswordReset();
+            return;
+        }
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
+        builder2.setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TwoStepVerificationActivity$$ExternalSyntheticLambda2
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                TwoStepVerificationActivity.this.lambda$onPasswordForgot$16(dialogInterface, i);
             }
+        });
+        builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        builder2.setTitle(LocaleController.getString(R.string.ResetPassword));
+        builder2.setMessage(LocaleController.getString(R.string.RestorePasswordResetPasswordText));
+        AlertDialog create = builder2.create();
+        showDialog(create);
+        TextView textView = (TextView) create.getButton(-1);
+        if (textView != null) {
+            textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
     }
 
@@ -994,8 +1006,8 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x010f  */
-    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x010f  */
+    /* JADX WARN: Removed duplicated region for block: B:30:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1160,30 +1172,30 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x021c  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x021e  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0237  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0268  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x02c4  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x02c7  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0328  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x032b  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0358  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x03fd  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0400  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0404  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0428  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0456  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0463  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0466  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x046a  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x046d  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0535  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0558  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0577  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x058c  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x021c  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0235  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0268  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x02c4  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0328  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0358  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x03fd  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0428  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0463  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x046a  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0535  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0577  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x058c  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0558  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x046d  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0466  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0456  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0407  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0400  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x032b  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x02c7  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0237  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x021e  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1214,7 +1226,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                     if (twoStepVerificationActivity.otherwiseReloginDays >= 0) {
                         twoStepVerificationActivity.showSetForcePasswordAlert();
                     } else {
-                        twoStepVerificationActivity.finishFragment();
+                        twoStepVerificationActivity.lambda$onBackPressed$300();
                     }
                 }
             }
@@ -1366,7 +1378,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
                 this.floatingButtonContainer = new FrameLayout(context);
                 if (i2 >= 21) {
                     StateListAnimator stateListAnimator = new StateListAnimator();
-                    stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
+                    stateListAnimator.addState(new int[]{android.R.attr.state_pressed}, ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
                     stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
                     this.floatingButtonContainer.setStateListAnimator(stateListAnimator);
                     this.floatingButtonContainer.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.TwoStepVerificationActivity.3
@@ -1676,9 +1688,10 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void finishFragment() {
+    /* renamed from: finishFragment */
+    public void lambda$onBackPressed$300() {
         if (this.otherwiseReloginDays < 0) {
-            super.finishFragment();
+            super.lambda$onBackPressed$300();
             return;
         }
         Bundle bundle = new Bundle();
@@ -1689,10 +1702,10 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     public TLRPC.TL_inputCheckPasswordSRP getNewSrpPassword() {
         TLRPC.account_Password account_password = this.currentPassword;
         TLRPC.PasswordKdfAlgo passwordKdfAlgo = account_password.current_algo;
-        if (passwordKdfAlgo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
-            return SRPHelper.startCheck(this.currentPasswordHash, account_password.srp_id, account_password.srp_B, (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) passwordKdfAlgo);
+        if (!(passwordKdfAlgo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
+            return null;
         }
-        return null;
+        return SRPHelper.startCheck(this.currentPasswordHash, account_password.srp_id, account_password.srp_B, (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) passwordKdfAlgo);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1742,7 +1755,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
     public void needHideProgress() {
         if (!this.passwordEntered) {
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(ObjectAnimator.ofFloat(this.radialProgressView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_X, 0.1f), ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_Y, 0.1f));
+            animatorSet.playTogether(ObjectAnimator.ofFloat(this.radialProgressView, (Property<RadialProgressView, Float>) View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.radialProgressView, (Property<RadialProgressView, Float>) View.SCALE_X, 0.1f), ObjectAnimator.ofFloat(this.radialProgressView, (Property<RadialProgressView, Float>) View.SCALE_Y, 0.1f));
             animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
             animatorSet.start();
             return;
@@ -1761,11 +1774,11 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (this.otherwiseReloginDays >= 0) {
-            showSetForcePasswordAlert();
-            return false;
+        if (this.otherwiseReloginDays < 0) {
+            return super.onBackPressed();
         }
-        return super.onBackPressed();
+        showSetForcePasswordAlert();
+        return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

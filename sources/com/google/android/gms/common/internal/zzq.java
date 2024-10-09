@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import java.util.HashMap;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzq implements Handler.Callback {
@@ -41,33 +42,32 @@ public final class zzq implements Handler.Callback {
                 }
             }
             return true;
-        } else if (i != 1) {
-            return false;
-        } else {
-            hashMap4 = this.zza.zzb;
-            synchronized (hashMap4) {
-                try {
-                    zzn zznVar2 = (zzn) message.obj;
-                    hashMap5 = this.zza.zzb;
-                    zzo zzoVar2 = (zzo) hashMap5.get(zznVar2);
-                    if (zzoVar2 != null && zzoVar2.zza() == 3) {
-                        String valueOf = String.valueOf(zznVar2);
-                        Log.e("GmsClientSupervisor", "Timeout waiting for ServiceConnection callback " + valueOf, new Exception());
-                        ComponentName zzb = zzoVar2.zzb();
-                        if (zzb == null) {
-                            zzb = zznVar2.zzb();
-                        }
-                        if (zzb == null) {
-                            String zzd = zznVar2.zzd();
-                            Preconditions.checkNotNull(zzd);
-                            zzb = new ComponentName(zzd, "unknown");
-                        }
-                        zzoVar2.onServiceDisconnected(zzb);
-                    }
-                } finally {
-                }
-            }
-            return true;
         }
+        if (i != 1) {
+            return false;
+        }
+        hashMap4 = this.zza.zzb;
+        synchronized (hashMap4) {
+            try {
+                zzn zznVar2 = (zzn) message.obj;
+                hashMap5 = this.zza.zzb;
+                zzo zzoVar2 = (zzo) hashMap5.get(zznVar2);
+                if (zzoVar2 != null && zzoVar2.zza() == 3) {
+                    Log.e("GmsClientSupervisor", "Timeout waiting for ServiceConnection callback " + String.valueOf(zznVar2), new Exception());
+                    ComponentName zzb = zzoVar2.zzb();
+                    if (zzb == null) {
+                        zzb = zznVar2.zzb();
+                    }
+                    if (zzb == null) {
+                        String zzd = zznVar2.zzd();
+                        Preconditions.checkNotNull(zzd);
+                        zzb = new ComponentName(zzd, "unknown");
+                    }
+                    zzoVar2.onServiceDisconnected(zzb);
+                }
+            } finally {
+            }
+        }
+        return true;
     }
 }

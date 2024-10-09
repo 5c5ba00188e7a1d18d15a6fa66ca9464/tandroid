@@ -3,6 +3,7 @@ package j$.util;
 import java.util.PrimitiveIterator;
 import java.util.function.Consumer;
 import java.util.function.LongConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class y implements PrimitiveIterator.OfLong {
     public final /* synthetic */ z a;

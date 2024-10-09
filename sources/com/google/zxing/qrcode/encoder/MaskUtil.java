@@ -1,4 +1,5 @@
 package com.google.zxing.qrcode.encoder;
+
 /* loaded from: classes.dex */
 abstract class MaskUtil {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -99,6 +100,12 @@ abstract class MaskUtil {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0001. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:10:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0046 A[ORIG_RETURN, RETURN] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static boolean getDataMaskBit(int i, int i2, int i3) {
         int i4;
         int i5;
@@ -106,39 +113,52 @@ abstract class MaskUtil {
             case 0:
                 i3 += i2;
                 i4 = i3 & 1;
-                break;
+                return i4 != 0;
             case 1:
                 i4 = i3 & 1;
+                if (i4 != 0) {
+                }
                 break;
             case 2:
                 i4 = i2 % 3;
+                if (i4 != 0) {
+                }
                 break;
             case 3:
                 i4 = (i3 + i2) % 3;
+                if (i4 != 0) {
+                }
                 break;
             case 4:
                 i3 /= 2;
                 i2 /= 3;
                 i3 += i2;
                 i4 = i3 & 1;
+                if (i4 != 0) {
+                }
                 break;
             case 5:
                 int i6 = i3 * i2;
                 i4 = (i6 & 1) + (i6 % 3);
+                if (i4 != 0) {
+                }
                 break;
             case 6:
                 int i7 = i3 * i2;
                 i5 = (i7 & 1) + (i7 % 3);
                 i4 = i5 & 1;
+                if (i4 != 0) {
+                }
                 break;
             case 7:
                 i5 = ((i3 * i2) % 3) + ((i3 + i2) & 1);
                 i4 = i5 & 1;
+                if (i4 != 0) {
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid mask pattern: " + i);
         }
-        return i4 == 0;
     }
 
     private static boolean isWhiteHorizontal(byte[] bArr, int i, int i2) {

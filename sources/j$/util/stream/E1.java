@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.BiConsumer;
 import j$.util.function.Consumer;
 import j$.util.function.Supplier;
+
 /* loaded from: classes2.dex */
 final class E1 extends O1 implements N1 {
     final /* synthetic */ Supplier b;
@@ -35,7 +36,8 @@ final class E1 extends O1 implements N1 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         this.c.accept(this.a, obj);
     }
 

@@ -21,6 +21,7 @@ import androidx.core.widget.ListViewAutoScrollHelper;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class DropDownListView extends ListView {
@@ -169,15 +170,15 @@ public class DropDownListView extends ListView {
 
         static boolean isSelectedChildViewEnabled(AbsListView absListView) {
             Field field = sIsChildViewEnabled;
-            if (field != null) {
-                try {
-                    return field.getBoolean(absListView);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                    return false;
-                }
+            if (field == null) {
+                return false;
             }
-            return false;
+            try {
+                return field.getBoolean(absListView);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         static void setSelectedChildViewEnabled(AbsListView absListView, boolean z) {
@@ -402,7 +403,9 @@ public class DropDownListView extends ListView {
         if (adapter == null) {
             return i6;
         }
-        dividerHeight = (dividerHeight <= 0 || divider == null) ? 0 : 0;
+        if (dividerHeight <= 0 || divider == null) {
+            dividerHeight = 0;
+        }
         int count = adapter.getCount();
         View view = null;
         int i7 = 0;
@@ -444,12 +447,13 @@ public class DropDownListView extends ListView {
         super.onDetachedFromWindow();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x000c, code lost:
-        if (r0 != 3) goto L7;
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x000c, code lost:
+    
+        if (r0 != 3) goto L8;
      */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0048 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x004f  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x004f  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0048 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

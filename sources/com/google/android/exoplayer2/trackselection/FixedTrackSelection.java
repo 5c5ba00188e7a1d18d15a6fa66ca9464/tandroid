@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.trackselection;
 import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.source.chunk.MediaChunkIterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class FixedTrackSelection extends BaseTrackSelection {
     private final Object data;

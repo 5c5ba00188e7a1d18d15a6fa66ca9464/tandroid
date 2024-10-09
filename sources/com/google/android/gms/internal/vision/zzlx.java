@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class zzlx {
     private static final zzlx zza = new zzlx(0, new int[0], new Object[0], false);
@@ -41,11 +42,17 @@ public final class zzlx {
         int i3 = i & 7;
         if (i3 == 0) {
             zzmrVar.zza(i2, ((Long) obj).longValue());
-        } else if (i3 == 1) {
+            return;
+        }
+        if (i3 == 1) {
             zzmrVar.zzd(i2, ((Long) obj).longValue());
-        } else if (i3 == 2) {
+            return;
+        }
+        if (i3 == 2) {
             zzmrVar.zza(i2, (zzht) obj);
-        } else if (i3 != 3) {
+            return;
+        }
+        if (i3 != 3) {
             if (i3 != 5) {
                 throw new RuntimeException(zzjk.zzf());
             }
@@ -70,31 +77,31 @@ public final class zzlx {
         if (this == obj) {
             return true;
         }
-        if (obj != null && (obj instanceof zzlx)) {
-            zzlx zzlxVar = (zzlx) obj;
-            int i = this.zzb;
-            if (i == zzlxVar.zzb) {
-                int[] iArr = this.zzc;
-                int[] iArr2 = zzlxVar.zzc;
-                int i2 = 0;
-                while (true) {
-                    if (i2 >= i) {
-                        Object[] objArr = this.zzd;
-                        Object[] objArr2 = zzlxVar.zzd;
-                        int i3 = this.zzb;
-                        for (int i4 = 0; i4 < i3; i4++) {
-                            if (objArr[i4].equals(objArr2[i4])) {
-                            }
-                        }
-                        return true;
-                    } else if (iArr[i2] != iArr2[i2]) {
-                        break;
-                    } else {
-                        i2++;
-                    }
-                }
-            }
+        if (obj == null || !(obj instanceof zzlx)) {
             return false;
+        }
+        zzlx zzlxVar = (zzlx) obj;
+        int i = this.zzb;
+        if (i == zzlxVar.zzb) {
+            int[] iArr = this.zzc;
+            int[] iArr2 = zzlxVar.zzc;
+            int i2 = 0;
+            while (true) {
+                if (i2 >= i) {
+                    Object[] objArr = this.zzd;
+                    Object[] objArr2 = zzlxVar.zzd;
+                    int i3 = this.zzb;
+                    for (int i4 = 0; i4 < i3; i4++) {
+                        if (objArr[i4].equals(objArr2[i4])) {
+                        }
+                    }
+                    return true;
+                }
+                if (iArr[i2] != iArr2[i2]) {
+                    break;
+                }
+                i2++;
+            }
         }
         return false;
     }
@@ -207,9 +214,10 @@ public final class zzlx {
                 zze = zzii.zzc(i5, (zzht) this.zzd[i3]);
             } else if (i6 == 3) {
                 zze = (zzii.zze(i5) << 1) + ((zzlx) this.zzd[i3]).zze();
-            } else if (i6 != 5) {
-                throw new IllegalStateException(zzjk.zzf());
             } else {
+                if (i6 != 5) {
+                    throw new IllegalStateException(zzjk.zzf());
+                }
                 zze = zzii.zzi(i5, ((Integer) this.zzd[i3]).intValue());
             }
             i2 += zze;

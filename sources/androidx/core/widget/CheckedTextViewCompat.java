@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.widget.CheckedTextView;
+
 /* loaded from: classes.dex */
 public abstract class CheckedTextViewCompat {
 
@@ -30,6 +31,7 @@ public abstract class CheckedTextViewCompat {
         return Api16Impl.getCheckMarkDrawable(checkedTextView);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setCheckMarkTintList(CheckedTextView checkedTextView, ColorStateList colorStateList) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.setCheckMarkTintList(checkedTextView, colorStateList);
@@ -38,6 +40,7 @@ public abstract class CheckedTextViewCompat {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setCheckMarkTintMode(CheckedTextView checkedTextView, PorterDuff.Mode mode) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.setCheckMarkTintMode(checkedTextView, mode);

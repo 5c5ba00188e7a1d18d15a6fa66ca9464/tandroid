@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.IntConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class D implements F {
     public final /* synthetic */ IntConsumer a;

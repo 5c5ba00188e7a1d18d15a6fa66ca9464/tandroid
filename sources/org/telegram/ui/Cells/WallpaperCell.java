@@ -33,6 +33,7 @@ import org.telegram.ui.Components.CheckBox;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.WallpapersListActivity;
+
 /* loaded from: classes4.dex */
 public abstract class WallpaperCell extends FrameLayout {
     private Paint backgroundPaint;
@@ -210,7 +211,7 @@ public abstract class WallpaperCell extends FrameLayout {
             if (obj instanceof TLRPC.TL_wallPaper) {
                 ?? r1 = (TLRPC.TL_wallPaper) obj;
                 TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(r1.document.thumbs, AndroidUtilities.dp(100));
-                TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(r1.document.thumbs, AndroidUtilities.dp((float) NotificationCenter.updateBotMenuButton));
+                TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(r1.document.thumbs, AndroidUtilities.dp(NotificationCenter.updateBotMenuButton));
                 photoSize = closestPhotoSizeWithSize2 != closestPhotoSizeWithSize ? closestPhotoSizeWithSize2 : null;
                 j = photoSize != null ? photoSize.size : r1.document.size;
                 if (!r1.pattern) {
@@ -297,7 +298,7 @@ public abstract class WallpaperCell extends FrameLayout {
                 }
                 if ("d".equals(colorWallpaper.slug)) {
                     if (colorWallpaper.defaultCache == null) {
-                        colorWallpaper.defaultCache = SvgHelper.getBitmap(R.raw.default_pattern, 100, (int) NotificationCenter.updateBotMenuButton, -16777216);
+                        colorWallpaper.defaultCache = SvgHelper.getBitmap(R.raw.default_pattern, 100, NotificationCenter.updateBotMenuButton, -16777216);
                     }
                     this.imageView.setImageBitmap(colorWallpaper.defaultCache);
                     imageReceiver = this.imageView.getImageReceiver();
@@ -316,39 +317,41 @@ public abstract class WallpaperCell extends FrameLayout {
                     }
                     return;
                 }
-            } else if (!(obj instanceof WallpapersListActivity.FileWallpaper)) {
-                if (!(obj instanceof MediaController.SearchImage)) {
-                    this.isSelected = false;
-                    return;
-                }
-                MediaController.SearchImage searchImage2 = (MediaController.SearchImage) obj;
-                TLRPC.Photo photo = searchImage2.photo;
-                if (photo == null) {
-                    this.imageView.setImage(searchImage2.thumbUrl, str2, null);
-                    return;
-                }
-                TLRPC.PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.dp(100));
-                TLRPC.PhotoSize closestPhotoSizeWithSize5 = FileLoader.getClosestPhotoSizeWithSize(searchImage2.photo.sizes, AndroidUtilities.dp((float) NotificationCenter.updateBotMenuButton));
-                photoSize = closestPhotoSizeWithSize5 != closestPhotoSizeWithSize4 ? closestPhotoSizeWithSize5 : null;
-                int i2 = photoSize != null ? photoSize.size : 0;
-                backupImageView = this.imageView;
-                forPhoto = ImageLocation.getForPhoto(photoSize, searchImage2.photo);
-                forPhoto2 = ImageLocation.getForPhoto(closestPhotoSizeWithSize4, searchImage2.photo);
-                j = i2;
-                searchImage = searchImage2;
-                backupImageView.setImage(forPhoto, str2, forPhoto2, str3, "jpg", j, 1, searchImage);
-                return;
             } else {
+                if (!(obj instanceof WallpapersListActivity.FileWallpaper)) {
+                    if (!(obj instanceof MediaController.SearchImage)) {
+                        this.isSelected = false;
+                        return;
+                    }
+                    MediaController.SearchImage searchImage2 = (MediaController.SearchImage) obj;
+                    TLRPC.Photo photo = searchImage2.photo;
+                    if (photo == null) {
+                        this.imageView.setImage(searchImage2.thumbUrl, str2, null);
+                        return;
+                    }
+                    TLRPC.PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.dp(100));
+                    TLRPC.PhotoSize closestPhotoSizeWithSize5 = FileLoader.getClosestPhotoSizeWithSize(searchImage2.photo.sizes, AndroidUtilities.dp(NotificationCenter.updateBotMenuButton));
+                    photoSize = closestPhotoSizeWithSize5 != closestPhotoSizeWithSize4 ? closestPhotoSizeWithSize5 : null;
+                    int i2 = photoSize != null ? photoSize.size : 0;
+                    backupImageView = this.imageView;
+                    forPhoto = ImageLocation.getForPhoto(photoSize, searchImage2.photo);
+                    forPhoto2 = ImageLocation.getForPhoto(closestPhotoSizeWithSize4, searchImage2.photo);
+                    j = i2;
+                    searchImage = searchImage2;
+                    backupImageView.setImage(forPhoto, str2, forPhoto2, str3, "jpg", j, 1, searchImage);
+                    return;
+                }
                 WallpapersListActivity.FileWallpaper fileWallpaper = (WallpapersListActivity.FileWallpaper) obj;
                 file = fileWallpaper.originalPath;
                 if (file == null && (file = fileWallpaper.path) == null) {
                     if (!"t".equals(fileWallpaper.slug)) {
                         this.imageView.setImageResource(fileWallpaper.thumbResId);
                         return;
+                    } else {
+                        BackupImageView backupImageView2 = this.imageView;
+                        backupImageView2.setImageDrawable(Theme.getThemedWallpaper(true, backupImageView2));
+                        return;
                     }
-                    BackupImageView backupImageView2 = this.imageView;
-                    backupImageView2.setImageDrawable(Theme.getThemedWallpaper(true, backupImageView2));
-                    return;
                 }
             }
             this.imageView.setImage(file.getAbsolutePath(), str2, null);
@@ -497,9 +500,9 @@ public abstract class WallpaperCell extends FrameLayout {
         if (obj == null) {
             wallpaperViewArr[i2].setVisibility(8);
             this.wallpaperViews[i2].clearAnimation();
-            return;
+        } else {
+            wallpaperViewArr[i2].setVisibility(0);
+            this.wallpaperViews[i2].setWallpaper(obj, obj2, drawable, z);
         }
-        wallpaperViewArr[i2].setVisibility(0);
-        this.wallpaperViews[i2].setWallpaper(obj, obj2, drawable, z);
     }
 }

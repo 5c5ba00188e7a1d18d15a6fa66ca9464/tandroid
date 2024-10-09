@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzjd extends zzhj implements zzjl, zzkw, RandomAccess {
@@ -75,27 +76,27 @@ public final class zzjd extends zzhj implements zzjl, zzkw, RandomAccess {
     public final boolean addAll(Collection collection) {
         zzc();
         zzjf.zza(collection);
-        if (collection instanceof zzjd) {
-            zzjd zzjdVar = (zzjd) collection;
-            int i = zzjdVar.zzc;
-            if (i == 0) {
-                return false;
-            }
-            int i2 = this.zzc;
-            if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 >= i) {
-                int i3 = i2 + i;
-                int[] iArr = this.zzb;
-                if (i3 > iArr.length) {
-                    this.zzb = Arrays.copyOf(iArr, i3);
-                }
-                System.arraycopy(zzjdVar.zzb, 0, this.zzb, this.zzc, zzjdVar.zzc);
-                this.zzc = i3;
-                ((AbstractList) this).modCount++;
-                return true;
-            }
+        if (!(collection instanceof zzjd)) {
+            return super.addAll(collection);
+        }
+        zzjd zzjdVar = (zzjd) collection;
+        int i = zzjdVar.zzc;
+        if (i == 0) {
+            return false;
+        }
+        int i2 = this.zzc;
+        if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 < i) {
             throw new OutOfMemoryError();
         }
-        return super.addAll(collection);
+        int i3 = i2 + i;
+        int[] iArr = this.zzb;
+        if (i3 > iArr.length) {
+            this.zzb = Arrays.copyOf(iArr, i3);
+        }
+        System.arraycopy(zzjdVar.zzb, 0, this.zzb, this.zzc, zzjdVar.zzc);
+        this.zzc = i3;
+        ((AbstractList) this).modCount++;
+        return true;
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
@@ -108,20 +109,20 @@ public final class zzjd extends zzhj implements zzjl, zzkw, RandomAccess {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zzjd) {
-            zzjd zzjdVar = (zzjd) obj;
-            if (this.zzc != zzjdVar.zzc) {
+        if (!(obj instanceof zzjd)) {
+            return super.equals(obj);
+        }
+        zzjd zzjdVar = (zzjd) obj;
+        if (this.zzc != zzjdVar.zzc) {
+            return false;
+        }
+        int[] iArr = zzjdVar.zzb;
+        for (int i = 0; i < this.zzc; i++) {
+            if (this.zzb[i] != iArr[i]) {
                 return false;
             }
-            int[] iArr = zzjdVar.zzb;
-            for (int i = 0; i < this.zzc; i++) {
-                if (this.zzb[i] != iArr[i]) {
-                    return false;
-                }
-            }
-            return true;
         }
-        return super.equals(obj);
+        return true;
     }
 
     @Override // java.util.AbstractList, java.util.List
@@ -140,32 +141,31 @@ public final class zzjd extends zzhj implements zzjl, zzkw, RandomAccess {
 
     @Override // java.util.AbstractList, java.util.List
     public final int indexOf(Object obj) {
-        if (obj instanceof Integer) {
-            int intValue = ((Integer) obj).intValue();
-            int size = size();
-            for (int i = 0; i < size; i++) {
-                if (this.zzb[i] == intValue) {
-                    return i;
-                }
-            }
+        if (!(obj instanceof Integer)) {
             return -1;
+        }
+        int intValue = ((Integer) obj).intValue();
+        int size = size();
+        for (int i = 0; i < size; i++) {
+            if (this.zzb[i] == intValue) {
+                return i;
+            }
         }
         return -1;
     }
 
     @Override // com.google.android.gms.internal.vision.zzhj, java.util.AbstractList, java.util.List
     public final /* synthetic */ Object remove(int i) {
-        int i2;
         zzc();
         zzd(i);
         int[] iArr = this.zzb;
-        int i3 = iArr[i];
+        int i2 = iArr[i];
         if (i < this.zzc - 1) {
-            System.arraycopy(iArr, i + 1, iArr, i, (i2 - i) - 1);
+            System.arraycopy(iArr, i + 1, iArr, i, (r2 - i) - 1);
         }
         this.zzc--;
         ((AbstractList) this).modCount++;
-        return Integer.valueOf(i3);
+        return Integer.valueOf(i2);
     }
 
     @Override // java.util.AbstractList

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import androidx.appcompat.R$styleable;
 import java.lang.ref.WeakReference;
+
 /* loaded from: classes.dex */
 public final class ViewStubCompat extends View {
     private int mInflatedId;
@@ -59,32 +60,32 @@ public final class ViewStubCompat extends View {
 
     public View inflate() {
         ViewParent parent = getParent();
-        if (parent instanceof ViewGroup) {
-            if (this.mLayoutResource != 0) {
-                ViewGroup viewGroup = (ViewGroup) parent;
-                LayoutInflater layoutInflater = this.mInflater;
-                if (layoutInflater == null) {
-                    layoutInflater = LayoutInflater.from(getContext());
-                }
-                View inflate = layoutInflater.inflate(this.mLayoutResource, viewGroup, false);
-                int i = this.mInflatedId;
-                if (i != -1) {
-                    inflate.setId(i);
-                }
-                int indexOfChild = viewGroup.indexOfChild(this);
-                viewGroup.removeViewInLayout(this);
-                ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                if (layoutParams != null) {
-                    viewGroup.addView(inflate, indexOfChild, layoutParams);
-                } else {
-                    viewGroup.addView(inflate, indexOfChild);
-                }
-                this.mInflatedViewRef = new WeakReference(inflate);
-                return inflate;
-            }
+        if (!(parent instanceof ViewGroup)) {
+            throw new IllegalStateException("ViewStub must have a non-null ViewGroup viewParent");
+        }
+        if (this.mLayoutResource == 0) {
             throw new IllegalArgumentException("ViewStub must have a valid layoutResource");
         }
-        throw new IllegalStateException("ViewStub must have a non-null ViewGroup viewParent");
+        ViewGroup viewGroup = (ViewGroup) parent;
+        LayoutInflater layoutInflater = this.mInflater;
+        if (layoutInflater == null) {
+            layoutInflater = LayoutInflater.from(getContext());
+        }
+        View inflate = layoutInflater.inflate(this.mLayoutResource, viewGroup, false);
+        int i = this.mInflatedId;
+        if (i != -1) {
+            inflate.setId(i);
+        }
+        int indexOfChild = viewGroup.indexOfChild(this);
+        viewGroup.removeViewInLayout(this);
+        ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        if (layoutParams != null) {
+            viewGroup.addView(inflate, indexOfChild, layoutParams);
+        } else {
+            viewGroup.addView(inflate, indexOfChild);
+        }
+        this.mInflatedViewRef = new WeakReference(inflate);
+        return inflate;
     }
 
     @Override // android.view.View

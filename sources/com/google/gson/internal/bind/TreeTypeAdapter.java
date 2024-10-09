@@ -12,6 +12,7 @@ import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+
 /* loaded from: classes.dex */
 public final class TreeTypeAdapter extends SerializationDelegatingTypeAdapter {
     private final GsonContextImpl context;

@@ -11,6 +11,7 @@ import android.os.Build;
 import android.view.Surface;
 import org.webrtc.EglBase;
 import org.webrtc.EglBase14;
+
 /* loaded from: classes.dex */
 class EglBase14Impl implements EglBase14 {
     private static final int CURRENT_SDK_VERSION = Build.VERSION.SDK_INT;
@@ -33,11 +34,11 @@ class EglBase14Impl implements EglBase14 {
         @Override // org.webrtc.EglBase.Context
         public long getNativeEglContext() {
             long nativeHandle;
-            if (EglBase14Impl.CURRENT_SDK_VERSION >= 21) {
-                nativeHandle = this.egl14Context.getNativeHandle();
-                return nativeHandle;
+            if (EglBase14Impl.CURRENT_SDK_VERSION < 21) {
+                return this.egl14Context.getHandle();
             }
-            return this.egl14Context.getHandle();
+            nativeHandle = this.egl14Context.getNativeHandle();
+            return nativeHandle;
         }
 
         @Override // org.webrtc.EglBase14.Context
@@ -66,20 +67,20 @@ class EglBase14Impl implements EglBase14 {
 
     private static EGLContext createEglContext(EGLContext eGLContext, EGLDisplay eGLDisplay, EGLConfig eGLConfig, int i) {
         EGLContext eglCreateContext;
-        if (eGLContext == null || eGLContext != EGL14.EGL_NO_CONTEXT) {
-            int[] iArr = {12440, i, 12344};
-            if (eGLContext == null) {
-                eGLContext = EGL14.EGL_NO_CONTEXT;
-            }
-            synchronized (EglBase.lock) {
-                eglCreateContext = EGL14.eglCreateContext(eGLDisplay, eGLConfig, eGLContext, iArr, 0);
-            }
-            if (eglCreateContext != EGL14.EGL_NO_CONTEXT) {
-                return eglCreateContext;
-            }
-            throw new RuntimeException("Failed to create EGL context: 0x" + Integer.toHexString(EGL14.eglGetError()));
+        if (eGLContext != null && eGLContext == EGL14.EGL_NO_CONTEXT) {
+            throw new RuntimeException("Invalid sharedContext");
         }
-        throw new RuntimeException("Invalid sharedContext");
+        int[] iArr = {12440, i, 12344};
+        if (eGLContext == null) {
+            eGLContext = EGL14.EGL_NO_CONTEXT;
+        }
+        synchronized (EglBase.lock) {
+            eglCreateContext = EGL14.eglCreateContext(eGLDisplay, eGLConfig, eGLContext, iArr, 0);
+        }
+        if (eglCreateContext != EGL14.EGL_NO_CONTEXT) {
+            return eglCreateContext;
+        }
+        throw new RuntimeException("Failed to create EGL context: 0x" + Integer.toHexString(EGL14.eglGetError()));
     }
 
     private void createSurfaceInternal(Object obj, boolean z) {
@@ -97,16 +98,16 @@ class EglBase14Impl implements EglBase14 {
                 return;
             }
             throw new RuntimeException("Failed to create window surface: 0x" + Integer.toHexString(EGL14.eglGetError()));
-        } else if (this.eglSurface != EGL14.EGL_NO_SURFACE) {
-            throw new RuntimeException("Already has an EGLSurface");
-        } else {
-            EGLSurface eglCreateWindowSurface2 = EGL14.eglCreateWindowSurface(this.eglDisplay, this.eglConfig, obj, new int[]{12344}, 0);
-            this.eglSurface = eglCreateWindowSurface2;
-            if (eglCreateWindowSurface2 != EGL14.EGL_NO_SURFACE) {
-                return;
-            }
-            throw new RuntimeException("Failed to create window surface: 0x" + Integer.toHexString(EGL14.eglGetError()));
         }
+        if (this.eglSurface != EGL14.EGL_NO_SURFACE) {
+            throw new RuntimeException("Already has an EGLSurface");
+        }
+        EGLSurface eglCreateWindowSurface2 = EGL14.eglCreateWindowSurface(this.eglDisplay, this.eglConfig, obj, new int[]{12344}, 0);
+        this.eglSurface = eglCreateWindowSurface2;
+        if (eglCreateWindowSurface2 != EGL14.EGL_NO_SURFACE) {
+            return;
+        }
+        throw new RuntimeException("Failed to create window surface: 0x" + Integer.toHexString(EGL14.eglGetError()));
     }
 
     private static EGLConfig getEglConfig(EGLDisplay eGLDisplay, int[] iArr) {
@@ -114,15 +115,15 @@ class EglBase14Impl implements EglBase14 {
         int[] iArr2 = new int[1];
         if (!EGL14.eglChooseConfig(eGLDisplay, iArr, 0, eGLConfigArr, 0, 1, iArr2, 0)) {
             throw new RuntimeException("eglChooseConfig failed: 0x" + Integer.toHexString(EGL14.eglGetError()));
-        } else if (iArr2[0] > 0) {
-            EGLConfig eGLConfig = eGLConfigArr[0];
-            if (eGLConfig != null) {
-                return eGLConfig;
-            }
-            throw new RuntimeException("eglChooseConfig returned null");
-        } else {
+        }
+        if (iArr2[0] <= 0) {
             throw new RuntimeException("Unable to find any matching EGL config");
         }
+        EGLConfig eGLConfig = eGLConfigArr[0];
+        if (eGLConfig != null) {
+            return eGLConfig;
+        }
+        throw new RuntimeException("eglChooseConfig returned null");
     }
 
     private static EGLDisplay getEglDisplay() {

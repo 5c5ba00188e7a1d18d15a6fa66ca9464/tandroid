@@ -8,6 +8,7 @@ import android.view.ViewConfiguration;
 import android.view.accessibility.AccessibilityManager;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewConfigurationCompat;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHoverListener, View.OnAttachStateChangeListener {
@@ -92,13 +93,13 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
     private boolean updateAnchorPos(MotionEvent motionEvent) {
         int x = (int) motionEvent.getX();
         int y = (int) motionEvent.getY();
-        if (this.mForceNextChangeSignificant || Math.abs(x - this.mAnchorX) > this.mHoverSlop || Math.abs(y - this.mAnchorY) > this.mHoverSlop) {
-            this.mAnchorX = x;
-            this.mAnchorY = y;
-            this.mForceNextChangeSignificant = false;
-            return true;
+        if (!this.mForceNextChangeSignificant && Math.abs(x - this.mAnchorX) <= this.mHoverSlop && Math.abs(y - this.mAnchorY) <= this.mHoverSlop) {
+            return false;
         }
-        return false;
+        this.mAnchorX = x;
+        this.mAnchorY = y;
+        this.mForceNextChangeSignificant = false;
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -123,21 +124,21 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
 
     @Override // android.view.View.OnHoverListener
     public boolean onHover(View view, MotionEvent motionEvent) {
-        if (this.mPopup == null || !this.mFromTouch) {
-            AccessibilityManager accessibilityManager = (AccessibilityManager) this.mAnchor.getContext().getSystemService("accessibility");
-            if (accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled()) {
-                return false;
-            }
-            int action = motionEvent.getAction();
-            if (action != 7) {
-                if (action == 10) {
-                    forceNextChangeSignificant();
-                    hide();
-                }
-            } else if (this.mAnchor.isEnabled() && this.mPopup == null && updateAnchorPos(motionEvent)) {
-                setPendingHandler(this);
-            }
+        if (this.mPopup != null && this.mFromTouch) {
             return false;
+        }
+        AccessibilityManager accessibilityManager = (AccessibilityManager) this.mAnchor.getContext().getSystemService("accessibility");
+        if (accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled()) {
+            return false;
+        }
+        int action = motionEvent.getAction();
+        if (action != 7) {
+            if (action == 10) {
+                forceNextChangeSignificant();
+                hide();
+            }
+        } else if (this.mAnchor.isEnabled() && this.mPopup == null && updateAnchorPos(motionEvent)) {
+            setPendingHandler(this);
         }
         return false;
     }

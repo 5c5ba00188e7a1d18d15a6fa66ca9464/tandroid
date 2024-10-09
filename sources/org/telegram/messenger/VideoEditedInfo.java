@@ -21,6 +21,7 @@ import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.Weather;
+
 /* loaded from: classes3.dex */
 public class VideoEditedInfo {
     public int account;
@@ -231,19 +232,28 @@ public class VideoEditedInfo {
                 TLRPC.MessageMedia messageMedia = this.media;
                 if (messageMedia instanceof TLRPC.TL_messageMediaVenue) {
                     ((TLRPC.TL_messageMediaVenue) messageMedia).emoji = readString2;
+                    return;
                 }
-            } else if (b == 7) {
+                return;
+            }
+            if (b == 7) {
                 this.density = abstractSerializedData.readFloat(z2);
                 this.mediaArea = TL_stories.MediaArea.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z2), z2);
                 this.linkSettings = LinkPreview.WebPagePreview.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z2), z2);
-            } else if (b == 4) {
+                return;
+            }
+            if (b == 4) {
                 this.mediaArea = TL_stories.MediaArea.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z2), z2);
-            } else if (b == 5) {
+                return;
+            }
+            if (b == 5) {
                 this.roundOffset = abstractSerializedData.readInt64(z2);
                 this.roundLeft = abstractSerializedData.readInt64(z2);
                 this.roundRight = abstractSerializedData.readInt64(z2);
                 this.roundDuration = abstractSerializedData.readInt64(z2);
-            } else if (b == 2) {
+                return;
+            }
+            if (b == 2) {
                 this.segmentedPath = abstractSerializedData.readString(z2);
             } else if (b == 8 && abstractSerializedData.readInt32(z2) == 132805945) {
                 this.weather = Weather.State.TLdeserialize(abstractSerializedData);
@@ -371,32 +381,37 @@ public class VideoEditedInfo {
                     abstractSerializedData.writeInt32(-559038737);
                     str = ((TLRPC.TL_messageMediaVenue) this.media).emoji;
                 }
-            } else if (b == 7) {
-                abstractSerializedData.writeFloat(this.density);
-                this.mediaArea.serializeToStream(abstractSerializedData);
-                this.linkSettings.serializeToStream(abstractSerializedData);
-                return;
-            } else if (b == 4) {
-                this.mediaArea.serializeToStream(abstractSerializedData);
-                return;
-            } else if (b == 5) {
-                abstractSerializedData.writeInt64(this.roundOffset);
-                abstractSerializedData.writeInt64(this.roundLeft);
-                abstractSerializedData.writeInt64(this.roundRight);
-                abstractSerializedData.writeInt64(this.roundDuration);
-                return;
-            } else if (b != 2) {
-                if (b == 8) {
-                    if (this.weather == null) {
-                        abstractSerializedData.writeInt32(-559038737);
-                        return;
-                    }
-                    abstractSerializedData.writeInt32(132805945);
-                    this.weather.serializeToStream(abstractSerializedData);
+            } else {
+                if (b == 7) {
+                    abstractSerializedData.writeFloat(this.density);
+                    this.mediaArea.serializeToStream(abstractSerializedData);
+                    this.linkSettings.serializeToStream(abstractSerializedData);
                     return;
                 }
-                return;
-            } else {
+                if (b == 4) {
+                    this.mediaArea.serializeToStream(abstractSerializedData);
+                    return;
+                }
+                if (b == 5) {
+                    abstractSerializedData.writeInt64(this.roundOffset);
+                    abstractSerializedData.writeInt64(this.roundLeft);
+                    abstractSerializedData.writeInt64(this.roundRight);
+                    abstractSerializedData.writeInt64(this.roundDuration);
+                    return;
+                }
+                if (b != 2) {
+                    if (b == 8) {
+                        if (this.weather == null) {
+                            abstractSerializedData.writeInt32(-559038737);
+                            return;
+                        } else {
+                            abstractSerializedData.writeInt32(132805945);
+                            this.weather.serializeToStream(abstractSerializedData);
+                            return;
+                        }
+                    }
+                    return;
+                }
                 str = this.segmentedPath;
             }
             abstractSerializedData.writeString(str);

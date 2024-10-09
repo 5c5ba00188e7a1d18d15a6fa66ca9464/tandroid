@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 final class DvbParser {
     private static final byte[] defaultMap2To4 = {0, 7, 8, 15};
@@ -288,10 +289,10 @@ final class DvbParser {
         return (i << 24) | (i2 << 16) | (i3 << 8) | i4;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x005b A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x005f  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x007b A[LOOP:0: B:3:0x0009->B:33:0x007b, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x007a A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x007b A[LOOP:0: B:2:0x0009->B:13:0x007b, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x007a A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x005b A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x005f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -302,7 +303,7 @@ final class DvbParser {
         int i4 = i;
         boolean z2 = false;
         while (true) {
-            byte readBits2 = parsableBitArray.readBits(2);
+            int readBits2 = parsableBitArray.readBits(2);
             if (readBits2 != 0) {
                 z = z2;
             } else {
@@ -369,9 +370,9 @@ final class DvbParser {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x006b  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0087 A[LOOP:0: B:3:0x0009->B:36:0x0087, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0086 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0087 A[LOOP:0: B:2:0x0009->B:13:0x0087, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0086 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x006b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -382,7 +383,7 @@ final class DvbParser {
         int i4 = i;
         boolean z2 = false;
         while (true) {
-            byte readBits2 = parsableBitArray.readBits(4);
+            int readBits2 = parsableBitArray.readBits(4);
             if (readBits2 != 0) {
                 z = z2;
             } else {
@@ -455,7 +456,7 @@ final class DvbParser {
         int i3 = i;
         boolean z2 = false;
         while (true) {
-            byte readBits2 = parsableBitArray.readBits(8);
+            int readBits2 = parsableBitArray.readBits(8);
             if (readBits2 != 0) {
                 z = z2;
                 readBits = 1;
@@ -518,32 +519,33 @@ final class DvbParser {
                             bArr3 = defaultMap2To8;
                             bArr2 = bArr3;
                             i4 = paint2BitPixelCodeString(parsableBitArray, iArr, bArr2, i4, i5, paint, canvas);
+                            break;
                         } else {
                             bArr2 = bArr4;
                             i4 = paint2BitPixelCodeString(parsableBitArray, iArr, bArr2, i4, i5, paint, canvas);
                         }
-                        parsableBitArray.byteAlign();
-                        break;
                     case 17:
                         i4 = paint4BitPixelCodeString(parsableBitArray, iArr, i == 3 ? bArr5 == null ? defaultMap4To8 : bArr5 : null, i4, i5, paint, canvas);
-                        parsableBitArray.byteAlign();
                         break;
                     case 18:
                         i4 = paint8BitPixelCodeString(parsableBitArray, iArr, null, i4, i5, paint, canvas);
-                        break;
+                        continue;
                     default:
                         switch (readBits) {
                             case 32:
                                 bArr6 = buildClutMapTable(4, 4, parsableBitArray);
-                                continue;
+                                break;
                             case 33:
                                 bArr4 = buildClutMapTable(4, 8, parsableBitArray);
-                                continue;
+                                break;
                             case 34:
                                 bArr5 = buildClutMapTable(16, 8, parsableBitArray);
+                                break;
+                            default:
                                 continue;
                         }
                 }
+                parsableBitArray.byteAlign();
             } else {
                 i5 += 2;
                 i4 = i2;
@@ -561,41 +563,43 @@ final class DvbParser {
         int readBits;
         int i2;
         int readBits2;
-        int readBits3;
         int i3;
-        int i4 = 8;
-        int readBits4 = parsableBitArray.readBits(8);
+        int i4;
+        int i5 = 8;
+        int readBits3 = parsableBitArray.readBits(8);
         parsableBitArray.skipBits(8);
-        int i5 = 2;
-        int i6 = i - 2;
+        int i6 = 2;
+        int i7 = i - 2;
         int[] generateDefault2BitClutEntries = generateDefault2BitClutEntries();
         int[] generateDefault4BitClutEntries = generateDefault4BitClutEntries();
         int[] generateDefault8BitClutEntries = generateDefault8BitClutEntries();
-        while (i6 > 0) {
-            int readBits5 = parsableBitArray.readBits(i4);
-            int readBits6 = parsableBitArray.readBits(i4);
-            int[] iArr = (readBits6 & 128) != 0 ? generateDefault2BitClutEntries : (readBits6 & 64) != 0 ? generateDefault4BitClutEntries : generateDefault8BitClutEntries;
-            if ((readBits6 & 1) != 0) {
-                readBits3 = parsableBitArray.readBits(i4);
-                i3 = parsableBitArray.readBits(i4);
-                readBits = parsableBitArray.readBits(i4);
-                readBits2 = parsableBitArray.readBits(i4);
-                i2 = i6 - 6;
+        while (i7 > 0) {
+            int readBits4 = parsableBitArray.readBits(i5);
+            int readBits5 = parsableBitArray.readBits(i5);
+            int[] iArr = (readBits5 & 128) != 0 ? generateDefault2BitClutEntries : (readBits5 & 64) != 0 ? generateDefault4BitClutEntries : generateDefault8BitClutEntries;
+            if ((readBits5 & 1) != 0) {
+                i3 = parsableBitArray.readBits(i5);
+                i4 = parsableBitArray.readBits(i5);
+                readBits = parsableBitArray.readBits(i5);
+                readBits2 = parsableBitArray.readBits(i5);
+                i2 = i7 - 6;
             } else {
+                int readBits6 = parsableBitArray.readBits(6) << i6;
                 int readBits7 = parsableBitArray.readBits(4) << 4;
                 readBits = parsableBitArray.readBits(4) << 4;
-                i2 = i6 - 4;
-                readBits2 = parsableBitArray.readBits(i5) << 6;
-                readBits3 = parsableBitArray.readBits(6) << i5;
-                i3 = readBits7;
+                i2 = i7 - 4;
+                readBits2 = parsableBitArray.readBits(i6) << 6;
+                i3 = readBits6;
+                i4 = readBits7;
             }
-            if (readBits3 == 0) {
-                i3 = 0;
+            if (i3 == 0) {
+                i4 = 0;
                 readBits = 0;
                 readBits2 = NotificationCenter.closeSearchByActiveAction;
             }
-            double d = readBits3;
-            double d2 = i3 - 128;
+            byte b = (byte) (255 - (readBits2 & NotificationCenter.closeSearchByActiveAction));
+            double d = i3;
+            double d2 = i4 - 128;
             Double.isNaN(d2);
             Double.isNaN(d);
             double d3 = readBits - 128;
@@ -604,13 +608,13 @@ final class DvbParser {
             Double.isNaN(d2);
             Double.isNaN(d3);
             Double.isNaN(d);
-            iArr[readBits5] = getColor((byte) (255 - (readBits2 & NotificationCenter.closeSearchByActiveAction)), Util.constrainValue((int) (d + (1.402d * d2)), 0, (int) NotificationCenter.closeSearchByActiveAction), Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, (int) NotificationCenter.closeSearchByActiveAction), Util.constrainValue((int) (d + (d3 * 1.772d)), 0, (int) NotificationCenter.closeSearchByActiveAction));
-            i6 = i2;
-            readBits4 = readBits4;
-            i4 = 8;
-            i5 = 2;
+            iArr[readBits4] = getColor(b, Util.constrainValue((int) (d + (1.402d * d2)), 0, NotificationCenter.closeSearchByActiveAction), Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, NotificationCenter.closeSearchByActiveAction), Util.constrainValue((int) (d + (d3 * 1.772d)), 0, NotificationCenter.closeSearchByActiveAction));
+            i7 = i2;
+            readBits3 = readBits3;
+            i5 = 8;
+            i6 = 2;
         }
-        return new ClutDefinition(readBits4, generateDefault2BitClutEntries, generateDefault4BitClutEntries, generateDefault8BitClutEntries);
+        return new ClutDefinition(readBits3, generateDefault2BitClutEntries, generateDefault4BitClutEntries, generateDefault8BitClutEntries);
     }
 
     private static DisplayDefinition parseDisplayDefinition(ParsableBitArray parsableBitArray) {
@@ -733,6 +737,7 @@ final class DvbParser {
         return new RegionComposition(readBits, readBit, readBits2, readBits3, readBits4, readBits5, readBits6, readBits7, readBits8, readBits9, sparseArray);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     private static void parseSubtitlingSegment(ParsableBitArray parsableBitArray, SubtitleService subtitleService) {
         RegionComposition regionComposition;
         SparseArray sparseArray;

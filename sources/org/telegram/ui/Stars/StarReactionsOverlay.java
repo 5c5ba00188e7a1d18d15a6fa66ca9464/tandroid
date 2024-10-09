@@ -28,6 +28,7 @@ import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.GradientClip;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stars.StarsIntroActivity;
+
 /* loaded from: classes3.dex */
 public class StarReactionsOverlay extends View {
     private float accumulatedRippleIntensity;
@@ -177,7 +178,6 @@ public class StarReactionsOverlay extends View {
     @Override // android.view.View
     protected void dispatchDraw(Canvas canvas) {
         Integer num;
-        int[] iArr;
         float f;
         float f2;
         ChatMessageCell chatMessageCell = this.cell;
@@ -197,18 +197,18 @@ public class StarReactionsOverlay extends View {
         canvas.clipRect(0.0f, clipTop * (1.0f - this.focus), getWidth(), getHeight() - (clipBottom * (1.0f - this.focus)));
         getLocationInWindow(this.pos2);
         this.cell.getLocationInWindow(this.pos);
-        int[] iArr2 = this.pos;
-        iArr2[1] = iArr2[1] + ((int) this.chatActivity.drawingChatListViewYoffset);
+        int[] iArr = this.pos;
+        iArr[1] = iArr[1] + ((int) this.chatActivity.drawingChatListViewYoffset);
         canvas.save();
         ReactionsLayoutInBubble.ReactionButton reactionButton = this.cell.reactionsLayoutInBubble.getReactionButton("stars");
         if (reactionButton != null) {
-            int[] iArr3 = this.pos;
-            int i2 = iArr3[0];
-            int[] iArr4 = this.pos2;
-            int i3 = i2 - iArr4[0];
+            int[] iArr2 = this.pos;
+            int i2 = iArr2[0];
+            int[] iArr3 = this.pos2;
+            int i3 = i2 - iArr3[0];
             ReactionsLayoutInBubble reactionsLayoutInBubble = this.cell.reactionsLayoutInBubble;
             int i4 = i3 + reactionsLayoutInBubble.x + reactionButton.x;
-            int i5 = (iArr3[1] - iArr4[1]) + reactionsLayoutInBubble.y + reactionButton.y;
+            int i5 = (iArr2[1] - iArr3[1]) + reactionsLayoutInBubble.y + reactionButton.y;
             float f3 = i4;
             float f4 = i5;
             this.reactionBounds.set(f3, f4, i4 + reactionButton.width, i5 + reactionButton.height);
@@ -223,8 +223,8 @@ public class StarReactionsOverlay extends View {
             num = null;
         }
         int i6 = this.pos[0];
-        int[] iArr5 = this.pos2;
-        canvas.translate(i6 - iArr5[0], iArr[1] - iArr5[1]);
+        int[] iArr4 = this.pos2;
+        canvas.translate(i6 - iArr4[0], r5[1] - iArr4[1]);
         this.cell.setScrimReaction(null);
         this.cell.drawReactionsLayout(canvas, 1.0f, num);
         this.cell.drawReactionsLayoutOverlay(canvas, 1.0f);

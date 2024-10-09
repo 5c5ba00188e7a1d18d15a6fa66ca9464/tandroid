@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public abstract class zzcb extends zzak {
     private static final Map zzb = new ConcurrentHashMap();
@@ -110,10 +111,10 @@ public abstract class zzcb extends zzak {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass()) {
-            return zzdn.zza().zzb(getClass()).zzj(this, (zzcb) obj);
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
         }
-        return false;
+        return zzdn.zza().zzb(getClass()).zzj(this, (zzcb) obj);
     }
 
     public final int hashCode() {
@@ -121,12 +122,12 @@ public abstract class zzcb extends zzak {
             return zzd();
         }
         int i = this.zza;
-        if (i == 0) {
-            int zzd = zzd();
-            this.zza = zzd;
-            return zzd;
+        if (i != 0) {
+            return i;
         }
-        return i;
+        int zzd = zzd();
+        this.zza = zzd;
+        return zzd;
     }
 
     public final String toString() {
@@ -144,15 +145,15 @@ public abstract class zzcb extends zzak {
             throw new IllegalStateException("serialized size must be non-negative, was " + zza);
         }
         int i = this.zzd & ConnectionsManager.DEFAULT_DATACENTER_ID;
-        if (i == Integer.MAX_VALUE) {
-            int zza2 = zzdpVar.zza(this);
-            if (zza2 >= 0) {
-                this.zzd = (this.zzd & Integer.MIN_VALUE) | zza2;
-                return zza2;
-            }
-            throw new IllegalStateException("serialized size must be non-negative, was " + zza2);
+        if (i != Integer.MAX_VALUE) {
+            return i;
         }
-        return i;
+        int zza2 = zzdpVar.zza(this);
+        if (zza2 >= 0) {
+            this.zzd = (this.zzd & Integer.MIN_VALUE) | zza2;
+            return zza2;
+        }
+        throw new IllegalStateException("serialized size must be non-negative, was " + zza2);
     }
 
     final int zzd() {

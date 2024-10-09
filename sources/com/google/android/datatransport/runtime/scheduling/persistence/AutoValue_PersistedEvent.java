@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.scheduling.persistence;
 
 import com.google.android.datatransport.runtime.EventInternal;
 import com.google.android.datatransport.runtime.TransportContext;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AutoValue_PersistedEvent extends PersistedEvent {
@@ -26,11 +27,11 @@ public final class AutoValue_PersistedEvent extends PersistedEvent {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof PersistedEvent) {
-            PersistedEvent persistedEvent = (PersistedEvent) obj;
-            return this.id == persistedEvent.getId() && this.transportContext.equals(persistedEvent.getTransportContext()) && this.event.equals(persistedEvent.getEvent());
+        if (!(obj instanceof PersistedEvent)) {
+            return false;
         }
-        return false;
+        PersistedEvent persistedEvent = (PersistedEvent) obj;
+        return this.id == persistedEvent.getId() && this.transportContext.equals(persistedEvent.getTransportContext()) && this.event.equals(persistedEvent.getEvent());
     }
 
     @Override // com.google.android.datatransport.runtime.scheduling.persistence.PersistedEvent

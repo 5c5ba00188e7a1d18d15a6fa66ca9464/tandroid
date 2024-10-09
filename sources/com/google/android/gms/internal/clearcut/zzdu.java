@@ -3,6 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzdu implements zzef {
     private final zzdo zzmn;
@@ -24,13 +25,13 @@ final class zzdu implements zzef {
 
     @Override // com.google.android.gms.internal.clearcut.zzef
     public final boolean equals(Object obj, Object obj2) {
-        if (this.zzmx.zzq(obj).equals(this.zzmx.zzq(obj2))) {
-            if (this.zzmo) {
-                return this.zzmy.zza(obj).equals(this.zzmy.zza(obj2));
-            }
-            return true;
+        if (!this.zzmx.zzq(obj).equals(this.zzmx.zzq(obj2))) {
+            return false;
         }
-        return false;
+        if (this.zzmo) {
+            return this.zzmy.zza(obj).equals(this.zzmy.zza(obj2));
+        }
+        return true;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzef
@@ -55,8 +56,8 @@ final class zzdu implements zzef {
         zzexVar.zzc(zzexVar.zzq(obj), zzfrVar);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x005c  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0061 A[EDGE_INSN: B:50:0x0061->B:27:0x0061 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x005c  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0061 A[EDGE_INSN: B:24:0x0061->B:25:0x0061 BREAK  A[LOOP:1: B:10:0x0032->B:18:0x0032], SYNTHETIC] */
     @Override // com.google.android.gms.internal.clearcut.zzef
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -89,8 +90,9 @@ final class zzdu implements zzef {
                         }
                         if (i5 != 12) {
                             break;
+                        } else {
+                            zza = zzax.zza(i5, bArr, zza, i2, zzayVar);
                         }
-                        zza = zzax.zza(i5, bArr, zza, i2, zzayVar);
                     } else if (i7 == 0) {
                         zza = zzax.zza(bArr, zza, zzayVar);
                         i4 = zzayVar.zzfd;

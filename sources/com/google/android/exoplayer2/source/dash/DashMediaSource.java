@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public final class DashMediaSource extends BaseMediaSource {
     private final BaseUrlExclusionList baseUrlExclusionList;
@@ -128,26 +129,26 @@ public final class DashMediaSource extends BaseMediaSource {
         private long getAdjustedWindowDefaultStartPositionUs(long j) {
             DashSegmentIndex index;
             long j2 = this.windowDefaultStartPositionUs;
-            if (isMovingLiveWindow(this.manifest)) {
-                if (j > 0) {
-                    j2 += j;
-                    if (j2 > this.windowDurationUs) {
-                        return -9223372036854775807L;
-                    }
-                }
-                long j3 = this.offsetInFirstPeriodUs + j2;
-                long periodDurationUs = this.manifest.getPeriodDurationUs(0);
-                int i = 0;
-                while (i < this.manifest.getPeriodCount() - 1 && j3 >= periodDurationUs) {
-                    j3 -= periodDurationUs;
-                    i++;
-                    periodDurationUs = this.manifest.getPeriodDurationUs(i);
-                }
-                Period period = this.manifest.getPeriod(i);
-                int adaptationSetIndex = period.getAdaptationSetIndex(2);
-                return (adaptationSetIndex == -1 || (index = ((Representation) ((AdaptationSet) period.adaptationSets.get(adaptationSetIndex)).representations.get(0)).getIndex()) == null || index.getSegmentCount(periodDurationUs) == 0) ? j2 : (j2 + index.getTimeUs(index.getSegmentNum(j3, periodDurationUs))) - j3;
+            if (!isMovingLiveWindow(this.manifest)) {
+                return j2;
             }
-            return j2;
+            if (j > 0) {
+                j2 += j;
+                if (j2 > this.windowDurationUs) {
+                    return -9223372036854775807L;
+                }
+            }
+            long j3 = this.offsetInFirstPeriodUs + j2;
+            long periodDurationUs = this.manifest.getPeriodDurationUs(0);
+            int i = 0;
+            while (i < this.manifest.getPeriodCount() - 1 && j3 >= periodDurationUs) {
+                j3 -= periodDurationUs;
+                i++;
+                periodDurationUs = this.manifest.getPeriodDurationUs(i);
+            }
+            Period period = this.manifest.getPeriod(i);
+            int adaptationSetIndex = period.getAdaptationSetIndex(2);
+            return (adaptationSetIndex == -1 || (index = ((Representation) ((AdaptationSet) period.adaptationSets.get(adaptationSetIndex)).representations.get(0)).getIndex()) == null || index.getSegmentCount(periodDurationUs) == 0) ? j2 : (j2 + index.getTimeUs(index.getSegmentNum(j3, periodDurationUs))) - j3;
         }
 
         private static boolean isMovingLiveWindow(DashManifest dashManifest) {
@@ -427,8 +428,7 @@ public final class DashMediaSource extends BaseMediaSource {
             AdaptationSet adaptationSet = (AdaptationSet) period.adaptationSets.get(i);
             List list = adaptationSet.representations;
             int i2 = adaptationSet.type;
-            boolean z = true;
-            z = (i2 == 1 || i2 == 2) ? false : false;
+            boolean z = (i2 == 1 || i2 == 2) ? false : true;
             if ((!hasVideoOrAudioAdaptationSets || !z) && !list.isEmpty()) {
                 DashSegmentIndex index = ((Representation) list.get(0)).getIndex();
                 if (index == null) {
@@ -453,8 +453,7 @@ public final class DashMediaSource extends BaseMediaSource {
             AdaptationSet adaptationSet = (AdaptationSet) period.adaptationSets.get(i);
             List list = adaptationSet.representations;
             int i2 = adaptationSet.type;
-            boolean z = true;
-            z = (i2 == 1 || i2 == 2) ? false : false;
+            boolean z = (i2 == 1 || i2 == 2) ? false : true;
             if ((!hasVideoOrAudioAdaptationSets || !z) && !list.isEmpty()) {
                 DashSegmentIndex index = ((Representation) list.get(0)).getIndex();
                 if (index == null || index.getAvailableSegmentCount(j, j2) == 0) {
@@ -601,7 +600,9 @@ public final class DashMediaSource extends BaseMediaSource {
         }
         if (this.manifestLoadPending) {
             startLoadingManifest();
-        } else if (z) {
+            return;
+        }
+        if (z) {
             DashManifest dashManifest3 = this.manifest;
             if (dashManifest3.dynamic) {
                 long j5 = dashManifest3.minUpdatePeriodMs;
@@ -624,15 +625,16 @@ public final class DashMediaSource extends BaseMediaSource {
         }
         if (Util.areEqual(str, "urn:mpeg:dash:utc:http-iso:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:http-iso:2012")) {
             iso8601Parser = new Iso8601Parser();
-        } else if (!Util.areEqual(str, "urn:mpeg:dash:utc:http-xsdate:2014") && !Util.areEqual(str, "urn:mpeg:dash:utc:http-xsdate:2012")) {
-            if (Util.areEqual(str, "urn:mpeg:dash:utc:ntp:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:ntp:2012")) {
-                loadNtpTimeOffset();
-                return;
-            } else {
-                onUtcTimestampResolutionError(new IOException("Unsupported UTC timing scheme"));
-                return;
-            }
         } else {
+            if (!Util.areEqual(str, "urn:mpeg:dash:utc:http-xsdate:2014") && !Util.areEqual(str, "urn:mpeg:dash:utc:http-xsdate:2012")) {
+                if (Util.areEqual(str, "urn:mpeg:dash:utc:ntp:2014") || Util.areEqual(str, "urn:mpeg:dash:utc:ntp:2012")) {
+                    loadNtpTimeOffset();
+                    return;
+                } else {
+                    onUtcTimestampResolutionError(new IOException("Unsupported UTC timing scheme"));
+                    return;
+                }
+            }
             iso8601Parser = new XsDateTimeParser();
         }
         resolveUtcTimingElementHttp(utcTimingElement, iso8601Parser);
@@ -676,21 +678,23 @@ public final class DashMediaSource extends BaseMediaSource {
         startLoading(new ParsingLoadable(this.dataSource, uri, 4, this.manifestParser), this.manifestCallback, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(4));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x005b, code lost:
-        if (r2 != (-9223372036854775807L)) goto L65;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x005b, code lost:
+    
+        if (r2 != (-9223372036854775807L)) goto L26;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x0022, code lost:
-        if (r2 != (-9223372036854775807L)) goto L66;
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0022, code lost:
+    
+        if (r2 != (-9223372036854775807L)) goto L9;
      */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0044  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0051  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x008f  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x00b0  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00c3  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x00d3  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0044  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0051  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x008f  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00c3  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x00d3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -1,4 +1,5 @@
 package j$.time.temporal;
+
 /* loaded from: classes2.dex */
 public enum a implements l {
     NANO_OF_SECOND("NanoOfSecond", q.i(0, 999999999)),
@@ -31,7 +32,7 @@ public enum a implements l {
     ERA("Era", q.i(0, 1), 0),
     INSTANT_SECONDS("InstantSeconds", q.i(Long.MIN_VALUE, Long.MAX_VALUE)),
     OFFSET_SECONDS("OffsetSeconds", q.i(-64800, 64800));
-    
+
     private final String a;
     private final q b;
 

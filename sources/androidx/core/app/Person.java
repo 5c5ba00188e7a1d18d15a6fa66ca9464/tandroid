@@ -4,6 +4,7 @@ import android.app.Person;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import androidx.core.graphics.drawable.IconCompat;
+
 /* loaded from: classes.dex */
 public class Person {
     IconCompat mIcon;
@@ -128,10 +129,10 @@ public class Person {
         if (str != null) {
             return str;
         }
-        if (this.mName != null) {
-            return "name:" + ((Object) this.mName);
+        if (this.mName == null) {
+            return "";
         }
-        return "";
+        return "name:" + ((Object) this.mName);
     }
 
     public android.app.Person toAndroidPerson() {

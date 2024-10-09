@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class ChunkIndex implements SeekMap {
     private final long durationUs;
@@ -21,10 +22,10 @@ public final class ChunkIndex implements SeekMap {
         this.length = length;
         if (length <= 0) {
             this.durationUs = 0L;
-            return;
+        } else {
+            int i = length - 1;
+            this.durationUs = jArr2[i] + jArr3[i];
         }
-        int i = length - 1;
-        this.durationUs = jArr2[i] + jArr3[i];
     }
 
     public int getChunkIndex(long j) {

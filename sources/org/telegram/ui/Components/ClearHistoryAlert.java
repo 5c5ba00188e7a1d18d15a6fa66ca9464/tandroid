@@ -29,6 +29,7 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Components.SlideChooseView;
+
 /* loaded from: classes3.dex */
 public class ClearHistoryAlert extends BottomSheet {
     private boolean autoDeleteOnly;
@@ -97,18 +98,18 @@ public class ClearHistoryAlert extends BottomSheet {
         void onClearHistory(boolean z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00d8  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00db  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x01f9  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01fe  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0206  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x020b  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x02ab  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x02ae  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x02c4  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x040d  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0419  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01f9  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0206  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x020b  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x01fe  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x02ab  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x040d  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0419  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x02ae  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x02c4  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x00db  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -351,7 +352,7 @@ public class ClearHistoryAlert extends BottomSheet {
                     rLottieImageView.setAnimation(R.raw.utyan_private, 120, 120);
                     rLottieImageView.setPadding(0, AndroidUtilities.dp(20.0f), 0, 0);
                     rLottieImageView.playAnimation();
-                    this.linearLayout.addView(rLottieImageView, LayoutHelper.createLinear((int) NotificationCenter.audioRouteChanged, (int) NotificationCenter.audioRouteChanged, 49, 17, 0, 17, 0));
+                    this.linearLayout.addView(rLottieImageView, LayoutHelper.createLinear(NotificationCenter.audioRouteChanged, NotificationCenter.audioRouteChanged, 49, 17, 0, 17, 0));
                     TextView textView3 = new TextView(context);
                     textView3.setTypeface(AndroidUtilities.bold());
                     textView3.setTextSize(1, 24.0f);
@@ -526,8 +527,9 @@ public class ClearHistoryAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0035, code lost:
-        if (r5 != false) goto L7;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0035, code lost:
+    
+        if (r5 != false) goto L8;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

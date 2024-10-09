@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.util.BundleableUtil;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class CueEncoder {
     public byte[] encode(List list) {

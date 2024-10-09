@@ -1,6 +1,7 @@
 package com.google.android.datatransport.cct.internal;
 
 import com.google.android.datatransport.cct.internal.AutoValue_LogEvent;
+
 /* loaded from: classes.dex */
 public abstract class LogEvent {
 

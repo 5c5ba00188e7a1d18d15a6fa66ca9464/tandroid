@@ -25,6 +25,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes3.dex */
 public class VideoPlayerSeekBar {
     private static Paint paint;
@@ -102,25 +103,16 @@ public class VideoPlayerSeekBar {
         this.animateThumbLoopBackProgress = new AnimatedFloat(0.0f, view, 0L, 300L, CubicBezierInterpolator.EASE_OUT_QUINT);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0131  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0134  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0140  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0142  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x014c  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x014e  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0151  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x015b  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x015f  */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:35:0x00f4 -> B:36:0x0104). Please submit an issue!!! */
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x0104, code lost:
+    
+        r12 = ((java.lang.Float) ((android.util.Pair) r0.timestamps.get(r15)).first).floatValue();
+     */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void drawProgressBar(Canvas canvas, RectF rectF, Paint paint2) {
         int i;
         float floatValue;
-        boolean z;
-        float f;
-        float f2;
         VideoPlayerSeekBar videoPlayerSeekBar = this;
         int i2 = 1;
         float dp = AndroidUtilities.dp(AndroidUtilities.lerp(2, 1, videoPlayerSeekBar.transitionProgress));
@@ -129,7 +121,7 @@ public class VideoPlayerSeekBar {
             canvas.drawRoundRect(rectF, dp, dp, paint2);
             return;
         }
-        float f3 = rectF.bottom;
+        float f = rectF.bottom;
         float lerp = videoPlayerSeekBar.horizontalPadding + AndroidUtilities.lerp(thumbWidth / 2.0f, 0.0f, videoPlayerSeekBar.transitionProgress);
         float lerp2 = videoPlayerSeekBar.horizontalPadding + AndroidUtilities.lerp(videoPlayerSeekBar.width - (thumbWidth / 2.0f), videoPlayerSeekBar.parentView.getWidth() - (videoPlayerSeekBar.horizontalPadding * 2.0f), videoPlayerSeekBar.transitionProgress);
         AndroidUtilities.rectTmp.set(rectF);
@@ -158,12 +150,12 @@ public class VideoPlayerSeekBar {
         while (true) {
             if (size < 0) {
                 break;
-            } else if (1.0f - ((Float) ((Pair) videoPlayerSeekBar.timestamps.get(size)).first).floatValue() >= dp3) {
+            }
+            if (1.0f - ((Float) ((Pair) videoPlayerSeekBar.timestamps.get(size)).first).floatValue() >= dp3) {
                 i = size + 1;
                 break;
-            } else {
-                size--;
             }
+            size--;
         }
         if (i < 0) {
             i = videoPlayerSeekBar.timestamps.size();
@@ -174,96 +166,78 @@ public class VideoPlayerSeekBar {
             float floatValue2 = i5 == i3 ? 0.0f : ((Float) ((Pair) videoPlayerSeekBar.timestamps.get(i5 - 1)).first).floatValue();
             if (i5 == i4) {
                 floatValue = 1.0f;
-                if (i5 != i4 || i5 == 0 || i5 >= videoPlayerSeekBar.timestamps.size() - i2 || ((Float) ((Pair) videoPlayerSeekBar.timestamps.get(i5)).first).floatValue() - floatValue2 > dp3) {
-                    RectF rectF2 = AndroidUtilities.rectTmp;
-                    rectF2.left = AndroidUtilities.lerp(lerp, lerp2, floatValue2) + (i5 <= 0 ? dp2 : 0.0f);
-                    float lerp3 = AndroidUtilities.lerp(lerp, lerp2, floatValue) - (i5 >= i4 ? dp2 : 0.0f);
-                    rectF2.right = lerp3;
-                    float f4 = rectF.right;
-                    z = lerp3 <= f4;
-                    if (z) {
-                        rectF2.right = f4;
-                    }
-                    f = rectF2.right;
-                    f2 = rectF.left;
-                    if (f >= f2) {
-                        if (rectF2.left < f2) {
-                            rectF2.left = f2;
-                        }
-                        if (tmpRadii == null) {
-                            tmpRadii = new float[8];
-                        }
-                        if (i5 == i3 || (z && rectF2.left >= rectF.left)) {
-                            float[] fArr = tmpRadii;
-                            fArr[7] = dp;
-                            fArr[6] = dp;
-                            fArr[1] = dp;
-                            fArr[0] = dp;
-                            float f5 = 0.7f * dp * videoPlayerSeekBar.timestampsAppearing;
-                            fArr[5] = f5;
-                            fArr[4] = f5;
-                            fArr[3] = f5;
-                            fArr[2] = f5;
-                        } else if (i5 >= i4) {
-                            float[] fArr2 = tmpRadii;
-                            float f6 = 0.7f * dp * videoPlayerSeekBar.timestampsAppearing;
-                            fArr2[7] = f6;
-                            fArr2[6] = f6;
-                            fArr2[1] = f6;
-                            fArr2[0] = f6;
-                            fArr2[5] = dp;
-                            fArr2[4] = dp;
-                            fArr2[3] = dp;
-                            fArr2[2] = dp;
-                        } else {
-                            float[] fArr3 = tmpRadii;
-                            float f7 = 0.7f * dp * videoPlayerSeekBar.timestampsAppearing;
-                            fArr3[5] = f7;
-                            fArr3[4] = f7;
-                            fArr3[3] = f7;
-                            fArr3[2] = f7;
-                            fArr3[7] = f7;
-                            fArr3[6] = f7;
-                            fArr3[1] = f7;
-                            fArr3[0] = f7;
-                        }
-                        tmpPath.addRoundRect(rectF2, tmpRadii, Path.Direction.CW);
-                        if (z) {
-                            break;
-                        }
-                    }
-                    i5++;
-                    videoPlayerSeekBar = this;
-                    i2 = 1;
-                } else {
+                while (i5 != i4 && i5 != 0 && i5 < videoPlayerSeekBar.timestamps.size() - i2 && ((Float) ((Pair) videoPlayerSeekBar.timestamps.get(i5)).first).floatValue() - floatValue2 <= dp3) {
                     i5++;
                 }
+                RectF rectF2 = AndroidUtilities.rectTmp;
+                rectF2.left = AndroidUtilities.lerp(lerp, lerp2, floatValue2) + (i5 > 0 ? dp2 : 0.0f);
+                float lerp3 = AndroidUtilities.lerp(lerp, lerp2, floatValue) - (i5 < i4 ? dp2 : 0.0f);
+                rectF2.right = lerp3;
+                float f2 = rectF.right;
+                boolean z = lerp3 > f2;
+                if (z) {
+                    rectF2.right = f2;
+                }
+                float f3 = rectF2.right;
+                float f4 = rectF.left;
+                if (f3 >= f4) {
+                    if (rectF2.left < f4) {
+                        rectF2.left = f4;
+                    }
+                    if (tmpRadii == null) {
+                        tmpRadii = new float[8];
+                    }
+                    if (i5 == i3 || (z && rectF2.left >= rectF.left)) {
+                        float[] fArr = tmpRadii;
+                        fArr[7] = dp;
+                        fArr[6] = dp;
+                        fArr[1] = dp;
+                        fArr[0] = dp;
+                        float f5 = 0.7f * dp * videoPlayerSeekBar.timestampsAppearing;
+                        fArr[5] = f5;
+                        fArr[4] = f5;
+                        fArr[3] = f5;
+                        fArr[2] = f5;
+                    } else if (i5 >= i4) {
+                        float[] fArr2 = tmpRadii;
+                        float f6 = 0.7f * dp * videoPlayerSeekBar.timestampsAppearing;
+                        fArr2[7] = f6;
+                        fArr2[6] = f6;
+                        fArr2[1] = f6;
+                        fArr2[0] = f6;
+                        fArr2[5] = dp;
+                        fArr2[4] = dp;
+                        fArr2[3] = dp;
+                        fArr2[2] = dp;
+                    } else {
+                        float[] fArr3 = tmpRadii;
+                        float f7 = 0.7f * dp * videoPlayerSeekBar.timestampsAppearing;
+                        fArr3[5] = f7;
+                        fArr3[4] = f7;
+                        fArr3[3] = f7;
+                        fArr3[2] = f7;
+                        fArr3[7] = f7;
+                        fArr3[6] = f7;
+                        fArr3[1] = f7;
+                        fArr3[0] = f7;
+                    }
+                    tmpPath.addRoundRect(rectF2, tmpRadii, Path.Direction.CW);
+                    if (z) {
+                        break;
+                    }
+                }
+                i5++;
+                videoPlayerSeekBar = this;
+                i2 = 1;
             }
             floatValue = ((Float) ((Pair) videoPlayerSeekBar.timestamps.get(i5)).first).floatValue();
-            if (i5 != i4) {
-            }
-            RectF rectF22 = AndroidUtilities.rectTmp;
-            rectF22.left = AndroidUtilities.lerp(lerp, lerp2, floatValue2) + (i5 <= 0 ? dp2 : 0.0f);
-            float lerp32 = AndroidUtilities.lerp(lerp, lerp2, floatValue) - (i5 >= i4 ? dp2 : 0.0f);
-            rectF22.right = lerp32;
-            float f42 = rectF.right;
-            if (lerp32 <= f42) {
-            }
-            if (z) {
-            }
-            f = rectF22.right;
-            f2 = rectF.left;
-            if (f >= f2) {
-            }
-            i5++;
-            videoPlayerSeekBar = this;
-            i2 = 1;
         }
         canvas.drawPath(tmpPath, paint2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x0127, code lost:
-        if (r3 > r10) goto L50;
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x0127, code lost:
+    
+        if (r3 > r10) goto L59;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -408,11 +382,11 @@ public class VideoPlayerSeekBar {
             textPaint.setTextSize(AndroidUtilities.dp(12.0f));
             this.timestampLabelPaint.setColor(-1);
         }
-        String str = charSequence == null ? "" : charSequence;
+        CharSequence charSequence2 = charSequence == null ? "" : charSequence;
         if (Build.VERSION.SDK_INT < 23) {
-            return new StaticLayout(str, 0, str.length(), this.timestampLabelPaint, i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, Math.min(AndroidUtilities.dp(400.0f), i));
+            return new StaticLayout(charSequence2, 0, charSequence2.length(), this.timestampLabelPaint, i, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, Math.min(AndroidUtilities.dp(400.0f), i));
         }
-        obtain = StaticLayout.Builder.obtain(str, 0, str.length(), this.timestampLabelPaint, i);
+        obtain = StaticLayout.Builder.obtain(charSequence2, 0, charSequence2.length(), this.timestampLabelPaint, i);
         maxLines = obtain.setMaxLines(1);
         alignment = maxLines.setAlignment(Layout.Alignment.ALIGN_CENTER);
         ellipsize = alignment.setEllipsize(TextUtils.TruncateAt.END);
@@ -441,61 +415,67 @@ public class VideoPlayerSeekBar {
         this.lastVideoDuration = -1L;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0175, code lost:
-        if (r16.selected != false) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0175, code lost:
+    
+        if (r16.selected != false) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x01b1, code lost:
-        if (r16.selected != false) goto L37;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x01b3, code lost:
-        r6 = r16.backgroundSelectedColor;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x01b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x01b6, code lost:
+    
         r6 = r16.cacheColor;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x0202, code lost:
-        if (r8 > r6) goto L53;
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x01b3, code lost:
+    
+        r6 = r16.backgroundSelectedColor;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x0213, code lost:
-        if (r8 < r6) goto L53;
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0202, code lost:
+    
+        if (r8 > r6) goto L61;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x0215, code lost:
-        r16.currentRadius = r6;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x0217, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x0217, code lost:
+    
         r6 = r16.parentView;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x0219, code lost:
-        if (r6 == null) goto L56;
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0219, code lost:
+    
+        if (r6 == null) goto L65;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x021b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x021b, code lost:
+    
         r6.invalidate();
      */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x01ca  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x01cd  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x01da  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x022f  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x02fa  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0320  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x035b  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x035d  */
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0215, code lost:
+    
+        r16.currentRadius = r6;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0213, code lost:
+    
+        if (r8 < r6) goto L61;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x01b1, code lost:
+    
+        if (r16.selected != false) goto L42;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x01ca  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x01da  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x022f  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x02fa  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0320  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x035b  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x035d  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01cd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void draw(Canvas canvas, View view) {
-        int i;
         float dp;
-        int i2;
-        int i3;
-        int i4;
-        int i5;
+        int i;
         this.rect.left = this.horizontalPadding + AndroidUtilities.lerp(thumbWidth / 2.0f, 0.0f, this.transitionProgress);
         RectF rectF = this.rect;
-        int i6 = this.height;
-        rectF.top = AndroidUtilities.lerp((i6 - this.lineHeight) / 2.0f, (i6 - AndroidUtilities.dp(3.0f)) - this.smallLineHeight, this.transitionProgress);
+        int i2 = this.height;
+        rectF.top = AndroidUtilities.lerp((i2 - this.lineHeight) / 2.0f, (i2 - AndroidUtilities.dp(3.0f)) - this.smallLineHeight, this.transitionProgress);
         RectF rectF2 = this.rect;
-        int i7 = this.height;
-        rectF2.bottom = AndroidUtilities.lerp((this.lineHeight + i7) / 2.0f, i7 - AndroidUtilities.dp(3.0f), this.transitionProgress);
+        int i3 = this.height;
+        rectF2.bottom = AndroidUtilities.lerp((this.lineHeight + i3) / 2.0f, i3 - AndroidUtilities.dp(3.0f), this.transitionProgress);
         float f = this.thumbX;
         float min = Math.min(this.animatedThumbX, f);
         this.animatedThumbX = min;
@@ -539,7 +519,7 @@ public class VideoPlayerSeekBar {
             float f9 = this.bufferedAnimationValue;
             float f10 = (f8 * (1.0f - f9)) + (this.bufferedProgress * f9);
             if (f10 > 0.0f) {
-                this.rect.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (f10 * (this.width - i)), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
+                this.rect.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (f10 * (this.width - r10)), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
             }
             dp = AndroidUtilities.dp(this.pressed ? 8.0f : 6.0f);
             if (this.currentRadius != dp) {
@@ -566,13 +546,13 @@ public class VideoPlayerSeekBar {
         }
         float f13 = this.animateFromBufferedProgress;
         if (f13 > 0.0f) {
-            this.rect.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (f13 * (this.width - i5)), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
+            this.rect.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (f13 * (this.width - r10)), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
             setPaintColor(this.selected ? this.backgroundSelectedColor : this.cacheColor, (1.0f - this.transitionProgress) * (1.0f - this.bufferedAnimationValue));
             drawProgressBar(canvas, this.rect, paint);
         }
         float f14 = this.bufferedProgress;
         if (f14 > 0.0f) {
-            this.rect.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (f14 * (this.width - i4)), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
+            this.rect.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (f14 * (this.width - r10)), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
         }
         dp = AndroidUtilities.dp(this.pressed ? 8.0f : 6.0f);
         if (this.currentRadius != dp) {
@@ -595,7 +575,7 @@ public class VideoPlayerSeekBar {
         if (f5 > 0.0f) {
             RectF rectF5 = this.rect;
             float f16 = rectF5.left;
-            rectF5.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (this.width - i2), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
+            rectF5.right = this.horizontalPadding + AndroidUtilities.lerp((thumbWidth / 2.0f) + (this.width - r14), this.parentView.getWidth() - (this.horizontalPadding * 2.0f), this.transitionProgress);
             RectF rectF6 = this.rect;
             rectF6.left = AndroidUtilities.lerp(f16, rectF6.right, 1.0f - f5);
             if (this.transitionProgress > 0.0f && this.rect.width() > 0.0f) {
@@ -625,7 +605,7 @@ public class VideoPlayerSeekBar {
         RectF rectF42 = this.rect;
         canvas.drawCircle(rectF42.right, rectF42.centerY(), lerp22 * (1.0f - f5), paint);
         drawTimestampLabel(canvas);
-        setPaintColor(i3, 1.0f - this.transitionProgress);
+        setPaintColor(i, 1.0f - this.transitionProgress);
         drawProgressBar(canvas, this.rect, paint);
         dp = AndroidUtilities.dp(this.pressed ? 8.0f : 6.0f);
         if (this.currentRadius != dp) {

@@ -1,6 +1,7 @@
 package j$.time.format;
 
 import j$.time.ZoneId;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class o implements g {

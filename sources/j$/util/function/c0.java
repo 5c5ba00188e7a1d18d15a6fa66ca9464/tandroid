@@ -1,4 +1,5 @@
 package j$.util.function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class c0 implements f0 {
     public final /* synthetic */ int a;

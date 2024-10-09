@@ -22,9 +22,11 @@ import com.google.android.datatransport.runtime.synchronization.SynchronizationG
 import com.google.android.datatransport.runtime.time.Clock;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class Uploader {
     private final BackendRegistry backendRegistry;
@@ -80,8 +82,9 @@ public class Uploader {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$logAndUpdateState$7(Map map) {
-        for (Map.Entry entry : map.entrySet()) {
-            this.clientHealthMetricsStore.recordLogEventDropped(((Integer) entry.getValue()).intValue(), LogEventDropped.Reason.INVALID_PAYLOD, (String) entry.getKey());
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            this.clientHealthMetricsStore.recordLogEventDropped(((Integer) r0.getValue()).intValue(), LogEventDropped.Reason.INVALID_PAYLOD, (String) ((Map.Entry) it.next()).getKey());
         }
         return null;
     }
@@ -165,7 +168,7 @@ public class Uploader {
                     return lambda$logAndUpdateState$2;
                 }
             })).booleanValue()) {
-                final Iterable<PersistedEvent> iterable = (Iterable) this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda4
+                final Iterable iterable = (Iterable) this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda4
                     @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
                     public final Object execute() {
                         Iterable lambda$logAndUpdateState$3;
@@ -181,8 +184,9 @@ public class Uploader {
                     send = BackendResponse.fatalError();
                 } else {
                     ArrayList arrayList = new ArrayList();
-                    for (PersistedEvent persistedEvent : iterable) {
-                        arrayList.add(persistedEvent.getEvent());
+                    Iterator it = iterable.iterator();
+                    while (it.hasNext()) {
+                        arrayList.add(((PersistedEvent) it.next()).getEvent());
                     }
                     if (transportContext.shouldUploadClientHealthMetrics()) {
                         arrayList.add(createMetricsEvent(transportBackend));
@@ -224,8 +228,9 @@ public class Uploader {
                     }
                 } else if (ok.getStatus() == BackendResponse.Status.INVALID_PAYLOAD) {
                     final HashMap hashMap = new HashMap();
-                    for (PersistedEvent persistedEvent2 : iterable) {
-                        String transportName = persistedEvent2.getEvent().getTransportName();
+                    Iterator it2 = iterable.iterator();
+                    while (it2.hasNext()) {
+                        String transportName = ((PersistedEvent) it2.next()).getEvent().getTransportName();
                         hashMap.put(transportName, !hashMap.containsKey(transportName) ? 1 : Integer.valueOf(((Integer) hashMap.get(transportName)).intValue() + 1));
                     }
                     this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploader$$ExternalSyntheticLambda8

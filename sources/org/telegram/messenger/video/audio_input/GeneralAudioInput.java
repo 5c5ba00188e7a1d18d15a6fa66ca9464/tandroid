@@ -4,6 +4,7 @@ import java.nio.ShortBuffer;
 import org.telegram.messenger.video.AudioBufferConverter;
 import org.telegram.messenger.video.AudioConversions;
 import org.telegram.messenger.video.AudioDecoder;
+
 /* loaded from: classes3.dex */
 public class GeneralAudioInput extends AudioInput {
     private AudioBufferConverter audioBufferConverter;
@@ -45,23 +46,23 @@ public class GeneralAudioInput extends AudioInput {
 
     @Override // org.telegram.messenger.video.audio_input.AudioInput
     public short getNext() {
-        if (hasRemaining()) {
-            int i = this.startOffsetShortsCounter;
-            if (i < this.requiredShortsForStartOffset) {
-                this.startOffsetShortsCounter = i + 1;
-                return (short) 0;
-            }
-            decode();
-            ShortBuffer shortBuffer = this.buffer;
-            short s = (shortBuffer == null || shortBuffer.remaining() <= 0) ? (short) 0 : this.buffer.get();
-            decode();
-            ShortBuffer shortBuffer2 = this.buffer;
-            if (shortBuffer2 == null || shortBuffer2.remaining() < 1) {
-                this.hasRemaining = false;
-            }
-            return s;
+        if (!hasRemaining()) {
+            throw new RuntimeException("Audio input has no remaining value.");
         }
-        throw new RuntimeException("Audio input has no remaining value.");
+        int i = this.startOffsetShortsCounter;
+        if (i < this.requiredShortsForStartOffset) {
+            this.startOffsetShortsCounter = i + 1;
+            return (short) 0;
+        }
+        decode();
+        ShortBuffer shortBuffer = this.buffer;
+        short s = (shortBuffer == null || shortBuffer.remaining() <= 0) ? (short) 0 : this.buffer.get();
+        decode();
+        ShortBuffer shortBuffer2 = this.buffer;
+        if (shortBuffer2 == null || shortBuffer2.remaining() < 1) {
+            this.hasRemaining = false;
+        }
+        return s;
     }
 
     @Override // org.telegram.messenger.video.audio_input.AudioInput

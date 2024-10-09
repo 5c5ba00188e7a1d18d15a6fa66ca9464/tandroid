@@ -4,6 +4,7 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class zzeo extends zzde {
     private static Map<Object, zzeo> zzd = new ConcurrentHashMap();
@@ -59,7 +60,7 @@ public abstract class zzeo extends zzde {
         }
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzfy
-        /* renamed from: zzd */
+        /* renamed from: zzd, reason: merged with bridge method [inline-methods] */
         public zzeo zzf() {
             if (this.zzb) {
                 return this.zza;
@@ -70,7 +71,7 @@ public abstract class zzeo extends zzde {
             return this.zza;
         }
 
-        /* renamed from: zze */
+        /* renamed from: zze, reason: merged with bridge method [inline-methods] */
         public final zzeo zzg() {
             zzeo zzeoVar = (zzeo) zzf();
             if (zzeoVar.zzi()) {
@@ -106,7 +107,8 @@ public abstract class zzeo extends zzde {
         }
 
         @Override // com.google.android.gms.internal.mlkit_language_id.zzeo.zzb
-        public /* synthetic */ zzeo zzd() {
+        /* renamed from: zzd */
+        public /* synthetic */ zzeo zzf() {
             return (zzc) zzf();
         }
 

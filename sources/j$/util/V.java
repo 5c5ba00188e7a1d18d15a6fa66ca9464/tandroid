@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes2.dex */
 final class V implements r, j$.util.function.n, j {
     boolean a = false;
@@ -23,9 +24,8 @@ final class V implements r, j$.util.function.n, j {
         if (h0.a) {
             h0.a(V.class, "{0} calling PrimitiveIterator.OfDouble.forEachRemainingDouble(action::accept)");
             throw null;
-        } else {
-            forEachRemaining(new o(consumer));
         }
+        forEachRemaining(new o(consumer));
     }
 
     @Override // j$.util.function.n
@@ -35,7 +35,7 @@ final class V implements r, j$.util.function.n, j {
     }
 
     @Override // j$.util.A
-    /* renamed from: e */
+    /* renamed from: e, reason: merged with bridge method [inline-methods] */
     public final void forEachRemaining(j$.util.function.n nVar) {
         nVar.getClass();
         while (hasNext()) {
@@ -58,19 +58,19 @@ final class V implements r, j$.util.function.n, j {
 
     @Override // java.util.Iterator
     public final Double next() {
-        if (h0.a) {
-            h0.a(V.class, "{0} calling PrimitiveIterator.OfDouble.nextLong()");
-            throw null;
+        if (!h0.a) {
+            return Double.valueOf(nextDouble());
         }
-        return Double.valueOf(nextDouble());
+        h0.a(V.class, "{0} calling PrimitiveIterator.OfDouble.nextLong()");
+        throw null;
     }
 
     @Override // j$.util.r
     public final double nextDouble() {
-        if (this.a || hasNext()) {
-            this.a = false;
-            return this.b;
+        if (!this.a && !hasNext()) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        this.a = false;
+        return this.b;
     }
 }

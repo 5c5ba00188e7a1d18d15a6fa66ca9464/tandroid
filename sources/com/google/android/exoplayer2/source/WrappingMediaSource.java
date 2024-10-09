@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.upstream.TransferListener;
+
 /* loaded from: classes.dex */
 public abstract class WrappingMediaSource extends CompositeMediaSource {
     private static final Void CHILD_SOURCE_ID = null;
@@ -63,7 +64,8 @@ public abstract class WrappingMediaSource extends CompositeMediaSource {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.CompositeMediaSource
-    public final void onChildSourceInfoRefreshed(Void r1, MediaSource mediaSource, Timeline timeline) {
+    /* renamed from: onChildSourceInfoRefreshed, reason: merged with bridge method [inline-methods] */
+    public final void lambda$prepareChildSource$0(Void r1, MediaSource mediaSource, Timeline timeline) {
         onChildSourceInfoRefreshed(timeline);
     }
 

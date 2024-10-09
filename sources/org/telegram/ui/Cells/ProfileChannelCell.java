@@ -39,6 +39,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
+
 /* loaded from: classes4.dex */
 public abstract class ProfileChannelCell extends FrameLayout {
     public final DialogCell dialogCell;
@@ -100,10 +101,11 @@ public abstract class ProfileChannelCell extends FrameLayout {
                 if (!it.hasNext()) {
                     message = null;
                     break;
-                }
-                message = it.next();
-                if (message.id == i2) {
-                    break;
+                } else {
+                    message = it.next();
+                    if (message.id == i2) {
+                        break;
+                    }
                 }
             }
             if (message != null) {
@@ -135,35 +137,31 @@ public abstract class ProfileChannelCell extends FrameLayout {
             if (messageObject != null) {
                 this.messageObject = messageObject;
                 done(false);
-                return;
+            } else {
+                TLRPC.TL_channels_getMessages tL_channels_getMessages = new TLRPC.TL_channels_getMessages();
+                tL_channels_getMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(j);
+                tL_channels_getMessages.id.add(Integer.valueOf(i2));
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda2
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$1(messagesStorage, j, i, i2, tLObject, tL_error);
+                    }
+                });
             }
-            TLRPC.TL_channels_getMessages tL_channels_getMessages = new TLRPC.TL_channels_getMessages();
-            tL_channels_getMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(j);
-            tL_channels_getMessages.id.add(Integer.valueOf(i2));
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_channels_getMessages, new RequestDelegate() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda2
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$1(messagesStorage, j, i, i2, tLObject, tL_error);
-                }
-            });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r12v4 */
-        /* JADX WARN: Type inference failed for: r12v5 */
-        /* JADX WARN: Type inference failed for: r12v7, types: [org.telegram.tgnet.TLRPC$Message] */
-        /* JADX WARN: Type inference failed for: r4v13 */
-        /* JADX WARN: Type inference failed for: r4v14 */
-        /* JADX WARN: Type inference failed for: r4v15 */
         public /* synthetic */ void lambda$fetch$3(final int i, final MessagesStorage messagesStorage, final long j, long j2, final int i2) {
             TLRPC.Message message;
-            final TLRPC.Message message2;
             SQLiteCursor sQLiteCursor;
             NativeByteBuffer byteBufferValue;
             ArrayList<TLRPC.User> arrayList = new ArrayList<>();
             ArrayList<TLRPC.Chat> arrayList2 = new ArrayList<>();
             SQLiteCursor sQLiteCursor2 = null;
+            r4 = null;
+            r4 = null;
+            final TLRPC.Message message2 = null;
+            sQLiteCursor2 = null;
             try {
                 try {
                     sQLiteCursor = i <= 0 ? messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? ORDER BY mid DESC LIMIT 1", Long.valueOf(-j)) : messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? AND mid = ? LIMIT 1", Long.valueOf(-j), Integer.valueOf(i));
@@ -179,7 +177,7 @@ public abstract class ProfileChannelCell extends FrameLayout {
                                     message.id = sQLiteCursor.intValue(1);
                                     message.dialog_id = -j;
                                     MessagesStorage.addUsersAndChatsFromMessage(message, arrayList3, arrayList4, null);
-                                    sQLiteCursor2 = message;
+                                    message2 = message;
                                 } catch (Exception e) {
                                     e = e;
                                     sQLiteCursor2 = sQLiteCursor;
@@ -192,28 +190,26 @@ public abstract class ProfileChannelCell extends FrameLayout {
                                                 ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, message2, j, i, messagesStorage);
                                             }
                                         });
+                                    } else {
+                                        sQLiteCursor = sQLiteCursor2;
+                                        message2 = message;
+                                        sQLiteCursor.dispose();
+                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
+                                            @Override // java.lang.Runnable
+                                            public final void run() {
+                                                ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, message2, j, i, messagesStorage);
+                                            }
+                                        });
                                     }
-                                    sQLiteCursor = sQLiteCursor2;
-                                    message2 = message;
-                                    sQLiteCursor.dispose();
-                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
-                                        @Override // java.lang.Runnable
-                                        public final void run() {
-                                            ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, message2, j, i, messagesStorage);
-                                        }
-                                    });
                                 }
                             }
                             sQLiteCursor.dispose();
-                            message2 = sQLiteCursor2;
-                            if (sQLiteCursor2 != null) {
+                            if (message2 != null) {
                                 if (!arrayList3.isEmpty()) {
                                     messagesStorage.getUsersInternal(arrayList3, arrayList);
                                 }
-                                message2 = sQLiteCursor2;
                                 if (!arrayList4.isEmpty()) {
                                     messagesStorage.getChatsInternal(TextUtils.join(",", arrayList4), arrayList2);
-                                    message2 = sQLiteCursor2;
                                 }
                             }
                         } catch (Throwable th) {
@@ -226,7 +222,7 @@ public abstract class ProfileChannelCell extends FrameLayout {
                         }
                     } catch (Exception e2) {
                         e = e2;
-                        message = sQLiteCursor2;
+                        message = message2;
                     }
                 } catch (Exception e3) {
                     e = e3;

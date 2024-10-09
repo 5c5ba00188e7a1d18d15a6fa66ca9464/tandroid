@@ -1,6 +1,7 @@
 package com.google.android.datatransport.runtime.backends;
 
 import com.google.android.datatransport.runtime.backends.AutoValue_BackendRequest;
+
 /* loaded from: classes.dex */
 public abstract class BackendRequest {
 

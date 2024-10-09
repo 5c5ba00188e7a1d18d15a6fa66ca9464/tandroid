@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.util.Log;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.firebase.FirebaseApp;
+
 /* loaded from: classes.dex */
 public class FirebaseInitProvider extends ContentProvider {
     private static void checkContentProviderAuthority(ProviderInfo providerInfo) {

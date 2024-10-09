@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.text.dvb;
 
 import com.google.android.exoplayer2.text.Subtitle;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class DvbSubtitle implements Subtitle {
     private final List cues;

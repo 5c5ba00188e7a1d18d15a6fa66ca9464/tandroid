@@ -26,6 +26,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
+
 /* loaded from: classes4.dex */
 public class TimezoneSelector extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private String currentTimezone;
@@ -79,16 +80,18 @@ public class TimezoneSelector extends BaseFragment implements NotificationCenter
                 }
             }
             ((TextCheckCell) view).setChecked(this.useSystem);
-        } else if (!view.isEnabled()) {
-            return;
         } else {
+            if (!view.isEnabled()) {
+                return;
+            }
             TimezonesController timezonesController = TimezonesController.getInstance(this.currentAccount);
             int i2 = uItem.id;
             if (i2 < 0 || i2 >= timezonesController.getTimezones().size()) {
                 return;
             }
+            TLRPC.TL_timezone tL_timezone = (TLRPC.TL_timezone) timezonesController.getTimezones().get(uItem.id);
             this.useSystem = false;
-            String str2 = ((TLRPC.TL_timezone) timezonesController.getTimezones().get(uItem.id)).id;
+            String str2 = tL_timezone.id;
             this.currentTimezone = str2;
             Utilities.Callback callback2 = this.whenTimezoneSelected;
             if (callback2 != null) {
@@ -110,7 +113,7 @@ public class TimezoneSelector extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    TimezoneSelector.this.finishFragment();
+                    TimezoneSelector.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -169,7 +172,7 @@ public class TimezoneSelector extends BaseFragment implements NotificationCenter
         BackupImageView backupImageView = new BackupImageView(context);
         backupImageView.getImageReceiver().setAllowLoadingOnAttachedOnly(false);
         MediaDataController.getInstance(this.currentAccount).setPlaceholderImage(backupImageView, "RestrictedEmoji", "🌖", "130_130");
-        this.emptyView.addView(backupImageView, LayoutHelper.createLinear((int) NotificationCenter.walletSyncProgressChanged, (int) NotificationCenter.walletSyncProgressChanged, 49, 0, 42, 0, 12));
+        this.emptyView.addView(backupImageView, LayoutHelper.createLinear(NotificationCenter.walletSyncProgressChanged, NotificationCenter.walletSyncProgressChanged, 49, 0, 42, 0, 12));
         TextView textView = new TextView(context);
         textView.setText(LocaleController.getString(R.string.TimezoneNotFound));
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, this.resourceProvider));

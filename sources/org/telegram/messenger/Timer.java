@@ -1,6 +1,7 @@
 package org.telegram.messenger;
 
 import java.util.ArrayList;
+
 /* loaded from: classes3.dex */
 public class Timer {
     final String name;
@@ -92,8 +93,9 @@ public class Timer {
                     sb.append(" ");
                     if (i3 >= i2) {
                         break;
+                    } else {
+                        i3++;
                     }
-                    i3++;
                 }
                 sb.append(this.tasks.get(i));
                 sb.append("\n");

@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.identity.intents.model.UserAddress;
+
 /* loaded from: classes.dex */
 public final class MaskedWallet extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<MaskedWallet> CREATOR = new zzt();

@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.scheduling.persistence;
 
 import com.google.android.datatransport.runtime.EventInternal;
 import com.google.android.datatransport.runtime.TransportContext;
+
 /* loaded from: classes.dex */
 public abstract class PersistedEvent {
     public static PersistedEvent create(long j, TransportContext transportContext, EventInternal eventInternal) {

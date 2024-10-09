@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class X2 extends Y2 implements j$.util.function.W {
     final long[] c = new long[128];

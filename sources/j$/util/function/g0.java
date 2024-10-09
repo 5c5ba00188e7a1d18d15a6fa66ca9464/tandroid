@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.ObjDoubleConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class g0 implements i0 {
     public final /* synthetic */ ObjDoubleConsumer a;

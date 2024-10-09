@@ -5,6 +5,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import androidx.core.text.PrecomputedTextCompat;
 import j$.util.stream.IntStream;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class UnprecomputeTextOnModificationSpannable implements Spannable {

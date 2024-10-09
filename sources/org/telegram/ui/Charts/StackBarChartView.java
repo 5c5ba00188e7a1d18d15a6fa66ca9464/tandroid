@@ -16,6 +16,7 @@ import org.telegram.ui.Charts.view_data.ChartHorizontalLinesData;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.StackBarViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
+
 /* loaded from: classes4.dex */
 public class StackBarChartView extends BaseChartView {
     private long[] yMaxPoints;
@@ -50,7 +51,6 @@ public class StackBarChartView extends BaseChartView {
         float f9 = BaseChartView.HORIZONTAL_PADDING;
         float f10 = (f7 * f8) - f9;
         float[] fArr = ((StackBarChartData) chartData).xPercentage;
-        boolean z = true;
         if (fArr.length < 2) {
             f = 1.0f;
             f2 = 1.0f;
@@ -84,7 +84,7 @@ public class StackBarChartView extends BaseChartView {
         } else {
             f3 = i4 == 3 ? this.transitionParams.progress : 1.0f;
         }
-        z = (this.selectedIndex < 0 || !this.legendShowing) ? false : false;
+        boolean z = this.selectedIndex >= 0 && this.legendShowing;
         while (max <= min) {
             if (this.selectedIndex != max || !z) {
                 int i5 = 0;

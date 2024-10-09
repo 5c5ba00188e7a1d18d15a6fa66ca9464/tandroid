@@ -10,8 +10,10 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public abstract class GmsClient extends BaseGmsClient implements Api.Client, zaj {
     private final ClientSettings zab;
@@ -36,9 +38,10 @@ public abstract class GmsClient extends BaseGmsClient implements Api.Client, zaj
     }
 
     private final Set zaa(Set set) {
-        Set<Scope> validateScopes = validateScopes(set);
-        for (Scope scope : validateScopes) {
-            if (!set.contains(scope)) {
+        Set validateScopes = validateScopes(set);
+        Iterator it = validateScopes.iterator();
+        while (it.hasNext()) {
+            if (!set.contains((Scope) it.next())) {
                 throw new IllegalStateException("Expanding scopes is not permitted, use implied scopes instead");
             }
         }

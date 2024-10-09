@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
+
 /* loaded from: classes3.dex */
 public interface ICustomTabsCallback extends IInterface {
 
@@ -34,9 +35,10 @@ public interface ICustomTabsCallback extends IInterface {
             } else if (i == 4) {
                 parcel.enforceInterface("android.support.customtabs.ICustomTabsCallback");
                 onMessageChannelReady(parcel.readInt() != 0 ? (Bundle) Bundle.CREATOR.createFromParcel(parcel) : null);
-            } else if (i != 5) {
-                return super.onTransact(i, parcel, parcel2, i2);
             } else {
+                if (i != 5) {
+                    return super.onTransact(i, parcel, parcel2, i2);
+                }
                 parcel.enforceInterface("android.support.customtabs.ICustomTabsCallback");
                 onPostMessage(parcel.readString(), parcel.readInt() != 0 ? (Bundle) Bundle.CREATOR.createFromParcel(parcel) : null);
             }

@@ -38,6 +38,7 @@ import org.telegram.ui.Components.CodepointsLengthInputFilter;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.NumberTextView;
+
 /* loaded from: classes4.dex */
 public class ChangeBioActivity extends BaseFragment {
     private NumberTextView checkTextView;
@@ -69,7 +70,7 @@ public class ChangeBioActivity extends BaseFragment {
         }
         userFull.about = str;
         NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(user.id), userFull);
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -91,15 +92,15 @@ public class ChangeBioActivity extends BaseFragment {
                     ChangeBioActivity.this.lambda$saveName$3(alertDialog, tL_error, tL_account_updateProfile);
                 }
             });
-            return;
+        } else {
+            final TLRPC.User user = (TLRPC.User) tLObject;
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda4
+                @Override // java.lang.Runnable
+                public final void run() {
+                    ChangeBioActivity.this.lambda$saveName$2(alertDialog, userFull, str, user);
+                }
+            });
         }
-        final TLRPC.User user = (TLRPC.User) tLObject;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeBioActivity$$ExternalSyntheticLambda4
-            @Override // java.lang.Runnable
-            public final void run() {
-                ChangeBioActivity.this.lambda$saveName$2(alertDialog, userFull, str, user);
-            }
-        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -119,7 +120,7 @@ public class ChangeBioActivity extends BaseFragment {
         }
         final String replace = this.firstNameField.getText().toString().replace("\n", "");
         if (str.equals(replace)) {
-            finishFragment();
+            lambda$onBackPressed$300();
             return;
         }
         final AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
@@ -154,7 +155,7 @@ public class ChangeBioActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
                 if (i2 == -1) {
-                    ChangeBioActivity.this.finishFragment();
+                    ChangeBioActivity.this.lambda$onBackPressed$300();
                 } else if (i2 == 1) {
                     ChangeBioActivity.this.saveName();
                 }
@@ -181,8 +182,7 @@ public class ChangeBioActivity extends BaseFragment {
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                 super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
                 Editable editableText = getEditableText();
-                int aboutLimit = ChangeBioActivity.this.getMessagesController().getAboutLimit() - Character.codePointCount(editableText, 0, editableText.length());
-                accessibilityNodeInfo.setText(((Object) getText()) + ", " + LocaleController.formatPluralString("PeopleJoinedRemaining", aboutLimit, new Object[0]));
+                accessibilityNodeInfo.setText(((Object) getText()) + ", " + LocaleController.formatPluralString("PeopleJoinedRemaining", ChangeBioActivity.this.getMessagesController().getAboutLimit() - Character.codePointCount(editableText, 0, editableText.length()), new Object[0]));
             }
         };
         this.firstNameField = editTextBoldCursor;

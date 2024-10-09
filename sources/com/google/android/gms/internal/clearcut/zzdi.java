@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class zzdi extends LinkedHashMap {
     private static final zzdi zzme;
@@ -57,14 +58,13 @@ public final class zzdi extends LinkedHashMap {
         return isEmpty() ? Collections.emptySet() : super.entrySet();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x005c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x005c A[RETURN] */
     @Override // java.util.AbstractMap, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public final boolean equals(Object obj) {
         boolean z;
-        boolean equals;
         if (obj instanceof Map) {
             Map map = (Map) obj;
             if (this != map) {
@@ -75,14 +75,7 @@ public final class zzdi extends LinkedHashMap {
                         if (map.containsKey(entry.getKey())) {
                             Object value = entry.getValue();
                             Object obj2 = map.get(entry.getKey());
-                            if ((value instanceof byte[]) && (obj2 instanceof byte[])) {
-                                equals = Arrays.equals((byte[]) value, (byte[]) obj2);
-                                continue;
-                            } else {
-                                equals = value.equals(obj2);
-                                continue;
-                            }
-                            if (!equals) {
+                            if (!(((value instanceof byte[]) && (obj2 instanceof byte[])) ? Arrays.equals((byte[]) value, (byte[]) obj2) : value.equals(obj2))) {
                             }
                         }
                     }

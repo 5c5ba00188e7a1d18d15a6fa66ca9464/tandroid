@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.audio;
 
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.OneUIUtilities;
+
 /* loaded from: classes.dex */
 public abstract class MpegAudioUtil {
     private static final String[] MIME_TYPE_BY_LAYER = {"audio/mpeg-L1", "audio/mpeg-L2", "audio/mpeg"};
@@ -22,9 +23,9 @@ public abstract class MpegAudioUtil {
         public int samplesPerFrame;
         public int version;
 
-        /* JADX WARN: Removed duplicated region for block: B:26:0x0052  */
-        /* JADX WARN: Removed duplicated region for block: B:31:0x0070  */
-        /* JADX WARN: Removed duplicated region for block: B:43:0x00a8  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0052  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x00a8  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x0070  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -117,14 +118,14 @@ public abstract class MpegAudioUtil {
     public static int getFrameSizeInSamples(int i, int i2) {
         if (i2 == 1) {
             return i == 3 ? 1152 : 576;
-        } else if (i2 != 2) {
-            if (i2 == 3) {
-                return 384;
-            }
-            throw new IllegalArgumentException();
-        } else {
+        }
+        if (i2 == 2) {
             return 1152;
         }
+        if (i2 == 3) {
+            return 384;
+        }
+        throw new IllegalArgumentException();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

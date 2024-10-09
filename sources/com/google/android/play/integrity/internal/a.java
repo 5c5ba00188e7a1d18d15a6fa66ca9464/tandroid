@@ -3,6 +3,7 @@ package com.google.android.play.integrity.internal;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
+
 /* loaded from: classes.dex */
 public abstract class a implements IInterface {
     private final IBinder a;

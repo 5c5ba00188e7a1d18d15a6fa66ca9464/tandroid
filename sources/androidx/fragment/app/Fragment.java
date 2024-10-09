@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 public abstract class Fragment implements ComponentCallbacks, View.OnCreateContextMenuListener, LifecycleOwner, ViewModelStoreOwner, HasDefaultViewModelProviderFactory, SavedStateRegistryOwner {
     static final Object USE_DEFAULT_TRANSITION = new Object();
@@ -231,20 +232,22 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
         }
         if (onStartEnterTransitionListener != null) {
             onStartEnterTransitionListener.onStartEnterTransition();
-        } else if (!FragmentManager.USE_STATE_MANAGER || this.mView == null || (viewGroup = this.mContainer) == null || (fragmentManager = this.mFragmentManager) == null) {
+            return;
+        }
+        if (!FragmentManager.USE_STATE_MANAGER || this.mView == null || (viewGroup = this.mContainer) == null || (fragmentManager = this.mFragmentManager) == null) {
+            return;
+        }
+        final SpecialEffectsController orCreateController = SpecialEffectsController.getOrCreateController(viewGroup, fragmentManager);
+        orCreateController.markPostponedState();
+        if (z) {
+            this.mHost.getHandler().post(new Runnable() { // from class: androidx.fragment.app.Fragment.3
+                @Override // java.lang.Runnable
+                public void run() {
+                    orCreateController.executePendingOperations();
+                }
+            });
         } else {
-            final SpecialEffectsController orCreateController = SpecialEffectsController.getOrCreateController(viewGroup, fragmentManager);
-            orCreateController.markPostponedState();
-            if (z) {
-                this.mHost.getHandler().post(new Runnable() { // from class: androidx.fragment.app.Fragment.3
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        orCreateController.executePendingOperations();
-                    }
-                });
-            } else {
-                orCreateController.executePendingOperations();
-            }
+            orCreateController.executePendingOperations();
         }
     }
 
@@ -391,8 +394,7 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
         }
         printWriter.print(str);
         printWriter.println("Child " + this.mChildFragmentManager + ":");
-        FragmentManager fragmentManager = this.mChildFragmentManager;
-        fragmentManager.dump(str + "  ", fileDescriptor, printWriter, strArr);
+        this.mChildFragmentManager.dump(str + "  ", fileDescriptor, printWriter, strArr);
     }
 
     public final boolean equals(Object obj) {
@@ -475,28 +477,28 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
     @Override // androidx.lifecycle.HasDefaultViewModelProviderFactory
     public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
         Application application;
-        if (this.mFragmentManager != null) {
-            if (this.mDefaultFactory == null) {
-                Context applicationContext = requireContext().getApplicationContext();
-                while (true) {
-                    if (!(applicationContext instanceof ContextWrapper)) {
-                        application = null;
-                        break;
-                    } else if (applicationContext instanceof Application) {
-                        application = (Application) applicationContext;
-                        break;
-                    } else {
-                        applicationContext = ((ContextWrapper) applicationContext).getBaseContext();
-                    }
-                }
-                if (application == null && FragmentManager.isLoggingEnabled(3)) {
-                    Log.d("FragmentManager", "Could not find Application instance from Context " + requireContext().getApplicationContext() + ", you will not be able to use AndroidViewModel with the default ViewModelProvider.Factory");
-                }
-                this.mDefaultFactory = new SavedStateViewModelFactory(application, this, getArguments());
-            }
-            return this.mDefaultFactory;
+        if (this.mFragmentManager == null) {
+            throw new IllegalStateException("Can't access ViewModels from detached fragment");
         }
-        throw new IllegalStateException("Can't access ViewModels from detached fragment");
+        if (this.mDefaultFactory == null) {
+            Context applicationContext = requireContext().getApplicationContext();
+            while (true) {
+                if (!(applicationContext instanceof ContextWrapper)) {
+                    application = null;
+                    break;
+                }
+                if (applicationContext instanceof Application) {
+                    application = (Application) applicationContext;
+                    break;
+                }
+                applicationContext = ((ContextWrapper) applicationContext).getBaseContext();
+            }
+            if (application == null && FragmentManager.isLoggingEnabled(3)) {
+                Log.d("FragmentManager", "Could not find Application instance from Context " + requireContext().getApplicationContext() + ", you will not be able to use AndroidViewModel with the default ViewModelProvider.Factory");
+            }
+            this.mDefaultFactory = new SavedStateViewModelFactory(application, this, getArguments());
+        }
+        return this.mDefaultFactory;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -572,12 +574,12 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
 
     public LayoutInflater getLayoutInflater(Bundle bundle) {
         FragmentHostCallback fragmentHostCallback = this.mHost;
-        if (fragmentHostCallback != null) {
-            LayoutInflater onGetLayoutInflater = fragmentHostCallback.onGetLayoutInflater();
-            LayoutInflaterCompat.setFactory2(onGetLayoutInflater, this.mChildFragmentManager.getLayoutInflaterFactory());
-            return onGetLayoutInflater;
+        if (fragmentHostCallback == null) {
+            throw new IllegalStateException("onGetLayoutInflater() cannot be executed until the Fragment is attached to the FragmentManager.");
         }
-        throw new IllegalStateException("onGetLayoutInflater() cannot be executed until the Fragment is attached to the FragmentManager.");
+        LayoutInflater onGetLayoutInflater = fragmentHostCallback.onGetLayoutInflater();
+        LayoutInflaterCompat.setFactory2(onGetLayoutInflater, this.mChildFragmentManager.getLayoutInflaterFactory());
+        return onGetLayoutInflater;
     }
 
     @Override // androidx.lifecycle.LifecycleOwner
@@ -727,13 +729,13 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
 
     @Override // androidx.lifecycle.ViewModelStoreOwner
     public ViewModelStore getViewModelStore() {
-        if (this.mFragmentManager != null) {
-            if (getMinimumMaxLifecycleState() != Lifecycle.State.INITIALIZED.ordinal()) {
-                return this.mFragmentManager.getViewModelStore(this);
-            }
-            throw new IllegalStateException("Calling getViewModelStore() before a Fragment reaches onCreate() when using setMaxLifecycle(INITIALIZED) is not supported");
+        if (this.mFragmentManager == null) {
+            throw new IllegalStateException("Can't access ViewModels from detached fragment");
         }
-        throw new IllegalStateException("Can't access ViewModels from detached fragment");
+        if (getMinimumMaxLifecycleState() != Lifecycle.State.INITIALIZED.ordinal()) {
+            return this.mFragmentManager.getViewModelStore(this);
+        }
+        throw new IllegalStateException("Calling getViewModelStore() before a Fragment reaches onCreate() when using setMaxLifecycle(INITIALIZED) is not supported");
     }
 
     public final int hashCode() {
@@ -982,9 +984,9 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
         if (this.mCalled) {
             restoreViewState();
             this.mChildFragmentManager.dispatchActivityCreated();
-            return;
+        } else {
+            throw new SuperNotCalledException("Fragment " + this + " did not call through to super.onActivityCreated()");
         }
-        throw new SuperNotCalledException("Fragment " + this + " did not call through to super.onActivityCreated()");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -1002,9 +1004,9 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
         if (this.mCalled) {
             this.mFragmentManager.dispatchOnAttachFragment(this);
             this.mChildFragmentManager.dispatchAttach();
-            return;
+        } else {
+            throw new SuperNotCalledException("Fragment " + this + " did not call through to super.onAttach()");
         }
-        throw new SuperNotCalledException("Fragment " + this + " did not call through to super.onAttach()");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -1074,13 +1076,13 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
                 throw new IllegalStateException("Called getViewLifecycleOwner() but onCreateView() returned null");
             }
             this.mViewLifecycleOwner = null;
-            return;
+        } else {
+            this.mViewLifecycleOwner.initialize();
+            ViewTreeLifecycleOwner.set(this.mView, this.mViewLifecycleOwner);
+            ViewTreeViewModelStoreOwner.set(this.mView, this.mViewLifecycleOwner);
+            ViewTreeSavedStateRegistryOwner.set(this.mView, this.mViewLifecycleOwner);
+            this.mViewLifecycleOwnerLiveData.setValue(this.mViewLifecycleOwner);
         }
-        this.mViewLifecycleOwner.initialize();
-        ViewTreeLifecycleOwner.set(this.mView, this.mViewLifecycleOwner);
-        ViewTreeViewModelStoreOwner.set(this.mView, this.mViewLifecycleOwner);
-        ViewTreeSavedStateRegistryOwner.set(this.mView, this.mViewLifecycleOwner);
-        this.mViewLifecycleOwnerLiveData.setValue(this.mViewLifecycleOwner);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -1109,9 +1111,9 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
         if (this.mCalled) {
             LoaderManager.getInstance(this).markForRedelivery();
             this.mPerformedCreateView = false;
-            return;
+        } else {
+            throw new SuperNotCalledException("Fragment " + this + " did not call through to super.onDestroyView()");
         }
-        throw new SuperNotCalledException("Fragment " + this + " did not call through to super.onDestroyView()");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -1337,11 +1339,10 @@ public abstract class Fragment implements ComponentCallbacks, View.OnCreateConte
         if (this.mCalled) {
             if (this.mView != null) {
                 this.mViewLifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-                return;
             }
-            return;
+        } else {
+            throw new SuperNotCalledException("Fragment " + this + " did not call through to super.onViewStateRestored()");
         }
-        throw new SuperNotCalledException("Fragment " + this + " did not call through to super.onViewStateRestored()");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

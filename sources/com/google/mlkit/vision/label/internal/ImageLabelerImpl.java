@@ -10,6 +10,7 @@ import com.google.mlkit.vision.label.ImageLabel;
 import com.google.mlkit.vision.label.ImageLabeler;
 import java.util.List;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class ImageLabelerImpl extends MobileVisionBase<List<ImageLabel>> implements ImageLabeler {
     private final Feature zzb;

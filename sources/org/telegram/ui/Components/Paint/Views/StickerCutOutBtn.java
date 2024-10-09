@@ -13,6 +13,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public abstract class StickerCutOutBtn extends ButtonWithCounterView {
     protected final BlurringShader.StoryBlurDrawer blurDrawer;

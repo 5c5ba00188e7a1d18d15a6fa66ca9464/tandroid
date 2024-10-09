@@ -3,6 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 abstract class zzeh {
     private static final Class zzoh = zzdp();
@@ -17,7 +18,6 @@ abstract class zzeh {
             return 0;
         }
         if (list instanceof zzdc) {
-            zzdc zzdcVar = (zzdc) list;
             if (size <= 0) {
                 return 0;
             }
@@ -121,7 +121,6 @@ abstract class zzeh {
             return 0;
         }
         if (list instanceof zzdc) {
-            zzdc zzdcVar = (zzdc) list;
             if (size <= 0) {
                 return 0;
             }
@@ -205,7 +204,6 @@ abstract class zzeh {
             return 0;
         }
         if (list instanceof zzdc) {
-            zzdc zzdcVar = (zzdc) list;
             if (size <= 0) {
                 return 0;
             }
@@ -267,7 +265,6 @@ abstract class zzeh {
             return 0;
         }
         if (list instanceof zzch) {
-            zzch zzchVar = (zzch) list;
             if (size <= 0) {
                 return 0;
             }
@@ -342,7 +339,6 @@ abstract class zzeh {
             return 0;
         }
         if (list instanceof zzch) {
-            zzch zzchVar = (zzch) list;
             if (size <= 0) {
                 return 0;
             }
@@ -369,7 +365,6 @@ abstract class zzeh {
             return 0;
         }
         if (list instanceof zzch) {
-            zzch zzchVar = (zzch) list;
             if (size <= 0) {
                 return 0;
             }
@@ -403,7 +398,6 @@ abstract class zzeh {
             return 0;
         }
         if (list instanceof zzch) {
-            zzch zzchVar = (zzch) list;
             if (size <= 0) {
                 return 0;
             }

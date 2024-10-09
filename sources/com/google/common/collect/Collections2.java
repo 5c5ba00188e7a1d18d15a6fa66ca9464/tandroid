@@ -5,6 +5,7 @@ import com.google.common.base.Predicate;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 public abstract class Collections2 {
 
@@ -28,8 +29,9 @@ public abstract class Collections2 {
 
         @Override // java.util.AbstractCollection, java.util.Collection
         public boolean addAll(Collection collection) {
-            for (Object obj : collection) {
-                Preconditions.checkArgument(this.predicate.apply(obj));
+            Iterator it = collection.iterator();
+            while (it.hasNext()) {
+                Preconditions.checkArgument(this.predicate.apply(it.next()));
             }
             return this.unfiltered.addAll(collection);
         }
@@ -97,9 +99,10 @@ public abstract class Collections2 {
 
         @Override // java.util.AbstractCollection, java.util.Collection
         public int size() {
+            Iterator it = this.unfiltered.iterator();
             int i = 0;
-            for (Object obj : this.unfiltered) {
-                if (this.predicate.apply(obj)) {
+            while (it.hasNext()) {
+                if (this.predicate.apply(it.next())) {
                     i++;
                 }
             }
@@ -118,8 +121,9 @@ public abstract class Collections2 {
     }
 
     static boolean containsAllImpl(Collection collection, Collection collection2) {
-        for (Object obj : collection2) {
-            if (!collection.contains(obj)) {
+        Iterator it = collection2.iterator();
+        while (it.hasNext()) {
+            if (!collection.contains(it.next())) {
                 return false;
             }
         }

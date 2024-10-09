@@ -1,4 +1,5 @@
 package com.google.android.search.verification.client;
+
 /* loaded from: classes.dex */
 public abstract class R$string {
     public static int google_assistant_verification_channel_name = 2131230720;

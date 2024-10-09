@@ -3,6 +3,7 @@ package com.google.android.datatransport.runtime;
 import android.util.Base64;
 import com.google.android.datatransport.Priority;
 import com.google.android.datatransport.runtime.AutoValue_TransportContext;
+
 /* loaded from: classes.dex */
 public abstract class TransportContext {
 

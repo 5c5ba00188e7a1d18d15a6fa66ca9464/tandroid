@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
 /* loaded from: classes.dex */
 public final class zzn {
     private static final Uri zza = new Uri.Builder().scheme("content").authority("com.google.android.gms.chimera").build();
@@ -29,11 +30,11 @@ public final class zzn {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zzn) {
-            zzn zznVar = (zzn) obj;
-            return Objects.equal(this.zzb, zznVar.zzb) && Objects.equal(this.zzc, zznVar.zzc) && Objects.equal(this.zzd, zznVar.zzd) && this.zze == zznVar.zze && this.zzf == zznVar.zzf;
+        if (!(obj instanceof zzn)) {
+            return false;
         }
-        return false;
+        zzn zznVar = (zzn) obj;
+        return Objects.equal(this.zzb, zznVar.zzb) && Objects.equal(this.zzc, zznVar.zzc) && Objects.equal(this.zzd, zznVar.zzd) && this.zze == zznVar.zze && this.zzf == zznVar.zzf;
     }
 
     public final int hashCode() {
@@ -42,11 +43,11 @@ public final class zzn {
 
     public final String toString() {
         String str = this.zzb;
-        if (str == null) {
-            Preconditions.checkNotNull(this.zzd);
-            return this.zzd.flattenToString();
+        if (str != null) {
+            return str;
         }
-        return str;
+        Preconditions.checkNotNull(this.zzd);
+        return this.zzd.flattenToString();
     }
 
     public final int zza() {
@@ -59,24 +60,24 @@ public final class zzn {
 
     public final Intent zzc(Context context) {
         Bundle bundle;
-        if (this.zzb != null) {
-            if (this.zzf) {
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("serviceActionBundleKey", this.zzb);
-                try {
-                    bundle = context.getContentResolver().call(zza, "serviceIntentCall", (String) null, bundle2);
-                } catch (IllegalArgumentException e) {
-                    Log.w("ConnectionStatusConfig", "Dynamic intent resolution failed: ".concat(e.toString()));
-                    bundle = null;
-                }
-                r2 = bundle != null ? (Intent) bundle.getParcelable("serviceResponseIntentKey") : null;
-                if (r2 == null) {
-                    Log.w("ConnectionStatusConfig", "Dynamic lookup for intent failed for action: ".concat(String.valueOf(this.zzb)));
-                }
-            }
-            return r2 != null ? r2 : new Intent(this.zzb).setPackage(this.zzc);
+        if (this.zzb == null) {
+            return new Intent().setComponent(this.zzd);
         }
-        return new Intent().setComponent(this.zzd);
+        if (this.zzf) {
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("serviceActionBundleKey", this.zzb);
+            try {
+                bundle = context.getContentResolver().call(zza, "serviceIntentCall", (String) null, bundle2);
+            } catch (IllegalArgumentException e) {
+                Log.w("ConnectionStatusConfig", "Dynamic intent resolution failed: ".concat(e.toString()));
+                bundle = null;
+            }
+            r2 = bundle != null ? (Intent) bundle.getParcelable("serviceResponseIntentKey") : null;
+            if (r2 == null) {
+                Log.w("ConnectionStatusConfig", "Dynamic lookup for intent failed for action: ".concat(String.valueOf(this.zzb)));
+            }
+        }
+        return r2 != null ? r2 : new Intent(this.zzb).setPackage(this.zzc);
     }
 
     public final String zzd() {

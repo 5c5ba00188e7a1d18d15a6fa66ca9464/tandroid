@@ -14,6 +14,7 @@ import java.util.Arrays;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
+
 /* loaded from: classes3.dex */
 public class ClippingImageView extends View {
     private static float[] radii = new float[8];
@@ -127,14 +128,17 @@ public class ClippingImageView extends View {
         return super.getTranslationY() - this.additionalTranslationY;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0103, code lost:
-        if (r1 == 2) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0103, code lost:
+    
+        if (r1 == 2) goto L38;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x017f, code lost:
-        if (r1 == 2) goto L35;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0181, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0181, code lost:
+    
         r12.matrix.postScale(1.0f, -1.0f);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x017f, code lost:
+    
+        if (r1 == 2) goto L38;
      */
     @Override // android.view.View
     /*

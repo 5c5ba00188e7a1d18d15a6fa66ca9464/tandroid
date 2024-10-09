@@ -2,6 +2,7 @@ package androidx.core.graphics;
 
 import android.graphics.Color;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class ColorUtils {
     private static final ThreadLocal TEMP_ARRAY = new ThreadLocal();
@@ -54,7 +55,7 @@ public abstract class ColorUtils {
                 round2 = 0;
                 break;
         }
-        return Color.rgb(constrain(round, 0, (int) NotificationCenter.closeSearchByActiveAction), constrain(round2, 0, (int) NotificationCenter.closeSearchByActiveAction), constrain(round3, 0, (int) NotificationCenter.closeSearchByActiveAction));
+        return Color.rgb(constrain(round, 0, NotificationCenter.closeSearchByActiveAction), constrain(round2, 0, NotificationCenter.closeSearchByActiveAction), constrain(round3, 0, NotificationCenter.closeSearchByActiveAction));
     }
 
     public static void RGBToHSL(int i, int i2, int i3, float[] fArr) {
@@ -108,7 +109,7 @@ public abstract class ColorUtils {
         double d4 = (((3.2406d * d) + ((-1.5372d) * d2)) + ((-0.4986d) * d3)) / 100.0d;
         double d5 = ((((-0.9689d) * d) + (1.8758d * d2)) + (0.0415d * d3)) / 100.0d;
         double d6 = (((0.0557d * d) + ((-0.204d) * d2)) + (1.057d * d3)) / 100.0d;
-        return Color.rgb(constrain((int) Math.round((d4 > 0.0031308d ? (Math.pow(d4, 0.4166666666666667d) * 1.055d) - 0.055d : d4 * 12.92d) * 255.0d), 0, (int) NotificationCenter.closeSearchByActiveAction), constrain((int) Math.round((d5 > 0.0031308d ? (Math.pow(d5, 0.4166666666666667d) * 1.055d) - 0.055d : d5 * 12.92d) * 255.0d), 0, (int) NotificationCenter.closeSearchByActiveAction), constrain((int) Math.round((d6 > 0.0031308d ? (Math.pow(d6, 0.4166666666666667d) * 1.055d) - 0.055d : 12.92d * d6) * 255.0d), 0, (int) NotificationCenter.closeSearchByActiveAction));
+        return Color.rgb(constrain((int) Math.round((d4 > 0.0031308d ? (Math.pow(d4, 0.4166666666666667d) * 1.055d) - 0.055d : d4 * 12.92d) * 255.0d), 0, NotificationCenter.closeSearchByActiveAction), constrain((int) Math.round((d5 > 0.0031308d ? (Math.pow(d5, 0.4166666666666667d) * 1.055d) - 0.055d : d5 * 12.92d) * 255.0d), 0, NotificationCenter.closeSearchByActiveAction), constrain((int) Math.round((d6 > 0.0031308d ? (Math.pow(d6, 0.4166666666666667d) * 1.055d) - 0.055d : 12.92d * d6) * 255.0d), 0, NotificationCenter.closeSearchByActiveAction));
     }
 
     public static int blendARGB(int i, int i2, float f) {
@@ -159,12 +160,12 @@ public abstract class ColorUtils {
     private static double[] getTempDouble3Array() {
         ThreadLocal threadLocal = TEMP_ARRAY;
         double[] dArr = (double[]) threadLocal.get();
-        if (dArr == null) {
-            double[] dArr2 = new double[3];
-            threadLocal.set(dArr2);
-            return dArr2;
+        if (dArr != null) {
+            return dArr;
         }
-        return dArr;
+        double[] dArr2 = new double[3];
+        threadLocal.set(dArr2);
+        return dArr2;
     }
 
     public static int setAlphaComponent(int i, int i2) {

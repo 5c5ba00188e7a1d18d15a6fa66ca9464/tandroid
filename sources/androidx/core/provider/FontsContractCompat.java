@@ -7,6 +7,7 @@ import android.os.CancellationSignal;
 import android.os.Handler;
 import androidx.core.graphics.TypefaceCompat;
 import androidx.core.util.Preconditions;
+
 /* loaded from: classes.dex */
 public abstract class FontsContractCompat {
 

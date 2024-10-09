@@ -2,6 +2,7 @@ package com.stripe.android.model;
 
 import com.stripe.android.util.DateUtils;
 import com.stripe.android.util.StripeTextUtils;
+
 /* loaded from: classes.dex */
 public class Card {
     private String addressCity;
@@ -128,17 +129,17 @@ public class Card {
     }
 
     public String getLast4() {
-        if (StripeTextUtils.isBlank(this.last4)) {
-            String str = this.number;
-            if (str == null || str.length() <= 4) {
-                return null;
-            }
-            String str2 = this.number;
-            String substring = str2.substring(str2.length() - 4, this.number.length());
-            this.last4 = substring;
-            return substring;
+        if (!StripeTextUtils.isBlank(this.last4)) {
+            return this.last4;
         }
-        return this.last4;
+        String str = this.number;
+        if (str == null || str.length() <= 4) {
+            return null;
+        }
+        String str2 = this.number;
+        String substring = str2.substring(str2.length() - 4, this.number.length());
+        this.last4 = substring;
+        return substring;
     }
 
     public String getName() {
@@ -180,15 +181,15 @@ public class Card {
             return false;
         }
         String replaceAll = this.number.trim().replaceAll("\\s+|-", "");
-        if (!StripeTextUtils.isBlank(replaceAll) && StripeTextUtils.isWholePositiveNumber(replaceAll) && isValidLuhnNumber(replaceAll)) {
-            String brand = getBrand();
-            if ("American Express".equals(brand)) {
-                return replaceAll.length() == 15;
-            }
-            boolean equals = "Diners Club".equals(brand);
-            int length = replaceAll.length();
-            return equals ? length == 14 : length == 16;
+        if (StripeTextUtils.isBlank(replaceAll) || !StripeTextUtils.isWholePositiveNumber(replaceAll) || !isValidLuhnNumber(replaceAll)) {
+            return false;
         }
-        return false;
+        String brand = getBrand();
+        if ("American Express".equals(brand)) {
+            return replaceAll.length() == 15;
+        }
+        boolean equals = "Diners Club".equals(brand);
+        int length = replaceAll.length();
+        return equals ? length == 14 : length == 16;
     }
 }

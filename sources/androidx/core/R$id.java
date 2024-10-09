@@ -1,4 +1,5 @@
 package androidx.core;
+
 /* loaded from: classes.dex */
 public abstract class R$id {
     public static final int accessibility_action_clickable_span = 2131296267;

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public class NotificationImageProvider extends ContentProvider implements NotificationCenter.NotificationCenterDelegate {
     private static String authority;
@@ -86,55 +87,55 @@ public class NotificationImageProvider extends ContentProvider implements Notifi
 
     @Override // android.content.ContentProvider
     public ParcelFileDescriptor openFile(Uri uri, String str) {
-        if ("r".equals(str)) {
-            if (getUriMatcher().match(uri) == 1) {
-                List<String> pathSegments = uri.getPathSegments();
-                Integer.parseInt(pathSegments.get(1));
-                String str2 = pathSegments.get(2);
-                String queryParameter = uri.getQueryParameter("final_path");
-                String queryParameter2 = uri.getQueryParameter("fallback");
-                File file = new File(queryParameter);
-                ApplicationLoader.postInitApplication();
-                if (AndroidUtilities.isInternalUri(Uri.fromFile(file))) {
-                    throw new SecurityException("trying to read internal file");
-                }
-                if (!file.exists()) {
-                    Long l = this.fileStartTimes.get(str2);
-                    long longValue = l != null ? l.longValue() : System.currentTimeMillis();
-                    if (l == null) {
-                        this.fileStartTimes.put(str2, Long.valueOf(longValue));
-                    }
-                    while (!file.exists()) {
-                        if (System.currentTimeMillis() - longValue >= 3000) {
-                            if (BuildVars.LOGS_ENABLED) {
-                                FileLog.w("Waiting for " + str2 + " to download timed out");
-                            }
-                            if (TextUtils.isEmpty(queryParameter2)) {
-                                throw new FileNotFoundException("Download timed out");
-                            }
-                            File file2 = new File(queryParameter2);
-                            if (AndroidUtilities.isInternalUri(Uri.fromFile(file2))) {
-                                throw new SecurityException("trying to read internal file");
-                            }
-                            return ParcelFileDescriptor.open(file2, 268435456);
-                        }
-                        synchronized (this.sync) {
-                            this.waitingForFiles.add(str2);
-                            try {
-                                this.sync.wait(1000L);
-                            } catch (InterruptedException unused) {
-                            }
-                        }
-                    }
-                    if (AndroidUtilities.isInternalUri(Uri.fromFile(file))) {
-                        throw new SecurityException("trying to read internal file");
-                    }
-                }
-                return ParcelFileDescriptor.open(file, 268435456);
-            }
+        if (!"r".equals(str)) {
+            throw new SecurityException("Can only open files for read");
+        }
+        if (getUriMatcher().match(uri) != 1) {
             throw new FileNotFoundException("Invalid URI");
         }
-        throw new SecurityException("Can only open files for read");
+        List<String> pathSegments = uri.getPathSegments();
+        Integer.parseInt(pathSegments.get(1));
+        String str2 = pathSegments.get(2);
+        String queryParameter = uri.getQueryParameter("final_path");
+        String queryParameter2 = uri.getQueryParameter("fallback");
+        File file = new File(queryParameter);
+        ApplicationLoader.postInitApplication();
+        if (AndroidUtilities.isInternalUri(Uri.fromFile(file))) {
+            throw new SecurityException("trying to read internal file");
+        }
+        if (!file.exists()) {
+            Long l = this.fileStartTimes.get(str2);
+            long longValue = l != null ? l.longValue() : System.currentTimeMillis();
+            if (l == null) {
+                this.fileStartTimes.put(str2, Long.valueOf(longValue));
+            }
+            while (!file.exists()) {
+                if (System.currentTimeMillis() - longValue >= 3000) {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.w("Waiting for " + str2 + " to download timed out");
+                    }
+                    if (TextUtils.isEmpty(queryParameter2)) {
+                        throw new FileNotFoundException("Download timed out");
+                    }
+                    File file2 = new File(queryParameter2);
+                    if (AndroidUtilities.isInternalUri(Uri.fromFile(file2))) {
+                        throw new SecurityException("trying to read internal file");
+                    }
+                    return ParcelFileDescriptor.open(file2, 268435456);
+                }
+                synchronized (this.sync) {
+                    this.waitingForFiles.add(str2);
+                    try {
+                        this.sync.wait(1000L);
+                    } catch (InterruptedException unused) {
+                    }
+                }
+            }
+            if (AndroidUtilities.isInternalUri(Uri.fromFile(file))) {
+                throw new SecurityException("trying to read internal file");
+            }
+        }
+        return ParcelFileDescriptor.open(file, 268435456);
     }
 
     @Override // android.content.ContentProvider

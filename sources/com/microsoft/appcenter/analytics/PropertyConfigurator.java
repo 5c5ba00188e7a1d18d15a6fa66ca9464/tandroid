@@ -7,6 +7,7 @@ import com.microsoft.appcenter.ingestion.models.one.AppExtension;
 import com.microsoft.appcenter.ingestion.models.one.CommonSchemaLog;
 import com.microsoft.appcenter.ingestion.models.one.DeviceExtension;
 import com.microsoft.appcenter.ingestion.models.one.UserExtension;
+
 /* loaded from: classes.dex */
 public class PropertyConfigurator extends AbstractChannelListener {
     private String mAppLocale;
@@ -57,80 +58,75 @@ public class PropertyConfigurator extends AbstractChannelListener {
             UserExtension user = commonSchemaLog.getExt().getUser();
             DeviceExtension device = commonSchemaLog.getExt().getDevice();
             String str2 = this.mAppName;
-            if (str2 == null) {
+            if (str2 != null) {
+                app.setName(str2);
+            } else {
                 AnalyticsTransmissionTarget analyticsTransmissionTarget = this.mTransmissionTarget;
                 while (true) {
                     analyticsTransmissionTarget = analyticsTransmissionTarget.mParentTarget;
-                    if (analyticsTransmissionTarget != null) {
-                        String appName = analyticsTransmissionTarget.getPropertyConfigurator().getAppName();
-                        if (appName != null) {
-                            app.setName(appName);
-                            break;
-                        }
-                    } else {
+                    if (analyticsTransmissionTarget == null) {
+                        break;
+                    }
+                    String appName = analyticsTransmissionTarget.getPropertyConfigurator().getAppName();
+                    if (appName != null) {
+                        app.setName(appName);
                         break;
                     }
                 }
-            } else {
-                app.setName(str2);
             }
             String str3 = this.mAppVersion;
-            if (str3 == null) {
+            if (str3 != null) {
+                app.setVer(str3);
+            } else {
                 AnalyticsTransmissionTarget analyticsTransmissionTarget2 = this.mTransmissionTarget;
                 while (true) {
                     analyticsTransmissionTarget2 = analyticsTransmissionTarget2.mParentTarget;
-                    if (analyticsTransmissionTarget2 != null) {
-                        String appVersion = analyticsTransmissionTarget2.getPropertyConfigurator().getAppVersion();
-                        if (appVersion != null) {
-                            app.setVer(appVersion);
-                            break;
-                        }
-                    } else {
+                    if (analyticsTransmissionTarget2 == null) {
+                        break;
+                    }
+                    String appVersion = analyticsTransmissionTarget2.getPropertyConfigurator().getAppVersion();
+                    if (appVersion != null) {
+                        app.setVer(appVersion);
                         break;
                     }
                 }
-            } else {
-                app.setVer(str3);
             }
             String str4 = this.mAppLocale;
-            if (str4 == null) {
+            if (str4 != null) {
+                app.setLocale(str4);
+            } else {
                 AnalyticsTransmissionTarget analyticsTransmissionTarget3 = this.mTransmissionTarget;
                 while (true) {
                     analyticsTransmissionTarget3 = analyticsTransmissionTarget3.mParentTarget;
-                    if (analyticsTransmissionTarget3 != null) {
-                        String appLocale = analyticsTransmissionTarget3.getPropertyConfigurator().getAppLocale();
-                        if (appLocale != null) {
-                            app.setLocale(appLocale);
-                            break;
-                        }
-                    } else {
+                    if (analyticsTransmissionTarget3 == null) {
+                        break;
+                    }
+                    String appLocale = analyticsTransmissionTarget3.getPropertyConfigurator().getAppLocale();
+                    if (appLocale != null) {
+                        app.setLocale(appLocale);
                         break;
                     }
                 }
-            } else {
-                app.setLocale(str4);
             }
             String str5 = this.mUserId;
-            if (str5 == null) {
+            if (str5 != null) {
+                user.setLocalId(str5);
+            } else {
                 AnalyticsTransmissionTarget analyticsTransmissionTarget4 = this.mTransmissionTarget;
                 while (true) {
                     analyticsTransmissionTarget4 = analyticsTransmissionTarget4.mParentTarget;
-                    if (analyticsTransmissionTarget4 != null) {
-                        String userId = analyticsTransmissionTarget4.getPropertyConfigurator().getUserId();
-                        if (userId != null) {
-                            user.setLocalId(userId);
-                            break;
-                        }
-                    } else {
+                    if (analyticsTransmissionTarget4 == null) {
+                        break;
+                    }
+                    String userId = analyticsTransmissionTarget4.getPropertyConfigurator().getUserId();
+                    if (userId != null) {
+                        user.setLocalId(userId);
                         break;
                     }
                 }
-            } else {
-                user.setLocalId(str5);
             }
             if (this.mDeviceIdEnabled) {
-                String string = Settings.Secure.getString(this.mTransmissionTarget.mContext.getContentResolver(), "android_id");
-                device.setLocalId("a:" + string);
+                device.setLocalId("a:" + Settings.Secure.getString(this.mTransmissionTarget.mContext.getContentResolver(), "android_id"));
             }
         }
     }

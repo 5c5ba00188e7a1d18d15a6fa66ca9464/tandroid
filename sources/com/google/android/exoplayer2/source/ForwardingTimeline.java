@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.source;
 
 import com.google.android.exoplayer2.Timeline;
+
 /* loaded from: classes.dex */
 public abstract class ForwardingTimeline extends Timeline {
     protected final Timeline timeline;

@@ -22,9 +22,9 @@ import androidx.collection.SparseArrayCompat;
 import androidx.core.content.res.TypedArrayUtils;
 import androidx.core.graphics.drawable.TintAwareDrawable;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* loaded from: classes.dex */
 public class AnimatedStateListDrawableCompat extends StateListDrawableCompat implements TintAwareDrawable {
     private boolean mMutated;
@@ -314,31 +314,138 @@ public class AnimatedStateListDrawableCompat extends StateListDrawableCompat imp
         onStateChange(getState());
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0034, code lost:
+    
+        if (r5 != 2) goto L20;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0040, code lost:
+    
+        if (r7.getName().equals("vector") == false) goto L16;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0042, code lost:
+    
+        r5 = androidx.vectordrawable.graphics.drawable.VectorDrawableCompat.createFromXmlInner(r6, r7, r8, r9);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x004b, code lost:
+    
+        if (android.os.Build.VERSION.SDK_INT < 21) goto L19;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x004d, code lost:
+    
+        r5 = androidx.appcompat.resources.Compatibility$Api21Impl.createFromXmlInner(r6, r7, r8, r9);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0052, code lost:
+    
+        r5 = android.graphics.drawable.Drawable.createFromXmlInner(r6, r7, r8);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x006f, code lost:
+    
+        throw new org.xmlpull.v1.XmlPullParserException(r7.getPositionDescription() + ": <item> tag requires a 'drawable' attribute or child tag defining a drawable");
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0070, code lost:
+    
+        if (r5 == null) goto L25;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x0078, code lost:
+    
+        return r4.mState.addStateSet(r0, r5, r1);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0092, code lost:
+    
+        throw new org.xmlpull.v1.XmlPullParserException(r7.getPositionDescription() + ": <item> tag requires a 'drawable' attribute or child tag defining a drawable");
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0029, code lost:
+    
+        if (r5 == null) goto L8;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x002b, code lost:
+    
+        r5 = r7.next();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x0030, code lost:
+    
+        if (r5 != 4) goto L28;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private int parseItem(Context context, Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) {
-        int next;
         TypedArray obtainAttributes = TypedArrayUtils.obtainAttributes(resources, theme, attributeSet, R$styleable.AnimatedStateListDrawableItem);
         int resourceId = obtainAttributes.getResourceId(R$styleable.AnimatedStateListDrawableItem_android_id, 0);
         int resourceId2 = obtainAttributes.getResourceId(R$styleable.AnimatedStateListDrawableItem_android_drawable, -1);
         Drawable drawable = resourceId2 > 0 ? ResourceManagerInternal.get().getDrawable(context, resourceId2) : null;
         obtainAttributes.recycle();
         int[] extractStateSet = extractStateSet(attributeSet);
-        if (drawable == null) {
-            do {
-                next = xmlPullParser.next();
-            } while (next == 4);
-            if (next != 2) {
-                throw new XmlPullParserException(xmlPullParser.getPositionDescription() + ": <item> tag requires a 'drawable' attribute or child tag defining a drawable");
-            }
-            drawable = xmlPullParser.getName().equals("vector") ? VectorDrawableCompat.createFromXmlInner(resources, xmlPullParser, attributeSet, theme) : Build.VERSION.SDK_INT >= 21 ? Compatibility$Api21Impl.createFromXmlInner(resources, xmlPullParser, attributeSet, theme) : Drawable.createFromXmlInner(resources, xmlPullParser, attributeSet);
-        }
-        if (drawable != null) {
-            return this.mState.addStateSet(extractStateSet, drawable, resourceId);
-        }
-        throw new XmlPullParserException(xmlPullParser.getPositionDescription() + ": <item> tag requires a 'drawable' attribute or child tag defining a drawable");
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x003c, code lost:
+    
+        if (r4 != 2) goto L20;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0048, code lost:
+    
+        if (r10.getName().equals("animated-vector") == false) goto L16;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x004a, code lost:
+    
+        r4 = androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat.createFromXmlInner(r8, r9, r10, r11, r12);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0053, code lost:
+    
+        if (android.os.Build.VERSION.SDK_INT < 21) goto L19;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0055, code lost:
+    
+        r4 = androidx.appcompat.resources.Compatibility$Api21Impl.createFromXmlInner(r9, r10, r11, r12);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x005a, code lost:
+    
+        r4 = android.graphics.drawable.Drawable.createFromXmlInner(r9, r10, r11);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0077, code lost:
+    
+        throw new org.xmlpull.v1.XmlPullParserException(r10.getPositionDescription() + ": <transition> tag requires a 'drawable' attribute or child tag defining a drawable");
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0078, code lost:
+    
+        if (r4 == null) goto L29;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x007a, code lost:
+    
+        if (r1 == (-1)) goto L27;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x007c, code lost:
+    
+        if (r3 == (-1)) goto L27;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0084, code lost:
+    
+        return r7.mState.addTransition(r1, r3, r4, r5);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x009f, code lost:
+    
+        throw new org.xmlpull.v1.XmlPullParserException(r10.getPositionDescription() + ": <transition> tag requires 'fromId' & 'toId' attributes");
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x00b9, code lost:
+    
+        throw new org.xmlpull.v1.XmlPullParserException(r10.getPositionDescription() + ": <transition> tag requires a 'drawable' attribute or child tag defining a drawable");
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0031, code lost:
+    
+        if (r4 == null) goto L8;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0033, code lost:
+    
+        r4 = r10.next();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x0038, code lost:
+    
+        if (r4 != 4) goto L32;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private int parseTransition(Context context, Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) {
-        int next;
         TypedArray obtainAttributes = TypedArrayUtils.obtainAttributes(resources, theme, attributeSet, R$styleable.AnimatedStateListDrawableTransition);
         int resourceId = obtainAttributes.getResourceId(R$styleable.AnimatedStateListDrawableTransition_android_fromId, -1);
         int resourceId2 = obtainAttributes.getResourceId(R$styleable.AnimatedStateListDrawableTransition_android_toId, -1);
@@ -346,22 +453,6 @@ public class AnimatedStateListDrawableCompat extends StateListDrawableCompat imp
         Drawable drawable = resourceId3 > 0 ? ResourceManagerInternal.get().getDrawable(context, resourceId3) : null;
         boolean z = obtainAttributes.getBoolean(R$styleable.AnimatedStateListDrawableTransition_android_reversible, false);
         obtainAttributes.recycle();
-        if (drawable == null) {
-            do {
-                next = xmlPullParser.next();
-            } while (next == 4);
-            if (next != 2) {
-                throw new XmlPullParserException(xmlPullParser.getPositionDescription() + ": <transition> tag requires a 'drawable' attribute or child tag defining a drawable");
-            }
-            drawable = xmlPullParser.getName().equals("animated-vector") ? AnimatedVectorDrawableCompat.createFromXmlInner(context, resources, xmlPullParser, attributeSet, theme) : Build.VERSION.SDK_INT >= 21 ? Compatibility$Api21Impl.createFromXmlInner(resources, xmlPullParser, attributeSet, theme) : Drawable.createFromXmlInner(resources, xmlPullParser, attributeSet);
-        }
-        if (drawable == null) {
-            throw new XmlPullParserException(xmlPullParser.getPositionDescription() + ": <transition> tag requires a 'drawable' attribute or child tag defining a drawable");
-        } else if (resourceId == -1 || resourceId2 == -1) {
-            throw new XmlPullParserException(xmlPullParser.getPositionDescription() + ": <transition> tag requires 'fromId' & 'toId' attributes");
-        } else {
-            return this.mState.addTransition(resourceId, resourceId2, drawable, z);
-        }
     }
 
     private boolean selectTransition(int i) {
@@ -371,9 +462,10 @@ public class AnimatedStateListDrawableCompat extends StateListDrawableCompat imp
         Transition transition = this.mTransition;
         if (transition == null) {
             currentIndex = getCurrentIndex();
-        } else if (i == this.mTransitionToIndex) {
-            return true;
         } else {
+            if (i == this.mTransitionToIndex) {
+                return true;
+            }
             if (i == this.mTransitionFromIndex && transition.canReverse()) {
                 transition.reverse();
                 this.mTransitionToIndex = this.mTransitionFromIndex;
@@ -394,15 +486,16 @@ public class AnimatedStateListDrawableCompat extends StateListDrawableCompat imp
         }
         boolean transitionHasReversibleFlag = animatedStateListState.transitionHasReversibleFlag(keyframeIdAt, keyframeIdAt2);
         selectDrawable(indexOfTransition);
-        Drawable current = getCurrent();
+        Object current = getCurrent();
         if (current instanceof AnimationDrawable) {
             animatableTransition = new AnimationDrawableTransition((AnimationDrawable) current, animatedStateListState.isTransitionReversed(keyframeIdAt, keyframeIdAt2), transitionHasReversibleFlag);
-        } else if (!(current instanceof AnimatedVectorDrawableCompat)) {
-            if (current instanceof Animatable) {
-                animatableTransition = new AnimatableTransition((Animatable) current);
-            }
-            return false;
         } else {
+            if (!(current instanceof AnimatedVectorDrawableCompat)) {
+                if (current instanceof Animatable) {
+                    animatableTransition = new AnimatableTransition((Animatable) current);
+                }
+                return false;
+            }
             animatableTransition = new AnimatedVectorDrawableTransition((AnimatedVectorDrawableCompat) current);
         }
         animatableTransition.start();

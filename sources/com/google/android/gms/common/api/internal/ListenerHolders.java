@@ -4,8 +4,10 @@ import android.os.Looper;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.internal.Preconditions;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.WeakHashMap;
+
 /* loaded from: classes.dex */
 public class ListenerHolders {
     private final Set zaa = Collections.newSetFromMap(new WeakHashMap());
@@ -25,8 +27,9 @@ public class ListenerHolders {
     }
 
     public final void zab() {
-        for (ListenerHolder listenerHolder : this.zaa) {
-            listenerHolder.clear();
+        Iterator it = this.zaa.iterator();
+        while (it.hasNext()) {
+            ((ListenerHolder) it.next()).clear();
         }
         this.zaa.clear();
     }

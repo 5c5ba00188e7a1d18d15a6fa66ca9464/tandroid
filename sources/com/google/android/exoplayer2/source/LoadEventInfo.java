@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.upstream.DataSpec;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+
 /* loaded from: classes.dex */
 public final class LoadEventInfo {
     private static final AtomicLong idSource = new AtomicLong();

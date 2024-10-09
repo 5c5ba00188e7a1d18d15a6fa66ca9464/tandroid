@@ -32,6 +32,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
+
 /* loaded from: classes4.dex */
 public class GreetMessagesActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     public TLRPC.TL_businessGreetingMessage currentValue;
@@ -131,7 +132,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBackPressed$4(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -140,7 +141,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.showError(tL_error);
         } else if (!(tLObject instanceof TLRPC.TL_boolFalse)) {
-            finishFragment();
+            lambda$onBackPressed$300();
         } else {
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
@@ -177,9 +178,10 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
             this.exclude = true;
             businessRecipientsHelper.setExclude(true);
-        } else if (i2 != 4) {
-            return;
         } else {
+            if (i2 != 4) {
+                return;
+            }
             BusinessRecipientsHelper businessRecipientsHelper2 = this.recipientsHelper;
             this.exclude = false;
             businessRecipientsHelper2.setExclude(false);
@@ -194,7 +196,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             return;
         }
         if (!hasChanges()) {
-            finishFragment();
+            lambda$onBackPressed$300();
             return;
         }
         QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("hello");
@@ -205,7 +207,9 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             int i = -this.shiftDp;
             this.shiftDp = i;
             AndroidUtilities.shakeViewSpring(findViewByItemId, i);
-        } else if (!z || this.recipientsHelper.validate(this.listView)) {
+            return;
+        }
+        if (!z || this.recipientsHelper.validate(this.listView)) {
             this.doneButtonDrawable.animateToProgress(1.0f);
             TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
             TLRPC.TL_account_updateBusinessGreetingMessage tL_account_updateBusinessGreetingMessage = new TLRPC.TL_account_updateBusinessGreetingMessage();
@@ -275,7 +279,7 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
             public void onItemClick(int i) {
                 if (i == -1) {
                     if (GreetMessagesActivity.this.onBackPressed()) {
-                        GreetMessagesActivity.this.finishFragment();
+                        GreetMessagesActivity.this.lambda$onBackPressed$300();
                     }
                 } else if (i == 1) {
                     GreetMessagesActivity.this.processDone();
@@ -325,64 +329,63 @@ public class GreetMessagesActivity extends BaseFragment implements NotificationC
         if (i != NotificationCenter.quickRepliesUpdated) {
             if (i == NotificationCenter.userInfoDidLoad) {
                 setValue();
-                return;
             }
-            return;
+        } else {
+            UniversalRecyclerView universalRecyclerView = this.listView;
+            if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
+                universalAdapter.update(true);
+            }
+            checkDone(true);
         }
-        UniversalRecyclerView universalRecyclerView = this.listView;
-        if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
-            universalAdapter.update(true);
-        }
-        checkDone(true);
     }
 
     public boolean hasChanges() {
-        if (this.valueSet) {
-            boolean z = this.enabled;
-            TLRPC.TL_businessGreetingMessage tL_businessGreetingMessage = this.currentValue;
-            if (z != (tL_businessGreetingMessage != null)) {
+        if (!this.valueSet) {
+            return false;
+        }
+        boolean z = this.enabled;
+        TLRPC.TL_businessGreetingMessage tL_businessGreetingMessage = this.currentValue;
+        if (z != (tL_businessGreetingMessage != null)) {
+            return true;
+        }
+        if (z && tL_businessGreetingMessage != null) {
+            if (tL_businessGreetingMessage.no_activity_days != this.inactivityDays || tL_businessGreetingMessage.recipients.exclude_selected != this.exclude) {
                 return true;
             }
-            if (z && tL_businessGreetingMessage != null) {
-                if (tL_businessGreetingMessage.no_activity_days != this.inactivityDays || tL_businessGreetingMessage.recipients.exclude_selected != this.exclude) {
-                    return true;
-                }
-                BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
-                if (businessRecipientsHelper != null && businessRecipientsHelper.hasChanges()) {
-                    return true;
-                }
+            BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
+            if (businessRecipientsHelper != null && businessRecipientsHelper.hasChanges()) {
+                return true;
             }
-            return false;
         }
         return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (hasChanges()) {
-            if (!this.enabled) {
-                processDone();
-                return false;
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
-            builder.setMessage(LocaleController.getString(R.string.BusinessGreetUnsavedChanges));
-            builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    GreetMessagesActivity.this.lambda$onBackPressed$3(dialogInterface, i);
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda1
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    GreetMessagesActivity.this.lambda$onBackPressed$4(dialogInterface, i);
-                }
-            });
-            showDialog(builder.create());
+        if (!hasChanges()) {
+            return super.onBackPressed();
+        }
+        if (!this.enabled) {
+            processDone();
             return false;
         }
-        return super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
+        builder.setMessage(LocaleController.getString(R.string.BusinessGreetUnsavedChanges));
+        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda0
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                GreetMessagesActivity.this.lambda$onBackPressed$3(dialogInterface, i);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.GreetMessagesActivity$$ExternalSyntheticLambda1
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                GreetMessagesActivity.this.lambda$onBackPressed$4(dialogInterface, i);
+            }
+        });
+        showDialog(builder.create());
+        return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

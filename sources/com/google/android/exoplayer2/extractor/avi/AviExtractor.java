@@ -15,6 +15,7 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.collect.UnmodifiableIterator;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class AviExtractor implements Extractor {
     private AviMainHeaderChunk aviHeader;
@@ -96,7 +97,6 @@ public final class AviExtractor implements Extractor {
     }
 
     private ChunkReader getChunkReader(int i) {
-        ChunkReader[] chunkReaderArr;
         for (ChunkReader chunkReader : this.chunkReaders) {
             if (chunkReader.handlesChunkId(i)) {
                 return chunkReader;
@@ -162,8 +162,9 @@ public final class AviExtractor implements Extractor {
         }
         int position = parsableByteArray.getPosition();
         parsableByteArray.skipBytes(8);
+        long readLittleEndianInt = parsableByteArray.readLittleEndianInt();
         long j = this.moviStart;
-        long j2 = ((long) parsableByteArray.readLittleEndianInt()) <= j ? 8 + j : 0L;
+        long j2 = readLittleEndianInt <= j ? 8 + j : 0L;
         parsableByteArray.setPosition(position);
         return j2;
     }
@@ -174,29 +175,30 @@ public final class AviExtractor implements Extractor {
         StreamFormatChunk streamFormatChunk = (StreamFormatChunk) listChunk.getChild(StreamFormatChunk.class);
         if (aviStreamHeaderChunk == null) {
             str = "Missing Stream Header";
-        } else if (streamFormatChunk != null) {
-            long durationUs = aviStreamHeaderChunk.getDurationUs();
-            Format format = streamFormatChunk.format;
-            Format.Builder buildUpon = format.buildUpon();
-            buildUpon.setId(i);
-            int i2 = aviStreamHeaderChunk.suggestedBufferSize;
-            if (i2 != 0) {
-                buildUpon.setMaxInputSize(i2);
-            }
-            StreamNameChunk streamNameChunk = (StreamNameChunk) listChunk.getChild(StreamNameChunk.class);
-            if (streamNameChunk != null) {
-                buildUpon.setLabel(streamNameChunk.name);
-            }
-            int trackType = MimeTypes.getTrackType(format.sampleMimeType);
-            if (trackType == 1 || trackType == 2) {
+        } else {
+            if (streamFormatChunk != null) {
+                long durationUs = aviStreamHeaderChunk.getDurationUs();
+                Format format = streamFormatChunk.format;
+                Format.Builder buildUpon = format.buildUpon();
+                buildUpon.setId(i);
+                int i2 = aviStreamHeaderChunk.suggestedBufferSize;
+                if (i2 != 0) {
+                    buildUpon.setMaxInputSize(i2);
+                }
+                StreamNameChunk streamNameChunk = (StreamNameChunk) listChunk.getChild(StreamNameChunk.class);
+                if (streamNameChunk != null) {
+                    buildUpon.setLabel(streamNameChunk.name);
+                }
+                int trackType = MimeTypes.getTrackType(format.sampleMimeType);
+                if (trackType != 1 && trackType != 2) {
+                    return null;
+                }
                 TrackOutput track = this.extractorOutput.track(i, trackType);
                 track.format(buildUpon.build());
                 ChunkReader chunkReader = new ChunkReader(i, trackType, durationUs, aviStreamHeaderChunk.length, track);
                 this.durationUs = durationUs;
                 return chunkReader;
             }
-            return null;
-        } else {
             str = "Missing Stream Format";
         }
         Log.w("AviExtractor", str);
@@ -271,12 +273,12 @@ public final class AviExtractor implements Extractor {
         }
         switch (this.state) {
             case 0:
-                if (sniff(extractorInput)) {
-                    extractorInput.skipFully(12);
-                    this.state = 1;
-                    return 0;
+                if (!sniff(extractorInput)) {
+                    throw ParserException.createForMalformedContainer("AVI Header List not found", null);
                 }
-                throw ParserException.createForMalformedContainer("AVI Header List not found", null);
+                extractorInput.skipFully(12);
+                this.state = 1;
+                return 0;
             case 1:
                 extractorInput.readFully(this.scratch.getData(), 0, 12);
                 this.scratch.setPosition(0);
@@ -313,26 +315,26 @@ public final class AviExtractor implements Extractor {
                 if (i2 == 1179011410) {
                     extractorInput.skipFully(12);
                     return 0;
-                } else if (i2 != 1414744396 || readLittleEndianInt != 1769369453) {
+                }
+                if (i2 != 1414744396 || readLittleEndianInt != 1769369453) {
                     this.pendingReposition = extractorInput.getPosition() + this.chunkHeaderHolder.size + 8;
                     return 0;
-                } else {
-                    long position2 = extractorInput.getPosition();
-                    this.moviStart = position2;
-                    this.moviEnd = position2 + this.chunkHeaderHolder.size + 8;
-                    if (!this.seekMapHasBeenOutput) {
-                        if (((AviMainHeaderChunk) Assertions.checkNotNull(this.aviHeader)).hasIndex()) {
-                            this.state = 4;
-                            this.pendingReposition = this.moviEnd;
-                            return 0;
-                        }
-                        this.extractorOutput.seekMap(new SeekMap.Unseekable(this.durationUs));
-                        this.seekMapHasBeenOutput = true;
-                    }
-                    this.pendingReposition = extractorInput.getPosition() + 12;
-                    this.state = 6;
-                    return 0;
                 }
+                long position2 = extractorInput.getPosition();
+                this.moviStart = position2;
+                this.moviEnd = position2 + this.chunkHeaderHolder.size + 8;
+                if (!this.seekMapHasBeenOutput) {
+                    if (((AviMainHeaderChunk) Assertions.checkNotNull(this.aviHeader)).hasIndex()) {
+                        this.state = 4;
+                        this.pendingReposition = this.moviEnd;
+                        return 0;
+                    }
+                    this.extractorOutput.seekMap(new SeekMap.Unseekable(this.durationUs));
+                    this.seekMapHasBeenOutput = true;
+                }
+                this.pendingReposition = extractorInput.getPosition() + 12;
+                this.state = 6;
+                return 0;
             case 4:
                 extractorInput.readFully(this.scratch.getData(), 0, 8);
                 this.scratch.setPosition(0);

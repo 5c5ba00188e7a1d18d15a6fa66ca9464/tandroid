@@ -5,6 +5,7 @@ import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
+
 /* loaded from: classes3.dex */
 public class TL_stats {
 
@@ -219,11 +220,11 @@ public class TL_stats {
                 if (z) {
                     throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
                 }
-                return;
-            }
-            int readInt322 = abstractSerializedData.readInt32(z);
-            for (int i = 0; i < readInt322; i++) {
-                this.transactions.add(BroadcastRevenueTransaction.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z));
+            } else {
+                int readInt322 = abstractSerializedData.readInt32(z);
+                for (int i = 0; i < readInt322; i++) {
+                    this.transactions.add(BroadcastRevenueTransaction.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z));
+                }
             }
         }
 

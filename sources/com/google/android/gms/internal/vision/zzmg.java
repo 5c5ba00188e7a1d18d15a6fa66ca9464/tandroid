@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 final class zzmg extends IllegalArgumentException {
     /* JADX INFO: Access modifiers changed from: package-private */

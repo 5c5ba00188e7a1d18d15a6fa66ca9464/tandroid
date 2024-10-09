@@ -1,6 +1,7 @@
 package com.microsoft.appcenter.utils;
 
 import android.util.Log;
+
 /* loaded from: classes.dex */
 public abstract class AppCenterLog {
     private static int sLogLevel = 7;

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.Optional;
+
 /* loaded from: classes2.dex */
 final class J extends K {
     @Override // j$.util.function.Supplier

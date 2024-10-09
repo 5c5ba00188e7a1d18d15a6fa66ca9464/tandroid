@@ -19,6 +19,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.BaseCell;
 import org.telegram.ui.Components.SeekBar;
+
 /* loaded from: classes3.dex */
 public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate, DownloadController.FileDownloadProgressListener {
     private int TAG;
@@ -66,19 +67,22 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
             }
             if (!playMessage) {
                 return;
+            } else {
+                this.buttonState = 1;
             }
-            this.buttonState = 1;
         } else if (i == 1) {
             if (!MediaController.getInstance().lambda$startAudioAgain$7(this.currentMessageObject)) {
                 return;
+            } else {
+                this.buttonState = 0;
             }
-            this.buttonState = 0;
         } else if (i == 2) {
             FileLoader.getInstance(this.currentAccount).loadFile(this.currentMessageObject.getDocument(), this.currentMessageObject, 1, 0);
             this.buttonState = 4;
-        } else if (i != 3) {
-            return;
         } else {
+            if (i != 3) {
+                return;
+            }
             FileLoader.getInstance(this.currentAccount).cancelLoadFile(this.currentMessageObject.getDocument());
             this.buttonState = 2;
         }
@@ -236,8 +240,9 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
         updateButtonState();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00a2, code lost:
-        if (r1 <= (r0 + r4)) goto L20;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00a2, code lost:
+    
+        if (r1 <= (r0 + r4)) goto L39;
      */
     @Override // android.view.View
     /*
@@ -256,10 +261,8 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
         }
         int dp = AndroidUtilities.dp(36.0f);
         if (motionEvent.getAction() == 0) {
-            int i = this.buttonX;
-            if (x >= i && x <= i + dp) {
-                int i2 = this.buttonY;
-                if (y >= i2 && y <= i2 + dp) {
+            if (x >= this.buttonX && x <= r5 + dp) {
+                if (y >= this.buttonY && y <= r0 + dp) {
                     this.buttonPressed = 1;
                     invalidate();
                     onTouch = true;
@@ -273,10 +276,8 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
             } else {
                 if (motionEvent.getAction() != 3) {
                     if (motionEvent.getAction() == 2) {
-                        int i3 = this.buttonX;
-                        if (x >= i3 && x <= i3 + dp) {
-                            int i4 = this.buttonY;
-                            if (y >= i4) {
+                        if (x >= this.buttonX && x <= r3 + dp) {
+                            if (y >= this.buttonY) {
                             }
                         }
                     }

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.clearcut;
+
 /* loaded from: classes.dex */
 final class zzfi extends IllegalArgumentException {
     /* JADX INFO: Access modifiers changed from: package-private */

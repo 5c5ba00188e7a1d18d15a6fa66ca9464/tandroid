@@ -16,6 +16,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
+
 /* loaded from: classes3.dex */
 public class WallpaperCheckBoxView extends View {
     public final Property PROGRESS_PROPERTY;
@@ -82,7 +83,7 @@ public class WallpaperCheckBoxView extends View {
     }
 
     private void animateToCheckedState(boolean z) {
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, this.PROGRESS_PROPERTY, z ? 1.0f : 0.0f);
+        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, (Property<WallpaperCheckBoxView, Float>) this.PROGRESS_PROPERTY, z ? 1.0f : 0.0f);
         this.checkAnimator = ofFloat;
         ofFloat.setDuration(300L);
         this.checkAnimator.start();
@@ -140,9 +141,8 @@ public class WallpaperCheckBoxView extends View {
         int i2 = 0;
         if (this.drawBitmap != null) {
             float f2 = this.progress;
-            int i3 = (f2 > 0.5f ? 1 : (f2 == 0.5f ? 0 : -1));
             float f3 = f2 / 0.5f;
-            if (i3 <= 0) {
+            if (f2 <= 0.5f) {
                 f = f3;
             } else {
                 f = 2.0f - f3;

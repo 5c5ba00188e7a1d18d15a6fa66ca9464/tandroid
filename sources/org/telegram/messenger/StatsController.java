@@ -1,11 +1,11 @@
 package org.telegram.messenger;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Array;
 import org.telegram.messenger.utils.ImmutableByteArrayOutputStream;
+
 /* loaded from: classes3.dex */
 public class StatsController extends BaseController {
     private static final int OLD_TYPES_COUNT = 7;
@@ -44,14 +44,13 @@ public class StatsController extends BaseController {
 
     private StatsController(int i) {
         super(i);
-        SharedPreferences sharedPreferences;
         this.buffer = new byte[8];
         Class cls = Long.TYPE;
-        this.sentBytes = (long[][]) Array.newInstance(cls, 3, 8);
-        this.receivedBytes = (long[][]) Array.newInstance(cls, 3, 8);
+        this.sentBytes = (long[][]) Array.newInstance((Class<?>) cls, 3, 8);
+        this.receivedBytes = (long[][]) Array.newInstance((Class<?>) cls, 3, 8);
         Class cls2 = Integer.TYPE;
-        this.sentItems = (int[][]) Array.newInstance(cls2, 3, 8);
-        this.receivedItems = (int[][]) Array.newInstance(cls2, 3, 8);
+        this.sentItems = (int[][]) Array.newInstance((Class<?>) cls2, 3, 8);
+        this.receivedItems = (int[][]) Array.newInstance((Class<?>) cls2, 3, 8);
         this.resetStatsDate = new long[3];
         this.callsTotalTime = new int[3];
         this.byteArrayOutputStream = new ImmutableByteArrayOutputStream();
@@ -102,8 +101,7 @@ public class StatsController extends BaseController {
         };
         File filesDirFixed = ApplicationLoader.getFilesDirFixed();
         if (i != 0) {
-            File filesDirFixed2 = ApplicationLoader.getFilesDirFixed();
-            filesDirFixed = new File(filesDirFixed2, "account" + i + "/");
+            filesDirFixed = new File(ApplicationLoader.getFilesDirFixed(), "account" + i + "/");
             filesDirFixed.mkdirs();
         }
         try {
@@ -150,31 +148,20 @@ public class StatsController extends BaseController {
             }
         } catch (Exception unused) {
         }
-        if (i == 0) {
-            sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("stats", 0);
-        } else {
-            Context context = ApplicationLoader.applicationContext;
-            sharedPreferences = context.getSharedPreferences("stats" + i, 0);
-        }
+        SharedPreferences sharedPreferences = i == 0 ? ApplicationLoader.applicationContext.getSharedPreferences("stats", 0) : ApplicationLoader.applicationContext.getSharedPreferences("stats" + i, 0);
         boolean z2 = false;
         for (int i5 = 0; i5 < 3; i5++) {
-            int[] iArr = this.callsTotalTime;
-            iArr[i5] = sharedPreferences.getInt("callsTotalTime" + i5, 0);
-            long[] jArr2 = this.resetStatsDate;
-            jArr2[i5] = sharedPreferences.getLong("resetStatsDate" + i5, 0L);
+            this.callsTotalTime[i5] = sharedPreferences.getInt("callsTotalTime" + i5, 0);
+            this.resetStatsDate[i5] = sharedPreferences.getLong("resetStatsDate" + i5, 0L);
             for (int i6 = 0; i6 < 8; i6++) {
-                long[] jArr3 = this.sentBytes[i5];
-                jArr3[i6] = sharedPreferences.getLong("sentBytes" + i5 + "_" + i6, 0L);
-                long[] jArr4 = this.receivedBytes[i5];
-                jArr4[i6] = sharedPreferences.getLong("receivedBytes" + i5 + "_" + i6, 0L);
-                int[] iArr2 = this.sentItems[i5];
-                iArr2[i6] = sharedPreferences.getInt("sentItems" + i5 + "_" + i6, 0);
-                int[] iArr3 = this.receivedItems[i5];
-                iArr3[i6] = sharedPreferences.getInt("receivedItems" + i5 + "_" + i6, 0);
+                this.sentBytes[i5][i6] = sharedPreferences.getLong("sentBytes" + i5 + "_" + i6, 0L);
+                this.receivedBytes[i5][i6] = sharedPreferences.getLong("receivedBytes" + i5 + "_" + i6, 0L);
+                this.sentItems[i5][i6] = sharedPreferences.getInt("sentItems" + i5 + "_" + i6, 0);
+                this.receivedItems[i5][i6] = sharedPreferences.getInt("receivedItems" + i5 + "_" + i6, 0);
             }
-            long[] jArr5 = this.resetStatsDate;
-            if (jArr5[i5] == 0) {
-                jArr5[i5] = System.currentTimeMillis();
+            long[] jArr2 = this.resetStatsDate;
+            if (jArr2[i5] == 0) {
+                jArr2[i5] = System.currentTimeMillis();
                 z2 = true;
             }
         }
@@ -249,11 +236,11 @@ public class StatsController extends BaseController {
     }
 
     public long getReceivedBytesCount(int i, int i2) {
-        if (i2 == 1) {
-            long[] jArr = this.receivedBytes[i];
-            return ((((jArr[6] - jArr[5]) - jArr[3]) - jArr[2]) - jArr[4]) - jArr[7];
+        if (i2 != 1) {
+            return this.receivedBytes[i][i2];
         }
-        return this.receivedBytes[i][i2];
+        long[] jArr = this.receivedBytes[i];
+        return ((((jArr[6] - jArr[5]) - jArr[3]) - jArr[2]) - jArr[4]) - jArr[7];
     }
 
     public int getRecivedItemsCount(int i, int i2) {
@@ -265,11 +252,11 @@ public class StatsController extends BaseController {
     }
 
     public long getSentBytesCount(int i, int i2) {
-        if (i2 == 1) {
-            long[] jArr = this.sentBytes[i];
-            return ((((jArr[6] - jArr[5]) - jArr[3]) - jArr[2]) - jArr[4]) - jArr[7];
+        if (i2 != 1) {
+            return this.sentBytes[i][i2];
         }
-        return this.sentBytes[i][i2];
+        long[] jArr = this.sentBytes[i];
+        return ((((jArr[6] - jArr[5]) - jArr[3]) - jArr[2]) - jArr[4]) - jArr[7];
     }
 
     public int getSentItemsCount(int i, int i2) {

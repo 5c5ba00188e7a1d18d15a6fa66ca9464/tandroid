@@ -7,6 +7,7 @@ import kotlin.Lazy;
 import kotlin.LazyKt__LazyJVMKt;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class SavedStateHandlesProvider implements SavedStateRegistry.SavedStateProvider {
     private boolean restored;

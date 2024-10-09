@@ -19,6 +19,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable implements DownloadController.FileDownloadProgressListener {
     private int TAG;
@@ -83,9 +84,8 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
                 this.fileName = "name";
             }
             int lastIndexOf = this.fileName.lastIndexOf(46);
-            String upperCase = lastIndexOf == -1 ? "" : this.fileName.substring(lastIndexOf + 1).toUpperCase();
-            this.ext = upperCase;
-            if (((int) Math.ceil(docPaint.measureText(upperCase))) > AndroidUtilities.dp(40.0f)) {
+            this.ext = lastIndexOf == -1 ? "" : this.fileName.substring(lastIndexOf + 1).toUpperCase();
+            if (((int) Math.ceil(docPaint.measureText(r0))) > AndroidUtilities.dp(40.0f)) {
                 this.ext = TextUtils.ellipsize(this.ext, docPaint, AndroidUtilities.dp(40.0f), TextUtils.TruncateAt.END).toString();
             }
             this.thumbDrawable = context.getResources().getDrawable(AndroidUtilities.getThumbForNameOrMime(this.fileName, messageObject.getDocument().mime_type, true)).mutate();
@@ -179,7 +179,6 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
         String upperCase;
         int dp;
         TextPaint textPaint;
-        String str;
         android.graphics.Rect bounds = getBounds();
         int width = bounds.width();
         int height = bounds.height();
@@ -205,7 +204,7 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
         canvas.drawText(upperCase, (width - ((int) Math.ceil(textPaint.measureText(upperCase)))) / 2, AndroidUtilities.dp(235.0f) + dp2 + dp, textPaint);
         if (this.progressVisible) {
             if (this.progress != null) {
-                canvas.drawText(this.progress, (width - ((int) Math.ceil(percentPaint.measureText(str)))) / 2, AndroidUtilities.dp(210.0f) + dp2, percentPaint);
+                canvas.drawText(this.progress, (width - ((int) Math.ceil(percentPaint.measureText(r3)))) / 2, AndroidUtilities.dp(210.0f) + dp2, percentPaint);
             }
             int dp4 = (width - AndroidUtilities.dp(240.0f)) / 2;
             int dp5 = dp2 + AndroidUtilities.dp(232.0f);

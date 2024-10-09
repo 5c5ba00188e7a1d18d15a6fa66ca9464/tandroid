@@ -16,6 +16,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
+
 /* loaded from: classes4.dex */
 public class ActionBarMenuSubItem extends FrameLayout {
     boolean bottom;
@@ -35,17 +36,21 @@ public class ActionBarMenuSubItem extends FrameLayout {
     private TextView textView;
     boolean top;
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00ec, code lost:
-        if (org.telegram.messenger.LocaleController.isRTL == false) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x00ec, code lost:
+    
+        if (org.telegram.messenger.LocaleController.isRTL == false) goto L34;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x010d, code lost:
-        if (org.telegram.messenger.LocaleController.isRTL != false) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0111, code lost:
+    
+        r6 = org.telegram.messenger.AndroidUtilities.dp(34.0f);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x010f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x010f, code lost:
+    
         r6 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0111, code lost:
-        r6 = org.telegram.messenger.AndroidUtilities.dp(34.0f);
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x010d, code lost:
+    
+        if (org.telegram.messenger.LocaleController.isRTL != false) goto L34;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -310,14 +315,13 @@ public class ActionBarMenuSubItem extends FrameLayout {
         }
         this.imageView.setVisibility(0);
         TextView textView = this.textView;
-        float f = 0.0f;
         if (this.checkViewLeft) {
             dp = this.checkView != null ? AndroidUtilities.dp(43.0f) : 0;
         } else {
             dp = AndroidUtilities.dp((i == 0 && drawable == null) ? 0.0f : 43.0f);
         }
         if (this.checkViewLeft) {
-            dp2 = AndroidUtilities.dp((i == 0 && drawable == null) ? 43.0f : 43.0f);
+            dp2 = AndroidUtilities.dp((i == 0 && drawable == null) ? 0.0f : 43.0f);
         } else {
             dp2 = this.checkView != null ? AndroidUtilities.dp(43.0f) : 0;
         }

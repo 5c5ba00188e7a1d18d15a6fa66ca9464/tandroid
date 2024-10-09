@@ -11,6 +11,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import androidx.core.util.ObjectsCompat;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class PrecomputedTextCompat implements Spannable {
 
@@ -101,11 +102,11 @@ public abstract class PrecomputedTextCompat implements Spannable {
             if (obj == this) {
                 return true;
             }
-            if (obj instanceof Params) {
-                Params params = (Params) obj;
-                return equalsWithoutTextDirection(params) && this.mTextDir == params.getTextDirection();
+            if (!(obj instanceof Params)) {
+                return false;
             }
-            return false;
+            Params params = (Params) obj;
+            return equalsWithoutTextDirection(params) && this.mTextDir == params.getTextDirection();
         }
 
         public boolean equalsWithoutTextDirection(Params params) {
@@ -117,35 +118,35 @@ public abstract class PrecomputedTextCompat implements Spannable {
             String fontFeatureSettings;
             String fontFeatureSettings2;
             int i = Build.VERSION.SDK_INT;
-            if ((i < 23 || (this.mBreakStrategy == params.getBreakStrategy() && this.mHyphenationFrequency == params.getHyphenationFrequency())) && this.mPaint.getTextSize() == params.getTextPaint().getTextSize() && this.mPaint.getTextScaleX() == params.getTextPaint().getTextScaleX() && this.mPaint.getTextSkewX() == params.getTextPaint().getTextSkewX()) {
-                if (i >= 21) {
-                    letterSpacing = this.mPaint.getLetterSpacing();
-                    letterSpacing2 = params.getTextPaint().getLetterSpacing();
-                    if (letterSpacing != letterSpacing2) {
-                        return false;
-                    }
-                    fontFeatureSettings = this.mPaint.getFontFeatureSettings();
-                    fontFeatureSettings2 = params.getTextPaint().getFontFeatureSettings();
-                    if (!TextUtils.equals(fontFeatureSettings, fontFeatureSettings2)) {
-                        return false;
-                    }
-                }
-                if (this.mPaint.getFlags() != params.getTextPaint().getFlags()) {
-                    return false;
-                }
-                if (i >= 24) {
-                    textLocales = this.mPaint.getTextLocales();
-                    textLocales2 = params.getTextPaint().getTextLocales();
-                    equals = textLocales.equals(textLocales2);
-                    if (!equals) {
-                        return false;
-                    }
-                } else if (!this.mPaint.getTextLocale().equals(params.getTextPaint().getTextLocale())) {
-                    return false;
-                }
-                return this.mPaint.getTypeface() == null ? params.getTextPaint().getTypeface() == null : this.mPaint.getTypeface().equals(params.getTextPaint().getTypeface());
+            if ((i >= 23 && (this.mBreakStrategy != params.getBreakStrategy() || this.mHyphenationFrequency != params.getHyphenationFrequency())) || this.mPaint.getTextSize() != params.getTextPaint().getTextSize() || this.mPaint.getTextScaleX() != params.getTextPaint().getTextScaleX() || this.mPaint.getTextSkewX() != params.getTextPaint().getTextSkewX()) {
+                return false;
             }
-            return false;
+            if (i >= 21) {
+                letterSpacing = this.mPaint.getLetterSpacing();
+                letterSpacing2 = params.getTextPaint().getLetterSpacing();
+                if (letterSpacing != letterSpacing2) {
+                    return false;
+                }
+                fontFeatureSettings = this.mPaint.getFontFeatureSettings();
+                fontFeatureSettings2 = params.getTextPaint().getFontFeatureSettings();
+                if (!TextUtils.equals(fontFeatureSettings, fontFeatureSettings2)) {
+                    return false;
+                }
+            }
+            if (this.mPaint.getFlags() != params.getTextPaint().getFlags()) {
+                return false;
+            }
+            if (i >= 24) {
+                textLocales = this.mPaint.getTextLocales();
+                textLocales2 = params.getTextPaint().getTextLocales();
+                equals = textLocales.equals(textLocales2);
+                if (!equals) {
+                    return false;
+                }
+            } else if (!this.mPaint.getTextLocale().equals(params.getTextPaint().getTextLocale())) {
+                return false;
+            }
+            return this.mPaint.getTypeface() == null ? params.getTextPaint().getTypeface() == null : this.mPaint.getTypeface().equals(params.getTextPaint().getTypeface());
         }
 
         public int getBreakStrategy() {
@@ -182,20 +183,20 @@ public abstract class PrecomputedTextCompat implements Spannable {
                 Typeface typeface = this.mPaint.getTypeface();
                 isElegantTextHeight2 = this.mPaint.isElegantTextHeight();
                 return ObjectsCompat.hash(valueOf, valueOf2, valueOf3, valueOf4, valueOf5, textLocales, typeface, Boolean.valueOf(isElegantTextHeight2), this.mTextDir, Integer.valueOf(this.mBreakStrategy), Integer.valueOf(this.mHyphenationFrequency));
-            } else if (i >= 21) {
-                Float valueOf6 = Float.valueOf(this.mPaint.getTextSize());
-                Float valueOf7 = Float.valueOf(this.mPaint.getTextScaleX());
-                Float valueOf8 = Float.valueOf(this.mPaint.getTextSkewX());
-                letterSpacing = this.mPaint.getLetterSpacing();
-                Float valueOf9 = Float.valueOf(letterSpacing);
-                Integer valueOf10 = Integer.valueOf(this.mPaint.getFlags());
-                Locale textLocale = this.mPaint.getTextLocale();
-                Typeface typeface2 = this.mPaint.getTypeface();
-                isElegantTextHeight = this.mPaint.isElegantTextHeight();
-                return ObjectsCompat.hash(valueOf6, valueOf7, valueOf8, valueOf9, valueOf10, textLocale, typeface2, Boolean.valueOf(isElegantTextHeight), this.mTextDir, Integer.valueOf(this.mBreakStrategy), Integer.valueOf(this.mHyphenationFrequency));
-            } else {
+            }
+            if (i < 21) {
                 return ObjectsCompat.hash(Float.valueOf(this.mPaint.getTextSize()), Float.valueOf(this.mPaint.getTextScaleX()), Float.valueOf(this.mPaint.getTextSkewX()), Integer.valueOf(this.mPaint.getFlags()), this.mPaint.getTextLocale(), this.mPaint.getTypeface(), this.mTextDir, Integer.valueOf(this.mBreakStrategy), Integer.valueOf(this.mHyphenationFrequency));
             }
+            Float valueOf6 = Float.valueOf(this.mPaint.getTextSize());
+            Float valueOf7 = Float.valueOf(this.mPaint.getTextScaleX());
+            Float valueOf8 = Float.valueOf(this.mPaint.getTextSkewX());
+            letterSpacing = this.mPaint.getLetterSpacing();
+            Float valueOf9 = Float.valueOf(letterSpacing);
+            Integer valueOf10 = Integer.valueOf(this.mPaint.getFlags());
+            Locale textLocale = this.mPaint.getTextLocale();
+            Typeface typeface2 = this.mPaint.getTypeface();
+            isElegantTextHeight = this.mPaint.isElegantTextHeight();
+            return ObjectsCompat.hash(valueOf6, valueOf7, valueOf8, valueOf9, valueOf10, textLocale, typeface2, Boolean.valueOf(isElegantTextHeight), this.mTextDir, Integer.valueOf(this.mBreakStrategy), Integer.valueOf(this.mHyphenationFrequency));
         }
 
         public String toString() {

@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import java.io.Serializable;
+
 /* loaded from: classes.dex */
 final class ByFunctionOrdering extends Ordering implements Serializable {
     final Function function;
@@ -25,11 +26,11 @@ final class ByFunctionOrdering extends Ordering implements Serializable {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof ByFunctionOrdering) {
-            ByFunctionOrdering byFunctionOrdering = (ByFunctionOrdering) obj;
-            return this.function.equals(byFunctionOrdering.function) && this.ordering.equals(byFunctionOrdering.ordering);
+        if (!(obj instanceof ByFunctionOrdering)) {
+            return false;
         }
-        return false;
+        ByFunctionOrdering byFunctionOrdering = (ByFunctionOrdering) obj;
+        return this.function.equals(byFunctionOrdering.function) && this.ordering.equals(byFunctionOrdering.ordering);
     }
 
     public int hashCode() {

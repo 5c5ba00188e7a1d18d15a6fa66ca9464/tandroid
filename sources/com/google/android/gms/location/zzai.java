@@ -1,16 +1,17 @@
 package com.google.android.gms.location;
+
 /* loaded from: classes.dex */
 public abstract class zzai {
     public static String zza(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i == 2) {
-                    return "THROTTLE_NEVER";
-                }
-                throw new IllegalArgumentException();
-            }
+        if (i == 0) {
+            return "THROTTLE_BACKGROUND";
+        }
+        if (i == 1) {
             return "THROTTLE_ALWAYS";
         }
-        return "THROTTLE_BACKGROUND";
+        if (i == 2) {
+            return "THROTTLE_NEVER";
+        }
+        throw new IllegalArgumentException();
     }
 }

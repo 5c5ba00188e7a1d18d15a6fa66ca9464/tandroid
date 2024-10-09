@@ -2,6 +2,7 @@ package org.telegram.ui;
 
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.web.BrowserHistory;
+
 /* loaded from: classes4.dex */
 public final /* synthetic */ class ArticleViewer$$ExternalSyntheticLambda46 implements Utilities.Callback {
     public final /* synthetic */ ArticleViewer f$0;

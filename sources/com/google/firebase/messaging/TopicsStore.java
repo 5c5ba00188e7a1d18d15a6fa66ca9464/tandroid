@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Executor;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class TopicsStore {
@@ -22,13 +23,13 @@ public final class TopicsStore {
             try {
                 WeakReference weakReference = topicsStoreWeakReference;
                 TopicsStore topicsStore = weakReference != null ? (TopicsStore) weakReference.get() : null;
-                if (topicsStore == null) {
-                    TopicsStore topicsStore2 = new TopicsStore(context.getSharedPreferences("com.google.android.gms.appid", 0), executor);
-                    topicsStore2.initStore();
-                    topicsStoreWeakReference = new WeakReference(topicsStore2);
-                    return topicsStore2;
+                if (topicsStore != null) {
+                    return topicsStore;
                 }
-                return topicsStore;
+                TopicsStore topicsStore2 = new TopicsStore(context.getSharedPreferences("com.google.android.gms.appid", 0), executor);
+                topicsStore2.initStore();
+                topicsStoreWeakReference = new WeakReference(topicsStore2);
+                return topicsStore2;
             } catch (Throwable th) {
                 throw th;
             }

@@ -15,6 +15,7 @@ import com.google.common.primitives.Ints;
 import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class SubtitleExtractor implements Extractor {
     private int bytesRead;

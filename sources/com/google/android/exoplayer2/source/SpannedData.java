@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.source;
 import android.util.SparseArray;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Consumer;
+
 /* loaded from: classes.dex */
 final class SpannedData {
     private final Consumer removeCallback;
@@ -82,8 +83,7 @@ final class SpannedData {
     }
 
     public Object getEndValue() {
-        SparseArray sparseArray = this.spans;
-        return sparseArray.valueAt(sparseArray.size() - 1);
+        return this.spans.valueAt(r0.size() - 1);
     }
 
     public boolean isEmpty() {

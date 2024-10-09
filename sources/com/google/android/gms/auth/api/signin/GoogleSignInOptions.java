@@ -25,6 +25,7 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.ApiOptions, ReflectedParcelable {
     public static final Parcelable.Creator<GoogleSignInOptions> CREATOR;
@@ -202,8 +203,9 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         return hashMap;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0048, code lost:
-        if (r1.equals(r4.getAccount()) != false) goto L21;
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0048, code lost:
+    
+        if (r1.equals(r4.getAccount()) != false) goto L22;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

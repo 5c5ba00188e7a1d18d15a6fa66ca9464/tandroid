@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public class Analytics extends AbstractAppCenterService {
     private static Analytics sInstance;
@@ -152,8 +153,8 @@ public class Analytics extends AbstractAppCenterService {
     private synchronized void trackEventAsync(final String str, final List list, final AnalyticsTransmissionTarget analyticsTransmissionTarget, final int i) {
         final String userId = UserIdContext.getInstance().getUserId();
         post(new Runnable() { // from class: com.microsoft.appcenter.analytics.Analytics.8
-            /* JADX WARN: Removed duplicated region for block: B:20:0x005f  */
-            /* JADX WARN: Removed duplicated region for block: B:21:0x0062  */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x005f  */
+            /* JADX WARN: Removed duplicated region for block: B:17:0x0062  */
             @Override // java.lang.Runnable
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -169,27 +170,29 @@ public class Analytics extends AbstractAppCenterService {
                     if (!Analytics.this.mStartedFromApp) {
                         str2 = "Cannot track event using Analytics.trackEvent if not started from app, please start from the application or use Analytics.getTransmissionTarget.";
                         AppCenterLog.error("AppCenterAnalytics", str2);
+                        return;
                     }
                     eventLog.setId(UUID.randomUUID());
                     eventLog.setName(str);
                     eventLog.setTypedProperties(list);
                     int persistenceFlag = Flags.getPersistenceFlag(i, true);
                     ((AbstractAppCenterService) Analytics.this).mChannel.enqueue(eventLog, persistenceFlag != 2 ? "group_analytics_critical" : "group_analytics", persistenceFlag);
-                } else if (!analyticsTransmissionTarget2.isEnabled()) {
+                }
+                if (!analyticsTransmissionTarget2.isEnabled()) {
                     str2 = "This transmission target is disabled.";
                     AppCenterLog.error("AppCenterAnalytics", str2);
-                } else {
-                    eventLog.addTransmissionTarget(analyticsTransmissionTarget2.getTransmissionTargetToken());
-                    eventLog.setTag(analyticsTransmissionTarget2);
-                    if (analyticsTransmissionTarget2 == Analytics.this.mDefaultTransmissionTarget) {
-                        eventLog.setUserId(userId);
-                    }
-                    eventLog.setId(UUID.randomUUID());
-                    eventLog.setName(str);
-                    eventLog.setTypedProperties(list);
-                    int persistenceFlag2 = Flags.getPersistenceFlag(i, true);
-                    ((AbstractAppCenterService) Analytics.this).mChannel.enqueue(eventLog, persistenceFlag2 != 2 ? "group_analytics_critical" : "group_analytics", persistenceFlag2);
+                    return;
                 }
+                eventLog.addTransmissionTarget(analyticsTransmissionTarget2.getTransmissionTargetToken());
+                eventLog.setTag(analyticsTransmissionTarget2);
+                if (analyticsTransmissionTarget2 == Analytics.this.mDefaultTransmissionTarget) {
+                    eventLog.setUserId(userId);
+                }
+                eventLog.setId(UUID.randomUUID());
+                eventLog.setName(str);
+                eventLog.setTypedProperties(list);
+                int persistenceFlag2 = Flags.getPersistenceFlag(i, true);
+                ((AbstractAppCenterService) Analytics.this).mChannel.enqueue(eventLog, persistenceFlag2 != 2 ? "group_analytics_critical" : "group_analytics", persistenceFlag2);
             }
         });
     }

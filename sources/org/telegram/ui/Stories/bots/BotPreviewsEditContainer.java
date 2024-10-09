@@ -70,6 +70,7 @@ import org.telegram.ui.Stories.bots.BotPreviewsEditContainer;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
+
 /* loaded from: classes4.dex */
 public abstract class BotPreviewsEditContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static LongSparseArray attachedContainers;
@@ -183,7 +184,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                 textView2.setTextAlignment(4);
                 textView2.setGravity(17);
                 textView2.setTypeface(AndroidUtilities.bold());
-                addView(textView2, LayoutHelper.createLinear((int) NotificationCenter.activeGroupCallsUpdated, -2, 17, 0, 17, 0, 12));
+                addView(textView2, LayoutHelper.createLinear(NotificationCenter.activeGroupCallsUpdated, -2, 17, 0, 17, 0, 12));
                 ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, false, resourcesProvider);
                 this.button2View = buttonWithCounterView2;
                 buttonWithCounterView2.setMinWidth(AndroidUtilities.dp(200.0f));
@@ -203,17 +204,17 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                 if (charSequence3 == null) {
                     textView.setVisibility(8);
                     this.button2View.setVisibility(8);
-                    return;
+                } else {
+                    textView.setVisibility(0);
+                    this.button2View.setVisibility(0);
+                    this.button2View.setText(charSequence3, false);
+                    this.button2View.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$FooterView$$ExternalSyntheticLambda1
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            runnable2.run();
+                        }
+                    });
                 }
-                textView.setVisibility(0);
-                this.button2View.setVisibility(0);
-                this.button2View.setText(charSequence3, false);
-                this.button2View.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$BotPreviewsEditLangContainer$FooterView$$ExternalSyntheticLambda1
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        runnable2.run();
-                    }
-                });
             }
         }
 
@@ -263,11 +264,11 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                 if (storiesList instanceof StoriesController.BotPreviewsList) {
                     TLRPC.User user = MessagesController.getInstance(BotPreviewsEditContainer.this.currentAccount).getUser(Long.valueOf(BotPreviewsEditContainer.this.bot_id));
                     return user != null && user.bot && user.bot_has_main_app && user.bot_can_edit;
-                } else if (i < 0 || i >= storiesList.messageObjects.size()) {
-                    return false;
-                } else {
-                    return this.storiesList.isPinned(((MessageObject) this.storiesList.messageObjects.get(i)).getId());
                 }
+                if (i < 0 || i >= storiesList.messageObjects.size()) {
+                    return false;
+                }
+                return this.storiesList.isPinned(((MessageObject) this.storiesList.messageObjects.get(i)).getId());
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -306,11 +307,11 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                 if (measuredHeight == 0) {
                     iArr[1] = 0;
                     iArr[0] = 0;
-                    return;
+                } else {
+                    float f2 = f * (i - measuredHeight2);
+                    iArr[0] = ((int) (f2 / measuredHeight)) * columnsCount;
+                    iArr[1] = ((int) f2) % measuredHeight;
                 }
-                float f2 = f * (i - measuredHeight2);
-                iArr[0] = ((int) (f2 / measuredHeight)) * columnsCount;
-                iArr[1] = ((int) f2) % measuredHeight;
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
@@ -445,12 +446,12 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                         while (true) {
                             if (i2 >= this.lastPinnedIds.size()) {
                                 break;
-                            } else if (this.lastPinnedIds.get(i2) != arrayList.get(i2)) {
+                            }
+                            if (this.lastPinnedIds.get(i2) != arrayList.get(i2)) {
                                 z = true;
                                 break;
-                            } else {
-                                i2++;
                             }
+                            i2++;
                         }
                     }
                     if (z) {
@@ -471,29 +472,28 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             public boolean swapElements(int i, int i2) {
                 ArrayList arrayList;
                 StoriesController.StoriesList storiesList = this.storiesList;
-                if (storiesList != null && i >= 0 && i < storiesList.messageObjects.size() && i2 >= 0 && i2 < this.storiesList.messageObjects.size()) {
-                    if (this.storiesList instanceof StoriesController.BotPreviewsList) {
-                        arrayList = new ArrayList();
-                        for (int i3 = 0; i3 < this.storiesList.messageObjects.size(); i3++) {
-                            arrayList.add(Integer.valueOf(((MessageObject) this.storiesList.messageObjects.get(i3)).getId()));
-                        }
-                    } else {
-                        arrayList = new ArrayList(this.storiesList.pinnedIds);
-                    }
-                    if (!this.applyingReorder) {
-                        this.lastPinnedIds.clear();
-                        this.lastPinnedIds.addAll(arrayList);
-                        this.applyingReorder = true;
-                    }
-                    MessageObject messageObject = (MessageObject) this.storiesList.messageObjects.get(i);
-                    MessageObject messageObject2 = (MessageObject) this.storiesList.messageObjects.get(i2);
-                    arrayList.remove(Integer.valueOf(messageObject.getId()));
-                    arrayList.add(Utilities.clamp(i2, arrayList.size(), 0), Integer.valueOf(messageObject.getId()));
-                    this.storiesList.updatePinnedOrder(arrayList, false);
-                    notifyItemMoved(i, i2);
-                    return true;
+                if (storiesList == null || i < 0 || i >= storiesList.messageObjects.size() || i2 < 0 || i2 >= this.storiesList.messageObjects.size()) {
+                    return false;
                 }
-                return false;
+                if (this.storiesList instanceof StoriesController.BotPreviewsList) {
+                    arrayList = new ArrayList();
+                    for (int i3 = 0; i3 < this.storiesList.messageObjects.size(); i3++) {
+                        arrayList.add(Integer.valueOf(((MessageObject) this.storiesList.messageObjects.get(i3)).getId()));
+                    }
+                } else {
+                    arrayList = new ArrayList(this.storiesList.pinnedIds);
+                }
+                if (!this.applyingReorder) {
+                    this.lastPinnedIds.clear();
+                    this.lastPinnedIds.addAll(arrayList);
+                    this.applyingReorder = true;
+                }
+                MessageObject messageObject = (MessageObject) this.storiesList.messageObjects.get(i);
+                arrayList.remove(Integer.valueOf(messageObject.getId()));
+                arrayList.add(Utilities.clamp(i2, arrayList.size(), 0), Integer.valueOf(messageObject.getId()));
+                this.storiesList.updatePinnedOrder(arrayList, false);
+                notifyItemMoved(i, i2);
+                return true;
             }
         }
 
@@ -804,7 +804,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             textView.setTextAlignment(4);
             textView.setGravity(17);
             textView.setTypeface(AndroidUtilities.bold());
-            stickerEmptyView.linearLayout.addView(textView, LayoutHelper.createLinear((int) NotificationCenter.activeGroupCallsUpdated, -2, 17, 0, 17, 0, 12));
+            stickerEmptyView.linearLayout.addView(textView, LayoutHelper.createLinear(NotificationCenter.activeGroupCallsUpdated, -2, 17, 0, 17, 0, 12));
             ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, false, BotPreviewsEditContainer.this.resourcesProvider);
             this.emptyViewButton2 = buttonWithCounterView;
             buttonWithCounterView.setMinWidth(AndroidUtilities.dp(200.0f));
@@ -822,11 +822,11 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
                 @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
                 public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                    if (BotPreviewsEditContainer.this.isActionModeShowed() && BotPreviewsEditLangContainer.this.adapter.canReorder(viewHolder.getAdapterPosition())) {
-                        BotPreviewsEditLangContainer.this.listView.setItemAnimator(BotPreviewsEditLangContainer.this.itemAnimator);
-                        return ItemTouchHelper.Callback.makeMovementFlags(15, 0);
+                    if (!BotPreviewsEditContainer.this.isActionModeShowed() || !BotPreviewsEditLangContainer.this.adapter.canReorder(viewHolder.getAdapterPosition())) {
+                        return ItemTouchHelper.Callback.makeMovementFlags(0, 0);
                     }
-                    return ItemTouchHelper.Callback.makeMovementFlags(0, 0);
+                    BotPreviewsEditLangContainer.this.listView.setItemAnimator(BotPreviewsEditLangContainer.this.itemAnimator);
+                    return ItemTouchHelper.Callback.makeMovementFlags(15, 0);
                 }
 
                 @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
@@ -836,11 +836,11 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
                 @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
                 public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2) {
-                    if (BotPreviewsEditLangContainer.this.adapter.canReorder(viewHolder.getAdapterPosition()) && BotPreviewsEditLangContainer.this.adapter.canReorder(viewHolder2.getAdapterPosition())) {
-                        BotPreviewsEditLangContainer.this.adapter.swapElements(viewHolder.getAdapterPosition(), viewHolder2.getAdapterPosition());
-                        return true;
+                    if (!BotPreviewsEditLangContainer.this.adapter.canReorder(viewHolder.getAdapterPosition()) || !BotPreviewsEditLangContainer.this.adapter.canReorder(viewHolder2.getAdapterPosition())) {
+                        return false;
                     }
-                    return false;
+                    BotPreviewsEditLangContainer.this.adapter.swapElements(viewHolder.getAdapterPosition(), viewHolder2.getAdapterPosition());
+                    return true;
                 }
 
                 @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
@@ -987,16 +987,16 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$new$4(View view, int i) {
-            if (!BotPreviewsEditContainer.this.isActionModeShowed() && (view instanceof SharedPhotoVideoCell2)) {
-                MessageObject messageObject = ((SharedPhotoVideoCell2) view).getMessageObject();
-                if (BotPreviewsEditContainer.this.isSelected(messageObject)) {
-                    BotPreviewsEditContainer.this.unselect(messageObject);
-                    return true;
-                }
-                BotPreviewsEditContainer.this.select(messageObject);
+            if (BotPreviewsEditContainer.this.isActionModeShowed() || !(view instanceof SharedPhotoVideoCell2)) {
+                return false;
+            }
+            MessageObject messageObject = ((SharedPhotoVideoCell2) view).getMessageObject();
+            if (BotPreviewsEditContainer.this.isSelected(messageObject)) {
+                BotPreviewsEditContainer.this.unselect(messageObject);
                 return true;
             }
-            return false;
+            BotPreviewsEditContainer.this.select(messageObject);
+            return true;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1140,89 +1140,89 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             if (this.list == null || getParent() == null) {
                 return false;
             }
-            if (!this.columnsAnimation || this.isInPinchToZoomTouchMode) {
-                if (motionEvent.getActionMasked() == 0 || motionEvent.getActionMasked() == 5) {
-                    if (this.maybePinchToZoomTouchMode && !this.isInPinchToZoomTouchMode && motionEvent.getPointerCount() == 2) {
-                        this.pinchStartDistance = (float) Math.hypot(motionEvent.getX(1) - motionEvent.getX(0), motionEvent.getY(1) - motionEvent.getY(0));
-                        this.pinchScale = 1.0f;
-                        this.pointerId1 = motionEvent.getPointerId(0);
-                        this.pointerId2 = motionEvent.getPointerId(1);
-                        this.listView.cancelClickRunnables(false);
-                        this.listView.cancelLongPress();
-                        this.listView.dispatchTouchEvent(MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0));
-                        View view = (View) getParent();
-                        this.pinchCenterX = (int) ((((int) ((motionEvent.getX(0) + motionEvent.getX(1)) / 2.0f)) - view.getX()) - getX());
-                        int y = (int) ((((int) ((motionEvent.getY(0) + motionEvent.getY(1)) / 2.0f)) - view.getY()) - getY());
-                        this.pinchCenterY = y;
-                        selectPinchPosition(this.pinchCenterX, y);
-                        this.maybePinchToZoomTouchMode2 = true;
-                    }
-                    if (motionEvent.getActionMasked() == 0 && (motionEvent.getY() - ((View) getParent()).getY()) - getY() > 0.0f) {
+            if (this.columnsAnimation && !this.isInPinchToZoomTouchMode) {
+                return true;
+            }
+            if (motionEvent.getActionMasked() == 0 || motionEvent.getActionMasked() == 5) {
+                if (this.maybePinchToZoomTouchMode && !this.isInPinchToZoomTouchMode && motionEvent.getPointerCount() == 2) {
+                    this.pinchStartDistance = (float) Math.hypot(motionEvent.getX(1) - motionEvent.getX(0), motionEvent.getY(1) - motionEvent.getY(0));
+                    this.pinchScale = 1.0f;
+                    this.pointerId1 = motionEvent.getPointerId(0);
+                    this.pointerId2 = motionEvent.getPointerId(1);
+                    this.listView.cancelClickRunnables(false);
+                    this.listView.cancelLongPress();
+                    this.listView.dispatchTouchEvent(MotionEvent.obtain(0L, 0L, 3, 0.0f, 0.0f, 0));
+                    View view = (View) getParent();
+                    this.pinchCenterX = (int) ((((int) ((motionEvent.getX(0) + motionEvent.getX(1)) / 2.0f)) - view.getX()) - getX());
+                    int y = (int) ((((int) ((motionEvent.getY(0) + motionEvent.getY(1)) / 2.0f)) - view.getY()) - getY());
+                    this.pinchCenterY = y;
+                    selectPinchPosition(this.pinchCenterX, y);
+                    this.maybePinchToZoomTouchMode2 = true;
+                }
+                if (motionEvent.getActionMasked() == 0) {
+                    if ((motionEvent.getY() - ((View) getParent()).getY()) - getY() > 0.0f) {
                         this.maybePinchToZoomTouchMode = true;
                     }
-                } else if (motionEvent.getActionMasked() == 2 && (this.isInPinchToZoomTouchMode || this.maybePinchToZoomTouchMode2)) {
-                    int i = -1;
-                    int i2 = -1;
-                    for (int i3 = 0; i3 < motionEvent.getPointerCount(); i3++) {
-                        if (this.pointerId1 == motionEvent.getPointerId(i3)) {
-                            i = i3;
-                        }
-                        if (this.pointerId2 == motionEvent.getPointerId(i3)) {
-                            i2 = i3;
-                        }
+                }
+            } else if (motionEvent.getActionMasked() == 2 && (this.isInPinchToZoomTouchMode || this.maybePinchToZoomTouchMode2)) {
+                int i = -1;
+                int i2 = -1;
+                for (int i3 = 0; i3 < motionEvent.getPointerCount(); i3++) {
+                    if (this.pointerId1 == motionEvent.getPointerId(i3)) {
+                        i = i3;
                     }
-                    if (i == -1 || i2 == -1) {
-                        this.maybePinchToZoomTouchMode = false;
-                        this.maybePinchToZoomTouchMode2 = false;
-                        this.isInPinchToZoomTouchMode = false;
-                        finishPinchToMediaColumnsCount();
-                        return false;
+                    if (this.pointerId2 == motionEvent.getPointerId(i3)) {
+                        i2 = i3;
                     }
-                    float hypot = ((float) Math.hypot(motionEvent.getX(i2) - motionEvent.getX(i), motionEvent.getY(i2) - motionEvent.getY(i))) / this.pinchStartDistance;
-                    this.pinchScale = hypot;
-                    if (!this.isInPinchToZoomTouchMode && (hypot > 1.01f || hypot < 0.99f)) {
-                        this.isInPinchToZoomTouchMode = true;
-                        boolean z = hypot > 1.0f;
-                        this.pinchScaleUp = z;
-                        startPinchToMediaColumnsCount(z);
-                    }
-                    if (this.isInPinchToZoomTouchMode) {
-                        boolean z2 = this.pinchScaleUp;
-                        if ((!z2 || this.pinchScale >= 1.0f) && (z2 || this.pinchScale <= 1.0f)) {
-                            this.columnsAnimationProgress = Math.max(0.0f, Math.min(1.0f, z2 ? 1.0f - ((2.0f - this.pinchScale) / 1.0f) : (1.0f - this.pinchScale) / 0.5f));
-                        } else {
-                            this.columnsAnimationProgress = 0.0f;
-                        }
-                        float f = this.columnsAnimationProgress;
-                        if (f == 1.0f || f == 0.0f) {
-                            if (f == 1.0f) {
-                                int ceil = (int) Math.ceil(this.pinchCenterPosition / this.animateToColumnsCount);
-                                float startedTrackingX = BotPreviewsEditContainer.this.getStartedTrackingX() / (this.listView.getMeasuredWidth() - ((int) (this.listView.getMeasuredWidth() / this.animateToColumnsCount)));
-                                int i4 = this.animateToColumnsCount;
-                                int i5 = (ceil * i4) + ((int) (startedTrackingX * (i4 - 1)));
-                                if (i5 >= this.adapter.getItemCount()) {
-                                    i5 = this.adapter.getItemCount() - 1;
-                                }
-                                this.pinchCenterPosition = i5;
-                            }
-                            finishPinchToMediaColumnsCount();
-                            if (this.columnsAnimationProgress == 0.0f) {
-                                this.pinchScaleUp = !this.pinchScaleUp;
-                            }
-                            startPinchToMediaColumnsCount(this.pinchScaleUp);
-                            this.pinchStartDistance = (float) Math.hypot(motionEvent.getX(1) - motionEvent.getX(0), motionEvent.getY(1) - motionEvent.getY(0));
-                        }
-                        this.listView.invalidate();
-                    }
-                } else if ((motionEvent.getActionMasked() == 1 || ((motionEvent.getActionMasked() == 6 && checkPointerIds(motionEvent)) || motionEvent.getActionMasked() == 3)) && this.isInPinchToZoomTouchMode) {
-                    this.maybePinchToZoomTouchMode2 = false;
+                }
+                if (i == -1 || i2 == -1) {
                     this.maybePinchToZoomTouchMode = false;
+                    this.maybePinchToZoomTouchMode2 = false;
                     this.isInPinchToZoomTouchMode = false;
                     finishPinchToMediaColumnsCount();
+                    return false;
                 }
-                return this.isInPinchToZoomTouchMode;
+                float hypot = ((float) Math.hypot(motionEvent.getX(i2) - motionEvent.getX(i), motionEvent.getY(i2) - motionEvent.getY(i))) / this.pinchStartDistance;
+                this.pinchScale = hypot;
+                if (!this.isInPinchToZoomTouchMode && (hypot > 1.01f || hypot < 0.99f)) {
+                    this.isInPinchToZoomTouchMode = true;
+                    boolean z = hypot > 1.0f;
+                    this.pinchScaleUp = z;
+                    startPinchToMediaColumnsCount(z);
+                }
+                if (this.isInPinchToZoomTouchMode) {
+                    boolean z2 = this.pinchScaleUp;
+                    if ((!z2 || this.pinchScale >= 1.0f) && (z2 || this.pinchScale <= 1.0f)) {
+                        this.columnsAnimationProgress = Math.max(0.0f, Math.min(1.0f, z2 ? 1.0f - ((2.0f - this.pinchScale) / 1.0f) : (1.0f - this.pinchScale) / 0.5f));
+                    } else {
+                        this.columnsAnimationProgress = 0.0f;
+                    }
+                    float f = this.columnsAnimationProgress;
+                    if (f == 1.0f || f == 0.0f) {
+                        if (f == 1.0f) {
+                            int i4 = this.animateToColumnsCount;
+                            int ceil = (((int) Math.ceil(this.pinchCenterPosition / this.animateToColumnsCount)) * i4) + ((int) ((BotPreviewsEditContainer.this.getStartedTrackingX() / (this.listView.getMeasuredWidth() - ((int) (this.listView.getMeasuredWidth() / this.animateToColumnsCount)))) * (i4 - 1)));
+                            if (ceil >= this.adapter.getItemCount()) {
+                                ceil = this.adapter.getItemCount() - 1;
+                            }
+                            this.pinchCenterPosition = ceil;
+                        }
+                        finishPinchToMediaColumnsCount();
+                        if (this.columnsAnimationProgress == 0.0f) {
+                            this.pinchScaleUp = !this.pinchScaleUp;
+                        }
+                        startPinchToMediaColumnsCount(this.pinchScaleUp);
+                        this.pinchStartDistance = (float) Math.hypot(motionEvent.getX(1) - motionEvent.getX(0), motionEvent.getY(1) - motionEvent.getY(0));
+                    }
+                    this.listView.invalidate();
+                }
+            } else if ((motionEvent.getActionMasked() == 1 || ((motionEvent.getActionMasked() == 6 && checkPointerIds(motionEvent)) || motionEvent.getActionMasked() == 3)) && this.isInPinchToZoomTouchMode) {
+                this.maybePinchToZoomTouchMode2 = false;
+                this.maybePinchToZoomTouchMode = false;
+                this.isInPinchToZoomTouchMode = false;
+                finishPinchToMediaColumnsCount();
             }
-            return true;
+            return this.isInPinchToZoomTouchMode;
         }
 
         @Override // android.view.ViewGroup
@@ -1612,11 +1612,11 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Boolean lambda$new$0(Integer num, Integer num2) {
-        if (num.intValue() == -1) {
-            addTranslation();
-            return Boolean.TRUE;
+        if (num.intValue() != -1) {
+            return Boolean.FALSE;
         }
-        return Boolean.FALSE;
+        addTranslation();
+        return Boolean.TRUE;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1688,10 +1688,11 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                 if (i >= arrayList2.size()) {
                     botPreviewsList = null;
                     break;
-                } else if (TextUtils.equals(((StoriesController.BotPreviewsList) arrayList2.get(i)).lang_code, str2)) {
-                    botPreviewsList = (StoriesController.BotPreviewsList) arrayList2.get(i);
-                    break;
                 } else {
+                    if (TextUtils.equals(((StoriesController.BotPreviewsList) arrayList2.get(i)).lang_code, str2)) {
+                        botPreviewsList = (StoriesController.BotPreviewsList) arrayList2.get(i);
+                        break;
+                    }
                     i++;
                 }
             }
@@ -1872,8 +1873,9 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             botPreviewsList = (StoriesController.BotPreviewsList) this.langLists.get(i);
             if (botPreviewsList != null && TextUtils.equals(botPreviewsList.lang_code, str)) {
                 break;
+            } else {
+                i++;
             }
-            i++;
         }
         if (botPreviewsList != null) {
             TL_bots.deletePreviewMedia deletepreviewmedia = new TL_bots.deletePreviewMedia();
@@ -1893,15 +1895,14 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
-        View[] viewPages;
         int i3 = 0;
         if (i != NotificationCenter.storiesListUpdated) {
             if (i == NotificationCenter.storiesUpdated) {
                 updateLangs(true);
-                View[] viewPages2 = this.viewPager.getViewPages();
-                int length = viewPages2.length;
+                View[] viewPages = this.viewPager.getViewPages();
+                int length = viewPages.length;
                 while (i3 < length) {
-                    View view = viewPages2[i3];
+                    View view = viewPages[i3];
                     if ((view instanceof BotPreviewsEditLangContainer) && (view instanceof BotPreviewsEditLangContainer)) {
                         ((BotPreviewsEditLangContainer) view).adapter.notifyDataSetChanged();
                     }
@@ -1914,10 +1915,10 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         Object obj = objArr[0];
         if (obj == this.mainList) {
             updateLangs(true);
-            View[] viewPages3 = this.viewPager.getViewPages();
-            int length2 = viewPages3.length;
+            View[] viewPages2 = this.viewPager.getViewPages();
+            int length2 = viewPages2.length;
             while (i3 < length2) {
-                View view2 = viewPages3[i3];
+                View view2 = viewPages2[i3];
                 if (view2 instanceof BotPreviewsEditLangContainer) {
                     BotPreviewsEditLangContainer botPreviewsEditLangContainer = (BotPreviewsEditLangContainer) view2;
                     if (botPreviewsEditLangContainer.list == this.mainList) {
@@ -1926,7 +1927,9 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                 }
                 i3++;
             }
-        } else if (this.langLists.indexOf(obj) >= 0) {
+            return;
+        }
+        if (this.langLists.indexOf(obj) >= 0) {
             for (View view3 : this.viewPager.getViewPages()) {
                 if (view3 instanceof BotPreviewsEditLangContainer) {
                     BotPreviewsEditLangContainer botPreviewsEditLangContainer2 = (BotPreviewsEditLangContainer) view3;
@@ -1986,24 +1989,24 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         if (Math.abs(this.viewPager.getCurrentPosition() - this.viewPager.getPositionAnimated()) >= 0.5f || (view = viewPages[1]) == null) {
             view = viewPages[0];
         }
-        if (view instanceof BotPreviewsEditLangContainer) {
-            BotPreviewsEditLangContainer botPreviewsEditLangContainer = (BotPreviewsEditLangContainer) view;
-            if (botPreviewsEditLangContainer.list != null) {
-                return botPreviewsEditLangContainer.list.lang_code;
-            }
+        if (!(view instanceof BotPreviewsEditLangContainer)) {
             return null;
+        }
+        BotPreviewsEditLangContainer botPreviewsEditLangContainer = (BotPreviewsEditLangContainer) view;
+        if (botPreviewsEditLangContainer.list != null) {
+            return botPreviewsEditLangContainer.list.lang_code;
         }
         return null;
     }
 
     public StoriesController.BotPreviewsList getCurrentList() {
         View currentView = this.viewPager.getCurrentView();
-        if (currentView instanceof BotPreviewsEditLangContainer) {
-            BotPreviewsEditLangContainer botPreviewsEditLangContainer = (BotPreviewsEditLangContainer) currentView;
-            if (botPreviewsEditLangContainer.list != null) {
-                return botPreviewsEditLangContainer.list;
-            }
+        if (!(currentView instanceof BotPreviewsEditLangContainer)) {
             return null;
+        }
+        BotPreviewsEditLangContainer botPreviewsEditLangContainer = (BotPreviewsEditLangContainer) currentView;
+        if (botPreviewsEditLangContainer.list != null) {
+            return botPreviewsEditLangContainer.list;
         }
         return null;
     }
@@ -2018,12 +2021,12 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
     public int getItemsCount() {
         View currentView = this.viewPager.getCurrentView();
-        if (currentView instanceof BotPreviewsEditLangContainer) {
-            BotPreviewsEditLangContainer botPreviewsEditLangContainer = (BotPreviewsEditLangContainer) currentView;
-            if (botPreviewsEditLangContainer.list != null) {
-                return botPreviewsEditLangContainer.list.getCount();
-            }
+        if (!(currentView instanceof BotPreviewsEditLangContainer)) {
             return 0;
+        }
+        BotPreviewsEditLangContainer botPreviewsEditLangContainer = (BotPreviewsEditLangContainer) currentView;
+        if (botPreviewsEditLangContainer.list != null) {
+            return botPreviewsEditLangContainer.list.getCount();
         }
         return 0;
     }
@@ -2057,9 +2060,11 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         }
         LongSparseArray longSparseArray = (LongSparseArray) attachedContainers.get(this.currentAccount);
         if (longSparseArray == null) {
-            LongSparseArray longSparseArray2 = new LongSparseArray();
-            attachedContainers.put(this.currentAccount, longSparseArray2);
-            longSparseArray = longSparseArray2;
+            LongSparseArray longSparseArray2 = attachedContainers;
+            long j = this.currentAccount;
+            LongSparseArray longSparseArray3 = new LongSparseArray();
+            longSparseArray2.put(j, longSparseArray3);
+            longSparseArray = longSparseArray3;
         }
         longSparseArray.put(this.bot_id, this);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.storiesListUpdated);

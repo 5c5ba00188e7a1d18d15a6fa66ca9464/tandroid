@@ -2,6 +2,7 @@ package com.google.android.gms.internal.safetynet;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.safetynet.SafetyNetApi;
+
 /* loaded from: classes.dex */
 final class zzp implements SafetyNetApi.AttestationResult {
     private final Status zza;

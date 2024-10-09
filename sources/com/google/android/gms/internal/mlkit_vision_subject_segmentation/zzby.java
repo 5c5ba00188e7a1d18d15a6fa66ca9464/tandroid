@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
+
 /* loaded from: classes.dex */
 final class zzby implements zzcd {
     private final int zza;
@@ -20,11 +21,11 @@ final class zzby implements zzcd {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zzcd) {
-            zzcd zzcdVar = (zzcd) obj;
-            return this.zza == zzcdVar.zza() && this.zzb.equals(zzcdVar.zzb());
+        if (!(obj instanceof zzcd)) {
+            return false;
         }
-        return false;
+        zzcd zzcdVar = (zzcd) obj;
+        return this.zza == zzcdVar.zza() && this.zzb.equals(zzcdVar.zzb());
     }
 
     @Override // java.lang.annotation.Annotation

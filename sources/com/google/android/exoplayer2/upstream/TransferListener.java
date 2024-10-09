@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.upstream;
+
 /* loaded from: classes.dex */
 public interface TransferListener {
     void onBytesTransferred(DataSource dataSource, DataSpec dataSpec, boolean z, int i);

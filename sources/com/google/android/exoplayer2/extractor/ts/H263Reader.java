@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 import java.util.Collections;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class H263Reader implements ElementaryStreamReader {
     private static final float[] PIXEL_WIDTH_HEIGHT_RATIO_BY_ASPECT_RATIO_INFO = {1.0f, 1.0f, 1.0909091f, 0.90909094f, 1.4545455f, 1.2121212f, 1.0f};
@@ -56,8 +57,9 @@ public final class H263Reader implements ElementaryStreamReader {
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:27:0x003d, code lost:
-            if (r7 != 181) goto L24;
+        /* JADX WARN: Code restructure failed: missing block: B:28:0x003d, code lost:
+        
+            if (r7 != 181) goto L28;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -76,9 +78,10 @@ public final class H263Reader implements ElementaryStreamReader {
                             }
                             Log.w("H263Reader", "Unexpected start code value");
                             reset();
-                        } else if (i3 != 4) {
-                            throw new IllegalStateException();
                         } else {
+                            if (i3 != 4) {
+                                throw new IllegalStateException();
+                            }
                             if (i == 179 || i == 181) {
                                 this.length -= i2;
                                 this.isFilling = false;
@@ -130,10 +133,10 @@ public final class H263Reader implements ElementaryStreamReader {
                 int i4 = (i + 1) - i3;
                 if (i4 >= i2) {
                     this.vopBytesRead = i3 + (i2 - i);
-                    return;
+                } else {
+                    this.sampleIsKeyframe = ((bArr[i4] & 192) >> 6) == 0;
+                    this.lookingForVopCodingType = false;
                 }
-                this.sampleIsKeyframe = ((bArr[i4] & 192) >> 6) == 0;
-                this.lookingForVopCodingType = false;
             }
         }
 

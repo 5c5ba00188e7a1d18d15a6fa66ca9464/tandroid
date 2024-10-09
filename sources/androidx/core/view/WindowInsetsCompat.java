@@ -13,6 +13,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Objects;
+
 /* loaded from: classes.dex */
 public class WindowInsetsCompat {
     public static final WindowInsetsCompat CONSUMED;
@@ -331,11 +332,11 @@ public class WindowInsetsCompat {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof Impl) {
-                Impl impl = (Impl) obj;
-                return isRound() == impl.isRound() && isConsumed() == impl.isConsumed() && ObjectsCompat.equals(getSystemWindowInsets(), impl.getSystemWindowInsets()) && ObjectsCompat.equals(getStableInsets(), impl.getStableInsets()) && ObjectsCompat.equals(getDisplayCutout(), impl.getDisplayCutout());
+            if (!(obj instanceof Impl)) {
+                return false;
             }
-            return false;
+            Impl impl = (Impl) obj;
+            return isRound() == impl.isRound() && isConsumed() == impl.isConsumed() && ObjectsCompat.equals(getSystemWindowInsets(), impl.getSystemWindowInsets()) && ObjectsCompat.equals(getStableInsets(), impl.getStableInsets()) && ObjectsCompat.equals(getDisplayCutout(), impl.getDisplayCutout());
         }
 
         DisplayCutoutCompat getDisplayCutout() {
@@ -435,30 +436,30 @@ public class WindowInsetsCompat {
         }
 
         private Insets getVisibleInsets(View view) {
-            if (Build.VERSION.SDK_INT < 30) {
-                if (!sVisibleRectReflectionFetched) {
-                    loadReflectionField();
-                }
-                Method method = sGetViewRootImplMethod;
-                if (method != null && sAttachInfoClass != null && sVisibleInsetsField != null) {
-                    try {
-                        Object invoke = method.invoke(view, null);
-                        if (invoke == null) {
-                            Log.w("WindowInsetsCompat", "Failed to get visible insets. getViewRootImpl() returned null from the provided view. This means that the view is either not attached or the method has been overridden", new NullPointerException());
-                            return null;
-                        }
-                        Rect rect = (Rect) sVisibleInsetsField.get(sAttachInfoField.get(invoke));
-                        if (rect != null) {
-                            return Insets.of(rect);
-                        }
-                        return null;
-                    } catch (ReflectiveOperationException e) {
-                        Log.e("WindowInsetsCompat", "Failed to get visible insets. (Reflection error). " + e.getMessage(), e);
-                    }
-                }
-                return null;
+            if (Build.VERSION.SDK_INT >= 30) {
+                throw new UnsupportedOperationException("getVisibleInsets() should not be called on API >= 30. Use WindowInsets.isVisible() instead.");
             }
-            throw new UnsupportedOperationException("getVisibleInsets() should not be called on API >= 30. Use WindowInsets.isVisible() instead.");
+            if (!sVisibleRectReflectionFetched) {
+                loadReflectionField();
+            }
+            Method method = sGetViewRootImplMethod;
+            if (method != null && sAttachInfoClass != null && sVisibleInsetsField != null) {
+                try {
+                    Object invoke = method.invoke(view, null);
+                    if (invoke == null) {
+                        Log.w("WindowInsetsCompat", "Failed to get visible insets. getViewRootImpl() returned null from the provided view. This means that the view is either not attached or the method has been overridden", new NullPointerException());
+                        return null;
+                    }
+                    Rect rect = (Rect) sVisibleInsetsField.get(sAttachInfoField.get(invoke));
+                    if (rect != null) {
+                        return Insets.of(rect);
+                    }
+                    return null;
+                } catch (ReflectiveOperationException e) {
+                    Log.e("WindowInsetsCompat", "Failed to get visible insets. (Reflection error). " + e.getMessage(), e);
+                }
+            }
+            return null;
         }
 
         private static void loadReflectionField() {
@@ -524,37 +525,37 @@ public class WindowInsetsCompat {
                     i3 = Math.min(i3, stableInsets.bottom);
                 }
                 return Insets.of(systemWindowInsets.left, 0, systemWindowInsets.right, i3);
-            } else if (i != 8) {
-                if (i != 16) {
-                    if (i != 32) {
-                        if (i != 64) {
-                            if (i != 128) {
-                                return Insets.NONE;
-                            }
-                            WindowInsetsCompat windowInsetsCompat2 = this.mRootWindowInsets;
-                            DisplayCutoutCompat displayCutout = windowInsetsCompat2 != null ? windowInsetsCompat2.getDisplayCutout() : getDisplayCutout();
-                            return displayCutout != null ? Insets.of(displayCutout.getSafeInsetLeft(), displayCutout.getSafeInsetTop(), displayCutout.getSafeInsetRight(), displayCutout.getSafeInsetBottom()) : Insets.NONE;
-                        }
-                        return getTappableElementInsets();
-                    }
+            }
+            if (i != 8) {
+                if (i == 16) {
+                    return getSystemGestureInsets();
+                }
+                if (i == 32) {
                     return getMandatorySystemGestureInsets();
                 }
-                return getSystemGestureInsets();
-            } else {
-                Insets[] insetsArr = this.mOverriddenInsets;
-                stableInsets = insetsArr != null ? insetsArr[Type.indexOf(8)] : null;
-                if (stableInsets != null) {
-                    return stableInsets;
+                if (i == 64) {
+                    return getTappableElementInsets();
                 }
-                Insets systemWindowInsets2 = getSystemWindowInsets();
-                Insets rootStableInsets2 = getRootStableInsets();
-                int i4 = systemWindowInsets2.bottom;
-                if (i4 > rootStableInsets2.bottom) {
-                    return Insets.of(0, 0, 0, i4);
+                if (i != 128) {
+                    return Insets.NONE;
                 }
-                Insets insets = this.mRootViewVisibleInsets;
-                return (insets == null || insets.equals(Insets.NONE) || (i2 = this.mRootViewVisibleInsets.bottom) <= rootStableInsets2.bottom) ? Insets.NONE : Insets.of(0, 0, 0, i2);
+                WindowInsetsCompat windowInsetsCompat2 = this.mRootWindowInsets;
+                DisplayCutoutCompat displayCutout = windowInsetsCompat2 != null ? windowInsetsCompat2.getDisplayCutout() : getDisplayCutout();
+                return displayCutout != null ? Insets.of(displayCutout.getSafeInsetLeft(), displayCutout.getSafeInsetTop(), displayCutout.getSafeInsetRight(), displayCutout.getSafeInsetBottom()) : Insets.NONE;
             }
+            Insets[] insetsArr = this.mOverriddenInsets;
+            stableInsets = insetsArr != null ? insetsArr[Type.indexOf(8)] : null;
+            if (stableInsets != null) {
+                return stableInsets;
+            }
+            Insets systemWindowInsets2 = getSystemWindowInsets();
+            Insets rootStableInsets2 = getRootStableInsets();
+            int i4 = systemWindowInsets2.bottom;
+            if (i4 > rootStableInsets2.bottom) {
+                return Insets.of(0, 0, 0, i4);
+            }
+            Insets insets = this.mRootViewVisibleInsets;
+            return (insets == null || insets.equals(Insets.NONE) || (i2 = this.mRootViewVisibleInsets.bottom) <= rootStableInsets2.bottom) ? Insets.NONE : Insets.of(0, 0, 0, i2);
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
@@ -684,11 +685,11 @@ public class WindowInsetsCompat {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof Impl28) {
-                Impl28 impl28 = (Impl28) obj;
-                return Objects.equals(this.mPlatformInsets, impl28.mPlatformInsets) && Objects.equals(this.mRootViewVisibleInsets, impl28.mRootViewVisibleInsets);
+            if (!(obj instanceof Impl28)) {
+                return false;
             }
-            return false;
+            Impl28 impl28 = (Impl28) obj;
+            return Objects.equals(this.mPlatformInsets, impl28.mPlatformInsets) && Objects.equals(this.mRootViewVisibleInsets, impl28.mRootViewVisibleInsets);
         }
 
         @Override // androidx.core.view.WindowInsetsCompat.Impl
@@ -809,34 +810,34 @@ public class WindowInsetsCompat {
         }
 
         static int indexOf(int i) {
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 4) {
-                        if (i != 8) {
-                            if (i != 16) {
-                                if (i != 32) {
-                                    if (i != 64) {
-                                        if (i != 128) {
-                                            if (i == 256) {
-                                                return 8;
-                                            }
-                                            throw new IllegalArgumentException("type needs to be >= FIRST and <= LAST, type=" + i);
-                                        }
-                                        return 7;
-                                    }
-                                    return 6;
-                                }
-                                return 5;
-                            }
-                            return 4;
-                        }
-                        return 3;
-                    }
-                    return 2;
-                }
+            if (i == 1) {
+                return 0;
+            }
+            if (i == 2) {
                 return 1;
             }
-            return 0;
+            if (i == 4) {
+                return 2;
+            }
+            if (i == 8) {
+                return 3;
+            }
+            if (i == 16) {
+                return 4;
+            }
+            if (i == 32) {
+                return 5;
+            }
+            if (i == 64) {
+                return 6;
+            }
+            if (i == 128) {
+                return 7;
+            }
+            if (i == 256) {
+                return 8;
+            }
+            throw new IllegalArgumentException("type needs to be >= FIRST and <= LAST, type=" + i);
         }
 
         public static int systemBars() {
@@ -890,10 +891,11 @@ public class WindowInsetsCompat {
             impl20 = new Impl28(this, windowInsets);
         } else if (i >= 21) {
             impl20 = new Impl21(this, windowInsets);
-        } else if (i < 20) {
-            this.mImpl = new Impl(this);
-            return;
         } else {
+            if (i < 20) {
+                this.mImpl = new Impl(this);
+                return;
+            }
             impl20 = new Impl20(this, windowInsets);
         }
         this.mImpl = impl20;

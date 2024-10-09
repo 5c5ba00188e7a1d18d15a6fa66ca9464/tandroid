@@ -7,6 +7,7 @@ import com.google.android.gms.common.api.internal.TaskApiCall;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.wallet.Wallet;
+
 /* loaded from: classes.dex */
 public class PaymentsClient extends GoogleApi {
     /* JADX INFO: Access modifiers changed from: package-private */

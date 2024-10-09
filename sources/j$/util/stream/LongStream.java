@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.BiConsumer;
 import j$.util.function.LongFunction;
 import j$.util.function.Supplier;
+
 /* loaded from: classes2.dex */
 public interface LongStream extends BaseStream<Long, LongStream> {
     IntStream A(j$.util.function.b0 b0Var);

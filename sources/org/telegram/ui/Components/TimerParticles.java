@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes3.dex */
 public class TimerParticles {
     public boolean big;

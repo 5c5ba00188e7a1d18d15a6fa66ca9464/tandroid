@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import com.google.android.gms.common.util.PlatformVersion;
+
 /* loaded from: classes.dex */
 public class PackageManagerWrapper {
     protected final Context zza;
@@ -37,11 +38,11 @@ public class PackageManagerWrapper {
         if (PlatformVersion.isAtLeastKitKat()) {
             try {
                 AppOpsManager appOpsManager = (AppOpsManager) this.zza.getSystemService("appops");
-                if (appOpsManager != null) {
-                    appOpsManager.checkPackage(i, str);
-                    return true;
+                if (appOpsManager == null) {
+                    throw new NullPointerException("context.getSystemService(Context.APP_OPS_SERVICE) is null");
                 }
-                throw new NullPointerException("context.getSystemService(Context.APP_OPS_SERVICE) is null");
+                appOpsManager.checkPackage(i, str);
+                return true;
             } catch (SecurityException unused) {
                 return false;
             }

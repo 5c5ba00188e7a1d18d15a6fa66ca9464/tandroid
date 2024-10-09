@@ -23,6 +23,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.ProfileActivity;
+
 /* loaded from: classes3.dex */
 public abstract class PhotoUtilities {
     public static void applyPhotoToUser(TLRPC.Photo photo, TLRPC.User user, boolean z) {

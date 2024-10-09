@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class FfmpegAudioDecoder extends SimpleDecoder {
@@ -170,25 +171,25 @@ public final class FfmpegAudioDecoder extends SimpleDecoder {
         if (ffmpegDecode == -1) {
             simpleDecoderOutputBuffer.setFlags(Integer.MIN_VALUE);
             return null;
-        } else if (ffmpegDecode == 0) {
+        }
+        if (ffmpegDecode == 0) {
             simpleDecoderOutputBuffer.setFlags(Integer.MIN_VALUE);
             return null;
-        } else {
-            if (!this.hasOutputFormat) {
-                this.channelCount = ffmpegGetChannelCount(this.nativeContext);
-                this.sampleRate = ffmpegGetSampleRate(this.nativeContext);
-                if (this.sampleRate == 0 && "alac".equals(this.codecName)) {
-                    Assertions.checkNotNull(this.extraData);
-                    ParsableByteArray parsableByteArray = new ParsableByteArray(this.extraData);
-                    parsableByteArray.setPosition(this.extraData.length - 4);
-                    this.sampleRate = parsableByteArray.readUnsignedIntToInt();
-                }
-                this.hasOutputFormat = true;
-            }
-            init.position(0);
-            init.limit(ffmpegDecode);
-            return null;
         }
+        if (!this.hasOutputFormat) {
+            this.channelCount = ffmpegGetChannelCount(this.nativeContext);
+            this.sampleRate = ffmpegGetSampleRate(this.nativeContext);
+            if (this.sampleRate == 0 && "alac".equals(this.codecName)) {
+                Assertions.checkNotNull(this.extraData);
+                ParsableByteArray parsableByteArray = new ParsableByteArray(this.extraData);
+                parsableByteArray.setPosition(this.extraData.length - 4);
+                this.sampleRate = parsableByteArray.readUnsignedIntToInt();
+            }
+            this.hasOutputFormat = true;
+        }
+        init.position(0);
+        init.limit(ffmpegDecode);
+        return null;
     }
 
     public int getChannelCount() {

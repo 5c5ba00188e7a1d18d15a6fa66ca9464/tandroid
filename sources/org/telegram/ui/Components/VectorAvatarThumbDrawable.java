@@ -17,6 +17,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
+
 /* loaded from: classes3.dex */
 public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmojiSpan.InvalidateHolder, AttachableDrawable, NotificationCenter.NotificationCenterDelegate {
     AnimatedEmojiDrawable animatedEmojiDrawable;
@@ -45,7 +46,9 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
             AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable((i == 1 && z) ? 7 : i == 2 ? 15 : 8, UserConfig.selectedAccount, ((TLRPC.TL_videoSizeEmojiMarkup) videoSize).emoji_id);
             this.animatedEmojiDrawable = animatedEmojiDrawable;
             animatedEmojiDrawable.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
-        } else if (videoSize instanceof TLRPC.TL_videoSizeStickerMarkup) {
+            return;
+        }
+        if (videoSize instanceof TLRPC.TL_videoSizeStickerMarkup) {
             this.sizeStickerMarkup = (TLRPC.TL_videoSizeStickerMarkup) videoSize;
             ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Components.VectorAvatarThumbDrawable.1
                 @Override // org.telegram.messenger.ImageReceiver
@@ -62,8 +65,8 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0075  */
+    /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -80,17 +83,18 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
                     TLRPC.Document document2 = stickerSet.documents.get(i);
                     if (this.isPremium && this.type == 1) {
                         str3 = "50_50";
-                    } else if (this.type != 2) {
-                        document = null;
-                        str = null;
-                        str2 = "50_50_firstframe";
-                        this.imageReceiver.setImage(ImageLocation.getForDocument(document2), str2, ImageLocation.getForDocument(document), str, null, null, DocumentObject.getSvgThumb(document2, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", document2, 0);
-                        if (this.type != 3) {
-                            this.stickerPreloadImageReceiver.setImage(ImageLocation.getForDocument(document2), "100_100", null, null, null, 0L, "tgs", document2, 0);
+                    } else {
+                        if (this.type != 2) {
+                            document = null;
+                            str = null;
+                            str2 = "50_50_firstframe";
+                            this.imageReceiver.setImage(ImageLocation.getForDocument(document2), str2, ImageLocation.getForDocument(document), str, null, null, DocumentObject.getSvgThumb(document2, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f), 0L, "tgs", document2, 0);
+                            if (this.type != 3) {
+                                this.stickerPreloadImageReceiver.setImage(ImageLocation.getForDocument(document2), "100_100", null, null, null, 0L, "tgs", document2, 0);
+                                return;
+                            }
                             return;
                         }
-                        return;
-                    } else {
                         str3 = "100_100";
                     }
                     str2 = str3;
@@ -114,10 +118,9 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
 
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
-        ImageReceiver imageReceiver;
         this.gradientTools.setBounds(getBounds().left, getBounds().top, getBounds().right, getBounds().bottom);
         if (this.currentParent != null) {
-            this.roundRadius = imageReceiver.getRoundRadius()[0];
+            this.roundRadius = r0.getRoundRadius()[0];
         }
         float f = this.roundRadius;
         if (f == 0.0f) {
@@ -137,10 +140,10 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
             this.animatedEmojiDrawable.setBounds(centerX - width, centerY - width, centerX + width, centerY + width);
             this.animatedEmojiDrawable.draw(canvas);
         }
-        ImageReceiver imageReceiver2 = this.imageReceiver;
-        if (imageReceiver2 != null) {
+        ImageReceiver imageReceiver = this.imageReceiver;
+        if (imageReceiver != null) {
             float f2 = width * 2;
-            imageReceiver2.setRoundRadius((int) (0.13f * f2));
+            imageReceiver.setRoundRadius((int) (0.13f * f2));
             this.imageReceiver.setImageCoords(centerX - width, centerY - width, f2, f2);
             this.imageReceiver.draw(canvas);
         }

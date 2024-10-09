@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.extractor.mkv;
 
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+
 /* loaded from: classes.dex */
 final class Sniffer {
     private int peekLength;
@@ -30,7 +31,8 @@ final class Sniffer {
         return i5;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00a2, code lost:
+    
         return false;
      */
     /*
@@ -68,17 +70,18 @@ final class Sniffer {
             long j4 = j2 + readUint;
             if (j3 >= j4) {
                 return j3 == j4;
-            } else if (readUint(extractorInput) == Long.MIN_VALUE) {
+            }
+            if (readUint(extractorInput) == Long.MIN_VALUE) {
                 return false;
-            } else {
-                long readUint2 = readUint(extractorInput);
-                if (readUint2 < 0 || readUint2 > 2147483647L) {
-                    break;
-                } else if (readUint2 != 0) {
-                    int i3 = (int) readUint2;
-                    extractorInput.advancePeekPosition(i3);
-                    this.peekLength += i3;
-                }
+            }
+            long readUint2 = readUint(extractorInput);
+            if (readUint2 < 0 || readUint2 > 2147483647L) {
+                break;
+            }
+            if (readUint2 != 0) {
+                int i3 = (int) readUint2;
+                extractorInput.advancePeekPosition(i3);
+                this.peekLength += i3;
             }
         }
     }

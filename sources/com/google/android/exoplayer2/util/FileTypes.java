@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.util;
 import android.net.Uri;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class FileTypes {
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */

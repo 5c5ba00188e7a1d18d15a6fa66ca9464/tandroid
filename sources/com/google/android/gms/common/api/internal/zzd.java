@@ -12,8 +12,10 @@ import j$.util.DesugarCollections;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
+
 /* loaded from: classes.dex */
 public final class zzd extends Fragment implements LifecycleFragment {
     private static final WeakHashMap zza = new WeakHashMap();
@@ -25,20 +27,20 @@ public final class zzd extends Fragment implements LifecycleFragment {
         zzd zzdVar;
         WeakHashMap weakHashMap = zza;
         WeakReference weakReference = (WeakReference) weakHashMap.get(fragmentActivity);
-        if (weakReference == null || (zzdVar = (zzd) weakReference.get()) == null) {
-            try {
-                zzd zzdVar2 = (zzd) fragmentActivity.getSupportFragmentManager().findFragmentByTag("SupportLifecycleFragmentImpl");
-                if (zzdVar2 == null || zzdVar2.isRemoving()) {
-                    zzdVar2 = new zzd();
-                    fragmentActivity.getSupportFragmentManager().beginTransaction().add(zzdVar2, "SupportLifecycleFragmentImpl").commitAllowingStateLoss();
-                }
-                weakHashMap.put(fragmentActivity, new WeakReference(zzdVar2));
-                return zzdVar2;
-            } catch (ClassCastException e) {
-                throw new IllegalStateException("Fragment with tag SupportLifecycleFragmentImpl is not a SupportLifecycleFragmentImpl", e);
-            }
+        if (weakReference != null && (zzdVar = (zzd) weakReference.get()) != null) {
+            return zzdVar;
         }
-        return zzdVar;
+        try {
+            zzd zzdVar2 = (zzd) fragmentActivity.getSupportFragmentManager().findFragmentByTag("SupportLifecycleFragmentImpl");
+            if (zzdVar2 == null || zzdVar2.isRemoving()) {
+                zzdVar2 = new zzd();
+                fragmentActivity.getSupportFragmentManager().beginTransaction().add(zzdVar2, "SupportLifecycleFragmentImpl").commitAllowingStateLoss();
+            }
+            weakHashMap.put(fragmentActivity, new WeakReference(zzdVar2));
+            return zzdVar2;
+        } catch (ClassCastException e) {
+            throw new IllegalStateException("Fragment with tag SupportLifecycleFragmentImpl is not a SupportLifecycleFragmentImpl", e);
+        }
     }
 
     @Override // com.google.android.gms.common.api.internal.LifecycleFragment
@@ -55,8 +57,9 @@ public final class zzd extends Fragment implements LifecycleFragment {
     @Override // androidx.fragment.app.Fragment
     public final void dump(String str, FileDescriptor fileDescriptor, PrintWriter printWriter, String[] strArr) {
         super.dump(str, fileDescriptor, printWriter, strArr);
-        for (LifecycleCallback lifecycleCallback : this.zzb.values()) {
-            lifecycleCallback.dump(str, fileDescriptor, printWriter, strArr);
+        Iterator it = this.zzb.values().iterator();
+        while (it.hasNext()) {
+            ((LifecycleCallback) it.next()).dump(str, fileDescriptor, printWriter, strArr);
         }
     }
 
@@ -73,8 +76,9 @@ public final class zzd extends Fragment implements LifecycleFragment {
     @Override // androidx.fragment.app.Fragment
     public final void onActivityResult(int i, int i2, Intent intent) {
         super.onActivityResult(i, i2, intent);
-        for (LifecycleCallback lifecycleCallback : this.zzb.values()) {
-            lifecycleCallback.onActivityResult(i, i2, intent);
+        Iterator it = this.zzb.values().iterator();
+        while (it.hasNext()) {
+            ((LifecycleCallback) it.next()).onActivityResult(i, i2, intent);
         }
     }
 
@@ -92,8 +96,9 @@ public final class zzd extends Fragment implements LifecycleFragment {
     public final void onDestroy() {
         super.onDestroy();
         this.zzc = 5;
-        for (LifecycleCallback lifecycleCallback : this.zzb.values()) {
-            lifecycleCallback.onDestroy();
+        Iterator it = this.zzb.values().iterator();
+        while (it.hasNext()) {
+            ((LifecycleCallback) it.next()).onDestroy();
         }
     }
 
@@ -101,8 +106,9 @@ public final class zzd extends Fragment implements LifecycleFragment {
     public final void onResume() {
         super.onResume();
         this.zzc = 3;
-        for (LifecycleCallback lifecycleCallback : this.zzb.values()) {
-            lifecycleCallback.onResume();
+        Iterator it = this.zzb.values().iterator();
+        while (it.hasNext()) {
+            ((LifecycleCallback) it.next()).onResume();
         }
     }
 
@@ -123,8 +129,9 @@ public final class zzd extends Fragment implements LifecycleFragment {
     public final void onStart() {
         super.onStart();
         this.zzc = 2;
-        for (LifecycleCallback lifecycleCallback : this.zzb.values()) {
-            lifecycleCallback.onStart();
+        Iterator it = this.zzb.values().iterator();
+        while (it.hasNext()) {
+            ((LifecycleCallback) it.next()).onStart();
         }
     }
 
@@ -132,8 +139,9 @@ public final class zzd extends Fragment implements LifecycleFragment {
     public final void onStop() {
         super.onStop();
         this.zzc = 4;
-        for (LifecycleCallback lifecycleCallback : this.zzb.values()) {
-            lifecycleCallback.onStop();
+        Iterator it = this.zzb.values().iterator();
+        while (it.hasNext()) {
+            ((LifecycleCallback) it.next()).onStop();
         }
     }
 }

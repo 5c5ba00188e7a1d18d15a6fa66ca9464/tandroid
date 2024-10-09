@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.CompoundButton;
 import java.lang.reflect.Field;
+
 /* loaded from: classes.dex */
 public abstract class CompoundButtonCompat {
     private static Field sButtonDrawableField;
@@ -64,6 +65,7 @@ public abstract class CompoundButtonCompat {
         return null;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setButtonTintList(CompoundButton compoundButton, ColorStateList colorStateList) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.setButtonTintList(compoundButton, colorStateList);
@@ -72,6 +74,7 @@ public abstract class CompoundButtonCompat {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setButtonTintMode(CompoundButton compoundButton, PorterDuff.Mode mode) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.setButtonTintMode(compoundButton, mode);

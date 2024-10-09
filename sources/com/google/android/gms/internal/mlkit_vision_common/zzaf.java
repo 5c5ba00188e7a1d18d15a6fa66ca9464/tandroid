@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 
 import java.io.OutputStream;
+
 /* loaded from: classes.dex */
 final class zzaf extends OutputStream {
     private long zza = 0;

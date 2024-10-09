@@ -14,10 +14,12 @@ import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public final class zztl {
     private static zzav zza;
@@ -59,9 +61,8 @@ public final class zztl {
     }
 
     static long zza(List list, double d) {
-        double d2;
         Double.isNaN(list.size());
-        return ((Long) list.get(Math.max(((int) Math.ceil((d / 100.0d) * d2)) - 1, 0))).longValue();
+        return ((Long) list.get(Math.max(((int) Math.ceil((d / 100.0d) * r0)) - 1, 0))).longValue();
     }
 
     private static synchronized zzav zzi() {
@@ -145,12 +146,13 @@ public final class zztl {
         zzba zzbaVar = (zzba) this.zzl.get(zzobVar);
         if (zzbaVar != null) {
             for (Object obj : zzbaVar.zzo()) {
-                ArrayList<Long> arrayList = new ArrayList(zzbaVar.zzc(obj));
+                ArrayList arrayList = new ArrayList(zzbaVar.zzc(obj));
                 Collections.sort(arrayList);
                 zzna zznaVar = new zzna();
+                Iterator it = arrayList.iterator();
                 long j = 0;
-                for (Long l : arrayList) {
-                    j += l.longValue();
+                while (it.hasNext()) {
+                    j += ((Long) it.next()).longValue();
                 }
                 zznaVar.zza(Long.valueOf(j / arrayList.size()));
                 zznaVar.zzc(Long.valueOf(zza(arrayList, 100.0d)));

@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.LongPredicate;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class Z {
     public final /* synthetic */ LongPredicate a;

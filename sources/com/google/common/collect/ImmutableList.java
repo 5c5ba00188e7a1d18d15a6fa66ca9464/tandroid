@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public abstract class ImmutableList extends ImmutableCollection implements List, RandomAccess {
     private static final UnmodifiableListIterator EMPTY_ITR = new Itr(RegularImmutableList.EMPTY, 0);
@@ -140,11 +141,11 @@ public abstract class ImmutableList extends ImmutableCollection implements List,
     }
 
     public static ImmutableList copyOf(Collection collection) {
-        if (collection instanceof ImmutableCollection) {
-            ImmutableList asList = ((ImmutableCollection) collection).asList();
-            return asList.isPartialView() ? asImmutableList(asList.toArray()) : asList;
+        if (!(collection instanceof ImmutableCollection)) {
+            return construct(collection.toArray());
         }
-        return construct(collection.toArray());
+        ImmutableList asList = ((ImmutableCollection) collection).asList();
+        return asList.isPartialView() ? asImmutableList(asList.toArray()) : asList;
     }
 
     public static ImmutableList copyOf(Object[] objArr) {

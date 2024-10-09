@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ContentProvider;
 import android.content.Intent;
+
 /* loaded from: classes.dex */
 public class CoreComponentFactory extends AppComponentFactory {
     static Object checkCompatWrapper(Object obj) {

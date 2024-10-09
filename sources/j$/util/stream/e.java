@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import java.util.concurrent.CountedCompleter;
 import java.util.concurrent.ForkJoinPool;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class e extends CountedCompleter {

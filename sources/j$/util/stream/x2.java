@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Arrays;
+
 /* loaded from: classes2.dex */
 final class x2 extends a0 {
     /* JADX INFO: Access modifiers changed from: package-private */

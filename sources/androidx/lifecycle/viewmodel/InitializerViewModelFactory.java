@@ -3,6 +3,7 @@ package androidx.lifecycle.viewmodel;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class InitializerViewModelFactory implements ViewModelProvider.Factory {
     private final ViewModelInitializer[] initializers;
@@ -19,7 +20,6 @@ public final class InitializerViewModelFactory implements ViewModelProvider.Fact
 
     @Override // androidx.lifecycle.ViewModelProvider.Factory
     public ViewModel create(Class modelClass, CreationExtras extras) {
-        ViewModelInitializer[] viewModelInitializerArr;
         Intrinsics.checkNotNullParameter(modelClass, "modelClass");
         Intrinsics.checkNotNullParameter(extras, "extras");
         ViewModel viewModel = null;

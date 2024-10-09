@@ -2,6 +2,7 @@ package com.google.android.gms.internal.vision;
 
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzil implements zzmr {
     private final zzii zza;
@@ -155,7 +156,7 @@ final class zzil implements zzmr {
     public final void zzb(int i, Object obj, zzlc zzlcVar) {
         zzii zziiVar = this.zza;
         zziiVar.zza(i, 3);
-        zzlcVar.zza((Object) ((zzkk) obj), (zzmr) zziiVar.zza);
+        zzlcVar.zza(obj, (zzmr) zziiVar.zza);
         zziiVar.zza(i, 4);
     }
 

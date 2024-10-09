@@ -2,6 +2,7 @@ package j$.util.function;
 
 import j$.util.function.Function;
 import java.util.function.BinaryOperator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class e implements BinaryOperator {
     public final /* synthetic */ f a;

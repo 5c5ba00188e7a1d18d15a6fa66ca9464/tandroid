@@ -18,6 +18,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RLottieDrawable;
+
 /* loaded from: classes4.dex */
 public class DownloadProgressIcon extends View implements NotificationCenter.NotificationCenterDelegate {
     private int currentAccount;
@@ -131,11 +132,11 @@ public class DownloadProgressIcon extends View implements NotificationCenter.Not
             this.progress = 1.0f;
             this.currentProgress = 1.0f;
             this.showCompletedIcon = true;
-            return;
+        } else {
+            this.progress = 0.0f;
+            this.currentProgress = 0.0f;
+            this.showCompletedIcon = false;
         }
-        this.progress = 0.0f;
-        this.currentProgress = 0.0f;
-        this.showCompletedIcon = false;
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -195,18 +196,19 @@ public class DownloadProgressIcon extends View implements NotificationCenter.Not
                 this.currentProgress = f2;
             }
         }
+        int measuredHeight = (getMeasuredHeight() / 2) + AndroidUtilities.dp(8.0f);
         float dp = AndroidUtilities.dp(1.0f);
         float dp2 = AndroidUtilities.dp(16.0f);
         RectF rectF = AndroidUtilities.rectTmp;
-        float measuredHeight = (getMeasuredHeight() / 2) + AndroidUtilities.dp(8.0f);
-        float f5 = measuredHeight - dp;
-        float f6 = measuredHeight + dp;
-        rectF.set(dp2, f5, getMeasuredWidth() - dp2, f6);
+        float f5 = measuredHeight;
+        float f6 = f5 - dp;
+        float f7 = f5 + dp;
+        rectF.set(dp2, f6, getMeasuredWidth() - dp2, f7);
         canvas.drawRoundRect(rectF, dp, dp, this.paint2);
-        rectF.set(dp2, f5, ((getMeasuredWidth() - (2.0f * dp2)) * this.currentProgress) + dp2, f6);
+        rectF.set(dp2, f6, ((getMeasuredWidth() - (2.0f * dp2)) * this.currentProgress) + dp2, f7);
         canvas.drawRoundRect(rectF, dp, dp, this.paint);
         canvas.save();
-        canvas.clipRect(0.0f, 0.0f, getMeasuredWidth(), f5);
+        canvas.clipRect(0.0f, 0.0f, getMeasuredWidth(), f6);
         if (this.progress != 1.0f) {
             this.showCompletedIcon = false;
         }

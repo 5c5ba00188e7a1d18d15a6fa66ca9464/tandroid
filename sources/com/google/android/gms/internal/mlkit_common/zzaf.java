@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_common;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public abstract class zzaf {
     public static String zza(String str, Object... objArr) {

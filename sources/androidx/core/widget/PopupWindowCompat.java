@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.PopupWindow;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public abstract class PopupWindowCompat {
     private static Field sOverlapAnchorField;
@@ -43,7 +44,9 @@ public abstract class PopupWindowCompat {
         int i = Build.VERSION.SDK_INT;
         if (i >= 23) {
             Api23Impl.setOverlapAnchor(popupWindow, z);
-        } else if (i >= 21) {
+            return;
+        }
+        if (i >= 21) {
             if (!sOverlapAnchorFieldAttempted) {
                 try {
                     Field declaredField = PopupWindow.class.getDeclaredField("mOverlapAnchor");

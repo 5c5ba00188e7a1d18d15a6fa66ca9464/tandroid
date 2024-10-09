@@ -1,5 +1,6 @@
 package org.telegram.ui.Components;
 
+import android.R;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -31,7 +32,6 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
@@ -40,9 +40,10 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
+
 /* loaded from: classes3.dex */
 public abstract class TranscribeButton {
-    private static final int[] pressedState = {16842910, 16842919};
+    private static final int[] pressedState = {R.attr.state_enabled, R.attr.state_pressed};
     private static HashMap transcribeOperationsByDialogPosition;
     private static HashMap transcribeOperationsById;
     private static ArrayList videoTranscriptionsOpen;
@@ -96,7 +97,7 @@ public abstract class TranscribeButton {
         public LoadingPointsDrawable(TextPaint textPaint) {
             this.paint = textPaint;
             float textSize = textPaint.getTextSize() * 0.89f;
-            RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.dots_loading, "dots_loading", (int) textSize, (int) (textSize * 1.25f)) { // from class: org.telegram.ui.Components.TranscribeButton.LoadingPointsDrawable.1
+            RLottieDrawable rLottieDrawable = new RLottieDrawable(org.telegram.messenger.R.raw.dots_loading, "dots_loading", (int) textSize, (int) (textSize * 1.25f)) { // from class: org.telegram.ui.Components.TranscribeButton.LoadingPointsDrawable.1
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RLottieDrawable
                 public boolean hasParentView() {
@@ -178,7 +179,7 @@ public abstract class TranscribeButton {
         android.graphics.Rect rect = new android.graphics.Rect(this.bounds);
         this.pressBounds = rect;
         rect.inset(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f));
-        RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.transcribe_out, "transcribe_out", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
+        RLottieDrawable rLottieDrawable = new RLottieDrawable(org.telegram.messenger.R.raw.transcribe_out, "transcribe_out", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
         this.outIconDrawable = rLottieDrawable;
         rLottieDrawable.setCurrentFrame(0);
         this.outIconDrawable.setCallback(chatMessageCell);
@@ -189,7 +190,7 @@ public abstract class TranscribeButton {
             }
         }, 19);
         this.outIconDrawable.setAllowDecodeSingleFrame(true);
-        RLottieDrawable rLottieDrawable2 = new RLottieDrawable(R.raw.transcribe_in, "transcribe_in", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
+        RLottieDrawable rLottieDrawable2 = new RLottieDrawable(org.telegram.messenger.R.raw.transcribe_in, "transcribe_in", AndroidUtilities.dp(26.0f), AndroidUtilities.dp(26.0f));
         this.inIconDrawable = rLottieDrawable2;
         rLottieDrawable2.setCurrentFrame(0);
         this.inIconDrawable.setCallback(chatMessageCell);
@@ -252,11 +253,11 @@ public abstract class TranscribeButton {
         if (f <= f2) {
             float f5 = f4 - f3;
             addCorner(path, i, i2, i3, i4, Math.max(0.0f, f - f3) / f5, (Math.min(f2, f4) - f3) / f5);
-            return;
+        } else {
+            float f6 = f4 - f3;
+            addCorner(path, i, i2, i3, i4, (f - f3) / f6, 1.0f);
+            addCorner(path, i, i2, i3, i4, 0.0f, (f2 - f3) / f6);
         }
-        float f6 = f4 - f3;
-        addCorner(path, i, i2, i3, i4, (f - f3) / f6, 1.0f);
-        addCorner(path, i, i2, i3, i4, 0.0f, (f2 - f3) / f6);
     }
 
     private void addLine(Path path, int i, int i2, int i3, int i4, float f, float f2) {
@@ -264,12 +265,11 @@ public abstract class TranscribeButton {
             return;
         }
         float clamp = MathUtils.clamp(f, 0.0f, 1.0f);
-        float clamp2 = MathUtils.clamp(f2, 0.0f, 1.0f);
-        if (clamp2 - clamp <= 0.0f) {
+        if (MathUtils.clamp(f2, 0.0f, 1.0f) - clamp <= 0.0f) {
             return;
         }
         path.moveTo(AndroidUtilities.lerp(i, i3, clamp), AndroidUtilities.lerp(i2, i4, clamp));
-        path.lineTo(AndroidUtilities.lerp(i, i3, clamp2), AndroidUtilities.lerp(i2, i4, clamp2));
+        path.lineTo(AndroidUtilities.lerp(i, i3, r9), AndroidUtilities.lerp(i2, i4, r9));
     }
 
     private void addLine(Path path, int i, int i2, int i3, int i4, float f, float f2, float f3, float f4) {
@@ -390,10 +390,9 @@ public abstract class TranscribeButton {
         fArr[1] = f;
         for (int i = 0; i < 4; i++) {
             float[] fArr2 = this.segments;
-            int i2 = i * 1350;
-            fArr2[1] = fArr2[1] + (this.interpolator.getInterpolation(((float) (j2 - i2)) / 667.0f) * 250.0f);
+            fArr2[1] = fArr2[1] + (this.interpolator.getInterpolation(((float) (j2 - (i * 1350))) / 667.0f) * 250.0f);
             float[] fArr3 = this.segments;
-            fArr3[0] = fArr3[0] + (this.interpolator.getInterpolation(((float) (j2 - (i2 + 667))) / 667.0f) * 250.0f);
+            fArr3[0] = fArr3[0] + (this.interpolator.getInterpolation(((float) (j2 - (r6 + 667))) / 667.0f) * 250.0f);
         }
         return this.segments;
     }
@@ -519,17 +518,18 @@ public abstract class TranscribeButton {
             transcribeOperationsById.put(Long.valueOf(j4), messageObject);
             messageObject.messageOwner.voiceTranscriptionId = j4;
             j3 = j4;
-        } else if (tL_error != null && (str = tL_error.text) != null && str.startsWith("FLOOD_WAIT_")) {
-            MessagesController.getInstance(i).updateTranscribeAudioTrialCurrentNumber(0);
-            MessagesController.getInstance(i).updateTranscribeAudioTrialCooldownUntil(ConnectionsManager.getInstance(i).getCurrentTime() + Utilities.parseInt((CharSequence) tL_error.text).intValue());
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda8
-                @Override // java.lang.Runnable
-                public final void run() {
-                    TranscribeButton.lambda$transcribePressed$4(MessageObject.this, chatMessageCellDelegate, i);
-                }
-            });
-            return;
         } else {
+            if (tL_error != null && (str = tL_error.text) != null && str.startsWith("FLOOD_WAIT_")) {
+                MessagesController.getInstance(i).updateTranscribeAudioTrialCurrentNumber(0);
+                MessagesController.getInstance(i).updateTranscribeAudioTrialCooldownUntil(ConnectionsManager.getInstance(i).getCurrentTime() + Utilities.parseInt((CharSequence) tL_error.text).intValue());
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda8
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        TranscribeButton.lambda$transcribePressed$4(MessageObject.this, chatMessageCellDelegate, i);
+                    }
+                });
+                return;
+            }
             j3 = 0;
             z = true;
         }
@@ -636,25 +636,26 @@ public abstract class TranscribeButton {
                     TranscribeButton.lambda$transcribePressed$7(i, messageObject);
                 }
             };
-        } else if (message.voiceTranscription == null || !message.voiceTranscriptionFinal) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.d("sending Transcription request, msg_id=" + i2 + " dialog_id=" + peerDialogId);
-            }
-            TLRPC.TL_messages_transcribeAudio tL_messages_transcribeAudio = new TLRPC.TL_messages_transcribeAudio();
-            tL_messages_transcribeAudio.peer = inputPeer;
-            tL_messages_transcribeAudio.msg_id = i2;
-            if (transcribeOperationsByDialogPosition == null) {
-                transcribeOperationsByDialogPosition = new HashMap();
-            }
-            transcribeOperationsByDialogPosition.put(Integer.valueOf(reqInfoHash(messageObject)), messageObject);
-            ConnectionsManager.getInstance(i).sendRequest(tL_messages_transcribeAudio, new RequestDelegate() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda5
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    TranscribeButton.lambda$transcribePressed$6(i, chatMessageCellDelegate, messageObject, elapsedRealtime, peerDialogId, i2, tLObject, tL_error);
-                }
-            }, !UserConfig.getInstance(i).isPremium() ? 1024 : 0);
-            return;
         } else {
+            if (message.voiceTranscription == null || !message.voiceTranscriptionFinal) {
+                if (BuildVars.LOGS_ENABLED) {
+                    FileLog.d("sending Transcription request, msg_id=" + i2 + " dialog_id=" + peerDialogId);
+                }
+                TLRPC.TL_messages_transcribeAudio tL_messages_transcribeAudio = new TLRPC.TL_messages_transcribeAudio();
+                tL_messages_transcribeAudio.peer = inputPeer;
+                tL_messages_transcribeAudio.msg_id = i2;
+                if (transcribeOperationsByDialogPosition == null) {
+                    transcribeOperationsByDialogPosition = new HashMap();
+                }
+                transcribeOperationsByDialogPosition.put(Integer.valueOf(reqInfoHash(messageObject)), messageObject);
+                ConnectionsManager.getInstance(i).sendRequest(tL_messages_transcribeAudio, new RequestDelegate() { // from class: org.telegram.ui.Components.TranscribeButton$$ExternalSyntheticLambda5
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        TranscribeButton.lambda$transcribePressed$6(i, chatMessageCellDelegate, messageObject, elapsedRealtime, peerDialogId, i2, tLObject, tL_error);
+                    }
+                }, !UserConfig.getInstance(i).isPremium() ? 1024 : 0);
+                return;
+            }
             openVideoTranscription(messageObject);
             messageObject.messageOwner.voiceTranscriptionOpen = true;
             MessagesStorage.getInstance(i).updateMessageVoiceTranscriptionOpen(peerDialogId, i2, messageObject.messageOwner);
@@ -736,30 +737,31 @@ public abstract class TranscribeButton {
             int i2 = rect3.right;
             int i3 = rect3.top;
             int i4 = this.radius;
+            int i5 = rect3.bottom - i4;
             float f11 = this.b;
-            addLine(path6, i2, i3 + i4, i2, rect3.bottom - i4, f9, f10, f11, 180.0f - f11);
+            addLine(path6, i2, i3 + i4, i2, i5, f9, f10, f11, 180.0f - f11);
             Path path7 = this.progressClipPath;
             android.graphics.Rect rect4 = this.bounds;
             addCorner(path7, rect4.right, rect4.bottom, this.diameter, 2, f9, f10, 180.0f - this.b, 180.0f - this.a);
             Path path8 = this.progressClipPath;
             android.graphics.Rect rect5 = this.bounds;
-            int i5 = rect5.right;
-            int i6 = this.radius;
-            int i7 = rect5.bottom;
-            int i8 = rect5.left + i6;
+            int i6 = rect5.right;
+            int i7 = this.radius;
+            int i8 = rect5.bottom;
+            int i9 = rect5.left + i7;
             float f12 = this.a;
-            addLine(path8, i5 - i6, i7, i8, i7, f9, f10, 180.0f - f12, f12 + 180.0f);
+            addLine(path8, i6 - i7, i8, i9, i8, f9, f10, 180.0f - f12, f12 + 180.0f);
             Path path9 = this.progressClipPath;
             android.graphics.Rect rect6 = this.bounds;
             addCorner(path9, rect6.left, rect6.bottom, this.diameter, 3, f9, f10, this.a + 180.0f, this.b + 180.0f);
             Path path10 = this.progressClipPath;
             android.graphics.Rect rect7 = this.bounds;
-            int i9 = rect7.left;
-            int i10 = rect7.bottom;
-            int i11 = this.radius;
-            int i12 = rect7.top + i11;
+            int i10 = rect7.left;
+            int i11 = rect7.bottom;
+            int i12 = this.radius;
+            int i13 = rect7.top + i12;
             float f13 = this.b;
-            addLine(path10, i9, i10 - i11, i9, i12, f9, f10, f13 + 180.0f, 360.0f - f13);
+            addLine(path10, i10, i11 - i12, i10, i13, f9, f10, f13 + 180.0f, 360.0f - f13);
             Path path11 = this.progressClipPath;
             android.graphics.Rect rect8 = this.bounds;
             addCorner(path11, rect8.left, rect8.top, this.diameter, 4, f9, f10, 360.0f - this.b, 360.0f - this.a);
@@ -856,22 +858,22 @@ public abstract class TranscribeButton {
             }
             this.pressed = false;
             return false;
-        } else if (this.pressBounds.contains((int) f, (int) f2)) {
-            if (i == 0) {
-                this.pressed = true;
-            }
-            if (this.pressed && Build.VERSION.SDK_INT >= 21) {
-                Drawable drawable = this.selectorDrawable;
-                if (AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(drawable)) {
-                    drawable.setHotspot(f, f2);
-                    this.selectorDrawable.setState(pressedState);
-                    this.parent.invalidate();
-                }
-            }
-            return true;
-        } else {
+        }
+        if (!this.pressBounds.contains((int) f, (int) f2)) {
             return false;
         }
+        if (i == 0) {
+            this.pressed = true;
+        }
+        if (this.pressed && Build.VERSION.SDK_INT >= 21) {
+            Drawable drawable = this.selectorDrawable;
+            if (AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(drawable)) {
+                drawable.setHotspot(f, f2);
+                this.selectorDrawable.setState(pressedState);
+                this.parent.invalidate();
+            }
+        }
+        return true;
     }
 
     public void setBounds(int i, int i2, int i3, int i4, int i5) {
@@ -900,8 +902,7 @@ public abstract class TranscribeButton {
             this.backgroundPaint = new Paint();
         }
         this.backgroundPaint.setColor(this.backgroundColor);
-        Paint paint = this.backgroundPaint;
-        paint.setAlpha((int) (paint.getAlpha() * (1.0f - f)));
+        this.backgroundPaint.setAlpha((int) (r1.getAlpha() * (1.0f - f)));
         if (z2 || this.selectorDrawable == null) {
             Drawable createSimpleSelectorRoundRectDrawable = Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), 0, this.rippleColor);
             this.selectorDrawable = createSimpleSelectorRoundRectDrawable;
@@ -928,9 +929,9 @@ public abstract class TranscribeButton {
             rLottieDrawable2.setAlpha(alpha2);
         }
         if (this.strokePaint == null) {
-            Paint paint2 = new Paint(1);
-            this.strokePaint = paint2;
-            paint2.setStyle(Paint.Style.STROKE);
+            Paint paint = new Paint(1);
+            this.strokePaint = paint;
+            paint.setStyle(Paint.Style.STROKE);
             this.strokePaint.setStrokeCap(Paint.Cap.ROUND);
         }
         this.strokePaint.setColor(i);

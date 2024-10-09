@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
+
 /* loaded from: classes.dex */
 public final class HeartRating extends Rating {
     private final boolean isHeart;
@@ -37,11 +38,11 @@ public final class HeartRating extends Rating {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof HeartRating) {
-            HeartRating heartRating = (HeartRating) obj;
-            return this.isHeart == heartRating.isHeart && this.rated == heartRating.rated;
+        if (!(obj instanceof HeartRating)) {
+            return false;
         }
-        return false;
+        HeartRating heartRating = (HeartRating) obj;
+        return this.isHeart == heartRating.isHeart && this.rated == heartRating.rated;
     }
 
     public int hashCode() {

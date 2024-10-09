@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 /* loaded from: classes.dex */
 public interface DrmSessionEventListener {
 

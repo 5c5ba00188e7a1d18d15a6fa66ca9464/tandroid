@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class V2 extends Y2 implements j$.util.function.n {
     final double[] c = new double[128];

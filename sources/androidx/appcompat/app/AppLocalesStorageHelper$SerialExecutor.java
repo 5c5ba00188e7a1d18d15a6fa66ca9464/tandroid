@@ -3,6 +3,7 @@ package androidx.appcompat.app;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.Executor;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class AppLocalesStorageHelper$SerialExecutor implements Executor {

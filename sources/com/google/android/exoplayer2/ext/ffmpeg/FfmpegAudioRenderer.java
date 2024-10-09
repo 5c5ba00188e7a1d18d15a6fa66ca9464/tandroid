@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class FfmpegAudioRenderer extends DecoderAudioRenderer {
     private static final int DEFAULT_INPUT_BUFFER_SIZE = 5760;
@@ -32,13 +33,13 @@ public final class FfmpegAudioRenderer extends DecoderAudioRenderer {
     }
 
     private boolean shouldOutputFloat(Format format) {
-        if (sinkSupportsFormat(format, 2)) {
-            if (getSinkFormatSupport(Util.getPcmFormat(4, format.channelCount, format.sampleRate)) != 2) {
-                return false;
-            }
-            return !"audio/ac3".equals(format.sampleMimeType);
+        if (!sinkSupportsFormat(format, 2)) {
+            return true;
         }
-        return true;
+        if (getSinkFormatSupport(Util.getPcmFormat(4, format.channelCount, format.sampleRate)) != 2) {
+            return false;
+        }
+        return !"audio/ac3".equals(format.sampleMimeType);
     }
 
     private boolean sinkSupportsFormat(Format format, int i) {
@@ -75,16 +76,16 @@ public final class FfmpegAudioRenderer extends DecoderAudioRenderer {
     @Override // com.google.android.exoplayer2.audio.DecoderAudioRenderer
     protected int supportsFormatInternal(Format format) {
         String str = (String) Assertions.checkNotNull(format.sampleMimeType);
-        if (FfmpegLibrary.isAvailable() && MimeTypes.isAudio(str)) {
-            if (FfmpegLibrary.supportsFormat(str)) {
-                if (sinkSupportsFormat(format, 2) || sinkSupportsFormat(format, 4)) {
-                    return format.cryptoType != 0 ? 2 : 4;
-                }
-                return 1;
-            }
+        if (!FfmpegLibrary.isAvailable() || !MimeTypes.isAudio(str)) {
+            return 0;
+        }
+        if (!FfmpegLibrary.supportsFormat(str)) {
             return 1;
         }
-        return 0;
+        if (sinkSupportsFormat(format, 2) || sinkSupportsFormat(format, 4)) {
+            return format.cryptoType != 0 ? 2 : 4;
+        }
+        return 1;
     }
 
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.RendererCapabilities

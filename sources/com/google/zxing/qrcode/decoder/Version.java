@@ -4,6 +4,7 @@ import com.google.zxing.FormatException;
 import com.google.zxing.common.BitMatrix;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public final class Version {
     private final int[] alignmentPatternCenters;
@@ -64,7 +65,6 @@ public final class Version {
     }
 
     private Version(int i, int[] iArr, ECBlocks... eCBlocksArr) {
-        ECB[] eCBlocks;
         this.versionNumber = i;
         this.alignmentPatternCenters = iArr;
         this.ecBlocks = eCBlocksArr;
@@ -107,14 +107,14 @@ public final class Version {
     }
 
     public static Version getProvisionalVersionForDimension(int i) {
-        if (i % 4 == 1) {
-            try {
-                return getVersionForNumber((i - 17) / 4);
-            } catch (IllegalArgumentException unused) {
-                throw FormatException.getFormatInstance();
-            }
+        if (i % 4 != 1) {
+            throw FormatException.getFormatInstance();
         }
-        throw FormatException.getFormatInstance();
+        try {
+            return getVersionForNumber((i - 17) / 4);
+        } catch (IllegalArgumentException unused) {
+            throw FormatException.getFormatInstance();
+        }
     }
 
     public static Version getVersionForNumber(int i) {

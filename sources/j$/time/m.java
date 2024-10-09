@@ -1,6 +1,7 @@
 package j$.time;
 
 import j$.time.temporal.q;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class m implements j$.time.temporal.k {

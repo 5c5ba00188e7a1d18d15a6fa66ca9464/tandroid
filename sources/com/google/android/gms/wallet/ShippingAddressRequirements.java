@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class ShippingAddressRequirements extends AbstractSafeParcelable {
     public static final Parcelable.Creator<ShippingAddressRequirements> CREATOR = new zzam();

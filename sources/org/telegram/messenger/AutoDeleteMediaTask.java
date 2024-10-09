@@ -10,6 +10,7 @@ import java.util.Set;
 import org.telegram.messenger.AutoDeleteMediaTask;
 import org.telegram.messenger.CacheByChatsController;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes3.dex */
 public class AutoDeleteMediaTask {
     public static Set<String> usingFilePaths = Collections.newSetFromMap(new ConcurrentHashMap());
@@ -50,11 +51,11 @@ public class AutoDeleteMediaTask {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x02d5  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x02fe  */
-    /* JADX WARN: Removed duplicated region for block: B:205:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0156  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0157 A[Catch: all -> 0x00e8, TryCatch #4 {all -> 0x00e8, blocks: (B:49:0x00d2, B:58:0x00f3, B:52:0x00dd, B:60:0x00fb, B:62:0x0101, B:64:0x010e, B:66:0x0114, B:68:0x011e, B:85:0x015a, B:89:0x016f, B:69:0x012a, B:73:0x013a, B:84:0x0157, B:74:0x013f, B:76:0x0143), top: B:170:0x00d2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x0156  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0157 A[Catch: all -> 0x00e8, TryCatch #4 {all -> 0x00e8, blocks: (B:59:0x00d2, B:63:0x00f3, B:64:0x00dd, B:78:0x00fb, B:80:0x0101, B:83:0x010e, B:85:0x0114, B:87:0x011e, B:88:0x015a, B:95:0x016f, B:118:0x012a, B:121:0x013a, B:126:0x0157, B:127:0x013f, B:129:0x0143), top: B:58:0x00d2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:184:0x02d5  */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x02fe  */
+    /* JADX WARN: Removed duplicated region for block: B:195:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

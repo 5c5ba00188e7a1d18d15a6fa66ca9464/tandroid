@@ -27,6 +27,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public abstract class PremiumStickersPreviewRecycler extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate, PagerHeaderView {
     boolean autoPlayEnabled;
@@ -98,8 +99,8 @@ public abstract class PremiumStickersPreviewRecycler extends RecyclerListView im
             super(context);
             this.animateImage = true;
             this.view = new View(context) { // from class: org.telegram.ui.Components.Premium.PremiumStickersPreviewRecycler.StickerView.1
-                /* JADX WARN: Removed duplicated region for block: B:57:0x01c7  */
-                /* JADX WARN: Removed duplicated region for block: B:59:? A[RETURN, SYNTHETIC] */
+                /* JADX WARN: Removed duplicated region for block: B:41:0x01c7  */
+                /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
                 @Override // android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -473,18 +474,14 @@ public abstract class PremiumStickersPreviewRecycler extends RecyclerListView im
             }
             Collections.sort(this.sortedView, this.comparator);
             if ((this.firstDraw || this.checkEffect) && this.sortedView.size() > 0 && !this.premiumStickers.isEmpty()) {
-                ArrayList arrayList = this.sortedView;
-                View view = (View) arrayList.get(arrayList.size() - 1);
+                View view = (View) this.sortedView.get(r1.size() - 1);
                 this.oldSelectedView = view;
                 drawEffectForView(view, !this.firstDraw);
                 this.firstDraw = false;
                 this.checkEffect = false;
             } else {
-                View view2 = this.oldSelectedView;
-                ArrayList arrayList2 = this.sortedView;
-                if (view2 != arrayList2.get(arrayList2.size() - 1)) {
-                    ArrayList arrayList3 = this.sortedView;
-                    this.oldSelectedView = (View) arrayList3.get(arrayList3.size() - 1);
+                if (this.oldSelectedView != this.sortedView.get(r2.size() - 1)) {
+                    this.oldSelectedView = (View) this.sortedView.get(r1.size() - 1);
                     if (this.haptic) {
                         performHapticFeedback(3);
                     }
@@ -555,11 +552,11 @@ public abstract class PremiumStickersPreviewRecycler extends RecyclerListView im
             if (!z) {
                 AndroidUtilities.cancelRunOnUIThread(this.autoScrollRunnable);
                 drawEffectForView(null, true);
-                return;
+            } else {
+                scheduleAutoScroll();
+                this.checkEffect = true;
+                invalidate();
             }
-            scheduleAutoScroll();
-            this.checkEffect = true;
-            invalidate();
         }
     }
 

@@ -4,6 +4,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 abstract class zzad extends AbstractCollection {
     final Object zza;
@@ -26,15 +27,15 @@ abstract class zzad extends AbstractCollection {
         zzb();
         boolean isEmpty = this.zzb.isEmpty();
         boolean add = this.zzb.add(obj);
-        if (add) {
-            zzag.zzd(this.zze);
-            if (isEmpty) {
-                zza();
-                return true;
-            }
+        if (!add) {
             return add;
         }
-        return add;
+        zzag.zzd(this.zze);
+        if (!isEmpty) {
+            return add;
+        }
+        zza();
+        return true;
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
@@ -44,15 +45,15 @@ abstract class zzad extends AbstractCollection {
         }
         int size = size();
         boolean addAll = this.zzb.addAll(collection);
-        if (addAll) {
-            zzag.zzf(this.zze, this.zzb.size() - size);
-            if (size == 0) {
-                zza();
-                return true;
-            }
+        if (!addAll) {
             return addAll;
         }
-        return addAll;
+        zzag.zzf(this.zze, this.zzb.size() - size);
+        if (size != 0) {
+            return addAll;
+        }
+        zza();
+        return true;
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
@@ -167,8 +168,10 @@ abstract class zzad extends AbstractCollection {
             if (this.zzc.zzb != this.zzd) {
                 throw new ConcurrentModificationException();
             }
-        } else if (!this.zzb.isEmpty() || (collection = (Collection) zzag.zzj(this.zze).get(this.zza)) == null) {
         } else {
+            if (!this.zzb.isEmpty() || (collection = (Collection) zzag.zzj(this.zze).get(this.zza)) == null) {
+                return;
+            }
             this.zzb = collection;
         }
     }

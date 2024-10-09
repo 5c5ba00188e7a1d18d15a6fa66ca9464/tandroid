@@ -2,6 +2,7 @@ package j$.time;
 
 import j$.time.temporal.q;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes2.dex */
 public enum k implements j$.time.temporal.k {
     JANUARY,
@@ -16,14 +17,14 @@ public enum k implements j$.time.temporal.k {
     OCTOBER,
     NOVEMBER,
     DECEMBER;
-    
+
     private static final k[] a = values();
 
     public static k h(int i) {
-        if (i < 1 || i > 12) {
-            throw new c("Invalid value for MonthOfYear: " + i);
+        if (i >= 1 && i <= 12) {
+            return a[i - 1];
         }
-        return a[i - 1];
+        throw new c("Invalid value for MonthOfYear: " + i);
     }
 
     @Override // j$.time.temporal.k
@@ -36,10 +37,10 @@ public enum k implements j$.time.temporal.k {
         if (lVar == j$.time.temporal.a.MONTH_OF_YEAR) {
             return ordinal() + 1;
         }
-        if (lVar instanceof j$.time.temporal.a) {
-            throw new j$.time.temporal.p("Unsupported field: " + lVar);
+        if (!(lVar instanceof j$.time.temporal.a)) {
+            return lVar.b(this);
         }
-        return lVar.b(this);
+        throw new j$.time.temporal.p("Unsupported field: " + lVar);
     }
 
     @Override // j$.time.temporal.k
@@ -92,7 +93,6 @@ public enum k implements j$.time.temporal.k {
     }
 
     public final k i() {
-        int i = ((int) 1) + 12;
-        return a[(i + ordinal()) % 12];
+        return a[((((int) 1) + 12) + ordinal()) % 12];
     }
 }

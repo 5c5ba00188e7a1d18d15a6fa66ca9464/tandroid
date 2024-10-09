@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_common;
+
 /* loaded from: classes.dex */
 final class zzn extends zzh {
     private final zzp zza;

@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class FlacDecoderJni {
@@ -69,11 +70,11 @@ public final class FlacDecoderJni {
 
     private int readFromExtractorInput(ExtractorInput extractorInput, byte[] bArr, int i, int i2) {
         int read = extractorInput.read(bArr, i, i2);
-        if (read == -1) {
-            this.endOfExtractorInput = true;
-            return 0;
+        if (read != -1) {
+            return read;
         }
-        return read;
+        this.endOfExtractorInput = true;
+        return 0;
     }
 
     public void clearData() {
@@ -138,11 +139,11 @@ public final class FlacDecoderJni {
 
     public SeekMap.SeekPoints getSeekPoints(long j) {
         long[] jArr = new long[4];
-        if (flacGetSeekPoints(this.nativeDecoderContext, j, jArr)) {
-            SeekPoint seekPoint = new SeekPoint(jArr[0], jArr[1]);
-            return new SeekMap.SeekPoints(seekPoint, jArr[2] == jArr[0] ? seekPoint : new SeekPoint(jArr[2], jArr[3]));
+        if (!flacGetSeekPoints(this.nativeDecoderContext, j, jArr)) {
+            return null;
         }
-        return null;
+        SeekPoint seekPoint = new SeekPoint(jArr[0], jArr[1]);
+        return new SeekMap.SeekPoints(seekPoint, jArr[2] == jArr[0] ? seekPoint : new SeekPoint(jArr[2], jArr[3]));
     }
 
     public String getStateString() {
@@ -157,11 +158,11 @@ public final class FlacDecoderJni {
         ByteBuffer byteBuffer = this.byteBufferData;
         if (byteBuffer != null) {
             return byteBuffer.remaining() == 0;
-        } else if (this.extractorInput != null) {
-            return this.endOfExtractorInput;
-        } else {
-            return true;
         }
+        if (this.extractorInput != null) {
+            return this.endOfExtractorInput;
+        }
+        return true;
     }
 
     public int read(ByteBuffer byteBuffer) {
@@ -177,18 +178,18 @@ public final class FlacDecoderJni {
             return min;
         }
         ExtractorInput extractorInput = this.extractorInput;
-        if (extractorInput != null) {
-            byte[] bArr = (byte[]) Util.castNonNull(this.tempBuffer);
-            int min2 = Math.min(remaining, 8192);
-            int readFromExtractorInput = readFromExtractorInput(extractorInput, bArr, 0, min2);
-            if (readFromExtractorInput < 4) {
-                readFromExtractorInput += readFromExtractorInput(extractorInput, bArr, readFromExtractorInput, min2 - readFromExtractorInput);
-            }
-            int i = readFromExtractorInput;
-            byteBuffer.put(bArr, 0, i);
-            return i;
+        if (extractorInput == null) {
+            return -1;
         }
-        return -1;
+        byte[] bArr = (byte[]) Util.castNonNull(this.tempBuffer);
+        int min2 = Math.min(remaining, 8192);
+        int readFromExtractorInput = readFromExtractorInput(extractorInput, bArr, 0, min2);
+        if (readFromExtractorInput < 4) {
+            readFromExtractorInput += readFromExtractorInput(extractorInput, bArr, readFromExtractorInput, min2 - readFromExtractorInput);
+        }
+        int i = readFromExtractorInput;
+        byteBuffer.put(bArr, 0, i);
+        return i;
     }
 
     public void release() {

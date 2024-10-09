@@ -3,6 +3,7 @@ package com.google.android.play.integrity.internal;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ad implements ServiceConnection {

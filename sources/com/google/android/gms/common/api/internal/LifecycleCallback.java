@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.google.android.gms.common.internal.Preconditions;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+
 /* loaded from: classes.dex */
 public class LifecycleCallback {
     protected final LifecycleFragment mLifecycleFragment;

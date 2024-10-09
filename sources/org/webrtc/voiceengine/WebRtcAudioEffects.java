@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import org.telegram.messenger.SharedConfig;
 import org.webrtc.Logging;
+
 /* loaded from: classes.dex */
 public class WebRtcAudioEffects {
     private static final UUID AOSP_ACOUSTIC_ECHO_CANCELER = UUID.fromString("bb392ec0-8d4d-11e0-a896-0002a5d5c51b");
@@ -75,7 +76,6 @@ public class WebRtcAudioEffects {
     }
 
     private static boolean isAcousticEchoCancelerExcludedByUUID() {
-        AudioEffect.Descriptor[] availableEffects;
         for (AudioEffect.Descriptor descriptor : getAvailableEffects()) {
             if (descriptor.type.equals(AudioEffect.EFFECT_TYPE_AEC) && descriptor.uuid.equals(AOSP_ACOUSTIC_ECHO_CANCELER)) {
                 return true;
@@ -116,7 +116,6 @@ public class WebRtcAudioEffects {
     }
 
     private static boolean isNoiseSuppressorExcludedByUUID() {
-        AudioEffect.Descriptor[] availableEffects;
         for (AudioEffect.Descriptor descriptor : getAvailableEffects()) {
             if (descriptor.type.equals(AudioEffect.EFFECT_TYPE_NS) && descriptor.uuid.equals(AOSP_NOISE_SUPPRESSOR)) {
                 return true;
@@ -200,13 +199,13 @@ public class WebRtcAudioEffects {
             Logging.w(TAG, "Platform AEC is not supported");
             this.shouldEnableAec = false;
             return false;
-        } else if (this.aec == null || z == this.shouldEnableAec) {
+        }
+        if (this.aec == null || z == this.shouldEnableAec) {
             this.shouldEnableAec = z;
             return true;
-        } else {
-            Logging.e(TAG, "Platform AEC state can't be modified while recording");
-            return false;
         }
+        Logging.e(TAG, "Platform AEC state can't be modified while recording");
+        return false;
     }
 
     public boolean setNS(boolean z) {
@@ -215,12 +214,12 @@ public class WebRtcAudioEffects {
             Logging.w(TAG, "Platform NS is not supported");
             this.shouldEnableNs = false;
             return false;
-        } else if (this.ns == null || z == this.shouldEnableNs) {
+        }
+        if (this.ns == null || z == this.shouldEnableNs) {
             this.shouldEnableNs = z;
             return true;
-        } else {
-            Logging.e(TAG, "Platform NS state can't be modified while recording");
-            return false;
         }
+        Logging.e(TAG, "Platform NS state can't be modified while recording");
+        return false;
     }
 }

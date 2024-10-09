@@ -5,6 +5,7 @@ import java.util.Iterator;
 import kotlin.jvm.internal.ArrayIteratorKt;
 import kotlin.jvm.internal.CollectionToArray;
 import kotlin.jvm.internal.Intrinsics;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ArrayAsCollection implements Collection {
@@ -40,12 +41,13 @@ public final class ArrayAsCollection implements Collection {
     @Override // java.util.Collection
     public boolean containsAll(Collection elements) {
         Intrinsics.checkNotNullParameter(elements, "elements");
-        Collection<Object> collection = elements;
+        Collection collection = elements;
         if (collection.isEmpty()) {
             return true;
         }
-        for (Object obj : collection) {
-            if (!contains(obj)) {
+        Iterator it = collection.iterator();
+        while (it.hasNext()) {
+            if (!contains(it.next())) {
                 return false;
             }
         }

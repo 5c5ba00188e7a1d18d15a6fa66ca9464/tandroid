@@ -4,6 +4,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Mode;
 import com.google.zxing.qrcode.decoder.Version;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class QRCode {
     private ErrorCorrectionLevel ecLevel;
@@ -41,7 +42,7 @@ public final class QRCode {
     }
 
     public String toString() {
-        StringBuilder sb = new StringBuilder((int) NotificationCenter.storyQualityUpdate);
+        StringBuilder sb = new StringBuilder(NotificationCenter.storyQualityUpdate);
         sb.append("<<\n");
         sb.append(" mode: ");
         sb.append(this.mode);

@@ -3,6 +3,7 @@ package j$.util.concurrent;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class g extends a implements Iterator, Enumeration {
@@ -19,21 +20,21 @@ public final class g extends a implements Iterator, Enumeration {
         switch (this.k) {
             case 0:
                 k kVar = this.b;
-                if (kVar != null) {
-                    this.j = kVar;
-                    b();
-                    return kVar.b;
+                if (kVar == null) {
+                    throw new NoSuchElementException();
                 }
-                throw new NoSuchElementException();
+                this.j = kVar;
+                b();
+                return kVar.b;
             default:
                 k kVar2 = this.b;
-                if (kVar2 != null) {
-                    Object obj = kVar2.c;
-                    this.j = kVar2;
-                    b();
-                    return obj;
+                if (kVar2 == null) {
+                    throw new NoSuchElementException();
                 }
-                throw new NoSuchElementException();
+                Object obj = kVar2.c;
+                this.j = kVar2;
+                b();
+                return obj;
         }
     }
 

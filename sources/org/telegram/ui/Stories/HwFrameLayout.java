@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import org.telegram.messenger.SharedConfig;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes4.dex */
 public abstract class HwFrameLayout extends FrameLayout {
@@ -23,8 +25,9 @@ public abstract class HwFrameLayout extends FrameLayout {
         if (z) {
             setLayerType(0, null);
         }
-        for (View view : hwViews) {
-            view.invalidate();
+        Iterator it = hwViews.iterator();
+        while (it.hasNext()) {
+            ((View) it.next()).invalidate();
         }
         hwViews.clear();
     }

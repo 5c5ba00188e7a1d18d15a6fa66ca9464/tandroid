@@ -2,6 +2,7 @@ package com.microsoft.appcenter;
 
 import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.InstrumentationRegistryHelper;
+
 /* loaded from: classes.dex */
 abstract class ServiceInstrumentationUtils {
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -1,4 +1,5 @@
 package androidx.fragment;
+
 /* loaded from: classes.dex */
 public abstract class R$animator {
     public static final int fragment_close_enter = 2130837504;

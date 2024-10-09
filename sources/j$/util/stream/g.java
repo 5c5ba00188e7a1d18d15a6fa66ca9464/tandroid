@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.stream.IntStream;
 import java.util.Iterator;
 import java.util.Spliterator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class g implements java.util.stream.BaseStream {
     public final /* synthetic */ BaseStream a;

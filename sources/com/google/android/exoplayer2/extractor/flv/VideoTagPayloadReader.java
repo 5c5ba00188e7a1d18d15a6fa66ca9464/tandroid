@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.NalUnitUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.video.AvcConfig;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 final class VideoTagPayloadReader extends TagPayloadReader {
     private int frameType;
@@ -46,31 +47,31 @@ final class VideoTagPayloadReader extends TagPayloadReader {
             this.output.format(new Format.Builder().setSampleMimeType(MediaController.VIDEO_MIME_TYPE).setCodecs(parse.codecs).setWidth(parse.width).setHeight(parse.height).setPixelWidthHeightRatio(parse.pixelWidthHeightRatio).setInitializationData(parse.initializationData).build());
             this.hasOutputFormat = true;
             return false;
-        } else if (readUnsignedByte == 1 && this.hasOutputFormat) {
-            int i = this.frameType == 1 ? 1 : 0;
-            if (this.hasOutputKeyframe || i != 0) {
-                byte[] data = this.nalLength.getData();
-                data[0] = 0;
-                data[1] = 0;
-                data[2] = 0;
-                int i2 = 4 - this.nalUnitLengthFieldLength;
-                int i3 = 0;
-                while (parsableByteArray.bytesLeft() > 0) {
-                    parsableByteArray.readBytes(this.nalLength.getData(), i2, this.nalUnitLengthFieldLength);
-                    this.nalLength.setPosition(0);
-                    int readUnsignedIntToInt = this.nalLength.readUnsignedIntToInt();
-                    this.nalStartCode.setPosition(0);
-                    this.output.sampleData(this.nalStartCode, 4);
-                    this.output.sampleData(parsableByteArray, readUnsignedIntToInt);
-                    i3 = i3 + 4 + readUnsignedIntToInt;
-                }
-                this.output.sampleMetadata(readInt24, i, i3, 0, null);
-                this.hasOutputKeyframe = true;
-                return true;
-            }
-            return false;
-        } else {
+        }
+        if (readUnsignedByte != 1 || !this.hasOutputFormat) {
             return false;
         }
+        int i = this.frameType == 1 ? 1 : 0;
+        if (!this.hasOutputKeyframe && i == 0) {
+            return false;
+        }
+        byte[] data = this.nalLength.getData();
+        data[0] = 0;
+        data[1] = 0;
+        data[2] = 0;
+        int i2 = 4 - this.nalUnitLengthFieldLength;
+        int i3 = 0;
+        while (parsableByteArray.bytesLeft() > 0) {
+            parsableByteArray.readBytes(this.nalLength.getData(), i2, this.nalUnitLengthFieldLength);
+            this.nalLength.setPosition(0);
+            int readUnsignedIntToInt = this.nalLength.readUnsignedIntToInt();
+            this.nalStartCode.setPosition(0);
+            this.output.sampleData(this.nalStartCode, 4);
+            this.output.sampleData(parsableByteArray, readUnsignedIntToInt);
+            i3 = i3 + 4 + readUnsignedIntToInt;
+        }
+        this.output.sampleMetadata(readInt24, i, i3, 0, null);
+        this.hasOutputKeyframe = true;
+        return true;
     }
 }

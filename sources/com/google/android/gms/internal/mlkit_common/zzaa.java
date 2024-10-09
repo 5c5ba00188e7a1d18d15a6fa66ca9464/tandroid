@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_common;
+
 /* loaded from: classes.dex */
 public abstract class zzaa extends zzt {
     public static boolean zza(Object obj, Object obj2) {

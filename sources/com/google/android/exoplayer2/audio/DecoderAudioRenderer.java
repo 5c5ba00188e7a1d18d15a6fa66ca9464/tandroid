@@ -25,6 +25,7 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.MoreObjects;
+
 /* loaded from: classes.dex */
 public abstract class DecoderAudioRenderer extends BaseRenderer implements MediaClock {
     private static final int MAX_PENDING_OUTPUT_STREAM_OFFSET_COUNT = 10;
@@ -165,13 +166,13 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
         }
         AudioSink audioSink = this.audioSink;
         SimpleDecoderOutputBuffer simpleDecoderOutputBuffer2 = this.outputBuffer;
-        if (audioSink.handleBuffer(simpleDecoderOutputBuffer2.data, simpleDecoderOutputBuffer2.timeUs, 1)) {
-            this.decoderCounters.renderedOutputBufferCount++;
-            this.outputBuffer.release();
-            this.outputBuffer = null;
-            return true;
+        if (!audioSink.handleBuffer(simpleDecoderOutputBuffer2.data, simpleDecoderOutputBuffer2.timeUs, 1)) {
+            return false;
         }
-        return false;
+        this.decoderCounters.renderedOutputBufferCount++;
+        this.outputBuffer.release();
+        this.outputBuffer = null;
+        return true;
     }
 
     private boolean feedInputBuffer() {
@@ -198,31 +199,32 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
         if (readSource == -5) {
             onInputFormatChanged(formatHolder);
             return true;
-        } else if (readSource != -4) {
+        }
+        if (readSource != -4) {
             if (readSource == -3) {
                 return false;
             }
             throw new IllegalStateException();
-        } else if (this.inputBuffer.isEndOfStream()) {
+        }
+        if (this.inputBuffer.isEndOfStream()) {
             this.inputStreamEnded = true;
             this.decoder.queueInputBuffer(this.inputBuffer);
             this.inputBuffer = null;
             return false;
-        } else {
-            if (!this.firstStreamSampleRead) {
-                this.firstStreamSampleRead = true;
-                this.inputBuffer.addFlag(134217728);
-            }
-            this.inputBuffer.flip();
-            DecoderInputBuffer decoderInputBuffer2 = this.inputBuffer;
-            decoderInputBuffer2.format = this.inputFormat;
-            onQueueInputBuffer(decoderInputBuffer2);
-            this.decoder.queueInputBuffer(this.inputBuffer);
-            this.decoderReceivedBuffers = true;
-            this.decoderCounters.queuedInputBufferCount++;
-            this.inputBuffer = null;
-            return true;
         }
+        if (!this.firstStreamSampleRead) {
+            this.firstStreamSampleRead = true;
+            this.inputBuffer.addFlag(134217728);
+        }
+        this.inputBuffer.flip();
+        DecoderInputBuffer decoderInputBuffer2 = this.inputBuffer;
+        decoderInputBuffer2.format = this.inputFormat;
+        onQueueInputBuffer(decoderInputBuffer2);
+        this.decoder.queueInputBuffer(this.inputBuffer);
+        this.decoderReceivedBuffers = true;
+        this.decoderCounters.queuedInputBufferCount++;
+        this.inputBuffer = null;
+        return true;
     }
 
     private void flushDecoder() {
@@ -397,11 +399,17 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
     public void handleMessage(int i, Object obj) {
         if (i == 2) {
             this.audioSink.setVolume(((Float) obj).floatValue());
-        } else if (i == 3) {
+            return;
+        }
+        if (i == 3) {
             this.audioSink.setAudioAttributes((AudioAttributes) obj);
-        } else if (i == 6) {
+            return;
+        }
+        if (i == 6) {
             this.audioSink.setAuxEffectInfo((AuxEffectInfo) obj);
-        } else if (i == 12) {
+            return;
+        }
+        if (i == 12) {
             if (Util.SDK_INT >= 23) {
                 Api23.setAudioSinkPreferredDevice(this.audioSink, obj);
             }
@@ -544,10 +552,10 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
         if (this.decoder != null) {
             try {
                 TraceUtil.beginSection("drainAndFeed");
-                while (drainOutputBuffer()) {
-                }
-                while (feedInputBuffer()) {
-                }
+                do {
+                } while (drainOutputBuffer());
+                do {
+                } while (feedInputBuffer());
                 TraceUtil.endSection();
                 this.decoderCounters.ensureUpdated();
             } catch (AudioSink.ConfigurationException e3) {
@@ -576,14 +584,14 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
 
     @Override // com.google.android.exoplayer2.RendererCapabilities
     public final int supportsFormat(Format format) {
-        if (MimeTypes.isAudio(format.sampleMimeType)) {
-            int supportsFormatInternal = supportsFormatInternal(format);
-            if (supportsFormatInternal <= 2) {
-                return RendererCapabilities.-CC.create(supportsFormatInternal);
-            }
-            return RendererCapabilities.-CC.create(supportsFormatInternal, 8, Util.SDK_INT >= 21 ? 32 : 0);
+        if (!MimeTypes.isAudio(format.sampleMimeType)) {
+            return RendererCapabilities.-CC.create(0);
         }
-        return RendererCapabilities.-CC.create(0);
+        int supportsFormatInternal = supportsFormatInternal(format);
+        if (supportsFormatInternal <= 2) {
+            return RendererCapabilities.-CC.create(supportsFormatInternal);
+        }
+        return RendererCapabilities.-CC.create(supportsFormatInternal, 8, Util.SDK_INT >= 21 ? 32 : 0);
     }
 
     protected abstract int supportsFormatInternal(Format format);

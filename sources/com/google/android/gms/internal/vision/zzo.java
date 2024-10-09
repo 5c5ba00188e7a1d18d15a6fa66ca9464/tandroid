@@ -4,6 +4,7 @@ import android.os.IBinder;
 import android.os.Parcel;
 import com.google.android.gms.dynamic.IObjectWrapper;
 import com.google.android.gms.vision.barcode.Barcode;
+
 /* loaded from: classes.dex */
 public final class zzo extends zzb implements zzl {
     /* JADX INFO: Access modifiers changed from: package-private */

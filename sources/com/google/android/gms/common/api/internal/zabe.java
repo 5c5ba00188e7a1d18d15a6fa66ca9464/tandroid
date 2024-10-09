@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
+
 /* loaded from: classes.dex */
 public final class zabe extends GoogleApiClient implements zabz {
     zabx zab;
@@ -134,8 +135,7 @@ public final class zabe extends GoogleApiClient implements zabz {
         if (num == null) {
             this.zaw = Integer.valueOf(i);
         } else if (num.intValue() != i) {
-            int intValue = this.zaw.intValue();
-            throw new IllegalStateException("Cannot use sign-in mode: " + zag(i) + ". Mode was already set to " + zag(intValue));
+            throw new IllegalStateException("Cannot use sign-in mode: " + zag(i) + ". Mode was already set to " + zag(this.zaw.intValue()));
         }
         if (this.zal != null) {
             return;
@@ -146,18 +146,17 @@ public final class zabe extends GoogleApiClient implements zabz {
             z |= client.requiresSignIn();
             z2 |= client.providesSignIn();
         }
-        int intValue2 = this.zaw.intValue();
-        if (intValue2 != 1) {
-            if (intValue2 == 2 && z) {
-                zabiVar = zaaa.zag(this.zan, this, this.zaj, this.zao, this.zat, this.zac, this.zae, this.zaf, this.zag, this.zav);
-                this.zal = zabiVar;
+        int intValue = this.zaw.intValue();
+        if (intValue == 1) {
+            if (!z) {
+                throw new IllegalStateException("SIGN_IN_MODE_REQUIRED cannot be used on a GoogleApiClient that does not contain any authenticated APIs. Use connect() instead.");
             }
-        } else if (!z) {
-            throw new IllegalStateException("SIGN_IN_MODE_REQUIRED cannot be used on a GoogleApiClient that does not contain any authenticated APIs. Use connect() instead.");
-        } else {
             if (z2) {
                 throw new IllegalStateException("Cannot use SIGN_IN_MODE_REQUIRED with GOOGLE_SIGN_IN_API. Use connect(SIGN_IN_MODE_OPTIONAL) instead.");
             }
+        } else if (intValue == 2 && z) {
+            zabiVar = zaaa.zag(this.zan, this, this.zaj, this.zao, this.zat, this.zac, this.zae, this.zaf, this.zag, this.zav);
+            this.zal = zabiVar;
         }
         zabiVar = new zabi(this.zan, this, this.zaj, this.zao, this.zat, this.zac, this.zae, this.zaf, this.zag, this.zav, this);
         this.zal = zabiVar;
@@ -186,24 +185,27 @@ public final class zabe extends GoogleApiClient implements zabz {
             }
             int intValue = ((Integer) Preconditions.checkNotNull(this.zaw)).intValue();
             this.zaj.lock();
-            if (intValue == 3 || intValue == 1) {
-                i = intValue;
-            } else if (intValue != 2) {
-                i = intValue;
+            try {
+                if (intValue == 3 || intValue == 1) {
+                    i = intValue;
+                } else if (intValue != 2) {
+                    i = intValue;
+                    Preconditions.checkArgument(z, "Illegal sign-in mode: " + i);
+                    zal(i);
+                    zan();
+                    this.zaj.unlock();
+                    return;
+                }
                 Preconditions.checkArgument(z, "Illegal sign-in mode: " + i);
                 zal(i);
                 zan();
                 this.zaj.unlock();
+                return;
+            } finally {
                 this.zaj.unlock();
             }
             z = true;
-            Preconditions.checkArgument(z, "Illegal sign-in mode: " + i);
-            zal(i);
-            zan();
-            this.zaj.unlock();
-            this.zaj.unlock();
         } catch (Throwable th) {
-            this.zaj.unlock();
             throw th;
         }
     }
@@ -249,9 +251,7 @@ public final class zabe extends GoogleApiClient implements zabz {
     @Override // com.google.android.gms.common.api.GoogleApiClient
     public final BaseImplementation$ApiMethodImpl enqueue(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         Api api = baseImplementation$ApiMethodImpl.getApi();
-        boolean containsKey = this.zac.containsKey(baseImplementation$ApiMethodImpl.getClientKey());
-        String zad = api != null ? api.zad() : "the API";
-        Preconditions.checkArgument(containsKey, "GoogleApiClient is not configured to use " + zad + " required for this call.");
+        Preconditions.checkArgument(this.zac.containsKey(baseImplementation$ApiMethodImpl.getClientKey()), "GoogleApiClient is not configured to use " + (api != null ? api.zad() : "the API") + " required for this call.");
         this.zaj.lock();
         try {
             zaca zacaVar = this.zal;
@@ -269,26 +269,24 @@ public final class zabe extends GoogleApiClient implements zabz {
     @Override // com.google.android.gms.common.api.GoogleApiClient
     public final BaseImplementation$ApiMethodImpl execute(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl) {
         Api api = baseImplementation$ApiMethodImpl.getApi();
-        boolean containsKey = this.zac.containsKey(baseImplementation$ApiMethodImpl.getClientKey());
-        String zad = api != null ? api.zad() : "the API";
-        Preconditions.checkArgument(containsKey, "GoogleApiClient is not configured to use " + zad + " required for this call.");
+        Preconditions.checkArgument(this.zac.containsKey(baseImplementation$ApiMethodImpl.getClientKey()), "GoogleApiClient is not configured to use " + (api != null ? api.zad() : "the API") + " required for this call.");
         this.zaj.lock();
         try {
             zaca zacaVar = this.zal;
-            if (zacaVar != null) {
-                if (this.zap) {
-                    this.zaa.add(baseImplementation$ApiMethodImpl);
-                    while (!this.zaa.isEmpty()) {
-                        BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl2 = (BaseImplementation$ApiMethodImpl) this.zaa.remove();
-                        this.zai.zaa(baseImplementation$ApiMethodImpl2);
-                        baseImplementation$ApiMethodImpl2.setFailedResult(Status.RESULT_INTERNAL_ERROR);
-                    }
-                } else {
-                    baseImplementation$ApiMethodImpl = zacaVar.zaf(baseImplementation$ApiMethodImpl);
-                }
-                return baseImplementation$ApiMethodImpl;
+            if (zacaVar == null) {
+                throw new IllegalStateException("GoogleApiClient is not connected yet.");
             }
-            throw new IllegalStateException("GoogleApiClient is not connected yet.");
+            if (this.zap) {
+                this.zaa.add(baseImplementation$ApiMethodImpl);
+                while (!this.zaa.isEmpty()) {
+                    BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl2 = (BaseImplementation$ApiMethodImpl) this.zaa.remove();
+                    this.zai.zaa(baseImplementation$ApiMethodImpl2);
+                    baseImplementation$ApiMethodImpl2.setFailedResult(Status.RESULT_INTERNAL_ERROR);
+                }
+            } else {
+                baseImplementation$ApiMethodImpl = zacaVar.zaf(baseImplementation$ApiMethodImpl);
+            }
+            return baseImplementation$ApiMethodImpl;
         } finally {
             this.zaj.unlock();
         }
@@ -385,17 +383,17 @@ public final class zabe extends GoogleApiClient implements zabz {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zak() {
-        if (this.zap) {
-            this.zap = false;
-            this.zas.removeMessages(2);
-            this.zas.removeMessages(1);
-            zabx zabxVar = this.zab;
-            if (zabxVar != null) {
-                zabxVar.zab();
-                this.zab = null;
-            }
-            return true;
+        if (!this.zap) {
+            return false;
         }
-        return false;
+        this.zap = false;
+        this.zas.removeMessages(2);
+        this.zas.removeMessages(1);
+        zabx zabxVar = this.zab;
+        if (zabxVar != null) {
+            zabxVar.zab();
+            this.zab = null;
+        }
+        return true;
     }
 }

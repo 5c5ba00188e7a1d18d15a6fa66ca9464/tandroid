@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.wallet.wobs.CommonWalletObject;
+
 /* loaded from: classes.dex */
 public final class OfferWalletObject extends AbstractSafeParcelable {
     public static final Parcelable.Creator<OfferWalletObject> CREATOR = new zzv();

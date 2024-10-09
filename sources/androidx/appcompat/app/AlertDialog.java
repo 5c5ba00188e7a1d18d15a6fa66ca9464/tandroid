@@ -13,6 +13,7 @@ import android.widget.ListView;
 import androidx.appcompat.R$attr;
 import androidx.appcompat.app.AlertController;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class AlertDialog extends AppCompatDialog implements DialogInterface {
     final AlertController mAlert;

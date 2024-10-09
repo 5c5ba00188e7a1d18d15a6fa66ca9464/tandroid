@@ -20,6 +20,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.SecureDocument;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLObject;
+
 /* loaded from: classes3.dex */
 public class BackupImageView extends View {
     public AnimatedEmojiDrawable animatedEmojiDrawable;
@@ -129,12 +130,13 @@ public class BackupImageView extends View {
             measuredHeight = i;
         }
         float currentWidth = this.blurText.getCurrentWidth() + AndroidUtilities.dp(18.0f);
+        float dp = AndroidUtilities.dp(28.0f);
         float f2 = (measuredWidth - currentWidth) / 2.0f;
         float f3 = measuredHeight / 2.0f;
         RectF rectF = AndroidUtilities.rectTmp;
-        float dp = AndroidUtilities.dp(28.0f) / 2.0f;
-        rectF.set(f2, f3 - dp, currentWidth + f2, f3 + dp);
-        this.blurTextClipPath.addRoundRect(rectF, dp, dp, Path.Direction.CW);
+        float f4 = dp / 2.0f;
+        rectF.set(f2, f3 - f4, currentWidth + f2, f3 + f4);
+        this.blurTextClipPath.addRoundRect(rectF, f4, f4, Path.Direction.CW);
         canvas.save();
         canvas.clipPath(this.blurTextClipPath);
         ImageReceiver imageReceiver = this.blurImageReceiver;
@@ -200,8 +202,8 @@ public class BackupImageView extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0092  */
-    /* JADX WARN: Removed duplicated region for block: B:28:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -211,15 +213,13 @@ public class BackupImageView extends View {
         float width;
         int height;
         int i;
-        int i2;
-        int i3;
         AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
         ImageReceiver imageReceiver2 = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
         if (imageReceiver2 == null) {
             return;
         }
-        int i4 = this.width;
-        if (i4 == -1 || (i = this.height) == -1) {
+        int i2 = this.width;
+        if (i2 == -1 || (i = this.height) == -1) {
             imageReceiver2.setImageCoords(0.0f, 0.0f, getWidth(), getHeight());
             if (this.blurAllowed) {
                 imageReceiver = this.blurImageReceiver;
@@ -235,7 +235,7 @@ public class BackupImageView extends View {
             return;
         }
         if (this.drawFromStart) {
-            imageReceiver2.setImageCoords(0.0f, 0.0f, i4, i);
+            imageReceiver2.setImageCoords(0.0f, 0.0f, i2, i);
             if (this.blurAllowed) {
                 imageReceiver = this.blurImageReceiver;
                 width = this.width;
@@ -243,11 +243,14 @@ public class BackupImageView extends View {
                 imageReceiver.setImageCoords(0.0f, 0.0f, width, height);
             }
         } else {
+            float width2 = (getWidth() - this.width) / 2;
             int height2 = getHeight();
-            imageReceiver2.setImageCoords((getWidth() - this.width) / 2, (height2 - i2) / 2, this.width, this.height);
+            imageReceiver2.setImageCoords(width2, (height2 - r3) / 2, this.width, this.height);
             if (this.blurAllowed) {
+                ImageReceiver imageReceiver3 = this.blurImageReceiver;
+                float width3 = (getWidth() - this.width) / 2;
                 int height3 = getHeight();
-                this.blurImageReceiver.setImageCoords((getWidth() - this.width) / 2, (height3 - i3) / 2, this.width, this.height);
+                imageReceiver3.setImageCoords(width3, (height3 - r4) / 2, this.width, this.height);
             }
         }
         imageReceiver2.draw(canvas);
@@ -362,15 +365,15 @@ public class BackupImageView extends View {
 
     public void setImage(ImageLocation imageLocation, String str, ImageLocation imageLocation2, String str2, Drawable drawable, Bitmap bitmap, String str3, int i, Object obj) {
         BackupImageView backupImageView;
-        BitmapDrawable bitmapDrawable;
+        Drawable drawable2;
         if (bitmap != null) {
             backupImageView = this;
-            bitmapDrawable = new BitmapDrawable((Resources) null, bitmap);
+            drawable2 = new BitmapDrawable((Resources) null, bitmap);
         } else {
             backupImageView = this;
-            bitmapDrawable = drawable;
+            drawable2 = drawable;
         }
-        backupImageView.imageReceiver.setImage(imageLocation, str, imageLocation2, str2, bitmapDrawable, i, str3, obj, 0);
+        backupImageView.imageReceiver.setImage(imageLocation, str, imageLocation2, str2, drawable2, i, str3, obj, 0);
         onNewImageSet();
     }
 

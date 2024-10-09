@@ -10,6 +10,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 public final class zzce extends GoogleApi implements SettingsClient {
     public zzce(Context context) {

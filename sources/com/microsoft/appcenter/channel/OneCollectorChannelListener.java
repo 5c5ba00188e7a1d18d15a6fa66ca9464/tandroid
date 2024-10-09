@@ -11,8 +11,10 @@ import com.microsoft.appcenter.ingestion.models.one.SdkExtension;
 import com.microsoft.appcenter.utils.AppCenterLog;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public class OneCollectorChannelListener extends AbstractChannelListener {
     private final Channel mChannel;
@@ -107,8 +109,9 @@ public class OneCollectorChannelListener extends AbstractChannelListener {
                     sdk.setInstallId(this.mInstallId);
                 }
                 String oneCollectorGroupName = getOneCollectorGroupName(str);
-                for (CommonSchemaLog commonSchemaLog3 : commonSchemaLog) {
-                    this.mChannel.enqueue(commonSchemaLog3, oneCollectorGroupName, i);
+                Iterator it = commonSchemaLog.iterator();
+                while (it.hasNext()) {
+                    this.mChannel.enqueue((CommonSchemaLog) it.next(), oneCollectorGroupName, i);
                 }
             } catch (IllegalArgumentException e) {
                 AppCenterLog.error("AppCenter", "Cannot send a log to one collector: " + e.getMessage());

@@ -22,6 +22,7 @@ import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.WallpapersListActivity;
+
 /* loaded from: classes3.dex */
 public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayout {
     Adapter adapter;
@@ -215,11 +216,11 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
         return 1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0036  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x008b  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00a7  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00b0  */
-    /* JADX WARN: Removed duplicated region for block: B:27:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x008b  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:23:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0036  */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.

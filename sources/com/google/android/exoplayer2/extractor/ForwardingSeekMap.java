@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.extractor;
 
 import com.google.android.exoplayer2.extractor.SeekMap;
+
 /* loaded from: classes.dex */
 public abstract class ForwardingSeekMap implements SeekMap {
     private final SeekMap seekMap;

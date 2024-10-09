@@ -16,6 +16,7 @@ import com.google.android.exoplayer2.util.TimestampAdjuster;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public final class WebvttExtractor implements Extractor {
     private static final Pattern LOCAL_TIMESTAMP = Pattern.compile("LOCAL:([^,]+)");

@@ -2,6 +2,7 @@ package androidx.recyclerview.widget;
 
 import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
+
 /* loaded from: classes.dex */
 public abstract class SimpleItemAnimator extends RecyclerView.ItemAnimator {
     protected boolean alwaysCreateMoveAnimationIfPossible;
@@ -56,11 +57,11 @@ public abstract class SimpleItemAnimator extends RecyclerView.ItemAnimator {
     public boolean animatePersistence(RecyclerView.ViewHolder viewHolder, RecyclerView.ItemAnimator.ItemHolderInfo itemHolderInfo, RecyclerView.ItemAnimator.ItemHolderInfo itemHolderInfo2) {
         int i;
         int i2;
-        if (this.disabledMoveAnimations || ((i = itemHolderInfo.left) == (i2 = itemHolderInfo2.left) && itemHolderInfo.top == itemHolderInfo2.top)) {
-            dispatchMoveFinished(viewHolder);
-            return false;
+        if (!this.disabledMoveAnimations && ((i = itemHolderInfo.left) != (i2 = itemHolderInfo2.left) || itemHolderInfo.top != itemHolderInfo2.top)) {
+            return animateMove(viewHolder, itemHolderInfo, i, itemHolderInfo.top, i2, itemHolderInfo2.top);
         }
-        return animateMove(viewHolder, itemHolderInfo, i, itemHolderInfo.top, i2, itemHolderInfo2.top);
+        dispatchMoveFinished(viewHolder);
+        return false;
     }
 
     public abstract boolean animateRemove(RecyclerView.ViewHolder viewHolder, RecyclerView.ItemAnimator.ItemHolderInfo itemHolderInfo);

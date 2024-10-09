@@ -10,6 +10,7 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class Status extends AbstractSafeParcelable implements Result, ReflectedParcelable {
     final int zzb;
@@ -57,11 +58,11 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof Status) {
-            Status status = (Status) obj;
-            return this.zzb == status.zzb && this.zzc == status.zzc && Objects.equal(this.zzd, status.zzd) && Objects.equal(this.zze, status.zze) && Objects.equal(this.zzf, status.zzf);
+        if (!(obj instanceof Status)) {
+            return false;
         }
-        return false;
+        Status status = (Status) obj;
+        return this.zzb == status.zzb && this.zzc == status.zzc && Objects.equal(this.zzd, status.zzd) && Objects.equal(this.zze, status.zze) && Objects.equal(this.zzf, status.zzf);
     }
 
     public ConnectionResult getConnectionResult() {

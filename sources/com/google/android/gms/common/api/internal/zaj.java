@@ -3,6 +3,7 @@ package com.google.android.gms.common.api.internal;
 import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zaj implements GoogleApiClient.OnConnectionFailedListener {

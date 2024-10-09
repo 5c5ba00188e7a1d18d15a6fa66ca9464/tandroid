@@ -5,6 +5,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import org.telegram.messenger.AndroidUtilities;
+
 /* loaded from: classes4.dex */
 public class RoundVideoShadow extends Drawable {
     Paint paint;

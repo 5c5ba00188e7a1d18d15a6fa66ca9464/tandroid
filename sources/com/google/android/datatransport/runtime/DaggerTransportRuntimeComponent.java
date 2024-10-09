@@ -23,6 +23,7 @@ import com.google.android.datatransport.runtime.scheduling.persistence.SchemaMan
 import com.google.android.datatransport.runtime.time.TimeModule_EventClockFactory;
 import com.google.android.datatransport.runtime.time.TimeModule_UptimeClockFactory;
 import javax.inject.Provider;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class DaggerTransportRuntimeComponent extends TransportRuntimeComponent {

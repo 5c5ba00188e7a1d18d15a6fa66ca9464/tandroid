@@ -2,6 +2,7 @@ package com.google.common.collect;
 
 import com.google.common.base.Preconditions;
 import java.util.Objects;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class RegularImmutableList extends ImmutableList {

@@ -11,6 +11,7 @@ import android.os.PowerManager;
 import android.util.Log;
 import java.io.IOException;
 import org.telegram.messenger.NotificationCenter;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class TopicsSyncTask implements Runnable {
@@ -158,31 +159,37 @@ public class TopicsSyncTask implements Runnable {
                     if (hasWakeLockPermission(this.context)) {
                         try {
                             this.syncWakeLock.release();
+                            return;
                         } catch (RuntimeException unused) {
                             Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                            return;
                         }
                     }
-                } else if (hasAccessNetworkStatePermission(this.context) && !isDeviceConnected()) {
+                    return;
+                }
+                if (hasAccessNetworkStatePermission(this.context) && !isDeviceConnected()) {
                     new ConnectivityChangeReceiver(this).registerReceiver();
                     if (hasWakeLockPermission(this.context)) {
                         try {
                             this.syncWakeLock.release();
+                            return;
                         } catch (RuntimeException unused2) {
                             Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
+                            return;
                         }
                     }
+                    return;
+                }
+                if (this.topicsSubscriber.syncTopics()) {
+                    this.topicsSubscriber.setSyncScheduledOrRunning(false);
                 } else {
-                    if (this.topicsSubscriber.syncTopics()) {
-                        this.topicsSubscriber.setSyncScheduledOrRunning(false);
-                    } else {
-                        this.topicsSubscriber.syncWithDelaySecondsInternal(this.nextDelaySeconds);
-                    }
-                    if (hasWakeLockPermission(this.context)) {
-                        try {
-                            this.syncWakeLock.release();
-                        } catch (RuntimeException unused3) {
-                            Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
-                        }
+                    this.topicsSubscriber.syncWithDelaySecondsInternal(this.nextDelaySeconds);
+                }
+                if (hasWakeLockPermission(this.context)) {
+                    try {
+                        this.syncWakeLock.release();
+                    } catch (RuntimeException unused3) {
+                        Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
                     }
                 }
             } catch (Throwable th) {

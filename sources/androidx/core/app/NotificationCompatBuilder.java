@@ -20,6 +20,7 @@ import androidx.core.graphics.drawable.IconCompat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class NotificationCompatBuilder implements NotificationBuilderWithBuilderAccessor {
@@ -321,10 +322,11 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             Uri uri = notification.sound;
             audioAttributes = notification.audioAttributes;
             Api21Impl.setSound(builder2, uri, audioAttributes);
-            List<String> combineLists2 = i3 < 28 ? combineLists(getPeople(builder.mPersonList), builder.mPeople) : builder.mPeople;
+            List combineLists2 = i3 < 28 ? combineLists(getPeople(builder.mPersonList), builder.mPeople) : builder.mPeople;
             if (combineLists2 != null && !combineLists2.isEmpty()) {
-                for (String str4 : combineLists2) {
-                    Api21Impl.addPerson(this.mBuilder, str4);
+                Iterator it2 = combineLists2.iterator();
+                while (it2.hasNext()) {
+                    Api21Impl.addPerson(this.mBuilder, (String) it2.next());
                 }
             }
             this.mHeadsUpContentView = builder.mHeadsUpContentView;
@@ -376,9 +378,9 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             }
         }
         if (i5 >= 28) {
-            Iterator it2 = builder.mPersonList.iterator();
-            while (it2.hasNext()) {
-                Api28Impl.addPerson(this.mBuilder, ((Person) it2.next()).toAndroidPerson());
+            Iterator it3 = builder.mPersonList.iterator();
+            while (it3.hasNext()) {
+                Api28Impl.addPerson(this.mBuilder, ((Person) it3.next()).toAndroidPerson());
             }
         }
         int i6 = Build.VERSION.SDK_INT;
@@ -520,7 +522,8 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
                 }
             }
             return build;
-        } else if (i >= 21) {
+        }
+        if (i >= 21) {
             Api19Impl.setExtras(this.mBuilder, this.mExtras);
             Notification build2 = Api16Impl.build(this.mBuilder);
             RemoteViews remoteViews = this.mContentView;
@@ -544,7 +547,8 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
                 }
             }
             return build2;
-        } else if (i < 20) {
+        }
+        if (i < 20) {
             SparseArray<? extends Parcelable> buildActionExtrasMap = NotificationCompatJellybean.buildActionExtrasMap(this.mActionExtrasList);
             if (buildActionExtrasMap != null) {
                 this.mExtras.putSparseParcelableArray("android.support.actionExtras", buildActionExtrasMap);
@@ -560,27 +564,26 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
                 build3.bigContentView = remoteViews5;
             }
             return build3;
-        } else {
-            Api19Impl.setExtras(this.mBuilder, this.mExtras);
-            Notification build4 = Api16Impl.build(this.mBuilder);
-            RemoteViews remoteViews6 = this.mContentView;
-            if (remoteViews6 != null) {
-                build4.contentView = remoteViews6;
-            }
-            RemoteViews remoteViews7 = this.mBigContentView;
-            if (remoteViews7 != null) {
-                build4.bigContentView = remoteViews7;
-            }
-            if (this.mGroupAlertBehavior != 0) {
-                if (Api20Impl.getGroup(build4) != null && (build4.flags & 512) != 0 && this.mGroupAlertBehavior == 2) {
-                    removeSoundAndVibration(build4);
-                }
-                if (Api20Impl.getGroup(build4) != null && (build4.flags & 512) == 0 && this.mGroupAlertBehavior == 1) {
-                    removeSoundAndVibration(build4);
-                }
-            }
-            return build4;
         }
+        Api19Impl.setExtras(this.mBuilder, this.mExtras);
+        Notification build4 = Api16Impl.build(this.mBuilder);
+        RemoteViews remoteViews6 = this.mContentView;
+        if (remoteViews6 != null) {
+            build4.contentView = remoteViews6;
+        }
+        RemoteViews remoteViews7 = this.mBigContentView;
+        if (remoteViews7 != null) {
+            build4.bigContentView = remoteViews7;
+        }
+        if (this.mGroupAlertBehavior != 0) {
+            if (Api20Impl.getGroup(build4) != null && (build4.flags & 512) != 0 && this.mGroupAlertBehavior == 2) {
+                removeSoundAndVibration(build4);
+            }
+            if (Api20Impl.getGroup(build4) != null && (build4.flags & 512) == 0 && this.mGroupAlertBehavior == 1) {
+                removeSoundAndVibration(build4);
+            }
+        }
+        return build4;
     }
 
     @Override // androidx.core.app.NotificationBuilderWithBuilderAccessor

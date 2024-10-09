@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
+
 /* loaded from: classes.dex */
 abstract class zzab {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -17,7 +18,6 @@ abstract class zzab {
         if (obj2 != null) {
             return;
         }
-        String obj3 = obj.toString();
-        throw new NullPointerException("null value in entry: " + obj3 + "=null");
+        throw new NullPointerException("null value in entry: " + obj.toString() + "=null");
     }
 }

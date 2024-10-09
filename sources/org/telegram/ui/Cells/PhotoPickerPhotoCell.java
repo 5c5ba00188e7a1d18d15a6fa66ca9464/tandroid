@@ -22,6 +22,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class PhotoPickerPhotoCell extends FrameLayout {
     private Paint backgroundPaint;
@@ -115,30 +116,32 @@ public class PhotoPickerPhotoCell extends FrameLayout {
         String str2 = photoEntry.thumbPath;
         if (str2 != null) {
             this.imageView.setImage(str2, null, drawable);
-        } else if (photoEntry.path == null) {
-            this.imageView.setImageDrawable(drawable);
-        } else {
-            this.imageView.setOrientation(photoEntry.orientation, photoEntry.invert, true);
-            if (photoEntry.isVideo) {
-                this.videoInfoContainer.setVisibility(0);
-                this.videoTextView.setText(AndroidUtilities.formatShortDuration(photoEntry.duration));
-                setContentDescription(LocaleController.getString(R.string.AttachVideo) + ", " + LocaleController.formatDuration(photoEntry.duration));
-                backupImageView = this.imageView;
-                sb = new StringBuilder();
-                str = "vthumb://";
-            } else {
-                this.videoInfoContainer.setVisibility(4);
-                setContentDescription(LocaleController.getString(R.string.AttachPhoto));
-                backupImageView = this.imageView;
-                sb = new StringBuilder();
-                str = "thumb://";
-            }
-            sb.append(str);
-            sb.append(photoEntry.imageId);
-            sb.append(":");
-            sb.append(photoEntry.path);
-            backupImageView.setImage(sb.toString(), null, drawable);
+            return;
         }
+        if (photoEntry.path == null) {
+            this.imageView.setImageDrawable(drawable);
+            return;
+        }
+        this.imageView.setOrientation(photoEntry.orientation, photoEntry.invert, true);
+        if (photoEntry.isVideo) {
+            this.videoInfoContainer.setVisibility(0);
+            this.videoTextView.setText(AndroidUtilities.formatShortDuration(photoEntry.duration));
+            setContentDescription(LocaleController.getString(R.string.AttachVideo) + ", " + LocaleController.formatDuration(photoEntry.duration));
+            backupImageView = this.imageView;
+            sb = new StringBuilder();
+            str = "vthumb://";
+        } else {
+            this.videoInfoContainer.setVisibility(4);
+            setContentDescription(LocaleController.getString(R.string.AttachPhoto));
+            backupImageView = this.imageView;
+            sb = new StringBuilder();
+            str = "thumb://";
+        }
+        sb.append(str);
+        sb.append(photoEntry.imageId);
+        sb.append(":");
+        sb.append(photoEntry.path);
+        backupImageView.setImage(sb.toString(), null, drawable);
     }
 
     public void setImage(MediaController.SearchImage searchImage) {

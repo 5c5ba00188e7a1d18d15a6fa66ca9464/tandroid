@@ -3,6 +3,7 @@ package j$.time;
 import j$.time.temporal.q;
 import java.io.Serializable;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes2.dex */
 public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Serializable {
     public static final LocalDate d = of(-999999999, 1, 1);
@@ -26,6 +27,7 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
         throw new c("Unable to obtain LocalDate from TemporalAccessor: " + kVar + " of type " + kVar.getClass().getName());
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0010. Please report as an issue. */
     private int i(j$.time.temporal.l lVar) {
         int i;
         int k;
@@ -74,8 +76,7 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
 
     public static LocalDate now() {
         a aVar = new a(ZoneId.systemDefault());
-        Instant k = Instant.k(System.currentTimeMillis());
-        return p(j$.com.android.tools.r8.a.j(k.i() + aVar.c().getRules().getOffset(k).getTotalSeconds(), 86400L));
+        return p(j$.com.android.tools.r8.a.j(Instant.k(System.currentTimeMillis()).i() + aVar.c().getRules().getOffset(r1).getTotalSeconds(), 86400L));
     }
 
     public static LocalDate of(int i, int i2, int i3) {
@@ -140,26 +141,27 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
 
     @Override // j$.time.temporal.k
     public final q a(j$.time.temporal.l lVar) {
-        if (lVar instanceof j$.time.temporal.a) {
-            j$.time.temporal.a aVar = (j$.time.temporal.a) lVar;
-            if (!aVar.e()) {
-                throw new j$.time.temporal.p("Unsupported field: " + lVar);
-            }
-            int i = f.a[aVar.ordinal()];
-            if (i != 1) {
-                if (i == 2) {
-                    return q.i(1L, n() ? 366 : 365);
-                } else if (i == 3) {
-                    return q.i(1L, (k.h(this.b) != k.FEBRUARY || n()) ? 5L : 4L);
-                } else if (i != 4) {
-                    return ((j$.time.temporal.a) lVar).a();
-                } else {
-                    return q.i(1L, this.a <= 0 ? 1000000000L : 999999999L);
-                }
-            }
+        if (!(lVar instanceof j$.time.temporal.a)) {
+            return lVar.d(this);
+        }
+        j$.time.temporal.a aVar = (j$.time.temporal.a) lVar;
+        if (!aVar.e()) {
+            throw new j$.time.temporal.p("Unsupported field: " + lVar);
+        }
+        int i = f.a[aVar.ordinal()];
+        if (i == 1) {
             return q.i(1L, o());
         }
-        return lVar.d(this);
+        if (i == 2) {
+            return q.i(1L, n() ? 366 : 365);
+        }
+        if (i == 3) {
+            return q.i(1L, (k.h(this.b) != k.FEBRUARY || n()) ? 5L : 4L);
+        }
+        if (i != 4) {
+            return ((j$.time.temporal.a) lVar).a();
+        }
+        return q.i(1L, this.a <= 0 ? 1000000000L : 999999999L);
     }
 
     @Override // j$.time.temporal.k
@@ -196,27 +198,27 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
     }
 
     @Override // java.lang.Comparable
-    /* renamed from: f */
+    /* renamed from: f, reason: merged with bridge method [inline-methods] */
     public final int compareTo(j$.time.chrono.b bVar) {
         if (bVar instanceof LocalDate) {
             return g((LocalDate) bVar);
         }
         int compare = Long.compare(s(), ((LocalDate) bVar).s());
-        if (compare == 0) {
-            j$.time.chrono.g.a.getClass();
-            return 0;
+        if (compare != 0) {
+            return compare;
         }
-        return compare;
+        j$.time.chrono.g.a.getClass();
+        return 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final int g(LocalDate localDate) {
         int i = this.a - localDate.a;
-        if (i == 0) {
-            int i2 = this.b - localDate.b;
-            return i2 == 0 ? this.c - localDate.c : i2;
+        if (i != 0) {
+            return i;
         }
-        return i;
+        int i2 = this.b - localDate.b;
+        return i2 == 0 ? this.c - localDate.c : i2;
     }
 
     public final int hashCode() {
@@ -237,8 +239,10 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
     }
 
     public final boolean n() {
-        j$.time.chrono.g.a.getClass();
-        return j$.time.chrono.g.a(this.a);
+        j$.time.chrono.g gVar = j$.time.chrono.g.a;
+        long j = this.a;
+        gVar.getClass();
+        return j$.time.chrono.g.a(j);
     }
 
     public final int o() {
@@ -327,7 +331,7 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
         int i = this.a;
         long j = i;
         aVar.g(j);
-        j$.time.temporal.a.DAY_OF_YEAR.g((long) NotificationCenter.updateBotMenuButton);
+        j$.time.temporal.a.DAY_OF_YEAR.g(NotificationCenter.updateBotMenuButton);
         j$.time.chrono.g.a.getClass();
         boolean a = j$.time.chrono.g.a(j);
         k h = k.h(6);

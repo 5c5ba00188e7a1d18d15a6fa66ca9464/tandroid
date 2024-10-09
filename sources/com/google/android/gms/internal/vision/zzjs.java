@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public final class zzjs extends zzhj implements zzjv, RandomAccess {
     private static final zzjs zza;
@@ -138,12 +139,12 @@ public final class zzjs extends zzhj implements zzjv, RandomAccess {
 
     @Override // com.google.android.gms.internal.vision.zzjl
     public final /* synthetic */ zzjl zza(int i) {
-        if (i >= size()) {
-            ArrayList arrayList = new ArrayList(i);
-            arrayList.addAll(this.zzc);
-            return new zzjs(arrayList);
+        if (i < size()) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        ArrayList arrayList = new ArrayList(i);
+        arrayList.addAll(this.zzc);
+        return new zzjs(arrayList);
     }
 
     @Override // com.google.android.gms.internal.vision.zzjv

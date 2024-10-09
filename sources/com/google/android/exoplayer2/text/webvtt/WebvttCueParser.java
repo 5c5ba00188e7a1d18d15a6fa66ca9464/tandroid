@@ -35,6 +35,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class WebvttCueParser {
     public static final Pattern CUE_HEADER_PATTERN = Pattern.compile("^(\\S+)\\s+-->\\s+(\\S+)(.*)?$");
@@ -149,33 +150,33 @@ public abstract class WebvttCueParser {
 
         private static Layout.Alignment convertTextAlignment(int i) {
             if (i != 1) {
-                if (i != 2) {
-                    if (i != 3) {
-                        if (i != 4) {
-                            if (i != 5) {
-                                Log.w("WebvttCueParser", "Unknown textAlignment: " + i);
-                                return null;
-                            }
+                if (i == 2) {
+                    return Layout.Alignment.ALIGN_CENTER;
+                }
+                if (i != 3) {
+                    if (i != 4) {
+                        if (i != 5) {
+                            Log.w("WebvttCueParser", "Unknown textAlignment: " + i);
+                            return null;
                         }
                     }
-                    return Layout.Alignment.ALIGN_OPPOSITE;
                 }
-                return Layout.Alignment.ALIGN_CENTER;
+                return Layout.Alignment.ALIGN_OPPOSITE;
             }
             return Layout.Alignment.ALIGN_NORMAL;
         }
 
         private static float deriveMaxSize(int i, float f) {
-            if (i != 0) {
-                if (i == 1) {
-                    return f <= 0.5f ? f * 2.0f : (1.0f - f) * 2.0f;
-                } else if (i == 2) {
-                    return f;
-                } else {
-                    throw new IllegalStateException(String.valueOf(i));
-                }
+            if (i == 0) {
+                return 1.0f - f;
             }
-            return 1.0f - f;
+            if (i == 1) {
+                return f <= 0.5f ? f * 2.0f : (1.0f - f) * 2.0f;
+            }
+            if (i == 2) {
+                return f;
+            }
+            throw new IllegalStateException(String.valueOf(i));
         }
 
         private static float derivePosition(int i) {
@@ -186,14 +187,14 @@ public abstract class WebvttCueParser {
         }
 
         private static int derivePositionAnchor(int i) {
-            if (i != 1) {
-                if (i != 3) {
-                    if (i != 4) {
-                        return i != 5 ? 1 : 2;
-                    }
-                    return 0;
-                }
+            if (i == 1) {
+                return 0;
+            }
+            if (i == 3) {
                 return 2;
+            }
+            if (i != 4) {
+                return i != 5 ? 1 : 2;
             }
             return 0;
         }
@@ -222,23 +223,23 @@ public abstract class WebvttCueParser {
 
     static {
         HashMap hashMap = new HashMap();
-        hashMap.put("white", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction)));
-        hashMap.put("lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.closeSearchByActiveAction, 0)));
-        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction)));
-        hashMap.put("red", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, 0, 0)));
-        hashMap.put("yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, 0)));
-        hashMap.put("magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, 0, (int) NotificationCenter.closeSearchByActiveAction)));
-        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.closeSearchByActiveAction)));
+        hashMap.put("white", Integer.valueOf(Color.rgb(NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction)));
+        hashMap.put("lime", Integer.valueOf(Color.rgb(0, NotificationCenter.closeSearchByActiveAction, 0)));
+        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction)));
+        hashMap.put("red", Integer.valueOf(Color.rgb(NotificationCenter.closeSearchByActiveAction, 0, 0)));
+        hashMap.put("yellow", Integer.valueOf(Color.rgb(NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction, 0)));
+        hashMap.put("magenta", Integer.valueOf(Color.rgb(NotificationCenter.closeSearchByActiveAction, 0, NotificationCenter.closeSearchByActiveAction)));
+        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.closeSearchByActiveAction)));
         hashMap.put("black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_TEXT_COLORS = Collections.unmodifiableMap(hashMap);
         HashMap hashMap2 = new HashMap();
-        hashMap2.put("bg_white", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction)));
-        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.closeSearchByActiveAction, 0)));
-        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction)));
-        hashMap2.put("bg_red", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, 0, 0)));
-        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, 0)));
-        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.closeSearchByActiveAction, 0, (int) NotificationCenter.closeSearchByActiveAction)));
-        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.closeSearchByActiveAction)));
+        hashMap2.put("bg_white", Integer.valueOf(Color.rgb(NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction)));
+        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, NotificationCenter.closeSearchByActiveAction, 0)));
+        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction)));
+        hashMap2.put("bg_red", Integer.valueOf(Color.rgb(NotificationCenter.closeSearchByActiveAction, 0, 0)));
+        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb(NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction, 0)));
+        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb(NotificationCenter.closeSearchByActiveAction, 0, NotificationCenter.closeSearchByActiveAction)));
+        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.closeSearchByActiveAction)));
         hashMap2.put("bg_black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_BACKGROUND_COLORS = Collections.unmodifiableMap(hashMap2);
     }
@@ -333,7 +334,14 @@ public abstract class WebvttCueParser {
         }
     }
 
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Failed to find 'out' block for switch in B:28:0x0071. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x009e A[LOOP:0: B:38:0x0098->B:40:0x009e, LOOP_END] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private static void applySpansForTag(String str, StartTag startTag, List list, SpannableStringBuilder spannableStringBuilder, List list2) {
+        List applicableStyles;
         Object styleSpan;
         int i = startTag.position;
         int length = spannableStringBuilder.length();
@@ -394,36 +402,51 @@ public abstract class WebvttCueParser {
             case 0:
             case 5:
             case 6:
-                break;
+                applicableStyles = getApplicableStyles(list2, str, startTag);
+                for (int i2 = 0; i2 < applicableStyles.size(); i2++) {
+                    applyStyleToText(spannableStringBuilder, ((StyleMatch) applicableStyles.get(i2)).style, i, length);
+                }
+                return;
             case 1:
                 styleSpan = new StyleSpan(1);
                 spannableStringBuilder.setSpan(styleSpan, i, length, 33);
-                break;
+                applicableStyles = getApplicableStyles(list2, str, startTag);
+                while (i2 < applicableStyles.size()) {
+                }
+                return;
             case 2:
                 applyDefaultColors(spannableStringBuilder, startTag.classes, i, length);
-                break;
+                applicableStyles = getApplicableStyles(list2, str, startTag);
+                while (i2 < applicableStyles.size()) {
+                }
+                return;
             case 3:
                 styleSpan = new StyleSpan(2);
                 spannableStringBuilder.setSpan(styleSpan, i, length, 33);
-                break;
+                applicableStyles = getApplicableStyles(list2, str, startTag);
+                while (i2 < applicableStyles.size()) {
+                }
+                return;
             case 4:
                 styleSpan = new UnderlineSpan();
                 spannableStringBuilder.setSpan(styleSpan, i, length, 33);
-                break;
+                applicableStyles = getApplicableStyles(list2, str, startTag);
+                while (i2 < applicableStyles.size()) {
+                }
+                return;
             case 7:
                 applyRubySpans(spannableStringBuilder, str, startTag, list, list2);
-                break;
+                applicableStyles = getApplicableStyles(list2, str, startTag);
+                while (i2 < applicableStyles.size()) {
+                }
+                return;
             default:
                 return;
         }
-        List applicableStyles = getApplicableStyles(list2, str, startTag);
-        for (int i2 = 0; i2 < applicableStyles.size(); i2++) {
-            applyStyleToText(spannableStringBuilder, ((StyleMatch) applicableStyles.get(i2)).style, i, length);
-        }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00a3  */
-    /* JADX WARN: Removed duplicated region for block: B:37:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:34:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -453,16 +476,17 @@ public abstract class WebvttCueParser {
         int fontSizeUnit = webvttCssStyle.getFontSizeUnit();
         if (fontSizeUnit == 1) {
             absoluteSizeSpan = new AbsoluteSizeSpan((int) webvttCssStyle.getFontSize(), true);
-        } else if (fontSizeUnit != 2) {
-            if (fontSizeUnit == 3) {
-                absoluteSizeSpan = new RelativeSizeSpan(webvttCssStyle.getFontSize() / 100.0f);
-            }
-            if (webvttCssStyle.getCombineUpright()) {
+        } else {
+            if (fontSizeUnit != 2) {
+                if (fontSizeUnit == 3) {
+                    absoluteSizeSpan = new RelativeSizeSpan(webvttCssStyle.getFontSize() / 100.0f);
+                }
+                if (webvttCssStyle.getCombineUpright()) {
+                    return;
+                }
+                spannableStringBuilder.setSpan(new HorizontalTextInVerticalContextSpan(), i, i2, 33);
                 return;
             }
-            spannableStringBuilder.setSpan(new HorizontalTextInVerticalContextSpan(), i, i2, 33);
-            return;
-        } else {
             absoluteSizeSpan = new RelativeSizeSpan(webvttCssStyle.getFontSize());
         }
         SpanUtil.addOrReplaceSpan(spannableStringBuilder, absoluteSizeSpan, i, i2, 33);
@@ -714,21 +738,22 @@ public abstract class WebvttCueParser {
                     if (!substring.trim().isEmpty()) {
                         String tagName = getTagName(substring);
                         if (isSupportedTag(tagName)) {
-                            if (z) {
-                                while (!arrayDeque.isEmpty()) {
-                                    StartTag startTag = (StartTag) arrayDeque.pop();
-                                    applySpansForTag(str, startTag, arrayList, spannableStringBuilder, list);
-                                    if (arrayDeque.isEmpty()) {
-                                        arrayList.clear();
-                                    } else {
-                                        arrayList.add(new Element(startTag, spannableStringBuilder.length()));
-                                    }
-                                    if (startTag.name.equals(tagName)) {
-                                        break;
-                                    }
+                            if (!z) {
+                                if (!z2) {
+                                    arrayDeque.push(StartTag.buildStartTag(substring, spannableStringBuilder.length()));
                                 }
-                            } else if (!z2) {
-                                arrayDeque.push(StartTag.buildStartTag(substring, spannableStringBuilder.length()));
+                            }
+                            while (!arrayDeque.isEmpty()) {
+                                StartTag startTag = (StartTag) arrayDeque.pop();
+                                applySpansForTag(str, startTag, arrayList, spannableStringBuilder, list);
+                                if (arrayDeque.isEmpty()) {
+                                    arrayList.clear();
+                                } else {
+                                    arrayList.add(new Element(startTag, spannableStringBuilder.length()));
+                                }
+                                if (startTag.name.equals(tagName)) {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -795,10 +820,10 @@ public abstract class WebvttCueParser {
         if (str.endsWith("%")) {
             webvttCueInfoBuilder.line = WebvttParserUtil.parsePercentage(str);
             webvttCueInfoBuilder.lineType = 0;
-            return;
+        } else {
+            webvttCueInfoBuilder.line = Integer.parseInt(str);
+            webvttCueInfoBuilder.lineType = 1;
         }
-        webvttCueInfoBuilder.line = Integer.parseInt(str);
-        webvttCueInfoBuilder.lineType = 1;
     }
 
     private static int parsePositionAnchor(String str) {

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 final class M1 implements N1, d2 {
     private boolean a;
@@ -35,7 +36,8 @@ final class M1 implements N1, d2 {
     }
 
     @Override // j$.util.function.Consumer
-    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+    /* renamed from: accept */
+    public final /* bridge */ /* synthetic */ void r(Object obj) {
         j((Long) obj);
     }
 

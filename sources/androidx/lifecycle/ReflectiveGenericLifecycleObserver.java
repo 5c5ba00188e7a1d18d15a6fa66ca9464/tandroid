@@ -2,6 +2,7 @@ package androidx.lifecycle;
 
 import androidx.lifecycle.ClassesInfoCache;
 import androidx.lifecycle.Lifecycle;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 @Deprecated
 /* loaded from: classes.dex */

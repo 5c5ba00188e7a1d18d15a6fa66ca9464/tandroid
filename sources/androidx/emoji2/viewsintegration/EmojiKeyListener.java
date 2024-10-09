@@ -5,6 +5,7 @@ import android.text.method.KeyListener;
 import android.view.KeyEvent;
 import android.view.View;
 import androidx.emoji2.text.EmojiCompat;
+
 /* loaded from: classes.dex */
 final class EmojiKeyListener implements KeyListener {
     private final EmojiCompatHandleKeyDownHelper mEmojiCompatHandleKeyDownHelper;

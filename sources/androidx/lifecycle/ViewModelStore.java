@@ -2,14 +2,17 @@ package androidx.lifecycle;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public class ViewModelStore {
     private final HashMap mMap = new HashMap();
 
     public final void clear() {
-        for (ViewModel viewModel : this.mMap.values()) {
-            viewModel.clear();
+        Iterator it = this.mMap.values().iterator();
+        while (it.hasNext()) {
+            ((ViewModel) it.next()).clear();
         }
         this.mMap.clear();
     }

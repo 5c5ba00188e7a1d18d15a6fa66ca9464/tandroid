@@ -46,6 +46,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgress2;
 import org.telegram.ui.Stories.RoundRectOutlineProvider;
+
 /* loaded from: classes4.dex */
 public class AvatarPreviewer {
     private static AvatarPreviewer INSTANCE;
@@ -93,7 +94,7 @@ public class AvatarPreviewer {
             invalidate();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:22:0x009c  */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x009c  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -419,8 +420,10 @@ public class AvatarPreviewer {
                     int clamp = MathUtils.clamp((paddingTop - Layout.this.menu.getMeasuredHeight()) - AndroidUtilities.dp(40.0f), min2, min);
                     Layout.this.avatarView.measure(View.MeasureSpec.makeMeasureSpec(clamp, 1073741824), View.MeasureSpec.makeMeasureSpec(clamp, 1073741824));
                     int measuredHeight = (((paddingTop - clamp) - Layout.this.menu.getMeasuredHeight()) - AndroidUtilities.dp(40.0f)) / 2;
-                    ((FrameLayout.LayoutParams) Layout.this.avatarView.getLayoutParams()).topMargin = AndroidUtilities.dp(8.0f) + measuredHeight;
-                    ((FrameLayout.LayoutParams) Layout.this.menu.getLayoutParams()).topMargin = measuredHeight + AndroidUtilities.dp(8.0f) + clamp;
+                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) Layout.this.avatarView.getLayoutParams();
+                    FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) Layout.this.menu.getLayoutParams();
+                    layoutParams.topMargin = AndroidUtilities.dp(8.0f) + measuredHeight;
+                    layoutParams2.topMargin = measuredHeight + AndroidUtilities.dp(8.0f) + clamp;
                     super.onLayout(z, i, i2, i3, i4);
                 }
 
@@ -594,12 +597,12 @@ public class AvatarPreviewer {
                         keyDispatcherState2.startTracking(keyEvent, this);
                     }
                     return true;
-                } else if (keyEvent.getAction() != 1 || (keyDispatcherState = getKeyDispatcherState()) == null || !keyDispatcherState.isTracking(keyEvent) || keyEvent.isCanceled()) {
-                    return super.dispatchKeyEvent(keyEvent);
-                } else {
-                    setShowing(false);
-                    return true;
                 }
+                if (keyEvent.getAction() != 1 || (keyDispatcherState = getKeyDispatcherState()) == null || !keyDispatcherState.isTracking(keyEvent) || keyEvent.isCanceled()) {
+                    return super.dispatchKeyEvent(keyEvent);
+                }
+                setShowing(false);
+                return true;
             }
             return super.dispatchKeyEvent(keyEvent);
         }
@@ -678,14 +681,14 @@ public class AvatarPreviewer {
     }
 
     /* JADX WARN: Enum visitor error
-    jadx.core.utils.exceptions.JadxRuntimeException: Init of enum OPEN_GROUP uses external variables
-    	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
-    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByField(EnumVisitor.java:368)
-    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByWrappedInsn(EnumVisitor.java:333)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:318)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInvoke(EnumVisitor.java:289)
+    jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'OPEN_GROUP' uses external variables
+    	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByField(EnumVisitor.java:372)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByWrappedInsn(EnumVisitor.java:337)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:322)
     	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:262)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInvoke(EnumVisitor.java:293)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:266)
     	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */

@@ -13,12 +13,14 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.TicketCache;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class OneCollectorIngestion implements Ingestion {
     private final HttpClient mHttpClient;
@@ -38,8 +40,9 @@ public class OneCollectorIngestion implements Ingestion {
         @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
         public String buildRequestBody() {
             StringBuilder sb = new StringBuilder();
-            for (Log log : this.mLogContainer.getLogs()) {
-                sb.append(this.mLogSerializer.serializeLog(log));
+            Iterator it = this.mLogContainer.getLogs().iterator();
+            while (it.hasNext()) {
+                sb.append(this.mLogSerializer.serializeLog((Log) it.next()));
                 sb.append('\n');
             }
             return sb.toString();
@@ -81,13 +84,15 @@ public class OneCollectorIngestion implements Ingestion {
     @Override // com.microsoft.appcenter.ingestion.Ingestion
     public ServiceCall sendAsync(String str, UUID uuid, LogContainer logContainer, ServiceCallback serviceCallback) {
         HashMap hashMap = new HashMap();
-        LinkedHashSet<String> linkedHashSet = new LinkedHashSet();
-        for (Log log : logContainer.getLogs()) {
-            linkedHashSet.addAll(log.getTransmissionTargetTokens());
+        LinkedHashSet linkedHashSet = new LinkedHashSet();
+        Iterator it = logContainer.getLogs().iterator();
+        while (it.hasNext()) {
+            linkedHashSet.addAll(((Log) it.next()).getTransmissionTargetTokens());
         }
         StringBuilder sb = new StringBuilder();
-        for (String str2 : linkedHashSet) {
-            sb.append(str2);
+        Iterator it2 = linkedHashSet.iterator();
+        while (it2.hasNext()) {
+            sb.append((String) it2.next());
             sb.append(",");
         }
         if (!linkedHashSet.isEmpty()) {
@@ -95,14 +100,15 @@ public class OneCollectorIngestion implements Ingestion {
         }
         hashMap.put("apikey", sb.toString());
         JSONObject jSONObject = new JSONObject();
-        for (Log log2 : logContainer.getLogs()) {
-            List<String> ticketKeys = ((CommonSchemaLog) log2).getExt().getProtocol().getTicketKeys();
+        Iterator it3 = logContainer.getLogs().iterator();
+        while (it3.hasNext()) {
+            List<String> ticketKeys = ((CommonSchemaLog) ((Log) it3.next())).getExt().getProtocol().getTicketKeys();
             if (ticketKeys != null) {
-                for (String str3 : ticketKeys) {
-                    String ticket = TicketCache.getTicket(str3);
+                for (String str2 : ticketKeys) {
+                    String ticket = TicketCache.getTicket(str2);
                     if (ticket != null) {
                         try {
-                            jSONObject.put(str3, ticket);
+                            jSONObject.put(str2, ticket);
                         } catch (JSONException e) {
                             AppCenterLog.error("AppCenter", "Cannot serialize tickets, sending log anonymously", e);
                         }

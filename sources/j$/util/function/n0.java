@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.ObjLongConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class n0 implements ObjLongConsumer {
     public final /* synthetic */ o0 a;

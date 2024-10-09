@@ -10,6 +10,7 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public final class IcyDecoder extends SimpleMetadataDecoder {
     private static final Pattern METADATA_ELEMENT = Pattern.compile("(.+?)='(.*?)';", 32);

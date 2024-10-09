@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 public abstract class BaseGmsClient {
     private volatile String zzA;
@@ -157,15 +158,15 @@ public abstract class BaseGmsClient {
     /*  JADX ERROR: NullPointerException in pass: RegionMakerVisitor
         java.lang.NullPointerException
         	at java.base/java.util.BitSet.or(BitSet.java:941)
-        	at jadx.core.utils.BlockUtils.getPathCross(BlockUtils.java:732)
-        	at jadx.core.utils.BlockUtils.getPathCross(BlockUtils.java:811)
-        	at jadx.core.dex.visitors.regions.IfMakerHelper.restructureIf(IfMakerHelper.java:88)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:706)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:155)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:94)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:730)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:155)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:94)
+        	at jadx.core.utils.BlockUtils.getPathCross(BlockUtils.java:759)
+        	at jadx.core.utils.BlockUtils.getPathCross(BlockUtils.java:838)
+        	at jadx.core.dex.visitors.regions.IfMakerHelper.restructureIf(IfMakerHelper.java:91)
+        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:711)
+        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:152)
+        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
+        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:735)
+        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:152)
+        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
         	at jadx.core.dex.visitors.regions.RegionMakerVisitor.visit(RegionMakerVisitor.java:52)
         */
     static /* bridge */ /* synthetic */ boolean zzo(com.google.android.gms.common.internal.BaseGmsClient r2) {
@@ -214,13 +215,11 @@ public abstract class BaseGmsClient {
                 } else if (i == 2 || i == 3) {
                     zze zzeVar2 = this.zzu;
                     if (zzeVar2 != null && (zzuVar = this.zza) != null) {
-                        String zzc2 = zzuVar.zzc();
-                        String zzb = zzuVar.zzb();
-                        Log.e("GmsClient", "Calling connect() while still connected, missing disconnect() for " + zzc2 + " on " + zzb);
+                        Log.e("GmsClient", "Calling connect() while still connected, missing disconnect() for " + zzuVar.zzc() + " on " + zzuVar.zzb());
                         GmsClientSupervisor gmsClientSupervisor2 = this.zzn;
-                        String zzc3 = this.zza.zzc();
-                        Preconditions.checkNotNull(zzc3);
-                        gmsClientSupervisor2.zzb(zzc3, this.zza.zzb(), this.zza.zza(), zzeVar2, zze(), this.zza.zzd());
+                        String zzc2 = this.zza.zzc();
+                        Preconditions.checkNotNull(zzc2);
+                        gmsClientSupervisor2.zzb(zzc2, this.zza.zzb(), this.zza.zza(), zzeVar2, zze(), this.zza.zzd());
                         this.zzd.incrementAndGet();
                     }
                     zze zzeVar3 = new zze(this, this.zzd.get());
@@ -231,12 +230,10 @@ public abstract class BaseGmsClient {
                         throw new IllegalStateException("Internal Error, the minimum apk version of this BaseGmsClient is too low to support dynamic lookup. Start service action: ".concat(String.valueOf(this.zza.zzc())));
                     }
                     GmsClientSupervisor gmsClientSupervisor3 = this.zzn;
-                    String zzc4 = this.zza.zzc();
-                    Preconditions.checkNotNull(zzc4);
-                    if (!gmsClientSupervisor3.zzc(new zzn(zzc4, this.zza.zzb(), this.zza.zza(), this.zza.zzd()), zzeVar3, zze(), getBindServiceExecutor())) {
-                        String zzc5 = this.zza.zzc();
-                        String zzb2 = this.zza.zzb();
-                        Log.w("GmsClient", "unable to connect to service: " + zzc5 + " on " + zzb2);
+                    String zzc3 = this.zza.zzc();
+                    Preconditions.checkNotNull(zzc3);
+                    if (!gmsClientSupervisor3.zzc(new zzn(zzc3, this.zza.zzb(), this.zza.zza(), this.zza.zzd()), zzeVar3, zze(), getBindServiceExecutor())) {
+                        Log.w("GmsClient", "unable to connect to service: " + this.zza.zzc() + " on " + this.zza.zzb());
                         zzl(16, null, this.zzd.get());
                     }
                 } else if (i == 4) {
@@ -316,8 +313,7 @@ public abstract class BaseGmsClient {
         if (this.zzh > 0) {
             PrintWriter append = printWriter.append((CharSequence) str).append("lastConnectedTime=");
             long j = this.zzh;
-            String format = simpleDateFormat.format(new Date(j));
-            append.println(j + " " + format);
+            append.println(j + " " + simpleDateFormat.format(new Date(j)));
         }
         if (this.zzg > 0) {
             printWriter.append((CharSequence) str).append("lastSuspendedCause=");
@@ -325,15 +321,13 @@ public abstract class BaseGmsClient {
             printWriter.append((CharSequence) (i2 != 1 ? i2 != 2 ? i2 != 3 ? String.valueOf(i2) : "CAUSE_DEAD_OBJECT_EXCEPTION" : "CAUSE_NETWORK_LOST" : "CAUSE_SERVICE_DISCONNECTED"));
             PrintWriter append2 = printWriter.append(" lastSuspendedTime=");
             long j2 = this.zzg;
-            String format2 = simpleDateFormat.format(new Date(j2));
-            append2.println(j2 + " " + format2);
+            append2.println(j2 + " " + simpleDateFormat.format(new Date(j2)));
         }
         if (this.zzj > 0) {
             printWriter.append((CharSequence) str).append("lastFailedStatus=").append((CharSequence) CommonStatusCodes.getStatusCodeString(this.zzi));
             PrintWriter append3 = printWriter.append(" lastFailedTime=");
             long j3 = this.zzj;
-            String format3 = simpleDateFormat.format(new Date(j3));
-            append3.println(j3 + " " + format3);
+            append3.println(j3 + " " + simpleDateFormat.format(new Date(j3)));
         }
     }
 

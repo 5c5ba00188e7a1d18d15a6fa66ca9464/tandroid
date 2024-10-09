@@ -3,6 +3,7 @@ package com.google.android.datatransport.runtime.scheduling.persistence;
 import com.google.android.datatransport.runtime.dagger.internal.Factory;
 import com.google.android.datatransport.runtime.time.Clock;
 import javax.inject.Provider;
+
 /* loaded from: classes.dex */
 public final class SQLiteEventStore_Factory implements Factory {
     private final Provider clockProvider;

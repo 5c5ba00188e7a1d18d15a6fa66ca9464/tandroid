@@ -1,4 +1,5 @@
 package org.webrtc;
+
 /* loaded from: classes.dex */
 public class MediaSource {
     private long nativeSource;

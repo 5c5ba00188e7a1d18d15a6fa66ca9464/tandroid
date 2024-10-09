@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.GmsLogger;
 import com.google.android.gms.internal.mlkit_language_id.zzcv;
 import com.google.firebase.components.Component;
 import com.google.firebase.components.Dependency;
+
 /* loaded from: classes.dex */
 public class zzcr implements zzcv.zzb {
     private final ClearcutLogger zzc;

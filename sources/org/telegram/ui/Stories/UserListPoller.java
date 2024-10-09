@@ -17,6 +17,7 @@ import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.UserListPoller;
+
 /* loaded from: classes4.dex */
 public class UserListPoller {
     private static UserListPoller[] istances = new UserListPoller[4];
@@ -40,10 +41,10 @@ public class UserListPoller {
                 ArrayList arrayList2 = new ArrayList();
                 ArrayList arrayList3 = new ArrayList();
                 for (int i = 0; i < vector.objects.size(); i++) {
-                    int i2 = (((Long) arrayList.get(i)).longValue() > 0L ? 1 : (((Long) arrayList.get(i)).longValue() == 0L ? 0 : -1));
+                    long longValue = ((Long) arrayList.get(i)).longValue();
                     MessagesController messagesController = MessagesController.getInstance(UserListPoller.this.currentAccount);
                     Long l = (Long) arrayList.get(i);
-                    if (i2 > 0) {
+                    if (longValue > 0) {
                         TLRPC.User user = messagesController.getUser(l);
                         if (user != null) {
                             int intValue = ((Integer) vector.objects.get(i)).intValue();

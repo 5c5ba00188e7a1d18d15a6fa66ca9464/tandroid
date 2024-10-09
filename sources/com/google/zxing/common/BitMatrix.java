@@ -1,6 +1,7 @@
 package com.google.zxing.common;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class BitMatrix implements Cloneable {
     private final int[] bits;
@@ -49,11 +50,11 @@ public final class BitMatrix implements Cloneable {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof BitMatrix) {
-            BitMatrix bitMatrix = (BitMatrix) obj;
-            return this.width == bitMatrix.width && this.height == bitMatrix.height && this.rowSize == bitMatrix.rowSize && Arrays.equals(this.bits, bitMatrix.bits);
+        if (!(obj instanceof BitMatrix)) {
+            return false;
         }
-        return false;
+        BitMatrix bitMatrix = (BitMatrix) obj;
+        return this.width == bitMatrix.width && this.height == bitMatrix.height && this.rowSize == bitMatrix.rowSize && Arrays.equals(this.bits, bitMatrix.bits);
     }
 
     public void flip(int i, int i2) {

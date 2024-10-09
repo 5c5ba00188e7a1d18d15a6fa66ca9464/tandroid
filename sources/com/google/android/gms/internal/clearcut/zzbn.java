@@ -7,6 +7,7 @@ import java.nio.ByteOrder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class zzbn extends zzba {
     private static final Logger logger = Logger.getLogger(zzbn.class.getName());
@@ -645,9 +646,10 @@ public abstract class zzbn extends zzba {
         public final void write(byte[] bArr, int i, int i2) {
             if (bArr != null && i >= 0 && i2 >= 0 && bArr.length - i2 >= i) {
                 long j = i2;
-                long j2 = this.zzgi;
-                if (this.zzgg - j >= j2) {
-                    zzfd.zza(bArr, i, j2, j);
+                long j2 = this.zzgg - j;
+                long j3 = this.zzgi;
+                if (j2 >= j3) {
+                    zzfd.zza(bArr, i, j3, j);
                     this.zzgi += j;
                     return;
                 }
@@ -757,31 +759,33 @@ public abstract class zzbn extends zzba {
         public final void zzb(long j) {
             if (this.zzgi <= this.zzgh) {
                 while (true) {
-                    int i = ((j & (-128)) > 0L ? 1 : ((j & (-128)) == 0L ? 0 : -1));
-                    long j2 = this.zzgi;
-                    if (i == 0) {
-                        this.zzgi = 1 + j2;
-                        zzfd.zza(j2, (byte) j);
-                        return;
-                    }
-                    this.zzgi = j2 + 1;
-                    zzfd.zza(j2, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
-                    j >>>= 7;
-                }
-            } else {
-                while (true) {
+                    long j2 = j & (-128);
                     long j3 = this.zzgi;
-                    if (j3 >= this.zzgg) {
-                        throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), 1));
-                    }
-                    if ((j & (-128)) == 0) {
+                    if (j2 == 0) {
                         this.zzgi = 1 + j3;
                         zzfd.zza(j3, (byte) j);
                         return;
+                    } else {
+                        this.zzgi = j3 + 1;
+                        zzfd.zza(j3, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
+                        j >>>= 7;
                     }
-                    this.zzgi = j3 + 1;
-                    zzfd.zza(j3, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
-                    j >>>= 7;
+                }
+            } else {
+                while (true) {
+                    long j4 = this.zzgi;
+                    if (j4 >= this.zzgg) {
+                        throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), 1));
+                    }
+                    if ((j & (-128)) == 0) {
+                        this.zzgi = 1 + j4;
+                        zzfd.zza(j4, (byte) j);
+                        return;
+                    } else {
+                        this.zzgi = j4 + 1;
+                        zzfd.zza(j4, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
+                        j >>>= 7;
+                    }
                 }
             }
         }
@@ -885,10 +889,11 @@ public abstract class zzbn extends zzba {
                     this.zzgi = 1 + j3;
                     zzfd.zza(j3, (byte) i);
                     return;
+                } else {
+                    this.zzgi = j3 + 1;
+                    zzfd.zza(j3, (byte) ((i & NotificationCenter.dialogTranslate) | 128));
+                    i >>>= 7;
                 }
-                this.zzgi = j3 + 1;
-                zzfd.zza(j3, (byte) ((i & NotificationCenter.dialogTranslate) | 128));
-                i >>>= 7;
             }
         }
 

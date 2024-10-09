@@ -1,4 +1,5 @@
 package com.google.android.gms.maps.internal;
+
 /* loaded from: classes.dex */
 public abstract class zza {
     public static byte zza(Boolean bool) {
@@ -9,12 +10,12 @@ public abstract class zza {
     }
 
     public static Boolean zzb(byte b) {
-        if (b != 0) {
-            if (b != 1) {
-                return null;
-            }
-            return Boolean.TRUE;
+        if (b == 0) {
+            return Boolean.FALSE;
         }
-        return Boolean.FALSE;
+        if (b != 1) {
+            return null;
+        }
+        return Boolean.TRUE;
     }
 }

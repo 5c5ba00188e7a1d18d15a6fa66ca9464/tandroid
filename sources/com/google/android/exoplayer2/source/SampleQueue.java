@@ -17,6 +17,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public class SampleQueue implements TrackOutput {
     private int absoluteFirstIndex;
@@ -96,12 +97,12 @@ public class SampleQueue implements TrackOutput {
     private synchronized boolean attemptSplice(long j) {
         if (this.length == 0) {
             return j > this.largestDiscardedTimestampUs;
-        } else if (getLargestReadTimestampUs() >= j) {
-            return false;
-        } else {
-            discardUpstreamSampleMetadata(this.absoluteFirstIndex + countUnreadSamplesBefore(j));
-            return true;
         }
+        if (getLargestReadTimestampUs() >= j) {
+            return false;
+        }
+        discardUpstreamSampleMetadata(this.absoluteFirstIndex + countUnreadSamplesBefore(j));
+        return true;
     }
 
     private synchronized void commitSample(long j, int i, long j2, int i2, TrackOutput.CryptoData cryptoData) {
@@ -217,31 +218,30 @@ public class SampleQueue implements TrackOutput {
     }
 
     private long discardSamples(int i) {
-        int i2;
         this.largestDiscardedTimestampUs = Math.max(this.largestDiscardedTimestampUs, getLargestTimestamp(i));
         this.length -= i;
-        int i3 = this.absoluteFirstIndex + i;
-        this.absoluteFirstIndex = i3;
-        int i4 = this.relativeFirstIndex + i;
-        this.relativeFirstIndex = i4;
-        int i5 = this.capacity;
-        if (i4 >= i5) {
-            this.relativeFirstIndex = i4 - i5;
+        int i2 = this.absoluteFirstIndex + i;
+        this.absoluteFirstIndex = i2;
+        int i3 = this.relativeFirstIndex + i;
+        this.relativeFirstIndex = i3;
+        int i4 = this.capacity;
+        if (i3 >= i4) {
+            this.relativeFirstIndex = i3 - i4;
         }
-        int i6 = this.readPosition - i;
-        this.readPosition = i6;
-        if (i6 < 0) {
+        int i5 = this.readPosition - i;
+        this.readPosition = i5;
+        if (i5 < 0) {
             this.readPosition = 0;
         }
-        this.sharedSampleMetadata.discardTo(i3);
-        if (this.length == 0) {
-            int i7 = this.relativeFirstIndex;
-            if (i7 == 0) {
-                i7 = this.capacity;
-            }
-            return this.offsets[i7 - 1] + this.sizes[i2];
+        this.sharedSampleMetadata.discardTo(i2);
+        if (this.length != 0) {
+            return this.offsets[this.relativeFirstIndex];
         }
-        return this.offsets[this.relativeFirstIndex];
+        int i6 = this.relativeFirstIndex;
+        if (i6 == 0) {
+            i6 = this.capacity;
+        }
+        return this.offsets[i6 - 1] + this.sizes[r6];
     }
 
     private long discardUpstreamSampleMetadata(int i) {
@@ -257,11 +257,10 @@ public class SampleQueue implements TrackOutput {
         this.isLastSampleQueued = z;
         this.sharedSampleMetadata.discardFrom(i);
         int i3 = this.length;
-        if (i3 != 0) {
-            int relativeIndex = getRelativeIndex(i3 - 1);
-            return this.offsets[relativeIndex] + this.sizes[relativeIndex];
+        if (i3 == 0) {
+            return 0L;
         }
-        return 0L;
+        return this.offsets[getRelativeIndex(i3 - 1)] + this.sizes[r9];
     }
 
     private int findSampleBefore(int i, int i2, long j, boolean z) {
@@ -619,7 +618,7 @@ public class SampleQueue implements TrackOutput {
         this.sampleDataQueue.sampleData(parsableByteArray, i);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0059  */
     @Override // com.google.android.exoplayer2.extractor.TrackOutput
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -634,8 +633,9 @@ public class SampleQueue implements TrackOutput {
         if (this.upstreamKeyframeRequired) {
             if (!z) {
                 return;
+            } else {
+                this.upstreamKeyframeRequired = false;
             }
-            this.upstreamKeyframeRequired = false;
         }
         long j2 = this.sampleOffsetUs + j;
         if (this.upstreamAllSamplesAreSyncSamples) {
@@ -651,8 +651,9 @@ public class SampleQueue implements TrackOutput {
                 if (this.pendingSplice) {
                     if (!z || !attemptSplice(j2)) {
                         return;
+                    } else {
+                        this.pendingSplice = false;
                     }
-                    this.pendingSplice = false;
                 }
                 commitSample(j2, i4, (this.sampleDataQueue.getTotalBytesWritten() - i2) - i3, i2, cryptoData);
             }

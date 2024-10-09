@@ -5,6 +5,7 @@ import com.coremedia.iso.boxes.Box;
 import com.coremedia.iso.boxes.Container;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
+
 /* loaded from: classes.dex */
 public abstract class AbstractContainerBox extends BasicContainer implements Box {
     protected boolean largeBox;

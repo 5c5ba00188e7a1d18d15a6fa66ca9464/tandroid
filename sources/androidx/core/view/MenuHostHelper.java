@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 /* loaded from: classes.dex */
 public class MenuHostHelper {
     private final Runnable mOnInvalidateMenuCallback;
@@ -36,11 +37,11 @@ public class MenuHostHelper {
 
     public boolean onMenuItemSelected(MenuItem menuItem) {
         Iterator it = this.mMenuProviders.iterator();
-        if (it.hasNext()) {
-            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
-            throw null;
+        if (!it.hasNext()) {
+            return false;
         }
-        return false;
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+        throw null;
     }
 
     public void onPrepareMenu(Menu menu) {

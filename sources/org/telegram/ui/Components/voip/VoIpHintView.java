@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import org.telegram.ui.Stories.recorder.HintView2;
+
 /* loaded from: classes3.dex */
 public class VoIpHintView extends HintView2 {
     private final VoIPBackgroundProvider backgroundProvider;

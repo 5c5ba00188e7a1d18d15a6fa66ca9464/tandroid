@@ -12,7 +12,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes3.dex */
 public class EmuDetector {
     private static final String IP = "10.0.2.15";
@@ -78,8 +80,8 @@ public class EmuDetector {
         return checkTelephony() || checkFiles(GENY_FILES, EmulatorTypes.GENY) || checkFiles(ANDY_FILES, EmulatorTypes.ANDY) || checkFiles(NOX_FILES, EmulatorTypes.NOX) || checkFiles(BLUE_FILES, EmulatorTypes.BLUE) || checkQEmuDrivers() || checkFiles(PIPES, EmulatorTypes.PIPES) || checkIp() || (checkQEmuProps() && checkFiles(X86_FILES, EmulatorTypes.X86));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00de A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00df  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00de A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00df  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -94,23 +96,23 @@ public class EmuDetector {
                     String str3 = Build.PRODUCT;
                     if (!str3.equals("sdk") && !str3.equals("google_sdk") && !str3.equals("sdk_x86") && !str3.equals("vbox86p") && !str3.toLowerCase().contains("nox") && !Build.SERIAL.toLowerCase().contains("nox")) {
                         z = false;
-                        if (z) {
-                            if (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) {
-                                z2 = true;
-                            }
-                            boolean z3 = z | z2;
-                            if (z3) {
-                                return true;
-                            }
-                            return z3 | "google_sdk".equals(Build.PRODUCT);
+                        if (!z) {
+                            return true;
                         }
-                        return true;
+                        if (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) {
+                            z2 = true;
+                        }
+                        boolean z3 = z | z2;
+                        if (z3) {
+                            return true;
+                        }
+                        return z3 | "google_sdk".equals(Build.PRODUCT);
                     }
                 }
             }
         }
         z = true;
-        if (z) {
+        if (!z) {
         }
     }
 
@@ -152,32 +154,31 @@ public class EmuDetector {
     }
 
     private boolean checkIp() {
-        String[] split;
-        if (ContextCompat.checkSelfPermission(this.mContext, "android.permission.INTERNET") == 0) {
-            String[] strArr = {"/system/bin/netcfg"};
-            StringBuilder sb = new StringBuilder();
-            try {
-                ProcessBuilder processBuilder = new ProcessBuilder(strArr);
-                processBuilder.directory(new File("/system/bin/"));
-                processBuilder.redirectErrorStream(true);
-                InputStream inputStream = processBuilder.start().getInputStream();
-                byte[] bArr = new byte[1024];
-                while (inputStream.read(bArr) != -1) {
-                    sb.append(new String(bArr));
-                }
-                inputStream.close();
-            } catch (Exception unused) {
-            }
-            String sb2 = sb.toString();
-            if (TextUtils.isEmpty(sb2)) {
-                return false;
-            }
-            for (String str : sb2.split("\n")) {
-                if ((str.contains("wlan0") || str.contains("tunl0") || str.contains("eth0")) && str.contains(IP)) {
-                    return true;
-                }
-            }
+        if (ContextCompat.checkSelfPermission(this.mContext, "android.permission.INTERNET") != 0) {
             return false;
+        }
+        String[] strArr = {"/system/bin/netcfg"};
+        StringBuilder sb = new StringBuilder();
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder(strArr);
+            processBuilder.directory(new File("/system/bin/"));
+            processBuilder.redirectErrorStream(true);
+            InputStream inputStream = processBuilder.start().getInputStream();
+            byte[] bArr = new byte[1024];
+            while (inputStream.read(bArr) != -1) {
+                sb.append(new String(bArr));
+            }
+            inputStream.close();
+        } catch (Exception unused) {
+        }
+        String sb2 = sb.toString();
+        if (TextUtils.isEmpty(sb2)) {
+            return false;
+        }
+        for (String str : sb2.split("\n")) {
+            if ((str.contains("wlan0") || str.contains("tunl0") || str.contains("eth0")) && str.contains(IP)) {
+                return true;
+            }
         }
         return false;
     }
@@ -189,8 +190,9 @@ public class EmuDetector {
     private boolean checkPackageName() {
         if (this.isCheckPackage && !this.mListPackageName.isEmpty()) {
             PackageManager packageManager = this.mContext.getPackageManager();
-            for (String str : this.mListPackageName) {
-                Intent launchIntentForPackage = packageManager.getLaunchIntentForPackage(str);
+            Iterator<String> it = this.mListPackageName.iterator();
+            while (it.hasNext()) {
+                Intent launchIntentForPackage = packageManager.getLaunchIntentForPackage(it.next());
                 if (launchIntentForPackage != null && !packageManager.queryIntentActivities(launchIntentForPackage, 65536).isEmpty()) {
                     return true;
                 }
@@ -228,14 +230,12 @@ public class EmuDetector {
                         return true;
                     }
                 }
-                continue;
             }
         }
         return false;
     }
 
     private boolean checkQEmuProps() {
-        Property[] propertyArr;
         int i = 0;
         for (Property property : PROPERTIES) {
             String prop = getProp(this.mContext, property.name);
@@ -268,13 +268,13 @@ public class EmuDetector {
     }
 
     public static EmuDetector with(Context context) {
-        if (context != null) {
-            if (mEmulatorDetector == null) {
-                mEmulatorDetector = new EmuDetector(context.getApplicationContext());
-            }
-            return mEmulatorDetector;
+        if (context == null) {
+            throw new IllegalArgumentException("Context must not be null.");
         }
-        throw new IllegalArgumentException("Context must not be null.");
+        if (mEmulatorDetector == null) {
+            mEmulatorDetector = new EmuDetector(context.getApplicationContext());
+        }
+        return mEmulatorDetector;
     }
 
     public EmuDetector addPackageName(String str) {

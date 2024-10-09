@@ -1,6 +1,7 @@
 package com.google.android.gms.common.api.internal;
 
 import android.os.Bundle;
+
 /* loaded from: classes.dex */
 final class zza implements Runnable {
     final /* synthetic */ LifecycleCallback zza;

@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public interface AnalyticsCollector extends Player.Listener, MediaSourceEventListener, BandwidthMeter.EventListener, DrmSessionEventListener {
     void addListener(AnalyticsListener analyticsListener);

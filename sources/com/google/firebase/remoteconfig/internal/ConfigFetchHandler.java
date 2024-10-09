@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public class ConfigFetchHandler {
     private final Provider analyticsConnector;
@@ -102,9 +103,10 @@ public class ConfigFetchHandler {
             str = "The request did not have the required credentials. Please make sure your google-services.json is valid.";
         } else if (httpStatusCode == 403) {
             str = "The user is not authorized to access the project. Please make sure you are using the API key that corresponds to your Firebase project.";
-        } else if (httpStatusCode == 429) {
-            throw new FirebaseRemoteConfigClientException("The throttled response from the server was not handled correctly by the FRC SDK.");
         } else {
+            if (httpStatusCode == 429) {
+                throw new FirebaseRemoteConfigClientException("The throttled response from the server was not handled correctly by the FRC SDK.");
+            }
             if (httpStatusCode != 500) {
                 switch (httpStatusCode) {
                     case 502:
@@ -120,8 +122,7 @@ public class ConfigFetchHandler {
                 str = "There was an internal server error.";
             }
         }
-        int httpStatusCode2 = firebaseRemoteConfigServerException.getHttpStatusCode();
-        return new FirebaseRemoteConfigServerException(httpStatusCode2, "Fetch failed: " + str, firebaseRemoteConfigServerException);
+        return new FirebaseRemoteConfigServerException(firebaseRemoteConfigServerException.getHttpStatusCode(), "Fetch failed: " + str, firebaseRemoteConfigServerException);
     }
 
     private String createThrottledMessage(long j) {
@@ -152,7 +153,6 @@ public class ConfigFetchHandler {
                 @Override // com.google.android.gms.tasks.SuccessContinuation
                 public final Task then(Object obj) {
                     Task forResult;
-                    ConfigContainer configContainer = (ConfigContainer) obj;
                     forResult = Tasks.forResult(ConfigFetchHandler.FetchResponse.this);
                     return forResult;
                 }
@@ -163,7 +163,7 @@ public class ConfigFetchHandler {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: fetchIfCacheExpiredAndNotThrottled */
+    /* renamed from: fetchIfCacheExpiredAndNotThrottled, reason: merged with bridge method [inline-methods] */
     public Task lambda$fetch$0(Task task, long j) {
         Task continueWithTask;
         final Date date = new Date(this.clock.currentTimeMillis());
@@ -206,8 +206,7 @@ public class ConfigFetchHandler {
     private long getRandomizedBackoffDurationInMillis(int i) {
         TimeUnit timeUnit = TimeUnit.MINUTES;
         int[] iArr = BACKOFF_TIME_DURATIONS_IN_MINUTES;
-        long millis = timeUnit.toMillis(iArr[Math.min(i, iArr.length) - 1]);
-        return (millis / 2) + this.randomGenerator.nextInt((int) millis);
+        return (timeUnit.toMillis(iArr[Math.min(i, iArr.length) - 1]) / 2) + this.randomGenerator.nextInt((int) r0);
     }
 
     private Map getUserProperties() {

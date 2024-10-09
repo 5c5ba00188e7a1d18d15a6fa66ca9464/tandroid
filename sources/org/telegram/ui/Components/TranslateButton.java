@@ -30,6 +30,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.RestrictedLanguagesSelectActivity;
+
 /* loaded from: classes3.dex */
 public abstract class TranslateButton extends FrameLayout {
     private boolean[] accusative;
@@ -251,7 +252,7 @@ public abstract class TranslateButton extends FrameLayout {
             final String str = next.code;
             if (!TextUtils.equals(str, dialogDetectedLanguage)) {
                 ActionBarMenuSubItem actionBarMenuSubItem4 = new ActionBarMenuSubItem(getContext(), 2, false, false, this.resourcesProvider);
-                boolean z = dialogTranslateTo != 0 && dialogTranslateTo.equals(str);
+                boolean z = dialogTranslateTo != null && dialogTranslateTo.equals(str);
                 actionBarMenuSubItem4.setChecked(z);
                 actionBarMenuSubItem4.setText(next.displayName);
                 if (!z) {

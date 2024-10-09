@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class OpusDecoder extends SimpleDecoder {
     private static final int DECODE_ERROR = -1;
@@ -70,9 +71,10 @@ public final class OpusDecoder extends SimpleDecoder {
             bArr2[0] = 0;
             bArr2[1] = 1;
             i4 = i6;
-        } else if (bArr.length < channelCount + 21) {
-            throw new OpusDecoderException("Invalid header length");
         } else {
+            if (bArr.length < channelCount + 21) {
+                throw new OpusDecoderException("Invalid header length");
+            }
             i5 = bArr[19] & 255;
             i4 = bArr[20] & 255;
             System.arraycopy(bArr, 21, bArr2, 0, channelCount);

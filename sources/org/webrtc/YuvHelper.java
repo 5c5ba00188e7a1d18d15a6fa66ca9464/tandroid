@@ -2,6 +2,7 @@ package org.webrtc;
 
 import java.nio.ByteBuffer;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class YuvHelper {
     public static void ABGRToI420(ByteBuffer byteBuffer, int i, ByteBuffer byteBuffer2, int i2, ByteBuffer byteBuffer3, int i3, ByteBuffer byteBuffer4, int i4, int i5, int i6) {
@@ -32,19 +33,20 @@ public class YuvHelper {
         int i7 = i6 % NotificationCenter.updateBotMenuButton;
         int i8 = i7 == 0 ? i4 : i5;
         int i9 = i7 == 0 ? i5 : i4;
-        int i10 = (i8 + 1) / 2;
-        int i11 = i9 * i8;
-        int i12 = ((i9 + 1) / 2) * i10;
-        int i13 = (i12 * 2) + i11;
-        if (byteBuffer4.capacity() < i13) {
-            throw new IllegalArgumentException("Expected destination buffer capacity to be at least " + i13 + " was " + byteBuffer4.capacity());
+        int i10 = (i9 + 1) / 2;
+        int i11 = (i8 + 1) / 2;
+        int i12 = i9 * i8;
+        int i13 = i10 * i11;
+        int i14 = (i13 * 2) + i12;
+        if (byteBuffer4.capacity() < i14) {
+            throw new IllegalArgumentException("Expected destination buffer capacity to be at least " + i14 + " was " + byteBuffer4.capacity());
         }
         byteBuffer4.position(0);
         ByteBuffer slice = byteBuffer4.slice();
-        byteBuffer4.position(i11);
+        byteBuffer4.position(i12);
         ByteBuffer slice2 = byteBuffer4.slice();
-        byteBuffer4.position(i12 + i11);
-        nativeI420Rotate(byteBuffer, i, byteBuffer2, i2, byteBuffer3, i3, slice, i8, slice2, i10, byteBuffer4.slice(), i10, i4, i5, i6);
+        byteBuffer4.position(i13 + i12);
+        nativeI420Rotate(byteBuffer, i, byteBuffer2, i2, byteBuffer3, i3, slice, i8, slice2, i11, byteBuffer4.slice(), i11, i4, i5, i6);
     }
 
     public static void I420Rotate(ByteBuffer byteBuffer, int i, ByteBuffer byteBuffer2, int i2, ByteBuffer byteBuffer3, int i3, ByteBuffer byteBuffer4, int i4, ByteBuffer byteBuffer5, int i5, ByteBuffer byteBuffer6, int i6, int i7, int i8, int i9) {

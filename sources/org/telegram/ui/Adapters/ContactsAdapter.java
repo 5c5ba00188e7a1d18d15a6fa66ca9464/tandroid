@@ -39,6 +39,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.DialogStoriesCell;
 import org.telegram.ui.Stories.StoriesController;
+
 /* loaded from: classes4.dex */
 public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     DialogStoriesCell dialogStoriesCell;
@@ -82,25 +83,26 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         if (this.onlyUsers == 0 || this.isAdmin) {
             if (i == 0) {
                 return (this.isAdmin || this.needPhonebook) ? 2 : 4;
-            } else if (this.isEmpty) {
-                return 1;
-            } else {
-                if (this.sortType != 2) {
-                    int i2 = i - 1;
-                    if (i2 < arrayList.size()) {
-                        int size = hashMap.get(arrayList.get(i2)).size();
-                        return (i2 != arrayList.size() - 1 || this.needPhonebook) ? size + 1 : size;
-                    }
-                } else if (i == 1) {
-                    if (this.onlineContacts.isEmpty()) {
-                        return 0;
-                    }
-                    return this.onlineContacts.size() + 1;
-                }
             }
-        } else if (this.isEmpty) {
-            return 1;
+            if (this.isEmpty) {
+                return 1;
+            }
+            if (this.sortType != 2) {
+                int i2 = i - 1;
+                if (i2 < arrayList.size()) {
+                    int size = hashMap.get(arrayList.get(i2)).size();
+                    return (i2 != arrayList.size() - 1 || this.needPhonebook) ? size + 1 : size;
+                }
+            } else if (i == 1) {
+                if (this.onlineContacts.isEmpty()) {
+                    return 0;
+                }
+                return this.onlineContacts.size() + 1;
+            }
         } else {
+            if (this.isEmpty) {
+                return 1;
+            }
             if (i < arrayList.size()) {
                 int size2 = hashMap.get(arrayList.get(i)).size();
                 return (i != arrayList.size() - 1 || this.needPhonebook) ? size2 + 1 : size2;
@@ -113,11 +115,11 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002b  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x003d A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0048 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0053 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x005c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x003d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0048 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0053 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x005c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x002b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -149,16 +151,17 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                         return 1;
                     }
                     return i2 < i3 ? -1 : 0;
-                } else if (i2 >= 0 && i3 < 0) {
+                }
+                if (i2 >= 0 && i3 < 0) {
                     if (i2 > i3) {
                         return 1;
                     }
                     return i2 < i3 ? -1 : 0;
-                } else if ((i2 < 0 || i3 <= 0) && (i2 != 0 || i3 == 0)) {
-                    return ((i3 < 0 || i2 <= 0) && (i3 != 0 || i2 == 0)) ? 0 : 1;
-                } else {
-                    return -1;
                 }
+                if ((i2 < 0 || i3 <= 0) && (i2 != 0 || i3 == 0)) {
+                    return ((i3 < 0 || i2 <= 0) && (i3 != 0 || i2 == 0)) ? 0 : 1;
+                }
+                return -1;
             }
             i3 = 0;
             if (i2 <= 0) {
@@ -220,29 +223,29 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 }
             }
             return null;
-        } else if (i == 0) {
-            return null;
-        } else {
-            if (this.sortType != 2) {
-                int i3 = i - 1;
-                if (i3 < arrayList.size()) {
-                    ArrayList<TLRPC.TL_contact> arrayList3 = hashMap.get(arrayList.get(i3));
-                    if (i2 < arrayList3.size()) {
-                        return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList3.get(i2).user_id));
-                    }
-                    return null;
-                }
-            } else if (i == 1) {
-                if (i2 < this.onlineContacts.size()) {
-                    return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC.TL_contact) this.onlineContacts.get(i2)).user_id));
-                }
-                return null;
-            }
-            if (!this.needPhonebook || i2 < 0 || i2 >= ContactsController.getInstance(this.currentAccount).phoneBookContacts.size()) {
-                return null;
-            }
-            return ContactsController.getInstance(this.currentAccount).phoneBookContacts.get(i2);
         }
+        if (i == 0) {
+            return null;
+        }
+        if (this.sortType != 2) {
+            int i3 = i - 1;
+            if (i3 < arrayList.size()) {
+                ArrayList<TLRPC.TL_contact> arrayList3 = hashMap.get(arrayList.get(i3));
+                if (i2 < arrayList3.size()) {
+                    return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(arrayList3.get(i2).user_id));
+                }
+                return null;
+            }
+        } else if (i == 1) {
+            if (i2 < this.onlineContacts.size()) {
+                return MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC.TL_contact) this.onlineContacts.get(i2)).user_id));
+            }
+            return null;
+        }
+        if (!this.needPhonebook || i2 < 0 || i2 >= ContactsController.getInstance(this.currentAccount).phoneBookContacts.size()) {
+            return null;
+        }
+        return ContactsController.getInstance(this.currentAccount).phoneBookContacts.get(i2);
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
@@ -274,9 +277,10 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             } else if (i2 == 3) {
                 return this.isEmpty ? 5 : 2;
             }
-        } else if (this.isEmpty) {
-            return 4;
         } else {
+            if (this.isEmpty) {
+                return 4;
+            }
             if (this.sortType != 2) {
                 int i3 = i - 1;
                 if (i3 < arrayList.size()) {
@@ -289,8 +293,9 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         return 1;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x003b, code lost:
-        if (r4 < r0.size()) goto L18;
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x003b, code lost:
+    
+        if (r4 < r0.size()) goto L21;
      */
     @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
     /*
@@ -384,18 +389,19 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
         ArrayList<String> arrayList = this.onlyUsers == 2 ? ContactsController.getInstance(this.currentAccount).sortedUsersMutualSectionsArray : ContactsController.getInstance(this.currentAccount).sortedUsersSectionsArray;
         if (this.onlyUsers != 0 && !this.isAdmin) {
             return !this.isEmpty && i2 < hashMap.get(arrayList.get(i)).size();
-        } else if (i == 0) {
-            return this.isAdmin ? i2 != 1 : this.needPhonebook ? i2 != 1 : i2 != 3;
-        } else if (this.isEmpty) {
-            return false;
-        } else {
-            if (this.sortType == 2) {
-                return i != 1 || i2 < this.onlineContacts.size();
-            }
-            int i3 = i - 1;
-            return i3 >= arrayList.size() || i2 < hashMap.get(arrayList.get(i3)).size();
-            return true;
         }
+        if (i == 0) {
+            return this.isAdmin ? i2 != 1 : this.needPhonebook ? i2 != 1 : i2 != 3;
+        }
+        if (this.isEmpty) {
+            return false;
+        }
+        if (this.sortType == 2) {
+            return i != 1 || i2 < this.onlineContacts.size();
+        }
+        int i3 = i - 1;
+        return i3 >= arrayList.size() || i2 < hashMap.get(arrayList.get(i3)).size();
+        return true;
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
@@ -459,8 +465,11 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             LongSparseArray longSparseArray = this.ignoreUsers;
             if (longSparseArray != null) {
                 userCell2.setAlpha(longSparseArray.indexOfKey(user2.id) >= 0 ? 0.5f : 1.0f);
+                return;
             }
-        } else if (itemViewType2 != 1) {
+            return;
+        }
+        if (itemViewType2 != 1) {
             if (itemViewType2 != 2) {
                 return;
             }
@@ -472,45 +481,47 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
                 i4 = i7 == 0 ? R.string.Contacts : i7 == 1 ? R.string.SortedByName : R.string.SortedByLastSeen;
             }
             graySectionCell2.setText(LocaleController.getString(i4));
-        } else {
-            TextCell textCell = (TextCell) viewHolder.itemView;
-            if (i != 0) {
-                ContactsController.Contact contact = ContactsController.getInstance(this.currentAccount).phoneBookContacts.get(i2);
-                String str2 = contact.first_name;
-                if (str2 != null && contact.last_name != null) {
-                    str = contact.first_name + " " + contact.last_name;
-                } else if (str2 != null && contact.last_name == null) {
+            return;
+        }
+        TextCell textCell = (TextCell) viewHolder.itemView;
+        if (i != 0) {
+            ContactsController.Contact contact = ContactsController.getInstance(this.currentAccount).phoneBookContacts.get(i2);
+            String str2 = contact.first_name;
+            if (str2 != null && contact.last_name != null) {
+                str = contact.first_name + " " + contact.last_name;
+            } else {
+                if (str2 != null && contact.last_name == null) {
                     textCell.setText(str2, false);
                     return;
-                } else {
-                    str = contact.last_name;
                 }
-                textCell.setText(str, false);
-                return;
+                str = contact.last_name;
             }
-            if (this.needPhonebook) {
-                if (i2 != 0) {
-                    return;
-                }
-                string = LocaleController.getString(R.string.InviteFriends);
-                i3 = R.drawable.msg_invite;
-            } else if (this.isAdmin) {
-                string = LocaleController.getString(this.isChannel ? R.string.ChannelInviteViaLink : R.string.InviteToGroupByLink);
-                i3 = R.drawable.msg_link2;
-            } else if (i2 == 0) {
-                string = LocaleController.getString(R.string.NewGroup);
-                i3 = R.drawable.msg_groups;
-            } else if (i2 == 1) {
-                string = LocaleController.getString(R.string.NewContact);
-                i3 = R.drawable.msg_addcontact;
-            } else if (i2 != 2) {
-                return;
-            } else {
-                string = LocaleController.getString(R.string.NewChannel);
-                i3 = R.drawable.msg_channel;
-            }
-            textCell.setTextAndIcon((CharSequence) string, i3, false);
+            textCell.setText(str, false);
+            return;
         }
+        if (this.needPhonebook) {
+            if (i2 != 0) {
+                return;
+            }
+            string = LocaleController.getString(R.string.InviteFriends);
+            i3 = R.drawable.msg_invite;
+        } else if (this.isAdmin) {
+            string = LocaleController.getString(this.isChannel ? R.string.ChannelInviteViaLink : R.string.InviteToGroupByLink);
+            i3 = R.drawable.msg_link2;
+        } else if (i2 == 0) {
+            string = LocaleController.getString(R.string.NewGroup);
+            i3 = R.drawable.msg_groups;
+        } else if (i2 == 1) {
+            string = LocaleController.getString(R.string.NewContact);
+            i3 = R.drawable.msg_addcontact;
+        } else {
+            if (i2 != 2) {
+                return;
+            }
+            string = LocaleController.getString(R.string.NewChannel);
+            i3 = R.drawable.msg_channel;
+        }
+        textCell.setTextAndIcon((CharSequence) string, i3, false);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -595,12 +606,12 @@ public abstract class ContactsAdapter extends RecyclerListView.SectionsAdapter {
             while (true) {
                 if (i2 >= size) {
                     break;
-                } else if (((TLRPC.TL_contact) this.onlineContacts.get(i2)).user_id == j) {
+                }
+                if (((TLRPC.TL_contact) this.onlineContacts.get(i2)).user_id == j) {
                     this.onlineContacts.remove(i2);
                     break;
-                } else {
-                    i2++;
                 }
+                i2++;
             }
         }
         sortOnlineContacts();

@@ -7,6 +7,7 @@ import java.util.List;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+
 /* loaded from: classes3.dex */
 public abstract class Brush {
     public static List BRUSHES_LIST = Arrays.asList(new Radial(), new Arrow(), new Elliptical(), new Neon(), new Blurer(), new Eraser());
@@ -58,16 +59,16 @@ public abstract class Brush {
 
         @Override // org.telegram.ui.Components.Paint.Brush
         public String getShaderName(int i) {
-            if (i != 0) {
-                if (i != 1) {
-                    if (i != 2) {
-                        return null;
-                    }
-                    return "brush";
-                }
+            if (i == 0) {
+                return "blitWithMaskBlurer";
+            }
+            if (i == 1) {
                 return "compositeWithMaskBlurer";
             }
-            return "blitWithMaskBlurer";
+            if (i != 2) {
+                return null;
+            }
+            return "brush";
         }
     }
 
@@ -148,16 +149,16 @@ public abstract class Brush {
 
         @Override // org.telegram.ui.Components.Paint.Brush
         public String getShaderName(int i) {
-            if (i != 0) {
-                if (i != 1) {
-                    if (i != 2) {
-                        return null;
-                    }
-                    return "brush";
-                }
+            if (i == 0) {
+                return "blitWithMaskEraser";
+            }
+            if (i == 1) {
                 return "compositeWithMaskEraser";
             }
-            return "blitWithMaskEraser";
+            if (i != 2) {
+                return null;
+            }
+            return "brush";
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
@@ -200,16 +201,16 @@ public abstract class Brush {
 
         @Override // org.telegram.ui.Components.Paint.Brush
         public String getShaderName(int i) {
-            if (i != 0) {
-                if (i != 1) {
-                    if (i != 2) {
-                        return null;
-                    }
-                    return "brushLight";
-                }
+            if (i == 0) {
+                return "blitWithMaskLight";
+            }
+            if (i == 1) {
                 return "compositeWithMaskLight";
             }
-            return "blitWithMaskLight";
+            if (i != 2) {
+                return null;
+            }
+            return "brushLight";
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
@@ -356,15 +357,15 @@ public abstract class Brush {
         }
 
         public static Shape make(int i) {
-            if (i < 0 || i > SHAPES_LIST.size()) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("Shape type must be in range from 0 to ");
-                sb.append(SHAPES_LIST.size() - 1);
-                sb.append(", but got ");
-                sb.append(i);
-                throw new IndexOutOfBoundsException(sb.toString());
+            if (i >= 0 && i <= SHAPES_LIST.size()) {
+                return (Shape) SHAPES_LIST.get(i);
             }
-            return (Shape) SHAPES_LIST.get(i);
+            StringBuilder sb = new StringBuilder();
+            sb.append("Shape type must be in range from 0 to ");
+            sb.append(SHAPES_LIST.size() - 1);
+            sb.append(", but got ");
+            sb.append(i);
+            throw new IndexOutOfBoundsException(sb.toString());
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
@@ -421,16 +422,16 @@ public abstract class Brush {
     }
 
     public String getShaderName(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i != 2) {
-                    return null;
-                }
-                return "brush";
-            }
+        if (i == 0) {
+            return "blitWithMask";
+        }
+        if (i == 1) {
             return "compositeWithMask";
         }
-        return "blitWithMask";
+        if (i != 2) {
+            return null;
+        }
+        return "brush";
     }
 
     public float getSmoothThicknessRate() {

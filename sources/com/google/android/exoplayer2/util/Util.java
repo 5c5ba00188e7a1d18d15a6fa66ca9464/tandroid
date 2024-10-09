@@ -52,6 +52,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.TranslateController;
 import org.telegram.messenger.voip.VoIPController;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes.dex */
 public abstract class Util {
     private static final int[] CRC32_BYTES_MSBF;
@@ -361,29 +362,29 @@ public abstract class Util {
     }
 
     public static int getAudioTrackChannelConfig(int i) {
-        if (i != 12) {
-            switch (i) {
-                case 1:
-                    return 4;
-                case 2:
-                    return 12;
-                case 3:
-                    return 28;
-                case 4:
-                    return NotificationCenter.groupPackUpdated;
-                case 5:
-                    return NotificationCenter.updateAllMessages;
-                case 6:
-                    return NotificationCenter.liveLocationsCacheChanged;
-                case 7:
-                    return 1276;
-                case 8:
-                    return 6396;
-                default:
-                    return 0;
-            }
+        if (i == 12) {
+            return 743676;
         }
-        return 743676;
+        switch (i) {
+            case 1:
+                return 4;
+            case 2:
+                return 12;
+            case 3:
+                return 28;
+            case 4:
+                return NotificationCenter.groupPackUpdated;
+            case 5:
+                return NotificationCenter.updateAllMessages;
+            case 6:
+                return NotificationCenter.liveLocationsCacheChanged;
+            case 7:
+                return 1276;
+            case 8:
+                return 6396;
+            default:
+                return 0;
+        }
     }
 
     public static Player.Commands getAvailableCommands(Player player, Player.Commands commands) {
@@ -540,74 +541,74 @@ public abstract class Util {
         if (i == 2 || i == 4) {
             return 6005;
         }
-        if (i != 10) {
-            if (i != 7) {
-                if (i != 8) {
-                    switch (i) {
-                        case 15:
-                            return 6003;
-                        case 16:
-                        case 18:
-                            return 6005;
-                        case 17:
-                        case 19:
-                        case 20:
-                        case 21:
-                        case 22:
-                            return 6004;
-                        default:
-                            switch (i) {
-                                case 24:
-                                case 25:
-                                case 26:
-                                case 27:
-                                case 28:
-                                    return 6002;
-                                default:
-                                    return 6006;
-                            }
-                    }
-                }
-                return 6003;
-            }
+        if (i == 10) {
+            return 6004;
+        }
+        if (i == 7) {
             return 6005;
         }
-        return 6004;
+        if (i == 8) {
+            return 6003;
+        }
+        switch (i) {
+            case 15:
+                return 6003;
+            case 16:
+            case 18:
+                return 6005;
+            case 17:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+                return 6004;
+            default:
+                switch (i) {
+                    case 24:
+                    case 25:
+                    case 26:
+                    case 27:
+                    case 28:
+                        return 6002;
+                    default:
+                        return 6006;
+                }
+        }
     }
 
     public static int getErrorCodeFromPlatformDiagnosticsInfo(String str) {
         String[] split;
         int length;
-        if (str != null && (length = (split = split(str, "_")).length) >= 2) {
-            String str2 = split[length - 1];
-            boolean z = length >= 3 && "neg".equals(split[length - 2]);
-            try {
-                int parseInt = Integer.parseInt((String) Assertions.checkNotNull(str2));
-                return z ? -parseInt : parseInt;
-            } catch (NumberFormatException unused) {
-                return 0;
-            }
+        if (str == null || (length = (split = split(str, "_")).length) < 2) {
+            return 0;
         }
-        return 0;
+        String str2 = split[length - 1];
+        boolean z = length >= 3 && "neg".equals(split[length - 2]);
+        try {
+            int parseInt = Integer.parseInt((String) Assertions.checkNotNull(str2));
+            return z ? -parseInt : parseInt;
+        } catch (NumberFormatException unused) {
+            return 0;
+        }
     }
 
     public static String getFormatSupportString(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 3) {
-                        if (i == 4) {
-                            return "YES";
-                        }
-                        throw new IllegalStateException();
-                    }
-                    return "NO_EXCEEDS_CAPABILITIES";
-                }
-                return "NO_UNSUPPORTED_DRM";
-            }
+        if (i == 0) {
+            return "NO";
+        }
+        if (i == 1) {
             return "NO_UNSUPPORTED_TYPE";
         }
-        return "NO";
+        if (i == 2) {
+            return "NO_UNSUPPORTED_DRM";
+        }
+        if (i == 3) {
+            return "NO_EXCEEDS_CAPABILITIES";
+        }
+        if (i == 4) {
+            return "YES";
+        }
+        throw new IllegalStateException();
     }
 
     public static String getLocaleLanguageTag(Locale locale) {
@@ -636,16 +637,16 @@ public abstract class Util {
     }
 
     public static int getPcmEncoding(int i) {
-        if (i != 8) {
-            if (i != 16) {
-                if (i != 24) {
-                    return i != 32 ? 0 : 805306368;
-                }
-                return 536870912;
-            }
+        if (i == 8) {
+            return 3;
+        }
+        if (i == 16) {
             return 2;
         }
-        return 3;
+        if (i != 24) {
+            return i != 32 ? 0 : 805306368;
+        }
+        return 536870912;
     }
 
     public static Format getPcmFormat(int i, int i2, int i3) {
@@ -654,20 +655,20 @@ public abstract class Util {
 
     public static int getPcmFrameSize(int i, int i2) {
         if (i != 2) {
-            if (i != 3) {
-                if (i != 4) {
-                    if (i != 268435456) {
-                        if (i == 536870912) {
-                            return i2 * 3;
-                        }
-                        if (i != 805306368) {
-                            throw new IllegalArgumentException();
-                        }
+            if (i == 3) {
+                return i2;
+            }
+            if (i != 4) {
+                if (i != 268435456) {
+                    if (i == 536870912) {
+                        return i2 * 3;
+                    }
+                    if (i != 805306368) {
+                        throw new IllegalArgumentException();
                     }
                 }
-                return i2 * 4;
             }
-            return i2;
+            return i2 * 4;
         }
         return i2 * 2;
     }
@@ -684,27 +685,27 @@ public abstract class Util {
     }
 
     public static int getStreamTypeForAudioUsage(int i) {
-        if (i != 13) {
-            switch (i) {
-                case 2:
-                    return 0;
-                case 3:
-                    return 8;
-                case 4:
-                    return 4;
-                case 5:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                    return 5;
-                case 6:
-                    return 2;
-                default:
-                    return 3;
-            }
+        if (i == 13) {
+            return 1;
         }
-        return 1;
+        switch (i) {
+            case 2:
+                return 0;
+            case 3:
+                return 8;
+            case 4:
+                return 4;
+            case 5:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                return 5;
+            case 6:
+                return 2;
+            default:
+                return 3;
+        }
     }
 
     public static String[] getSystemLanguageCodes() {
@@ -759,10 +760,10 @@ public abstract class Util {
             case 6:
                 return "camera motion";
             default:
-                if (i >= 10000) {
-                    return "custom (" + i + ")";
+                if (i < 10000) {
+                    return "?";
                 }
-                return "?";
+                return "custom (" + i + ")";
         }
     }
 
@@ -773,31 +774,31 @@ public abstract class Util {
     public static int inferContentType(Uri uri) {
         int inferContentTypeForExtension;
         String scheme = uri.getScheme();
-        if (scheme == null || !Ascii.equalsIgnoreCase("rtsp", scheme)) {
-            String lastPathSegment = uri.getLastPathSegment();
-            if (lastPathSegment == null) {
-                return 4;
-            }
-            int lastIndexOf = lastPathSegment.lastIndexOf(46);
-            if (lastIndexOf < 0 || (inferContentTypeForExtension = inferContentTypeForExtension(lastPathSegment.substring(lastIndexOf + 1))) == 4) {
-                Matcher matcher = ISM_PATH_PATTERN.matcher((CharSequence) Assertions.checkNotNull(uri.getPath()));
-                if (matcher.matches()) {
-                    String group = matcher.group(2);
-                    if (group != null) {
-                        if (group.contains("format=mpd-time-csf")) {
-                            return 0;
-                        }
-                        if (group.contains("format=m3u8-aapl")) {
-                            return 2;
-                        }
-                    }
-                    return 1;
-                }
-                return 4;
-            }
+        if (scheme != null && Ascii.equalsIgnoreCase("rtsp", scheme)) {
+            return 3;
+        }
+        String lastPathSegment = uri.getLastPathSegment();
+        if (lastPathSegment == null) {
+            return 4;
+        }
+        int lastIndexOf = lastPathSegment.lastIndexOf(46);
+        if (lastIndexOf >= 0 && (inferContentTypeForExtension = inferContentTypeForExtension(lastPathSegment.substring(lastIndexOf + 1))) != 4) {
             return inferContentTypeForExtension;
         }
-        return 3;
+        Matcher matcher = ISM_PATH_PATTERN.matcher((CharSequence) Assertions.checkNotNull(uri.getPath()));
+        if (!matcher.matches()) {
+            return 4;
+        }
+        String group = matcher.group(2);
+        if (group != null) {
+            if (group.contains("format=mpd-time-csf")) {
+                return 0;
+            }
+            if (group.contains("format=m3u8-aapl")) {
+                return 2;
+            }
+        }
+        return 1;
     }
 
     public static int inferContentTypeForExtension(String str) {
@@ -906,7 +907,8 @@ public abstract class Util {
                 if (!inflater.finished()) {
                     if (inflater.needsDictionary() || inflater.needsInput()) {
                         break;
-                    } else if (i == parsableByteArray2.capacity()) {
+                    }
+                    if (i == parsableByteArray2.capacity()) {
                         parsableByteArray2.ensureCapacity(parsableByteArray2.capacity() * 2);
                     }
                 } else {
@@ -1066,34 +1068,34 @@ public abstract class Util {
 
     public static long parseXsDuration(String str) {
         Matcher matcher = XS_DURATION_PATTERN.matcher(str);
-        if (matcher.matches()) {
-            boolean isEmpty = true ^ TextUtils.isEmpty(matcher.group(1));
-            String group = matcher.group(3);
-            double parseDouble = group != null ? Double.parseDouble(group) * 3.1556908E7d : 0.0d;
-            String group2 = matcher.group(5);
-            double parseDouble2 = parseDouble + (group2 != null ? Double.parseDouble(group2) * 2629739.0d : 0.0d);
-            String group3 = matcher.group(7);
-            double parseDouble3 = parseDouble2 + (group3 != null ? Double.parseDouble(group3) * 86400.0d : 0.0d);
-            String group4 = matcher.group(10);
-            double parseDouble4 = parseDouble3 + (group4 != null ? Double.parseDouble(group4) * 3600.0d : 0.0d);
-            String group5 = matcher.group(12);
-            double parseDouble5 = parseDouble4 + (group5 != null ? Double.parseDouble(group5) * 60.0d : 0.0d);
-            String group6 = matcher.group(14);
-            long parseDouble6 = (long) ((parseDouble5 + (group6 != null ? Double.parseDouble(group6) : 0.0d)) * 1000.0d);
-            return isEmpty ? -parseDouble6 : parseDouble6;
+        if (!matcher.matches()) {
+            return (long) (Double.parseDouble(str) * 3600.0d * 1000.0d);
         }
-        return (long) (Double.parseDouble(str) * 3600.0d * 1000.0d);
+        boolean isEmpty = true ^ TextUtils.isEmpty(matcher.group(1));
+        String group = matcher.group(3);
+        double parseDouble = group != null ? Double.parseDouble(group) * 3.1556908E7d : 0.0d;
+        String group2 = matcher.group(5);
+        double parseDouble2 = parseDouble + (group2 != null ? Double.parseDouble(group2) * 2629739.0d : 0.0d);
+        String group3 = matcher.group(7);
+        double parseDouble3 = parseDouble2 + (group3 != null ? Double.parseDouble(group3) * 86400.0d : 0.0d);
+        String group4 = matcher.group(10);
+        double parseDouble4 = parseDouble3 + (group4 != null ? Double.parseDouble(group4) * 3600.0d : 0.0d);
+        String group5 = matcher.group(12);
+        double parseDouble5 = parseDouble4 + (group5 != null ? Double.parseDouble(group5) * 60.0d : 0.0d);
+        String group6 = matcher.group(14);
+        long parseDouble6 = (long) ((parseDouble5 + (group6 != null ? Double.parseDouble(group6) : 0.0d)) * 1000.0d);
+        return isEmpty ? -parseDouble6 : parseDouble6;
     }
 
     public static boolean postOrRun(Handler handler, Runnable runnable) {
-        if (handler.getLooper().getThread().isAlive()) {
-            if (handler.getLooper() == Looper.myLooper()) {
-                runnable.run();
-                return true;
-            }
+        if (!handler.getLooper().getThread().isAlive()) {
+            return false;
+        }
+        if (handler.getLooper() != Looper.myLooper()) {
             return handler.post(runnable);
         }
-        return false;
+        runnable.run();
+        return true;
     }
 
     public static boolean readBoolean(Parcel parcel) {
@@ -1119,19 +1121,19 @@ public abstract class Util {
     }
 
     public static long scaleLargeTimestamp(long j, long j2, long j3) {
-        if (j3 < j2 || j3 % j2 != 0) {
-            if (j3 >= j2 || j2 % j3 != 0) {
-                double d = j2;
-                double d2 = j3;
-                Double.isNaN(d);
-                Double.isNaN(d2);
-                double d3 = j;
-                Double.isNaN(d3);
-                return (long) (d3 * (d / d2));
-            }
+        if (j3 >= j2 && j3 % j2 == 0) {
+            return j / (j3 / j2);
+        }
+        if (j3 < j2 && j2 % j3 == 0) {
             return j * (j2 / j3);
         }
-        return j / (j3 / j2);
+        double d = j2;
+        double d2 = j3;
+        Double.isNaN(d);
+        Double.isNaN(d2);
+        double d3 = j;
+        Double.isNaN(d3);
+        return (long) (d3 * (d / d2));
     }
 
     public static long[] scaleLargeTimestamps(List list, long j, long j2) {
@@ -1174,24 +1176,26 @@ public abstract class Util {
                 jArr[i] = jArr[i] / j3;
                 i++;
             }
-        } else if (j2 < j && j % j2 == 0) {
+            return;
+        }
+        if (j2 < j && j % j2 == 0) {
             long j4 = j / j2;
             while (i < jArr.length) {
                 jArr[i] = jArr[i] * j4;
                 i++;
             }
-        } else {
-            double d = j;
-            double d2 = j2;
-            Double.isNaN(d);
-            Double.isNaN(d2);
-            double d3 = d / d2;
-            while (i < jArr.length) {
-                double d4 = jArr[i];
-                Double.isNaN(d4);
-                jArr[i] = (long) (d4 * d3);
-                i++;
-            }
+            return;
+        }
+        double d = j;
+        double d2 = j2;
+        Double.isNaN(d);
+        Double.isNaN(d2);
+        double d3 = d / d2;
+        while (i < jArr.length) {
+            double d4 = jArr[i];
+            Double.isNaN(d4);
+            jArr[i] = (long) (d4 * d3);
+            i++;
         }
     }
 

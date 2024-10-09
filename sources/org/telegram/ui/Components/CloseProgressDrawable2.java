@@ -10,6 +10,7 @@ import android.view.animation.DecelerateInterpolator;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public abstract class CloseProgressDrawable2 extends Drawable {
     private float angle;
@@ -45,13 +46,13 @@ public abstract class CloseProgressDrawable2 extends Drawable {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0132  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0145  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0159  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x016d  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01a8  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x01b2  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x01b4  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0132  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0145  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0159  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x016d  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x01a8  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x01b4  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

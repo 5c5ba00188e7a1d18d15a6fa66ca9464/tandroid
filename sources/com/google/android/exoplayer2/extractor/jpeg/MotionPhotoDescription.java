@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.extractor.jpeg;
 
 import com.google.android.exoplayer2.metadata.mp4.MotionPhotoMetadata;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class MotionPhotoDescription {
     public final List items;

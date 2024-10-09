@@ -5,6 +5,7 @@ import com.google.firebase.abt.FirebaseABTesting;
 import com.google.firebase.inject.Provider;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class AbtComponent {
     private final Map abtOriginInstances = new HashMap();

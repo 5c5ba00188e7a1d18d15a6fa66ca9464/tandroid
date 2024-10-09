@@ -32,6 +32,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EmojiPacksAlert;
 import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Components.TypefaceSpan;
+
 /* loaded from: classes4.dex */
 public class StoryContainsEmojiButton extends View {
     private static Object lastRequestParentObject;
@@ -179,16 +180,17 @@ public class StoryContainsEmojiButton extends View {
             set(size2);
         } else if (this.sets.size() >= 1) {
             set((TLRPC.StickerSetCovered) this.sets.get(0));
-        } else if (arrayList != null && arrayList.size() >= 1) {
-            zArr[0] = false;
-            MediaDataController.getInstance(i).getStickerSet((TLRPC.InputStickerSet) arrayList.get(0), 0, false, new Utilities.Callback() { // from class: org.telegram.ui.Stories.StoryContainsEmojiButton$$ExternalSyntheticLambda0
-                @Override // org.telegram.messenger.Utilities.Callback
-                public final void run(Object obj2) {
-                    StoryContainsEmojiButton.this.lambda$load$0((TLRPC.TL_messages_stickerSet) obj2);
-                }
-            });
-            return;
         } else {
+            if (arrayList != null && arrayList.size() >= 1) {
+                zArr[0] = false;
+                MediaDataController.getInstance(i).getStickerSet((TLRPC.InputStickerSet) arrayList.get(0), 0, false, new Utilities.Callback() { // from class: org.telegram.ui.Stories.StoryContainsEmojiButton$$ExternalSyntheticLambda0
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj2) {
+                        StoryContainsEmojiButton.this.lambda$load$0((TLRPC.TL_messages_stickerSet) obj2);
+                    }
+                });
+                return;
+            }
             set(0);
         }
         animateLoad(zArr[0]);
@@ -266,10 +268,11 @@ public class StoryContainsEmojiButton extends View {
             if (i >= arrayList.size()) {
                 document = null;
                 break;
-            } else if (arrayList.get(i).id == tL_messages_stickerSet.set.thumb_document_id) {
-                document = arrayList.get(i);
-                break;
             } else {
+                if (arrayList.get(i).id == tL_messages_stickerSet.set.thumb_document_id) {
+                    document = arrayList.get(i);
+                    break;
+                }
                 i++;
             }
         }
@@ -293,8 +296,13 @@ public class StoryContainsEmojiButton extends View {
         if (f < 1.0f) {
             this.loadingDrawable.setAlpha((int) ((1.0f - f) * 255.0f));
             this.loadingPath.rewind();
+            Path path = this.loadingPath;
+            float paddingLeft = getPaddingLeft();
+            float paddingTop = getPaddingTop();
+            float measuredWidth = getMeasuredWidth() - getPaddingRight();
+            float paddingTop2 = getPaddingTop() + AndroidUtilities.dp(12.0f);
             Path.Direction direction = Path.Direction.CW;
-            this.loadingPath.addRect(getPaddingLeft(), getPaddingTop(), getMeasuredWidth() - getPaddingRight(), getPaddingTop() + AndroidUtilities.dp(12.0f), direction);
+            path.addRect(paddingLeft, paddingTop, measuredWidth, paddingTop2, direction);
             this.loadingPath.addRect(getPaddingLeft(), getPaddingTop() + AndroidUtilities.dp(16.0f), getPaddingLeft() + (((getMeasuredWidth() - getPaddingRight()) - getPaddingLeft()) * 0.46f), getPaddingTop() + AndroidUtilities.dp(28.0f), direction);
             this.loadingDrawable.draw(canvas);
             invalidate();
@@ -312,14 +320,14 @@ public class StoryContainsEmojiButton extends View {
     }
 
     public EmojiPacksAlert getAlert() {
-        if (this.inputSets == null) {
-            int i = -this.shiftDp;
-            this.shiftDp = i;
-            AndroidUtilities.shakeViewSpring(this, i);
-            BotWebViewVibrationEffect.APP_ERROR.vibrate();
-            return null;
+        if (this.inputSets != null) {
+            return new EmojiPacksAlert(null, getContext(), this.resourcesProvider, this.inputSets);
         }
-        return new EmojiPacksAlert(null, getContext(), this.resourcesProvider, this.inputSets);
+        int i = -this.shiftDp;
+        this.shiftDp = i;
+        AndroidUtilities.shakeViewSpring(this, i);
+        BotWebViewVibrationEffect.APP_ERROR.vibrate();
+        return null;
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -343,10 +351,11 @@ public class StoryContainsEmojiButton extends View {
                     }
                 });
                 return;
+            } else {
+                set(this.inputSets.size());
+                animateLoad(false);
+                return;
             }
-            set(this.inputSets.size());
-            animateLoad(false);
-            return;
         }
         this.sets = new ArrayList();
         this.inputSets = new ArrayList();
@@ -382,10 +391,11 @@ public class StoryContainsEmojiButton extends View {
                         StoryContainsEmojiButton.lambda$load$3(obj, i, tL_messages_getAttachedStickers, requestDelegate, tLObject2, tL_error);
                     }
                 });
+            } else {
+                zArr[0] = false;
+                requestDelegate.run(vector, null);
+                return;
             }
-            zArr[0] = false;
-            requestDelegate.run(vector, null);
-            return;
         }
         TLRPC.Photo photo = (TLRPC.Photo) tLObject;
         TLRPC.TL_inputStickeredMediaPhoto tL_inputStickeredMediaPhoto = new TLRPC.TL_inputStickeredMediaPhoto();

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 abstract class zzeg {
     private static final zzee zza = new zzeh();

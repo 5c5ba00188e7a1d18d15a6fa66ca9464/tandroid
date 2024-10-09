@@ -2,6 +2,7 @@ package j$.time;
 
 import j$.time.temporal.q;
 import java.io.Serializable;
+
 /* loaded from: classes2.dex */
 public final class p implements j$.time.temporal.k, Serializable, Comparable {
     private final g a;
@@ -29,11 +30,11 @@ public final class p implements j$.time.temporal.k, Serializable, Comparable {
 
     @Override // j$.time.temporal.k
     public final long b(j$.time.temporal.l lVar) {
-        if (lVar instanceof j$.time.temporal.a) {
-            int i = o.a[((j$.time.temporal.a) lVar).ordinal()];
-            return i != 1 ? i != 2 ? this.a.b(lVar) : this.b.getTotalSeconds() : h();
+        if (!(lVar instanceof j$.time.temporal.a)) {
+            return lVar.b(this);
         }
-        return lVar.b(this);
+        int i = o.a[((j$.time.temporal.a) lVar).ordinal()];
+        return i != 1 ? i != 2 ? this.a.b(lVar) : this.b.getTotalSeconds() : h();
     }
 
     @Override // j$.time.temporal.k
@@ -63,38 +64,38 @@ public final class p implements j$.time.temporal.k, Serializable, Comparable {
     public final int compareTo(Object obj) {
         p pVar = (p) obj;
         int compare = Long.compare(h(), pVar.h());
-        if (compare == 0) {
-            g gVar = this.a;
-            int h = gVar.m().h();
-            g gVar2 = pVar.a;
-            int h2 = h - gVar2.m().h();
-            if (h2 == 0 && (h2 = gVar.compareTo(gVar2)) == 0) {
-                int compareTo = this.c.getId().compareTo(pVar.c.getId());
-                if (compareTo == 0) {
-                    gVar.l().getClass();
-                    j$.time.chrono.g gVar3 = j$.time.chrono.g.a;
-                    gVar2.l().getClass();
-                    gVar3.getClass();
-                    gVar3.getClass();
-                    return 0;
-                }
-                return compareTo;
-            }
+        if (compare != 0) {
+            return compare;
+        }
+        g gVar = this.a;
+        int h = gVar.m().h();
+        g gVar2 = pVar.a;
+        int h2 = h - gVar2.m().h();
+        if (h2 != 0 || (h2 = gVar.compareTo(gVar2)) != 0) {
             return h2;
         }
-        return compare;
+        int compareTo = this.c.getId().compareTo(pVar.c.getId());
+        if (compareTo != 0) {
+            return compareTo;
+        }
+        gVar.l().getClass();
+        j$.time.chrono.g gVar3 = j$.time.chrono.g.a;
+        gVar2.l().getClass();
+        gVar3.getClass();
+        gVar3.getClass();
+        return 0;
     }
 
     @Override // j$.time.temporal.k
     public final int d(j$.time.temporal.a aVar) {
-        if (aVar instanceof j$.time.temporal.a) {
-            int i = o.a[aVar.ordinal()];
-            if (i != 1) {
-                return i != 2 ? this.a.d(aVar) : this.b.getTotalSeconds();
-            }
-            throw new j$.time.temporal.p("Invalid field 'InstantSeconds' for get() method, use getLong() instead");
+        if (!(aVar instanceof j$.time.temporal.a)) {
+            return j$.time.chrono.d.a(this, aVar);
         }
-        return j$.time.chrono.d.a(this, aVar);
+        int i = o.a[aVar.ordinal()];
+        if (i != 1) {
+            return i != 2 ? this.a.d(aVar) : this.b.getTotalSeconds();
+        }
+        throw new j$.time.temporal.p("Invalid field 'InstantSeconds' for get() method, use getLong() instead");
     }
 
     @Override // j$.time.temporal.k
@@ -106,11 +107,11 @@ public final class p implements j$.time.temporal.k, Serializable, Comparable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof p) {
-            p pVar = (p) obj;
-            return this.a.equals(pVar.a) && this.b.equals(pVar.b) && this.c.equals(pVar.c);
+        if (!(obj instanceof p)) {
+            return false;
         }
-        return false;
+        p pVar = (p) obj;
+        return this.a.equals(pVar.a) && this.b.equals(pVar.b) && this.c.equals(pVar.c);
     }
 
     public final ZoneOffset f() {
@@ -118,8 +119,7 @@ public final class p implements j$.time.temporal.k, Serializable, Comparable {
     }
 
     public final long h() {
-        g gVar = this.a;
-        return ((gVar.l().s() * 86400) + gVar.m().m()) - this.b.getTotalSeconds();
+        return ((this.a.l().s() * 86400) + r0.m().m()) - this.b.getTotalSeconds();
     }
 
     public final int hashCode() {
@@ -137,9 +137,9 @@ public final class p implements j$.time.temporal.k, Serializable, Comparable {
         sb.append(zoneOffset.toString());
         String sb2 = sb.toString();
         ZoneId zoneId = this.c;
-        if (zoneOffset != zoneId) {
-            return sb2 + '[' + zoneId.toString() + ']';
+        if (zoneOffset == zoneId) {
+            return sb2;
         }
-        return sb2;
+        return sb2 + '[' + zoneId.toString() + ']';
     }
 }

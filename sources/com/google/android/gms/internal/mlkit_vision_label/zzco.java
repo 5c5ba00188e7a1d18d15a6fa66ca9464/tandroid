@@ -10,8 +10,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 final class zzco implements ObjectEncoderContext {
     private static final Charset zza = Charset.forName("UTF-8");
@@ -68,21 +70,26 @@ final class zzco implements ObjectEncoderContext {
         try {
             OutputStream outputStream = this.zze;
             this.zze = zzcjVar;
-            objectEncoder.encode(obj, this);
-            this.zze = outputStream;
-            long zza2 = zzcjVar.zza();
-            zzcjVar.close();
-            return zza2;
-        } catch (Throwable th) {
+            try {
+                objectEncoder.encode(obj, this);
+                this.zze = outputStream;
+                long zza2 = zzcjVar.zza();
+                zzcjVar.close();
+                return zza2;
+            } catch (Throwable th) {
+                this.zze = outputStream;
+                throw th;
+            }
+        } catch (Throwable th2) {
             try {
                 zzcjVar.close();
-            } catch (Throwable th2) {
+            } catch (Throwable th3) {
                 try {
-                    Throwable.class.getDeclaredMethod("addSuppressed", Throwable.class).invoke(th, th2);
+                    Throwable.class.getDeclaredMethod("addSuppressed", Throwable.class).invoke(th2, th3);
                 } catch (Exception unused) {
                 }
             }
-            throw th;
+            throw th2;
         }
     }
 
@@ -117,9 +124,9 @@ final class zzco implements ObjectEncoderContext {
 
     private final void zzn(int i) {
         while (true) {
-            int i2 = ((i & (-128)) > 0L ? 1 : ((i & (-128)) == 0L ? 0 : -1));
+            long j = i & (-128);
             OutputStream outputStream = this.zze;
-            if (i2 == 0) {
+            if (j == 0) {
                 outputStream.write(i & NotificationCenter.dialogTranslate);
                 return;
             } else {
@@ -131,9 +138,9 @@ final class zzco implements ObjectEncoderContext {
 
     private final void zzo(long j) {
         while (true) {
-            int i = (((-128) & j) > 0L ? 1 : (((-128) & j) == 0L ? 0 : -1));
+            long j2 = (-128) & j;
             OutputStream outputStream = this.zze;
-            if (i == 0) {
+            if (j2 == 0) {
                 outputStream.write(((int) j) & NotificationCenter.dialogTranslate);
                 return;
             } else {
@@ -194,29 +201,38 @@ final class zzco implements ObjectEncoderContext {
             zzn(bytes.length);
             this.zze.write(bytes);
             return this;
-        } else if (obj instanceof Collection) {
-            for (Object obj2 : (Collection) obj) {
-                zzc(fieldDescriptor, obj2, false);
+        }
+        if (obj instanceof Collection) {
+            Iterator it = ((Collection) obj).iterator();
+            while (it.hasNext()) {
+                zzc(fieldDescriptor, it.next(), false);
             }
             return this;
-        } else if (obj instanceof Map) {
-            for (Map.Entry entry : ((Map) obj).entrySet()) {
-                zzk(zzd, fieldDescriptor, entry, false);
+        }
+        if (obj instanceof Map) {
+            Iterator it2 = ((Map) obj).entrySet().iterator();
+            while (it2.hasNext()) {
+                zzk(zzd, fieldDescriptor, (Map.Entry) it2.next(), false);
             }
             return this;
-        } else if (obj instanceof Double) {
+        }
+        if (obj instanceof Double) {
             zza(fieldDescriptor, ((Double) obj).doubleValue(), z);
             return this;
-        } else if (obj instanceof Float) {
+        }
+        if (obj instanceof Float) {
             zzb(fieldDescriptor, ((Float) obj).floatValue(), z);
             return this;
-        } else if (obj instanceof Number) {
+        }
+        if (obj instanceof Number) {
             zze(fieldDescriptor, ((Number) obj).longValue(), z);
             return this;
-        } else if (obj instanceof Boolean) {
+        }
+        if (obj instanceof Boolean) {
             zzd(fieldDescriptor, ((Boolean) obj).booleanValue() ? 1 : 0, z);
             return this;
-        } else if (obj instanceof byte[]) {
+        }
+        if (obj instanceof byte[]) {
             byte[] bArr = (byte[]) obj;
             if (z && bArr.length == 0) {
                 return this;
@@ -225,27 +241,27 @@ final class zzco implements ObjectEncoderContext {
             zzn(bArr.length);
             this.zze.write(bArr);
             return this;
-        } else {
-            ObjectEncoder objectEncoder = (ObjectEncoder) this.zzf.get(obj.getClass());
-            if (objectEncoder != null) {
-                zzk(objectEncoder, fieldDescriptor, obj, z);
-                return this;
-            }
-            ValueEncoder valueEncoder = (ValueEncoder) this.zzg.get(obj.getClass());
-            if (valueEncoder != null) {
-                zzl(valueEncoder, fieldDescriptor, obj, z);
-                return this;
-            } else if (obj instanceof zzck) {
-                zzd(fieldDescriptor, ((zzck) obj).zza(), true);
-                return this;
-            } else if (obj instanceof Enum) {
-                zzd(fieldDescriptor, ((Enum) obj).ordinal(), true);
-                return this;
-            } else {
-                zzk(this.zzh, fieldDescriptor, obj, z);
-                return this;
-            }
         }
+        ObjectEncoder objectEncoder = (ObjectEncoder) this.zzf.get(obj.getClass());
+        if (objectEncoder != null) {
+            zzk(objectEncoder, fieldDescriptor, obj, z);
+            return this;
+        }
+        ValueEncoder valueEncoder = (ValueEncoder) this.zzg.get(obj.getClass());
+        if (valueEncoder != null) {
+            zzl(valueEncoder, fieldDescriptor, obj, z);
+            return this;
+        }
+        if (obj instanceof zzck) {
+            zzd(fieldDescriptor, ((zzck) obj).zza(), true);
+            return this;
+        }
+        if (obj instanceof Enum) {
+            zzd(fieldDescriptor, ((Enum) obj).ordinal(), true);
+            return this;
+        }
+        zzk(this.zzh, fieldDescriptor, obj, z);
+        return this;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -295,10 +311,10 @@ final class zzco implements ObjectEncoderContext {
             return this;
         }
         ObjectEncoder objectEncoder = (ObjectEncoder) this.zzf.get(obj.getClass());
-        if (objectEncoder != null) {
-            objectEncoder.encode(obj, this);
-            return this;
+        if (objectEncoder == null) {
+            throw new EncodingException("No encoder for ".concat(String.valueOf(obj.getClass())));
         }
-        throw new EncodingException("No encoder for ".concat(String.valueOf(obj.getClass())));
+        objectEncoder.encode(obj, this);
+        return this;
     }
 }

@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class SntpClient {
     private static long elapsedRealtimeOffsetMs = 0;
@@ -92,7 +93,8 @@ public abstract class SntpClient {
         }
         if (b2 != 4 && b2 != 5) {
             throw new IOException("SNTP: Untrusted mode: " + ((int) b2));
-        } else if (i != 0 && i <= 15) {
+        }
+        if (i != 0 && i <= 15) {
             if (j == 0) {
                 throw new IOException("SNTP: Zero transmitTime");
             }
@@ -125,14 +127,13 @@ public abstract class SntpClient {
         if (isInitialized()) {
             if (initializationCallback != null) {
                 initializationCallback.onInitialized();
-                return;
             }
-            return;
+        } else {
+            if (loader == null) {
+                loader = new Loader("SntpClient");
+            }
+            loader.startLoading(new NtpTimeLoadable(), new NtpTimeCallback(initializationCallback), 1);
         }
-        if (loader == null) {
-            loader = new Loader("SntpClient");
-        }
-        loader.startLoading(new NtpTimeLoadable(), new NtpTimeCallback(initializationCallback), 1);
     }
 
     public static boolean isInitialized() {
@@ -159,10 +160,11 @@ public abstract class SntpClient {
             long elapsedRealtime2 = android.os.SystemClock.elapsedRealtime();
             long j = currentTimeMillis + (elapsedRealtime2 - elapsedRealtime);
             byte b = bArr[0];
+            int i = bArr[1] & 255;
             long readTimestamp = readTimestamp(bArr, 24);
             long readTimestamp2 = readTimestamp(bArr, 32);
             long readTimestamp3 = readTimestamp(bArr, 40);
-            checkValidServerReply((byte) ((b >> 6) & 3), (byte) (b & 7), bArr[1] & 255, readTimestamp3);
+            checkValidServerReply((byte) ((b >> 6) & 3), (byte) (b & 7), i, readTimestamp3);
             long j2 = (j + (((readTimestamp2 - readTimestamp) + (readTimestamp3 - j)) / 2)) - elapsedRealtime2;
             datagramSocket.close();
             return j2;
@@ -212,15 +214,14 @@ public abstract class SntpClient {
         }
         long j2 = j / 1000;
         long j3 = j - (j2 * 1000);
-        long j4 = j2 + 2208988800L;
-        bArr[i] = (byte) (j4 >> 24);
-        bArr[i + 1] = (byte) (j4 >> 16);
-        bArr[i + 2] = (byte) (j4 >> 8);
-        bArr[i + 3] = (byte) j4;
-        long j5 = (j3 * 4294967296L) / 1000;
-        bArr[i + 4] = (byte) (j5 >> 24);
-        bArr[i + 5] = (byte) (j5 >> 16);
-        bArr[i + 6] = (byte) (j5 >> 8);
+        bArr[i] = (byte) (r2 >> 24);
+        bArr[i + 1] = (byte) (r2 >> 16);
+        bArr[i + 2] = (byte) (r2 >> 8);
+        bArr[i + 3] = (byte) (j2 + 2208988800L);
+        long j4 = (j3 * 4294967296L) / 1000;
+        bArr[i + 4] = (byte) (j4 >> 24);
+        bArr[i + 5] = (byte) (j4 >> 16);
+        bArr[i + 6] = (byte) (j4 >> 8);
         bArr[i + 7] = (byte) (Math.random() * 255.0d);
     }
 }

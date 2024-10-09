@@ -8,6 +8,7 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.async.AppCenterFuture;
 import com.microsoft.appcenter.utils.async.DefaultAppCenterFuture;
 import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
+
 /* loaded from: classes.dex */
 public abstract class AbstractAppCenterService implements AppCenterService {
     protected Channel mChannel;

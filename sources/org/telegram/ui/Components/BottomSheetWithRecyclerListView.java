@@ -2,7 +2,6 @@ package org.telegram.ui.Components;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,10 +20,10 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
-import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     protected ActionBar actionBar;
@@ -75,7 +73,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
 
     public BottomSheetWithRecyclerListView(Context context, BaseFragment baseFragment, boolean z, final boolean z2, boolean z3, final boolean z4, ActionBarType actionBarType, Theme.ResourcesProvider resourcesProvider) {
         super(context, z, resourcesProvider);
-        final NestedSizeNotifierLayout nestedSizeNotifierLayout;
+        final SizeNotifierFrameLayout sizeNotifierFrameLayout;
         this.topPadding = 0.4f;
         this.showShadow = true;
         this.shadowAlpha = 1.0f;
@@ -94,7 +92,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         this.stackFromEnd = z4;
         this.headerShadowDrawable = ContextCompat.getDrawable(context, R.drawable.header_shadow).mutate();
         if (z3) {
-            NestedSizeNotifierLayout nestedSizeNotifierLayout2 = new NestedSizeNotifierLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.1
+            NestedSizeNotifierLayout nestedSizeNotifierLayout = new NestedSizeNotifierLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.1
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
                 public void dispatchDraw(Canvas canvas) {
@@ -137,10 +135,10 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     super.onMeasure(i, i2);
                 }
             };
-            this.nestedSizeNotifierLayout = nestedSizeNotifierLayout2;
-            nestedSizeNotifierLayout = nestedSizeNotifierLayout2;
+            this.nestedSizeNotifierLayout = nestedSizeNotifierLayout;
+            sizeNotifierFrameLayout = nestedSizeNotifierLayout;
         } else {
-            nestedSizeNotifierLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.2
+            sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.2
                 private boolean ignoreLayout = false;
 
                 private void onMeasureInternal(int i, int i2) {
@@ -219,9 +217,9 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                 }
 
                 /* JADX INFO: Access modifiers changed from: protected */
-                /* JADX WARN: Removed duplicated region for block: B:35:0x009c  */
-                /* JADX WARN: Removed duplicated region for block: B:43:0x00b8  */
-                /* JADX WARN: Removed duplicated region for block: B:46:0x00c6  */
+                /* JADX WARN: Removed duplicated region for block: B:31:0x009c  */
+                /* JADX WARN: Removed duplicated region for block: B:38:0x00c6  */
+                /* JADX WARN: Removed duplicated region for block: B:49:0x00b8  */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -330,20 +328,20 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
             linearLayoutManager.setStackFromEnd(true);
         }
         this.recyclerListView.setLayoutManager(this.layoutManager);
-        NestedSizeNotifierLayout nestedSizeNotifierLayout3 = this.nestedSizeNotifierLayout;
-        if (nestedSizeNotifierLayout3 != null) {
-            nestedSizeNotifierLayout3.setBottomSheetContainerView(getContainer());
+        NestedSizeNotifierLayout nestedSizeNotifierLayout2 = this.nestedSizeNotifierLayout;
+        if (nestedSizeNotifierLayout2 != null) {
+            nestedSizeNotifierLayout2.setBottomSheetContainerView(getContainer());
             this.nestedSizeNotifierLayout.setTargetListView(this.recyclerListView);
         }
         if (z2) {
             this.recyclerListView.setHasFixedSize(true);
             RecyclerListView recyclerListView = this.recyclerListView;
             recyclerListView.setAdapter(createAdapter(recyclerListView));
-            setCustomView(nestedSizeNotifierLayout);
-            nestedSizeNotifierLayout.addView(this.recyclerListView, LayoutHelper.createFrame(-1, -2.0f));
+            setCustomView(sizeNotifierFrameLayout);
+            sizeNotifierFrameLayout.addView(this.recyclerListView, LayoutHelper.createFrame(-1, -2.0f));
         } else {
             resetAdapter(context);
-            this.containerView = nestedSizeNotifierLayout;
+            this.containerView = sizeNotifierFrameLayout;
             ActionBar actionBar = new ActionBar(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.4
                 @Override // android.view.ViewGroup, android.view.View
                 public boolean dispatchTouchEvent(MotionEvent motionEvent) {
@@ -357,7 +355,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                 public void setAlpha(float f) {
                     if (getAlpha() != f) {
                         super.setAlpha(f);
-                        nestedSizeNotifierLayout.invalidate();
+                        sizeNotifierFrameLayout.invalidate();
                     }
                 }
 
@@ -383,20 +381,20 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     }
                 }
             });
-            nestedSizeNotifierLayout.addView(this.recyclerListView);
-            nestedSizeNotifierLayout.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f, 0, 6.0f, 0.0f, 6.0f, 0.0f));
+            sizeNotifierFrameLayout.addView(this.recyclerListView);
+            sizeNotifierFrameLayout.addView(this.actionBar, LayoutHelper.createFrame(-1, -2.0f, 0, 6.0f, 0.0f, 6.0f, 0.0f));
             this.recyclerListView.addOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.6
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
                 public void onScrolled(RecyclerView recyclerView, int i, int i2) {
                     super.onScrolled(recyclerView, i, i2);
-                    nestedSizeNotifierLayout.invalidate();
+                    sizeNotifierFrameLayout.invalidate();
                 }
             });
         }
         if (actionBarType == ActionBarType.SLIDING) {
             setSlidingActionBar();
         }
-        onViewCreated(nestedSizeNotifierLayout);
+        onViewCreated(sizeNotifierFrameLayout);
         updateStatusBar();
     }
 
@@ -413,7 +411,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x008f  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x008f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -523,11 +521,9 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
             f2 = AndroidUtilities.lerp(1.0f, 0.5f, f3);
             this.actionBar.backButtonImageView.setAlpha(f3);
             this.actionBar.backButtonImageView.setScaleX(f3);
-            ImageView imageView = this.actionBar.backButtonImageView;
-            imageView.setPivotY(imageView.getMeasuredHeight() / 2.0f);
+            this.actionBar.backButtonImageView.setPivotY(r6.getMeasuredHeight() / 2.0f);
             this.actionBar.backButtonImageView.setScaleY(f3);
-            SimpleTextView titleTextView = this.actionBar.getTitleTextView();
-            titleTextView.setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(21.0f) - titleTextView.getLeft(), 0.0f, f3));
+            this.actionBar.getTitleTextView().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(21.0f) - r6.getLeft(), 0.0f, f3));
             this.actionBar.setTranslationY(max);
             i4 -= AndroidUtilities.lerp(0, (((this.headerTotalHeight - this.headerHeight) - this.headerPaddingTop) - this.headerPaddingBottom) + AndroidUtilities.dp(13.0f), f3);
             this.actionBar.getBackground().setBounds(0, AndroidUtilities.lerp(this.actionBar.getHeight(), 0, f3), this.actionBar.getWidth(), this.actionBar.getHeight());
@@ -559,11 +555,9 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         this.shadowDrawable.draw(canvas);
         if (this.showHandle && f2 > 0.0f) {
             int dp = AndroidUtilities.dp(36.0f);
-            int dp2 = AndroidUtilities.dp(20.0f) + i4;
-            this.handleRect.set((view.getMeasuredWidth() - dp) / 2.0f, dp2, (view.getMeasuredWidth() + dp) / 2.0f, dp2 + AndroidUtilities.dp(4.0f));
+            this.handleRect.set((view.getMeasuredWidth() - dp) / 2.0f, AndroidUtilities.dp(20.0f) + i4, (view.getMeasuredWidth() + dp) / 2.0f, r3 + AndroidUtilities.dp(4.0f));
             Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(Theme.key_sheet_scrollUp));
-            Paint paint = Theme.dialogs_onlineCirclePaint;
-            paint.setAlpha((int) (paint.getAlpha() * f2));
+            Theme.dialogs_onlineCirclePaint.setAlpha((int) (r14.getAlpha() * f2));
             canvas.drawRoundRect(this.handleRect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
         }
         onPreDraw(canvas, i4, f);
@@ -581,9 +575,10 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         if (actionBar != null && actionBar.getTag() != null) {
             window = getWindow();
             isLightStatusBar = isLightStatusBar();
-        } else if (this.baseFragment == null) {
-            return;
         } else {
+            if (this.baseFragment == null) {
+                return;
+            }
             window = getWindow();
             isLightStatusBar = this.baseFragment.isLightStatusBar();
         }

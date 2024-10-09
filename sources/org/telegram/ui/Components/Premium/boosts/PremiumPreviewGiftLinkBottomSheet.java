@@ -27,12 +27,59 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.TopicsFragment;
+
 /* loaded from: classes3.dex */
 public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet {
     private static PremiumPreviewGiftLinkBottomSheet instance;
     private ActionBtnCell actionBtn;
     private final boolean isUsed;
     private final String slug;
+
+    /* loaded from: classes3.dex */
+    public class 1 implements Bulletin.Delegate {
+        1() {
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ boolean allowLayoutChanges() {
+            return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ boolean bottomOffsetAnimated() {
+            return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ boolean clipWithGradient(int i) {
+            return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public int getBottomOffset(int i) {
+            return AndroidUtilities.dp(68.0f);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ int getTopOffset(int i) {
+            return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ void onBottomOffsetChange(float f) {
+            Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ void onHide(Bulletin bulletin) {
+            Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ void onShow(Bulletin bulletin) {
+            Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+        }
+    }
 
     public PremiumPreviewGiftLinkBottomSheet(BaseFragment baseFragment, int i, TLRPC.User user, GiftPremiumBottomSheet$GiftTier giftPremiumBottomSheet$GiftTier, String str, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(baseFragment, i, user, giftPremiumBottomSheet$GiftTier, resourcesProvider);
@@ -43,8 +90,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
 
     private void init() {
         Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftLinkBottomSheet.1
-            {
-                PremiumPreviewGiftLinkBottomSheet.this = this;
+            1() {
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -149,7 +195,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
             j = ((MessagesStorage.TopicKey) arrayList.get(i2)).dialogId;
             getBaseFragment().getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(str, j, null, null, null, true, null, null, null, true, 0, null, false));
         }
-        dialogsActivity.finishFragment();
+        dialogsActivity.lambda$onBackPressed$300();
         BoostDialogs.showGiftLinkForwardedBulletin(j);
         return true;
     }
@@ -204,12 +250,12 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
 
     @Override // org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet
     protected View onCreateAdditionCell(int i, Context context) {
-        if (i == 6) {
-            LinkCell linkCell = new LinkCell(context, getBaseFragment(), this.resourcesProvider);
-            linkCell.setPadding(0, 0, 0, AndroidUtilities.dp(8.0f));
-            return linkCell;
+        if (i != 6) {
+            return null;
         }
-        return null;
+        LinkCell linkCell = new LinkCell(context, getBaseFragment(), this.resourcesProvider);
+        linkCell.setPadding(0, 0, 0, AndroidUtilities.dp(8.0f));
+        return linkCell;
     }
 
     @Override // org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet

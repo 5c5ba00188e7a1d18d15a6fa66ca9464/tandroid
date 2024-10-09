@@ -23,6 +23,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.TopicsFragment;
+
 /* loaded from: classes3.dex */
 public abstract class PullForegroundDrawable {
     private ValueAnimator accentRevalAnimatorIn;
@@ -350,8 +351,10 @@ public abstract class PullForegroundDrawable {
             this.wasSendCallback = true;
             this.cell.removeCallbacks(this.textInRunnable);
             this.cell.postDelayed(this.textInRunnable, 200L);
-        } else if (this.wasSendCallback) {
         } else {
+            if (this.wasSendCallback) {
+                return;
+            }
             this.textInProgress = 1.0f;
             this.animateToTextIn = true;
         }
@@ -479,10 +482,10 @@ public abstract class PullForegroundDrawable {
         draw(canvas, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:68:0x01ef  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x023c  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0242  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0246  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x023c  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x01ef  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0242  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0246  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -704,15 +707,18 @@ public abstract class PullForegroundDrawable {
                 return;
             }
             canvas.save();
-            float intrinsicWidth2 = Theme.dialogs_archiveAvatarDrawable.getIntrinsicWidth();
-            float dp5 = AndroidUtilities.dp(24.0f) / intrinsicWidth2;
-            float f33 = this.outProgress;
-            float f34 = dp5 + ((1.0f - dp5) * f33) + f2;
-            float f35 = f7;
-            float f36 = 1.0f - f33;
-            canvas.translate((i7 - f35) * f36, (((this.cell.getHeight() - i6) - i5) - f6) * f36);
-            float f37 = f6;
-            canvas.scale(f34, f34, f35, f37);
+            int intrinsicWidth2 = Theme.dialogs_archiveAvatarDrawable.getIntrinsicWidth();
+            int height5 = (this.cell.getHeight() - i6) - i5;
+            float f33 = intrinsicWidth2;
+            float dp5 = AndroidUtilities.dp(24.0f) / f33;
+            float f34 = this.outProgress;
+            float f35 = dp5 + ((1.0f - dp5) * f34) + f2;
+            float f36 = f7;
+            float f37 = i7 - f36;
+            float f38 = 1.0f - f34;
+            canvas.translate(f37 * f38, (height5 - f6) * f38);
+            float f39 = f6;
+            canvas.scale(f35, f35, f36, f39);
             Theme.dialogs_archiveAvatarDrawable.setProgress(0.0f);
             if (!Theme.dialogs_archiveAvatarDrawableRecolored) {
                 Theme.dialogs_archiveAvatarDrawable.beginApplyLayerColors();
@@ -721,27 +727,27 @@ public abstract class PullForegroundDrawable {
                 Theme.dialogs_archiveAvatarDrawable.commitApplyLayerColors();
                 Theme.dialogs_archiveAvatarDrawableRecolored = true;
             }
-            float f38 = intrinsicWidth2 / 2.0f;
-            Theme.dialogs_archiveAvatarDrawable.setBounds((int) (f35 - f38), (int) (f37 - f38), (int) (f35 + f38), (int) (f37 + f38));
+            float f40 = f33 / 2.0f;
+            Theme.dialogs_archiveAvatarDrawable.setBounds((int) (f36 - f40), (int) (f39 - f40), (int) (f36 + f40), (int) (f39 + f40));
             Theme.dialogs_archiveAvatarDrawable.draw(canvas);
             canvas.restore();
             return;
         }
         if (this.accentRevalProgress > this.accentRevalProgressOut) {
             canvas.save();
-            float f39 = i8;
-            float f40 = this.outProgress;
-            float f41 = measuredHeight;
-            canvas.translate((f12 - f39) * f40, (f13 - f41) * f40);
-            canvas.drawCircle(f39, f41, this.cell.getWidth() * this.accentRevalProgress, this.paintBackgroundAccent);
+            float f41 = i8;
+            float f42 = this.outProgress;
+            float f43 = measuredHeight;
+            canvas.translate((f12 - f41) * f42, (f13 - f43) * f42);
+            canvas.drawCircle(f41, f43, this.cell.getWidth() * this.accentRevalProgress, this.paintBackgroundAccent);
             canvas.restore();
         }
         if (this.accentRevalProgressOut > 0.0f) {
             canvas.save();
             f3 = i8;
-            float f42 = this.outProgress;
+            float f44 = this.outProgress;
             f4 = measuredHeight;
-            canvas.translate((f12 - f3) * f42, (f13 - f4) * f42);
+            canvas.translate((f12 - f3) * f44, (f13 - f4) * f44);
             width = this.cell.getWidth() * this.accentRevalProgressOut;
             paint = this.backgroundPaint;
             canvas.drawCircle(f3, f4, width, paint);

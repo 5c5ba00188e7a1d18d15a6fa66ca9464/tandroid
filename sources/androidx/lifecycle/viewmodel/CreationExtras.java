@@ -3,6 +3,7 @@ package androidx.lifecycle.viewmodel;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public abstract class CreationExtras {
     private final Map map = new LinkedHashMap();

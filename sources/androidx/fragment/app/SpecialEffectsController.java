@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class SpecialEffectsController {
@@ -130,16 +131,16 @@ public abstract class SpecialEffectsController {
 
             /* JADX INFO: Access modifiers changed from: package-private */
             public static State from(int i) {
-                if (i != 0) {
-                    if (i != 4) {
-                        if (i == 8) {
-                            return GONE;
-                        }
-                        throw new IllegalArgumentException("Unknown visibility " + i);
-                    }
+                if (i == 0) {
+                    return VISIBLE;
+                }
+                if (i == 4) {
                     return INVISIBLE;
                 }
-                return VISIBLE;
+                if (i == 8) {
+                    return GONE;
+                }
+                throw new IllegalArgumentException("Unknown visibility " + i);
             }
 
             /* JADX INFO: Access modifiers changed from: package-private */
@@ -167,16 +168,17 @@ public abstract class SpecialEffectsController {
                         Log.v("FragmentManager", "SpecialEffectsController: Setting view " + view + " to VISIBLE");
                     }
                     i = 0;
-                } else if (i2 != 3) {
-                    if (i2 != 4) {
+                } else {
+                    if (i2 != 3) {
+                        if (i2 != 4) {
+                            return;
+                        }
+                        if (FragmentManager.isLoggingEnabled(2)) {
+                            Log.v("FragmentManager", "SpecialEffectsController: Setting view " + view + " to INVISIBLE");
+                        }
+                        view.setVisibility(4);
                         return;
                     }
-                    if (FragmentManager.isLoggingEnabled(2)) {
-                        Log.v("FragmentManager", "SpecialEffectsController: Setting view " + view + " to INVISIBLE");
-                    }
-                    view.setVisibility(4);
-                    return;
-                } else {
                     if (FragmentManager.isLoggingEnabled(2)) {
                         Log.v("FragmentManager", "SpecialEffectsController: Setting view " + view + " to GONE");
                     }
@@ -226,8 +228,9 @@ public abstract class SpecialEffectsController {
                 Log.v("FragmentManager", "SpecialEffectsController: " + this + " has called complete.");
             }
             this.mIsComplete = true;
-            for (Runnable runnable : this.mCompletionListeners) {
-                runnable.run();
+            Iterator it = this.mCompletionListeners.iterator();
+            while (it.hasNext()) {
+                ((Runnable) it.next()).run();
             }
         }
 
@@ -281,9 +284,10 @@ public abstract class SpecialEffectsController {
                 }
                 this.mFinalState = State.REMOVED;
                 lifecycleImpact2 = LifecycleImpact.REMOVING;
-            } else if (this.mFinalState != State.REMOVED) {
-                return;
             } else {
+                if (this.mFinalState != State.REMOVED) {
+                    return;
+                }
                 if (FragmentManager.isLoggingEnabled(2)) {
                     Log.v("FragmentManager", "SpecialEffectsController: For fragment " + this.mFragment + " mFinalState = REMOVED -> VISIBLE. mLifecycleImpact = " + this.mLifecycleImpact + " to ADDING.");
                 }

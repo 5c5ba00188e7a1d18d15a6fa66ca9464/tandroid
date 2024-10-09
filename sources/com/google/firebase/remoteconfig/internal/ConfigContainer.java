@@ -4,6 +4,7 @@ import java.util.Date;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class ConfigContainer {
     private static final Date DEFAULTS_FETCH_TIME = new Date(0);

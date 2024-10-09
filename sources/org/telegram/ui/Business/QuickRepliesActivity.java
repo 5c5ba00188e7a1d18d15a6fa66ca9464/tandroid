@@ -75,6 +75,7 @@ import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes4.dex */
 public class QuickRepliesActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private static AlertDialog currentDialog;
@@ -108,11 +109,14 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         public void onItemClick(int i) {
             if (i == -1) {
                 if (QuickRepliesActivity.this.selected.isEmpty()) {
-                    QuickRepliesActivity.this.finishFragment();
+                    QuickRepliesActivity.this.lambda$onBackPressed$300();
+                    return;
                 } else {
                     QuickRepliesActivity.this.clearSelection();
+                    return;
                 }
-            } else if (i != 1) {
+            }
+            if (i != 1) {
                 if (i == 2) {
                     QuickRepliesActivity quickRepliesActivity = QuickRepliesActivity.this;
                     quickRepliesActivity.showDialog(new AlertDialog.Builder(quickRepliesActivity.getContext(), QuickRepliesActivity.this.getResourceProvider()).setTitle(LocaleController.formatPluralString("BusinessRepliesDeleteTitle", QuickRepliesActivity.this.selected.size(), new Object[0])).setMessage(LocaleController.formatPluralString("BusinessRepliesDeleteMessage", QuickRepliesActivity.this.selected.size(), new Object[0])).setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.QuickRepliesActivity$1$$ExternalSyntheticLambda1
@@ -121,21 +125,24 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                             QuickRepliesActivity.1.this.lambda$onItemClick$1(dialogInterface, i2);
                         }
                     }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).create());
-                }
-            } else if (QuickRepliesActivity.this.selected.size() != 1) {
-            } else {
-                final int intValue = ((Integer) QuickRepliesActivity.this.selected.get(0)).intValue();
-                QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(((BaseFragment) QuickRepliesActivity.this).currentAccount).findReply(intValue);
-                if (findReply == null) {
                     return;
                 }
-                QuickRepliesActivity.openRenameReplyAlert(QuickRepliesActivity.this.getContext(), ((BaseFragment) QuickRepliesActivity.this).currentAccount, null, findReply, ((BaseFragment) QuickRepliesActivity.this).resourceProvider, false, new Utilities.Callback() { // from class: org.telegram.ui.Business.QuickRepliesActivity$1$$ExternalSyntheticLambda0
-                    @Override // org.telegram.messenger.Utilities.Callback
-                    public final void run(Object obj) {
-                        QuickRepliesActivity.1.this.lambda$onItemClick$0(intValue, (String) obj);
-                    }
-                });
+                return;
             }
+            if (QuickRepliesActivity.this.selected.size() != 1) {
+                return;
+            }
+            final int intValue = ((Integer) QuickRepliesActivity.this.selected.get(0)).intValue();
+            QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(((BaseFragment) QuickRepliesActivity.this).currentAccount).findReply(intValue);
+            if (findReply == null) {
+                return;
+            }
+            QuickRepliesActivity.openRenameReplyAlert(QuickRepliesActivity.this.getContext(), ((BaseFragment) QuickRepliesActivity.this).currentAccount, null, findReply, ((BaseFragment) QuickRepliesActivity.this).resourceProvider, false, new Utilities.Callback() { // from class: org.telegram.ui.Business.QuickRepliesActivity$1$$ExternalSyntheticLambda0
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    QuickRepliesActivity.1.this.lambda$onItemClick$0(intValue, (String) obj);
+                }
+            });
         }
     }
 
@@ -252,15 +259,16 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                 ImageLocation forObject = ImageLocation.getForObject(closestPhotoSizeWithSize, media.photo);
                 MessageObject messageObject2 = quickReply.topMessage;
                 imageReceiver2.setImage(forObject, "36_36", messageObject2.strippedThumb, closestPhotoSizeWithSize == null ? 0L : closestPhotoSizeWithSize.size, (String) null, messageObject2, 0);
-            } else if (media == null || (document = media.document) == null) {
-                this.avatarDrawable.setInfo(UserConfig.getInstance(i).getCurrentUser());
-                this.imageReceiver.setForUserOrChat(UserConfig.getInstance(i).getCurrentUser(), this.avatarDrawable);
-                imageReceiver = this.imageReceiver;
-                dp = AndroidUtilities.dp(56.0f);
-                imageReceiver.setRoundRadius(dp);
-                this.needDivider = z;
-                invalidate();
             } else {
+                if (media == null || (document = media.document) == null) {
+                    this.avatarDrawable.setInfo(UserConfig.getInstance(i).getCurrentUser());
+                    this.imageReceiver.setForUserOrChat(UserConfig.getInstance(i).getCurrentUser(), this.avatarDrawable);
+                    imageReceiver = this.imageReceiver;
+                    dp = AndroidUtilities.dp(56.0f);
+                    imageReceiver.setRoundRadius(dp);
+                    this.needDivider = z;
+                    invalidate();
+                }
                 TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, AndroidUtilities.dp(36.0f), true, null, true);
                 if (closestPhotoSizeWithSize2 == null) {
                     ImageLocation forDocument = ImageLocation.getForDocument(media.document);
@@ -465,37 +473,39 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                 j = closestPhotoSizeWithSize != null ? closestPhotoSizeWithSize.size : 0L;
                 imageReceiver2 = imageReceiver3;
                 webPage2 = messageObject;
-            } else if (media != null && media.document != null && (quickReply.topMessage.isVideo() || quickReply.topMessage.isSticker())) {
-                TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(media.document.thumbs, AndroidUtilities.dp(36.0f), true, null, true);
-                if (closestPhotoSizeWithSize2 == null) {
-                    ImageLocation forDocument = ImageLocation.getForDocument(media.document);
-                    j2 = media.document.size;
-                    imageLocation = forDocument;
-                    str2 = ImageLoader.AUTOPLAY_FILTER;
-                } else {
-                    ImageLocation forObject2 = ImageLocation.getForObject(closestPhotoSizeWithSize2, media.document);
-                    j2 = closestPhotoSizeWithSize2.size;
-                    str2 = "36_36";
-                    imageLocation = forObject2;
-                }
-                long j3 = j2;
-                ImageReceiver imageReceiver4 = this.imageReceiver;
-                MessageObject messageObject2 = quickReply.topMessage;
-                imageReceiver4.setImage(imageLocation, str2, messageObject2.strippedThumb, j3, (String) null, messageObject2, 0);
-                imageReceiver = this.imageReceiver;
-                dp = AndroidUtilities.dp(4.0f);
-                imageReceiver.setRoundRadius(dp);
-                this.needDivider = z;
-                invalidate();
-            } else if (media == null || (webPage = media.webpage) == null || (photo = webPage.photo) == null) {
-                this.avatarDrawable.setInfo(UserConfig.getInstance(i).getCurrentUser());
-                this.imageReceiver.setForUserOrChat(UserConfig.getInstance(i).getCurrentUser(), this.avatarDrawable);
-                imageReceiver = this.imageReceiver;
-                dp = AndroidUtilities.dp(36.0f);
-                imageReceiver.setRoundRadius(dp);
-                this.needDivider = z;
-                invalidate();
             } else {
+                if (media != null && media.document != null && (quickReply.topMessage.isVideo() || quickReply.topMessage.isSticker())) {
+                    TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(media.document.thumbs, AndroidUtilities.dp(36.0f), true, null, true);
+                    if (closestPhotoSizeWithSize2 == null) {
+                        ImageLocation forDocument = ImageLocation.getForDocument(media.document);
+                        j2 = media.document.size;
+                        imageLocation = forDocument;
+                        str2 = ImageLoader.AUTOPLAY_FILTER;
+                    } else {
+                        ImageLocation forObject2 = ImageLocation.getForObject(closestPhotoSizeWithSize2, media.document);
+                        j2 = closestPhotoSizeWithSize2.size;
+                        str2 = "36_36";
+                        imageLocation = forObject2;
+                    }
+                    long j3 = j2;
+                    ImageReceiver imageReceiver4 = this.imageReceiver;
+                    MessageObject messageObject2 = quickReply.topMessage;
+                    imageReceiver4.setImage(imageLocation, str2, messageObject2.strippedThumb, j3, (String) null, messageObject2, 0);
+                    imageReceiver = this.imageReceiver;
+                    dp = AndroidUtilities.dp(4.0f);
+                    imageReceiver.setRoundRadius(dp);
+                    this.needDivider = z;
+                    invalidate();
+                }
+                if (media == null || (webPage = media.webpage) == null || (photo = webPage.photo) == null) {
+                    this.avatarDrawable.setInfo(UserConfig.getInstance(i).getCurrentUser());
+                    this.imageReceiver.setForUserOrChat(UserConfig.getInstance(i).getCurrentUser(), this.avatarDrawable);
+                    imageReceiver = this.imageReceiver;
+                    dp = AndroidUtilities.dp(36.0f);
+                    imageReceiver.setRoundRadius(dp);
+                    this.needDivider = z;
+                    invalidate();
+                }
                 TLRPC.PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.dp(36.0f), true, null, true);
                 ImageReceiver imageReceiver5 = this.imageReceiver;
                 forObject = ImageLocation.getForObject(closestPhotoSizeWithSize3, media.webpage.photo);
@@ -635,10 +645,11 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                 }
                 dialogInterface.dismiss();
                 return;
+            } else {
+                AndroidUtilities.shakeView(editTextBoldCursor);
+                textView.setText(LocaleController.getString(R.string.BusinessRepliesNameBusy));
+                bool = Boolean.TRUE;
             }
-            AndroidUtilities.shakeView(editTextBoldCursor);
-            textView.setText(LocaleController.getString(R.string.BusinessRepliesNameBusy));
-            bool = Boolean.TRUE;
         }
         callback.run(bool);
     }
@@ -666,7 +677,9 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                     QuickRepliesActivity.this.lambda$onClick$1((String) obj);
                 }
             });
-        } else if (uItem.viewType == 16 && (uItem.object instanceof QuickRepliesController.QuickReply)) {
+            return;
+        }
+        if (uItem.viewType == 16 && (uItem.object instanceof QuickRepliesController.QuickReply)) {
             if (!this.selected.isEmpty()) {
                 updateSelect(uItem, view);
                 return;
@@ -687,15 +700,15 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
-        if (uItem.viewType == 16) {
-            Object obj = uItem.object;
-            if ((obj instanceof QuickRepliesController.QuickReply) && ((QuickRepliesController.QuickReply) obj).local) {
-                return false;
-            }
-            updateSelect(uItem, view);
-            return true;
+        if (uItem.viewType != 16) {
+            return false;
         }
-        return false;
+        Object obj = uItem.object;
+        if ((obj instanceof QuickRepliesController.QuickReply) && ((QuickRepliesController.QuickReply) obj).local) {
+            return false;
+        }
+        updateSelect(uItem, view);
+        return true;
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -838,38 +851,38 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Business.QuickRepliesActivity.6
             @Override // android.widget.TextView.OnEditorActionListener
             public boolean onEditorAction(TextView textView3, int i3, KeyEvent keyEvent) {
-                if (i3 == 6) {
-                    String obj = EditTextBoldCursor.this.getText().toString();
-                    if (obj.length() <= 0 || obj.length() > 32) {
-                        AndroidUtilities.shakeView(EditTextBoldCursor.this);
-                        return true;
-                    }
-                    QuickRepliesController quickRepliesController = QuickRepliesController.getInstance(i);
-                    QuickRepliesController.QuickReply quickReply2 = quickReply;
-                    if (quickRepliesController.isNameBusy(obj, quickReply2 == null ? -1 : quickReply2.id)) {
-                        AndroidUtilities.shakeView(EditTextBoldCursor.this);
-                        textView2.setText(LocaleController.getString(R.string.BusinessRepliesNameBusy));
-                        callback2.run(Boolean.TRUE);
-                        return true;
-                    }
-                    Utilities.Callback callback3 = callback;
-                    if (callback3 != null) {
-                        callback3.run(obj);
-                    }
-                    AlertDialog alertDialog = r13[0];
-                    if (alertDialog != null) {
-                        alertDialog.dismiss();
-                    }
-                    if (r13[0] == QuickRepliesActivity.currentDialog) {
-                        AlertDialog unused = QuickRepliesActivity.currentDialog = null;
-                    }
-                    View view2 = view;
-                    if (view2 != null) {
-                        view2.requestFocus();
-                    }
+                if (i3 != 6) {
+                    return false;
+                }
+                String obj = EditTextBoldCursor.this.getText().toString();
+                if (obj.length() <= 0 || obj.length() > 32) {
+                    AndroidUtilities.shakeView(EditTextBoldCursor.this);
                     return true;
                 }
-                return false;
+                QuickRepliesController quickRepliesController = QuickRepliesController.getInstance(i);
+                QuickRepliesController.QuickReply quickReply2 = quickReply;
+                if (quickRepliesController.isNameBusy(obj, quickReply2 == null ? -1 : quickReply2.id)) {
+                    AndroidUtilities.shakeView(EditTextBoldCursor.this);
+                    textView2.setText(LocaleController.getString(R.string.BusinessRepliesNameBusy));
+                    callback2.run(Boolean.TRUE);
+                    return true;
+                }
+                Utilities.Callback callback3 = callback;
+                if (callback3 != null) {
+                    callback3.run(obj);
+                }
+                AlertDialog alertDialog = r13[0];
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
+                }
+                if (r13[0] == QuickRepliesActivity.currentDialog) {
+                    AlertDialog unused = QuickRepliesActivity.currentDialog = null;
+                }
+                View view2 = view;
+                if (view2 != null) {
+                    view2.requestFocus();
+                }
+                return true;
             }
         });
         builder.setPositiveButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda2

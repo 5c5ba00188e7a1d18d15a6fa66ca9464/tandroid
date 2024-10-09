@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class Ac3Extractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.Ac3Extractor$$ExternalSyntheticLambda0
@@ -70,15 +71,18 @@ public final class Ac3Extractor implements Extractor {
         this.reader.seek();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x0040, code lost:
-        if ((r4 - r3) < 8192) goto L23;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0042, code lost:
-        return false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0037, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0037, code lost:
+    
         r8.resetPeekPosition();
         r4 = r4 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0040, code lost:
+    
+        if ((r4 - r3) < 8192) goto L12;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0042, code lost:
+    
+        return false;
      */
     @Override // com.google.android.exoplayer2.extractor.Extractor
     /*

@@ -3,6 +3,7 @@ package com.google.android.aidl;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
+
 /* loaded from: classes.dex */
 public abstract class BaseProxy implements IInterface {
     private final String mDescriptor;

@@ -36,6 +36,7 @@ import org.telegram.messenger.audioinfo.AudioInfo;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class MusicBrowserService extends MediaBrowserService implements NotificationCenter.NotificationCenterDelegate {
     public static final String ACTION_CMD = "com.example.android.mediabrowserservice.ACTION_CMD";
@@ -232,7 +233,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         this.mediaSession.setCallback(new MediaSessionCallback());
         this.mediaSession.setFlags(3);
         Context applicationContext = getApplicationContext();
-        this.mediaSession.setSessionActivity(PendingIntent.getActivity(applicationContext, 99, new Intent(applicationContext, LaunchActivity.class), 167772160));
+        this.mediaSession.setSessionActivity(PendingIntent.getActivity(applicationContext, 99, new Intent(applicationContext, (Class<?>) LaunchActivity.class), 167772160));
         Bundle bundle = new Bundle();
         bundle.putBoolean(SLOT_RESERVATION_QUEUE, true);
         bundle.putBoolean(SLOT_RESERVATION_SKIP_TO_PREV, true);
@@ -245,22 +246,22 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
             Bitmap decodeFile = BitmapFactory.decodeFile(file.toString(), options);
-            if (decodeFile != null) {
-                Bitmap createBitmap = Bitmap.createBitmap(decodeFile.getWidth(), decodeFile.getHeight(), Bitmap.Config.ARGB_8888);
-                createBitmap.eraseColor(0);
-                Canvas canvas = new Canvas(createBitmap);
-                Shader.TileMode tileMode = Shader.TileMode.CLAMP;
-                BitmapShader bitmapShader = new BitmapShader(decodeFile, tileMode, tileMode);
-                if (this.roundPaint == null) {
-                    this.roundPaint = new Paint(1);
-                    this.bitmapRect = new RectF();
-                }
-                this.roundPaint.setShader(bitmapShader);
-                this.bitmapRect.set(0.0f, 0.0f, decodeFile.getWidth(), decodeFile.getHeight());
-                canvas.drawRoundRect(this.bitmapRect, decodeFile.getWidth(), decodeFile.getHeight(), this.roundPaint);
-                return createBitmap;
+            if (decodeFile == null) {
+                return null;
             }
-            return null;
+            Bitmap createBitmap = Bitmap.createBitmap(decodeFile.getWidth(), decodeFile.getHeight(), Bitmap.Config.ARGB_8888);
+            createBitmap.eraseColor(0);
+            Canvas canvas = new Canvas(createBitmap);
+            Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+            BitmapShader bitmapShader = new BitmapShader(decodeFile, tileMode, tileMode);
+            if (this.roundPaint == null) {
+                this.roundPaint = new Paint(1);
+                this.bitmapRect = new RectF();
+            }
+            this.roundPaint.setShader(bitmapShader);
+            this.bitmapRect.set(0.0f, 0.0f, decodeFile.getWidth(), decodeFile.getHeight());
+            canvas.drawRoundRect(this.bitmapRect, decodeFile.getWidth(), decodeFile.getHeight(), this.roundPaint);
+            return createBitmap;
         } catch (Throwable th) {
             FileLog.e(th);
             return null;
@@ -282,8 +283,9 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0028, code lost:
-        if (r0 == false) goto L18;
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0028, code lost:
+    
+        if (r0 == false) goto L13;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -295,7 +297,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         this.delayedStopHandler.removeCallbacksAndMessages(null);
         if (!this.serviceStarted) {
             try {
-                startService(new Intent(getApplicationContext(), MusicBrowserService.class));
+                startService(new Intent(getApplicationContext(), (Class<?>) MusicBrowserService.class));
             } catch (Throwable th) {
                 FileLog.e(th);
             }
@@ -440,8 +442,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
                             }
                             MessageObject messageObject = new MessageObject(this.currentAccount, TLdeserialize, false, true);
                             arrayList4.add(0, messageObject);
-                            MediaDescription.Builder builder = new MediaDescription.Builder();
-                            mediaId = builder.setMediaId(longValue2 + "_" + arrayList4.size());
+                            mediaId = new MediaDescription.Builder().setMediaId(longValue2 + "_" + arrayList4.size());
                             mediaId.setTitle(messageObject.getMusicTitle());
                             mediaId.setSubtitle(messageObject.getMusicAuthor());
                             build = mediaId.build();
@@ -478,11 +479,13 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         });
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0060, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationUnavailable) == false) goto L13;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0060, code lost:
+    
+        if ((r1 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationUnavailable) == false) goto L26;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0081, code lost:
-        if ((r1 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationUnavailable) == false) goto L13;
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0081, code lost:
+    
+        if ((r1 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationUnavailable) == false) goto L26;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -635,9 +638,11 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
             Toast.makeText(getApplicationContext(), LocaleController.getString(R.string.EnterYourTelegramPasscode), 1).show();
             stopSelf();
             result.detach();
-        } else if (this.chatsLoaded) {
-            loadChildrenImpl(str, result);
         } else {
+            if (this.chatsLoaded) {
+                loadChildrenImpl(str, result);
+                return;
+            }
             result.detach();
             if (this.loadingChats) {
                 return;

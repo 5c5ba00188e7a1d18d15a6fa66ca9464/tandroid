@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.vision.barcode.Barcode;
+
 /* loaded from: classes.dex */
 public final class zzb implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

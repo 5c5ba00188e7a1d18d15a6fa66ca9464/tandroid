@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class zzba implements Iterable, Serializable {
     private static final Comparator zza;
@@ -21,16 +22,16 @@ public abstract class zzba implements Iterable, Serializable {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzj(int i, int i2, int i3) {
         int i4 = i2 - i;
-        if ((i | i2 | i4 | (i3 - i2)) < 0) {
-            if (i < 0) {
-                throw new IndexOutOfBoundsException("Beginning index: " + i + " < 0");
-            } else if (i2 < i) {
-                throw new IndexOutOfBoundsException("Beginning index larger than ending index: " + i + ", " + i2);
-            } else {
-                throw new IndexOutOfBoundsException("End index: " + i2 + " >= " + i3);
-            }
+        if ((i | i2 | i4 | (i3 - i2)) >= 0) {
+            return i4;
         }
-        return i4;
+        if (i < 0) {
+            throw new IndexOutOfBoundsException("Beginning index: " + i + " < 0");
+        }
+        if (i2 < i) {
+            throw new IndexOutOfBoundsException("Beginning index larger than ending index: " + i + ", " + i2);
+        }
+        throw new IndexOutOfBoundsException("End index: " + i2 + " >= " + i3);
     }
 
     public static zzba zzl(byte[] bArr, int i, int i2) {

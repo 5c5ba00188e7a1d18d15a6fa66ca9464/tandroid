@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Callback, ChunkSampleStream.ReleaseCallback {
@@ -146,8 +147,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         int i2 = 0;
         while (i2 < list.size()) {
             EventStream eventStream = (EventStream) list.get(i2);
-            Format build = new Format.Builder().setId(eventStream.id()).setSampleMimeType("application/x-emsg").build();
-            trackGroupArr[i] = new TrackGroup(eventStream.id() + ":" + i2, build);
+            trackGroupArr[i] = new TrackGroup(eventStream.id() + ":" + i2, new Format.Builder().setId(eventStream.id()).setSampleMimeType("application/x-emsg").build());
             trackGroupInfoArr[i] = TrackGroupInfo.mpdEventTrack(i2);
             i2++;
             i++;
@@ -425,8 +425,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
                 return new Format[]{format};
             }
             int parseInt = Integer.parseInt(matcher.group(1));
-            Format.Builder buildUpon = format.buildUpon();
-            formatArr[i] = buildUpon.setId(format.id + ":" + parseInt).setAccessibilityChannel(parseInt).setLanguage(matcher.group(2)).build();
+            formatArr[i] = format.buildUpon().setId(format.id + ":" + parseInt).setAccessibilityChannel(parseInt).setLanguage(matcher.group(2)).build();
         }
         return formatArr;
     }
@@ -516,7 +515,6 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long getAdjustedSeekPositionUs(long j, SeekParameters seekParameters) {
-        ChunkSampleStream[] chunkSampleStreamArr;
         for (ChunkSampleStream chunkSampleStream : this.sampleStreams) {
             if (chunkSampleStream.primaryTrackType == 2) {
                 return chunkSampleStream.getAdjustedSeekPositionUs(j, seekParameters);
@@ -631,7 +629,6 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     }
 
     public void updateManifest(DashManifest dashManifest, int i) {
-        EventSampleStream[] eventSampleStreamArr;
         this.manifest = dashManifest;
         this.periodIndex = i;
         this.playerEmsgHandler.updateManifest(dashManifest);
@@ -649,8 +646,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
                 if (it.hasNext()) {
                     EventStream eventStream = (EventStream) it.next();
                     if (eventStream.id().equals(eventSampleStream.eventStreamId())) {
-                        boolean z = true;
-                        eventSampleStream.updateEventStream(eventStream, (dashManifest.dynamic && i == dashManifest.getPeriodCount() - 1) ? false : false);
+                        eventSampleStream.updateEventStream(eventStream, dashManifest.dynamic && i == dashManifest.getPeriodCount() - 1);
                     }
                 }
             }

@@ -19,6 +19,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.Components.URLSpanNoUnderline;
+
 /* loaded from: classes4.dex */
 public abstract class SettingsSuggestionCell extends LinearLayout {
     private int currentAccount;
@@ -116,10 +117,7 @@ public abstract class SettingsSuggestionCell extends LinearLayout {
         this.currentType = i;
         if (i == 0) {
             TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(UserConfig.getInstance(this.currentAccount).clientUserId));
-            TextView textView2 = this.textView;
-            int i3 = R.string.CheckPhoneNumber;
-            PhoneFormat phoneFormat = PhoneFormat.getInstance();
-            textView2.setText(LocaleController.formatString("CheckPhoneNumber", i3, phoneFormat.format("+" + user.phone)));
+            this.textView.setText(LocaleController.formatString("CheckPhoneNumber", R.string.CheckPhoneNumber, PhoneFormat.getInstance().format("+" + user.phone)));
             String string = LocaleController.getString(R.string.CheckPhoneNumberInfo);
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(string);
             int indexOf = string.indexOf("**");
@@ -138,16 +136,17 @@ public abstract class SettingsSuggestionCell extends LinearLayout {
             this.noButton.setVisibility(0);
             textView = this.noButton;
             i2 = R.string.CheckPhoneNumberNo;
-        } else if (i != 1) {
-            if (i == 2) {
-                this.textView.setText(LocaleController.getString(R.string.GraceSuggestionTitle));
-                this.detailTextView.setText(LocaleController.getString(R.string.GraceSuggestionMessage));
-                this.yesButton.setText(LocaleController.getString(R.string.GraceSuggestionButton));
-                this.noButton.setVisibility(8);
+        } else {
+            if (i != 1) {
+                if (i == 2) {
+                    this.textView.setText(LocaleController.getString(R.string.GraceSuggestionTitle));
+                    this.detailTextView.setText(LocaleController.getString(R.string.GraceSuggestionMessage));
+                    this.yesButton.setText(LocaleController.getString(R.string.GraceSuggestionButton));
+                    this.noButton.setVisibility(8);
+                    return;
+                }
                 return;
             }
-            return;
-        } else {
             this.textView.setText(LocaleController.getString(R.string.YourPasswordHeader));
             this.detailTextView.setText(LocaleController.getString(R.string.YourPasswordRemember));
             this.yesButton.setText(LocaleController.getString(R.string.YourPasswordRememberYes));

@@ -32,6 +32,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StaticLayoutEx;
+
 /* loaded from: classes4.dex */
 public class BotCommandsMenuView extends View {
     final MenuDrawable backDrawable;
@@ -130,8 +131,7 @@ public class BotCommandsMenuView extends View {
                 for (int i2 = 0; i2 < botInfo.commands.size(); i2++) {
                     TLRPC.TL_botCommand tL_botCommand = botInfo.commands.get(i2);
                     if (tL_botCommand != null && tL_botCommand.command != null) {
-                        ArrayList arrayList = this.newResult;
-                        arrayList.add("/" + tL_botCommand.command);
+                        this.newResult.add("/" + tL_botCommand.command);
                         this.newResultHelp.add(tL_botCommand.description);
                     }
                 }
@@ -196,12 +196,12 @@ public class BotCommandsMenuView extends View {
         this.textPaint.setColor(color);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0041  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0055  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00a3  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00d1  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00ec  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0112  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0041  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0055  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00ec  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0112  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00d1  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -369,9 +369,8 @@ public class BotCommandsMenuView extends View {
             this.backDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
             this.textPaint.setTextSize(AndroidUtilities.dp(15.0f));
             this.lastSize = size;
-            CharSequence replaceEmoji = Emoji.replaceEmoji(this.menuText, this.textPaint.getFontMetricsInt(), false);
             int i3 = (int) (AndroidUtilities.displaySize.x * 0.6f);
-            StaticLayout createStaticLayout = StaticLayoutEx.createStaticLayout(replaceEmoji, this.textPaint, i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i3, 1);
+            StaticLayout createStaticLayout = StaticLayoutEx.createStaticLayout(Emoji.replaceEmoji(this.menuText, this.textPaint.getFontMetricsInt(), false), this.textPaint, i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i3, 1);
             this.menuTextLayout = createStaticLayout;
             this.menuTextWidth = createStaticLayout.getLineCount() > 0 ? this.menuTextLayout.getLineWidth(0) : 0.0f;
         }
@@ -420,7 +419,9 @@ public class BotCommandsMenuView extends View {
         }
         if (!this.isWebView) {
             this.backDrawable.setRotation(z ? 1.0f : 0.0f, true);
-        } else if (this.isWebViewOpened != z) {
+            return;
+        }
+        if (this.isWebViewOpened != z) {
             RLottieDrawable rLottieDrawable = this.webViewAnimation;
             rLottieDrawable.stop();
             rLottieDrawable.setPlayInDirectionOfCustomEndFrame(true);

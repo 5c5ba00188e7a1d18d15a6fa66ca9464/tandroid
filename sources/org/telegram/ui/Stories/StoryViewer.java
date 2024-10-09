@@ -74,6 +74,7 @@ import org.telegram.ui.Stories.StoriesListPlaceProvider;
 import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes4.dex */
 public class StoryViewer implements NotificationCenter.NotificationCenterDelegate, BaseFragment.AttachedSheet {
     public static boolean animationInProgress;
@@ -417,10 +418,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:123:0x0587 A[LOOP:1: B:111:0x0553->B:123:0x0587, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:184:0x07e0  */
-        /* JADX WARN: Removed duplicated region for block: B:190:0x058f A[EDGE_INSN: B:190:0x058f->B:124:0x058f ?: BREAK  , SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:193:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:165:0x0587 A[LOOP:1: B:157:0x0553->B:165:0x0587, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:166:0x058f A[EDGE_INSN: B:166:0x058f->B:167:0x058f BREAK  A[LOOP:1: B:157:0x0553->B:165:0x0587], SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x07e0  */
+        /* JADX WARN: Removed duplicated region for block: B:49:? A[RETURN, SYNTHETIC] */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -428,26 +429,20 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         public void dispatchDraw(Canvas canvas) {
             PeerStoriesView.PeerHeaderView peerHeaderView;
             float f;
-            StoryViewer storyViewer;
             float y;
-            Integer avatarImageRoundRadius;
             float f2;
             Paint paint;
             HolderDrawAbove holderDrawAbove;
             HolderClip holderClip;
             PeerStoriesView currentPeerView;
-            StoryViewer storyViewer2;
-            StoryViewer storyViewer3;
-            StoryViewer storyViewer4;
-            StoryViewer storyViewer5;
-            StoryViewer storyViewer6;
+            StoryViewer storyViewer;
             TransitionViewHolder transitionViewHolder;
             float y2;
             canvas.drawColor(ColorUtils.setAlphaComponent(-16777216, (int) (StoryViewer.this.getBlackoutAlpha() * 255.0f)));
-            StoryViewer storyViewer7 = StoryViewer.this;
-            if (storyViewer7.ATTACH_TO_FRAGMENT) {
-                boolean z = storyViewer7.progressToOpen * (1.0f - storyViewer7.progressToDismiss) == 1.0f;
-                if (storyViewer7.fullyVisible != z) {
+            StoryViewer storyViewer2 = StoryViewer.this;
+            if (storyViewer2.ATTACH_TO_FRAGMENT) {
+                boolean z = storyViewer2.progressToOpen * (1.0f - storyViewer2.progressToDismiss) == 1.0f;
+                if (storyViewer2.fullyVisible != z) {
                     StoryViewer.this.fullyVisible = z;
                     if (this.val$fragment.getLayoutContainer() != null) {
                         this.val$fragment.getLayoutContainer().invalidate();
@@ -485,15 +480,15 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 peerHeaderView = null;
             }
             StoryViewer.this.volumeControl.setAlpha(1.0f - StoryViewer.this.progressToDismiss);
-            StoryViewer storyViewer8 = StoryViewer.this;
-            float clamp = storyViewer8.swipeToDismissHorizontalOffset == 0.0f ? 1.0f - Utilities.clamp(Math.abs(storyViewer8.swipeToDismissOffset / getMeasuredHeight()), 1.0f, 0.0f) : 1.0f;
-            StoryViewer storyViewer9 = StoryViewer.this;
-            storyViewer9.storiesViewPager.setHorizontalProgressToDismiss((storyViewer9.swipeToDismissHorizontalOffset / storyViewer9.containerView.getMeasuredWidth()) * StoryViewer.this.progressToOpen);
-            StoryViewer storyViewer10 = StoryViewer.this;
-            if (storyViewer10.fromX != 0.0f || storyViewer10.fromY != 0.0f) {
-                float f5 = storyViewer10.progressToOpen;
+            StoryViewer storyViewer3 = StoryViewer.this;
+            float clamp = storyViewer3.swipeToDismissHorizontalOffset == 0.0f ? 1.0f - Utilities.clamp(Math.abs(storyViewer3.swipeToDismissOffset / getMeasuredHeight()), 1.0f, 0.0f) : 1.0f;
+            StoryViewer storyViewer4 = StoryViewer.this;
+            storyViewer4.storiesViewPager.setHorizontalProgressToDismiss((storyViewer4.swipeToDismissHorizontalOffset / storyViewer4.containerView.getMeasuredWidth()) * StoryViewer.this.progressToOpen);
+            StoryViewer storyViewer5 = StoryViewer.this;
+            if (storyViewer5.fromX != 0.0f || storyViewer5.fromY != 0.0f) {
+                float f5 = storyViewer5.progressToOpen;
                 if (f5 != 1.0f) {
-                    if (storyViewer10.isClosed && StoryViewer.this.animateAvatar) {
+                    if (storyViewer5.isClosed && StoryViewer.this.animateAvatar) {
                         f5 = StoryViewer.this.progressToOpen;
                         float clamp2 = 1.0f - Utilities.clamp(((1.0f - f5) - 0.8f) / 0.100000024f, 1.0f, 0.0f);
                         f = Utilities.clamp(f5 - ((1.0f - clamp2) * 0.05f), 1.0f, 0.0f);
@@ -502,34 +497,34 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         StoryViewer.this.containerView.setAlpha(1.0f);
                         f = f5;
                     }
-                    if (!StoryViewer.this.isClosed || (transitionViewHolder = (storyViewer6 = StoryViewer.this).transitionViewHolder) == null || transitionViewHolder.storyImage == null) {
+                    if (!StoryViewer.this.isClosed || (transitionViewHolder = (storyViewer = StoryViewer.this).transitionViewHolder) == null || transitionViewHolder.storyImage == null) {
                         boolean unused = StoryViewer.this.isClosed;
                     } else {
-                        HwFrameLayout hwFrameLayout = storyViewer6.containerView;
+                        HwFrameLayout hwFrameLayout = storyViewer.containerView;
                         hwFrameLayout.setAlpha(hwFrameLayout.getAlpha() * ((float) Math.pow(f5, 0.20000000298023224d)));
                     }
-                    StoryViewer storyViewer11 = StoryViewer.this;
-                    HwFrameLayout hwFrameLayout2 = storyViewer11.containerView;
-                    float left = (storyViewer11.fromX - hwFrameLayout2.getLeft()) - (StoryViewer.this.containerView.getMeasuredWidth() / 2.0f);
-                    StoryViewer storyViewer12 = StoryViewer.this;
-                    float f6 = storyViewer12.progressToOpen;
-                    hwFrameLayout2.setTranslationX((left * (1.0f - f6)) + (storyViewer12.swipeToDismissHorizontalOffset * f6));
-                    StoryViewer storyViewer13 = StoryViewer.this;
-                    HwFrameLayout hwFrameLayout3 = storyViewer13.containerView;
-                    float top = (storyViewer13.fromY - hwFrameLayout3.getTop()) - (StoryViewer.this.containerView.getMeasuredHeight() / 2.0f);
-                    StoryViewer storyViewer14 = StoryViewer.this;
-                    float f7 = storyViewer14.progressToOpen;
-                    hwFrameLayout3.setTranslationY((top * (1.0f - f7)) + (storyViewer14.swipeToDismissOffset * f7));
-                    float lerp = AndroidUtilities.lerp(StoryViewer.this.fromWidth / storyViewer.containerView.getMeasuredWidth(), (clamp * 0.15f) + 0.85f, f);
+                    StoryViewer storyViewer6 = StoryViewer.this;
+                    HwFrameLayout hwFrameLayout2 = storyViewer6.containerView;
+                    float left = (storyViewer6.fromX - hwFrameLayout2.getLeft()) - (StoryViewer.this.containerView.getMeasuredWidth() / 2.0f);
+                    StoryViewer storyViewer7 = StoryViewer.this;
+                    float f6 = storyViewer7.progressToOpen;
+                    hwFrameLayout2.setTranslationX((left * (1.0f - f6)) + (storyViewer7.swipeToDismissHorizontalOffset * f6));
+                    StoryViewer storyViewer8 = StoryViewer.this;
+                    HwFrameLayout hwFrameLayout3 = storyViewer8.containerView;
+                    float top = (storyViewer8.fromY - hwFrameLayout3.getTop()) - (StoryViewer.this.containerView.getMeasuredHeight() / 2.0f);
+                    StoryViewer storyViewer9 = StoryViewer.this;
+                    float f7 = storyViewer9.progressToOpen;
+                    hwFrameLayout3.setTranslationY((top * (1.0f - f7)) + (storyViewer9.swipeToDismissOffset * f7));
+                    float lerp = AndroidUtilities.lerp(StoryViewer.this.fromWidth / r3.containerView.getMeasuredWidth(), (clamp * 0.15f) + 0.85f, f);
                     StoryViewer.this.containerView.setScaleX(lerp);
                     StoryViewer.this.containerView.setScaleY(lerp);
                     this.path.rewind();
                     RectF rectF = this.rect1;
-                    StoryViewer storyViewer15 = StoryViewer.this;
-                    float f8 = storyViewer15.fromX;
-                    float f9 = storyViewer15.fromWidth / 2.0f;
-                    float f10 = storyViewer15.fromY;
-                    float f11 = storyViewer15.fromHeight / 2.0f;
+                    StoryViewer storyViewer10 = StoryViewer.this;
+                    float f8 = storyViewer10.fromX;
+                    float f9 = storyViewer10.fromWidth / 2.0f;
+                    float f10 = storyViewer10.fromY;
+                    float f11 = storyViewer10.fromHeight / 2.0f;
                     rectF.set(f8 - f9, f10 - f11, f8 + f9, f10 + f11);
                     if (StoryViewer.this.isClosed && StoryViewer.this.animateAvatar) {
                         this.rect2.set(this.outFromRectContainer);
@@ -555,20 +550,23 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     float lerp6 = StoryViewer.this.animateAvatar ? AndroidUtilities.lerp(StoryViewer.this.fromWidth / 2.0f, 0.0f, f) : AndroidUtilities.lerp(StoryViewer.this.fromRadius, 0.0f, f5);
                     this.path.addRoundRect(rectF2, lerp6, lerp6, Path.Direction.CCW);
                     canvas.save();
-                    StoryViewer storyViewer16 = StoryViewer.this;
-                    float f14 = storyViewer16.clipTop;
-                    if (f14 != 0.0f && storyViewer16.clipBottom != 0.0f) {
-                        StoryViewer storyViewer17 = StoryViewer.this;
-                        canvas.clipRect(0.0f, AndroidUtilities.lerp(0.0f, f14, (float) Math.pow(1.0f - storyViewer16.progressToOpen, 0.4000000059604645d)), getMeasuredWidth(), AndroidUtilities.lerp(getMeasuredHeight(), storyViewer17.clipBottom, 1.0f - storyViewer17.progressToOpen));
+                    StoryViewer storyViewer11 = StoryViewer.this;
+                    float f14 = storyViewer11.clipTop;
+                    if (f14 != 0.0f && storyViewer11.clipBottom != 0.0f) {
+                        float lerp7 = AndroidUtilities.lerp(0.0f, f14, (float) Math.pow(1.0f - storyViewer11.progressToOpen, 0.4000000059604645d));
+                        float measuredWidth = getMeasuredWidth();
+                        float measuredHeight = getMeasuredHeight();
+                        StoryViewer storyViewer12 = StoryViewer.this;
+                        canvas.clipRect(0.0f, lerp7, measuredWidth, AndroidUtilities.lerp(measuredHeight, storyViewer12.clipBottom, 1.0f - storyViewer12.progressToOpen));
                     }
                     canvas.save();
                     canvas.clipPath(this.path);
                     super.dispatchDraw(canvas);
-                    StoryViewer storyViewer18 = StoryViewer.this;
-                    TransitionViewHolder transitionViewHolder2 = storyViewer18.transitionViewHolder;
-                    if (transitionViewHolder2 != null && transitionViewHolder2.storyImage != null && (currentPeerView = storyViewer18.storiesViewPager.getCurrentPeerView()) != null && currentPeerView.storyContainer != null) {
+                    StoryViewer storyViewer13 = StoryViewer.this;
+                    TransitionViewHolder transitionViewHolder2 = storyViewer13.transitionViewHolder;
+                    if (transitionViewHolder2 != null && transitionViewHolder2.storyImage != null && (currentPeerView = storyViewer13.storiesViewPager.getCurrentPeerView()) != null && currentPeerView.storyContainer != null) {
                         boolean visible = StoryViewer.this.transitionViewHolder.storyImage.getVisible();
-                        this.rect2.set(StoryViewer.this.swipeToDismissHorizontalOffset + storyViewer2.containerView.getLeft() + currentPeerView.getX() + currentPeerView.storyContainer.getX(), StoryViewer.this.swipeToDismissOffset + storyViewer3.containerView.getTop() + currentPeerView.getY() + currentPeerView.storyContainer.getY(), ((StoryViewer.this.swipeToDismissHorizontalOffset + storyViewer4.containerView.getRight()) - (StoryViewer.this.containerView.getWidth() - currentPeerView.getRight())) - (currentPeerView.getWidth() - currentPeerView.storyContainer.getRight()), ((StoryViewer.this.swipeToDismissOffset + storyViewer5.containerView.getBottom()) - (StoryViewer.this.containerView.getHeight() - currentPeerView.getBottom())) - (currentPeerView.getHeight() - currentPeerView.storyContainer.getBottom()));
+                        this.rect2.set(StoryViewer.this.swipeToDismissHorizontalOffset + r5.containerView.getLeft() + currentPeerView.getX() + currentPeerView.storyContainer.getX(), StoryViewer.this.swipeToDismissOffset + r5.containerView.getTop() + currentPeerView.getY() + currentPeerView.storyContainer.getY(), ((StoryViewer.this.swipeToDismissHorizontalOffset + r5.containerView.getRight()) - (StoryViewer.this.containerView.getWidth() - currentPeerView.getRight())) - (currentPeerView.getWidth() - currentPeerView.storyContainer.getRight()), ((StoryViewer.this.swipeToDismissOffset + r5.containerView.getBottom()) - (StoryViewer.this.containerView.getHeight() - currentPeerView.getBottom())) - (currentPeerView.getHeight() - currentPeerView.storyContainer.getBottom()));
                         AndroidUtilities.lerp(this.rect1, this.rect2, f5, this.rect3);
                         float imageX = StoryViewer.this.transitionViewHolder.storyImage.getImageX();
                         float imageY = StoryViewer.this.transitionViewHolder.storyImage.getImageY();
@@ -579,16 +577,16 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         StoryViewer.this.transitionViewHolder.storyImage.setAlpha(f15);
                         StoryViewer.this.transitionViewHolder.storyImage.setVisible(true, false);
                         int saveCount = canvas.getSaveCount();
-                        StoryViewer storyViewer19 = StoryViewer.this;
-                        HolderClip holderClip2 = storyViewer19.transitionViewHolder.drawClip;
+                        StoryViewer storyViewer14 = StoryViewer.this;
+                        HolderClip holderClip2 = storyViewer14.transitionViewHolder.drawClip;
                         if (holderClip2 != null) {
-                            holderClip2.clip(canvas, this.rect3, f15, storyViewer19.opening);
+                            holderClip2.clip(canvas, this.rect3, f15, storyViewer14.opening);
                         }
                         StoryViewer.this.transitionViewHolder.storyImage.draw(canvas);
-                        StoryViewer storyViewer20 = StoryViewer.this;
-                        HolderDrawAbove holderDrawAbove2 = storyViewer20.transitionViewHolder.drawAbove;
+                        StoryViewer storyViewer15 = StoryViewer.this;
+                        HolderDrawAbove holderDrawAbove2 = storyViewer15.transitionViewHolder.drawAbove;
                         if (holderDrawAbove2 != null) {
-                            holderDrawAbove2.draw(canvas, this.rect3, f15, storyViewer20.opening);
+                            holderDrawAbove2.draw(canvas, this.rect3, f15, storyViewer15.opening);
                         }
                         StoryViewer.this.transitionViewHolder.storyImage.setVisible(visible, false);
                         StoryViewer.this.transitionViewHolder.storyImage.setImageCoords(imageX, imageY, imageWidth, imageHeight);
@@ -596,10 +594,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     canvas.restore();
                     if (peerHeaderView != null) {
-                        StoryViewer storyViewer21 = StoryViewer.this;
-                        float f16 = storyViewer21.swipeToDismissHorizontalOffset;
-                        float f17 = storyViewer21.swipeToDismissOffset;
-                        if (storyViewer21.isClosed && StoryViewer.this.animateAvatar) {
+                        StoryViewer storyViewer16 = StoryViewer.this;
+                        float f16 = storyViewer16.swipeToDismissHorizontalOffset;
+                        float f17 = storyViewer16.swipeToDismissOffset;
+                        if (storyViewer16.isClosed && StoryViewer.this.animateAvatar) {
                             this.rect2.set(this.outFromRectAvatar);
                         } else {
                             for (View view2 = peerHeaderView.backupImageView; view2 != this && view2 != null; view2 = (View) view2.getParent()) {
@@ -623,19 +621,19 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         AndroidUtilities.lerp(this.rect1, this.rect2, StoryViewer.this.progressToOpen, this.rect3);
                         int saveCount2 = canvas.getSaveCount();
-                        StoryViewer storyViewer22 = StoryViewer.this;
-                        TransitionViewHolder transitionViewHolder3 = storyViewer22.transitionViewHolder;
+                        StoryViewer storyViewer17 = StoryViewer.this;
+                        TransitionViewHolder transitionViewHolder3 = storyViewer17.transitionViewHolder;
                         if (transitionViewHolder3 != null && (holderClip = transitionViewHolder3.drawClip) != null) {
-                            holderClip.clip(canvas, this.rect3, 1.0f - f5, storyViewer22.opening);
+                            holderClip.clip(canvas, this.rect3, 1.0f - f5, storyViewer17.opening);
                         }
                         if (StoryViewer.this.animateAvatar) {
-                            StoryViewer storyViewer23 = StoryViewer.this;
-                            TransitionViewHolder transitionViewHolder4 = storyViewer23.transitionViewHolder;
+                            StoryViewer storyViewer18 = StoryViewer.this;
+                            TransitionViewHolder transitionViewHolder4 = storyViewer18.transitionViewHolder;
                             boolean z2 = (transitionViewHolder4 == null || transitionViewHolder4.crossfadeToAvatarImage == null) ? false : true;
-                            if (!z2 || storyViewer23.progressToOpen != 0.0f) {
+                            if (!z2 || storyViewer18.progressToOpen != 0.0f) {
                                 peerHeaderView.backupImageView.getImageReceiver().setImageCoords(this.rect3);
                                 TransitionViewHolder transitionViewHolder5 = StoryViewer.this.transitionViewHolder;
-                                peerHeaderView.backupImageView.getImageReceiver().setRoundRadius((int) AndroidUtilities.lerp(this.rect3.width() / 2.0f, (transitionViewHolder5 != null ? transitionViewHolder5.getAvatarImageRoundRadius() : null) != null ? avatarImageRoundRadius.intValue() : this.rect3.width() / 2.0f, 1.0f - StoryViewer.this.progressToOpen));
+                                peerHeaderView.backupImageView.getImageReceiver().setRoundRadius((int) AndroidUtilities.lerp(this.rect3.width() / 2.0f, (transitionViewHolder5 != null ? transitionViewHolder5.getAvatarImageRoundRadius() : null) != null ? r4.intValue() : this.rect3.width() / 2.0f, 1.0f - StoryViewer.this.progressToOpen));
                                 peerHeaderView.backupImageView.getImageReceiver().setVisible(true, false);
                                 float f18 = z2 ? StoryViewer.this.progressToOpen : 1.0f;
                                 TransitionViewHolder transitionViewHolder6 = StoryViewer.this.transitionViewHolder;
@@ -652,9 +650,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                                 peerHeaderView.backupImageView.getImageReceiver().setAlpha(f18);
                                 peerHeaderView.backupImageView.getImageReceiver().setVisible(false, false);
                             }
-                            StoryViewer storyViewer24 = StoryViewer.this;
-                            if (storyViewer24.progressToOpen != 1.0f && z2) {
-                                storyViewer24.avatarRectTmp.set(storyViewer24.transitionViewHolder.crossfadeToAvatarImage.getImageX(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageY(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageX2(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageY2());
+                            StoryViewer storyViewer19 = StoryViewer.this;
+                            if (storyViewer19.progressToOpen != 1.0f && z2) {
+                                storyViewer19.avatarRectTmp.set(storyViewer19.transitionViewHolder.crossfadeToAvatarImage.getImageX(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageY(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageX2(), StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getImageY2());
                                 int i = StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getRoundRadius()[0];
                                 boolean visible2 = StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.getVisible();
                                 StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setImageCoords(this.rect3);
@@ -664,35 +662,35 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                                 StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.draw(canvas);
                                 canvas.restore();
                                 StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setVisible(visible2, false);
-                                StoryViewer storyViewer25 = StoryViewer.this;
-                                storyViewer25.transitionViewHolder.crossfadeToAvatarImage.setImageCoords(storyViewer25.avatarRectTmp);
+                                StoryViewer storyViewer20 = StoryViewer.this;
+                                storyViewer20.transitionViewHolder.crossfadeToAvatarImage.setImageCoords(storyViewer20.avatarRectTmp);
                                 StoryViewer.this.transitionViewHolder.crossfadeToAvatarImage.setRoundRadius(i);
                             }
-                            StoryViewer storyViewer26 = StoryViewer.this;
-                            TransitionViewHolder transitionViewHolder7 = storyViewer26.transitionViewHolder;
+                            StoryViewer storyViewer21 = StoryViewer.this;
+                            TransitionViewHolder transitionViewHolder7 = storyViewer21.transitionViewHolder;
                             if (transitionViewHolder7 != null && (holderDrawAbove = transitionViewHolder7.drawAbove) != null) {
-                                holderDrawAbove.draw(canvas, this.rect3, 1.0f - f5, storyViewer26.opening);
+                                holderDrawAbove.draw(canvas, this.rect3, 1.0f - f5, storyViewer21.opening);
                             }
                         }
                         canvas.restoreToCount(saveCount2);
                     }
-                    StoryViewer storyViewer27 = StoryViewer.this;
-                    if (storyViewer27.animateFromCell != null) {
-                        float clamp3 = Utilities.clamp(storyViewer27.progressToOpen / 0.4f, 1.0f, 0.0f);
+                    StoryViewer storyViewer22 = StoryViewer.this;
+                    if (storyViewer22.animateFromCell != null) {
+                        float clamp3 = Utilities.clamp(storyViewer22.progressToOpen / 0.4f, 1.0f, 0.0f);
                         if (clamp3 != 1.0f) {
                             RectF rectF3 = AndroidUtilities.rectTmp;
-                            StoryViewer storyViewer28 = StoryViewer.this;
-                            float f19 = storyViewer28.fromX;
-                            float f20 = storyViewer28.fromY;
-                            rectF3.set(f19, f20, storyViewer28.fromWidth + f19, storyViewer28.fromHeight + f20);
+                            StoryViewer storyViewer23 = StoryViewer.this;
+                            float f19 = storyViewer23.fromX;
+                            float f20 = storyViewer23.fromY;
+                            rectF3.set(f19, f20, storyViewer23.fromWidth + f19, storyViewer23.fromHeight + f20);
                             rectF3.inset(-AndroidUtilities.dp(16.0f), -AndroidUtilities.dp(16.0f));
                             if (clamp3 != 0.0f) {
                                 canvas.saveLayerAlpha(rectF3, (int) ((1.0f - clamp3) * 255.0f), 31);
                             } else {
                                 canvas.save();
                             }
-                            StoryViewer storyViewer29 = StoryViewer.this;
-                            canvas.translate(storyViewer29.fromXCell, storyViewer29.fromYCell);
+                            StoryViewer storyViewer24 = StoryViewer.this;
+                            canvas.translate(storyViewer24.fromXCell, storyViewer24.fromYCell);
                             StoryViewer.this.animateFromCell.drawAvatarOverlays(canvas);
                             canvas.restore();
                         }
@@ -706,15 +704,15 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     return;
                 }
             }
-            storyViewer10.containerView.setAlpha(storyViewer10.progressToOpen);
-            StoryViewer storyViewer30 = StoryViewer.this;
-            float f21 = (storyViewer30.progressToOpen * 0.1f) + 0.75f + (clamp * 0.15f);
-            storyViewer30.containerView.setScaleX(f21);
+            storyViewer5.containerView.setAlpha(storyViewer5.progressToOpen);
+            StoryViewer storyViewer25 = StoryViewer.this;
+            float f21 = (storyViewer25.progressToOpen * 0.1f) + 0.75f + (clamp * 0.15f);
+            storyViewer25.containerView.setScaleX(f21);
             StoryViewer.this.containerView.setScaleY(f21);
-            StoryViewer storyViewer31 = StoryViewer.this;
-            storyViewer31.containerView.setTranslationY(storyViewer31.swipeToDismissOffset);
-            StoryViewer storyViewer32 = StoryViewer.this;
-            storyViewer32.containerView.setTranslationX(storyViewer32.swipeToDismissHorizontalOffset);
+            StoryViewer storyViewer26 = StoryViewer.this;
+            storyViewer26.containerView.setTranslationY(storyViewer26.swipeToDismissOffset);
+            StoryViewer storyViewer27 = StoryViewer.this;
+            storyViewer27.containerView.setTranslationX(storyViewer27.swipeToDismissHorizontalOffset);
             super.dispatchDraw(canvas);
             if (StoryViewer.runOpenAnimationAfterLayout) {
             }
@@ -725,17 +723,17 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             if (keyEvent.getKeyCode() == 24 || keyEvent.getKeyCode() == 25) {
                 StoryViewer.this.dispatchVolumeEvent(keyEvent);
                 return true;
-            } else if (keyEvent.getKeyCode() == 4 && keyEvent.getAction() == 1) {
-                StoryViewer.this.onAttachedBackPressed();
-                return true;
-            } else {
+            }
+            if (keyEvent.getKeyCode() != 4 || keyEvent.getAction() != 1) {
                 return super.dispatchKeyEventPreIme(keyEvent);
             }
+            StoryViewer.this.onAttachedBackPressed();
+            return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:101:0x01e8 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:102:0x01e9  */
-        /* JADX WARN: Removed duplicated region for block: B:79:0x016e  */
+        /* JADX WARN: Removed duplicated region for block: B:59:0x016e  */
+        /* JADX WARN: Removed duplicated region for block: B:80:0x01e8 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x01e9  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -836,28 +834,28 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                             this.lastX.put(motionEvent.getPointerId(i), Float.valueOf(motionEvent.getX(i)));
                         }
                     }
-                    if (z2) {
-                        boolean dispatchTouchEvent = super.dispatchTouchEvent(motionEvent);
-                        if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-                            StoryViewer storyViewer10 = StoryViewer.this;
-                            if (storyViewer10.selfStoriesViewsOffset != 0.0f && !storyViewer10.flingCalled && StoryViewer.this.realKeyboardHeight < AndroidUtilities.dp(20.0f)) {
-                                StoryViewer storyViewer11 = StoryViewer.this;
-                                storyViewer11.cancelSwipeToViews(storyViewer11.selfStoryViewsView.progressToOpen > 0.5f);
-                            }
-                            PeerStoriesView currentPeerView2 = StoryViewer.this.getCurrentPeerView();
-                            if (currentPeerView2 != null) {
-                                currentPeerView2.cancelTouch();
-                            }
-                        }
-                        if (z) {
-                            StoryViewer storyViewer12 = StoryViewer.this;
-                            if (!storyViewer12.swipeToReplyWaitingKeyboard) {
-                                storyViewer12.cancelSwipeToReply();
-                            }
-                        }
-                        return dispatchTouchEvent || (StoryViewer.animationInProgress && StoryViewer.this.isInTouchMode);
+                    if (!z2) {
+                        return true;
                     }
-                    return true;
+                    boolean dispatchTouchEvent = super.dispatchTouchEvent(motionEvent);
+                    if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+                        StoryViewer storyViewer10 = StoryViewer.this;
+                        if (storyViewer10.selfStoriesViewsOffset != 0.0f && !storyViewer10.flingCalled && StoryViewer.this.realKeyboardHeight < AndroidUtilities.dp(20.0f)) {
+                            StoryViewer storyViewer11 = StoryViewer.this;
+                            storyViewer11.cancelSwipeToViews(storyViewer11.selfStoryViewsView.progressToOpen > 0.5f);
+                        }
+                        PeerStoriesView currentPeerView2 = StoryViewer.this.getCurrentPeerView();
+                        if (currentPeerView2 != null) {
+                            currentPeerView2.cancelTouch();
+                        }
+                    }
+                    if (z) {
+                        StoryViewer storyViewer12 = StoryViewer.this;
+                        if (!storyViewer12.swipeToReplyWaitingKeyboard) {
+                            storyViewer12.cancelSwipeToReply();
+                        }
+                    }
+                    return dispatchTouchEvent || (StoryViewer.animationInProgress && StoryViewer.this.isInTouchMode);
                 }
             }
             z2 = false;
@@ -866,7 +864,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             if (motionEvent.getAction() != 1) {
             }
             this.lastX.clear();
-            if (z2) {
+            if (!z2) {
             }
         }
 
@@ -950,10 +948,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             NotificationCenter.getInstance(StoryViewer.this.currentAccount).removeObserver(StoryViewer.this, NotificationCenter.openArticle);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:14:0x0049  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0066  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x0078  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00a1  */
+        /* JADX WARN: Removed duplicated region for block: B:12:0x0049  */
+        /* JADX WARN: Removed duplicated region for block: B:17:0x0066  */
+        /* JADX WARN: Removed duplicated region for block: B:22:0x0078  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x00a1  */
         @Override // android.view.ViewGroup
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1168,11 +1166,11 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             }
             StoryViewer storyViewer4 = StoryViewer.this;
-            if (storyViewer4.inSwipeToDissmissMode || storyViewer4.keyboardVisible || storyViewer4.swipeToReplyOffset != 0.0f || ((storyViewer4.selfStoriesViewsOffset != 0.0f && (storyViewer4.allowIntercept || storyViewer4.verticalScrollDetected)) || storyViewer4.isInTextSelectionMode)) {
-                StoryViewer.this.gestureDetector.onTouchEvent(motionEvent);
-                return true;
+            if (!storyViewer4.inSwipeToDissmissMode && !storyViewer4.keyboardVisible && storyViewer4.swipeToReplyOffset == 0.0f && ((storyViewer4.selfStoriesViewsOffset == 0.0f || (!storyViewer4.allowIntercept && !storyViewer4.verticalScrollDetected)) && !storyViewer4.isInTextSelectionMode)) {
+                return false;
             }
-            return false;
+            StoryViewer.this.gestureDetector.onTouchEvent(motionEvent);
+            return true;
         }
 
         @Override // android.view.ViewGroup, android.view.ViewParent
@@ -1277,12 +1275,12 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
         public boolean releasePlayer(Runnable runnable) {
             VideoPlayerHolder videoPlayerHolder = StoryViewer.this.playerHolder;
-            if (videoPlayerHolder != null) {
-                boolean release = videoPlayerHolder.release(runnable);
-                StoryViewer.this.playerHolder = null;
-                return release;
+            if (videoPlayerHolder == null) {
+                return false;
             }
-            return false;
+            boolean release = videoPlayerHolder.release(runnable);
+            StoryViewer.this.playerHolder = null;
+            return release;
         }
 
         @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
@@ -1290,7 +1288,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             StoryViewer.this.requestAdjust(z);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:49:0x0190  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x0190  */
         @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1360,13 +1358,13 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     while (true) {
                         if (i >= StoryViewer.this.preparedPlayers.size()) {
                             break;
-                        } else if (((VideoPlayerHolder) StoryViewer.this.preparedPlayers.get(i)).uri.equals(uri)) {
+                        }
+                        if (((VideoPlayerHolder) StoryViewer.this.preparedPlayers.get(i)).uri.equals(uri)) {
                             StoryViewer storyViewer7 = StoryViewer.this;
                             storyViewer7.playerHolder = (VideoPlayerHolder) storyViewer7.preparedPlayers.remove(i);
                             break;
-                        } else {
-                            i++;
                         }
+                        i++;
                     }
                     StoryViewer storyViewer8 = StoryViewer.this;
                     if (storyViewer8.playerHolder == null) {
@@ -1560,28 +1558,29 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     return;
                 }
                 StoryViewer.this.close(false);
-            } else if (StoryViewer.this.storiesViewPager.days == null) {
-            } else {
-                final ArrayList arrayList2 = new ArrayList(StoryViewer.this.storiesViewPager.days);
-                int indexOf2 = StoryViewer.this.storiesViewPager.getCurrentPeerView() == null ? -1 : arrayList2.indexOf(StoryViewer.this.storiesViewPager.getCurrentPeerView().getCurrentDay());
-                if (indexOf2 >= 0) {
-                    arrayList2.remove(indexOf2);
-                    if (StoryViewer.this.storiesViewPager.switchToNext(true)) {
-                        StoriesViewPager storiesViewPager = StoryViewer.this.storiesViewPager;
-                        final StoriesController.StoriesList storiesList = this.val$storiesList;
-                        storiesViewPager.onNextIdle(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$5$$ExternalSyntheticLambda1
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                StoryViewer.5.this.lambda$switchToNextAndRemoveCurrentPeer$0(storiesList, arrayList2);
-                            }
-                        });
-                        return;
-                    }
-                    StoryViewer.this.close(false);
+            }
+            if (StoryViewer.this.storiesViewPager.days == null) {
+                return;
+            }
+            final ArrayList arrayList2 = new ArrayList(StoryViewer.this.storiesViewPager.days);
+            int indexOf2 = StoryViewer.this.storiesViewPager.getCurrentPeerView() == null ? -1 : arrayList2.indexOf(StoryViewer.this.storiesViewPager.getCurrentPeerView().getCurrentDay());
+            if (indexOf2 >= 0) {
+                arrayList2.remove(indexOf2);
+                if (StoryViewer.this.storiesViewPager.switchToNext(true)) {
+                    StoriesViewPager storiesViewPager = StoryViewer.this.storiesViewPager;
+                    final StoriesController.StoriesList storiesList = this.val$storiesList;
+                    storiesViewPager.onNextIdle(new Runnable() { // from class: org.telegram.ui.Stories.StoryViewer$5$$ExternalSyntheticLambda1
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            StoryViewer.5.this.lambda$switchToNextAndRemoveCurrentPeer$0(storiesList, arrayList2);
+                        }
+                    });
                     return;
                 }
                 StoryViewer.this.close(false);
+                return;
             }
+            StoryViewer.this.close(false);
         }
     }
 
@@ -1780,26 +1779,26 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         if (this.isPopupVisible) {
             return true;
         }
-        if (this.selfStoryViewsView == null || this.selfStoriesViewsOffset == 0.0f) {
-            PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
-            if (currentPeerView != null) {
-                if (currentPeerView.findClickableView(currentPeerView, ((f - this.containerView.getX()) - this.storiesViewPager.getX()) - currentPeerView.getX(), ((f2 - this.containerView.getY()) - this.storiesViewPager.getY()) - currentPeerView.getY(), z)) {
-                    return true;
-                }
-                if (currentPeerView.keyboardVisible) {
-                    return false;
-                }
-            }
-            if (z) {
-                return false;
-            }
-            if (currentPeerView == null || (chatActivityEnterView2 = currentPeerView.chatActivityEnterView) == null || chatActivityEnterView2.getVisibility() != 0 || f2 <= this.containerView.getY() + this.storiesViewPager.getY() + currentPeerView.getY() + currentPeerView.chatActivityEnterView.getY()) {
-                if ((currentPeerView == null || (chatActivityEnterView = currentPeerView.chatActivityEnterView) == null || !chatActivityEnterView.isRecordingAudioVideo()) && this.storiesIntro == null) {
-                    return AndroidUtilities.findClickableView(frameLayout, f, f2, currentPeerView);
-                }
+        if (this.selfStoryViewsView != null && this.selfStoriesViewsOffset != 0.0f) {
+            return true;
+        }
+        PeerStoriesView currentPeerView = this.storiesViewPager.getCurrentPeerView();
+        if (currentPeerView != null) {
+            if (currentPeerView.findClickableView(currentPeerView, ((f - this.containerView.getX()) - this.storiesViewPager.getX()) - currentPeerView.getX(), ((f2 - this.containerView.getY()) - this.storiesViewPager.getY()) - currentPeerView.getY(), z)) {
                 return true;
             }
+            if (currentPeerView.keyboardVisible) {
+                return false;
+            }
+        }
+        if (z) {
+            return false;
+        }
+        if (currentPeerView != null && (chatActivityEnterView2 = currentPeerView.chatActivityEnterView) != null && chatActivityEnterView2.getVisibility() == 0 && f2 > this.containerView.getY() + this.storiesViewPager.getY() + currentPeerView.getY() + currentPeerView.chatActivityEnterView.getY()) {
             return true;
+        }
+        if ((currentPeerView == null || (chatActivityEnterView = currentPeerView.chatActivityEnterView) == null || !chatActivityEnterView.isRecordingAudioVideo()) && this.storiesIntro == null) {
+            return AndroidUtilities.findClickableView(frameLayout, f, f2, currentPeerView);
         }
         return true;
     }
@@ -2181,9 +2180,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     this.fromXCell = f2;
                     this.fromYCell = iArr[1];
                     TransitionViewHolder transitionViewHolder2 = this.transitionViewHolder;
-                    View view2 = transitionViewHolder2.view;
-                    if (view2 instanceof StoriesListPlaceProvider.AvatarOverlaysView) {
-                        this.animateFromCell = (StoriesListPlaceProvider.AvatarOverlaysView) view2;
+                    KeyEvent.Callback callback = transitionViewHolder2.view;
+                    if (callback instanceof StoriesListPlaceProvider.AvatarOverlaysView) {
+                        this.animateFromCell = (StoriesListPlaceProvider.AvatarOverlaysView) callback;
                     } else {
                         this.animateFromCell = null;
                     }
@@ -2200,11 +2199,11 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                             this.fromHeight *= this.transitionViewHolder.params.getScale();
                         }
                         if (this.transitionViewHolder.view.getParent() instanceof View) {
-                            View view3 = (View) this.transitionViewHolder.view.getParent();
-                            this.fromX = iArr[0] + (this.transitionViewHolder.avatarImage.getCenterX() * view3.getScaleX());
-                            this.fromY = iArr[1] + (this.transitionViewHolder.avatarImage.getCenterY() * view3.getScaleY());
-                            this.fromWidth *= view3.getScaleX();
-                            this.fromHeight *= view3.getScaleY();
+                            View view2 = (View) this.transitionViewHolder.view.getParent();
+                            this.fromX = iArr[0] + (this.transitionViewHolder.avatarImage.getCenterX() * view2.getScaleX());
+                            this.fromY = iArr[1] + (this.transitionViewHolder.avatarImage.getCenterY() * view2.getScaleY());
+                            this.fromWidth *= view2.getScaleX();
+                            this.fromHeight *= view2.getScaleY();
                         }
                         this.animateAvatar = true;
                     } else {
@@ -2450,9 +2449,13 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         i3++;
                     }
                     this.selfStoryViewsView.setItems(this.storiesList.dialogId, arrayList, i4);
+                    return;
                 }
+                return;
             }
-        } else if (i != NotificationCenter.storiesUpdated) {
+            return;
+        }
+        if (i != NotificationCenter.storiesUpdated) {
             int i5 = NotificationCenter.openArticle;
             if (i == i5 || i == NotificationCenter.articleClosed) {
                 updatePlayingMode();
@@ -2471,34 +2474,35 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 this.playerSavedPosition = videoPlayerHolder.currentPosition;
                 videoPlayerHolder.release(null);
                 this.playerHolder = null;
+                return;
             }
-        } else {
-            PlaceProvider placeProvider = this.placeProvider;
-            if (placeProvider instanceof StoriesListPlaceProvider) {
-                StoriesListPlaceProvider storiesListPlaceProvider = (StoriesListPlaceProvider) placeProvider;
-                if (!storiesListPlaceProvider.hasPaginationParams || storiesListPlaceProvider.onlySelfStories) {
-                    return;
-                }
-                StoriesController storiesController = MessagesController.getInstance(this.currentAccount).getStoriesController();
-                ArrayList hiddenList = storiesListPlaceProvider.hiddedStories ? storiesController.getHiddenList() : storiesController.getDialogListStories();
-                ArrayList<Long> dialogIds = this.storiesViewPager.getDialogIds();
-                boolean z = false;
-                while (i3 < hiddenList.size()) {
-                    long peerDialogId = DialogObject.getPeerDialogId(((TL_stories.PeerStories) hiddenList.get(i3)).peer);
-                    if ((!storiesListPlaceProvider.onlyUnreadStories || storiesController.hasUnreadStories(peerDialogId)) && !dialogIds.contains(Long.valueOf(peerDialogId))) {
-                        dialogIds.add(Long.valueOf(peerDialogId));
-                        z = true;
-                    }
-                    i3++;
-                }
-                if (z) {
-                    this.storiesViewPager.getAdapter().notifyDataSetChanged();
-                }
+            return;
+        }
+        PlaceProvider placeProvider = this.placeProvider;
+        if (placeProvider instanceof StoriesListPlaceProvider) {
+            StoriesListPlaceProvider storiesListPlaceProvider = (StoriesListPlaceProvider) placeProvider;
+            if (!storiesListPlaceProvider.hasPaginationParams || storiesListPlaceProvider.onlySelfStories) {
+                return;
             }
-            SelfStoryViewsView selfStoryViewsView2 = this.selfStoryViewsView;
-            if (selfStoryViewsView2 != null) {
-                selfStoryViewsView2.selfStoriesPreviewView.update();
+            StoriesController storiesController = MessagesController.getInstance(this.currentAccount).getStoriesController();
+            ArrayList hiddenList = storiesListPlaceProvider.hiddedStories ? storiesController.getHiddenList() : storiesController.getDialogListStories();
+            ArrayList<Long> dialogIds = this.storiesViewPager.getDialogIds();
+            boolean z = false;
+            while (i3 < hiddenList.size()) {
+                long peerDialogId = DialogObject.getPeerDialogId(((TL_stories.PeerStories) hiddenList.get(i3)).peer);
+                if ((!storiesListPlaceProvider.onlyUnreadStories || storiesController.hasUnreadStories(peerDialogId)) && !dialogIds.contains(Long.valueOf(peerDialogId))) {
+                    dialogIds.add(Long.valueOf(peerDialogId));
+                    z = true;
+                }
+                i3++;
             }
+            if (z) {
+                this.storiesViewPager.getAdapter().notifyDataSetChanged();
+            }
+        }
+        SelfStoryViewsView selfStoryViewsView2 = this.selfStoryViewsView;
+        if (selfStoryViewsView2 != null) {
+            selfStoryViewsView2.selfStoriesPreviewView.update();
         }
     }
 
@@ -2697,12 +2701,12 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             }
             cancelSwipeToViews(false);
             return true;
-        } else if (closeKeyboardOrEmoji()) {
-            return true;
-        } else {
-            close(true);
+        }
+        if (closeKeyboardOrEmoji()) {
             return true;
         }
+        close(true);
+        return true;
     }
 
     public void onPause() {
@@ -2870,63 +2874,63 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
                     float f3;
                     StoryViewer storyViewer = StoryViewer.this;
-                    if (storyViewer.inSwipeToDissmissMode) {
-                        if (storyViewer.allowSwipeToReply) {
-                            storyViewer.swipeToReplyOffset += f2;
-                            int dp = AndroidUtilities.dp(200.0f);
-                            StoryViewer storyViewer2 = StoryViewer.this;
-                            float f4 = dp;
-                            if (storyViewer2.swipeToReplyOffset > f4 && !storyViewer2.swipeToReplyWaitingKeyboard) {
-                                storyViewer2.swipeToReplyWaitingKeyboard = true;
-                                storyViewer2.showKeyboard();
-                                StoryViewer.this.windowView.performHapticFeedback(3);
-                            }
-                            StoryViewer storyViewer3 = StoryViewer.this;
-                            storyViewer3.swipeToReplyProgress = Utilities.clamp(storyViewer3.swipeToReplyOffset / f4, 1.0f, 0.0f);
-                            if (StoryViewer.this.storiesViewPager.getCurrentPeerView() != null) {
-                                StoryViewer.this.storiesViewPager.getCurrentPeerView().invalidate();
-                            }
-                            StoryViewer storyViewer4 = StoryViewer.this;
-                            if (storyViewer4.swipeToReplyOffset >= 0.0f) {
-                                return true;
-                            }
-                            storyViewer4.swipeToReplyOffset = 0.0f;
-                            storyViewer4.allowSwipeToReply = false;
-                        }
-                        StoryViewer storyViewer5 = StoryViewer.this;
-                        if (storyViewer5.allowSelfStoriesView) {
-                            float f5 = storyViewer5.selfStoriesViewsOffset;
-                            storyViewer5.selfStoriesViewsOffset = (f5 <= storyViewer5.selfStoryViewsView.maxSelfStoriesViewsOffset || f2 <= 0.0f) ? f5 + f2 : f5 + (0.05f * f2);
-                            Bulletin.hideVisible(storyViewer5.windowView);
-                            if (StoryViewer.this.storiesViewPager.getCurrentPeerView() != null) {
-                                StoryViewer.this.storiesViewPager.getCurrentPeerView().invalidate();
-                            }
-                            StoryViewer.this.containerView.invalidate();
-                            StoryViewer storyViewer6 = StoryViewer.this;
-                            if (storyViewer6.selfStoriesViewsOffset >= 0.0f) {
-                                return true;
-                            }
-                            storyViewer6.selfStoriesViewsOffset = 0.0f;
-                            storyViewer6.allowSelfStoriesView = false;
-                        }
-                        StoryViewer storyViewer7 = StoryViewer.this;
-                        if (storyViewer7.progressToDismiss > 0.8f) {
-                            float f6 = -f2;
-                            if ((f6 > 0.0f && storyViewer7.swipeToDismissOffset > 0.0f) || (f6 < 0.0f && storyViewer7.swipeToDismissOffset < 0.0f)) {
-                                f3 = 0.3f;
-                                storyViewer7.swipeToDismissOffset -= f2 * f3;
-                                Bulletin.hideVisible(storyViewer7.windowView);
-                                StoryViewer.this.updateProgressToDismiss();
-                                return true;
-                            }
-                        }
-                        f3 = 0.6f;
-                        storyViewer7.swipeToDismissOffset -= f2 * f3;
-                        Bulletin.hideVisible(storyViewer7.windowView);
-                        StoryViewer.this.updateProgressToDismiss();
-                        return true;
+                    if (!storyViewer.inSwipeToDissmissMode) {
+                        return false;
                     }
-                    return false;
+                    if (storyViewer.allowSwipeToReply) {
+                        storyViewer.swipeToReplyOffset += f2;
+                        int dp = AndroidUtilities.dp(200.0f);
+                        StoryViewer storyViewer2 = StoryViewer.this;
+                        float f4 = dp;
+                        if (storyViewer2.swipeToReplyOffset > f4 && !storyViewer2.swipeToReplyWaitingKeyboard) {
+                            storyViewer2.swipeToReplyWaitingKeyboard = true;
+                            storyViewer2.showKeyboard();
+                            StoryViewer.this.windowView.performHapticFeedback(3);
+                        }
+                        StoryViewer storyViewer3 = StoryViewer.this;
+                        storyViewer3.swipeToReplyProgress = Utilities.clamp(storyViewer3.swipeToReplyOffset / f4, 1.0f, 0.0f);
+                        if (StoryViewer.this.storiesViewPager.getCurrentPeerView() != null) {
+                            StoryViewer.this.storiesViewPager.getCurrentPeerView().invalidate();
+                        }
+                        StoryViewer storyViewer4 = StoryViewer.this;
+                        if (storyViewer4.swipeToReplyOffset >= 0.0f) {
+                            return true;
+                        }
+                        storyViewer4.swipeToReplyOffset = 0.0f;
+                        storyViewer4.allowSwipeToReply = false;
+                    }
+                    StoryViewer storyViewer5 = StoryViewer.this;
+                    if (storyViewer5.allowSelfStoriesView) {
+                        float f5 = storyViewer5.selfStoriesViewsOffset;
+                        storyViewer5.selfStoriesViewsOffset = (f5 <= storyViewer5.selfStoryViewsView.maxSelfStoriesViewsOffset || f2 <= 0.0f) ? f5 + f2 : f5 + (0.05f * f2);
+                        Bulletin.hideVisible(storyViewer5.windowView);
+                        if (StoryViewer.this.storiesViewPager.getCurrentPeerView() != null) {
+                            StoryViewer.this.storiesViewPager.getCurrentPeerView().invalidate();
+                        }
+                        StoryViewer.this.containerView.invalidate();
+                        StoryViewer storyViewer6 = StoryViewer.this;
+                        if (storyViewer6.selfStoriesViewsOffset >= 0.0f) {
+                            return true;
+                        }
+                        storyViewer6.selfStoriesViewsOffset = 0.0f;
+                        storyViewer6.allowSelfStoriesView = false;
+                    }
+                    StoryViewer storyViewer7 = StoryViewer.this;
+                    if (storyViewer7.progressToDismiss > 0.8f) {
+                        float f6 = -f2;
+                        if ((f6 > 0.0f && storyViewer7.swipeToDismissOffset > 0.0f) || (f6 < 0.0f && storyViewer7.swipeToDismissOffset < 0.0f)) {
+                            f3 = 0.3f;
+                            storyViewer7.swipeToDismissOffset -= f2 * f3;
+                            Bulletin.hideVisible(storyViewer7.windowView);
+                            StoryViewer.this.updateProgressToDismiss();
+                            return true;
+                        }
+                    }
+                    f3 = 0.6f;
+                    storyViewer7.swipeToDismissOffset -= f2 * f3;
+                    Bulletin.hideVisible(storyViewer7.windowView);
+                    StoryViewer.this.updateProgressToDismiss();
+                    return true;
                 }
 
                 @Override // android.view.GestureDetector.OnGestureListener
@@ -2952,7 +2956,6 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             this.containerView = new HwFrameLayout(context) { // from class: org.telegram.ui.Stories.StoryViewer.3
                 @Override // android.view.ViewGroup, android.view.View
                 protected void dispatchDraw(Canvas canvas) {
-                    float f;
                     PeerStoriesView currentPeerView = StoryViewer.this.storiesViewPager.getCurrentPeerView();
                     StoryViewer storyViewer = StoryViewer.this;
                     SelfStoryViewsView selfStoryViewsView = storyViewer.selfStoryViewsView;
@@ -2962,15 +2965,15 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         storyViewer2.storiesViewPager.setVisibility(storyViewer2.selfStoryViewsView.progressToOpen == 1.0f ? 4 : 0);
                         StoryViewer.this.storiesViewPager.checkPageVisibility();
                         float top = currentPeerView.getTop() + currentPeerView.storyContainer.getTop();
-                        float f2 = StoryViewer.this.selfStoryViewsView.progressToOpen;
+                        float f = StoryViewer.this.selfStoryViewsView.progressToOpen;
                         getMeasuredHeight();
-                        float f3 = StoryViewer.this.selfStoriesViewsOffset;
+                        float f2 = StoryViewer.this.selfStoriesViewsOffset;
                         getMeasuredHeight();
                         if (currentPeerView.storyContainer.getMeasuredHeight() > 0) {
                             StoryViewer.this.lastStoryContainerHeight = currentPeerView.storyContainer.getMeasuredHeight();
                         }
                         StoryViewer storyViewer3 = StoryViewer.this;
-                        float lerp = AndroidUtilities.lerp(1.0f, storyViewer3.selfStoryViewsView.toHeight / storyViewer3.lastStoryContainerHeight, f2);
+                        float lerp = AndroidUtilities.lerp(1.0f, storyViewer3.selfStoryViewsView.toHeight / storyViewer3.lastStoryContainerHeight, f);
                         StoryViewer.this.storiesViewPager.setPivotY(top);
                         StoryViewer.this.storiesViewPager.setPivotX(getMeasuredWidth() / 2.0f);
                         StoryViewer.this.storiesViewPager.setScaleX(lerp);
@@ -2980,15 +2983,15 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         if (storyViewer4.selfStoriesViewsOffset == 0.0f) {
                             currentPeerView.setViewsThumbImageReceiver(0.0f, 0.0f, 0.0f, null);
                         } else {
-                            currentPeerView.setViewsThumbImageReceiver(f2, lerp, top, storyViewer4.selfStoryViewsView.getCrossfadeToImage());
+                            currentPeerView.setViewsThumbImageReceiver(f, lerp, top, storyViewer4.selfStoryViewsView.getCrossfadeToImage());
                         }
                         currentPeerView.invalidate();
                         if (Build.VERSION.SDK_INT >= 21) {
-                            currentPeerView.outlineProvider.radiusInDp = (int) AndroidUtilities.lerp(10.0f, 6.0f / f, StoryViewer.this.selfStoryViewsView.progressToOpen);
+                            currentPeerView.outlineProvider.radiusInDp = (int) AndroidUtilities.lerp(10.0f, 6.0f / r5, StoryViewer.this.selfStoryViewsView.progressToOpen);
                             currentPeerView.storyContainer.invalidateOutline();
                         }
                         StoryViewer storyViewer5 = StoryViewer.this;
-                        storyViewer5.storiesViewPager.setTranslationY((storyViewer5.selfStoryViewsView.toY - top) * f2);
+                        storyViewer5.storiesViewPager.setTranslationY((storyViewer5.selfStoryViewsView.toY - top) * f);
                     }
                     if (currentPeerView != null) {
                         StoryViewer.this.volumeControl.setTranslationY(currentPeerView.storyContainer.getY() - AndroidUtilities.dp(4.0f));
@@ -3327,13 +3330,15 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
         if (this.storiesViewPager.switchToNext(z)) {
             this.storiesViewPager.lockTouchEvent(150L);
-        } else if (z) {
+            return;
+        }
+        if (z) {
             close(true);
-        } else {
-            VideoPlayerHolder videoPlayerHolder = this.playerHolder;
-            if (videoPlayerHolder != null) {
-                videoPlayerHolder.loopBack();
-            }
+            return;
+        }
+        VideoPlayerHolder videoPlayerHolder = this.playerHolder;
+        if (videoPlayerHolder != null) {
+            videoPlayerHolder.loopBack();
         }
     }
 
@@ -3362,7 +3367,6 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         boolean isPaused = isPaused();
-        boolean z = true;
         if (this.ATTACH_TO_FRAGMENT && (this.fragment.isPaused() || !this.fragment.isLastFragment())) {
             isPaused = true;
         }
@@ -3378,6 +3382,6 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                 videoPlayerHolder.play(currentSpeed);
             }
         }
-        this.storiesViewPager.enableTouch((this.keyboardVisible || this.isClosed || this.isRecording || this.isLongpressed || this.isInPinchToZoom || this.selfStoriesViewsOffset != 0.0f || this.isInTextSelectionMode) ? false : false);
+        this.storiesViewPager.enableTouch((this.keyboardVisible || this.isClosed || this.isRecording || this.isLongpressed || this.isInPinchToZoom || this.selfStoriesViewsOffset != 0.0f || this.isInTextSelectionMode) ? false : true);
     }
 }

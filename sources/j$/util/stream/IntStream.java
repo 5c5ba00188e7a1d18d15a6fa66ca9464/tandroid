@@ -17,6 +17,7 @@ import java.util.function.IntToLongFunction;
 import java.util.function.IntUnaryOperator;
 import java.util.function.ObjIntConsumer;
 import java.util.stream.DoubleStream;
+
 /* loaded from: classes2.dex */
 public interface IntStream extends BaseStream<Integer, IntStream> {
 
@@ -172,6 +173,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
             return this.a.isParallel();
         }
 
+        /* JADX WARN: Type inference failed for: r0v1, types: [java.util.PrimitiveIterator$OfInt] */
         @Override // j$.util.stream.IntStream, j$.util.stream.BaseStream, j$.util.stream.D
         public final /* synthetic */ j$.util.v iterator() {
             return j$.util.t.b(this.a.iterator());
@@ -232,6 +234,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
             return convert(this.a.sorted());
         }
 
+        /* JADX WARN: Type inference failed for: r0v1, types: [java.util.Spliterator$OfInt] */
         @Override // j$.util.stream.IntStream, j$.util.stream.BaseStream, j$.util.stream.D
         public final /* synthetic */ j$.util.H spliterator() {
             return j$.util.F.b(this.a.spliterator());
@@ -267,7 +270,6 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
     /* loaded from: classes2.dex */
     public final /* synthetic */ class Wrapper implements java.util.stream.IntStream {
         private /* synthetic */ Wrapper() {
-            IntStream.this = r1;
         }
 
         public static /* synthetic */ java.util.stream.IntStream convert(IntStream intStream) {

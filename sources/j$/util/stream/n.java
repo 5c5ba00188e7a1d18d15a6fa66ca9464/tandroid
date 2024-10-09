@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class n extends a2 {
     boolean b;
@@ -10,21 +11,23 @@ final class n extends a2 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         e2 e2Var = this.a;
         if (obj != null) {
             Object obj2 = this.c;
             if (obj2 != null && obj.equals(obj2)) {
                 return;
             }
-        } else if (this.b) {
-            return;
         } else {
+            if (this.b) {
+                return;
+            }
             this.b = true;
             obj = null;
         }
         this.c = obj;
-        e2Var.accept((e2) obj);
+        e2Var.r((e2) obj);
     }
 
     @Override // j$.util.stream.a2, j$.util.stream.e2

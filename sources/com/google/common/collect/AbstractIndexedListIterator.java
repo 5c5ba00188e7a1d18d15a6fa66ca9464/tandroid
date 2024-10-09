@@ -2,6 +2,7 @@ package com.google.common.collect;
 
 import com.google.common.base.Preconditions;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 abstract class AbstractIndexedListIterator extends UnmodifiableListIterator {
     private int position;
@@ -28,12 +29,12 @@ abstract class AbstractIndexedListIterator extends UnmodifiableListIterator {
 
     @Override // java.util.Iterator, java.util.ListIterator
     public final Object next() {
-        if (hasNext()) {
-            int i = this.position;
-            this.position = i + 1;
-            return get(i);
+        if (!hasNext()) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        int i = this.position;
+        this.position = i + 1;
+        return get(i);
     }
 
     @Override // java.util.ListIterator
@@ -43,12 +44,12 @@ abstract class AbstractIndexedListIterator extends UnmodifiableListIterator {
 
     @Override // java.util.ListIterator
     public final Object previous() {
-        if (hasPrevious()) {
-            int i = this.position - 1;
-            this.position = i;
-            return get(i);
+        if (!hasPrevious()) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        int i = this.position - 1;
+        this.position = i;
+        return get(i);
     }
 
     @Override // java.util.ListIterator

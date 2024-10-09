@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.RandomAccessFile;
 import org.telegram.messenger.audioinfo.m4a.M4AInfo;
 import org.telegram.messenger.audioinfo.mp3.MP3Info;
+
 /* loaded from: classes3.dex */
 public abstract class AudioInfo {
     protected String album;
@@ -47,15 +48,15 @@ public abstract class AudioInfo {
                     return null;
                 }
                 return otherAudioInfo;
-            } else if (file.getAbsolutePath().endsWith("mp3")) {
-                return new MP3Info(bufferedInputStream, file.length());
-            } else {
-                OtherAudioInfo otherAudioInfo2 = new OtherAudioInfo(file);
-                if (otherAudioInfo2.failed) {
-                    return null;
-                }
-                return otherAudioInfo2;
             }
+            if (file.getAbsolutePath().endsWith("mp3")) {
+                return new MP3Info(bufferedInputStream, file.length());
+            }
+            OtherAudioInfo otherAudioInfo2 = new OtherAudioInfo(file);
+            if (otherAudioInfo2.failed) {
+                return null;
+            }
+            return otherAudioInfo2;
         } catch (Exception unused) {
             return null;
         }

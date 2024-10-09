@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import kotlin.TuplesKt;
 import kotlin.jvm.internal.Intrinsics;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class CollectionsKt___CollectionsKt extends CollectionsKt___CollectionsJvmKt {

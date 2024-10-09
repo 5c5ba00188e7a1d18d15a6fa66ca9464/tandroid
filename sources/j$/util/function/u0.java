@@ -1,4 +1,5 @@
 package j$.util.function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class u0 implements java.util.function.Supplier {
     public final /* synthetic */ Supplier a;

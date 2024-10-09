@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 public abstract class Iterators {
 
@@ -59,33 +60,52 @@ public abstract class Iterators {
         }
     }
 
-    public static boolean contains(Iterator it, Object obj) {
-        if (obj == null) {
-            while (it.hasNext()) {
-                if (it.next() == null) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        while (it.hasNext()) {
-            if (obj.equals(it.next())) {
-                return true;
-            }
-        }
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0021, code lost:
+    
         return false;
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:4:0x0006  */
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0014, code lost:
+    
+        if (r2.hasNext() == false) goto L19;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x001e, code lost:
+    
+        if (r3.equals(r2.next()) == false) goto L21;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0020, code lost:
+    
+        return true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:21:?, code lost:
+    
+        return false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:2:0x0001, code lost:
+    
+        if (r3 == null) goto L4;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:4:0x0007, code lost:
+    
+        if (r2.hasNext() == false) goto L16;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x000d, code lost:
+    
+        if (r2.next() != null) goto L18;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x000f, code lost:
+    
+        return true;
+     */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
+    public static boolean contains(Iterator it, Object obj) {
+    }
+
     public static boolean elementsEqual(Iterator it, Iterator it2) {
         while (it.hasNext()) {
             if (!it2.hasNext() || !Objects.equal(it.next(), it2.next())) {
                 return false;
-            }
-            while (it.hasNext()) {
             }
         }
         return !it2.hasNext();
@@ -155,12 +175,12 @@ public abstract class Iterators {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static Object pollNext(Iterator it) {
-        if (it.hasNext()) {
-            Object next = it.next();
-            it.remove();
-            return next;
+        if (!it.hasNext()) {
+            return null;
         }
-        return null;
+        Object next = it.next();
+        it.remove();
+        return next;
     }
 
     public static boolean removeAll(Iterator it, Collection collection) {

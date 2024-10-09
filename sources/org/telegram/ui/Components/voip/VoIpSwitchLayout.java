@@ -21,6 +21,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.voip.VoIpSwitchLayout;
+
 /* loaded from: classes3.dex */
 public class VoIpSwitchLayout extends FrameLayout {
     public int animationDelay;
@@ -184,8 +185,7 @@ public class VoIpSwitchLayout extends FrameLayout {
             float height = getHeight() / 2.0f;
             this.backgroundProvider.setLightTranslation(getX() + ((View) getParent()).getX(), getY() + ((View) ((View) getParent()).getParent()).getY());
             if (this.singleIcon != null) {
-                int i = this.singleIconBackgroundAlphaPercent;
-                if (i <= 20) {
+                if (this.singleIconBackgroundAlphaPercent <= 20) {
                     canvas.drawCircle(width, height, this.maxRadius, this.backgroundProvider.getLightPaint());
                     if (this.backgroundProvider.isReveal()) {
                         canvas.drawCircle(width, height, this.maxRadius, this.backgroundProvider.getRevealPaint());
@@ -193,52 +193,54 @@ public class VoIpSwitchLayout extends FrameLayout {
                     this.singleIcon.draw(canvas);
                     return;
                 }
-                this.darkPaint.setAlpha((int) ((i * 35) / 100.0f));
+                this.darkPaint.setAlpha((int) ((r2 * 35) / 100.0f));
                 this.whiteCirclePaint.setAlpha((int) ((this.singleIconBackgroundAlphaPercent * NotificationCenter.closeSearchByActiveAction) / 100.0f));
                 canvas.drawCircle(width, height, this.maxRadius, this.whiteCirclePaint);
                 this.singleIcon.draw(canvas, this.maskPaint);
                 this.singleIcon.draw(canvas, this.darkPaint);
-            } else if (this.selectedIcon == null || this.unSelectedIcon == null) {
-            } else {
-                int i2 = this.unselectedRadius;
-                int i3 = this.maxRadius;
-                boolean z = false;
-                boolean z2 = i2 == i3 && this.selectedRadius == 0;
-                int i4 = this.selectedRadius;
-                if (i4 == i3 && i2 == 0) {
-                    z = true;
-                }
-                if (i4 == i3 && i2 > 0 && i2 != i3) {
-                    canvas.drawCircle(width, height, i4, this.whiteCirclePaint);
-                    canvas.drawCircle(width, height, this.unselectedRadius, this.maskPaint);
-                    this.selectedIcon.setAlpha(NotificationCenter.closeSearchByActiveAction);
-                    this.selectedIcon.draw(canvas, this.maskPaint);
-                    this.selectedIcon.setAlpha(35);
-                    this.selectedIcon.draw(canvas);
-                    this.clipPath.reset();
-                    this.clipPath.addCircle(width, height, this.unselectedRadius, Path.Direction.CW);
-                    canvas.clipPath(this.clipPath);
-                    canvas.drawCircle(width, height, this.unselectedRadius, this.maskPaint);
-                }
-                if (z2 || this.unselectedRadius > 0) {
-                    canvas.drawCircle(width, height, this.unselectedRadius, this.backgroundProvider.getLightPaint());
-                    if (this.backgroundProvider.isReveal()) {
-                        canvas.drawCircle(width, height, this.unselectedRadius, this.backgroundProvider.getRevealPaint());
-                    }
-                    this.unSelectedIcon.draw(canvas);
-                }
-                if (z || (this.selectedRadius > 0 && this.unselectedRadius == this.maxRadius)) {
-                    this.clipPath.reset();
-                    this.clipPath.addCircle(width, height, this.selectedRadius, Path.Direction.CW);
-                    canvas.clipPath(this.clipPath);
-                    canvas.drawCircle(width, height, this.selectedRadius, this.whiteCirclePaint);
-                    this.selectedIcon.setAlpha(NotificationCenter.closeSearchByActiveAction);
-                    this.selectedIcon.draw(canvas, this.maskPaint);
-                    this.selectedIcon.setAlpha(35);
-                    this.selectedIcon.draw(canvas);
-                }
-                canvas.restore();
+                return;
             }
+            if (this.selectedIcon == null || this.unSelectedIcon == null) {
+                return;
+            }
+            int i = this.unselectedRadius;
+            int i2 = this.maxRadius;
+            boolean z = false;
+            boolean z2 = i == i2 && this.selectedRadius == 0;
+            int i3 = this.selectedRadius;
+            if (i3 == i2 && i == 0) {
+                z = true;
+            }
+            if (i3 == i2 && i > 0 && i != i2) {
+                canvas.drawCircle(width, height, i3, this.whiteCirclePaint);
+                canvas.drawCircle(width, height, this.unselectedRadius, this.maskPaint);
+                this.selectedIcon.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                this.selectedIcon.draw(canvas, this.maskPaint);
+                this.selectedIcon.setAlpha(35);
+                this.selectedIcon.draw(canvas);
+                this.clipPath.reset();
+                this.clipPath.addCircle(width, height, this.unselectedRadius, Path.Direction.CW);
+                canvas.clipPath(this.clipPath);
+                canvas.drawCircle(width, height, this.unselectedRadius, this.maskPaint);
+            }
+            if (z2 || this.unselectedRadius > 0) {
+                canvas.drawCircle(width, height, this.unselectedRadius, this.backgroundProvider.getLightPaint());
+                if (this.backgroundProvider.isReveal()) {
+                    canvas.drawCircle(width, height, this.unselectedRadius, this.backgroundProvider.getRevealPaint());
+                }
+                this.unSelectedIcon.draw(canvas);
+            }
+            if (z || (this.selectedRadius > 0 && this.unselectedRadius == this.maxRadius)) {
+                this.clipPath.reset();
+                this.clipPath.addCircle(width, height, this.selectedRadius, Path.Direction.CW);
+                canvas.clipPath(this.clipPath);
+                canvas.drawCircle(width, height, this.selectedRadius, this.whiteCirclePaint);
+                this.selectedIcon.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                this.selectedIcon.draw(canvas, this.maskPaint);
+                this.selectedIcon.setAlpha(35);
+                this.selectedIcon.draw(canvas);
+            }
+            canvas.restore();
         }
 
         @Override // android.view.View
@@ -347,8 +349,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                 this.unselectedRadius = 0;
                 this.singleIconBackgroundAlphaPercent = 100;
                 if (type == Type.VIDEO || type == Type.MICRO) {
-                    RLottieDrawable rLottieDrawable2 = this.selectedIcon;
-                    rLottieDrawable2.setCurrentFrame(rLottieDrawable2.getFramesCount() - 1, false);
+                    this.selectedIcon.setCurrentFrame(r7.getFramesCount() - 1, false);
                 }
             } else {
                 this.selectedRadius = 0;
@@ -386,13 +387,12 @@ public class VoIpSwitchLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: attachBtToSpeaker */
+    /* renamed from: attachBtToSpeaker, reason: merged with bridge method [inline-methods] */
     public void lambda$setType$2(int i) {
         VoIpButtonView voIpButtonView = this.voIpButtonView;
         int i2 = R.raw.bt_to_speaker;
         voIpButtonView.unSelectedIcon = new RLottieDrawable(i2, "" + i2, i, i, true, null);
-        VoIpButtonView voIpButtonView2 = this.voIpButtonView;
-        voIpButtonView2.selectedIcon = new RLottieDrawable(i2, "" + i2, i, i, true, null);
+        this.voIpButtonView.selectedIcon = new RLottieDrawable(i2, "" + i2, i, i, true, null);
         this.voIpButtonView.selectedIcon.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
     }
 
@@ -422,13 +422,12 @@ public class VoIpSwitchLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: attachSpeakerToBt */
+    /* renamed from: attachSpeakerToBt, reason: merged with bridge method [inline-methods] */
     public void lambda$setType$0(int i) {
         VoIpButtonView voIpButtonView = this.voIpButtonView;
         int i2 = R.raw.speaker_to_bt;
         voIpButtonView.unSelectedIcon = new RLottieDrawable(i2, "" + i2, i, i, true, null);
-        VoIpButtonView voIpButtonView2 = this.voIpButtonView;
-        voIpButtonView2.selectedIcon = new RLottieDrawable(i2, "" + i2, i, i, true, null);
+        this.voIpButtonView.selectedIcon = new RLottieDrawable(i2, "" + i2, i, i, true, null);
         this.voIpButtonView.selectedIcon.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
     }
 
@@ -464,37 +463,39 @@ public class VoIpSwitchLayout extends FrameLayout {
             i = z ? R.string.VoipStartVideo : R.string.VoipStopVideo;
         } else if (i2 == 4) {
             i = R.string.VoipAudioRoutingBluetooth;
-        } else if (i2 != 5) {
-            string = "";
-            setContentDescription(string);
-            if (this.currentTextView.getVisibility() != 8 && this.newTextView.getVisibility() == 8) {
-                this.currentTextView.setVisibility(0);
-                this.currentTextView.setText(string);
-                this.newTextView.setText(string);
-                return;
-            } else if (this.newTextView.getText().equals(string) || !this.currentTextView.getText().equals(string)) {
-                this.currentTextView.animate().alpha(0.0f).translationY(-AndroidUtilities.dp(4.0f)).setDuration(140L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        VoIpSwitchLayout.this.currentTextView.setText(string);
-                        VoIpSwitchLayout.this.currentTextView.setTranslationY(0.0f);
-                        VoIpSwitchLayout.this.currentTextView.setAlpha(1.0f);
-                    }
-                }).start();
-                this.newTextView.setText(string);
-                this.newTextView.setVisibility(0);
-                this.newTextView.setAlpha(0.0f);
-                this.newTextView.setTranslationY(AndroidUtilities.dp(5.0f));
-                this.newTextView.animate().alpha(1.0f).translationY(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        VoIpSwitchLayout.this.newTextView.setVisibility(8);
-                    }
-                }).start();
-            } else {
-                return;
-            }
         } else {
+            if (i2 != 5) {
+                string = "";
+                setContentDescription(string);
+                if (this.currentTextView.getVisibility() != 8 && this.newTextView.getVisibility() == 8) {
+                    this.currentTextView.setVisibility(0);
+                    this.currentTextView.setText(string);
+                    this.newTextView.setText(string);
+                    return;
+                } else {
+                    if (this.newTextView.getText().equals(string) || !this.currentTextView.getText().equals(string)) {
+                        this.currentTextView.animate().alpha(0.0f).translationY(-AndroidUtilities.dp(4.0f)).setDuration(140L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout.1
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                VoIpSwitchLayout.this.currentTextView.setText(string);
+                                VoIpSwitchLayout.this.currentTextView.setTranslationY(0.0f);
+                                VoIpSwitchLayout.this.currentTextView.setAlpha(1.0f);
+                            }
+                        }).start();
+                        this.newTextView.setText(string);
+                        this.newTextView.setVisibility(0);
+                        this.newTextView.setAlpha(0.0f);
+                        this.newTextView.setTranslationY(AndroidUtilities.dp(5.0f));
+                        this.newTextView.animate().alpha(1.0f).translationY(0.0f).setDuration(150L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout.2
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                VoIpSwitchLayout.this.newTextView.setVisibility(8);
+                            }
+                        }).start();
+                    }
+                    return;
+                }
+            }
             i = R.string.VoipSpeaker;
         }
         string = LocaleController.getString(i);
@@ -531,7 +532,7 @@ public class VoIpSwitchLayout extends FrameLayout {
         setType(type, z, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01c0  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x01c0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -618,8 +619,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                 VoIpButtonView voIpButtonView4 = this.voIpButtonView;
                 int i4 = R.raw.video_stop;
                 voIpButtonView4.unSelectedIcon = new RLottieDrawable(i4, "" + i4, dp, dp, true, null);
-                VoIpButtonView voIpButtonView5 = this.voIpButtonView;
-                voIpButtonView5.selectedIcon = new RLottieDrawable(i4, "" + i4, dp, dp, true, null);
+                this.voIpButtonView.selectedIcon = new RLottieDrawable(i4, "" + i4, dp, dp, true, null);
                 rLottieDrawable = this.voIpButtonView.selectedIcon;
                 porterDuffColorFilter = new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY);
                 rLottieDrawable.setColorFilter(porterDuffColorFilter);
@@ -631,12 +631,12 @@ public class VoIpSwitchLayout extends FrameLayout {
             }
             setText(type, z);
             this.type = type;
-        } else if (this.type != Type.MICRO) {
-            VoIpButtonView voIpButtonView6 = this.voIpButtonView;
+        }
+        if (this.type != Type.MICRO) {
+            VoIpButtonView voIpButtonView5 = this.voIpButtonView;
             int i5 = R.raw.call_mute;
-            voIpButtonView6.unSelectedIcon = new RLottieDrawable(i5, "" + i5, dp, dp, true, null);
-            VoIpButtonView voIpButtonView7 = this.voIpButtonView;
-            voIpButtonView7.selectedIcon = new RLottieDrawable(i5, "" + i5, dp, dp, true, null);
+            voIpButtonView5.unSelectedIcon = new RLottieDrawable(i5, "" + i5, dp, dp, true, null);
+            this.voIpButtonView.selectedIcon = new RLottieDrawable(i5, "" + i5, dp, dp, true, null);
             rLottieDrawable = this.voIpButtonView.selectedIcon;
             porterDuffColorFilter = new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY);
             rLottieDrawable.setColorFilter(porterDuffColorFilter);

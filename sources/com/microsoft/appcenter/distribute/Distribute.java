@@ -1,5 +1,6 @@
 package com.microsoft.appcenter.distribute;
 
+import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -48,6 +49,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONException;
+
 /* loaded from: classes.dex */
 public class Distribute extends AbstractAppCenterService {
     private static Distribute sInstance;
@@ -103,11 +105,11 @@ public class Distribute extends AbstractAppCenterService {
             return true;
         }
         long j2 = j + 86400000;
-        if (currentTimeMillis < j2) {
-            AppCenterLog.debug("AppCenterDistribute", "Optional updates are postponed until " + new Date(j2));
-            return false;
+        if (currentTimeMillis >= j2) {
+            return true;
         }
-        return true;
+        AppCenterLog.debug("AppCenterDistribute", "Optional updates are postponed until " + new Date(j2));
+        return false;
     }
 
     private synchronized void cancelNotification() {
@@ -217,13 +219,14 @@ public class Distribute extends AbstractAppCenterService {
         String str3 = "";
         if (TextUtils.isEmpty(string)) {
             str2 = "Current release was already reported, skip reporting.";
-        } else if (isCurrentReleaseWasUpdated(string)) {
-            AppCenterLog.debug("AppCenterDistribute", "Current release was updated but not reported yet, reporting..");
-            if (z) {
-                str3 = "&install_id=" + IdHelper.getInstallId();
-            }
-            return (str3 + "&distribution_group_id=" + str) + "&downloaded_release_id=" + SharedPreferencesManager.getInt("Distribute.downloaded_release_id");
         } else {
+            if (isCurrentReleaseWasUpdated(string)) {
+                AppCenterLog.debug("AppCenterDistribute", "Current release was updated but not reported yet, reporting..");
+                if (z) {
+                    str3 = "&install_id=" + IdHelper.getInstallId();
+                }
+                return (str3 + "&distribution_group_id=" + str) + "&downloaded_release_id=" + SharedPreferencesManager.getInt("Distribute.downloaded_release_id");
+            }
             str2 = "New release was downloaded but not installed yet, skip reporting.";
         }
         AppCenterLog.debug("AppCenterDistribute", str2);
@@ -351,14 +354,14 @@ public class Distribute extends AbstractAppCenterService {
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleUpdateFailedDialogReinstallAction(DialogInterface dialogInterface) {
-        String appendUri;
         if (this.mUpdateSetupFailedDialog == dialogInterface) {
+            String str = this.mInstallUrl;
             try {
-                appendUri = BrowserUtils.appendUri(this.mInstallUrl, "update_setup_failed=true");
+                str = BrowserUtils.appendUri(str, "update_setup_failed=true");
             } catch (URISyntaxException e) {
                 AppCenterLog.error("AppCenterDistribute", "Could not append query parameter to url.", e);
             }
-            BrowserUtils.openBrowser(appendUri, this.mForegroundActivity);
+            BrowserUtils.openBrowser(str, this.mForegroundActivity);
             SharedPreferencesManager.remove("Distribute.update_setup_failed_package_hash");
             SharedPreferencesManager.remove("Distribute.tester_app_update_setup_failed_message");
         } else {
@@ -446,109 +449,115 @@ public class Distribute extends AbstractAppCenterService {
                 AppCenterLog.info("AppCenterDistribute", "Not checking for in-app updates in debuggable build.");
                 this.mWorkflowCompleted = true;
                 this.mManualCheckForUpdateRequested = false;
-            } else if (InstallerUtils.isInstalledFromAppStore("AppCenterDistribute", this.mContext)) {
+                return;
+            }
+            if (InstallerUtils.isInstalledFromAppStore("AppCenterDistribute", this.mContext)) {
                 AppCenterLog.info("AppCenterDistribute", "Not checking in app updates as installed from a store.");
                 this.mWorkflowCompleted = true;
                 this.mManualCheckForUpdateRequested = false;
-            } else {
-                boolean z = this.mUpdateTrack == 1;
-                if (!z && (string = SharedPreferencesManager.getString("Distribute.update_setup_failed_package_hash")) != null) {
-                    if (DistributeUtils.computeReleaseHash(this.mPackageInfo).equals(string)) {
-                        AppCenterLog.info("AppCenterDistribute", "Skipping in-app updates setup, because it already failed on this release before.");
-                        return;
-                    }
-                    AppCenterLog.info("AppCenterDistribute", "Re-attempting in-app updates setup and cleaning up failure info from storage.");
-                    SharedPreferencesManager.remove("Distribute.update_setup_failed_package_hash");
-                    SharedPreferencesManager.remove("Distribute.update_setup_failed_message");
-                    SharedPreferencesManager.remove("Distribute.tester_app_update_setup_failed_message");
-                }
-                String str = null;
-                if (this.mBeforeStartRequestId != null) {
-                    AppCenterLog.debug("AppCenterDistribute", "Processing redirection parameters we kept in memory before onStarted");
-                    String str2 = this.mBeforeStartDistributionGroupId;
-                    if (str2 != null) {
-                        storeRedirectionParameters(this.mBeforeStartRequestId, str2, this.mBeforeStartUpdateToken);
-                    } else {
-                        String str3 = this.mBeforeStartUpdateSetupFailed;
-                        if (str3 != null) {
-                            storeUpdateSetupFailedParameter(this.mBeforeStartRequestId, str3);
-                        }
-                    }
-                    String str4 = this.mBeforeStartTesterAppUpdateSetupFailed;
-                    if (str4 != null) {
-                        storeTesterAppUpdateSetupFailedParameter(this.mBeforeStartRequestId, str4);
-                    }
-                    this.mBeforeStartRequestId = null;
-                    this.mBeforeStartDistributionGroupId = null;
-                    this.mBeforeStartUpdateToken = null;
-                    this.mBeforeStartUpdateSetupFailed = null;
-                    this.mBeforeStartTesterAppUpdateSetupFailed = null;
+                return;
+            }
+            boolean z = this.mUpdateTrack == 1;
+            if (!z && (string = SharedPreferencesManager.getString("Distribute.update_setup_failed_package_hash")) != null) {
+                if (DistributeUtils.computeReleaseHash(this.mPackageInfo).equals(string)) {
+                    AppCenterLog.info("AppCenterDistribute", "Skipping in-app updates setup, because it already failed on this release before.");
                     return;
                 }
-                int storedDownloadState = DistributeUtils.getStoredDownloadState();
-                if (this.mReleaseDetails == null && storedDownloadState != 0) {
-                    updateReleaseDetails(DistributeUtils.loadCachedReleaseDetails());
-                    ReleaseDetails releaseDetails = this.mReleaseDetails;
-                    if (releaseDetails != null && !releaseDetails.isMandatoryUpdate() && NetworkStateHelper.getSharedInstance(this.mContext).isNetworkConnected() && storedDownloadState == 1) {
-                        cancelPreviousTasks();
+                AppCenterLog.info("AppCenterDistribute", "Re-attempting in-app updates setup and cleaning up failure info from storage.");
+                SharedPreferencesManager.remove("Distribute.update_setup_failed_package_hash");
+                SharedPreferencesManager.remove("Distribute.update_setup_failed_message");
+                SharedPreferencesManager.remove("Distribute.tester_app_update_setup_failed_message");
+            }
+            String str = null;
+            if (this.mBeforeStartRequestId != null) {
+                AppCenterLog.debug("AppCenterDistribute", "Processing redirection parameters we kept in memory before onStarted");
+                String str2 = this.mBeforeStartDistributionGroupId;
+                if (str2 != null) {
+                    storeRedirectionParameters(this.mBeforeStartRequestId, str2, this.mBeforeStartUpdateToken);
+                } else {
+                    String str3 = this.mBeforeStartUpdateSetupFailed;
+                    if (str3 != null) {
+                        storeUpdateSetupFailedParameter(this.mBeforeStartRequestId, str3);
                     }
                 }
-                if (storedDownloadState != 0 && storedDownloadState != 1 && !this.mCheckedDownload) {
-                    if (this.mPackageInfo.lastUpdateTime > SharedPreferencesManager.getLong("Distribute.download_time")) {
-                        AppCenterLog.debug("AppCenterDistribute", "Discarding previous download as application updated.");
-                        cancelPreviousTasks();
-                    } else {
-                        this.mCheckedDownload = true;
-                        resumeDownload();
-                        ReleaseDetails releaseDetails2 = this.mReleaseDetails;
-                        if (releaseDetails2 == null || !releaseDetails2.isMandatoryUpdate() || storedDownloadState != 2) {
-                            return;
-                        }
-                    }
+                String str4 = this.mBeforeStartTesterAppUpdateSetupFailed;
+                if (str4 != null) {
+                    storeTesterAppUpdateSetupFailedParameter(this.mBeforeStartRequestId, str4);
                 }
-                ReleaseDetails releaseDetails3 = this.mReleaseDetails;
-                if (releaseDetails3 != null) {
-                    if (storedDownloadState == 4) {
-                        showMandatoryDownloadReadyDialog();
-                    } else if (storedDownloadState == 2) {
-                        resumeDownload();
-                        showDownloadProgress();
-                    } else if (this.mUnknownSourcesDialog != null) {
-                        enqueueDownloadOrShowUnknownSourcesDialog(releaseDetails3);
-                    } else {
-                        ReleaseDownloader releaseDownloader = this.mReleaseDownloader;
-                        if (releaseDownloader == null || !releaseDownloader.isDownloading()) {
-                            showUpdateDialog();
-                        }
-                    }
-                    if (storedDownloadState != 1 && storedDownloadState != 4) {
+                this.mBeforeStartRequestId = null;
+                this.mBeforeStartDistributionGroupId = null;
+                this.mBeforeStartUpdateToken = null;
+                this.mBeforeStartUpdateSetupFailed = null;
+                this.mBeforeStartTesterAppUpdateSetupFailed = null;
+                return;
+            }
+            int storedDownloadState = DistributeUtils.getStoredDownloadState();
+            if (this.mReleaseDetails == null && storedDownloadState != 0) {
+                updateReleaseDetails(DistributeUtils.loadCachedReleaseDetails());
+                ReleaseDetails releaseDetails = this.mReleaseDetails;
+                if (releaseDetails != null && !releaseDetails.isMandatoryUpdate() && NetworkStateHelper.getSharedInstance(this.mContext).isNetworkConnected() && storedDownloadState == 1) {
+                    cancelPreviousTasks();
+                }
+            }
+            if (storedDownloadState != 0 && storedDownloadState != 1 && !this.mCheckedDownload) {
+                if (this.mPackageInfo.lastUpdateTime > SharedPreferencesManager.getLong("Distribute.download_time")) {
+                    AppCenterLog.debug("AppCenterDistribute", "Discarding previous download as application updated.");
+                    cancelPreviousTasks();
+                } else {
+                    this.mCheckedDownload = true;
+                    resumeDownload();
+                    ReleaseDetails releaseDetails2 = this.mReleaseDetails;
+                    if (releaseDetails2 == null || !releaseDetails2.isMandatoryUpdate() || storedDownloadState != 2) {
                         return;
                     }
                 }
-                if (SharedPreferencesManager.getString("Distribute.update_setup_failed_message") != null) {
-                    AppCenterLog.debug("AppCenterDistribute", "In-app updates setup failure detected.");
-                    showUpdateSetupFailedDialog();
-                } else if (this.mCheckReleaseCallId != null) {
-                    AppCenterLog.verbose("AppCenterDistribute", "Already checking or checked latest release.");
-                } else if (this.mAutomaticCheckForUpdateDisabled && !this.mManualCheckForUpdateRequested) {
-                    AppCenterLog.debug("AppCenterDistribute", "Automatic check for update is disabled. The SDK will not check for update now.");
+            }
+            ReleaseDetails releaseDetails3 = this.mReleaseDetails;
+            if (releaseDetails3 != null) {
+                if (storedDownloadState == 4) {
+                    showMandatoryDownloadReadyDialog();
+                } else if (storedDownloadState == 2) {
+                    resumeDownload();
+                    showDownloadProgress();
+                } else if (this.mUnknownSourcesDialog != null) {
+                    enqueueDownloadOrShowUnknownSourcesDialog(releaseDetails3);
                 } else {
-                    String string2 = SharedPreferencesManager.getString("Distribute.update_token");
-                    String string3 = SharedPreferencesManager.getString("Distribute.distribution_group_id");
-                    if (!z && string2 == null) {
-                        String string4 = SharedPreferencesManager.getString("Distribute.tester_app_update_setup_failed_message");
-                        if (isAppCenterTesterAppInstalled() && TextUtils.isEmpty(string4) && !this.mContext.getPackageName().equals("com.microsoft.hockeyapp.testerapp") && !this.mTesterAppOpenedOrAborted) {
-                            DistributeUtils.updateSetupUsingTesterApp(this.mForegroundActivity, this.mPackageInfo);
-                            this.mTesterAppOpenedOrAborted = true;
-                        } else if (!this.mBrowserOpenedOrAborted) {
-                            DistributeUtils.updateSetupUsingBrowser(this.mForegroundActivity, this.mInstallUrl, this.mAppSecret, this.mPackageInfo);
-                            this.mBrowserOpenedOrAborted = true;
-                        }
+                    ReleaseDownloader releaseDownloader = this.mReleaseDownloader;
+                    if (releaseDownloader == null || !releaseDownloader.isDownloading()) {
+                        showUpdateDialog();
                     }
-                    str = string2;
-                    decryptAndGetReleaseDetails(str, string3);
+                }
+                if (storedDownloadState != 1 && storedDownloadState != 4) {
+                    return;
                 }
             }
+            if (SharedPreferencesManager.getString("Distribute.update_setup_failed_message") != null) {
+                AppCenterLog.debug("AppCenterDistribute", "In-app updates setup failure detected.");
+                showUpdateSetupFailedDialog();
+                return;
+            }
+            if (this.mCheckReleaseCallId != null) {
+                AppCenterLog.verbose("AppCenterDistribute", "Already checking or checked latest release.");
+                return;
+            }
+            if (this.mAutomaticCheckForUpdateDisabled && !this.mManualCheckForUpdateRequested) {
+                AppCenterLog.debug("AppCenterDistribute", "Automatic check for update is disabled. The SDK will not check for update now.");
+                return;
+            }
+            String string2 = SharedPreferencesManager.getString("Distribute.update_token");
+            String string3 = SharedPreferencesManager.getString("Distribute.distribution_group_id");
+            if (!z && string2 == null) {
+                String string4 = SharedPreferencesManager.getString("Distribute.tester_app_update_setup_failed_message");
+                if (isAppCenterTesterAppInstalled() && TextUtils.isEmpty(string4) && !this.mContext.getPackageName().equals("com.microsoft.hockeyapp.testerapp") && !this.mTesterAppOpenedOrAborted) {
+                    DistributeUtils.updateSetupUsingTesterApp(this.mForegroundActivity, this.mPackageInfo);
+                    this.mTesterAppOpenedOrAborted = true;
+                } else if (!this.mBrowserOpenedOrAborted) {
+                    DistributeUtils.updateSetupUsingBrowser(this.mForegroundActivity, this.mInstallUrl, this.mAppSecret, this.mPackageInfo);
+                    this.mBrowserOpenedOrAborted = true;
+                }
+            }
+            str = string2;
+            decryptAndGetReleaseDetails(str, string3);
         }
     }
 
@@ -639,7 +648,7 @@ public class Distribute extends AbstractAppCenterService {
                 if (releaseDetails.isMandatoryUpdate()) {
                     builder.setCancelable(false);
                 } else {
-                    builder.setNegativeButton(17039360, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.9
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.9
                         @Override // android.content.DialogInterface.OnClickListener
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Distribute.this.completeWorkflow(releaseDetails);
@@ -762,12 +771,12 @@ public class Distribute extends AbstractAppCenterService {
     }
 
     private boolean tryResetWorkflow() {
-        if (DistributeUtils.getStoredDownloadState() == 0 && this.mCheckReleaseCallId == null) {
-            this.mWorkflowCompleted = false;
-            this.mBrowserOpenedOrAborted = false;
-            return true;
+        if (DistributeUtils.getStoredDownloadState() != 0 || this.mCheckReleaseCallId != null) {
+            return false;
         }
-        return false;
+        this.mWorkflowCompleted = false;
+        this.mBrowserOpenedOrAborted = false;
+        return true;
     }
 
     private synchronized void updateReleaseDetails(ReleaseDetails releaseDetails) {
@@ -926,8 +935,7 @@ public class Distribute extends AbstractAppCenterService {
                 @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
                 public void onBeforeCalling(URL url, Map map) {
                     if (AppCenterLog.getLogLevel() <= 2) {
-                        String replaceAll = url.toString().replaceAll(Distribute.this.mAppSecret, HttpUtils.hideSecret(Distribute.this.mAppSecret));
-                        AppCenterLog.verbose("AppCenterDistribute", "Calling " + replaceAll + "...");
+                        AppCenterLog.verbose("AppCenterDistribute", "Calling " + url.toString().replaceAll(Distribute.this.mAppSecret, HttpUtils.hideSecret(Distribute.this.mAppSecret)) + "...");
                         HashMap hashMap2 = new HashMap(map);
                         String str4 = (String) hashMap2.get("x-api-token");
                         if (str4 != null) {
@@ -1050,7 +1058,7 @@ public class Distribute extends AbstractAppCenterService {
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void resumeApp(Context context) {
         if (this.mForegroundActivity == null) {
-            Intent intent = new Intent(context, DeepLinkActivity.class);
+            Intent intent = new Intent(context, (Class<?>) DeepLinkActivity.class);
             intent.addFlags(268435456);
             context.startActivity(intent);
         }

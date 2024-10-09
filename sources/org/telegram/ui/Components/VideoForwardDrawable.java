@@ -10,6 +10,7 @@ import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public class VideoForwardDrawable extends Drawable {
     private static final int[] playPath = {10, 7, 26, 16, 10, 25};
@@ -47,17 +48,16 @@ public class VideoForwardDrawable extends Drawable {
         this.path1.reset();
         int i = 0;
         while (true) {
-            int[] iArr = playPath;
-            if (i >= iArr.length / 2) {
+            if (i >= playPath.length / 2) {
                 this.path1.close();
                 return;
             }
             Path path = this.path1;
             int i2 = i * 2;
             if (i == 0) {
-                path.moveTo(AndroidUtilities.dp(iArr[i2]), AndroidUtilities.dp(iArr[i2 + 1]));
+                path.moveTo(AndroidUtilities.dp(r0[i2]), AndroidUtilities.dp(r0[i2 + 1]));
             } else {
-                path.lineTo(AndroidUtilities.dp(iArr[i2]), AndroidUtilities.dp(iArr[i2 + 1]));
+                path.lineTo(AndroidUtilities.dp(r0[i2]), AndroidUtilities.dp(r0[i2 + 1]));
             }
             i++;
         }
@@ -78,8 +78,8 @@ public class VideoForwardDrawable extends Drawable {
         this.timeStr = LocaleController.formatPluralString("Seconds", (int) (j2 / 1000), new Object[0]);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x0297  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x029a  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0297  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x029a  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -143,7 +143,7 @@ public class VideoForwardDrawable extends Drawable {
         canvas.translate(f5, f6);
         float f7 = this.animationProgress;
         if (f7 <= 0.6f) {
-            int min = f7 < 0.4f ? Math.min((int) NotificationCenter.closeSearchByActiveAction, (int) ((f7 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f7 - 0.4f) / 0.2f)) * 255.0f);
+            int min = f7 < 0.4f ? Math.min(NotificationCenter.closeSearchByActiveAction, (int) ((f7 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f7 - 0.4f) / 0.2f)) * 255.0f);
             if (!this.isOneShootAnimation) {
                 min = (int) (min * this.enterAnimationProgress);
             }
@@ -154,7 +154,7 @@ public class VideoForwardDrawable extends Drawable {
         float f8 = this.animationProgress;
         if (f8 >= 0.2f && f8 <= 0.8f) {
             float f9 = f8 - 0.2f;
-            int min2 = f9 < 0.4f ? Math.min((int) NotificationCenter.closeSearchByActiveAction, (int) ((f9 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f9 - 0.4f) / 0.2f)) * 255.0f);
+            int min2 = f9 < 0.4f ? Math.min(NotificationCenter.closeSearchByActiveAction, (int) ((f9 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f9 - 0.4f) / 0.2f)) * 255.0f);
             if (!this.isOneShootAnimation) {
                 min2 = (int) (min2 * this.enterAnimationProgress);
             }
@@ -165,7 +165,7 @@ public class VideoForwardDrawable extends Drawable {
         float f10 = this.animationProgress;
         if (f10 >= 0.4f && f10 <= 1.0f) {
             float f11 = f10 - 0.4f;
-            int min3 = f11 < 0.4f ? Math.min((int) NotificationCenter.closeSearchByActiveAction, (int) ((f11 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f11 - 0.4f) / 0.2f)) * 255.0f);
+            int min3 = f11 < 0.4f ? Math.min(NotificationCenter.closeSearchByActiveAction, (int) ((f11 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f11 - 0.4f) / 0.2f)) * 255.0f);
             if (!this.isOneShootAnimation) {
                 min3 = (int) (min3 * this.enterAnimationProgress);
             }
@@ -186,9 +186,8 @@ public class VideoForwardDrawable extends Drawable {
         if (f12 < 1.0f) {
             float f13 = f12 + (((float) j) / 800.0f);
             this.animationProgress = f13;
-            int i2 = (f13 > 1.0f ? 1 : (f13 == 1.0f ? 0 : -1));
             if (this.isOneShootAnimation) {
-                if (i2 >= 0) {
+                if (f13 >= 1.0f) {
                     this.animationProgress = 0.0f;
                     this.animating = false;
                     this.time = 0L;
@@ -198,7 +197,7 @@ public class VideoForwardDrawable extends Drawable {
                         videoForwardDrawableDelegate.onAnimationEnd();
                     }
                 }
-            } else if (i2 >= 0) {
+            } else if (f13 >= 1.0f) {
                 if (this.showing) {
                     this.animationProgress = 0.0f;
                 } else {
@@ -220,10 +219,11 @@ public class VideoForwardDrawable extends Drawable {
                 if (f2 >= 0.0f) {
                     this.enterAnimationProgress = 0.0f;
                     return;
-                } else if (f2 > 1.0f) {
-                    this.enterAnimationProgress = 1.0f;
-                    return;
                 } else {
+                    if (f2 > 1.0f) {
+                        this.enterAnimationProgress = 1.0f;
+                        return;
+                    }
                     return;
                 }
             }

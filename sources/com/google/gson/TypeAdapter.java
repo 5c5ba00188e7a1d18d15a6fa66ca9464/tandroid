@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+
 /* loaded from: classes.dex */
 public abstract class TypeAdapter {
     public final Object fromJson(Reader reader) {
@@ -32,11 +33,11 @@ public abstract class TypeAdapter {
         return new TypeAdapter() { // from class: com.google.gson.TypeAdapter.1
             @Override // com.google.gson.TypeAdapter
             public Object read(JsonReader jsonReader) {
-                if (jsonReader.peek() == JsonToken.NULL) {
-                    jsonReader.nextNull();
-                    return null;
+                if (jsonReader.peek() != JsonToken.NULL) {
+                    return TypeAdapter.this.read(jsonReader);
                 }
-                return TypeAdapter.this.read(jsonReader);
+                jsonReader.nextNull();
+                return null;
             }
 
             @Override // com.google.gson.TypeAdapter

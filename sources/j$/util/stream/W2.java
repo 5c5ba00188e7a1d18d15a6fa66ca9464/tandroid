@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class W2 extends Y2 implements j$.util.function.F {
     final int[] c = new int[128];

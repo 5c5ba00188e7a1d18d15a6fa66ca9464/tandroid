@@ -1,6 +1,7 @@
 package org.webrtc;
 
 import org.webrtc.EncodedImage;
+
 /* loaded from: classes.dex */
 public interface VideoEncoder {
 
@@ -32,10 +33,9 @@ public interface VideoEncoder {
         }
 
         public int getSum() {
-            int[][] iArr;
             int i = 0;
-            for (int[] iArr2 : this.bitratesBbs) {
-                for (int i2 : iArr2) {
+            for (int[] iArr : this.bitratesBbs) {
+                for (int i2 : iArr) {
                     i += i2;
                 }
             }
@@ -181,10 +181,10 @@ public interface VideoEncoder {
         }
 
         public String toString() {
-            if (this.on) {
-                return "[ " + this.low + ", " + this.high + " ]";
+            if (!this.on) {
+                return "OFF";
             }
-            return "OFF";
+            return "[ " + this.low + ", " + this.high + " ]";
         }
     }
 

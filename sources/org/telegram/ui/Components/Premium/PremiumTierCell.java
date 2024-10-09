@@ -23,6 +23,7 @@ import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CheckBoxBase;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.PremiumPreviewFragment;
+
 /* loaded from: classes3.dex */
 public class PremiumTierCell extends ViewGroup {
     private CheckBox2 checkBox;
@@ -117,8 +118,8 @@ public class PremiumTierCell extends ViewGroup {
         view.layout(rect.left, rect.top, rect.right, rect.bottom);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0055  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00d9  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0055  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00d9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -138,44 +139,45 @@ public class PremiumTierCell extends ViewGroup {
         } else if (months == 6) {
             textView = this.titleView;
             i = R.string.PremiumTierSemiannual;
-        } else if (months != 12) {
-            textView = this.titleView;
-            string = LocaleController.formatPluralString("Months", subscriptionTier.getMonths(), new Object[0]);
-            textView.setText(string);
-            z2 = BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || subscriptionTier.getOfferDetails() == null);
-            this.isDrawingGradient = z2;
-            if (z2) {
-                if (subscriptionTier.getDiscount() <= 0) {
-                    this.discountView.setVisibility(8);
-                    this.pricePerYearStrikeView.setVisibility(8);
-                    this.pricePerYearView.setVisibility(8);
-                } else {
-                    this.discountView.setText(LocaleController.formatString(R.string.GiftPremiumOptionDiscount, Integer.valueOf(subscriptionTier.getDiscount())));
-                    this.discountView.setVisibility(0);
-                    this.pricePerYearStrikeView.setVisibility(0);
-                    this.pricePerYearView.setVisibility(0);
+        } else {
+            if (months != 12) {
+                textView = this.titleView;
+                string = LocaleController.formatPluralString("Months", subscriptionTier.getMonths(), new Object[0]);
+                textView.setText(string);
+                z2 = BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || subscriptionTier.getOfferDetails() == null);
+                this.isDrawingGradient = z2;
+                if (z2) {
+                    if (subscriptionTier.getDiscount() <= 0) {
+                        this.discountView.setVisibility(8);
+                        this.pricePerYearStrikeView.setVisibility(8);
+                        this.pricePerYearView.setVisibility(8);
+                    } else {
+                        this.discountView.setText(LocaleController.formatString(R.string.GiftPremiumOptionDiscount, Integer.valueOf(subscriptionTier.getDiscount())));
+                        this.discountView.setVisibility(0);
+                        this.pricePerYearStrikeView.setVisibility(0);
+                        this.pricePerYearView.setVisibility(0);
+                    }
+                    this.pricePerYearStrikeView.setText(subscriptionTier.getFormattedPricePerYearRegular());
+                    this.pricePerYearView.setText(LocaleController.formatString(R.string.PricePerYear, subscriptionTier.getFormattedPricePerYear()));
+                    this.pricePerMonthView.setText(LocaleController.formatString(R.string.PricePerMonthMe, subscriptionTier.getFormattedPricePerMonth()));
+                    if (subscriptionTier.subscriptionOption.current) {
+                        this.pricePerYearView.setVisibility(0);
+                        textView2 = this.pricePerYearView;
+                        formatString = LocaleController.getString(R.string.YourCurrentPlan);
+                    }
+                    requestLayout();
                 }
-                this.pricePerYearStrikeView.setText(subscriptionTier.getFormattedPricePerYearRegular());
-                this.pricePerYearView.setText(LocaleController.formatString(R.string.PricePerYear, subscriptionTier.getFormattedPricePerYear()));
-                this.pricePerMonthView.setText(LocaleController.formatString(R.string.PricePerMonthMe, subscriptionTier.getFormattedPricePerMonth()));
-                if (subscriptionTier.subscriptionOption.current) {
-                    this.pricePerYearView.setVisibility(0);
-                    textView2 = this.pricePerYearView;
-                    formatString = LocaleController.getString(R.string.YourCurrentPlan);
-                }
+                this.discountView.setText(LocaleController.formatString(R.string.GiftPremiumOptionDiscount, 10));
+                this.discountView.setVisibility(0);
+                this.pricePerYearStrikeView.setVisibility(0);
+                this.pricePerYearView.setVisibility(0);
+                this.pricePerYearStrikeView.setText("USD00.00");
+                this.pricePerYearView.setText(LocaleController.formatString(R.string.PricePerYear, 1000));
+                textView2 = this.pricePerMonthView;
+                formatString = LocaleController.formatString(R.string.PricePerMonthMe, 100);
+                textView2.setText(formatString);
                 requestLayout();
             }
-            this.discountView.setText(LocaleController.formatString(R.string.GiftPremiumOptionDiscount, 10));
-            this.discountView.setVisibility(0);
-            this.pricePerYearStrikeView.setVisibility(0);
-            this.pricePerYearView.setVisibility(0);
-            this.pricePerYearStrikeView.setText("USD00.00");
-            this.pricePerYearView.setText(LocaleController.formatString(R.string.PricePerYear, 1000));
-            textView2 = this.pricePerMonthView;
-            formatString = LocaleController.formatString(R.string.PricePerMonthMe, 100);
-            textView2.setText(formatString);
-            requestLayout();
-        } else {
             textView = this.titleView;
             i = R.string.PremiumTierAnnual;
         }

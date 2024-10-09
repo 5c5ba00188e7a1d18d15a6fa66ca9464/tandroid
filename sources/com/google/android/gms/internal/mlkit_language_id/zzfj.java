@@ -1,8 +1,15 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 abstract class zzfj {
-    private static final zzfj zza = new zzfl();
-    private static final zzfj zzb = new zzfk();
+    private static final zzfj zza;
+    private static final zzfj zzb;
+
+    static {
+        zzfi zzfiVar = null;
+        zza = new zzfl();
+        zzb = new zzfk();
+    }
 
     private zzfj() {
     }

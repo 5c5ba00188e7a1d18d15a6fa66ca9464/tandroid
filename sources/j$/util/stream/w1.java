@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class w1 extends t0 {
     final /* synthetic */ j$.util.function.j h;

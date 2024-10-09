@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class TL_bots {
 
@@ -816,11 +817,11 @@ public class TL_bots {
                 if (z) {
                     throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt323)));
                 }
-                return;
-            }
-            int readInt324 = abstractSerializedData.readInt32(z);
-            for (int i2 = 0; i2 < readInt324; i2++) {
-                this.lang_codes.add(abstractSerializedData.readString(z));
+            } else {
+                int readInt324 = abstractSerializedData.readInt32(z);
+                for (int i2 = 0; i2 < readInt324; i2++) {
+                    this.lang_codes.add(abstractSerializedData.readString(z));
+                }
             }
         }
 

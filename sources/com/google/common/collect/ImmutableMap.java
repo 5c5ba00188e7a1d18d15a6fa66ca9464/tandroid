@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.SortedMap;
+
 /* loaded from: classes.dex */
 public abstract class ImmutableMap implements Map, Serializable, j$.util.Map {
     static final Map.Entry[] EMPTY_ENTRY_ARRAY = new Map.Entry[0];
@@ -78,31 +79,31 @@ public abstract class ImmutableMap implements Map, Serializable, j$.util.Map {
             Object[] objArr;
             DuplicateKey duplicateKey;
             DuplicateKey duplicateKey2;
-            if (!z || (duplicateKey2 = this.duplicateKey) == null) {
-                int i = this.size;
-                if (this.valueComparator == null) {
-                    objArr = this.alternatingKeysAndValues;
-                } else {
-                    if (this.entriesUsed) {
-                        this.alternatingKeysAndValues = Arrays.copyOf(this.alternatingKeysAndValues, i * 2);
-                    }
-                    objArr = this.alternatingKeysAndValues;
-                    if (!z) {
-                        objArr = lastEntryForEachKey(objArr, this.size);
-                        if (objArr.length < this.alternatingKeysAndValues.length) {
-                            i = objArr.length >>> 1;
-                        }
-                    }
-                    sortEntries(objArr, i, this.valueComparator);
-                }
-                this.entriesUsed = true;
-                RegularImmutableMap create = RegularImmutableMap.create(i, objArr, this);
-                if (!z || (duplicateKey = this.duplicateKey) == null) {
-                    return create;
-                }
-                throw duplicateKey.exception();
+            if (z && (duplicateKey2 = this.duplicateKey) != null) {
+                throw duplicateKey2.exception();
             }
-            throw duplicateKey2.exception();
+            int i = this.size;
+            if (this.valueComparator == null) {
+                objArr = this.alternatingKeysAndValues;
+            } else {
+                if (this.entriesUsed) {
+                    this.alternatingKeysAndValues = Arrays.copyOf(this.alternatingKeysAndValues, i * 2);
+                }
+                objArr = this.alternatingKeysAndValues;
+                if (!z) {
+                    objArr = lastEntryForEachKey(objArr, this.size);
+                    if (objArr.length < this.alternatingKeysAndValues.length) {
+                        i = objArr.length >>> 1;
+                    }
+                }
+                sortEntries(objArr, i, this.valueComparator);
+            }
+            this.entriesUsed = true;
+            RegularImmutableMap create = RegularImmutableMap.create(i, objArr, this);
+            if (!z || (duplicateKey = this.duplicateKey) == null) {
+                return create;
+            }
+            throw duplicateKey.exception();
         }
 
         private void ensureCapacity(int i) {
@@ -280,12 +281,12 @@ public abstract class ImmutableMap implements Map, Serializable, j$.util.Map {
     @Override // java.util.Map
     public ImmutableSet entrySet() {
         ImmutableSet immutableSet = this.entrySet;
-        if (immutableSet == null) {
-            ImmutableSet createEntrySet = createEntrySet();
-            this.entrySet = createEntrySet;
-            return createEntrySet;
+        if (immutableSet != null) {
+            return immutableSet;
         }
-        return immutableSet;
+        ImmutableSet createEntrySet = createEntrySet();
+        this.entrySet = createEntrySet;
+        return createEntrySet;
     }
 
     @Override // java.util.Map
@@ -327,12 +328,12 @@ public abstract class ImmutableMap implements Map, Serializable, j$.util.Map {
     @Override // java.util.Map
     public ImmutableSet keySet() {
         ImmutableSet immutableSet = this.keySet;
-        if (immutableSet == null) {
-            ImmutableSet createKeySet = createKeySet();
-            this.keySet = createKeySet;
-            return createKeySet;
+        if (immutableSet != null) {
+            return immutableSet;
         }
-        return immutableSet;
+        ImmutableSet createKeySet = createKeySet();
+        this.keySet = createKeySet;
+        return createKeySet;
     }
 
     @Override // j$.util.Map
@@ -397,11 +398,11 @@ public abstract class ImmutableMap implements Map, Serializable, j$.util.Map {
     @Override // java.util.Map
     public ImmutableCollection values() {
         ImmutableCollection immutableCollection = this.values;
-        if (immutableCollection == null) {
-            ImmutableCollection createValues = createValues();
-            this.values = createValues;
-            return createValues;
+        if (immutableCollection != null) {
+            return immutableCollection;
         }
-        return immutableCollection;
+        ImmutableCollection createValues = createValues();
+        this.values = createValues;
+        return createValues;
     }
 }

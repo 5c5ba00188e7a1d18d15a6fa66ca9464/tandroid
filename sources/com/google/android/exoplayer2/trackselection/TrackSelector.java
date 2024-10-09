@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.util.Assertions;
+
 /* loaded from: classes.dex */
 public abstract class TrackSelector {
     private BandwidthMeter bandwidthMeter;

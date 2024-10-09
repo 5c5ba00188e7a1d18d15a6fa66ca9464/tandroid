@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.extractor.ts;
 
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 final class NalUnitTargetBuffer {
     private boolean isCompleted;
@@ -32,13 +33,13 @@ final class NalUnitTargetBuffer {
     }
 
     public boolean endNalUnit(int i) {
-        if (this.isFilling) {
-            this.nalLength -= i;
-            this.isFilling = false;
-            this.isCompleted = true;
-            return true;
+        if (!this.isFilling) {
+            return false;
         }
-        return false;
+        this.nalLength -= i;
+        this.isFilling = false;
+        this.isCompleted = true;
+        return true;
     }
 
     public boolean isCompleted() {

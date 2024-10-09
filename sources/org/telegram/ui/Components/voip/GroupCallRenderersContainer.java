@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -51,6 +52,7 @@ import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.GroupCallActivity;
 import org.webrtc.TextureViewRenderer;
+
 /* loaded from: classes3.dex */
 public abstract class GroupCallRenderersContainer extends FrameLayout {
     private boolean animateSpeakingOnNextDraw;
@@ -182,7 +184,7 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
         this.rightShadowDrawable = gradientDrawable2;
         view2.setBackground(gradientDrawable2);
         view2.setVisibility((call == null || !isRtmpStream()) ? 8 : 0);
-        addView(view2, LayoutHelper.createFrame((int) NotificationCenter.audioRouteChanged, -1, 5));
+        addView(view2, LayoutHelper.createFrame(NotificationCenter.audioRouteChanged, -1, 5));
         addView(imageView, LayoutHelper.createFrame(56, -1, 51));
         imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
@@ -471,10 +473,13 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
             if (!AndroidUtilities.checkInlinePermissions(groupCallActivity.getParentActivity())) {
                 AlertsCreator.createDrawOverlayPermissionDialog(groupCallActivity.getParentActivity(), null).show();
                 return;
+            } else {
+                RTMPStreamPipOverlay.show();
+                groupCallActivity.dismiss();
+                return;
             }
-            RTMPStreamPipOverlay.show();
-            groupCallActivity.dismiss();
-        } else if (!AndroidUtilities.checkInlinePermissions(groupCallActivity.getParentActivity())) {
+        }
+        if (!AndroidUtilities.checkInlinePermissions(groupCallActivity.getParentActivity())) {
             AlertsCreator.createDrawOverlayGroupCallPermissionDialog(getContext()).show();
         } else {
             GroupCallPip.clearForce();
@@ -584,22 +589,21 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
     public void detach(GroupCallMiniTextureView groupCallMiniTextureView) {
         this.attachedRenderers.remove(groupCallMiniTextureView);
         long peerId = MessageObject.getPeerId(groupCallMiniTextureView.participant.participant.peer);
-        LongSparseIntArray longSparseIntArray = this.attachedPeerIds;
-        longSparseIntArray.put(peerId, longSparseIntArray.get(peerId, 0) - 1);
+        this.attachedPeerIds.put(peerId, r4.get(peerId, 0) - 1);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:126:0x03ce  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x03de  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x0421  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0433  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x044a  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0457  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x049b  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x04a3  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x04ae A[LOOP:1: B:159:0x04ae->B:166:0x0507, LOOP_START, PHI: r10 
-      PHI: (r10v1 int) = (r10v0 int), (r10v2 int) binds: [B:158:0x04ac, B:166:0x0507] A[DONT_GENERATE, DONT_INLINE]] */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x050a A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x050a A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x04a3  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0457  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0433  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x03de  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x03ce  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0421  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x044a  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x049b  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x04ae A[LOOP:1: B:86:0x04ae->B:94:0x0507, LOOP_START, PHI: r10
+      0x04ae: PHI (r10v1 int) = (r10v0 int), (r10v2 int) binds: [B:85:0x04ac, B:94:0x0507] A[DONT_GENERATE, DONT_INLINE]] */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -731,15 +735,16 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
             this.pipView.setAlpha(0.0f);
             this.pipView.setVisibility(4);
         }
+        float measuredWidth = getMeasuredWidth() - this.pinTextView.getMeasuredWidth();
         float currentActionBarHeight = ((ActionBar.getCurrentActionBarHeight() - this.pinTextView.getMeasuredHeight()) / 2.0f) - AndroidUtilities.dp(1.0f);
-        float measuredWidth = (((getMeasuredWidth() - this.unpinTextView.getMeasuredWidth()) * this.pinDrawable.getProgress()) + ((getMeasuredWidth() - this.pinTextView.getMeasuredWidth()) * (1.0f - this.pinDrawable.getProgress()))) - AndroidUtilities.dp(21.0f);
+        float measuredWidth2 = (((getMeasuredWidth() - this.unpinTextView.getMeasuredWidth()) * this.pinDrawable.getProgress()) + (measuredWidth * (1.0f - this.pinDrawable.getProgress()))) - AndroidUtilities.dp(21.0f);
         if (GroupCallActivity.isTabletMode) {
             f = 328.0f;
         } else if (GroupCallActivity.isLandscapeMode) {
             f = 180.0f;
         } else {
             i2 = 0;
-            float f9 = measuredWidth - i2;
+            float f9 = measuredWidth2 - i2;
             this.pinTextView.setTranslationX(f9);
             this.unpinTextView.setTranslationX(f9);
             this.pinTextView.setTranslationY(currentActionBarHeight);
@@ -839,7 +844,7 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
             }
         }
         i2 = AndroidUtilities.dp(f);
-        float f92 = measuredWidth - i2;
+        float f92 = measuredWidth2 - i2;
         this.pinTextView.setTranslationX(f92);
         this.unpinTextView.setTranslationX(f92);
         this.pinTextView.setTranslationY(currentActionBarHeight);
@@ -896,15 +901,17 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
                 canvas.save();
                 float f2 = 1.0f - f;
                 canvas.clipRect(0.0f, y * f2, getMeasuredWidth(), (measuredHeight * f2) + (getMeasuredHeight() * f));
-            } else if (!GroupCallActivity.isTabletMode) {
-                return super.drawChild(canvas, view, j);
             } else {
+                if (!GroupCallActivity.isTabletMode) {
+                    return super.drawChild(canvas, view, j);
+                }
                 canvas.save();
                 canvas.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
             }
-        } else if (!(view instanceof GroupCallMiniTextureView) || !((GroupCallMiniTextureView) view).drawFirst) {
-            return true;
         } else {
+            if (!(view instanceof GroupCallMiniTextureView) || !((GroupCallMiniTextureView) view).drawFirst) {
+                return true;
+            }
             float y2 = this.listView.getY() - getTop();
             float measuredHeight2 = (this.listView.getMeasuredHeight() + y2) - this.listView.getTranslationY();
             canvas.save();
@@ -949,12 +956,12 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
         return onTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x003d  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0080  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0087  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0099  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00a0  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0080  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0099  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0087  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x003d  */
     @Override // android.widget.FrameLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -969,18 +976,19 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
         if (GroupCallActivity.isTabletMode) {
             marginLayoutParams = (ViewGroup.MarginLayoutParams) this.topShadowView.getLayoutParams();
             f = 328.0f;
-        } else if (!GroupCallActivity.isLandscapeMode) {
-            ((ViewGroup.MarginLayoutParams) this.topShadowView.getLayoutParams()).rightMargin = 0;
-            this.rightShadowView.setVisibility((GroupCallActivity.isLandscapeMode || GroupCallActivity.isTabletMode) ? 8 : 0);
-            this.pinContainer.getLayoutParams().height = AndroidUtilities.dp(40.0f);
-            this.pinTextView.measure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 0), i2);
-            this.unpinTextView.measure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 0), i2);
-            this.pinContainer.getLayoutParams().width = AndroidUtilities.dp(46.0f) + (!this.hasPinnedVideo ? this.pinTextView : this.unpinTextView).getMeasuredWidth();
-            ((ViewGroup.MarginLayoutParams) this.speakingMembersToast.getLayoutParams()).rightMargin = GroupCallActivity.isLandscapeMode ? AndroidUtilities.dp(45.0f) : 0;
-            while (i4 < 2) {
-            }
-            super.onMeasure(i, i2);
         } else {
+            if (!GroupCallActivity.isLandscapeMode) {
+                ((ViewGroup.MarginLayoutParams) this.topShadowView.getLayoutParams()).rightMargin = 0;
+                this.rightShadowView.setVisibility((GroupCallActivity.isLandscapeMode || GroupCallActivity.isTabletMode) ? 8 : 0);
+                this.pinContainer.getLayoutParams().height = AndroidUtilities.dp(40.0f);
+                this.pinTextView.measure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 0), i2);
+                this.unpinTextView.measure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 0), i2);
+                this.pinContainer.getLayoutParams().width = AndroidUtilities.dp(46.0f) + (!this.hasPinnedVideo ? this.pinTextView : this.unpinTextView).getMeasuredWidth();
+                ((ViewGroup.MarginLayoutParams) this.speakingMembersToast.getLayoutParams()).rightMargin = GroupCallActivity.isLandscapeMode ? AndroidUtilities.dp(45.0f) : 0;
+                while (i4 < 2) {
+                }
+                super.onMeasure(i, i2);
+            }
             marginLayoutParams = (ViewGroup.MarginLayoutParams) this.topShadowView.getLayoutParams();
             if (isRtmpStream()) {
                 i3 = 0;
@@ -1021,10 +1029,11 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
         super.onMeasure(i, i2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:177:0x042f, code lost:
-        if (r0 == false) goto L124;
+    /* JADX WARN: Code restructure failed: missing block: B:141:0x042f, code lost:
+    
+        if (r0 == false) goto L159;
      */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x025d  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x025d  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1128,7 +1137,8 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
         if (!this.fullscreenTextureView.hasVideo || this.swipeToBackGesture) {
             finishZoom();
             return this.tapGesture || this.swipeToBackGesture || this.maybeSwipeToBackGesture;
-        } else if (motionEvent.getActionMasked() == 0 || motionEvent.getActionMasked() == 5) {
+        }
+        if (motionEvent.getActionMasked() == 0 || motionEvent.getActionMasked() == 5) {
             if (motionEvent.getActionMasked() == 0) {
                 TextureViewRenderer textureViewRenderer = this.fullscreenTextureView.textureView.renderer;
                 RectF rectF3 = AndroidUtilities.rectTmp;
@@ -1158,52 +1168,53 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
                 this.isInPinchToZoomTouchMode = true;
             }
             return !this.canZoomGesture ? true : true;
-        } else {
-            if (motionEvent.getActionMasked() == 2 && this.isInPinchToZoomTouchMode) {
-                int i2 = -1;
-                int i3 = -1;
-                for (int i4 = 0; i4 < motionEvent.getPointerCount(); i4++) {
-                    if (this.pointerId1 == motionEvent.getPointerId(i4)) {
-                        i2 = i4;
-                    }
-                    if (this.pointerId2 == motionEvent.getPointerId(i4)) {
-                        i3 = i4;
-                    }
+        }
+        if (motionEvent.getActionMasked() == 2 && this.isInPinchToZoomTouchMode) {
+            int i2 = -1;
+            int i3 = -1;
+            for (int i4 = 0; i4 < motionEvent.getPointerCount(); i4++) {
+                if (this.pointerId1 == motionEvent.getPointerId(i4)) {
+                    i2 = i4;
                 }
-                if (i2 == -1 || i3 == -1) {
-                    getParent().requestDisallowInterceptTouchEvent(false);
-                    finishZoom();
-                    return this.maybeSwipeToBackGesture;
+                if (this.pointerId2 == motionEvent.getPointerId(i4)) {
+                    i3 = i4;
                 }
-                float hypot = ((float) Math.hypot(motionEvent.getX(i3) - motionEvent.getX(i2), motionEvent.getY(i3) - motionEvent.getY(i2))) / this.pinchStartDistance;
-                this.pinchScale = hypot;
-                if (hypot > 1.005f && !this.zoomStarted) {
-                    this.pinchStartDistance = (float) Math.hypot(motionEvent.getX(i3) - motionEvent.getX(i2), motionEvent.getY(i3) - motionEvent.getY(i2));
-                    float x2 = (motionEvent.getX(i2) + motionEvent.getX(i3)) / 2.0f;
-                    this.pinchCenterX = x2;
-                    this.pinchStartCenterX = x2;
-                    float y2 = (motionEvent.getY(i2) + motionEvent.getY(i3)) / 2.0f;
-                    this.pinchCenterY = y2;
-                    this.pinchStartCenterY = y2;
-                    this.pinchScale = 1.0f;
-                    this.pinchTranslationX = 0.0f;
-                    this.pinchTranslationY = 0.0f;
-                    getParent().requestDisallowInterceptTouchEvent(true);
-                    this.zoomStarted = true;
-                    this.isInPinchToZoomTouchMode = true;
-                }
-                float x3 = this.pinchStartCenterX - ((motionEvent.getX(i2) + motionEvent.getX(i3)) / 2.0f);
-                float y3 = this.pinchStartCenterY - ((motionEvent.getY(i2) + motionEvent.getY(i3)) / 2.0f);
-                float f = this.pinchScale;
-                this.pinchTranslationX = (-x3) / f;
-                this.pinchTranslationY = (-y3) / f;
-                invalidate();
-            } else if (motionEvent.getActionMasked() == 1 || ((motionEvent.getActionMasked() == 6 && checkPointerIds(motionEvent)) || motionEvent.getActionMasked() == 3)) {
+            }
+            if (i2 == -1 || i3 == -1) {
                 getParent().requestDisallowInterceptTouchEvent(false);
                 finishZoom();
+                return this.maybeSwipeToBackGesture;
             }
-            return !this.canZoomGesture ? true : true;
+            float hypot = ((float) Math.hypot(motionEvent.getX(i3) - motionEvent.getX(i2), motionEvent.getY(i3) - motionEvent.getY(i2))) / this.pinchStartDistance;
+            this.pinchScale = hypot;
+            if (hypot > 1.005f && !this.zoomStarted) {
+                this.pinchStartDistance = (float) Math.hypot(motionEvent.getX(i3) - motionEvent.getX(i2), motionEvent.getY(i3) - motionEvent.getY(i2));
+                float x2 = (motionEvent.getX(i2) + motionEvent.getX(i3)) / 2.0f;
+                this.pinchCenterX = x2;
+                this.pinchStartCenterX = x2;
+                float y2 = (motionEvent.getY(i2) + motionEvent.getY(i3)) / 2.0f;
+                this.pinchCenterY = y2;
+                this.pinchStartCenterY = y2;
+                this.pinchScale = 1.0f;
+                this.pinchTranslationX = 0.0f;
+                this.pinchTranslationY = 0.0f;
+                getParent().requestDisallowInterceptTouchEvent(true);
+                this.zoomStarted = true;
+                this.isInPinchToZoomTouchMode = true;
+            }
+            float x3 = (motionEvent.getX(i2) + motionEvent.getX(i3)) / 2.0f;
+            float y3 = (motionEvent.getY(i2) + motionEvent.getY(i3)) / 2.0f;
+            float f = this.pinchStartCenterX - x3;
+            float f2 = this.pinchStartCenterY - y3;
+            float f3 = this.pinchScale;
+            this.pinchTranslationX = (-f) / f3;
+            this.pinchTranslationY = (-f2) / f3;
+            invalidate();
+        } else if (motionEvent.getActionMasked() == 1 || ((motionEvent.getActionMasked() == 6 && checkPointerIds(motionEvent)) || motionEvent.getActionMasked() == 3)) {
+            getParent().requestDisallowInterceptTouchEvent(false);
+            finishZoom();
         }
+        return !this.canZoomGesture ? true : true;
     }
 
     protected abstract void onUiVisibilityChanged();
@@ -1282,10 +1293,11 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
                     if (i >= this.attachedRenderers.size()) {
                         groupCallMiniTextureView = null;
                         break;
-                    } else if (((GroupCallMiniTextureView) this.attachedRenderers.get(i)).participant.equals(videoParticipant)) {
-                        groupCallMiniTextureView = (GroupCallMiniTextureView) this.attachedRenderers.get(i);
-                        break;
                     } else {
+                        if (((GroupCallMiniTextureView) this.attachedRenderers.get(i)).participant.equals(videoParticipant)) {
+                            groupCallMiniTextureView = (GroupCallMiniTextureView) this.attachedRenderers.get(i);
+                            break;
+                        }
                         i++;
                     }
                 }
@@ -1343,7 +1355,7 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
                         groupCallMiniTextureView8.animateEnter = true;
                         groupCallMiniTextureView8.setAlpha(0.0f);
                         this.outFullscreenTextureView = this.fullscreenTextureView;
-                        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(groupCallMiniTextureView8, View.ALPHA, 0.0f, 1.0f);
+                        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(groupCallMiniTextureView8, (Property<GroupCallMiniTextureView, Float>) View.ALPHA, 0.0f, 1.0f);
                         this.replaceFullscreenViewAnimator = ofFloat;
                         ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.8
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1503,7 +1515,7 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
                     groupCallMiniTextureView13.setFullscreenMode(this.inFullscreenMode, false);
                     this.fullscreenTextureView.setShowingInFullscreen(true, false);
                     this.fullscreenTextureView.setShowingInFullscreen(true, false);
-                    ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.fullscreenTextureView, View.ALPHA, 0.0f, 1.0f);
+                    ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.fullscreenTextureView, (Property<GroupCallMiniTextureView, Float>) View.ALPHA, 0.0f, 1.0f);
                     this.replaceFullscreenViewAnimator = ofFloat3;
                     ofFloat3.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.13
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1717,11 +1729,12 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
         boolean z4 = this.showSpeakingMembersToast;
         if (!z4 && z3) {
             z2 = false;
-        } else if (!z3 && z4) {
-            this.showSpeakingMembersToast = z3;
-            invalidate();
-            return;
         } else {
+            if (!z3 && z4) {
+                this.showSpeakingMembersToast = z3;
+                invalidate();
+                return;
+            }
             if (z4 && z3) {
                 this.speakingMembersToastFromLeft = this.speakingMembersToast.getLeft();
                 this.speakingMembersToastFromRight = this.speakingMembersToast.getRight();

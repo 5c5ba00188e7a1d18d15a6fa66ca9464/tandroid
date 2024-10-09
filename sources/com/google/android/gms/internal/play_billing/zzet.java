@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 final class zzet extends zzes {
     @Override // com.google.android.gms.internal.play_billing.zzes
@@ -23,7 +24,8 @@ final class zzet extends zzes {
                         }
                     }
                     return -1;
-                } else if (b >= -16) {
+                }
+                if (b >= -16) {
                     if (i4 >= i3 - 2) {
                         return zzev.zza(bArr, i4, i3);
                     }
@@ -38,18 +40,18 @@ final class zzet extends zzes {
                         }
                     }
                     return -1;
-                } else if (i4 >= i3 - 1) {
-                    return zzev.zza(bArr, i4, i3);
-                } else {
-                    int i7 = i2 + 2;
-                    byte b3 = bArr[i4];
-                    if (b3 <= -65 && ((b != -32 || b3 >= -96) && (b != -19 || b3 < -96))) {
-                        i2 += 3;
-                        if (bArr[i7] > -65) {
-                        }
-                    }
-                    return -1;
                 }
+                if (i4 >= i3 - 1) {
+                    return zzev.zza(bArr, i4, i3);
+                }
+                int i7 = i2 + 2;
+                byte b3 = bArr[i4];
+                if (b3 <= -65 && ((b != -32 || b3 >= -96) && (b != -19 || b3 < -96))) {
+                    i2 += 3;
+                    if (bArr[i7] > -65) {
+                    }
+                }
+                return -1;
             }
             i2 = i4;
         }

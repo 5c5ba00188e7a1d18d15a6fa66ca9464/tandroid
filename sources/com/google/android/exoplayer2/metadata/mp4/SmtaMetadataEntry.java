@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.common.primitives.Floats;
+
 /* loaded from: classes.dex */
 public final class SmtaMetadataEntry implements Metadata.Entry {
     public static final Parcelable.Creator<SmtaMetadataEntry> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.mp4.SmtaMetadataEntry.1

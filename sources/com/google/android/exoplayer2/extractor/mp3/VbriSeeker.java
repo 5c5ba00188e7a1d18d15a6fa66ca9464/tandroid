@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 final class VbriSeeker implements Seeker {
     private final long dataEndPosition;
@@ -49,9 +50,10 @@ final class VbriSeeker implements Seeker {
                 readUnsignedByte = parsableByteArray.readUnsignedShort();
             } else if (readUnsignedShort3 == 3) {
                 readUnsignedByte = parsableByteArray.readUnsignedInt24();
-            } else if (readUnsignedShort3 != 4) {
-                return null;
             } else {
+                if (readUnsignedShort3 != 4) {
+                    return null;
+                }
                 readUnsignedByte = parsableByteArray.readUnsignedIntToInt();
             }
             j4 += readUnsignedByte * i3;

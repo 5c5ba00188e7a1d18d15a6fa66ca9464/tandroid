@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 /* loaded from: classes.dex */
 public interface IGoogleMapDelegate extends IInterface {
     com.google.android.gms.internal.maps.zzl addCircle(CircleOptions circleOptions);

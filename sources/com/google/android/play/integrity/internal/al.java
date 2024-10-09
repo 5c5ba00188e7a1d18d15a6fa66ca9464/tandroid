@@ -1,4 +1,5 @@
 package com.google.android.play.integrity.internal;
+
 /* loaded from: classes.dex */
 public final class al implements ak {
     private static final al a = new al(null);

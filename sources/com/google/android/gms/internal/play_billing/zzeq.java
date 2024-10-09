@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import libcore.io.Memory;
 import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
+
 /* loaded from: classes.dex */
 abstract class zzeq {
     static final long zza;
@@ -20,9 +21,9 @@ abstract class zzeq {
     private static final boolean zzg;
     private static final boolean zzh;
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x006d  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x012f  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x012f  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x006d  */
     static {
         boolean z;
         zzep zzepVar;
@@ -153,14 +154,14 @@ abstract class zzeq {
     private static Field zzB() {
         int i = zzam.$r8$clinit;
         Field zzC = zzC(Buffer.class, "effectiveDirectAddress");
-        if (zzC == null) {
-            Field zzC2 = zzC(Buffer.class, "address");
-            if (zzC2 == null || zzC2.getType() != Long.TYPE) {
-                return null;
-            }
-            return zzC2;
+        if (zzC != null) {
+            return zzC;
         }
-        return zzC;
+        Field zzC2 = zzC(Buffer.class, "address");
+        if (zzC2 == null || zzC2.getType() != Long.TYPE) {
+            return null;
+        }
+        return zzC2;
     }
 
     private static Field zzC(Class cls, String str) {

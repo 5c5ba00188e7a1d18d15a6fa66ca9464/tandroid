@@ -8,6 +8,7 @@ import j$.util.function.Predicate;
 import j$.util.function.Supplier;
 import j$.util.function.ToIntFunction;
 import j$.util.function.ToLongFunction;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class E implements Predicate, j$.util.function.I, ToIntFunction, j$.util.function.N, j$.util.function.B, j$.util.function.l0, BiConsumer, Supplier, j$.util.function.o0, j$.util.function.S, ToLongFunction, LongFunction, j$.util.function.f0, Consumer {
     public final /* synthetic */ int a;
@@ -23,7 +24,8 @@ public final /* synthetic */ class E implements Predicate, j$.util.function.I, T
     }
 
     @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
+    /* renamed from: accept */
+    public void r(Object obj) {
     }
 
     @Override // j$.util.function.l0

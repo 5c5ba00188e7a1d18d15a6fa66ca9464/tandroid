@@ -4,6 +4,7 @@ import android.os.BadParcelableException;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* loaded from: classes.dex */
 public abstract class zzc {
     private static final ClassLoader zza = zzc.class.getClassLoader();
@@ -30,10 +31,10 @@ public abstract class zzc {
     public static void zze(Parcel parcel, Parcelable parcelable) {
         if (parcelable == null) {
             parcel.writeInt(0);
-            return;
+        } else {
+            parcel.writeInt(1);
+            parcelable.writeToParcel(parcel, 0);
         }
-        parcel.writeInt(1);
-        parcelable.writeToParcel(parcel, 0);
     }
 
     public static void zzg(Parcel parcel, IInterface iInterface) {

@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.LongToDoubleFunction;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class a0 {
     public final /* synthetic */ LongToDoubleFunction a;

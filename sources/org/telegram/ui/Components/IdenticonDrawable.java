@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class IdenticonDrawable extends Drawable {
     private byte[] data;

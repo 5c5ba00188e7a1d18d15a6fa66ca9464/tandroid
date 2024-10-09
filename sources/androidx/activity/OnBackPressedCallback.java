@@ -3,6 +3,7 @@ package androidx.activity;
 import androidx.core.util.Consumer;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 /* loaded from: classes.dex */
 public abstract class OnBackPressedCallback {
     private CopyOnWriteArrayList mCancellables = new CopyOnWriteArrayList();

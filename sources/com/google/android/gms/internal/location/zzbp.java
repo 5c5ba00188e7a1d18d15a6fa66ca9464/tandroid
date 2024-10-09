@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public final class zzbp extends GoogleApi implements FusedLocationProviderClient {
     static final Api.ClientKey zza;

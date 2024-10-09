@@ -2,6 +2,7 @@ package j$.util.concurrent;
 
 import java.util.concurrent.locks.LockSupport;
 import sun.misc.Unsafe;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class p extends k {
@@ -60,8 +61,9 @@ public final class p extends k {
                     q qVar5 = i2 <= 0 ? qVar4.f : qVar4.g;
                     if (qVar5 == null) {
                         break;
+                    } else {
+                        qVar4 = qVar5;
                     }
-                    qVar4 = qVar5;
                 }
                 qVar.e = qVar4;
                 if (i2 <= 0) {
@@ -83,90 +85,90 @@ public final class p extends k {
             if (qVar3 == null) {
                 qVar2.i = false;
                 return qVar2;
-            } else if (qVar2.i) {
+            }
+            if (qVar2.i) {
                 qVar2.i = false;
                 return qVar;
-            } else {
-                q qVar4 = qVar3.f;
-                if (qVar4 == qVar2) {
-                    qVar4 = qVar3.g;
-                    if (qVar4 != null && qVar4.i) {
-                        qVar4.i = false;
-                        qVar3.i = true;
-                        qVar = h(qVar, qVar3);
-                        qVar3 = qVar2.e;
-                        qVar4 = qVar3 == null ? null : qVar3.g;
-                    }
-                    if (qVar4 == null) {
-                        qVar2 = qVar3;
-                    } else {
-                        q qVar5 = qVar4.f;
-                        q qVar6 = qVar4.g;
-                        if ((qVar6 != null && qVar6.i) || (qVar5 != null && qVar5.i)) {
-                            if (qVar6 == null || !qVar6.i) {
-                                if (qVar5 != null) {
-                                    qVar5.i = false;
-                                }
-                                qVar4.i = true;
-                                qVar = i(qVar, qVar4);
-                                qVar3 = qVar2.e;
-                                qVar4 = qVar3 != null ? qVar3.g : null;
-                            }
-                            if (qVar4 != null) {
-                                qVar4.i = qVar3 == null ? false : qVar3.i;
-                                q qVar7 = qVar4.g;
-                                if (qVar7 != null) {
-                                    qVar7.i = false;
-                                }
-                            }
-                            if (qVar3 != null) {
-                                qVar3.i = false;
-                                qVar = h(qVar, qVar3);
-                            }
-                            qVar2 = qVar;
-                        }
-                        qVar4.i = true;
-                        qVar2 = qVar3;
-                    }
+            }
+            q qVar4 = qVar3.f;
+            if (qVar4 == qVar2) {
+                qVar4 = qVar3.g;
+                if (qVar4 != null && qVar4.i) {
+                    qVar4.i = false;
+                    qVar3.i = true;
+                    qVar = h(qVar, qVar3);
+                    qVar3 = qVar2.e;
+                    qVar4 = qVar3 == null ? null : qVar3.g;
+                }
+                if (qVar4 == null) {
+                    qVar2 = qVar3;
                 } else {
-                    if (qVar4 != null && qVar4.i) {
-                        qVar4.i = false;
-                        qVar3.i = true;
-                        qVar = i(qVar, qVar3);
-                        qVar3 = qVar2.e;
-                        qVar4 = qVar3 == null ? null : qVar3.f;
-                    }
-                    if (qVar4 == null) {
-                        qVar2 = qVar3;
-                    } else {
-                        q qVar8 = qVar4.f;
-                        q qVar9 = qVar4.g;
-                        if ((qVar8 != null && qVar8.i) || (qVar9 != null && qVar9.i)) {
-                            if (qVar8 == null || !qVar8.i) {
-                                if (qVar9 != null) {
-                                    qVar9.i = false;
-                                }
-                                qVar4.i = true;
-                                qVar = h(qVar, qVar4);
-                                qVar3 = qVar2.e;
-                                qVar4 = qVar3 != null ? qVar3.f : null;
+                    q qVar5 = qVar4.f;
+                    q qVar6 = qVar4.g;
+                    if ((qVar6 != null && qVar6.i) || (qVar5 != null && qVar5.i)) {
+                        if (qVar6 == null || !qVar6.i) {
+                            if (qVar5 != null) {
+                                qVar5.i = false;
                             }
-                            if (qVar4 != null) {
-                                qVar4.i = qVar3 == null ? false : qVar3.i;
-                                q qVar10 = qVar4.f;
-                                if (qVar10 != null) {
-                                    qVar10.i = false;
-                                }
-                            }
-                            if (qVar3 != null) {
-                                qVar3.i = false;
-                                qVar = i(qVar, qVar3);
-                            }
-                            qVar2 = qVar;
+                            qVar4.i = true;
+                            qVar = i(qVar, qVar4);
+                            qVar3 = qVar2.e;
+                            qVar4 = qVar3 != null ? qVar3.g : null;
                         }
-                        qVar4.i = true;
-                        qVar2 = qVar3;
+                        if (qVar4 != null) {
+                            qVar4.i = qVar3 == null ? false : qVar3.i;
+                            q qVar7 = qVar4.g;
+                            if (qVar7 != null) {
+                                qVar7.i = false;
+                            }
+                        }
+                        if (qVar3 != null) {
+                            qVar3.i = false;
+                            qVar = h(qVar, qVar3);
+                        }
+                        qVar2 = qVar;
                     }
+                    qVar4.i = true;
+                    qVar2 = qVar3;
+                }
+            } else {
+                if (qVar4 != null && qVar4.i) {
+                    qVar4.i = false;
+                    qVar3.i = true;
+                    qVar = i(qVar, qVar3);
+                    qVar3 = qVar2.e;
+                    qVar4 = qVar3 == null ? null : qVar3.f;
+                }
+                if (qVar4 == null) {
+                    qVar2 = qVar3;
+                } else {
+                    q qVar8 = qVar4.f;
+                    q qVar9 = qVar4.g;
+                    if ((qVar8 != null && qVar8.i) || (qVar9 != null && qVar9.i)) {
+                        if (qVar8 == null || !qVar8.i) {
+                            if (qVar9 != null) {
+                                qVar9.i = false;
+                            }
+                            qVar4.i = true;
+                            qVar = h(qVar, qVar4);
+                            qVar3 = qVar2.e;
+                            qVar4 = qVar3 != null ? qVar3.f : null;
+                        }
+                        if (qVar4 != null) {
+                            qVar4.i = qVar3 == null ? false : qVar3.i;
+                            q qVar10 = qVar4.f;
+                            if (qVar10 != null) {
+                                qVar10.i = false;
+                            }
+                        }
+                        if (qVar3 != null) {
+                            qVar3.i = false;
+                            qVar = i(qVar, qVar3);
+                        }
+                        qVar2 = qVar;
+                    }
+                    qVar4.i = true;
+                    qVar2 = qVar3;
                 }
             }
         }
@@ -181,46 +183,26 @@ public final class p extends k {
             if (qVar4 == null) {
                 qVar2.i = false;
                 return qVar2;
-            } else if (!qVar4.i || (qVar3 = qVar4.e) == null) {
+            }
+            if (!qVar4.i || (qVar3 = qVar4.e) == null) {
                 break;
-            } else {
-                q qVar5 = qVar3.f;
-                if (qVar4 == qVar5) {
-                    qVar5 = qVar3.g;
-                    if (qVar5 == null || !qVar5.i) {
-                        if (qVar2 == qVar4.g) {
-                            qVar = h(qVar, qVar4);
-                            q qVar6 = qVar4.e;
-                            qVar3 = qVar6 == null ? null : qVar6.e;
-                            qVar4 = qVar6;
-                            qVar2 = qVar4;
-                        }
-                        if (qVar4 != null) {
-                            qVar4.i = false;
-                            if (qVar3 != null) {
-                                qVar3.i = true;
-                                qVar = i(qVar, qVar3);
-                            }
-                        }
-                    } else {
-                        qVar5.i = false;
-                        qVar4.i = false;
-                        qVar3.i = true;
-                        qVar2 = qVar3;
-                    }
-                } else if (qVar5 == null || !qVar5.i) {
-                    if (qVar2 == qVar4.f) {
-                        qVar = i(qVar, qVar4);
-                        q qVar7 = qVar4.e;
-                        qVar3 = qVar7 == null ? null : qVar7.e;
-                        qVar4 = qVar7;
+            }
+            q qVar5 = qVar3.f;
+            if (qVar4 == qVar5) {
+                qVar5 = qVar3.g;
+                if (qVar5 == null || !qVar5.i) {
+                    if (qVar2 == qVar4.g) {
+                        qVar = h(qVar, qVar4);
+                        q qVar6 = qVar4.e;
+                        qVar3 = qVar6 == null ? null : qVar6.e;
+                        qVar4 = qVar6;
                         qVar2 = qVar4;
                     }
                     if (qVar4 != null) {
                         qVar4.i = false;
                         if (qVar3 != null) {
                             qVar3.i = true;
-                            qVar = h(qVar, qVar3);
+                            qVar = i(qVar, qVar3);
                         }
                     }
                 } else {
@@ -229,6 +211,26 @@ public final class p extends k {
                     qVar3.i = true;
                     qVar2 = qVar3;
                 }
+            } else if (qVar5 == null || !qVar5.i) {
+                if (qVar2 == qVar4.f) {
+                    qVar = i(qVar, qVar4);
+                    q qVar7 = qVar4.e;
+                    qVar3 = qVar7 == null ? null : qVar7.e;
+                    qVar4 = qVar7;
+                    qVar2 = qVar4;
+                }
+                if (qVar4 != null) {
+                    qVar4.i = false;
+                    if (qVar3 != null) {
+                        qVar3.i = true;
+                        qVar = h(qVar, qVar3);
+                    }
+                }
+            } else {
+                qVar5.i = false;
+                qVar4.i = false;
+                qVar3.i = true;
+                qVar2 = qVar3;
             }
         }
         return qVar;
@@ -347,9 +349,10 @@ public final class p extends k {
                             throw th;
                         }
                     }
-                } else if (kVar.a == i2 && ((obj2 = kVar.b) == obj || (obj2 != null && obj.equals(obj2)))) {
-                    return kVar;
                 } else {
+                    if (kVar.a == i2 && ((obj2 = kVar.b) == obj || (obj2 != null && obj.equals(obj2)))) {
+                        return kVar;
+                    }
                     kVar = kVar.d;
                 }
             }
@@ -358,11 +361,13 @@ public final class p extends k {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0070, code lost:
-        return r3;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x00b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x00b3, code lost:
+    
         return null;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0070, code lost:
+    
+        return r3;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -436,12 +441,12 @@ public final class p extends k {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0091 A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:41:0x0068, B:43:0x006e, B:44:0x0070, B:59:0x0091, B:66:0x00a2, B:62:0x0099, B:64:0x009d, B:65:0x00a0, B:67:0x00a8, B:71:0x00b1, B:73:0x00b5, B:75:0x00b9, B:77:0x00bd, B:81:0x00c6, B:78:0x00c0, B:80:0x00c4, B:70:0x00ad, B:47:0x007a, B:49:0x007e, B:50:0x0081, B:34:0x0055, B:36:0x005b, B:38:0x005f, B:39:0x0062, B:40:0x0064), top: B:87:0x0030 }] */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x00ac  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x00ad A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:41:0x0068, B:43:0x006e, B:44:0x0070, B:59:0x0091, B:66:0x00a2, B:62:0x0099, B:64:0x009d, B:65:0x00a0, B:67:0x00a8, B:71:0x00b1, B:73:0x00b5, B:75:0x00b9, B:77:0x00bd, B:81:0x00c6, B:78:0x00c0, B:80:0x00c4, B:70:0x00ad, B:47:0x007a, B:49:0x007e, B:50:0x0081, B:34:0x0055, B:36:0x005b, B:38:0x005f, B:39:0x0062, B:40:0x0064), top: B:87:0x0030 }] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x00b5 A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:41:0x0068, B:43:0x006e, B:44:0x0070, B:59:0x0091, B:66:0x00a2, B:62:0x0099, B:64:0x009d, B:65:0x00a0, B:67:0x00a8, B:71:0x00b1, B:73:0x00b5, B:75:0x00b9, B:77:0x00bd, B:81:0x00c6, B:78:0x00c0, B:80:0x00c4, B:70:0x00ad, B:47:0x007a, B:49:0x007e, B:50:0x0081, B:34:0x0055, B:36:0x005b, B:38:0x005f, B:39:0x0062, B:40:0x0064), top: B:87:0x0030 }] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x00bd A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:41:0x0068, B:43:0x006e, B:44:0x0070, B:59:0x0091, B:66:0x00a2, B:62:0x0099, B:64:0x009d, B:65:0x00a0, B:67:0x00a8, B:71:0x00b1, B:73:0x00b5, B:75:0x00b9, B:77:0x00bd, B:81:0x00c6, B:78:0x00c0, B:80:0x00c4, B:70:0x00ad, B:47:0x007a, B:49:0x007e, B:50:0x0081, B:34:0x0055, B:36:0x005b, B:38:0x005f, B:39:0x0062, B:40:0x0064), top: B:87:0x0030 }] */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x00c0 A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:22:0x0030, B:26:0x0039, B:29:0x003f, B:31:0x004d, B:41:0x0068, B:43:0x006e, B:44:0x0070, B:59:0x0091, B:66:0x00a2, B:62:0x0099, B:64:0x009d, B:65:0x00a0, B:67:0x00a8, B:71:0x00b1, B:73:0x00b5, B:75:0x00b9, B:77:0x00bd, B:81:0x00c6, B:78:0x00c0, B:80:0x00c4, B:70:0x00ad, B:47:0x007a, B:49:0x007e, B:50:0x0081, B:34:0x0055, B:36:0x005b, B:38:0x005f, B:39:0x0062, B:40:0x0064), top: B:87:0x0030 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0091 A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:21:0x0030, B:25:0x0039, B:29:0x003f, B:31:0x004d, B:32:0x0068, B:34:0x006e, B:35:0x0070, B:41:0x0091, B:44:0x00a2, B:45:0x0099, B:47:0x009d, B:48:0x00a0, B:49:0x00a8, B:52:0x00b1, B:54:0x00b5, B:56:0x00b9, B:58:0x00bd, B:59:0x00c6, B:61:0x00c0, B:63:0x00c4, B:66:0x00ad, B:68:0x007a, B:70:0x007e, B:71:0x0081, B:72:0x0055, B:74:0x005b, B:76:0x005f, B:77:0x0062, B:78:0x0064), top: B:20:0x0030 }] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x00ac  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x00b5 A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:21:0x0030, B:25:0x0039, B:29:0x003f, B:31:0x004d, B:32:0x0068, B:34:0x006e, B:35:0x0070, B:41:0x0091, B:44:0x00a2, B:45:0x0099, B:47:0x009d, B:48:0x00a0, B:49:0x00a8, B:52:0x00b1, B:54:0x00b5, B:56:0x00b9, B:58:0x00bd, B:59:0x00c6, B:61:0x00c0, B:63:0x00c4, B:66:0x00ad, B:68:0x007a, B:70:0x007e, B:71:0x0081, B:72:0x0055, B:74:0x005b, B:76:0x005f, B:77:0x0062, B:78:0x0064), top: B:20:0x0030 }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00bd A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:21:0x0030, B:25:0x0039, B:29:0x003f, B:31:0x004d, B:32:0x0068, B:34:0x006e, B:35:0x0070, B:41:0x0091, B:44:0x00a2, B:45:0x0099, B:47:0x009d, B:48:0x00a0, B:49:0x00a8, B:52:0x00b1, B:54:0x00b5, B:56:0x00b9, B:58:0x00bd, B:59:0x00c6, B:61:0x00c0, B:63:0x00c4, B:66:0x00ad, B:68:0x007a, B:70:0x007e, B:71:0x0081, B:72:0x0055, B:74:0x005b, B:76:0x005f, B:77:0x0062, B:78:0x0064), top: B:20:0x0030 }] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x00c0 A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:21:0x0030, B:25:0x0039, B:29:0x003f, B:31:0x004d, B:32:0x0068, B:34:0x006e, B:35:0x0070, B:41:0x0091, B:44:0x00a2, B:45:0x0099, B:47:0x009d, B:48:0x00a0, B:49:0x00a8, B:52:0x00b1, B:54:0x00b5, B:56:0x00b9, B:58:0x00bd, B:59:0x00c6, B:61:0x00c0, B:63:0x00c4, B:66:0x00ad, B:68:0x007a, B:70:0x007e, B:71:0x0081, B:72:0x0055, B:74:0x005b, B:76:0x005f, B:77:0x0062, B:78:0x0064), top: B:20:0x0030 }] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x00ad A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:21:0x0030, B:25:0x0039, B:29:0x003f, B:31:0x004d, B:32:0x0068, B:34:0x006e, B:35:0x0070, B:41:0x0091, B:44:0x00a2, B:45:0x0099, B:47:0x009d, B:48:0x00a0, B:49:0x00a8, B:52:0x00b1, B:54:0x00b5, B:56:0x00b9, B:58:0x00bd, B:59:0x00c6, B:61:0x00c0, B:63:0x00c4, B:66:0x00ad, B:68:0x007a, B:70:0x007e, B:71:0x0081, B:72:0x0055, B:74:0x005b, B:76:0x005f, B:77:0x0062, B:78:0x0064), top: B:20:0x0030 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

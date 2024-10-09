@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzm extends zzk {
@@ -32,7 +33,8 @@ public final class zzm extends zzk {
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzk
-    public final zzk zza(int i, int i2) {
+    /* renamed from: zza */
+    public final zzk subList(int i, int i2) {
         zzg.zza(i, i2, this.zzb);
         zzk zzkVar = this.zzc;
         int i3 = this.zza;

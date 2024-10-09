@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public abstract class zzak implements zzdf {
     protected int zza = 0;
@@ -17,8 +18,7 @@ public abstract class zzak implements zzdf {
             zzz.zzA();
             return bArr;
         } catch (IOException e) {
-            String name = getClass().getName();
-            throw new RuntimeException("Serializing " + name + " to a byte array threw an IOException (should never happen).", e);
+            throw new RuntimeException("Serializing " + getClass().getName() + " to a byte array threw an IOException (should never happen).", e);
         }
     }
 }

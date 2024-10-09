@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public class zzjk extends IOException {
     private zzkk zza;

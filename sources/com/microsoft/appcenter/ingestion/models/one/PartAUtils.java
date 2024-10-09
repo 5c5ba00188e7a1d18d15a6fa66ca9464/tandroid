@@ -5,6 +5,7 @@ import com.microsoft.appcenter.ingestion.models.Log;
 import com.microsoft.appcenter.utils.context.UserIdContext;
 import java.util.Locale;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public abstract class PartAUtils {
     private static final Pattern NAME_REGEX = Pattern.compile("^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$");
@@ -26,17 +27,14 @@ public abstract class PartAUtils {
         commonSchemaLog.getExt().getUser().setLocale(device.getLocale().replace("_", "-"));
         commonSchemaLog.getExt().setOs(new OsExtension());
         commonSchemaLog.getExt().getOs().setName(device.getOsName());
-        OsExtension os = commonSchemaLog.getExt().getOs();
-        os.setVer(device.getOsVersion() + "-" + device.getOsBuild() + "-" + device.getOsApiLevel());
+        commonSchemaLog.getExt().getOs().setVer(device.getOsVersion() + "-" + device.getOsBuild() + "-" + device.getOsApiLevel());
         commonSchemaLog.getExt().setApp(new AppExtension());
         commonSchemaLog.getExt().getApp().setVer(device.getAppVersion());
-        AppExtension app = commonSchemaLog.getExt().getApp();
-        app.setId("a:" + device.getAppNamespace());
+        commonSchemaLog.getExt().getApp().setId("a:" + device.getAppNamespace());
         commonSchemaLog.getExt().setNet(new NetExtension());
         commonSchemaLog.getExt().getNet().setProvider(device.getCarrierName());
         commonSchemaLog.getExt().setSdk(new SdkExtension());
-        SdkExtension sdk = commonSchemaLog.getExt().getSdk();
-        sdk.setLibVer(device.getSdkName() + "-" + device.getSdkVersion());
+        commonSchemaLog.getExt().getSdk().setLibVer(device.getSdkName() + "-" + device.getSdkVersion());
         commonSchemaLog.getExt().setLoc(new LocExtension());
         commonSchemaLog.getExt().getLoc().setTz(String.format(Locale.US, "%s%02d:%02d", device.getTimeZoneOffset().intValue() >= 0 ? "+" : "-", Integer.valueOf(Math.abs(device.getTimeZoneOffset().intValue() / 60)), Integer.valueOf(Math.abs(device.getTimeZoneOffset().intValue() % 60))));
         commonSchemaLog.getExt().setDevice(new DeviceExtension());

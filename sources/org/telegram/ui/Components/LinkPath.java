@@ -6,6 +6,7 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.text.Layout;
 import org.telegram.messenger.AndroidUtilities;
+
 /* loaded from: classes3.dex */
 public class LinkPath extends CornerPath {
     private static CornerPathEffect roundedEffect;

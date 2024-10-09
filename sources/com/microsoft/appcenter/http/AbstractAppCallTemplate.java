@@ -5,6 +5,7 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class AbstractAppCallTemplate implements HttpClient.CallTemplate {
     @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate

@@ -47,12 +47,12 @@ import org.telegram.ui.ActionBar.AlertDialogDecor;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
-import org.telegram.ui.Components.CounterView;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda10;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public abstract class SearchTagsList extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static AlertDialog currentDialog;
@@ -137,11 +137,11 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
         }
 
         public boolean equals(Object obj) {
-            if (obj instanceof Item) {
-                Item item = (Item) obj;
-                return this.count == item.count && this.reaction.hash == item.reaction.hash && this.nameHash == item.nameHash;
+            if (!(obj instanceof Item)) {
+                return false;
             }
-            return false;
+            Item item = (Item) obj;
+            return this.count == item.count && this.reaction.hash == item.reaction.hash && this.nameHash == item.nameHash;
         }
 
         public long hash() {
@@ -201,19 +201,18 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(dp + (reactionButton != null ? reactionButton.width : AndroidUtilities.dp(44.33f)), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(40.0f), 1073741824));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:29:0x00cc  */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x00cf  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00e5  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x00ff  */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x0104  */
-        /* JADX WARN: Removed duplicated region for block: B:40:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x00cc  */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x00cf  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x00e5  */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x00ff  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x0104  */
+        /* JADX WARN: Removed duplicated region for block: B:35:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void set(Item item) {
+            CharSequence charSequence;
             ReactionsLayoutInBubble.ReactionButton reactionButton;
-            CounterView.CounterDrawable counterDrawable;
-            String str;
             ReactionsLayoutInBubble.VisibleReaction visibleReaction = this.lastReaction;
             boolean z = visibleReaction == null || !visibleReaction.equals(item.reaction);
             if (z) {
@@ -267,13 +266,14 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
             boolean z2 = reactionButton4.hasName;
             AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = reactionButton4.textDrawable;
             if (!z2) {
-                str = animatedTextDrawable != null ? "" : "";
+                if (animatedTextDrawable != null) {
+                    charSequence = "";
+                }
                 this.reactionButton.countText = Integer.toString(item.count);
                 this.reactionButton.counterDrawable.setCount(item.count, !z);
                 reactionButton = this.reactionButton;
-                counterDrawable = reactionButton.counterDrawable;
-                if (counterDrawable != null && (reactionButton.count > 0 || reactionButton.hasName)) {
-                    reactionButton.width = (int) (reactionButton.width + counterDrawable.getCurrentWidth() + AndroidUtilities.dp(!this.reactionButton.hasName ? 4.0f : 0.0f) + this.reactionButton.textDrawable.getAnimateToWidth());
+                if (reactionButton.counterDrawable != null && (reactionButton.count > 0 || reactionButton.hasName)) {
+                    reactionButton.width = (int) (reactionButton.width + r1.getCurrentWidth() + AndroidUtilities.dp(!this.reactionButton.hasName ? 4.0f : 0.0f) + this.reactionButton.textDrawable.getAnimateToWidth());
                 }
                 if (z) {
                     ReactionsLayoutInBubble.ReactionButton reactionButton5 = this.reactionButton;
@@ -291,14 +291,13 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
                 }
                 return;
             }
-            Emoji.replaceEmoji(item.name, animatedTextDrawable.getPaint().getFontMetricsInt(), false);
-            animatedTextDrawable.setText(str, !z);
+            charSequence = Emoji.replaceEmoji(item.name, animatedTextDrawable.getPaint().getFontMetricsInt(), false);
+            animatedTextDrawable.setText(charSequence, !z);
             this.reactionButton.countText = Integer.toString(item.count);
             this.reactionButton.counterDrawable.setCount(item.count, !z);
             reactionButton = this.reactionButton;
-            counterDrawable = reactionButton.counterDrawable;
-            if (counterDrawable != null) {
-                reactionButton.width = (int) (reactionButton.width + counterDrawable.getCurrentWidth() + AndroidUtilities.dp(!this.reactionButton.hasName ? 4.0f : 0.0f) + this.reactionButton.textDrawable.getAnimateToWidth());
+            if (reactionButton.counterDrawable != null) {
+                reactionButton.width = (int) (reactionButton.width + r1.getCurrentWidth() + AndroidUtilities.dp(!this.reactionButton.hasName ? 4.0f : 0.0f) + this.reactionButton.textDrawable.getAnimateToWidth());
             }
             if (z) {
             }
@@ -571,10 +570,10 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
             });
             if (this.chosen == hash) {
                 this.chosen = 0L;
-                return;
+            } else {
+                this.chosen = hash;
+                ((TagButton) view).setChosen(true, true);
             }
-            this.chosen = hash;
-            ((TagButton) view).setChosen(true, true);
         }
     }
 
@@ -617,10 +616,10 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
         String obj = editTextBoldCursor.getText().toString();
         if (obj.length() > 12) {
             AndroidUtilities.shakeView(editTextBoldCursor);
-            return;
+        } else {
+            MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTL(reaction), obj);
+            dialogInterface.dismiss();
         }
-        MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTL(reaction), obj);
-        dialogInterface.dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -650,12 +649,12 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
 
     public static boolean onBackPressedRenameTagAlert() {
         AlertDialog alertDialog = currentDialog;
-        if (alertDialog != null) {
-            alertDialog.dismiss();
-            currentDialog = null;
-            return true;
+        if (alertDialog == null) {
+            return false;
         }
-        return false;
+        alertDialog.dismiss();
+        currentDialog = null;
+        return true;
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -731,27 +730,27 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
         editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Components.SearchTagsList.5
             @Override // android.widget.TextView.OnEditorActionListener
             public boolean onEditorAction(TextView textView, int i2, KeyEvent keyEvent) {
-                if (i2 == 6) {
-                    String obj = EditTextBoldCursor.this.getText().toString();
-                    if (obj.length() > 12) {
-                        AndroidUtilities.shakeView(EditTextBoldCursor.this);
-                        return true;
-                    }
-                    MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTL(reaction), obj);
-                    AlertDialog alertDialog = r14[0];
-                    if (alertDialog != null) {
-                        alertDialog.dismiss();
-                    }
-                    if (r14[0] == SearchTagsList.currentDialog) {
-                        AlertDialog unused = SearchTagsList.currentDialog = null;
-                    }
-                    View view2 = view;
-                    if (view2 != null) {
-                        view2.requestFocus();
-                    }
+                if (i2 != 6) {
+                    return false;
+                }
+                String obj = EditTextBoldCursor.this.getText().toString();
+                if (obj.length() > 12) {
+                    AndroidUtilities.shakeView(EditTextBoldCursor.this);
                     return true;
                 }
-                return false;
+                MessagesController.getInstance(i).renameSavedReactionTag(ReactionsLayoutInBubble.VisibleReaction.fromTL(reaction), obj);
+                AlertDialog alertDialog = r14[0];
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
+                }
+                if (r14[0] == SearchTagsList.currentDialog) {
+                    AlertDialog unused = SearchTagsList.currentDialog = null;
+                }
+                View view2 = view;
+                if (view2 != null) {
+                    view2.requestFocus();
+                }
+                return true;
             }
         });
         MediaDataController.getInstance(i).fetchNewEmojiKeywords(AndroidUtilities.getCurrentKeyboardLanguage(), true);
@@ -958,8 +957,7 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
 
     public void setShown(float f) {
         this.shownT = f;
-        RecyclerListView recyclerListView = this.listView;
-        recyclerListView.setPivotX(recyclerListView.getWidth() / 2.0f);
+        this.listView.setPivotX(r0.getWidth() / 2.0f);
         this.listView.setPivotY(0.0f);
         this.listView.setScaleX(AndroidUtilities.lerp(0.8f, 1.0f, f));
         this.listView.setScaleY(AndroidUtilities.lerp(0.8f, 1.0f, f));

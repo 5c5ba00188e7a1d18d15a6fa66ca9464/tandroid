@@ -51,6 +51,7 @@ import org.telegram.ui.Components.FireworksEffect;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.SnowflakesEffect;
+
 /* loaded from: classes4.dex */
 public class ActionBar extends FrameLayout {
     private int actionBarColor;
@@ -293,14 +294,14 @@ public class ActionBar extends FrameLayout {
     }
 
     public boolean actionModeIsExist(String str) {
-        if (this.actionMode != null) {
-            String str2 = this.actionModeTag;
-            if (str2 == null && str == null) {
-                return true;
-            }
-            return str2 != null && str2.equals(str);
+        if (this.actionMode == null) {
+            return false;
         }
-        return false;
+        String str2 = this.actionModeTag;
+        if (str2 == null && str == null) {
+            return true;
+        }
+        return str2 != null && str2.equals(str);
     }
 
     public void beginDelayedTransition() {
@@ -344,8 +345,8 @@ public class ActionBar extends FrameLayout {
                         animatorSet.playTogether(createAnimator);
                     }
                 }
-                animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_X, 1.0f));
-                animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, View.SCALE_Y, 1.0f));
+                animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, (Property<View, Float>) View.SCALE_X, 1.0f));
+                animatorSet.playTogether(ObjectAnimator.ofFloat(transitionValues.view, (Property<View, Float>) View.SCALE_Y, 1.0f));
                 animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBar.7.1
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
@@ -487,8 +488,8 @@ public class ActionBar extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x013e  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0142  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x013e  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0142  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -498,65 +499,65 @@ public class ActionBar extends FrameLayout {
         SnowflakesEffect snowflakesEffect;
         SnowflakesEffect snowflakesEffect2;
         BaseFragment baseFragment = this.parentFragment;
-        if (baseFragment == null || baseFragment.getParentLayout() == null || !this.parentFragment.getParentLayout().isActionBarInCrossfade()) {
-            if (this.drawBackButton && view == this.backButtonImageView) {
-                return true;
-            }
-            boolean shouldClipChild = shouldClipChild(view);
-            if (shouldClipChild) {
-                canvas.save();
-                canvas.clipRect(0.0f, (-getTranslationY()) + (this.occupyStatusBar ? AndroidUtilities.statusBarHeight : 0), getMeasuredWidth(), getMeasuredHeight());
-            }
-            boolean drawChild = super.drawChild(canvas, view, j);
-            if (this.supportsHolidayImage && !this.titleOverlayShown && !LocaleController.isRTL) {
-                SimpleTextView[] simpleTextViewArr = this.titleTextView;
-                if ((view == simpleTextViewArr[0] || view == simpleTextViewArr[1] || (view == this.titlesContainer && this.useContainerForTitles)) && (currentHolidayDrawable = Theme.getCurrentHolidayDrawable()) != null) {
-                    SimpleTextView simpleTextView = view == this.titlesContainer ? this.titleTextView[0] : (SimpleTextView) view;
-                    if (simpleTextView != null && simpleTextView.getVisibility() == 0 && (simpleTextView.getText() instanceof String)) {
-                        TextPaint textPaint = simpleTextView.getTextPaint();
-                        textPaint.getFontMetricsInt(this.fontMetricsInt);
-                        textPaint.getTextBounds((String) simpleTextView.getText(), 0, 1, this.rect);
-                        int textStartX = simpleTextView.getTextStartX() + Theme.getCurrentHolidayDrawableXOffset() + ((this.rect.width() - (currentHolidayDrawable.getIntrinsicWidth() + Theme.getCurrentHolidayDrawableXOffset())) / 2);
-                        int textStartY = simpleTextView.getTextStartY() + Theme.getCurrentHolidayDrawableYOffset() + ((int) Math.ceil((simpleTextView.getTextHeight() - this.rect.height()) / 2.0f)) + ((int) (AndroidUtilities.dp(8.0f) * (1.0f - this.titlesContainer.getScaleY())));
-                        currentHolidayDrawable.setBounds(textStartX, textStartY - currentHolidayDrawable.getIntrinsicHeight(), currentHolidayDrawable.getIntrinsicWidth() + textStartX, textStartY);
-                        currentHolidayDrawable.setAlpha((int) (this.titlesContainer.getAlpha() * 255.0f * simpleTextView.getAlpha()));
-                        currentHolidayDrawable.draw(canvas);
-                        if (this.overlayTitleAnimationInProgress) {
-                            view.invalidate();
-                            invalidate();
+        if (baseFragment != null && baseFragment.getParentLayout() != null && this.parentFragment.getParentLayout().isActionBarInCrossfade()) {
+            return false;
+        }
+        if (this.drawBackButton && view == this.backButtonImageView) {
+            return true;
+        }
+        boolean shouldClipChild = shouldClipChild(view);
+        if (shouldClipChild) {
+            canvas.save();
+            canvas.clipRect(0.0f, (-getTranslationY()) + (this.occupyStatusBar ? AndroidUtilities.statusBarHeight : 0), getMeasuredWidth(), getMeasuredHeight());
+        }
+        boolean drawChild = super.drawChild(canvas, view, j);
+        if (this.supportsHolidayImage && !this.titleOverlayShown && !LocaleController.isRTL) {
+            SimpleTextView[] simpleTextViewArr = this.titleTextView;
+            if ((view == simpleTextViewArr[0] || view == simpleTextViewArr[1] || (view == this.titlesContainer && this.useContainerForTitles)) && (currentHolidayDrawable = Theme.getCurrentHolidayDrawable()) != null) {
+                SimpleTextView simpleTextView = view == this.titlesContainer ? this.titleTextView[0] : (SimpleTextView) view;
+                if (simpleTextView != null && simpleTextView.getVisibility() == 0 && (simpleTextView.getText() instanceof String)) {
+                    TextPaint textPaint = simpleTextView.getTextPaint();
+                    textPaint.getFontMetricsInt(this.fontMetricsInt);
+                    textPaint.getTextBounds((String) simpleTextView.getText(), 0, 1, this.rect);
+                    int textStartX = simpleTextView.getTextStartX() + Theme.getCurrentHolidayDrawableXOffset() + ((this.rect.width() - (currentHolidayDrawable.getIntrinsicWidth() + Theme.getCurrentHolidayDrawableXOffset())) / 2);
+                    int textStartY = simpleTextView.getTextStartY() + Theme.getCurrentHolidayDrawableYOffset() + ((int) Math.ceil((simpleTextView.getTextHeight() - this.rect.height()) / 2.0f)) + ((int) (AndroidUtilities.dp(8.0f) * (1.0f - this.titlesContainer.getScaleY())));
+                    currentHolidayDrawable.setBounds(textStartX, textStartY - currentHolidayDrawable.getIntrinsicHeight(), currentHolidayDrawable.getIntrinsicWidth() + textStartX, textStartY);
+                    currentHolidayDrawable.setAlpha((int) (this.titlesContainer.getAlpha() * 255.0f * simpleTextView.getAlpha()));
+                    currentHolidayDrawable.draw(canvas);
+                    if (this.overlayTitleAnimationInProgress) {
+                        view.invalidate();
+                        invalidate();
+                    }
+                }
+                if (Theme.canStartHolidayAnimation()) {
+                    if (this.snowflakesEffect == null) {
+                        snowflakesEffect = new SnowflakesEffect(0);
+                        this.snowflakesEffect = snowflakesEffect;
+                    }
+                    snowflakesEffect2 = this.snowflakesEffect;
+                    if (snowflakesEffect2 == null) {
+                        snowflakesEffect2.onDraw(this, canvas);
+                    } else {
+                        FireworksEffect fireworksEffect = this.fireworksEffect;
+                        if (fireworksEffect != null) {
+                            fireworksEffect.onDraw(this, canvas);
                         }
                     }
-                    if (Theme.canStartHolidayAnimation()) {
-                        if (this.snowflakesEffect == null) {
-                            snowflakesEffect = new SnowflakesEffect(0);
-                            this.snowflakesEffect = snowflakesEffect;
-                        }
-                        snowflakesEffect2 = this.snowflakesEffect;
-                        if (snowflakesEffect2 == null) {
-                            snowflakesEffect2.onDraw(this, canvas);
-                        } else {
-                            FireworksEffect fireworksEffect = this.fireworksEffect;
-                            if (fireworksEffect != null) {
-                                fireworksEffect.onDraw(this, canvas);
-                            }
-                        }
-                    } else {
-                        if (!this.manualStart && this.snowflakesEffect != null) {
-                            snowflakesEffect = null;
-                            this.snowflakesEffect = snowflakesEffect;
-                        }
-                        snowflakesEffect2 = this.snowflakesEffect;
-                        if (snowflakesEffect2 == null) {
-                        }
+                } else {
+                    if (!this.manualStart && this.snowflakesEffect != null) {
+                        snowflakesEffect = null;
+                        this.snowflakesEffect = snowflakesEffect;
+                    }
+                    snowflakesEffect2 = this.snowflakesEffect;
+                    if (snowflakesEffect2 == null) {
                     }
                 }
             }
-            if (shouldClipChild) {
-                canvas.restore();
-            }
-            return drawChild;
         }
-        return false;
+        if (shouldClipChild) {
+            canvas.restore();
+        }
+        return drawChild;
     }
 
     public ActionBarMenuOnItemClick getActionBarMenuOnItemClick() {
@@ -644,7 +645,7 @@ public class ActionBar extends FrameLayout {
         actionBarMenu.hideAllPopupMenus();
         this.actionModeVisible = false;
         ArrayList arrayList = new ArrayList();
-        arrayList.add(ObjectAnimator.ofFloat(this.actionMode, View.ALPHA, 0.0f));
+        arrayList.add(ObjectAnimator.ofFloat(this.actionMode, (Property<ActionBarMenu, Float>) View.ALPHA, 0.0f));
         if (this.actionModeHidingViews != null) {
             int i = 0;
             while (true) {
@@ -655,31 +656,31 @@ public class ActionBar extends FrameLayout {
                 View view = viewArr[i];
                 if (view != null) {
                     view.setVisibility(0);
-                    arrayList.add(ObjectAnimator.ofFloat(this.actionModeHidingViews[i], View.ALPHA, 1.0f));
+                    arrayList.add(ObjectAnimator.ofFloat(this.actionModeHidingViews[i], (Property<View, Float>) View.ALPHA, 1.0f));
                 }
                 i++;
             }
         }
         View view2 = this.actionModeTranslationView;
         if (view2 != null) {
-            arrayList.add(ObjectAnimator.ofFloat(view2, View.TRANSLATION_Y, 0.0f));
+            arrayList.add(ObjectAnimator.ofFloat(view2, (Property<View, Float>) View.TRANSLATION_Y, 0.0f));
             this.actionModeTranslationView = null;
         }
         View view3 = this.actionModeShowingView;
         if (view3 != null) {
-            arrayList.add(ObjectAnimator.ofFloat(view3, View.ALPHA, 0.0f));
+            arrayList.add(ObjectAnimator.ofFloat(view3, (Property<View, Float>) View.ALPHA, 0.0f));
         }
         View view4 = this.actionModeExtraView;
         if (view4 != null) {
-            arrayList.add(ObjectAnimator.ofFloat(view4, View.TRANSLATION_Y, view4.getMeasuredHeight()));
+            arrayList.add(ObjectAnimator.ofFloat(view4, (Property<View, Float>) View.TRANSLATION_Y, view4.getMeasuredHeight()));
         }
         int i2 = this.actionBarColor;
         if (i2 == 0) {
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needCheckSystemBarColors, new Object[0]);
         } else {
-            int i3 = (ColorUtils.calculateLuminance(i2) > 0.699999988079071d ? 1 : (ColorUtils.calculateLuminance(i2) == 0.699999988079071d ? 0 : -1));
+            double calculateLuminance = ColorUtils.calculateLuminance(i2);
             Window window = ((Activity) getContext()).getWindow();
-            if (i3 < 0) {
+            if (calculateLuminance < 0.699999988079071d) {
                 AndroidUtilities.setLightStatusBar(window, false);
             } else {
                 AndroidUtilities.setLightStatusBar(window, true);
@@ -831,8 +832,8 @@ public class ActionBar extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0244  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0253  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x0244  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x0253  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -956,20 +957,24 @@ public class ActionBar extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:137:0x020e, code lost:
-        if (getResources().getConfiguration().orientation == 2) goto L118;
+    /* JADX WARN: Code restructure failed: missing block: B:147:0x020e, code lost:
+    
+        if (getResources().getConfiguration().orientation == 2) goto L138;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x00e5, code lost:
-        if (r18.isMenuOffsetSuppressed == false) goto L44;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00e5, code lost:
+    
+        if (r18.isMenuOffsetSuppressed == false) goto L53;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x00ee, code lost:
-        if (r18.isMenuOffsetSuppressed == false) goto L44;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00f0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x00f0, code lost:
+    
         r18.menu.translateXItems(0.0f);
      */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x027b  */
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x00ee, code lost:
+    
+        if (r18.isMenuOffsetSuppressed == false) goto L53;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x027b  */
     @Override // android.widget.FrameLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1184,19 +1189,19 @@ public class ActionBar extends FrameLayout {
                 view.setScaleX(0.95f);
                 view.setScaleY(0.95f);
             }
-            this.searchVisibleAnimator.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, z ? 0.0f : 1.0f));
-            this.searchVisibleAnimator.playTogether(ObjectAnimator.ofFloat(view, View.SCALE_Y, z ? 0.95f : 1.0f));
+            this.searchVisibleAnimator.playTogether(ObjectAnimator.ofFloat(view, (Property<View, Float>) View.ALPHA, z ? 0.0f : 1.0f));
+            this.searchVisibleAnimator.playTogether(ObjectAnimator.ofFloat(view, (Property<View, Float>) View.SCALE_Y, z ? 0.95f : 1.0f));
             AnimatorSet animatorSet2 = this.searchVisibleAnimator;
             Property property = View.SCALE_X;
             if (!z) {
                 f = 1.0f;
             }
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(view, property, f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(view, (Property<View, Float>) property, f));
         }
         BackupImageView backupImageView = this.avatarSearchImageView;
         if (backupImageView != null) {
             backupImageView.setVisibility(0);
-            this.searchVisibleAnimator.playTogether(ObjectAnimator.ofFloat(this.avatarSearchImageView, View.ALPHA, z ? 1.0f : 0.0f));
+            this.searchVisibleAnimator.playTogether(ObjectAnimator.ofFloat(this.avatarSearchImageView, (Property<BackupImageView, Float>) View.ALPHA, z ? 1.0f : 0.0f));
         }
         this.centerScale = true;
         requestLayout();
@@ -1327,7 +1332,9 @@ public class ActionBar extends FrameLayout {
             backDrawable.setRotation(isActionModeShowed() ? 1.0f : 0.0f, false);
             backDrawable.setRotatedColor(this.itemsActionModeColor);
             backDrawable.setColor(this.itemsColor);
-        } else if (drawable instanceof MenuDrawable) {
+            return;
+        }
+        if (drawable instanceof MenuDrawable) {
             MenuDrawable menuDrawable = (MenuDrawable) drawable;
             menuDrawable.setBackColor(this.actionBarColor);
             menuDrawable.setIconColor(this.itemsColor);
@@ -1463,10 +1470,11 @@ public class ActionBar extends FrameLayout {
                 if (drawable instanceof BackDrawable) {
                     ((BackDrawable) drawable).setRotatedColor(i);
                     return;
-                } else if (drawable instanceof BitmapDrawable) {
-                    this.backButtonImageView.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN));
-                    return;
                 } else {
+                    if (drawable instanceof BitmapDrawable) {
+                        this.backButtonImageView.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN));
+                        return;
+                    }
                     return;
                 }
             }
@@ -1511,8 +1519,10 @@ public class ActionBar extends FrameLayout {
         ActionBarMenu actionBarMenu2;
         if (z && (actionBarMenu2 = this.actionMode) != null) {
             actionBarMenu2.redrawPopup(i);
-        } else if (z || (actionBarMenu = this.menu) == null) {
         } else {
+            if (z || (actionBarMenu = this.menu) == null) {
+                return;
+            }
             actionBarMenu.redrawPopup(i);
         }
     }
@@ -1522,8 +1532,10 @@ public class ActionBar extends FrameLayout {
         ActionBarMenu actionBarMenu2;
         if (z2 && (actionBarMenu2 = this.actionMode) != null) {
             actionBarMenu2.setPopupItemsColor(i, z);
-        } else if (z2 || (actionBarMenu = this.menu) == null) {
         } else {
+            if (z2 || (actionBarMenu = this.menu) == null) {
+                return;
+            }
             actionBarMenu.setPopupItemsColor(i, z);
         }
     }
@@ -1533,8 +1545,10 @@ public class ActionBar extends FrameLayout {
         ActionBarMenu actionBarMenu2;
         if (z && (actionBarMenu2 = this.actionMode) != null) {
             actionBarMenu2.setPopupItemsSelectorColor(i);
-        } else if (z || (actionBarMenu = this.menu) == null) {
         } else {
+            if (z || (actionBarMenu = this.menu) == null) {
+                return;
+            }
             actionBarMenu.setPopupItemsSelectorColor(i);
         }
     }
@@ -1746,7 +1760,7 @@ public class ActionBar extends FrameLayout {
 
     public void setTitleOverlayText(String str, int i, Runnable runnable) {
         boolean z;
-        SpannableString spannableString;
+        CharSequence charSequence;
         SimpleTextView simpleTextView;
         int indexOf;
         if (!this.allowOverlayTitle || this.parentFragment.parentLayout == null) {
@@ -1759,25 +1773,25 @@ public class ActionBar extends FrameLayout {
         if (this.overlayTitleAnimationInProgress) {
             return;
         }
-        CharSequence charSequence = this.lastOverlayTitle;
-        if (charSequence == null && str == null) {
+        CharSequence charSequence2 = this.lastOverlayTitle;
+        if (charSequence2 == null && str == null) {
             return;
         }
-        if (charSequence == null || !charSequence.equals(str)) {
+        if (charSequence2 == null || !charSequence2.equals(str)) {
             this.lastOverlayTitle = str;
-            String string = str != null ? LocaleController.getString(str, i) : this.lastTitle;
+            CharSequence string = str != null ? LocaleController.getString(str, i) : this.lastTitle;
             Drawable drawable = str != null ? null : this.lastRightDrawable;
             if (str == null || (indexOf = TextUtils.indexOf(string, "...")) < 0) {
                 z = false;
-                spannableString = string;
+                charSequence = string;
             } else {
                 SpannableString valueOf = SpannableString.valueOf(string);
                 this.ellipsizeSpanAnimator.wrap(valueOf, indexOf);
                 z = true;
-                spannableString = valueOf;
+                charSequence = valueOf;
             }
             this.titleOverlayShown = str != null;
-            if ((spannableString == null || this.titleTextView[0] != null) && getMeasuredWidth() != 0 && ((simpleTextView = this.titleTextView[0]) == null || simpleTextView.getVisibility() == 0)) {
+            if ((charSequence == null || this.titleTextView[0] != null) && getMeasuredWidth() != 0 && ((simpleTextView = this.titleTextView[0]) == null || simpleTextView.getVisibility() == 0)) {
                 SimpleTextView simpleTextView2 = this.titleTextView[0];
                 if (simpleTextView2 != null) {
                     simpleTextView2.animate().cancel();
@@ -1788,7 +1802,7 @@ public class ActionBar extends FrameLayout {
                     if (this.titleTextView[1] == null) {
                         createTitleTextView(1);
                     }
-                    this.titleTextView[1].setText(spannableString);
+                    this.titleTextView[1].setText(charSequence);
                     this.titleTextView[1].setDrawablePadding(AndroidUtilities.dp(4.0f));
                     this.titleTextView[1].setRightDrawable(drawable);
                     this.titleTextView[1].setRightDrawableOnClick(this.rightDrawableOnClickListener);
@@ -1835,7 +1849,7 @@ public class ActionBar extends FrameLayout {
                     this.titleTextView[0].invalidate();
                     invalidate();
                 }
-                this.titleTextView[0].setText(spannableString);
+                this.titleTextView[0].setText(charSequence);
                 this.titleTextView[0].setDrawablePadding(AndroidUtilities.dp(4.0f));
                 this.titleTextView[0].setRightDrawable(drawable);
                 this.titleTextView[0].setRightDrawableOnClick(this.rightDrawableOnClickListener);
@@ -1897,11 +1911,11 @@ public class ActionBar extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public boolean shouldClipChild(View view) {
-        if (this.clipContent) {
-            SimpleTextView[] simpleTextViewArr = this.titleTextView;
-            return view == simpleTextViewArr[0] || view == simpleTextViewArr[1] || view == this.subtitleTextView || view == this.menu || view == this.backButtonImageView || view == this.additionalSubtitleTextView || view == this.titlesContainer;
+        if (!this.clipContent) {
+            return false;
         }
-        return false;
+        SimpleTextView[] simpleTextViewArr = this.titleTextView;
+        return view == simpleTextViewArr[0] || view == simpleTextViewArr[1] || view == this.subtitleTextView || view == this.menu || view == this.backButtonImageView || view == this.additionalSubtitleTextView || view == this.titlesContainer;
     }
 
     public void showActionMode() {
@@ -1920,30 +1934,30 @@ public class ActionBar extends FrameLayout {
         this.actionModeVisible = true;
         if (z) {
             ArrayList arrayList = new ArrayList();
-            arrayList.add(ObjectAnimator.ofFloat(this.actionMode, View.ALPHA, 0.0f, 1.0f));
+            arrayList.add(ObjectAnimator.ofFloat(this.actionMode, (Property<ActionBarMenu, Float>) View.ALPHA, 0.0f, 1.0f));
             if (viewArr != null) {
                 for (View view4 : viewArr) {
                     if (view4 != null) {
-                        arrayList.add(ObjectAnimator.ofFloat(view4, View.ALPHA, 1.0f, 0.0f));
+                        arrayList.add(ObjectAnimator.ofFloat(view4, (Property<View, Float>) View.ALPHA, 1.0f, 0.0f));
                     }
                 }
             }
             if (view2 != null) {
-                arrayList.add(ObjectAnimator.ofFloat(view2, View.ALPHA, 0.0f, 1.0f));
+                arrayList.add(ObjectAnimator.ofFloat(view2, (Property<View, Float>) View.ALPHA, 0.0f, 1.0f));
             }
             if (view3 != null) {
-                arrayList.add(ObjectAnimator.ofFloat(view3, View.TRANSLATION_Y, i));
+                arrayList.add(ObjectAnimator.ofFloat(view3, (Property<View, Float>) View.TRANSLATION_Y, i));
                 this.actionModeTranslationView = view3;
             }
             this.actionModeExtraView = view;
             this.actionModeShowingView = view2;
             this.actionModeHidingViews = viewArr;
             if (view != null) {
-                arrayList.add(ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, 0.0f));
+                arrayList.add(ObjectAnimator.ofFloat(view, (Property<View, Float>) View.TRANSLATION_Y, 0.0f));
             }
-            int i2 = (ColorUtils.calculateLuminance(this.actionModeColor) > 0.699999988079071d ? 1 : (ColorUtils.calculateLuminance(this.actionModeColor) == 0.699999988079071d ? 0 : -1));
+            double calculateLuminance = ColorUtils.calculateLuminance(this.actionModeColor);
             Window window = ((Activity) getContext()).getWindow();
-            if (i2 < 0) {
+            if (calculateLuminance < 0.699999988079071d) {
                 AndroidUtilities.setLightStatusBar(window, false);
             } else {
                 AndroidUtilities.setLightStatusBar(window, true);
@@ -1993,9 +2007,9 @@ public class ActionBar extends FrameLayout {
                         actionBarMenu2.setVisibility(4);
                     }
                     if (ActionBar.this.actionModeHidingViews != null) {
-                        for (int i3 = 0; i3 < ActionBar.this.actionModeHidingViews.length; i3++) {
-                            if (ActionBar.this.actionModeHidingViews[i3] != null && ((zArr2 = zArr) == null || i3 >= zArr2.length || zArr2[i3])) {
-                                ActionBar.this.actionModeHidingViews[i3].setVisibility(4);
+                        for (int i2 = 0; i2 < ActionBar.this.actionModeHidingViews.length; i2++) {
+                            if (ActionBar.this.actionModeHidingViews[i2] != null && ((zArr2 = zArr) == null || i2 >= zArr2.length || zArr2[i2])) {
+                                ActionBar.this.actionModeHidingViews[i2].setVisibility(4);
                             }
                         }
                     }
@@ -2041,9 +2055,9 @@ public class ActionBar extends FrameLayout {
             }
             this.actionModeShowingView = view2;
             this.actionModeHidingViews = viewArr;
-            int i3 = (ColorUtils.calculateLuminance(this.actionModeColor) > 0.699999988079071d ? 1 : (ColorUtils.calculateLuminance(this.actionModeColor) == 0.699999988079071d ? 0 : -1));
+            double calculateLuminance2 = ColorUtils.calculateLuminance(this.actionModeColor);
             Window window2 = ((Activity) getContext()).getWindow();
-            if (i3 < 0) {
+            if (calculateLuminance2 < 0.699999988079071d) {
                 AndroidUtilities.setLightStatusBar(window2, false);
             } else {
                 AndroidUtilities.setLightStatusBar(window2, true);
@@ -2061,17 +2075,17 @@ public class ActionBar extends FrameLayout {
                 actionBarMenu2.setVisibility(4);
             }
             if (this.actionModeHidingViews != null) {
-                int i4 = 0;
+                int i2 = 0;
                 while (true) {
                     View[] viewArr2 = this.actionModeHidingViews;
-                    if (i4 >= viewArr2.length) {
+                    if (i2 >= viewArr2.length) {
                         break;
                     }
-                    View view6 = viewArr2[i4];
-                    if (view6 != null && (zArr == null || i4 >= zArr.length || zArr[i4])) {
+                    View view6 = viewArr2[i2];
+                    if (view6 != null && (zArr == null || i2 >= zArr.length || zArr[i2])) {
                         view6.setVisibility(4);
                     }
-                    i4++;
+                    i2++;
                 }
             }
             ImageView imageView2 = this.backButtonImageView;

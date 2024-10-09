@@ -4,6 +4,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import java.lang.reflect.Field;
+
 /* loaded from: classes.dex */
 public abstract class LayoutInflaterCompat {
     private static boolean sCheckedField;

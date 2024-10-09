@@ -3,6 +3,7 @@ package com.google.android.gms.common.api.internal;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import java.util.ArrayList;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zaap extends zaav {
@@ -27,10 +28,11 @@ public final class zaap extends zaav {
         ArrayList arrayList = this.zac;
         int size = arrayList.size();
         for (int i = 0; i < size; i++) {
+            Api.Client client = (Api.Client) arrayList.get(i);
             zaaw zaawVar2 = this.zaa;
             iAccountAccessor = zaawVar2.zao;
             zabiVar2 = zaawVar2.zaa;
-            ((Api.Client) arrayList.get(i)).getRemoteService(iAccountAccessor, zabiVar2.zag.zad);
+            client.getRemoteService(iAccountAccessor, zabiVar2.zag.zad);
         }
     }
 }

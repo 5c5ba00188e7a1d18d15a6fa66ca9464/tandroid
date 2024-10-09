@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* loaded from: classes.dex */
 public final class ComplexColorCompat {
     private int mColor;
@@ -30,18 +31,18 @@ public final class ComplexColorCompat {
                 break;
             }
         } while (next != 1);
-        if (next == 2) {
-            String name = xml.getName();
-            name.hashCode();
-            if (name.equals("gradient")) {
-                return from(GradientColorInflaterCompat.createFromXmlInner(resources, xml, asAttributeSet, theme));
-            }
-            if (name.equals("selector")) {
-                return from(ColorStateListInflaterCompat.createFromXmlInner(resources, xml, asAttributeSet, theme));
-            }
-            throw new XmlPullParserException(xml.getPositionDescription() + ": unsupported complex color tag " + name);
+        if (next != 2) {
+            throw new XmlPullParserException("No start tag found");
         }
-        throw new XmlPullParserException("No start tag found");
+        String name = xml.getName();
+        name.hashCode();
+        if (name.equals("gradient")) {
+            return from(GradientColorInflaterCompat.createFromXmlInner(resources, xml, asAttributeSet, theme));
+        }
+        if (name.equals("selector")) {
+            return from(ColorStateListInflaterCompat.createFromXmlInner(resources, xml, asAttributeSet, theme));
+        }
+        throw new XmlPullParserException(xml.getPositionDescription() + ": unsupported complex color tag " + name);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public abstract class zzu extends zzr implements List, RandomAccess {
     public static final /* synthetic */ int $r8$clinit = 0;
@@ -18,11 +19,11 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     public static zzu zzj(Collection collection) {
         if (collection instanceof zzr) {
             zzu zzd = ((zzr) collection).zzd();
-            if (zzd.zzf()) {
-                Object[] array = zzd.toArray();
-                return zzi(array, array.length);
+            if (!zzd.zzf()) {
+                return zzd;
             }
-            return zzd;
+            Object[] array = zzd.toArray();
+            return zzi(array, array.length);
         }
         Object[] array2 = collection.toArray();
         int length = array2.length;
@@ -73,11 +74,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
                 Iterator it2 = list.iterator();
                 while (true) {
                     if (it.hasNext()) {
-                        if (it2.hasNext()) {
-                            if (!zzl.zza(it.next(), it2.next())) {
-                                break;
-                            }
-                        } else {
+                        if (!it2.hasNext() || !zzl.zza(it.next(), it2.next())) {
                             break;
                         }
                     } else if (!it2.hasNext()) {
@@ -162,7 +159,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    /* renamed from: zzh */
+    /* renamed from: zzh, reason: merged with bridge method [inline-methods] */
     public zzu subList(int i, int i2) {
         zzm.zzd(i, i2, size());
         int i3 = i2 - i;
@@ -170,7 +167,7 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    /* renamed from: zzl */
+    /* renamed from: zzl, reason: merged with bridge method [inline-methods] */
     public final zzai listIterator(int i) {
         zzm.zzb(i, size(), "index");
         return isEmpty() ? zza : new zzs(this, i);

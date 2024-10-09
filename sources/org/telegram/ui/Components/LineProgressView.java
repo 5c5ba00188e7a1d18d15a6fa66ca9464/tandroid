@@ -9,6 +9,7 @@ import android.view.animation.DecelerateInterpolator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
+
 /* loaded from: classes3.dex */
 public class LineProgressView extends View {
     private static DecelerateInterpolator decelerateInterpolator;

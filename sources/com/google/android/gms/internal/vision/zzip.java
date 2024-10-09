@@ -2,6 +2,7 @@ package com.google.android.gms.internal.vision;
 
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzip extends zziq {
     /* JADX INFO: Access modifiers changed from: package-private */

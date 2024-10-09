@@ -2,6 +2,7 @@ package org.webrtc;
 
 import java.nio.ByteBuffer;
 import org.webrtc.VideoFrame;
+
 /* loaded from: classes.dex */
 public class JavaI420Buffer implements VideoFrame.I420Buffer {
     private final ByteBuffer dataU;
@@ -86,18 +87,18 @@ public class JavaI420Buffer implements VideoFrame.I420Buffer {
         if (byteBuffer == null || byteBuffer2 == null || byteBuffer3 == null) {
             throw new IllegalArgumentException("Data buffers cannot be null.");
         }
-        if (byteBuffer.isDirect() && byteBuffer2.isDirect() && byteBuffer3.isDirect()) {
-            ByteBuffer slice = byteBuffer.slice();
-            ByteBuffer slice2 = byteBuffer2.slice();
-            ByteBuffer slice3 = byteBuffer3.slice();
-            int i6 = (i + 1) / 2;
-            int i7 = (i2 + 1) / 2;
-            checkCapacity(slice, i, i2, i3);
-            checkCapacity(slice2, i6, i7, i4);
-            checkCapacity(slice3, i6, i7, i5);
-            return new JavaI420Buffer(i, i2, slice, i3, slice2, i4, slice3, i5, runnable);
+        if (!byteBuffer.isDirect() || !byteBuffer2.isDirect() || !byteBuffer3.isDirect()) {
+            throw new IllegalArgumentException("Data buffers must be direct byte buffers.");
         }
-        throw new IllegalArgumentException("Data buffers must be direct byte buffers.");
+        ByteBuffer slice = byteBuffer.slice();
+        ByteBuffer slice2 = byteBuffer2.slice();
+        ByteBuffer slice3 = byteBuffer3.slice();
+        int i6 = (i + 1) / 2;
+        int i7 = (i2 + 1) / 2;
+        checkCapacity(slice, i, i2, i3);
+        checkCapacity(slice2, i6, i7, i4);
+        checkCapacity(slice3, i6, i7, i5);
+        return new JavaI420Buffer(i, i2, slice, i3, slice2, i4, slice3, i5, runnable);
     }
 
     @Override // org.webrtc.VideoFrame.Buffer

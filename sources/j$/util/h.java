@@ -1,4 +1,5 @@
 package j$.util;
+
 /* loaded from: classes2.dex */
 public final class h implements j$.util.function.n {
     private double a;

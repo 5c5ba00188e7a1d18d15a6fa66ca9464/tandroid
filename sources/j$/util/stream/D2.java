@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Arrays;
+
 /* loaded from: classes2.dex */
 final class D2 extends r2 {
     private long[] c;
@@ -23,8 +24,9 @@ final class D2 extends r2 {
     public final void m() {
         int i = 0;
         Arrays.sort(this.c, 0, this.d);
+        long j = this.d;
         e2 e2Var = this.a;
-        e2Var.n(this.d);
+        e2Var.n(j);
         if (this.b) {
             while (i < this.d && !e2Var.q()) {
                 e2Var.accept(this.c[i]);

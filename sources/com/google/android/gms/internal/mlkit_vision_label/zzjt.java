@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import com.google.android.gms.common.internal.Objects;
+
 /* loaded from: classes.dex */
 public final class zzjt {
     private final zzjr zza;
@@ -24,11 +25,11 @@ public final class zzjt {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof zzjt) {
-            zzjt zzjtVar = (zzjt) obj;
-            return Objects.equal(this.zza, zzjtVar.zza) && Objects.equal(this.zzb, zzjtVar.zzb) && Objects.equal(null, null) && Objects.equal(null, null);
+        if (!(obj instanceof zzjt)) {
+            return false;
         }
-        return false;
+        zzjt zzjtVar = (zzjt) obj;
+        return Objects.equal(this.zza, zzjtVar.zza) && Objects.equal(this.zzb, zzjtVar.zzb) && Objects.equal(null, null) && Objects.equal(null, null);
     }
 
     public final int hashCode() {

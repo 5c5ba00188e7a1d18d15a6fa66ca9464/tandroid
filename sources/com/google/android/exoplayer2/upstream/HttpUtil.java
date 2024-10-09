@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public abstract class HttpUtil {
     private static final Pattern CONTENT_RANGE_WITH_START_AND_END = Pattern.compile("bytes (\\d+)-(\\d+)/(?:\\d+|\\*)");
@@ -24,8 +25,8 @@ public abstract class HttpUtil {
         return sb.toString();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x002e  */
-    /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x002e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -37,30 +38,30 @@ public abstract class HttpUtil {
             } catch (NumberFormatException unused) {
                 Log.e("HttpUtil", "Unexpected Content-Length [" + str + "]");
             }
-            if (TextUtils.isEmpty(str2)) {
-                Matcher matcher = CONTENT_RANGE_WITH_START_AND_END.matcher(str2);
-                if (matcher.matches()) {
-                    try {
-                        long parseLong2 = (Long.parseLong((String) Assertions.checkNotNull(matcher.group(2))) - Long.parseLong((String) Assertions.checkNotNull(matcher.group(1)))) + 1;
-                        if (parseLong < 0) {
-                            return parseLong2;
-                        }
-                        if (parseLong != parseLong2) {
-                            Log.w("HttpUtil", "Inconsistent headers [" + str + "] [" + str2 + "]");
-                            return Math.max(parseLong, parseLong2);
-                        }
-                        return parseLong;
-                    } catch (NumberFormatException unused2) {
-                        Log.e("HttpUtil", "Unexpected Content-Range [" + str2 + "]");
-                        return parseLong;
-                    }
-                }
+            if (!TextUtils.isEmpty(str2)) {
                 return parseLong;
             }
-            return parseLong;
+            Matcher matcher = CONTENT_RANGE_WITH_START_AND_END.matcher(str2);
+            if (!matcher.matches()) {
+                return parseLong;
+            }
+            try {
+                long parseLong2 = (Long.parseLong((String) Assertions.checkNotNull(matcher.group(2))) - Long.parseLong((String) Assertions.checkNotNull(matcher.group(1)))) + 1;
+                if (parseLong < 0) {
+                    return parseLong2;
+                }
+                if (parseLong == parseLong2) {
+                    return parseLong;
+                }
+                Log.w("HttpUtil", "Inconsistent headers [" + str + "] [" + str2 + "]");
+                return Math.max(parseLong, parseLong2);
+            } catch (NumberFormatException unused2) {
+                Log.e("HttpUtil", "Unexpected Content-Range [" + str2 + "]");
+                return parseLong;
+            }
         }
         parseLong = -1;
-        if (TextUtils.isEmpty(str2)) {
+        if (!TextUtils.isEmpty(str2)) {
         }
     }
 

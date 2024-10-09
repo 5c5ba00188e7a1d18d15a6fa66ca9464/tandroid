@@ -1,4 +1,5 @@
 package com.google.android.datatransport.runtime.dagger.internal;
+
 /* loaded from: classes.dex */
 public final class InstanceFactory implements Factory {
     private static final InstanceFactory NULL_INSTANCE_FACTORY = new InstanceFactory(null);

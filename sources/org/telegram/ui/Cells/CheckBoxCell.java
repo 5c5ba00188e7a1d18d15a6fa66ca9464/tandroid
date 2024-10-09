@@ -33,6 +33,7 @@ import org.telegram.ui.Components.CheckBoxSquare;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
+
 /* loaded from: classes4.dex */
 public class CheckBoxCell extends FrameLayout {
     private AnimatedTextView animatedTextView;
@@ -122,35 +123,12 @@ public class CheckBoxCell extends FrameLayout {
         this(context, i, i2, false, resourcesProvider);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:135:0x0289, code lost:
-        if (r10 != false) goto L50;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0289, code lost:
+    
+        if (r10 != false) goto L174;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:152:0x02b1, code lost:
-        if (r10 != false) goto L66;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:153:0x02b3, code lost:
-        r5 = r9;
-        r9 = 18;
-        r4 = r4;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:154:0x02b7, code lost:
-        r5 = r9;
-        r9 = 18;
-        r4 = r4;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:172:0x02f8, code lost:
-        if (r10 != false) goto L66;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:174:0x02fb, code lost:
-        r19 = r5;
-        r20 = r6;
-        r21 = r7;
-        r18 = r9;
-        r22 = r14;
-        r5 = r31;
-        r4 = r4;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:175:0x0307, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0307, code lost:
+    
         r19 = r5;
         r20 = r6;
         r21 = r7;
@@ -159,8 +137,38 @@ public class CheckBoxCell extends FrameLayout {
         r5 = 0;
         r4 = r4;
      */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x031b  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x033e  */
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x02fb, code lost:
+    
+        r19 = r5;
+        r20 = r6;
+        r21 = r7;
+        r18 = r9;
+        r22 = r14;
+        r5 = r31;
+        r4 = r4;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x02b1, code lost:
+    
+        if (r10 != false) goto L153;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x02b3, code lost:
+    
+        r5 = r9;
+        r9 = 18;
+        r4 = r4;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:67:0x02b7, code lost:
+    
+        r5 = r9;
+        r9 = 18;
+        r4 = r4;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x02f8, code lost:
+    
+        if (r10 != false) goto L153;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x031b  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x033e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -321,8 +329,8 @@ public class CheckBoxCell extends FrameLayout {
             boolean z7 = LocaleController.isRTL;
             i5 = (z7 ? 5 : 3) | 48;
             f5 = z7 ? 0 : i2;
-            CheckBox2 checkBox22 = checkBox2;
-            CheckBox2 checkBox23 = checkBox2;
+            View view6 = checkBox2;
+            View view7 = checkBox2;
         } else {
             if (i != 1 && i != 5) {
                 z2 = false;
@@ -361,16 +369,17 @@ public class CheckBoxCell extends FrameLayout {
                 addView(view3, LayoutHelper.createFrame(i7, f10, i6, f8, f9, f6, f7));
                 if (i != 6) {
                     collapseButton = new CollapseButton(context, R.drawable.msg_folders_groups);
-                } else if (i != 8) {
-                    if (i == 7) {
-                        this.avatarDrawable = new AvatarDrawable();
-                        BackupImageView backupImageView = new BackupImageView(context);
-                        this.avatarImageView = backupImageView;
-                        backupImageView.setRoundRadius(AndroidUtilities.dp(17.0f));
-                        addView(this.avatarImageView, LayoutHelper.createFrameRelatively(34.0f, 34.0f, 8388627, 56.0f, 0.0f, 0.0f, 0.0f));
-                    }
-                    updateTextColor();
                 } else {
+                    if (i != 8) {
+                        if (i == 7) {
+                            this.avatarDrawable = new AvatarDrawable();
+                            BackupImageView backupImageView = new BackupImageView(context);
+                            this.avatarImageView = backupImageView;
+                            backupImageView.setRoundRadius(AndroidUtilities.dp(17.0f));
+                            addView(this.avatarImageView, LayoutHelper.createFrameRelatively(34.0f, 34.0f, 8388627, 56.0f, 0.0f, 0.0f, 0.0f));
+                        }
+                        updateTextColor();
+                    }
                     collapseButton = new CollapseButton(context, 0);
                 }
                 this.collapseButton = collapseButton;

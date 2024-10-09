@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.BiConsumer;
 import j$.util.function.LongFunction;
 import j$.util.function.Supplier;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class h0 extends b implements LongStream {
@@ -21,11 +22,11 @@ public abstract class h0 extends b implements LongStream {
         if (q instanceof j$.util.K) {
             return (j$.util.K) q;
         }
-        if (A3.a) {
-            A3.a(b.class, "using LongStream.adapt(Spliterator<Long> s)");
-            throw null;
+        if (!A3.a) {
+            throw new UnsupportedOperationException("LongStream.adapt(Spliterator<Long> s)");
         }
-        throw new UnsupportedOperationException("LongStream.adapt(Spliterator<Long> s)");
+        A3.a(b.class, "using LongStream.adapt(Spliterator<Long> s)");
+        throw null;
     }
 
     @Override // j$.util.stream.LongStream
@@ -77,14 +78,14 @@ public abstract class h0 extends b implements LongStream {
     public final j$.util.l average() {
         long[] jArr = (long[]) Z(new E(25), new E(26), new E(27));
         long j = jArr[0];
-        if (j > 0) {
-            double d = jArr[1];
-            double d2 = j;
-            Double.isNaN(d);
-            Double.isNaN(d2);
-            return j$.util.l.d(d / d2);
+        if (j <= 0) {
+            return j$.util.l.a();
         }
-        return j$.util.l.a();
+        double d = jArr[1];
+        double d2 = j;
+        Double.isNaN(d);
+        Double.isNaN(d2);
+        return j$.util.l.d(d / d2);
     }
 
     @Override // j$.util.stream.LongStream
@@ -174,14 +175,15 @@ public abstract class h0 extends b implements LongStream {
         j$.util.K H0 = H0(q);
         if (e2Var instanceof j$.util.function.W) {
             c0Var = (j$.util.function.W) e2Var;
-        } else if (A3.a) {
-            A3.a(b.class, "using LongStream.adapt(Sink<Long> s)");
-            throw null;
         } else {
+            if (A3.a) {
+                A3.a(b.class, "using LongStream.adapt(Sink<Long> s)");
+                throw null;
+            }
             e2Var.getClass();
             c0Var = new c0(0, e2Var);
         }
-        while (!e2Var.q() && H0.i(c0Var)) {
+        while (!e2Var.q() && H0.p(c0Var)) {
         }
     }
 

@@ -21,6 +21,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class RingtoneDataStore {
     private static volatile long lastReloadTimeMs;
@@ -309,10 +310,11 @@ public class RingtoneDataStore {
                 if (i >= this.userRingtones.size()) {
                     z2 = false;
                     break;
-                } else if (((CachedTone) this.userRingtones.get(i)).uploading && str.equals(((CachedTone) this.userRingtones.get(i)).localUri)) {
-                    this.userRingtones.remove(i);
-                    break;
                 } else {
+                    if (((CachedTone) this.userRingtones.get(i)).uploading && str.equals(((CachedTone) this.userRingtones.get(i)).localUri)) {
+                        this.userRingtones.remove(i);
+                        break;
+                    }
                     i++;
                 }
             }
@@ -322,11 +324,12 @@ public class RingtoneDataStore {
                 if (i2 >= this.userRingtones.size()) {
                     z2 = false;
                     break;
-                } else if (((CachedTone) this.userRingtones.get(i2)).uploading && str.equals(((CachedTone) this.userRingtones.get(i2)).localUri)) {
-                    ((CachedTone) this.userRingtones.get(i2)).uploading = false;
-                    ((CachedTone) this.userRingtones.get(i2)).document = document;
-                    break;
                 } else {
+                    if (((CachedTone) this.userRingtones.get(i2)).uploading && str.equals(((CachedTone) this.userRingtones.get(i2)).localUri)) {
+                        ((CachedTone) this.userRingtones.get(i2)).uploading = false;
+                        ((CachedTone) this.userRingtones.get(i2)).document = document;
+                        break;
+                    }
                     i2++;
                 }
             }

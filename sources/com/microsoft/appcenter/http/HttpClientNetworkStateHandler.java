@@ -4,8 +4,10 @@ import com.microsoft.appcenter.http.HttpClient;
 import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.NetworkStateHelper;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public class HttpClientNetworkStateHandler extends HttpClientDecorator implements NetworkStateHelper.Listener {
     private final Set mCalls;
@@ -73,8 +75,9 @@ public class HttpClientNetworkStateHandler extends HttpClientDecorator implement
             try {
                 if (this.mCalls.size() > 0) {
                     AppCenterLog.debug("AppCenter", "Network is available. " + this.mCalls.size() + " pending call(s) to submit now.");
-                    for (Call call : this.mCalls) {
-                        call.run();
+                    Iterator it = this.mCalls.iterator();
+                    while (it.hasNext()) {
+                        ((Call) it.next()).run();
                     }
                     this.mCalls.clear();
                 }

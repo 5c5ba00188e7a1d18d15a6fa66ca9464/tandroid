@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class AdaptiveTrackSelection extends BaseTrackSelection {
     private final ImmutableList adaptationCheckpoints;
@@ -51,11 +52,11 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof AdaptationCheckpoint) {
-                AdaptationCheckpoint adaptationCheckpoint = (AdaptationCheckpoint) obj;
-                return this.totalBandwidth == adaptationCheckpoint.totalBandwidth && this.allocatedBandwidth == adaptationCheckpoint.allocatedBandwidth;
+            if (!(obj instanceof AdaptationCheckpoint)) {
+                return false;
             }
-            return false;
+            AdaptationCheckpoint adaptationCheckpoint = (AdaptationCheckpoint) obj;
+            return this.totalBandwidth == adaptationCheckpoint.totalBandwidth && this.allocatedBandwidth == adaptationCheckpoint.allocatedBandwidth;
         }
 
         public int hashCode() {
@@ -224,8 +225,8 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         AdaptationCheckpoint adaptationCheckpoint = (AdaptationCheckpoint) this.adaptationCheckpoints.get(i - 1);
         AdaptationCheckpoint adaptationCheckpoint2 = (AdaptationCheckpoint) this.adaptationCheckpoints.get(i);
         long j2 = adaptationCheckpoint.totalBandwidth;
-        long j3 = adaptationCheckpoint.allocatedBandwidth;
-        return j3 + ((((float) (totalAllocatableBandwidth - j2)) / ((float) (adaptationCheckpoint2.totalBandwidth - j2))) * ((float) (adaptationCheckpoint2.allocatedBandwidth - j3)));
+        float f = ((float) (totalAllocatableBandwidth - j2)) / ((float) (adaptationCheckpoint2.totalBandwidth - j2));
+        return adaptationCheckpoint.allocatedBandwidth + (f * ((float) (adaptationCheckpoint2.allocatedBandwidth - r2)));
     }
 
     private long getLastChunkDurationUs(List list) {
@@ -234,12 +235,12 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         }
         MediaChunk mediaChunk = (MediaChunk) Iterables.getLast(list);
         long j = mediaChunk.startTimeUs;
-        if (j != -9223372036854775807L) {
-            long j2 = mediaChunk.endTimeUs;
-            if (j2 != -9223372036854775807L) {
-                return j2 - j;
-            }
+        if (j == -9223372036854775807L) {
             return -9223372036854775807L;
+        }
+        long j2 = mediaChunk.endTimeUs;
+        if (j2 != -9223372036854775807L) {
+            return j2 - j;
         }
         return -9223372036854775807L;
     }
@@ -321,13 +322,12 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
     }
 
     private long getTotalAllocatableBandwidth(long j) {
-        long timeToFirstByteEstimateUs;
         long bitrateEstimate = ((float) this.bandwidthMeter.getBitrateEstimate()) * this.bandwidthFraction;
         if (this.bandwidthMeter.getTimeToFirstByteEstimateUs() == -9223372036854775807L || j == -9223372036854775807L) {
             return ((float) bitrateEstimate) / this.playbackSpeed;
         }
         float f = (float) j;
-        return (((float) bitrateEstimate) * Math.max((f / this.playbackSpeed) - ((float) timeToFirstByteEstimateUs), 0.0f)) / f;
+        return (((float) bitrateEstimate) * Math.max((f / this.playbackSpeed) - ((float) r2), 0.0f)) / f;
     }
 
     private long minDurationForQualityIncreaseUs(long j, long j2) {
@@ -360,29 +360,29 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         int i;
         int i2;
         long elapsedRealtime = this.clock.elapsedRealtime();
-        if (shouldEvaluateQueueSize(elapsedRealtime, list)) {
-            this.lastBufferEvaluationMs = elapsedRealtime;
-            this.lastBufferEvaluationMediaChunk = list.isEmpty() ? null : (MediaChunk) Iterables.getLast(list);
-            if (list.isEmpty()) {
-                return 0;
-            }
-            int size = list.size();
-            long playoutDurationForMediaDuration = Util.getPlayoutDurationForMediaDuration(((MediaChunk) list.get(size - 1)).startTimeUs - j, this.playbackSpeed);
-            long minDurationToRetainAfterDiscardUs = getMinDurationToRetainAfterDiscardUs();
-            if (playoutDurationForMediaDuration < minDurationToRetainAfterDiscardUs) {
-                return size;
-            }
-            Format format = getFormat(determineIdealSelectedIndex(elapsedRealtime, getLastChunkDurationUs(list)));
-            for (int i3 = 0; i3 < size; i3++) {
-                MediaChunk mediaChunk = (MediaChunk) list.get(i3);
-                Format format2 = mediaChunk.trackFormat;
-                if (Util.getPlayoutDurationForMediaDuration(mediaChunk.startTimeUs - j, this.playbackSpeed) >= minDurationToRetainAfterDiscardUs && format2.bitrate < format.bitrate && (i = format2.height) != -1 && i <= this.maxHeightToDiscard && (i2 = format2.width) != -1 && i2 <= this.maxWidthToDiscard && i < format.height) {
-                    return i3;
-                }
-            }
+        if (!shouldEvaluateQueueSize(elapsedRealtime, list)) {
+            return list.size();
+        }
+        this.lastBufferEvaluationMs = elapsedRealtime;
+        this.lastBufferEvaluationMediaChunk = list.isEmpty() ? null : (MediaChunk) Iterables.getLast(list);
+        if (list.isEmpty()) {
+            return 0;
+        }
+        int size = list.size();
+        long playoutDurationForMediaDuration = Util.getPlayoutDurationForMediaDuration(((MediaChunk) list.get(size - 1)).startTimeUs - j, this.playbackSpeed);
+        long minDurationToRetainAfterDiscardUs = getMinDurationToRetainAfterDiscardUs();
+        if (playoutDurationForMediaDuration < minDurationToRetainAfterDiscardUs) {
             return size;
         }
-        return list.size();
+        Format format = getFormat(determineIdealSelectedIndex(elapsedRealtime, getLastChunkDurationUs(list)));
+        for (int i3 = 0; i3 < size; i3++) {
+            MediaChunk mediaChunk = (MediaChunk) list.get(i3);
+            Format format2 = mediaChunk.trackFormat;
+            if (Util.getPlayoutDurationForMediaDuration(mediaChunk.startTimeUs - j, this.playbackSpeed) >= minDurationToRetainAfterDiscardUs && format2.bitrate < format.bitrate && (i = format2.height) != -1 && i <= this.maxHeightToDiscard && (i2 = format2.width) != -1 && i2 <= this.maxWidthToDiscard && i < format.height) {
+                return i3;
+            }
+        }
+        return size;
     }
 
     protected long getMinDurationToRetainAfterDiscardUs() {

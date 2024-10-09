@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* loaded from: classes.dex */
 public class FileProvider extends ContentProvider {
     private static final String[] COLUMNS = {"_display_name", "_size"};
@@ -106,8 +107,7 @@ public class FileProvider extends ContentProvider {
                 if (!endsWith) {
                     length++;
                 }
-                String substring = canonicalPath.substring(length);
-                return new Uri.Builder().scheme("content").authority(this.mAuthority).encodedPath(Uri.encode((String) entry.getKey()) + '/' + Uri.encode(substring, "/")).build();
+                return new Uri.Builder().scheme("content").authority(this.mAuthority).encodedPath(Uri.encode((String) entry.getKey()) + '/' + Uri.encode(canonicalPath.substring(length), "/")).build();
             } catch (IOException unused) {
                 throw new IllegalArgumentException("Failed to resolve canonical path for " + file);
             }
@@ -269,11 +269,11 @@ public class FileProvider extends ContentProvider {
     public String getType(Uri uri) {
         File fileForUri = this.mStrategy.getFileForUri(uri);
         int lastIndexOf = fileForUri.getName().lastIndexOf(46);
-        if (lastIndexOf >= 0) {
-            String mimeTypeFromExtension = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileForUri.getName().substring(lastIndexOf + 1));
-            return mimeTypeFromExtension != null ? mimeTypeFromExtension : "application/octet-stream";
+        if (lastIndexOf < 0) {
+            return "application/octet-stream";
         }
-        return "application/octet-stream";
+        String mimeTypeFromExtension = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileForUri.getName().substring(lastIndexOf + 1));
+        return mimeTypeFromExtension != null ? mimeTypeFromExtension : "application/octet-stream";
     }
 
     @Override // android.content.ContentProvider

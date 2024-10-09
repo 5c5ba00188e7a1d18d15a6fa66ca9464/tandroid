@@ -1,4 +1,5 @@
 package com.google.common.collect;
+
 /* loaded from: classes.dex */
 public abstract class ObjectArrays {
     /* JADX INFO: Access modifiers changed from: package-private */

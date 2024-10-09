@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public abstract class zzp extends zzl implements List, RandomAccess {
     private static final zzac zza = new zzn(zzu.zza, 0);
@@ -60,11 +61,7 @@ public abstract class zzp extends zzl implements List, RandomAccess {
                 Iterator it2 = list.iterator();
                 while (true) {
                     if (it.hasNext()) {
-                        if (it2.hasNext()) {
-                            if (!zzb.zza(it.next(), it2.next())) {
-                                break;
-                            }
-                        } else {
+                        if (!it2.hasNext() || !zzb.zza(it.next(), it2.next())) {
                             break;
                         }
                     } else if (!it2.hasNext()) {
@@ -144,7 +141,7 @@ public abstract class zzp extends zzl implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    /* renamed from: zzf */
+    /* renamed from: zzf, reason: merged with bridge method [inline-methods] */
     public zzp subList(int i, int i2) {
         zzf.zzc(i, i2, size());
         int i3 = i2 - i;
@@ -152,7 +149,7 @@ public abstract class zzp extends zzl implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    /* renamed from: zzk */
+    /* renamed from: zzk, reason: merged with bridge method [inline-methods] */
     public final zzac listIterator(int i) {
         zzf.zzb(i, size(), "index");
         return isEmpty() ? zza : new zzn(this, i);

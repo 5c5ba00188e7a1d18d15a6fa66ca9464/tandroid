@@ -23,6 +23,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class VideoTimelineView extends View {
     private static final Object sync = new Object();
@@ -191,8 +192,6 @@ public class VideoTimelineView extends View {
     }
 
     private void drawCorners(Canvas canvas, int i, int i2, int i3, int i4) {
-        int i5;
-        int i6;
         if (AndroidUtilities.dp(6.0f) != this.roundCornersSize) {
             this.roundCornersSize = AndroidUtilities.dp(6.0f);
             this.roundCornerBitmap = Bitmap.createBitmap(AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), Bitmap.Config.ARGB_8888);
@@ -204,25 +203,25 @@ public class VideoTimelineView extends View {
             float f = this.roundCornersSize;
             canvas2.drawCircle(f, f, f, paint);
         }
-        int i7 = this.roundCornersSize >> 1;
+        int i5 = this.roundCornersSize >> 1;
         canvas.save();
         float f2 = i3;
         float f3 = i4;
         canvas.drawBitmap(this.roundCornerBitmap, f2, f3, (Paint) null);
-        float f4 = (i + i4) - i7;
-        canvas.rotate(-90.0f, i3 + i7, f4);
-        canvas.drawBitmap(this.roundCornerBitmap, f2, i5 - this.roundCornersSize, (Paint) null);
+        float f4 = (i + i4) - i5;
+        canvas.rotate(-90.0f, i3 + i5, f4);
+        canvas.drawBitmap(this.roundCornerBitmap, f2, r9 - this.roundCornersSize, (Paint) null);
         canvas.restore();
         canvas.save();
-        float f5 = (i3 + i2) - i7;
+        float f5 = (i3 + i2) - i5;
         canvas.rotate(180.0f, f5, f4);
         Bitmap bitmap = this.roundCornerBitmap;
-        int i8 = this.roundCornersSize;
-        canvas.drawBitmap(bitmap, i6 - i8, i5 - i8, (Paint) null);
+        int i6 = this.roundCornersSize;
+        canvas.drawBitmap(bitmap, r11 - i6, r9 - i6, (Paint) null);
         canvas.restore();
         canvas.save();
-        canvas.rotate(90.0f, f5, i4 + i7);
-        canvas.drawBitmap(this.roundCornerBitmap, i6 - this.roundCornersSize, f3, (Paint) null);
+        canvas.rotate(90.0f, f5, i4 + i5);
+        canvas.drawBitmap(this.roundCornerBitmap, r11 - this.roundCornersSize, f3, (Paint) null);
         canvas.restore();
     }
 
@@ -275,17 +274,17 @@ public class VideoTimelineView extends View {
                     if (isCancelled()) {
                         return null;
                     }
-                    if (frameAtTime != null) {
-                        Bitmap createBitmap = Bitmap.createBitmap(VideoTimelineView.this.frameWidth, VideoTimelineView.this.frameHeight, frameAtTime.getConfig());
-                        Canvas canvas = new Canvas(createBitmap);
-                        float max = Math.max(VideoTimelineView.this.frameWidth / frameAtTime.getWidth(), VideoTimelineView.this.frameHeight / frameAtTime.getHeight());
-                        int width = (int) (frameAtTime.getWidth() * max);
-                        int height = (int) (frameAtTime.getHeight() * max);
-                        canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelineView.this.frameWidth - width) / 2, (VideoTimelineView.this.frameHeight - height) / 2, width, height), (Paint) null);
-                        frameAtTime.recycle();
-                        return createBitmap;
+                    if (frameAtTime == null) {
+                        return frameAtTime;
                     }
-                    return frameAtTime;
+                    Bitmap createBitmap = Bitmap.createBitmap(VideoTimelineView.this.frameWidth, VideoTimelineView.this.frameHeight, frameAtTime.getConfig());
+                    Canvas canvas = new Canvas(createBitmap);
+                    float max = Math.max(VideoTimelineView.this.frameWidth / frameAtTime.getWidth(), VideoTimelineView.this.frameHeight / frameAtTime.getHeight());
+                    int width = (int) (frameAtTime.getWidth() * max);
+                    int height = (int) (frameAtTime.getHeight() * max);
+                    canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelineView.this.frameWidth - width) / 2, (VideoTimelineView.this.frameHeight - height) / 2, width, height), (Paint) null);
+                    frameAtTime.recycle();
+                    return createBitmap;
                 } catch (Exception e2) {
                     e = e2;
                     bitmap = frameAtTime;
@@ -485,7 +484,8 @@ public class VideoTimelineView extends View {
                 this.timeHintView.show(true);
                 invalidate();
                 return true;
-            } else if (dp2 - dp3 <= x && x <= dp3 + dp2 && y >= 0.0f && y <= getMeasuredHeight()) {
+            }
+            if (dp2 - dp3 <= x && x <= dp3 + dp2 && y >= 0.0f && y <= getMeasuredHeight()) {
                 VideoTimelineViewDelegate videoTimelineViewDelegate2 = this.delegate;
                 if (videoTimelineViewDelegate2 != null) {
                     videoTimelineViewDelegate2.didStartDragging();
@@ -497,9 +497,8 @@ public class VideoTimelineView extends View {
                 this.timeHintView.show(true);
                 invalidate();
                 return true;
-            } else {
-                this.timeHintView.show(false);
             }
+            this.timeHintView.show(false);
         } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
             if (this.pressedLeft) {
                 VideoTimelineViewDelegate videoTimelineViewDelegate3 = this.delegate;
@@ -510,7 +509,8 @@ public class VideoTimelineView extends View {
                 invalidate();
                 this.timeHintView.show(false);
                 return true;
-            } else if (this.pressedRight) {
+            }
+            if (this.pressedRight) {
                 VideoTimelineViewDelegate videoTimelineViewDelegate4 = this.delegate;
                 if (videoTimelineViewDelegate4 != null) {
                     videoTimelineViewDelegate4.didStopDragging();
@@ -554,7 +554,8 @@ public class VideoTimelineView extends View {
                 }
                 invalidate();
                 return true;
-            } else if (this.pressedRight) {
+            }
+            if (this.pressedRight) {
                 int i2 = (int) (x - this.pressDx);
                 if (i2 >= dp) {
                     dp = i2 > AndroidUtilities.dp(16.0f) + measuredWidth ? measuredWidth + AndroidUtilities.dp(16.0f) : i2;

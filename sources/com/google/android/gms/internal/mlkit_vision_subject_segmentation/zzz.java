@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 /* loaded from: classes.dex */
 public final class zzz extends zzaa {
     private zzz() {

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.concurrent.CountedCompleter;
+
 /* loaded from: classes2.dex */
 final class o2 extends c {
     private final b j;
@@ -79,10 +80,11 @@ final class o2 extends c {
         return t0.L(this.j.q0());
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00df, code lost:
-        if (r2 >= r0) goto L51;
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x00df, code lost:
+    
+        if (r2 >= r0) goto L52;
      */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x006c  */
     @Override // j$.util.stream.e, java.util.concurrent.CountedCompleter
     /*
         Code decompiled incorrectly, please refer to instructions dump.

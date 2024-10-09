@@ -53,6 +53,7 @@ import org.telegram.ui.EmptyBaseFragment;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.bots.BotWebViewAttachedSheet;
+
 /* loaded from: classes.dex */
 public abstract class BaseFragment {
     protected ActionBar actionBar;
@@ -389,13 +390,13 @@ public abstract class BaseFragment {
 
     public boolean closeSheet() {
         ArrayList arrayList = this.sheetsStack;
-        if (arrayList != null) {
-            for (int size = arrayList.size() - 1; size >= 0; size--) {
-                if (((AttachedSheet) this.sheetsStack.get(size)).isShown()) {
-                    return ((AttachedSheet) this.sheetsStack.get(size)).onAttachedBackPressed();
-                }
-            }
+        if (arrayList == null) {
             return false;
+        }
+        for (int size = arrayList.size() - 1; size >= 0; size--) {
+            if (((AttachedSheet) this.sheetsStack.get(size)).isShown()) {
+                return ((AttachedSheet) this.sheetsStack.get(size)).onAttachedBackPressed();
+            }
         }
         return false;
     }
@@ -492,7 +493,8 @@ public abstract class BaseFragment {
         return false;
     }
 
-    public void finishFragment() {
+    /* renamed from: finishFragment */
+    public void lambda$onBackPressed$300() {
         PreviewDelegate previewDelegate;
         Dialog dialog = this.parentDialog;
         if (dialog != null) {
@@ -606,12 +608,12 @@ public abstract class BaseFragment {
 
     public FrameLayout getLayoutContainer() {
         View view = this.fragmentView;
-        if (view != null) {
-            ViewParent parent = view.getParent();
-            if (parent instanceof FrameLayout) {
-                return (FrameLayout) parent;
-            }
+        if (view == null) {
             return null;
+        }
+        ViewParent parent = view.getParent();
+        if (parent instanceof FrameLayout) {
+            return (FrameLayout) parent;
         }
         return null;
     }
@@ -663,7 +665,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getNotificationsSettings();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0034  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -759,13 +761,13 @@ public abstract class BaseFragment {
     }
 
     public boolean hasShownSheet() {
-        if (hasSheet()) {
-            for (int size = this.sheetsStack.size() - 1; size >= 0; size--) {
-                if (((AttachedSheet) this.sheetsStack.get(size)).isShown()) {
-                    return true;
-                }
-            }
+        if (!hasSheet()) {
             return false;
+        }
+        for (int size = this.sheetsStack.size() - 1; size >= 0; size--) {
+            if (((AttachedSheet) this.sheetsStack.get(size)).isShown()) {
+                return true;
+            }
         }
         return false;
     }
@@ -802,19 +804,19 @@ public abstract class BaseFragment {
     }
 
     public boolean isLightStatusBar() {
-        if (getLastStoryViewer() == null || !getLastStoryViewer().isShown()) {
-            if (!hasForceLightStatusBar() || Theme.getCurrentTheme().isDark()) {
-                Theme.ResourcesProvider resourceProvider = getResourceProvider();
-                int i = Theme.key_actionBarDefault;
-                ActionBar actionBar = this.actionBar;
-                if (actionBar != null && actionBar.isActionModeShowed()) {
-                    i = Theme.key_actionBarActionModeDefault;
-                }
-                return ColorUtils.calculateLuminance(resourceProvider != null ? resourceProvider.getColorOrDefault(i) : Theme.getColor(i, null, true)) > 0.699999988079071d;
-            }
+        if (getLastStoryViewer() != null && getLastStoryViewer().isShown()) {
+            return false;
+        }
+        if (hasForceLightStatusBar() && !Theme.getCurrentTheme().isDark()) {
             return true;
         }
-        return false;
+        Theme.ResourcesProvider resourceProvider = getResourceProvider();
+        int i = Theme.key_actionBarDefault;
+        ActionBar actionBar = this.actionBar;
+        if (actionBar != null && actionBar.isActionModeShowed()) {
+            i = Theme.key_actionBarActionModeDefault;
+        }
+        return ColorUtils.calculateLuminance(resourceProvider != null ? resourceProvider.getColorOrDefault(i) : Theme.getColor(i, null, true)) > 0.699999988079071d;
     }
 
     public boolean isPaused() {

@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Charsets;
 import java.net.URLDecoder;
+
 /* loaded from: classes.dex */
 public final class DataSchemeDataSource extends BaseDataSource {
     private int bytesRemaining;
@@ -42,8 +43,7 @@ public final class DataSchemeDataSource extends BaseDataSource {
         this.dataSpec = dataSpec;
         Uri uri = dataSpec.uri;
         String scheme = uri.getScheme();
-        boolean equals = "data".equals(scheme);
-        Assertions.checkArgument(equals, "Unsupported scheme: " + scheme);
+        Assertions.checkArgument("data".equals(scheme), "Unsupported scheme: " + scheme);
         String[] split = Util.split(uri.getSchemeSpecificPart(), ",");
         if (split.length != 2) {
             throw ParserException.createForMalformedDataOfUnknownType("Unexpected URI format: " + uri, null);

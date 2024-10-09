@@ -56,6 +56,7 @@ import org.telegram.ui.Components.Paint.ShapeDetector;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public class MediaActivity extends BaseFragment implements SharedMediaLayout.SharedMediaPreloaderDelegate, FloatingDebugProvider, NotificationCenter.NotificationCenterDelegate {
     private SparseArray actionModeMessageObjects;
@@ -107,16 +108,24 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 if (MediaActivity.this.sharedMediaLayout.closeActionMode(true)) {
                     return;
                 }
-                MediaActivity.this.finishFragment();
-            } else if (i != 2) {
+                MediaActivity.this.lambda$onBackPressed$300();
+                return;
+            }
+            if (i != 2) {
                 if (i == 10) {
                     SharedMediaLayout sharedMediaLayout = MediaActivity.this.sharedMediaLayout;
                     sharedMediaLayout.showMediaCalendar(sharedMediaLayout.getClosestTab(), false);
-                } else if (i == 11) {
-                    MediaActivity.this.sharedMediaLayout.closeActionMode(true);
-                    MediaActivity.this.sharedMediaLayout.getSearchItem().openSearch(false);
+                    return;
+                } else {
+                    if (i == 11) {
+                        MediaActivity.this.sharedMediaLayout.closeActionMode(true);
+                        MediaActivity.this.sharedMediaLayout.getSearchItem().openSearch(false);
+                        return;
+                    }
+                    return;
                 }
-            } else if (MediaActivity.this.actionModeMessageObjects != null) {
+            }
+            if (MediaActivity.this.actionModeMessageObjects != null) {
                 final ArrayList arrayList = new ArrayList();
                 for (int i2 = 0; i2 < MediaActivity.this.actionModeMessageObjects.size(); i2++) {
                     TL_stories.StoryItem storyItem = ((MessageObject) MediaActivity.this.actionModeMessageObjects.valueAt(i2)).storyItem;
@@ -452,7 +461,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                         showSubtitle(i, true, true);
                         this.subtitleTextView[i].setText(LocaleController.formatPluralString("SavedDialogsTabCount", getMessagesController().getSavedMessagesController().getAllCount(), new Object[0]), z);
                         return;
-                    } else if (closestTab >= 0) {
+                    }
+                    if (closestTab >= 0) {
                         if (closestTab >= lastMediaCount.length || lastMediaCount[closestTab] >= 0) {
                             if (closestTab == 0) {
                                 showSubtitle(i, true, true);
@@ -482,15 +492,16 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                                 showSubtitle(i, true, true);
                                 animatedTextView2 = this.subtitleTextView[i];
                                 formatPluralString2 = LocaleController.formatPluralString("MusicFiles", lastMediaCount[4], new Object[0]);
-                            } else if (closestTab != 5) {
-                                if (closestTab == 10) {
-                                    showSubtitle(i, true, true);
-                                    MessagesController.ChannelRecommendations channelRecommendations = MessagesController.getInstance(this.currentAccount).getChannelRecommendations(-this.dialogId);
-                                    this.subtitleTextView[i].setText(LocaleController.formatPluralString("Channels", channelRecommendations == null ? 0 : channelRecommendations.more + channelRecommendations.chats.size(), new Object[0]), z);
+                            } else {
+                                if (closestTab != 5) {
+                                    if (closestTab == 10) {
+                                        showSubtitle(i, true, true);
+                                        MessagesController.ChannelRecommendations channelRecommendations = MessagesController.getInstance(this.currentAccount).getChannelRecommendations(-this.dialogId);
+                                        this.subtitleTextView[i].setText(LocaleController.formatPluralString("Channels", channelRecommendations == null ? 0 : channelRecommendations.more + channelRecommendations.chats.size(), new Object[0]), z);
+                                        return;
+                                    }
                                     return;
                                 }
-                                return;
-                            } else {
                                 showSubtitle(i, true, true);
                                 animatedTextView2 = this.subtitleTextView[i];
                                 formatPluralString2 = LocaleController.formatPluralString("GIFs", lastMediaCount[5], new Object[0]);
@@ -499,9 +510,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                             return;
                         }
                         return;
-                    } else {
-                        return;
                     }
+                    return;
                 }
                 ActionBarMenuSubItem actionBarMenuSubItem = this.zoomOutItem;
                 if (actionBarMenuSubItem != null) {
@@ -582,21 +592,21 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x062a  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0649  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x065c  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x066f  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x068e  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x06b6  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x04bd  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x04c5  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x04cc  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x04d6  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x04db  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x04ff  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x051d  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x065c  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x066f  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x068e  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x06b6  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x051d  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x04d6  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x04c5  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x04bd  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x04cc  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x04db  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x04ff  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x062a  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0649  */
     /* JADX WARN: Type inference failed for: r5v13 */
-    /* JADX WARN: Type inference failed for: r5v14, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v14, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v15 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -611,15 +621,17 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         FrameLayout frameLayout;
         long j;
         int i3;
-        AvatarDrawable avatarDrawable;
         SimpleTextView simpleTextView;
         TLRPC.User user;
-        TLRPC.User user2;
         int i4;
+        AvatarDrawable avatarDrawable;
+        AvatarDrawable avatarDrawable2;
         SimpleTextView simpleTextView2;
-        TLRPC.Chat chat;
+        AvatarDrawable avatarDrawable3;
+        TLRPC.User user2;
         SimpleTextView simpleTextView3;
         ActionBarMenuItem actionBarMenuItem;
+        AvatarDrawable avatarDrawable4;
         ActionBar actionBar = this.actionBar;
         BackDrawable backDrawable = new BackDrawable(false);
         this.backDrawable = backDrawable;
@@ -633,14 +645,14 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchTouchEvent(MotionEvent motionEvent) {
                 SharedMediaLayout sharedMediaLayout = MediaActivity.this.sharedMediaLayout;
-                if (sharedMediaLayout == null || !sharedMediaLayout.isInFastScroll()) {
-                    SharedMediaLayout sharedMediaLayout2 = MediaActivity.this.sharedMediaLayout;
-                    if (sharedMediaLayout2 == null || !sharedMediaLayout2.checkPinchToZoom(motionEvent)) {
-                        return super.dispatchTouchEvent(motionEvent);
-                    }
-                    return true;
+                if (sharedMediaLayout != null && sharedMediaLayout.isInFastScroll()) {
+                    return MediaActivity.this.sharedMediaLayout.dispatchFastScrollEvent(motionEvent);
                 }
-                return MediaActivity.this.sharedMediaLayout.dispatchFastScrollEvent(motionEvent);
+                SharedMediaLayout sharedMediaLayout2 = MediaActivity.this.sharedMediaLayout;
+                if (sharedMediaLayout2 == null || !sharedMediaLayout2.checkPinchToZoom(motionEvent)) {
+                    return super.dispatchTouchEvent(motionEvent);
+                }
+                return true;
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -662,14 +674,15 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                         ((FrameLayout.LayoutParams) mediaActivity.avatarImageView.getLayoutParams()).topMargin = (ActionBar.getCurrentActionBarHeight() - AndroidUtilities.dp(42.0f)) / 2;
                         super.onMeasure(i5, i6);
                         return;
+                    } else {
+                        if (mediaActivity.nameTextView[i7] != null) {
+                            ((FrameLayout.LayoutParams) MediaActivity.this.nameTextView[i7].getLayoutParams()).topMargin = (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(22.0f)) / 2) + AndroidUtilities.dp((AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) ? 5.0f : 4.0f);
+                        }
+                        if (MediaActivity.this.subtitleTextView[i7] != null) {
+                            ((FrameLayout.LayoutParams) MediaActivity.this.subtitleTextView[i7].getLayoutParams()).topMargin = ((ActionBar.getCurrentActionBarHeight() / 2) + (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(19.0f)) / 2)) - AndroidUtilities.dp(7.0f);
+                        }
+                        i7++;
                     }
-                    if (mediaActivity.nameTextView[i7] != null) {
-                        ((FrameLayout.LayoutParams) MediaActivity.this.nameTextView[i7].getLayoutParams()).topMargin = (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(22.0f)) / 2) + AndroidUtilities.dp((AndroidUtilities.isTablet() || getResources().getConfiguration().orientation != 2) ? 5.0f : 4.0f);
-                    }
-                    if (MediaActivity.this.subtitleTextView[i7] != null) {
-                        ((FrameLayout.LayoutParams) MediaActivity.this.subtitleTextView[i7].getLayoutParams()).topMargin = ((ActionBar.getCurrentActionBarHeight() / 2) + (((ActionBar.getCurrentActionBarHeight() / 2) - AndroidUtilities.dp(19.0f)) / 2)) - AndroidUtilities.dp(7.0f);
-                    }
-                    i7++;
                 }
             }
         };
@@ -800,10 +813,10 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         this.avatarImageView.setRoundRadius(AndroidUtilities.dp((getDialogId() == getUserConfig().getClientUserId() && this.topicId == 0 && getMessagesController().savedViewAsChats) ? 13.0f : 21.0f));
         this.avatarImageView.setPivotX(0.0f);
         this.avatarImageView.setPivotY(0.0f);
-        AvatarDrawable avatarDrawable2 = new AvatarDrawable();
-        avatarDrawable2.setProfile(true);
+        AvatarDrawable avatarDrawable5 = new AvatarDrawable();
+        avatarDrawable5.setProfile(true);
         this.avatarImageView.setVisibility(z ? 0 : 8);
-        this.avatarImageView.setImageDrawable(avatarDrawable2);
+        this.avatarImageView.setImageDrawable(avatarDrawable5);
         frameLayout2.addView(this.avatarImageView, LayoutHelper.createFrame(42, 42.0f, 51, 64.0f, 0.0f, 0.0f, 0.0f));
         AnimatedTextView animatedTextView = new AnimatedTextView(context, true, true, true);
         this.selectedTextView = animatedTextView;
@@ -888,7 +901,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         if (this.type == 0 && this.dialogId == getUserConfig().getClientUserId() && this.topicId == 0 && !getMessagesController().getSavedMessagesController().unsupported && getMessagesController().getSavedMessagesController().hasDialogs()) {
             this.initialTab = 11;
         }
-        SharedMediaLayout sharedMediaLayout = new SharedMediaLayout(context, this.dialogId, this.sharedMediaPreloader, 0, null, this.currentChatInfo, this.currentUserInfo, this.initialTab, this, new SharedMediaLayout.Delegate() { // from class: org.telegram.ui.Components.MediaActivity.5
+        int i11 = 0;
+        SharedMediaLayout sharedMediaLayout = new SharedMediaLayout(context, this.dialogId, this.sharedMediaPreloader, i11, null, this.currentChatInfo, this.currentUserInfo, this.initialTab, this, new SharedMediaLayout.Delegate() { // from class: org.telegram.ui.Components.MediaActivity.5
             @Override // org.telegram.ui.Components.SharedMediaLayout.Delegate
             public boolean canSearchMembers() {
                 return false;
@@ -922,7 +936,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             public void updateSelectedMediaTabText() {
                 MediaActivity.this.updateMediaCount();
             }
-        }, 0, getResourceProvider()) { // from class: org.telegram.ui.Components.MediaActivity.6
+        }, i11, getResourceProvider()) { // from class: org.telegram.ui.Components.MediaActivity.6
             private AnimatorSet actionModeAnimation;
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
@@ -1031,18 +1045,18 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:26:0x005d  */
-            /* JADX WARN: Removed duplicated region for block: B:27:0x0060  */
-            /* JADX WARN: Removed duplicated region for block: B:30:0x007a  */
-            /* JADX WARN: Removed duplicated region for block: B:31:0x007d  */
-            /* JADX WARN: Removed duplicated region for block: B:34:0x0091  */
-            /* JADX WARN: Removed duplicated region for block: B:35:0x0093  */
-            /* JADX WARN: Removed duplicated region for block: B:38:0x00a8  */
-            /* JADX WARN: Removed duplicated region for block: B:49:0x00e9  */
-            /* JADX WARN: Removed duplicated region for block: B:56:0x0113  */
-            /* JADX WARN: Removed duplicated region for block: B:57:0x0115  */
-            /* JADX WARN: Removed duplicated region for block: B:60:0x011e  */
-            /* JADX WARN: Removed duplicated region for block: B:68:0x0147  */
+            /* JADX WARN: Removed duplicated region for block: B:24:0x005d  */
+            /* JADX WARN: Removed duplicated region for block: B:27:0x007a  */
+            /* JADX WARN: Removed duplicated region for block: B:30:0x0091  */
+            /* JADX WARN: Removed duplicated region for block: B:33:0x00a8  */
+            /* JADX WARN: Removed duplicated region for block: B:44:0x00e9  */
+            /* JADX WARN: Removed duplicated region for block: B:51:0x0113  */
+            /* JADX WARN: Removed duplicated region for block: B:54:0x011e  */
+            /* JADX WARN: Removed duplicated region for block: B:61:0x0147  */
+            /* JADX WARN: Removed duplicated region for block: B:67:0x0115  */
+            /* JADX WARN: Removed duplicated region for block: B:68:0x0093  */
+            /* JADX WARN: Removed duplicated region for block: B:69:0x007d  */
+            /* JADX WARN: Removed duplicated region for block: B:70:0x0060  */
             @Override // org.telegram.ui.Components.SharedMediaLayout
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -1051,108 +1065,54 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 FrameLayout frameLayout6;
                 if (MediaActivity.this.type == 0) {
                     super.showActionMode(z2);
-                } else if (this.isActionModeShowed == z2) {
-                } else {
-                    this.isActionModeShowed = z2;
-                    AnimatorSet animatorSet = this.actionModeAnimation;
-                    if (animatorSet != null) {
-                        animatorSet.cancel();
+                    return;
+                }
+                if (this.isActionModeShowed == z2) {
+                    return;
+                }
+                this.isActionModeShowed = z2;
+                AnimatorSet animatorSet = this.actionModeAnimation;
+                if (animatorSet != null) {
+                    animatorSet.cancel();
+                }
+                if (MediaActivity.this.type == 1 || MediaActivity.this.type == 2) {
+                    disableScroll(z2);
+                }
+                MediaActivity mediaActivity = MediaActivity.this;
+                if (z2) {
+                    mediaActivity.selectedTextView.setVisibility(0);
+                    if (MediaActivity.this.buttonContainer != null) {
+                        frameLayout6 = MediaActivity.this.buttonContainer;
                     }
-                    if (MediaActivity.this.type == 1 || MediaActivity.this.type == 2) {
-                        disableScroll(z2);
-                    }
-                    MediaActivity mediaActivity = MediaActivity.this;
-                    if (z2) {
-                        mediaActivity.selectedTextView.setVisibility(0);
-                        if (MediaActivity.this.buttonContainer != null) {
-                            frameLayout6 = MediaActivity.this.buttonContainer;
-                        }
-                        float f = 0.0f;
-                        MediaActivity.this.backDrawable.setRotation(!z2 ? 1.0f : 0.0f, true);
-                        this.actionModeAnimation = new AnimatorSet();
-                        ArrayList arrayList = new ArrayList();
-                        AnimatedTextView animatedTextView3 = MediaActivity.this.selectedTextView;
-                        Property property = View.ALPHA;
-                        arrayList.add(ObjectAnimator.ofFloat(animatedTextView3, property, !z2 ? 1.0f : 0.0f));
-                        arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.titlesContainer, property, !z2 ? 0.0f : 1.0f));
-                        if (MediaActivity.this.buttonContainer != null) {
-                            arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.buttonContainer, property, z2 ? 1.0f : 0.0f));
-                            arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.buttonContainer, View.TRANSLATION_Y, z2 ? 0.0f : MediaActivity.this.buttonContainer.getMeasuredHeight()));
-                        }
-                        if (MediaActivity.this.deleteItem != null) {
-                            MediaActivity.this.deleteItem.setVisibility(0);
-                            arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.deleteItem, property, z2 ? 1.0f : 0.0f));
-                        }
-                        final boolean z3 = getStoriesCount(getClosestTab()) != 0;
-                        if (MediaActivity.this.optionsItem != null) {
-                            MediaActivity.this.optionsItem.setVisibility(0);
-                            ActionBarMenuItem actionBarMenuItem4 = MediaActivity.this.optionsItem;
-                            if (!z2 && !z3) {
-                                f = 1.0f;
-                            }
-                            arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem4, property, f));
-                        }
-                        if (MediaActivity.this.tabsView != null) {
-                            arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.tabsView, property, z2 ? 0.4f : 1.0f));
-                        }
-                        this.actionModeAnimation.playTogether(arrayList);
-                        this.actionModeAnimation.setDuration(300L);
-                        this.actionModeAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-                        this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.MediaActivity.6.1
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationCancel(Animator animator) {
-                                6.this.actionModeAnimation = null;
-                            }
-
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator) {
-                                if (6.this.actionModeAnimation == null) {
-                                    return;
-                                }
-                                6.this.actionModeAnimation = null;
-                                if (z2) {
-                                    MediaActivity.this.titlesContainer.setVisibility(4);
-                                    if (MediaActivity.this.optionsItem == null) {
-                                        return;
-                                    }
-                                } else {
-                                    MediaActivity.this.selectedTextView.setVisibility(4);
-                                    if (MediaActivity.this.buttonContainer != null) {
-                                        MediaActivity.this.buttonContainer.setVisibility(4);
-                                    }
-                                    if (MediaActivity.this.deleteItem != null) {
-                                        MediaActivity.this.deleteItem.setVisibility(8);
-                                    }
-                                    if (!z3 || MediaActivity.this.optionsItem == null) {
-                                        return;
-                                    }
-                                }
-                                MediaActivity.this.optionsItem.setVisibility(8);
-                            }
-                        });
-                        this.actionModeAnimation.start();
-                    }
-                    frameLayout6 = mediaActivity.titlesContainer;
-                    frameLayout6.setVisibility(0);
-                    float f2 = 0.0f;
+                    float f = 0.0f;
                     MediaActivity.this.backDrawable.setRotation(!z2 ? 1.0f : 0.0f, true);
                     this.actionModeAnimation = new AnimatorSet();
-                    ArrayList arrayList2 = new ArrayList();
-                    AnimatedTextView animatedTextView32 = MediaActivity.this.selectedTextView;
-                    Property property2 = View.ALPHA;
-                    arrayList2.add(ObjectAnimator.ofFloat(animatedTextView32, property2, !z2 ? 1.0f : 0.0f));
-                    arrayList2.add(ObjectAnimator.ofFloat(MediaActivity.this.titlesContainer, property2, !z2 ? 0.0f : 1.0f));
+                    ArrayList arrayList = new ArrayList();
+                    AnimatedTextView animatedTextView3 = MediaActivity.this.selectedTextView;
+                    Property property = View.ALPHA;
+                    arrayList.add(ObjectAnimator.ofFloat(animatedTextView3, (Property<AnimatedTextView, Float>) property, !z2 ? 1.0f : 0.0f));
+                    arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.titlesContainer, (Property<FrameLayout, Float>) property, !z2 ? 0.0f : 1.0f));
                     if (MediaActivity.this.buttonContainer != null) {
+                        arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.buttonContainer, (Property<FrameLayout, Float>) property, z2 ? 1.0f : 0.0f));
+                        arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.buttonContainer, (Property<FrameLayout, Float>) View.TRANSLATION_Y, z2 ? 0.0f : MediaActivity.this.buttonContainer.getMeasuredHeight()));
                     }
                     if (MediaActivity.this.deleteItem != null) {
+                        MediaActivity.this.deleteItem.setVisibility(0);
+                        arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.deleteItem, (Property<ActionBarMenuItem, Float>) property, z2 ? 1.0f : 0.0f));
                     }
-                    if (getStoriesCount(getClosestTab()) != 0) {
-                    }
+                    final boolean z3 = getStoriesCount(getClosestTab()) != 0;
                     if (MediaActivity.this.optionsItem != null) {
+                        MediaActivity.this.optionsItem.setVisibility(0);
+                        ActionBarMenuItem actionBarMenuItem4 = MediaActivity.this.optionsItem;
+                        if (!z2 && !z3) {
+                            f = 1.0f;
+                        }
+                        arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem4, (Property<ActionBarMenuItem, Float>) property, f));
                     }
                     if (MediaActivity.this.tabsView != null) {
+                        arrayList.add(ObjectAnimator.ofFloat(MediaActivity.this.tabsView, (Property<StoriesTabsView, Float>) property, z2 ? 0.4f : 1.0f));
                     }
-                    this.actionModeAnimation.playTogether(arrayList2);
+                    this.actionModeAnimation.playTogether(arrayList);
                     this.actionModeAnimation.setDuration(300L);
                     this.actionModeAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
                     this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.MediaActivity.6.1
@@ -1189,6 +1149,62 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                     });
                     this.actionModeAnimation.start();
                 }
+                frameLayout6 = mediaActivity.titlesContainer;
+                frameLayout6.setVisibility(0);
+                float f2 = 0.0f;
+                MediaActivity.this.backDrawable.setRotation(!z2 ? 1.0f : 0.0f, true);
+                this.actionModeAnimation = new AnimatorSet();
+                ArrayList arrayList2 = new ArrayList();
+                AnimatedTextView animatedTextView32 = MediaActivity.this.selectedTextView;
+                Property property2 = View.ALPHA;
+                arrayList2.add(ObjectAnimator.ofFloat(animatedTextView32, (Property<AnimatedTextView, Float>) property2, !z2 ? 1.0f : 0.0f));
+                arrayList2.add(ObjectAnimator.ofFloat(MediaActivity.this.titlesContainer, (Property<FrameLayout, Float>) property2, !z2 ? 0.0f : 1.0f));
+                if (MediaActivity.this.buttonContainer != null) {
+                }
+                if (MediaActivity.this.deleteItem != null) {
+                }
+                if (getStoriesCount(getClosestTab()) != 0) {
+                }
+                if (MediaActivity.this.optionsItem != null) {
+                }
+                if (MediaActivity.this.tabsView != null) {
+                }
+                this.actionModeAnimation.playTogether(arrayList2);
+                this.actionModeAnimation.setDuration(300L);
+                this.actionModeAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                this.actionModeAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.MediaActivity.6.1
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationCancel(Animator animator) {
+                        6.this.actionModeAnimation = null;
+                    }
+
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        if (6.this.actionModeAnimation == null) {
+                            return;
+                        }
+                        6.this.actionModeAnimation = null;
+                        if (z2) {
+                            MediaActivity.this.titlesContainer.setVisibility(4);
+                            if (MediaActivity.this.optionsItem == null) {
+                                return;
+                            }
+                        } else {
+                            MediaActivity.this.selectedTextView.setVisibility(4);
+                            if (MediaActivity.this.buttonContainer != null) {
+                                MediaActivity.this.buttonContainer.setVisibility(4);
+                            }
+                            if (MediaActivity.this.deleteItem != null) {
+                                MediaActivity.this.deleteItem.setVisibility(8);
+                            }
+                            if (!z3 || MediaActivity.this.optionsItem == null) {
+                                return;
+                            }
+                        }
+                        MediaActivity.this.optionsItem.setVisibility(8);
+                    }
+                });
+                this.actionModeAnimation.start();
             }
         };
         this.sharedMediaLayout = sharedMediaLayout;
@@ -1201,10 +1217,10 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         if (this.sharedMediaLayout.getSearchOptionsItem() != null) {
             this.sharedMediaLayout.getSearchOptionsItem().setTranslationY(0.0f);
         }
-        int i11 = this.type;
-        if (i11 != 1) {
+        int i12 = this.type;
+        if (i12 != 1) {
             i = 2;
-            if (i11 != 2) {
+            if (i12 != 2) {
                 sizeNotifierFrameLayout = sizeNotifierFrameLayout2;
                 sizeNotifierFrameLayout.addView(this.sharedMediaLayout);
                 sizeNotifierFrameLayout.addView(this.actionBar);
@@ -1235,133 +1251,151 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 i3 = this.type;
                 if (i3 != 3) {
                     this.nameTextView[r5].setText(this.hashtag);
-                    int i12 = this.storiesCount;
-                    if (i12 != i2) {
-                        this.subtitleTextView[r5].setText(LocaleController.formatPluralStringSpaced("FoundStories", i12));
+                    int i13 = this.storiesCount;
+                    if (i13 != i2) {
+                        this.subtitleTextView[r5].setText(LocaleController.formatPluralStringSpaced("FoundStories", i13));
                     }
                 } else {
                     if (i3 == i) {
                         simpleTextView2 = this.nameTextView[r5];
-                    } else if (i3 != 1) {
-                        float f = 0.75f;
-                        if (j == UserObject.ANONYMOUS) {
-                            this.nameTextView[r5].setText(LocaleController.getString(R.string.AnonymousForward));
-                            i4 = 21;
-                            avatarDrawable = avatarDrawable2;
-                        } else {
-                            avatarDrawable = avatarDrawable2;
-                            if (this.topicId == 0 || j != getUserConfig().getClientUserId()) {
-                                if (DialogObject.isEncryptedDialog(j)) {
-                                    TLRPC.EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j)));
-                                    if (encryptedChat != null && (user2 = getMessagesController().getUser(Long.valueOf(encryptedChat.user_id))) != null) {
-                                        simpleTextView = this.nameTextView[r5];
-                                        user = user2;
-                                        simpleTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
-                                        avatarDrawable.setInfo(this.currentAccount, user);
-                                        chat = user;
-                                    }
-                                    chat = null;
-                                } else {
-                                    if (DialogObject.isUserDialog(j)) {
-                                        TLRPC.User user3 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
-                                        if (user3 != null) {
-                                            if (user3.self) {
-                                                this.nameTextView[r5].setText(LocaleController.getString(R.string.SavedMessages));
-                                                avatarDrawable.setAvatarType(1);
-                                                f = 0.8f;
-                                                avatarDrawable.setScaleSize(f);
-                                            } else {
+                    } else {
+                        if (i3 != 1) {
+                            float f = 0.75f;
+                            if (j == UserObject.ANONYMOUS) {
+                                this.nameTextView[r5].setText(LocaleController.getString(R.string.AnonymousForward));
+                                i4 = 21;
+                                avatarDrawable2 = avatarDrawable5;
+                            } else {
+                                AvatarDrawable avatarDrawable6 = avatarDrawable5;
+                                if (this.topicId == 0 || j != getUserConfig().getClientUserId()) {
+                                    if (DialogObject.isEncryptedDialog(j)) {
+                                        TLRPC.EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j)));
+                                        avatarDrawable4 = avatarDrawable6;
+                                        if (encryptedChat != null) {
+                                            TLRPC.User user3 = getMessagesController().getUser(Long.valueOf(encryptedChat.user_id));
+                                            avatarDrawable4 = avatarDrawable6;
+                                            if (user3 != null) {
                                                 simpleTextView = this.nameTextView[r5];
                                                 user = user3;
                                                 simpleTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
-                                                avatarDrawable.setInfo(this.currentAccount, user);
-                                                chat = user;
+                                                avatarDrawable6.setInfo(this.currentAccount, user);
+                                                user2 = user;
+                                                avatarDrawable3 = avatarDrawable6;
                                             }
                                         }
+                                        user2 = null;
+                                        avatarDrawable3 = avatarDrawable4;
                                     } else {
-                                        TLRPC.Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
-                                        if (chat2 != null) {
-                                            this.nameTextView[r5].setText(chat2.title);
-                                            avatarDrawable.setInfo(this.currentAccount, chat2);
-                                            chat = chat2;
+                                        if (DialogObject.isUserDialog(j)) {
+                                            TLRPC.User user4 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
+                                            avatarDrawable4 = avatarDrawable6;
+                                            if (user4 != null) {
+                                                if (user4.self) {
+                                                    this.nameTextView[r5].setText(LocaleController.getString(R.string.SavedMessages));
+                                                    avatarDrawable6.setAvatarType(1);
+                                                    f = 0.8f;
+                                                    avatarDrawable = avatarDrawable6;
+                                                    avatarDrawable.setScaleSize(f);
+                                                    avatarDrawable4 = avatarDrawable;
+                                                } else {
+                                                    simpleTextView = this.nameTextView[r5];
+                                                    user = user4;
+                                                    simpleTextView.setText(ContactsController.formatName(user.first_name, user.last_name));
+                                                    avatarDrawable6.setInfo(this.currentAccount, user);
+                                                    user2 = user;
+                                                    avatarDrawable3 = avatarDrawable6;
+                                                }
+                                            }
+                                        } else {
+                                            TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
+                                            avatarDrawable4 = avatarDrawable6;
+                                            if (chat != 0) {
+                                                this.nameTextView[r5].setText(chat.title);
+                                                avatarDrawable6.setInfo(this.currentAccount, chat);
+                                                user2 = chat;
+                                                avatarDrawable3 = avatarDrawable6;
+                                            }
                                         }
+                                        user2 = null;
+                                        avatarDrawable3 = avatarDrawable4;
                                     }
-                                    chat = null;
+                                    this.avatarImageView.setImage(ImageLocation.getForUserOrChat(user2, 1), "50_50", avatarDrawable3, user2);
+                                    simpleTextView3 = this.nameTextView[r5];
+                                    if (simpleTextView3 != null && TextUtils.isEmpty(simpleTextView3.getText())) {
+                                        this.nameTextView[r5].setText(LocaleController.getString(R.string.SharedContentTitle));
+                                    }
+                                    if (this.sharedMediaLayout.isSearchItemVisible() && this.type != 1) {
+                                        this.sharedMediaLayout.getSearchItem().setVisibility(r5);
+                                    }
+                                    actionBarMenuItem = this.sharedMediaLayout.searchItemIcon;
+                                    if (actionBarMenuItem != null && this.initialTab != 11) {
+                                        actionBarMenuItem.setVisibility(8);
+                                    }
+                                    if (this.sharedMediaLayout.getSearchOptionsItem() != null && this.type != 1) {
+                                        this.sharedMediaLayout.animateSearchToOptions(!r3.isSearchItemVisible(), r5);
+                                        this.sharedMediaLayout.getSearchOptionsItem().setVisibility(r5);
+                                    }
+                                    if (this.sharedMediaLayout.isCalendarItemVisible() || this.type == 1) {
+                                        this.sharedMediaLayout.photoVideoOptionsItem.setVisibility(4);
+                                    } else {
+                                        this.sharedMediaLayout.photoVideoOptionsItem.setVisibility(r5);
+                                    }
+                                    this.actionBar.setDrawBlurBackground(sizeNotifierFrameLayout);
+                                    AndroidUtilities.updateViewVisibilityAnimated(frameLayout2, true, 1.0f, r5);
+                                    updateMediaCount();
+                                    updateColors();
+                                    if (this.type == 1 && this.initialTab == 9) {
+                                        this.sharedMediaLayout.onTabProgress(9.0f);
+                                    }
+                                    return sizeNotifierFrameLayout;
                                 }
-                                this.avatarImageView.setImage(ImageLocation.getForUserOrChat(chat, 1), "50_50", avatarDrawable, chat);
-                                simpleTextView3 = this.nameTextView[r5];
-                                if (simpleTextView3 != null && TextUtils.isEmpty(simpleTextView3.getText())) {
-                                    this.nameTextView[r5].setText(LocaleController.getString(R.string.SharedContentTitle));
-                                }
-                                if (this.sharedMediaLayout.isSearchItemVisible() && this.type != 1) {
-                                    this.sharedMediaLayout.getSearchItem().setVisibility(r5);
-                                }
-                                actionBarMenuItem = this.sharedMediaLayout.searchItemIcon;
-                                if (actionBarMenuItem != null && this.initialTab != 11) {
-                                    actionBarMenuItem.setVisibility(8);
-                                }
-                                if (this.sharedMediaLayout.getSearchOptionsItem() != null && this.type != 1) {
-                                    SharedMediaLayout sharedMediaLayout2 = this.sharedMediaLayout;
-                                    sharedMediaLayout2.animateSearchToOptions(!sharedMediaLayout2.isSearchItemVisible(), r5);
-                                    this.sharedMediaLayout.getSearchOptionsItem().setVisibility(r5);
-                                }
-                                if (this.sharedMediaLayout.isCalendarItemVisible() || this.type == 1) {
-                                    this.sharedMediaLayout.photoVideoOptionsItem.setVisibility(4);
-                                } else {
-                                    this.sharedMediaLayout.photoVideoOptionsItem.setVisibility(r5);
-                                }
-                                this.actionBar.setDrawBlurBackground(sizeNotifierFrameLayout);
-                                AndroidUtilities.updateViewVisibilityAnimated(frameLayout2, true, 1.0f, r5);
-                                updateMediaCount();
-                                updateColors();
-                                if (this.type == 1 && this.initialTab == 9) {
-                                    this.sharedMediaLayout.onTabProgress(9.0f);
-                                }
-                                return sizeNotifierFrameLayout;
+                                this.nameTextView[r5].setText(LocaleController.getString(R.string.MyNotes));
+                                i4 = 22;
+                                avatarDrawable2 = avatarDrawable6;
                             }
-                            this.nameTextView[r5].setText(LocaleController.getString(R.string.MyNotes));
-                            i4 = 22;
+                            avatarDrawable2.setAvatarType(i4);
+                            avatarDrawable = avatarDrawable2;
+                            avatarDrawable.setScaleSize(f);
+                            avatarDrawable4 = avatarDrawable;
+                            user2 = null;
+                            avatarDrawable3 = avatarDrawable4;
+                            this.avatarImageView.setImage(ImageLocation.getForUserOrChat(user2, 1), "50_50", avatarDrawable3, user2);
+                            simpleTextView3 = this.nameTextView[r5];
+                            if (simpleTextView3 != null) {
+                                this.nameTextView[r5].setText(LocaleController.getString(R.string.SharedContentTitle));
+                            }
+                            if (this.sharedMediaLayout.isSearchItemVisible()) {
+                                this.sharedMediaLayout.getSearchItem().setVisibility(r5);
+                            }
+                            actionBarMenuItem = this.sharedMediaLayout.searchItemIcon;
+                            if (actionBarMenuItem != null) {
+                                actionBarMenuItem.setVisibility(8);
+                            }
+                            if (this.sharedMediaLayout.getSearchOptionsItem() != null) {
+                                this.sharedMediaLayout.animateSearchToOptions(!r3.isSearchItemVisible(), r5);
+                                this.sharedMediaLayout.getSearchOptionsItem().setVisibility(r5);
+                            }
+                            if (this.sharedMediaLayout.isCalendarItemVisible()) {
+                            }
+                            this.sharedMediaLayout.photoVideoOptionsItem.setVisibility(4);
+                            this.actionBar.setDrawBlurBackground(sizeNotifierFrameLayout);
+                            AndroidUtilities.updateViewVisibilityAnimated(frameLayout2, true, 1.0f, r5);
+                            updateMediaCount();
+                            updateColors();
+                            if (this.type == 1) {
+                                this.sharedMediaLayout.onTabProgress(9.0f);
+                            }
+                            return sizeNotifierFrameLayout;
                         }
-                        avatarDrawable.setAvatarType(i4);
-                        avatarDrawable.setScaleSize(f);
-                        chat = null;
-                        this.avatarImageView.setImage(ImageLocation.getForUserOrChat(chat, 1), "50_50", avatarDrawable, chat);
-                        simpleTextView3 = this.nameTextView[r5];
-                        if (simpleTextView3 != null) {
-                            this.nameTextView[r5].setText(LocaleController.getString(R.string.SharedContentTitle));
-                        }
-                        if (this.sharedMediaLayout.isSearchItemVisible()) {
-                            this.sharedMediaLayout.getSearchItem().setVisibility(r5);
-                        }
-                        actionBarMenuItem = this.sharedMediaLayout.searchItemIcon;
-                        if (actionBarMenuItem != null) {
-                            actionBarMenuItem.setVisibility(8);
-                        }
-                        if (this.sharedMediaLayout.getSearchOptionsItem() != null) {
-                            SharedMediaLayout sharedMediaLayout22 = this.sharedMediaLayout;
-                            sharedMediaLayout22.animateSearchToOptions(!sharedMediaLayout22.isSearchItemVisible(), r5);
-                            this.sharedMediaLayout.getSearchOptionsItem().setVisibility(r5);
-                        }
-                        if (this.sharedMediaLayout.isCalendarItemVisible()) {
-                        }
-                        this.sharedMediaLayout.photoVideoOptionsItem.setVisibility(4);
-                        this.actionBar.setDrawBlurBackground(sizeNotifierFrameLayout);
-                        AndroidUtilities.updateViewVisibilityAnimated(frameLayout2, true, 1.0f, r5);
-                        updateMediaCount();
-                        updateColors();
-                        if (this.type == 1) {
-                            this.sharedMediaLayout.onTabProgress(9.0f);
-                        }
-                        return sizeNotifierFrameLayout;
-                    } else {
                         this.nameTextView[r5].setText(LocaleController.getString("ProfileMyStories"));
                         simpleTextView2 = this.nameTextView[1];
                     }
                     simpleTextView2.setText(LocaleController.getString("ProfileStoriesArchive"));
                 }
-                avatarDrawable = avatarDrawable2;
-                chat = null;
-                this.avatarImageView.setImage(ImageLocation.getForUserOrChat(chat, 1), "50_50", avatarDrawable, chat);
+                avatarDrawable4 = avatarDrawable5;
+                user2 = null;
+                avatarDrawable3 = avatarDrawable4;
+                this.avatarImageView.setImage(ImageLocation.getForUserOrChat(user2, 1), "50_50", avatarDrawable3, user2);
                 simpleTextView3 = this.nameTextView[r5];
                 if (simpleTextView3 != null) {
                 }
@@ -1407,9 +1441,10 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         i3 = this.type;
         if (i3 != 3) {
         }
-        avatarDrawable = avatarDrawable2;
-        chat = null;
-        this.avatarImageView.setImage(ImageLocation.getForUserOrChat(chat, 1), "50_50", avatarDrawable, chat);
+        avatarDrawable4 = avatarDrawable5;
+        user2 = null;
+        avatarDrawable3 = avatarDrawable4;
+        this.avatarImageView.setImage(ImageLocation.getForUserOrChat(user2, 1), "50_50", avatarDrawable3, user2);
         simpleTextView3 = this.nameTextView[r5];
         if (simpleTextView3 != null) {
         }
@@ -1477,14 +1512,14 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean isLightStatusBar() {
-        if (getLastStoryViewer() == null || !getLastStoryViewer().isShown()) {
-            int color = Theme.getColor(Theme.key_windowBackgroundWhite);
-            if (this.actionBar.isActionModeShowed()) {
-                color = Theme.getColor(Theme.key_actionBarActionModeDefault);
-            }
-            return ColorUtils.calculateLuminance(color) > 0.699999988079071d;
+        if (getLastStoryViewer() != null && getLastStoryViewer().isShown()) {
+            return false;
         }
-        return false;
+        int color = Theme.getColor(Theme.key_windowBackgroundWhite);
+        if (this.actionBar.isActionModeShowed()) {
+            color = Theme.getColor(Theme.key_actionBarActionModeDefault);
+        }
+        return ColorUtils.calculateLuminance(color) > 0.699999988079071d;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1510,11 +1545,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         if (closeSheet()) {
             return false;
         }
-        if (this.sharedMediaLayout.isActionModeShown()) {
-            this.sharedMediaLayout.closeActionMode(false);
-            return false;
+        if (!this.sharedMediaLayout.isActionModeShown()) {
+            return super.onBackPressed();
         }
-        return super.onBackPressed();
+        this.sharedMediaLayout.closeActionMode(false);
+        return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

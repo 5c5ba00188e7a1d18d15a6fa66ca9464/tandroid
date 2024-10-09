@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class zzfl extends zzfj {
     private static final Class zza = Collections.unmodifiableList(Collections.emptyList()).getClass();
@@ -22,9 +23,10 @@ final class zzfl extends zzfj {
         List list = (List) zzhn.zzf(obj, j);
         if (list instanceof zzfg) {
             unmodifiableList = ((zzfg) list).a_();
-        } else if (zza.isAssignableFrom(list.getClass())) {
-            return;
         } else {
+            if (zza.isAssignableFrom(list.getClass())) {
+                return;
+            }
             if ((list instanceof zzgi) && (list instanceof zzew)) {
                 zzew zzewVar = (zzew) list;
                 if (zzewVar.zza()) {
@@ -40,8 +42,8 @@ final class zzfl extends zzfj {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x008c A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x008c A[ADDED_TO_REGION] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfj
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -57,23 +59,24 @@ final class zzfl extends zzfj {
                 ArrayList arrayList = new ArrayList(zzb2.size() + size2);
                 arrayList.addAll(zzb2);
                 zzfhVar = arrayList;
-            } else if (!(zzb2 instanceof zzhi)) {
-                if ((zzb2 instanceof zzgi) && (zzb2 instanceof zzew)) {
-                    zzew zzewVar = (zzew) zzb2;
-                    if (!zzewVar.zza()) {
-                        zzb2 = zzewVar.zzb(zzb2.size() + size2);
-                    }
-                }
-                size = zzb2.size();
-                int size3 = zzb.size();
-                if (size > 0 && size3 > 0) {
-                    zzb2.addAll(zzb);
-                }
-                if (size > 0) {
-                    zzb = zzb2;
-                }
-                zzhn.zza(obj, j, zzb);
             } else {
+                if (!(zzb2 instanceof zzhi)) {
+                    if ((zzb2 instanceof zzgi) && (zzb2 instanceof zzew)) {
+                        zzew zzewVar = (zzew) zzb2;
+                        if (!zzewVar.zza()) {
+                            zzb2 = zzewVar.zzb(zzb2.size() + size2);
+                        }
+                    }
+                    size = zzb2.size();
+                    int size3 = zzb.size();
+                    if (size > 0 && size3 > 0) {
+                        zzb2.addAll(zzb);
+                    }
+                    if (size > 0) {
+                        zzb = zzb2;
+                    }
+                    zzhn.zza(obj, j, zzb);
+                }
                 zzfh zzfhVar2 = new zzfh(zzb2.size() + size2);
                 zzfhVar2.addAll((zzhi) zzb2);
                 zzfhVar = zzfhVar2;

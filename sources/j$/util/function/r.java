@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.DoublePredicate;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class r {
     public final /* synthetic */ DoublePredicate a;

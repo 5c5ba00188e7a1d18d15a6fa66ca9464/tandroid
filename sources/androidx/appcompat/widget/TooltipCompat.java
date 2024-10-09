@@ -2,6 +2,7 @@ package androidx.appcompat.widget;
 
 import android.os.Build;
 import android.view.View;
+
 /* loaded from: classes.dex */
 public abstract class TooltipCompat {
 

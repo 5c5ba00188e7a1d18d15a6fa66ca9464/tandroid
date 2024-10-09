@@ -3,6 +3,7 @@ package com.google.android.exoplayer2;
 import android.os.Bundle;
 import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class DeviceInfo implements Bundleable {
     public final int maxVolume;
@@ -36,11 +37,11 @@ public final class DeviceInfo implements Bundleable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof DeviceInfo) {
-            DeviceInfo deviceInfo = (DeviceInfo) obj;
-            return this.playbackType == deviceInfo.playbackType && this.minVolume == deviceInfo.minVolume && this.maxVolume == deviceInfo.maxVolume;
+        if (!(obj instanceof DeviceInfo)) {
+            return false;
         }
-        return false;
+        DeviceInfo deviceInfo = (DeviceInfo) obj;
+        return this.playbackType == deviceInfo.playbackType && this.minVolume == deviceInfo.minVolume && this.maxVolume == deviceInfo.maxVolume;
     }
 
     public int hashCode() {

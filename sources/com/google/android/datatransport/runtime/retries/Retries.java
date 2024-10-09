@@ -1,4 +1,5 @@
 package com.google.android.datatransport.runtime.retries;
+
 /* loaded from: classes.dex */
 public abstract class Retries {
     public static Object retry(int i, Object obj, Function function, RetryStrategy retryStrategy) {

@@ -21,6 +21,7 @@ import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public abstract class BaseCell extends FrameLayout {
     protected final AvatarDrawable avatarDrawable;

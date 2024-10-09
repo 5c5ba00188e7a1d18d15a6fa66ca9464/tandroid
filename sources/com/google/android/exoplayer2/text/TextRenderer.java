@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
+
 /* loaded from: classes.dex */
 public final class TextRenderer extends BaseRenderer implements Handler.Callback {
     private SubtitleDecoder decoder;
@@ -56,11 +57,10 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
         if (nextEventTimeIndex == 0 || this.subtitle.getEventTimeCount() == 0) {
             return this.subtitle.timeUs;
         }
-        if (nextEventTimeIndex == -1) {
-            SubtitleOutputBuffer subtitleOutputBuffer = this.subtitle;
-            return subtitleOutputBuffer.getEventTime(subtitleOutputBuffer.getEventTimeCount() - 1);
+        if (nextEventTimeIndex != -1) {
+            return this.subtitle.getEventTime(nextEventTimeIndex - 1);
         }
-        return this.subtitle.getEventTime(nextEventTimeIndex - 1);
+        return this.subtitle.getEventTime(r2.getEventTimeCount() - 1);
     }
 
     private long getNextEventTime() {
@@ -139,11 +139,11 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
 
     @Override // android.os.Handler.Callback
     public boolean handleMessage(Message message) {
-        if (message.what == 0) {
-            invokeUpdateOutputInternal((CueGroup) message.obj);
-            return true;
+        if (message.what != 0) {
+            throw new IllegalStateException();
         }
-        throw new IllegalStateException();
+        invokeUpdateOutputInternal((CueGroup) message.obj);
+        return true;
     }
 
     @Override // com.google.android.exoplayer2.Renderer
@@ -175,10 +175,10 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
         this.finalStreamEndPositionUs = -9223372036854775807L;
         if (this.decoderReplacementState != 0) {
             replaceDecoder();
-            return;
+        } else {
+            releaseBuffers();
+            ((SubtitleDecoder) Assertions.checkNotNull(this.decoder)).flush();
         }
-        releaseBuffers();
-        ((SubtitleDecoder) Assertions.checkNotNull(this.decoder)).flush();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -266,8 +266,9 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
                     subtitleInputBuffer = (SubtitleInputBuffer) ((SubtitleDecoder) Assertions.checkNotNull(this.decoder)).dequeueInputBuffer();
                     if (subtitleInputBuffer == null) {
                         return;
+                    } else {
+                        this.nextInputBuffer = subtitleInputBuffer;
                     }
-                    this.nextInputBuffer = subtitleInputBuffer;
                 }
                 if (this.decoderReplacementState == 1) {
                     subtitleInputBuffer.setFlags(4);

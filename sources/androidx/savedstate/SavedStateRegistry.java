@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class SavedStateRegistry {
     private static final Companion Companion = new Companion(null);
@@ -58,23 +59,23 @@ public final class SavedStateRegistry {
 
     public final Bundle consumeRestoredStateForKey(String key) {
         Intrinsics.checkNotNullParameter(key, "key");
-        if (this.isRestored) {
-            Bundle bundle = this.restoredState;
-            if (bundle != null) {
-                Bundle bundle2 = bundle != null ? bundle.getBundle(key) : null;
-                Bundle bundle3 = this.restoredState;
-                if (bundle3 != null) {
-                    bundle3.remove(key);
-                }
-                Bundle bundle4 = this.restoredState;
-                if (bundle4 == null || bundle4.isEmpty()) {
-                    this.restoredState = null;
-                }
-                return bundle2;
-            }
+        if (!this.isRestored) {
+            throw new IllegalStateException("You can consumeRestoredStateForKey only after super.onCreate of corresponding component".toString());
+        }
+        Bundle bundle = this.restoredState;
+        if (bundle == null) {
             return null;
         }
-        throw new IllegalStateException("You can consumeRestoredStateForKey only after super.onCreate of corresponding component".toString());
+        Bundle bundle2 = bundle != null ? bundle.getBundle(key) : null;
+        Bundle bundle3 = this.restoredState;
+        if (bundle3 != null) {
+            bundle3.remove(key);
+        }
+        Bundle bundle4 = this.restoredState;
+        if (bundle4 == null || bundle4.isEmpty()) {
+            this.restoredState = null;
+        }
+        return bundle2;
     }
 
     public final SavedStateProvider getSavedStateProvider(String key) {
@@ -83,8 +84,9 @@ public final class SavedStateRegistry {
         while (it.hasNext()) {
             Map.Entry components = (Map.Entry) it.next();
             Intrinsics.checkNotNullExpressionValue(components, "components");
+            String str = (String) components.getKey();
             SavedStateProvider savedStateProvider = (SavedStateProvider) components.getValue();
-            if (Intrinsics.areEqual((String) components.getKey(), key)) {
+            if (Intrinsics.areEqual(str, key)) {
                 return savedStateProvider;
             }
         }

@@ -18,6 +18,7 @@ import org.telegram.ui.Charts.view_data.LegendSignatureView;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.PieLegendView;
 import org.telegram.ui.Charts.view_data.TransitionParams;
+
 /* loaded from: classes4.dex */
 public class PieChartView extends StackLinearChartView {
     float MAX_TEXT_SIZE;
@@ -48,8 +49,7 @@ public class PieChartView extends StackLinearChartView {
         this.lastStartIndex = -1;
         this.lastEndIndex = -1;
         for (int i = 1; i <= 100; i++) {
-            String[] strArr = this.lookupTable;
-            strArr[i] = i + "%";
+            this.lookupTable[i] = i + "%";
         }
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
@@ -159,12 +159,12 @@ public class PieChartView extends StackLinearChartView {
     public void drawBottomSignature(Canvas canvas) {
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0060  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x007f  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0086  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00cc A[LOOP:0: B:32:0x00ca->B:33:0x00cc, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00ea  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0060  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00cc A[LOOP:0: B:25:0x00ca->B:26:0x00cc, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0086  */
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -480,8 +480,9 @@ public class PieChartView extends StackLinearChartView {
                             if (f6 != f5) {
                                 i = i7;
                                 if (z) {
+                                    float f11 = ((float) jArr[i4]) / f6;
                                     f2 = lineViewData2.alpha;
-                                    f = (((float) jArr[i4]) / f6) * f2;
+                                    f = f11 * f2;
                                 } else {
                                     f = ((float) jArr[i4]) / f6;
                                     f2 = lineViewData2.alpha;
@@ -562,17 +563,21 @@ public class PieChartView extends StackLinearChartView {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x003d, code lost:
-        if (((org.telegram.ui.Charts.PieChartViewData) r5.lines.get(r0)).selectionA > 1.0f) goto L12;
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x003d, code lost:
+    
+        if (((org.telegram.ui.Charts.PieChartViewData) r5.lines.get(r0)).selectionA > 1.0f) goto L13;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x003f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x003f, code lost:
+    
         ((org.telegram.ui.Charts.PieChartViewData) r5.lines.get(r0)).selectionA = r3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0072, code lost:
-        if (((org.telegram.ui.Charts.PieChartViewData) r5.lines.get(r0)).selectionA < 0.0f) goto L12;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0075, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0075, code lost:
+    
         invalidate();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0072, code lost:
+    
+        if (((org.telegram.ui.Charts.PieChartViewData) r5.lines.get(r0)).selectionA < 0.0f) goto L13;
      */
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView, android.view.View
     /*
@@ -633,10 +638,10 @@ public class PieChartView extends StackLinearChartView {
         }
         if (z) {
             updateCharValues(f, f2, false);
-            return;
+        } else {
+            updateIndexes();
+            invalidate();
         }
-        updateIndexes();
-        invalidate();
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
@@ -679,33 +684,34 @@ public class PieChartView extends StackLinearChartView {
             LineViewData lineViewData = (LineViewData) this.lines.get(i3);
             this.pieLegendView.setData(lineViewData.line.name, (int) this.values[this.currentSelection], lineViewData.lineColor);
             this.pieLegendView.measure(View.MeasureSpec.makeMeasureSpec(getMeasuredWidth(), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(getMeasuredHeight(), Integer.MIN_VALUE));
+            float width = this.rectF.width() / 2.0f;
             double centerX = this.rectF.centerX();
-            double width = this.rectF.width() / 2.0f;
-            double d2 = (f * 360.0f) - 90.0f;
-            double cos = Math.cos(Math.toRadians(d2));
-            Double.isNaN(width);
+            double d2 = width;
+            double d3 = (f * 360.0f) - 90.0f;
+            double cos = Math.cos(Math.toRadians(d3));
+            Double.isNaN(d2);
             Double.isNaN(centerX);
-            double d3 = centerX + (cos * width);
+            double d4 = centerX + (cos * d2);
             double centerX2 = this.rectF.centerX();
-            double d4 = (f3 * 360.0f) - 90.0f;
-            double cos2 = Math.cos(Math.toRadians(d4));
-            Double.isNaN(width);
+            double d5 = (f3 * 360.0f) - 90.0f;
+            double cos2 = Math.cos(Math.toRadians(d5));
+            Double.isNaN(d2);
             Double.isNaN(centerX2);
-            int min = (int) Math.min(d3, centerX2 + (cos2 * width));
+            int min = (int) Math.min(d4, centerX2 + (cos2 * d2));
             int i4 = min >= 0 ? min : 0;
             if (this.pieLegendView.getMeasuredWidth() + i4 > getMeasuredWidth() - AndroidUtilities.dp(16.0f)) {
                 i4 -= (this.pieLegendView.getMeasuredWidth() + i4) - (getMeasuredWidth() - AndroidUtilities.dp(16.0f));
             }
             double centerY = this.rectF.centerY();
-            double sin = Math.sin(Math.toRadians(d4));
-            Double.isNaN(width);
+            double sin = Math.sin(Math.toRadians(d5));
+            Double.isNaN(d2);
             Double.isNaN(centerY);
-            double d5 = centerY + (sin * width);
+            double d6 = centerY + (sin * d2);
             double centerY2 = this.rectF.centerY();
-            double sin2 = Math.sin(Math.toRadians(d2));
-            Double.isNaN(width);
+            double sin2 = Math.sin(Math.toRadians(d3));
+            Double.isNaN(d2);
             Double.isNaN(centerY2);
-            int min2 = ((int) Math.min(this.rectF.centerY(), (int) Math.min(d5, centerY2 + (width * sin2)))) - AndroidUtilities.dp(50.0f);
+            int min2 = ((int) Math.min(this.rectF.centerY(), (int) Math.min(d6, centerY2 + (d2 * sin2)))) - AndroidUtilities.dp(50.0f);
             this.pieLegendView.setTranslationX(i4);
             this.pieLegendView.setTranslationY(min2);
             AndroidUtilities.vibrateCursor(this);
@@ -739,11 +745,13 @@ public class PieChartView extends StackLinearChartView {
             ChartPickerDelegate chartPickerDelegate = this.pickerDelegate;
             chartPickerDelegate.pickerStart = 0.0f;
             chartPickerDelegate.pickerEnd = length2;
-        } else if (i >= chartData.x.length - 1) {
-            ChartPickerDelegate chartPickerDelegate2 = this.pickerDelegate;
-            chartPickerDelegate2.pickerStart = 1.0f - length2;
-            chartPickerDelegate2.pickerEnd = 1.0f;
         } else {
+            if (i >= chartData.x.length - 1) {
+                ChartPickerDelegate chartPickerDelegate2 = this.pickerDelegate;
+                chartPickerDelegate2.pickerStart = 1.0f - length2;
+                chartPickerDelegate2.pickerEnd = 1.0f;
+                return;
+            }
             ChartPickerDelegate chartPickerDelegate3 = this.pickerDelegate;
             float f = i * length2;
             chartPickerDelegate3.pickerStart = f;

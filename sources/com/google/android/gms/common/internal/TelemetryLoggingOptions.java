@@ -2,6 +2,7 @@ package com.google.android.gms.common.internal;
 
 import android.os.Bundle;
 import com.google.android.gms.common.api.Api;
+
 /* loaded from: classes.dex */
 public class TelemetryLoggingOptions implements Api.ApiOptions {
     public static final TelemetryLoggingOptions zaa = builder().build();

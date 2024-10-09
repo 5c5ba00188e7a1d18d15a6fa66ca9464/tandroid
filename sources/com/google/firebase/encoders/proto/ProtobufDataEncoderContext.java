@@ -11,8 +11,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 final class ProtobufDataEncoderContext implements ObjectEncoderContext {
     private final ObjectEncoder fallbackEncoder;
@@ -70,18 +72,23 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
         try {
             OutputStream outputStream = this.output;
             this.output = lengthCountingOutputStream;
-            objectEncoder.encode(obj, this);
-            this.output = outputStream;
-            long length = lengthCountingOutputStream.getLength();
-            lengthCountingOutputStream.close();
-            return length;
-        } catch (Throwable th) {
+            try {
+                objectEncoder.encode(obj, this);
+                this.output = outputStream;
+                long length = lengthCountingOutputStream.getLength();
+                lengthCountingOutputStream.close();
+                return length;
+            } catch (Throwable th) {
+                this.output = outputStream;
+                throw th;
+            }
+        } catch (Throwable th2) {
             try {
                 lengthCountingOutputStream.close();
-            } catch (Throwable th2) {
-                th.addSuppressed(th2);
+            } catch (Throwable th3) {
+                th2.addSuppressed(th3);
             }
-            throw th;
+            throw th2;
         }
     }
 
@@ -126,9 +133,9 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
 
     private void writeVarInt32(int i) {
         while (true) {
-            int i2 = ((i & (-128)) > 0L ? 1 : ((i & (-128)) == 0L ? 0 : -1));
+            long j = i & (-128);
             OutputStream outputStream = this.output;
-            if (i2 == 0) {
+            if (j == 0) {
                 outputStream.write(i & NotificationCenter.dialogTranslate);
                 return;
             } else {
@@ -140,9 +147,9 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
 
     private void writeVarInt64(long j) {
         while (true) {
-            int i = (((-128) & j) > 0L ? 1 : (((-128) & j) == 0L ? 0 : -1));
+            long j2 = (-128) & j;
             OutputStream outputStream = this.output;
-            if (i == 0) {
+            if (j2 == 0) {
                 outputStream.write(((int) j) & NotificationCenter.dialogTranslate);
                 return;
             } else {
@@ -190,45 +197,49 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
             writeVarInt32(bytes.length);
             this.output.write(bytes);
             return this;
-        } else if (obj instanceof Collection) {
-            for (Object obj2 : (Collection) obj) {
-                add(fieldDescriptor, obj2, false);
+        }
+        if (obj instanceof Collection) {
+            Iterator it = ((Collection) obj).iterator();
+            while (it.hasNext()) {
+                add(fieldDescriptor, it.next(), false);
             }
-            return this;
-        } else if (obj instanceof Map) {
-            for (Map.Entry entry : ((Map) obj).entrySet()) {
-                doEncode(DEFAULT_MAP_ENCODER, fieldDescriptor, (Object) entry, false);
-            }
-            return this;
-        } else if (obj instanceof Double) {
-            return add(fieldDescriptor, ((Double) obj).doubleValue(), z);
-        } else {
-            if (obj instanceof Float) {
-                return add(fieldDescriptor, ((Float) obj).floatValue(), z);
-            }
-            if (obj instanceof Number) {
-                return add(fieldDescriptor, ((Number) obj).longValue(), z);
-            }
-            if (obj instanceof Boolean) {
-                return add(fieldDescriptor, ((Boolean) obj).booleanValue(), z);
-            }
-            if (!(obj instanceof byte[])) {
-                ObjectEncoder objectEncoder = (ObjectEncoder) this.objectEncoders.get(obj.getClass());
-                if (objectEncoder != null) {
-                    return doEncode(objectEncoder, fieldDescriptor, obj, z);
-                }
-                ValueEncoder valueEncoder = (ValueEncoder) this.valueEncoders.get(obj.getClass());
-                return valueEncoder != null ? doEncode(valueEncoder, fieldDescriptor, obj, z) : obj instanceof ProtoEnum ? add(fieldDescriptor, ((ProtoEnum) obj).getNumber()) : obj instanceof Enum ? add(fieldDescriptor, ((Enum) obj).ordinal()) : doEncode(this.fallbackEncoder, fieldDescriptor, obj, z);
-            }
-            byte[] bArr = (byte[]) obj;
-            if (z && bArr.length == 0) {
-                return this;
-            }
-            writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
-            writeVarInt32(bArr.length);
-            this.output.write(bArr);
             return this;
         }
+        if (obj instanceof Map) {
+            Iterator it2 = ((Map) obj).entrySet().iterator();
+            while (it2.hasNext()) {
+                doEncode(DEFAULT_MAP_ENCODER, fieldDescriptor, it2.next(), false);
+            }
+            return this;
+        }
+        if (obj instanceof Double) {
+            return add(fieldDescriptor, ((Double) obj).doubleValue(), z);
+        }
+        if (obj instanceof Float) {
+            return add(fieldDescriptor, ((Float) obj).floatValue(), z);
+        }
+        if (obj instanceof Number) {
+            return add(fieldDescriptor, ((Number) obj).longValue(), z);
+        }
+        if (obj instanceof Boolean) {
+            return add(fieldDescriptor, ((Boolean) obj).booleanValue(), z);
+        }
+        if (!(obj instanceof byte[])) {
+            ObjectEncoder objectEncoder = (ObjectEncoder) this.objectEncoders.get(obj.getClass());
+            if (objectEncoder != null) {
+                return doEncode(objectEncoder, fieldDescriptor, obj, z);
+            }
+            ValueEncoder valueEncoder = (ValueEncoder) this.valueEncoders.get(obj.getClass());
+            return valueEncoder != null ? doEncode(valueEncoder, fieldDescriptor, obj, z) : obj instanceof ProtoEnum ? add(fieldDescriptor, ((ProtoEnum) obj).getNumber()) : obj instanceof Enum ? add(fieldDescriptor, ((Enum) obj).ordinal()) : doEncode(this.fallbackEncoder, fieldDescriptor, obj, z);
+        }
+        byte[] bArr = (byte[]) obj;
+        if (z && bArr.length == 0) {
+            return this;
+        }
+        writeVarInt32((getTag(fieldDescriptor) << 3) | 2);
+        writeVarInt32(bArr.length);
+        this.output.write(bArr);
+        return this;
     }
 
     @Override // com.google.firebase.encoders.ObjectEncoderContext

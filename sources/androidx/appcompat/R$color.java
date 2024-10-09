@@ -1,4 +1,5 @@
 package androidx.appcompat;
+
 /* loaded from: classes.dex */
 public abstract class R$color {
     public static final int abc_decor_view_status_guard = 2131099653;

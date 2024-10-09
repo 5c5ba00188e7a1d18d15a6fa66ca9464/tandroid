@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.ext.opus;
 
 import com.google.android.exoplayer2.decoder.DecoderException;
+
 /* loaded from: classes.dex */
 public final class OpusDecoderException extends DecoderException {
     /* JADX INFO: Access modifiers changed from: package-private */

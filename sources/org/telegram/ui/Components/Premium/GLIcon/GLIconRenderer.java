@@ -9,6 +9,7 @@ import androidx.core.graphics.ColorUtils;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class GLIconRenderer implements GLSurfaceView.Renderer {
     Bitmap backgroundBitmap;

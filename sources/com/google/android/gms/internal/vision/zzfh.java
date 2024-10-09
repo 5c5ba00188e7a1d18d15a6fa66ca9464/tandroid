@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class zzfh extends zzfd {
     private final zzfg zza = new zzfg();

@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.ParsableNalUnitBitArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Collections;
+
 /* loaded from: classes.dex */
 public final class H265Reader implements ElementaryStreamReader {
     private String formatId;
@@ -88,10 +89,10 @@ public final class H265Reader implements ElementaryStreamReader {
                 int i4 = (i + 2) - i3;
                 if (i4 >= i2) {
                     this.nalUnitBytesRead = i3 + (i2 - i);
-                    return;
+                } else {
+                    this.isFirstSlice = (bArr[i4] & 128) != 0;
+                    this.lookingForFirstSliceFlag = false;
                 }
-                this.isFirstSlice = (bArr[i4] & 128) != 0;
-                this.lookingForFirstSliceFlag = false;
             }
         }
 
@@ -104,7 +105,6 @@ public final class H265Reader implements ElementaryStreamReader {
         }
 
         public void startNalUnit(long j, int i, int i2, long j2, boolean z) {
-            boolean z2 = false;
             this.isFirstSlice = false;
             this.isFirstPrefixNalUnit = false;
             this.nalUnitTimeUs = j2;
@@ -122,9 +122,9 @@ public final class H265Reader implements ElementaryStreamReader {
                     this.readingPrefix = true;
                 }
             }
-            boolean z3 = i2 >= 16 && i2 <= 21;
-            this.nalUnitHasKeyframeData = z3;
-            this.lookingForFirstSliceFlag = (z3 || i2 <= 9) ? true : true;
+            boolean z2 = i2 >= 16 && i2 <= 21;
+            this.nalUnitHasKeyframeData = z2;
+            this.lookingForFirstSliceFlag = z2 || i2 <= 9;
         }
     }
 

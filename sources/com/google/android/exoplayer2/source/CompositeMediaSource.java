@@ -10,6 +10,8 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+
 /* loaded from: classes.dex */
 public abstract class CompositeMediaSource extends BaseMediaSource {
     private final HashMap childSources = new HashMap();
@@ -186,13 +188,14 @@ public abstract class CompositeMediaSource extends BaseMediaSource {
 
     @Override // com.google.android.exoplayer2.source.MediaSource
     public void maybeThrowSourceInfoRefreshError() {
-        for (MediaSourceAndListener mediaSourceAndListener : this.childSources.values()) {
-            mediaSourceAndListener.mediaSource.maybeThrowSourceInfoRefreshError();
+        Iterator it = this.childSources.values().iterator();
+        while (it.hasNext()) {
+            ((MediaSourceAndListener) it.next()).mediaSource.maybeThrowSourceInfoRefreshError();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* renamed from: onChildSourceInfoRefreshed */
+    /* renamed from: onChildSourceInfoRefreshed, reason: merged with bridge method [inline-methods] */
     public abstract void lambda$prepareChildSource$0(Object obj, MediaSource mediaSource, Timeline timeline);
 
     /* JADX INFO: Access modifiers changed from: protected */

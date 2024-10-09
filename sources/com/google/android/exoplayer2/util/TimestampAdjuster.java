@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.util;
 
 import java.util.concurrent.TimeoutException;
+
 /* loaded from: classes.dex */
 public final class TimestampAdjuster {
     private long firstSampleTimestampUs;
@@ -68,7 +69,10 @@ public final class TimestampAdjuster {
     public synchronized long getFirstSampleTimestampUs() {
         long j;
         j = this.firstSampleTimestampUs;
-        return (j == Long.MAX_VALUE || j == 9223372036854775806L) ? -9223372036854775807L : -9223372036854775807L;
+        if (j == Long.MAX_VALUE || j == 9223372036854775806L) {
+            j = -9223372036854775807L;
+        }
+        return j;
     }
 
     public synchronized long getLastAdjustedTimestampUs() {

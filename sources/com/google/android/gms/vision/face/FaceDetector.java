@@ -15,6 +15,7 @@ import com.google.android.gms.vision.face.internal.client.zzf;
 import com.google.android.gms.vision.zzc;
 import java.nio.ByteBuffer;
 import java.util.HashSet;
+
 /* loaded from: classes.dex */
 public final class FaceDetector extends Detector {
     private final zzc zza;
@@ -94,59 +95,62 @@ public final class FaceDetector extends Detector {
             Log.e("FaceDetector", "Contour is not supported for non-SELFIE mode.");
             z = false;
         }
-        if (zzfVar.zzb == 2 && zzfVar.zzc == 1) {
-            Log.e("FaceDetector", "Classification is not supported with contour.");
-            return false;
+        if (zzfVar.zzb != 2 || zzfVar.zzc != 1) {
+            return z;
         }
-        return z;
+        Log.e("FaceDetector", "Classification is not supported with contour.");
+        return false;
     }
 
     public final SparseArray detect(Frame frame) {
         Face[] zza;
-        if (frame != null) {
-            if (frame.getPlanes() == null || ((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes())).length != 3) {
-                ByteBuffer zza2 = frame.getBitmap() != null ? zzw.zza((Bitmap) Preconditions.checkNotNull(frame.getBitmap()), true) : frame.getGrayscaleImageData();
-                synchronized (this.zzc) {
+        if (frame == null) {
+            throw new IllegalArgumentException("No frame supplied.");
+        }
+        if (frame.getPlanes() == null || ((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes())).length != 3) {
+            ByteBuffer zza2 = frame.getBitmap() != null ? zzw.zza((Bitmap) Preconditions.checkNotNull(frame.getBitmap()), true) : frame.getGrayscaleImageData();
+            synchronized (this.zzc) {
+                if (!this.zzd) {
+                    throw new IllegalStateException("Cannot use detector after release()");
+                }
+                zza = this.zzb.zza((ByteBuffer) Preconditions.checkNotNull(zza2), zzs.zza(frame));
+            }
+        } else {
+            synchronized (this.zzc) {
+                try {
                     if (!this.zzd) {
                         throw new IllegalStateException("Cannot use detector after release()");
                     }
-                    zza = this.zzb.zza((ByteBuffer) Preconditions.checkNotNull(zza2), zzs.zza(frame));
-                }
-            } else {
-                synchronized (this.zzc) {
-                    try {
-                        if (!this.zzd) {
-                            throw new IllegalStateException("Cannot use detector after release()");
-                        }
-                        zza = this.zzb.zza((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()), zzs.zza(frame));
-                    } finally {
-                    }
+                    zza = this.zzb.zza((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()), zzs.zza(frame));
+                } finally {
                 }
             }
-            HashSet hashSet = new HashSet();
-            SparseArray sparseArray = new SparseArray(zza.length);
-            int i = 0;
-            for (Face face : zza) {
-                int id = face.getId();
-                i = Math.max(i, id);
-                if (hashSet.contains(Integer.valueOf(id))) {
-                    id = i + 1;
-                    i = id;
-                }
-                hashSet.add(Integer.valueOf(id));
-                sparseArray.append(this.zza.zza(id), face);
-            }
-            return sparseArray;
         }
-        throw new IllegalArgumentException("No frame supplied.");
+        HashSet hashSet = new HashSet();
+        SparseArray sparseArray = new SparseArray(zza.length);
+        int i = 0;
+        for (Face face : zza) {
+            int id = face.getId();
+            i = Math.max(i, id);
+            if (hashSet.contains(Integer.valueOf(id))) {
+                id = i + 1;
+                i = id;
+            }
+            hashSet.add(Integer.valueOf(id));
+            sparseArray.append(this.zza.zza(id), face);
+        }
+        return sparseArray;
     }
 
     protected final void finalize() {
         try {
             synchronized (this.zzc) {
-                if (this.zzd) {
-                    Log.w("FaceDetector", "FaceDetector was not released with FaceDetector.release()");
-                    release();
+                try {
+                    if (this.zzd) {
+                        Log.w("FaceDetector", "FaceDetector was not released with FaceDetector.release()");
+                        release();
+                    }
+                } finally {
                 }
             }
         } finally {

@@ -7,11 +7,13 @@ import org.webrtc.Logging;
 import org.webrtc.PeerConnection;
 import org.webrtc.audio.AudioDeviceModule;
 import org.webrtc.audio.JavaAudioDeviceModule;
+
 /* loaded from: classes.dex */
 public class PeerConnectionFactory {
     private static final String TAG = "PeerConnectionFactory";
     public static final String TRIAL_ENABLED = "Enabled";
     private static final String VIDEO_CAPTURER_THREAD_NAME = "VideoCapturerThread";
+
     @Deprecated
     public static final String VIDEO_FRAME_EMIT_TRIAL = "VideoFrameEmit";
     private static volatile boolean internalTracerInitialized;
@@ -67,11 +69,11 @@ public class PeerConnectionFactory {
         }
 
         public Builder setAudioDecoderFactoryFactory(AudioDecoderFactoryFactory audioDecoderFactoryFactory) {
-            if (audioDecoderFactoryFactory != null) {
-                this.audioDecoderFactoryFactory = audioDecoderFactoryFactory;
-                return this;
+            if (audioDecoderFactoryFactory == null) {
+                throw new IllegalArgumentException("PeerConnectionFactory.Builder does not accept a null AudioDecoderFactoryFactory.");
             }
-            throw new IllegalArgumentException("PeerConnectionFactory.Builder does not accept a null AudioDecoderFactoryFactory.");
+            this.audioDecoderFactoryFactory = audioDecoderFactoryFactory;
+            return this;
         }
 
         public Builder setAudioDeviceModule(AudioDeviceModule audioDeviceModule) {
@@ -80,19 +82,19 @@ public class PeerConnectionFactory {
         }
 
         public Builder setAudioEncoderFactoryFactory(AudioEncoderFactoryFactory audioEncoderFactoryFactory) {
-            if (audioEncoderFactoryFactory != null) {
-                this.audioEncoderFactoryFactory = audioEncoderFactoryFactory;
-                return this;
+            if (audioEncoderFactoryFactory == null) {
+                throw new IllegalArgumentException("PeerConnectionFactory.Builder does not accept a null AudioEncoderFactoryFactory.");
             }
-            throw new IllegalArgumentException("PeerConnectionFactory.Builder does not accept a null AudioEncoderFactoryFactory.");
+            this.audioEncoderFactoryFactory = audioEncoderFactoryFactory;
+            return this;
         }
 
         public Builder setAudioProcessingFactory(AudioProcessingFactory audioProcessingFactory) {
-            if (audioProcessingFactory != null) {
-                this.audioProcessingFactory = audioProcessingFactory;
-                return this;
+            if (audioProcessingFactory == null) {
+                throw new NullPointerException("PeerConnectionFactory builder does not accept a null AudioProcessingFactory.");
             }
-            throw new NullPointerException("PeerConnectionFactory builder does not accept a null AudioProcessingFactory.");
+            this.audioProcessingFactory = audioProcessingFactory;
+            return this;
         }
 
         public Builder setFecControllerFactoryFactoryInterface(FecControllerFactoryFactoryInterface fecControllerFactoryFactoryInterface) {
@@ -275,11 +277,11 @@ public class PeerConnectionFactory {
         if (loggable != null) {
             Logging.injectLoggable(loggable, initializationOptions.loggableSeverity);
             nativeInjectLoggable(new JNILogging(initializationOptions.loggable), initializationOptions.loggableSeverity.ordinal());
-            return;
+        } else {
+            Logging.d(TAG, "PeerConnectionFactory was initialized without an injected Loggable. Any existing Loggable will be deleted.");
+            Logging.deleteInjectedLoggable();
+            nativeDeleteLoggable();
         }
-        Logging.d(TAG, "PeerConnectionFactory was initialized without an injected Loggable. Any existing Loggable will be deleted.");
-        Logging.deleteInjectedLoggable();
-        nativeDeleteLoggable();
     }
 
     @Deprecated

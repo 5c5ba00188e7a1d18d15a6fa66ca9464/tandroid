@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
+
 /* loaded from: classes2.dex */
 public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable, t {
     private static final int g = (1 << (32 - 16)) - 1;
@@ -85,8 +86,9 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         this.sizeCtl = j2 >= 1073741824 ? 1073741824 : m((int) j2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:5:0x0012, code lost:
-        if (r1.compareAndSwapLong(r11, r3, r5, r9) == false) goto L53;
+    /* JADX WARN: Code restructure failed: missing block: B:4:0x0012, code lost:
+    
+        if (r1.compareAndSwapLong(r11, r3, r5, r9) == false) goto L6;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -113,9 +115,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             boolean compareAndSwapLong = unsafe2.compareAndSwapLong(cVar, j5, j6, j6 + j2);
             if (!compareAndSwapLong) {
                 z = compareAndSwapLong;
-            } else if (i2 <= 1) {
-                return;
             } else {
+                if (i2 <= 1) {
+                    return;
+                }
                 k2 = k();
                 if (i2 < 0) {
                     return;
@@ -151,47 +154,52 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     /* JADX INFO: Access modifiers changed from: package-private */
     public static Class c(Object obj) {
         Type[] actualTypeArguments;
-        if (obj instanceof Comparable) {
-            Class<?> cls = obj.getClass();
-            if (cls == String.class) {
-                return cls;
-            }
-            Type[] genericInterfaces = cls.getGenericInterfaces();
-            if (genericInterfaces != null) {
-                for (Type type : genericInterfaces) {
-                    if (type instanceof ParameterizedType) {
-                        ParameterizedType parameterizedType = (ParameterizedType) type;
-                        if (parameterizedType.getRawType() == Comparable.class && (actualTypeArguments = parameterizedType.getActualTypeArguments()) != null && actualTypeArguments.length == 1 && actualTypeArguments[0] == cls) {
-                            return cls;
-                        }
-                    }
-                }
-                return null;
-            }
+        if (!(obj instanceof Comparable)) {
             return null;
+        }
+        Class<?> cls = obj.getClass();
+        if (cls == String.class) {
+            return cls;
+        }
+        Type[] genericInterfaces = cls.getGenericInterfaces();
+        if (genericInterfaces == null) {
+            return null;
+        }
+        for (Type type : genericInterfaces) {
+            if (type instanceof ParameterizedType) {
+                ParameterizedType parameterizedType = (ParameterizedType) type;
+                if (parameterizedType.getRawType() == Comparable.class && (actualTypeArguments = parameterizedType.getActualTypeArguments()) != null && actualTypeArguments.length == 1 && actualTypeArguments[0] == cls) {
+                    return cls;
+                }
+            }
         }
         return null;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x009e, code lost:
-        if (r24.c != r7) goto L101;
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x009e, code lost:
+    
+        if (r24.c != r7) goto L97;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00a0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:94:0x00a0, code lost:
+    
         r1 = new j$.util.concurrent.c[r8 << 1];
         r2 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x00a5, code lost:
-        if (r2 >= r8) goto L97;
+    /* JADX WARN: Code restructure failed: missing block: B:95:0x00a5, code lost:
+    
+        if (r2 >= r8) goto L113;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x00a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x00a7, code lost:
+    
         r1[r2] = r7[r2];
         r2 = r2 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00b0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x00b0, code lost:
+    
         r24.c = r1;
      */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x001b A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0105 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0105 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x001b A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -357,6 +365,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r12v10, types: [j$.util.concurrent.k] */
     /* JADX WARN: Type inference failed for: r12v12, types: [j$.util.concurrent.k] */
+    /* JADX WARN: Type inference failed for: r4v0, types: [j$.util.concurrent.k] */
     /* JADX WARN: Type inference failed for: r5v17, types: [j$.util.concurrent.k] */
     /* JADX WARN: Type inference failed for: r5v22, types: [j$.util.concurrent.k] */
     private final void n(k[] kVarArr, k[] kVarArr2) {
@@ -438,16 +447,17 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     int i17 = i10;
                     if (!unsafe2.compareAndSwapInt(this, j3, i16, i16 - 1)) {
                         i10 = i17;
-                    } else if (i16 - 2 != ((Integer.numberOfLeadingZeros(length) | 32768) << h)) {
-                        return;
                     } else {
+                        if (i16 - 2 != ((Integer.numberOfLeadingZeros(length) | 32768) << h)) {
+                            return;
+                        }
                         i10 = length;
                         z = true;
                         z2 = true;
                     }
                 } else {
-                    k l2 = l(kVarArr4, i10);
-                    if (l2 == null) {
+                    ?? l2 = l(kVarArr4, i10);
+                    if (l2 == 0) {
                         z = b(kVarArr4, i10, fVar2);
                         concurrentHashMap = concurrentHashMap2;
                         i2 = i8;
@@ -634,9 +644,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 } else {
                     continue;
                 }
-            } else if (m2 <= i3 || length >= 1073741824) {
-                return;
             } else {
+                if (m2 <= i3 || length >= 1073741824) {
+                    return;
+                }
                 if (kVarArr2 == this.a) {
                     int numberOfLeadingZeros = Integer.numberOfLeadingZeros(length) | 32768;
                     int i5 = h;
@@ -839,7 +850,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     public final Object compute(Object obj, BiFunction biFunction) {
         k kVar;
         Object obj2;
-        if (obj == null || biFunction == null) {
+        if (obj == null) {
+            throw null;
+        }
+        if (biFunction == null) {
             throw null;
         }
         int j2 = j(obj.hashCode());
@@ -858,15 +872,20 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                         synchronized (lVar) {
                             try {
                                 if (b(kVarArr, i4, lVar)) {
-                                    obj3 = biFunction.apply(obj, null);
-                                    if (obj3 != null) {
-                                        kVar = new k(j2, obj, obj3, null);
-                                        i3 = 1;
-                                    } else {
-                                        kVar = null;
+                                    try {
+                                        obj3 = biFunction.apply(obj, null);
+                                        if (obj3 != null) {
+                                            kVar = new k(j2, obj, obj3, null);
+                                            i3 = 1;
+                                        } else {
+                                            kVar = null;
+                                        }
+                                        i(kVarArr, i4, kVar);
+                                        i2 = 1;
+                                    } catch (Throwable th) {
+                                        i(kVarArr, i4, null);
+                                        throw th;
                                     }
-                                    i(kVarArr, i4, kVar);
-                                    i2 = 1;
                                 }
                             } finally {
                             }
@@ -969,7 +988,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return compute(obj, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x0078, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0078, code lost:
+    
         r5 = r5.c;
      */
     @Override // j$.util.Map
@@ -979,7 +999,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     public final Object computeIfAbsent(Object obj, Function function) {
         q b;
         Object obj2;
-        if (obj == null || function == null) {
+        if (obj == null) {
+            throw null;
+        }
+        if (function == null) {
             throw null;
         }
         int j2 = j(obj.hashCode());
@@ -998,9 +1021,14 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                         synchronized (lVar) {
                             try {
                                 if (b(kVarArr, i3, lVar)) {
-                                    obj3 = function.apply(obj);
-                                    i(kVarArr, i3, obj3 != null ? new k(j2, obj, obj3, null) : null);
-                                    i2 = 1;
+                                    try {
+                                        obj3 = function.apply(obj);
+                                        i(kVarArr, i3, obj3 != null ? new k(j2, obj, obj3, null) : null);
+                                        i2 = 1;
+                                    } catch (Throwable th) {
+                                        i(kVarArr, i3, null);
+                                        throw th;
+                                    }
                                 }
                             } finally {
                             }
@@ -1084,7 +1112,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     public final Object computeIfPresent(Object obj, BiFunction biFunction) {
         q b;
         Object obj2;
-        if (obj == null || biFunction == null) {
+        if (obj == null) {
+            throw null;
+        }
+        if (biFunction == null) {
             throw null;
         }
         int j2 = j(obj.hashCode());
@@ -1214,7 +1245,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         while (true) {
             if (kVarArr2 != this.b || this.a != kVarArr || (i2 = this.sizeCtl) >= 0 || (i2 >>> h) != numberOfLeadingZeros || i2 == numberOfLeadingZeros + 1 || i2 == g + numberOfLeadingZeros || this.transferIndex <= 0) {
                 break;
-            } else if (j.compareAndSwapInt(this, k, i2, i2 + 1)) {
+            }
+            if (j.compareAndSwapInt(this, k, i2, i2 + 1)) {
                 n(kVarArr, kVarArr2);
                 break;
             }
@@ -1237,34 +1269,34 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     public final boolean equals(Object obj) {
         V value;
         V v;
-        if (obj != this) {
-            if (obj instanceof Map) {
-                Map map = (Map) obj;
-                k[] kVarArr = this.a;
-                int length = kVarArr == null ? 0 : kVarArr.length;
-                o oVar = new o(kVarArr, length, 0, length);
-                while (true) {
-                    k b = oVar.b();
-                    if (b == null) {
-                        for (Map.Entry<K, V> entry : map.entrySet()) {
-                            K key = entry.getKey();
-                            if (key == null || (value = entry.getValue()) == null || (v = get(key)) == null || (value != v && !value.equals(v))) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    }
-                    Object obj2 = b.c;
-                    Object obj3 = map.get(b.b);
-                    if (obj3 == null || (obj3 != obj2 && !obj3.equals(obj2))) {
-                        break;
-                    }
-                }
-                return false;
-            }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Map)) {
             return false;
         }
-        return true;
+        Map map = (Map) obj;
+        k[] kVarArr = this.a;
+        int length = kVarArr == null ? 0 : kVarArr.length;
+        o oVar = new o(kVarArr, length, 0, length);
+        while (true) {
+            k b = oVar.b();
+            if (b == null) {
+                for (Map.Entry<K, V> entry : map.entrySet()) {
+                    K key = entry.getKey();
+                    if (key == null || (value = entry.getValue()) == null || (v = get(key)) == null || (value != v && !value.equals(v))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            Object obj2 = b.c;
+            Object obj3 = map.get(b.b);
+            if (obj3 == null || (obj3 != obj2 && !obj3.equals(obj2))) {
+                break;
+            }
+        }
+        return false;
     }
 
     @Override // j$.util.Map
@@ -1279,8 +1311,9 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
             k b = oVar.b();
             if (b == null) {
                 return;
+            } else {
+                biConsumer.accept(b.b, b.c);
             }
-            biConsumer.accept(b.b, b.c);
         }
     }
 
@@ -1290,13 +1323,16 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x0055, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0055, code lost:
+    
         r7 = r6.c;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x0057, code lost:
-        if (r11 != false) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0057, code lost:
+    
+        if (r11 != false) goto L50;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0059, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0059, code lost:
+    
         r6.c = r10;
      */
     /*
@@ -1305,7 +1341,10 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     public final Object g(Object obj, Object obj2, boolean z) {
         Object obj3;
         Object obj4;
-        if (obj == null || obj2 == null) {
+        if (obj == null) {
+            throw null;
+        }
+        if (obj2 == null) {
             throw null;
         }
         int j2 = j(obj.hashCode());
@@ -1378,7 +1417,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return null;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x004d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x004d, code lost:
+    
         return (V) r1.c;
      */
     @Override // java.util.AbstractMap, java.util.Map
@@ -1409,7 +1449,8 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 l2 = l2.d;
                 if (l2 == null) {
                     break;
-                } else if (l2.a != j2 || ((obj2 = l2.b) != obj && (obj2 == null || !obj.equals(obj2)))) {
+                }
+                if (l2.a != j2 || ((obj2 = l2.b) != obj && (obj2 == null || !obj.equals(obj2)))) {
                 }
             }
         }
@@ -1555,30 +1596,38 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return hVar2;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x0064, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0064, code lost:
+    
         r12 = r20.apply(r9.c, r2);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x006a, code lost:
-        if (r12 == null) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x006a, code lost:
+    
+        if (r12 == null) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x006c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x006c, code lost:
+    
         r9.c = r12;
         r9 = r12;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0071, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0071, code lost:
+    
         r8 = r9.d;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0073, code lost:
-        if (r13 == null) goto L43;
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x0073, code lost:
+    
+        if (r13 == null) goto L40;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x0075, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0075, code lost:
+    
         r13.d = r8;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0078, code lost:
-        i(r6, r10, r8);
-     */
     /* JADX WARN: Code restructure failed: missing block: B:41:0x007b, code lost:
+    
         r9 = r12;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0078, code lost:
+    
+        i(r6, r10, r8);
      */
     @Override // j$.util.Map
     /*
@@ -1588,7 +1637,13 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         int i2;
         Object obj3;
         Object obj4 = obj2;
-        if (obj == null || obj4 == null || biFunction == null) {
+        if (obj == null) {
+            throw null;
+        }
+        if (obj4 == null) {
+            throw null;
+        }
+        if (biFunction == null) {
             throw null;
         }
         int j2 = j(obj.hashCode());
@@ -1717,10 +1772,13 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.Map
     public final Object replace(Object obj, Object obj2) {
-        if (obj == null || obj2 == null) {
+        if (obj == null) {
             throw null;
         }
-        return h(obj, obj2, null);
+        if (obj2 != null) {
+            return h(obj, obj2, null);
+        }
+        throw null;
     }
 
     @Override // java.util.Map, java.util.concurrent.ConcurrentMap, j$.util.Map

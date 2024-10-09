@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import android.os.IBinder;
 import android.os.IInterface;
+
 /* loaded from: classes.dex */
 public abstract class zzf extends zzb implements zzg {
     public static zzg zza(IBinder iBinder) {

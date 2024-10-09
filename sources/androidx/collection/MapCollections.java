@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class MapCollections {
@@ -32,13 +33,13 @@ public abstract class MapCollections {
 
         @Override // java.util.Iterator
         public Object next() {
-            if (hasNext()) {
-                Object colGetEntry = MapCollections.this.colGetEntry(this.mIndex, this.mOffset);
-                this.mIndex++;
-                this.mCanRemove = true;
-                return colGetEntry;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
             }
-            throw new NoSuchElementException();
+            Object colGetEntry = MapCollections.this.colGetEntry(this.mIndex, this.mOffset);
+            this.mIndex++;
+            this.mCanRemove = true;
+            return colGetEntry;
         }
 
         @Override // java.util.Iterator
@@ -82,21 +83,22 @@ public abstract class MapCollections {
 
         @Override // java.util.Set, java.util.Collection
         public boolean contains(Object obj) {
-            if (obj instanceof Map.Entry) {
-                Map.Entry entry = (Map.Entry) obj;
-                int colIndexOfKey = MapCollections.this.colIndexOfKey(entry.getKey());
-                if (colIndexOfKey < 0) {
-                    return false;
-                }
-                return ContainerHelpers.equal(MapCollections.this.colGetEntry(colIndexOfKey, 1), entry.getValue());
+            if (!(obj instanceof Map.Entry)) {
+                return false;
             }
-            return false;
+            Map.Entry entry = (Map.Entry) obj;
+            int colIndexOfKey = MapCollections.this.colIndexOfKey(entry.getKey());
+            if (colIndexOfKey < 0) {
+                return false;
+            }
+            return ContainerHelpers.equal(MapCollections.this.colGetEntry(colIndexOfKey, 1), entry.getValue());
         }
 
         @Override // java.util.Set, java.util.Collection
         public boolean containsAll(Collection collection) {
-            for (Object obj : collection) {
-                if (!contains(obj)) {
+            Iterator it = collection.iterator();
+            while (it.hasNext()) {
+                if (!contains(it.next())) {
                     return false;
                 }
             }
@@ -218,11 +220,11 @@ public abstract class MapCollections {
         @Override // java.util.Set, java.util.Collection
         public boolean remove(Object obj) {
             int colIndexOfKey = MapCollections.this.colIndexOfKey(obj);
-            if (colIndexOfKey >= 0) {
-                MapCollections.this.colRemoveAt(colIndexOfKey);
-                return true;
+            if (colIndexOfKey < 0) {
+                return false;
             }
-            return false;
+            MapCollections.this.colRemoveAt(colIndexOfKey);
+            return true;
         }
 
         @Override // java.util.Set, java.util.Collection
@@ -263,14 +265,14 @@ public abstract class MapCollections {
 
         @Override // java.util.Map.Entry
         public boolean equals(Object obj) {
-            if (this.mEntryValid) {
-                if (obj instanceof Map.Entry) {
-                    Map.Entry entry = (Map.Entry) obj;
-                    return ContainerHelpers.equal(entry.getKey(), MapCollections.this.colGetEntry(this.mIndex, 0)) && ContainerHelpers.equal(entry.getValue(), MapCollections.this.colGetEntry(this.mIndex, 1));
-                }
+            if (!this.mEntryValid) {
+                throw new IllegalStateException("This container does not support retaining Map.Entry objects");
+            }
+            if (!(obj instanceof Map.Entry)) {
                 return false;
             }
-            throw new IllegalStateException("This container does not support retaining Map.Entry objects");
+            Map.Entry entry = (Map.Entry) obj;
+            return ContainerHelpers.equal(entry.getKey(), MapCollections.this.colGetEntry(this.mIndex, 0)) && ContainerHelpers.equal(entry.getValue(), MapCollections.this.colGetEntry(this.mIndex, 1));
         }
 
         @Override // java.util.Map.Entry
@@ -296,22 +298,22 @@ public abstract class MapCollections {
 
         @Override // java.util.Map.Entry
         public int hashCode() {
-            if (this.mEntryValid) {
-                Object colGetEntry = MapCollections.this.colGetEntry(this.mIndex, 0);
-                Object colGetEntry2 = MapCollections.this.colGetEntry(this.mIndex, 1);
-                return (colGetEntry == null ? 0 : colGetEntry.hashCode()) ^ (colGetEntry2 != null ? colGetEntry2.hashCode() : 0);
+            if (!this.mEntryValid) {
+                throw new IllegalStateException("This container does not support retaining Map.Entry objects");
             }
-            throw new IllegalStateException("This container does not support retaining Map.Entry objects");
+            Object colGetEntry = MapCollections.this.colGetEntry(this.mIndex, 0);
+            Object colGetEntry2 = MapCollections.this.colGetEntry(this.mIndex, 1);
+            return (colGetEntry == null ? 0 : colGetEntry.hashCode()) ^ (colGetEntry2 != null ? colGetEntry2.hashCode() : 0);
         }
 
         @Override // java.util.Iterator
         public Map.Entry next() {
-            if (hasNext()) {
-                this.mIndex++;
-                this.mEntryValid = true;
-                return this;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
             }
-            throw new NoSuchElementException();
+            this.mIndex++;
+            this.mEntryValid = true;
+            return this;
         }
 
         @Override // java.util.Iterator
@@ -365,8 +367,9 @@ public abstract class MapCollections {
 
         @Override // java.util.Collection
         public boolean containsAll(Collection collection) {
-            for (Object obj : collection) {
-                if (!contains(obj)) {
+            Iterator it = collection.iterator();
+            while (it.hasNext()) {
+                if (!contains(it.next())) {
                     return false;
                 }
             }
@@ -386,11 +389,11 @@ public abstract class MapCollections {
         @Override // java.util.Collection
         public boolean remove(Object obj) {
             int colIndexOfValue = MapCollections.this.colIndexOfValue(obj);
-            if (colIndexOfValue >= 0) {
-                MapCollections.this.colRemoveAt(colIndexOfValue);
-                return true;
+            if (colIndexOfValue < 0) {
+                return false;
             }
-            return false;
+            MapCollections.this.colRemoveAt(colIndexOfValue);
+            return true;
         }
 
         @Override // java.util.Collection
@@ -444,8 +447,9 @@ public abstract class MapCollections {
     }
 
     public static boolean containsAllHelper(Map map, Collection collection) {
-        for (Object obj : collection) {
-            if (!map.containsKey(obj)) {
+        Iterator it = collection.iterator();
+        while (it.hasNext()) {
+            if (!map.containsKey(it.next())) {
                 return false;
             }
         }
@@ -473,8 +477,9 @@ public abstract class MapCollections {
 
     public static boolean removeAllHelper(Map map, Collection collection) {
         int size = map.size();
-        for (Object obj : collection) {
-            map.remove(obj);
+        Iterator it = collection.iterator();
+        while (it.hasNext()) {
+            map.remove(it.next());
         }
         return size != map.size();
     }

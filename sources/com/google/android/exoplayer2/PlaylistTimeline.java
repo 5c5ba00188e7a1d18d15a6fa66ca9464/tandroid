@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class PlaylistTimeline extends AbstractConcatenatedTimeline {
     private final HashMap childIndexByUid;

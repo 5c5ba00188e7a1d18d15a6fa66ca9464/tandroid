@@ -26,6 +26,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Components.FilterShaders;
 import org.telegram.ui.Stories.recorder.StoryEntry;
+
 /* loaded from: classes3.dex */
 public class FilterGLThread extends DispatchQueue {
     private final BlurringShader.BlurManager blurManager;
@@ -158,12 +159,12 @@ public class FilterGLThread extends DispatchQueue {
     }
 
     private boolean initGL() {
-        StringBuilder sb;
         String str;
+        StringBuilder sb;
+        String str2;
         int i;
         int i2;
         BlurringShader blurringShader;
-        String str2;
         EGL10 egl10 = (EGL10) EGLContext.getEGL();
         this.egl10 = egl10;
         EGLDisplay eglGetDisplay = egl10.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
@@ -171,155 +172,155 @@ public class FilterGLThread extends DispatchQueue {
         if (eglGetDisplay == EGL10.EGL_NO_DISPLAY) {
             if (BuildVars.LOGS_ENABLED) {
                 sb = new StringBuilder();
-                str = "eglGetDisplay failed ";
-                sb.append(str);
+                str2 = "eglGetDisplay failed ";
+                sb.append(str2);
                 sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                sb.toString();
-            }
-            finish();
-            return false;
-        } else if (!this.egl10.eglInitialize(eglGetDisplay, new int[2])) {
-            if (BuildVars.LOGS_ENABLED) {
-                sb = new StringBuilder();
-                str = "eglInitialize failed ";
-                sb.append(str);
-                sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                sb.toString();
-            }
-            finish();
-            return false;
-        } else {
-            int[] iArr = new int[1];
-            EGLConfig[] eGLConfigArr = new EGLConfig[1];
-            if (!this.egl10.eglChooseConfig(this.eglDisplay, new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 0, 12326, 0, 12344}, eGLConfigArr, 1, iArr)) {
-                if (BuildVars.LOGS_ENABLED) {
-                    sb = new StringBuilder();
-                    str = "eglChooseConfig failed ";
-                    sb.append(str);
-                    sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                    sb.toString();
-                }
-                finish();
-                return false;
-            }
-            if (iArr[0] > 0) {
-                EGLConfig eGLConfig = eGLConfigArr[0];
-                int[] iArr2 = {12440, 2, 12344};
-                BlurringShader.BlurManager blurManager = this.blurManager;
-                EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, blurManager != null ? blurManager.getParentContext() : EGL10.EGL_NO_CONTEXT, iArr2);
-                this.eglContext = eglCreateContext;
-                if (eglCreateContext != null) {
-                    BlurringShader.BlurManager blurManager2 = this.blurManager;
-                    if (blurManager2 != null) {
-                        blurManager2.acquiredContext(eglCreateContext);
-                    }
-                    SurfaceTexture surfaceTexture = this.surfaceTexture;
-                    if (surfaceTexture instanceof SurfaceTexture) {
-                        EGLSurface eglCreateWindowSurface = this.egl10.eglCreateWindowSurface(this.eglDisplay, eGLConfig, surfaceTexture, null);
-                        this.eglSurface = eglCreateWindowSurface;
-                        if (eglCreateWindowSurface == null || eglCreateWindowSurface == EGL10.EGL_NO_SURFACE) {
-                            if (BuildVars.LOGS_ENABLED) {
-                                sb = new StringBuilder();
-                                str = "createWindowSurface failed ";
-                                sb.append(str);
-                                sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                                sb.toString();
-                            }
-                        } else if (this.egl10.eglMakeCurrent(this.eglDisplay, eglCreateWindowSurface, eglCreateWindowSurface, this.eglContext)) {
-                            int loadShader = FilterShaders.loadShader(35633, "attribute vec4 position;attribute vec2 inputTexCoord;varying vec2 vTextureCoord;void main() {gl_Position = position;vTextureCoord = inputTexCoord;}");
-                            int loadShader2 = FilterShaders.loadShader(35632, "varying highp vec2 vTextureCoord;uniform sampler2D sTexture;void main() {gl_FragColor = texture2D(sTexture, vTextureCoord);}");
-                            if (loadShader == 0 || loadShader2 == 0) {
-                                return false;
-                            }
-                            int glCreateProgram = GLES20.glCreateProgram();
-                            this.simpleShaderProgram = glCreateProgram;
-                            GLES20.glAttachShader(glCreateProgram, loadShader);
-                            GLES20.glAttachShader(this.simpleShaderProgram, loadShader2);
-                            GLES20.glBindAttribLocation(this.simpleShaderProgram, 0, "position");
-                            GLES20.glBindAttribLocation(this.simpleShaderProgram, 1, "inputTexCoord");
-                            GLES20.glLinkProgram(this.simpleShaderProgram);
-                            int[] iArr3 = new int[1];
-                            GLES20.glGetProgramiv(this.simpleShaderProgram, 35714, iArr3, 0);
-                            if (iArr3[0] == 0) {
-                                GLES20.glDeleteProgram(this.simpleShaderProgram);
-                                this.simpleShaderProgram = 0;
-                            } else {
-                                this.simplePositionHandle = GLES20.glGetAttribLocation(this.simpleShaderProgram, "position");
-                                this.simpleInputTexCoordHandle = GLES20.glGetAttribLocation(this.simpleShaderProgram, "inputTexCoord");
-                                this.simpleSourceImageHandle = GLES20.glGetUniformLocation(this.simpleShaderProgram, "sourceImage");
-                            }
-                            if (!setupVideoShader(null)) {
-                                return false;
-                            }
-                            Bitmap bitmap = this.currentBitmap;
-                            if (bitmap != null) {
-                                i = bitmap.getWidth();
-                                i2 = this.currentBitmap.getHeight();
-                            } else {
-                                i = this.videoWidth;
-                                i2 = this.videoHeight;
-                            }
-                            int i3 = i;
-                            int i4 = i2;
-                            if (this.videoDelegate != null) {
-                                GLES20.glGenTextures(1, this.videoTexture, 0);
-                                Matrix.setIdentityM(this.videoTextureMatrix, 0);
-                                SurfaceTexture surfaceTexture2 = new SurfaceTexture(this.videoTexture[0]);
-                                this.videoSurfaceTexture = surfaceTexture2;
-                                surfaceTexture2.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda8
-                                    @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
-                                    public final void onFrameAvailable(SurfaceTexture surfaceTexture3) {
-                                        FilterGLThread.this.lambda$initGL$2(surfaceTexture3);
-                                    }
-                                });
-                                GLES20.glBindTexture(36197, this.videoTexture[0]);
-                                GLES20.glTexParameterf(36197, 10240, 9729.0f);
-                                GLES20.glTexParameterf(36197, 10241, 9728.0f);
-                                GLES20.glTexParameteri(36197, 10242, 33071);
-                                GLES20.glTexParameteri(36197, 10243, 33071);
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda9
-                                    @Override // java.lang.Runnable
-                                    public final void run() {
-                                        FilterGLThread.this.lambda$initGL$3();
-                                    }
-                                });
-                            }
-                            if (this.uiBlurEnabled && (blurringShader = this.uiBlur) != null && !blurringShader.setup(this.surfaceWidth / this.surfaceHeight, true, this.blurManager.padding)) {
-                                FileLog.e("Failed to create uiBlurFramebuffer");
-                                this.uiBlurEnabled = false;
-                                this.uiBlur = null;
-                            }
-                            if (this.filterShaders.create()) {
-                                if (i3 != 0 && i4 != 0) {
-                                    this.filterShaders.setRenderData(this.currentBitmap, this.orientation, this.videoTexture[0], i3, i4);
-                                    this.renderDataSet = true;
-                                    this.renderBufferWidth = this.filterShaders.getRenderBufferWidth();
-                                    this.renderBufferHeight = this.filterShaders.getRenderBufferHeight();
-                                }
-                                return true;
-                            }
-                        } else if (BuildVars.LOGS_ENABLED) {
-                            sb = new StringBuilder();
-                            str = "eglMakeCurrent failed ";
-                            sb.append(str);
-                            sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                            sb.toString();
-                        }
-                    }
-                } else if (BuildVars.LOGS_ENABLED) {
-                    sb = new StringBuilder();
-                    str = "eglCreateContext failed ";
-                    sb.append(str);
-                    sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                    sb.toString();
-                }
-            } else {
-                str2 = BuildVars.LOGS_ENABLED ? "eglConfig not initialized" : "eglConfig not initialized";
+                str = sb.toString();
             }
             finish();
             return false;
         }
-        FileLog.e(str2);
+        if (!this.egl10.eglInitialize(eglGetDisplay, new int[2])) {
+            if (BuildVars.LOGS_ENABLED) {
+                sb = new StringBuilder();
+                str2 = "eglInitialize failed ";
+                sb.append(str2);
+                sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                str = sb.toString();
+            }
+            finish();
+            return false;
+        }
+        int[] iArr = new int[1];
+        EGLConfig[] eGLConfigArr = new EGLConfig[1];
+        if (!this.egl10.eglChooseConfig(this.eglDisplay, new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 0, 12326, 0, 12344}, eGLConfigArr, 1, iArr)) {
+            if (BuildVars.LOGS_ENABLED) {
+                sb = new StringBuilder();
+                str2 = "eglChooseConfig failed ";
+                sb.append(str2);
+                sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                str = sb.toString();
+            }
+            finish();
+            return false;
+        }
+        if (iArr[0] > 0) {
+            EGLConfig eGLConfig = eGLConfigArr[0];
+            int[] iArr2 = {12440, 2, 12344};
+            BlurringShader.BlurManager blurManager = this.blurManager;
+            EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, blurManager != null ? blurManager.getParentContext() : EGL10.EGL_NO_CONTEXT, iArr2);
+            this.eglContext = eglCreateContext;
+            if (eglCreateContext != null) {
+                BlurringShader.BlurManager blurManager2 = this.blurManager;
+                if (blurManager2 != null) {
+                    blurManager2.acquiredContext(eglCreateContext);
+                }
+                SurfaceTexture surfaceTexture = this.surfaceTexture;
+                if (surfaceTexture instanceof SurfaceTexture) {
+                    EGLSurface eglCreateWindowSurface = this.egl10.eglCreateWindowSurface(this.eglDisplay, eGLConfig, surfaceTexture, null);
+                    this.eglSurface = eglCreateWindowSurface;
+                    if (eglCreateWindowSurface == null || eglCreateWindowSurface == EGL10.EGL_NO_SURFACE) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            sb = new StringBuilder();
+                            str2 = "createWindowSurface failed ";
+                            sb.append(str2);
+                            sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                            str = sb.toString();
+                        }
+                    } else if (this.egl10.eglMakeCurrent(this.eglDisplay, eglCreateWindowSurface, eglCreateWindowSurface, this.eglContext)) {
+                        int loadShader = FilterShaders.loadShader(35633, "attribute vec4 position;attribute vec2 inputTexCoord;varying vec2 vTextureCoord;void main() {gl_Position = position;vTextureCoord = inputTexCoord;}");
+                        int loadShader2 = FilterShaders.loadShader(35632, "varying highp vec2 vTextureCoord;uniform sampler2D sTexture;void main() {gl_FragColor = texture2D(sTexture, vTextureCoord);}");
+                        if (loadShader == 0 || loadShader2 == 0) {
+                            return false;
+                        }
+                        int glCreateProgram = GLES20.glCreateProgram();
+                        this.simpleShaderProgram = glCreateProgram;
+                        GLES20.glAttachShader(glCreateProgram, loadShader);
+                        GLES20.glAttachShader(this.simpleShaderProgram, loadShader2);
+                        GLES20.glBindAttribLocation(this.simpleShaderProgram, 0, "position");
+                        GLES20.glBindAttribLocation(this.simpleShaderProgram, 1, "inputTexCoord");
+                        GLES20.glLinkProgram(this.simpleShaderProgram);
+                        int[] iArr3 = new int[1];
+                        GLES20.glGetProgramiv(this.simpleShaderProgram, 35714, iArr3, 0);
+                        if (iArr3[0] == 0) {
+                            GLES20.glDeleteProgram(this.simpleShaderProgram);
+                            this.simpleShaderProgram = 0;
+                        } else {
+                            this.simplePositionHandle = GLES20.glGetAttribLocation(this.simpleShaderProgram, "position");
+                            this.simpleInputTexCoordHandle = GLES20.glGetAttribLocation(this.simpleShaderProgram, "inputTexCoord");
+                            this.simpleSourceImageHandle = GLES20.glGetUniformLocation(this.simpleShaderProgram, "sourceImage");
+                        }
+                        if (!setupVideoShader(null)) {
+                            return false;
+                        }
+                        Bitmap bitmap = this.currentBitmap;
+                        if (bitmap != null) {
+                            i = bitmap.getWidth();
+                            i2 = this.currentBitmap.getHeight();
+                        } else {
+                            i = this.videoWidth;
+                            i2 = this.videoHeight;
+                        }
+                        int i3 = i;
+                        int i4 = i2;
+                        if (this.videoDelegate != null) {
+                            GLES20.glGenTextures(1, this.videoTexture, 0);
+                            Matrix.setIdentityM(this.videoTextureMatrix, 0);
+                            SurfaceTexture surfaceTexture2 = new SurfaceTexture(this.videoTexture[0]);
+                            this.videoSurfaceTexture = surfaceTexture2;
+                            surfaceTexture2.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda8
+                                @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
+                                public final void onFrameAvailable(SurfaceTexture surfaceTexture3) {
+                                    FilterGLThread.this.lambda$initGL$2(surfaceTexture3);
+                                }
+                            });
+                            GLES20.glBindTexture(36197, this.videoTexture[0]);
+                            GLES20.glTexParameterf(36197, 10240, 9729.0f);
+                            GLES20.glTexParameterf(36197, 10241, 9728.0f);
+                            GLES20.glTexParameteri(36197, 10242, 33071);
+                            GLES20.glTexParameteri(36197, 10243, 33071);
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda9
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    FilterGLThread.this.lambda$initGL$3();
+                                }
+                            });
+                        }
+                        if (this.uiBlurEnabled && (blurringShader = this.uiBlur) != null && !blurringShader.setup(this.surfaceWidth / this.surfaceHeight, true, this.blurManager.padding)) {
+                            FileLog.e("Failed to create uiBlurFramebuffer");
+                            this.uiBlurEnabled = false;
+                            this.uiBlur = null;
+                        }
+                        if (this.filterShaders.create()) {
+                            if (i3 != 0 && i4 != 0) {
+                                this.filterShaders.setRenderData(this.currentBitmap, this.orientation, this.videoTexture[0], i3, i4);
+                                this.renderDataSet = true;
+                                this.renderBufferWidth = this.filterShaders.getRenderBufferWidth();
+                                this.renderBufferHeight = this.filterShaders.getRenderBufferHeight();
+                            }
+                            return true;
+                        }
+                    } else if (BuildVars.LOGS_ENABLED) {
+                        sb = new StringBuilder();
+                        str2 = "eglMakeCurrent failed ";
+                        sb.append(str2);
+                        sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                        str = sb.toString();
+                    }
+                }
+            } else if (BuildVars.LOGS_ENABLED) {
+                sb = new StringBuilder();
+                str2 = "eglCreateContext failed ";
+                sb.append(str2);
+                sb.append(GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                str = sb.toString();
+            }
+        } else if (BuildVars.LOGS_ENABLED) {
+            str = "eglConfig not initialized";
+        }
+        finish();
+        return false;
+        FileLog.e(str);
         finish();
         return false;
     }
@@ -533,8 +534,8 @@ public class FilterGLThread extends DispatchQueue {
         this.renderBufferHeight = this.filterShaders.getRenderBufferHeight();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0025  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x003a  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x003a  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0025  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -546,43 +547,44 @@ public class FilterGLThread extends DispatchQueue {
         int hDRType = hDRInfo != null ? hDRInfo.getHDRType() : 0;
         if (hDRType == 1) {
             i = R.raw.hdr2sdr_hlg;
-        } else if (hDRType != 2) {
-            str = "";
-            if (hDRType == 0) {
-                loadShader = FilterShaders.loadShader(35633, "attribute vec4 position;uniform mat4 videoMatrix;attribute vec4 inputTexCoord;varying vec2 vTextureCoord;void main() {gl_Position = position;vTextureCoord = vec2(videoMatrix * inputTexCoord).xy;}");
-                str2 = String.format(Locale.US, "%1$s\nvarying highp vec2 vTextureCoord;void main() {gl_FragColor = TEX(vTextureCoord);}", str);
-            } else {
-                loadShader = FilterShaders.loadShader(35633, "attribute vec4 position;uniform mat4 videoMatrix;attribute vec4 inputTexCoord;varying vec2 vTextureCoord;void main() {gl_Position = position;vTextureCoord = vec2(videoMatrix * inputTexCoord).xy;}");
-                str2 = "#extension GL_OES_EGL_image_external : require\n" + "varying highp vec2 vTextureCoord;uniform sampler2D sTexture;void main() {gl_FragColor = texture2D(sTexture, vTextureCoord);}".replace("sampler2D", "samplerExternalOES");
-            }
-            int loadShader2 = FilterShaders.loadShader(35632, str2);
-            if (loadShader != 0 || loadShader2 == 0) {
-                return false;
-            }
-            int i2 = this.simpleOESShaderProgram;
-            if (i2 != 0) {
-                GLES20.glDeleteProgram(i2);
-            }
-            int glCreateProgram = GLES20.glCreateProgram();
-            this.simpleOESShaderProgram = glCreateProgram;
-            GLES20.glAttachShader(glCreateProgram, loadShader);
-            GLES20.glAttachShader(this.simpleOESShaderProgram, loadShader2);
-            GLES20.glBindAttribLocation(this.simpleOESShaderProgram, 0, "position");
-            GLES20.glBindAttribLocation(this.simpleOESShaderProgram, 1, "inputTexCoord");
-            GLES20.glLinkProgram(this.simpleOESShaderProgram);
-            int[] iArr = new int[1];
-            GLES20.glGetProgramiv(this.simpleOESShaderProgram, 35714, iArr, 0);
-            if (iArr[0] == 0) {
-                GLES20.glDeleteProgram(this.simpleOESShaderProgram);
-                this.simpleOESShaderProgram = 0;
-            } else {
-                this.simpleOESPositionHandle = GLES20.glGetAttribLocation(this.simpleOESShaderProgram, "position");
-                this.simpleOESInputTexCoordHandle = GLES20.glGetAttribLocation(this.simpleOESShaderProgram, "inputTexCoord");
-                this.simpleOESSourceImageHandle = GLES20.glGetUniformLocation(this.simpleOESShaderProgram, "sourceImage");
-                this.simpleOESMatrixHandle = GLES20.glGetUniformLocation(this.simpleOESShaderProgram, "videoMatrix");
-            }
-            return true;
         } else {
+            if (hDRType != 2) {
+                str = "";
+                if (hDRType == 0) {
+                    loadShader = FilterShaders.loadShader(35633, "attribute vec4 position;uniform mat4 videoMatrix;attribute vec4 inputTexCoord;varying vec2 vTextureCoord;void main() {gl_Position = position;vTextureCoord = vec2(videoMatrix * inputTexCoord).xy;}");
+                    str2 = String.format(Locale.US, "%1$s\nvarying highp vec2 vTextureCoord;void main() {gl_FragColor = TEX(vTextureCoord);}", str);
+                } else {
+                    loadShader = FilterShaders.loadShader(35633, "attribute vec4 position;uniform mat4 videoMatrix;attribute vec4 inputTexCoord;varying vec2 vTextureCoord;void main() {gl_Position = position;vTextureCoord = vec2(videoMatrix * inputTexCoord).xy;}");
+                    str2 = "#extension GL_OES_EGL_image_external : require\n" + "varying highp vec2 vTextureCoord;uniform sampler2D sTexture;void main() {gl_FragColor = texture2D(sTexture, vTextureCoord);}".replace("sampler2D", "samplerExternalOES");
+                }
+                int loadShader2 = FilterShaders.loadShader(35632, str2);
+                if (loadShader != 0 || loadShader2 == 0) {
+                    return false;
+                }
+                int i2 = this.simpleOESShaderProgram;
+                if (i2 != 0) {
+                    GLES20.glDeleteProgram(i2);
+                }
+                int glCreateProgram = GLES20.glCreateProgram();
+                this.simpleOESShaderProgram = glCreateProgram;
+                GLES20.glAttachShader(glCreateProgram, loadShader);
+                GLES20.glAttachShader(this.simpleOESShaderProgram, loadShader2);
+                GLES20.glBindAttribLocation(this.simpleOESShaderProgram, 0, "position");
+                GLES20.glBindAttribLocation(this.simpleOESShaderProgram, 1, "inputTexCoord");
+                GLES20.glLinkProgram(this.simpleOESShaderProgram);
+                int[] iArr = new int[1];
+                GLES20.glGetProgramiv(this.simpleOESShaderProgram, 35714, iArr, 0);
+                if (iArr[0] == 0) {
+                    GLES20.glDeleteProgram(this.simpleOESShaderProgram);
+                    this.simpleOESShaderProgram = 0;
+                } else {
+                    this.simpleOESPositionHandle = GLES20.glGetAttribLocation(this.simpleOESShaderProgram, "position");
+                    this.simpleOESInputTexCoordHandle = GLES20.glGetAttribLocation(this.simpleOESShaderProgram, "inputTexCoord");
+                    this.simpleOESSourceImageHandle = GLES20.glGetUniformLocation(this.simpleOESShaderProgram, "sourceImage");
+                    this.simpleOESMatrixHandle = GLES20.glGetUniformLocation(this.simpleOESShaderProgram, "videoMatrix");
+                }
+                return true;
+            }
             i = R.raw.hdr2sdr_pq;
         }
         str = AndroidUtilities.readRes(i);
@@ -625,24 +627,24 @@ public class FilterGLThread extends DispatchQueue {
     }
 
     public Bitmap getTexture() {
-        if (this.initied && isAlive()) {
-            final CountDownLatch countDownLatch = new CountDownLatch(1);
-            final Bitmap[] bitmapArr = new Bitmap[1];
-            try {
-                if (postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        FilterGLThread.this.lambda$getTexture$7(bitmapArr, countDownLatch);
-                    }
-                })) {
-                    countDownLatch.await();
-                }
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            return bitmapArr[0];
+        if (!this.initied || !isAlive()) {
+            return null;
         }
-        return null;
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final Bitmap[] bitmapArr = new Bitmap[1];
+        try {
+            if (postRunnable(new Runnable() { // from class: org.telegram.ui.Components.FilterGLThread$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FilterGLThread.this.lambda$getTexture$7(bitmapArr, countDownLatch);
+                }
+            })) {
+                countDownLatch.await();
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return bitmapArr[0];
     }
 
     public Bitmap getUiBlurBitmap() {

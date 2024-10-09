@@ -5,6 +5,7 @@ import org.telegram.messenger.voip.Instance;
 import org.telegram.messenger.voip.VoIPService;
 import org.webrtc.EglBase;
 import org.webrtc.Predicate;
+
 /* loaded from: classes.dex */
 public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
     private static final Predicate<MediaCodecInfo> defaultAllowedPredicate = new Predicate<MediaCodecInfo>() { // from class: org.webrtc.HardwareVideoDecoderFactory.1
@@ -23,9 +24,9 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
             return Predicate.-CC.$default$or(this, predicate);
         }
 
-        /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:25:0x0047, code lost:
-            if (r3.equals(org.telegram.messenger.MediaController.VIDEO_MIME_TYPE) == false) goto L14;
+        /* JADX WARN: Code restructure failed: missing block: B:46:0x0047, code lost:
+        
+            if (r3.equals(org.telegram.messenger.MediaController.VIDEO_MIME_TYPE) == false) goto L15;
          */
         @Override // org.webrtc.Predicate
         /*
@@ -51,7 +52,6 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
                             c = 0;
                             break;
                         }
-                        c = 65535;
                         break;
                     case 1331836730:
                         break;
@@ -60,19 +60,15 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
                             c = 2;
                             break;
                         }
-                        c = 65535;
                         break;
                     case 1599127257:
                         if (str.equals("video/x-vnd.on2.vp9")) {
                             c = 3;
                             break;
                         }
-                        c = 65535;
-                        break;
-                    default:
-                        c = 65535;
                         break;
                 }
+                c = 65535;
                 switch (c) {
                     case 0:
                         return globalServerConfig.enable_h265_decoder;

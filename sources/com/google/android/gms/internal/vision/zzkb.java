@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzkb implements zzlf {
@@ -31,17 +32,17 @@ public final class zzkb implements zzlf {
         zzki zzb2 = this.zza.zzb(cls);
         if (zzb2.zzb()) {
             return zzjb.class.isAssignableFrom(cls) ? zzkq.zza(zzle.zzc(), zzir.zza(), zzb2.zzc()) : zzkq.zza(zzle.zza(), zzir.zzb(), zzb2.zzc());
-        } else if (!zzjb.class.isAssignableFrom(cls)) {
+        }
+        if (!zzjb.class.isAssignableFrom(cls)) {
             boolean zza = zza(zzb2);
             zzks zza2 = zzku.zza();
             zzju zza3 = zzju.zza();
             return zza ? zzko.zza(cls, zzb2, zza2, zza3, zzle.zza(), zzir.zzb(), zzkj.zza()) : zzko.zza(cls, zzb2, zza2, zza3, zzle.zzb(), (zziq) null, zzkj.zza());
-        } else {
-            boolean zza4 = zza(zzb2);
-            zzks zzb3 = zzku.zzb();
-            zzju zzb4 = zzju.zzb();
-            zzlu zzc = zzle.zzc();
-            return zza4 ? zzko.zza(cls, zzb2, zzb3, zzb4, zzc, zzir.zza(), zzkj.zzb()) : zzko.zza(cls, zzb2, zzb3, zzb4, zzc, (zziq) null, zzkj.zzb());
         }
+        boolean zza4 = zza(zzb2);
+        zzks zzb3 = zzku.zzb();
+        zzju zzb4 = zzju.zzb();
+        zzlu zzc = zzle.zzc();
+        return zza4 ? zzko.zza(cls, zzb2, zzb3, zzb4, zzc, zzir.zza(), zzkj.zzb()) : zzko.zza(cls, zzb2, zzb3, zzb4, zzc, (zziq) null, zzkj.zzb());
     }
 }

@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.PositionHolder;
 import com.google.android.exoplayer2.upstream.DataReader;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public interface ProgressiveMediaExtractor {
 

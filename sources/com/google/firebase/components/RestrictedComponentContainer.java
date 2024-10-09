@@ -5,6 +5,7 @@ import com.google.firebase.inject.Provider;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class RestrictedComponentContainer extends AbstractComponentContainer {
@@ -69,11 +70,11 @@ public final class RestrictedComponentContainer extends AbstractComponentContain
 
     @Override // com.google.firebase.components.AbstractComponentContainer, com.google.firebase.components.ComponentContainer
     public Object get(Class cls) {
-        if (this.allowedDirectInterfaces.contains(cls)) {
-            Object obj = this.delegateContainer.get(cls);
-            return !cls.equals(Publisher.class) ? obj : new RestrictedPublisher(this.allowedPublishedEvents, (Publisher) obj);
+        if (!this.allowedDirectInterfaces.contains(cls)) {
+            throw new DependencyException(String.format("Attempting to request an undeclared dependency %s.", cls));
         }
-        throw new DependencyException(String.format("Attempting to request an undeclared dependency %s.", cls));
+        Object obj = this.delegateContainer.get(cls);
+        return !cls.equals(Publisher.class) ? obj : new RestrictedPublisher(this.allowedPublishedEvents, (Publisher) obj);
     }
 
     @Override // com.google.firebase.components.ComponentContainer

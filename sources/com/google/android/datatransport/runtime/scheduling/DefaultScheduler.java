@@ -11,6 +11,7 @@ import com.google.android.datatransport.runtime.scheduling.persistence.EventStor
 import com.google.android.datatransport.runtime.synchronization.SynchronizationGuard;
 import java.util.concurrent.Executor;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public class DefaultScheduler implements Scheduler {
     private static final Logger LOGGER = Logger.getLogger(TransportRuntime.class.getName());
@@ -43,21 +44,20 @@ public class DefaultScheduler implements Scheduler {
                 String format = String.format("Transport backend '%s' is not registered", transportContext.getBackendName());
                 LOGGER.warning(format);
                 transportScheduleCallback.onSchedule(new IllegalArgumentException(format));
-                return;
+            } else {
+                final EventInternal decorate = transportBackend.decorate(eventInternal);
+                this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda1
+                    @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
+                    public final Object execute() {
+                        Object lambda$schedule$0;
+                        lambda$schedule$0 = DefaultScheduler.this.lambda$schedule$0(transportContext, decorate);
+                        return lambda$schedule$0;
+                    }
+                });
+                transportScheduleCallback.onSchedule(null);
             }
-            final EventInternal decorate = transportBackend.decorate(eventInternal);
-            this.guard.runCriticalSection(new SynchronizationGuard.CriticalSection() { // from class: com.google.android.datatransport.runtime.scheduling.DefaultScheduler$$ExternalSyntheticLambda1
-                @Override // com.google.android.datatransport.runtime.synchronization.SynchronizationGuard.CriticalSection
-                public final Object execute() {
-                    Object lambda$schedule$0;
-                    lambda$schedule$0 = DefaultScheduler.this.lambda$schedule$0(transportContext, decorate);
-                    return lambda$schedule$0;
-                }
-            });
-            transportScheduleCallback.onSchedule(null);
         } catch (Exception e) {
-            Logger logger = LOGGER;
-            logger.warning("Error scheduling event " + e.getMessage());
+            LOGGER.warning("Error scheduling event " + e.getMessage());
             transportScheduleCallback.onSchedule(e);
         }
     }

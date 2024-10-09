@@ -13,6 +13,7 @@ import j$.util.function.n;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import sun.misc.Unsafe;
+
 /* loaded from: classes2.dex */
 public abstract /* synthetic */ class a {
     public static s a(BiFunction biFunction, Function function) {

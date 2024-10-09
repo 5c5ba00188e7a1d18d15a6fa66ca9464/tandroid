@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_vision_common;
 
 import com.google.firebase.encoders.config.Configurator;
 import com.google.firebase.encoders.config.EncoderConfig;
+
 /* loaded from: classes.dex */
 public final class zzhe implements Configurator {
     public static final Configurator zza = new zzhe();

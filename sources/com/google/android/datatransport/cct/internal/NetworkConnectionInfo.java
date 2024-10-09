@@ -2,6 +2,7 @@ package com.google.android.datatransport.cct.internal;
 
 import android.util.SparseArray;
 import com.google.android.datatransport.cct.internal.AutoValue_NetworkConnectionInfo;
+
 /* loaded from: classes.dex */
 public abstract class NetworkConnectionInfo {
 
@@ -37,7 +38,7 @@ public abstract class NetworkConnectionInfo {
         IWLAN(18),
         LTE_CA(19),
         COMBINED(100);
-        
+
         private static final SparseArray valueMap;
         private final int value;
 
@@ -120,7 +121,7 @@ public abstract class NetworkConnectionInfo {
         PROXY(16),
         VPN(17),
         NONE(-1);
-        
+
         private static final SparseArray valueMap;
         private final int value;
 

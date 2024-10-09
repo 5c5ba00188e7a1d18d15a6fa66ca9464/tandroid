@@ -1,4 +1,5 @@
 package androidx.biometric;
+
 /* loaded from: classes.dex */
 public abstract class R$string {
     public static final int confirm_device_credential_password = 2131697645;

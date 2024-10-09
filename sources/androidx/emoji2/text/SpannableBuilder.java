@@ -11,6 +11,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 public final class SpannableBuilder extends SpannableStringBuilder {
     private final Class mWatcherClass;
@@ -211,15 +212,15 @@ public final class SpannableBuilder extends SpannableStringBuilder {
 
     @Override // android.text.SpannableStringBuilder, android.text.Spanned
     public Object[] getSpans(int i, int i2, Class cls) {
-        if (isWatcher(cls)) {
-            WatcherWrapper[] watcherWrapperArr = (WatcherWrapper[]) super.getSpans(i, i2, WatcherWrapper.class);
-            Object[] objArr = (Object[]) Array.newInstance(cls, watcherWrapperArr.length);
-            for (int i3 = 0; i3 < watcherWrapperArr.length; i3++) {
-                objArr[i3] = watcherWrapperArr[i3].mObject;
-            }
-            return objArr;
+        if (!isWatcher(cls)) {
+            return super.getSpans(i, i2, cls);
         }
-        return super.getSpans(i, i2, cls);
+        WatcherWrapper[] watcherWrapperArr = (WatcherWrapper[]) super.getSpans(i, i2, WatcherWrapper.class);
+        Object[] objArr = (Object[]) Array.newInstance((Class<?>) cls, watcherWrapperArr.length);
+        for (int i3 = 0; i3 < watcherWrapperArr.length; i3++) {
+            objArr[i3] = watcherWrapperArr[i3].mObject;
+        }
+        return objArr;
     }
 
     @Override // android.text.SpannableStringBuilder, android.text.Editable
@@ -236,7 +237,10 @@ public final class SpannableBuilder extends SpannableStringBuilder {
 
     @Override // android.text.SpannableStringBuilder, android.text.Spanned
     public int nextSpanTransition(int i, int i2, Class cls) {
-        return super.nextSpanTransition(i, i2, (cls == null || isWatcher(cls)) ? WatcherWrapper.class : WatcherWrapper.class);
+        if (cls == null || isWatcher(cls)) {
+            cls = WatcherWrapper.class;
+        }
+        return super.nextSpanTransition(i, i2, cls);
     }
 
     @Override // android.text.SpannableStringBuilder, android.text.Spannable

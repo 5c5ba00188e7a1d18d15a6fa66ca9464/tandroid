@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import j$.util.function.Predicate;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class p0 implements Predicate {
     public final /* synthetic */ int a;

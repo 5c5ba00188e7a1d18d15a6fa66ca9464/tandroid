@@ -11,6 +11,7 @@ import android.view.Window;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public abstract class KeyEventDispatcher {
     private static boolean sActionBarFieldsFetched = false;
@@ -66,18 +67,18 @@ public abstract class KeyEventDispatcher {
 
     private static boolean dialogSuperDispatchKeyEventPre28(Dialog dialog, KeyEvent keyEvent) {
         DialogInterface.OnKeyListener dialogKeyListenerPre28 = getDialogKeyListenerPre28(dialog);
-        if (dialogKeyListenerPre28 == null || !dialogKeyListenerPre28.onKey(dialog, keyEvent.getKeyCode(), keyEvent)) {
-            Window window = dialog.getWindow();
-            if (window.superDispatchKeyEvent(keyEvent)) {
-                return true;
-            }
-            View decorView = window.getDecorView();
-            if (ViewCompat.dispatchUnhandledKeyEventBeforeCallback(decorView, keyEvent)) {
-                return true;
-            }
-            return keyEvent.dispatch(dialog, decorView != null ? decorView.getKeyDispatcherState() : null, dialog);
+        if (dialogKeyListenerPre28 != null && dialogKeyListenerPre28.onKey(dialog, keyEvent.getKeyCode(), keyEvent)) {
+            return true;
         }
-        return true;
+        Window window = dialog.getWindow();
+        if (window.superDispatchKeyEvent(keyEvent)) {
+            return true;
+        }
+        View decorView = window.getDecorView();
+        if (ViewCompat.dispatchUnhandledKeyEventBeforeCallback(decorView, keyEvent)) {
+            return true;
+        }
+        return keyEvent.dispatch(dialog, decorView != null ? decorView.getKeyDispatcherState() : null, dialog);
     }
 
     public static boolean dispatchBeforeHierarchy(View view, KeyEvent keyEvent) {
@@ -102,13 +103,13 @@ public abstract class KeyEventDispatcher {
             sDialogFieldsFetched = true;
         }
         Field field = sDialogKeyListenerField;
-        if (field != null) {
-            try {
-                return (DialogInterface.OnKeyListener) field.get(dialog);
-            } catch (IllegalAccessException unused2) {
-                return null;
-            }
+        if (field == null) {
+            return null;
         }
-        return null;
+        try {
+            return (DialogInterface.OnKeyListener) field.get(dialog);
+        } catch (IllegalAccessException unused2) {
+            return null;
+        }
     }
 }

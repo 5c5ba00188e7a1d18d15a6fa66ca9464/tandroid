@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class I0 implements F0 {
@@ -36,7 +37,7 @@ public class I0 implements F0 {
     @Override // j$.util.stream.F0
     public final void forEach(Consumer consumer) {
         for (int i = 0; i < this.b; i++) {
-            consumer.accept(this.a[i]);
+            consumer.r(this.a[i]);
         }
     }
 

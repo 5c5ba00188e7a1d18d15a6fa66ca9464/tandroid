@@ -28,6 +28,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Adapters.DialogsSearchAdapter;
 import org.telegram.ui.Adapters.SearchAdapterHelper;
 import org.telegram.ui.Components.ShareAlert;
+
 /* loaded from: classes4.dex */
 public class SearchAdapterHelper {
     private boolean allResultsAreGlobal;
@@ -571,11 +572,11 @@ public class SearchAdapterHelper {
         queryServerSearch(str, z, z2, z3, z4, z5, j, z6, i, i2, j2, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:114:0x014b  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0190  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x019f  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x01a7  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x01bb A[LOOP:2: B:135:0x01b5->B:137:0x01bb, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x014b  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0190  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x019f  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x01bb A[LOOP:2: B:58:0x01b5->B:60:0x01bb, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x01a7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -662,13 +663,14 @@ public class SearchAdapterHelper {
                 final AtomicInteger atomicInteger = new AtomicInteger(0);
                 final ArrayList arrayList3 = new ArrayList();
                 for (i3 = 0; i3 < arrayList.size(); i3++) {
+                    TLObject tLObject = (TLObject) ((Pair) arrayList.get(i3)).first;
                     arrayList3.add(null);
                     final AtomicInteger atomicInteger2 = new AtomicInteger();
                     final int i5 = i3;
-                    atomicInteger2.set(ConnectionsManager.getInstance(this.currentAccount).sendRequest((TLObject) ((Pair) arrayList.get(i3)).first, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda2
+                    atomicInteger2.set(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLObject, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda2
                         @Override // org.telegram.tgnet.RequestDelegate
-                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                            SearchAdapterHelper.this.lambda$queryServerSearch$3(arrayList3, i5, atomicInteger2, atomicInteger, arrayList, i2, runnable, tLObject, tL_error);
+                        public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
+                            SearchAdapterHelper.this.lambda$queryServerSearch$3(arrayList3, i5, atomicInteger2, atomicInteger, arrayList, i2, runnable, tLObject2, tL_error);
                         }
                     }));
                     this.pendingRequestIds.add(Integer.valueOf(atomicInteger2.get()));
@@ -679,8 +681,8 @@ public class SearchAdapterHelper {
             tL_contacts_search.limit = 20;
             arrayList.add(new Pair(tL_contacts_search, new RequestDelegate() { // from class: org.telegram.ui.Adapters.SearchAdapterHelper$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    SearchAdapterHelper.this.lambda$queryServerSearch$1(i2, z2, z5, z3, z4, j2, str, tLObject, tL_error);
+                public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
+                    SearchAdapterHelper.this.lambda$queryServerSearch$1(i2, z2, z5, z3, z4, j2, str, tLObject2, tL_error);
                 }
             }));
         }

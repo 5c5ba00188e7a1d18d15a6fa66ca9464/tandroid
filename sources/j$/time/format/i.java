@@ -1,6 +1,7 @@
 package j$.time.format;
 
 import j$.time.ZoneOffset;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class i implements g {

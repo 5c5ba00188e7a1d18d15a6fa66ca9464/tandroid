@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public final class zzcm extends zzal implements RandomAccess, zzcn {
     public static final zzcn zza;
@@ -90,12 +91,12 @@ public final class zzcm extends zzal implements RandomAccess, zzcn {
 
     @Override // com.google.android.gms.internal.play_billing.zzcf
     public final /* bridge */ /* synthetic */ zzcf zzd(int i) {
-        if (i >= size()) {
-            ArrayList arrayList = new ArrayList(i);
-            arrayList.addAll(this.zzc);
-            return new zzcm(arrayList);
+        if (i < size()) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        ArrayList arrayList = new ArrayList(i);
+        arrayList.addAll(this.zzc);
+        return new zzcm(arrayList);
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzcn
@@ -109,7 +110,7 @@ public final class zzcm extends zzal implements RandomAccess, zzcn {
     }
 
     @Override // java.util.AbstractList, java.util.List
-    /* renamed from: zzg */
+    /* renamed from: zzg, reason: merged with bridge method [inline-methods] */
     public final String get(int i) {
         Object obj = this.zzc.get(i);
         if (obj instanceof String) {

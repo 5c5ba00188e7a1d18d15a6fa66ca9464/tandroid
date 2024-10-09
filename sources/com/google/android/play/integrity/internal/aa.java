@@ -2,7 +2,9 @@ package com.google.android.play.integrity.internal;
 
 import android.os.IBinder;
 import android.os.IInterface;
+import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class aa extends t {
     final /* synthetic */ IBinder a;
@@ -17,15 +19,16 @@ final class aa extends t {
     @Override // com.google.android.play.integrity.internal.t
     public final void b() {
         z zVar;
-        List<Runnable> list;
+        List list;
         List list2;
         zVar = this.b.a.j;
         this.b.a.o = (IInterface) zVar.a(this.a);
         ae.r(this.b.a);
         this.b.a.h = false;
         list = this.b.a.e;
-        for (Runnable runnable : list) {
-            runnable.run();
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            ((Runnable) it.next()).run();
         }
         list2 = this.b.a.e;
         list2.clear();

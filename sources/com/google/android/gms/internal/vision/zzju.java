@@ -1,8 +1,15 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 abstract class zzju {
-    private static final zzju zza = new zzjw();
-    private static final zzju zzb = new zzjz();
+    private static final zzju zza;
+    private static final zzju zzb;
+
+    static {
+        zzjx zzjxVar = null;
+        zza = new zzjw();
+        zzb = new zzjz();
+    }
 
     private zzju() {
     }

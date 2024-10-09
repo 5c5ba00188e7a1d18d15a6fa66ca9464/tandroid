@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.function.ToLongFunction;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class Q1 implements j$.util.function.I, ToLongFunction, Consumer {
     public final /* synthetic */ int a;

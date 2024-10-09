@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSourceUtil;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.StatsDataSource;
+
 /* loaded from: classes.dex */
 public final class InitializationChunk extends Chunk {
     private final ChunkExtractor chunkExtractor;
@@ -38,8 +39,11 @@ public final class InitializationChunk extends Chunk {
             StatsDataSource statsDataSource = this.dataSource;
             DefaultExtractorInput defaultExtractorInput = new DefaultExtractorInput(statsDataSource, subrange.position, statsDataSource.open(subrange));
             while (!this.loadCanceled && this.chunkExtractor.read(defaultExtractorInput)) {
+                try {
+                } finally {
+                    this.nextLoadPosition = defaultExtractorInput.getPosition() - this.dataSpec.position;
+                }
             }
-            this.nextLoadPosition = defaultExtractorInput.getPosition() - this.dataSpec.position;
         } finally {
             DataSourceUtil.closeQuietly(this.dataSource);
         }

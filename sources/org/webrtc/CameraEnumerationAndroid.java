@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class CameraEnumerationAndroid {
     static final ArrayList<Size> COMMON_RESOLUTIONS = new ArrayList<>(Arrays.asList(new Size(NotificationCenter.audioRouteChanged, 120), new Size(NotificationCenter.needSetDayNightTheme, NotificationCenter.audioRouteChanged), new Size(320, NotificationCenter.needSetDayNightTheme), new Size(400, NotificationCenter.needSetDayNightTheme), new Size(480, 320), new Size(640, 360), new Size(640, 480), new Size(768, 480), new Size(854, 480), new Size(800, 600), new Size(960, 540), new Size(960, 640), new Size(1024, 576), new Size(1024, 600), new Size(1280, 720), new Size(1280, 1024), new Size(1920, 1080), new Size(1920, 1440), new Size(2560, 1440), new Size(3840, 2160)));
@@ -30,11 +31,11 @@ public class CameraEnumerationAndroid {
             }
 
             public boolean equals(Object obj) {
-                if (obj instanceof FramerateRange) {
-                    FramerateRange framerateRange = (FramerateRange) obj;
-                    return this.min == framerateRange.min && this.max == framerateRange.max;
+                if (!(obj instanceof FramerateRange)) {
+                    return false;
                 }
-                return false;
+                FramerateRange framerateRange = (FramerateRange) obj;
+                return this.min == framerateRange.min && this.max == framerateRange.max;
             }
 
             public int hashCode() {
@@ -66,11 +67,11 @@ public class CameraEnumerationAndroid {
         }
 
         public boolean equals(Object obj) {
-            if (obj instanceof CaptureFormat) {
-                CaptureFormat captureFormat = (CaptureFormat) obj;
-                return this.width == captureFormat.width && this.height == captureFormat.height && this.framerate.equals(captureFormat.framerate);
+            if (!(obj instanceof CaptureFormat)) {
+                return false;
             }
-            return false;
+            CaptureFormat captureFormat = (CaptureFormat) obj;
+            return this.width == captureFormat.width && this.height == captureFormat.height && this.framerate.equals(captureFormat.framerate);
         }
 
         public int frameSize() {

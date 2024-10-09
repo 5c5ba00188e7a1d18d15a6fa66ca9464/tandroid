@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Preconditions;
+
 /* loaded from: classes.dex */
 public abstract class FragmentHostCallback extends FragmentContainer {
     private final Activity mActivity;

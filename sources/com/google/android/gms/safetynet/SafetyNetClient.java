@@ -8,6 +8,7 @@ import com.google.android.gms.common.internal.PendingResultUtil;
 import com.google.android.gms.internal.safetynet.zzae;
 import com.google.android.gms.safetynet.SafetyNetApi;
 import com.google.android.gms.tasks.Task;
+
 /* loaded from: classes.dex */
 public class SafetyNetClient extends GoogleApi {
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -1,16 +1,18 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class l1 extends L2 implements D0, w0 {
     @Override // j$.util.stream.L2
-    public final j$.util.K A() {
+    /* renamed from: A */
+    public final j$.util.K spliterator() {
         return super.spliterator();
     }
 
     @Override // j$.util.stream.F0
-    /* renamed from: B */
+    /* renamed from: B, reason: merged with bridge method [inline-methods] */
     public final /* synthetic */ void i(Long[] lArr, int i) {
         t0.p(this, lArr, i);
     }
@@ -44,7 +46,8 @@ public final class l1 extends L2 implements D0, w0 {
     }
 
     @Override // j$.util.function.Consumer
-    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+    /* renamed from: accept */
+    public final /* bridge */ /* synthetic */ void r(Object obj) {
         j((Long) obj);
     }
 

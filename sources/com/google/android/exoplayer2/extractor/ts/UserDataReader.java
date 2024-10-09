@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class UserDataReader {
     private final List closedCaptionFormats;
@@ -36,8 +37,7 @@ final class UserDataReader {
             TrackOutput track = extractorOutput.track(trackIdGenerator.getTrackId(), 3);
             Format format = (Format) this.closedCaptionFormats.get(i);
             String str = format.sampleMimeType;
-            boolean z = "application/cea-608".equals(str) || "application/cea-708".equals(str);
-            Assertions.checkArgument(z, "Invalid closed caption mime type provided: " + str);
+            Assertions.checkArgument("application/cea-608".equals(str) || "application/cea-708".equals(str), "Invalid closed caption mime type provided: " + str);
             track.format(new Format.Builder().setId(trackIdGenerator.getFormatId()).setSampleMimeType(str).setSelectionFlags(format.selectionFlags).setLanguage(format.language).setAccessibilityChannel(format.accessibilityChannel).setInitializationData(format.initializationData).build());
             this.outputs[i] = track;
         }

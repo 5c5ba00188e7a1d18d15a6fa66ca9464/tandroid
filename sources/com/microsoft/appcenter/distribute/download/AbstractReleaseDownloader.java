@@ -3,6 +3,7 @@ package com.microsoft.appcenter.distribute.download;
 import android.content.Context;
 import com.microsoft.appcenter.distribute.ReleaseDetails;
 import com.microsoft.appcenter.distribute.download.ReleaseDownloader;
+
 /* loaded from: classes.dex */
 public abstract class AbstractReleaseDownloader implements ReleaseDownloader {
     private boolean mCancelled;

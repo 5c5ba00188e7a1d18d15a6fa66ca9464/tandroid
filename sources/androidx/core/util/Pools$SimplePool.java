@@ -1,4 +1,5 @@
 package androidx.core.util;
+
 /* loaded from: classes.dex */
 public class Pools$SimplePool implements Pools$Pool {
     private final Object[] mPool;
@@ -23,15 +24,15 @@ public class Pools$SimplePool implements Pools$Pool {
     @Override // androidx.core.util.Pools$Pool
     public Object acquire() {
         int i = this.mPoolSize;
-        if (i > 0) {
-            int i2 = i - 1;
-            Object[] objArr = this.mPool;
-            Object obj = objArr[i2];
-            objArr[i2] = null;
-            this.mPoolSize = i - 1;
-            return obj;
+        if (i <= 0) {
+            return null;
         }
-        return null;
+        int i2 = i - 1;
+        Object[] objArr = this.mPool;
+        Object obj = objArr[i2];
+        objArr[i2] = null;
+        this.mPoolSize = i - 1;
+        return obj;
     }
 
     @Override // androidx.core.util.Pools$Pool
@@ -41,11 +42,11 @@ public class Pools$SimplePool implements Pools$Pool {
         }
         int i = this.mPoolSize;
         Object[] objArr = this.mPool;
-        if (i < objArr.length) {
-            objArr[i] = obj;
-            this.mPoolSize = i + 1;
-            return true;
+        if (i >= objArr.length) {
+            return false;
         }
-        return false;
+        objArr[i] = obj;
+        this.mPoolSize = i + 1;
+        return true;
     }
 }

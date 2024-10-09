@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import j$.util.function.Function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class y implements java.util.function.Function {
     public final /* synthetic */ Function a;

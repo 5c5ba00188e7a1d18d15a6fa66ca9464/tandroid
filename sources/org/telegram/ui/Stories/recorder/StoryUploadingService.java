@@ -1,5 +1,6 @@
 package org.telegram.ui.Stories.recorder;
 
+import android.R;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -11,8 +12,8 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+
 /* loaded from: classes4.dex */
 public class StoryUploadingService extends Service implements NotificationCenter.NotificationCenterDelegate {
     private NotificationCompat.Builder builder;
@@ -98,12 +99,12 @@ public class StoryUploadingService extends Service implements NotificationCenter
             NotificationsController.checkOtherNotificationsChannel();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationLoader.applicationContext);
             this.builder = builder;
-            builder.setSmallIcon(17301640);
+            builder.setSmallIcon(R.drawable.stat_sys_upload);
             this.builder.setWhen(System.currentTimeMillis());
             this.builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
-            this.builder.setContentTitle(LocaleController.getString(R.string.AppName));
+            this.builder.setContentTitle(LocaleController.getString(org.telegram.messenger.R.string.AppName));
             NotificationCompat.Builder builder2 = this.builder;
-            int i5 = R.string.StoryUploading;
+            int i5 = org.telegram.messenger.R.string.StoryUploading;
             builder2.setTicker(LocaleController.getString(i5));
             this.builder.setContentText(LocaleController.getString(i5));
         }

@@ -2,6 +2,7 @@ package com.google.android.play.integrity.internal;
 
 import android.os.IBinder;
 import android.os.IInterface;
+
 /* loaded from: classes.dex */
 public abstract class m extends b implements n {
     public static n b(IBinder iBinder) {

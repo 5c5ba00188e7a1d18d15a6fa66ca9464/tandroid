@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.ListIterator;
+
 /* loaded from: classes.dex */
 final class zzhl implements ListIterator {
     private ListIterator zza;
@@ -18,7 +19,6 @@ final class zzhl implements ListIterator {
 
     @Override // java.util.ListIterator
     public final /* synthetic */ void add(Object obj) {
-        String str = (String) obj;
         throw new UnsupportedOperationException();
     }
 
@@ -59,7 +59,6 @@ final class zzhl implements ListIterator {
 
     @Override // java.util.ListIterator
     public final /* synthetic */ void set(Object obj) {
-        String str = (String) obj;
         throw new UnsupportedOperationException();
     }
 }

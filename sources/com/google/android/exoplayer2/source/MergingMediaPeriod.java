@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
     private MediaPeriod.Callback callback;
@@ -48,11 +49,11 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof ForwardingTrackSelection) {
-                ForwardingTrackSelection forwardingTrackSelection = (ForwardingTrackSelection) obj;
-                return this.trackSelection.equals(forwardingTrackSelection.trackSelection) && this.trackGroup.equals(forwardingTrackSelection.trackGroup);
+            if (!(obj instanceof ForwardingTrackSelection)) {
+                return false;
             }
-            return false;
+            ForwardingTrackSelection forwardingTrackSelection = (ForwardingTrackSelection) obj;
+            return this.trackSelection.equals(forwardingTrackSelection.trackSelection) && this.trackGroup.equals(forwardingTrackSelection.trackGroup);
         }
 
         @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection
@@ -294,8 +295,6 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long readDiscontinuity() {
-        MediaPeriod[] mediaPeriodArr;
-        MediaPeriod[] mediaPeriodArr2;
         long j = -9223372036854775807L;
         for (MediaPeriod mediaPeriod : this.enabledPeriods) {
             long readDiscontinuity = mediaPeriod.readDiscontinuity();
@@ -304,7 +303,8 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
                     for (MediaPeriod mediaPeriod2 : this.enabledPeriods) {
                         if (mediaPeriod2 == mediaPeriod) {
                             break;
-                        } else if (mediaPeriod2.seekToUs(readDiscontinuity) != readDiscontinuity) {
+                        }
+                        if (mediaPeriod2.seekToUs(readDiscontinuity) != readDiscontinuity) {
                             throw new IllegalStateException("Unexpected child seekToUs result.");
                         }
                     }
@@ -340,23 +340,27 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r15v1 */
+    /* JADX WARN: Type inference failed for: r15v3 */
+    /* JADX WARN: Type inference failed for: r15v4 */
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j) {
-        ExoTrackSelection exoTrackSelection;
+        SampleStream sampleStream;
         int[] iArr = new int[exoTrackSelectionArr.length];
         int[] iArr2 = new int[exoTrackSelectionArr.length];
         int i = 0;
         while (true) {
-            exoTrackSelection = null;
+            sampleStream = null;
             if (i >= exoTrackSelectionArr.length) {
                 break;
             }
-            SampleStream sampleStream = sampleStreamArr[i];
-            Integer num = sampleStream != null ? (Integer) this.streamPeriodIndices.get(sampleStream) : null;
+            SampleStream sampleStream2 = sampleStreamArr[i];
+            Integer num = sampleStream2 != null ? (Integer) this.streamPeriodIndices.get(sampleStream2) : null;
             iArr[i] = num == null ? -1 : num.intValue();
-            ExoTrackSelection exoTrackSelection2 = exoTrackSelectionArr[i];
-            if (exoTrackSelection2 != null) {
-                String str = exoTrackSelection2.getTrackGroup().id;
+            ExoTrackSelection exoTrackSelection = exoTrackSelectionArr[i];
+            if (exoTrackSelection != null) {
+                String str = exoTrackSelection.getTrackGroup().id;
                 iArr2[i] = Integer.parseInt(str.substring(0, str.indexOf(":")));
             } else {
                 iArr2[i] = -1;
@@ -371,20 +375,21 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
         ArrayList arrayList = new ArrayList(this.periods.length);
         long j2 = j;
         int i2 = 0;
+        ExoTrackSelection[] exoTrackSelectionArr3 = exoTrackSelectionArr2;
         while (i2 < this.periods.length) {
             for (int i3 = 0; i3 < exoTrackSelectionArr.length; i3++) {
-                sampleStreamArr3[i3] = iArr[i3] == i2 ? sampleStreamArr[i3] : exoTrackSelection;
+                sampleStreamArr3[i3] = iArr[i3] == i2 ? sampleStreamArr[i3] : sampleStream;
                 if (iArr2[i3] == i2) {
-                    ExoTrackSelection exoTrackSelection3 = (ExoTrackSelection) Assertions.checkNotNull(exoTrackSelectionArr[i3]);
-                    exoTrackSelectionArr2[i3] = new ForwardingTrackSelection(exoTrackSelection3, (TrackGroup) Assertions.checkNotNull((TrackGroup) this.childTrackGroupByMergedTrackGroup.get(exoTrackSelection3.getTrackGroup())));
+                    ExoTrackSelection exoTrackSelection2 = (ExoTrackSelection) Assertions.checkNotNull(exoTrackSelectionArr[i3]);
+                    exoTrackSelectionArr3[i3] = new ForwardingTrackSelection(exoTrackSelection2, (TrackGroup) Assertions.checkNotNull((TrackGroup) this.childTrackGroupByMergedTrackGroup.get(exoTrackSelection2.getTrackGroup())));
                 } else {
-                    exoTrackSelectionArr2[i3] = exoTrackSelection;
+                    exoTrackSelectionArr3[i3] = sampleStream;
                 }
             }
             int i4 = i2;
             ArrayList arrayList2 = arrayList;
-            ExoTrackSelection[] exoTrackSelectionArr3 = exoTrackSelectionArr2;
-            long selectTracks = this.periods[i2].selectTracks(exoTrackSelectionArr2, zArr, sampleStreamArr3, zArr2, j2);
+            ExoTrackSelection[] exoTrackSelectionArr4 = exoTrackSelectionArr3;
+            long selectTracks = this.periods[i2].selectTracks(exoTrackSelectionArr3, zArr, sampleStreamArr3, zArr2, j2);
             if (i4 == 0) {
                 j2 = selectTracks;
             } else if (selectTracks != j2) {
@@ -393,8 +398,9 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
             boolean z = false;
             for (int i5 = 0; i5 < exoTrackSelectionArr.length; i5++) {
                 if (iArr2[i5] == i4) {
+                    SampleStream sampleStream3 = (SampleStream) Assertions.checkNotNull(sampleStreamArr3[i5]);
                     sampleStreamArr2[i5] = sampleStreamArr3[i5];
-                    this.streamPeriodIndices.put((SampleStream) Assertions.checkNotNull(sampleStreamArr3[i5]), Integer.valueOf(i4));
+                    this.streamPeriodIndices.put(sampleStream3, Integer.valueOf(i4));
                     z = true;
                 } else if (iArr[i5] == i4) {
                     Assertions.checkState(sampleStreamArr3[i5] == null);
@@ -405,8 +411,8 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
             }
             i2 = i4 + 1;
             arrayList = arrayList2;
-            exoTrackSelectionArr2 = exoTrackSelectionArr3;
-            exoTrackSelection = null;
+            exoTrackSelectionArr3 = exoTrackSelectionArr4;
+            sampleStream = null;
         }
         System.arraycopy(sampleStreamArr2, 0, sampleStreamArr, 0, length);
         MediaPeriod[] mediaPeriodArr = (MediaPeriod[]) arrayList.toArray(new MediaPeriod[0]);

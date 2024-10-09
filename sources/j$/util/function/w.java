@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.DoubleUnaryOperator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class w {
     public final /* synthetic */ DoubleUnaryOperator a;

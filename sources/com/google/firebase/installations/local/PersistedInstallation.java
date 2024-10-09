@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public class PersistedInstallation {
     private final File dataFile;
@@ -24,8 +25,7 @@ public class PersistedInstallation {
     }
 
     public PersistedInstallation(FirebaseApp firebaseApp) {
-        File filesDir = firebaseApp.getApplicationContext().getFilesDir();
-        this.dataFile = new File(filesDir, "PersistedInstallation." + firebaseApp.getPersistenceKey() + ".json");
+        this.dataFile = new File(firebaseApp.getApplicationContext().getFilesDir(), "PersistedInstallation." + firebaseApp.getPersistenceKey() + ".json");
         this.firebaseApp = firebaseApp;
     }
 
@@ -35,13 +35,22 @@ public class PersistedInstallation {
         try {
             FileInputStream fileInputStream = new FileInputStream(this.dataFile);
             while (true) {
-                int read = fileInputStream.read(bArr, 0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
-                if (read < 0) {
-                    JSONObject jSONObject = new JSONObject(byteArrayOutputStream.toString());
-                    fileInputStream.close();
-                    return jSONObject;
+                try {
+                    int read = fileInputStream.read(bArr, 0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
+                    if (read < 0) {
+                        JSONObject jSONObject = new JSONObject(byteArrayOutputStream.toString());
+                        fileInputStream.close();
+                        return jSONObject;
+                    }
+                    byteArrayOutputStream.write(bArr, 0, read);
+                } catch (Throwable th) {
+                    try {
+                        fileInputStream.close();
+                    } catch (Throwable th2) {
+                        th.addSuppressed(th2);
+                    }
+                    throw th;
                 }
-                byteArrayOutputStream.write(bArr, 0, read);
             }
         } catch (IOException | JSONException unused) {
             return new JSONObject();

@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.util;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class LongArray {
     private int size;
@@ -27,10 +28,10 @@ public final class LongArray {
     }
 
     public long get(int i) {
-        if (i < 0 || i >= this.size) {
-            throw new IndexOutOfBoundsException("Invalid index " + i + ", size is " + this.size);
+        if (i >= 0 && i < this.size) {
+            return this.values[i];
         }
-        return this.values[i];
+        throw new IndexOutOfBoundsException("Invalid index " + i + ", size is " + this.size);
     }
 
     public int size() {

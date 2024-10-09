@@ -25,9 +25,10 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Paint.PaintTypeface;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
+
 /* loaded from: classes3.dex */
 public class PaintTextOptionsView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
-    private static final List ALIGN_PAIRS = Arrays.asList(new AlignFramePair(0, 1, 20, 0), new AlignFramePair(0, 2, 20, 40), new AlignFramePair(1, 0, 0, 20), new AlignFramePair(1, 2, 60, 40), new AlignFramePair(2, 0, 40, 20), new AlignFramePair(2, 1, 40, 60));
+    private static final List ALIGN_PAIRS;
     private RLottieImageView alignView;
     private View colorClickableView;
     private int currentAlign;
@@ -125,6 +126,14 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
             }
             invalidate();
         }
+    }
+
+    static {
+        int i = 40;
+        int i2 = 2;
+        int i3 = 20;
+        int i4 = 0;
+        ALIGN_PAIRS = Arrays.asList(new AlignFramePair(0, 1, 20, 0), new AlignFramePair(0, i2, 20, i), new AlignFramePair(1, i4, 0, i3), new AlignFramePair(1, i2, 60, i), new AlignFramePair(2, i4, 40, i3), new AlignFramePair(2, 1, 40, 60));
     }
 
     public PaintTextOptionsView(Context context) {

@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.decoder;
 
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.util.Assertions;
+
 /* loaded from: classes.dex */
 public final class DecoderReuseEvaluation {
     public final String decoderName;

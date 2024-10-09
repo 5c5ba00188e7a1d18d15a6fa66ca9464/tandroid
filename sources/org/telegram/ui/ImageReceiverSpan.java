@@ -9,6 +9,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes4.dex */
 public class ImageReceiverSpan extends ReplacementSpan {
     private final int currentAccount;

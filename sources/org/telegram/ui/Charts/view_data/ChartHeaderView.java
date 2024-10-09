@@ -17,6 +17,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Charts.BaseChartView;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class ChartHeaderView extends FrameLayout {
     public TextView back;
@@ -86,10 +87,8 @@ public class ChartHeaderView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
-        TextView textView = this.datesTmp;
-        textView.setPivotX(textView.getMeasuredWidth() * 0.7f);
-        TextView textView2 = this.dates;
-        textView2.setPivotX(textView2.getMeasuredWidth() * 0.7f);
+        this.datesTmp.setPivotX(r1.getMeasuredWidth() * 0.7f);
+        this.dates.setPivotX(r1.getMeasuredWidth() * 0.7f);
     }
 
     public void recolor() {

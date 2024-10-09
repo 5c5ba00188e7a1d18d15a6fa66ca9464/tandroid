@@ -1,5 +1,6 @@
 package org.telegram.ui.Components.Premium.boosts.cells.msg;
 
+import android.R;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -35,7 +36,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
@@ -44,6 +44,7 @@ import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.Premium.boosts.BoostDialogs;
 import org.telegram.ui.Components.StaticLayoutEx;
+
 /* loaded from: classes3.dex */
 public class GiveawayMessageCell {
     private static final Map monthsToEmoticon;
@@ -196,7 +197,7 @@ public class GiveawayMessageCell {
         this.chatRect = new RectF();
         this.counterTextBounds = new Rect();
         this.containerRect = new Rect();
-        this.pressedState = new int[]{16842910, 16842919};
+        this.pressedState = new int[]{R.attr.state_enabled, R.attr.state_pressed};
         this.chatTitles = new CharSequence[10];
         this.chats = new TLRPC.Chat[10];
         this.chatTitleWidths = new float[10];
@@ -226,12 +227,6 @@ public class GiveawayMessageCell {
         this.textDividerPaint.setTextAlign(align);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:46:0x008e, code lost:
-        continue;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private void setGiftImage(MessageObject messageObject) {
         TLRPC.TL_messageMediaGiveaway tL_messageMediaGiveaway = (TLRPC.TL_messageMediaGiveaway) messageObject.messageOwner.media;
         String str = UserConfig.getInstance(UserConfig.selectedAccount).premiumGiftsStickerPack;
@@ -256,20 +251,19 @@ public class GiveawayMessageCell {
                         long longValue = it2.next().longValue();
                         Iterator<TLRPC.Document> it3 = tL_messages_stickerSet.documents.iterator();
                         while (true) {
-                            if (it3.hasNext()) {
-                                TLRPC.Document next2 = it3.next();
-                                if (next2.id == longValue) {
-                                    document = next2;
-                                    continue;
-                                    break;
-                                }
+                            if (!it3.hasNext()) {
+                                break;
+                            }
+                            TLRPC.Document next2 = it3.next();
+                            if (next2.id == longValue) {
+                                document = next2;
+                                break;
                             }
                         }
                         if (document != null) {
                             break;
                         }
                     }
-                    continue;
                 }
                 if (document != null) {
                     break;
@@ -604,7 +598,7 @@ public class GiveawayMessageCell {
             boolean isForwarded = messageObject.isForwarded();
             TLRPC.Message message = messageObject.messageOwner;
             boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(messagesController.getChat(Long.valueOf(-MessageObject.getPeerId(isForwarded ? message.fwd_from.from_id : message.peer_id))));
-            SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString(R.string.BoostingGiveawayPrizes));
+            SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString(org.telegram.messenger.R.string.BoostingGiveawayPrizes));
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replaceTags);
             spannableStringBuilder.setSpan(new RelativeSizeSpan(1.05f), 0, replaceTags.length(), 33);
             SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
@@ -621,25 +615,26 @@ public class GiveawayMessageCell {
             spannableStringBuilder3.append((CharSequence) spannableStringBuilder2);
             spannableStringBuilder3.append((CharSequence) "\n\n");
             spannableStringBuilder3.setSpan(new RelativeSizeSpan(0.4f), spannableStringBuilder3.length() - 1, spannableStringBuilder3.length(), 33);
-            SpannableStringBuilder replaceTags2 = AndroidUtilities.replaceTags(LocaleController.getString("BoostingGiveawayMsgParticipants", R.string.BoostingGiveawayMsgParticipants));
+            SpannableStringBuilder replaceTags2 = AndroidUtilities.replaceTags(LocaleController.getString("BoostingGiveawayMsgParticipants", org.telegram.messenger.R.string.BoostingGiveawayMsgParticipants));
             spannableStringBuilder3.append((CharSequence) replaceTags2);
             spannableStringBuilder3.setSpan(new RelativeSizeSpan(1.05f), spannableStringBuilder2.length() + 2, spannableStringBuilder2.length() + 2 + replaceTags2.length(), 33);
             spannableStringBuilder3.append((CharSequence) "\n");
             spannableStringBuilder3.append((CharSequence) (tL_messageMediaGiveaway.only_new_subscribers ? LocaleController.formatPluralString(isChannelAndNotMegaGroup ? "BoostingGiveawayMsgNewSubsPlural" : "BoostingGiveawayMsgNewSubsGroupPlural", tL_messageMediaGiveaway.channels.size(), new Object[0]) : LocaleController.formatPluralString(isChannelAndNotMegaGroup ? "BoostingGiveawayMsgAllSubsPlural" : "BoostingGiveawayMsgAllSubsGroupPlural", tL_messageMediaGiveaway.channels.size(), new Object[0])));
-            SpannableStringBuilder replaceTags3 = AndroidUtilities.replaceTags(LocaleController.getString("BoostingWinnersDate", R.string.BoostingWinnersDate));
+            SpannableStringBuilder replaceTags3 = AndroidUtilities.replaceTags(LocaleController.getString("BoostingWinnersDate", org.telegram.messenger.R.string.BoostingWinnersDate));
             SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder(replaceTags3);
             spannableStringBuilder4.setSpan(new RelativeSizeSpan(1.05f), 0, replaceTags3.length(), 33);
             Date date = new Date(tL_messageMediaGiveaway.until_date * 1000);
             String format = LocaleController.getInstance().getFormatterGiveawayCard().format(date);
             String format2 = LocaleController.getInstance().getFormatterDay().format(date);
             spannableStringBuilder4.append((CharSequence) "\n");
-            spannableStringBuilder4.append((CharSequence) LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, format, format2));
+            spannableStringBuilder4.append((CharSequence) LocaleController.formatString("formatDateAtTime", org.telegram.messenger.R.string.formatDateAtTime, format, format2));
             TextPaint textPaint = this.textPaint;
             Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
+            float dp2 = AndroidUtilities.dp(2.0f);
             TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
             int i3 = minTabletSide;
             int i4 = minTabletSide;
-            this.titleLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder, textPaint, i3, alignment, 1.0f, AndroidUtilities.dp(2.0f), false, truncateAt, i4, 10);
+            this.titleLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder, textPaint, i3, alignment, 1.0f, dp2, false, truncateAt, i4, 10);
             this.topLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder3, this.textPaint, i3, alignment, 1.0f, AndroidUtilities.dp(2.0f), false, truncateAt, i4, 10);
             this.bottomLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder4, this.textPaint, i3, alignment, 1.0f, AndroidUtilities.dp(3.0f), false, truncateAt, i4, 10);
             int i5 = 0;
@@ -660,7 +655,7 @@ public class GiveawayMessageCell {
                 StaticLayout createStaticLayout = StaticLayoutEx.createStaticLayout(Emoji.replaceEmoji(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingGiveawayMsgPrizes", tL_messageMediaGiveaway.quantity, tL_messageMediaGiveaway.prize_description)), this.countriesTextPaint.getFontMetricsInt(), false), this.textPaint, i5, Layout.Alignment.ALIGN_CENTER, 1.0f, AndroidUtilities.dp(2.0f), false, TextUtils.TruncateAt.END, i5, 20);
                 this.additionPrizeLayout = createStaticLayout;
                 this.additionPrizeHeight = createStaticLayout.getLineBottom(createStaticLayout.getLineCount() - 1) + AndroidUtilities.dp(22.0f);
-                String string = LocaleController.getString(R.string.BoostingGiveawayMsgWithDivider);
+                String string = LocaleController.getString(org.telegram.messenger.R.string.BoostingGiveawayMsgWithDivider);
                 this.textDivider = string;
                 this.textDividerWidth = this.textDividerPaint.measureText(string, 0, string.length());
             }
@@ -679,7 +674,7 @@ public class GiveawayMessageCell {
                     arrayList.add(spannableStringBuilder5);
                 }
                 if (!arrayList.isEmpty()) {
-                    this.countriesLayout = StaticLayoutEx.createStaticLayout(Emoji.replaceEmoji(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingGiveAwayFromCountries", R.string.BoostingGiveAwayFromCountries, TextUtils.join(", ", arrayList))), this.countriesTextPaint.getFontMetricsInt(), false), this.countriesTextPaint, i5, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i5, 10);
+                    this.countriesLayout = StaticLayoutEx.createStaticLayout(Emoji.replaceEmoji(AndroidUtilities.replaceTags(LocaleController.formatString("BoostingGiveAwayFromCountries", org.telegram.messenger.R.string.BoostingGiveAwayFromCountries, TextUtils.join(", ", arrayList))), this.countriesTextPaint.getFontMetricsInt(), false), this.countriesTextPaint, i5, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, i5, 10);
                 }
             }
             int max = Math.max(i2, Math.min(i5 + AndroidUtilities.dp(38.0f), minTabletSide));
@@ -705,7 +700,7 @@ public class GiveawayMessageCell {
             this.measuredWidth = max;
             if (this.isStars) {
                 if (this.counterIcon == null) {
-                    this.counterIcon = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.filled_giveaway_stars).mutate();
+                    this.counterIcon = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.filled_giveaway_stars).mutate();
                 }
                 str = LocaleController.formatNumber((int) tL_messageMediaGiveaway.stars, ',');
             } else {
@@ -742,15 +737,15 @@ public class GiveawayMessageCell {
                     TextPaint textPaint3 = this.chatTextPaint;
                     CharSequence charSequence = this.chatTitles[i11];
                     fArr[i11] = textPaint3.measureText(charSequence, 0, charSequence.length());
-                    float dp2 = this.chatTitleWidths[i11] + AndroidUtilities.dp(40.0f);
-                    f4 += dp2;
+                    float dp3 = this.chatTitleWidths[i11] + AndroidUtilities.dp(40.0f);
+                    f4 += dp3;
                     if (i11 > 0) {
                         boolean[] zArr = this.needNewRow;
                         boolean z = f4 > 0.9f * f;
                         zArr[i11] = z;
                         if (z) {
                             this.measuredHeight += AndroidUtilities.dp(30.0f);
-                            f4 = dp2;
+                            f4 = dp3;
                         }
                     } else {
                         this.needNewRow[i11] = false;

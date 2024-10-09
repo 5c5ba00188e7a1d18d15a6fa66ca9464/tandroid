@@ -31,6 +31,7 @@ import org.telegram.ui.Components.CounterView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumGradient;
+
 /* loaded from: classes4.dex */
 public class HintDialogCell extends FrameLayout {
     private AvatarDrawable avatarDrawable;
@@ -129,15 +130,14 @@ public class HintDialogCell extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:40:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x019c  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x019c  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected boolean drawChild(Canvas canvas, View view, long j) {
         float f;
-        Drawable drawable;
         TLRPC.User user;
         TLRPC.UserStatus userStatus;
         boolean drawChild = super.drawChild(canvas, view, j);
@@ -172,7 +172,7 @@ public class HintDialogCell extends FrameLayout {
                             this.lockDrawable = mutate;
                             mutate.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
                         }
-                        this.lockDrawable.setBounds((int) (x - (((drawable.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (y - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (x + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (y + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
+                        this.lockDrawable.setBounds((int) (x - (((r4.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (y - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (x + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (y + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
                         this.lockDrawable.setAlpha((int) (f * 255.0f));
                         this.lockDrawable.draw(canvas);
                     } else {

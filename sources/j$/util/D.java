@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class D implements Spliterator.OfDouble {
     public final /* synthetic */ E a;
@@ -39,7 +40,7 @@ public final /* synthetic */ class D implements Spliterator.OfDouble {
 
     @Override // java.util.Spliterator.OfPrimitive
     public final /* synthetic */ void forEachRemaining(DoubleConsumer doubleConsumer) {
-        this.a.forEachRemaining(doubleConsumer);
+        this.a.e(doubleConsumer);
     }
 
     @Override // java.util.Spliterator.OfDouble, java.util.Spliterator
@@ -73,7 +74,7 @@ public final /* synthetic */ class D implements Spliterator.OfDouble {
 
     @Override // java.util.Spliterator.OfPrimitive
     public final /* synthetic */ boolean tryAdvance(DoubleConsumer doubleConsumer) {
-        return this.a.tryAdvance(doubleConsumer);
+        return this.a.p(doubleConsumer);
     }
 
     @Override // java.util.Spliterator.OfDouble, java.util.Spliterator

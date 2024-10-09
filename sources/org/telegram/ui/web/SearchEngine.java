@@ -9,6 +9,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes.dex */
 public class SearchEngine {
     private static ArrayList searchEngines;
@@ -25,8 +26,7 @@ public class SearchEngine {
     }
 
     public static SearchEngine getCurrent() {
-        ArrayList searchEngines2 = getSearchEngines();
-        return (SearchEngine) searchEngines2.get(Utilities.clamp(SharedConfig.searchEngineType, searchEngines2.size() - 1, 0));
+        return (SearchEngine) getSearchEngines().get(Utilities.clamp(SharedConfig.searchEngineType, r0.size() - 1, 0));
     }
 
     public static ArrayList getSearchEngines() {
@@ -38,9 +38,7 @@ public class SearchEngine {
                 if (nullable == null) {
                     break;
                 }
-                String nullable2 = nullable(LocaleController.getString("SearchEngine" + i + "SearchURL"));
-                String nullable3 = nullable(LocaleController.getString("SearchEngine" + i + "AutocompleteURL"));
-                searchEngines.add(new SearchEngine(nullable, nullable2, nullable3, nullable(LocaleController.getString("SearchEngine" + i + "PrivacyPolicyURL"))));
+                searchEngines.add(new SearchEngine(nullable, nullable(LocaleController.getString("SearchEngine" + i + "SearchURL")), nullable(LocaleController.getString("SearchEngine" + i + "AutocompleteURL")), nullable(LocaleController.getString("SearchEngine" + i + "PrivacyPolicyURL"))));
                 i++;
             }
         }

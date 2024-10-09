@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+
 /* loaded from: classes.dex */
 public final class zzug implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

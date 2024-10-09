@@ -14,6 +14,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 public final class H264Reader implements ElementaryStreamReader {
     private final boolean allowNonIdrKeyframes;
@@ -45,14 +46,14 @@ public final class H264Reader implements ElementaryStreamReader {
         private long nalUnitTimeUs;
         private int nalUnitType;
         private final TrackOutput output;
+        private SliceHeaderData previousSliceHeader;
         private boolean readingSample;
         private boolean sampleIsKeyframe;
         private long samplePosition;
         private long sampleTimeUs;
+        private SliceHeaderData sliceHeader;
         private final SparseArray sps = new SparseArray();
         private final SparseArray pps = new SparseArray();
-        private SliceHeaderData previousSliceHeader = new SliceHeaderData();
-        private SliceHeaderData sliceHeader = new SliceHeaderData();
 
         /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
@@ -83,15 +84,15 @@ public final class H264Reader implements ElementaryStreamReader {
                 int i2;
                 int i3;
                 boolean z;
-                if (this.isComplete) {
-                    if (sliceHeaderData.isComplete) {
-                        NalUnitUtil.SpsData spsData = (NalUnitUtil.SpsData) Assertions.checkStateNotNull(this.spsData);
-                        NalUnitUtil.SpsData spsData2 = (NalUnitUtil.SpsData) Assertions.checkStateNotNull(sliceHeaderData.spsData);
-                        return (this.frameNum == sliceHeaderData.frameNum && this.picParameterSetId == sliceHeaderData.picParameterSetId && this.fieldPicFlag == sliceHeaderData.fieldPicFlag && (!this.bottomFieldFlagPresent || !sliceHeaderData.bottomFieldFlagPresent || this.bottomFieldFlag == sliceHeaderData.bottomFieldFlag) && (((i = this.nalRefIdc) == (i2 = sliceHeaderData.nalRefIdc) || (i != 0 && i2 != 0)) && (((i3 = spsData.picOrderCountType) != 0 || spsData2.picOrderCountType != 0 || (this.picOrderCntLsb == sliceHeaderData.picOrderCntLsb && this.deltaPicOrderCntBottom == sliceHeaderData.deltaPicOrderCntBottom)) && ((i3 != 1 || spsData2.picOrderCountType != 1 || (this.deltaPicOrderCnt0 == sliceHeaderData.deltaPicOrderCnt0 && this.deltaPicOrderCnt1 == sliceHeaderData.deltaPicOrderCnt1)) && (z = this.idrPicFlag) == sliceHeaderData.idrPicFlag && (!z || this.idrPicId == sliceHeaderData.idrPicId))))) ? false : true;
-                    }
+                if (!this.isComplete) {
+                    return false;
+                }
+                if (!sliceHeaderData.isComplete) {
                     return true;
                 }
-                return false;
+                NalUnitUtil.SpsData spsData = (NalUnitUtil.SpsData) Assertions.checkStateNotNull(this.spsData);
+                NalUnitUtil.SpsData spsData2 = (NalUnitUtil.SpsData) Assertions.checkStateNotNull(sliceHeaderData.spsData);
+                return (this.frameNum == sliceHeaderData.frameNum && this.picParameterSetId == sliceHeaderData.picParameterSetId && this.fieldPicFlag == sliceHeaderData.fieldPicFlag && (!this.bottomFieldFlagPresent || !sliceHeaderData.bottomFieldFlagPresent || this.bottomFieldFlag == sliceHeaderData.bottomFieldFlag) && (((i = this.nalRefIdc) == (i2 = sliceHeaderData.nalRefIdc) || (i != 0 && i2 != 0)) && (((i3 = spsData.picOrderCountType) != 0 || spsData2.picOrderCountType != 0 || (this.picOrderCntLsb == sliceHeaderData.picOrderCntLsb && this.deltaPicOrderCntBottom == sliceHeaderData.deltaPicOrderCntBottom)) && ((i3 != 1 || spsData2.picOrderCountType != 1 || (this.deltaPicOrderCnt0 == sliceHeaderData.deltaPicOrderCnt0 && this.deltaPicOrderCnt1 == sliceHeaderData.deltaPicOrderCnt1)) && (z = this.idrPicFlag) == sliceHeaderData.idrPicFlag && (!z || this.idrPicId == sliceHeaderData.idrPicId))))) ? false : true;
             }
 
             public void clear() {
@@ -133,6 +134,8 @@ public final class H264Reader implements ElementaryStreamReader {
             this.output = trackOutput;
             this.allowNonIdrKeyframes = z;
             this.detectAccessUnits = z2;
+            this.previousSliceHeader = new SliceHeaderData();
+            this.sliceHeader = new SliceHeaderData();
             byte[] bArr = new byte[128];
             this.buffer = bArr;
             this.bitArray = new ParsableNalUnitBitArray(bArr, 0, 0);
@@ -148,12 +151,12 @@ public final class H264Reader implements ElementaryStreamReader {
             this.output.sampleMetadata(j, z ? 1 : 0, (int) (this.nalUnitStartPosition - this.samplePosition), i, null);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:53:0x00fc  */
-        /* JADX WARN: Removed duplicated region for block: B:54:0x00ff  */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x0103  */
-        /* JADX WARN: Removed duplicated region for block: B:60:0x0115  */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x011b  */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x0151  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x00fc  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x0103  */
+        /* JADX WARN: Removed duplicated region for block: B:58:0x011b  */
+        /* JADX WARN: Removed duplicated region for block: B:74:0x0151  */
+        /* JADX WARN: Removed duplicated region for block: B:89:0x0115  */
+        /* JADX WARN: Removed duplicated region for block: B:90:0x00ff  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -191,7 +194,9 @@ public final class H264Reader implements ElementaryStreamReader {
                             if (!this.detectAccessUnits) {
                                 this.isFilling = false;
                                 this.sliceHeader.setSliceType(readUnsignedExpGolombCodedInt);
-                            } else if (this.bitArray.canReadExpGolombCodedNum()) {
+                                return;
+                            }
+                            if (this.bitArray.canReadExpGolombCodedNum()) {
                                 int readUnsignedExpGolombCodedInt2 = this.bitArray.readUnsignedExpGolombCodedInt();
                                 if (this.pps.indexOfKey(readUnsignedExpGolombCodedInt2) < 0) {
                                     this.isFilling = false;
@@ -202,16 +207,18 @@ public final class H264Reader implements ElementaryStreamReader {
                                 if (spsData.separateColorPlaneFlag) {
                                     if (!this.bitArray.canReadBits(2)) {
                                         return;
+                                    } else {
+                                        this.bitArray.skipBits(2);
                                     }
-                                    this.bitArray.skipBits(2);
                                 }
                                 if (this.bitArray.canReadBits(spsData.frameNumLength)) {
                                     int readBits2 = this.bitArray.readBits(spsData.frameNumLength);
                                     if (spsData.frameMbsOnlyFlag) {
                                         z = false;
-                                    } else if (!this.bitArray.canReadBits(1)) {
-                                        return;
                                     } else {
+                                        if (!this.bitArray.canReadBits(1)) {
+                                            return;
+                                        }
                                         boolean readBit = this.bitArray.readBit();
                                         if (readBit) {
                                             if (this.bitArray.canReadBits(1)) {
@@ -244,29 +251,30 @@ public final class H264Reader implements ElementaryStreamReader {
                                                         return;
                                                     }
                                                     i5 = readBits3;
-                                                } else if (i4 == 1 && !spsData.deltaPicOrderAlwaysZeroFlag) {
-                                                    if (this.bitArray.canReadExpGolombCodedNum()) {
-                                                        int readSignedExpGolombCodedInt2 = this.bitArray.readSignedExpGolombCodedInt();
-                                                        if (!ppsData.bottomFieldPicOrderInFramePresentFlag || z) {
-                                                            i6 = readSignedExpGolombCodedInt2;
-                                                            i5 = 0;
-                                                            i7 = 0;
-                                                            readSignedExpGolombCodedInt = 0;
-                                                            this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
-                                                            this.isFilling = false;
-                                                        } else if (this.bitArray.canReadExpGolombCodedNum()) {
-                                                            readSignedExpGolombCodedInt = this.bitArray.readSignedExpGolombCodedInt();
-                                                            i6 = readSignedExpGolombCodedInt2;
-                                                            i5 = 0;
-                                                            i7 = 0;
-                                                            this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
-                                                            this.isFilling = false;
-                                                        } else {
+                                                } else {
+                                                    if (i4 == 1 && !spsData.deltaPicOrderAlwaysZeroFlag) {
+                                                        if (this.bitArray.canReadExpGolombCodedNum()) {
+                                                            int readSignedExpGolombCodedInt2 = this.bitArray.readSignedExpGolombCodedInt();
+                                                            if (!ppsData.bottomFieldPicOrderInFramePresentFlag || z) {
+                                                                i6 = readSignedExpGolombCodedInt2;
+                                                                i5 = 0;
+                                                                i7 = 0;
+                                                                readSignedExpGolombCodedInt = 0;
+                                                                this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
+                                                                this.isFilling = false;
+                                                            }
+                                                            if (this.bitArray.canReadExpGolombCodedNum()) {
+                                                                readSignedExpGolombCodedInt = this.bitArray.readSignedExpGolombCodedInt();
+                                                                i6 = readSignedExpGolombCodedInt2;
+                                                                i5 = 0;
+                                                                i7 = 0;
+                                                                this.sliceHeader.setAll(spsData, readBits, readUnsignedExpGolombCodedInt, readBits2, readUnsignedExpGolombCodedInt2, z, z2, z3, z4, i3, i5, i7, i6, readSignedExpGolombCodedInt);
+                                                                this.isFilling = false;
+                                                            }
                                                             return;
                                                         }
+                                                        return;
                                                     }
-                                                    return;
-                                                } else {
                                                     i5 = 0;
                                                 }
                                                 i7 = 0;

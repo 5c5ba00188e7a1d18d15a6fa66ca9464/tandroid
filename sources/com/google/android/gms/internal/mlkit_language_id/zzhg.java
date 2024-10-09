@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class zzhg {
     private static final zzhg zza = new zzhg(0, new int[0], new Object[0], false);
@@ -36,11 +37,17 @@ public final class zzhg {
         int i3 = i & 7;
         if (i3 == 0) {
             zzibVar.zza(i2, ((Long) obj).longValue());
-        } else if (i3 == 1) {
+            return;
+        }
+        if (i3 == 1) {
             zzibVar.zzd(i2, ((Long) obj).longValue());
-        } else if (i3 == 2) {
+            return;
+        }
+        if (i3 == 2) {
             zzibVar.zza(i2, (zzdn) obj);
-        } else if (i3 != 3) {
+            return;
+        }
+        if (i3 != 3) {
             if (i3 != 5) {
                 throw new RuntimeException(zzez.zza());
             }
@@ -60,31 +67,31 @@ public final class zzhg {
         if (this == obj) {
             return true;
         }
-        if (obj != null && (obj instanceof zzhg)) {
-            zzhg zzhgVar = (zzhg) obj;
-            int i = this.zzb;
-            if (i == zzhgVar.zzb) {
-                int[] iArr = this.zzc;
-                int[] iArr2 = zzhgVar.zzc;
-                int i2 = 0;
-                while (true) {
-                    if (i2 >= i) {
-                        Object[] objArr = this.zzd;
-                        Object[] objArr2 = zzhgVar.zzd;
-                        int i3 = this.zzb;
-                        for (int i4 = 0; i4 < i3; i4++) {
-                            if (objArr[i4].equals(objArr2[i4])) {
-                            }
-                        }
-                        return true;
-                    } else if (iArr[i2] != iArr2[i2]) {
-                        break;
-                    } else {
-                        i2++;
-                    }
-                }
-            }
+        if (obj == null || !(obj instanceof zzhg)) {
             return false;
+        }
+        zzhg zzhgVar = (zzhg) obj;
+        int i = this.zzb;
+        if (i == zzhgVar.zzb) {
+            int[] iArr = this.zzc;
+            int[] iArr2 = zzhgVar.zzc;
+            int i2 = 0;
+            while (true) {
+                if (i2 >= i) {
+                    Object[] objArr = this.zzd;
+                    Object[] objArr2 = zzhgVar.zzd;
+                    int i3 = this.zzb;
+                    for (int i4 = 0; i4 < i3; i4++) {
+                        if (objArr[i4].equals(objArr2[i4])) {
+                        }
+                    }
+                    return true;
+                }
+                if (iArr[i2] != iArr2[i2]) {
+                    break;
+                }
+                i2++;
+            }
         }
         return false;
     }
@@ -178,9 +185,10 @@ public final class zzhg {
                 zze = zzea.zzc(i5, (zzdn) this.zzd[i3]);
             } else if (i6 == 3) {
                 zze = (zzea.zze(i5) << 1) + ((zzhg) this.zzd[i3]).zzd();
-            } else if (i6 != 5) {
-                throw new IllegalStateException(zzez.zza());
             } else {
+                if (i6 != 5) {
+                    throw new IllegalStateException(zzez.zza());
+                }
                 zze = zzea.zzi(i5, ((Integer) this.zzd[i3]).intValue());
             }
             i2 += zze;

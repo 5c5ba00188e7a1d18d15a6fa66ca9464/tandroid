@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.util;
 
 import android.text.TextUtils;
 import java.net.UnknownHostException;
+
 /* loaded from: classes.dex */
 public abstract class Log {
     private static int logLevel = 0;

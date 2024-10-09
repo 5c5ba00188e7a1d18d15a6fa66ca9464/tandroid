@@ -1,6 +1,7 @@
 package com.google.firebase.remoteconfig;
 
 import com.google.firebase.remoteconfig.internal.ConfigFetchHandler;
+
 /* loaded from: classes.dex */
 public class FirebaseRemoteConfigSettings {
     private final long fetchTimeoutInSeconds;
@@ -16,11 +17,11 @@ public class FirebaseRemoteConfigSettings {
         }
 
         public Builder setFetchTimeoutInSeconds(long j) {
-            if (j >= 0) {
-                this.fetchTimeoutInSeconds = j;
-                return this;
+            if (j < 0) {
+                throw new IllegalArgumentException(String.format("Fetch connection timeout has to be a non-negative number. %d is an invalid argument", Long.valueOf(j)));
             }
-            throw new IllegalArgumentException(String.format("Fetch connection timeout has to be a non-negative number. %d is an invalid argument", Long.valueOf(j)));
+            this.fetchTimeoutInSeconds = j;
+            return this;
         }
 
         public Builder setMinimumFetchIntervalInSeconds(long j) {

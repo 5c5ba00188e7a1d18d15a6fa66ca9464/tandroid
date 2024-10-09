@@ -1,4 +1,5 @@
 package com.google.android.datatransport.runtime.dagger.internal;
+
 /* loaded from: classes.dex */
 public abstract class Preconditions {
     public static void checkBuilderRequirement(Object obj, Class cls) {

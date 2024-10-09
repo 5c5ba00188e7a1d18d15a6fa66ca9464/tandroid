@@ -17,6 +17,7 @@ import java.util.List;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes4.dex */
 public interface INavigationLayout {
 
@@ -82,6 +83,7 @@ public interface INavigationLayout {
             return null;
         }
 
+        /* JADX WARN: Multi-variable type inference failed */
         public static ViewGroup $default$getView(INavigationLayout iNavigationLayout) {
             if (iNavigationLayout instanceof ViewGroup) {
                 return (ViewGroup) iNavigationLayout;
@@ -124,10 +126,10 @@ public interface INavigationLayout {
         public static void $default$rebuildFragments(INavigationLayout iNavigationLayout, int i) {
             if ((i & 2) != 0) {
                 iNavigationLayout.showLastFragment();
-                return;
+            } else {
+                boolean z = (i & 1) != 0;
+                iNavigationLayout.rebuildAllFragmentViews(z, z);
             }
-            boolean z = (i & 1) != 0;
-            iNavigationLayout.rebuildAllFragmentViews(z, z);
         }
 
         public static void $default$removeFragmentFromStack(INavigationLayout iNavigationLayout, int i) {
@@ -145,13 +147,37 @@ public interface INavigationLayout {
             return new ActionBarLayout(context, z);
         }
 
-        public static INavigationLayout newLayout(Context context, boolean z, final Supplier supplier) {
+        public static INavigationLayout newLayout(Context context, boolean z, Supplier supplier) {
             return new ActionBarLayout(context, z) { // from class: org.telegram.ui.ActionBar.INavigationLayout.1
+                final /* synthetic */ Supplier val$supplier;
+
+                /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+                1(Context context2, boolean z2, Supplier supplier2) {
+                    super(context2, z2);
+                    r3 = supplier2;
+                }
+
                 @Override // org.telegram.ui.ActionBar.ActionBarLayout, org.telegram.ui.ActionBar.INavigationLayout
                 public BottomSheet getBottomSheet() {
-                    return (BottomSheet) supplier.get();
+                    return (BottomSheet) r3.get();
                 }
             };
+        }
+    }
+
+    /* loaded from: classes4.dex */
+    public class 1 extends ActionBarLayout {
+        final /* synthetic */ Supplier val$supplier;
+
+        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+        1(Context context2, boolean z2, Supplier supplier2) {
+            super(context2, z2);
+            r3 = supplier2;
+        }
+
+        @Override // org.telegram.ui.ActionBar.ActionBarLayout, org.telegram.ui.ActionBar.INavigationLayout
+        public BottomSheet getBottomSheet() {
+            return (BottomSheet) r3.get();
         }
     }
 
@@ -304,7 +330,6 @@ public interface INavigationLayout {
         }
 
         public void saveColors(Theme.ResourcesProvider resourcesProvider) {
-            int[] iArr;
             this.colors.clear();
             for (int i : this.keysToSave) {
                 this.colors.put(i, resourcesProvider.getCurrentColor(i));

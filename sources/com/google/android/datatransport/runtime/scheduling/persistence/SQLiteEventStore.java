@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.inject.Provider;
+
 /* loaded from: classes.dex */
 public class SQLiteEventStore implements EventStore, SynchronizationGuard, ClientHealthMetricsStore {
     private static final Encoding PROTOBUF_ENCODING = Encoding.of("proto");
@@ -206,8 +207,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$cleanUp$11(Cursor cursor) {
         while (cursor.moveToNext()) {
-            int i = cursor.getInt(0);
-            recordLogEventDropped(i, LogEventDropped.Reason.MESSAGE_TOO_OLD, cursor.getString(1));
+            recordLogEventDropped(cursor.getInt(0), LogEventDropped.Reason.MESSAGE_TOO_OLD, cursor.getString(1));
         }
         return null;
     }
@@ -307,7 +307,6 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ List lambda$loadBatch$8(TransportContext transportContext, SQLiteDatabase sQLiteDatabase) {
-        Priority[] values;
         List loadEvents = loadEvents(sQLiteDatabase, transportContext, this.config.getLoadBatchSize());
         for (Priority priority : Priority.values()) {
             if (priority != transportContext.getPriority()) {
@@ -368,7 +367,10 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Object lambda$loadMetadata$16(Map map, Cursor cursor) {
-        while (cursor.moveToNext()) {
+        while (true) {
+            if (!cursor.moveToNext()) {
+                return null;
+            }
             long j = cursor.getLong(0);
             Set set = (Set) map.get(Long.valueOf(j));
             if (set == null) {
@@ -377,7 +379,6 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
             }
             set.add(new Metadata(cursor.getString(1), cursor.getString(2)));
         }
-        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -448,8 +449,7 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$recordFailure$3(Cursor cursor) {
         while (cursor.moveToNext()) {
-            int i = cursor.getInt(0);
-            recordLogEventDropped(i, LogEventDropped.Reason.MAX_RETRIES_REACHED, cursor.getString(1));
+            recordLogEventDropped(cursor.getInt(0), LogEventDropped.Reason.MAX_RETRIES_REACHED, cursor.getString(1));
         }
         return null;
     }
@@ -719,11 +719,12 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
     public ClientMetrics loadClientMetrics() {
         final ClientMetrics.Builder newBuilder = ClientMetrics.newBuilder();
         final HashMap hashMap = new HashMap();
+        final String str = "SELECT log_source, reason, events_dropped_count FROM log_event_dropped";
         return (ClientMetrics) inTransaction(new Function() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$ExternalSyntheticLambda17
             @Override // com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore.Function
             public final Object apply(Object obj) {
                 ClientMetrics lambda$loadClientMetrics$20;
-                lambda$loadClientMetrics$20 = SQLiteEventStore.this.lambda$loadClientMetrics$20(r2, hashMap, newBuilder, (SQLiteDatabase) obj);
+                lambda$loadClientMetrics$20 = SQLiteEventStore.this.lambda$loadClientMetrics$20(str, hashMap, newBuilder, (SQLiteDatabase) obj);
                 return lambda$loadClientMetrics$20;
             }
         });
@@ -750,11 +751,12 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
     public void recordFailure(Iterable iterable) {
         if (iterable.iterator().hasNext()) {
             final String str = "UPDATE events SET num_attempts = num_attempts + 1 WHERE _id in " + toIdList(iterable);
+            final String str2 = "SELECT COUNT(*), transport_name FROM events WHERE num_attempts >= 16 GROUP BY transport_name";
             inTransaction(new Function() { // from class: com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore$$ExternalSyntheticLambda9
                 @Override // com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore.Function
                 public final Object apply(Object obj) {
                     Object lambda$recordFailure$4;
-                    lambda$recordFailure$4 = SQLiteEventStore.this.lambda$recordFailure$4(str, r3, (SQLiteDatabase) obj);
+                    lambda$recordFailure$4 = SQLiteEventStore.this.lambda$recordFailure$4(str, str2, (SQLiteDatabase) obj);
                     return lambda$recordFailure$4;
                 }
             });

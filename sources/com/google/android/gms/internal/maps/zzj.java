@@ -3,6 +3,7 @@ package com.google.android.gms.internal.maps;
 import android.os.IBinder;
 import android.os.Parcel;
 import com.google.android.gms.maps.model.LatLng;
+
 /* loaded from: classes.dex */
 public final class zzj extends zza implements zzl {
     /* JADX INFO: Access modifiers changed from: package-private */

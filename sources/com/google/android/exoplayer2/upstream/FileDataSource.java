@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+
 /* loaded from: classes.dex */
 public final class FileDataSource extends BaseDataSource {
     private long bytesRemaining;
@@ -51,12 +52,11 @@ public final class FileDataSource extends BaseDataSource {
     }
 
     private static RandomAccessFile openLocalFile(Uri uri) {
-        int i = 2006;
         try {
             return new RandomAccessFile((String) Assertions.checkNotNull(uri.getPath()), "r");
         } catch (FileNotFoundException e) {
             if (TextUtils.isEmpty(uri.getQuery()) && TextUtils.isEmpty(uri.getFragment())) {
-                throw new FileDataSourceException(e, (Util.SDK_INT < 21 || !Api21.isPermissionError(e.getCause())) ? 2005 : 2005);
+                throw new FileDataSourceException(e, (Util.SDK_INT < 21 || !Api21.isPermissionError(e.getCause())) ? 2005 : 2006);
             }
             throw new FileDataSourceException(String.format("uri has query and/or fragment, which are not supported. Did you call Uri.parse() on a string containing '?' or '#'? Use Uri.fromFile(new File(path)) to avoid this. path=%s,query=%s,fragment=%s", uri.getPath(), uri.getQuery(), uri.getFragment()), e, 1004);
         } catch (SecurityException e2) {
@@ -106,12 +106,12 @@ public final class FileDataSource extends BaseDataSource {
                 j = this.file.length() - dataSpec.position;
             }
             this.bytesRemaining = j;
-            if (j >= 0) {
-                this.opened = true;
-                transferStarted(dataSpec);
-                return this.bytesRemaining;
+            if (j < 0) {
+                throw new FileDataSourceException(null, null, 2008);
             }
-            throw new FileDataSourceException(null, null, 2008);
+            this.opened = true;
+            transferStarted(dataSpec);
+            return this.bytesRemaining;
         } catch (IOException e) {
             throw new FileDataSourceException(e, 2000);
         }

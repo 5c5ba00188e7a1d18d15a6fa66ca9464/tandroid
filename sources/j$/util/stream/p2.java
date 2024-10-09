@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 abstract class p2 extends X1 {
     protected boolean b;

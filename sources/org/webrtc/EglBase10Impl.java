@@ -12,6 +12,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import org.webrtc.EglBase;
 import org.webrtc.EglBase10;
+
 /* loaded from: classes.dex */
 class EglBase10Impl implements EglBase10 {
     private static final int EGL_CONTEXT_CLIENT_VERSION = 12440;
@@ -166,20 +167,20 @@ class EglBase10Impl implements EglBase10 {
 
     private EGLContext createEglContext(EGLContext eGLContext, EGLDisplay eGLDisplay, EGLConfig eGLConfig, int i) {
         EGLContext eglCreateContext;
-        if (eGLContext == null || eGLContext != EGL10.EGL_NO_CONTEXT) {
-            int[] iArr = {EGL_CONTEXT_CLIENT_VERSION, i, 12344};
-            if (eGLContext == null) {
-                eGLContext = EGL10.EGL_NO_CONTEXT;
-            }
-            synchronized (EglBase.lock) {
-                eglCreateContext = this.egl.eglCreateContext(eGLDisplay, eGLConfig, eGLContext, iArr);
-            }
-            if (eglCreateContext != EGL10.EGL_NO_CONTEXT) {
-                return eglCreateContext;
-            }
-            throw new RuntimeException("Failed to create EGL context: 0x" + Integer.toHexString(this.egl.eglGetError()));
+        if (eGLContext != null && eGLContext == EGL10.EGL_NO_CONTEXT) {
+            throw new RuntimeException("Invalid sharedContext");
         }
-        throw new RuntimeException("Invalid sharedContext");
+        int[] iArr = {EGL_CONTEXT_CLIENT_VERSION, i, 12344};
+        if (eGLContext == null) {
+            eGLContext = EGL10.EGL_NO_CONTEXT;
+        }
+        synchronized (EglBase.lock) {
+            eglCreateContext = this.egl.eglCreateContext(eGLDisplay, eGLConfig, eGLContext, iArr);
+        }
+        if (eglCreateContext != EGL10.EGL_NO_CONTEXT) {
+            return eglCreateContext;
+        }
+        throw new RuntimeException("Failed to create EGL context: 0x" + Integer.toHexString(this.egl.eglGetError()));
     }
 
     private void createSurfaceInternal(Object obj, boolean z) {
@@ -218,15 +219,15 @@ class EglBase10Impl implements EglBase10 {
         int[] iArr2 = new int[1];
         if (!egl10.eglChooseConfig(eGLDisplay, iArr, eGLConfigArr, 1, iArr2)) {
             throw new RuntimeException("eglChooseConfig failed: 0x" + Integer.toHexString(egl10.eglGetError()));
-        } else if (iArr2[0] > 0) {
-            EGLConfig eGLConfig = eGLConfigArr[0];
-            if (eGLConfig != null) {
-                return eGLConfig;
-            }
-            throw new RuntimeException("eglChooseConfig returned null");
-        } else {
+        }
+        if (iArr2[0] <= 0) {
             throw new RuntimeException("Unable to find any matching EGL config");
         }
+        EGLConfig eGLConfig = eGLConfigArr[0];
+        if (eGLConfig != null) {
+            return eGLConfig;
+        }
+        throw new RuntimeException("eglChooseConfig returned null");
     }
 
     private EGLDisplay getEglDisplay() {

@@ -6,6 +6,7 @@ import com.google.android.gms.internal.vision.zzfi$zzo;
 import com.google.android.gms.internal.vision.zzi;
 import com.google.android.gms.vision.L;
 import java.util.concurrent.ExecutorService;
+
 /* loaded from: classes.dex */
 public class DynamiteClearcutLogger {
     private static final ExecutorService zza = zze.zza().zza(2, zzi.zza);

@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.AnimatedTextView;
+
 /* loaded from: classes3.dex */
 public class SpeedIconDrawable extends Drawable {
     private final Drawable.Callback callback;

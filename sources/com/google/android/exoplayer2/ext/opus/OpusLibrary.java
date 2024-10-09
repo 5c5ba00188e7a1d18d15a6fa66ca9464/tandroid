@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.ext.opus;
 
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
 import org.telegram.messenger.NativeLoader;
+
 /* loaded from: classes.dex */
 public final class OpusLibrary {
     private static int cryptoType;

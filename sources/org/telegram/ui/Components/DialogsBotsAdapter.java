@@ -26,6 +26,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_bots;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.DialogsBotsAdapter;
+
 /* loaded from: classes3.dex */
 public class DialogsBotsAdapter extends UniversalAdapter {
     private int allCount;
@@ -184,20 +185,25 @@ public class DialogsBotsAdapter extends UniversalAdapter {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:12:0x0042, code lost:
-            if (r0 != null) goto L13;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x0048, code lost:
-            if (r0 == null) goto L10;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:16:0x004a, code lost:
-            r0.dispose();
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:17:0x004d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:10:0x004d, code lost:
+        
             org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.ui.Components.DialogsBotsAdapter$PopularBots$$ExternalSyntheticLambda6(r4));
          */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x0055, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x0055, code lost:
+        
             return;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:13:0x004a, code lost:
+        
+            r0.dispose();
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:17:0x0048, code lost:
+        
+            if (r0 == null) goto L17;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:9:0x0042, code lost:
+        
+            if (r0 != null) goto L16;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -553,9 +559,10 @@ public class DialogsBotsAdapter extends UniversalAdapter {
                 if (!this.popular.loading) {
                     return;
                 }
-            } else if (!this.popular.loading) {
-                return;
             } else {
+                if (!this.popular.loading) {
+                    return;
+                }
                 if (!this.showOnlyPopular) {
                     arrayList.add(UItem.asFlicker(30));
                 }
@@ -594,8 +601,9 @@ public class DialogsBotsAdapter extends UniversalAdapter {
             }
             if (!this.hasMore) {
                 return;
+            } else {
+                asFlicker = UItem.asFlicker(1);
             }
-            asFlicker = UItem.asFlicker(1);
         }
         arrayList.add(asFlicker);
     }

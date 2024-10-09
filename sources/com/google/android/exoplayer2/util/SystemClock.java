@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.util;
 
 import android.os.Handler;
 import android.os.Looper;
+
 /* loaded from: classes.dex */
 public class SystemClock implements Clock {
     @Override // com.google.android.exoplayer2.util.Clock

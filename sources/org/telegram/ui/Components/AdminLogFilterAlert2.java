@@ -20,6 +20,7 @@ import org.telegram.ui.Components.BottomSheetWithRecyclerListView;
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorBtnCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
     private final ButtonWithCounterView actionButton;
@@ -148,7 +149,6 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
 
     private String getGroupCount(int i) {
         StringBuilder sb;
-        int i2 = 0;
         if (i != 0) {
             if (i != 1) {
                 sb = new StringBuilder();
@@ -157,13 +157,13 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
             } else {
                 sb = new StringBuilder();
                 TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter2 = this.currentFilter;
-                sb.append(((tL_channelAdminLogEventsFilter2.info || tL_channelAdminLogEventsFilter2.settings) ? 1 : 1) + (tL_channelAdminLogEventsFilter2.invites ? 1 : 0) + (tL_channelAdminLogEventsFilter2.group_call ? 1 : 0));
+                sb.append(((tL_channelAdminLogEventsFilter2.info || tL_channelAdminLogEventsFilter2.settings) ? 1 : 0) + (tL_channelAdminLogEventsFilter2.invites ? 1 : 0) + (tL_channelAdminLogEventsFilter2.group_call ? 1 : 0));
             }
             sb.append("/3");
         } else {
             sb = new StringBuilder();
             TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter3 = this.currentFilter;
-            sb.append(((tL_channelAdminLogEventsFilter3.promote || tL_channelAdminLogEventsFilter3.demote) ? 1 : 0) + ((this.isMegagroup && (tL_channelAdminLogEventsFilter3.kick || tL_channelAdminLogEventsFilter3.ban || tL_channelAdminLogEventsFilter3.unkick || tL_channelAdminLogEventsFilter3.unban)) ? 1 : 0) + ((tL_channelAdminLogEventsFilter3.invite || tL_channelAdminLogEventsFilter3.join) ? 1 : 1) + (tL_channelAdminLogEventsFilter3.leave ? 1 : 0));
+            sb.append(((tL_channelAdminLogEventsFilter3.promote || tL_channelAdminLogEventsFilter3.demote) ? 1 : 0) + ((this.isMegagroup && (tL_channelAdminLogEventsFilter3.kick || tL_channelAdminLogEventsFilter3.ban || tL_channelAdminLogEventsFilter3.unkick || tL_channelAdminLogEventsFilter3.unban)) ? 1 : 0) + ((tL_channelAdminLogEventsFilter3.invite || tL_channelAdminLogEventsFilter3.join) ? 1 : 0) + (tL_channelAdminLogEventsFilter3.leave ? 1 : 0));
             sb.append("/");
             sb.append(this.isMegagroup ? 4 : 3);
         }
@@ -283,27 +283,29 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x002f, code lost:
+    
         r9 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0126, code lost:
-        if (r6.isMegagroup != false) goto L70;
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0126, code lost:
+    
+        if (r6.isMegagroup != false) goto L56;
      */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0037  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0046  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0094  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00a8  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00bc  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00c6  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00cf  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x00da  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00f6  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0101  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x010c  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0128  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0037  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0046  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0094  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00bc  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00c6  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x00da  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x00f6  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0128  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

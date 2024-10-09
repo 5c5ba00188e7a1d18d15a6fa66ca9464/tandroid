@@ -12,6 +12,7 @@ import android.util.Log;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class ActivityRecreator {
@@ -199,27 +200,29 @@ public abstract class ActivityRecreator {
         if (Build.VERSION.SDK_INT >= 28) {
             activity.recreate();
             return true;
-        } else if (needsRelaunchCall() && requestRelaunchActivityMethod == null) {
+        }
+        if (needsRelaunchCall() && requestRelaunchActivityMethod == null) {
             return false;
-        } else {
-            if (performStopActivity2ParamsMethod == null && performStopActivity3ParamsMethod == null) {
+        }
+        if (performStopActivity2ParamsMethod == null && performStopActivity3ParamsMethod == null) {
+            return false;
+        }
+        try {
+            final Object obj2 = tokenField.get(activity);
+            if (obj2 == null || (obj = mainThreadField.get(activity)) == null) {
                 return false;
             }
-            try {
-                final Object obj2 = tokenField.get(activity);
-                if (obj2 == null || (obj = mainThreadField.get(activity)) == null) {
-                    return false;
+            final Application application = activity.getApplication();
+            final LifecycleCheckCallbacks lifecycleCheckCallbacks = new LifecycleCheckCallbacks(activity);
+            application.registerActivityLifecycleCallbacks(lifecycleCheckCallbacks);
+            Handler handler = mainHandler;
+            handler.post(new Runnable() { // from class: androidx.core.app.ActivityRecreator.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    LifecycleCheckCallbacks.this.currentlyRecreatingToken = obj2;
                 }
-                final Application application = activity.getApplication();
-                final LifecycleCheckCallbacks lifecycleCheckCallbacks = new LifecycleCheckCallbacks(activity);
-                application.registerActivityLifecycleCallbacks(lifecycleCheckCallbacks);
-                Handler handler = mainHandler;
-                handler.post(new Runnable() { // from class: androidx.core.app.ActivityRecreator.1
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        LifecycleCheckCallbacks.this.currentlyRecreatingToken = obj2;
-                    }
-                });
+            });
+            try {
                 if (needsRelaunchCall()) {
                     Method method = requestRelaunchActivityMethod;
                     Boolean bool = Boolean.FALSE;
@@ -234,9 +237,17 @@ public abstract class ActivityRecreator {
                     }
                 });
                 return true;
-            } catch (Throwable unused) {
-                return false;
+            } catch (Throwable th) {
+                mainHandler.post(new Runnable() { // from class: androidx.core.app.ActivityRecreator.2
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        application.unregisterActivityLifecycleCallbacks(lifecycleCheckCallbacks);
+                    }
+                });
+                throw th;
             }
+        } catch (Throwable unused) {
+            return false;
         }
     }
 }

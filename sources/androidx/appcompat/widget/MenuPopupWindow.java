@@ -18,6 +18,7 @@ import androidx.appcompat.view.menu.MenuAdapter;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuItemImpl;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public class MenuPopupWindow extends ListPopupWindow implements MenuItemHoverListener {
     private static Method sSetTouchModalMethod;
@@ -60,10 +61,10 @@ public class MenuPopupWindow extends ListPopupWindow implements MenuItemHoverLis
             if (1 == Api17Impl.getLayoutDirection(context.getResources().getConfiguration())) {
                 this.mAdvanceKey = 21;
                 this.mRetreatKey = 22;
-                return;
+            } else {
+                this.mAdvanceKey = 22;
+                this.mRetreatKey = 21;
             }
-            this.mAdvanceKey = 22;
-            this.mRetreatKey = 21;
         }
 
         @Override // androidx.appcompat.widget.DropDownListView, android.view.ViewGroup, android.view.View
@@ -136,17 +137,17 @@ public class MenuPopupWindow extends ListPopupWindow implements MenuItemHoverLis
                     performItemClick(listMenuItemView, getSelectedItemPosition(), getSelectedItemId());
                 }
                 return true;
-            } else if (listMenuItemView == null || i != this.mRetreatKey) {
-                return super.onKeyDown(i, keyEvent);
-            } else {
-                setSelection(-1);
-                ListAdapter adapter = getAdapter();
-                if (adapter instanceof HeaderViewListAdapter) {
-                    adapter = ((HeaderViewListAdapter) adapter).getWrappedAdapter();
-                }
-                ((MenuAdapter) adapter).getAdapterMenu().close(false);
-                return true;
             }
+            if (listMenuItemView == null || i != this.mRetreatKey) {
+                return super.onKeyDown(i, keyEvent);
+            }
+            setSelection(-1);
+            ListAdapter adapter = getAdapter();
+            if (adapter instanceof HeaderViewListAdapter) {
+                adapter = ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+            }
+            ((MenuAdapter) adapter).getAdapterMenu().close(false);
+            return true;
         }
 
         @Override // androidx.appcompat.widget.DropDownListView, android.widget.AbsListView, android.view.View

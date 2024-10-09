@@ -1,6 +1,7 @@
 package androidx.core.content.res;
 
 import androidx.core.graphics.ColorUtils;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class CamColor {
@@ -48,7 +49,8 @@ public class CamColor {
             }
             if (f5 == 0.0f && f6 == 0.0f) {
                 break;
-            } else if (lStarFromInt < f3) {
+            }
+            if (lStarFromInt < f3) {
                 f7 = f8;
             } else {
                 f4 = f8;
@@ -63,68 +65,69 @@ public class CamColor {
     }
 
     static CamColor fromColorInViewingConditions(int i, ViewingConditions viewingConditions) {
-        double d;
         float[] xyzFromInt = CamUtils.xyzFromInt(i);
         float[][] fArr = CamUtils.XYZ_TO_CAM16RGB;
         float f = xyzFromInt[0];
         float[] fArr2 = fArr[0];
-        float f2 = xyzFromInt[1];
-        float f3 = xyzFromInt[2];
-        float f4 = (fArr2[0] * f) + (fArr2[1] * f2) + (fArr2[2] * f3);
+        float f2 = fArr2[0] * f;
+        float f3 = xyzFromInt[1];
+        float f4 = f2 + (fArr2[1] * f3);
+        float f5 = xyzFromInt[2];
+        float f6 = f4 + (fArr2[2] * f5);
         float[] fArr3 = fArr[1];
-        float f5 = (fArr3[0] * f) + (fArr3[1] * f2) + (fArr3[2] * f3);
+        float f7 = (fArr3[0] * f) + (fArr3[1] * f3) + (fArr3[2] * f5);
         float[] fArr4 = fArr[2];
-        float f6 = (f * fArr4[0]) + (f2 * fArr4[1]) + (f3 * fArr4[2]);
-        float f7 = viewingConditions.getRgbD()[0] * f4;
-        float f8 = viewingConditions.getRgbD()[1] * f5;
-        float f9 = viewingConditions.getRgbD()[2] * f6;
-        double fl = viewingConditions.getFl() * Math.abs(f7);
+        float f8 = (f * fArr4[0]) + (f3 * fArr4[1]) + (f5 * fArr4[2]);
+        float f9 = viewingConditions.getRgbD()[0] * f6;
+        float f10 = viewingConditions.getRgbD()[1] * f7;
+        float f11 = viewingConditions.getRgbD()[2] * f8;
+        double fl = viewingConditions.getFl() * Math.abs(f9);
         Double.isNaN(fl);
         float pow = (float) Math.pow(fl / 100.0d, 0.42d);
-        double fl2 = viewingConditions.getFl() * Math.abs(f8);
+        double fl2 = viewingConditions.getFl() * Math.abs(f10);
         Double.isNaN(fl2);
         float pow2 = (float) Math.pow(fl2 / 100.0d, 0.42d);
-        double fl3 = viewingConditions.getFl() * Math.abs(f9);
+        double fl3 = viewingConditions.getFl() * Math.abs(f11);
         Double.isNaN(fl3);
         float pow3 = (float) Math.pow(fl3 / 100.0d, 0.42d);
-        float signum = ((Math.signum(f7) * 400.0f) * pow) / (pow + 27.13f);
-        float signum2 = ((Math.signum(f8) * 400.0f) * pow2) / (pow2 + 27.13f);
-        float signum3 = ((Math.signum(f9) * 400.0f) * pow3) / (pow3 + 27.13f);
-        double d2 = signum;
+        float signum = ((Math.signum(f9) * 400.0f) * pow) / (pow + 27.13f);
+        float signum2 = ((Math.signum(f10) * 400.0f) * pow2) / (pow2 + 27.13f);
+        float signum3 = ((Math.signum(f11) * 400.0f) * pow3) / (pow3 + 27.13f);
+        double d = signum;
+        Double.isNaN(d);
+        double d2 = signum2;
         Double.isNaN(d2);
-        double d3 = signum2;
+        double d3 = signum3;
         Double.isNaN(d3);
-        double d4 = signum3;
+        float f12 = ((float) (((d * 11.0d) + (d2 * (-12.0d))) + d3)) / 11.0f;
+        double d4 = signum + signum2;
+        Double.isNaN(d3);
         Double.isNaN(d4);
-        float f10 = ((float) (((d2 * 11.0d) + (d3 * (-12.0d))) + d4)) / 11.0f;
-        double d5 = signum + signum2;
-        Double.isNaN(d4);
-        Double.isNaN(d5);
-        float f11 = ((float) (d5 - (d4 * 2.0d))) / 9.0f;
-        float f12 = signum2 * 20.0f;
-        float f13 = (((signum * 20.0f) + f12) + (21.0f * signum3)) / 20.0f;
-        float f14 = (((signum * 40.0f) + f12) + signum3) / 20.0f;
-        float atan2 = (((float) Math.atan2(f11, f10)) * 180.0f) / 3.1415927f;
+        float f13 = ((float) (d4 - (d3 * 2.0d))) / 9.0f;
+        float f14 = signum2 * 20.0f;
+        float f15 = (((signum * 20.0f) + f14) + (21.0f * signum3)) / 20.0f;
+        float f16 = (((signum * 40.0f) + f14) + signum3) / 20.0f;
+        float atan2 = (((float) Math.atan2(f13, f12)) * 180.0f) / 3.1415927f;
         if (atan2 < 0.0f) {
             atan2 += 360.0f;
         } else if (atan2 >= 360.0f) {
             atan2 -= 360.0f;
         }
-        float f15 = atan2;
-        float f16 = (3.1415927f * f15) / 180.0f;
-        float pow4 = ((float) Math.pow((f14 * viewingConditions.getNbb()) / viewingConditions.getAw(), viewingConditions.getC() * viewingConditions.getZ())) * 100.0f;
+        float f17 = atan2;
+        float f18 = (3.1415927f * f17) / 180.0f;
+        float pow4 = ((float) Math.pow((f16 * viewingConditions.getNbb()) / viewingConditions.getAw(), viewingConditions.getC() * viewingConditions.getZ())) * 100.0f;
         float flRoot = viewingConditions.getFlRoot() * (4.0f / viewingConditions.getC()) * ((float) Math.sqrt(pow4 / 100.0f)) * (viewingConditions.getAw() + 4.0f);
-        Double.isNaN(((double) f15) < 20.14d ? 360.0f + f15 : f15);
-        float pow5 = ((float) Math.pow(1.64d - Math.pow(0.29d, viewingConditions.getN()), 0.73d)) * ((float) Math.pow((((((((float) (Math.cos(((d * 3.141592653589793d) / 180.0d) + 2.0d) + 3.8d)) * 0.25f) * 3846.1538f) * viewingConditions.getNc()) * viewingConditions.getNcb()) * ((float) Math.sqrt((f10 * f10) + (f11 * f11)))) / (f13 + 0.305f), 0.9d));
-        double d6 = pow4;
-        Double.isNaN(d6);
-        float sqrt = pow5 * ((float) Math.sqrt(d6 / 100.0d));
+        Double.isNaN(((double) f17) < 20.14d ? 360.0f + f17 : f17);
+        float pow5 = ((float) Math.pow(1.64d - Math.pow(0.29d, viewingConditions.getN()), 0.73d)) * ((float) Math.pow((((((((float) (Math.cos(((r9 * 3.141592653589793d) / 180.0d) + 2.0d) + 3.8d)) * 0.25f) * 3846.1538f) * viewingConditions.getNc()) * viewingConditions.getNcb()) * ((float) Math.sqrt((f12 * f12) + (f13 * f13)))) / (f15 + 0.305f), 0.9d));
+        double d5 = pow4;
+        Double.isNaN(d5);
+        float sqrt = pow5 * ((float) Math.sqrt(d5 / 100.0d));
         float flRoot2 = sqrt * viewingConditions.getFlRoot();
         float sqrt2 = ((float) Math.sqrt((pow5 * viewingConditions.getC()) / (viewingConditions.getAw() + 4.0f))) * 50.0f;
-        float f17 = (1.7f * pow4) / ((0.007f * pow4) + 1.0f);
+        float f19 = (1.7f * pow4) / ((0.007f * pow4) + 1.0f);
         float log = ((float) Math.log((0.0228f * flRoot2) + 1.0f)) * 43.85965f;
-        double d7 = f16;
-        return new CamColor(f15, sqrt, pow4, flRoot, flRoot2, sqrt2, f17, log * ((float) Math.cos(d7)), log * ((float) Math.sin(d7)));
+        double d6 = f18;
+        return new CamColor(f17, sqrt, pow4, flRoot, flRoot2, sqrt2, f19, log * ((float) Math.cos(d6)), log * ((float) Math.sin(d6)));
     }
 
     private static CamColor fromJch(float f, float f2, float f3) {
@@ -132,18 +135,18 @@ public class CamColor {
     }
 
     private static CamColor fromJchInFrame(float f, float f2, float f3, ViewingConditions viewingConditions) {
-        double d;
-        double d2 = f;
-        Double.isNaN(d2);
-        float c = (4.0f / viewingConditions.getC()) * ((float) Math.sqrt(d2 / 100.0d)) * (viewingConditions.getAw() + 4.0f) * viewingConditions.getFlRoot();
+        float c = 4.0f / viewingConditions.getC();
+        double d = f;
+        Double.isNaN(d);
+        float sqrt = c * ((float) Math.sqrt(d / 100.0d)) * (viewingConditions.getAw() + 4.0f) * viewingConditions.getFlRoot();
         float flRoot = f2 * viewingConditions.getFlRoot();
-        float sqrt = ((float) Math.sqrt(((f2 / ((float) Math.sqrt(d))) * viewingConditions.getC()) / (viewingConditions.getAw() + 4.0f))) * 50.0f;
+        float sqrt2 = ((float) Math.sqrt(((f2 / ((float) Math.sqrt(r4))) * viewingConditions.getC()) / (viewingConditions.getAw() + 4.0f))) * 50.0f;
         float f4 = (1.7f * f) / ((0.007f * f) + 1.0f);
-        double d3 = flRoot;
-        Double.isNaN(d3);
-        float log = ((float) Math.log((d3 * 0.0228d) + 1.0d)) * 43.85965f;
-        double d4 = (3.1415927f * f3) / 180.0f;
-        return new CamColor(f3, f2, f, c, flRoot, sqrt, f4, log * ((float) Math.cos(d4)), log * ((float) Math.sin(d4)));
+        double d2 = flRoot;
+        Double.isNaN(d2);
+        float log = ((float) Math.log((d2 * 0.0228d) + 1.0d)) * 43.85965f;
+        double d3 = (3.1415927f * f3) / 180.0f;
+        return new CamColor(f3, f2, f, sqrt, flRoot, sqrt2, f4, log * ((float) Math.cos(d3)), log * ((float) Math.sin(d3)));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -170,9 +173,10 @@ public class CamColor {
                     camColor = findCamByJ;
                 }
                 f4 = ((f2 - f5) / 2.0f) + f5;
-            } else if (findCamByJ != null) {
-                return findCamByJ.viewed(viewingConditions);
             } else {
+                if (findCamByJ != null) {
+                    return findCamByJ.viewed(viewingConditions);
+                }
                 f4 = ((f2 - f5) / 2.0f) + f5;
                 z = false;
             }
@@ -215,12 +219,6 @@ public class CamColor {
 
     int viewed(ViewingConditions viewingConditions) {
         float f;
-        double d;
-        double d2;
-        double d3;
-        double d4;
-        double d5;
-        double d6;
         if (getChroma() == 0.0d || getJ() == 0.0d) {
             f = 0.0f;
         } else {
@@ -229,26 +227,27 @@ public class CamColor {
             Double.isNaN(j);
             f = chroma / ((float) Math.sqrt(j / 100.0d));
         }
-        double d7 = f;
+        double d = f;
         double pow = Math.pow(1.64d - Math.pow(0.29d, viewingConditions.getN()), 0.73d);
-        Double.isNaN(d7);
-        float pow2 = (float) Math.pow(d7 / pow, 1.1111111111111112d);
+        Double.isNaN(d);
+        float pow2 = (float) Math.pow(d / pow, 1.1111111111111112d);
         double hue = (getHue() * 3.1415927f) / 180.0f;
         Double.isNaN(hue);
+        float cos = ((float) (Math.cos(2.0d + hue) + 3.8d)) * 0.25f;
         float aw = viewingConditions.getAw();
         double j2 = getJ();
         Double.isNaN(j2);
         double c = viewingConditions.getC();
         Double.isNaN(c);
-        double d8 = 1.0d / c;
+        double d2 = 1.0d / c;
         double z = viewingConditions.getZ();
         Double.isNaN(z);
-        float pow3 = aw * ((float) Math.pow(j2 / 100.0d, d8 / z));
-        float cos = ((float) (Math.cos(2.0d + hue) + 3.8d)) * 0.25f * 3846.1538f * viewingConditions.getNc() * viewingConditions.getNcb();
+        float pow3 = aw * ((float) Math.pow(j2 / 100.0d, d2 / z));
+        float nc = cos * 3846.1538f * viewingConditions.getNc() * viewingConditions.getNcb();
         float nbb = pow3 / viewingConditions.getNbb();
         float sin = (float) Math.sin(hue);
         float cos2 = (float) Math.cos(hue);
-        float f2 = (((0.305f + nbb) * 23.0f) * pow2) / (((cos * 23.0f) + ((11.0f * pow2) * cos2)) + ((pow2 * 108.0f) * sin));
+        float f2 = (((0.305f + nbb) * 23.0f) * pow2) / (((nc * 23.0f) + ((11.0f * pow2) * cos2)) + ((pow2 * 108.0f) * sin));
         float f3 = cos2 * f2;
         float f4 = f2 * sin;
         float f5 = nbb * 460.0f;
@@ -257,13 +256,13 @@ public class CamColor {
         float f8 = ((f5 - (f3 * 220.0f)) - (f4 * 6300.0f)) / 1403.0f;
         Double.isNaN(Math.abs(f6));
         Double.isNaN(Math.abs(f6));
-        float signum = Math.signum(f6) * (100.0f / viewingConditions.getFl()) * ((float) Math.pow((float) Math.max(0.0d, (d * 27.13d) / (400.0d - d2)), 2.380952380952381d));
+        float signum = Math.signum(f6) * (100.0f / viewingConditions.getFl()) * ((float) Math.pow((float) Math.max(0.0d, (r6 * 27.13d) / (400.0d - r11)), 2.380952380952381d));
         Double.isNaN(Math.abs(f7));
         Double.isNaN(Math.abs(f7));
-        float signum2 = Math.signum(f7) * (100.0f / viewingConditions.getFl()) * ((float) Math.pow((float) Math.max(0.0d, (d3 * 27.13d) / (400.0d - d4)), 2.380952380952381d));
+        float signum2 = Math.signum(f7) * (100.0f / viewingConditions.getFl()) * ((float) Math.pow((float) Math.max(0.0d, (r11 * 27.13d) / (400.0d - r9)), 2.380952380952381d));
         Double.isNaN(Math.abs(f8));
         Double.isNaN(Math.abs(f8));
-        float signum3 = Math.signum(f8) * (100.0f / viewingConditions.getFl()) * ((float) Math.pow((float) Math.max(0.0d, (d5 * 27.13d) / (400.0d - d6)), 2.380952380952381d));
+        float signum3 = Math.signum(f8) * (100.0f / viewingConditions.getFl()) * ((float) Math.pow((float) Math.max(0.0d, (r9 * 27.13d) / (400.0d - r11)), 2.380952380952381d));
         float f9 = signum / viewingConditions.getRgbD()[0];
         float f10 = signum2 / viewingConditions.getRgbD()[1];
         float f11 = signum3 / viewingConditions.getRgbD()[2];
@@ -271,8 +270,9 @@ public class CamColor {
         float[] fArr2 = fArr[0];
         float f12 = (fArr2[0] * f9) + (fArr2[1] * f10) + (fArr2[2] * f11);
         float[] fArr3 = fArr[1];
+        float f13 = (fArr3[0] * f9) + (fArr3[1] * f10) + (fArr3[2] * f11);
         float[] fArr4 = fArr[2];
-        return ColorUtils.XYZToColor(f12, (fArr3[0] * f9) + (fArr3[1] * f10) + (fArr3[2] * f11), (f9 * fArr4[0]) + (f10 * fArr4[1]) + (f11 * fArr4[2]));
+        return ColorUtils.XYZToColor(f12, f13, (f9 * fArr4[0]) + (f10 * fArr4[1]) + (f11 * fArr4[2]));
     }
 
     int viewedInSrgb() {

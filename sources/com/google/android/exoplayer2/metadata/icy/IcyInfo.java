@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class IcyInfo implements Metadata.Entry {
     public static final Parcelable.Creator<IcyInfo> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.icy.IcyInfo.1

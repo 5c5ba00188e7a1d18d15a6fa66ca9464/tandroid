@@ -9,6 +9,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.BuildVars;
+
 /* loaded from: classes.dex */
 public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
     private static final boolean DEBUG = BuildVars.DEBUG_VERSION;
@@ -42,24 +43,24 @@ public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
     }
 
     public int calculateDtToFit(int i, int i2, int i3, int i4, int i5) {
-        if (i5 != -1) {
-            if (i5 != 0) {
-                if (i5 == 1) {
-                    return i4 - i2;
-                }
-                throw new IllegalArgumentException("snap preference should be one of the constants defined in SmoothScroller, starting with SNAP_");
-            }
-            int i6 = i3 - i;
-            if (i6 > 0) {
-                return i6;
-            }
-            int i7 = i4 - i2;
-            if (i7 < 0) {
-                return i7;
-            }
-            return 0;
+        if (i5 == -1) {
+            return i3 - i;
         }
-        return i3 - i;
+        if (i5 != 0) {
+            if (i5 == 1) {
+                return i4 - i2;
+            }
+            throw new IllegalArgumentException("snap preference should be one of the constants defined in SmoothScroller, starting with SNAP_");
+        }
+        int i6 = i3 - i;
+        if (i6 > 0) {
+            return i6;
+        }
+        int i7 = i4 - i2;
+        if (i7 < 0) {
+            return i7;
+        }
+        return 0;
     }
 
     public int calculateDxToMakeVisible(View view, int i) {
@@ -126,15 +127,16 @@ public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
         PointF pointF;
         if (getChildCount() == 0) {
             stop();
-        } else if (DEBUG && (pointF = this.mTargetVector) != null && (pointF.x * i < 0.0f || pointF.y * i2 < 0.0f)) {
+            return;
+        }
+        if (DEBUG && (pointF = this.mTargetVector) != null && (pointF.x * i < 0.0f || pointF.y * i2 < 0.0f)) {
             throw new IllegalStateException("Scroll happened in the opposite direction of the target. Some calculations are wrong");
-        } else {
-            this.mInterimTargetDx = clampApplyScroll(this.mInterimTargetDx, i);
-            int clampApplyScroll = clampApplyScroll(this.mInterimTargetDy, i2);
-            this.mInterimTargetDy = clampApplyScroll;
-            if (this.mInterimTargetDx == 0 && clampApplyScroll == 0) {
-                updateActionForInterimTarget(action);
-            }
+        }
+        this.mInterimTargetDx = clampApplyScroll(this.mInterimTargetDx, i);
+        int clampApplyScroll = clampApplyScroll(this.mInterimTargetDy, i2);
+        this.mInterimTargetDy = clampApplyScroll;
+        if (this.mInterimTargetDx == 0 && clampApplyScroll == 0) {
+            updateActionForInterimTarget(action);
         }
     }
 

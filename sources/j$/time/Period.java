@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Pattern;
+
 /* loaded from: classes2.dex */
 public final class Period implements Serializable {
     public static final Period d = new Period(0, 0, 0);
@@ -34,11 +35,11 @@ public final class Period implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof Period) {
-            Period period = (Period) obj;
-            return this.a == period.a && this.b == period.b && this.c == period.c;
+        if (!(obj instanceof Period)) {
+            return false;
         }
-        return false;
+        Period period = (Period) obj;
+        return this.a == period.a && this.b == period.b && this.c == period.c;
     }
 
     public int getYears() {

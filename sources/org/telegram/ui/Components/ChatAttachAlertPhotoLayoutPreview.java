@@ -62,6 +62,7 @@ import org.telegram.ui.Components.spoilers.SpoilerEffect2;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stars.StarsIntroActivity;
+
 /* loaded from: classes3.dex */
 public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAlertLayout {
     private static HashMap photoRotate = new HashMap();
@@ -185,16 +186,18 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             return 1000.0f / f;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:186:0x0740, code lost:
-            if (r4[2] > r4[3]) goto L224;
+        /* JADX WARN: Code restructure failed: missing block: B:223:0x0740, code lost:
+        
+            if (r4[2] > r4[3]) goto L187;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:36:0x00ae, code lost:
-            if (r1 != r13) goto L47;
+        /* JADX WARN: Code restructure failed: missing block: B:51:0x00ae, code lost:
+        
+            if (r1 != r13) goto L32;
          */
-        /* JADX WARN: Removed duplicated region for block: B:227:0x07dd  */
-        /* JADX WARN: Removed duplicated region for block: B:236:0x081c A[LOOP:2: B:235:0x081a->B:236:0x081c, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:64:0x07dd  */
+        /* JADX WARN: Removed duplicated region for block: B:76:0x081c A[LOOP:2: B:75:0x081a->B:76:0x081c, LOOP_END] */
         /* JADX WARN: Type inference failed for: r14v17 */
-        /* JADX WARN: Type inference failed for: r14v19, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r14v19, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r14v2 */
         /* JADX WARN: Type inference failed for: r14v20 */
         /*
@@ -224,7 +227,6 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             int i15;
             MessageObject.GroupedMessagePosition groupedMessagePosition;
             int i16;
-            float f4;
             int i17;
             int i18;
             int i19;
@@ -253,7 +255,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             groupCalculator.posArray.ensureCapacity(size);
             char[] cArr = new char[size];
             int i28 = 0;
-            float f5 = 1.0f;
+            float f4 = 1.0f;
             boolean z2 = false;
             while (i28 < size) {
                 MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) groupCalculator.photos.get(i28);
@@ -290,11 +292,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     i29 = i30;
                     i30 = i31;
                 }
-                float f6 = i29 / i30;
-                groupedMessagePosition3.aspectRatio = f6;
-                cArr[i28] = f6 > 1.2f ? 'w' : f6 < 0.8f ? 'n' : 'q';
-                f5 += f6;
-                if (f6 > 2.0f) {
+                float f5 = i29 / i30;
+                groupedMessagePosition3.aspectRatio = f5;
+                cArr[i28] = f5 > 1.2f ? 'w' : f5 < 0.8f ? 'n' : 'q';
+                f4 += f5;
+                if (f5 > 2.0f) {
                     z2 = true;
                 }
                 groupCalculator.positions.put(photoEntry, groupedMessagePosition3);
@@ -304,18 +306,20 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             }
             String str = new String(cArr);
             int dp = AndroidUtilities.dp(120.0f);
+            float dp2 = AndroidUtilities.dp(120.0f);
             android.graphics.Point point = AndroidUtilities.displaySize;
-            int dp2 = (int) (AndroidUtilities.dp(120.0f) / (Math.min(point.x, point.y) / 1000.0f));
+            int min = (int) (dp2 / (Math.min(point.x, point.y) / 1000.0f));
+            float dp3 = AndroidUtilities.dp(40.0f);
             android.graphics.Point point2 = AndroidUtilities.displaySize;
-            int dp3 = (int) (AndroidUtilities.dp(40.0f) / (Math.min(point2.x, point2.y) / 1000.0f));
-            float f7 = f5 / size;
+            int min2 = (int) (dp3 / (Math.min(point2.x, point2.y) / 1000.0f));
+            float f6 = f4 / size;
             float dp4 = AndroidUtilities.dp(100.0f) / 814.0f;
             if (size != 1) {
                 if (z2 || !(size == 2 || size == 3 || size == 4)) {
                     int size2 = groupCalculator.posArray.size();
                     float[] fArr2 = new float[size2];
                     for (int i32 = 0; i32 < size; i32++) {
-                        if (f7 > 1.1f) {
+                        if (f6 > 1.1f) {
                             fArr2[i32] = Math.max(1.0f, ((MessageObject.GroupedMessagePosition) groupCalculator.posArray.get(i32)).aspectRatio);
                         } else {
                             fArr2[i32] = Math.min(1.0f, ((MessageObject.GroupedMessagePosition) groupCalculator.posArray.get(i32)).aspectRatio);
@@ -342,27 +346,27 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             if (i36 < i37) {
                                 int i38 = i37 - i36;
                                 if (i35 <= 3) {
-                                    if (i36 <= (f7 < 0.85f ? 4 : 3)) {
+                                    if (i36 <= (f6 < 0.85f ? 4 : 3)) {
                                         if (i38 > 3) {
                                             i8 = i36;
                                             i9 = size;
-                                            f2 = f7;
+                                            f2 = f6;
                                             arrayList = arrayList2;
                                             i36 = i8 + 1;
                                             arrayList2 = arrayList;
-                                            f7 = f2;
+                                            f6 = f2;
                                             size = i9;
                                             i27 = 0;
                                         } else {
                                             int i39 = i35 + i36;
                                             i9 = size;
                                             i8 = i36;
-                                            f2 = f7;
+                                            f2 = f6;
                                             arrayList = arrayList2;
                                             arrayList.add(new MessageGroupedLayoutAttempt(i35, i36, i38, groupCalculator.multiHeight(fArr2, i27, i35), groupCalculator.multiHeight(fArr2, i35, i39), groupCalculator.multiHeight(fArr2, i39, size2)));
                                             i36 = i8 + 1;
                                             arrayList2 = arrayList;
-                                            f7 = f2;
+                                            f6 = f2;
                                             size = i9;
                                             i27 = 0;
                                         }
@@ -370,17 +374,17 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                                 }
                                 i8 = i36;
                                 i9 = size;
-                                f2 = f7;
+                                f2 = f6;
                                 arrayList = arrayList2;
                                 i36 = i8 + 1;
                                 arrayList2 = arrayList;
-                                f7 = f2;
+                                f6 = f2;
                                 size = i9;
                                 i27 = 0;
                             }
                         }
                         i35++;
-                        f7 = f7;
+                        f6 = f6;
                         i27 = 0;
                     }
                     ArrayList arrayList3 = arrayList2;
@@ -436,28 +440,28 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     }
                     float[] fArr3 = fArr2;
                     i = i40;
-                    float f8 = dp4;
+                    float f7 = dp4;
                     r14 = 1;
                     MessageGroupedLayoutAttempt messageGroupedLayoutAttempt = null;
-                    float f9 = 0.0f;
+                    float f8 = 0.0f;
                     for (int i49 = 0; i49 < arrayList3.size(); i49++) {
                         MessageGroupedLayoutAttempt messageGroupedLayoutAttempt2 = (MessageGroupedLayoutAttempt) arrayList3.get(i49);
-                        float f10 = Float.MAX_VALUE;
+                        float f9 = Float.MAX_VALUE;
                         int i50 = 0;
-                        float f11 = 0.0f;
+                        float f10 = 0.0f;
                         while (true) {
                             float[] fArr4 = messageGroupedLayoutAttempt2.heights;
                             if (i50 >= fArr4.length) {
                                 break;
                             }
-                            float f12 = fArr4[i50];
-                            f11 += f12;
-                            if (f12 < f10) {
-                                f10 = f12;
+                            float f11 = fArr4[i50];
+                            f10 += f11;
+                            if (f11 < f9) {
+                                f9 = f11;
                             }
                             i50++;
                         }
-                        float abs = Math.abs(f11 - 1332.0f);
+                        float abs = Math.abs(f10 - 1332.0f);
                         int[] iArr = messageGroupedLayoutAttempt2.lineCounts;
                         if (iArr.length > 1) {
                             int i51 = iArr[0];
@@ -468,12 +472,12 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             }
                             abs *= 1.2f;
                         }
-                        if (f10 < dp2) {
+                        if (f9 < min) {
                             abs *= 1.5f;
                         }
-                        if (messageGroupedLayoutAttempt == null || abs < f9) {
+                        if (messageGroupedLayoutAttempt == null || abs < f8) {
                             messageGroupedLayoutAttempt = messageGroupedLayoutAttempt2;
-                            f9 = abs;
+                            f8 = abs;
                         }
                     }
                     if (messageGroupedLayoutAttempt == null) {
@@ -487,11 +491,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             break;
                         }
                         int i55 = iArr2[i54];
-                        float f13 = messageGroupedLayoutAttempt.heights[i54];
+                        float f12 = messageGroupedLayoutAttempt.heights[i54];
                         int i56 = 1000;
                         MessageObject.GroupedMessagePosition groupedMessagePosition4 = null;
                         for (int i57 = 0; i57 < i55; i57++) {
-                            int i58 = (int) (fArr3[i53] * f13);
+                            int i58 = (int) (fArr3[i53] * f12);
                             i56 -= i58;
                             MessageObject.GroupedMessagePosition groupedMessagePosition5 = (MessageObject.GroupedMessagePosition) groupCalculator.posArray.get(i53);
                             int i59 = i54 == 0 ? 4 : 0;
@@ -508,31 +512,32 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             } else {
                                 i2 = i59;
                             }
-                            groupedMessagePosition5.set(i57, i57, i54, i54, i58, Math.max(f8, f13 / 814.0f), i2);
+                            groupedMessagePosition5.set(i57, i57, i54, i54, i58, Math.max(f7, f12 / 814.0f), i2);
                             i53++;
                         }
-                        float f14 = f8;
+                        float f13 = f7;
                         if (groupedMessagePosition4 != null) {
                             groupedMessagePosition4.pw += i56;
                             groupedMessagePosition4.spanSize += i56;
                         }
                         i54++;
-                        f8 = f14;
+                        f7 = f13;
                     }
                 } else if (size == 2) {
                     MessageObject.GroupedMessagePosition groupedMessagePosition6 = (MessageObject.GroupedMessagePosition) groupCalculator.posArray.get(0);
                     MessageObject.GroupedMessagePosition groupedMessagePosition7 = (MessageObject.GroupedMessagePosition) groupCalculator.posArray.get(1);
                     if (str.equals("ww")) {
-                        double d = 1.2285012f;
-                        Double.isNaN(d);
-                        if (f7 > d * 1.4d) {
-                            float f15 = groupedMessagePosition6.aspectRatio;
-                            float f16 = groupedMessagePosition7.aspectRatio;
-                            if (f15 - f16 < 0.2d) {
+                        double d = f6;
+                        double d2 = 1.2285012f;
+                        Double.isNaN(d2);
+                        if (d > d2 * 1.4d) {
+                            float f14 = groupedMessagePosition6.aspectRatio;
+                            float f15 = groupedMessagePosition7.aspectRatio;
+                            if (f14 - f15 < 0.2d) {
                                 i17 = 1000;
                                 i21 = 0;
                                 i22 = 0;
-                                round = Math.round(Math.min(1000.0f / f15, Math.min(1000.0f / f16, 407.0f))) / 814.0f;
+                                round = Math.round(Math.min(1000.0f / f14, Math.min(1000.0f / f15, 407.0f))) / 814.0f;
                                 groupedMessagePosition6.set(0, 0, 0, 0, 1000, round, 7);
                                 i20 = 11;
                                 i18 = 1;
@@ -546,11 +551,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         }
                     }
                     if (str.equals("ww") || str.equals("qq")) {
-                        float f17 = 500;
+                        float f16 = 500;
                         i17 = 500;
                         i18 = 0;
                         i19 = 0;
-                        round = Math.round(Math.min(f17 / groupedMessagePosition6.aspectRatio, Math.min(f17 / groupedMessagePosition7.aspectRatio, 814.0f))) / 814.0f;
+                        round = Math.round(Math.min(f16 / groupedMessagePosition6.aspectRatio, Math.min(f16 / groupedMessagePosition7.aspectRatio, 814.0f))) / 814.0f;
                         groupedMessagePosition6.set(0, 0, 0, 0, 500, round, 13);
                         i20 = 14;
                         i21 = 1;
@@ -561,18 +566,18 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         groupCalculator = this;
                         i = size;
                     } else {
-                        float f18 = groupedMessagePosition6.aspectRatio;
-                        int max = (int) Math.max(400.0f, Math.round((1000.0f / f18) / ((1.0f / f18) + (1.0f / groupedMessagePosition7.aspectRatio))));
+                        float f17 = groupedMessagePosition6.aspectRatio;
+                        int max = (int) Math.max(400.0f, Math.round((1000.0f / f17) / ((1.0f / f17) + (1.0f / groupedMessagePosition7.aspectRatio))));
                         int i60 = 1000 - max;
-                        if (i60 < dp2) {
-                            max -= dp2 - i60;
+                        if (i60 < min) {
+                            max -= min - i60;
                         } else {
-                            dp2 = i60;
+                            min = i60;
                         }
                         i19 = 0;
                         i18 = 0;
-                        round = Math.min(814.0f, Math.round(Math.min(dp2 / groupedMessagePosition6.aspectRatio, max / groupedMessagePosition7.aspectRatio))) / 814.0f;
-                        groupedMessagePosition6.set(0, 0, 0, 0, dp2, round, 13);
+                        round = Math.min(814.0f, Math.round(Math.min(min / groupedMessagePosition6.aspectRatio, max / groupedMessagePosition7.aspectRatio))) / 814.0f;
+                        groupedMessagePosition6.set(0, 0, 0, 0, min, round, 13);
                         i20 = 14;
                         i21 = 1;
                         i22 = 1;
@@ -590,30 +595,30 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         MessageObject.GroupedMessagePosition groupedMessagePosition9 = (MessageObject.GroupedMessagePosition) groupCalculator.posArray.get(1);
                         MessageObject.GroupedMessagePosition groupedMessagePosition10 = (MessageObject.GroupedMessagePosition) groupCalculator.posArray.get(2);
                         if (str.charAt(0) == 'n') {
-                            float f19 = groupedMessagePosition9.aspectRatio;
-                            float min = Math.min(407.0f, Math.round((1000.0f * f19) / (groupedMessagePosition10.aspectRatio + f19)));
-                            int max2 = (int) Math.max(dp2, Math.min(500.0f, Math.round(Math.min(groupedMessagePosition10.aspectRatio * min, groupedMessagePosition9.aspectRatio * f4))));
+                            float f18 = groupedMessagePosition9.aspectRatio;
+                            float min3 = Math.min(407.0f, Math.round((1000.0f * f18) / (groupedMessagePosition10.aspectRatio + f18)));
+                            int max2 = (int) Math.max(min, Math.min(500.0f, Math.round(Math.min(groupedMessagePosition10.aspectRatio * min3, groupedMessagePosition9.aspectRatio * r13))));
                             int i61 = 1000 - max2;
-                            groupedMessagePosition8.set(0, 0, 0, 1, Math.round(Math.min((groupedMessagePosition8.aspectRatio * 814.0f) + dp3, i61)), 1.0f, 13);
-                            float f20 = (814.0f - min) / 814.0f;
-                            groupedMessagePosition9.set(1, 1, 0, 0, max2, f20, 6);
-                            float f21 = min / 814.0f;
-                            groupedMessagePosition10.set(1, 1, 1, 1, max2, f21, 10);
+                            groupedMessagePosition8.set(0, 0, 0, 1, Math.round(Math.min((groupedMessagePosition8.aspectRatio * 814.0f) + min2, i61)), 1.0f, 13);
+                            float f19 = (814.0f - min3) / 814.0f;
+                            groupedMessagePosition9.set(1, 1, 0, 0, max2, f19, 6);
+                            float f20 = min3 / 814.0f;
+                            groupedMessagePosition10.set(1, 1, 1, 1, max2, f20, 10);
                             groupedMessagePosition10.spanSize = 1000;
-                            groupedMessagePosition8.siblingHeights = new float[]{f21, f20};
+                            groupedMessagePosition8.siblingHeights = new float[]{f20, f19};
                             groupedMessagePosition8.spanSize = i61;
                         } else {
                             float round2 = Math.round(Math.min(1000.0f / groupedMessagePosition8.aspectRatio, 537.24005f)) / 814.0f;
                             groupedMessagePosition8.set(0, 1, 0, 0, 1000, round2, 7);
-                            float f22 = 500;
-                            float min2 = Math.min(814.0f - round2, Math.round(Math.min(f22 / groupedMessagePosition9.aspectRatio, f22 / groupedMessagePosition10.aspectRatio))) / 814.0f;
-                            if (min2 < dp4) {
-                                min2 = dp4;
+                            float f21 = 500;
+                            float min4 = Math.min(814.0f - round2, Math.round(Math.min(f21 / groupedMessagePosition9.aspectRatio, f21 / groupedMessagePosition10.aspectRatio))) / 814.0f;
+                            if (min4 < dp4) {
+                                min4 = dp4;
                             }
                             i11 = 1;
                             i12 = 1;
                             i16 = 500;
-                            f3 = min2;
+                            f3 = min4;
                             groupedMessagePosition9.set(0, 0, 1, 1, 500, f3, 9);
                             i13 = 10;
                             i14 = 1;
@@ -630,9 +635,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             float round3 = Math.round(Math.min(1000.0f / groupedMessagePosition11.aspectRatio, 537.24005f)) / 814.0f;
                             groupedMessagePosition11.set(0, 2, 0, 0, 1000, round3, 7);
                             float round4 = Math.round(1000.0f / ((groupedMessagePosition12.aspectRatio + groupedMessagePosition13.aspectRatio) + groupedMessagePosition14.aspectRatio));
-                            float f23 = dp2;
-                            int max3 = (int) Math.max(f23, Math.min(400.0f, groupedMessagePosition12.aspectRatio * round4));
-                            int max4 = (int) Math.max(Math.max(f23, 330.0f), groupedMessagePosition14.aspectRatio * round4);
+                            float f22 = min;
+                            int max3 = (int) Math.max(f22, Math.min(400.0f, groupedMessagePosition12.aspectRatio * round4));
+                            int max4 = (int) Math.max(Math.max(f22, 330.0f), groupedMessagePosition14.aspectRatio * round4);
                             int i62 = (1000 - max3) - max4;
                             if (i62 < AndroidUtilities.dp(58.0f)) {
                                 int dp5 = AndroidUtilities.dp(58.0f) - i62;
@@ -642,13 +647,13 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                                 max4 -= dp5 - i63;
                             }
                             int i64 = max3;
-                            float min3 = Math.min(814.0f - round3, round4) / 814.0f;
-                            if (min3 < dp4) {
-                                min3 = dp4;
+                            float min5 = Math.min(814.0f - round3, round4) / 814.0f;
+                            if (min5 < dp4) {
+                                min5 = dp4;
                             }
                             i11 = 1;
                             i12 = 1;
-                            f3 = min3;
+                            f3 = min5;
                             groupedMessagePosition12.set(0, 0, 1, 1, i64, f3, 9);
                             groupedMessagePosition13.set(1, 1, 1, 1, i62, f3, 8);
                             i13 = 10;
@@ -658,21 +663,21 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             i16 = max4;
                             groupedMessagePosition.set(i14, i15, i12, i11, i16, f3, i13);
                         } else {
-                            int max5 = Math.max(dp2, Math.round(814.0f / (((1.0f / groupedMessagePosition12.aspectRatio) + (1.0f / groupedMessagePosition13.aspectRatio)) + (1.0f / groupedMessagePosition14.aspectRatio))));
-                            float f24 = dp;
-                            float f25 = max5;
-                            float min4 = Math.min(0.33f, Math.max(f24, f25 / groupedMessagePosition12.aspectRatio) / 814.0f);
-                            float min5 = Math.min(0.33f, Math.max(f24, f25 / groupedMessagePosition13.aspectRatio) / 814.0f);
-                            float f26 = (1.0f - min4) - min5;
+                            int max5 = Math.max(min, Math.round(814.0f / (((1.0f / groupedMessagePosition12.aspectRatio) + (1.0f / groupedMessagePosition13.aspectRatio)) + (1.0f / groupedMessagePosition14.aspectRatio))));
+                            float f23 = dp;
+                            float f24 = max5;
+                            float min6 = Math.min(0.33f, Math.max(f23, f24 / groupedMessagePosition12.aspectRatio) / 814.0f);
+                            float min7 = Math.min(0.33f, Math.max(f23, f24 / groupedMessagePosition13.aspectRatio) / 814.0f);
+                            float f25 = (1.0f - min6) - min7;
                             int i65 = 1000 - max5;
-                            groupedMessagePosition11.set(0, 0, 0, 2, Math.round(Math.min((groupedMessagePosition11.aspectRatio * 814.0f) + dp3, i65)), min4 + min5 + f26, 13);
-                            groupedMessagePosition12.set(1, 1, 0, 0, max5, min4, 6);
-                            groupedMessagePosition13.set(1, 1, 1, 1, max5, min5, 2);
+                            groupedMessagePosition11.set(0, 0, 0, 2, Math.round(Math.min((groupedMessagePosition11.aspectRatio * 814.0f) + min2, i65)), min6 + min7 + f25, 13);
+                            groupedMessagePosition12.set(1, 1, 0, 0, max5, min6, 6);
+                            groupedMessagePosition13.set(1, 1, 1, 1, max5, min7, 2);
                             groupedMessagePosition13.spanSize = 1000;
-                            groupedMessagePosition14.set(1, 1, 2, 2, max5, f26, 10);
+                            groupedMessagePosition14.set(1, 1, 2, 2, max5, f25, 10);
                             groupedMessagePosition14.spanSize = 1000;
                             groupedMessagePosition11.spanSize = i65;
-                            groupedMessagePosition11.siblingHeights = new float[]{min4, min5, f26};
+                            groupedMessagePosition11.siblingHeights = new float[]{min6, min7, f25};
                         }
                     }
                 }
@@ -904,25 +909,25 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     PreviewGroupsView.this.photosOrder.add(valueOf);
                     PreviewGroupsView.this.fromPhotoArrays();
                     return PreviewGroupsView.this.photosOrder.size() - 1;
-                } else if (PreviewGroupsView.this.photosOrder.size() <= 1) {
-                    return -1;
-                } else {
-                    PreviewGroupsView.this.photosOrder.remove(indexOf);
-                    PreviewGroupsView.this.fromPhotoArrays();
-                    return indexOf;
                 }
+                if (PreviewGroupsView.this.photosOrder.size() <= 1) {
+                    return -1;
+                }
+                PreviewGroupsView.this.photosOrder.remove(indexOf);
+                PreviewGroupsView.this.fromPhotoArrays();
+                return indexOf;
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             public int setPhotoUnchecked(Object obj) {
                 int indexOf;
                 Integer valueOf = Integer.valueOf(((MediaController.PhotoEntry) obj).imageId);
-                if (PreviewGroupsView.this.photosOrder.size() > 1 && (indexOf = PreviewGroupsView.this.photosOrder.indexOf(valueOf)) >= 0) {
-                    PreviewGroupsView.this.photosOrder.remove(indexOf);
-                    PreviewGroupsView.this.fromPhotoArrays();
-                    return indexOf;
+                if (PreviewGroupsView.this.photosOrder.size() <= 1 || (indexOf = PreviewGroupsView.this.photosOrder.indexOf(valueOf)) < 0) {
+                    return -1;
                 }
-                return -1;
+                PreviewGroupsView.this.photosOrder.remove(indexOf);
+                PreviewGroupsView.this.fromPhotoArrays();
+                return indexOf;
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
@@ -1216,20 +1221,21 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     float f4 = groupedMessagePosition.top;
                     float f5 = groupCalculator.height;
                     float f6 = f4 / f5;
-                    float f7 = groupedMessagePosition.ph / f5;
+                    float f7 = groupedMessagePosition.pw / f2;
+                    float f8 = groupedMessagePosition.ph / f5;
                     this.scale = 1.0f;
-                    this.rect.set(f3, f6, (groupedMessagePosition.pw / f2) + f3, f7 + f6);
+                    this.rect.set(f3, f6, f7 + f3, f8 + f6);
                     float dp = AndroidUtilities.dp(2.0f);
                     float dp2 = AndroidUtilities.dp(SharedConfig.bubbleRadius - 1);
                     RectF rectF4 = this.roundRadiuses;
                     int i = this.positionFlags;
-                    float f8 = (i & 5) == 5 ? dp2 : dp;
-                    float f9 = (i & 6) == 6 ? dp2 : dp;
-                    float f10 = (i & 10) == 10 ? dp2 : dp;
+                    float f9 = (i & 5) == 5 ? dp2 : dp;
+                    float f10 = (i & 6) == 6 ? dp2 : dp;
+                    float f11 = (i & 10) == 10 ? dp2 : dp;
                     if ((i & 9) == 9) {
                         dp = dp2;
                     }
-                    rectF4.set(f8, f9, f10, dp);
+                    rectF4.set(f9, f10, f11, dp);
                     if (this.fromRect == null) {
                         RectF rectF5 = new RectF();
                         this.fromRect = rectF5;
@@ -1311,17 +1317,19 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         String str = photoEntry.thumbPath;
                         if (str != null) {
                             this.image.setImage(ImageLocation.getForPath(str), null, null, null, Theme.chat_attachEmptyDrawable, 0L, null, null, 0);
-                        } else if (photoEntry.path == null) {
-                            this.image.setImageBitmap(Theme.chat_attachEmptyDrawable);
-                        } else if (photoEntry.isVideo) {
-                            ImageReceiver imageReceiver = this.image;
-                            imageReceiver.setImage(ImageLocation.getForPath("vthumb://" + photoEntry.imageId + ":" + photoEntry.path), null, null, null, Theme.chat_attachEmptyDrawable, 0L, null, null, 0);
-                            this.image.setAllowStartAnimation(true);
-                        } else {
-                            this.image.setOrientation(photoEntry.orientation, true);
-                            ImageReceiver imageReceiver2 = this.image;
-                            imageReceiver2.setImage(ImageLocation.getForPath("thumb://" + photoEntry.imageId + ":" + photoEntry.path), null, null, null, Theme.chat_attachEmptyDrawable, 0L, null, null, 0);
+                            return;
                         }
+                        if (photoEntry.path == null) {
+                            this.image.setImageBitmap(Theme.chat_attachEmptyDrawable);
+                            return;
+                        }
+                        if (photoEntry.isVideo) {
+                            this.image.setImage(ImageLocation.getForPath("vthumb://" + photoEntry.imageId + ":" + photoEntry.path), null, null, null, Theme.chat_attachEmptyDrawable, 0L, null, null, 0);
+                            this.image.setAllowStartAnimation(true);
+                            return;
+                        }
+                        this.image.setOrientation(photoEntry.orientation, true);
+                        this.image.setImage(ImageLocation.getForPath("thumb://" + photoEntry.imageId + ":" + photoEntry.path), null, null, null, Theme.chat_attachEmptyDrawable, 0L, null, null, 0);
                     }
                 }
 
@@ -1371,24 +1379,23 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     return draw(canvas, false);
                 }
 
-                /* JADX WARN: Removed duplicated region for block: B:43:0x0139  */
-                /* JADX WARN: Removed duplicated region for block: B:44:0x0157  */
-                /* JADX WARN: Removed duplicated region for block: B:47:0x017f  */
-                /* JADX WARN: Removed duplicated region for block: B:63:0x024e  */
-                /* JADX WARN: Removed duplicated region for block: B:64:0x0263  */
-                /* JADX WARN: Removed duplicated region for block: B:67:0x026d  */
-                /* JADX WARN: Removed duplicated region for block: B:68:0x0270  */
-                /* JADX WARN: Removed duplicated region for block: B:71:0x027f  */
-                /* JADX WARN: Removed duplicated region for block: B:72:0x0281  */
-                /* JADX WARN: Removed duplicated region for block: B:74:0x0284  */
-                /* JADX WARN: Removed duplicated region for block: B:80:0x02f4  */
+                /* JADX WARN: Removed duplicated region for block: B:36:0x0139  */
+                /* JADX WARN: Removed duplicated region for block: B:39:0x017f  */
+                /* JADX WARN: Removed duplicated region for block: B:49:0x024e  */
+                /* JADX WARN: Removed duplicated region for block: B:52:0x026d  */
+                /* JADX WARN: Removed duplicated region for block: B:55:0x027f  */
+                /* JADX WARN: Removed duplicated region for block: B:57:0x0284  */
+                /* JADX WARN: Removed duplicated region for block: B:63:0x02f4  */
+                /* JADX WARN: Removed duplicated region for block: B:69:0x0281  */
+                /* JADX WARN: Removed duplicated region for block: B:70:0x0270  */
+                /* JADX WARN: Removed duplicated region for block: B:71:0x0263  */
+                /* JADX WARN: Removed duplicated region for block: B:77:0x0157  */
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */
                 public boolean draw(Canvas canvas, float f, boolean z) {
                     float f2;
                     Bitmap bitmap;
-                    PreviewGroupCell previewGroupCell;
                     int indexOf;
                     String str;
                     boolean z2;
@@ -1517,8 +1524,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             bitmap.recycle();
                             this.spoilerCrossfadeBitmap = null;
                         }
-                        previewGroupCell = PreviewGroupCell.this;
-                        if (previewGroupCell.indexStart + previewGroupCell.group.photos.indexOf(this.photoEntry) < 0) {
+                        PreviewGroupCell previewGroupCell = PreviewGroupCell.this;
+                        indexOf = previewGroupCell.indexStart + previewGroupCell.group.photos.indexOf(this.photoEntry);
+                        if (indexOf < 0) {
                             str = (indexOf + 1) + "";
                         } else {
                             str = null;
@@ -1562,8 +1570,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     canvas.drawBitmap(this.spoilerCrossfadeBitmap, drawingRect.left, drawingRect.top, this.spoilerCrossfadePaint);
                     canvas.restore();
                     PreviewGroupsView.this.invalidate();
-                    previewGroupCell = PreviewGroupCell.this;
-                    if (previewGroupCell.indexStart + previewGroupCell.group.photos.indexOf(this.photoEntry) < 0) {
+                    PreviewGroupCell previewGroupCell2 = PreviewGroupCell.this;
+                    indexOf = previewGroupCell2.indexStart + previewGroupCell2.group.photos.indexOf(this.photoEntry);
+                    if (indexOf < 0) {
                     }
                     if (!this.image.getVisible()) {
                     }
@@ -1710,7 +1719,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                 ArrayList arrayList = new ArrayList(groupCalculator.positions.keySet());
                 int size = arrayList.size();
                 int i = 0;
-                for (int i2 = 0; i2 < size; i2++) {
+                int i2 = 0;
+                while (true) {
+                    if (i2 >= size) {
+                        break;
+                    }
                     MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) arrayList.get(i2);
                     MessageObject.GroupedMessagePosition groupedMessagePosition = (MessageObject.GroupedMessagePosition) groupCalculator.positions.get(photoEntry);
                     this.stars = Math.max(this.stars, photoEntry.starsAmount);
@@ -1724,8 +1737,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         mediaCell = (MediaCell) this.media.get(i3);
                         if (mediaCell.photoEntry == photoEntry) {
                             break;
+                        } else {
+                            i3++;
                         }
-                        i3++;
                     }
                     if (mediaCell == null) {
                         MediaCell mediaCell2 = new MediaCell();
@@ -1735,6 +1749,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     } else {
                         mediaCell.layout(groupCalculator, groupedMessagePosition, z);
                     }
+                    i2++;
                 }
                 int size3 = this.media.size();
                 while (i < size3) {
@@ -2029,8 +2044,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                                     value = entry.getValue();
                                     if (value == photoEntry) {
                                         break;
+                                    } else {
+                                        i3++;
                                     }
-                                    i3++;
                                 } else {
                                     for (int i4 = 0; i4 < this.photosMapKeys.size(); i4++) {
                                         entry = (Map.Entry) this.photosMapKeys.get(i4);
@@ -2156,8 +2172,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             return (f >= f3 && f <= this.viewBottom) || (f2 >= f3 && f2 <= this.viewBottom) || (f <= f3 && f2 >= this.viewBottom);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:11:0x0067, code lost:
-            if (r8 <= r10.viewBottom) goto L7;
+        /* JADX WARN: Code restructure failed: missing block: B:16:0x0067, code lost:
+        
+            if (r8 <= r10.viewBottom) goto L16;
          */
         @Override // android.view.View
         /*
@@ -2231,8 +2248,8 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(Math.max(View.MeasureSpec.getSize(i2), this.lastMeasuredHeight), 1073741824));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:19:0x002e  */
-        /* JADX WARN: Removed duplicated region for block: B:23:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x002e  */
+        /* JADX WARN: Removed duplicated region for block: B:19:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2260,11 +2277,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:170:0x044c  */
-        /* JADX WARN: Removed duplicated region for block: B:173:0x045c  */
-        /* JADX WARN: Removed duplicated region for block: B:176:0x04bb  */
-        /* JADX WARN: Removed duplicated region for block: B:180:0x04e3  */
-        /* JADX WARN: Removed duplicated region for block: B:184:0x04f2  */
+        /* JADX WARN: Removed duplicated region for block: B:185:0x044c  */
+        /* JADX WARN: Removed duplicated region for block: B:188:0x045c  */
+        /* JADX WARN: Removed duplicated region for block: B:191:0x04bb  */
+        /* JADX WARN: Removed duplicated region for block: B:91:0x04e3  */
+        /* JADX WARN: Removed duplicated region for block: B:98:0x04f2  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2997,9 +3014,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0039  */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.

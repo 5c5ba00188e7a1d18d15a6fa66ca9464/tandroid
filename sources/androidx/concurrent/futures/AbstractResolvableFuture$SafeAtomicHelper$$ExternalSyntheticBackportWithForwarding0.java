@@ -1,6 +1,7 @@
 package androidx.concurrent.futures;
 
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+
 /* loaded from: classes.dex */
 public abstract /* synthetic */ class AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0 {
     public static /* synthetic */ boolean m(AtomicReferenceFieldUpdater atomicReferenceFieldUpdater, Object obj, Object obj2, Object obj3) {

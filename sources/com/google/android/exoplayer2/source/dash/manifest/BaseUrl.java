@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.source.dash.manifest;
 
 import com.google.common.base.Objects;
+
 /* loaded from: classes.dex */
 public final class BaseUrl {
     public final int priority;
@@ -19,11 +20,11 @@ public final class BaseUrl {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof BaseUrl) {
-            BaseUrl baseUrl = (BaseUrl) obj;
-            return this.priority == baseUrl.priority && this.weight == baseUrl.weight && Objects.equal(this.url, baseUrl.url) && Objects.equal(this.serviceLocation, baseUrl.serviceLocation);
+        if (!(obj instanceof BaseUrl)) {
+            return false;
         }
-        return false;
+        BaseUrl baseUrl = (BaseUrl) obj;
+        return this.priority == baseUrl.priority && this.weight == baseUrl.weight && Objects.equal(this.url, baseUrl.url) && Objects.equal(this.serviceLocation, baseUrl.serviceLocation);
     }
 
     public int hashCode() {

@@ -10,6 +10,7 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.Delegates.MemberRequestsDelegate;
+
 /* loaded from: classes4.dex */
 public class MemberRequestsActivity extends BaseFragment {
     private final MemberRequestsDelegate delegate;
@@ -35,7 +36,7 @@ public class MemberRequestsActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    MemberRequestsActivity.this.finishFragment();
+                    MemberRequestsActivity.this.lambda$onBackPressed$300();
                 }
             }
         });

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_label;
+
 /* loaded from: classes.dex */
 abstract class zzav {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -8,19 +9,24 @@ abstract class zzav {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x002a, code lost:
+    
         r9 = r6 & r11;
      */
     /* JADX WARN: Code restructure failed: missing block: B:13:0x002c, code lost:
-        if (r5 != (-1)) goto L17;
+    
+        if (r5 != (-1)) goto L15;
      */
     /* JADX WARN: Code restructure failed: missing block: B:14:0x002e, code lost:
+    
         zze(r12, r1, r9);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0032, code lost:
-        r13[r5] = (r9 & r11) | (r13[r5] & r4);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0039, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0039, code lost:
+    
         return r2;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0032, code lost:
+    
+        r13[r5] = (r9 & r11) | (r13[r5] & r4);
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

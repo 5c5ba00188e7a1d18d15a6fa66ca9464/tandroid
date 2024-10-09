@@ -16,6 +16,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.MessagePreviewView;
+
 /* loaded from: classes3.dex */
 public class MessagePreviewParams {
     public CharacterStyle currentLink;
@@ -140,9 +141,8 @@ public class MessagePreviewParams {
             if (longSparseArray != null && longSparseArray.size() > 0) {
                 this.hasText = this.groupedMessagesMap.valueAt(0).findCaptionMessageObject() != null;
             } else if (arrayList.size() == 1) {
-                MessageObject messageObject2 = arrayList.get(0);
-                int i7 = messageObject2.type;
-                this.hasText = !TextUtils.isEmpty((i7 == 0 || i7 == 19) ? messageObject2.messageText : messageObject2.caption);
+                int i7 = arrayList.get(0).type;
+                this.hasText = !TextUtils.isEmpty((i7 == 0 || i7 == 19) ? r1.messageText : r1.caption);
             }
         }
 
@@ -210,19 +210,19 @@ public class MessagePreviewParams {
         }
         Uri parse = Uri.parse(str);
         Uri parse2 = Uri.parse(str2);
-        if (parse != parse2) {
-            if (parse != null && parse2 != null && parse.getHost() != null && parse.getHost().equalsIgnoreCase(parse2.getHost()) && parse.getPort() == parse2.getPort() && normalizePath(parse.getPath()).equals(normalizePath(parse2.getPath()))) {
-                if (parse.getQuery() == null) {
-                    if (parse2.getQuery() == null) {
-                        return true;
-                    }
-                } else if (parse.getQuery().equals(parse2.getQuery())) {
+        if (parse == parse2) {
+            return true;
+        }
+        if (parse != null && parse2 != null && parse.getHost() != null && parse.getHost().equalsIgnoreCase(parse2.getHost()) && parse.getPort() == parse2.getPort() && normalizePath(parse.getPath()).equals(normalizePath(parse2.getPath()))) {
+            if (parse.getQuery() == null) {
+                if (parse2.getQuery() == null) {
                     return true;
                 }
+            } else if (parse.getQuery().equals(parse2.getQuery())) {
+                return true;
             }
-            return false;
         }
-        return true;
+        return false;
     }
 
     private static String normalizePath(String str) {
@@ -243,19 +243,23 @@ public class MessagePreviewParams {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x00ae, code lost:
-        if (r12.isDice() == false) goto L26;
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x00ae, code lost:
+    
+        if (r12.isDice() == false) goto L29;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x00b0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x00b0, code lost:
+    
         r11.hasSenders = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x00b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x00b3, code lost:
+    
         r11.willSeeSenders = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00d9, code lost:
-        if (r12.isDice() == false) goto L26;
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00d9, code lost:
+    
+        if (r12.isDice() == false) goto L29;
      */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00df  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00df  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -472,18 +476,21 @@ public class MessagePreviewParams {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x0131, code lost:
-        if (r9.length > 1) goto L53;
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x0131, code lost:
+    
+        if (r9.length > 1) goto L64;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x0153, code lost:
-        if (r9.length > 1) goto L53;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x0156, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0156, code lost:
+    
         r9 = false;
      */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0185  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x019f  */
-    /* JADX WARN: Removed duplicated region for block: B:93:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x0153, code lost:
+    
+        if (r9.length > 1) goto L64;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x019f  */
+    /* JADX WARN: Removed duplicated region for block: B:14:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0185  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

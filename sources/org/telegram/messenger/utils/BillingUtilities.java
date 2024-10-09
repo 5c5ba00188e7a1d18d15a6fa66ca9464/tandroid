@@ -18,6 +18,7 @@ import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public abstract class BillingUtilities {
 
@@ -118,11 +119,11 @@ public abstract class BillingUtilities {
                         inputStorePaymentPurpose = null;
                     }
                     AccountInstance findAccountById = findAccountById(Long.parseLong(new String(Base64.decode(obfuscatedAccountId, 0), Charsets.UTF_8)));
-                    if (findAccountById == null) {
-                        FileLog.d("Billing: Extract payload. AccountInstance not found");
-                        return null;
+                    if (findAccountById != null) {
+                        return Pair.create(findAccountById, inputStorePaymentPurpose);
                     }
-                    return Pair.create(findAccountById, inputStorePaymentPurpose);
+                    FileLog.d("Billing: Extract payload. AccountInstance not found");
+                    return null;
                 }
             } catch (Exception e2) {
                 FileLog.e("Billing: Extract Payload", e2);

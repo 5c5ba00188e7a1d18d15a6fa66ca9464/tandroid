@@ -1,4 +1,5 @@
 package com.google.gson;
+
 /* loaded from: classes.dex */
 public enum ReflectionAccessFilter$FilterResult {
     ALLOW,

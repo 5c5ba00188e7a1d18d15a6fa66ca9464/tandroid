@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.extractor.FlacStreamMetadata;
 import com.google.android.exoplayer2.util.Assertions;
 import java.nio.ByteBuffer;
 import java.util.Objects;
+
 /* loaded from: classes.dex */
 final class FlacBinarySearchSeeker extends BinarySearchSeeker {
     private static final int MIN_FRAME_HEADER_SIZE = 6;

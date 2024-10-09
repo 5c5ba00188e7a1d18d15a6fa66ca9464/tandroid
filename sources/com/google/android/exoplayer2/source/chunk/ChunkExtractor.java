@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.extractor.ChunkIndex;
 import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public interface ChunkExtractor {
 

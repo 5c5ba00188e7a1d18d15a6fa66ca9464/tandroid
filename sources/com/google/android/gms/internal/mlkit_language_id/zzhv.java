@@ -1,10 +1,11 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* JADX WARN: Enum visitor error
-jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzc uses external variables
-	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
-	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:391)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:320)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
+jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'zzc' uses external variables
+	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
+	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:395)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:324)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:262)
 	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
@@ -39,8 +40,10 @@ public class zzhv {
         zzhv zzhvVar2 = new zzhv("FLOAT", 1, zzhy.zzc, 5);
         zzb = zzhvVar2;
         zzhy zzhyVar = zzhy.zzb;
+        final int i = 2;
         zzhv zzhvVar3 = new zzhv("INT64", 2, zzhyVar, 0);
         zzc = zzhvVar3;
+        final int i2 = 3;
         zzhv zzhvVar4 = new zzhv("UINT64", 3, zzhyVar, 0);
         zzd = zzhvVar4;
         zzhy zzhyVar2 = zzhy.zza;
@@ -52,19 +55,48 @@ public class zzhv {
         zzg = zzhvVar7;
         zzhv zzhvVar8 = new zzhv("BOOL", 7, zzhy.zze, 0);
         zzh = zzhvVar8;
+        final int i3 = 8;
         final zzhy zzhyVar3 = zzhy.zzf;
-        zzhv zzhvVar9 = new zzhv("STRING", 8, zzhyVar3, 2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhu
+        final String str = "STRING";
+        zzhv zzhvVar9 = new zzhv(str, i3, zzhyVar3, i) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhu
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i4 = 2;
+                int i5 = 8;
+            }
         };
         zzi = zzhvVar9;
         final zzhy zzhyVar4 = zzhy.zzi;
-        zzhv zzhvVar10 = new zzhv("GROUP", 9, zzhyVar4, 3) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhx
+        final String str2 = "GROUP";
+        final int i4 = 9;
+        zzhv zzhvVar10 = new zzhv(str2, i4, zzhyVar4, i2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhx
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i5 = 3;
+                int i6 = 9;
+            }
         };
         zzj = zzhvVar10;
-        zzhv zzhvVar11 = new zzhv("MESSAGE", 10, zzhyVar4, 2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhw
+        final String str3 = "MESSAGE";
+        final int i5 = 10;
+        final int i6 = 2;
+        zzhv zzhvVar11 = new zzhv(str3, i5, zzhyVar4, i6) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhw
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i7 = 2;
+                int i8 = 10;
+            }
         };
         zzk = zzhvVar11;
+        final int i7 = 11;
         final zzhy zzhyVar5 = zzhy.zzg;
-        zzhv zzhvVar12 = new zzhv("BYTES", 11, zzhyVar5, 2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhz
+        final String str4 = "BYTES";
+        zzhv zzhvVar12 = new zzhv(str4, i7, zzhyVar5, i6) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhz
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i8 = 2;
+                int i9 = 11;
+            }
         };
         zzl = zzhvVar12;
         zzhv zzhvVar13 = new zzhv("UINT32", 12, zzhyVar2, 0);

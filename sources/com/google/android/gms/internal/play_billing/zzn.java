@@ -2,6 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public abstract class zzn {
     public static String zza(String str, Object... objArr) {

@@ -1,6 +1,7 @@
 package com.android.billingclient.api;
 
 import com.android.billingclient.api.BillingResult;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzat {

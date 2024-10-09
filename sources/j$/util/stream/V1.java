@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class V1 extends W1 {

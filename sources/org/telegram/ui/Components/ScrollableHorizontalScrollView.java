@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.EmojiTabsStrip;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
 public abstract class ScrollableHorizontalScrollView extends HorizontalScrollView {
@@ -109,9 +110,10 @@ public abstract class ScrollableHorizontalScrollView extends HorizontalScrollVie
         int dp = AndroidUtilities.dp(50.0f);
         if (i < getScrollX() + dp) {
             measuredWidth = i - dp;
-        } else if (i2 <= getScrollX() + (getMeasuredWidth() - dp)) {
-            return false;
         } else {
+            if (i2 <= getScrollX() + (getMeasuredWidth() - dp)) {
+                return false;
+            }
             measuredWidth = (i2 - getMeasuredWidth()) + dp;
         }
         scrollTo(MathUtils.clamp(measuredWidth, 0, getChildAt(0).getMeasuredWidth() - getMeasuredWidth()));

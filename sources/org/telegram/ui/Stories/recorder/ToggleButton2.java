@@ -21,6 +21,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Stories.recorder.FlashViews;
+
 /* loaded from: classes4.dex */
 public class ToggleButton2 extends View implements FlashViews.Invertable {
     private Bitmap activeBitmap;
@@ -137,17 +138,17 @@ public class ToggleButton2 extends View implements FlashViews.Invertable {
         if (!z) {
             this.scale = 1.0f;
             setDrawable(i);
-            return;
+        } else {
+            this.animator = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
+            final AtomicBoolean atomicBoolean = new AtomicBoolean();
+            this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ToggleButton2$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                    ToggleButton2.this.lambda$setIcon$0(atomicBoolean, i, valueAnimator2);
+                }
+            });
+            this.animator.start();
         }
-        this.animator = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
-        final AtomicBoolean atomicBoolean = new AtomicBoolean();
-        this.animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.ToggleButton2$$ExternalSyntheticLambda0
-            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                ToggleButton2.this.lambda$setIcon$0(atomicBoolean, i, valueAnimator2);
-            }
-        });
-        this.animator.start();
     }
 
     @Override // org.telegram.ui.Stories.recorder.FlashViews.Invertable

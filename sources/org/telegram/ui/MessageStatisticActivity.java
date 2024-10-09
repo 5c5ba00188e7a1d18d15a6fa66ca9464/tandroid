@@ -73,6 +73,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.MessageStatisticActivity;
 import org.telegram.ui.StatisticActivity;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
+
 /* loaded from: classes4.dex */
 public class MessageStatisticActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ChatAvatarContainer avatarContainer;
@@ -161,7 +162,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                             MessageStatisticActivity.ListAdapter.1.this.lambda$onZoomed$0(chartData, str, zoomCancelable);
                         }
                     });
-                } else if (tLObject instanceof TL_stats.TL_statsGraphError) {
+                }
+                if (tLObject instanceof TL_stats.TL_statsGraphError) {
                     Toast.makeText(getContext(), ((TL_stats.TL_statsGraphError) tLObject).error, 1).show();
                 }
                 chartData = null;
@@ -190,34 +192,36 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                         StatisticActivity.ChartViewData chartViewData = this.data;
                         chartViewData.childChartData = new StackLinearChartData(chartViewData.chartData, selectedDate);
                         zoomChart(false);
-                    } else if (this.data.zoomToken == null) {
-                    } else {
-                        zoomCanceled();
-                        final String str = this.data.zoomToken + "_" + selectedDate;
-                        ChartData chartData = (ChartData) MessageStatisticActivity.this.childDataCache.get(str);
-                        if (chartData != null) {
-                            this.data.childChartData = chartData;
-                            zoomChart(false);
-                            return;
-                        }
-                        TL_stats.TL_loadAsyncGraph tL_loadAsyncGraph = new TL_stats.TL_loadAsyncGraph();
-                        tL_loadAsyncGraph.token = this.data.zoomToken;
-                        if (selectedDate != 0) {
-                            tL_loadAsyncGraph.x = selectedDate;
-                            tL_loadAsyncGraph.flags |= 1;
-                        }
-                        MessageStatisticActivity messageStatisticActivity = MessageStatisticActivity.this;
-                        final StatisticActivity.ZoomCancelable zoomCancelable = new StatisticActivity.ZoomCancelable();
-                        messageStatisticActivity.lastCancelable = zoomCancelable;
-                        zoomCancelable.adapterPosition = MessageStatisticActivity.this.listView.getChildAdapterPosition(this);
-                        this.chartView.legendSignatureView.showProgress(true, false);
-                        ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).sendRequest(tL_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda0
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                                MessageStatisticActivity.ListAdapter.1.this.lambda$onZoomed$1(str, zoomCancelable, tLObject, tL_error);
-                            }
-                        }, null, null, 0, MessageStatisticActivity.this.chat.stats_dc, 1, true), ((BaseFragment) MessageStatisticActivity.this).classGuid);
+                        return;
                     }
+                    if (this.data.zoomToken == null) {
+                        return;
+                    }
+                    zoomCanceled();
+                    final String str = this.data.zoomToken + "_" + selectedDate;
+                    ChartData chartData = (ChartData) MessageStatisticActivity.this.childDataCache.get(str);
+                    if (chartData != null) {
+                        this.data.childChartData = chartData;
+                        zoomChart(false);
+                        return;
+                    }
+                    TL_stats.TL_loadAsyncGraph tL_loadAsyncGraph = new TL_stats.TL_loadAsyncGraph();
+                    tL_loadAsyncGraph.token = this.data.zoomToken;
+                    if (selectedDate != 0) {
+                        tL_loadAsyncGraph.x = selectedDate;
+                        tL_loadAsyncGraph.flags |= 1;
+                    }
+                    MessageStatisticActivity messageStatisticActivity = MessageStatisticActivity.this;
+                    final StatisticActivity.ZoomCancelable zoomCancelable = new StatisticActivity.ZoomCancelable();
+                    messageStatisticActivity.lastCancelable = zoomCancelable;
+                    zoomCancelable.adapterPosition = MessageStatisticActivity.this.listView.getChildAdapterPosition(this);
+                    this.chartView.legendSignatureView.showProgress(true, false);
+                    ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(((BaseFragment) MessageStatisticActivity.this).currentAccount).sendRequest(tL_loadAsyncGraph, new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$1$$ExternalSyntheticLambda0
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                            MessageStatisticActivity.ListAdapter.1.this.lambda$onZoomed$1(str, zoomCancelable, tLObject, tL_error);
+                        }
+                    }, null, null, 0, MessageStatisticActivity.this.chat.stats_dc, 1, true), ((BaseFragment) MessageStatisticActivity.this).classGuid);
                 }
             }
 
@@ -291,14 +295,14 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             return false;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:55:0x016c  */
-        /* JADX WARN: Removed duplicated region for block: B:65:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x016c  */
+        /* JADX WARN: Removed duplicated region for block: B:54:? A[RETURN, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            TLRPC.User user;
+            Object obj;
             String format;
             String str;
             int i2;
@@ -310,7 +314,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 if (itemViewType == 1) {
                     viewHolder.itemView.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     return;
-                } else if (itemViewType == 2) {
+                }
+                if (itemViewType == 2) {
                     HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                     if (i == MessageStatisticActivity.this.overviewHeaderRow) {
                         headerCell.setTopMargin(9);
@@ -323,32 +328,32 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                     }
                     headerCell.setText(formatString);
                     return;
-                } else {
-                    if (itemViewType == 4) {
-                        baseChartCell = (StatisticActivity.BaseChartCell) viewHolder.itemView;
-                        baseChartCell.updateData(MessageStatisticActivity.this.interactionsViewData, false);
-                        layoutParams = new RecyclerView.LayoutParams(-1, -2);
-                    } else if (itemViewType == 5) {
-                        ((OverviewCell) viewHolder.itemView).setData();
-                        return;
-                    } else if (itemViewType != 7) {
-                        return;
-                    } else {
-                        baseChartCell = (StatisticActivity.BaseChartCell) viewHolder.itemView;
-                        baseChartCell.updateData(MessageStatisticActivity.this.reactionsByEmotionData, false);
-                        layoutParams = new RecyclerView.LayoutParams(-1, -2);
-                    }
-                    baseChartCell.setLayoutParams(layoutParams);
-                    return;
                 }
+                if (itemViewType == 4) {
+                    baseChartCell = (StatisticActivity.BaseChartCell) viewHolder.itemView;
+                    baseChartCell.updateData(MessageStatisticActivity.this.interactionsViewData, false);
+                    layoutParams = new RecyclerView.LayoutParams(-1, -2);
+                } else if (itemViewType == 5) {
+                    ((OverviewCell) viewHolder.itemView).setData();
+                    return;
+                } else {
+                    if (itemViewType != 7) {
+                        return;
+                    }
+                    baseChartCell = (StatisticActivity.BaseChartCell) viewHolder.itemView;
+                    baseChartCell.updateData(MessageStatisticActivity.this.reactionsByEmotionData, false);
+                    layoutParams = new RecyclerView.LayoutParams(-1, -2);
+                }
+                baseChartCell.setLayoutParams(layoutParams);
+                return;
             }
             ManageChatUserCell manageChatUserCell = (ManageChatUserCell) viewHolder.itemView;
             final MessageObject item = getItem(i);
             long dialogId = MessageObject.getDialogId(item.messageOwner);
             if (item.isStory()) {
-                Object user2 = DialogObject.isUserDialog(dialogId) ? MessageStatisticActivity.this.getMessagesController().getUser(Long.valueOf(dialogId)) : MessageStatisticActivity.this.getMessagesController().getChat(Long.valueOf(-dialogId));
+                Object user = DialogObject.isUserDialog(dialogId) ? MessageStatisticActivity.this.getMessagesController().getUser(Long.valueOf(dialogId)) : MessageStatisticActivity.this.getMessagesController().getChat(Long.valueOf(-dialogId));
                 TL_stories.StoryViews storyViews = item.storyItem.views;
-                manageChatUserCell.setData(user2, null, (storyViews == null || (i2 = storyViews.views_count) == 0) ? LocaleController.getString(R.string.NoViews) : LocaleController.formatPluralString("Views", i2, new Object[0]), i != MessageStatisticActivity.this.endRow - 1);
+                manageChatUserCell.setData(user, null, (storyViews == null || (i2 = storyViews.views_count) == 0) ? LocaleController.getString(R.string.NoViews) : LocaleController.formatPluralString("Views", i2, new Object[0]), i != MessageStatisticActivity.this.endRow - 1);
                 manageChatUserCell.setStoryItem(item.storyItem, new View.OnClickListener() { // from class: org.telegram.ui.MessageStatisticActivity$ListAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -365,70 +370,70 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                     if (i3 != 0) {
                         format = String.format("%1$s, %2$s", LocaleController.formatPluralString("Members", i3, new Object[0]), LocaleController.formatPluralString("Views", item.messageOwner.views, new Object[0]));
                     } else {
-                        user = chat;
+                        obj = chat;
                     }
                 } else {
                     format = LocaleController.formatPluralString("Views", item.messageOwner.views, new Object[0]);
                 }
                 str = format;
-                user = chat;
-                if (user == null) {
-                    manageChatUserCell.setData(user, null, str, i != MessageStatisticActivity.this.endRow - 1);
+                obj = chat;
+                if (obj == null) {
+                    manageChatUserCell.setData(obj, null, str, i != MessageStatisticActivity.this.endRow - 1);
                     return;
                 }
                 return;
             }
-            user = MessageStatisticActivity.this.getMessagesController().getUser(Long.valueOf(dialogId));
+            obj = MessageStatisticActivity.this.getMessagesController().getUser(Long.valueOf(dialogId));
             str = null;
-            if (user == null) {
+            if (obj == null) {
             }
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
-            HeaderCell headerCell;
-            ViewGroup.LayoutParams layoutParams;
             View view2;
+            ViewGroup.LayoutParams layoutParams;
+            View view3;
             if (i != 0) {
                 if (i == 1) {
-                    headerCell = new ShadowSectionCell(this.mContext, MessageStatisticActivity.this.getResourceProvider());
+                    view2 = new ShadowSectionCell(this.mContext, MessageStatisticActivity.this.getResourceProvider());
                 } else if (i != 2) {
                     if (i != 4) {
                         if (i == 5) {
                             View overviewCell = new OverviewCell(this.mContext);
                             layoutParams = new RecyclerView.LayoutParams(-1, -2);
-                            view2 = overviewCell;
+                            view3 = overviewCell;
                         } else if (i == 6) {
                             View emptyCell = new EmptyCell(this.mContext, 16);
                             layoutParams = new RecyclerView.LayoutParams(-1, 16);
-                            view2 = emptyCell;
+                            view3 = emptyCell;
                         } else if (i != 7) {
-                            headerCell = new LoadingCell(this.mContext, AndroidUtilities.dp(40.0f), AndroidUtilities.dp(120.0f));
+                            view2 = new LoadingCell(this.mContext, AndroidUtilities.dp(40.0f), AndroidUtilities.dp(120.0f));
                         }
-                        view2.setLayoutParams(layoutParams);
-                        view = view2;
+                        view3.setLayoutParams(layoutParams);
+                        view = view3;
                     }
                     Context context = this.mContext;
                     int i2 = i == 4 ? 1 : 2;
                     MessageStatisticActivity messageStatisticActivity = MessageStatisticActivity.this;
-                    View view3 = new 1(context, i2, messageStatisticActivity.sharedUi = new BaseChartView.SharedUiComponents(messageStatisticActivity.getResourceProvider()), MessageStatisticActivity.this.getResourceProvider());
-                    view3.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, MessageStatisticActivity.this.getResourceProvider()));
-                    headerCell = view3;
+                    View view4 = new 1(context, i2, messageStatisticActivity.sharedUi = new BaseChartView.SharedUiComponents(messageStatisticActivity.getResourceProvider()), MessageStatisticActivity.this.getResourceProvider());
+                    view4.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, MessageStatisticActivity.this.getResourceProvider()));
+                    view2 = view4;
                 } else {
-                    HeaderCell headerCell2 = new HeaderCell(this.mContext, Theme.key_windowBackgroundWhiteBlackText, 16, 11, false, MessageStatisticActivity.this.getResourceProvider());
-                    headerCell2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, MessageStatisticActivity.this.getResourceProvider()));
-                    headerCell2.setHeight(43);
-                    headerCell = headerCell2;
+                    HeaderCell headerCell = new HeaderCell(this.mContext, Theme.key_windowBackgroundWhiteBlackText, 16, 11, false, MessageStatisticActivity.this.getResourceProvider());
+                    headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, MessageStatisticActivity.this.getResourceProvider()));
+                    headerCell.setHeight(43);
+                    view2 = headerCell;
                 }
-                return new RecyclerListView.Holder(headerCell);
+                return new RecyclerListView.Holder(view2);
             }
             ManageChatUserCell manageChatUserCell = new ManageChatUserCell(this.mContext, 6, 2, false, MessageStatisticActivity.this.getResourceProvider());
             manageChatUserCell.setDividerColor(Theme.key_divider);
             view = manageChatUserCell;
             view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite, MessageStatisticActivity.this.getResourceProvider()));
-            headerCell = view;
-            return new RecyclerListView.Holder(headerCell);
+            view2 = view;
+            return new RecyclerListView.Holder(view2);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -571,11 +576,11 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean checkIsDeletedStory(MessageObject messageObject) {
-        if (messageObject != null && messageObject.isStory() && (messageObject.storyItem instanceof TL_stories.TL_storyItemDeleted)) {
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.story_bomb1, LocaleController.getString(R.string.StoryNotFound)).show();
-            return true;
+        if (messageObject == null || !messageObject.isStory() || !(messageObject.storyItem instanceof TL_stories.TL_storyItemDeleted)) {
+            return false;
         }
-        return false;
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.story_bomb1, LocaleController.getString(R.string.StoryNotFound)).show();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -625,8 +630,9 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             bundle.putBoolean("need_remove_previous_same_chat_activity", false);
             if (!getMessagesController().checkCanOpenChat(bundle, this)) {
                 return;
+            } else {
+                chatActivity = new ChatActivity(bundle);
             }
-            chatActivity = new ChatActivity(bundle);
         }
         presentFragment(chatActivity);
     }
@@ -674,7 +680,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         if (getParentLayout().getFragmentStack().size() > 1) {
             BaseFragment baseFragment = (BaseFragment) getParentLayout().getFragmentStack().get(getParentLayout().getFragmentStack().size() - 2);
             if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).getCurrentChat().id == this.chatId) {
-                finishFragment();
+                lambda$onBackPressed$300();
                 return;
             }
         }
@@ -718,10 +724,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0028  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x002a  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0028  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x002a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -786,10 +792,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0028  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x002a  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0028  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x002a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -869,7 +875,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                     MessageStatisticActivity.this.lambda$loadStat$9(tL_error, chartData2, str, tL_loadAsyncGraph);
                 }
             });
-        } else if (tLObject instanceof TL_stats.TL_statsGraphError) {
+        }
+        if (tLObject instanceof TL_stats.TL_statsGraphError) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -964,9 +971,9 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     public void loadChats(int i) {
         MessagesController messagesController;
         long dialogId;
-        ConnectionsManager connectionsManager;
         RequestDelegate requestDelegate;
         TL_stats.TL_getMessagePublicForwards tL_getMessagePublicForwards;
+        ConnectionsManager connectionsManager;
         if (this.loading) {
             return;
         }
@@ -982,13 +989,14 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             tL_getStoryPublicForwards.peer = getMessagesController().getInputPeer(-this.chatId);
             String str = this.nextOffset;
             tL_getStoryPublicForwards.offset = str != null ? str : "";
-            connectionsManager = getConnectionsManager();
+            ConnectionsManager connectionsManager2 = getConnectionsManager();
             requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     MessageStatisticActivity.this.lambda$loadChats$5(tLObject, tL_error);
                 }
             };
+            connectionsManager = connectionsManager2;
             tL_getMessagePublicForwards = tL_getStoryPublicForwards;
         } else {
             TL_stats.TL_getMessagePublicForwards tL_getMessagePublicForwards2 = new TL_stats.TL_getMessagePublicForwards();
@@ -1007,13 +1015,14 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             tL_getMessagePublicForwards2.channel = messagesController.getInputChannel(-dialogId);
             String str2 = this.nextOffset;
             tL_getMessagePublicForwards2.offset = str2 != null ? str2 : "";
-            connectionsManager = getConnectionsManager();
+            ConnectionsManager connectionsManager3 = getConnectionsManager();
             requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.MessageStatisticActivity$$ExternalSyntheticLambda6
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     MessageStatisticActivity.this.lambda$loadChats$7(tLObject, tL_error);
                 }
             };
+            connectionsManager = connectionsManager3;
             tL_getMessagePublicForwards = tL_getMessagePublicForwards2;
         }
         getConnectionsManager().bindRequestToGuid(connectionsManager.sendRequest(tL_getMessagePublicForwards, requestDelegate, null, null, 0, this.chat.stats_dc, 1, true), this.classGuid);
@@ -1177,6 +1186,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         CharSequence charSequence;
@@ -1219,6 +1229,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         frameLayout2.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context, getResourceProvider());
         this.listView = recyclerListView;
+        boolean z = false;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
         this.layoutManager = linearLayoutManager;
         recyclerListView.setLayoutManager(linearLayoutManager);
@@ -1268,7 +1279,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         AndroidUtilities.runOnUIThread(this.showProgressbar, 300L);
         updateRows();
         this.listView.setEmptyView(this.emptyView);
-        this.avatarContainer = new ChatAvatarContainer(context, null, false) { // from class: org.telegram.ui.MessageStatisticActivity.4
+        this.avatarContainer = new ChatAvatarContainer(context, 0 == true ? 1 : 0, z) { // from class: org.telegram.ui.MessageStatisticActivity.4
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ChatAvatarContainer, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
@@ -1360,7 +1371,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i4) {
                 if (i4 == -1) {
-                    MessageStatisticActivity.this.finishFragment();
+                    MessageStatisticActivity.this.lambda$onBackPressed$300();
                 } else if (i4 == 1) {
                     Bundle bundle = new Bundle();
                     bundle.putLong("chat_id", MessageStatisticActivity.this.chatId);

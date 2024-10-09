@@ -5,6 +5,7 @@ import com.google.zxing.common.BitArray;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.decoder.Version;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 abstract class MatrixUtil {
     private static final int[][] POSITION_DETECTION_PATTERN = {new int[]{1, 1, 1, 1, 1, 1, 1}, new int[]{1, 0, 0, 0, 0, 0, 1}, new int[]{1, 0, 1, 1, 1, 0, 1}, new int[]{1, 0, 1, 1, 1, 0, 1}, new int[]{1, 0, 1, 1, 1, 0, 1}, new int[]{1, 0, 0, 0, 0, 0, 1}, new int[]{1, 1, 1, 1, 1, 1, 1}};
@@ -22,15 +23,15 @@ abstract class MatrixUtil {
     }
 
     static int calculateBCHCode(int i, int i2) {
-        if (i2 != 0) {
-            int findMSBSet = findMSBSet(i2);
-            int i3 = i << (findMSBSet - 1);
-            while (findMSBSet(i3) >= findMSBSet) {
-                i3 ^= i2 << (findMSBSet(i3) - findMSBSet);
-            }
-            return i3;
+        if (i2 == 0) {
+            throw new IllegalArgumentException("0 polynomial");
         }
-        throw new IllegalArgumentException("0 polynomial");
+        int findMSBSet = findMSBSet(i2);
+        int i3 = i << (findMSBSet - 1);
+        while (findMSBSet(i3) >= findMSBSet) {
+            i3 ^= i2 << (findMSBSet(i3) - findMSBSet);
+        }
+        return i3;
     }
 
     static void clearMatrix(ByteMatrix byteMatrix) {

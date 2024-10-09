@@ -3,6 +3,7 @@ package com.google.android.gms.common.api.internal;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 public final class zah extends zad {
     public final ListenerHolder.ListenerKey zab;
@@ -32,10 +33,10 @@ public final class zah extends zad {
         zaci zaciVar = (zaci) zabqVar.zah().remove(this.zab);
         if (zaciVar == null) {
             this.zaa.trySetResult(Boolean.FALSE);
-            return;
+        } else {
+            zaciVar.zab.unregisterListener(zabqVar.zaf(), this.zaa);
+            zaciVar.zaa.clearListener();
         }
-        zaciVar.zab.unregisterListener(zabqVar.zaf(), this.zaa);
-        zaciVar.zaa.clearListener();
     }
 
     @Override // com.google.android.gms.common.api.internal.zai

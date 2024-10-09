@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzgq extends AbstractMap {
@@ -41,7 +42,8 @@ public abstract class zzgq extends AbstractMap {
             if (compareTo > 0) {
                 i = size + 1;
                 return -i;
-            } else if (compareTo == 0) {
+            }
+            if (compareTo == 0) {
                 return i2;
             }
         }
@@ -51,9 +53,10 @@ public abstract class zzgq extends AbstractMap {
             int compareTo2 = comparable.compareTo((Comparable) ((zzgz) this.zzb.get(i4)).getKey());
             if (compareTo2 < 0) {
                 i2 = i4 - 1;
-            } else if (compareTo2 <= 0) {
-                return i4;
             } else {
+                if (compareTo2 <= 0) {
+                    return i4;
+                }
                 i3 = i4 + 1;
             }
         }
@@ -126,27 +129,27 @@ public abstract class zzgq extends AbstractMap {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zzgq) {
-            zzgq zzgqVar = (zzgq) obj;
-            int size = size();
-            if (size != zzgqVar.size()) {
+        if (!(obj instanceof zzgq)) {
+            return super.equals(obj);
+        }
+        zzgq zzgqVar = (zzgq) obj;
+        int size = size();
+        if (size != zzgqVar.size()) {
+            return false;
+        }
+        int zzc = zzc();
+        if (zzc != zzgqVar.zzc()) {
+            return entrySet().equals(zzgqVar.entrySet());
+        }
+        for (int i = 0; i < zzc; i++) {
+            if (!zzb(i).equals(zzgqVar.zzb(i))) {
                 return false;
             }
-            int zzc = zzc();
-            if (zzc != zzgqVar.zzc()) {
-                return entrySet().equals(zzgqVar.entrySet());
-            }
-            for (int i = 0; i < zzc; i++) {
-                if (!zzb(i).equals(zzgqVar.zzb(i))) {
-                    return false;
-                }
-            }
-            if (zzc != size) {
-                return this.zzc.equals(zzgqVar.zzc);
-            }
-            return true;
         }
-        return super.equals(obj);
+        if (zzc != size) {
+            return this.zzc.equals(zzgqVar.zzc);
+        }
+        return true;
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -186,7 +189,7 @@ public abstract class zzgq extends AbstractMap {
     }
 
     @Override // java.util.AbstractMap, java.util.Map
-    /* renamed from: zza */
+    /* renamed from: zza, reason: merged with bridge method [inline-methods] */
     public final Object put(Comparable comparable, Object obj) {
         zzf();
         int zza = zza(comparable);

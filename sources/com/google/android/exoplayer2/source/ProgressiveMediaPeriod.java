@@ -42,6 +42,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutput, Loader.Callback, Loader.ReleaseCallback, SampleQueue.UpstreamFormatChangedListener {
@@ -509,7 +510,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: setSeekMap */
+    /* renamed from: setSeekMap, reason: merged with bridge method [inline-methods] */
     public void lambda$seekMap$1(SeekMap seekMap) {
         this.seekMap = this.icyHeaders == null ? seekMap : new SeekMap.Unseekable(-9223372036854775807L);
         this.durationUs = seekMap.getDurationUs();
@@ -588,11 +589,11 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long getAdjustedSeekPositionUs(long j, SeekParameters seekParameters) {
         assertPrepared();
-        if (this.seekMap.isSeekable()) {
-            SeekMap.SeekPoints seekPoints = this.seekMap.getSeekPoints(j);
-            return seekParameters.resolveSeekPositionUs(j, seekPoints.first.timeUs, seekPoints.second.timeUs);
+        if (!this.seekMap.isSeekable()) {
+            return 0L;
         }
-        return 0L;
+        SeekMap.SeekPoints seekPoints = this.seekMap.getSeekPoints(j);
+        return seekParameters.resolveSeekPositionUs(j, seekPoints.first.timeUs, seekPoints.second.timeUs);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
@@ -762,14 +763,14 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long readDiscontinuity() {
-        if (this.notifyDiscontinuity) {
-            if (this.loadingFinished || getExtractedSamplesCount() > this.extractedSamplesCountAtStartOfLoad) {
-                this.notifyDiscontinuity = false;
-                return this.lastSeekPositionUs;
-            }
+        if (!this.notifyDiscontinuity) {
             return -9223372036854775807L;
         }
-        return -9223372036854775807L;
+        if (!this.loadingFinished && getExtractedSamplesCount() <= this.extractedSamplesCountAtStartOfLoad) {
+            return -9223372036854775807L;
+        }
+        this.notifyDiscontinuity = false;
+        return this.lastSeekPositionUs;
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
@@ -811,31 +812,31 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         if (isPendingReset()) {
             this.pendingResetPositionUs = j;
             return j;
-        } else if (this.dataType == 7 || !((this.loadingFinished || this.loader.isLoading()) && seekInsideBufferUs(zArr, j))) {
-            this.pendingDeferredRetry = false;
-            this.pendingResetPositionUs = j;
-            this.loadingFinished = false;
-            if (this.loader.isLoading()) {
-                SampleQueue[] sampleQueueArr = this.sampleQueues;
-                int length = sampleQueueArr.length;
-                while (i < length) {
-                    sampleQueueArr[i].discardToEnd();
-                    i++;
-                }
-                this.loader.cancelLoading();
-            } else {
-                this.loader.clearFatalError();
-                SampleQueue[] sampleQueueArr2 = this.sampleQueues;
-                int length2 = sampleQueueArr2.length;
-                while (i < length2) {
-                    sampleQueueArr2[i].reset();
-                    i++;
-                }
-            }
-            return j;
-        } else {
+        }
+        if (this.dataType != 7 && ((this.loadingFinished || this.loader.isLoading()) && seekInsideBufferUs(zArr, j))) {
             return j;
         }
+        this.pendingDeferredRetry = false;
+        this.pendingResetPositionUs = j;
+        this.loadingFinished = false;
+        if (this.loader.isLoading()) {
+            SampleQueue[] sampleQueueArr = this.sampleQueues;
+            int length = sampleQueueArr.length;
+            while (i < length) {
+                sampleQueueArr[i].discardToEnd();
+                i++;
+            }
+            this.loader.cancelLoading();
+        } else {
+            this.loader.clearFatalError();
+            SampleQueue[] sampleQueueArr2 = this.sampleQueues;
+            int length2 = sampleQueueArr2.length;
+            while (i < length2) {
+                sampleQueueArr2[i].reset();
+                i++;
+            }
+        }
+        return j;
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod

@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.StringResourceValueReader;
 import com.google.android.gms.common.util.Strings;
+
 /* loaded from: classes.dex */
 public final class FirebaseOptions {
     private final String apiKey;
@@ -37,11 +38,11 @@ public final class FirebaseOptions {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof FirebaseOptions) {
-            FirebaseOptions firebaseOptions = (FirebaseOptions) obj;
-            return Objects.equal(this.applicationId, firebaseOptions.applicationId) && Objects.equal(this.apiKey, firebaseOptions.apiKey) && Objects.equal(this.databaseUrl, firebaseOptions.databaseUrl) && Objects.equal(this.gaTrackingId, firebaseOptions.gaTrackingId) && Objects.equal(this.gcmSenderId, firebaseOptions.gcmSenderId) && Objects.equal(this.storageBucket, firebaseOptions.storageBucket) && Objects.equal(this.projectId, firebaseOptions.projectId);
+        if (!(obj instanceof FirebaseOptions)) {
+            return false;
         }
-        return false;
+        FirebaseOptions firebaseOptions = (FirebaseOptions) obj;
+        return Objects.equal(this.applicationId, firebaseOptions.applicationId) && Objects.equal(this.apiKey, firebaseOptions.apiKey) && Objects.equal(this.databaseUrl, firebaseOptions.databaseUrl) && Objects.equal(this.gaTrackingId, firebaseOptions.gaTrackingId) && Objects.equal(this.gcmSenderId, firebaseOptions.gcmSenderId) && Objects.equal(this.storageBucket, firebaseOptions.storageBucket) && Objects.equal(this.projectId, firebaseOptions.projectId);
     }
 
     public String getApiKey() {

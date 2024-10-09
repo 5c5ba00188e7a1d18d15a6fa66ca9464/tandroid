@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class MetadataRenderer extends BaseRenderer implements Handler.Callback {
     private final MetadataInputBuffer buffer;
@@ -110,9 +111,11 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
             if (readSource == -5) {
                 this.subsampleOffsetUs = ((Format) Assertions.checkNotNull(formatHolder.format)).subsampleOffsetUs;
             }
-        } else if (this.buffer.isEndOfStream()) {
-            this.inputStreamEnded = true;
         } else {
+            if (this.buffer.isEndOfStream()) {
+                this.inputStreamEnded = true;
+                return;
+            }
             MetadataInputBuffer metadataInputBuffer = this.buffer;
             metadataInputBuffer.subsampleOffsetUs = this.subsampleOffsetUs;
             metadataInputBuffer.flip();
@@ -135,11 +138,11 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
 
     @Override // android.os.Handler.Callback
     public boolean handleMessage(Message message) {
-        if (message.what == 0) {
-            invokeRendererInternal((Metadata) message.obj);
-            return true;
+        if (message.what != 0) {
+            throw new IllegalStateException();
         }
-        throw new IllegalStateException();
+        invokeRendererInternal((Metadata) message.obj);
+        return true;
     }
 
     @Override // com.google.android.exoplayer2.Renderer

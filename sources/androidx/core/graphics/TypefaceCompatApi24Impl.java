@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.List;
+
 /* loaded from: classes.dex */
 class TypefaceCompatApi24Impl extends TypefaceCompatBaseImpl {
     private static final Method sAddFontWeightStyle;
@@ -56,7 +57,7 @@ class TypefaceCompatApi24Impl extends TypefaceCompatBaseImpl {
 
     private static Typeface createFromFamiliesWithDefault(Object obj) {
         try {
-            Object newInstance = Array.newInstance(sFontFamily, 1);
+            Object newInstance = Array.newInstance((Class<?>) sFontFamily, 1);
             Array.set(newInstance, 0, obj);
             return (Typeface) sCreateFromFamiliesWithDefault.invoke(null, newInstance);
         } catch (IllegalAccessException | InvocationTargetException unused) {
@@ -82,7 +83,6 @@ class TypefaceCompatApi24Impl extends TypefaceCompatBaseImpl {
 
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, Resources resources, int i) {
-        FontResourcesParserCompat.FontFileResourceEntry[] entries;
         Object newFamily = newFamily();
         if (newFamily == null) {
             return null;

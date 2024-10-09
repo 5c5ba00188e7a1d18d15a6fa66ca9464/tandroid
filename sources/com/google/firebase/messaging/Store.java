@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class Store {
@@ -51,20 +52,20 @@ public class Store {
             if (TextUtils.isEmpty(str)) {
                 return null;
             }
-            if (str.startsWith("{")) {
-                try {
-                    JSONObject jSONObject = new JSONObject(str);
-                    return new Token(jSONObject.getString("token"), jSONObject.getString("appVersion"), jSONObject.getLong("timestamp"));
-                } catch (JSONException e) {
-                    String valueOf = String.valueOf(e);
-                    StringBuilder sb = new StringBuilder(valueOf.length() + 23);
-                    sb.append("Failed to parse token: ");
-                    sb.append(valueOf);
-                    Log.w("FirebaseMessaging", sb.toString());
-                    return null;
-                }
+            if (!str.startsWith("{")) {
+                return new Token(str, null, 0L);
             }
-            return new Token(str, null, 0L);
+            try {
+                JSONObject jSONObject = new JSONObject(str);
+                return new Token(jSONObject.getString("token"), jSONObject.getString("appVersion"), jSONObject.getLong("timestamp"));
+            } catch (JSONException e) {
+                String valueOf = String.valueOf(e);
+                StringBuilder sb = new StringBuilder(valueOf.length() + 23);
+                sb.append("Failed to parse token: ");
+                sb.append(valueOf);
+                Log.w("FirebaseMessaging", sb.toString());
+                return null;
+            }
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */

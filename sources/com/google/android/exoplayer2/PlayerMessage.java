@@ -4,6 +4,7 @@ import android.os.Looper;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Clock;
 import java.util.concurrent.TimeoutException;
+
 /* loaded from: classes.dex */
 public final class PlayerMessage {
     private final Clock clock;

@@ -10,6 +10,7 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public class ReplaceableIconDrawable extends Drawable implements Animator.AnimatorListener {
     private ValueAnimator animation;
@@ -181,7 +182,9 @@ public class ReplaceableIconDrawable extends Drawable implements Animator.Animat
             invalidateSelf();
             return;
         }
-        z = (getBounds() == null || getBounds().isEmpty()) ? false : false;
+        if (getBounds() == null || getBounds().isEmpty()) {
+            z = false;
+        }
         Drawable drawable2 = this.currentDrawable;
         if (drawable == drawable2) {
             drawable2.setColorFilter(this.colorFilter);

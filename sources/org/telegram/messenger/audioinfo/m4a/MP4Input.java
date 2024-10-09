@@ -2,6 +2,7 @@ package org.telegram.messenger.audioinfo.m4a;
 
 import java.io.InputStream;
 import org.telegram.messenger.audioinfo.util.PositionInputStream;
+
 /* loaded from: classes3.dex */
 public final class MP4Input extends MP4Box {
     public MP4Input(InputStream inputStream) {

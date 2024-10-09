@@ -7,6 +7,7 @@ import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.PaymentCardRecognitionIntentResponse;
 import com.google.android.gms.wallet.PaymentData;
+
 /* loaded from: classes.dex */
 public interface zzu extends IInterface {
     void zzb(int i, FullWallet fullWallet, Bundle bundle);

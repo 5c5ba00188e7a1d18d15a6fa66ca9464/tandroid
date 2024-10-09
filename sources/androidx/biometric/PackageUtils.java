@@ -3,6 +3,7 @@ package androidx.biometric;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+
 /* loaded from: classes.dex */
 abstract class PackageUtils {
 

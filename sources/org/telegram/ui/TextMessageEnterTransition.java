@@ -47,6 +47,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ReplyMessageLine;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.MessageEnterTransitionContainer;
+
 /* loaded from: classes4.dex */
 public class TextMessageEnterTransition implements MessageEnterTransitionContainer.Transition {
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiStack;
@@ -106,14 +107,16 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
     private final int currentAccount = UserConfig.selectedAccount;
 
     /* JADX WARN: Can't wrap try/catch for region: R(40:15|(1:17)(1:175)|18|(1:20)|21|(6:23|(1:25)(1:52)|26|27|29|(1:31))|53|(1:174)(1:59)|60|(3:169|(1:171)(1:173)|172)(1:63)|64|(1:66)(1:168)|67|68|(4:71|(2:73|74)(1:76)|75|69)|77|78|(1:80)|81|(1:83)|84|(1:86)|87|(17:89|(4:91|(1:93)(1:165)|94|(1:97)(1:96))|166|99|(6:103|(5:105|(2:107|(3:109|110|111)(1:112))(1:115)|113|114|111)|116|117|(1:119)(1:121)|120)|122|123|124|(4:126|(1:128)|129|(4:131|(1:133)(1:137)|134|135))|138|(1:162)(1:142)|143|(1:145)|146|(1:152)|153|(1:160)(2:157|158))(1:167)|98|99|(6:103|(0)|116|117|(0)(0)|120)|122|123|124|(0)|138|(1:140)|162|143|(0)|146|(3:148|150|152)|153|(2:155|160)(1:161)) */
-    /* JADX WARN: Code restructure failed: missing block: B:146:0x04f1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:164:0x04f1, code lost:
+    
         r25.drawBitmaps = false;
      */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x03b5  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0402  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0439  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x047d A[Catch: Exception -> 0x04be, TryCatch #0 {Exception -> 0x04be, blocks: (B:131:0x0479, B:133:0x047d, B:135:0x04a1, B:137:0x04c0, B:139:0x04c4, B:141:0x04ce, B:142:0x04d9, B:144:0x04ee, B:143:0x04de), top: B:169:0x0479 }] */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x0508  */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x03b5  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0402  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0439  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x047d A[Catch: Exception -> 0x04be, TryCatch #0 {Exception -> 0x04be, blocks: (B:124:0x0479, B:126:0x047d, B:128:0x04a1, B:129:0x04c0, B:131:0x04c4, B:133:0x04ce, B:134:0x04d9, B:135:0x04ee, B:137:0x04de), top: B:123:0x0479 }] */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0508  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -516,31 +519,36 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         messageEnterTransitionContainer.invalidate();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:106:0x046c, code lost:
-        if (android.text.TextUtils.isEmpty(r5.caption) != false) goto L254;
+    /* JADX WARN: Code restructure failed: missing block: B:229:0x040d, code lost:
+    
+        if (android.text.TextUtils.isEmpty(r5.caption) != false) goto L91;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:110:0x0488, code lost:
-        if ((org.telegram.messenger.MessageObject.getMedia(r46.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC.TL_messageMediaInvoice) != false) goto L254;
+    /* JADX WARN: Code restructure failed: missing block: B:233:0x0429, code lost:
+    
+        if ((org.telegram.messenger.MessageObject.getMedia(r46.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC.TL_messageMediaInvoice) != false) goto L91;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x040d, code lost:
-        if (android.text.TextUtils.isEmpty(r5.caption) != false) goto L234;
+    /* JADX WARN: Code restructure failed: missing block: B:249:0x046c, code lost:
+    
+        if (android.text.TextUtils.isEmpty(r5.caption) != false) goto L111;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x0429, code lost:
-        if ((org.telegram.messenger.MessageObject.getMedia(r46.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC.TL_messageMediaInvoice) != false) goto L234;
+    /* JADX WARN: Code restructure failed: missing block: B:253:0x0488, code lost:
+    
+        if ((org.telegram.messenger.MessageObject.getMedia(r46.currentMessageObject.replyMessageObject.messageOwner) instanceof org.telegram.tgnet.TLRPC.TL_messageMediaInvoice) != false) goto L111;
      */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x049c  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x04ff  */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x0522  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x05ad  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x062f  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x068d  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0694  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x069c  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x0700  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x071a  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x07b1  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x0882  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x03d1  */
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x069c  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x071a  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x07b1  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x0882  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0700  */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x0694  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x062f  */
+    /* JADX WARN: Removed duplicated region for block: B:257:0x049c  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x03d1  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x04ff  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0522  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x05ad  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x068d  */
     @Override // org.telegram.ui.MessageEnterTransitionContainer.Transition
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -854,8 +862,9 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                     float dp6 = (messageObject7 == null && messageObject7.shouldDrawWithoutBackground()) ? AndroidUtilities.dp(f19) : AndroidUtilities.dp(3.0f);
                     float f36 = this.messageView.replyTextOffset;
                     float f37 = (f31 - f36) + f20;
+                    float f38 = (f31 - this.replyNameDx) + f20;
                     AndroidUtilities.lerp(f34 - f36, f37, f6);
-                    float lerp5 = AndroidUtilities.lerp(f34, (f31 - this.replyNameDx) + f20, f6) + (!this.messageView.needReplyImage ? AndroidUtilities.dp(3.0f) + f17 : 0.0f);
+                    float lerp5 = AndroidUtilities.lerp(f34, f38, f6) + (!this.messageView.needReplyImage ? AndroidUtilities.dp(3.0f) + f17 : 0.0f);
                     if (this.messageView.replyNameLayout == null) {
                         canvas.save();
                         canvas.translate(lerp5, (dp6 * f6) + lerp2);
@@ -970,8 +979,9 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             float dp62 = (messageObject72 == null && messageObject72.shouldDrawWithoutBackground()) ? AndroidUtilities.dp(f19) : AndroidUtilities.dp(3.0f);
             float f362 = this.messageView.replyTextOffset;
             float f372 = (f31 - f362) + f20;
+            float f382 = (f31 - this.replyNameDx) + f20;
             AndroidUtilities.lerp(f342 - f362, f372, f6);
-            float lerp52 = AndroidUtilities.lerp(f342, (f31 - this.replyNameDx) + f20, f6) + (!this.messageView.needReplyImage ? AndroidUtilities.dp(3.0f) + f17 : 0.0f);
+            float lerp52 = AndroidUtilities.lerp(f342, f382, f6) + (!this.messageView.needReplyImage ? AndroidUtilities.dp(3.0f) + f17 : 0.0f);
             if (this.messageView.replyNameLayout == null) {
             }
             chatMessageCell = this.messageView;
@@ -1000,44 +1010,44 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         if (this.messageView.getMessageObject() == null || this.messageView.getMessageObject().type != 19) {
             canvas.clipRect(f10 + AndroidUtilities.dp(4.0f), f9 + AndroidUtilities.dp(4.0f), i2 - AndroidUtilities.dp(4.0f), f8 - AndroidUtilities.dp(4.0f));
         }
-        float f38 = f6 + (this.scaleFrom * f28);
-        float f39 = this.drawBitmaps ? (this.scaleY * f28) + f6 : 1.0f;
+        float f39 = f6 + (this.scaleFrom * f28);
+        float f40 = this.drawBitmaps ? (this.scaleY * f28) + f6 : 1.0f;
         canvas.save();
-        float f40 = f5 * f28;
-        float f41 = y2 * f29;
-        canvas.translate(f40 + ((f26 - this.toXOffset) * f6), ((f27 + this.textLayoutBlock.textYOffset(this.messageView.getMessageObject().textLayoutBlocks, this.messageView.transitionParams)) * f12) + f41);
-        float f42 = f38 * f39;
-        canvas.scale(f38, f42, 0.0f, 0.0f);
+        float f41 = f5 * f28;
+        float f42 = y2 * f29;
+        canvas.translate(f41 + ((f26 - this.toXOffset) * f6), ((f27 + this.textLayoutBlock.textYOffset(this.messageView.getMessageObject().textLayoutBlocks, this.messageView.transitionParams)) * f12) + f42);
+        float f43 = f39 * f40;
+        canvas.scale(f39, f43, 0.0f, 0.0f);
         if (this.drawBitmaps) {
             if (this.crossfade) {
                 this.bitmapPaint.setAlpha((int) ((1.0f - f7) * 255.0f));
             }
             canvas.drawBitmap(this.textLayoutBitmap, 0.0f, 0.0f, this.bitmapPaint);
-            f13 = f42;
+            f13 = f43;
             f14 = f11;
-            f15 = f38;
+            f15 = f39;
         } else {
             boolean z3 = this.crossfade;
             if (z3 && this.changeColor) {
                 int color3 = this.layout.getPaint().getColor();
                 this.layout.getPaint().setColor(ColorUtils.blendARGB(this.fromColor, this.toColor, f7));
-                float f43 = 1.0f - f7;
-                canvas.saveLayerAlpha(0.0f, 0.0f, this.layout.getWidth(), this.layout.getHeight(), (int) (f43 * 255.0f), 31);
+                float f44 = 1.0f - f7;
+                canvas.saveLayerAlpha(0.0f, 0.0f, this.layout.getWidth(), this.layout.getHeight(), (int) (f44 * 255.0f), 31);
                 this.layout.draw(canvas);
-                f13 = f42;
+                f13 = f43;
                 f14 = f11;
-                f15 = f38;
-                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, f43);
+                f15 = f39;
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, f44);
                 this.layout.getPaint().setColor(color3);
             } else {
-                f13 = f42;
+                f13 = f43;
                 f14 = f11;
-                f15 = f38;
+                f15 = f39;
                 if (z3) {
-                    float f44 = 1.0f - f7;
-                    canvas.saveLayerAlpha(0.0f, 0.0f, this.layout.getWidth(), this.layout.getHeight(), (int) (f44 * 255.0f), 31);
+                    float f45 = 1.0f - f7;
+                    canvas.saveLayerAlpha(0.0f, 0.0f, this.layout.getWidth(), this.layout.getHeight(), (int) (f45 * 255.0f), 31);
                     this.layout.draw(canvas);
-                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, f44);
+                    AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, f45);
                 } else {
                     this.layout.draw(canvas);
                     AnimatedEmojiSpan.drawAnimatedEmojis(canvas, this.layout, this.animatedEmojiStack, 0.0f, null, 0.0f, 0.0f, 0.0f, 1.0f);
@@ -1048,7 +1058,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         canvas.restore();
         if (this.rtlLayout != null) {
             canvas.save();
-            canvas.translate(f40 + ((f26 - this.toXOffsetRtl) * f6), f41 + ((f27 + this.textLayoutBlock.textYOffset(this.messageView.getMessageObject().textLayoutBlocks, this.messageView.transitionParams)) * f12));
+            canvas.translate(f41 + ((f26 - this.toXOffsetRtl) * f6), f42 + ((f27 + this.textLayoutBlock.textYOffset(this.messageView.getMessageObject().textLayoutBlocks, this.messageView.transitionParams)) * f12));
             f16 = f13;
             canvas.scale(f15, f16, 0.0f, 0.0f);
             if (this.drawBitmaps) {
@@ -1098,22 +1108,22 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
         }
         canvas.restore();
         if (z2) {
-            float f45 = i;
-            this.gradientMatrix.setTranslate(0.0f, f45);
+            float f46 = i;
+            this.gradientMatrix.setTranslate(0.0f, f46);
             this.gradientShader.setLocalMatrix(this.gradientMatrix);
-            canvas.drawRect(0.0f, f45, this.container.getMeasuredWidth(), this.container.getMeasuredHeight(), this.gradientPaint);
+            canvas.drawRect(0.0f, f46, this.container.getMeasuredWidth(), this.container.getMeasuredHeight(), this.gradientPaint);
             canvas.restore();
         }
-        float f46 = this.progress;
-        float f47 = f46 > 0.4f ? 1.0f : f46 / 0.4f;
-        if (f47 == 1.0f) {
+        float f47 = this.progress;
+        float f48 = f47 > 0.4f ? 1.0f : f47 / 0.4f;
+        if (f48 == 1.0f) {
             this.enterView.setTextTransitionIsRunning(false);
         }
-        if (this.enterView.getSendButton().getVisibility() != 0 || f47 >= 1.0f) {
+        if (this.enterView.getSendButton().getVisibility() != 0 || f48 >= 1.0f) {
             return;
         }
         canvas.save();
-        canvas.translate(((((this.enterView.getX() + this.enterView.getSendButton().getX()) + ((View) this.enterView.getSendButton().getParent()).getX()) + ((View) this.enterView.getSendButton().getParent().getParent()).getX()) - this.container.getX()) + (AndroidUtilities.dp(52.0f) * f47), (((this.enterView.getY() + this.enterView.getSendButton().getY()) + ((View) this.enterView.getSendButton().getParent()).getY()) + ((View) this.enterView.getSendButton().getParent().getParent()).getY()) - this.container.getY());
+        canvas.translate(((((this.enterView.getX() + this.enterView.getSendButton().getX()) + ((View) this.enterView.getSendButton().getParent()).getX()) + ((View) this.enterView.getSendButton().getParent().getParent()).getX()) - this.container.getX()) + (AndroidUtilities.dp(52.0f) * f48), (((this.enterView.getY() + this.enterView.getSendButton().getY()) + ((View) this.enterView.getSendButton().getParent()).getY()) + ((View) this.enterView.getSendButton().getParent().getParent()).getY()) - this.container.getY());
         this.enterView.getSendButton().draw(canvas);
         canvas.restore();
         canvas.restore();

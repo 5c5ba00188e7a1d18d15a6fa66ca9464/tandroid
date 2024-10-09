@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 abstract class d {
     protected final int a;
@@ -15,9 +16,9 @@ abstract class d {
     public d(int i) {
         if (i >= 0) {
             this.a = Math.max(4, 32 - Integer.numberOfLeadingZeros(i - 1));
-            return;
+        } else {
+            throw new IllegalArgumentException("Illegal Capacity: " + i);
         }
-        throw new IllegalArgumentException("Illegal Capacity: " + i);
     }
 
     public abstract void clear();

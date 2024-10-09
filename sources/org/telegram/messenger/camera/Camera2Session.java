@@ -32,6 +32,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.camera.Camera2Session;
+
 /* loaded from: classes3.dex */
 public class Camera2Session {
     private CameraCharacteristics cameraCharacteristics;
@@ -178,10 +179,11 @@ public class Camera2Session {
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:20:0x003d, code lost:
-            if (r2 == null) goto L9;
+        /* JADX WARN: Code restructure failed: missing block: B:19:0x003d, code lost:
+        
+            if (r2 == null) goto L23;
          */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x0055 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x0055 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         @Override // android.media.ImageReader.OnImageAvailableListener
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -483,8 +485,8 @@ public class Camera2Session {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x003c A[Catch: Exception -> 0x0046, TryCatch #0 {Exception -> 0x0046, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:24:0x004f, B:23:0x0048), top: B:28:0x0001 }] */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0048 A[Catch: Exception -> 0x0046, TryCatch #0 {Exception -> 0x0046, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:24:0x004f, B:23:0x0048), top: B:28:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x003c A[Catch: Exception -> 0x0046, TryCatch #0 {Exception -> 0x0046, blocks: (B:3:0x0001, B:7:0x0006, B:16:0x002c, B:18:0x003c, B:19:0x004f, B:22:0x0048), top: B:2:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0048 A[Catch: Exception -> 0x0046, TryCatch #0 {Exception -> 0x0046, blocks: (B:3:0x0001, B:7:0x0006, B:16:0x002c, B:18:0x003c, B:19:0x004f, B:22:0x0048), top: B:2:0x0001 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -582,9 +584,9 @@ public class Camera2Session {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0057 A[Catch: Exception -> 0x0036, TryCatch #0 {Exception -> 0x0036, blocks: (B:9:0x000e, B:16:0x001e, B:18:0x0028, B:19:0x0032, B:29:0x004d, B:31:0x0057, B:35:0x005e, B:37:0x0069, B:38:0x0090, B:40:0x0094, B:42:0x00a4, B:43:0x00e4, B:22:0x0039, B:24:0x003d, B:28:0x0048, B:12:0x0017), top: B:47:0x000e }] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x005d  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0069 A[Catch: Exception -> 0x0036, TryCatch #0 {Exception -> 0x0036, blocks: (B:9:0x000e, B:16:0x001e, B:18:0x0028, B:19:0x0032, B:29:0x004d, B:31:0x0057, B:35:0x005e, B:37:0x0069, B:38:0x0090, B:40:0x0094, B:42:0x00a4, B:43:0x00e4, B:22:0x0039, B:24:0x003d, B:28:0x0048, B:12:0x0017), top: B:47:0x000e }] */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0057 A[Catch: Exception -> 0x0036, TryCatch #0 {Exception -> 0x0036, blocks: (B:8:0x000e, B:11:0x001e, B:13:0x0028, B:14:0x0032, B:15:0x004d, B:17:0x0057, B:20:0x005e, B:22:0x0069, B:23:0x0090, B:25:0x0094, B:27:0x00a4, B:28:0x00e4, B:33:0x0039, B:35:0x003d, B:38:0x0048, B:40:0x0017), top: B:7:0x000e }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0069 A[Catch: Exception -> 0x0036, TryCatch #0 {Exception -> 0x0036, blocks: (B:8:0x000e, B:11:0x001e, B:13:0x0028, B:14:0x0032, B:15:0x004d, B:17:0x0057, B:20:0x005e, B:22:0x0069, B:23:0x0090, B:25:0x0094, B:27:0x00a4, B:28:0x00e4, B:33:0x0039, B:35:0x003d, B:38:0x0048, B:40:0x0017), top: B:7:0x000e }] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x005d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -715,8 +717,8 @@ public class Camera2Session {
         return getJpegOrientation();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x003c A[Catch: Exception -> 0x0046, TryCatch #0 {Exception -> 0x0046, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:24:0x004f, B:23:0x0048), top: B:28:0x0001 }] */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0048 A[Catch: Exception -> 0x0046, TryCatch #0 {Exception -> 0x0046, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:24:0x004f, B:23:0x0048), top: B:28:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x003c A[Catch: Exception -> 0x0046, TryCatch #0 {Exception -> 0x0046, blocks: (B:3:0x0001, B:7:0x0006, B:16:0x002c, B:18:0x003c, B:19:0x004f, B:22:0x0048), top: B:2:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0048 A[Catch: Exception -> 0x0046, TryCatch #0 {Exception -> 0x0046, blocks: (B:3:0x0001, B:7:0x0006, B:16:0x002c, B:18:0x003c, B:19:0x004f, B:22:0x0048), top: B:2:0x0001 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

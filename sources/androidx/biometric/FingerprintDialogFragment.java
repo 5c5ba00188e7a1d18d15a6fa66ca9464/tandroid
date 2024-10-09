@@ -1,5 +1,6 @@
 package androidx.biometric;
 
+import android.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
 /* loaded from: classes.dex */
 public class FingerprintDialogFragment extends DialogFragment {
     private int mErrorTextColor;
@@ -97,7 +99,8 @@ public class FingerprintDialogFragment extends DialogFragment {
             if (i == 1 && i2 == 2) {
                 i3 = R$drawable.fingerprint_dialog_error;
                 return ContextCompat.getDrawable(context, i3);
-            } else if ((i != 2 || i2 != 1) && (i != 1 || i2 != 3)) {
+            }
+            if ((i != 2 || i2 != 1) && (i != 1 || i2 != 3)) {
                 return null;
             }
         }
@@ -153,7 +156,7 @@ public class FingerprintDialogFragment extends DialogFragment {
             color = context != null ? ContextCompat.getColor(context, R$color.biometric_error_color) : 0;
         }
         this.mErrorTextColor = color;
-        this.mNormalTextColor = getThemedColorFor(16842808);
+        this.mNormalTextColor = getThemedColorFor(R.attr.textColorSecondary);
     }
 
     @Override // androidx.fragment.app.DialogFragment
@@ -213,10 +216,10 @@ public class FingerprintDialogFragment extends DialogFragment {
         Context context = getContext();
         if (context == null) {
             Log.w("FingerprintFragment", "Not resetting the dialog. Context is null.");
-            return;
+        } else {
+            this.mViewModel.setFingerprintDialogState(1);
+            this.mViewModel.setFingerprintDialogHelpMessage(context.getString(R$string.fingerprint_dialog_touch_sensor));
         }
-        this.mViewModel.setFingerprintDialogState(1);
-        this.mViewModel.setFingerprintDialogHelpMessage(context.getString(R$string.fingerprint_dialog_touch_sensor));
     }
 
     void updateFingerprintIcon(int i) {

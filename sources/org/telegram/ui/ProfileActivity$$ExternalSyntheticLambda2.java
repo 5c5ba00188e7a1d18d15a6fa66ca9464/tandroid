@@ -1,4 +1,5 @@
 package org.telegram.ui;
+
 /* loaded from: classes4.dex */
 public final /* synthetic */ class ProfileActivity$$ExternalSyntheticLambda2 implements Runnable {
     public final /* synthetic */ ProfileActivity f$0;

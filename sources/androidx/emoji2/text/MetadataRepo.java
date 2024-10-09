@@ -6,6 +6,7 @@ import androidx.core.os.TraceCompat;
 import androidx.core.util.Preconditions;
 import androidx.emoji2.text.flatbuffer.MetadataList;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public final class MetadataRepo {
     private final char[] mEmojiCharArray;

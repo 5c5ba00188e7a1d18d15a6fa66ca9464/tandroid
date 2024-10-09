@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 public final class zzfj extends zzcb implements zzdg {
     private static final zzfj zzb;
@@ -40,21 +41,21 @@ public final class zzfj extends zzcb implements zzdg {
     @Override // com.google.android.gms.internal.play_billing.zzcb
     public final Object zzu(int i, Object obj, Object obj2) {
         int i2 = i - 1;
-        if (i2 != 0) {
-            if (i2 != 2) {
-                if (i2 != 3) {
-                    if (i2 != 4) {
-                        if (i2 != 5) {
-                            return null;
-                        }
-                        return zzb;
-                    }
-                    return new zzfh(null);
-                }
-                return new zzfj();
-            }
+        if (i2 == 0) {
+            return (byte) 1;
+        }
+        if (i2 == 2) {
             return zzcb.zzm(zzb, "\u0001\u0004\u0000\u0001\u0001\u0005\u0004\u0000\u0000\u0000\u0001င\u0000\u0002ဈ\u0001\u0004᠌\u0002\u0005ဈ\u0003", new Object[]{"zzd", "zze", "zzf", "zzg", zzfi.zza, "zzh"});
         }
-        return (byte) 1;
+        if (i2 == 3) {
+            return new zzfj();
+        }
+        if (i2 == 4) {
+            return new zzfh(null);
+        }
+        if (i2 != 5) {
+            return null;
+        }
+        return zzb;
     }
 }

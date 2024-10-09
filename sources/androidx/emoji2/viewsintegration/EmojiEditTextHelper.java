@@ -7,6 +7,7 @@ import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
 import androidx.core.util.Preconditions;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public final class EmojiEditTextHelper {
     private final HelperInternal mHelper;

@@ -21,6 +21,7 @@ import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class CheckBoxBase {
     private static Paint eraser;
@@ -143,32 +144,36 @@ public class CheckBoxBase {
         return paint;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00b8, code lost:
-        if (r12 >= 0) goto L192;
+    /* JADX WARN: Code restructure failed: missing block: B:190:0x00b8, code lost:
+    
+        if (r12 >= 0) goto L56;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00f7, code lost:
-        if (r12 >= 0) goto L192;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00fa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:191:0x00fa, code lost:
+    
         r12 = r26.checkColorKey;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x00fc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:192:0x00fc, code lost:
+    
         r10 = org.telegram.messenger.AndroidUtilities.getOffsetColor(16777215, getThemedColor(r12), r3, r26.backgroundAlpha);
      */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0295  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x003a  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x003d  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x02ea  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x02f8  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x035c  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x03d3  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0046  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x03db  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x0445  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0049  */
-    /* JADX WARN: Removed duplicated region for block: B:214:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0068  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00bb  */
+    /* JADX WARN: Code restructure failed: missing block: B:202:0x00f7, code lost:
+    
+        if (r12 >= 0) goto L56;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x0445  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0046  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x03d3  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x02f8  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0068  */
+    /* JADX WARN: Removed duplicated region for block: B:166:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x00bb  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x003d  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0295  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x035c  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x03db  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x003a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -453,35 +458,38 @@ public class CheckBoxBase {
                         int i23 = this.backgroundType;
                         if (i23 == -1) {
                             f8 = 1.4f;
-                        } else if (i23 != 5) {
-                            f7 = 9.0f;
-                            f8 = 1.0f;
-                            float dp4 = AndroidUtilities.dp(f7 * f8) * f15;
-                            float dp5 = AndroidUtilities.dp(f8 * 4.0f) * f15;
-                            int dp6 = centerY + AndroidUtilities.dp(4.0f);
-                            float sqrt = (float) Math.sqrt((dp5 * dp5) / 2.0f);
-                            float dp7 = i22 - AndroidUtilities.dp(1.5f);
-                            float f17 = dp6;
-                            this.path.moveTo(dp7 - sqrt, f17 - sqrt);
-                            this.path.lineTo(dp7, f17);
-                            float sqrt2 = (float) Math.sqrt((dp4 * dp4) / 2.0f);
-                            this.path.lineTo(dp7 + sqrt2, f17 - sqrt2);
-                            canvas.drawPath(this.path, this.checkPaint);
-                            return;
                         } else {
+                            if (i23 != 5) {
+                                f7 = 9.0f;
+                                f8 = 1.0f;
+                                float dp4 = AndroidUtilities.dp(f7 * f8) * f15;
+                                float dp5 = AndroidUtilities.dp(f8 * 4.0f) * f15;
+                                int dp6 = i22 - AndroidUtilities.dp(1.5f);
+                                int dp7 = centerY + AndroidUtilities.dp(4.0f);
+                                float sqrt = (float) Math.sqrt((dp5 * dp5) / 2.0f);
+                                float f17 = dp6;
+                                float f18 = dp7;
+                                this.path.moveTo(f17 - sqrt, f18 - sqrt);
+                                this.path.lineTo(f17, f18);
+                                float sqrt2 = (float) Math.sqrt((dp4 * dp4) / 2.0f);
+                                this.path.lineTo(f17 + sqrt2, f18 - sqrt2);
+                                canvas.drawPath(this.path, this.checkPaint);
+                                return;
+                            }
                             f8 = 0.8f;
                         }
                         f7 = 9.0f;
                         float dp42 = AndroidUtilities.dp(f7 * f8) * f15;
                         float dp52 = AndroidUtilities.dp(f8 * 4.0f) * f15;
-                        int dp62 = centerY + AndroidUtilities.dp(4.0f);
+                        int dp62 = i22 - AndroidUtilities.dp(1.5f);
+                        int dp72 = centerY + AndroidUtilities.dp(4.0f);
                         float sqrt3 = (float) Math.sqrt((dp52 * dp52) / 2.0f);
-                        float dp72 = i22 - AndroidUtilities.dp(1.5f);
                         float f172 = dp62;
-                        this.path.moveTo(dp72 - sqrt3, f172 - sqrt3);
-                        this.path.lineTo(dp72, f172);
+                        float f182 = dp72;
+                        this.path.moveTo(f172 - sqrt3, f182 - sqrt3);
+                        this.path.lineTo(f172, f182);
                         float sqrt22 = (float) Math.sqrt((dp42 * dp42) / 2.0f);
-                        this.path.lineTo(dp72 + sqrt22, f172 - sqrt22);
+                        this.path.lineTo(f172 + sqrt22, f182 - sqrt22);
                         canvas.drawPath(this.path, this.checkPaint);
                         return;
                     }
@@ -577,8 +585,9 @@ public class CheckBoxBase {
                 this.backgroundPaint.setStrokeWidth(AndroidUtilities.dp(1.9f));
                 if (i != 5) {
                     return;
+                } else {
+                    paint2 = this.checkPaint;
                 }
-                paint2 = this.checkPaint;
             } else if (i == 3) {
                 paint2 = this.backgroundPaint;
                 f = 3.0f;
@@ -615,10 +624,10 @@ public class CheckBoxBase {
         this.isChecked = z;
         if (this.attachedToWindow && z2) {
             animateToCheckedState(z);
-            return;
+        } else {
+            cancelCheckAnimator();
+            setProgress(z ? 1.0f : 0.0f);
         }
-        cancelCheckAnimator();
-        setProgress(z ? 1.0f : 0.0f);
     }
 
     public void setChecked(boolean z, boolean z2) {
@@ -655,10 +664,13 @@ public class CheckBoxBase {
     public void setNum(int i) {
         String str;
         if (i < 0) {
-            str = this.checkAnimator == null ? null : null;
+            if (this.checkAnimator == null) {
+                str = null;
+            }
             invalidate();
+        } else {
+            str = "" + (i + 1);
         }
-        str = "" + (i + 1);
         this.checkedText = str;
         invalidate();
     }

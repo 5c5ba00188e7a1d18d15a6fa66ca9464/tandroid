@@ -15,6 +15,7 @@ import androidx.core.view.TintableBackgroundView;
 import androidx.core.widget.TextViewCompat;
 import androidx.core.widget.TintableCheckedTextView;
 import androidx.core.widget.TintableCompoundDrawablesView;
+
 /* loaded from: classes.dex */
 public class AppCompatCheckedTextView extends CheckedTextView implements TintableCheckedTextView, TintableBackgroundView, TintableCompoundDrawablesView {
     private AppCompatEmojiTextHelper mAppCompatEmojiTextHelper;

@@ -4,6 +4,7 @@ import j$.util.stream.IntStream;
 import j$.util.stream.Stream;
 import java.util.Iterator;
 import java.util.stream.DoubleStream;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class f implements BaseStream {
     public final /* synthetic */ java.util.stream.BaseStream a;

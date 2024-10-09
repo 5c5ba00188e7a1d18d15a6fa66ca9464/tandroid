@@ -8,6 +8,7 @@ import com.microsoft.appcenter.ingestion.models.one.CommonSchemaDataUtils;
 import com.microsoft.appcenter.ingestion.models.one.PartAUtils;
 import java.util.Collection;
 import java.util.LinkedList;
+
 /* loaded from: classes.dex */
 public class EventLogFactory extends AbstractLogFactory {
     @Override // com.microsoft.appcenter.ingestion.models.json.LogFactory

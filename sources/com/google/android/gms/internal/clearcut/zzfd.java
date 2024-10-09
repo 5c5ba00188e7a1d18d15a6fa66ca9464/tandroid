@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import libcore.io.Memory;
 import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzfd {
@@ -275,8 +276,8 @@ public abstract class zzfd {
         public abstract byte zzx(Object obj, long j);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00ea  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00ec  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00ec  */
     static {
         zzd zzcVar;
         Field zzb2;
@@ -547,14 +548,14 @@ public abstract class zzfd {
 
     private static Field zzei() {
         Field zzb2;
-        if (!zzaw.zzx() || (zzb2 = zzb(Buffer.class, "effectiveDirectAddress")) == null) {
-            Field zzb3 = zzb(Buffer.class, "address");
-            if (zzb3 == null || zzb3.getType() != Long.TYPE) {
-                return null;
-            }
-            return zzb3;
+        if (zzaw.zzx() && (zzb2 = zzb(Buffer.class, "effectiveDirectAddress")) != null) {
+            return zzb2;
         }
-        return zzb2;
+        Field zzb3 = zzb(Buffer.class, "address");
+        if (zzb3 == null || zzb3.getType() != Long.TYPE) {
+            return null;
+        }
+        return zzb3;
     }
 
     private static int zzg(Class cls) {
@@ -573,25 +574,25 @@ public abstract class zzfd {
 
     /* JADX WARN: Multi-variable type inference failed */
     private static boolean zzi(Class cls) {
-        if (zzaw.zzx()) {
-            try {
-                Class cls2 = zzfb;
-                Class cls3 = Boolean.TYPE;
-                cls2.getMethod("peekLong", cls, cls3);
-                cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
-                Class cls4 = Integer.TYPE;
-                cls2.getMethod("pokeInt", cls, cls4, cls3);
-                cls2.getMethod("peekInt", cls, cls3);
-                cls2.getMethod("pokeByte", cls, Byte.TYPE);
-                cls2.getMethod("peekByte", cls);
-                cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
-                cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
-                return true;
-            } catch (Throwable unused) {
-                return false;
-            }
+        if (!zzaw.zzx()) {
+            return false;
         }
-        return false;
+        try {
+            Class cls2 = zzfb;
+            Class cls3 = Boolean.TYPE;
+            cls2.getMethod("peekLong", cls, cls3);
+            cls2.getMethod("pokeLong", cls, Long.TYPE, cls3);
+            Class cls4 = Integer.TYPE;
+            cls2.getMethod("pokeInt", cls, cls4, cls3);
+            cls2.getMethod("peekInt", cls, cls3);
+            cls2.getMethod("pokeByte", cls, Byte.TYPE);
+            cls2.getMethod("peekByte", cls);
+            cls2.getMethod("pokeByteArray", cls, byte[].class, cls4, cls4);
+            cls2.getMethod("peekByteArray", cls, byte[].class, cls4, cls4);
+            return true;
+        } catch (Throwable unused) {
+            return false;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

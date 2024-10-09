@@ -34,7 +34,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -116,6 +115,7 @@ import org.telegram.ui.Components.ThanosEffect;
 import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.recorder.EmojiBottomSheet;
+
 /* loaded from: classes3.dex */
 public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPaintView, PaintToolsView.Delegate, EntityView.EntityViewDelegate, PaintTextOptionsView.Delegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, NotificationCenter.NotificationCenterDelegate {
     private float baseScale;
@@ -376,7 +376,8 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-        public /* synthetic */ void onGifSelected(View view, Object obj, String str, Object obj2, boolean z, int i) {
+        /* renamed from: onGifSelected */
+        public /* synthetic */ void lambda$onGifSelected$1(View view, Object obj, String str, Object obj2, boolean z, int i) {
             EmojiView.EmojiViewDelegate.-CC.$default$onGifSelected(this, view, obj, str, obj2, z, i);
         }
 
@@ -587,12 +588,13 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public LPhotoPaintView(final Context context, Activity activity, final int i, Bitmap bitmap, final Bitmap bitmap2, int i2, ArrayList arrayList, MediaController.CropState cropState, final Runnable runnable, final Theme.ResourcesProvider resourcesProvider) {
         super(context, activity, true);
         int i3;
         Emoji.EmojiSpan[] emojiSpanArr;
-        TextPaintView textPaintView;
-        StickerView stickerView;
+        PhotoView photoView;
+        PhotoView photoView2;
         this.tabsSelectedIndex = 0;
         this.tabsNewSelectedIndex = -1;
         this.weightDefaultValueOverride = new PaintWeightChooserView.ValueOverride() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView.1
@@ -769,10 +771,10 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
             public void resetBrush() {
                 if (LPhotoPaintView.this.ignoreToolChangeAnimationOnce) {
                     LPhotoPaintView.this.ignoreToolChangeAnimationOnce = false;
-                    return;
+                } else {
+                    LPhotoPaintView.this.paintToolsView.select(1);
+                    LPhotoPaintView.this.onBrushSelected((Brush) Brush.BRUSHES_LIST.get(0));
                 }
-                LPhotoPaintView.this.paintToolsView.select(1);
-                LPhotoPaintView.this.onBrushSelected((Brush) Brush.BRUSHES_LIST.get(0));
             }
 
             @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
@@ -823,11 +825,11 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                 this.linePaint.setColor(-1);
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:21:0x0079  */
-            /* JADX WARN: Removed duplicated region for block: B:26:0x008e  */
-            /* JADX WARN: Removed duplicated region for block: B:31:0x00a6  */
-            /* JADX WARN: Removed duplicated region for block: B:34:0x00c8  */
-            /* JADX WARN: Removed duplicated region for block: B:36:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:15:0x0079  */
+            /* JADX WARN: Removed duplicated region for block: B:21:0x00a6  */
+            /* JADX WARN: Removed duplicated region for block: B:24:0x00c8  */
+            /* JADX WARN: Removed duplicated region for block: B:27:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:29:0x008e  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -927,7 +929,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                         createSticker.mirror();
                     }
                     i3 = size;
-                    stickerView = createSticker;
+                    photoView2 = createSticker;
                 } else if (b == 1) {
                     TextPaintView createText = createText(false);
                     createText.setType(mediaEntity.subType);
@@ -954,14 +956,14 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                     Swatch swatch = createText.getSwatch();
                     swatch.color = mediaEntity.color;
                     createText.setSwatch(swatch);
-                    textPaintView = createText;
-                    textPaintView.setX((mediaEntity.x * this.paintingSize.width) - ((mediaEntity.viewWidth * (1.0f - mediaEntity.scale)) / 2.0f));
-                    textPaintView.setY((mediaEntity.y * this.paintingSize.height) - ((mediaEntity.viewHeight * (1.0f - mediaEntity.scale)) / 2.0f));
-                    textPaintView.setPosition(new Point(textPaintView.getX() + (mediaEntity.viewWidth / 2.0f), textPaintView.getY() + (mediaEntity.viewHeight / 2.0f)));
-                    textPaintView.setScale(mediaEntity.scale);
+                    photoView = createText;
+                    photoView.setX((mediaEntity.x * this.paintingSize.width) - ((mediaEntity.viewWidth * (1.0f - mediaEntity.scale)) / 2.0f));
+                    photoView.setY((mediaEntity.y * this.paintingSize.height) - ((mediaEntity.viewHeight * (1.0f - mediaEntity.scale)) / 2.0f));
+                    photoView.setPosition(new Point(photoView.getX() + (mediaEntity.viewWidth / 2.0f), photoView.getY() + (mediaEntity.viewHeight / 2.0f)));
+                    photoView.setScale(mediaEntity.scale);
                     double d = -mediaEntity.rotation;
                     Double.isNaN(d);
-                    textPaintView.setRotation((float) ((d / 3.141592653589793d) * 180.0d));
+                    photoView.setRotation((float) ((d / 3.141592653589793d) * 180.0d));
                     i4++;
                     size = i3;
                 } else {
@@ -972,27 +974,27 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                         if ((mediaEntity.subType & 2) != 0) {
                             createPhoto.mirror();
                         }
-                        stickerView = createPhoto;
+                        photoView2 = createPhoto;
                         if ((mediaEntity.subType & 16) != 0) {
                             createPhoto.toggleSegmented(false);
-                            stickerView = createPhoto;
+                            photoView2 = createPhoto;
                         }
                     } else {
                         i4++;
                         size = i3;
                     }
                 }
-                ViewGroup.LayoutParams layoutParams = stickerView.getLayoutParams();
+                ViewGroup.LayoutParams layoutParams = photoView2.getLayoutParams();
                 layoutParams.width = mediaEntity.viewWidth;
                 layoutParams.height = mediaEntity.viewHeight;
-                textPaintView = stickerView;
-                textPaintView.setX((mediaEntity.x * this.paintingSize.width) - ((mediaEntity.viewWidth * (1.0f - mediaEntity.scale)) / 2.0f));
-                textPaintView.setY((mediaEntity.y * this.paintingSize.height) - ((mediaEntity.viewHeight * (1.0f - mediaEntity.scale)) / 2.0f));
-                textPaintView.setPosition(new Point(textPaintView.getX() + (mediaEntity.viewWidth / 2.0f), textPaintView.getY() + (mediaEntity.viewHeight / 2.0f)));
-                textPaintView.setScale(mediaEntity.scale);
+                photoView = photoView2;
+                photoView.setX((mediaEntity.x * this.paintingSize.width) - ((mediaEntity.viewWidth * (1.0f - mediaEntity.scale)) / 2.0f));
+                photoView.setY((mediaEntity.y * this.paintingSize.height) - ((mediaEntity.viewHeight * (1.0f - mediaEntity.scale)) / 2.0f));
+                photoView.setPosition(new Point(photoView.getX() + (mediaEntity.viewWidth / 2.0f), photoView.getY() + (mediaEntity.viewHeight / 2.0f)));
+                photoView.setScale(mediaEntity.scale);
                 double d2 = -mediaEntity.rotation;
                 Double.isNaN(d2);
-                textPaintView.setRotation((float) ((d2 / 3.141592653589793d) * 180.0d));
+                photoView.setRotation((float) ((d2 / 3.141592653589793d) * 180.0d));
                 i4++;
                 size = i3;
             }
@@ -1243,11 +1245,11 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
 
             @Override // android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
-                if (motionEvent.getActionMasked() == 0 && LPhotoPaintView.this.isTypefaceMenuShown) {
-                    LPhotoPaintView.this.showTypefaceMenu(false);
-                    return true;
+                if (motionEvent.getActionMasked() != 0 || !LPhotoPaintView.this.isTypefaceMenuShown) {
+                    return super.onTouchEvent(motionEvent);
                 }
-                return super.onTouchEvent(motionEvent);
+                LPhotoPaintView.this.showTypefaceMenu(false);
+                return true;
             }
         };
         this.overlayLayout = frameLayout5;
@@ -1433,24 +1435,26 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         double sin = Math.sin(d3);
         double d4 = widthForAnchor;
         Double.isNaN(d4);
+        float f3 = (float) (sin * d4 * tL_maskCoords.x);
         double cos = Math.cos(d3);
         Double.isNaN(d4);
+        float f4 = (float) (cos * d4 * tL_maskCoords.x);
         Double.isNaN(radians);
         double d5 = radians + 1.5707963267948966d;
         double cos2 = Math.cos(d5);
         Double.isNaN(d4);
+        float f5 = (float) (cos2 * d4 * tL_maskCoords.y);
         double sin2 = Math.sin(d5);
         Double.isNaN(d4);
-        return new StickerPosition(new Point(pointForAnchor.x + ((float) (sin * d4 * tL_maskCoords.x)) + ((float) (cos2 * d4 * tL_maskCoords.y)), pointForAnchor.y + ((float) (cos * d4 * tL_maskCoords.x)) + ((float) (sin2 * d4 * tL_maskCoords.y))), (float) (d * d2), angle);
+        return new StickerPosition(new Point(pointForAnchor.x + f3 + f5, pointForAnchor.y + f4 + ((float) (sin2 * d4 * tL_maskCoords.y))), (float) (d * d2), angle);
     }
 
     private Point centerPositionForEntity() {
-        MediaController.CropState cropState;
         Size paintingSize = getPaintingSize();
         float f = paintingSize.width / 2.0f;
         float f2 = paintingSize.height / 2.0f;
         if (this.currentCropState != null) {
-            float radians = (float) Math.toRadians(-(cropState.transformRotation + cropState.cropRotate));
+            float radians = (float) Math.toRadians(-(r2.transformRotation + r2.cropRotate));
             double d = this.currentCropState.cropPx;
             double d2 = radians;
             double cos = Math.cos(d2);
@@ -1526,8 +1530,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         MediaController.CropState cropState = this.currentCropState;
         if (cropState != null) {
             textPaintView.scale(1.0f / cropState.cropScale);
-            MediaController.CropState cropState2 = this.currentCropState;
-            textPaintView.rotate(-(cropState2.transformRotation + cropState2.cropRotate));
+            textPaintView.rotate(-(r0.transformRotation + this.currentCropState.cropRotate));
         }
         if (z) {
             registerRemovalUndo(textPaintView);
@@ -1552,29 +1555,29 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
     }
 
     private void duplicateSelectedEntity() {
-        StickerView stickerView;
-        EntityView entityView = this.currentEntityView;
-        if (entityView == null) {
+        EntityView entityView;
+        EntityView entityView2 = this.currentEntityView;
+        if (entityView2 == null) {
             return;
         }
-        Point startPositionRelativeToEntity = startPositionRelativeToEntity(entityView);
-        EntityView entityView2 = this.currentEntityView;
-        if (entityView2 instanceof StickerView) {
-            StickerView stickerView2 = new StickerView(getContext(), (StickerView) this.currentEntityView, startPositionRelativeToEntity);
-            stickerView2.setDelegate(this);
-            this.entitiesView.addView(stickerView2);
-            stickerView = stickerView2;
-        } else if (entityView2 instanceof TextPaintView) {
+        Point startPositionRelativeToEntity = startPositionRelativeToEntity(entityView2);
+        EntityView entityView3 = this.currentEntityView;
+        if (entityView3 instanceof StickerView) {
+            StickerView stickerView = new StickerView(getContext(), (StickerView) this.currentEntityView, startPositionRelativeToEntity);
+            stickerView.setDelegate(this);
+            this.entitiesView.addView(stickerView);
+            entityView = stickerView;
+        } else if (entityView3 instanceof TextPaintView) {
             TextPaintView textPaintView = new TextPaintView(getContext(), (TextPaintView) this.currentEntityView, startPositionRelativeToEntity);
             textPaintView.setDelegate(this);
             textPaintView.setMaxWidth((int) (getPaintingSize().width - 20.0f));
             this.entitiesView.addView(textPaintView, LayoutHelper.createFrame(-2, -2.0f));
-            stickerView = textPaintView;
+            entityView = textPaintView;
         } else {
-            stickerView = null;
+            entityView = null;
         }
-        registerRemovalUndo(stickerView);
-        selectEntity(stickerView);
+        registerRemovalUndo(entityView);
+        selectEntity(entityView);
     }
 
     private void editSelectedTextEntity() {
@@ -1615,27 +1618,30 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         float[] fArr2 = this.position;
         fArr2[1] = fArr2[1] + view.getTop();
         while (true) {
-            ViewParent parent = view.getParent();
+            Object parent = view.getParent();
             if (!(parent instanceof View)) {
                 this.pos2[0] = Math.round(this.position[0]);
                 this.pos2[1] = Math.round(this.position[1]);
-                int[] iArr = this.pos2;
+                float f = this.pos2[0];
                 android.graphics.Point point = AndroidUtilities.displaySize;
+                float f2 = f - (point.x / 2.0f);
+                float f3 = r14[1] - (point.y / 2.0f);
+                float radians = (float) Math.toRadians(-this.entitiesView.getRotation());
+                int[] iArr = this.pos2;
+                double d = f2;
+                double d2 = radians;
+                double cos = Math.cos(d2);
+                Double.isNaN(d);
+                double d3 = f3;
+                double sin = Math.sin(d2);
+                Double.isNaN(d3);
+                iArr[0] = ((int) ((cos * d) - (sin * d3))) + (AndroidUtilities.displaySize.x / 2);
                 int[] iArr2 = this.pos2;
-                double d = iArr[0] - (point.x / 2.0f);
-                double radians = (float) Math.toRadians(-this.entitiesView.getRotation());
-                double cos = Math.cos(radians);
+                double sin2 = Math.sin(d2);
                 Double.isNaN(d);
-                double d2 = iArr[1] - (point.y / 2.0f);
-                double sin = Math.sin(radians);
-                Double.isNaN(d2);
-                iArr2[0] = ((int) ((cos * d) - (sin * d2))) + (AndroidUtilities.displaySize.x / 2);
-                int[] iArr3 = this.pos2;
-                double sin2 = Math.sin(radians);
-                Double.isNaN(d);
-                double cos2 = Math.cos(radians);
-                Double.isNaN(d2);
-                iArr3[1] = ((int) ((d * sin2) + (d2 * cos2))) + (AndroidUtilities.displaySize.y / 2);
+                double cos2 = Math.cos(d2);
+                Double.isNaN(d3);
+                iArr2[1] = ((int) ((d * sin2) + (d3 * cos2))) + (AndroidUtilities.displaySize.y / 2);
                 return this.pos2;
             }
             view = (View) parent;
@@ -1653,13 +1659,13 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
 
     private int getFrameRotation() {
         int i = this.originalBitmapRotation;
-        if (i != 90) {
-            if (i != 180) {
-                return i != 270 ? 0 : 3;
-            }
-            return 2;
+        if (i == 90) {
+            return 1;
         }
-        return 1;
+        if (i != 180) {
+            return i != 270 ? 0 : 3;
+        }
+        return 2;
     }
 
     private Size getPaintingSize() {
@@ -1751,8 +1757,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
     }
 
     private boolean isFaceAnchorOccupied(PhotoFace photoFace, int i, long j, TLRPC.TL_maskCoords tL_maskCoords) {
-        Point pointForAnchor = photoFace.getPointForAnchor(i);
-        if (pointForAnchor == null) {
+        if (photoFace.getPointForAnchor(i) == null) {
             return true;
         }
         float widthForAnchor = photoFace.getWidthForAnchor(0) * 1.1f;
@@ -1764,7 +1769,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                     continue;
                 } else {
                     Point position = stickerView.getPosition();
-                    float hypot = (float) Math.hypot(position.x - pointForAnchor.x, position.y - pointForAnchor.y);
+                    float hypot = (float) Math.hypot(position.x - r14.x, position.y - r14.y);
                     if ((j == stickerView.getSticker().id || this.faces.size() > 1) && hypot < widthForAnchor) {
                         return true;
                     }
@@ -2412,14 +2417,14 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$showPopup$42(View view, MotionEvent motionEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
-        if (motionEvent.getActionMasked() == 0 && (actionBarPopupWindow = this.popupWindow) != null && actionBarPopupWindow.isShowing()) {
-            view.getHitRect(this.popupRect);
-            if (this.popupRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
-                return false;
-            }
-            this.popupWindow.dismiss();
+        if (motionEvent.getActionMasked() != 0 || (actionBarPopupWindow = this.popupWindow) == null || !actionBarPopupWindow.isShowing()) {
             return false;
         }
+        view.getHitRect(this.popupRect);
+        if (this.popupRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
+            return false;
+        }
+        this.popupWindow.dismiss();
         return false;
     }
 
@@ -2551,7 +2556,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: removeEntity */
+    /* renamed from: removeEntity, reason: merged with bridge method [inline-methods] */
     public void lambda$registerRemovalUndo$45(EntityView entityView) {
         EntityView entityView2 = this.currentEntityView;
         if (entityView == entityView2 && entityView2 != null) {
@@ -2611,15 +2616,16 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         EntityView entityView2 = this.currentEntityView;
         if (entityView2 == null) {
             z2 = false;
-        } else if (entityView2 == entityView) {
-            if (!this.editingText) {
-                showMenuForEntity(entityView2);
-            } else if (entityView2 instanceof TextPaintView) {
-                AndroidUtilities.showKeyboard(((TextPaintView) entityView2).getFocusedView());
-                hideEmojiPopup(false);
-            }
-            return true;
         } else {
+            if (entityView2 == entityView) {
+                if (!this.editingText) {
+                    showMenuForEntity(entityView2);
+                } else if (entityView2 instanceof TextPaintView) {
+                    AndroidUtilities.showKeyboard(((TextPaintView) entityView2).getFocusedView());
+                    hideEmojiPopup(false);
+                }
+                return true;
+            }
             entityView2.deselect();
             EntityView entityView3 = this.currentEntityView;
             if (entityView3 instanceof TextPaintView) {
@@ -3403,7 +3409,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         return AndroidUtilities.dp(48.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:80:0x02e6  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x02e6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3751,20 +3757,20 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
     }
 
     public ThanosEffect getThanosEffect() {
-        if (ThanosEffect.supports()) {
-            if (this.thanosEffect == null) {
-                ThanosEffect thanosEffect = new ThanosEffect(getContext(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda20
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        LPhotoPaintView.this.lambda$getThanosEffect$48();
-                    }
-                });
-                this.thanosEffect = thanosEffect;
-                addView(thanosEffect);
-            }
-            return this.thanosEffect;
+        if (!ThanosEffect.supports()) {
+            return null;
         }
-        return null;
+        if (this.thanosEffect == null) {
+            ThanosEffect thanosEffect = new ThanosEffect(getContext(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda20
+                @Override // java.lang.Runnable
+                public final void run() {
+                    LPhotoPaintView.this.lambda$getThanosEffect$48();
+                }
+            });
+            this.thanosEffect = thanosEffect;
+            addView(thanosEffect);
+        }
+        return this.thanosEffect;
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView.EntityViewDelegate
@@ -3813,26 +3819,34 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
     public void maybeShowDismissalAlert(PhotoViewer photoViewer, Activity activity, final Runnable runnable) {
         if (this.isColorListShown) {
             showColorList(false);
-        } else if (this.emojiViewVisible) {
-            hideEmojiPopup(true);
-        } else if (this.editingText && this.currentEntityView != null) {
-            selectEntity(null);
-        } else if (!hasChanges()) {
-            runnable.run();
-        } else if (activity == null) {
-        } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity, this.resourcesProvider);
-            builder.setMessage(LocaleController.getString(R.string.PhotoEditorDiscardAlert));
-            builder.setTitle(LocaleController.getString(R.string.DiscardChanges));
-            builder.setPositiveButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda19
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    runnable.run();
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-            photoViewer.showAlertDialog(builder);
+            return;
         }
+        if (this.emojiViewVisible) {
+            hideEmojiPopup(true);
+            return;
+        }
+        if (this.editingText && this.currentEntityView != null) {
+            selectEntity(null);
+            return;
+        }
+        if (!hasChanges()) {
+            runnable.run();
+            return;
+        }
+        if (activity == null) {
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, this.resourcesProvider);
+        builder.setMessage(LocaleController.getString(R.string.PhotoEditorDiscardAlert));
+        builder.setTitle(LocaleController.getString(R.string.DiscardChanges));
+        builder.setPositiveButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda19
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                runnable.run();
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        photoViewer.showAlertDialog(builder);
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.PaintToolsView.Delegate
@@ -3865,15 +3879,16 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         if (this.isColorListShown) {
             showColorList(false);
             return true;
-        } else if (this.emojiViewVisible) {
+        }
+        if (this.emojiViewVisible) {
             hideEmojiPopup(true);
             return true;
-        } else if (this.editingText) {
-            selectEntity(null);
-            return true;
-        } else {
+        }
+        if (!this.editingText) {
             return false;
         }
+        selectEntity(null);
+        return true;
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.PaintToolsView.Delegate
@@ -4011,14 +4026,15 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         if (Build.VERSION.SDK_INT >= 21 && !this.inBubbleMode) {
             i7 = AndroidUtilities.statusBarHeight;
         }
+        int currentActionBarHeight = ActionBar.getCurrentActionBarHeight() + i7;
         int ceil = (int) Math.ceil((i5 - this.renderView.getMeasuredWidth()) / 2.0f);
-        int currentActionBarHeight = ((((i6 - (ActionBar.getCurrentActionBarHeight() + i7)) - AndroidUtilities.dp(48.0f)) - this.renderView.getMeasuredHeight()) / 2) + AndroidUtilities.dp(8.0f) + i7 + ((getAdditionalTop() - getAdditionalBottom()) / 2);
+        int dp = ((((i6 - currentActionBarHeight) - AndroidUtilities.dp(48.0f)) - this.renderView.getMeasuredHeight()) / 2) + AndroidUtilities.dp(8.0f) + i7 + ((getAdditionalTop() - getAdditionalBottom()) / 2);
         RenderView renderView = this.renderView;
-        renderView.layout(ceil, currentActionBarHeight, renderView.getMeasuredWidth() + ceil, this.renderView.getMeasuredHeight() + currentActionBarHeight);
+        renderView.layout(ceil, dp, renderView.getMeasuredWidth() + ceil, this.renderView.getMeasuredHeight() + dp);
         View view = this.renderInputView;
-        view.layout(ceil, currentActionBarHeight, view.getMeasuredWidth() + ceil, this.renderInputView.getMeasuredHeight() + currentActionBarHeight);
+        view.layout(ceil, dp, view.getMeasuredWidth() + ceil, this.renderInputView.getMeasuredHeight() + dp);
         int measuredWidth = ((this.renderView.getMeasuredWidth() - this.entitiesView.getMeasuredWidth()) / 2) + ceil;
-        int measuredHeight2 = ((this.renderView.getMeasuredHeight() - this.entitiesView.getMeasuredHeight()) / 2) + currentActionBarHeight;
+        int measuredHeight2 = ((this.renderView.getMeasuredHeight() - this.entitiesView.getMeasuredHeight()) / 2) + dp;
         EntitiesContainerView entitiesContainerView = this.entitiesView;
         entitiesContainerView.layout(measuredWidth, measuredHeight2, entitiesContainerView.getMeasuredWidth() + measuredWidth, this.entitiesView.getMeasuredHeight() + measuredHeight2);
         ThanosEffect thanosEffect = this.thanosEffect;
@@ -4026,7 +4042,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
             thanosEffect.layout(measuredWidth, measuredHeight2, this.entitiesView.getMeasuredWidth() + measuredWidth, this.entitiesView.getMeasuredHeight() + measuredHeight2);
         }
         FrameLayout frameLayout = this.selectionContainerView;
-        frameLayout.layout(ceil, currentActionBarHeight, frameLayout.getMeasuredWidth() + ceil, this.selectionContainerView.getMeasuredHeight() + currentActionBarHeight);
+        frameLayout.layout(ceil, dp, frameLayout.getMeasuredWidth() + ceil, this.selectionContainerView.getMeasuredHeight() + dp);
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -4215,8 +4231,9 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
             float f7 = height / 2.0f;
             float sqrt2 = ((float) Math.sqrt((f6 * f6) + (f7 * f7))) * 2.0f;
             f2 = (-(sqrt2 - width)) / 2.0f;
+            float f8 = (-(sqrt2 - height)) / 2.0f;
             height = sqrt2;
-            f = (-(sqrt2 - height)) / 2.0f;
+            f = f8;
             width = height;
             segmentedOutBitmap = createBitmap;
         } else {
@@ -4316,10 +4333,10 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         this.offsetTranslationY = f;
         if (z) {
             setTranslationY(0.0f);
-            return;
+        } else {
+            this.topLayout.setTranslationY(-f);
+            this.bottomLayout.setTranslationY(f);
         }
-        this.topLayout.setTranslationY(-f);
-        this.bottomLayout.setTranslationY(f);
     }
 
     public void setOnDoneButtonClickedListener(Runnable runnable) {
@@ -4332,22 +4349,20 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         float f8;
         float f9;
         float f10;
-        MediaController.CropState cropState;
-        float f11;
         this.scale = f;
         this.imageWidth = f4;
         this.imageHeight = f5;
         this.inputTransformX = f2;
         this.inputTransformY = f3;
         this.transformX = f2;
-        float f12 = f3 + this.panTranslationY;
-        this.transformY = f12;
+        float f11 = f3 + this.panTranslationY;
+        this.transformY = f11;
         int i = 0;
         while (i < 4) {
             View view = i == 0 ? this.entitiesView : i == 1 ? this.selectionContainerView : i == 2 ? this.renderView : this.renderInputView;
-            MediaController.CropState cropState2 = this.currentCropState;
-            if (cropState2 != null) {
-                float f13 = cropState2.cropScale * 1.0f;
+            MediaController.CropState cropState = this.currentCropState;
+            if (cropState != null) {
+                float f12 = cropState.cropScale * 1.0f;
                 int measuredWidth = view.getMeasuredWidth();
                 int measuredHeight = view.getMeasuredHeight();
                 if (measuredWidth == 0 || measuredHeight == 0) {
@@ -4358,14 +4373,15 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                     measuredHeight = measuredWidth;
                     measuredWidth = measuredHeight;
                 }
-                float f14 = measuredHeight;
-                float max = Math.max(f4 / ((int) (cropState.cropPw * f14)), f5 / ((int) (cropState.cropPh * f11)));
-                f7 = f13 * max;
-                MediaController.CropState cropState3 = this.currentCropState;
-                float f15 = cropState3.cropScale;
-                f8 = (cropState3.cropPx * f14 * f * max * f15) + f2;
-                f10 = cropState3.cropRotate + i2;
-                f9 = (cropState3.cropPy * measuredWidth * f * max * f15) + f12;
+                float max = Math.max(f4 / ((int) (r12.cropPw * r11)), f5 / ((int) (r12.cropPh * r10)));
+                f7 = f12 * max;
+                MediaController.CropState cropState2 = this.currentCropState;
+                float f13 = cropState2.cropPx * measuredHeight * f * max;
+                float f14 = cropState2.cropScale;
+                f8 = (f13 * f14) + f2;
+                float f15 = (cropState2.cropPy * measuredWidth * f * max * f14) + f11;
+                f10 = cropState2.cropRotate + i2;
+                f9 = f15;
                 f6 = 1.0f;
             } else {
                 if (i == 0) {
@@ -4376,7 +4392,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                     f7 = 1.0f;
                 }
                 f8 = f2;
-                f9 = f12;
+                f9 = f11;
                 f10 = 0.0f;
             }
             float f16 = f9 + ((-this.emojiPadding) / 2.0f);

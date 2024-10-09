@@ -3,6 +3,7 @@ package androidx.fragment.app;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class FragmentState implements Parcelable {

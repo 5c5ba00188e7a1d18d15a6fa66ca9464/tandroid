@@ -4,6 +4,7 @@ import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 public abstract class RegisterListenerMethod {
     private final ListenerHolder zaa;

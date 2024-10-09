@@ -3,9 +3,11 @@ package androidx.lifecycle;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class ViewModel {
     private final Map mBagOfTags = new HashMap();
@@ -29,8 +31,9 @@ public abstract class ViewModel {
         if (map != null) {
             synchronized (map) {
                 try {
-                    for (Object obj : this.mBagOfTags.values()) {
-                        closeWithRuntimeException(obj);
+                    Iterator it = this.mBagOfTags.values().iterator();
+                    while (it.hasNext()) {
+                        closeWithRuntimeException(it.next());
                     }
                 } finally {
                 }
@@ -40,8 +43,9 @@ public abstract class ViewModel {
         if (set != null) {
             synchronized (set) {
                 try {
-                    for (Closeable closeable : this.mCloseables) {
-                        closeWithRuntimeException(closeable);
+                    Iterator it2 = this.mCloseables.iterator();
+                    while (it2.hasNext()) {
+                        closeWithRuntimeException((Closeable) it2.next());
                     }
                 } finally {
                 }

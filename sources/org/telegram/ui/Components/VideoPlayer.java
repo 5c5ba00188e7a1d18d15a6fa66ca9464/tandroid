@@ -88,6 +88,7 @@ import org.telegram.messenger.secretmedia.ExtendedDefaultDataSourceFactory;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Stories.recorder.StoryEntry;
+
 /* loaded from: classes3.dex */
 public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsListener, NotificationCenter.NotificationCenterDelegate {
     static int playerCounter;
@@ -137,6 +138,171 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     private DispatchQueue workerQueue;
 
     /* loaded from: classes3.dex */
+    public class 1 implements Player.Listener {
+        1() {
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onAudioAttributesChanged(AudioAttributes audioAttributes) {
+            Player.Listener.-CC.$default$onAudioAttributesChanged(this, audioAttributes);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onAvailableCommandsChanged(Player.Commands commands) {
+            Player.Listener.-CC.$default$onAvailableCommandsChanged(this, commands);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onCues(CueGroup cueGroup) {
+            Player.Listener.-CC.$default$onCues(this, cueGroup);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onCues(List list) {
+            Player.Listener.-CC.$default$onCues(this, list);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onDeviceInfoChanged(DeviceInfo deviceInfo) {
+            Player.Listener.-CC.$default$onDeviceInfoChanged(this, deviceInfo);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onDeviceVolumeChanged(int i, boolean z) {
+            Player.Listener.-CC.$default$onDeviceVolumeChanged(this, i, z);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onEvents(Player player, Player.Events events) {
+            Player.Listener.-CC.$default$onEvents(this, player, events);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onIsLoadingChanged(boolean z) {
+            Player.Listener.-CC.$default$onIsLoadingChanged(this, z);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onIsPlayingChanged(boolean z) {
+            Player.Listener.-CC.$default$onIsPlayingChanged(this, z);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onLoadingChanged(boolean z) {
+            Player.Listener.-CC.$default$onLoadingChanged(this, z);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onMediaItemTransition(MediaItem mediaItem, int i) {
+            Player.Listener.-CC.$default$onMediaItemTransition(this, mediaItem, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onMediaMetadataChanged(MediaMetadata mediaMetadata) {
+            Player.Listener.-CC.$default$onMediaMetadataChanged(this, mediaMetadata);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onMetadata(Metadata metadata) {
+            Player.Listener.-CC.$default$onMetadata(this, metadata);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onPlayWhenReadyChanged(boolean z, int i) {
+            Player.Listener.-CC.$default$onPlayWhenReadyChanged(this, z, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+            Player.Listener.-CC.$default$onPlaybackParametersChanged(this, playbackParameters);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onPlaybackStateChanged(int i) {
+            Player.Listener.-CC.$default$onPlaybackStateChanged(this, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onPlaybackSuppressionReasonChanged(int i) {
+            Player.Listener.-CC.$default$onPlaybackSuppressionReasonChanged(this, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onPlayerError(PlaybackException playbackException) {
+            Player.Listener.-CC.$default$onPlayerError(this, playbackException);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onPlayerErrorChanged(PlaybackException playbackException) {
+            Player.Listener.-CC.$default$onPlayerErrorChanged(this, playbackException);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public void onPlayerStateChanged(boolean z, int i) {
+            if (VideoPlayer.this.audioPlayerReady || i != 3) {
+                return;
+            }
+            VideoPlayer.this.audioPlayerReady = true;
+            VideoPlayer.this.checkPlayersReady();
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onPositionDiscontinuity(int i) {
+            Player.Listener.-CC.$default$onPositionDiscontinuity(this, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onPositionDiscontinuity(Player.PositionInfo positionInfo, Player.PositionInfo positionInfo2, int i) {
+            Player.Listener.-CC.$default$onPositionDiscontinuity(this, positionInfo, positionInfo2, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onRenderedFirstFrame() {
+            Player.Listener.-CC.$default$onRenderedFirstFrame(this);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onRepeatModeChanged(int i) {
+            Player.Listener.-CC.$default$onRepeatModeChanged(this, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onSeekProcessed() {
+            Player.Listener.-CC.$default$onSeekProcessed(this);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onSkipSilenceEnabledChanged(boolean z) {
+            Player.Listener.-CC.$default$onSkipSilenceEnabledChanged(this, z);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onSurfaceSizeChanged(int i, int i2) {
+            Player.Listener.-CC.$default$onSurfaceSizeChanged(this, i, i2);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onTimelineChanged(Timeline timeline, int i) {
+            Player.Listener.-CC.$default$onTimelineChanged(this, timeline, i);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onTracksChanged(Tracks tracks) {
+            Player.Listener.-CC.$default$onTracksChanged(this, tracks);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onVideoSizeChanged(VideoSize videoSize) {
+            Player.Listener.-CC.$default$onVideoSizeChanged(this, videoSize);
+        }
+
+        @Override // com.google.android.exoplayer2.Player.Listener
+        public /* synthetic */ void onVolumeChanged(float f) {
+            Player.Listener.-CC.$default$onVolumeChanged(this, f);
+        }
+    }
+
+    /* loaded from: classes3.dex */
     public interface AudioVisualizerDelegate {
         boolean needUpdate();
 
@@ -145,10 +311,8 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
 
     /* loaded from: classes3.dex */
     public class AudioVisualizerRenderersFactory extends DefaultRenderersFactory {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public AudioVisualizerRenderersFactory(Context context) {
             super(context);
-            VideoPlayer.this = r1;
         }
 
         @Override // com.google.android.exoplayer2.DefaultRenderersFactory
@@ -196,8 +360,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                 bArr = new byte[0];
             }
             sb.append(Utilities.bytesToHex(bArr));
-            String sb2 = sb.toString();
-            return Uri.parse("tg://" + MessageObject.getFileName(document) + sb2);
+            return Uri.parse("tg://" + MessageObject.getFileName(document) + sb.toString());
         }
 
         public static QualityUri of(int i, TLRPC.Document document, TLRPC.Document document2, int i2) {
@@ -293,7 +456,6 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         int position = 0;
 
         public VisualizerBufferSink() {
-            VideoPlayer.this = r4;
             ByteBuffer allocateDirect = ByteBuffer.allocateDirect(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM);
             this.byteBuffer = allocateDirect;
             allocateDirect.position(0);
@@ -324,7 +486,9 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                         VideoPlayer.VisualizerBufferSink.this.lambda$handleBuffer$0();
                     }
                 }, 80L);
-            } else if (VideoPlayer.this.audioVisualizerDelegate.needUpdate()) {
+                return;
+            }
+            if (VideoPlayer.this.audioVisualizerDelegate.needUpdate()) {
                 int limit = byteBuffer.limit();
                 int i = 0;
                 if (limit > 8192) {
@@ -459,8 +623,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             SimpleExoPlayer buildSimpleExoPlayer = new ExoPlayer.Builder(ApplicationLoader.applicationContext).setTrackSelector(this.trackSelector).setLoadControl(defaultLoadControl).buildSimpleExoPlayer();
             this.audioPlayer = buildSimpleExoPlayer;
             buildSimpleExoPlayer.addListener(new Player.Listener() { // from class: org.telegram.ui.Components.VideoPlayer.1
-                {
-                    VideoPlayer.this = this;
+                1() {
                 }
 
                 @Override // com.google.android.exoplayer2.Player.Listener
@@ -627,29 +790,29 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     public static TLRPC.Document getDocumentForThumb(int i, TLRPC.MessageMedia messageMedia) {
-        if (messageMedia instanceof TLRPC.TL_messageMediaDocument) {
-            ArrayList qualities = getQualities(i, messageMedia.document, messageMedia.alt_documents, 0, true);
-            QualityUri qualityUri = null;
-            for (int i2 = 0; i2 < qualities.size(); i2++) {
-                QualityUri qualityUri2 = (QualityUri) qualities.get(i2);
-                if ((qualityUri == null || qualityUri.width * qualityUri.height < qualityUri2.width * qualityUri2.height) && qualityUri2.width <= 860 && qualityUri2.height <= 860) {
-                    qualityUri = qualityUri2;
-                }
-            }
-            if (qualityUri == null) {
-                for (int i3 = 0; i3 < qualities.size(); i3++) {
-                    QualityUri qualityUri3 = (QualityUri) qualities.get(i3);
-                    if (qualityUri == null || qualityUri.width * qualityUri.height > qualityUri3.width * qualityUri3.height) {
-                        qualityUri = qualityUri3;
-                    }
-                }
-            }
-            if (qualityUri == null) {
-                return null;
-            }
-            return qualityUri.document;
+        if (!(messageMedia instanceof TLRPC.TL_messageMediaDocument)) {
+            return null;
         }
-        return null;
+        ArrayList qualities = getQualities(i, messageMedia.document, messageMedia.alt_documents, 0, true);
+        QualityUri qualityUri = null;
+        for (int i2 = 0; i2 < qualities.size(); i2++) {
+            QualityUri qualityUri2 = (QualityUri) qualities.get(i2);
+            if ((qualityUri == null || qualityUri.width * qualityUri.height < qualityUri2.width * qualityUri2.height) && qualityUri2.width <= 860 && qualityUri2.height <= 860) {
+                qualityUri = qualityUri2;
+            }
+        }
+        if (qualityUri == null) {
+            for (int i3 = 0; i3 < qualities.size(); i3++) {
+                QualityUri qualityUri3 = (QualityUri) qualities.get(i3);
+                if (qualityUri == null || qualityUri.width * qualityUri.height > qualityUri3.width * qualityUri3.height) {
+                    qualityUri = qualityUri3;
+                }
+            }
+        }
+        if (qualityUri == null) {
+            return null;
+        }
+        return qualityUri.document;
     }
 
     public static ArrayList getQualities(int i, TLRPC.Document document, ArrayList arrayList, int i2, boolean z) {
@@ -777,8 +940,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     public static QualityUri getSavedQuality(ArrayList arrayList, long j, int i) {
-        SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("media_saved_pos", 0);
-        long j2 = sharedPreferences.getLong(j + "_" + i + "q", 0L);
+        long j2 = ApplicationLoader.applicationContext.getSharedPreferences("media_saved_pos", 0).getLong(j + "_" + i + "q", 0L);
         if (j2 == 0) {
             return null;
         }
@@ -1035,7 +1197,6 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                             return true;
                         }
                     }
-                    continue;
                 }
             }
             return false;
@@ -1287,11 +1448,10 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                 z = true;
             }
         }
-        if (z) {
-            String encodeToString = Base64.encodeToString(sb.toString().getBytes(), 2);
-            return Uri.parse("data:application/x-mpegurl;base64," + encodeToString);
+        if (!z) {
+            return null;
         }
-        return null;
+        return Uri.parse("data:application/x-mpegurl;base64," + Base64.encodeToString(sb.toString().getBytes(), 2));
     }
 
     @Override // com.google.android.exoplayer2.analytics.AnalyticsListener

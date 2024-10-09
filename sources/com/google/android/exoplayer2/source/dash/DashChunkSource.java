@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.upstream.CmcdConfiguration;
 import com.google.android.exoplayer2.upstream.LoaderErrorThrower;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public interface DashChunkSource extends ChunkSource {
 

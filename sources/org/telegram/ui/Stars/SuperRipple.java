@@ -14,6 +14,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationBadge;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes3.dex */
 public class SuperRipple extends ISuperRipple {
     public final int MAX_COUNT;
@@ -67,11 +68,11 @@ public class SuperRipple extends ISuperRipple {
         updateProperties();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0091  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x009b  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00b2  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x009b  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00b2  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0093  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -190,8 +191,7 @@ public class SuperRipple extends ISuperRipple {
         if (this.effects.size() >= 7) {
             return;
         }
-        float max = (Math.max(Math.max(MathUtils.distance(0.0f, 0.0f, f, f2), MathUtils.distance(this.view.getWidth(), 0.0f, f, f2)), Math.max(MathUtils.distance(0.0f, this.view.getHeight(), f, f2), MathUtils.distance(this.view.getWidth(), this.view.getHeight(), f, f2))) * 2.0f) / (AndroidUtilities.density * 1200.0f);
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, max);
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, (Math.max(Math.max(MathUtils.distance(0.0f, 0.0f, f, f2), MathUtils.distance(this.view.getWidth(), 0.0f, f, f2)), Math.max(MathUtils.distance(0.0f, this.view.getHeight(), f, f2), MathUtils.distance(this.view.getWidth(), this.view.getHeight(), f, f2))) * 2.0f) / (AndroidUtilities.density * 1200.0f));
         final Effect effect = new Effect(f, f2, f3, ofFloat);
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stars.SuperRipple$$ExternalSyntheticLambda9
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -207,7 +207,7 @@ public class SuperRipple extends ISuperRipple {
             }
         });
         ofFloat.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-        ofFloat.setDuration(max * 1000.0f);
+        ofFloat.setDuration(r2 * 1000.0f);
         this.effects.add(effect);
         updateProperties();
         ofFloat.start();

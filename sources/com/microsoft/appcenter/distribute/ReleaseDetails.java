@@ -3,6 +3,7 @@ package com.microsoft.appcenter.distribute;
 import android.net.Uri;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class ReleaseDetails {
     private String distributionGroupId;

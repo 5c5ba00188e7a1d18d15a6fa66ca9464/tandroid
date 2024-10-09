@@ -49,6 +49,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.FilteredSearchView;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes4.dex */
 public class SharedDocumentCell extends FrameLayout implements DownloadController.FileDownloadProgressListener {
     private int TAG;
@@ -84,76 +85,88 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         this(context, i, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:131:0x0310, code lost:
-        if (r6 != false) goto L134;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:132:0x0312, code lost:
-        r22 = r11;
-        r23 = r14;
-        r24 = r15;
-        r25 = 72.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:133:0x031b, code lost:
-        r22 = r11;
-        r23 = r14;
-        r24 = r15;
-        r25 = 8.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:145:0x0385, code lost:
-        if (r11 != false) goto L122;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:155:0x0398, code lost:
-        if (r11 != false) goto L122;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:156:0x039a, code lost:
-        r22 = r14;
-        r23 = r15;
-        r24 = r20;
-        r25 = 72.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:157:0x03a3, code lost:
-        r22 = r14;
-        r23 = r15;
-        r24 = r20;
-        r25 = 8.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:172:0x040a, code lost:
-        if (r8 != false) goto L109;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:182:0x041d, code lost:
-        if (r8 != false) goto L109;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:183:0x041f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:109:0x041f, code lost:
+    
         r22 = r10;
         r23 = r11;
         r24 = r14;
         r25 = 72.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:184:0x0428, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x041d, code lost:
+    
+        if (r8 != false) goto L183;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:122:0x039a, code lost:
+    
+        r22 = r14;
+        r23 = r15;
+        r24 = r20;
+        r25 = 72.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x0398, code lost:
+    
+        if (r11 != false) goto L156;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:134:0x0312, code lost:
+    
+        r22 = r11;
+        r23 = r14;
+        r24 = r15;
+        r25 = 72.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:177:0x0310, code lost:
+    
+        if (r6 != false) goto L132;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x0204, code lost:
+    
+        if (r6 != false) goto L132;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x031b, code lost:
+    
+        r22 = r11;
+        r23 = r14;
+        r24 = r15;
+        r25 = 8.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x0385, code lost:
+    
+        if (r11 != false) goto L156;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x03a3, code lost:
+    
+        r22 = r14;
+        r23 = r15;
+        r24 = r20;
+        r25 = 8.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x040a, code lost:
+    
+        if (r8 != false) goto L183;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:67:0x0428, code lost:
+    
         r22 = r10;
         r23 = r11;
         r24 = r14;
         r25 = 8.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x0204, code lost:
-        if (r6 != false) goto L134;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x0375  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0388  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x03e2  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x03e4  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x03fa  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x040d  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x0451  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0453  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0458  */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x045b  */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x045f  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x0462  */
-    /* JADX WARN: Removed duplicated region for block: B:198:0x049a  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x04b5  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x04e8  */
-    /* JADX WARN: Removed duplicated region for block: B:224:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0462  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x045b  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x0453  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x040d  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x03e4  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x0388  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0375  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x03e2  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x03fa  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0451  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0458  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x045f  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x049a  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x04e8  */
+    /* JADX WARN: Removed duplicated region for block: B:91:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x04b5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -395,146 +408,147 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             i11 = (z4 ? 5 : 3) | 48;
             f20 = z4 ? 8.0f : 72.0f;
             f21 = 9.0f;
-        } else if (i == 2) {
-            LinearLayout linearLayout = new LinearLayout(context);
-            linearLayout.setOrientation(0);
-            boolean z5 = LocaleController.isRTL;
-            addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, (z5 ? 5 : 3) | 48, z5 ? 16.0f : 72.0f, 5.0f, z5 ? 72.0f : 16.0f, 0.0f));
-            TextView textView5 = new TextView(context);
-            this.rightDateTextView = textView5;
-            textView5.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
-            this.rightDateTextView.setTextSize(1, 14.0f);
-            if (LocaleController.isRTL) {
-                linearLayout.addView(this.rightDateTextView, LayoutHelper.createLinear(-2, -2, 0.0f));
-                textView = this.nameTextView;
-                i12 = 4;
-                i13 = 0;
-                i14 = -2;
-                i15 = -2;
-                f22 = 1.0f;
-                i16 = 0;
-            } else {
-                linearLayout.addView(this.nameTextView, LayoutHelper.createLinear(-2, -2, 1.0f));
-                textView = this.rightDateTextView;
-                i12 = 0;
-                i13 = 0;
-                i14 = -2;
-                i15 = -2;
-                f22 = 0.0f;
-                i16 = 4;
-            }
-            linearLayout.addView(textView, LayoutHelper.createLinear(i14, i15, f22, i16, 0, i12, i13));
-            this.nameTextView.setMaxLines(2);
-            TextView textView6 = new TextView(context);
-            this.captionTextView = textView6;
-            textView6.setTextColor(getThemedColor(i26));
-            this.captionTextView.setLines(1);
-            this.captionTextView.setMaxLines(1);
-            this.captionTextView.setSingleLine(true);
-            this.captionTextView.setEllipsize(truncateAt);
-            this.captionTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-            this.captionTextView.setTextSize(1, 13.0f);
-            View view4 = this.captionTextView;
-            boolean z6 = LocaleController.isRTL;
-            addView(view4, LayoutHelper.createFrame(-1, -2.0f, (z6 ? 5 : 3) | 48, z6 ? 8.0f : 72.0f, 30.0f, z6 ? 72.0f : 8.0f, 0.0f));
-            this.captionTextView.setVisibility(8);
-            this.statusDrawable = new RLottieDrawable(R.raw.download_arrow, "download_arrow", AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f), true, null);
-            RLottieImageView rLottieImageView = new RLottieImageView(context);
-            this.statusImageView = rLottieImageView;
-            rLottieImageView.setAnimation(this.statusDrawable);
-            this.statusImageView.setVisibility(4);
-            RLottieImageView rLottieImageView2 = this.statusImageView;
-            int i27 = Theme.key_sharedMedia_startStopLoadIcon;
-            rLottieImageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i27), PorterDuff.Mode.MULTIPLY));
-            View view5 = this.statusImageView;
-            boolean z7 = LocaleController.isRTL;
-            if (i != 1) {
-                i18 = (z7 ? 5 : 3) | 48;
-                f26 = z7 ? 8.0f : 70.0f;
-                f27 = 37.0f;
-            } else {
-                i18 = (z7 ? 5 : 3) | 48;
-                f26 = z7 ? 8.0f : 70.0f;
-                f27 = 33.0f;
-            }
-            addView(view5, LayoutHelper.createFrame(14, 14.0f, i19, f28, f29, f30, 0.0f));
-            AnimatedEmojiSpan.TextViewEmojis textViewEmojis = new AnimatedEmojiSpan.TextViewEmojis(context);
-            this.dateTextView = textViewEmojis;
-            textViewEmojis.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
-            this.dateTextView.setLines(1);
-            this.dateTextView.setMaxLines(1);
-            this.dateTextView.setSingleLine(true);
-            this.dateTextView.setEllipsize(truncateAt);
-            this.dateTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 16);
-            NotificationCenter.listenEmojiLoading(this.dateTextView);
-            this.dateTextView.setTextSize(1, 13.0f);
-            View view6 = this.dateTextView;
-            boolean z8 = LocaleController.isRTL;
-            if (i != 1) {
-                i20 = (z8 ? 5 : 3) | 48;
-                f31 = z8 ? 8.0f : 72.0f;
-                f32 = 34.0f;
-            } else {
-                i20 = (z8 ? 5 : 3) | 48;
-                f31 = z8 ? 8.0f : 72.0f;
-                f32 = 30.0f;
-            }
-            addView(view6, LayoutHelper.createFrame(-1, -2.0f, i21, f33, f34, f35, 0.0f));
-            LineProgressView lineProgressView = new LineProgressView(context);
-            this.progressView = lineProgressView;
-            lineProgressView.setProgressColor(getThemedColor(i27));
-            View view7 = this.progressView;
-            boolean z9 = LocaleController.isRTL;
-            addView(view7, LayoutHelper.createFrame(-1, 2.0f, (!z9 ? 5 : 3) | 48, !z9 ? 0.0f : 72.0f, 54.0f, !z9 ? 72.0f : 0.0f, 0.0f));
-            CheckBox2 checkBox2 = new CheckBox2(context, 21, resourcesProvider);
-            this.checkBox = checkBox2;
-            checkBox2.setVisibility(4);
-            this.checkBox.setColor(-1, Theme.key_windowBackgroundWhite, Theme.key_checkboxCheck);
-            this.checkBox.setDrawUnchecked(false);
-            this.checkBox.setDrawBackgroundAsArc(2);
-            View view8 = this.checkBox;
-            boolean z10 = LocaleController.isRTL;
-            if (i != 1) {
-                i22 = (z10 ? 5 : 3) | 48;
-                f36 = z10 ? 0.0f : 38.0f;
-                f37 = 36.0f;
-                if (z10) {
-                    i23 = i22;
-                    f38 = f36;
-                    f39 = 36.0f;
-                    f40 = 38.0f;
-                }
-                i23 = i22;
-                f38 = f36;
-                f39 = f37;
-                f40 = 0.0f;
-            } else {
-                int i28 = (z10 ? 5 : 3) | 48;
-                float f42 = z10 ? 0.0f : 33.0f;
-                if (z10) {
-                    i23 = i28;
-                    f38 = f42;
-                    f39 = 28.0f;
-                    f40 = 33.0f;
+        } else {
+            if (i == 2) {
+                LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setOrientation(0);
+                boolean z5 = LocaleController.isRTL;
+                addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, (z5 ? 5 : 3) | 48, z5 ? 16.0f : 72.0f, 5.0f, z5 ? 72.0f : 16.0f, 0.0f));
+                TextView textView5 = new TextView(context);
+                this.rightDateTextView = textView5;
+                textView5.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
+                this.rightDateTextView.setTextSize(1, 14.0f);
+                if (LocaleController.isRTL) {
+                    linearLayout.addView(this.rightDateTextView, LayoutHelper.createLinear(-2, -2, 0.0f));
+                    textView = this.nameTextView;
+                    i12 = 4;
+                    i13 = 0;
+                    i14 = -2;
+                    i15 = -2;
+                    f22 = 1.0f;
+                    i16 = 0;
                 } else {
-                    i22 = i28;
-                    f36 = f42;
-                    f37 = 28.0f;
+                    linearLayout.addView(this.nameTextView, LayoutHelper.createLinear(-2, -2, 1.0f));
+                    textView = this.rightDateTextView;
+                    i12 = 0;
+                    i13 = 0;
+                    i14 = -2;
+                    i15 = -2;
+                    f22 = 0.0f;
+                    i16 = 4;
+                }
+                linearLayout.addView(textView, LayoutHelper.createLinear(i14, i15, f22, i16, 0, i12, i13));
+                this.nameTextView.setMaxLines(2);
+                TextView textView6 = new TextView(context);
+                this.captionTextView = textView6;
+                textView6.setTextColor(getThemedColor(i26));
+                this.captionTextView.setLines(1);
+                this.captionTextView.setMaxLines(1);
+                this.captionTextView.setSingleLine(true);
+                this.captionTextView.setEllipsize(truncateAt);
+                this.captionTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                this.captionTextView.setTextSize(1, 13.0f);
+                View view4 = this.captionTextView;
+                boolean z6 = LocaleController.isRTL;
+                addView(view4, LayoutHelper.createFrame(-1, -2.0f, (z6 ? 5 : 3) | 48, z6 ? 8.0f : 72.0f, 30.0f, z6 ? 72.0f : 8.0f, 0.0f));
+                this.captionTextView.setVisibility(8);
+                this.statusDrawable = new RLottieDrawable(R.raw.download_arrow, "download_arrow", AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f), true, null);
+                RLottieImageView rLottieImageView = new RLottieImageView(context);
+                this.statusImageView = rLottieImageView;
+                rLottieImageView.setAnimation(this.statusDrawable);
+                this.statusImageView.setVisibility(4);
+                RLottieImageView rLottieImageView2 = this.statusImageView;
+                int i27 = Theme.key_sharedMedia_startStopLoadIcon;
+                rLottieImageView2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i27), PorterDuff.Mode.MULTIPLY));
+                View view5 = this.statusImageView;
+                boolean z7 = LocaleController.isRTL;
+                if (i != 1) {
+                    i18 = (z7 ? 5 : 3) | 48;
+                    f26 = z7 ? 8.0f : 70.0f;
+                    f27 = 37.0f;
+                } else {
+                    i18 = (z7 ? 5 : 3) | 48;
+                    f26 = z7 ? 8.0f : 70.0f;
+                    f27 = 33.0f;
+                }
+                addView(view5, LayoutHelper.createFrame(14, 14.0f, i19, f28, f29, f30, 0.0f));
+                AnimatedEmojiSpan.TextViewEmojis textViewEmojis = new AnimatedEmojiSpan.TextViewEmojis(context);
+                this.dateTextView = textViewEmojis;
+                textViewEmojis.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
+                this.dateTextView.setLines(1);
+                this.dateTextView.setMaxLines(1);
+                this.dateTextView.setSingleLine(true);
+                this.dateTextView.setEllipsize(truncateAt);
+                this.dateTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 16);
+                NotificationCenter.listenEmojiLoading(this.dateTextView);
+                this.dateTextView.setTextSize(1, 13.0f);
+                View view6 = this.dateTextView;
+                boolean z8 = LocaleController.isRTL;
+                if (i != 1) {
+                    i20 = (z8 ? 5 : 3) | 48;
+                    f31 = z8 ? 8.0f : 72.0f;
+                    f32 = 34.0f;
+                } else {
+                    i20 = (z8 ? 5 : 3) | 48;
+                    f31 = z8 ? 8.0f : 72.0f;
+                    f32 = 30.0f;
+                }
+                addView(view6, LayoutHelper.createFrame(-1, -2.0f, i21, f33, f34, f35, 0.0f));
+                LineProgressView lineProgressView = new LineProgressView(context);
+                this.progressView = lineProgressView;
+                lineProgressView.setProgressColor(getThemedColor(i27));
+                View view7 = this.progressView;
+                boolean z9 = LocaleController.isRTL;
+                addView(view7, LayoutHelper.createFrame(-1, 2.0f, (!z9 ? 5 : 3) | 48, !z9 ? 0.0f : 72.0f, 54.0f, !z9 ? 72.0f : 0.0f, 0.0f));
+                CheckBox2 checkBox2 = new CheckBox2(context, 21, resourcesProvider);
+                this.checkBox = checkBox2;
+                checkBox2.setVisibility(4);
+                this.checkBox.setColor(-1, Theme.key_windowBackgroundWhite, Theme.key_checkboxCheck);
+                this.checkBox.setDrawUnchecked(false);
+                this.checkBox.setDrawBackgroundAsArc(2);
+                View view8 = this.checkBox;
+                boolean z10 = LocaleController.isRTL;
+                if (i != 1) {
+                    i22 = (z10 ? 5 : 3) | 48;
+                    f36 = z10 ? 0.0f : 38.0f;
+                    f37 = 36.0f;
+                    if (z10) {
+                        i23 = i22;
+                        f38 = f36;
+                        f39 = 36.0f;
+                        f40 = 38.0f;
+                    }
                     i23 = i22;
                     f38 = f36;
                     f39 = f37;
                     f40 = 0.0f;
+                } else {
+                    int i28 = (z10 ? 5 : 3) | 48;
+                    float f42 = z10 ? 0.0f : 33.0f;
+                    if (z10) {
+                        i23 = i28;
+                        f38 = f42;
+                        f39 = 28.0f;
+                        f40 = 33.0f;
+                    } else {
+                        i22 = i28;
+                        f36 = f42;
+                        f37 = 28.0f;
+                        i23 = i22;
+                        f38 = f36;
+                        f39 = f37;
+                        f40 = 0.0f;
+                    }
                 }
-            }
-            addView(view8, LayoutHelper.createFrame(24, 24.0f, i23, f38, f39, f40, 0.0f));
-            if (i != 2) {
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(".");
-                this.dotSpan = spannableStringBuilder;
-                spannableStringBuilder.setSpan(new DotDividerSpan(), 0, 1, 0);
+                addView(view8, LayoutHelper.createFrame(24, 24.0f, i23, f38, f39, f40, 0.0f));
+                if (i != 2) {
+                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(".");
+                    this.dotSpan = spannableStringBuilder;
+                    spannableStringBuilder.setSpan(new DotDividerSpan(), 0, 1, 0);
+                    return;
+                }
                 return;
             }
-            return;
-        } else {
             this.nameTextView.setMaxLines(1);
             view = this.nameTextView;
             boolean z11 = LocaleController.isRTL;
@@ -613,10 +627,10 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         String formatFileSize = j2 == 0 ? AndroidUtilities.formatFileSize(messageObject2.getDocument().size) : String.format(Locale.ENGLISH, "%s / %s", AndroidUtilities.formatFileSize(j2), AndroidUtilities.formatFileSize(this.message.getDocument().size));
         if (this.viewType != 2) {
             this.dateTextView.setText(String.format("%s, %s", formatFileSize, LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(new Date(j)), LocaleController.getInstance().getFormatterDay().format(new Date(j)))));
-            return;
+        } else {
+            this.dateTextView.setText(new SpannableStringBuilder().append((CharSequence) formatFileSize).append(' ').append((CharSequence) this.dotSpan).append(' ').append(FilteredSearchView.createFromInfoString(this.message, true, 2, this.dateTextView.getPaint())));
+            this.rightDateTextView.setText(LocaleController.stringForMessageListDate(this.message.messageOwner.date));
         }
-        this.dateTextView.setText(new SpannableStringBuilder().append((CharSequence) formatFileSize).append(' ').append((CharSequence) this.dotSpan).append(' ').append(FilteredSearchView.createFromInfoString(this.message, true, 2, this.dateTextView.getPaint())));
-        this.rightDateTextView.setText(LocaleController.stringForMessageListDate(this.message.messageOwner.date));
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -813,13 +827,16 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         this.checkBox.setChecked(z, z2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:101:0x0200, code lost:
-        if (r1 != null) goto L98;
+    /* JADX WARN: Code restructure failed: missing block: B:106:0x0234, code lost:
+    
+        if (r1 != null) goto L105;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:104:0x0234, code lost:
-        if (r1 != null) goto L98;
+    /* JADX WARN: Code restructure failed: missing block: B:97:0x0200, code lost:
+    
+        if (r1 != null) goto L105;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:105:0x0236, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x0236, code lost:
+    
         r1.setVisibility(8);
      */
     /*

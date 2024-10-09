@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 import java.lang.reflect.Field;
+
 /* loaded from: classes.dex */
 final class ImmLeaksCleaner implements LifecycleEventObserver {
     private static Field sHField;

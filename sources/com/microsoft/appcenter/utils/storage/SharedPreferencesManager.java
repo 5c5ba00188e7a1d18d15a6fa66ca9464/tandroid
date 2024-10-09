@@ -3,6 +3,7 @@ package com.microsoft.appcenter.utils.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class SharedPreferencesManager {
     private static Context sContext;

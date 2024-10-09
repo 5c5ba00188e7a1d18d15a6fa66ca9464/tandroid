@@ -2,6 +2,7 @@ package com.coremedia.iso;
 
 import java.nio.ByteBuffer;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class IsoTypeWriter {
     public static void writeFixedPoint0230(ByteBuffer byteBuffer, double d) {

@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.appcompat.view.menu.MenuPresenter;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.ItemInvoker, MenuView {
     private MenuPresenter.Callback mActionMenuPresenterCallback;
@@ -165,7 +167,7 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
 
     /* JADX WARN: Type inference failed for: r14v12 */
     /* JADX WARN: Type inference failed for: r14v8 */
-    /* JADX WARN: Type inference failed for: r14v9, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v9, types: [boolean, int] */
     private void onMeasureExactFormat(int i, int i2) {
         int i3;
         int i4;
@@ -400,14 +402,14 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup
     public LayoutParams generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
-        if (layoutParams != null) {
-            LayoutParams layoutParams2 = layoutParams instanceof LayoutParams ? new LayoutParams((LayoutParams) layoutParams) : new LayoutParams(layoutParams);
-            if (((LinearLayout.LayoutParams) layoutParams2).gravity <= 0) {
-                ((LinearLayout.LayoutParams) layoutParams2).gravity = 16;
-            }
-            return layoutParams2;
+        if (layoutParams == null) {
+            return generateDefaultLayoutParams();
         }
-        return generateDefaultLayoutParams();
+        LayoutParams layoutParams2 = layoutParams instanceof LayoutParams ? new LayoutParams((LayoutParams) layoutParams) : new LayoutParams(layoutParams);
+        if (((LinearLayout.LayoutParams) layoutParams2).gravity <= 0) {
+            ((LinearLayout.LayoutParams) layoutParams2).gravity = 16;
+        }
+        return layoutParams2;
     }
 
     public LayoutParams generateOverflowButtonLayoutParams() {
@@ -455,8 +457,8 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         if (i == 0) {
             return false;
         }
-        View childAt = getChildAt(i - 1);
-        View childAt2 = getChildAt(i);
+        KeyEvent.Callback childAt = getChildAt(i - 1);
+        KeyEvent.Callback childAt2 = getChildAt(i);
         if (i < getChildCount() && (childAt instanceof ActionMenuChildView)) {
             z = ((ActionMenuChildView) childAt).needsDividerAfter();
         }

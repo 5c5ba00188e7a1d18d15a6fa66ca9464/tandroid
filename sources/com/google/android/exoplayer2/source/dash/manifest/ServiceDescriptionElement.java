@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.source.dash.manifest;
+
 /* loaded from: classes.dex */
 public final class ServiceDescriptionElement {
     public final long maxOffsetMs;

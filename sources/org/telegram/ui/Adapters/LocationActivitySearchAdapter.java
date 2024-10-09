@@ -12,6 +12,7 @@ import org.telegram.ui.Cells.GraySectionCell;
 import org.telegram.ui.Cells.LocationCell;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public abstract class LocationActivitySearchAdapter extends BaseLocationAdapter {
     private FlickerLoadingView globalGradientView;
@@ -36,9 +37,10 @@ public abstract class LocationActivitySearchAdapter extends BaseLocationAdapter 
         }
         if (i >= 0 && i < this.locations.size()) {
             arrayList = this.locations;
-        } else if (isSearching()) {
-            return null;
         } else {
+            if (isSearching()) {
+                return null;
+            }
             i -= this.locations.size();
             if (!this.locations.isEmpty()) {
                 i--;

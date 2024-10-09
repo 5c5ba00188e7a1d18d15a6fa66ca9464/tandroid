@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2;
 
 import com.google.android.exoplayer2.MediaItem;
+
 /* loaded from: classes.dex */
 public interface LivePlaybackSpeedControl {
     float getAdjustedPlaybackSpeed(long j, long j2);

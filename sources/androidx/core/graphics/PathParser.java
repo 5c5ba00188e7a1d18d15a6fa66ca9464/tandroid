@@ -3,6 +3,7 @@ package androidx.core.graphics;
 import android.graphics.Path;
 import android.util.Log;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public abstract class PathParser {
 
@@ -369,56 +370,57 @@ public abstract class PathParser {
             double d8 = -f;
             Double.isNaN(d8);
             Double.isNaN(d5);
-            double d9 = f6;
-            Double.isNaN(d9);
-            double d10 = ((d8 * sin) + (d5 * cos)) / d9;
-            double d11 = f3;
-            Double.isNaN(d11);
-            double d12 = f4;
+            double d9 = (d8 * sin) + (d5 * cos);
+            double d10 = f6;
+            Double.isNaN(d10);
+            double d11 = d9 / d10;
+            double d12 = f3;
             Double.isNaN(d12);
+            double d13 = f4;
+            Double.isNaN(d13);
             Double.isNaN(d6);
-            double d13 = ((d11 * cos) + (d12 * sin)) / d6;
-            double d14 = -f3;
-            Double.isNaN(d14);
-            Double.isNaN(d12);
-            Double.isNaN(d9);
-            double d15 = ((d14 * sin) + (d12 * cos)) / d9;
-            double d16 = d7 - d13;
-            double d17 = d10 - d15;
-            double d18 = (d7 + d13) / 2.0d;
-            double d19 = (d10 + d15) / 2.0d;
-            double d20 = (d16 * d16) + (d17 * d17);
-            if (d20 == 0.0d) {
+            double d14 = ((d12 * cos) + (d13 * sin)) / d6;
+            double d15 = -f3;
+            Double.isNaN(d15);
+            Double.isNaN(d13);
+            Double.isNaN(d10);
+            double d16 = ((d15 * sin) + (d13 * cos)) / d10;
+            double d17 = d7 - d14;
+            double d18 = d11 - d16;
+            double d19 = (d7 + d14) / 2.0d;
+            double d20 = (d11 + d16) / 2.0d;
+            double d21 = (d17 * d17) + (d18 * d18);
+            if (d21 == 0.0d) {
                 Log.w("PathParser", " Points are coincident");
                 return;
             }
-            double d21 = (1.0d / d20) - 0.25d;
-            if (d21 < 0.0d) {
-                Log.w("PathParser", "Points are too far apart " + d20);
-                float sqrt = (float) (Math.sqrt(d20) / 1.99999d);
+            double d22 = (1.0d / d21) - 0.25d;
+            if (d22 < 0.0d) {
+                Log.w("PathParser", "Points are too far apart " + d21);
+                float sqrt = (float) (Math.sqrt(d21) / 1.99999d);
                 drawArc(path, f, f2, f3, f4, f5 * sqrt, f6 * sqrt, f7, z, z2);
                 return;
             }
-            double sqrt2 = Math.sqrt(d21);
-            double d22 = d16 * sqrt2;
-            double d23 = sqrt2 * d17;
+            double sqrt2 = Math.sqrt(d22);
+            double d23 = d17 * sqrt2;
+            double d24 = sqrt2 * d18;
             if (z == z2) {
-                d = d18 - d23;
-                d2 = d19 + d22;
+                d = d19 - d24;
+                d2 = d20 + d23;
             } else {
-                d = d18 + d23;
-                d2 = d19 - d22;
+                d = d19 + d24;
+                d2 = d20 - d23;
             }
-            double atan2 = Math.atan2(d10 - d2, d7 - d);
-            double atan22 = Math.atan2(d15 - d2, d13 - d) - atan2;
+            double atan2 = Math.atan2(d11 - d2, d7 - d);
+            double atan22 = Math.atan2(d16 - d2, d14 - d) - atan2;
             if (z2 != (atan22 >= 0.0d)) {
                 atan22 = atan22 > 0.0d ? atan22 - 6.283185307179586d : atan22 + 6.283185307179586d;
             }
             Double.isNaN(d6);
-            double d24 = d * d6;
-            Double.isNaN(d9);
-            double d25 = d2 * d9;
-            arcToBezier(path, (d24 * cos) - (d25 * sin), (d24 * sin) + (d25 * cos), d6, d9, d3, d5, radians, atan2, atan22);
+            double d25 = d * d6;
+            Double.isNaN(d10);
+            double d26 = d2 * d10;
+            arcToBezier(path, (d25 * cos) - (d26 * sin), (d25 * sin) + (d26 * cos), d6, d10, d3, d5, radians, atan2, atan22);
         }
 
         public static void nodesToPath(PathDataNode[] pathDataNodeArr, Path path) {
@@ -465,18 +467,18 @@ public abstract class PathParser {
     }
 
     static float[] copyOfRange(float[] fArr, int i, int i2) {
-        if (i <= i2) {
-            int length = fArr.length;
-            if (i < 0 || i > length) {
-                throw new ArrayIndexOutOfBoundsException();
-            }
-            int i3 = i2 - i;
-            int min = Math.min(i3, length - i);
-            float[] fArr2 = new float[i3];
-            System.arraycopy(fArr, i, fArr2, 0, min);
-            return fArr2;
+        if (i > i2) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        int length = fArr.length;
+        if (i < 0 || i > length) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        int i3 = i2 - i;
+        int min = Math.min(i3, length - i);
+        float[] fArr2 = new float[i3];
+        System.arraycopy(fArr, i, fArr2, 0, min);
+        return fArr2;
     }
 
     public static PathDataNode[] createNodesFromPathData(String str) {
@@ -504,15 +506,15 @@ public abstract class PathParser {
     public static Path createPathFromPathData(String str) {
         Path path = new Path();
         PathDataNode[] createNodesFromPathData = createNodesFromPathData(str);
-        if (createNodesFromPathData != null) {
-            try {
-                PathDataNode.nodesToPath(createNodesFromPathData, path);
-                return path;
-            } catch (RuntimeException e) {
-                throw new RuntimeException("Error in parsing " + str, e);
-            }
+        if (createNodesFromPathData == null) {
+            return null;
         }
-        return null;
+        try {
+            PathDataNode.nodesToPath(createNodesFromPathData, path);
+            return path;
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error in parsing " + str, e);
+        }
     }
 
     public static PathDataNode[] deepCopyNodes(PathDataNode[] pathDataNodeArr) {
@@ -527,11 +529,13 @@ public abstract class PathParser {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x002e, code lost:
-        if (r2 == false) goto L19;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x002e, code lost:
+    
+        if (r2 == false) goto L15;
      */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0037 A[LOOP:0: B:3:0x0007->B:24:0x0037, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x003a A[SYNTHETIC] */
+    /* JADX WARN: Failed to find 'out' block for switch in B:10:0x001e. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0037 A[LOOP:0: B:2:0x0007->B:14:0x0037, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x003a A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

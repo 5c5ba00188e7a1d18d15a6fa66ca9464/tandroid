@@ -6,6 +6,7 @@ import com.google.common.primitives.Chars;
 import com.google.common.primitives.UnsignedBytes;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class ParsableByteArray {
     private static final char[] CR_AND_LF = {'\r', '\n'};
@@ -38,9 +39,10 @@ public final class ParsableByteArray {
         int i;
         if (charset.equals(Charsets.UTF_8) || charset.equals(Charsets.US_ASCII)) {
             i = 1;
-        } else if (!charset.equals(Charsets.UTF_16) && !charset.equals(Charsets.UTF_16LE) && !charset.equals(Charsets.UTF_16BE)) {
-            throw new IllegalArgumentException("Unsupported charset: " + charset);
         } else {
+            if (!charset.equals(Charsets.UTF_16) && !charset.equals(Charsets.UTF_16LE) && !charset.equals(Charsets.UTF_16BE)) {
+                throw new IllegalArgumentException("Unsupported charset: " + charset);
+            }
             i = 2;
         }
         int i2 = this.position;
@@ -166,16 +168,19 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = ((bArr[i + 1] & 255) << 16) | ((bArr[i] & 255) << 24);
+        int i3 = i + 3;
+        int i4 = i2 | ((bArr[i + 2] & 255) << 8);
         this.position = i + 4;
-        return (bArr[i + 3] & 255) | i2 | ((bArr[i + 2] & 255) << 8);
+        return (bArr[i3] & 255) | i4;
     }
 
     public int readInt24() {
         byte[] bArr = this.data;
         int i = this.position;
-        int i2 = (bArr[i + 1] & 255) << 8;
+        int i2 = i + 2;
+        int i3 = ((bArr[i + 1] & 255) << 8) | (((bArr[i] & 255) << 24) >> 8);
         this.position = i + 3;
-        return (bArr[i + 2] & 255) | i2 | (((bArr[i] & 255) << 24) >> 8);
+        return (bArr[i2] & 255) | i3;
     }
 
     public String readLine() {
@@ -183,8 +188,7 @@ public final class ParsableByteArray {
     }
 
     public String readLine(Charset charset) {
-        boolean contains = SUPPORTED_CHARSETS_FOR_READLINE.contains(charset);
-        Assertions.checkArgument(contains, "Unsupported charset: " + charset);
+        Assertions.checkArgument(SUPPORTED_CHARSETS_FOR_READLINE.contains(charset), "Unsupported charset: " + charset);
         if (bytesLeft() == 0) {
             return null;
         }
@@ -203,30 +207,37 @@ public final class ParsableByteArray {
         byte[] bArr = this.data;
         int i = this.position;
         int i2 = ((bArr[i + 1] & 255) << 8) | (bArr[i] & 255);
+        int i3 = i + 3;
+        int i4 = i2 | ((bArr[i + 2] & 255) << 16);
         this.position = i + 4;
-        return ((bArr[i + 3] & 255) << 24) | i2 | ((bArr[i + 2] & 255) << 16);
+        return ((bArr[i3] & 255) << 24) | i4;
     }
 
     public long readLittleEndianLong() {
         byte[] bArr = this.data;
         int i = this.position;
-        long j = (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16) | ((bArr[i + 3] & 255) << 24) | ((bArr[i + 4] & 255) << 32) | ((bArr[i + 5] & 255) << 40);
+        int i2 = i + 7;
+        long j = (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16) | ((bArr[i + 3] & 255) << 24) | ((bArr[i + 4] & 255) << 32) | ((bArr[i + 5] & 255) << 40) | ((bArr[i + 6] & 255) << 48);
         this.position = i + 8;
-        return ((bArr[i + 7] & 255) << 56) | j | ((bArr[i + 6] & 255) << 48);
+        return ((bArr[i2] & 255) << 56) | j;
     }
 
     public short readLittleEndianShort() {
         byte[] bArr = this.data;
         int i = this.position;
+        int i2 = i + 1;
+        int i3 = bArr[i] & 255;
         this.position = i + 2;
-        return (short) (((bArr[i + 1] & 255) << 8) | (bArr[i] & 255));
+        return (short) (((bArr[i2] & 255) << 8) | i3);
     }
 
     public long readLittleEndianUnsignedInt() {
         byte[] bArr = this.data;
         int i = this.position;
+        int i2 = i + 3;
+        long j = (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16);
         this.position = i + 4;
-        return ((bArr[i + 3] & 255) << 24) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16);
+        return ((bArr[i2] & 255) << 24) | j;
     }
 
     public int readLittleEndianUnsignedIntToInt() {
@@ -240,16 +251,19 @@ public final class ParsableByteArray {
     public int readLittleEndianUnsignedShort() {
         byte[] bArr = this.data;
         int i = this.position;
+        int i2 = i + 1;
+        int i3 = bArr[i] & 255;
         this.position = i + 2;
-        return ((bArr[i + 1] & 255) << 8) | (bArr[i] & 255);
+        return ((bArr[i2] & 255) << 8) | i3;
     }
 
     public long readLong() {
         byte[] bArr = this.data;
         int i = this.position;
-        long j = ((bArr[i] & 255) << 56) | ((bArr[i + 1] & 255) << 48) | ((bArr[i + 2] & 255) << 40) | ((bArr[i + 3] & 255) << 32) | ((bArr[i + 4] & 255) << 24);
+        int i2 = i + 7;
+        long j = ((bArr[i] & 255) << 56) | ((bArr[i + 1] & 255) << 48) | ((bArr[i + 2] & 255) << 40) | ((bArr[i + 3] & 255) << 32) | ((bArr[i + 4] & 255) << 24) | ((bArr[i + 5] & 255) << 16) | ((bArr[i + 6] & 255) << 8);
         this.position = i + 8;
-        return (bArr[i + 7] & 255) | j | ((bArr[i + 5] & 255) << 16) | ((bArr[i + 6] & 255) << 8);
+        return (bArr[i2] & 255) | j;
     }
 
     public String readNullTerminatedString() {
@@ -270,8 +284,10 @@ public final class ParsableByteArray {
     public short readShort() {
         byte[] bArr = this.data;
         int i = this.position;
+        int i2 = i + 1;
+        int i3 = (bArr[i] & 255) << 8;
         this.position = i + 2;
-        return (short) ((bArr[i + 1] & 255) | ((bArr[i] & 255) << 8));
+        return (short) ((bArr[i2] & 255) | i3);
     }
 
     public String readString(int i) {
@@ -306,16 +322,19 @@ public final class ParsableByteArray {
     public long readUnsignedInt() {
         byte[] bArr = this.data;
         int i = this.position;
+        int i2 = i + 3;
+        long j = ((bArr[i] & 255) << 24) | ((bArr[i + 1] & 255) << 16) | ((bArr[i + 2] & 255) << 8);
         this.position = i + 4;
-        return (bArr[i + 3] & 255) | ((bArr[i] & 255) << 24) | ((bArr[i + 1] & 255) << 16) | ((bArr[i + 2] & 255) << 8);
+        return (bArr[i2] & 255) | j;
     }
 
     public int readUnsignedInt24() {
         byte[] bArr = this.data;
         int i = this.position;
-        int i2 = (bArr[i + 1] & 255) << 8;
+        int i2 = i + 2;
+        int i3 = ((bArr[i + 1] & 255) << 8) | ((bArr[i] & 255) << 16);
         this.position = i + 3;
-        return (bArr[i + 2] & 255) | i2 | ((bArr[i] & 255) << 16);
+        return (bArr[i2] & 255) | i3;
     }
 
     public int readUnsignedIntToInt() {
@@ -337,27 +356,27 @@ public final class ParsableByteArray {
     public int readUnsignedShort() {
         byte[] bArr = this.data;
         int i = this.position;
+        int i2 = i + 1;
+        int i3 = (bArr[i] & 255) << 8;
         this.position = i + 2;
-        return (bArr[i + 1] & 255) | ((bArr[i] & 255) << 8);
+        return (bArr[i2] & 255) | i3;
     }
 
     public long readUtf8EncodedLong() {
         int i;
         int i2;
-        byte b;
-        int i3;
         long j = this.data[this.position];
-        int i4 = 7;
+        int i3 = 7;
         while (true) {
-            if (i4 < 0) {
+            if (i3 < 0) {
                 break;
             }
-            if (((1 << i4) & j) != 0) {
-                i4--;
-            } else if (i4 < 6) {
-                j &= i3 - 1;
-                i2 = 7 - i4;
-            } else if (i4 == 7) {
+            if (((1 << i3) & j) != 0) {
+                i3--;
+            } else if (i3 < 6) {
+                j &= r6 - 1;
+                i2 = 7 - i3;
+            } else if (i3 == 7) {
                 i2 = 1;
             }
         }
@@ -369,7 +388,7 @@ public final class ParsableByteArray {
             if ((this.data[this.position + i] & 192) != 128) {
                 throw new NumberFormatException("Invalid UTF-8 sequence continuation byte: " + j);
             }
-            j = (j << 6) | (b & 63);
+            j = (j << 6) | (r3 & 63);
         }
         this.position += i2;
         return j;
@@ -384,21 +403,21 @@ public final class ParsableByteArray {
                 return Charsets.UTF_8;
             }
         }
-        if (bytesLeft() >= 2) {
-            byte[] bArr2 = this.data;
-            int i2 = this.position;
-            byte b = bArr2[i2];
-            if (b == -2 && bArr2[i2 + 1] == -1) {
-                this.position = i2 + 2;
-                return Charsets.UTF_16BE;
-            } else if (b == -1 && bArr2[i2 + 1] == -2) {
-                this.position = i2 + 2;
-                return Charsets.UTF_16LE;
-            } else {
-                return null;
-            }
+        if (bytesLeft() < 2) {
+            return null;
         }
-        return null;
+        byte[] bArr2 = this.data;
+        int i2 = this.position;
+        byte b = bArr2[i2];
+        if (b == -2 && bArr2[i2 + 1] == -1) {
+            this.position = i2 + 2;
+            return Charsets.UTF_16BE;
+        }
+        if (b != -1 || bArr2[i2 + 1] != -2) {
+            return null;
+        }
+        this.position = i2 + 2;
+        return Charsets.UTF_16LE;
     }
 
     public void reset(int i) {

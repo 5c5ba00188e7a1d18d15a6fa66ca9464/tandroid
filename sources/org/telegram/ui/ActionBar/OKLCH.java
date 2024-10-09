@@ -3,6 +3,7 @@ package org.telegram.ui.ActionBar;
 import android.graphics.Color;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes4.dex */
 public abstract class OKLCH {
     public static final double[] XYZtoLMS_M = {0.819022437996703d, 0.3619062600528904d, -0.1288737815209879d, 0.0329836539323885d, 0.9292868615863434d, 0.0361446663506424d, 0.0481771893596242d, 0.2642395317527308d, 0.6335478284694309d};

@@ -1,6 +1,7 @@
 package com.google.zxing;
 
 import com.google.zxing.common.detector.MathUtils;
+
 /* loaded from: classes.dex */
 public abstract class ResultPoint {
     private final float x;
@@ -52,11 +53,11 @@ public abstract class ResultPoint {
     }
 
     public final boolean equals(Object obj) {
-        if (obj instanceof ResultPoint) {
-            ResultPoint resultPoint = (ResultPoint) obj;
-            return this.x == resultPoint.x && this.y == resultPoint.y;
+        if (!(obj instanceof ResultPoint)) {
+            return false;
         }
-        return false;
+        ResultPoint resultPoint = (ResultPoint) obj;
+        return this.x == resultPoint.x && this.y == resultPoint.y;
     }
 
     public final float getX() {

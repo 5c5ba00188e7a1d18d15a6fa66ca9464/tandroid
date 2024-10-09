@@ -34,6 +34,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes4.dex */
 public abstract class FragmentUsernameBottomSheet {
     /* JADX INFO: Access modifiers changed from: private */

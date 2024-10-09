@@ -4,6 +4,7 @@ import j$.util.function.Consumer;
 import java.util.Arrays;
 import java.util.Iterator;
 import org.telegram.messenger.NotificationCenter;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class J2 extends N2 implements j$.util.function.F {
@@ -17,7 +18,7 @@ public class J2 extends N2 implements j$.util.function.F {
     }
 
     @Override // j$.util.stream.N2, java.lang.Iterable
-    /* renamed from: A */
+    /* renamed from: A, reason: merged with bridge method [inline-methods] */
     public j$.util.H spliterator() {
         return new I2(this, 0, this.c, 0, this.b);
     }
@@ -25,9 +26,10 @@ public class J2 extends N2 implements j$.util.function.F {
     @Override // j$.util.function.F
     public void accept(int i) {
         z();
+        int[] iArr = (int[]) this.e;
         int i2 = this.b;
         this.b = i2 + 1;
-        ((int[]) this.e)[i2] = i;
+        iArr[i2] = i;
     }
 
     @Override // j$.util.stream.N2
@@ -38,10 +40,11 @@ public class J2 extends N2 implements j$.util.function.F {
     public final void forEach(Consumer consumer) {
         if (consumer instanceof j$.util.function.F) {
             g((j$.util.function.F) consumer);
-        } else if (A3.a) {
-            A3.a(getClass(), "{0} calling SpinedBuffer.OfInt.forEach(Consumer)");
-            throw null;
         } else {
+            if (A3.a) {
+                A3.a(getClass(), "{0} calling SpinedBuffer.OfInt.forEach(Consumer)");
+                throw null;
+            }
             j$.util.a.f((I2) spliterator(), consumer);
         }
     }
@@ -61,7 +64,7 @@ public class J2 extends N2 implements j$.util.function.F {
         if (iArr.length < 200) {
             return String.format("%s[length=%d, chunks=%d]%s", getClass().getSimpleName(), Integer.valueOf(iArr.length), Integer.valueOf(this.c), Arrays.toString(iArr));
         }
-        return String.format("%s[length=%d, chunks=%d]%s...", getClass().getSimpleName(), Integer.valueOf(iArr.length), Integer.valueOf(this.c), Arrays.toString(Arrays.copyOf(iArr, (int) NotificationCenter.storyQualityUpdate)));
+        return String.format("%s[length=%d, chunks=%d]%s...", getClass().getSimpleName(), Integer.valueOf(iArr.length), Integer.valueOf(this.c), Arrays.toString(Arrays.copyOf(iArr, NotificationCenter.storyQualityUpdate)));
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

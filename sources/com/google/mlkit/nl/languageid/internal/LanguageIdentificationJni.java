@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes.dex */
 public class LanguageIdentificationJni extends ModelResource {
     private static boolean zza;

@@ -3,6 +3,7 @@ package j$.time;
 import j$.time.temporal.q;
 import java.io.Serializable;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes2.dex */
 public final class i implements j$.time.temporal.k, Comparable, Serializable {
     public static final i e;
@@ -138,26 +139,26 @@ public final class i implements j$.time.temporal.k, Comparable, Serializable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof i) {
-            i iVar = (i) obj;
-            return this.a == iVar.a && this.b == iVar.b && this.c == iVar.c && this.d == iVar.d;
+        if (!(obj instanceof i)) {
+            return false;
         }
-        return false;
+        i iVar = (i) obj;
+        return this.a == iVar.a && this.b == iVar.b && this.c == iVar.c && this.d == iVar.d;
     }
 
     @Override // java.lang.Comparable
-    /* renamed from: f */
+    /* renamed from: f, reason: merged with bridge method [inline-methods] */
     public final int compareTo(i iVar) {
         int compare = Integer.compare(this.a, iVar.a);
-        if (compare == 0) {
-            int compare2 = Integer.compare(this.b, iVar.b);
-            if (compare2 == 0) {
-                int compare3 = Integer.compare(this.c, iVar.c);
-                return compare3 == 0 ? Integer.compare(this.d, iVar.d) : compare3;
-            }
+        if (compare != 0) {
+            return compare;
+        }
+        int compare2 = Integer.compare(this.b, iVar.b);
+        if (compare2 != 0) {
             return compare2;
         }
-        return compare;
+        int compare3 = Integer.compare(this.c, iVar.c);
+        return compare3 == 0 ? Integer.compare(this.d, iVar.d) : compare3;
     }
 
     public final int h() {

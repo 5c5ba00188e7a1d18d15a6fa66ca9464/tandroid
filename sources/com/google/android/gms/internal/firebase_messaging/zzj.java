@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.firebase_messaging;
 
 import java.io.OutputStream;
+
 /* loaded from: classes.dex */
 final class zzj extends OutputStream {
     public final String toString() {

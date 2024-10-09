@@ -73,6 +73,7 @@ import org.telegram.ui.Components.Paint.Views.StickerMakerView;
 import org.telegram.ui.Components.ThanosEffect;
 import org.telegram.ui.Stories.recorder.DownloadButton;
 import org.telegram.ui.Stories.recorder.StoryEntry;
+
 /* loaded from: classes3.dex */
 public class StickerMakerView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final TextView actionTextView;
@@ -179,19 +180,22 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             }
             canvas.save();
             float f3 = width;
+            float centerX = this.rotatedBounds.centerX() / f3;
             float f4 = this.borderImageWidth;
-            float f5 = height;
-            float f6 = this.borderImageHeight;
-            canvas.scale(lerp, lerp, ((this.rotatedBounds.centerX() / f3) * f4) - (f4 / 2.0f), ((this.rotatedBounds.centerY() / f5) * f6) - (f6 / 2.0f));
+            float f5 = (centerX * f4) - (f4 / 2.0f);
+            float f6 = height;
+            float centerY = this.rotatedBounds.centerY() / f6;
+            float f7 = this.borderImageHeight;
+            canvas.scale(lerp, lerp, f5, (centerY * f7) - (f7 / 2.0f));
             if (this.points != null) {
-                float f7 = this.pointsCount;
-                int i = (int) (f * f7);
-                int min = Math.min(500, (int) (f7 * 0.6f)) + i;
+                float f8 = this.pointsCount;
+                int i = (int) (f * f8);
+                int min = Math.min(500, (int) (f8 * 0.6f)) + i;
                 if (this.pointsCount > 0) {
                     while (i <= min) {
-                        float f8 = 1.0f - ((min - i) / this.pointsCount);
-                        if (f8 > 0.0f) {
-                            this.pointsHighlightPaint.setAlpha((int) (f8 * 10.2f * f2));
+                        float f9 = 1.0f - ((min - i) / this.pointsCount);
+                        if (f9 > 0.0f) {
+                            this.pointsHighlightPaint.setAlpha((int) (f9 * 10.2f * f2));
                             canvas.drawPoints(this.points, (i % this.pointsCount) * 2, 2, this.pointsHighlightPaint);
                         }
                         i++;
@@ -201,18 +205,18 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             if (getImage() != null) {
                 canvas.save();
                 canvas.rotate(this.orientation);
-                canvas.scale((1.0f / f3) * this.borderImageWidth, (1.0f / f5) * this.borderImageHeight);
+                canvas.scale((1.0f / f3) * this.borderImageWidth, (1.0f / f6) * this.borderImageHeight);
                 canvas.drawBitmap(getImage(), (-StickerMakerView.this.sourceBitmap.getWidth()) / 2.0f, (-StickerMakerView.this.sourceBitmap.getHeight()) / 2.0f, (Paint) null);
                 canvas.restore();
             }
             if (this.points != null) {
-                float f9 = this.pointsCount;
-                int i2 = (int) (f * f9);
-                int min2 = Math.min(500, (int) (f9 * 0.6f)) + i2;
+                float f10 = this.pointsCount;
+                int i2 = (int) (f * f10);
+                int min2 = Math.min(500, (int) (f10 * 0.6f)) + i2;
                 if (this.pointsCount > 0) {
                     for (int i3 = i2; i3 <= min2; i3++) {
-                        float f10 = (i3 - i2) / (min2 - i2);
-                        this.pointsPaint.setAlpha((int) (Math.min(1.0f, Math.min(f10, 1.0f - f10) * 4.0f) * 255.0f * f2));
+                        float f11 = (i3 - i2) / (min2 - i2);
+                        this.pointsPaint.setAlpha((int) (Math.min(1.0f, Math.min(f11, 1.0f - f11) * 4.0f) * 255.0f * f2));
                         canvas.drawPoints(this.points, (i3 % this.pointsCount) * 2, 2, this.pointsPaint);
                     }
                 }
@@ -226,14 +230,14 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
                 StickerMakerView.this.segmentBorderPaint.setAlpha((int) (255.0f * f2));
                 StickerMakerView.this.borderPaint.setAlpha((int) (f2 * 64.0f));
                 canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.borderPaint);
-                float f11 = f + 0.2f;
-                StickerMakerView.this.bordersPathMeasure.getSegment(length * f, length * f11, this.partSegmentBorderPath, true);
+                float f12 = f + 0.2f;
+                StickerMakerView.this.bordersPathMeasure.getSegment(length * f, length * f12, this.partSegmentBorderPath, true);
                 canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.segmentBorderPaint);
                 canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.segmentBorderPaint);
-                if (f11 > 1.0f) {
+                if (f12 > 1.0f) {
                     this.partSegmentBorderPath.reset();
                     StickerMakerView.this.bordersPathMeasure.setPath(this.segmentBorderPath, false);
-                    StickerMakerView.this.bordersPathMeasure.getSegment(0.0f, (f11 - 1.0f) * length, this.partSegmentBorderPath, true);
+                    StickerMakerView.this.bordersPathMeasure.getSegment(0.0f, (f12 - 1.0f) * length, this.partSegmentBorderPath, true);
                     canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.segmentBorderPaint);
                     canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.segmentBorderPaint);
                 }
@@ -304,8 +308,9 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
                     this.pointsPaint.setColor(-1);
                     this.pointsPaint.setStrokeCap(cap);
                     Paint paint4 = this.pointsPaint;
+                    float dp = AndroidUtilities.dp(0.33f);
                     BlurMaskFilter.Blur blur = BlurMaskFilter.Blur.NORMAL;
-                    paint4.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(0.33f), blur));
+                    paint4.setMaskFilter(new BlurMaskFilter(dp, blur));
                     this.pointsHighlightPaint.setStyle(style);
                     this.pointsHighlightPaint.setColor(Theme.multAlpha(-1, 0.04f));
                     this.pointsHighlightPaint.setStrokeCap(cap);
@@ -506,8 +511,9 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         paint3.setStyle(style);
         paint3.setStrokeCap(cap);
         paint3.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(20.0f)));
+        float dp = AndroidUtilities.dp(4.0f);
         BlurMaskFilter.Blur blur = BlurMaskFilter.Blur.NORMAL;
-        paint3.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(4.0f), blur));
+        paint3.setMaskFilter(new BlurMaskFilter(dp, blur));
         paint4.setColor(-1);
         paint4.setStrokeWidth(AndroidUtilities.dp(3.0f));
         paint4.setStyle(style);
@@ -588,24 +594,26 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             };
             tL_stickers_addStickerToSet = tL_stickers_createStickerSet;
             connectionsManager = connectionsManager3;
-        } else if (stickerUploader.addToFavorite) {
-            hideLoadingDialog();
-            NotificationCenter.getInstance(i).postNotificationNameOnUIThread(NotificationCenter.customStickerCreated, Boolean.FALSE);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda19
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StickerMakerView.lambda$afterUploadingMedia$23(StickerMakerView.StickerUploader.this);
+        } else {
+            if (stickerUploader.addToFavorite) {
+                hideLoadingDialog();
+                NotificationCenter.getInstance(i).postNotificationNameOnUIThread(NotificationCenter.customStickerCreated, Boolean.FALSE);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda19
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StickerMakerView.lambda$afterUploadingMedia$23(StickerMakerView.StickerUploader.this);
+                    }
+                }, 350L);
+                Utilities.Callback callback = stickerUploader.whenDone;
+                if (callback != null) {
+                    callback.run(Boolean.TRUE);
+                    return;
                 }
-            }, 350L);
-            Utilities.Callback callback = stickerUploader.whenDone;
-            if (callback != null) {
-                callback.run(Boolean.TRUE);
                 return;
             }
-            return;
-        } else if (stickerUploader.stickerSet == null) {
-            return;
-        } else {
+            if (stickerUploader.stickerSet == null) {
+                return;
+            }
             TLRPC.TL_stickers_addStickerToSet tL_stickers_addStickerToSet2 = new TLRPC.TL_stickers_addStickerToSet();
             tL_stickers_addStickerToSet2.stickerset = MediaDataController.getInputStickerSet(stickerUploader.stickerSet);
             tL_stickers_addStickerToSet2.sticker = stickerUploader.tlInputStickerSetItem;
@@ -1094,8 +1102,6 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
     public /* synthetic */ void lambda$segmentImage$5(int i, List list, final ArrayList arrayList, final Utilities.Callback callback) {
         float width;
         int height;
-        int i2;
-        int i3;
         if (this.sourceBitmap == null || this.segmentingLoaded) {
             return;
         }
@@ -1140,10 +1146,10 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             this.segmentingLoading = false;
             return;
         }
-        for (int i4 = 0; i4 < list.size(); i4++) {
-            SubjectMock subjectMock = (SubjectMock) list.get(i4);
+        for (int i2 = 0; i2 < list.size(); i2++) {
+            SubjectMock subjectMock = (SubjectMock) list.get(i2);
             SegmentedObject segmentedObject2 = new SegmentedObject();
-            segmentedObject2.bounds.set(subjectMock.startX, subjectMock.startY, i2 + subjectMock.width, i3 + subjectMock.height);
+            segmentedObject2.bounds.set(subjectMock.startX, subjectMock.startY, r6 + subjectMock.width, r8 + subjectMock.height);
             segmentedObject2.rotatedBounds.set(segmentedObject2.bounds);
             matrix.mapRect(segmentedObject2.rotatedBounds);
             segmentedObject2.orientation = i;
@@ -1202,12 +1208,12 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         if (!(tLObject instanceof TLRPC.TL_messageMediaDocument)) {
             hideLoadingDialog();
             showError(tL_error);
-            return;
+        } else {
+            TLRPC.TL_messageMediaDocument tL_messageMediaDocument = (TLRPC.TL_messageMediaDocument) tLObject;
+            stickerUploader.tlInputStickerSetItem = MediaDataController.getInputStickerSetItem(tL_messageMediaDocument.document, stickerUploader.emoji);
+            stickerUploader.mediaDocument = tL_messageMediaDocument;
+            afterUploadingMedia();
         }
-        TLRPC.TL_messageMediaDocument tL_messageMediaDocument = (TLRPC.TL_messageMediaDocument) tLObject;
-        stickerUploader.tlInputStickerSetItem = MediaDataController.getInputStickerSetItem(tL_messageMediaDocument.document, stickerUploader.emoji);
-        stickerUploader.mediaDocument = tL_messageMediaDocument;
-        afterUploadingMedia();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1272,10 +1278,11 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         arrayList.add((Point) list.get(0));
         int i = 1;
         while (i < list.size() - 1) {
-            Point point = (Point) list.get(i);
+            Point point = (Point) list.get(i - 1);
+            Point point2 = (Point) list.get(i);
             i++;
-            if (!isPointOnLine((Point) list.get(i - 1), point, (Point) list.get(i))) {
-                arrayList.add(point);
+            if (!isPointOnLine(point, point2, (Point) list.get(i))) {
+                arrayList.add(point2);
             }
         }
         arrayList.add((Point) list.get(list.size() - 1));
@@ -1432,9 +1439,8 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             Matrix matrix = new Matrix();
             SegmentedObject segmentedObject3 = this.selectedObject;
             matrix.postRotate(segmentedObject3.orientation, segmentedObject3.getDarkMaskImage().getWidth() / 2.0f, this.selectedObject.getDarkMaskImage().getHeight() / 2.0f);
-            SegmentedObject segmentedObject4 = this.selectedObject;
-            if ((segmentedObject4.orientation / 90) % 2 != 0) {
-                float height = (segmentedObject4.getImage().getHeight() - this.selectedObject.getImage().getWidth()) / 2.0f;
+            if ((this.selectedObject.orientation / 90) % 2 != 0) {
+                float height = (r3.getImage().getHeight() - this.selectedObject.getImage().getWidth()) / 2.0f;
                 matrix.postTranslate(height, -height);
             }
             matrix.postScale(bitmap.getWidth() / this.selectedObject.getDarkMaskImage().getHeight(), bitmap.getHeight() / this.selectedObject.getDarkMaskImage().getWidth());
@@ -1467,33 +1473,36 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
                 if (stickerUploader3 == null || !str2.equalsIgnoreCase(stickerUploader3.finalPath)) {
                     return;
                 }
-            } else if (i == NotificationCenter.filePreparingStarted) {
-                StickerUploader stickerUploader4 = this.stickerUploader;
-                if (stickerUploader4 != null && objArr[0] == stickerUploader4.messageObject) {
-                    FileLoader.getInstance(UserConfig.selectedAccount).uploadFile(this.stickerUploader.finalPath, false, true, ConnectionsManager.FileTypeFile);
+            } else {
+                if (i == NotificationCenter.filePreparingStarted) {
+                    StickerUploader stickerUploader4 = this.stickerUploader;
+                    if (stickerUploader4 != null && objArr[0] == stickerUploader4.messageObject) {
+                        FileLoader.getInstance(UserConfig.selectedAccount).uploadFile(this.stickerUploader.finalPath, false, true, ConnectionsManager.FileTypeFile);
+                        return;
+                    }
                     return;
                 }
-                return;
-            } else if (i == NotificationCenter.fileNewChunkAvailable) {
-                StickerUploader stickerUploader5 = this.stickerUploader;
-                if (stickerUploader5 == null || objArr[0] != stickerUploader5.messageObject) {
+                if (i == NotificationCenter.fileNewChunkAvailable) {
+                    StickerUploader stickerUploader5 = this.stickerUploader;
+                    if (stickerUploader5 == null || objArr[0] != stickerUploader5.messageObject) {
+                        return;
+                    }
+                    String str3 = (String) objArr[1];
+                    long longValue = ((Long) objArr[2]).longValue();
+                    long longValue2 = ((Long) objArr[3]).longValue();
+                    Float f = (Float) objArr[4];
+                    float floatValue = f.floatValue();
+                    this.stickerUploader.messageObject.videoEditedInfo.needUpdateProgress = true;
+                    FileLoader.getInstance(this.currentAccount).checkUploadNewDataAvailable(str3, false, Math.max(1L, longValue), longValue2, f);
+                    StickerUploader stickerUploader6 = this.stickerUploader;
+                    stickerUploader6.convertingProgress = Math.max(stickerUploader6.convertingProgress, floatValue);
+                    preparingVideoToast = this.loadingToast;
+                    if (preparingVideoToast == null) {
+                        return;
+                    }
+                } else if (i != NotificationCenter.filePreparingFailed || (stickerUploader = this.stickerUploader) == null || objArr[0] != stickerUploader.messageObject) {
                     return;
                 }
-                String str3 = (String) objArr[1];
-                long longValue = ((Long) objArr[2]).longValue();
-                long longValue2 = ((Long) objArr[3]).longValue();
-                Float f = (Float) objArr[4];
-                float floatValue = f.floatValue();
-                this.stickerUploader.messageObject.videoEditedInfo.needUpdateProgress = true;
-                FileLoader.getInstance(this.currentAccount).checkUploadNewDataAvailable(str3, false, Math.max(1L, longValue), longValue2, f);
-                StickerUploader stickerUploader6 = this.stickerUploader;
-                stickerUploader6.convertingProgress = Math.max(stickerUploader6.convertingProgress, floatValue);
-                preparingVideoToast = this.loadingToast;
-                if (preparingVideoToast == null) {
-                    return;
-                }
-            } else if (i != NotificationCenter.filePreparingFailed || (stickerUploader = this.stickerUploader) == null || objArr[0] != stickerUploader.messageObject) {
-                return;
             }
             hideLoadingDialog();
             return;
@@ -1537,8 +1546,9 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         canvas.drawPath(this.dashPath, this.dashPaint);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0031, code lost:
-        if (r6.getAction() != 1) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0031, code lost:
+    
+        if (r6.getAction() != 1) goto L17;
      */
     @Override // android.view.ViewGroup, android.view.View
     /*
@@ -1671,20 +1681,20 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
     }
 
     public ThanosEffect getThanosEffect() {
-        if (ThanosEffect.supports()) {
-            if (this.thanosEffect == null) {
-                ThanosEffect thanosEffect = new ThanosEffect(getContext(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda2
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        StickerMakerView.this.lambda$getThanosEffect$0();
-                    }
-                });
-                this.thanosEffect = thanosEffect;
-                addView(thanosEffect, LayoutHelper.createFrame(-1, -1.0f));
-            }
-            return this.thanosEffect;
+        if (!ThanosEffect.supports()) {
+            return null;
         }
-        return null;
+        if (this.thanosEffect == null) {
+            ThanosEffect thanosEffect = new ThanosEffect(getContext(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda2
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StickerMakerView.this.lambda$getThanosEffect$0();
+                }
+            });
+            this.thanosEffect = thanosEffect;
+            addView(thanosEffect, LayoutHelper.createFrame(-1, -1.0f));
+        }
+        return this.thanosEffect;
     }
 
     public Bitmap getThanosImage(MediaController.PhotoEntry photoEntry, int i) {
@@ -1772,10 +1782,12 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
                 RectF rectF = AndroidUtilities.rectTmp;
                 RectF rectF2 = this.objects[i].rotatedBounds;
                 float f3 = width;
-                float f4 = this.imageReceiverWidth;
-                float f5 = height;
-                float f6 = this.imageReceiverHeight;
-                rectF.set((rectF2.left / f3) * f4, (rectF2.top / f5) * f6, (rectF2.right / f3) * f4, (rectF2.bottom / f5) * f6);
+                float f4 = rectF2.left / f3;
+                float f5 = this.imageReceiverWidth;
+                float f6 = height;
+                float f7 = rectF2.top / f6;
+                float f8 = this.imageReceiverHeight;
+                rectF.set(f4 * f5, f7 * f8, (rectF2.right / f3) * f5, (rectF2.bottom / f6) * f8);
                 this.imageReceiverMatrix.mapRect(rectF);
                 if (rectF.contains(f, f2)) {
                     return segmentedObject;

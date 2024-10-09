@@ -3,6 +3,7 @@ package com.google.android.gms.internal.location;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.api.internal.RemoteCall;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzbo implements RemoteCall, zzcs {

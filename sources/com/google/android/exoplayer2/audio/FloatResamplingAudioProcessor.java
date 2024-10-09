@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.audio;
 import com.google.android.exoplayer2.audio.AudioProcessor;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 final class FloatResamplingAudioProcessor extends BaseAudioProcessor {
     private static final int FLOAT_NAN_AS_INT = Float.floatToIntBits(Float.NaN);
@@ -39,9 +40,10 @@ final class FloatResamplingAudioProcessor extends BaseAudioProcessor {
                 writePcm32BitFloat(((byteBuffer.get(position) & 255) << 8) | ((byteBuffer.get(position + 1) & 255) << 16) | ((byteBuffer.get(position + 2) & 255) << 24), replaceOutputBuffer);
                 position += 3;
             }
-        } else if (i2 != 805306368) {
-            throw new IllegalStateException();
         } else {
+            if (i2 != 805306368) {
+                throw new IllegalStateException();
+            }
             replaceOutputBuffer = replaceOutputBuffer(i);
             while (position < limit) {
                 writePcm32BitFloat((byteBuffer.get(position) & 255) | ((byteBuffer.get(position + 1) & 255) << 8) | ((byteBuffer.get(position + 2) & 255) << 16) | ((byteBuffer.get(position + 3) & 255) << 24), replaceOutputBuffer);

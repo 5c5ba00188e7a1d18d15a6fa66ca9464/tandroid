@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONObject;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class DefaultHttpClientCallTask extends AsyncTask {
@@ -106,8 +107,13 @@ public class DefaultHttpClientCallTask extends AsyncTask {
                 createHttpsConnection.setDoOutput(true);
                 createHttpsConnection.setFixedLengthStreamingMode(bArr.length);
                 OutputStream outputStream = createHttpsConnection.getOutputStream();
-                writePayload(outputStream, bArr);
-                outputStream.close();
+                try {
+                    writePayload(outputStream, bArr);
+                    outputStream.close();
+                } catch (Throwable th) {
+                    outputStream.close();
+                    throw th;
+                }
             }
             if (isCancelled()) {
                 createHttpsConnection.disconnect();
@@ -134,9 +140,9 @@ public class DefaultHttpClientCallTask extends AsyncTask {
             }
             createHttpsConnection.disconnect();
             return httpResponse;
-        } catch (Throwable th) {
+        } catch (Throwable th2) {
             createHttpsConnection.disconnect();
-            throw th;
+            throw th2;
         }
     }
 
@@ -203,9 +209,9 @@ public class DefaultHttpClientCallTask extends AsyncTask {
         this.mTracker.onFinish(this);
         if (obj instanceof Exception) {
             this.mServiceCallback.onCallFailed((Exception) obj);
-            return;
+        } else {
+            this.mServiceCallback.onCallSucceeded((HttpResponse) obj);
         }
-        this.mServiceCallback.onCallSucceeded((HttpResponse) obj);
     }
 
     @Override // android.os.AsyncTask

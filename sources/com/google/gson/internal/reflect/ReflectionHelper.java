@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+
 /* loaded from: classes.dex */
 public abstract class ReflectionHelper {
     private static final RecordHelper RECORD_HELPER;
@@ -156,8 +157,8 @@ public abstract class ReflectionHelper {
         return field.getDeclaringClass().getName() + "#" + field.getName();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0085  */
-    /* JADX WARN: Removed duplicated region for block: B:19:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0085  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -169,21 +170,23 @@ public abstract class ReflectionHelper {
             sb = new StringBuilder();
             sb.append("field '");
             constructorToString = fieldToString((Field) accessibleObject);
-        } else if (accessibleObject instanceof Method) {
-            Method method = (Method) accessibleObject;
-            StringBuilder sb2 = new StringBuilder(method.getName());
-            appendExecutableParameters(method, sb2);
-            str = "method '" + method.getDeclaringClass().getName() + "#" + sb2.toString() + "'";
-            if (z && Character.isLowerCase(str.charAt(0))) {
-                return Character.toUpperCase(str.charAt(0)) + str.substring(1);
-            }
-        } else if (!(accessibleObject instanceof Constructor)) {
-            sb = new StringBuilder();
-            sb.append("<unknown AccessibleObject> ");
-            sb.append(accessibleObject.toString());
-            str = sb.toString();
-            return z ? str : str;
         } else {
+            if (accessibleObject instanceof Method) {
+                Method method = (Method) accessibleObject;
+                StringBuilder sb2 = new StringBuilder(method.getName());
+                appendExecutableParameters(method, sb2);
+                str = "method '" + method.getDeclaringClass().getName() + "#" + sb2.toString() + "'";
+                if (z && Character.isLowerCase(str.charAt(0))) {
+                    return Character.toUpperCase(str.charAt(0)) + str.substring(1);
+                }
+            }
+            if (!(accessibleObject instanceof Constructor)) {
+                sb = new StringBuilder();
+                sb.append("<unknown AccessibleObject> ");
+                sb.append(accessibleObject.toString());
+                str = sb.toString();
+                return z ? str : str;
+            }
             sb = new StringBuilder();
             sb.append("constructor '");
             constructorToString = constructorToString((Constructor) accessibleObject);
@@ -204,12 +207,11 @@ public abstract class ReflectionHelper {
     }
 
     private static String getInaccessibleTroubleshootingSuffix(Exception exc) {
-        if (exc.getClass().getName().equals("java.lang.reflect.InaccessibleObjectException")) {
-            String message = exc.getMessage();
-            String str = (message == null || !message.contains("to module com.google.gson")) ? "reflection-inaccessible" : "reflection-inaccessible-to-module-gson";
-            return "\nSee " + TroubleshootingGuide.createUrl(str);
+        if (!exc.getClass().getName().equals("java.lang.reflect.InaccessibleObjectException")) {
+            return "";
         }
-        return "";
+        String message = exc.getMessage();
+        return "\nSee " + TroubleshootingGuide.createUrl((message == null || !message.contains("to module com.google.gson")) ? "reflection-inaccessible" : "reflection-inaccessible-to-module-gson");
     }
 
     public static String[] getRecordComponentNames(Class cls) {
@@ -232,8 +234,7 @@ public abstract class ReflectionHelper {
         try {
             accessibleObject.setAccessible(true);
         } catch (Exception e) {
-            String accessibleObjectDescription = getAccessibleObjectDescription(accessibleObject, false);
-            throw new JsonIOException("Failed making " + accessibleObjectDescription + " accessible; either increase its visibility or write a custom TypeAdapter for its declaring type." + getInaccessibleTroubleshootingSuffix(e), e);
+            throw new JsonIOException("Failed making " + getAccessibleObjectDescription(accessibleObject, false) + " accessible; either increase its visibility or write a custom TypeAdapter for its declaring type." + getInaccessibleTroubleshootingSuffix(e), e);
         }
     }
 

@@ -1,4 +1,5 @@
 package com.google.zxing;
+
 /* loaded from: classes.dex */
 public final class PlanarYUVLuminanceSource extends LuminanceSource {
     private final int dataHeight;

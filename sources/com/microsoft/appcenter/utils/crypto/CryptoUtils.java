@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
+
 /* loaded from: classes.dex */
 public class CryptoUtils {
     static final ICryptoFactory DEFAULT_CRYPTO_FACTORY = new ICryptoFactory() { // from class: com.microsoft.appcenter.utils.crypto.CryptoUtils.1
@@ -142,7 +143,7 @@ public class CryptoUtils {
         this(context, DEFAULT_CRYPTO_FACTORY, Build.VERSION.SDK_INT);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0044 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0044 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -269,8 +270,7 @@ public class CryptoUtils {
             CryptoHandlerEntry cryptoHandlerEntry = (CryptoHandlerEntry) this.mCryptoHandlers.values().iterator().next();
             CryptoHandler cryptoHandler = cryptoHandlerEntry.mCryptoHandler;
             try {
-                String encodeToString = Base64.encodeToString(cryptoHandler.encrypt(this.mCryptoFactory, this.mApiLevel, getKeyStoreEntry(cryptoHandlerEntry), str.getBytes("UTF-8")), 0);
-                return cryptoHandler.getAlgorithm() + ":" + encodeToString;
+                return cryptoHandler.getAlgorithm() + ":" + Base64.encodeToString(cryptoHandler.encrypt(this.mCryptoFactory, this.mApiLevel, getKeyStoreEntry(cryptoHandlerEntry), str.getBytes("UTF-8")), 0);
             } catch (InvalidKeyException e) {
                 if (!(e.getCause() instanceof CertificateExpiredException) && !"android.security.keystore.KeyExpiredException".equals(e.getClass().getName())) {
                     throw e;

@@ -1,4 +1,5 @@
 package com.google.android.datatransport.cct;
+
 /* loaded from: classes.dex */
 public abstract class StringMerger {
     /* JADX INFO: Access modifiers changed from: package-private */

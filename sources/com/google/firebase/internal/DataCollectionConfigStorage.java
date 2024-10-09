@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import com.google.firebase.events.Publisher;
+
 /* loaded from: classes.dex */
 public class DataCollectionConfigStorage {
     private boolean dataCollectionDefaultEnabled;

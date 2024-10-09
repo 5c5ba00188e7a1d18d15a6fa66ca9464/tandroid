@@ -3,6 +3,7 @@ package com.coremedia.iso;
 import com.googlecode.mp4parser.BasicContainer;
 import com.googlecode.mp4parser.util.Logger;
 import java.io.Closeable;
+
 /* loaded from: classes.dex */
 public abstract class IsoFile extends BasicContainer implements Closeable {
     private static Logger LOG = Logger.getLogger(IsoFile.class);

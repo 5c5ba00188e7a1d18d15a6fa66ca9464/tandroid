@@ -3,6 +3,7 @@ package j$.util.concurrent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import sun.misc.Unsafe;
+
 /* loaded from: classes2.dex */
 abstract class u {
     private static final Unsafe a;
@@ -26,7 +27,6 @@ abstract class u {
     }
 
     private static Field b() {
-        Field[] declaredFields;
         try {
             return Unsafe.class.getDeclaredField("theUnsafe");
         } catch (NoSuchFieldException e) {

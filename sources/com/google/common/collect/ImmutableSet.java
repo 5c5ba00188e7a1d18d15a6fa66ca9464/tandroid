@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
+
 /* loaded from: classes.dex */
 public abstract class ImmutableSet extends ImmutableCollection implements Set {
     private transient ImmutableList asList;
@@ -29,52 +30,52 @@ public abstract class ImmutableSet extends ImmutableCollection implements Set {
     }
 
     private static ImmutableSet construct(int i, Object... objArr) {
-        if (i != 0) {
-            if (i == 1) {
-                Object obj = objArr[0];
-                Objects.requireNonNull(obj);
-                return of(obj);
-            }
-            int chooseTableSize = chooseTableSize(i);
-            Object[] objArr2 = new Object[chooseTableSize];
-            int i2 = chooseTableSize - 1;
-            int i3 = 0;
-            int i4 = 0;
-            for (int i5 = 0; i5 < i; i5++) {
-                Object checkElementNotNull = ObjectArrays.checkElementNotNull(objArr[i5], i5);
-                int hashCode = checkElementNotNull.hashCode();
-                int smear = Hashing.smear(hashCode);
-                while (true) {
-                    int i6 = smear & i2;
-                    Object obj2 = objArr2[i6];
-                    if (obj2 == null) {
-                        objArr[i4] = checkElementNotNull;
-                        objArr2[i6] = checkElementNotNull;
-                        i3 += hashCode;
-                        i4++;
-                        break;
-                    } else if (obj2.equals(checkElementNotNull)) {
-                        break;
-                    } else {
-                        smear++;
-                    }
+        if (i == 0) {
+            return of();
+        }
+        if (i == 1) {
+            Object obj = objArr[0];
+            Objects.requireNonNull(obj);
+            return of(obj);
+        }
+        int chooseTableSize = chooseTableSize(i);
+        Object[] objArr2 = new Object[chooseTableSize];
+        int i2 = chooseTableSize - 1;
+        int i3 = 0;
+        int i4 = 0;
+        for (int i5 = 0; i5 < i; i5++) {
+            Object checkElementNotNull = ObjectArrays.checkElementNotNull(objArr[i5], i5);
+            int hashCode = checkElementNotNull.hashCode();
+            int smear = Hashing.smear(hashCode);
+            while (true) {
+                int i6 = smear & i2;
+                Object obj2 = objArr2[i6];
+                if (obj2 == null) {
+                    objArr[i4] = checkElementNotNull;
+                    objArr2[i6] = checkElementNotNull;
+                    i3 += hashCode;
+                    i4++;
+                    break;
                 }
-            }
-            Arrays.fill(objArr, i4, i, (Object) null);
-            if (i4 == 1) {
-                Object obj3 = objArr[0];
-                Objects.requireNonNull(obj3);
-                return new SingletonImmutableSet(obj3);
-            } else if (chooseTableSize(i4) < chooseTableSize / 2) {
-                return construct(i4, objArr);
-            } else {
-                if (shouldTrim(i4, objArr.length)) {
-                    objArr = Arrays.copyOf(objArr, i4);
+                if (obj2.equals(checkElementNotNull)) {
+                    break;
                 }
-                return new RegularImmutableSet(objArr, i3, objArr2, i2, i4);
+                smear++;
             }
         }
-        return of();
+        Arrays.fill(objArr, i4, i, (Object) null);
+        if (i4 == 1) {
+            Object obj3 = objArr[0];
+            Objects.requireNonNull(obj3);
+            return new SingletonImmutableSet(obj3);
+        }
+        if (chooseTableSize(i4) < chooseTableSize / 2) {
+            return construct(i4, objArr);
+        }
+        if (shouldTrim(i4, objArr.length)) {
+            objArr = Arrays.copyOf(objArr, i4);
+        }
+        return new RegularImmutableSet(objArr, i3, objArr2, i2, i4);
     }
 
     public static ImmutableSet copyOf(Collection collection) {
@@ -120,12 +121,12 @@ public abstract class ImmutableSet extends ImmutableCollection implements Set {
     @Override // com.google.common.collect.ImmutableCollection
     public ImmutableList asList() {
         ImmutableList immutableList = this.asList;
-        if (immutableList == null) {
-            ImmutableList createAsList = createAsList();
-            this.asList = createAsList;
-            return createAsList;
+        if (immutableList != null) {
+            return immutableList;
         }
-        return immutableList;
+        ImmutableList createAsList = createAsList();
+        this.asList = createAsList;
+        return createAsList;
     }
 
     ImmutableList createAsList() {

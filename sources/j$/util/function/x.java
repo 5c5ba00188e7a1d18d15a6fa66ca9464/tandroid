@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import j$.util.function.Function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class x implements Function {
     public final /* synthetic */ int a;

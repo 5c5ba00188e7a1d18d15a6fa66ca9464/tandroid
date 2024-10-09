@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.metadata.id3.MlltFrame;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 final class MlltSeeker implements Seeker {
     private final long durationUs;

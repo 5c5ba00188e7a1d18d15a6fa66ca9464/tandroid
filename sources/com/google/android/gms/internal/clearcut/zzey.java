@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class zzey {
     private static final zzey zzoz = new zzey(0, new int[0], new Object[0], false);
@@ -38,11 +39,17 @@ public final class zzey {
         int i3 = i & 7;
         if (i3 == 0) {
             zzfrVar.zzi(i2, ((Long) obj).longValue());
-        } else if (i3 == 1) {
+            return;
+        }
+        if (i3 == 1) {
             zzfrVar.zzc(i2, ((Long) obj).longValue());
-        } else if (i3 == 2) {
+            return;
+        }
+        if (i3 == 2) {
             zzfrVar.zza(i2, (zzbb) obj);
-        } else if (i3 != 3) {
+            return;
+        }
+        if (i3 != 3) {
             if (i3 != 5) {
                 throw new RuntimeException(zzco.zzbn());
             }
@@ -71,31 +78,31 @@ public final class zzey {
         if (this == obj) {
             return true;
         }
-        if (obj != null && (obj instanceof zzey)) {
-            zzey zzeyVar = (zzey) obj;
-            int i = this.count;
-            if (i == zzeyVar.count) {
-                int[] iArr = this.zzpa;
-                int[] iArr2 = zzeyVar.zzpa;
-                int i2 = 0;
-                while (true) {
-                    if (i2 >= i) {
-                        Object[] objArr = this.zzmj;
-                        Object[] objArr2 = zzeyVar.zzmj;
-                        int i3 = this.count;
-                        for (int i4 = 0; i4 < i3; i4++) {
-                            if (objArr[i4].equals(objArr2[i4])) {
-                            }
-                        }
-                        return true;
-                    } else if (iArr[i2] != iArr2[i2]) {
-                        break;
-                    } else {
-                        i2++;
-                    }
-                }
-            }
+        if (obj == null || !(obj instanceof zzey)) {
             return false;
+        }
+        zzey zzeyVar = (zzey) obj;
+        int i = this.count;
+        if (i == zzeyVar.count) {
+            int[] iArr = this.zzpa;
+            int[] iArr2 = zzeyVar.zzpa;
+            int i2 = 0;
+            while (true) {
+                if (i2 >= i) {
+                    Object[] objArr = this.zzmj;
+                    Object[] objArr2 = zzeyVar.zzmj;
+                    int i3 = this.count;
+                    for (int i4 = 0; i4 < i3; i4++) {
+                        if (objArr[i4].equals(objArr2[i4])) {
+                        }
+                    }
+                    return true;
+                }
+                if (iArr[i2] != iArr2[i2]) {
+                    break;
+                }
+                i2++;
+            }
         }
         return false;
     }
@@ -157,9 +164,10 @@ public final class zzey {
                 zze = zzbn.zzc(i5, (zzbb) this.zzmj[i3]);
             } else if (i6 == 3) {
                 zze = (zzbn.zzr(i5) << 1) + ((zzey) this.zzmj[i3]).zzas();
-            } else if (i6 != 5) {
-                throw new IllegalStateException(zzco.zzbn());
             } else {
+                if (i6 != 5) {
+                    throw new IllegalStateException(zzco.zzbn());
+                }
                 zze = zzbn.zzj(i5, ((Integer) this.zzmj[i3]).intValue());
             }
             i2 += zze;

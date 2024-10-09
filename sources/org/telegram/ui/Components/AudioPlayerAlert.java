@@ -95,6 +95,7 @@ import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.TopicsFragment;
+
 /* loaded from: classes3.dex */
 public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, DownloadController.FileDownloadProgressListener {
     private static final float[] speeds = {0.5f, 1.0f, 1.2f, 1.5f, 1.7f, 2.0f};
@@ -218,12 +219,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     r5.lastTime = currentTimeMillis;
                     long j2 = currentTimeMillis - r5.lastUpdateTime;
                     int i = r5.pressedCount;
-                    float f3 = (float) duration;
-                    float f4 = ((f2 * f3) - ((float) (j * (i == 1 ? 3L : i == 2 ? 6L : 12L)))) / f3;
-                    if (f4 < 0.0f) {
-                        f4 = 0.0f;
+                    float f3 = ((f2 * r0) - ((float) (j * (i == 1 ? 3L : i == 2 ? 6L : 12L)))) / ((float) duration);
+                    if (f3 < 0.0f) {
+                        f3 = 0.0f;
                     }
-                    AudioPlayerAlert.this.rewindingProgress = f4;
+                    AudioPlayerAlert.this.rewindingProgress = f3;
                     MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
                     if (playingMessageObject != null && playingMessageObject.isMusic()) {
                         AudioPlayerAlert.this.updateProgress(playingMessageObject);
@@ -239,7 +239,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                             MediaController.getInstance().seekToProgress(MediaController.getInstance().getPlayingMessageObject(), 0.0f);
                             MediaController.getInstance().pauseByRewind();
                         } else {
-                            MediaController.getInstance().seekToProgress(MediaController.getInstance().getPlayingMessageObject(), f4);
+                            MediaController.getInstance().seekToProgress(MediaController.getInstance().getPlayingMessageObject(), f3);
                         }
                     }
                     13 r1 = 13.this;
@@ -257,8 +257,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             accessibilityNodeInfo.addAction(16);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x002c, code lost:
-            if (r4 != 3) goto L12;
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x002c, code lost:
+        
+            if (r4 != 3) goto L37;
          */
         @Override // android.view.View
         /*
@@ -276,8 +277,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     if (action == 2) {
                         float f = rawX - this.startX;
                         float f2 = rawY - this.startY;
-                        float f3 = this.val$touchSlop;
-                        if ((f * f) + (f2 * f2) > f3 * f3 && AudioPlayerAlert.this.rewindingState == 0) {
+                        float f3 = (f * f) + (f2 * f2);
+                        float f4 = this.val$touchSlop;
+                        if (f3 > f4 * f4 && AudioPlayerAlert.this.rewindingState == 0) {
                             AndroidUtilities.cancelRunOnUIThread(this.pressedRunnable);
                             setPressed(false);
                         }
@@ -371,8 +373,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             accessibilityNodeInfo.addAction(16);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x002b, code lost:
-            if (r3 != 3) goto L12;
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x002b, code lost:
+        
+            if (r3 != 3) goto L39;
          */
         @Override // android.view.View
         /*
@@ -390,8 +393,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     if (action == 2) {
                         float f = rawX - this.startX;
                         float f2 = rawY - this.startY;
-                        float f3 = this.val$touchSlop;
-                        if ((f * f) + (f2 * f2) > f3 * f3 && !this.pressed) {
+                        float f3 = (f * f) + (f2 * f2);
+                        float f4 = this.val$touchSlop;
+                        if (f3 > f4 * f4 && !this.pressed) {
                             AndroidUtilities.cancelRunOnUIThread(this.pressedRunnable);
                             setPressed(false);
                         }
@@ -558,26 +562,26 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 }
                 z = z2;
             }
-            if (this.clipProgress[i] > 0.0f || z) {
-                float width = view.getWidth();
-                float height = view.getHeight();
-                int saveLayer = canvas.saveLayer(0.0f, 0.0f, width, height, null, 31);
-                boolean drawChild = super.drawChild(canvas, view, j);
-                float f = width * (1.0f - this.clipProgress[i]);
-                float f2 = f + this.gradientSize;
-                this.gradientMatrix.setTranslate(f, 0.0f);
-                this.gradientShader.setLocalMatrix(this.gradientMatrix);
-                canvas.drawRect(f, 0.0f, f2, height, this.gradientPaint);
-                if (width > f2) {
-                    canvas.drawRect(f2, 0.0f, width, height, this.erasePaint);
-                }
-                if (z) {
-                    canvas.drawRect(this.rectF, this.erasePaint);
-                }
-                canvas.restoreToCount(saveLayer);
-                return drawChild;
+            if (this.clipProgress[i] <= 0.0f && !z) {
+                return super.drawChild(canvas, view, j);
             }
-            return super.drawChild(canvas, view, j);
+            float width = view.getWidth();
+            float height = view.getHeight();
+            int saveLayer = canvas.saveLayer(0.0f, 0.0f, width, height, null, 31);
+            boolean drawChild = super.drawChild(canvas, view, j);
+            float f = width * (1.0f - this.clipProgress[i]);
+            float f2 = f + this.gradientSize;
+            this.gradientMatrix.setTranslate(f, 0.0f);
+            this.gradientShader.setLocalMatrix(this.gradientMatrix);
+            canvas.drawRect(f, 0.0f, f2, height, this.gradientPaint);
+            if (width > f2) {
+                canvas.drawRect(f2, 0.0f, width, height, this.erasePaint);
+            }
+            if (z) {
+                canvas.drawRect(this.rectF, this.erasePaint);
+            }
+            canvas.restoreToCount(saveLayer);
+            return drawChild;
         }
 
         public TextView getNextTextView() {
@@ -604,61 +608,64 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             CharSequence text = this.textViews[this.activeIndex].getText();
             if (TextUtils.isEmpty(text) || !z) {
                 this.textViews[this.activeIndex].setText(charSequence);
-            } else if (!TextUtils.equals(charSequence, text)) {
-                this.stableOffest = 0;
-                int min = Math.min(charSequence.length(), text.length());
-                for (int i = 0; i < min && charSequence.charAt(i) == text.charAt(i); i++) {
-                    this.stableOffest++;
-                }
-                if (this.stableOffest <= 3) {
-                    this.stableOffest = -1;
-                }
-                final int i2 = this.activeIndex;
-                final int i3 = i2 == 0 ? 1 : 0;
-                this.activeIndex = i3;
-                AnimatorSet animatorSet = this.animatorSet;
-                if (animatorSet != null) {
-                    animatorSet.cancel();
-                }
-                AnimatorSet animatorSet2 = new AnimatorSet();
-                this.animatorSet = animatorSet2;
-                animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AudioPlayerAlert.ClippingTextViewSwitcher.1
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        ClippingTextViewSwitcher.this.textViews[i2].setVisibility(8);
-                    }
-                });
-                this.textViews[i3].setText(charSequence);
-                this.textViews[i3].bringToFront();
-                this.textViews[i3].setVisibility(0);
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.clipProgress[i2], 0.75f);
-                ofFloat.setDuration(200L);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AudioPlayerAlert$ClippingTextViewSwitcher$$ExternalSyntheticLambda0
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        AudioPlayerAlert.ClippingTextViewSwitcher.this.lambda$setText$0(i2, valueAnimator);
-                    }
-                });
-                ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.clipProgress[i3], 0.0f);
-                ofFloat2.setStartDelay(100L);
-                ofFloat2.setDuration(200L);
-                ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AudioPlayerAlert$ClippingTextViewSwitcher$$ExternalSyntheticLambda1
-                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        AudioPlayerAlert.ClippingTextViewSwitcher.this.lambda$setText$1(i3, valueAnimator);
-                    }
-                });
-                TextView textView = this.textViews[i2];
-                Property property = View.ALPHA;
-                ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(textView, property, 0.0f);
-                ofFloat3.setStartDelay(75L);
-                ofFloat3.setDuration(150L);
-                ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this.textViews[i3], property, 1.0f);
-                ofFloat4.setStartDelay(75L);
-                ofFloat4.setDuration(150L);
-                this.animatorSet.playTogether(ofFloat, ofFloat2, ofFloat3, ofFloat4);
-                this.animatorSet.start();
+                return;
             }
+            if (TextUtils.equals(charSequence, text)) {
+                return;
+            }
+            this.stableOffest = 0;
+            int min = Math.min(charSequence.length(), text.length());
+            for (int i = 0; i < min && charSequence.charAt(i) == text.charAt(i); i++) {
+                this.stableOffest++;
+            }
+            if (this.stableOffest <= 3) {
+                this.stableOffest = -1;
+            }
+            final int i2 = this.activeIndex;
+            final int i3 = i2 == 0 ? 1 : 0;
+            this.activeIndex = i3;
+            AnimatorSet animatorSet = this.animatorSet;
+            if (animatorSet != null) {
+                animatorSet.cancel();
+            }
+            AnimatorSet animatorSet2 = new AnimatorSet();
+            this.animatorSet = animatorSet2;
+            animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AudioPlayerAlert.ClippingTextViewSwitcher.1
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    ClippingTextViewSwitcher.this.textViews[i2].setVisibility(8);
+                }
+            });
+            this.textViews[i3].setText(charSequence);
+            this.textViews[i3].bringToFront();
+            this.textViews[i3].setVisibility(0);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.clipProgress[i2], 0.75f);
+            ofFloat.setDuration(200L);
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AudioPlayerAlert$ClippingTextViewSwitcher$$ExternalSyntheticLambda0
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    AudioPlayerAlert.ClippingTextViewSwitcher.this.lambda$setText$0(i2, valueAnimator);
+                }
+            });
+            ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.clipProgress[i3], 0.0f);
+            ofFloat2.setStartDelay(100L);
+            ofFloat2.setDuration(200L);
+            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.AudioPlayerAlert$ClippingTextViewSwitcher$$ExternalSyntheticLambda1
+                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    AudioPlayerAlert.ClippingTextViewSwitcher.this.lambda$setText$1(i3, valueAnimator);
+                }
+            });
+            TextView textView = this.textViews[i2];
+            Property property = View.ALPHA;
+            ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(textView, (Property<TextView, Float>) property, 0.0f);
+            ofFloat3.setStartDelay(75L);
+            ofFloat3.setDuration(150L);
+            ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this.textViews[i3], (Property<TextView, Float>) property, 1.0f);
+            ofFloat4.setStartDelay(75L);
+            ofFloat4.setDuration(150L);
+            this.animatorSet.playTogether(ofFloat, ofFloat2, ofFloat3, ofFloat4);
+            this.animatorSet.start();
         }
     }
 
@@ -820,7 +827,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 return;
             }
             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-            translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
+            if (lowerCase.equals(translitString) || translitString.length() == 0) {
+                translitString = null;
+            }
             int i = (translitString != null ? 1 : 0) + 1;
             String[] strArr = new String[i];
             strArr[0] = lowerCase;
@@ -953,10 +962,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             AudioPlayerCell audioPlayerCell = (AudioPlayerCell) viewHolder.itemView;
             if (AudioPlayerAlert.this.searchWas) {
                 arrayList = this.searchResult;
-            } else if (!SharedConfig.playOrderReversed) {
-                obj = AudioPlayerAlert.this.playlist.get((AudioPlayerAlert.this.playlist.size() - i) - 1);
-                audioPlayerCell.setMessageObject((MessageObject) obj);
             } else {
+                if (!SharedConfig.playOrderReversed) {
+                    obj = AudioPlayerAlert.this.playlist.get((AudioPlayerAlert.this.playlist.size() - i) - 1);
+                    audioPlayerCell.setMessageObject((MessageObject) obj);
+                }
                 arrayList = AudioPlayerAlert.this.playlist;
             }
             obj = arrayList.get(i);
@@ -978,29 +988,32 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             if (str == null) {
                 this.searchResult.clear();
                 notifyDataSetChanged();
-                return;
+            } else {
+                DispatchQueue dispatchQueue = Utilities.searchQueue;
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.AudioPlayerAlert$ListAdapter$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AudioPlayerAlert.ListAdapter.this.lambda$search$0(str);
+                    }
+                };
+                this.searchRunnable = runnable;
+                dispatchQueue.postRunnable(runnable, 300L);
             }
-            DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.AudioPlayerAlert$ListAdapter$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    AudioPlayerAlert.ListAdapter.this.lambda$search$0(str);
-                }
-            };
-            this.searchRunnable = runnable;
-            dispatchQueue.postRunnable(runnable, 300L);
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0154, code lost:
-        if (r1 != null) goto L15;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0154, code lost:
+    
+        if (r1 != null) goto L29;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0193, code lost:
-        if (r1 != null) goto L15;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0195, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0195, code lost:
+    
         r2 = r38.actionBar;
         r1 = org.telegram.messenger.ContactsController.formatName(r1.first_name, r1.last_name);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0193, code lost:
+    
+        if (r1 != null) goto L29;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1032,12 +1045,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 audioPlayerAlert.lastRewindingTime = currentTimeMillis;
                 long j2 = currentTimeMillis - audioPlayerAlert.lastUpdateRewindingPlayerTime;
                 int i2 = audioPlayerAlert.rewindingForwardPressedCount;
-                float f2 = (float) duration;
-                float f3 = ((f * f2) + ((float) (((i2 == 1 ? 3L : i2 == 2 ? 6L : 12L) * j) - j))) / f2;
-                if (f3 < 0.0f) {
-                    f3 = 0.0f;
+                float f2 = ((f * r0) + ((float) (((i2 == 1 ? 3L : i2 == 2 ? 6L : 12L) * j) - j))) / ((float) duration);
+                if (f2 < 0.0f) {
+                    f2 = 0.0f;
                 }
-                audioPlayerAlert.rewindingProgress = f3;
+                audioPlayerAlert.rewindingProgress = f2;
                 MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
                 if (playingMessageObject != null && playingMessageObject.isMusic()) {
                     if (!MediaController.getInstance().isMessagePaused()) {
@@ -1049,7 +1061,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 if (audioPlayerAlert2.rewindingState == 1 && audioPlayerAlert2.rewindingForwardPressedCount > 0 && MediaController.getInstance().isMessagePaused()) {
                     if (j2 > 200 || AudioPlayerAlert.this.rewindingProgress == 0.0f) {
                         AudioPlayerAlert.this.lastUpdateRewindingPlayerTime = currentTimeMillis;
-                        MediaController.getInstance().seekToProgress(MediaController.getInstance().getPlayingMessageObject(), f3);
+                        MediaController.getInstance().seekToProgress(MediaController.getInstance().getPlayingMessageObject(), f2);
                     }
                     AudioPlayerAlert audioPlayerAlert3 = AudioPlayerAlert.this;
                     if (audioPlayerAlert3.rewindingForwardPressedCount <= 0 || audioPlayerAlert3.rewindingProgress <= 0.0f) {
@@ -1324,10 +1336,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             public void onTextChanged(EditText editText) {
                 if (editText.length() > 0) {
                     AudioPlayerAlert.this.listAdapter.search(editText.getText().toString());
-                    return;
+                } else {
+                    AudioPlayerAlert.this.searchWas = false;
+                    AudioPlayerAlert.this.listAdapter.search(null);
                 }
-                AudioPlayerAlert.this.searchWas = false;
-                AudioPlayerAlert.this.listAdapter.search(null);
             }
         });
         this.searchItem = actionBarMenuItemSearchListener;
@@ -1720,7 +1732,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     super.onLayout(false, i10, i11, i12, i13);
                     this.ignoreLayout = false;
                     AudioPlayerAlert.this.searchOpenPosition = -1;
-                } else if (AudioPlayerAlert.this.scrollToSong) {
+                    return;
+                }
+                if (AudioPlayerAlert.this.scrollToSong) {
                     AudioPlayerAlert.this.scrollToSong = false;
                     this.ignoreLayout = true;
                     if (AudioPlayerAlert.this.scrollToCurrentSong(true)) {
@@ -1802,7 +1816,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         });
         this.playlist = MediaController.getInstance().getPlaylist();
         this.listAdapter.notifyDataSetChanged();
-        this.containerView.addView(this.playerLayout, LayoutHelper.createFrame(-1, (int) NotificationCenter.suggestedFiltersLoaded, 83));
+        this.containerView.addView(this.playerLayout, LayoutHelper.createFrame(-1, NotificationCenter.suggestedFiltersLoaded, 83));
         this.containerView.addView(this.playerShadow, new FrameLayout.LayoutParams(-1, AndroidUtilities.getShadowHeight(), 83));
         ((FrameLayout.LayoutParams) this.playerShadow.getLayoutParams()).bottomMargin = AndroidUtilities.dp(179.0f);
         this.containerView.addView(this.actionBarShadow, LayoutHelper.createFrame(-1, 3.0f));
@@ -2078,7 +2092,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 return true;
             }
         }
-        dialogsActivity.finishFragment();
+        dialogsActivity.lambda$onBackPressed$300();
         return true;
     }
 
@@ -2088,8 +2102,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x006b, code lost:
-        if (r12.exists() == false) goto L91;
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x006b, code lost:
+    
+        if (r12.exists() == false) goto L20;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2126,7 +2141,6 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             });
             this.parentActivity.lambda$runLinkRequest$93(dialogsActivity);
         } else {
-            String str2 = null;
             if (i == 2) {
                 try {
                     if (!TextUtils.isEmpty(playingMessageObject.messageOwner.attachPath)) {
@@ -2162,7 +2176,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     FileLog.e(e);
                     return;
                 }
-            } else if (i != 4) {
+            }
+            if (i != 4) {
                 if (i == 5) {
                     int i4 = Build.VERSION.SDK_INT;
                     if (i4 >= 23 && (i4 <= 28 || BuildVars.NO_SCOPED_STORAGE)) {
@@ -2176,12 +2191,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     if (TextUtils.isEmpty(documentFileName)) {
                         documentFileName = playingMessageObject.getFileName();
                     }
-                    String str3 = documentFileName;
-                    String str4 = playingMessageObject.messageOwner.attachPath;
-                    if (str4 == null || str4.length() <= 0 || new File(str4).exists()) {
-                        str2 = str4;
-                    }
-                    MediaController.saveFile((str2 == null || str2.length() == 0) ? FileLoader.getInstance(this.currentAccount).getPathToMessage(playingMessageObject.messageOwner).toString() : str2, this.parentActivity, 3, str3, playingMessageObject.getDocument() != null ? playingMessageObject.getDocument().mime_type : "", new Utilities.Callback() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda16
+                    String str2 = documentFileName;
+                    String str3 = playingMessageObject.messageOwner.attachPath;
+                    String str4 = (str3 == null || str3.length() <= 0 || new File(str3).exists()) ? str3 : null;
+                    MediaController.saveFile((str4 == null || str4.length() == 0) ? FileLoader.getInstance(this.currentAccount).getPathToMessage(playingMessageObject.messageOwner).toString() : str4, this.parentActivity, 3, str2, playingMessageObject.getDocument() != null ? playingMessageObject.getDocument().mime_type : "", new Utilities.Callback() { // from class: org.telegram.ui.Components.AudioPlayerAlert$$ExternalSyntheticLambda16
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
                             AudioPlayerAlert.this.lambda$onSubItemClick$12((Uri) obj);
@@ -2190,34 +2203,33 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     return;
                 }
                 return;
-            } else {
-                int i5 = UserConfig.selectedAccount;
-                int i6 = this.currentAccount;
-                if (i5 != i6) {
-                    launchActivity.switchToAccount(i6, true);
-                }
-                Bundle bundle2 = new Bundle();
-                long dialogId = playingMessageObject.getDialogId();
-                if (DialogObject.isEncryptedDialog(dialogId)) {
-                    bundle2.putInt("enc_id", DialogObject.getEncryptedChatId(dialogId));
-                } else {
-                    if (DialogObject.isUserDialog(dialogId)) {
-                        str = "user_id";
-                    } else {
-                        TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-dialogId));
-                        if (chat != null && chat.migrated_to != null) {
-                            bundle2.putLong("migrated_to", dialogId);
-                            dialogId = -chat.migrated_to.channel_id;
-                        }
-                        dialogId = -dialogId;
-                        str = "chat_id";
-                    }
-                    bundle2.putLong(str, dialogId);
-                }
-                bundle2.putInt("message_id", playingMessageObject.getId());
-                NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
-                this.parentActivity.presentFragment(new ChatActivity(bundle2), false, false);
             }
+            int i5 = UserConfig.selectedAccount;
+            int i6 = this.currentAccount;
+            if (i5 != i6) {
+                launchActivity.switchToAccount(i6, true);
+            }
+            Bundle bundle2 = new Bundle();
+            long dialogId = playingMessageObject.getDialogId();
+            if (DialogObject.isEncryptedDialog(dialogId)) {
+                bundle2.putInt("enc_id", DialogObject.getEncryptedChatId(dialogId));
+            } else {
+                if (DialogObject.isUserDialog(dialogId)) {
+                    str = "user_id";
+                } else {
+                    TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-dialogId));
+                    if (chat != null && chat.migrated_to != null) {
+                        bundle2.putLong("migrated_to", dialogId);
+                        dialogId = -chat.migrated_to.channel_id;
+                    }
+                    dialogId = -dialogId;
+                    str = "chat_id";
+                }
+                bundle2.putLong(str, dialogId);
+            }
+            bundle2.putInt("message_id", playingMessageObject.getId());
+            NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
+            this.parentActivity.presentFragment(new ChatActivity(bundle2), false, false);
         }
         dismiss();
     }
@@ -2258,7 +2270,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x0033, code lost:
-        if (r3.getBottom() <= r5.listView.getMeasuredHeight()) goto L26;
+    
+        if (r3.getBottom() <= r5.listView.getMeasuredHeight()) goto L23;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2329,9 +2342,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 }
             }).start();
             scaleY = this.bigAlbumConver.animate().scaleX(1.0f).scaleY(1.0f);
-        } else if (this.blurredView.getVisibility() != 0) {
-            return;
         } else {
+            if (this.blurredView.getVisibility() != 0) {
+                return;
+            }
             this.blurredView.setTag(null);
             if (!z2) {
                 this.blurredView.setAlpha(0.0f);
@@ -2435,13 +2449,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             return;
         }
         int dp = this.playerLayout.getVisibility() == 0 ? AndroidUtilities.dp(150.0f) : -AndroidUtilities.dp(30.0f);
-        LinearLayout linearLayout = this.emptyView;
-        linearLayout.setTranslationY(((linearLayout.getMeasuredHeight() - this.containerView.getMeasuredHeight()) - dp) / 2);
+        this.emptyView.setTranslationY(((r1.getMeasuredHeight() - this.containerView.getMeasuredHeight()) - dp) / 2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateLayout() {
-        boolean z = true;
         if (this.listView.getChildCount() <= 0) {
             RecyclerListView recyclerListView = this.listView;
             int paddingTop = recyclerListView.getPaddingTop();
@@ -2457,9 +2469,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         if (top < AndroidUtilities.dp(7.0f) || holder == null || holder.getAdapterPosition() != 0) {
             top = dp;
         }
-        boolean z2 = top <= AndroidUtilities.dp(12.0f);
-        if ((z2 && this.actionBar.getTag() == null) || (!z2 && this.actionBar.getTag() != null)) {
-            this.actionBar.setTag(z2 ? 1 : null);
+        boolean z = top <= AndroidUtilities.dp(12.0f);
+        if ((z && this.actionBar.getTag() == null) || (!z && this.actionBar.getTag() != null)) {
+            this.actionBar.setTag(z ? 1 : null);
             AnimatorSet animatorSet = this.actionBarAnimation;
             if (animatorSet != null) {
                 animatorSet.cancel();
@@ -2471,7 +2483,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             AnimatorSet animatorSet3 = this.actionBarAnimation;
             ActionBar actionBar = this.actionBar;
             Property property = View.ALPHA;
-            animatorSet3.playTogether(ObjectAnimator.ofFloat(actionBar, property, z2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.actionBarShadow, property, z2 ? 1.0f : 0.0f));
+            animatorSet3.playTogether(ObjectAnimator.ofFloat(actionBar, (Property<ActionBar, Float>) property, z ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.actionBarShadow, (Property<View, Float>) property, z ? 1.0f : 0.0f));
             this.actionBarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.AudioPlayerAlert.21
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationCancel(Animator animator) {
@@ -2497,11 +2509,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         if (this.currentSheetAnimationType == 1) {
             i = (int) (i + this.listView.getTranslationY());
         }
-        z = ((this.backgroundPaddingTop + i < ActionBar.getCurrentActionBarHeight() ? 1.0f - Math.min(1.0f, ((float) ((ActionBar.getCurrentActionBarHeight() - i) - this.backgroundPaddingTop)) / ((float) (dp3 + AndroidUtilities.dp(4.0f)))) : 1.0f) > 0.5f || ColorUtils.calculateLuminance(getThemedColor(Theme.key_dialogBackground)) <= 0.699999988079071d) ? false : false;
-        if (z != this.wasLight) {
+        boolean z2 = (this.backgroundPaddingTop + i < ActionBar.getCurrentActionBarHeight() ? 1.0f - Math.min(1.0f, ((float) ((ActionBar.getCurrentActionBarHeight() - i) - this.backgroundPaddingTop)) / ((float) (dp3 + AndroidUtilities.dp(4.0f)))) : 1.0f) <= 0.5f && ColorUtils.calculateLuminance(getThemedColor(Theme.key_dialogBackground)) > 0.699999988079071d;
+        if (z2 != this.wasLight) {
             Window window = getWindow();
-            this.wasLight = z;
-            AndroidUtilities.setLightStatusBar(window, z);
+            this.wasLight = z2;
+            AndroidUtilities.setLightStatusBar(window, z2);
         }
     }
 
@@ -2534,15 +2546,16 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         updateProgress(messageObject, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0034, code lost:
-        if (org.telegram.messenger.MediaController.getInstance().isMessagePaused() == false) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0034, code lost:
+    
+        if (org.telegram.messenger.MediaController.getInstance().isMessagePaused() == false) goto L15;
      */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x003c  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0042  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x004e  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0095  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x003c  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x004e  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0095  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0042  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2649,9 +2662,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 actionBarMenuItem2 = this.repeatButton;
                 i2 = R.string.AccDescrRepeatOff;
             }
-        } else if (i3 != 2) {
-            return;
         } else {
+            if (i3 != 2) {
+                return;
+            }
             this.repeatButton.setIcon(R.drawable.player_new_repeatone);
             ActionBarMenuItem actionBarMenuItem5 = this.repeatButton;
             int i6 = Theme.key_player_buttonActive;
@@ -2680,68 +2694,70 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
         if ((playingMessageObject == null && z) || (playingMessageObject != null && !playingMessageObject.isMusic())) {
             dismiss();
-        } else if (playingMessageObject == null) {
-            this.lastMessageObject = null;
-        } else {
-            int i2 = 0;
-            boolean z2 = playingMessageObject == this.lastMessageObject;
-            this.lastMessageObject = playingMessageObject;
-            if (playingMessageObject.eventId != 0 || playingMessageObject.getId() <= -2000000000) {
-                this.optionsButton.setVisibility(4);
-            } else {
-                this.optionsButton.setVisibility(0);
-            }
-            long dialogId = playingMessageObject.getDialogId();
-            if ((dialogId < 0 && MessagesController.getInstance(this.currentAccount).isChatNoForwards(-dialogId)) || MessagesController.getInstance(this.currentAccount).isChatNoForwards(playingMessageObject.getChatId()) || playingMessageObject.messageOwner.noforwards) {
-                this.optionsButton.hideSubItem(1);
-                this.optionsButton.hideSubItem(2);
-                this.optionsButton.hideSubItem(5);
-                actionBarMenuItem = this.optionsButton;
-                f = 16.0f;
-            } else {
-                this.optionsButton.showSubItem(1);
-                this.optionsButton.showSubItem(2);
-                this.optionsButton.showSubItem(5);
-                actionBarMenuItem = this.optionsButton;
-                f = 157.0f;
-            }
-            actionBarMenuItem.setAdditionalYOffset(-AndroidUtilities.dp(f));
-            checkIfMusicDownloaded(playingMessageObject);
-            boolean z3 = !z2;
-            updateProgress(playingMessageObject, z3);
-            updateCover(playingMessageObject, z3);
-            if (MediaController.getInstance().isMessagePaused()) {
-                this.playPauseDrawable.setPause(false);
-                imageView = this.playButton;
-                i = R.string.AccActionPlay;
-            } else {
-                this.playPauseDrawable.setPause(true);
-                imageView = this.playButton;
-                i = R.string.AccActionPause;
-            }
-            imageView.setContentDescription(LocaleController.getString(i));
-            String musicTitle = playingMessageObject.getMusicTitle();
-            String musicAuthor = playingMessageObject.getMusicAuthor();
-            this.titleTextView.setText(musicTitle);
-            this.authorTextView.setText(musicAuthor);
-            int duration = (int) playingMessageObject.getDuration();
-            this.lastDuration = duration;
-            TextView textView = this.durationTextView;
-            if (textView != null) {
-                textView.setText(duration != 0 ? AndroidUtilities.formatShortDuration(duration) : "-:--");
-            }
-            if (duration > 600) {
-                actionBarMenuItem2 = this.playbackSpeedButton;
-            } else {
-                actionBarMenuItem2 = this.playbackSpeedButton;
-                i2 = 8;
-            }
-            actionBarMenuItem2.setVisibility(i2);
-            if (z2) {
-                return;
-            }
-            preloadNeighboringThumbs();
+            return;
         }
+        if (playingMessageObject == null) {
+            this.lastMessageObject = null;
+            return;
+        }
+        int i2 = 0;
+        boolean z2 = playingMessageObject == this.lastMessageObject;
+        this.lastMessageObject = playingMessageObject;
+        if (playingMessageObject.eventId != 0 || playingMessageObject.getId() <= -2000000000) {
+            this.optionsButton.setVisibility(4);
+        } else {
+            this.optionsButton.setVisibility(0);
+        }
+        long dialogId = playingMessageObject.getDialogId();
+        if ((dialogId < 0 && MessagesController.getInstance(this.currentAccount).isChatNoForwards(-dialogId)) || MessagesController.getInstance(this.currentAccount).isChatNoForwards(playingMessageObject.getChatId()) || playingMessageObject.messageOwner.noforwards) {
+            this.optionsButton.hideSubItem(1);
+            this.optionsButton.hideSubItem(2);
+            this.optionsButton.hideSubItem(5);
+            actionBarMenuItem = this.optionsButton;
+            f = 16.0f;
+        } else {
+            this.optionsButton.showSubItem(1);
+            this.optionsButton.showSubItem(2);
+            this.optionsButton.showSubItem(5);
+            actionBarMenuItem = this.optionsButton;
+            f = 157.0f;
+        }
+        actionBarMenuItem.setAdditionalYOffset(-AndroidUtilities.dp(f));
+        checkIfMusicDownloaded(playingMessageObject);
+        boolean z3 = !z2;
+        updateProgress(playingMessageObject, z3);
+        updateCover(playingMessageObject, z3);
+        if (MediaController.getInstance().isMessagePaused()) {
+            this.playPauseDrawable.setPause(false);
+            imageView = this.playButton;
+            i = R.string.AccActionPlay;
+        } else {
+            this.playPauseDrawable.setPause(true);
+            imageView = this.playButton;
+            i = R.string.AccActionPause;
+        }
+        imageView.setContentDescription(LocaleController.getString(i));
+        String musicTitle = playingMessageObject.getMusicTitle();
+        String musicAuthor = playingMessageObject.getMusicAuthor();
+        this.titleTextView.setText(musicTitle);
+        this.authorTextView.setText(musicAuthor);
+        int duration = (int) playingMessageObject.getDuration();
+        this.lastDuration = duration;
+        TextView textView = this.durationTextView;
+        if (textView != null) {
+            textView.setText(duration != 0 ? AndroidUtilities.formatShortDuration(duration) : "-:--");
+        }
+        if (duration > 600) {
+            actionBarMenuItem2 = this.playbackSpeedButton;
+        } else {
+            actionBarMenuItem2 = this.playbackSpeedButton;
+            i2 = 8;
+        }
+        actionBarMenuItem2.setVisibility(i2);
+        if (z2) {
+            return;
+        }
+        preloadNeighboringThumbs();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -2785,24 +2801,35 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             }
             if (MediaController.getInstance().isMessagePaused()) {
                 startForwardRewindingSeek();
-            } else if (this.rewindingState == 1 && this.rewindingProgress != -1.0f) {
-                AndroidUtilities.cancelRunOnUIThread(this.forwardSeek);
-                this.lastUpdateRewindingPlayerTime = 0L;
-                this.forwardSeek.run();
-                this.rewindingProgress = -1.0f;
+                return;
             }
-        } else if (i == NotificationCenter.messagePlayingProgressDidChanged) {
+            if (this.rewindingState != 1 || this.rewindingProgress == -1.0f) {
+                return;
+            }
+            AndroidUtilities.cancelRunOnUIThread(this.forwardSeek);
+            this.lastUpdateRewindingPlayerTime = 0L;
+            this.forwardSeek.run();
+            this.rewindingProgress = -1.0f;
+            return;
+        }
+        if (i == NotificationCenter.messagePlayingProgressDidChanged) {
             MessageObject playingMessageObject2 = MediaController.getInstance().getPlayingMessageObject();
             if (playingMessageObject2 == null || !playingMessageObject2.isMusic()) {
                 return;
             }
             updateProgress(playingMessageObject2);
-        } else if (i == NotificationCenter.messagePlayingSpeedChanged) {
+            return;
+        }
+        if (i == NotificationCenter.messagePlayingSpeedChanged) {
             updatePlaybackButton(true);
-        } else if (i == NotificationCenter.musicDidLoad) {
+            return;
+        }
+        if (i == NotificationCenter.musicDidLoad) {
             this.playlist = MediaController.getInstance().getPlaylist();
             this.listAdapter.notifyDataSetChanged();
-        } else if (i == NotificationCenter.moreMusicDidLoad) {
+            return;
+        }
+        if (i == NotificationCenter.moreMusicDidLoad) {
             this.playlist = MediaController.getInstance().getPlaylist();
             this.listAdapter.notifyDataSetChanged();
             if (SharedConfig.playOrderReversed) {
@@ -2813,16 +2840,21 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 if (findLastVisibleItemPosition != -1) {
                     View findViewByPosition = this.layoutManager.findViewByPosition(findLastVisibleItemPosition);
                     this.layoutManager.scrollToPositionWithOffset(findLastVisibleItemPosition + intValue, findViewByPosition != null ? findViewByPosition.getTop() : 0);
+                    return;
                 }
+                return;
             }
-        } else if (i == NotificationCenter.fileLoaded) {
+            return;
+        }
+        if (i == NotificationCenter.fileLoaded) {
             if (((String) objArr[0]).equals(this.currentFile)) {
                 updateTitle(false);
                 this.currentAudioFinishedLoading = true;
+                return;
             }
-        } else if (i == NotificationCenter.fileLoadProgressChanged && ((String) objArr[0]).equals(this.currentFile) && (playingMessageObject = MediaController.getInstance().getPlayingMessageObject()) != null) {
-            Long l = (Long) objArr[1];
-            Long l2 = (Long) objArr[2];
+            return;
+        }
+        if (i == NotificationCenter.fileLoadProgressChanged && ((String) objArr[0]).equals(this.currentFile) && (playingMessageObject = MediaController.getInstance().getPlayingMessageObject()) != null) {
             if (!this.currentAudioFinishedLoading) {
                 long elapsedRealtime = SystemClock.elapsedRealtime();
                 if (Math.abs(elapsedRealtime - this.lastBufferedPositionCheck) >= 500) {
@@ -3005,21 +3037,21 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         int i5 = i3 - i;
         int i6 = i4 - i2;
         FrameLayout frameLayout = this.blurredView;
-        if (view == frameLayout) {
-            frameLayout.layout(i, 0, i5 + i, i6);
-            return true;
+        if (view != frameLayout) {
+            return false;
         }
-        return false;
+        frameLayout.layout(i, 0, i5 + i, i6);
+        return true;
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public boolean onCustomMeasure(View view, int i, int i2) {
         FrameLayout frameLayout = this.blurredView;
-        if (view == frameLayout) {
-            frameLayout.measure(View.MeasureSpec.makeMeasureSpec(i, 1073741824), View.MeasureSpec.makeMeasureSpec(i2, 1073741824));
-            return true;
+        if (view != frameLayout) {
+            return false;
         }
-        return false;
+        frameLayout.measure(View.MeasureSpec.makeMeasureSpec(i, 1073741824), View.MeasureSpec.makeMeasureSpec(i2, 1073741824));
+        return true;
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener

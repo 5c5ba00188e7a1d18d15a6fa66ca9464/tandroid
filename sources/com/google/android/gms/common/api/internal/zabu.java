@@ -8,6 +8,7 @@ import com.google.android.gms.common.internal.BaseGmsClient;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import java.util.Map;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zabu implements BaseGmsClient.ConnectionProgressReportCallbacks, zacs {
@@ -55,10 +56,10 @@ public final class zabu implements BaseGmsClient.ConnectionProgressReportCallbac
         if (iAccountAccessor == null || set == null) {
             Log.wtf("GoogleApiManager", "Received null response from onSignInSuccess", new Exception());
             zae(new ConnectionResult(4));
-            return;
+        } else {
+            this.zad = iAccountAccessor;
+            this.zae = set;
+            zag();
         }
-        this.zad = iAccountAccessor;
-        this.zae = set;
-        zag();
     }
 }

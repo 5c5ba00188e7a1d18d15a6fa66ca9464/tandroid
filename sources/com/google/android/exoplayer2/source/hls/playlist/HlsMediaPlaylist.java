@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class HlsMediaPlaylist extends HlsPlaylist {
     public final int discontinuitySequence;
@@ -141,9 +142,9 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0079  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x008f  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x008f  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0079  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -167,18 +168,18 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
         this.renditionReports = ImmutableMap.copyOf(map);
         if (!list3.isEmpty()) {
             segmentBase = (Part) Iterables.getLast(list3);
-        } else if (list2.isEmpty()) {
-            this.durationUs = 0L;
-            long j6 = -9223372036854775807L;
-            if (j != -9223372036854775807L) {
-                int i4 = (j > 0L ? 1 : (j == 0L ? 0 : -1));
-                long j7 = this.durationUs;
-                j6 = i4 >= 0 ? Math.min(j7, j) : Math.max(0L, j7 + j);
-            }
-            this.startOffsetUs = j6;
-            this.hasPositiveStartOffset = j < 0;
-            this.serverControl = serverControl;
         } else {
+            if (list2.isEmpty()) {
+                this.durationUs = 0L;
+                long j6 = -9223372036854775807L;
+                if (j != -9223372036854775807L) {
+                    long j7 = this.durationUs;
+                    j6 = j >= 0 ? Math.min(j7, j) : Math.max(0L, j7 + j);
+                }
+                this.startOffsetUs = j6;
+                this.hasPositiveStartOffset = j < 0;
+                this.serverControl = serverControl;
+            }
             segmentBase = (Segment) Iterables.getLast(list2);
         }
         this.durationUs = segmentBase.relativeStartTimeUs + segmentBase.durationUs;
@@ -208,25 +209,25 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
     }
 
     public boolean isNewerThan(HlsMediaPlaylist hlsMediaPlaylist) {
-        if (hlsMediaPlaylist != null) {
-            long j = this.mediaSequence;
-            long j2 = hlsMediaPlaylist.mediaSequence;
-            if (j > j2) {
-                return true;
-            }
-            if (j < j2) {
-                return false;
-            }
-            int size = this.segments.size() - hlsMediaPlaylist.segments.size();
-            if (size != 0) {
-                return size > 0;
-            }
-            int size2 = this.trailingParts.size();
-            int size3 = hlsMediaPlaylist.trailingParts.size();
-            if (size2 <= size3) {
-                return size2 == size3 && this.hasEndTag && !hlsMediaPlaylist.hasEndTag;
-            }
+        if (hlsMediaPlaylist == null) {
             return true;
+        }
+        long j = this.mediaSequence;
+        long j2 = hlsMediaPlaylist.mediaSequence;
+        if (j > j2) {
+            return true;
+        }
+        if (j < j2) {
+            return false;
+        }
+        int size = this.segments.size() - hlsMediaPlaylist.segments.size();
+        if (size != 0) {
+            return size > 0;
+        }
+        int size2 = this.trailingParts.size();
+        int size3 = hlsMediaPlaylist.trailingParts.size();
+        if (size2 <= size3) {
+            return size2 == size3 && this.hasEndTag && !hlsMediaPlaylist.hasEndTag;
         }
         return true;
     }

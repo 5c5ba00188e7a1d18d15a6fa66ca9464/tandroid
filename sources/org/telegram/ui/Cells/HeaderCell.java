@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
@@ -16,6 +17,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class HeaderCell extends FrameLayout {
     private boolean animated;
@@ -40,25 +42,29 @@ public class HeaderCell extends FrameLayout {
         this(context, i, i2, i3, i4, z, false, resourcesProvider);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x007b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x007b, code lost:
+    
         if (r23 != false) goto L25;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x00d8, code lost:
-        if (r23 != false) goto L25;
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x00e2, code lost:
+    
+        r14 = r3;
+        r12 = r6;
+        r15 = r10;
+        r16 = r22;
+        r11 = r5;
      */
     /* JADX WARN: Code restructure failed: missing block: B:25:0x00da, code lost:
+    
         r14 = r3;
         r11 = r5;
         r12 = r6;
         r15 = r10;
         r16 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x00e2, code lost:
-        r14 = r3;
-        r12 = r6;
-        r15 = r10;
-        r16 = r22;
-        r11 = r5;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00d8, code lost:
+    
+        if (r23 != false) goto L25;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -180,7 +186,7 @@ public class HeaderCell extends FrameLayout {
 
     public void setEnabled(boolean z, ArrayList arrayList) {
         if (arrayList != null) {
-            arrayList.add(ObjectAnimator.ofFloat(this.textView, View.ALPHA, z ? 1.0f : 0.5f));
+            arrayList.add(ObjectAnimator.ofFloat(this.textView, (Property<TextView, Float>) View.ALPHA, z ? 1.0f : 0.5f));
         } else {
             this.textView.setAlpha(z ? 1.0f : 0.5f);
         }
@@ -203,10 +209,10 @@ public class HeaderCell extends FrameLayout {
         if (this.animated) {
             this.animatedTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
             this.animatedTextView.setText(charSequence, z);
-            return;
+        } else {
+            this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+            this.textView.setText(charSequence);
         }
-        this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-        this.textView.setText(charSequence);
     }
 
     public void setText2(CharSequence charSequence) {

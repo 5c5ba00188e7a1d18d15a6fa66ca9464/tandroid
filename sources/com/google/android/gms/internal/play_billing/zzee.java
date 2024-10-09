@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 abstract class zzee {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -43,7 +44,6 @@ abstract class zzee {
                         }
                         sb.append((char) zza);
                         continue;
-                        break;
                 }
             } else {
                 str = "\\\\";

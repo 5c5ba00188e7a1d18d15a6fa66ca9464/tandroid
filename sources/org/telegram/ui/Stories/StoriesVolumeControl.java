@@ -11,6 +11,7 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes4.dex */
 public class StoriesVolumeControl extends View {
     float currentProgress;
@@ -89,12 +90,12 @@ public class StoriesVolumeControl extends View {
         if (keyEvent.getAction() == 0 && i == 24) {
             adjustVolume(true);
             return true;
-        } else if (keyEvent.getAction() == 0 && i == 25) {
-            adjustVolume(false);
-            return true;
-        } else {
+        }
+        if (keyEvent.getAction() != 0 || i != 25) {
             return super.onKeyDown(i, keyEvent);
         }
+        adjustVolume(false);
+        return true;
     }
 
     public void unmute() {
@@ -104,15 +105,17 @@ public class StoriesVolumeControl extends View {
         int streamVolume = audioManager.getStreamVolume(3);
         if (streamVolume <= streamMinVolume) {
             adjustVolume(true);
-        } else if (this.isVisible) {
-        } else {
-            float f = streamVolume / streamMaxVolume;
-            this.currentProgress = f;
-            this.volumeProgress.set(f, true);
-            this.isVisible = true;
-            invalidate();
-            AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
-            AndroidUtilities.runOnUIThread(this.hideRunnable, 2000L);
+            return;
         }
+        if (this.isVisible) {
+            return;
+        }
+        float f = streamVolume / streamMaxVolume;
+        this.currentProgress = f;
+        this.volumeProgress.set(f, true);
+        this.isVisible = true;
+        invalidate();
+        AndroidUtilities.cancelRunOnUIThread(this.hideRunnable);
+        AndroidUtilities.runOnUIThread(this.hideRunnable, 2000L);
     }
 }

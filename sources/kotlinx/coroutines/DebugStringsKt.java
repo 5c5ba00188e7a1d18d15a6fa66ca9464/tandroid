@@ -1,4 +1,5 @@
 package kotlinx.coroutines;
+
 /* loaded from: classes.dex */
 public abstract class DebugStringsKt {
     public static final String getClassSimpleName(Object obj) {

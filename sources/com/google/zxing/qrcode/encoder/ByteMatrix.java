@@ -2,6 +2,7 @@ package com.google.zxing.qrcode.encoder;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class ByteMatrix {
     private final byte[][] bytes;
@@ -9,7 +10,7 @@ public final class ByteMatrix {
     private final int width;
 
     public ByteMatrix(int i, int i2) {
-        this.bytes = (byte[][]) Array.newInstance(Byte.TYPE, i2, i);
+        this.bytes = (byte[][]) Array.newInstance((Class<?>) Byte.TYPE, i2, i);
         this.width = i;
         this.height = i2;
     }

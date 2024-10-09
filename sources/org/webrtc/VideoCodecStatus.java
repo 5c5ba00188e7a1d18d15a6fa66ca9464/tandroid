@@ -1,4 +1,5 @@
 package org.webrtc;
+
 /* loaded from: classes.dex */
 public enum VideoCodecStatus {
     REQUEST_SLI(2),
@@ -14,7 +15,7 @@ public enum VideoCodecStatus {
     ERR_REQUEST_SLI(-12),
     FALLBACK_SOFTWARE(-13),
     TARGET_BITRATE_OVERSHOOT(-14);
-    
+
     private final int number;
 
     VideoCodecStatus(int i) {

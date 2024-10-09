@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class zzay extends zzaq implements Set {
     private transient zzav zza;
@@ -31,12 +32,12 @@ public abstract class zzay extends zzaq implements Set {
 
     public final zzav zzf() {
         zzav zzavVar = this.zza;
-        if (zzavVar == null) {
-            zzav zzg = zzg();
-            this.zza = zzg;
-            return zzg;
+        if (zzavVar != null) {
+            return zzavVar;
         }
-        return zzavVar;
+        zzav zzg = zzg();
+        this.zza = zzg;
+        return zzg;
     }
 
     zzav zzg() {

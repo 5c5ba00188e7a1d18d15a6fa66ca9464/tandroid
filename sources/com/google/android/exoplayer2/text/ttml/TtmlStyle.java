@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.text.ttml;
 
 import android.text.Layout;
+
 /* loaded from: classes.dex */
 final class TtmlStyle {
     private int backgroundColor;

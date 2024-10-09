@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.Components.ViewPagerFixed;
+
 /* loaded from: classes3.dex */
 public abstract class ChatSearchTabs extends BlurredFrameLayout {
     private ValueAnimator actionBarTagsAnimator;

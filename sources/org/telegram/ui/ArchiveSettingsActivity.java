@@ -29,6 +29,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ListView.AdapterWithDiffUtils;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public class ArchiveSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ListAdapter adapter;
@@ -102,7 +103,9 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
             boolean z2 = i3 < ArchiveSettingsActivity.this.items.size() && ((ItemInner) ArchiveSettingsActivity.this.items.get(i3)).viewType == itemInner.viewType;
             if (viewHolder.getItemViewType() == 0) {
                 ((HeaderCell) viewHolder.itemView).setText(itemInner.text);
-            } else if (viewHolder.getItemViewType() == 2) {
+                return;
+            }
+            if (viewHolder.getItemViewType() == 2) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 if (TextUtils.isEmpty(itemInner.text)) {
                     textInfoPrivacyCell.setFixedSize(12);
@@ -120,16 +123,19 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
                     i2 = R.drawable.greydivider;
                 }
                 textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
-            } else if (viewHolder.getItemViewType() == 1) {
+                return;
+            }
+            if (viewHolder.getItemViewType() == 1) {
                 TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
                 int i5 = itemInner.id;
                 if (i5 == 1) {
                     z = ArchiveSettingsActivity.this.settings.keep_archived_unmuted;
                 } else if (i5 == 4) {
                     z = ArchiveSettingsActivity.this.settings.keep_archived_folders;
-                } else if (i5 != 7) {
-                    return;
                 } else {
+                    if (i5 != 7) {
+                        return;
+                    }
                     z = ArchiveSettingsActivity.this.settings.archive_and_mute_new_noncontact_peers;
                     if (!ArchiveSettingsActivity.this.getUserConfig().isPremium() && !ArchiveSettingsActivity.this.getMessagesController().autoarchiveAvailable) {
                         i4 = R.drawable.permission_locked;
@@ -145,10 +151,11 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
             View textInfoPrivacyCell;
             if (i == 0) {
                 textInfoPrivacyCell = new HeaderCell(ArchiveSettingsActivity.this.getContext());
-            } else if (i != 1) {
-                textInfoPrivacyCell = new TextInfoPrivacyCell(ArchiveSettingsActivity.this.getContext());
-                return new RecyclerListView.Holder(textInfoPrivacyCell);
             } else {
+                if (i != 1) {
+                    textInfoPrivacyCell = new TextInfoPrivacyCell(ArchiveSettingsActivity.this.getContext());
+                    return new RecyclerListView.Holder(textInfoPrivacyCell);
+                }
                 textInfoPrivacyCell = new TextCheckCell(ArchiveSettingsActivity.this.getContext());
             }
             textInfoPrivacyCell.setBackgroundColor(ArchiveSettingsActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
@@ -176,9 +183,10 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
             TLRPC.TL_globalPrivacySettings tL_globalPrivacySettings2 = this.settings;
             z = !tL_globalPrivacySettings2.keep_archived_folders;
             tL_globalPrivacySettings2.keep_archived_folders = z;
-        } else if (i2 != 7) {
-            return;
         } else {
+            if (i2 != 7) {
+                return;
+            }
             if (!getUserConfig().isPremium() && !getMessagesController().autoarchiveAvailable && !this.settings.archive_and_mute_new_noncontact_peers) {
                 Bulletin.SimpleLayout simpleLayout = new Bulletin.SimpleLayout(getContext(), getResourceProvider());
                 simpleLayout.textView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.UnlockPremium), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda2
@@ -244,7 +252,7 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    ArchiveSettingsActivity.this.finishFragment();
+                    ArchiveSettingsActivity.this.lambda$onBackPressed$300();
                 }
             }
         });

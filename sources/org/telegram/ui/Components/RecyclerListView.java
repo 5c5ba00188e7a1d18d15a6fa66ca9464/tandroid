@@ -52,6 +52,7 @@ import org.telegram.ui.Cells.ChatActionCell;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.GestureDetectorFixDoubleTap;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class RecyclerListView extends RecyclerView {
     private static int[] attributes;
@@ -209,10 +210,10 @@ public class RecyclerListView extends RecyclerView {
                     if (FastScroll.this.pressed) {
                         AndroidUtilities.cancelRunOnUIThread(FastScroll.this.hideFloatingDateRunnable);
                         AndroidUtilities.runOnUIThread(FastScroll.this.hideFloatingDateRunnable, 4000L);
-                        return;
+                    } else {
+                        FastScroll.this.floatingDateVisible = false;
+                        FastScroll.this.invalidate();
                     }
-                    FastScroll.this.floatingDateVisible = false;
-                    FastScroll.this.invalidate();
                 }
             };
             this.viewAlpha = 1.0f;
@@ -262,48 +263,50 @@ public class RecyclerListView extends RecyclerView {
                                 this.oldLetterLayout = staticLayout;
                             }
                             this.letterLayout = null;
-                        } else if (letter.equals(this.currentLetter)) {
+                            return;
+                        }
+                        if (letter.equals(this.currentLetter)) {
+                            return;
+                        }
+                        this.currentLetter = letter;
+                        if (this.type == 0) {
+                            this.letterLayout = new StaticLayout(letter, this.letterPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                         } else {
-                            this.currentLetter = letter;
-                            if (this.type == 0) {
-                                this.letterLayout = new StaticLayout(letter, this.letterPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                            } else {
-                                this.outLetterLayout = this.letterLayout;
-                                int measureText = ((int) this.letterPaint.measureText(letter)) + 1;
-                                TextPaint textPaint = this.letterPaint;
-                                Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
-                                this.letterLayout = new StaticLayout(letter, textPaint, measureText, alignment, 1.0f, 0.0f, false);
-                                if (this.outLetterLayout != null) {
-                                    String[] split = letter.split(" ");
-                                    String[] split2 = this.outLetterLayout.getText().toString().split(" ");
-                                    if (split != null && split2 != null && split.length == 2 && split2.length == 2 && split[1].equals(split2[1])) {
-                                        String charSequence = this.outLetterLayout.getText().toString();
-                                        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
-                                        spannableStringBuilder.setSpan(new EmptyStubSpan(), split2[0].length(), charSequence.length(), 0);
-                                        this.outLetterLayout = new StaticLayout(spannableStringBuilder, this.letterPaint, ((int) this.letterPaint.measureText(charSequence)) + 1, alignment, 1.0f, 0.0f, false);
-                                        SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(letter);
-                                        spannableStringBuilder2.setSpan(new EmptyStubSpan(), split[0].length(), letter.length(), 0);
-                                        this.inLetterLayout = new StaticLayout(spannableStringBuilder2, this.letterPaint, measureText, alignment, 1.0f, 0.0f, false);
-                                        SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(letter);
-                                        spannableStringBuilder3.setSpan(new EmptyStubSpan(), 0, split[0].length(), 0);
-                                        this.stableLetterLayout = new StaticLayout(spannableStringBuilder3, this.letterPaint, measureText, alignment, 1.0f, 0.0f, false);
-                                    } else {
-                                        this.inLetterLayout = this.letterLayout;
-                                        this.stableLetterLayout = null;
-                                    }
-                                    this.fromWidth = this.outLetterLayout.getWidth();
-                                    this.replaceLayoutProgress = 0.0f;
-                                    this.fromTop = getProgress() > this.lastLetterY;
+                            this.outLetterLayout = this.letterLayout;
+                            int measureText = ((int) this.letterPaint.measureText(letter)) + 1;
+                            TextPaint textPaint = this.letterPaint;
+                            Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
+                            this.letterLayout = new StaticLayout(letter, textPaint, measureText, alignment, 1.0f, 0.0f, false);
+                            if (this.outLetterLayout != null) {
+                                String[] split = letter.split(" ");
+                                String[] split2 = this.outLetterLayout.getText().toString().split(" ");
+                                if (split != null && split2 != null && split.length == 2 && split2.length == 2 && split[1].equals(split2[1])) {
+                                    String charSequence = this.outLetterLayout.getText().toString();
+                                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
+                                    spannableStringBuilder.setSpan(new EmptyStubSpan(), split2[0].length(), charSequence.length(), 0);
+                                    this.outLetterLayout = new StaticLayout(spannableStringBuilder, this.letterPaint, ((int) this.letterPaint.measureText(charSequence)) + 1, alignment, 1.0f, 0.0f, false);
+                                    SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(letter);
+                                    spannableStringBuilder2.setSpan(new EmptyStubSpan(), split[0].length(), letter.length(), 0);
+                                    this.inLetterLayout = new StaticLayout(spannableStringBuilder2, this.letterPaint, measureText, alignment, 1.0f, 0.0f, false);
+                                    SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(letter);
+                                    spannableStringBuilder3.setSpan(new EmptyStubSpan(), 0, split[0].length(), 0);
+                                    this.stableLetterLayout = new StaticLayout(spannableStringBuilder3, this.letterPaint, measureText, alignment, 1.0f, 0.0f, false);
+                                } else {
+                                    this.inLetterLayout = this.letterLayout;
+                                    this.stableLetterLayout = null;
                                 }
-                                this.lastLetterY = getProgress();
+                                this.fromWidth = this.outLetterLayout.getWidth();
+                                this.replaceLayoutProgress = 0.0f;
+                                this.fromTop = getProgress() > this.lastLetterY;
                             }
-                            this.oldLetterLayout = null;
-                            if (this.letterLayout.getLineCount() > 0) {
-                                this.letterLayout.getLineWidth(0);
-                                this.letterLayout.getLineLeft(0);
-                                this.textX = (this.isRtl ? AndroidUtilities.dp(10.0f) + ((AndroidUtilities.dp(88.0f) - this.letterLayout.getLineWidth(0)) / 2.0f) : (AndroidUtilities.dp(88.0f) - this.letterLayout.getLineWidth(0)) / 2.0f) - this.letterLayout.getLineLeft(0);
-                                this.textY = (AndroidUtilities.dp(88.0f) - this.letterLayout.getHeight()) / 2;
-                            }
+                            this.lastLetterY = getProgress();
+                        }
+                        this.oldLetterLayout = null;
+                        if (this.letterLayout.getLineCount() > 0) {
+                            this.letterLayout.getLineWidth(0);
+                            this.letterLayout.getLineLeft(0);
+                            this.textX = (this.isRtl ? AndroidUtilities.dp(10.0f) + ((AndroidUtilities.dp(88.0f) - this.letterLayout.getLineWidth(0)) / 2.0f) : (AndroidUtilities.dp(88.0f) - this.letterLayout.getLineWidth(0)) / 2.0f) - this.letterLayout.getLineLeft(0);
+                            this.textY = (AndroidUtilities.dp(88.0f) - this.letterLayout.getHeight()) / 2;
                         }
                     }
                 }
@@ -353,49 +356,50 @@ public class RecyclerListView extends RecyclerView {
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:29:0x01f2, code lost:
-            if (r15[6] == r8) goto L87;
+        /* JADX WARN: Code restructure failed: missing block: B:68:0x01f2, code lost:
+        
+            if (r15[6] == r8) goto L30;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x0202, code lost:
-            if (r15[4] == r8) goto L78;
+        /* JADX WARN: Code restructure failed: missing block: B:91:0x0202, code lost:
+        
+            if (r15[4] == r8) goto L47;
          */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x0206  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x0212  */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x0229  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x022f  */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x0234  */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x0237  */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x025d  */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x0261  */
+        /* JADX WARN: Removed duplicated region for block: B:70:0x0206  */
+        /* JADX WARN: Removed duplicated region for block: B:73:0x0229  */
+        /* JADX WARN: Removed duplicated region for block: B:76:0x0234  */
+        /* JADX WARN: Removed duplicated region for block: B:80:0x025d  */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x0261  */
+        /* JADX WARN: Removed duplicated region for block: B:84:0x0237  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x022f  */
+        /* JADX WARN: Removed duplicated region for block: B:86:0x0212  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onDraw(Canvas canvas) {
-            int paddingTop;
             int i;
             float f;
             float dp;
             float dp2;
             StaticLayout staticLayout;
-            int paddingTop2 = (this.usePadding ? getPaddingTop() : this.topOffset) + ((int) Math.ceil(((getMeasuredHeight() - paddingTop) - AndroidUtilities.dp(54.0f)) * this.progress));
-            this.rect.set(this.scrollX, AndroidUtilities.dp(12.0f) + paddingTop2, this.scrollX + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(42.0f) + paddingTop2);
+            int paddingTop = (this.usePadding ? getPaddingTop() : this.topOffset) + ((int) Math.ceil(((getMeasuredHeight() - r2) - AndroidUtilities.dp(54.0f)) * this.progress));
+            this.rect.set(this.scrollX, AndroidUtilities.dp(12.0f) + paddingTop, this.scrollX + AndroidUtilities.dp(5.0f), AndroidUtilities.dp(42.0f) + paddingTop);
             if (this.type == 0) {
                 this.paint.setColor(ColorUtils.blendARGB(this.inactiveColor, this.activeColor, this.bubbleProgress));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), this.paint);
             } else {
                 this.paint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite, RecyclerListView.this.resourcesProvider), -1, 0.1f));
-                float dp3 = AndroidUtilities.dp(27.0f) + paddingTop2;
+                float dp3 = AndroidUtilities.dp(27.0f) + paddingTop;
                 this.fastScrollShadowDrawable.setBounds(getMeasuredWidth() - this.fastScrollShadowDrawable.getIntrinsicWidth(), (int) (dp3 - (this.fastScrollShadowDrawable.getIntrinsicHeight() / 2)), getMeasuredWidth(), (int) (dp3 + (this.fastScrollShadowDrawable.getIntrinsicHeight() / 2)));
                 this.fastScrollShadowDrawable.draw(canvas);
-                canvas.drawCircle(this.scrollX + AndroidUtilities.dp(8.0f), AndroidUtilities.dp(27.0f) + paddingTop2, AndroidUtilities.dp(24.0f), this.paint);
+                canvas.drawCircle(this.scrollX + AndroidUtilities.dp(8.0f), AndroidUtilities.dp(27.0f) + paddingTop, AndroidUtilities.dp(24.0f), this.paint);
                 this.paint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, RecyclerListView.this.resourcesProvider));
                 canvas.save();
-                canvas.translate(this.scrollX + AndroidUtilities.dp(4.0f), AndroidUtilities.dp(34.0f) + paddingTop2 + (AndroidUtilities.dp(2.0f) * this.bubbleProgress));
+                canvas.translate(this.scrollX + AndroidUtilities.dp(4.0f), AndroidUtilities.dp(34.0f) + paddingTop + (AndroidUtilities.dp(2.0f) * this.bubbleProgress));
                 canvas.drawPath(this.arrowPath, this.paint);
                 canvas.restore();
                 canvas.save();
-                canvas.translate(this.scrollX + AndroidUtilities.dp(4.0f), (AndroidUtilities.dp(24.0f) + paddingTop2) - (AndroidUtilities.dp(2.0f) * this.bubbleProgress));
+                canvas.translate(this.scrollX + AndroidUtilities.dp(4.0f), (AndroidUtilities.dp(24.0f) + paddingTop) - (AndroidUtilities.dp(2.0f) * this.bubbleProgress));
                 canvas.rotate(180.0f, 0.0f, -AndroidUtilities.dp(2.0f));
                 canvas.drawPath(this.arrowPath, this.paint);
                 canvas.restore();
@@ -404,8 +408,8 @@ public class RecyclerListView extends RecyclerView {
             if (i2 == 0) {
                 if (this.isMoving || this.bubbleProgress != 0.0f) {
                     this.paint.setAlpha((int) (this.bubbleProgress * 255.0f));
-                    int dp4 = AndroidUtilities.dp(30.0f) + paddingTop2;
-                    int dp5 = paddingTop2 - AndroidUtilities.dp(46.0f);
+                    int dp4 = AndroidUtilities.dp(30.0f) + paddingTop;
+                    int dp5 = paddingTop - AndroidUtilities.dp(46.0f);
                     if (dp5 <= AndroidUtilities.dp(12.0f)) {
                         f = AndroidUtilities.dp(12.0f) - dp5;
                         i = AndroidUtilities.dp(12.0f);
@@ -539,7 +543,9 @@ public class RecyclerListView extends RecyclerView {
             }
             long currentTimeMillis = System.currentTimeMillis();
             long j = currentTimeMillis - this.lastUpdateTime;
-            j = (j < 0 || j > 17) ? 17L : 17L;
+            if (j < 0 || j > 17) {
+                j = 17;
+            }
             boolean z2 = this.isMoving;
             if ((z2 && this.letterLayout != null && this.bubbleProgress < 1.0f) || ((!z2 || this.letterLayout == null) && this.bubbleProgress > 0.0f)) {
                 this.lastUpdateTime = currentTimeMillis;
@@ -594,11 +600,13 @@ public class RecyclerListView extends RecyclerView {
             this.arrowPath.close();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:33:0x0082, code lost:
-            if (r8 > 1.0f) goto L28;
+        /* JADX WARN: Code restructure failed: missing block: B:31:0x0082, code lost:
+        
+            if (r8 > 1.0f) goto L31;
          */
         /* JADX WARN: Code restructure failed: missing block: B:79:0x0159, code lost:
-            if (r0 <= (org.telegram.messenger.AndroidUtilities.dp(30.0f) + r8)) goto L80;
+        
+            if (r0 <= (org.telegram.messenger.AndroidUtilities.dp(30.0f) + r8)) goto L81;
          */
         @Override // android.view.View
         /*
@@ -645,32 +653,33 @@ public class RecyclerListView extends RecyclerView {
             }
             if (action != 1) {
                 if (action == 2) {
-                    if (this.pressed) {
-                        if (Math.abs(motionEvent.getY() - this.startY) > this.touchSlop) {
-                            this.isMoving = true;
-                        }
-                        if (this.isMoving) {
-                            float y2 = motionEvent.getY();
-                            float dp = AndroidUtilities.dp(12.0f) + this.startDy;
-                            float measuredHeight = (getMeasuredHeight() - AndroidUtilities.dp(42.0f)) + this.startDy;
-                            if (y2 < dp) {
-                                y2 = dp;
-                            } else if (y2 > measuredHeight) {
-                                y2 = measuredHeight;
-                            }
-                            float f3 = y2 - this.lastY;
-                            this.lastY = y2;
-                            float measuredHeight2 = this.progress + (f3 / (getMeasuredHeight() - AndroidUtilities.dp(54.0f)));
-                            this.progress = measuredHeight2;
-                            float f4 = measuredHeight2 >= 0.0f ? 1.0f : 0.0f;
-                            this.progress = f4;
-                            getCurrentLetter(true);
-                            invalidate();
-                        }
+                    if (!this.pressed) {
                         return true;
                     }
+                    if (Math.abs(motionEvent.getY() - this.startY) > this.touchSlop) {
+                        this.isMoving = true;
+                    }
+                    if (this.isMoving) {
+                        float y2 = motionEvent.getY();
+                        float dp = AndroidUtilities.dp(12.0f) + this.startDy;
+                        float measuredHeight = (getMeasuredHeight() - AndroidUtilities.dp(42.0f)) + this.startDy;
+                        if (y2 < dp) {
+                            y2 = dp;
+                        } else if (y2 > measuredHeight) {
+                            y2 = measuredHeight;
+                        }
+                        float f3 = y2 - this.lastY;
+                        this.lastY = y2;
+                        float measuredHeight2 = this.progress + (f3 / (getMeasuredHeight() - AndroidUtilities.dp(54.0f)));
+                        this.progress = measuredHeight2;
+                        float f4 = measuredHeight2 >= 0.0f ? 1.0f : 0.0f;
+                        this.progress = f4;
+                        getCurrentLetter(true);
+                        invalidate();
+                    }
                     return true;
-                } else if (action != 3) {
+                }
+                if (action != 3) {
                     return this.pressed;
                 }
             }
@@ -766,10 +775,12 @@ public class RecyclerListView extends RecyclerView {
         private float y;
 
         /* JADX WARN: Code restructure failed: missing block: B:13:0x0053, code lost:
-            if (java.lang.Math.sqrt((r2 * r2) + (r3 * r3)) > r6) goto L14;
+        
+            if (java.lang.Math.sqrt((r2 * r2) + (r3 * r3)) > r6) goto L19;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x0061, code lost:
-            if (r7.getAction() != 3) goto L15;
+        /* JADX WARN: Code restructure failed: missing block: B:19:0x0061, code lost:
+        
+            if (r7.getAction() != 3) goto L20;
          */
         @Override // android.view.View.OnTouchListener
         /*
@@ -968,8 +979,11 @@ public class RecyclerListView extends RecyclerView {
                         if (RecyclerListView.this.onItemLongClickListener.onItemClick(RecyclerListView.this.currentChildView, RecyclerListView.this.currentChildPosition)) {
                             view.performHapticFeedback(0);
                             view.sendAccessibilityEvent(2);
+                            return;
                         }
-                    } else if (RecyclerListView.this.onItemLongClickListenerExtended.onItemClick(RecyclerListView.this.currentChildView, RecyclerListView.this.currentChildPosition, motionEvent.getX() - RecyclerListView.this.currentChildView.getX(), motionEvent.getY() - RecyclerListView.this.currentChildView.getY())) {
+                        return;
+                    }
+                    if (RecyclerListView.this.onItemLongClickListenerExtended.onItemClick(RecyclerListView.this.currentChildView, RecyclerListView.this.currentChildPosition, motionEvent.getX() - RecyclerListView.this.currentChildView.getX(), motionEvent.getY() - RecyclerListView.this.currentChildView.getY())) {
                         view.performHapticFeedback(0);
                         view.sendAccessibilityEvent(2);
                         RecyclerListView.this.longPressCalled = true;
@@ -1457,7 +1471,6 @@ public class RecyclerListView extends RecyclerView {
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrollStateChanged(RecyclerView recyclerView, int i) {
                 RecyclerListView.this.checkStopHeavyOperations(i);
-                boolean z = false;
                 if (i != 0 && RecyclerListView.this.currentChildView != null) {
                     if (RecyclerListView.this.selectChildRunnable != null) {
                         AndroidUtilities.cancelRunOnUIThread(RecyclerListView.this.selectChildRunnable);
@@ -1482,7 +1495,7 @@ public class RecyclerListView extends RecyclerView {
                     RecyclerListView.this.onScrollListener.onScrollStateChanged(recyclerView, i);
                 }
                 RecyclerListView recyclerListView2 = RecyclerListView.this;
-                z = (i == 1 || i == 2) ? true : true;
+                boolean z = i == 1 || i == 2;
                 recyclerListView2.scrollingByUser = z;
                 if (z) {
                     recyclerListView2.scrolledByUserOnce = true;
@@ -1542,7 +1555,9 @@ public class RecyclerListView extends RecyclerView {
         }
         boolean emptyViewIsVisible = emptyViewIsVisible();
         int i = emptyViewIsVisible ? 0 : 8;
-        z = (this.animateEmptyView && SharedConfig.animationsEnabled()) ? false : false;
+        if (!this.animateEmptyView || !SharedConfig.animationsEnabled()) {
+            z = false;
+        }
         emptyViewUpdated(emptyViewIsVisible, z);
         if (!z) {
             this.emptyViewAnimateToVisibility = i;
@@ -1592,12 +1607,15 @@ public class RecyclerListView extends RecyclerView {
             if (this.stoppedAllHeavyOperations) {
                 this.stoppedAllHeavyOperations = false;
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, 512);
+                return;
             }
-        } else if (this.stoppedAllHeavyOperations || !this.allowStopHeaveOperations) {
-        } else {
-            this.stoppedAllHeavyOperations = true;
-            NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, 512);
+            return;
         }
+        if (this.stoppedAllHeavyOperations || !this.allowStopHeaveOperations) {
+            return;
+        }
+        this.stoppedAllHeavyOperations = true;
+        NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, 512);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1668,10 +1686,12 @@ public class RecyclerListView extends RecyclerView {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(6:8|(1:10)(4:18|(1:20)|13|14)|11|12|13|14) */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0027, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0027, code lost:
+    
         r5 = move-exception;
      */
     /* JADX WARN: Code restructure failed: missing block: B:17:0x0039, code lost:
+    
         org.telegram.messenger.FileLog.e(r5);
      */
     /*
@@ -1969,7 +1989,6 @@ public class RecyclerListView extends RecyclerView {
             if (layoutManager instanceof LinearLayoutManager) {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
                 if (linearLayoutManager.getOrientation() == 1) {
-                    int i3 = 0;
                     if (this.sectionsAdapter == null) {
                         int findFirstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
                         Math.abs(linearLayoutManager.findLastVisibleItemPosition() - findFirstVisibleItemPosition);
@@ -1991,31 +2010,31 @@ public class RecyclerListView extends RecyclerView {
                         return;
                     }
                     int paddingTop = getPaddingTop();
-                    int i4 = this.sectionsType;
-                    int i5 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                    if (i4 != 1 && i4 != 3) {
-                        if (i4 == 2) {
+                    int i3 = this.sectionsType;
+                    int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                    if (i3 != 1 && i3 != 3) {
+                        if (i3 == 2) {
                             this.pinnedHeaderShadowTargetAlpha = 0.0f;
                             if (this.sectionsAdapter.getItemCount() == 0) {
                                 return;
                             }
                             int childCount = getChildCount();
                             View view3 = null;
-                            int i6 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                            int i5 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                             View view4 = null;
-                            int i7 = 0;
-                            for (int i8 = 0; i8 < childCount; i8++) {
-                                View childAt = getChildAt(i8);
+                            int i6 = 0;
+                            for (int i7 = 0; i7 < childCount; i7++) {
+                                View childAt = getChildAt(i7);
                                 int bottom = childAt.getBottom();
                                 if (bottom > this.sectionOffset + paddingTop) {
-                                    if (bottom < i5) {
+                                    if (bottom < i4) {
                                         view4 = childAt;
-                                        i5 = bottom;
+                                        i4 = bottom;
                                     }
-                                    i7 = Math.max(i7, bottom);
-                                    if (bottom >= this.sectionOffset + paddingTop + AndroidUtilities.dp(32.0f) && bottom < i6) {
+                                    i6 = Math.max(i6, bottom);
+                                    if (bottom >= this.sectionOffset + paddingTop + AndroidUtilities.dp(32.0f) && bottom < i5) {
                                         view3 = childAt;
-                                        i6 = bottom;
+                                        i5 = bottom;
                                     }
                                 }
                             }
@@ -2035,23 +2054,21 @@ public class RecyclerListView extends RecyclerView {
                             }
                             int countForSection = this.sectionsAdapter.getCountForSection(sectionForPosition);
                             int positionInSectionForPosition = this.sectionsAdapter.getPositionInSectionForPosition(adapterPosition);
-                            if (i7 == 0 || i7 >= getMeasuredHeight() - getPaddingBottom()) {
-                                i3 = this.sectionOffset;
-                            }
+                            int i8 = (i6 == 0 || i6 >= getMeasuredHeight() - getPaddingBottom()) ? this.sectionOffset : 0;
                             if (positionInSectionForPosition == countForSection - 1) {
                                 int height = this.pinnedHeader.getHeight();
                                 int top = ((view4.getTop() - paddingTop) - this.sectionOffset) + view4.getHeight();
                                 int i9 = top < height ? top - height : paddingTop;
                                 if (i9 < 0) {
                                     view2 = this.pinnedHeader;
-                                    i2 = paddingTop + i3 + i9;
+                                    i2 = paddingTop + i8 + i9;
                                     view2.setTag(Integer.valueOf(i2));
                                     invalidate();
                                     return;
                                 }
                             }
                             view2 = this.pinnedHeader;
-                            i2 = paddingTop + i3;
+                            i2 = paddingTop + i8;
                             view2.setTag(Integer.valueOf(i2));
                             invalidate();
                             return;
@@ -2066,8 +2083,8 @@ public class RecyclerListView extends RecyclerView {
                         View childAt2 = getChildAt(i12);
                         int bottom2 = childAt2.getBottom();
                         if (bottom2 > this.sectionOffset + paddingTop) {
-                            if (bottom2 < i5) {
-                                i5 = bottom2;
+                            if (bottom2 < i4) {
+                                i4 = bottom2;
                                 view6 = childAt2;
                             }
                             i11 = Math.max(i11, bottom2);
@@ -2153,17 +2170,21 @@ public class RecyclerListView extends RecyclerView {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:108:0x0241, code lost:
-        if (r1 > r2) goto L116;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:113:0x024f, code lost:
-        if (r1 < r2) goto L116;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x0251, code lost:
-        r9.pinnedHeaderShadowAlpha = r2;
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x0241, code lost:
+    
+        if (r1 > r2) goto L114;
      */
     /* JADX WARN: Code restructure failed: missing block: B:115:0x0253, code lost:
+    
         invalidate();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:116:0x0251, code lost:
+    
+        r9.pinnedHeaderShadowAlpha = r2;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:120:0x024f, code lost:
+    
+        if (r1 < r2) goto L114;
      */
     @Override // android.view.ViewGroup, android.view.View
     /*
@@ -2239,56 +2260,59 @@ public class RecyclerListView extends RecyclerView {
                 view4.draw(canvas);
                 canvas.restoreToCount(save);
             }
-        } else if (i7 == 2 && this.sectionsAdapter != null && (view = this.pinnedHeader) != null && view.getAlpha() != 0.0f) {
-            int save2 = canvas.save();
-            canvas.translate(LocaleController.isRTL ? getWidth() - this.pinnedHeader.getWidth() : 0.0f, ((Integer) this.pinnedHeader.getTag()).intValue());
-            Drawable drawable3 = this.pinnedHeaderShadowDrawable;
-            if (drawable3 != null) {
-                drawable3.setBounds(0, this.pinnedHeader.getMeasuredHeight(), getWidth(), this.pinnedHeader.getMeasuredHeight() + this.pinnedHeaderShadowDrawable.getIntrinsicHeight());
-                this.pinnedHeaderShadowDrawable.setAlpha((int) (this.pinnedHeaderShadowAlpha * 255.0f));
-                this.pinnedHeaderShadowDrawable.draw(canvas);
-                long elapsedRealtime = SystemClock.elapsedRealtime();
-                long min = Math.min(20L, elapsedRealtime - this.lastAlphaAnimationTime);
-                this.lastAlphaAnimationTime = elapsedRealtime;
-                float f = this.pinnedHeaderShadowAlpha;
-                float f2 = this.pinnedHeaderShadowTargetAlpha;
-                if (f < f2) {
-                    float f3 = f + (((float) min) / 180.0f);
-                    this.pinnedHeaderShadowAlpha = f3;
-                } else if (f > f2) {
-                    float f4 = f - (((float) min) / 180.0f);
-                    this.pinnedHeaderShadowAlpha = f4;
-                }
-            }
-            canvas.clipRect(0, 0, getWidth(), this.pinnedHeader.getMeasuredHeight());
-            this.pinnedHeader.draw(canvas);
-            canvas.restoreToCount(save2);
+            return;
         }
+        if (i7 != 2 || this.sectionsAdapter == null || (view = this.pinnedHeader) == null || view.getAlpha() == 0.0f) {
+            return;
+        }
+        int save2 = canvas.save();
+        canvas.translate(LocaleController.isRTL ? getWidth() - this.pinnedHeader.getWidth() : 0.0f, ((Integer) this.pinnedHeader.getTag()).intValue());
+        Drawable drawable3 = this.pinnedHeaderShadowDrawable;
+        if (drawable3 != null) {
+            drawable3.setBounds(0, this.pinnedHeader.getMeasuredHeight(), getWidth(), this.pinnedHeader.getMeasuredHeight() + this.pinnedHeaderShadowDrawable.getIntrinsicHeight());
+            this.pinnedHeaderShadowDrawable.setAlpha((int) (this.pinnedHeaderShadowAlpha * 255.0f));
+            this.pinnedHeaderShadowDrawable.draw(canvas);
+            long elapsedRealtime = SystemClock.elapsedRealtime();
+            long min = Math.min(20L, elapsedRealtime - this.lastAlphaAnimationTime);
+            this.lastAlphaAnimationTime = elapsedRealtime;
+            float f = this.pinnedHeaderShadowAlpha;
+            float f2 = this.pinnedHeaderShadowTargetAlpha;
+            if (f < f2) {
+                float f3 = f + (((float) min) / 180.0f);
+                this.pinnedHeaderShadowAlpha = f3;
+            } else if (f > f2) {
+                float f4 = f - (((float) min) / 180.0f);
+                this.pinnedHeaderShadowAlpha = f4;
+            }
+        }
+        canvas.clipRect(0, 0, getWidth(), this.pinnedHeader.getMeasuredHeight());
+        this.pinnedHeader.draw(canvas);
+        canvas.restoreToCount(save2);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView
     public boolean dispatchNestedPreScroll(int i, int i2, int[] iArr, int[] iArr2, int i3) {
-        if (this.longPressCalled) {
-            OnItemLongClickListenerExtended onItemLongClickListenerExtended = this.onItemLongClickListenerExtended;
-            if (onItemLongClickListenerExtended != null) {
-                onItemLongClickListenerExtended.onMove(i, i2);
-            }
-            iArr[0] = i;
-            iArr[1] = i2;
-            return true;
+        if (!this.longPressCalled) {
+            return super.dispatchNestedPreScroll(i, i2, iArr, iArr2, i3);
         }
-        return super.dispatchNestedPreScroll(i, i2, iArr, iArr2, i3);
+        OnItemLongClickListenerExtended onItemLongClickListenerExtended = this.onItemLongClickListenerExtended;
+        if (onItemLongClickListenerExtended != null) {
+            onItemLongClickListenerExtended.onMove(i, i2);
+        }
+        iArr[0] = i;
+        iArr[1] = i2;
+        return true;
     }
 
     @Override // android.view.ViewGroup, android.view.View
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         View view;
         FastScroll fastScroll = getFastScroll();
-        if (fastScroll == null || !fastScroll.isVisible || !fastScroll.isMoving || motionEvent.getActionMasked() == 1 || motionEvent.getActionMasked() == 3) {
-            if (this.sectionsAdapter == null || (view = this.pinnedHeader) == null || view.getAlpha() == 0.0f || !this.pinnedHeader.dispatchTouchEvent(motionEvent)) {
-                return super.dispatchTouchEvent(motionEvent);
-            }
+        if (fastScroll != null && fastScroll.isVisible && fastScroll.isMoving && motionEvent.getActionMasked() != 1 && motionEvent.getActionMasked() != 3) {
             return true;
+        }
+        if (this.sectionsAdapter == null || (view = this.pinnedHeader) == null || view.getAlpha() == 0.0f || !this.pinnedHeader.dispatchTouchEvent(motionEvent)) {
+            return super.dispatchTouchEvent(motionEvent);
         }
         return true;
     }
@@ -2529,6 +2553,7 @@ public class RecyclerListView extends RecyclerView {
         highlightRowInternal(intReturnCallback, i, true);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public void invalidateViews() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -2615,14 +2640,14 @@ public class RecyclerListView extends RecyclerView {
 
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
     public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-        if (isEnabled()) {
-            if (this.disallowInterceptTouchEvents) {
-                requestDisallowInterceptTouchEvent(this, true);
-            }
-            OnInterceptTouchListener onInterceptTouchListener = this.onInterceptTouchListener;
-            return (onInterceptTouchListener != null && onInterceptTouchListener.onInterceptTouchEvent(motionEvent)) || super.onInterceptTouchEvent(motionEvent);
+        if (!isEnabled()) {
+            return false;
         }
-        return false;
+        if (this.disallowInterceptTouchEvents) {
+            requestDisallowInterceptTouchEvent(this, true);
+        }
+        OnInterceptTouchListener onInterceptTouchListener = this.onInterceptTouchListener;
+        return (onInterceptTouchListener != null && onInterceptTouchListener.onInterceptTouchEvent(motionEvent)) || super.onInterceptTouchEvent(motionEvent);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -2679,48 +2704,51 @@ public class RecyclerListView extends RecyclerView {
                 return;
             }
             ensurePinnedHeaderLayout(view, true);
-        } else if (this.sectionsAdapter != null && !this.headers.isEmpty()) {
-            for (int i6 = 0; i6 < this.headers.size(); i6++) {
-                ensurePinnedHeaderLayout((View) this.headers.get(i6), true);
-            }
+            return;
+        }
+        if (this.sectionsAdapter == null || this.headers.isEmpty()) {
+            return;
+        }
+        for (int i6 = 0; i6 < this.headers.size(); i6++) {
+            ensurePinnedHeaderLayout((View) this.headers.get(i6), true);
         }
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
         FastScroll fastScroll = this.fastScroll;
-        if (fastScroll == null || !fastScroll.pressed) {
-            if (!this.multiSelectionGesture || motionEvent.getAction() == 0 || motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-                this.lastX = Float.MAX_VALUE;
-                this.lastY = Float.MAX_VALUE;
-                this.multiSelectionGesture = false;
-                this.multiSelectionGestureStarted = false;
-                requestDisallowInterceptTouchEvent(this, false);
-                cancelMultiselectScroll();
-                return super.onTouchEvent(motionEvent);
-            }
-            if (this.lastX == Float.MAX_VALUE && this.lastY == Float.MAX_VALUE) {
-                this.lastX = motionEvent.getX();
-                this.lastY = motionEvent.getY();
-            }
-            if (!this.multiSelectionGestureStarted && Math.abs(motionEvent.getY() - this.lastY) > this.touchSlop) {
-                this.multiSelectionGestureStarted = true;
-                requestDisallowInterceptTouchEvent(this, true);
-            }
-            if (this.multiSelectionGestureStarted) {
-                chekMultiselect(motionEvent.getX(), motionEvent.getY());
-                this.multiSelectionListener.getPaddings(this.listPaddings);
-                if (motionEvent.getY() > (getMeasuredHeight() - AndroidUtilities.dp(56.0f)) - this.listPaddings[1] && (this.currentSelectedPosition >= this.startSelectionFrom || !this.multiSelectionListener.limitReached())) {
-                    startMultiselectScroll(false);
-                } else if (motionEvent.getY() >= AndroidUtilities.dp(56.0f) + this.listPaddings[0] || (this.currentSelectedPosition > this.startSelectionFrom && this.multiSelectionListener.limitReached())) {
-                    cancelMultiselectScroll();
-                } else {
-                    startMultiselectScroll(true);
-                }
-            }
-            return true;
+        if (fastScroll != null && fastScroll.pressed) {
+            return false;
         }
-        return false;
+        if (!this.multiSelectionGesture || motionEvent.getAction() == 0 || motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+            this.lastX = Float.MAX_VALUE;
+            this.lastY = Float.MAX_VALUE;
+            this.multiSelectionGesture = false;
+            this.multiSelectionGestureStarted = false;
+            requestDisallowInterceptTouchEvent(this, false);
+            cancelMultiselectScroll();
+            return super.onTouchEvent(motionEvent);
+        }
+        if (this.lastX == Float.MAX_VALUE && this.lastY == Float.MAX_VALUE) {
+            this.lastX = motionEvent.getX();
+            this.lastY = motionEvent.getY();
+        }
+        if (!this.multiSelectionGestureStarted && Math.abs(motionEvent.getY() - this.lastY) > this.touchSlop) {
+            this.multiSelectionGestureStarted = true;
+            requestDisallowInterceptTouchEvent(this, true);
+        }
+        if (this.multiSelectionGestureStarted) {
+            chekMultiselect(motionEvent.getX(), motionEvent.getY());
+            this.multiSelectionListener.getPaddings(this.listPaddings);
+            if (motionEvent.getY() > (getMeasuredHeight() - AndroidUtilities.dp(56.0f)) - this.listPaddings[1] && (this.currentSelectedPosition >= this.startSelectionFrom || !this.multiSelectionListener.limitReached())) {
+                startMultiselectScroll(false);
+            } else if (motionEvent.getY() >= AndroidUtilities.dp(56.0f) + this.listPaddings[0] || (this.currentSelectedPosition > this.startSelectionFrom && this.multiSelectionListener.limitReached())) {
+                cancelMultiselectScroll();
+            } else {
+                startMultiselectScroll(true);
+            }
+        }
+        return true;
     }
 
     public void relayoutPinnedHeader() {
@@ -2957,8 +2985,8 @@ public class RecyclerListView extends RecyclerView {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0047  */
-    /* JADX WARN: Removed duplicated region for block: B:28:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0047  */
+    /* JADX WARN: Removed duplicated region for block: B:13:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2972,15 +3000,16 @@ public class RecyclerListView extends RecyclerView {
         int i2 = this.selectorType;
         if (i2 == 8) {
             selectorDrawable = Theme.createRadSelectorDrawable(i, this.selectorRadius, 0);
-        } else if (i2 == 9) {
-            this.selectorDrawable = null;
-            drawable = this.selectorDrawable;
-            if (drawable == null) {
-                drawable.setCallback(this);
+        } else {
+            if (i2 == 9) {
+                this.selectorDrawable = null;
+                drawable = this.selectorDrawable;
+                if (drawable == null) {
+                    drawable.setCallback(this);
+                    return;
+                }
                 return;
             }
-            return;
-        } else {
             int i3 = this.topBottomSelectorRadius;
             if (i3 > 0) {
                 selectorDrawable = Theme.createRadSelectorDrawable(i, i3, i3);

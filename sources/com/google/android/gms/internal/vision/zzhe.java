@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 public abstract class zzhe implements zzkn {
     protected abstract zzhe zza(zzhf zzhfVar);

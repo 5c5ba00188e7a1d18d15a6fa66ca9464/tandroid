@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Outline;
 import android.graphics.Rect;
 import android.view.Gravity;
+
 /* loaded from: classes.dex */
 class RoundedBitmapDrawable21 extends RoundedBitmapDrawable {
     /* JADX INFO: Access modifiers changed from: protected */

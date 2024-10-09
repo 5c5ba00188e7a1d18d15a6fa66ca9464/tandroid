@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import androidx.core.graphics.ColorUtils;
+
 /* loaded from: classes4.dex */
 public class RoundVideoProgressShadow {
     int lastSizesHash;

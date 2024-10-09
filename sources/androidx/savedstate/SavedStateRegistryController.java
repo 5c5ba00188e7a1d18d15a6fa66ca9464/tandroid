@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.lifecycle.Lifecycle;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class SavedStateRegistryController {
     public static final Companion Companion = new Companion(null);

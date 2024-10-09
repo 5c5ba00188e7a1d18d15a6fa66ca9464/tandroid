@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
+
 /* loaded from: classes.dex */
 public abstract class AbstractBox implements Box {
     static final /* synthetic */ boolean $assertionsDisabled = false;
@@ -51,21 +52,20 @@ public abstract class AbstractBox implements Box {
         int i = "uuid".equals(getType()) ? 24 : 8;
         if (!this.isRead) {
             return this.memMapSize + ((long) i) < 4294967296L;
-        } else if (!this.isParsed) {
-            return ((long) (this.content.limit() + i)) < 4294967296L;
-        } else {
-            long contentSize = getContentSize();
-            ByteBuffer byteBuffer = this.deadBytes;
-            return (contentSize + ((long) (byteBuffer != null ? byteBuffer.limit() : 0))) + ((long) i) < 4294967296L;
         }
+        if (!this.isParsed) {
+            return ((long) (this.content.limit() + i)) < 4294967296L;
+        }
+        long contentSize = getContentSize();
+        ByteBuffer byteBuffer = this.deadBytes;
+        return (contentSize + ((long) (byteBuffer != null ? byteBuffer.limit() : 0))) + ((long) i) < 4294967296L;
     }
 
     private synchronized void readContent() {
         try {
             if (!this.isRead) {
                 try {
-                    Logger logger = LOG;
-                    logger.logDebug("mem mapping " + getType());
+                    LOG.logDebug("mem mapping " + getType());
                     throw null;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -128,16 +128,15 @@ public abstract class AbstractBox implements Box {
     @Override // com.coremedia.iso.boxes.Box
     public long getSize() {
         long j;
-        ByteBuffer byteBuffer;
         if (!this.isRead) {
             j = this.memMapSize;
         } else if (this.isParsed) {
             j = getContentSize();
         } else {
-            ByteBuffer byteBuffer2 = this.content;
-            j = byteBuffer2 != null ? byteBuffer2.limit() : 0;
+            ByteBuffer byteBuffer = this.content;
+            j = byteBuffer != null ? byteBuffer.limit() : 0;
         }
-        return j + (j >= 4294967288L ? 8 : 0) + 8 + ("uuid".equals(getType()) ? 16 : 0) + (this.deadBytes != null ? byteBuffer.limit() : 0);
+        return j + (j >= 4294967288L ? 8 : 0) + 8 + ("uuid".equals(getType()) ? 16 : 0) + (this.deadBytes != null ? r0.limit() : 0);
     }
 
     @Override // com.coremedia.iso.boxes.Box
@@ -166,8 +165,7 @@ public abstract class AbstractBox implements Box {
     public final synchronized void parseDetails() {
         try {
             readContent();
-            Logger logger = LOG;
-            logger.logDebug("parsing details of " + getType());
+            LOG.logDebug("parsing details of " + getType());
             ByteBuffer byteBuffer = this.content;
             if (byteBuffer != null) {
                 this.isParsed = true;

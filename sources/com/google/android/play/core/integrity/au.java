@@ -1,4 +1,5 @@
 package com.google.android.play.core.integrity;
+
 /* loaded from: classes.dex */
 public final class au implements com.google.android.play.integrity.internal.ak {
     private final com.google.android.play.integrity.internal.an a;
@@ -10,7 +11,7 @@ public final class au implements com.google.android.play.integrity.internal.ak {
     }
 
     @Override // com.google.android.play.integrity.internal.an
-    /* renamed from: b */
+    /* renamed from: b, reason: merged with bridge method [inline-methods] */
     public final at a() {
         return new at(this.a, this.b);
     }

@@ -1,4 +1,5 @@
 package com.google.common.base;
+
 /* loaded from: classes.dex */
 public abstract class Ascii {
     public static boolean equalsIgnoreCase(CharSequence charSequence, CharSequence charSequence2) {

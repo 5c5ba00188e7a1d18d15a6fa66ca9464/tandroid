@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public final class SynchronousMediaCodecAdapter implements MediaCodecAdapter {
     private final MediaCodec codec;
@@ -20,10 +21,15 @@ public final class SynchronousMediaCodecAdapter implements MediaCodecAdapter {
 
     /* loaded from: classes.dex */
     public static class Factory implements MediaCodecAdapter.Factory {
+        /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.exoplayer2.mediacodec.SynchronousMediaCodecAdapter$1] */
+        /* JADX WARN: Type inference failed for: r0v2 */
+        /* JADX WARN: Type inference failed for: r0v3 */
         @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter.Factory
         public MediaCodecAdapter createAdapter(MediaCodecAdapter.Configuration configuration) {
             MediaCodec createCodec;
-            MediaCodec mediaCodec = null;
+            MediaCodec mediaCodec = 0;
+            mediaCodec = 0;
             try {
                 createCodec = createCodec(configuration);
             } catch (IOException e) {
@@ -42,7 +48,7 @@ public final class SynchronousMediaCodecAdapter implements MediaCodecAdapter {
             } catch (IOException | RuntimeException e3) {
                 e = e3;
                 mediaCodec = createCodec;
-                if (mediaCodec != null) {
+                if (mediaCodec != 0) {
                     mediaCodec.release();
                 }
                 throw e;
@@ -84,7 +90,6 @@ public final class SynchronousMediaCodecAdapter implements MediaCodecAdapter {
             dequeueOutputBuffer = this.codec.dequeueOutputBuffer(bufferInfo, 0L);
             if (dequeueOutputBuffer == -3 && Util.SDK_INT < 21) {
                 this.outputByteBuffers = this.codec.getOutputBuffers();
-                continue;
             }
         } while (dequeueOutputBuffer == -3);
         return dequeueOutputBuffer;
@@ -98,21 +103,21 @@ public final class SynchronousMediaCodecAdapter implements MediaCodecAdapter {
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter
     public ByteBuffer getInputBuffer(int i) {
         ByteBuffer inputBuffer;
-        if (Util.SDK_INT >= 21) {
-            inputBuffer = this.codec.getInputBuffer(i);
-            return inputBuffer;
+        if (Util.SDK_INT < 21) {
+            return ((ByteBuffer[]) Util.castNonNull(this.inputByteBuffers))[i];
         }
-        return ((ByteBuffer[]) Util.castNonNull(this.inputByteBuffers))[i];
+        inputBuffer = this.codec.getInputBuffer(i);
+        return inputBuffer;
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter
     public ByteBuffer getOutputBuffer(int i) {
         ByteBuffer outputBuffer;
-        if (Util.SDK_INT >= 21) {
-            outputBuffer = this.codec.getOutputBuffer(i);
-            return outputBuffer;
+        if (Util.SDK_INT < 21) {
+            return ((ByteBuffer[]) Util.castNonNull(this.outputByteBuffers))[i];
         }
-        return ((ByteBuffer[]) Util.castNonNull(this.outputByteBuffers))[i];
+        outputBuffer = this.codec.getOutputBuffer(i);
+        return outputBuffer;
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecAdapter

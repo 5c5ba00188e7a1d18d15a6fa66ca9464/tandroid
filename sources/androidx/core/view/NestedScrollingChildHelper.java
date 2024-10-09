@@ -2,6 +2,7 @@ package androidx.core.view;
 
 import android.view.View;
 import android.view.ViewParent;
+
 /* loaded from: classes.dex */
 public class NestedScrollingChildHelper {
     private boolean mIsNestedScrollingEnabled;
@@ -55,13 +56,13 @@ public class NestedScrollingChildHelper {
     }
 
     private ViewParent getNestedScrollingParentForType(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                return null;
-            }
-            return this.mNestedScrollingParentNonTouch;
+        if (i == 0) {
+            return this.mNestedScrollingParentTouch;
         }
-        return this.mNestedScrollingParentTouch;
+        if (i != 1) {
+            return null;
+        }
+        return this.mNestedScrollingParentNonTouch;
     }
 
     private int[] getTempNestedScrollConsumed() {
@@ -74,8 +75,10 @@ public class NestedScrollingChildHelper {
     private void setNestedScrollingParentForType(int i, ViewParent viewParent) {
         if (i == 0) {
             this.mNestedScrollingParentTouch = viewParent;
-        } else if (i != 1) {
         } else {
+            if (i != 1) {
+                return;
+            }
             this.mNestedScrollingParentNonTouch = viewParent;
         }
     }
@@ -108,11 +111,11 @@ public class NestedScrollingChildHelper {
             return false;
         }
         if (i == 0 && i2 == 0) {
-            if (iArr2 != null) {
-                iArr2[0] = 0;
-                iArr2[1] = 0;
+            if (iArr2 == null) {
                 return false;
             }
+            iArr2[0] = 0;
+            iArr2[1] = 0;
             return false;
         }
         if (iArr2 != null) {
@@ -172,19 +175,19 @@ public class NestedScrollingChildHelper {
         if (hasNestedScrollingParent(i2)) {
             return true;
         }
-        if (isNestedScrollingEnabled()) {
-            View view = this.mView;
-            for (ViewParent parent = this.mView.getParent(); parent != null; parent = parent.getParent()) {
-                if (ViewParentCompat.onStartNestedScroll(parent, view, this.mView, i, i2)) {
-                    setNestedScrollingParentForType(i2, parent);
-                    ViewParentCompat.onNestedScrollAccepted(parent, view, this.mView, i, i2);
-                    return true;
-                }
-                if (parent instanceof View) {
-                    view = (View) parent;
-                }
-            }
+        if (!isNestedScrollingEnabled()) {
             return false;
+        }
+        View view = this.mView;
+        for (ViewParent parent = this.mView.getParent(); parent != null; parent = parent.getParent()) {
+            if (ViewParentCompat.onStartNestedScroll(parent, view, this.mView, i, i2)) {
+                setNestedScrollingParentForType(i2, parent);
+                ViewParentCompat.onNestedScrollAccepted(parent, view, this.mView, i, i2);
+                return true;
+            }
+            if (parent instanceof View) {
+                view = (View) parent;
+            }
         }
         return false;
     }

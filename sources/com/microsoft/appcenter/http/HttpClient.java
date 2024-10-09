@@ -3,6 +3,7 @@ package com.microsoft.appcenter.http;
 import java.io.Closeable;
 import java.net.URL;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public interface HttpClient extends Closeable {
 

@@ -9,6 +9,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+
 /* loaded from: classes.dex */
 public class StripeSSLSocketFactory extends SSLSocketFactory {
     private final boolean tlsv11Supported;
@@ -36,19 +37,19 @@ public class StripeSSLSocketFactory extends SSLSocketFactory {
     }
 
     private Socket fixupSocket(Socket socket) {
-        if (socket instanceof SSLSocket) {
-            SSLSocket sSLSocket = (SSLSocket) socket;
-            HashSet hashSet = new HashSet(Arrays.asList(sSLSocket.getEnabledProtocols()));
-            if (this.tlsv11Supported) {
-                hashSet.add("TLSv1.1");
-            }
-            if (this.tlsv12Supported) {
-                hashSet.add("TLSv1.2");
-            }
-            sSLSocket.setEnabledProtocols((String[]) hashSet.toArray(new String[0]));
-            return sSLSocket;
+        if (!(socket instanceof SSLSocket)) {
+            return socket;
         }
-        return socket;
+        SSLSocket sSLSocket = (SSLSocket) socket;
+        HashSet hashSet = new HashSet(Arrays.asList(sSLSocket.getEnabledProtocols()));
+        if (this.tlsv11Supported) {
+            hashSet.add("TLSv1.1");
+        }
+        if (this.tlsv12Supported) {
+            hashSet.add("TLSv1.2");
+        }
+        sSLSocket.setEnabledProtocols((String[]) hashSet.toArray(new String[0]));
+        return sSLSocket;
     }
 
     @Override // javax.net.SocketFactory

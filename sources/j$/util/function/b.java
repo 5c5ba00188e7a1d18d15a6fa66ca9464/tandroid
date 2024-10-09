@@ -2,6 +2,7 @@ package j$.util.function;
 
 import j$.util.function.BiFunction;
 import j$.util.function.Function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class b implements java.util.function.BiFunction {
     public final /* synthetic */ BiFunction a;

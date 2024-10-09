@@ -3,6 +3,7 @@ package androidx.appcompat.app;
 import androidx.core.os.LocaleListCompat;
 import java.util.LinkedHashSet;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 abstract class LocaleOverlayHelper {
     private static LocaleListCompat combineLocales(LocaleListCompat localeListCompat, LocaleListCompat localeListCompat2) {

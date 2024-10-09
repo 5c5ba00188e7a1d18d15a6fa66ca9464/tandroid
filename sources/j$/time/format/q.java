@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
+
 /* loaded from: classes2.dex */
 public final class q {
     private static final b f = new j$.time.temporal.n() { // from class: j$.time.format.b
@@ -79,9 +80,8 @@ public final class q {
         q qVar = this.a;
         qVar.getClass();
         qVar.c.add(gVar);
-        q qVar2 = this.a;
-        qVar2.e = -1;
-        return qVar2.c.size() - 1;
+        this.a.e = -1;
+        return r2.c.size() - 1;
     }
 
     private void k(j jVar) {
@@ -163,9 +163,9 @@ public final class q {
         j$.util.a.B(lVar, "field");
         if (i >= 1 && i <= 19) {
             k(new j(lVar, i, i, y.NOT_NEGATIVE));
-            return;
+        } else {
+            throw new IllegalArgumentException("The width must be from 1 to 19 inclusive but was " + i);
         }
-        throw new IllegalArgumentException("The width must be from 1 to 19 inclusive but was " + i);
     }
 
     public final void m(j$.time.temporal.l lVar, int i, int i2, y yVar) {
@@ -177,13 +177,15 @@ public final class q {
         j$.util.a.B(yVar, "signStyle");
         if (i < 1 || i > 19) {
             throw new IllegalArgumentException("The minimum width must be from 1 to 19 inclusive but was " + i);
-        } else if (i2 < 1 || i2 > 19) {
-            throw new IllegalArgumentException("The maximum width must be from 1 to 19 inclusive but was " + i2);
-        } else if (i2 >= i) {
-            k(new j(lVar, i, i2, yVar));
-        } else {
-            throw new IllegalArgumentException("The maximum width must exceed or equal the minimum width but " + i2 + " < " + i);
         }
+        if (i2 < 1 || i2 > 19) {
+            throw new IllegalArgumentException("The maximum width must be from 1 to 19 inclusive but was " + i2);
+        }
+        if (i2 >= i) {
+            k(new j(lVar, i, i2, yVar));
+            return;
+        }
+        throw new IllegalArgumentException("The maximum width must exceed or equal the minimum width but " + i2 + " < " + i);
     }
 
     public final void n() {

@@ -3,6 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class zzeb extends zzav {
     private static final zzeb zznf;
@@ -61,11 +62,11 @@ final class zzeb extends zzav {
 
     @Override // com.google.android.gms.internal.clearcut.zzcn
     public final /* synthetic */ zzcn zzi(int i) {
-        if (i >= size()) {
-            ArrayList arrayList = new ArrayList(i);
-            arrayList.addAll(this.zzls);
-            return new zzeb(arrayList);
+        if (i < size()) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        ArrayList arrayList = new ArrayList(i);
+        arrayList.addAll(this.zzls);
+        return new zzeb(arrayList);
     }
 }

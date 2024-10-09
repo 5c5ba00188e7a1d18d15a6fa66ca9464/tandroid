@@ -1,4 +1,5 @@
 package com.android.billingclient.api;
+
 /* loaded from: classes.dex */
 public final class ConsumeParams {
     private String zza;
@@ -12,12 +13,12 @@ public final class ConsumeParams {
 
         public ConsumeParams build() {
             String str = this.zza;
-            if (str != null) {
-                ConsumeParams consumeParams = new ConsumeParams(null);
-                consumeParams.zza = str;
-                return consumeParams;
+            if (str == null) {
+                throw new IllegalArgumentException("Purchase token must be set");
             }
-            throw new IllegalArgumentException("Purchase token must be set");
+            ConsumeParams consumeParams = new ConsumeParams(null);
+            consumeParams.zza = str;
+            return consumeParams;
         }
 
         public Builder setPurchaseToken(String str) {

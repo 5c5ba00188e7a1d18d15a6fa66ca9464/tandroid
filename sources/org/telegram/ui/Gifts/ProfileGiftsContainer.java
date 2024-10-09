@@ -37,6 +37,7 @@ import org.telegram.ui.Gifts.GiftSheet;
 import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public class ProfileGiftsContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final ButtonWithCounterView button;
@@ -248,14 +249,14 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
     public int getGiftsCount() {
         int i;
         StarsController.GiftsList giftsList = this.list;
-        if (giftsList == null || (i = giftsList.totalCount) <= 0) {
-            TLRPC.UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.userId);
-            if (userFull != null) {
-                return userFull.stargifts_count;
-            }
-            return 0;
+        if (giftsList != null && (i = giftsList.totalCount) > 0) {
+            return i;
         }
-        return i;
+        TLRPC.UserFull userFull = MessagesController.getInstance(this.currentAccount).getUserFull(this.userId);
+        if (userFull != null) {
+            return userFull.stargifts_count;
+        }
+        return 0;
     }
 
     public CharSequence getLastEmojis(Paint.FontMetricsInt fontMetricsInt) {
@@ -345,7 +346,6 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
 
     public void setVisibleHeight(int i) {
         this.visibleHeight = i;
-        FrameLayout frameLayout = this.buttonContainer;
-        frameLayout.setTranslationY(((-frameLayout.getTop()) + i) - AndroidUtilities.dp((1.0f / AndroidUtilities.density) + 68.0f));
+        this.buttonContainer.setTranslationY(((-r0.getTop()) + i) - AndroidUtilities.dp((1.0f / AndroidUtilities.density) + 68.0f));
     }
 }

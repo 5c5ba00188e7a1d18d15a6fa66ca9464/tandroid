@@ -3,6 +3,7 @@ package com.google.mlkit.vision.segmentation.subject;
 import android.graphics.Bitmap;
 import java.nio.FloatBuffer;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class SubjectSegmentationResult {
     private final List zza;

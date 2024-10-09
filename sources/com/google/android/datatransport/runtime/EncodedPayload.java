@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime;
 
 import com.google.android.datatransport.Encoding;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class EncodedPayload {
     private final byte[] bytes;
@@ -22,12 +23,12 @@ public final class EncodedPayload {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof EncodedPayload) {
-            EncodedPayload encodedPayload = (EncodedPayload) obj;
-            if (this.encoding.equals(encodedPayload.encoding)) {
-                return Arrays.equals(this.bytes, encodedPayload.bytes);
-            }
+        if (!(obj instanceof EncodedPayload)) {
             return false;
+        }
+        EncodedPayload encodedPayload = (EncodedPayload) obj;
+        if (this.encoding.equals(encodedPayload.encoding)) {
+            return Arrays.equals(this.bytes, encodedPayload.bytes);
         }
         return false;
     }

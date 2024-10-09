@@ -9,16 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 import org.telegram.messenger.OneUIUtilities;
+
 /* loaded from: classes.dex */
 public abstract class zzb {
     public static final int zza = Runtime.getRuntime().availableProcessors();
 
     public static int zza(Intent intent, String str) {
-        if (intent == null) {
-            zzj("ProxyBillingActivity", "Got null intent!");
-            return 0;
+        if (intent != null) {
+            return zzl(intent.getExtras(), "ProxyBillingActivity");
         }
-        return zzl(intent.getExtras(), "ProxyBillingActivity");
+        zzj("ProxyBillingActivity", "Got null intent!");
+        return 0;
     }
 
     public static int zzb(Bundle bundle, String str) {
@@ -30,11 +31,11 @@ public abstract class zzb {
             if (obj == null) {
                 zzi(str, "getResponseCodeFromBundle() got null response code, assuming OK");
                 return 0;
-            } else if (obj instanceof Integer) {
-                return ((Integer) obj).intValue();
-            } else {
-                concat = "Unexpected type for bundle response code: ".concat(obj.getClass().getName());
             }
+            if (obj instanceof Integer) {
+                return ((Integer) obj).intValue();
+            }
+            concat = "Unexpected type for bundle response code: ".concat(obj.getClass().getName());
         }
         zzj(str, concat);
         return 6;
@@ -72,12 +73,12 @@ public abstract class zzb {
         if (obj == null) {
             zzi(str, "getDebugMessageFromBundle() got null response code, assuming OK");
             return "";
-        } else if (obj instanceof String) {
-            return (String) obj;
-        } else {
-            zzj(str, "Unexpected type for debug message: ".concat(obj.getClass().getName()));
-            return "";
         }
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        zzj(str, "Unexpected type for debug message: ".concat(obj.getClass().getName()));
+        return "";
     }
 
     public static String zzg(int i) {
@@ -96,8 +97,7 @@ public abstract class zzb {
             }
             arrayList.add(zzm);
         } else {
-            int size = stringArrayList.size();
-            zzi("BillingHelper", "Found purchase list of " + size + " items");
+            zzi("BillingHelper", "Found purchase list of " + stringArrayList.size() + " items");
             for (int i = 0; i < stringArrayList.size() && i < stringArrayList2.size(); i++) {
                 Purchase zzm2 = zzm(stringArrayList.get(i), stringArrayList2.get(i));
                 if (zzm2 != null) {
@@ -137,11 +137,11 @@ public abstract class zzb {
     }
 
     private static int zzl(Bundle bundle, String str) {
-        if (bundle == null) {
-            zzj(str, "Unexpected null bundle received!");
-            return 0;
+        if (bundle != null) {
+            return bundle.getInt("IN_APP_MESSAGE_RESPONSE_CODE", 0);
         }
-        return bundle.getInt("IN_APP_MESSAGE_RESPONSE_CODE", 0);
+        zzj(str, "Unexpected null bundle received!");
+        return 0;
     }
 
     private static Purchase zzm(String str, String str2) {

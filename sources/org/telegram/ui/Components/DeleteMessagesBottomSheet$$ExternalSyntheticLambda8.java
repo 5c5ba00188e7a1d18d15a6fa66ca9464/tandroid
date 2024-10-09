@@ -2,6 +2,7 @@ package org.telegram.ui.Components;
 
 import j$.util.function.Function;
 import org.telegram.messenger.MessageObject;
+
 /* loaded from: classes3.dex */
 public final /* synthetic */ class DeleteMessagesBottomSheet$$ExternalSyntheticLambda8 implements Function {
     @Override // j$.util.function.Function

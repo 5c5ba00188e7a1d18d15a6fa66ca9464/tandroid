@@ -3,6 +3,7 @@ package androidx.collection;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class LruCache {
     private int createCount;
@@ -39,42 +40,42 @@ public class LruCache {
 
     public final Object get(Object obj) {
         Object put;
-        if (obj != null) {
-            synchronized (this) {
-                try {
-                    Object obj2 = this.map.get(obj);
-                    if (obj2 != null) {
-                        this.hitCount++;
-                        return obj2;
-                    }
-                    this.missCount++;
-                    Object create = create(obj);
-                    if (create == null) {
-                        return null;
-                    }
-                    synchronized (this) {
-                        try {
-                            this.createCount++;
-                            put = this.map.put(obj, create);
-                            if (put != null) {
-                                this.map.put(obj, put);
-                            } else {
-                                this.size += safeSizeOf(obj, create);
-                            }
-                        } finally {
-                        }
-                    }
-                    if (put != null) {
-                        entryRemoved(false, obj, create, put);
-                        return put;
-                    }
-                    trimToSize(this.maxSize);
-                    return create;
-                } finally {
+        if (obj == null) {
+            throw new NullPointerException("key == null");
+        }
+        synchronized (this) {
+            try {
+                Object obj2 = this.map.get(obj);
+                if (obj2 != null) {
+                    this.hitCount++;
+                    return obj2;
                 }
+                this.missCount++;
+                Object create = create(obj);
+                if (create == null) {
+                    return null;
+                }
+                synchronized (this) {
+                    try {
+                        this.createCount++;
+                        put = this.map.put(obj, create);
+                        if (put != null) {
+                            this.map.put(obj, put);
+                        } else {
+                            this.size += safeSizeOf(obj, create);
+                        }
+                    } finally {
+                    }
+                }
+                if (put != null) {
+                    entryRemoved(false, obj, create, put);
+                    return put;
+                }
+                trimToSize(this.maxSize);
+                return create;
+            } finally {
             }
         }
-        throw new NullPointerException("key == null");
     }
 
     public final Object put(Object obj, Object obj2) {
@@ -117,7 +118,8 @@ public class LruCache {
         return String.format(Locale.US, "LruCache[maxSize=%d,hits=%d,misses=%d,hitRate=%d%%]", Integer.valueOf(this.maxSize), Integer.valueOf(this.hitCount), Integer.valueOf(this.missCount), Integer.valueOf(i2 != 0 ? (i * 100) / i2 : 0));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0073, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0073, code lost:
+    
         throw new java.lang.IllegalStateException(getClass().getName() + ".sizeOf() is reporting inconsistent results!");
      */
     /*

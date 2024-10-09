@@ -14,6 +14,7 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class ChatAttachRestrictedLayout extends ChatAttachAlert.AttachAlertLayout {
     private final RecyclerView.Adapter adapter;
@@ -102,9 +103,9 @@ public class ChatAttachRestrictedLayout extends ChatAttachAlert.AttachAlertLayou
         return this.listView.getPaddingTop();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x003b  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0044  */
-    /* JADX WARN: Removed duplicated region for block: B:19:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0044  */
+    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -4,6 +4,7 @@ import j$.util.function.BiConsumer;
 import j$.util.function.Function;
 import j$.util.function.Supplier;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class m implements Collector {

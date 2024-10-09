@@ -11,6 +11,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -33,6 +34,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.NumberPicker;
 import org.telegram.ui.Components.ProximitySheet;
+
 /* loaded from: classes3.dex */
 public class ProximitySheet extends FrameLayout {
     private int backgroundPaddingLeft;
@@ -210,7 +212,7 @@ public class ProximitySheet extends FrameLayout {
                 return Button.class.getName();
             }
         };
-        linearLayout2.addView(this.kmPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.5f));
+        linearLayout2.addView(this.kmPicker, LayoutHelper.createLinear(0, NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.5f));
         this.kmPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i) {
@@ -234,7 +236,7 @@ public class ProximitySheet extends FrameLayout {
         this.mPicker.setMaxValue(10);
         this.mPicker.setWrapSelectorWheel(false);
         this.mPicker.setTextOffset(-AndroidUtilities.dp(20.0f));
-        linearLayout2.addView(this.mPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.5f));
+        linearLayout2.addView(this.mPicker, LayoutHelper.createLinear(0, NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.5f));
         this.mPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i) {
@@ -290,16 +292,15 @@ public class ProximitySheet extends FrameLayout {
     }
 
     private void checkDismiss(float f, float f2) {
-        float translationY = this.containerView.getTranslationY();
-        if ((translationY >= AndroidUtilities.getPixelsInCM(0.8f, false) || (f2 >= 3500.0f && Math.abs(f2) >= Math.abs(f))) && (f2 >= 0.0f || Math.abs(f2) < 3500.0f)) {
+        if ((this.containerView.getTranslationY() >= AndroidUtilities.getPixelsInCM(0.8f, false) || (f2 >= 3500.0f && Math.abs(f2) >= Math.abs(f))) && (f2 >= 0.0f || Math.abs(f2) < 3500.0f)) {
             this.useFastDismiss = true;
             dismiss();
             return;
         }
         AnimatorSet animatorSet = new AnimatorSet();
         this.currentAnimation = animatorSet;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, 0.0f));
-        this.currentAnimation.setDuration((int) ((Math.max(0.0f, translationY) / AndroidUtilities.getPixelsInCM(0.8f, false)) * 150.0f));
+        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, (Property<ViewGroup, Float>) View.TRANSLATION_Y, 0.0f));
+        this.currentAnimation.setDuration((int) ((Math.max(0.0f, r1) / AndroidUtilities.getPixelsInCM(0.8f, false)) * 150.0f));
         this.currentAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ProximitySheet.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -345,20 +346,20 @@ public class ProximitySheet extends FrameLayout {
     public /* synthetic */ String lambda$new$3(int i) {
         if (this.useImperialSystem) {
             if (i == 1) {
-                return LocaleController.formatString("FootsShort", R.string.FootsShort, Integer.valueOf((int) NotificationCenter.liveLocationsChanged));
+                return LocaleController.formatString("FootsShort", R.string.FootsShort, Integer.valueOf(NotificationCenter.liveLocationsChanged));
             }
             if (i > 1) {
                 i--;
             }
             return String.format(Locale.US, ".%d", Integer.valueOf(i));
-        } else if (i == 1) {
-            return LocaleController.formatString("MetersShort", R.string.MetersShort, 50);
-        } else {
-            if (i > 1) {
-                i--;
-            }
-            return LocaleController.formatString("MetersShort", R.string.MetersShort, Integer.valueOf(i * 100));
         }
+        if (i == 1) {
+            return LocaleController.formatString("MetersShort", R.string.MetersShort, 50);
+        }
+        if (i > 1) {
+            i--;
+        }
+        return LocaleController.formatString("MetersShort", R.string.MetersShort, Integer.valueOf(i * 100));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -376,12 +377,11 @@ public class ProximitySheet extends FrameLayout {
         if (Build.VERSION.SDK_INT >= 20 && this.useHardwareLayer) {
             setLayerType(2, null);
         }
-        ViewGroup viewGroup = this.containerView;
-        viewGroup.setTranslationY(viewGroup.getMeasuredHeight());
+        this.containerView.setTranslationY(r2.getMeasuredHeight());
         this.currentSheetAnimationType = 1;
         AnimatorSet animatorSet = new AnimatorSet();
         this.currentSheetAnimation = animatorSet;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, 0.0f));
+        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, (Property<ViewGroup, Float>) View.TRANSLATION_Y, 0.0f));
         this.currentSheetAnimation.setDuration(400L);
         this.currentSheetAnimation.setStartDelay(20L);
         this.currentSheetAnimation.setInterpolator(this.openInterpolator);
@@ -412,7 +412,6 @@ public class ProximitySheet extends FrameLayout {
     }
 
     public void dismiss() {
-        ViewGroup viewGroup;
         if (this.dismissed) {
             return;
         }
@@ -421,7 +420,7 @@ public class ProximitySheet extends FrameLayout {
         this.currentSheetAnimationType = 2;
         AnimatorSet animatorSet = new AnimatorSet();
         this.currentSheetAnimation = animatorSet;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, View.TRANSLATION_Y, viewGroup.getMeasuredHeight() + AndroidUtilities.dp(10.0f)));
+        animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, (Property<ViewGroup, Float>) View.TRANSLATION_Y, r3.getMeasuredHeight() + AndroidUtilities.dp(10.0f)));
         if (this.useFastDismiss) {
             float measuredHeight = this.containerView.getMeasuredHeight();
             this.currentSheetAnimation.setDuration(Math.max(60, (int) (((measuredHeight - this.containerView.getTranslationY()) * 250.0f) / measuredHeight)));
@@ -451,17 +450,21 @@ public class ProximitySheet extends FrameLayout {
         return this.radiusSet;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0023, code lost:
-        if (r1 > 1) goto L13;
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x001b, code lost:
+    
+        if (r1 > 1) goto L12;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0025, code lost:
-        r1 = r1 - 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0027, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0027, code lost:
+    
         r1 = r1 * 100;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x001b, code lost:
-        if (r1 > 1) goto L13;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0025, code lost:
+    
+        r1 = r1 - 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0023, code lost:
+    
+        if (r1 > 1) goto L12;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -492,8 +495,8 @@ public class ProximitySheet extends FrameLayout {
         return this.dismissed || processTouchEvent(motionEvent, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0080  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0080  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -659,8 +662,7 @@ public class ProximitySheet extends FrameLayout {
             if (this.currentUser == null) {
                 this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonGroup", R.string.LocationNotifiationButtonGroup, formatDistance));
             } else {
-                int i = R.string.LocationNotifiationButtonUser;
-                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonUser", i, TextUtils.ellipsize(UserObject.getFirstName(this.currentUser), this.buttonTextView.getPaint(), Math.max(AndroidUtilities.dp(10.0f), (int) (((this.totalWidth - AndroidUtilities.dp(94.0f)) * 1.5f) - ((int) Math.ceil(this.buttonTextView.getPaint().measureText(LocaleController.getString(i)))))), TextUtils.TruncateAt.END), formatDistance));
+                this.buttonTextView.setText(LocaleController.formatString("LocationNotifiationButtonUser", R.string.LocationNotifiationButtonUser, TextUtils.ellipsize(UserObject.getFirstName(this.currentUser), this.buttonTextView.getPaint(), Math.max(AndroidUtilities.dp(10.0f), (int) (((this.totalWidth - AndroidUtilities.dp(94.0f)) * 1.5f) - ((int) Math.ceil(this.buttonTextView.getPaint().measureText(LocaleController.getString(r13)))))), TextUtils.TruncateAt.END), formatDistance));
             }
             if (this.buttonTextView.getTag() == null) {
                 return;

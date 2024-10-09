@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.function.Supplier;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class v3 extends U2 {
@@ -50,23 +51,23 @@ public final class v3 extends U2 {
             O2 o2 = (O2) this.h;
             long j = this.g;
             if (o2.c != 0) {
-                if (j < o2.count()) {
-                    for (int i = 0; i <= o2.c; i++) {
-                        long j2 = o2.d[i];
-                        Object[] objArr = o2.f[i];
-                        if (j < objArr.length + j2) {
-                            obj = objArr[(int) (j - j2)];
-                        }
-                    }
+                if (j >= o2.count()) {
                     throw new IndexOutOfBoundsException(Long.toString(j));
                 }
+                for (int i = 0; i <= o2.c; i++) {
+                    long j2 = o2.d[i];
+                    Object[] objArr = o2.f[i];
+                    if (j < objArr.length + j2) {
+                        obj = objArr[(int) (j - j2)];
+                    }
+                }
                 throw new IndexOutOfBoundsException(Long.toString(j));
-            } else if (j >= o2.b) {
-                throw new IndexOutOfBoundsException(Long.toString(j));
-            } else {
-                obj = o2.e[(int) j];
             }
-            consumer.accept(obj);
+            if (j >= o2.b) {
+                throw new IndexOutOfBoundsException(Long.toString(j));
+            }
+            obj = o2.e[(int) j];
+            consumer.r(obj);
         }
         return b;
     }

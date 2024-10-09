@@ -1,4 +1,5 @@
 package com.google.gson.internal;
+
 /* loaded from: classes.dex */
 public abstract class TroubleshootingGuide {
     public static String createUrl(String str) {

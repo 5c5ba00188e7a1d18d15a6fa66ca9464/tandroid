@@ -4,6 +4,7 @@ import com.microsoft.appcenter.ingestion.models.json.JSONDateUtils;
 import java.util.Date;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class DateTimeTypedProperty extends TypedProperty {
     private Date value;
@@ -13,12 +14,12 @@ public class DateTimeTypedProperty extends TypedProperty {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            Date date = this.value;
-            Date date2 = ((DateTimeTypedProperty) obj).value;
-            return date != null ? date.equals(date2) : date2 == null;
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
+            return false;
         }
-        return false;
+        Date date = this.value;
+        Date date2 = ((DateTimeTypedProperty) obj).value;
+        return date != null ? date.equals(date2) : date2 == null;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.properties.TypedProperty

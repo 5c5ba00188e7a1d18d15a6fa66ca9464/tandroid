@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.wallet.wobs.LoyaltyPoints;
 import com.google.android.gms.wallet.wobs.TimeInterval;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class LoyaltyWalletObject extends AbstractSafeParcelable {
     public static final Parcelable.Creator<LoyaltyWalletObject> CREATOR = new zzs();

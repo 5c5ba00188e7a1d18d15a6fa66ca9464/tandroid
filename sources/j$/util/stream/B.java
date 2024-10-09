@@ -6,6 +6,7 @@ import j$.util.stream.IntStream;
 import j$.util.stream.Stream;
 import java.util.Iterator;
 import java.util.stream.DoubleStream;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class B implements D {
     public final /* synthetic */ DoubleStream a;
@@ -123,6 +124,7 @@ public final /* synthetic */ class B implements D {
         return this.a.isParallel();
     }
 
+    /* JADX WARN: Type inference failed for: r0v1, types: [java.util.PrimitiveIterator$OfDouble] */
     @Override // j$.util.stream.D
     public final /* synthetic */ j$.util.r iterator() {
         return j$.util.p.b(this.a.iterator());
@@ -198,6 +200,7 @@ public final /* synthetic */ class B implements D {
         return i0(this.a.sorted());
     }
 
+    /* JADX WARN: Type inference failed for: r0v1, types: [java.util.Spliterator$OfDouble] */
     @Override // j$.util.stream.D
     public final /* synthetic */ j$.util.E spliterator() {
         return j$.util.C.b(this.a.spliterator());

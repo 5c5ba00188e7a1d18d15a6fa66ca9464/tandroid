@@ -12,6 +12,7 @@ import com.google.mlkit.common.sdkinternal.MLTask;
 import com.google.mlkit.vision.common.internal.MultiFlavorDetectorCreator;
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
 import com.google.mlkit.vision.label.internal.ImageLabelerImpl;
+
 /* loaded from: classes.dex */
 final class zzd implements MultiFlavorDetectorCreator.DetectorCreator {
     private final zze zza;

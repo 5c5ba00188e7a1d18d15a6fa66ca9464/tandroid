@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_label;
+
 /* loaded from: classes.dex */
 final class zzch implements zzcm {
     private final int zza;
@@ -20,11 +21,11 @@ final class zzch implements zzcm {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zzcm) {
-            zzcm zzcmVar = (zzcm) obj;
-            return this.zza == zzcmVar.zza() && this.zzb.equals(zzcmVar.zzb());
+        if (!(obj instanceof zzcm)) {
+            return false;
         }
-        return false;
+        zzcm zzcmVar = (zzcm) obj;
+        return this.zza == zzcmVar.zza() && this.zzb.equals(zzcmVar.zzb());
     }
 
     @Override // java.lang.annotation.Annotation

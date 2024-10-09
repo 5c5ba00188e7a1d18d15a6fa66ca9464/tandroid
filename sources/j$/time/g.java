@@ -2,6 +2,7 @@ package j$.time;
 
 import j$.time.temporal.q;
 import java.io.Serializable;
+
 /* loaded from: classes2.dex */
 public final class g implements j$.time.temporal.k, j$.time.chrono.c, Serializable {
     private final LocalDate a;
@@ -28,24 +29,23 @@ public final class g implements j$.time.temporal.k, j$.time.chrono.c, Serializab
     }
 
     public static g j(long j, int i, ZoneOffset zoneOffset) {
-        long totalSeconds;
         j$.util.a.B(zoneOffset, "offset");
         long j2 = i;
         j$.time.temporal.a.NANO_OF_SECOND.g(j2);
-        return new g(LocalDate.p(j$.com.android.tools.r8.a.j(j + zoneOffset.getTotalSeconds(), 86400L)), i.k((((int) j$.com.android.tools.r8.a.i(totalSeconds, 86400L)) * 1000000000) + j2));
+        return new g(LocalDate.p(j$.com.android.tools.r8.a.j(j + zoneOffset.getTotalSeconds(), 86400L)), i.k((((int) j$.com.android.tools.r8.a.i(r5, 86400L)) * 1000000000) + j2));
     }
 
     @Override // j$.time.temporal.k
     public final q a(j$.time.temporal.l lVar) {
-        if (lVar instanceof j$.time.temporal.a) {
-            if (((j$.time.temporal.a) lVar).h()) {
-                i iVar = this.b;
-                iVar.getClass();
-                return j$.time.temporal.j.c(iVar, lVar);
-            }
+        if (!(lVar instanceof j$.time.temporal.a)) {
+            return lVar.d(this);
+        }
+        if (!((j$.time.temporal.a) lVar).h()) {
             return this.a.a(lVar);
         }
-        return lVar.d(this);
+        i iVar = this.b;
+        iVar.getClass();
+        return j$.time.temporal.j.c(iVar, lVar);
     }
 
     @Override // j$.time.temporal.k
@@ -91,15 +91,15 @@ public final class g implements j$.time.temporal.k, j$.time.chrono.c, Serializab
         if (this == obj) {
             return true;
         }
-        if (obj instanceof g) {
-            g gVar = (g) obj;
-            return this.a.equals(gVar.a) && this.b.equals(gVar.b);
+        if (!(obj instanceof g)) {
+            return false;
         }
-        return false;
+        g gVar = (g) obj;
+        return this.a.equals(gVar.a) && this.b.equals(gVar.b);
     }
 
     @Override // java.lang.Comparable
-    /* renamed from: f */
+    /* renamed from: f, reason: merged with bridge method [inline-methods] */
     public final int compareTo(j$.time.chrono.c cVar) {
         boolean z = cVar instanceof g;
         i iVar = this.b;
@@ -111,19 +111,19 @@ public final class g implements j$.time.temporal.k, j$.time.chrono.c, Serializab
         }
         g gVar2 = (g) cVar;
         int compareTo = localDate.compareTo(gVar2.a);
-        if (compareTo == 0) {
-            int compareTo2 = iVar.compareTo(gVar2.b);
-            if (compareTo2 == 0) {
-                localDate.getClass();
-                j$.time.chrono.g gVar3 = j$.time.chrono.g.a;
-                gVar2.a.getClass();
-                gVar3.getClass();
-                gVar3.getClass();
-                return 0;
-            }
+        if (compareTo != 0) {
+            return compareTo;
+        }
+        int compareTo2 = iVar.compareTo(gVar2.b);
+        if (compareTo2 != 0) {
             return compareTo2;
         }
-        return compareTo;
+        localDate.getClass();
+        j$.time.chrono.g gVar3 = j$.time.chrono.g.a;
+        gVar2.a.getClass();
+        gVar3.getClass();
+        gVar3.getClass();
+        return 0;
     }
 
     public final int g() {

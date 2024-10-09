@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class LocationSettingsRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<LocationSettingsRequest> CREATOR = new zzz();

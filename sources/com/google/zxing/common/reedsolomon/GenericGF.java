@@ -2,6 +2,7 @@ package com.google.zxing.common.reedsolomon;
 
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class GenericGF {
     public static final GenericGF AZTEC_DATA_6;
@@ -59,15 +60,15 @@ public final class GenericGF {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public GenericGFPoly buildMonomial(int i, int i2) {
-        if (i >= 0) {
-            if (i2 == 0) {
-                return this.zero;
-            }
-            int[] iArr = new int[i + 1];
-            iArr[0] = i2;
-            return new GenericGFPoly(this, iArr);
+        if (i < 0) {
+            throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        if (i2 == 0) {
+            return this.zero;
+        }
+        int[] iArr = new int[i + 1];
+        iArr[0] = i2;
+        return new GenericGFPoly(this, iArr);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

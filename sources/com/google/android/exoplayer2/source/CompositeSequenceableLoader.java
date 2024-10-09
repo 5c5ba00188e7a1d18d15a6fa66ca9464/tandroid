@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class CompositeSequenceableLoader implements SequenceableLoader {
     private long lastAudioVideoBufferedPositionUs;
@@ -104,12 +105,12 @@ public final class CompositeSequenceableLoader implements SequenceableLoader {
         if (j != Long.MAX_VALUE) {
             this.lastAudioVideoBufferedPositionUs = j;
             return j;
-        } else if (j2 != Long.MAX_VALUE) {
-            long j3 = this.lastAudioVideoBufferedPositionUs;
-            return j3 != -9223372036854775807L ? j3 : j2;
-        } else {
+        }
+        if (j2 == Long.MAX_VALUE) {
             return Long.MIN_VALUE;
         }
+        long j3 = this.lastAudioVideoBufferedPositionUs;
+        return j3 != -9223372036854775807L ? j3 : j2;
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader

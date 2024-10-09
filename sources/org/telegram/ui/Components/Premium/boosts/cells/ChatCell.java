@@ -13,6 +13,7 @@ import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes3.dex */
 public class ChatCell extends BaseCell {
     private TLRPC.Chat chat;

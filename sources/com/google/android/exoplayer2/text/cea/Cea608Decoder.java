@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class Cea608Decoder extends CeaDecoder {
     private int captionMode;
@@ -331,56 +332,58 @@ public final class Cea608Decoder extends CeaDecoder {
     private void handleMiscCode(byte b) {
         if (b == 32) {
             setCaptionMode(2);
-        } else if (b == 41) {
+            return;
+        }
+        if (b == 41) {
             setCaptionMode(3);
-        } else {
-            switch (b) {
-                case 37:
-                    setCaptionMode(1);
-                    setCaptionRowCount(2);
+            return;
+        }
+        switch (b) {
+            case 37:
+                setCaptionMode(1);
+                setCaptionRowCount(2);
+                return;
+            case 38:
+                setCaptionMode(1);
+                setCaptionRowCount(3);
+                return;
+            case 39:
+                setCaptionMode(1);
+                setCaptionRowCount(4);
+                return;
+            default:
+                int i = this.captionMode;
+                if (i == 0) {
                     return;
-                case 38:
-                    setCaptionMode(1);
-                    setCaptionRowCount(3);
+                }
+                if (b == 33) {
+                    this.currentCueBuilder.backspace();
                     return;
-                case 39:
-                    setCaptionMode(1);
-                    setCaptionRowCount(4);
-                    return;
-                default:
-                    int i = this.captionMode;
-                    if (i == 0) {
-                        return;
-                    }
-                    if (b == 33) {
-                        this.currentCueBuilder.backspace();
-                        return;
-                    }
-                    switch (b) {
-                        case 44:
-                            this.cues = Collections.emptyList();
-                            int i2 = this.captionMode;
-                            if (i2 != 1 && i2 != 3) {
-                                return;
-                            }
-                            break;
-                        case 45:
-                            if (i != 1 || this.currentCueBuilder.isEmpty()) {
-                                return;
-                            }
-                            this.currentCueBuilder.rollUp();
+                }
+                switch (b) {
+                    case 44:
+                        this.cues = Collections.emptyList();
+                        int i2 = this.captionMode;
+                        if (i2 != 1 && i2 != 3) {
                             return;
-                        case 46:
-                            break;
-                        case 47:
-                            this.cues = getDisplayCues();
-                            break;
-                        default:
+                        }
+                        break;
+                    case 45:
+                        if (i != 1 || this.currentCueBuilder.isEmpty()) {
                             return;
-                    }
-                    resetCueBuilders();
-                    return;
-            }
+                        }
+                        this.currentCueBuilder.rollUp();
+                        return;
+                    case 46:
+                        break;
+                    case 47:
+                        this.cues = getDisplayCues();
+                        break;
+                    default:
+                        return;
+                }
+                resetCueBuilders();
+                return;
         }
     }
 
@@ -433,10 +436,11 @@ public final class Cea608Decoder extends CeaDecoder {
     private boolean isRepeatedCommand(boolean z, byte b, byte b2) {
         if (!z || !isRepeatable(b)) {
             this.repeatableControlSet = false;
-        } else if (this.repeatableControlSet && this.repeatableControlCc1 == b && this.repeatableControlCc2 == b2) {
-            this.repeatableControlSet = false;
-            return true;
         } else {
+            if (this.repeatableControlSet && this.repeatableControlCc1 == b && this.repeatableControlCc2 == b2) {
+                this.repeatableControlSet = false;
+                return true;
+            }
             this.repeatableControlSet = true;
             this.repeatableControlCc1 = b;
             this.repeatableControlCc2 = b2;
@@ -460,6 +464,7 @@ public final class Cea608Decoder extends CeaDecoder {
         return 1 <= b && b <= 15;
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:9:0x0015. Please report as an issue. */
     private void maybeUpdateIsInCaptionService(byte b, byte b2) {
         boolean z;
         if (!isXdsControlCode(b)) {
@@ -476,13 +481,13 @@ public final class Cea608Decoder extends CeaDecoder {
                                 default:
                                     return;
                             }
+                            this.isInCaptionService = z;
                         case 37:
                         case 38:
                         case 39:
                             z = true;
-                            break;
+                            this.isInCaptionService = z;
                     }
-                    this.isInCaptionService = z;
                 }
                 z = true;
                 this.isInCaptionService = z;
@@ -540,8 +545,8 @@ public final class Cea608Decoder extends CeaDecoder {
         return new CeaSubtitle((List) Assertions.checkNotNull(list));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:77:0x006d A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0017 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x006d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0017 A[SYNTHETIC] */
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -18,6 +18,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes3.dex */
 public abstract class VideoTimelinePlayView extends View {
     public static int TYPE_LEFT = 0;
@@ -140,8 +141,7 @@ public abstract class VideoTimelinePlayView extends View {
         }
         if (i == 0) {
             this.frameHeight = AndroidUtilities.dp(38.0f);
-            int i3 = this.videoWidth;
-            this.framesToLoad = Math.max(1, (int) Math.ceil((getMeasuredWidth() - AndroidUtilities.dp(32.0f)) / (this.frameHeight * Utilities.clamp((i3 == 0 || (i2 = this.videoHeight) == 0) ? 1.0f : i3 / i2, 1.3333334f, 0.5625f))));
+            this.framesToLoad = Math.max(1, (int) Math.ceil((getMeasuredWidth() - AndroidUtilities.dp(32.0f)) / (this.frameHeight * Utilities.clamp((this.videoWidth == 0 || (i2 = this.videoHeight) == 0) ? 1.0f : r2 / i2, 1.3333334f, 0.5625f))));
             this.frameWidth = (int) Math.ceil((getMeasuredWidth() - AndroidUtilities.dp(32.0f)) / this.framesToLoad);
             this.frameTimeOffset = this.videoLength / this.framesToLoad;
         }
@@ -173,17 +173,17 @@ public abstract class VideoTimelinePlayView extends View {
                 if (isCancelled()) {
                     return null;
                 }
-                if (frameAtTime != null) {
-                    bitmap = Bitmap.createBitmap(VideoTimelinePlayView.this.frameWidth, VideoTimelinePlayView.this.frameHeight, frameAtTime.getConfig());
-                    Canvas canvas = new Canvas(bitmap);
-                    float max = Math.max(VideoTimelinePlayView.this.frameWidth / frameAtTime.getWidth(), VideoTimelinePlayView.this.frameHeight / frameAtTime.getHeight());
-                    int width = (int) (frameAtTime.getWidth() * max);
-                    int height = (int) (frameAtTime.getHeight() * max);
-                    canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelinePlayView.this.frameWidth - width) / 2, (VideoTimelinePlayView.this.frameHeight - height) / 2, (VideoTimelinePlayView.this.frameWidth + width) / 2, (VideoTimelinePlayView.this.frameHeight + height) / 2), this.paint);
-                    frameAtTime.recycle();
-                    return bitmap;
+                if (frameAtTime == null) {
+                    return frameAtTime;
                 }
-                return frameAtTime;
+                bitmap = Bitmap.createBitmap(VideoTimelinePlayView.this.frameWidth, VideoTimelinePlayView.this.frameHeight, frameAtTime.getConfig());
+                Canvas canvas = new Canvas(bitmap);
+                float max = Math.max(VideoTimelinePlayView.this.frameWidth / frameAtTime.getWidth(), VideoTimelinePlayView.this.frameHeight / frameAtTime.getHeight());
+                int width = (int) (frameAtTime.getWidth() * max);
+                int height = (int) (frameAtTime.getHeight() * max);
+                canvas.drawBitmap(frameAtTime, new android.graphics.Rect(0, 0, frameAtTime.getWidth(), frameAtTime.getHeight()), new android.graphics.Rect((VideoTimelinePlayView.this.frameWidth - width) / 2, (VideoTimelinePlayView.this.frameHeight - height) / 2, (VideoTimelinePlayView.this.frameWidth + width) / 2, (VideoTimelinePlayView.this.frameHeight + height) / 2), this.paint);
+                frameAtTime.recycle();
+                return bitmap;
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -277,7 +277,7 @@ public abstract class VideoTimelinePlayView extends View {
         return this.pressedPlay;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0131  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0131  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -324,12 +324,12 @@ public abstract class VideoTimelinePlayView extends View {
                 while (true) {
                     if (i3 >= this.frames.size()) {
                         break;
-                    } else if (((BitmapFrame) this.frames.get(i3)).bitmap == null) {
+                    }
+                    if (((BitmapFrame) this.frames.get(i3)).bitmap == null) {
                         this.hasBlur = true;
                         break;
-                    } else {
-                        i3++;
                     }
+                    i3++;
                 }
             }
             if (this.hasBlur) {
@@ -428,10 +428,12 @@ public abstract class VideoTimelinePlayView extends View {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:138:0x0208, code lost:
-        if (r13 < r0) goto L133;
+    /* JADX WARN: Code restructure failed: missing block: B:127:0x0208, code lost:
+    
+        if (r13 < r0) goto L139;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x0146, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x0146, code lost:
+    
         if (r13 > r0) goto L77;
      */
     @Override // android.view.View
@@ -497,7 +499,8 @@ public abstract class VideoTimelinePlayView extends View {
             this.pressDx = (int) (x - f);
             invalidate();
             return true;
-        } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+        }
+        if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
             if (this.pressedLeft) {
                 VideoTimelineViewDelegate videoTimelineViewDelegate6 = this.delegate;
                 if (videoTimelineViewDelegate6 != null) {
@@ -505,14 +508,16 @@ public abstract class VideoTimelinePlayView extends View {
                 }
                 this.pressedLeft = false;
                 return true;
-            } else if (this.pressedRight) {
+            }
+            if (this.pressedRight) {
                 VideoTimelineViewDelegate videoTimelineViewDelegate7 = this.delegate;
                 if (videoTimelineViewDelegate7 != null) {
                     videoTimelineViewDelegate7.didStopDragging(TYPE_RIGHT);
                 }
                 this.pressedRight = false;
                 return true;
-            } else if (this.pressedPlay) {
+            }
+            if (this.pressedPlay) {
                 VideoTimelineViewDelegate videoTimelineViewDelegate8 = this.delegate;
                 if (videoTimelineViewDelegate8 != null) {
                     videoTimelineViewDelegate8.didStopDragging(TYPE_PROGRESS);
@@ -534,7 +539,8 @@ public abstract class VideoTimelinePlayView extends View {
                 }
                 invalidate();
                 return true;
-            } else if (this.pressedLeft) {
+            }
+            if (this.pressedLeft) {
                 int i = (int) (x - this.pressDx);
                 if (i < AndroidUtilities.dp(16.0f)) {
                     dp3 = AndroidUtilities.dp(16.0f);
@@ -574,7 +580,8 @@ public abstract class VideoTimelinePlayView extends View {
                 }
                 invalidate();
                 return true;
-            } else if (this.pressedRight) {
+            }
+            if (this.pressedRight) {
                 int i2 = (int) (x - this.pressDx);
                 if (i2 >= dp) {
                     dp = i2 > AndroidUtilities.dp(16.0f) + measuredWidth ? measuredWidth + AndroidUtilities.dp(16.0f) : i2;

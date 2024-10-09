@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.BundleableUtil;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class CueDecoder {
     public ImmutableList decode(byte[] bArr) {

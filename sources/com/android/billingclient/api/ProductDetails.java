@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public final class ProductDetails {
     private final String zza;
@@ -204,7 +205,9 @@ public final class ProductDetails {
                 arrayList2.add(new OneTimePurchaseOfferDetails(optJSONArray2.getJSONObject(i2)));
             }
             this.zzm = arrayList2;
-        } else if (optJSONObject == null) {
+            return;
+        }
+        if (optJSONObject == null) {
             this.zzm = null;
         } else {
             arrayList2.add(new OneTimePurchaseOfferDetails(optJSONObject));
@@ -247,14 +250,7 @@ public final class ProductDetails {
     }
 
     public String toString() {
-        String str = this.zza;
-        String obj = this.zzb.toString();
-        String str2 = this.zzc;
-        String str3 = this.zzd;
-        String str4 = this.zze;
-        String str5 = this.zzh;
-        String valueOf = String.valueOf(this.zzl);
-        return "ProductDetails{jsonString='" + str + "', parsedJson=" + obj + ", productId='" + str2 + "', productType='" + str3 + "', title='" + str4 + "', productDetailsToken='" + str5 + "', subscriptionOfferDetails=" + valueOf + "}";
+        return "ProductDetails{jsonString='" + this.zza + "', parsedJson=" + this.zzb.toString() + ", productId='" + this.zzc + "', productType='" + this.zzd + "', title='" + this.zze + "', productDetailsToken='" + this.zzh + "', subscriptionOfferDetails=" + String.valueOf(this.zzl) + "}";
     }
 
     public final String zza() {

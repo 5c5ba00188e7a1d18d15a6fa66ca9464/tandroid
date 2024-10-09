@@ -4,6 +4,7 @@ import android.location.Location;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.internal.TaskUtil;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 final class zzcm extends zzp {
     final /* synthetic */ TaskCompletionSource zza;

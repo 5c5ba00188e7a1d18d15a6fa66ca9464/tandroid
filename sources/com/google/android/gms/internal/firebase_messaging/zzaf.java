@@ -3,6 +3,7 @@ package com.google.android.gms.internal.firebase_messaging;
 import com.google.firebase.encoders.EncodingException;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ValueEncoderContext;
+
 /* loaded from: classes.dex */
 final class zzaf implements ValueEncoderContext {
     private boolean zza = false;

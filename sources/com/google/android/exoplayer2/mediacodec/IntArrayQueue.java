@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.mediacodec;
 
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 final class IntArrayQueue {
     private int headIndex = 0;
@@ -49,14 +50,14 @@ final class IntArrayQueue {
 
     public int remove() {
         int i = this.size;
-        if (i != 0) {
-            int[] iArr = this.data;
-            int i2 = this.headIndex;
-            int i3 = iArr[i2];
-            this.headIndex = (i2 + 1) & this.wrapAroundMask;
-            this.size = i - 1;
-            return i3;
+        if (i == 0) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        int[] iArr = this.data;
+        int i2 = this.headIndex;
+        int i3 = iArr[i2];
+        this.headIndex = (i2 + 1) & this.wrapAroundMask;
+        this.size = i - 1;
+        return i3;
     }
 }

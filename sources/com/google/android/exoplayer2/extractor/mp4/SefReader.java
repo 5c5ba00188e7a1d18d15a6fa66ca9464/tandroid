@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.base.Splitter;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class SefReader {
     private final List dataReferences = new ArrayList();
@@ -36,10 +37,10 @@ final class SefReader {
         this.tailLength = parsableByteArray.readLittleEndianInt() + 8;
         if (parsableByteArray.readInt() != 1397048916) {
             positionHolder.position = 0L;
-            return;
+        } else {
+            positionHolder.position = extractorInput.getPosition() - (this.tailLength - 12);
+            this.readerState = 2;
         }
-        positionHolder.position = extractorInput.getPosition() - (this.tailLength - 12);
-        this.readerState = 2;
     }
 
     private static int nameToDataType(String str) {
@@ -168,9 +169,10 @@ final class SefReader {
             checkForSefData(extractorInput, positionHolder);
         } else if (i == 2) {
             readSdrs(extractorInput, positionHolder);
-        } else if (i != 3) {
-            throw new IllegalStateException();
         } else {
+            if (i != 3) {
+                throw new IllegalStateException();
+            }
             readSefData(extractorInput, list);
             positionHolder.position = 0L;
         }

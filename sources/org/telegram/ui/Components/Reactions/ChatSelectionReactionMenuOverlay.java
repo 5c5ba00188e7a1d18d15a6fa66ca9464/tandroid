@@ -27,6 +27,7 @@ import org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.ReactionsContainerLayout;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class ChatSelectionReactionMenuOverlay extends FrameLayout {
     private float currentOffsetY;
@@ -238,11 +239,11 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         if (!this.reactionsContainerLayout.isEnabled()) {
             this.messageSet = false;
             this.reactionsContainerLayout.setTransitionProgress(1.0f);
-            return;
+        } else {
+            this.messageSet = true;
+            this.reactionsContainerLayout.setMessage(this.currentPrimaryObject, this.parentFragment.getCurrentChatInfo(), true);
+            this.reactionsContainerLayout.startEnterAnimation(false);
         }
-        this.messageSet = true;
-        this.reactionsContainerLayout.setMessage(this.currentPrimaryObject, this.parentFragment.getCurrentChatInfo(), true);
-        this.reactionsContainerLayout.startEnterAnimation(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -258,14 +259,13 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         invalidatePosition(true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:68:0x015f  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0174 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0175  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x015f  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0174 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0175  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void invalidatePosition(boolean z) {
-        int[] iArr;
         int height;
         boolean z2;
         boolean z3;
@@ -303,9 +303,11 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         }
         RecyclerListView chatListView = this.parentFragment.getChatListView();
         chatListView.getLocationInWindow(this.pos);
+        int[] iArr = this.pos;
         boolean z4 = true;
-        getLocationInWindow(this.pos);
-        float pullingDownOffset = (iArr[1] - this.pos[1]) - this.parentFragment.getPullingDownOffset();
+        float f4 = iArr[1];
+        getLocationInWindow(iArr);
+        float pullingDownOffset = (f4 - this.pos[1]) - this.parentFragment.getPullingDownOffset();
         boolean z5 = false;
         for (int i = 0; i < chatListView.getChildCount(); i++) {
             View childAt = chatListView.getChildAt(i);
@@ -333,76 +335,77 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                     if (fragmentContextView != null && fragmentContextView.getVisibility() == 0) {
                         dp += fragmentContextView.getHeight();
                     }
-                    float f4 = height;
-                    if (y > dp - (f4 / 2.0f) && y < dp2) {
+                    float f5 = height;
+                    if (y > dp - (f5 / 2.0f) && y < dp2) {
                         this.toOffsetY = 0.0f;
                         z2 = false;
-                    } else if (y < (dp - f4) - AndroidUtilities.dp(92.0f) || y > dp2) {
-                        z2 = false;
-                        z3 = false;
-                        if (!z) {
-                            this.currentOffsetY = this.toOffsetY;
-                        }
-                        float interpolation = y + (CubicBezierInterpolator.DEFAULT.getInterpolation(this.currentOffsetY) * this.translationOffsetY);
-                        reactionsContainerLayout = this.reactionsContainerLayout;
-                        if (reactionsContainerLayout != null) {
-                            return;
-                        }
-                        if (z2 != reactionsContainerLayout.isFlippedVertically()) {
-                            this.reactionsContainerLayout.setFlippedVertically(z2);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda0
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    ChatSelectionReactionMenuOverlay.this.invalidatePosition();
-                                }
-                            });
-                        }
-                        if (z3 != this.reactionsContainerLayout.isEnabled()) {
-                            this.reactionsContainerLayout.setEnabled(z3);
-                            this.reactionsContainerLayout.invalidate();
-                            if (z3) {
-                                this.reactionsContainerLayout.setVisibility(0);
-                                if (!this.messageSet) {
-                                    this.messageSet = true;
-                                    this.reactionsContainerLayout.setMessage(this.currentPrimaryObject, this.parentFragment.getCurrentChatInfo(), true);
-                                }
-                            }
-                        }
-                        this.reactionsContainerLayout.setTranslationY(MathUtils.clamp(interpolation, dp, dp2));
-                        this.reactionsContainerLayout.setTranslationX(chatMessageCell.getNonAnimationTranslationX(true));
-                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.reactionsContainerLayout.getLayoutParams();
-                        int max2 = Math.max(0, chatMessageCell.getBackgroundDrawableLeft() - AndroidUtilities.dp(32.0f));
-                        int max3 = Math.max((int) chatMessageCell.getNonAnimationTranslationX(true), (chatMessageCell.getWidth() - chatMessageCell.getBackgroundDrawableRight()) - AndroidUtilities.dp(32.0f));
-                        int dp3 = AndroidUtilities.dp(40.0f) * 8;
-                        if ((getWidth() - max3) - max2 < dp3) {
-                            if (isOutOwner) {
-                                max2 = Math.min(max2, getWidth() - dp3);
-                                max3 = 0;
-                            } else {
-                                max3 = Math.min(max3, getWidth() - dp3);
-                                max2 = 0;
-                            }
-                        }
-                        int i2 = isOutOwner ? 5 : 3;
-                        if (i2 != layoutParams.gravity) {
-                            layoutParams.gravity = i2;
-                            z5 = true;
-                        }
-                        if (max2 != layoutParams.leftMargin) {
-                            layoutParams.leftMargin = max2;
-                            z5 = true;
-                        }
-                        if (max3 != layoutParams.rightMargin) {
-                            layoutParams.rightMargin = max3;
-                        } else {
-                            z4 = z5;
-                        }
-                        if (z4) {
-                            this.reactionsContainerLayout.requestLayout();
-                            return;
-                        }
-                        return;
                     } else {
+                        if (y < (dp - f5) - AndroidUtilities.dp(92.0f) || y > dp2) {
+                            z2 = false;
+                            z3 = false;
+                            if (!z) {
+                                this.currentOffsetY = this.toOffsetY;
+                            }
+                            float interpolation = y + (CubicBezierInterpolator.DEFAULT.getInterpolation(this.currentOffsetY) * this.translationOffsetY);
+                            reactionsContainerLayout = this.reactionsContainerLayout;
+                            if (reactionsContainerLayout != null) {
+                                return;
+                            }
+                            if (z2 != reactionsContainerLayout.isFlippedVertically()) {
+                                this.reactionsContainerLayout.setFlippedVertically(z2);
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatSelectionReactionMenuOverlay$$ExternalSyntheticLambda0
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        ChatSelectionReactionMenuOverlay.this.invalidatePosition();
+                                    }
+                                });
+                            }
+                            if (z3 != this.reactionsContainerLayout.isEnabled()) {
+                                this.reactionsContainerLayout.setEnabled(z3);
+                                this.reactionsContainerLayout.invalidate();
+                                if (z3) {
+                                    this.reactionsContainerLayout.setVisibility(0);
+                                    if (!this.messageSet) {
+                                        this.messageSet = true;
+                                        this.reactionsContainerLayout.setMessage(this.currentPrimaryObject, this.parentFragment.getCurrentChatInfo(), true);
+                                    }
+                                }
+                            }
+                            this.reactionsContainerLayout.setTranslationY(MathUtils.clamp(interpolation, dp, dp2));
+                            this.reactionsContainerLayout.setTranslationX(chatMessageCell.getNonAnimationTranslationX(true));
+                            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.reactionsContainerLayout.getLayoutParams();
+                            int max2 = Math.max(0, chatMessageCell.getBackgroundDrawableLeft() - AndroidUtilities.dp(32.0f));
+                            int max3 = Math.max((int) chatMessageCell.getNonAnimationTranslationX(true), (chatMessageCell.getWidth() - chatMessageCell.getBackgroundDrawableRight()) - AndroidUtilities.dp(32.0f));
+                            int dp3 = AndroidUtilities.dp(40.0f) * 8;
+                            if ((getWidth() - max3) - max2 < dp3) {
+                                if (isOutOwner) {
+                                    max2 = Math.min(max2, getWidth() - dp3);
+                                    max3 = 0;
+                                } else {
+                                    max3 = Math.min(max3, getWidth() - dp3);
+                                    max2 = 0;
+                                }
+                            }
+                            int i2 = isOutOwner ? 5 : 3;
+                            if (i2 != layoutParams.gravity) {
+                                layoutParams.gravity = i2;
+                                z5 = true;
+                            }
+                            if (max2 != layoutParams.leftMargin) {
+                                layoutParams.leftMargin = max2;
+                                z5 = true;
+                            }
+                            if (max3 != layoutParams.rightMargin) {
+                                layoutParams.rightMargin = max3;
+                            } else {
+                                z4 = z5;
+                            }
+                            if (z4) {
+                                this.reactionsContainerLayout.requestLayout();
+                                return;
+                            }
+                            return;
+                        }
                         this.translationOffsetY = height + AndroidUtilities.dp(56.0f);
                         this.toOffsetY = 1.0f;
                         z2 = true;
@@ -459,7 +462,8 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                 MessageObject next = it.next();
                 if (!isMessageTypeAllowed(next)) {
                     break;
-                } else if (!z2) {
+                }
+                if (!z2) {
                     j = next.getGroupId();
                     z2 = true;
                 } else if (j != next.getGroupId() || j == 0) {

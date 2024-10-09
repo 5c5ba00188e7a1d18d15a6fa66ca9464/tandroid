@@ -1,6 +1,7 @@
 package androidx.appcompat.view.menu;
 
 import android.content.Context;
+
 /* loaded from: classes.dex */
 public interface MenuPresenter {
 

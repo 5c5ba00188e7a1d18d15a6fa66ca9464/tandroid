@@ -2,6 +2,7 @@ package com.google.android.gms.flags;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 /* loaded from: classes.dex */
 public class FlagRegistry {
     private final Collection zzg = new ArrayList();

@@ -1,6 +1,7 @@
 package androidx.dynamicanimation.animation;
 
 import androidx.dynamicanimation.animation.DynamicAnimation;
+
 /* loaded from: classes.dex */
 public final class SpringAnimation extends DynamicAnimation {
     private boolean mEndRequested;
@@ -106,11 +107,11 @@ public final class SpringAnimation extends DynamicAnimation {
         this.mValue = max;
         float min = Math.min(max, this.mMaxValue);
         this.mValue = min;
-        if (isAtEquilibrium(min, this.mVelocity)) {
-            this.mValue = this.mSpring.getFinalPosition();
-            this.mVelocity = 0.0f;
-            return true;
+        if (!isAtEquilibrium(min, this.mVelocity)) {
+            return false;
         }
-        return false;
+        this.mValue = this.mSpring.getFinalPosition();
+        this.mVelocity = 0.0f;
+        return true;
     }
 }

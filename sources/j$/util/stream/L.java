@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import java.util.concurrent.CountedCompleter;
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes2.dex */
 final class L extends c {
     private final F j;
@@ -31,26 +32,26 @@ final class L extends c {
                 }
             }
             return null;
-        } else if (obj != null) {
-            e eVar = this;
-            while (true) {
-                if (eVar != null) {
-                    e eVar2 = (e) eVar.getCompleter();
-                    if (eVar2 != null && eVar2.d != eVar) {
-                        h();
-                        break;
-                    }
-                    eVar = eVar2;
-                } else {
-                    AtomicReference atomicReference2 = this.h;
-                    while (!atomicReference2.compareAndSet(null, obj) && atomicReference2.get() == null) {
-                    }
-                }
-            }
-            return obj;
-        } else {
+        }
+        if (obj == null) {
             return null;
         }
+        e eVar = this;
+        while (true) {
+            if (eVar != null) {
+                e eVar2 = (e) eVar.getCompleter();
+                if (eVar2 != null && eVar2.d != eVar) {
+                    h();
+                    break;
+                }
+                eVar = eVar2;
+            } else {
+                AtomicReference atomicReference2 = this.h;
+                while (!atomicReference2.compareAndSet(null, obj) && atomicReference2.get() == null) {
+                }
+            }
+        }
+        return obj;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

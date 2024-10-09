@@ -8,6 +8,7 @@ import kotlin.jvm.JvmClassMappingKt;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.reflect.KClass;
+
 /* loaded from: classes.dex */
 public final class InitializerViewModelFactoryBuilder {
     private final List initializers = new ArrayList();
@@ -20,10 +21,10 @@ public final class InitializerViewModelFactoryBuilder {
 
     public final ViewModelProvider.Factory build() {
         Object[] array = this.initializers.toArray(new ViewModelInitializer[0]);
-        if (array != null) {
-            ViewModelInitializer[] viewModelInitializerArr = (ViewModelInitializer[]) array;
-            return new InitializerViewModelFactory((ViewModelInitializer[]) Arrays.copyOf(viewModelInitializerArr, viewModelInitializerArr.length));
+        if (array == null) {
+            throw new NullPointerException("null cannot be cast to non-null type kotlin.Array<T of kotlin.collections.ArraysKt__ArraysJVMKt.toTypedArray>");
         }
-        throw new NullPointerException("null cannot be cast to non-null type kotlin.Array<T of kotlin.collections.ArraysKt__ArraysJVMKt.toTypedArray>");
+        ViewModelInitializer[] viewModelInitializerArr = (ViewModelInitializer[]) array;
+        return new InitializerViewModelFactory((ViewModelInitializer[]) Arrays.copyOf(viewModelInitializerArr, viewModelInitializerArr.length));
     }
 }

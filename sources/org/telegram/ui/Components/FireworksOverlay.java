@@ -18,6 +18,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes3.dex */
 public class FireworksOverlay extends View {
     private static int[] colors;
@@ -68,9 +69,10 @@ public class FireworksOverlay extends View {
                 canvas.save();
                 canvas.rotate(this.rotation, FireworksOverlay.this.rect.centerX(), FireworksOverlay.this.rect.centerY());
                 canvas.drawRoundRect(FireworksOverlay.this.rect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), FireworksOverlay.paint[this.colorType]);
-            } else if (b != 2) {
-                return;
             } else {
+                if (b != 2) {
+                    return;
+                }
                 Drawable drawable = FireworksOverlay.starsDrawable != null ? FireworksOverlay.starsDrawable[this.colorType] : null;
                 if (FireworksOverlay.heartDrawable != null) {
                     drawable = FireworksOverlay.heartDrawable[this.colorType];
@@ -93,15 +95,18 @@ public class FireworksOverlay extends View {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:17:0x005f, code lost:
-            if (r1 <= 0.0f) goto L40;
+        /* JADX WARN: Code restructure failed: missing block: B:39:0x005f, code lost:
+        
+            if (r1 <= 0.0f) goto L23;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:22:0x006d, code lost:
-            if (r1 >= 0.0f) goto L40;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:23:0x006f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:40:0x006f, code lost:
+        
             r9.moveX = 0.0f;
             r9.xFinished = r9.finishedStart;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x006d, code lost:
+        
+            if (r1 >= 0.0f) goto L23;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -140,7 +145,7 @@ public class FireworksOverlay extends View {
             float f9 = this.moveY;
             boolean z = f9 < f8;
             float dp2 = (AndroidUtilities.dp(1.0f) / 3.0f) * f;
-            if ((f9 > f8 ? 1 : (f9 == f8 ? 0 : -1)) > 0) {
+            if (f9 > f8) {
                 dp2 *= FireworksOverlay.this.speedCoef;
             }
             this.moveY = f9 + dp2;

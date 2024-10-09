@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class NotificationManagerCompat {
     private static String sEnabledNotificationListeners;
@@ -302,19 +303,21 @@ public final class NotificationManagerCompat {
             if (i == 0) {
                 handleQueueTask((Task) message.obj);
                 return true;
-            } else if (i == 1) {
+            }
+            if (i == 1) {
                 ServiceConnectedEvent serviceConnectedEvent = (ServiceConnectedEvent) message.obj;
                 handleServiceConnected(serviceConnectedEvent.componentName, serviceConnectedEvent.iBinder);
                 return true;
-            } else if (i == 2) {
+            }
+            if (i == 2) {
                 handleServiceDisconnected((ComponentName) message.obj);
                 return true;
-            } else if (i != 3) {
-                return false;
-            } else {
-                handleRetryListenerQueue((ComponentName) message.obj);
-                return true;
             }
+            if (i != 3) {
+                return false;
+            }
+            handleRetryListenerQueue((ComponentName) message.obj);
+            return true;
         }
 
         @Override // android.content.ServiceConnection
@@ -436,9 +439,9 @@ public final class NotificationManagerCompat {
     public void notify(String str, int i, Notification notification) {
         if (!useSideChannelForNotification(notification)) {
             this.mNotificationManager.notify(str, i, notification);
-            return;
+        } else {
+            pushSideChannelQueue(new NotifyTask(this.mContext.getPackageName(), i, str, notification));
+            this.mNotificationManager.cancel(str, i);
         }
-        pushSideChannelQueue(new NotifyTask(this.mContext.getPackageName(), i, str, notification));
-        this.mNotificationManager.cancel(str, i);
     }
 }

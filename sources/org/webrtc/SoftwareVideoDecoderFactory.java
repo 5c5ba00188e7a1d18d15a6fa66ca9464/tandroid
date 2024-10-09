@@ -2,6 +2,7 @@ package org.webrtc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 /* loaded from: classes.dex */
 public class SoftwareVideoDecoderFactory implements VideoDecoderFactory {
     static VideoCodecInfo[] supportedCodecs() {

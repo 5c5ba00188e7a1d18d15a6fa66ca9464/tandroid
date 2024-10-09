@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 abstract class zzme {
     abstract int zza(int i, byte[] bArr, int i2, int i3);

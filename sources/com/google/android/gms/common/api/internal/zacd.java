@@ -12,6 +12,7 @@ import com.google.android.gms.common.internal.RootTelemetryConfiguration;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zacd implements OnCompleteListener {
@@ -32,33 +33,34 @@ public final class zacd implements OnCompleteListener {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static zacd zaa(GoogleApiManager googleApiManager, int i, ApiKey apiKey) {
         boolean z;
-        if (googleApiManager.zaF()) {
-            RootTelemetryConfiguration config = RootTelemetryConfigManager.getInstance().getConfig();
-            if (config == null) {
-                z = true;
-            } else if (!config.getMethodInvocationTelemetryEnabled()) {
+        if (!googleApiManager.zaF()) {
+            return null;
+        }
+        RootTelemetryConfiguration config = RootTelemetryConfigManager.getInstance().getConfig();
+        if (config == null) {
+            z = true;
+        } else {
+            if (!config.getMethodInvocationTelemetryEnabled()) {
                 return null;
-            } else {
-                z = config.getMethodTimingTelemetryEnabled();
-                zabq zak = googleApiManager.zak(apiKey);
-                if (zak != null) {
-                    if (!(zak.zaf() instanceof BaseGmsClient)) {
+            }
+            z = config.getMethodTimingTelemetryEnabled();
+            zabq zak = googleApiManager.zak(apiKey);
+            if (zak != null) {
+                if (!(zak.zaf() instanceof BaseGmsClient)) {
+                    return null;
+                }
+                BaseGmsClient baseGmsClient = (BaseGmsClient) zak.zaf();
+                if (baseGmsClient.hasConnectionInfo() && !baseGmsClient.isConnecting()) {
+                    ConnectionTelemetryConfiguration zab = zab(zak, baseGmsClient, i);
+                    if (zab == null) {
                         return null;
                     }
-                    BaseGmsClient baseGmsClient = (BaseGmsClient) zak.zaf();
-                    if (baseGmsClient.hasConnectionInfo() && !baseGmsClient.isConnecting()) {
-                        ConnectionTelemetryConfiguration zab = zab(zak, baseGmsClient, i);
-                        if (zab == null) {
-                            return null;
-                        }
-                        zak.zaq();
-                        z = zab.getMethodTimingTelemetryEnabled();
-                    }
+                    zak.zaq();
+                    z = zab.getMethodTimingTelemetryEnabled();
                 }
             }
-            return new zacd(googleApiManager, i, apiKey, z ? System.currentTimeMillis() : 0L, z ? SystemClock.elapsedRealtime() : 0L, null, null);
         }
-        return null;
+        return new zacd(googleApiManager, i, apiKey, z ? System.currentTimeMillis() : 0L, z ? SystemClock.elapsedRealtime() : 0L, null, null);
     }
 
     private static ConnectionTelemetryConfiguration zab(zabq zabqVar, BaseGmsClient baseGmsClient, int i) {
@@ -86,11 +88,10 @@ public final class zacd implements OnCompleteListener {
             RootTelemetryConfiguration config = RootTelemetryConfigManager.getInstance().getConfig();
             if ((config == null || config.getMethodInvocationTelemetryEnabled()) && (zak = this.zaa.zak(this.zac)) != null && (zak.zaf() instanceof BaseGmsClient)) {
                 BaseGmsClient baseGmsClient = (BaseGmsClient) zak.zaf();
-                boolean z = true;
-                boolean z2 = this.zad > 0;
+                boolean z = this.zad > 0;
                 int gCoreServiceId = baseGmsClient.getGCoreServiceId();
                 if (config != null) {
-                    z2 &= config.getMethodTimingTelemetryEnabled();
+                    z &= config.getMethodTimingTelemetryEnabled();
                     int batchPeriodMillis = config.getBatchPeriodMillis();
                     int maxMethodInvocationsInBatch = config.getMaxMethodInvocationsInBatch();
                     i = config.getVersion();
@@ -99,9 +100,9 @@ public final class zacd implements OnCompleteListener {
                         if (zab == null) {
                             return;
                         }
-                        z = (!zab.getMethodTimingTelemetryEnabled() || this.zad <= 0) ? false : false;
+                        boolean z2 = zab.getMethodTimingTelemetryEnabled() && this.zad > 0;
                         maxMethodInvocationsInBatch = zab.getMaxMethodInvocationsLogged();
-                        z2 = z;
+                        z = z2;
                     }
                     i2 = batchPeriodMillis;
                     i3 = maxMethodInvocationsInBatch;
@@ -131,7 +132,7 @@ public final class zacd implements OnCompleteListener {
                     }
                     errorCode = -1;
                 }
-                if (z2) {
+                if (z) {
                     long j3 = this.zad;
                     j2 = System.currentTimeMillis();
                     j = j3;

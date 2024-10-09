@@ -12,12 +12,14 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.ApplicationLoader;
+
 /* loaded from: classes3.dex */
 public abstract class CustomTabsHelper {
     private static String sPackageNameToUse;
 
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x00ad, code lost:
-        if (r6.contains("com.google.android.apps.chrome") != false) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x00ad, code lost:
+    
+        if (r6.contains("com.google.android.apps.chrome") != false) goto L21;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

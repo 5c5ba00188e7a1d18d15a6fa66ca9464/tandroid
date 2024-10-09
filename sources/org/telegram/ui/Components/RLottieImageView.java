@@ -16,6 +16,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class RLottieImageView extends ImageView {
     private boolean attachedToWindow;
@@ -135,12 +136,12 @@ public class RLottieImageView extends ImageView {
         setAnimation(new RLottieDrawable(i, "" + i, AndroidUtilities.dp(i2), AndroidUtilities.dp(i3), false, iArr));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x014f  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x015f  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x016a  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x016f  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0183  */
-    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x014f  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x016a  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0183  */
+    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x016f  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x015f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class ClientSettings {
     private final Account zaa;
@@ -77,9 +78,8 @@ public final class ClientSettings {
         if (it.hasNext()) {
             ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
             throw null;
-        } else {
-            this.zac = Collections.unmodifiableSet(hashSet);
         }
+        this.zac = Collections.unmodifiableSet(hashSet);
     }
 
     public Account getAccount() {

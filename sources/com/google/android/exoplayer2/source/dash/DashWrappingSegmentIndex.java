@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.source.dash;
 
 import com.google.android.exoplayer2.extractor.ChunkIndex;
 import com.google.android.exoplayer2.source.dash.manifest.RangedUri;
+
 /* loaded from: classes.dex */
 public final class DashWrappingSegmentIndex implements DashSegmentIndex {
     private final ChunkIndex chunkIndex;
@@ -49,9 +50,7 @@ public final class DashWrappingSegmentIndex implements DashSegmentIndex {
 
     @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex
     public RangedUri getSegmentUrl(long j) {
-        ChunkIndex chunkIndex = this.chunkIndex;
-        int i = (int) j;
-        return new RangedUri(null, chunkIndex.offsets[i], chunkIndex.sizes[i]);
+        return new RangedUri(null, this.chunkIndex.offsets[(int) j], r0.sizes[r9]);
     }
 
     @Override // com.google.android.exoplayer2.source.dash.DashSegmentIndex

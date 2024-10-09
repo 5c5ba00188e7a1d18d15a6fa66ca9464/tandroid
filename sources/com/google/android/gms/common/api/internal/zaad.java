@@ -7,6 +7,7 @@ import j$.util.DesugarCollections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
+
 /* loaded from: classes.dex */
 public final class zaad {
     private final Map zaa = DesugarCollections.synchronizedMap(new WeakHashMap());
@@ -46,7 +47,7 @@ public final class zaad {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0018  */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x0018  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -54,14 +55,13 @@ public final class zaad {
         String str2;
         StringBuilder sb = new StringBuilder("The connection to Google Play services was lost");
         if (i != 1) {
-            str2 = i == 3 ? " due to dead object exception." : " due to dead object exception.";
+            str2 = i == 3 ? " due to dead object exception." : " due to service disconnection.";
             if (str != null) {
                 sb.append(" Last reason for disconnect: ");
                 sb.append(str);
             }
             zah(true, new Status(20, sb.toString()));
         }
-        str2 = " due to service disconnection.";
         sb.append(str2);
         if (str != null) {
         }

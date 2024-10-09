@@ -36,6 +36,7 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public class GroupInviteActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private long chatId;
@@ -105,27 +106,30 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                     i2 = R.string.RevokeLink;
                 }
                 textSettingsCell.setText(LocaleController.getString(i2), true);
-            } else if (itemViewType != 1) {
+                return;
+            }
+            if (itemViewType != 1) {
                 if (itemViewType != 2) {
                     return;
                 }
                 ((TextBlockCell) viewHolder.itemView).setText(GroupInviteActivity.this.invite != null ? GroupInviteActivity.this.invite.link : "error", false);
-            } else {
-                TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                if (i == GroupInviteActivity.this.shadowRow) {
-                    textInfoPrivacyCell.setText("");
-                    context = this.mContext;
-                    i3 = R.drawable.greydivider_bottom;
-                } else if (i != GroupInviteActivity.this.linkInfoRow) {
-                    return;
-                } else {
-                    TLRPC.Chat chat = GroupInviteActivity.this.getMessagesController().getChat(Long.valueOf(GroupInviteActivity.this.chatId));
-                    textInfoPrivacyCell.setText(LocaleController.getString((!ChatObject.isChannel(chat) || chat.megagroup) ? R.string.LinkInfo : R.string.ChannelLinkInfo));
-                    context = this.mContext;
-                    i3 = R.drawable.greydivider;
-                }
-                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i3, Theme.key_windowBackgroundGrayShadow));
+                return;
             }
+            TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
+            if (i == GroupInviteActivity.this.shadowRow) {
+                textInfoPrivacyCell.setText("");
+                context = this.mContext;
+                i3 = R.drawable.greydivider_bottom;
+            } else {
+                if (i != GroupInviteActivity.this.linkInfoRow) {
+                    return;
+                }
+                TLRPC.Chat chat = GroupInviteActivity.this.getMessagesController().getChat(Long.valueOf(GroupInviteActivity.this.chatId));
+                textInfoPrivacyCell.setText(LocaleController.getString((!ChatObject.isChannel(chat) || chat.megagroup) ? R.string.LinkInfo : R.string.ChannelLinkInfo));
+                context = this.mContext;
+                i3 = R.drawable.greydivider;
+            }
+            textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i3, Theme.key_windowBackgroundGrayShadow));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -133,10 +137,11 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
             View textSettingsCell;
             if (i == 0) {
                 textSettingsCell = new TextSettingsCell(this.mContext);
-            } else if (i == 1) {
-                textSettingsCell = new TextInfoPrivacyCell(this.mContext);
-                return new RecyclerListView.Holder(textSettingsCell);
             } else {
+                if (i == 1) {
+                    textSettingsCell = new TextInfoPrivacyCell(this.mContext);
+                    return new RecyclerListView.Holder(textSettingsCell);
+                }
                 textSettingsCell = new TextBlockCell(this.mContext);
             }
             textSettingsCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
@@ -181,22 +186,27 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                 }
                 ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", this.invite.link));
                 BulletinFactory.createCopyLinkBulletin(this).show();
-            } else if (i != this.shareLinkRow) {
-                if (i == this.revokeLinkRow) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                    builder.setMessage(LocaleController.getString(R.string.RevokeAlert));
-                    builder.setTitle(LocaleController.getString(R.string.RevokeLink));
-                    builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda3
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i2) {
-                            GroupInviteActivity.this.lambda$createView$0(dialogInterface, i2);
-                        }
-                    });
-                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-                    showDialog(builder.create());
-                }
-            } else if (this.invite == null) {
             } else {
+                if (i != this.shareLinkRow) {
+                    if (i == this.revokeLinkRow) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                        builder.setMessage(LocaleController.getString(R.string.RevokeAlert));
+                        builder.setTitle(LocaleController.getString(R.string.RevokeLink));
+                        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda3
+                            @Override // android.content.DialogInterface.OnClickListener
+                            public final void onClick(DialogInterface dialogInterface, int i2) {
+                                GroupInviteActivity.this.lambda$createView$0(dialogInterface, i2);
+                            }
+                        });
+                        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+                        showDialog(builder.create());
+                        return;
+                    }
+                    return;
+                }
+                if (this.invite == null) {
+                    return;
+                }
                 Intent intent = new Intent("android.intent.action.SEND");
                 intent.setType("text/plain");
                 intent.putExtra("android.intent.extra.TEXT", this.invite.link);
@@ -245,7 +255,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    GroupInviteActivity.this.finishFragment();
+                    GroupInviteActivity.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -276,8 +286,9 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.chatInfoDidLoad) {
+            TLRPC.ChatFull chatFull = (TLRPC.ChatFull) objArr[0];
             int intValue = ((Integer) objArr[1]).intValue();
-            if (((TLRPC.ChatFull) objArr[0]).id == this.chatId && intValue == this.classGuid) {
+            if (chatFull.id == this.chatId && intValue == this.classGuid) {
                 TLRPC.TL_chatInviteExported exportedInvite = getMessagesController().getExportedInvite(this.chatId);
                 this.invite = exportedInvite;
                 if (exportedInvite == null) {

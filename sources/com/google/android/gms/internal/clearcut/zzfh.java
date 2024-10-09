@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import java.nio.ByteBuffer;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 final class zzfh extends zzfg {
     @Override // com.google.android.gms.internal.clearcut.zzfg
@@ -28,7 +29,8 @@ final class zzfh extends zzfg {
                         }
                     }
                     return -1;
-                } else if (b >= -16) {
+                }
+                if (b >= -16) {
                     if (i4 >= i3 - 2) {
                         zzf2 = zzff.zzf(bArr, i4, i3);
                         return zzf2;
@@ -44,19 +46,19 @@ final class zzfh extends zzfg {
                         }
                     }
                     return -1;
-                } else if (i4 >= i3 - 1) {
+                }
+                if (i4 >= i3 - 1) {
                     zzf = zzff.zzf(bArr, i4, i3);
                     return zzf;
-                } else {
-                    int i7 = i2 + 2;
-                    byte b3 = bArr[i4];
-                    if (b3 <= -65 && ((b != -32 || b3 >= -96) && (b != -19 || b3 < -96))) {
-                        i2 += 3;
-                        if (bArr[i7] > -65) {
-                        }
-                    }
-                    return -1;
                 }
+                int i7 = i2 + 2;
+                byte b3 = bArr[i4];
+                if (b3 <= -65 && ((b != -32 || b3 >= -96) && (b != -19 || b3 < -96))) {
+                    i2 += 3;
+                    if (bArr[i7] > -65) {
+                    }
+                }
+                return -1;
             }
             i2 = i4;
         }
@@ -65,6 +67,7 @@ final class zzfh extends zzfg {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x001d, code lost:
+    
         return r10 + r0;
      */
     @Override // com.google.android.gms.internal.clearcut.zzfg
@@ -93,9 +96,12 @@ final class zzfh extends zzfg {
                 bArr[i7] = (byte) ((charAt2 >>> 6) | 960);
                 i7 += 2;
                 bArr[i8] = (byte) ((charAt2 & '?') | 128);
-            } else if ((charAt2 >= 55296 && 57343 >= charAt2) || i7 > i5 - 3) {
-                if (i7 > i5 - 4) {
-                    if (55296 > charAt2 || charAt2 > 57343 || ((i3 = i6 + 1) != charSequence.length() && Character.isSurrogatePair(charAt2, charSequence.charAt(i3)))) {
+            } else {
+                if ((charAt2 >= 55296 && 57343 >= charAt2) || i7 > i5 - 3) {
+                    if (i7 > i5 - 4) {
+                        if (55296 <= charAt2 && charAt2 <= 57343 && ((i3 = i6 + 1) == charSequence.length() || !Character.isSurrogatePair(charAt2, charSequence.charAt(i3)))) {
+                            throw new zzfi(i6, length);
+                        }
                         StringBuilder sb = new StringBuilder(37);
                         sb.append("Failed writing ");
                         sb.append(charAt2);
@@ -103,26 +109,24 @@ final class zzfh extends zzfg {
                         sb.append(i7);
                         throw new ArrayIndexOutOfBoundsException(sb.toString());
                     }
-                    throw new zzfi(i6, length);
-                }
-                int i9 = i6 + 1;
-                if (i9 != charSequence.length()) {
-                    char charAt3 = charSequence.charAt(i9);
-                    if (Character.isSurrogatePair(charAt2, charAt3)) {
-                        int codePoint = Character.toCodePoint(charAt2, charAt3);
-                        bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.needSetDayNightTheme);
-                        bArr[i7 + 1] = (byte) (((codePoint >>> 12) & 63) | 128);
-                        int i10 = i7 + 3;
-                        bArr[i7 + 2] = (byte) (((codePoint >>> 6) & 63) | 128);
-                        i7 += 4;
-                        bArr[i10] = (byte) ((codePoint & 63) | 128);
-                        i6 = i9;
-                    } else {
-                        i6 = i9;
+                    int i9 = i6 + 1;
+                    if (i9 != charSequence.length()) {
+                        char charAt3 = charSequence.charAt(i9);
+                        if (Character.isSurrogatePair(charAt2, charAt3)) {
+                            int codePoint = Character.toCodePoint(charAt2, charAt3);
+                            bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.needSetDayNightTheme);
+                            bArr[i7 + 1] = (byte) (((codePoint >>> 12) & 63) | 128);
+                            int i10 = i7 + 3;
+                            bArr[i7 + 2] = (byte) (((codePoint >>> 6) & 63) | 128);
+                            i7 += 4;
+                            bArr[i10] = (byte) ((codePoint & 63) | 128);
+                            i6 = i9;
+                        } else {
+                            i6 = i9;
+                        }
                     }
+                    throw new zzfi(i6 - 1, length);
                 }
-                throw new zzfi(i6 - 1, length);
-            } else {
                 bArr[i7] = (byte) ((charAt2 >>> '\f') | 480);
                 int i11 = i7 + 2;
                 bArr[i7 + 1] = (byte) (((charAt2 >>> 6) & 63) | 128);

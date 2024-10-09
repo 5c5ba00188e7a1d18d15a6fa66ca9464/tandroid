@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public abstract class ComponentDialog extends Dialog implements LifecycleOwner, OnBackPressedDispatcherOwner {
     private LifecycleRegistry _lifecycleRegistry;
@@ -28,12 +29,12 @@ public abstract class ComponentDialog extends Dialog implements LifecycleOwner, 
 
     private final LifecycleRegistry getLifecycleRegistry() {
         LifecycleRegistry lifecycleRegistry = this._lifecycleRegistry;
-        if (lifecycleRegistry == null) {
-            LifecycleRegistry lifecycleRegistry2 = new LifecycleRegistry(this);
-            this._lifecycleRegistry = lifecycleRegistry2;
-            return lifecycleRegistry2;
+        if (lifecycleRegistry != null) {
+            return lifecycleRegistry;
         }
-        return lifecycleRegistry;
+        LifecycleRegistry lifecycleRegistry2 = new LifecycleRegistry(this);
+        this._lifecycleRegistry = lifecycleRegistry2;
+        return lifecycleRegistry2;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

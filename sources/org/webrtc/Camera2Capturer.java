@@ -5,6 +5,7 @@ import android.hardware.camera2.CameraManager;
 import org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticApiModelOutline9;
 import org.webrtc.CameraSession;
 import org.webrtc.CameraVideoCapturer;
+
 /* loaded from: classes.dex */
 public class Camera2Capturer extends CameraCapturer {
     private final CameraManager cameraManager;

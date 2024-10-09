@@ -1,4 +1,5 @@
 package com.google.android.datatransport.runtime.firebase.transport;
+
 /* loaded from: classes.dex */
 public final class GlobalMetrics {
     private static final GlobalMetrics DEFAULT_INSTANCE = new Builder().build();

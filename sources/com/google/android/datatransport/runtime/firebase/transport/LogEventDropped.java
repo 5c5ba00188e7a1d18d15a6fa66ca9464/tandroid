@@ -1,6 +1,7 @@
 package com.google.android.datatransport.runtime.firebase.transport;
 
 import com.google.firebase.encoders.proto.ProtoEnum;
+
 /* loaded from: classes.dex */
 public final class LogEventDropped {
     private static final LogEventDropped DEFAULT_INSTANCE = new Builder().build();
@@ -39,7 +40,7 @@ public final class LogEventDropped {
         MAX_RETRIES_REACHED(4),
         INVALID_PAYLOD(5),
         SERVER_ERROR(6);
-        
+
         private final int number_;
 
         Reason(int i) {

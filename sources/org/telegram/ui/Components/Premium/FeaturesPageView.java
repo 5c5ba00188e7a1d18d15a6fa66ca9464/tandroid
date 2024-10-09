@@ -41,6 +41,7 @@ import org.telegram.ui.Components.Premium.GLIcon.GLIconRenderer;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class FeaturesPageView extends BaseListPageView {
     RecyclerListView.SelectionAdapter adapter;
@@ -83,7 +84,9 @@ public class FeaturesPageView extends BaseListPageView {
                 this.gradientTools.paint.setStyle(Paint.Style.STROKE);
                 this.gradientTools.paint.setStrokeCap(Paint.Cap.ROUND);
                 this.gradientTools.paint.setStrokeWidth(AndroidUtilities.dpf2(3.3f));
-            } else if (i == 1) {
+                return;
+            }
+            if (i == 1) {
                 StarParticlesView starParticlesView = new StarParticlesView(context) { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.HeaderView.1
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.StarParticlesView
@@ -139,7 +142,7 @@ public class FeaturesPageView extends BaseListPageView {
                 gLIconRenderer.colorKey1 = i2;
                 gLIconRenderer.colorKey2 = Theme.key_premiumGradient1;
                 gLIconRenderer.updateColors();
-                addView(this.iconTextureView, LayoutHelper.createFrame((int) NotificationCenter.audioRouteChanged, (int) NotificationCenter.audioRouteChanged, 1));
+                addView(this.iconTextureView, LayoutHelper.createFrame(NotificationCenter.audioRouteChanged, NotificationCenter.audioRouteChanged, 1));
                 GLIconTextureView gLIconTextureView2 = this.iconTextureView;
                 if (gLIconTextureView2 != null) {
                     gLIconTextureView2.startEnterAnimation(-360, 100L);
@@ -239,7 +242,7 @@ public class FeaturesPageView extends BaseListPageView {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x01c3  */
+    /* JADX WARN: Removed duplicated region for block: B:6:0x01c3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

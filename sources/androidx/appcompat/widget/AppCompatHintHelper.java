@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+
 /* loaded from: classes.dex */
 abstract class AppCompatHintHelper {
     /* JADX INFO: Access modifiers changed from: package-private */

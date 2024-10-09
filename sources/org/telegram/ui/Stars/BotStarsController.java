@@ -14,6 +14,7 @@ import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.tgnet.tl.TL_stats;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChannelMonetizationLayout;
+
 /* loaded from: classes3.dex */
 public class BotStarsController {
     private static volatile BotStarsController[] Instance = new BotStarsController[4];
@@ -74,14 +75,14 @@ public class BotStarsController {
 
     private TransactionsState getTransactionsState(long j) {
         TransactionsState transactionsState = (TransactionsState) this.transactions.get(Long.valueOf(j));
-        if (transactionsState == null) {
-            HashMap hashMap = this.transactions;
-            Long valueOf = Long.valueOf(j);
-            TransactionsState transactionsState2 = new TransactionsState();
-            hashMap.put(valueOf, transactionsState2);
-            return transactionsState2;
+        if (transactionsState != null) {
+            return transactionsState;
         }
-        return transactionsState;
+        HashMap hashMap = this.transactions;
+        Long valueOf = Long.valueOf(j);
+        TransactionsState transactionsState2 = new TransactionsState();
+        hashMap.put(valueOf, transactionsState2);
+        return transactionsState2;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -307,7 +308,6 @@ public class BotStarsController {
 
     public void preloadRevenueStats(long j) {
         Long l = (Long) this.lastLoadedStats.get(Long.valueOf(j));
-        TLRPC.TL_payments_starsRevenueStats tL_payments_starsRevenueStats = (TLRPC.TL_payments_starsRevenueStats) this.stats.get(Long.valueOf(j));
         getRevenueStats(j, l == null || System.currentTimeMillis() - l.longValue() > 30000);
     }
 }

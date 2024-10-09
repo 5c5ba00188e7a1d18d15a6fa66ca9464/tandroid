@@ -5,6 +5,7 @@ import android.media.MediaMetadataRetriever;
 import android.system.Os;
 import java.io.Closeable;
 import java.io.FileDescriptor;
+
 /* loaded from: classes.dex */
 abstract class ExifInterfaceUtils {
 
@@ -35,8 +36,8 @@ abstract class ExifInterfaceUtils {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static String byteArrayToHexString(byte[] bArr) {
         StringBuilder sb = new StringBuilder(bArr.length * 2);
-        for (int i = 0; i < bArr.length; i++) {
-            sb.append(String.format("%02x", Byte.valueOf(bArr[i])));
+        for (byte b : bArr) {
+            sb.append(String.format("%02x", Byte.valueOf(b)));
         }
         return sb.toString();
     }

@@ -16,10 +16,12 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 public final class ae {
     private static final Map a = new HashMap();
@@ -55,8 +57,9 @@ public final class ae {
         aeVar.c.d("reportBinderDeath", new Object[0]);
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(aeVar.k.get());
         aeVar.c.d("%s : Binder has died.", aeVar.d);
-        for (t tVar : aeVar.e) {
-            tVar.a(aeVar.w());
+        Iterator it = aeVar.e.iterator();
+        while (it.hasNext()) {
+            ((t) it.next()).a(aeVar.w());
         }
         aeVar.e.clear();
         synchronized (aeVar.g) {
@@ -79,10 +82,11 @@ public final class ae {
             if (!aeVar.h) {
                 tVar.run();
                 return;
+            } else {
+                aeVar.c.d("Waiting to bind to the service.", new Object[0]);
+                aeVar.e.add(tVar);
+                return;
             }
-            aeVar.c.d("Waiting to bind to the service.", new Object[0]);
-            aeVar.e.add(tVar);
-            return;
         }
         aeVar.c.d("Initiate binding to the service.", new Object[0]);
         aeVar.e.add(tVar);
@@ -94,8 +98,9 @@ public final class ae {
         }
         aeVar.c.d("Failed to bind to the service.", new Object[0]);
         aeVar.h = false;
-        for (t tVar2 : aeVar.e) {
-            tVar2.a(new af());
+        Iterator it = aeVar.e.iterator();
+        while (it.hasNext()) {
+            ((t) it.next()).a(new af());
         }
         aeVar.e.clear();
     }
@@ -119,8 +124,9 @@ public final class ae {
     }
 
     public final void x() {
-        for (TaskCompletionSource taskCompletionSource : this.f) {
-            taskCompletionSource.trySetException(w());
+        Iterator it = this.f.iterator();
+        while (it.hasNext()) {
+            ((TaskCompletionSource) it.next()).trySetException(w());
         }
         this.f.clear();
     }

@@ -1,6 +1,7 @@
 package org.webrtc;
 
 import java.util.List;
+
 /* loaded from: classes.dex */
 public interface NetworkChangeDetector {
 

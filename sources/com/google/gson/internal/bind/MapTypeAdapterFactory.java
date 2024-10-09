@@ -18,6 +18,7 @@ import com.google.gson.stream.JsonWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class MapTypeAdapterFactory implements TypeAdapterFactory {
     final boolean complexMapKeySerialization;
@@ -92,46 +93,48 @@ public final class MapTypeAdapterFactory implements TypeAdapterFactory {
         public void write(JsonWriter jsonWriter, Map map) {
             if (map == null) {
                 jsonWriter.nullValue();
-            } else if (!MapTypeAdapterFactory.this.complexMapKeySerialization) {
+                return;
+            }
+            if (!MapTypeAdapterFactory.this.complexMapKeySerialization) {
                 jsonWriter.beginObject();
                 for (Map.Entry entry : map.entrySet()) {
                     jsonWriter.name(String.valueOf(entry.getKey()));
                     this.valueTypeAdapter.write(jsonWriter, entry.getValue());
                 }
                 jsonWriter.endObject();
-            } else {
-                ArrayList arrayList = new ArrayList(map.size());
-                ArrayList arrayList2 = new ArrayList(map.size());
-                int i = 0;
-                boolean z = false;
-                for (Map.Entry entry2 : map.entrySet()) {
-                    JsonElement jsonTree = this.keyTypeAdapter.toJsonTree(entry2.getKey());
-                    arrayList.add(jsonTree);
-                    arrayList2.add(entry2.getValue());
-                    z |= jsonTree.isJsonArray() || jsonTree.isJsonObject();
-                }
-                if (!z) {
-                    jsonWriter.beginObject();
-                    int size = arrayList.size();
-                    while (i < size) {
-                        jsonWriter.name(keyToString((JsonElement) arrayList.get(i)));
-                        this.valueTypeAdapter.write(jsonWriter, arrayList2.get(i));
-                        i++;
-                    }
-                    jsonWriter.endObject();
-                    return;
-                }
-                jsonWriter.beginArray();
-                int size2 = arrayList.size();
-                while (i < size2) {
-                    jsonWriter.beginArray();
-                    Streams.write((JsonElement) arrayList.get(i), jsonWriter);
+                return;
+            }
+            ArrayList arrayList = new ArrayList(map.size());
+            ArrayList arrayList2 = new ArrayList(map.size());
+            int i = 0;
+            boolean z = false;
+            for (Map.Entry entry2 : map.entrySet()) {
+                JsonElement jsonTree = this.keyTypeAdapter.toJsonTree(entry2.getKey());
+                arrayList.add(jsonTree);
+                arrayList2.add(entry2.getValue());
+                z |= jsonTree.isJsonArray() || jsonTree.isJsonObject();
+            }
+            if (!z) {
+                jsonWriter.beginObject();
+                int size = arrayList.size();
+                while (i < size) {
+                    jsonWriter.name(keyToString((JsonElement) arrayList.get(i)));
                     this.valueTypeAdapter.write(jsonWriter, arrayList2.get(i));
-                    jsonWriter.endArray();
                     i++;
                 }
-                jsonWriter.endArray();
+                jsonWriter.endObject();
+                return;
             }
+            jsonWriter.beginArray();
+            int size2 = arrayList.size();
+            while (i < size2) {
+                jsonWriter.beginArray();
+                Streams.write((JsonElement) arrayList.get(i), jsonWriter);
+                this.valueTypeAdapter.write(jsonWriter, arrayList2.get(i));
+                jsonWriter.endArray();
+                i++;
+            }
+            jsonWriter.endArray();
         }
     }
 
@@ -148,10 +151,10 @@ public final class MapTypeAdapterFactory implements TypeAdapterFactory {
     public TypeAdapter create(Gson gson, TypeToken typeToken) {
         Type type = typeToken.getType();
         Class rawType = typeToken.getRawType();
-        if (Map.class.isAssignableFrom(rawType)) {
-            Type[] mapKeyAndValueTypes = $Gson$Types.getMapKeyAndValueTypes(type, rawType);
-            return new Adapter(gson, mapKeyAndValueTypes[0], getKeyAdapter(gson, mapKeyAndValueTypes[0]), mapKeyAndValueTypes[1], gson.getAdapter(TypeToken.get(mapKeyAndValueTypes[1])), this.constructorConstructor.get(typeToken));
+        if (!Map.class.isAssignableFrom(rawType)) {
+            return null;
         }
-        return null;
+        Type[] mapKeyAndValueTypes = $Gson$Types.getMapKeyAndValueTypes(type, rawType);
+        return new Adapter(gson, mapKeyAndValueTypes[0], getKeyAdapter(gson, mapKeyAndValueTypes[0]), mapKeyAndValueTypes[1], gson.getAdapter(TypeToken.get(mapKeyAndValueTypes[1])), this.constructorConstructor.get(typeToken));
     }
 }

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes3.dex */
 public final class EmuInputDevicesDetector {
     private static final String INPUT_DEVICES_FILE = "/proc/bus/input/devices";
@@ -44,7 +45,8 @@ public final class EmuInputDevicesDetector {
                 if (readLine == null) {
                     bufferedReader.close();
                     return arrayList;
-                } else if (readLine.startsWith(NAME_PREFIX)) {
+                }
+                if (readLine.startsWith(NAME_PREFIX)) {
                     String substring = readLine.substring(9, readLine.length() - 1);
                     if (!TextUtils.isEmpty(substring)) {
                         arrayList.add(substring);

@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.mediacodec.AsynchronousMediaCodecBufferEnqu
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes.dex */
 public abstract class zap extends LifecycleCallback implements DialogInterface.OnCancelListener {
     protected volatile boolean zaa;
@@ -53,9 +54,10 @@ public abstract class zap extends LifecycleCallback implements DialogInterface.O
                 if (isGooglePlayServicesAvailable == 0) {
                     zad();
                     return;
-                } else if (zamVar == null) {
-                    return;
                 } else {
+                    if (zamVar == null) {
+                        return;
+                    }
                     if (zamVar.zab().getErrorCode() == 18 && isGooglePlayServicesAvailable == 18) {
                         return;
                     }

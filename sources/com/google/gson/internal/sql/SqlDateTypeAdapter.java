@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
+
 /* loaded from: classes.dex */
 final class SqlDateTypeAdapter extends TypeAdapter {
     static final TypeAdapterFactory FACTORY = new TypeAdapterFactory() { // from class: com.google.gson.internal.sql.SqlDateTypeAdapter.1
@@ -41,10 +42,13 @@ final class SqlDateTypeAdapter extends TypeAdapter {
         synchronized (this) {
             TimeZone timeZone = this.format.getTimeZone();
             try {
-                date = new Date(this.format.parse(nextString).getTime());
+                try {
+                    date = new Date(this.format.parse(nextString).getTime());
+                } catch (ParseException e) {
+                    throw new JsonSyntaxException("Failed parsing '" + nextString + "' as SQL Date; at path " + jsonReader.getPreviousPath(), e);
+                }
+            } finally {
                 this.format.setTimeZone(timeZone);
-            } catch (ParseException e) {
-                throw new JsonSyntaxException("Failed parsing '" + nextString + "' as SQL Date; at path " + jsonReader.getPreviousPath(), e);
             }
         }
         return date;

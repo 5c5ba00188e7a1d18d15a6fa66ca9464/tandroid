@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import java.io.File;
 import org.telegram.messenger.FileLog;
+
 /* loaded from: classes3.dex */
 public class OtherAudioInfo extends AudioInfo {
     public boolean failed;
@@ -33,12 +34,10 @@ public class OtherAudioInfo extends AudioInfo {
             if (embeddedPicture != null) {
                 this.cover = BitmapFactory.decodeByteArray(embeddedPicture, 0, embeddedPicture.length);
             }
-            Bitmap bitmap2 = this.cover;
-            if (bitmap2 != null) {
-                float max = Math.max(bitmap2.getWidth(), this.cover.getHeight()) / 120.0f;
+            if (this.cover != null) {
+                float max = Math.max(r5.getWidth(), this.cover.getHeight()) / 120.0f;
                 if (max > 0.0f) {
-                    Bitmap bitmap3 = this.cover;
-                    bitmap = Bitmap.createScaledBitmap(bitmap3, (int) (bitmap3.getWidth() / max), (int) (this.cover.getHeight() / max), true);
+                    bitmap = Bitmap.createScaledBitmap(this.cover, (int) (r0.getWidth() / max), (int) (this.cover.getHeight() / max), true);
                 } else {
                     bitmap = this.cover;
                 }

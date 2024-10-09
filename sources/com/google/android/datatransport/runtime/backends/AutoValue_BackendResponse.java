@@ -1,6 +1,7 @@
 package com.google.android.datatransport.runtime.backends;
 
 import com.google.android.datatransport.runtime.backends.BackendResponse;
+
 /* loaded from: classes.dex */
 final class AutoValue_BackendResponse extends BackendResponse {
     private final long nextRequestWaitMillis;
@@ -19,11 +20,11 @@ final class AutoValue_BackendResponse extends BackendResponse {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof BackendResponse) {
-            BackendResponse backendResponse = (BackendResponse) obj;
-            return this.status.equals(backendResponse.getStatus()) && this.nextRequestWaitMillis == backendResponse.getNextRequestWaitMillis();
+        if (!(obj instanceof BackendResponse)) {
+            return false;
         }
-        return false;
+        BackendResponse backendResponse = (BackendResponse) obj;
+        return this.status.equals(backendResponse.getStatus()) && this.nextRequestWaitMillis == backendResponse.getNextRequestWaitMillis();
     }
 
     @Override // com.google.android.datatransport.runtime.backends.BackendResponse
@@ -37,8 +38,9 @@ final class AutoValue_BackendResponse extends BackendResponse {
     }
 
     public int hashCode() {
+        int hashCode = (this.status.hashCode() ^ 1000003) * 1000003;
         long j = this.nextRequestWaitMillis;
-        return ((this.status.hashCode() ^ 1000003) * 1000003) ^ ((int) (j ^ (j >>> 32)));
+        return hashCode ^ ((int) (j ^ (j >>> 32)));
     }
 
     public String toString() {

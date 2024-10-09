@@ -13,6 +13,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
+
 /* loaded from: classes3.dex */
 public class AddChannelCell extends FrameLayout {
     private final ImageView imageView;

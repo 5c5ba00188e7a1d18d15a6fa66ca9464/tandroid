@@ -8,6 +8,7 @@ import android.os.Handler;
 import java.security.Signature;
 import javax.crypto.Cipher;
 import javax.crypto.Mac;
+
 /* loaded from: classes.dex */
 public class FingerprintManagerCompat {
     private final Context mContext;

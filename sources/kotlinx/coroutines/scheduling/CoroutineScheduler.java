@@ -17,6 +17,7 @@ import kotlinx.coroutines.DebugStringsKt;
 import kotlinx.coroutines.internal.ResizableAtomicArray;
 import kotlinx.coroutines.internal.Symbol;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public final class CoroutineScheduler implements Executor, Closeable {
     private volatile /* synthetic */ int _isTerminated;
@@ -374,20 +375,22 @@ public final class CoroutineScheduler implements Executor, Closeable {
         this.schedulerName = str;
         if (i < 1) {
             throw new IllegalArgumentException(("Core pool size " + i + " should be at least 1").toString());
-        } else if (i2 < i) {
-            throw new IllegalArgumentException(("Max pool size " + i2 + " should be greater than or equals to core pool size " + i).toString());
-        } else if (i2 > 2097150) {
-            throw new IllegalArgumentException(("Max pool size " + i2 + " should not exceed maximal supported number of threads 2097150").toString());
-        } else if (j <= 0) {
-            throw new IllegalArgumentException(("Idle worker keep alive time " + j + " must be positive").toString());
-        } else {
-            this.globalCpuQueue = new GlobalQueue();
-            this.globalBlockingQueue = new GlobalQueue();
-            this.parkedWorkersStack = 0L;
-            this.workers = new ResizableAtomicArray(i + 1);
-            this.controlState = i << 42;
-            this._isTerminated = 0;
         }
+        if (i2 < i) {
+            throw new IllegalArgumentException(("Max pool size " + i2 + " should be greater than or equals to core pool size " + i).toString());
+        }
+        if (i2 > 2097150) {
+            throw new IllegalArgumentException(("Max pool size " + i2 + " should not exceed maximal supported number of threads 2097150").toString());
+        }
+        if (j <= 0) {
+            throw new IllegalArgumentException(("Idle worker keep alive time " + j + " must be positive").toString());
+        }
+        this.globalCpuQueue = new GlobalQueue();
+        this.globalBlockingQueue = new GlobalQueue();
+        this.parkedWorkersStack = 0L;
+        this.workers = new ResizableAtomicArray(i + 1);
+        this.controlState = i << 42;
+        this._isTerminated = 0;
     }
 
     private final boolean addToGlobalQueue(Task task) {
@@ -415,11 +418,11 @@ public final class CoroutineScheduler implements Executor, Closeable {
             }
             Worker worker = new Worker(i2);
             this.workers.setSynchronized(i2, worker);
-            if (i2 == ((int) (2097151 & controlState$FU.incrementAndGet(this)))) {
-                worker.start();
-                return coerceAtLeast + 1;
+            if (i2 != ((int) (2097151 & controlState$FU.incrementAndGet(this)))) {
+                throw new IllegalArgumentException("Failed requirement.".toString());
             }
-            throw new IllegalArgumentException("Failed requirement.".toString());
+            worker.start();
+            return coerceAtLeast + 1;
         }
     }
 
@@ -534,13 +537,13 @@ public final class CoroutineScheduler implements Executor, Closeable {
 
     public final Task createTask(Runnable runnable, TaskContext taskContext) {
         long nanoTime = TasksKt.schedulerTimeSource.nanoTime();
-        if (runnable instanceof Task) {
-            Task task = (Task) runnable;
-            task.submissionTime = nanoTime;
-            task.taskContext = taskContext;
-            return task;
+        if (!(runnable instanceof Task)) {
+            return new TaskImpl(runnable, nanoTime, taskContext);
         }
-        return new TaskImpl(runnable, nanoTime, taskContext);
+        Task task = (Task) runnable;
+        task.submissionTime = nanoTime;
+        task.taskContext = taskContext;
+        return task;
     }
 
     public final void dispatch(Runnable runnable, TaskContext taskContext, boolean z) {
@@ -554,8 +557,10 @@ public final class CoroutineScheduler implements Executor, Closeable {
         boolean z2 = z && currentWorker != null;
         if (createTask.taskContext.getTaskMode() != 0) {
             signalBlockingWork(z2);
-        } else if (z2) {
         } else {
+            if (z2) {
+                return;
+            }
             signalCpuWork();
         }
     }
@@ -565,7 +570,7 @@ public final class CoroutineScheduler implements Executor, Closeable {
         dispatch$default(this, runnable, null, false, 6, null);
     }
 
-    /* JADX WARN: Type inference failed for: r0v0, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
     public final boolean isTerminated() {
         return this._isTerminated;
     }
@@ -631,8 +636,9 @@ public final class CoroutineScheduler implements Executor, Closeable {
                     }
                     if (i2 == i) {
                         break;
+                    } else {
+                        i2 = i3;
                     }
-                    i2 = i3;
                 }
             }
             this.globalBlockingQueue.close();
@@ -641,8 +647,9 @@ public final class CoroutineScheduler implements Executor, Closeable {
                 Task findTask = currentWorker == null ? null : currentWorker.findTask(true);
                 if (findTask == null && (findTask = (Task) this.globalCpuQueue.removeFirstOrNull()) == null && (findTask = (Task) this.globalBlockingQueue.removeFirstOrNull()) == null) {
                     break;
+                } else {
+                    runSafely(findTask);
                 }
-                runSafely(findTask);
             }
             if (currentWorker != null) {
                 currentWorker.tryReleaseCpu(WorkerState.TERMINATED);

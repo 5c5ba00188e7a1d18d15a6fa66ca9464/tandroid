@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.BubbleActivity;
+
 /* loaded from: classes3.dex */
 public class PhotoFilterBlurControl extends FrameLayout {
     private static final float BlurInsetProximity = AndroidUtilities.dp(20.0f);
@@ -116,14 +117,16 @@ public class PhotoFilterBlurControl extends FrameLayout {
     }
 
     private Point getActualCenterPoint() {
+        float width = getWidth();
         float f = this.actualAreaSize.width;
-        float width = ((getWidth() - f) / 2.0f) + (this.centerPoint.x * f);
+        float f2 = ((width - f) / 2.0f) + (this.centerPoint.x * f);
         int i = (Build.VERSION.SDK_INT < 21 || this.inBubbleMode) ? 0 : AndroidUtilities.statusBarHeight;
+        float height = getHeight();
         Size size = this.actualAreaSize;
-        float f2 = size.height;
-        float height = i + ((getHeight() - f2) / 2.0f);
-        float f3 = size.width;
-        return new Point(width, (height - ((f3 - f2) / 2.0f)) + (this.centerPoint.y * f3));
+        float f3 = size.height;
+        float f4 = i + ((height - f3) / 2.0f);
+        float f5 = size.width;
+        return new Point(f2, (f4 - ((f5 - f3) / 2.0f)) + (this.centerPoint.y * f5));
     }
 
     private float getActualInnerRadius() {
@@ -216,91 +219,98 @@ public class PhotoFilterBlurControl extends FrameLayout {
                 this.startCenterPoint = actualCenterPoint;
             }
             setSelected(true, true);
-        } else if (i != 2) {
+            return;
+        }
+        if (i != 2) {
             if (i == 3 || i == 4 || i == 5) {
                 this.activeControl = BlurViewActiveControl.BlurViewActiveControlNone;
                 setSelected(false, true);
+                return;
             }
-        } else {
-            int i3 = this.type;
-            if (i3 == 0) {
-                int i4 = 1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
-                if (i4 == 1) {
-                    float f13 = x - this.pointerStartX;
-                    float f14 = y - this.pointerStartY;
-                    float width = (getWidth() - this.actualAreaSize.width) / 2.0f;
-                    if (Build.VERSION.SDK_INT >= 21 && !this.inBubbleMode) {
-                        r6 = AndroidUtilities.statusBarHeight;
-                    }
-                    Size size2 = this.actualAreaSize;
-                    float f15 = size2.height;
-                    Rect rect = new Rect(width, r6 + ((getHeight() - f15) / 2.0f), size2.width, f15);
-                    float f16 = rect.x;
-                    float max = Math.max(f16, Math.min(rect.width + f16, this.startCenterPoint.x + f13));
-                    float f17 = rect.y;
-                    Point point2 = new Point(max, Math.max(f17, Math.min(rect.height + f17, this.startCenterPoint.y + f14)));
-                    float f18 = point2.x - rect.x;
-                    Size size3 = this.actualAreaSize;
-                    float f19 = size3.width;
-                    point = new Point(f18 / f19, ((point2.y - rect.y) + ((f19 - size3.height) / 2.0f)) / f19);
-                    this.centerPoint = point;
-                } else if (i4 == 2) {
-                    f = this.startRadius + (abs - this.startDistance);
-                    this.falloff = Math.min(Math.max(0.1f, f / min), this.size - 0.02f);
-                } else if (i4 == 3) {
-                    float f20 = abs - this.startDistance;
-                    f2 = this.falloff + 0.02f;
-                    f3 = this.startRadius + f20;
-                    this.size = Math.max(f2, f3 / min);
-                } else if (i4 == 4) {
-                    float f21 = x - this.pointerStartX;
-                    float f22 = y - this.pointerStartY;
-                    boolean z = x > actualCenterPoint.x;
-                    boolean z2 = y > actualCenterPoint.y;
-                    boolean z3 = Math.abs(f22) > Math.abs(f21);
-                    if (z || z2 ? !(!z || z2 ? !z || !z2 ? !z3 ? f21 >= 0.0f : f22 >= 0.0f : !z3 ? f21 >= 0.0f : f22 <= 0.0f : !z3 ? f21 <= 0.0f : f22 <= 0.0f) : !(!z3 ? f21 <= 0.0f : f22 >= 0.0f)) {
-                        r6 = 1;
-                    }
-                    this.angle += ((((float) Math.sqrt((f21 * f21) + (f22 * f22))) * ((r6 * 2) - 1)) / 3.1415927f) / 1.15f;
-                    this.pointerStartX = x;
-                    this.pointerStartY = y;
+            return;
+        }
+        int i3 = this.type;
+        if (i3 == 0) {
+            int i4 = 1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
+            if (i4 == 1) {
+                float f13 = x - this.pointerStartX;
+                float f14 = y - this.pointerStartY;
+                float width = (getWidth() - this.actualAreaSize.width) / 2.0f;
+                if (Build.VERSION.SDK_INT >= 21 && !this.inBubbleMode) {
+                    r6 = AndroidUtilities.statusBarHeight;
                 }
-            } else if (i3 == 1) {
-                int i5 = 1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
-                if (i5 == 1) {
-                    float f23 = x - this.pointerStartX;
-                    float f24 = y - this.pointerStartY;
-                    float width2 = (getWidth() - this.actualAreaSize.width) / 2.0f;
-                    if (Build.VERSION.SDK_INT >= 21 && !this.inBubbleMode) {
-                        r6 = AndroidUtilities.statusBarHeight;
-                    }
-                    Size size4 = this.actualAreaSize;
-                    float f25 = size4.height;
-                    Rect rect2 = new Rect(width2, r6 + ((getHeight() - f25) / 2.0f), size4.width, f25);
-                    float f26 = rect2.x;
-                    float max2 = Math.max(f26, Math.min(rect2.width + f26, this.startCenterPoint.x + f23));
-                    float f27 = rect2.y;
-                    Point point3 = new Point(max2, Math.max(f27, Math.min(rect2.height + f27, this.startCenterPoint.y + f24)));
-                    float f28 = point3.x - rect2.x;
-                    Size size5 = this.actualAreaSize;
-                    float f29 = size5.width;
-                    point = new Point(f28 / f29, ((point3.y - rect2.y) + ((f29 - size5.height) / 2.0f)) / f29);
-                    this.centerPoint = point;
-                } else if (i5 == 2) {
-                    f = this.startRadius + (sqrt - this.startDistance);
-                    this.falloff = Math.min(Math.max(0.1f, f / min), this.size - 0.02f);
-                } else if (i5 == 3) {
-                    float f30 = sqrt - this.startDistance;
-                    f2 = this.falloff + 0.02f;
-                    f3 = this.startRadius + f30;
-                    this.size = Math.max(f2, f3 / min);
+                float f15 = r6;
+                float height = getHeight();
+                Size size2 = this.actualAreaSize;
+                float f16 = size2.height;
+                Rect rect = new Rect(width, f15 + ((height - f16) / 2.0f), size2.width, f16);
+                float f17 = rect.x;
+                float max = Math.max(f17, Math.min(rect.width + f17, this.startCenterPoint.x + f13));
+                float f18 = rect.y;
+                Point point2 = new Point(max, Math.max(f18, Math.min(rect.height + f18, this.startCenterPoint.y + f14)));
+                float f19 = point2.x - rect.x;
+                Size size3 = this.actualAreaSize;
+                float f20 = size3.width;
+                point = new Point(f19 / f20, ((point2.y - rect.y) + ((f20 - size3.height) / 2.0f)) / f20);
+                this.centerPoint = point;
+            } else if (i4 == 2) {
+                f = this.startRadius + (abs - this.startDistance);
+                this.falloff = Math.min(Math.max(0.1f, f / min), this.size - 0.02f);
+            } else if (i4 == 3) {
+                float f21 = abs - this.startDistance;
+                f2 = this.falloff + 0.02f;
+                f3 = this.startRadius + f21;
+                this.size = Math.max(f2, f3 / min);
+            } else if (i4 == 4) {
+                float f22 = x - this.pointerStartX;
+                float f23 = y - this.pointerStartY;
+                boolean z = x > actualCenterPoint.x;
+                boolean z2 = y > actualCenterPoint.y;
+                boolean z3 = Math.abs(f23) > Math.abs(f22);
+                if (z || z2 ? !(!z || z2 ? !z || !z2 ? !z3 ? f22 >= 0.0f : f23 >= 0.0f : !z3 ? f22 >= 0.0f : f23 <= 0.0f : !z3 ? f22 <= 0.0f : f23 <= 0.0f) : !(!z3 ? f22 <= 0.0f : f23 >= 0.0f)) {
+                    r6 = 1;
                 }
+                this.angle += ((((float) Math.sqrt((f22 * f22) + (f23 * f23))) * ((r6 * 2) - 1)) / 3.1415927f) / 1.15f;
+                this.pointerStartX = x;
+                this.pointerStartY = y;
             }
-            invalidate();
-            PhotoFilterLinearBlurControlDelegate photoFilterLinearBlurControlDelegate = this.delegate;
-            if (photoFilterLinearBlurControlDelegate != null) {
-                photoFilterLinearBlurControlDelegate.valueChanged(this.centerPoint, this.falloff, this.size, degreesToRadians(this.angle) + 1.5707964f);
+        } else if (i3 == 1) {
+            int i5 = 1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
+            if (i5 == 1) {
+                float f24 = x - this.pointerStartX;
+                float f25 = y - this.pointerStartY;
+                float width2 = (getWidth() - this.actualAreaSize.width) / 2.0f;
+                if (Build.VERSION.SDK_INT >= 21 && !this.inBubbleMode) {
+                    r6 = AndroidUtilities.statusBarHeight;
+                }
+                float f26 = r6;
+                float height2 = getHeight();
+                Size size4 = this.actualAreaSize;
+                float f27 = size4.height;
+                Rect rect2 = new Rect(width2, f26 + ((height2 - f27) / 2.0f), size4.width, f27);
+                float f28 = rect2.x;
+                float max2 = Math.max(f28, Math.min(rect2.width + f28, this.startCenterPoint.x + f24));
+                float f29 = rect2.y;
+                Point point3 = new Point(max2, Math.max(f29, Math.min(rect2.height + f29, this.startCenterPoint.y + f25)));
+                float f30 = point3.x - rect2.x;
+                Size size5 = this.actualAreaSize;
+                float f31 = size5.width;
+                point = new Point(f30 / f31, ((point3.y - rect2.y) + ((f31 - size5.height) / 2.0f)) / f31);
+                this.centerPoint = point;
+            } else if (i5 == 2) {
+                f = this.startRadius + (sqrt - this.startDistance);
+                this.falloff = Math.min(Math.max(0.1f, f / min), this.size - 0.02f);
+            } else if (i5 == 3) {
+                float f32 = sqrt - this.startDistance;
+                f2 = this.falloff + 0.02f;
+                f3 = this.startRadius + f32;
+                this.size = Math.max(f2, f3 / min);
             }
+        }
+        invalidate();
+        PhotoFilterLinearBlurControlDelegate photoFilterLinearBlurControlDelegate = this.delegate;
+        if (photoFilterLinearBlurControlDelegate != null) {
+            photoFilterLinearBlurControlDelegate.valueChanged(this.centerPoint, this.falloff, this.size, degreesToRadians(this.angle) + 1.5707964f);
         }
     }
 
@@ -338,26 +348,25 @@ public class PhotoFilterBlurControl extends FrameLayout {
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
-        int i;
         super.onDraw(canvas);
         Point actualCenterPoint = getActualCenterPoint();
         float actualInnerRadius = getActualInnerRadius();
         float actualOuterRadius = getActualOuterRadius();
         canvas.translate(actualCenterPoint.x, actualCenterPoint.y);
-        int i2 = this.type;
-        if (i2 == 0) {
+        int i = this.type;
+        if (i == 0) {
             canvas.rotate(this.angle);
             float dp = AndroidUtilities.dp(6.0f);
             float dp2 = AndroidUtilities.dp(12.0f);
             float dp3 = AndroidUtilities.dp(1.5f);
-            for (int i3 = 0; i3 < 30; i3++) {
+            for (int i2 = 0; i2 < 30; i2++) {
                 float f = dp2 + dp;
-                float f2 = i3 * f;
+                float f2 = i2 * f;
                 float f3 = -actualInnerRadius;
                 float f4 = f2 + dp2;
                 float f5 = dp3 - actualInnerRadius;
                 canvas.drawRect(f2, f3, f4, f5, this.paint);
-                float f6 = ((-i) * f) - dp;
+                float f6 = ((-r11) * f) - dp;
                 float f7 = f6 - dp2;
                 canvas.drawRect(f7, f3, f6, f5, this.paint);
                 float f8 = dp3 + actualInnerRadius;
@@ -365,54 +374,60 @@ public class PhotoFilterBlurControl extends FrameLayout {
                 canvas.drawRect(f7, actualInnerRadius, f6, f8, this.paint);
             }
             float dp4 = AndroidUtilities.dp(6.0f);
-            for (int i4 = 0; i4 < 64; i4++) {
+            for (int i3 = 0; i3 < 64; i3++) {
                 float f9 = dp4 + dp;
-                float f10 = i4 * f9;
+                float f10 = i3 * f9;
                 float f11 = -actualOuterRadius;
                 float f12 = dp4 + f10;
                 float f13 = dp3 - actualOuterRadius;
                 canvas.drawRect(f10, f11, f12, f13, this.paint);
-                float f14 = ((-i4) * f9) - dp;
+                float f14 = ((-i3) * f9) - dp;
                 float f15 = f14 - dp4;
                 canvas.drawRect(f15, f11, f14, f13, this.paint);
                 float f16 = dp3 + actualOuterRadius;
                 canvas.drawRect(f10, actualOuterRadius, f12, f16, this.paint);
                 canvas.drawRect(f15, actualOuterRadius, f14, f16, this.paint);
             }
-        } else if (i2 == 1) {
+        } else if (i == 1) {
             float f17 = -actualInnerRadius;
             this.arcRect.set(f17, f17, actualInnerRadius, actualInnerRadius);
-            for (int i5 = 0; i5 < 22; i5++) {
-                canvas.drawArc(this.arcRect, 16.35f * i5, 10.2f, false, this.arcPaint);
+            for (int i4 = 0; i4 < 22; i4++) {
+                canvas.drawArc(this.arcRect, 16.35f * i4, 10.2f, false, this.arcPaint);
             }
             float f18 = -actualOuterRadius;
             this.arcRect.set(f18, f18, actualOuterRadius, actualOuterRadius);
-            for (int i6 = 0; i6 < 64; i6++) {
-                canvas.drawArc(this.arcRect, 5.62f * i6, 3.6f, false, this.arcPaint);
+            for (int i5 = 0; i5 < 64; i5++) {
+                canvas.drawArc(this.arcRect, 5.62f * i5, 3.6f, false, this.arcPaint);
             }
         }
         canvas.drawCircle(0.0f, 0.0f, AndroidUtilities.dp(8.0f), this.paint);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x0018, code lost:
-        if (r2 != 6) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x00ed, code lost:
+    
+        if (r7 < (r3 + r10)) goto L75;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x00ed, code lost:
-        if (r7 < (r3 + r10)) goto L58;
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x00fa, code lost:
+    
+        if (r7 < (r4 + r2)) goto L75;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00fa, code lost:
-        if (r7 < (r4 + r2)) goto L58;
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x0104, code lost:
+    
+        if (r7 >= (r4 + r2)) goto L75;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x0104, code lost:
-        if (r7 >= (r4 + r2)) goto L58;
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x011b, code lost:
+    
+        if (r2 < (r3 + r10)) goto L75;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x011b, code lost:
-        if (r2 < (r3 + r10)) goto L58;
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0127, code lost:
+    
+        if (r2 < (r4 + r7)) goto L75;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0127, code lost:
-        if (r2 < (r4 + r7)) goto L58;
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x0018, code lost:
+    
+        if (r2 != 6) goto L90;
      */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0131  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0131  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

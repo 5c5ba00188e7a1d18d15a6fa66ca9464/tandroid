@@ -2,7 +2,9 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import android.content.Context;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class zzni implements zzno {
     final List zza;
@@ -17,8 +19,9 @@ public final class zzni implements zzno {
 
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzno
     public final void zza(zznf zznfVar) {
-        for (zzno zznoVar : this.zza) {
-            zznoVar.zza(zznfVar);
+        Iterator it = this.zza.iterator();
+        while (it.hasNext()) {
+            ((zzno) it.next()).zza(zznfVar);
         }
     }
 }

@@ -7,9 +7,11 @@ import android.os.Bundle;
 import androidx.tracing.Trace;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class AppInitializer {
     private static volatile AppInitializer sInstance;
@@ -39,18 +41,22 @@ public final class AppInitializer {
             obj = this.mInitialized.get(cls);
         } else {
             set.add(cls);
-            Initializer initializer = (Initializer) cls.getDeclaredConstructor(null).newInstance(null);
-            List<Class> dependencies = initializer.dependencies();
-            if (!dependencies.isEmpty()) {
-                for (Class cls2 : dependencies) {
-                    if (!this.mInitialized.containsKey(cls2)) {
-                        doInitialize(cls2, set);
+            try {
+                Initializer initializer = (Initializer) cls.getDeclaredConstructor(null).newInstance(null);
+                List<Class> dependencies = initializer.dependencies();
+                if (!dependencies.isEmpty()) {
+                    for (Class cls2 : dependencies) {
+                        if (!this.mInitialized.containsKey(cls2)) {
+                            doInitialize(cls2, set);
+                        }
                     }
                 }
+                obj = initializer.create(this.mContext);
+                set.remove(cls);
+                this.mInitialized.put(cls, obj);
+            } catch (Throwable th2) {
+                throw new StartupException(th2);
             }
-            obj = initializer.create(this.mContext);
-            set.remove(cls);
-            this.mInitialized.put(cls, obj);
         }
         Trace.endSection();
         return obj;
@@ -97,8 +103,9 @@ public final class AppInitializer {
                         }
                     }
                 }
-                for (Class cls2 : this.mDiscovered) {
-                    doInitialize(cls2, hashSet);
+                Iterator it = this.mDiscovered.iterator();
+                while (it.hasNext()) {
+                    doInitialize((Class) it.next(), hashSet);
                 }
             } catch (ClassNotFoundException e) {
                 throw new StartupException(e);

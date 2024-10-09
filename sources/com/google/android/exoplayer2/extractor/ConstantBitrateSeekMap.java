@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.extractor;
 
 import com.google.android.exoplayer2.extractor.SeekMap;
+
 /* loaded from: classes.dex */
 public class ConstantBitrateSeekMap implements SeekMap {
     private final boolean allowSeeksIfLengthUnknown;
@@ -49,19 +50,19 @@ public class ConstantBitrateSeekMap implements SeekMap {
 
     @Override // com.google.android.exoplayer2.extractor.SeekMap
     public SeekMap.SeekPoints getSeekPoints(long j) {
-        if (this.dataSize != -1 || this.allowSeeksIfLengthUnknown) {
-            long framePositionForTimeUs = getFramePositionForTimeUs(j);
-            long timeUsAtPosition = getTimeUsAtPosition(framePositionForTimeUs);
-            SeekPoint seekPoint = new SeekPoint(timeUsAtPosition, framePositionForTimeUs);
-            if (this.dataSize != -1 && timeUsAtPosition < j) {
-                long j2 = framePositionForTimeUs + this.frameSize;
-                if (j2 < this.inputLength) {
-                    return new SeekMap.SeekPoints(seekPoint, new SeekPoint(getTimeUsAtPosition(j2), j2));
-                }
-            }
-            return new SeekMap.SeekPoints(seekPoint);
+        if (this.dataSize == -1 && !this.allowSeeksIfLengthUnknown) {
+            return new SeekMap.SeekPoints(new SeekPoint(0L, this.firstFrameBytePosition));
         }
-        return new SeekMap.SeekPoints(new SeekPoint(0L, this.firstFrameBytePosition));
+        long framePositionForTimeUs = getFramePositionForTimeUs(j);
+        long timeUsAtPosition = getTimeUsAtPosition(framePositionForTimeUs);
+        SeekPoint seekPoint = new SeekPoint(timeUsAtPosition, framePositionForTimeUs);
+        if (this.dataSize != -1 && timeUsAtPosition < j) {
+            long j2 = framePositionForTimeUs + this.frameSize;
+            if (j2 < this.inputLength) {
+                return new SeekMap.SeekPoints(seekPoint, new SeekPoint(getTimeUsAtPosition(j2), j2));
+            }
+        }
+        return new SeekMap.SeekPoints(seekPoint);
     }
 
     public long getTimeUsAtPosition(long j) {

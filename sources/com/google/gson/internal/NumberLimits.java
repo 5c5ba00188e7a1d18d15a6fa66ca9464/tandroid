@@ -2,6 +2,7 @@ package com.google.gson.internal;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+
 /* loaded from: classes.dex */
 public abstract class NumberLimits {
     private static void checkNumberStringLength(String str) {

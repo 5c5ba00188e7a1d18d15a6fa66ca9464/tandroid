@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<IsReadyToPayRequest> CREATOR = new zzq();

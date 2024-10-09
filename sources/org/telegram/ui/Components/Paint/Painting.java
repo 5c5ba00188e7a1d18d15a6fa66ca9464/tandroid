@@ -16,6 +16,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.BotWebViewVibrationEffect;
@@ -27,6 +28,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Paint.Painting;
 import org.telegram.ui.Components.Size;
+
 /* loaded from: classes3.dex */
 public class Painting {
     private Path activePath;
@@ -631,32 +633,32 @@ public class Painting {
     }
 
     private Slice registerDoubleUndo(RectF rectF, final boolean z) {
-        if (rectF != null && rectF.setIntersect(rectF, getBounds())) {
-            final Slice slice = new Slice(getPaintingData(rectF, true, false, false).data, 0, rectF, this.delegate.requestDispatchQueue());
-            final Slice slice2 = new Slice(getPaintingData(rectF, true, true, false).data, 1, rectF, this.delegate.requestDispatchQueue());
-            this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda10
-                @Override // java.lang.Runnable
-                public final void run() {
-                    Painting.this.lambda$registerDoubleUndo$12(slice, slice2, z);
-                }
-            });
-            return slice;
+        if (rectF == null || !rectF.setIntersect(rectF, getBounds())) {
+            return null;
         }
-        return null;
+        final Slice slice = new Slice(getPaintingData(rectF, true, false, false).data, 0, rectF, this.delegate.requestDispatchQueue());
+        final Slice slice2 = new Slice(getPaintingData(rectF, true, true, false).data, 1, rectF, this.delegate.requestDispatchQueue());
+        this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                Painting.this.lambda$registerDoubleUndo$12(slice, slice2, z);
+            }
+        });
+        return slice;
     }
 
     private Slice registerUndo(RectF rectF, boolean z) {
-        if (rectF != null && rectF.setIntersect(rectF, getBounds())) {
-            final Slice slice = new Slice(getPaintingData(rectF, true, z, false).data, z ? 1 : 0, rectF, this.delegate.requestDispatchQueue());
-            this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda7
-                @Override // java.lang.Runnable
-                public final void run() {
-                    Painting.this.lambda$registerUndo$11(slice);
-                }
-            });
-            return slice;
+        if (rectF == null || !rectF.setIntersect(rectF, getBounds())) {
+            return null;
         }
-        return null;
+        final Slice slice = new Slice(getPaintingData(rectF, true, z, false).data, z ? 1 : 0, rectF, this.delegate.requestDispatchQueue());
+        this.delegate.requestUndoStore().registerUndo(UUID.randomUUID(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda7
+            @Override // java.lang.Runnable
+            public final void run() {
+                Painting.this.lambda$registerUndo$11(slice);
+            }
+        });
+        return slice;
     }
 
     private void renderBlit(int i, float f) {
@@ -690,8 +692,8 @@ public class Painting {
         Utils.HasGLError();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x012c  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x012c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -718,8 +720,7 @@ public class Painting {
         GLES20.glUniformMatrix4fv(shader.getUniform("mvpMatrix"), 1, false, FloatBuffer.wrap(this.renderProjection));
         GLES20.glUniform1i(shader.getUniform("texture"), 0);
         GLES20.glUniform1i(shader.getUniform("mask"), 1);
-        int color = path.getColor();
-        Shader.SetColorUniform(shader.getUniform("color"), ColorUtils.setAlphaComponent(color, (int) (Color.alpha(color) * brush.getOverrideAlpha() * f)));
+        Shader.SetColorUniform(shader.getUniform("color"), ColorUtils.setAlphaComponent(path.getColor(), (int) (Color.alpha(r6) * brush.getOverrideAlpha() * f)));
         GLES20.glActiveTexture(33984);
         GLES20.glBindTexture(3553, getTexture());
         GLES20.glActiveTexture(33985);
@@ -786,8 +787,7 @@ public class Painting {
         GLES20.glUniformMatrix4fv(shader.getUniform("mvpMatrix"), 1, false, FloatBuffer.wrap(this.renderProjection));
         GLES20.glUniform1i(shader.getUniform("texture"), 0);
         GLES20.glUniform1i(shader.getUniform("mask"), 1);
-        int currentColor = this.renderView.getCurrentColor();
-        Shader.SetColorUniform(shader.getUniform("color"), ColorUtils.setAlphaComponent(currentColor, (int) (Color.alpha(currentColor) * f)));
+        Shader.SetColorUniform(shader.getUniform("color"), ColorUtils.setAlphaComponent(this.renderView.getCurrentColor(), (int) (Color.alpha(r6) * f)));
         GLES20.glActiveTexture(33984);
         GLES20.glBindTexture(3553, i);
         GLES20.glActiveTexture(33985);
@@ -855,7 +855,7 @@ public class Painting {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: restoreSlice */
+    /* renamed from: restoreSlice, reason: merged with bridge method [inline-methods] */
     public void lambda$registerUndo$11(final Slice slice) {
         this.renderView.performInContext(new Runnable() { // from class: org.telegram.ui.Components.Paint.Painting$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -962,8 +962,9 @@ public class Painting {
         }
         Map map = this.shaders;
         if (map != null) {
-            for (Shader shader : map.values()) {
-                shader.cleanResources();
+            Iterator it = map.values().iterator();
+            while (it.hasNext()) {
+                ((Shader) it.next()).cleanResources();
             }
             this.shaders = null;
         }
@@ -1024,9 +1025,9 @@ public class Painting {
         return new RectF(0.0f, 0.0f, size.width, size.height);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0242  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x024a  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0222 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0222 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0242  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x024a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

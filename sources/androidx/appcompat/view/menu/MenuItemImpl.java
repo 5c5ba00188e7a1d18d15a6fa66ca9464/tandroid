@@ -24,6 +24,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.internal.view.SupportMenuItem;
 import androidx.core.view.ActionProvider;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public final class MenuItemImpl implements SupportMenuItem {
     private ActionProvider mActionProvider;
@@ -110,12 +111,12 @@ public final class MenuItemImpl implements SupportMenuItem {
 
     @Override // androidx.core.internal.view.SupportMenuItem, android.view.MenuItem
     public boolean expandActionView() {
-        if (hasCollapsibleActionView()) {
-            MenuItem.OnActionExpandListener onActionExpandListener = this.mOnActionExpandListener;
-            if (onActionExpandListener == null || onActionExpandListener.onMenuItemActionExpand(this)) {
-                return this.mMenu.expandItemActionView(this);
-            }
+        if (!hasCollapsibleActionView()) {
             return false;
+        }
+        MenuItem.OnActionExpandListener onActionExpandListener = this.mOnActionExpandListener;
+        if (onActionExpandListener == null || onActionExpandListener.onMenuItemActionExpand(this)) {
+            return this.mMenu.expandItemActionView(this);
         }
         return false;
     }
@@ -132,12 +133,12 @@ public final class MenuItemImpl implements SupportMenuItem {
             return view;
         }
         ActionProvider actionProvider = this.mActionProvider;
-        if (actionProvider != null) {
-            View onCreateActionView = actionProvider.onCreateActionView(this);
-            this.mActionView = onCreateActionView;
-            return onCreateActionView;
+        if (actionProvider == null) {
+            return null;
         }
-        return null;
+        View onCreateActionView = actionProvider.onCreateActionView(this);
+        this.mActionView = onCreateActionView;
+        return onCreateActionView;
     }
 
     @Override // androidx.core.internal.view.SupportMenuItem, android.view.MenuItem
@@ -166,13 +167,13 @@ public final class MenuItemImpl implements SupportMenuItem {
         if (drawable != null) {
             return applyIconTintIfNecessary(drawable);
         }
-        if (this.mIconResId != 0) {
-            Drawable drawable2 = AppCompatResources.getDrawable(this.mMenu.getContext(), this.mIconResId);
-            this.mIconResId = 0;
-            this.mIconDrawable = drawable2;
-            return applyIconTintIfNecessary(drawable2);
+        if (this.mIconResId == 0) {
+            return null;
         }
-        return null;
+        Drawable drawable2 = AppCompatResources.getDrawable(this.mMenu.getContext(), this.mIconResId);
+        this.mIconResId = 0;
+        this.mIconDrawable = drawable2;
+        return applyIconTintIfNecessary(drawable2);
     }
 
     @Override // androidx.core.internal.view.SupportMenuItem, android.view.MenuItem
@@ -247,10 +248,11 @@ public final class MenuItemImpl implements SupportMenuItem {
             i = R$string.abc_menu_delete_shortcut_label;
         } else if (shortcut == '\n') {
             i = R$string.abc_menu_enter_shortcut_label;
-        } else if (shortcut != ' ') {
-            sb.append(shortcut);
-            return sb.toString();
         } else {
+            if (shortcut != ' ') {
+                sb.append(shortcut);
+                return sb.toString();
+            }
             i = R$string.abc_menu_space_shortcut_label;
         }
         sb.append(resources.getString(i));
@@ -290,13 +292,13 @@ public final class MenuItemImpl implements SupportMenuItem {
 
     public boolean hasCollapsibleActionView() {
         ActionProvider actionProvider;
-        if ((this.mShowAsAction & 8) != 0) {
-            if (this.mActionView == null && (actionProvider = this.mActionProvider) != null) {
-                this.mActionView = actionProvider.onCreateActionView(this);
-            }
-            return this.mActionView != null;
+        if ((this.mShowAsAction & 8) == 0) {
+            return false;
         }
-        return false;
+        if (this.mActionView == null && (actionProvider = this.mActionProvider) != null) {
+            this.mActionView = actionProvider.onCreateActionView(this);
+        }
+        return this.mActionView != null;
     }
 
     @Override // android.view.MenuItem
@@ -306,28 +308,28 @@ public final class MenuItemImpl implements SupportMenuItem {
 
     public boolean invoke() {
         MenuItem.OnMenuItemClickListener onMenuItemClickListener = this.mClickListener;
-        if (onMenuItemClickListener == null || !onMenuItemClickListener.onMenuItemClick(this)) {
-            MenuBuilder menuBuilder = this.mMenu;
-            if (menuBuilder.dispatchMenuItemSelected(menuBuilder, this)) {
-                return true;
-            }
-            Runnable runnable = this.mItemCallback;
-            if (runnable != null) {
-                runnable.run();
-                return true;
-            }
-            if (this.mIntent != null) {
-                try {
-                    this.mMenu.getContext().startActivity(this.mIntent);
-                    return true;
-                } catch (ActivityNotFoundException e) {
-                    Log.e("MenuItemImpl", "Can't find activity to handle intent; ignoring", e);
-                }
-            }
-            ActionProvider actionProvider = this.mActionProvider;
-            return actionProvider != null && actionProvider.onPerformDefaultAction();
+        if (onMenuItemClickListener != null && onMenuItemClickListener.onMenuItemClick(this)) {
+            return true;
         }
-        return true;
+        MenuBuilder menuBuilder = this.mMenu;
+        if (menuBuilder.dispatchMenuItemSelected(menuBuilder, this)) {
+            return true;
+        }
+        Runnable runnable = this.mItemCallback;
+        if (runnable != null) {
+            runnable.run();
+            return true;
+        }
+        if (this.mIntent != null) {
+            try {
+                this.mMenu.getContext().startActivity(this.mIntent);
+                return true;
+            } catch (ActivityNotFoundException e) {
+                Log.e("MenuItemImpl", "Can't find activity to handle intent; ignoring", e);
+            }
+        }
+        ActionProvider actionProvider = this.mActionProvider;
+        return actionProvider != null && actionProvider.onPerformDefaultAction();
     }
 
     public boolean isActionButton() {

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import androidx.lifecycle.Lifecycle;
 import androidx.savedstate.SavedStateRegistry;
 import androidx.savedstate.SavedStateRegistryOwner;
+import java.util.Iterator;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class LegacySavedStateHandleController {
@@ -21,8 +23,9 @@ public abstract class LegacySavedStateHandleController {
             }
             ViewModelStore viewModelStore = ((ViewModelStoreOwner) savedStateRegistryOwner).getViewModelStore();
             SavedStateRegistry savedStateRegistry = savedStateRegistryOwner.getSavedStateRegistry();
-            for (String str : viewModelStore.keys()) {
-                LegacySavedStateHandleController.attachHandleIfNeeded(viewModelStore.get(str), savedStateRegistry, savedStateRegistryOwner.getLifecycle());
+            Iterator it = viewModelStore.keys().iterator();
+            while (it.hasNext()) {
+                LegacySavedStateHandleController.attachHandleIfNeeded(viewModelStore.get((String) it.next()), savedStateRegistry, savedStateRegistryOwner.getLifecycle());
             }
             if (viewModelStore.keys().isEmpty()) {
                 return;

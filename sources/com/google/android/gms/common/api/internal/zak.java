@@ -8,6 +8,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.Preconditions;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+
 /* loaded from: classes.dex */
 public final class zak extends zap {
     private final SparseArray zad;
@@ -47,9 +48,7 @@ public final class zak extends zap {
     @Override // com.google.android.gms.common.api.internal.zap, com.google.android.gms.common.api.internal.LifecycleCallback
     public final void onStart() {
         super.onStart();
-        boolean z = this.zaa;
-        String valueOf = String.valueOf(this.zad);
-        Log.d("AutoManageHelper", "onStart " + z + " " + valueOf);
+        Log.d("AutoManageHelper", "onStart " + this.zaa + " " + String.valueOf(this.zad));
         if (this.zab.get() == null) {
             for (int i = 0; i < this.zad.size(); i++) {
                 zaj zai = zai(i);
@@ -100,12 +99,9 @@ public final class zak extends zap {
 
     public final void zad(int i, GoogleApiClient googleApiClient, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         Preconditions.checkNotNull(googleApiClient, "GoogleApiClient instance cannot be null");
-        boolean z = this.zad.indexOfKey(i) < 0;
-        Preconditions.checkState(z, "Already managing a GoogleApiClient with id " + i);
+        Preconditions.checkState(this.zad.indexOfKey(i) < 0, "Already managing a GoogleApiClient with id " + i);
         zam zamVar = (zam) this.zab.get();
-        boolean z2 = this.zaa;
-        String valueOf = String.valueOf(zamVar);
-        Log.d("AutoManageHelper", "starting AutoManage for client " + i + " " + z2 + " " + valueOf);
+        Log.d("AutoManageHelper", "starting AutoManage for client " + i + " " + this.zaa + " " + String.valueOf(zamVar));
         zaj zajVar = new zaj(this, i, googleApiClient, onConnectionFailedListener);
         googleApiClient.registerConnectionFailedListener(zajVar);
         this.zad.put(i, zajVar);

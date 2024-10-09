@@ -3,6 +3,7 @@ package org.telegram.SQLite;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
+
 /* loaded from: classes.dex */
 public class SQLiteDatabase {
     private boolean inTransaction;

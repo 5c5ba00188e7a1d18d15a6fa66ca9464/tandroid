@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 final class o3 extends r3 implements j$.util.E, j$.util.function.n {
     double e;

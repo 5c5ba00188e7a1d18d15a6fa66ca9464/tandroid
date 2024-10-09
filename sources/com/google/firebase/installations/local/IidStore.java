@@ -13,6 +13,7 @@ import java.security.spec.X509EncodedKeySpec;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class IidStore {
     private static final String[] ALLOWABLE_SCOPES = {"*", "FCM", "GCM", ""};
@@ -34,18 +35,18 @@ public class IidStore {
             return gcmSenderId;
         }
         String applicationId = firebaseApp.getOptions().getApplicationId();
-        if (applicationId.startsWith("1:") || applicationId.startsWith("2:")) {
-            String[] split = applicationId.split(":");
-            if (split.length != 4) {
-                return null;
-            }
-            String str = split[1];
-            if (str.isEmpty()) {
-                return null;
-            }
-            return str;
+        if (!applicationId.startsWith("1:") && !applicationId.startsWith("2:")) {
+            return applicationId;
         }
-        return applicationId;
+        String[] split = applicationId.split(":");
+        if (split.length != 4) {
+            return null;
+        }
+        String str = split[1];
+        if (str.isEmpty()) {
+            return null;
+        }
+        return str;
     }
 
     private static String getIdFromPublicKey(PublicKey publicKey) {

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Supplier;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class b implements BaseStream {
@@ -56,60 +57,60 @@ public abstract class b implements BaseStream {
         int i3;
         b bVar = this.a;
         j$.util.Q q = bVar.g;
-        if (q != null) {
-            bVar.g = null;
-            if (bVar.k && bVar.i) {
-                b bVar2 = bVar.d;
-                int i4 = 1;
-                while (bVar != this) {
-                    int i5 = bVar2.c;
-                    if (bVar2.y0()) {
-                        if (S2.SHORT_CIRCUIT.d(i5)) {
-                            i5 &= S2.u ^ (-1);
-                        }
-                        q = bVar2.x0(bVar, q);
-                        if (q.hasCharacteristics(64)) {
-                            i2 = (S2.t ^ (-1)) & i5;
-                            i3 = S2.s;
-                        } else {
-                            i2 = (S2.s ^ (-1)) & i5;
-                            i3 = S2.t;
-                        }
-                        i5 = i2 | i3;
-                        i4 = 0;
-                    }
-                    bVar2.e = i4;
-                    bVar2.f = S2.a(i5, bVar.f);
-                    i4++;
-                    b bVar3 = bVar2;
-                    bVar2 = bVar2.d;
-                    bVar = bVar3;
-                }
-            }
-            if (i != 0) {
-                this.f = S2.a(i, this.f);
-            }
-            return q;
+        if (q == null) {
+            throw new IllegalStateException("source already consumed or closed");
         }
-        throw new IllegalStateException("source already consumed or closed");
+        bVar.g = null;
+        if (bVar.k && bVar.i) {
+            b bVar2 = bVar.d;
+            int i4 = 1;
+            while (bVar != this) {
+                int i5 = bVar2.c;
+                if (bVar2.y0()) {
+                    if (S2.SHORT_CIRCUIT.d(i5)) {
+                        i5 &= S2.u ^ (-1);
+                    }
+                    q = bVar2.x0(bVar, q);
+                    if (q.hasCharacteristics(64)) {
+                        i2 = (S2.t ^ (-1)) & i5;
+                        i3 = S2.s;
+                    } else {
+                        i2 = (S2.s ^ (-1)) & i5;
+                        i3 = S2.t;
+                    }
+                    i5 = i2 | i3;
+                    i4 = 0;
+                }
+                bVar2.e = i4;
+                bVar2.f = S2.a(i5, bVar.f);
+                i4++;
+                b bVar3 = bVar2;
+                bVar2 = bVar2.d;
+                bVar = bVar3;
+            }
+        }
+        if (i != 0) {
+            this.f = S2.a(i, this.f);
+        }
+        return q;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final j$.util.Q B0() {
         b bVar = this.a;
-        if (this == bVar) {
-            if (this.h) {
-                throw new IllegalStateException("stream has already been operated upon or closed");
-            }
-            this.h = true;
-            j$.util.Q q = bVar.g;
-            if (q != null) {
-                bVar.g = null;
-                return q;
-            }
+        if (this != bVar) {
+            throw new IllegalStateException();
+        }
+        if (this.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
+        }
+        this.h = true;
+        j$.util.Q q = bVar.g;
+        if (q == null) {
             throw new IllegalStateException("source already consumed or closed");
         }
-        throw new IllegalStateException();
+        bVar.g = null;
+        return q;
     }
 
     abstract j$.util.Q C0(b bVar, Supplier supplier, boolean z);
@@ -204,11 +205,11 @@ public abstract class b implements BaseStream {
             throw new IllegalStateException("stream has already been operated upon or closed");
         }
         this.h = true;
-        if (this.a.k && (bVar = this.b) != null && y0()) {
-            this.e = 0;
-            return w0(bVar.A0(0), i, bVar);
+        if (!this.a.k || (bVar = this.b) == null || !y0()) {
+            return k0(A0(0), true, i);
         }
-        return k0(A0(0), true, i);
+        this.e = 0;
+        return w0(bVar.A0(0), i, bVar);
     }
 
     abstract F0 n0(b bVar, j$.util.Q q, boolean z, j$.util.function.I i);
@@ -270,15 +271,15 @@ public abstract class b implements BaseStream {
         }
         this.h = true;
         b bVar = this.a;
-        if (this == bVar) {
-            j$.util.Q q = bVar.g;
-            if (q != null) {
-                bVar.g = null;
-                return q;
-            }
+        if (this != bVar) {
+            return C0(this, new a(this, 0), bVar.k);
+        }
+        j$.util.Q q = bVar.g;
+        if (q == null) {
             throw new IllegalStateException("source already consumed or closed");
         }
-        return C0(this, new a(this, 0), bVar.k);
+        bVar.g = null;
+        return q;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

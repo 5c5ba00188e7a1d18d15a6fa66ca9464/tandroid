@@ -48,6 +48,7 @@ import org.telegram.ui.ContentPreviewViewer;
 import org.telegram.ui.Stories.recorder.EmojiBottomSheet;
 import org.telegram.ui.Stories.recorder.KeyboardNotifier;
 import org.telegram.ui.Stories.recorder.PreviewView;
+
 /* loaded from: classes4.dex */
 public class BusinessIntroActivity extends UniversalFragment implements NotificationCenter.NotificationCenterDelegate {
     private ChatAttachAlert chatAttachAlert;
@@ -103,7 +104,8 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         if (getParentActivity() == null || getContext() == null || this.chatAttachAlert != null) {
             return;
         }
-        ChatAttachAlert chatAttachAlert = new ChatAttachAlert(getParentActivity(), this, false, false, true, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.9
+        boolean z = false;
+        ChatAttachAlert chatAttachAlert = new ChatAttachAlert(getParentActivity(), this, z, false, true, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.9
             @Override // org.telegram.ui.Components.ChatAttachAlert, org.telegram.ui.ActionBar.BottomSheet
             public void dismissInternal() {
                 if (BusinessIntroActivity.this.chatAttachAlert != null && BusinessIntroActivity.this.chatAttachAlert.isShowing()) {
@@ -126,7 +128,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         this.chatAttachAlert = chatAttachAlert;
         chatAttachAlert.setDelegate(new ChatAttachAlert.ChatAttachViewDelegate() { // from class: org.telegram.ui.Business.BusinessIntroActivity.10
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-            public void didPressedButton(int i, boolean z, boolean z2, int i2, long j, boolean z3, boolean z4) {
+            public void didPressedButton(int i, boolean z2, boolean z3, int i2, long j, boolean z4, boolean z5) {
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -165,8 +167,8 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-            public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i, long j, boolean z2) {
-                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i, j, z2);
+            public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z2, int i, long j, boolean z3) {
+                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z2, i, j, z3);
             }
         });
     }
@@ -191,7 +193,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBackPressed$6(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -218,7 +220,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
             if (this.inputSticker != null) {
                 getMessagesController().loadFullUser(getUserConfig().getCurrentUser(), 0, true);
             }
-            finishFragment();
+            lambda$onBackPressed$300();
         }
     }
 
@@ -391,8 +393,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
     public void updateGreetingScale() {
         if (this.previewContainer.getParent() instanceof View) {
             int top = ((View) this.previewContainer.getParent()).getTop();
-            int measuredHeight = this.previewContainer.getMeasuredHeight() - AndroidUtilities.dp(36.0f);
-            float clamp = Utilities.clamp((top + measuredHeight) / measuredHeight, 1.0f, 0.65f);
+            float clamp = Utilities.clamp((top + r1) / (this.previewContainer.getMeasuredHeight() - AndroidUtilities.dp(36.0f)), 1.0f, 0.65f);
             this.greetingsView.setScaleX(clamp);
             this.greetingsView.setScaleY(clamp);
             this.greetingsView.setAlpha(Utilities.clamp(clamp * 2.0f, 1.0f, 0.0f));
@@ -480,11 +481,12 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         imageView.setImageDrawable(PreviewView.getBackgroundDrawable((Drawable) null, this.currentAccount, getUserConfig().getClientUserId(), Theme.isCurrentThemeDark()));
         this.previewContainer.addView(imageView, LayoutHelper.createFrame(-1, -1, 119));
         this.previewContainer.addView(this.greetingsView, LayoutHelper.createFrame(-2, -2.0f, 17, 42.0f, 18.0f, 42.0f, 18.0f));
-        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroTitleHint), false, false, getMessagesController().introTitleLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.4
+        boolean z = false;
+        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroTitleHint), false, z, getMessagesController().introTitleLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.4
             @Override // org.telegram.ui.Cells.EditTextCell
-            protected void onFocusChanged(boolean z) {
+            protected void onFocusChanged(boolean z2) {
                 UniversalRecyclerView universalRecyclerView;
-                if (!z || (universalRecyclerView = BusinessIntroActivity.this.listView) == null) {
+                if (!z2 || (universalRecyclerView = BusinessIntroActivity.this.listView) == null) {
                     return;
                 }
                 universalRecyclerView.smoothScrollToPosition(2);
@@ -505,11 +507,11 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
         editTextCell2.setBackgroundColor(getThemedColor(i));
         this.titleEdit.setDivider(true);
         this.titleEdit.hideKeyboardOnEnter();
-        EditTextCell editTextCell3 = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroMessageHint), true, false, getMessagesController().introDescriptionLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.5
+        EditTextCell editTextCell3 = new EditTextCell(context, LocaleController.getString(R.string.BusinessIntroMessageHint), true, z, getMessagesController().introDescriptionLengthLimit, this.resourceProvider) { // from class: org.telegram.ui.Business.BusinessIntroActivity.5
             @Override // org.telegram.ui.Cells.EditTextCell
-            protected void onFocusChanged(boolean z) {
+            protected void onFocusChanged(boolean z2) {
                 UniversalRecyclerView universalRecyclerView;
-                if (!z || (universalRecyclerView = BusinessIntroActivity.this.listView) == null) {
+                if (!z2 || (universalRecyclerView = BusinessIntroActivity.this.listView) == null) {
                     return;
                 }
                 universalRecyclerView.smoothScrollToPosition(3);
@@ -534,7 +536,7 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
             public void onItemClick(int i2) {
                 if (i2 == -1) {
                     if (BusinessIntroActivity.this.onBackPressed()) {
-                        BusinessIntroActivity.this.finishFragment();
+                        BusinessIntroActivity.this.lambda$onBackPressed$300();
                     }
                 } else if (i2 == 1) {
                     BusinessIntroActivity.this.processDone();
@@ -634,26 +636,26 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (hasChanges()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
-            builder.setMessage(LocaleController.getString(R.string.BusinessIntroUnsavedChanges));
-            builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.BusinessIntroActivity$$ExternalSyntheticLambda1
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    BusinessIntroActivity.this.lambda$onBackPressed$5(dialogInterface, i);
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.BusinessIntroActivity$$ExternalSyntheticLambda2
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    BusinessIntroActivity.this.lambda$onBackPressed$6(dialogInterface, i);
-                }
-            });
-            showDialog(builder.create());
-            return false;
+        if (!hasChanges()) {
+            return super.onBackPressed();
         }
-        return super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
+        builder.setMessage(LocaleController.getString(R.string.BusinessIntroUnsavedChanges));
+        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.BusinessIntroActivity$$ExternalSyntheticLambda1
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                BusinessIntroActivity.this.lambda$onBackPressed$5(dialogInterface, i);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.BusinessIntroActivity$$ExternalSyntheticLambda2
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                BusinessIntroActivity.this.lambda$onBackPressed$6(dialogInterface, i);
+            }
+        });
+        showDialog(builder.create());
+        return false;
     }
 
     @Override // org.telegram.ui.Components.UniversalFragment
@@ -676,7 +678,9 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
                 }
             });
             showDialog(emojiBottomSheet);
-        } else if (i2 == 2) {
+            return;
+        }
+        if (i2 == 2) {
             this.titleEdit.setText("");
             this.messageEdit.setText("");
             AndroidUtilities.hideKeyboard(this.titleEdit.editText);

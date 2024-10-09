@@ -7,6 +7,7 @@ import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class Exception implements Model {
     private List frames;
@@ -26,32 +27,32 @@ public class Exception implements Model {
         }
         Exception exception = (Exception) obj;
         String str = this.type;
-        if (str == null ? exception.type == null : str.equals(exception.type)) {
-            String str2 = this.message;
-            if (str2 == null ? exception.message == null : str2.equals(exception.message)) {
-                String str3 = this.stackTrace;
-                if (str3 == null ? exception.stackTrace == null : str3.equals(exception.stackTrace)) {
-                    List list = this.frames;
-                    if (list == null ? exception.frames == null : list.equals(exception.frames)) {
-                        List list2 = this.innerExceptions;
-                        if (list2 == null ? exception.innerExceptions == null : list2.equals(exception.innerExceptions)) {
-                            String str4 = this.wrapperSdkName;
-                            if (str4 == null ? exception.wrapperSdkName == null : str4.equals(exception.wrapperSdkName)) {
-                                String str5 = this.minidumpFilePath;
-                                String str6 = exception.minidumpFilePath;
-                                return str5 != null ? str5.equals(str6) : str6 == null;
-                            }
-                            return false;
-                        }
-                        return false;
-                    }
-                    return false;
-                }
-                return false;
-            }
+        if (str == null ? exception.type != null : !str.equals(exception.type)) {
             return false;
         }
-        return false;
+        String str2 = this.message;
+        if (str2 == null ? exception.message != null : !str2.equals(exception.message)) {
+            return false;
+        }
+        String str3 = this.stackTrace;
+        if (str3 == null ? exception.stackTrace != null : !str3.equals(exception.stackTrace)) {
+            return false;
+        }
+        List list = this.frames;
+        if (list == null ? exception.frames != null : !list.equals(exception.frames)) {
+            return false;
+        }
+        List list2 = this.innerExceptions;
+        if (list2 == null ? exception.innerExceptions != null : !list2.equals(exception.innerExceptions)) {
+            return false;
+        }
+        String str4 = this.wrapperSdkName;
+        if (str4 == null ? exception.wrapperSdkName != null : !str4.equals(exception.wrapperSdkName)) {
+            return false;
+        }
+        String str5 = this.minidumpFilePath;
+        String str6 = exception.minidumpFilePath;
+        return str5 != null ? str5.equals(str6) : str6 == null;
     }
 
     public List getFrames() {

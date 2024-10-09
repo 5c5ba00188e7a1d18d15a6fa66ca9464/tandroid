@@ -48,6 +48,7 @@ import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.PinchToZoomHelper;
 import org.telegram.ui.Stories.recorder.StoryEntry;
+
 /* loaded from: classes4.dex */
 public class ThemePreviewMessagesCell extends LinearLayout {
     private Drawable backgroundDrawable;
@@ -74,8 +75,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, j, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:81:0x03fe  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x045f A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x03fe  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x045f A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

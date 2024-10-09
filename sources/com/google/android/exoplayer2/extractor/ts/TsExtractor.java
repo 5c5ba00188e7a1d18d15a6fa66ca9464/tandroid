@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class TsExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.TsExtractor$$ExternalSyntheticLambda0
@@ -254,11 +255,13 @@ public final class TsExtractor implements Extractor {
                 tsExtractor2.remainingPmts = tsExtractor2.mode == 1 ? 0 : TsExtractor.this.remainingPmts - 1;
                 if (TsExtractor.this.remainingPmts != 0) {
                     return;
+                } else {
+                    TsExtractor.this.output.endTracks();
                 }
-                TsExtractor.this.output.endTracks();
-            } else if (TsExtractor.this.tracksEnded) {
-                return;
             } else {
+                if (TsExtractor.this.tracksEnded) {
+                    return;
+                }
                 TsExtractor.this.output.endTracks();
                 TsExtractor.this.remainingPmts = 0;
             }
@@ -414,49 +417,49 @@ public final class TsExtractor implements Extractor {
                 return this.tsBinarySearchSeeker.handlePendingSeek(extractorInput, positionHolder);
             }
         }
-        if (fillBufferWithAtLeastOnePacket(extractorInput)) {
-            int findEndOfFirstTsPacketInBuffer = findEndOfFirstTsPacketInBuffer();
-            int limit = this.tsPacketBuffer.limit();
-            if (findEndOfFirstTsPacketInBuffer > limit) {
-                return 0;
-            }
-            int readInt = this.tsPacketBuffer.readInt();
-            if ((8388608 & readInt) == 0) {
-                int i = (4194304 & readInt) != 0 ? 1 : 0;
-                int i2 = (2096896 & readInt) >> 8;
-                boolean z = (readInt & 32) != 0;
-                TsPayloadReader tsPayloadReader = (readInt & 16) != 0 ? (TsPayloadReader) this.tsPayloadReaders.get(i2) : null;
-                if (tsPayloadReader != null) {
-                    if (this.mode != 2) {
-                        int i3 = readInt & 15;
-                        int i4 = this.continuityCounters.get(i2, i3 - 1);
-                        this.continuityCounters.put(i2, i3);
-                        if (i4 != i3) {
-                            if (i3 != ((i4 + 1) & 15)) {
-                                tsPayloadReader.seek();
-                            }
-                        }
-                    }
-                    if (z) {
-                        int readUnsignedByte = this.tsPacketBuffer.readUnsignedByte();
-                        i |= (this.tsPacketBuffer.readUnsignedByte() & 64) != 0 ? 2 : 0;
-                        this.tsPacketBuffer.skipBytes(readUnsignedByte - 1);
-                    }
-                    boolean z2 = this.tracksEnded;
-                    if (shouldConsumePacketPayload(i2)) {
-                        this.tsPacketBuffer.setLimit(findEndOfFirstTsPacketInBuffer);
-                        tsPayloadReader.consume(this.tsPacketBuffer, i);
-                        this.tsPacketBuffer.setLimit(limit);
-                    }
-                    if (this.mode != 2 && !z2 && this.tracksEnded && length != -1) {
-                        this.pendingSeekToStart = true;
-                    }
-                }
-            }
-            this.tsPacketBuffer.setPosition(findEndOfFirstTsPacketInBuffer);
+        if (!fillBufferWithAtLeastOnePacket(extractorInput)) {
+            return -1;
+        }
+        int findEndOfFirstTsPacketInBuffer = findEndOfFirstTsPacketInBuffer();
+        int limit = this.tsPacketBuffer.limit();
+        if (findEndOfFirstTsPacketInBuffer > limit) {
             return 0;
         }
-        return -1;
+        int readInt = this.tsPacketBuffer.readInt();
+        if ((8388608 & readInt) == 0) {
+            int i = (4194304 & readInt) != 0 ? 1 : 0;
+            int i2 = (2096896 & readInt) >> 8;
+            boolean z = (readInt & 32) != 0;
+            TsPayloadReader tsPayloadReader = (readInt & 16) != 0 ? (TsPayloadReader) this.tsPayloadReaders.get(i2) : null;
+            if (tsPayloadReader != null) {
+                if (this.mode != 2) {
+                    int i3 = readInt & 15;
+                    int i4 = this.continuityCounters.get(i2, i3 - 1);
+                    this.continuityCounters.put(i2, i3);
+                    if (i4 != i3) {
+                        if (i3 != ((i4 + 1) & 15)) {
+                            tsPayloadReader.seek();
+                        }
+                    }
+                }
+                if (z) {
+                    int readUnsignedByte = this.tsPacketBuffer.readUnsignedByte();
+                    i |= (this.tsPacketBuffer.readUnsignedByte() & 64) != 0 ? 2 : 0;
+                    this.tsPacketBuffer.skipBytes(readUnsignedByte - 1);
+                }
+                boolean z2 = this.tracksEnded;
+                if (shouldConsumePacketPayload(i2)) {
+                    this.tsPacketBuffer.setLimit(findEndOfFirstTsPacketInBuffer);
+                    tsPayloadReader.consume(this.tsPacketBuffer, i);
+                    this.tsPacketBuffer.setLimit(limit);
+                }
+                if (this.mode != 2 && !z2 && this.tracksEnded && length != -1) {
+                    this.pendingSeekToStart = true;
+                }
+            }
+        }
+        this.tsPacketBuffer.setPosition(findEndOfFirstTsPacketInBuffer);
+        return 0;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor
@@ -490,7 +493,8 @@ public final class TsExtractor implements Extractor {
         this.bytesSinceLastSync = 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x001e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x001e, code lost:
+    
         r1 = r1 + 1;
      */
     @Override // com.google.android.exoplayer2.extractor.Extractor

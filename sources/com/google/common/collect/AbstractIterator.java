@@ -2,6 +2,7 @@ package com.google.common.collect;
 
 import com.google.common.base.Preconditions;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 public abstract class AbstractIterator extends UnmodifiableIterator {
     private Object next;
@@ -38,11 +39,11 @@ public abstract class AbstractIterator extends UnmodifiableIterator {
     private boolean tryToComputeNext() {
         this.state = State.FAILED;
         this.next = computeNext();
-        if (this.state != State.DONE) {
-            this.state = State.READY;
-            return true;
+        if (this.state == State.DONE) {
+            return false;
         }
-        return false;
+        this.state = State.READY;
+        return true;
     }
 
     protected abstract Object computeNext();
@@ -57,23 +58,23 @@ public abstract class AbstractIterator extends UnmodifiableIterator {
     public final boolean hasNext() {
         Preconditions.checkState(this.state != State.FAILED);
         int i = 1.$SwitchMap$com$google$common$collect$AbstractIterator$State[this.state.ordinal()];
-        if (i != 1) {
-            if (i != 2) {
-                return tryToComputeNext();
-            }
-            return true;
+        if (i == 1) {
+            return false;
         }
-        return false;
+        if (i != 2) {
+            return tryToComputeNext();
+        }
+        return true;
     }
 
     @Override // java.util.Iterator
     public final Object next() {
-        if (hasNext()) {
-            this.state = State.NOT_READY;
-            Object uncheckedCastNullableTToT = NullnessCasts.uncheckedCastNullableTToT(this.next);
-            this.next = null;
-            return uncheckedCastNullableTToT;
+        if (!hasNext()) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        this.state = State.NOT_READY;
+        Object uncheckedCastNullableTToT = NullnessCasts.uncheckedCastNullableTToT(this.next);
+        this.next = null;
+        return uncheckedCastNullableTToT;
     }
 }

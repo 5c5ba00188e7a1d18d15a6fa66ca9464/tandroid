@@ -56,6 +56,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.ProfileActivity;
+
 /* loaded from: classes3.dex */
 public class FloatingDebugView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private LinearLayout bigLayout;
@@ -370,8 +371,10 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
                     HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                     headerCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader));
                     headerCell.setText(debugItem.title);
-                } else if (i2 != 3) {
                 } else {
+                    if (i2 != 3) {
+                        return;
+                    }
                     SeekBarCell seekBarCell = (SeekBarCell) viewHolder.itemView;
                     seekBarCell.title = debugItem.title.toString();
                     seekBarCell.value = ((Float) debugItem.floatProperty.get(null)).floatValue();
@@ -475,8 +478,8 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0067  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x006c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -484,10 +487,14 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
         String str = "Blue";
         String string = sharedPreferences.getString("lastDayTheme", "Blue");
-        string = (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) ? "Blue" : "Blue";
+        if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
+            string = "Blue";
+        }
         String str2 = "Dark Blue";
         String string2 = sharedPreferences.getString("lastDarkTheme", "Dark Blue");
-        string2 = (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) ? "Dark Blue" : "Dark Blue";
+        if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
+            string2 = "Dark Blue";
+        }
         Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
         if (!string.equals(string2)) {
             str2 = string2;
@@ -628,11 +635,11 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     }
 
     public boolean onBackPressed() {
-        if (this.isBigMenuShown) {
-            showBigMenu(false);
-            return true;
+        if (!this.isBigMenuShown) {
+            return false;
         }
-        return false;
+        showBigMenu(false);
+        return true;
     }
 
     @Override // android.view.View

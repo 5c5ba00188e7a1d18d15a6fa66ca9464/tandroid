@@ -7,6 +7,7 @@ import com.google.firebase.components.Component;
 import com.google.firebase.components.ComponentDiscovery;
 import com.google.firebase.components.ComponentRuntime;
 import com.google.mlkit.common.internal.MlKitComponentDiscoveryService;
+
 /* loaded from: classes.dex */
 public class MlKitContext {
     private static final Object zza = new Object();

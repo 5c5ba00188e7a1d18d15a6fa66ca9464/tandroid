@@ -9,6 +9,7 @@ import com.google.android.gms.common.internal.Preconditions;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.json.JSONException;
+
 /* loaded from: classes.dex */
 public class Storage {
     private static final Lock zaa = new ReentrantLock();

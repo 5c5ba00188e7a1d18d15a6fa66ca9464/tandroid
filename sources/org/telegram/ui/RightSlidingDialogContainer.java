@@ -26,6 +26,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes4.dex */
 public abstract class RightSlidingDialogContainer extends FrameLayout {
     public static long fragmentDialogId;
@@ -218,14 +219,15 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
         canvas.restore();
         if (this.currentActionBarView.getActionMode() == null) {
             view = this.currentActionBarView;
-        } else if (max != this.openedProgress * this.currentActionBarView.getActionMode().getAlpha()) {
-            this.currentActionBarView.draw(canvas);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), this.currentTop, (int) (this.currentActionBarView.getActionMode().getAlpha() * 255.0f), 31);
-            this.currentActionBarView.getActionMode().draw(canvas);
-            canvas.restore();
-            canvas.restore();
-            invalidate();
         } else {
+            if (max != this.openedProgress * this.currentActionBarView.getActionMode().getAlpha()) {
+                this.currentActionBarView.draw(canvas);
+                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), this.currentTop, (int) (this.currentActionBarView.getActionMode().getAlpha() * 255.0f), 31);
+                this.currentActionBarView.getActionMode().draw(canvas);
+                canvas.restore();
+                canvas.restore();
+                invalidate();
+            }
             view = this.currentActionBarView.getActionMode();
         }
         view.draw(canvas);
@@ -242,7 +244,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
         return super.drawChild(canvas, view, j);
     }
 
-    /* renamed from: finishPreview */
+    /* renamed from: finishPreview, reason: merged with bridge method [inline-methods] */
     public void lambda$presentFragment$1() {
         if (this.isOpenned) {
             openAnimationStarted(false);
@@ -362,15 +364,18 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x015b, code lost:
-        if (r9 != null) goto L67;
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x015b, code lost:
+    
+        if (r9 != null) goto L69;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x0166, code lost:
-        if (r9 != null) goto L67;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x0168, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:67:0x0168, code lost:
+    
         r9.recycle();
         r8.velocityTracker = null;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x0166, code lost:
+    
+        if (r9 != null) goto L69;
      */
     @Override // android.view.View
     /*
@@ -379,88 +384,89 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         VelocityTracker velocityTracker;
         INavigationLayout iNavigationLayout = this.navigationLayout;
-        if ((iNavigationLayout == null || !iNavigationLayout.isInPreviewMode()) && hasFragment() && this.enabled) {
-            if (motionEvent != null && motionEvent.getAction() == 0) {
-                this.startedTrackingPointerId = motionEvent.getPointerId(0);
-                this.maybeStartTracking = true;
-                this.startedTrackingX = (int) motionEvent.getX();
-                this.startedTrackingY = (int) motionEvent.getY();
-                VelocityTracker velocityTracker2 = this.velocityTracker;
-                if (velocityTracker2 != null) {
-                    velocityTracker2.clear();
-                }
-            } else if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
-                if (this.velocityTracker == null) {
-                    this.velocityTracker = VelocityTracker.obtain();
-                }
-                int max = Math.max(0, (int) (motionEvent.getX() - this.startedTrackingX));
-                int abs = Math.abs(((int) motionEvent.getY()) - this.startedTrackingY);
-                this.velocityTracker.addMovement(motionEvent);
-                if (!this.maybeStartTracking || this.startedTracking || max < AndroidUtilities.getPixelsInCM(0.4f, true) || Math.abs(max) / 3 <= abs) {
-                    if (this.startedTracking) {
-                        float f = max;
-                        this.swipeBackX = f;
-                        this.openedProgress = Utilities.clamp(1.0f - (f / getMeasuredWidth()), 1.0f, 0.0f);
-                        updateOpenAnimationProgress();
-                    }
-                } else if (ActionBarLayout.findScrollingChild(this, motionEvent.getX(), motionEvent.getY()) == null) {
-                    prepareForMoving(motionEvent);
-                } else {
-                    this.maybeStartTracking = false;
-                }
-            } else if (motionEvent != null && motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6)) {
-                if (this.velocityTracker == null) {
-                    this.velocityTracker = VelocityTracker.obtain();
-                }
-                this.velocityTracker.computeCurrentVelocity(1000);
-                if (this.startedTracking) {
-                    float f2 = this.swipeBackX;
-                    float xVelocity = this.velocityTracker.getXVelocity();
-                    float yVelocity = this.velocityTracker.getYVelocity();
-                    if (f2 >= getMeasuredWidth() / 3.0f || (xVelocity >= 3500.0f && xVelocity >= yVelocity)) {
-                        finishPreviewInernal();
-                    } else {
-                        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.openedProgress, 1.0f);
-                        this.openAnimator = ofFloat;
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda4
-                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                RightSlidingDialogContainer.this.lambda$onTouchEvent$5(valueAnimator);
-                            }
-                        });
-                        this.openAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.RightSlidingDialogContainer.3
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator) {
-                                RightSlidingDialogContainer rightSlidingDialogContainer = RightSlidingDialogContainer.this;
-                                if (rightSlidingDialogContainer.openAnimator == null) {
-                                    return;
-                                }
-                                rightSlidingDialogContainer.openAnimator = null;
-                                rightSlidingDialogContainer.openAnimationFinished(true);
-                            }
-                        });
-                        this.openAnimator.setDuration(250L);
-                        this.openAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                        this.openAnimator.start();
-                    }
-                }
-                this.maybeStartTracking = false;
-                this.startedTracking = false;
-                velocityTracker = this.velocityTracker;
-            } else if (motionEvent == null) {
-                this.maybeStartTracking = false;
-                this.startedTracking = false;
-                velocityTracker = this.velocityTracker;
-            }
-            return this.startedTracking;
+        if ((iNavigationLayout != null && iNavigationLayout.isInPreviewMode()) || !hasFragment() || !this.enabled) {
+            return false;
         }
-        return false;
+        if (motionEvent != null && motionEvent.getAction() == 0) {
+            this.startedTrackingPointerId = motionEvent.getPointerId(0);
+            this.maybeStartTracking = true;
+            this.startedTrackingX = (int) motionEvent.getX();
+            this.startedTrackingY = (int) motionEvent.getY();
+            VelocityTracker velocityTracker2 = this.velocityTracker;
+            if (velocityTracker2 != null) {
+                velocityTracker2.clear();
+            }
+        } else if (motionEvent != null && motionEvent.getAction() == 2 && motionEvent.getPointerId(0) == this.startedTrackingPointerId) {
+            if (this.velocityTracker == null) {
+                this.velocityTracker = VelocityTracker.obtain();
+            }
+            int max = Math.max(0, (int) (motionEvent.getX() - this.startedTrackingX));
+            int abs = Math.abs(((int) motionEvent.getY()) - this.startedTrackingY);
+            this.velocityTracker.addMovement(motionEvent);
+            if (!this.maybeStartTracking || this.startedTracking || max < AndroidUtilities.getPixelsInCM(0.4f, true) || Math.abs(max) / 3 <= abs) {
+                if (this.startedTracking) {
+                    float f = max;
+                    this.swipeBackX = f;
+                    this.openedProgress = Utilities.clamp(1.0f - (f / getMeasuredWidth()), 1.0f, 0.0f);
+                    updateOpenAnimationProgress();
+                }
+            } else if (ActionBarLayout.findScrollingChild(this, motionEvent.getX(), motionEvent.getY()) == null) {
+                prepareForMoving(motionEvent);
+            } else {
+                this.maybeStartTracking = false;
+            }
+        } else if (motionEvent != null && motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6)) {
+            if (this.velocityTracker == null) {
+                this.velocityTracker = VelocityTracker.obtain();
+            }
+            this.velocityTracker.computeCurrentVelocity(1000);
+            if (this.startedTracking) {
+                float f2 = this.swipeBackX;
+                float xVelocity = this.velocityTracker.getXVelocity();
+                float yVelocity = this.velocityTracker.getYVelocity();
+                if (f2 >= getMeasuredWidth() / 3.0f || (xVelocity >= 3500.0f && xVelocity >= yVelocity)) {
+                    finishPreviewInernal();
+                } else {
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.openedProgress, 1.0f);
+                    this.openAnimator = ofFloat;
+                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.RightSlidingDialogContainer$$ExternalSyntheticLambda4
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            RightSlidingDialogContainer.this.lambda$onTouchEvent$5(valueAnimator);
+                        }
+                    });
+                    this.openAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.RightSlidingDialogContainer.3
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            RightSlidingDialogContainer rightSlidingDialogContainer = RightSlidingDialogContainer.this;
+                            if (rightSlidingDialogContainer.openAnimator == null) {
+                                return;
+                            }
+                            rightSlidingDialogContainer.openAnimator = null;
+                            rightSlidingDialogContainer.openAnimationFinished(true);
+                        }
+                    });
+                    this.openAnimator.setDuration(250L);
+                    this.openAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                    this.openAnimator.start();
+                }
+            }
+            this.maybeStartTracking = false;
+            this.startedTracking = false;
+            velocityTracker = this.velocityTracker;
+        } else if (motionEvent == null) {
+            this.maybeStartTracking = false;
+            this.startedTracking = false;
+            velocityTracker = this.velocityTracker;
+        }
+        return this.startedTracking;
     }
 
     public abstract void openAnimationFinished(boolean z);
 
     public abstract void openAnimationStarted(boolean z);
 
+    /* JADX WARN: Multi-variable type inference failed */
     public void presentFragment(INavigationLayout iNavigationLayout, final BaseFragment baseFragment) {
         if (this.isPaused) {
             return;

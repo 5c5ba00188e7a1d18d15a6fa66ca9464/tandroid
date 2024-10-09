@@ -3,6 +3,7 @@ package com.android.billingclient.api;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class QueryProductDetailsParams {
     private final com.google.android.gms.internal.play_billing.zzu zza;
@@ -30,11 +31,11 @@ public final class QueryProductDetailsParams {
                     hashSet.add(product.zzb());
                 }
             }
-            if (hashSet.size() <= 1) {
-                this.zza = com.google.android.gms.internal.play_billing.zzu.zzj(list);
-                return this;
+            if (hashSet.size() > 1) {
+                throw new IllegalArgumentException("All products should be of the same product type.");
             }
-            throw new IllegalArgumentException("All products should be of the same product type.");
+            this.zza = com.google.android.gms.internal.play_billing.zzu.zzj(list);
+            return this;
         }
     }
 
@@ -55,13 +56,13 @@ public final class QueryProductDetailsParams {
                 if ("first_party".equals(this.zzb)) {
                     throw new IllegalArgumentException("Serialized doc id must be provided for first party products.");
                 }
-                if (this.zza != null) {
-                    if (this.zzb != null) {
-                        return new Product(this, null);
-                    }
-                    throw new IllegalArgumentException("Product type must be provided.");
+                if (this.zza == null) {
+                    throw new IllegalArgumentException("Product id must be provided.");
                 }
-                throw new IllegalArgumentException("Product id must be provided.");
+                if (this.zzb != null) {
+                    return new Product(this, null);
+                }
+                throw new IllegalArgumentException("Product type must be provided.");
             }
 
             public Builder setProductId(String str) {

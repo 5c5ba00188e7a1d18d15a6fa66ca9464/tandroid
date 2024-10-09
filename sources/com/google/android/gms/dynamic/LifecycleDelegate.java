@@ -1,6 +1,7 @@
 package com.google.android.gms.dynamic;
 
 import android.os.Bundle;
+
 /* loaded from: classes.dex */
 public interface LifecycleDelegate {
     void onCreate(Bundle bundle);

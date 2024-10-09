@@ -1,4 +1,5 @@
 package androidx.core.math;
+
 /* loaded from: classes.dex */
 public abstract class MathUtils {
     public static float clamp(float f, float f2, float f3) {

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.SystemClock;
-import android.text.Layout;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.View;
@@ -22,6 +21,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
+
 /* loaded from: classes3.dex */
 public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     private int activeTextColorKey;
@@ -162,8 +162,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     }
 
     private int getChildWidth(TextView textView) {
-        Layout layout = textView.getLayout();
-        return layout != null ? ((int) Math.ceil(layout.getLineWidth(0))) + AndroidUtilities.dp(2.0f) : textView.getMeasuredWidth();
+        return textView.getLayout() != null ? ((int) Math.ceil(r0.getLineWidth(0))) + AndroidUtilities.dp(2.0f) : textView.getMeasuredWidth();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -181,23 +180,29 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0032, code lost:
-        if (r7 != false) goto L13;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0032, code lost:
+    
+        if (r7 != false) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0034, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0034, code lost:
+    
         smoothScrollTo(r1, 0);
      */
+    /* JADX WARN: Code restructure failed: missing block: B:14:?, code lost:
+    
+        return;
+     */
     /* JADX WARN: Code restructure failed: missing block: B:15:0x0038, code lost:
+    
         scrollTo(r1, 0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x004b, code lost:
-        if (r7 != false) goto L13;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:16:?, code lost:
+    
         return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:?, code lost:
-        return;
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x004b, code lost:
+    
+        if (r7 != false) goto L14;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -240,10 +245,8 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
         int alpha2 = Color.alpha(processColor2);
         textView2.setTextColor(Color.argb((int) (alpha + ((alpha2 - alpha) * f)), (int) (red + ((red2 - red) * f)), (int) (green + ((green2 - green) * f)), (int) (blue + ((blue2 - blue) * f))));
         textView.setTextColor(Color.argb((int) (alpha2 + ((alpha - alpha2) * f)), (int) (red2 + ((red - red2) * f)), (int) (green2 + ((green - green2) * f)), (int) (blue2 + ((blue - blue2) * f))));
-        int i = this.animateIndicatorStartX;
-        this.indicatorX = (int) (i + ((this.animateIndicatorToX - i) * f));
-        int i2 = this.animateIndicatorStartWidth;
-        this.indicatorWidth = (int) (i2 + ((this.animateIndicatorToWidth - i2) * f));
+        this.indicatorX = (int) (this.animateIndicatorStartX + ((this.animateIndicatorToX - r1) * f));
+        this.indicatorWidth = (int) (this.animateIndicatorStartWidth + ((this.animateIndicatorToWidth - r1) * f));
         invalidate();
     }
 
@@ -253,7 +256,6 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
 
     public void addTextTab(final int i, CharSequence charSequence, SparseArray sparseArray) {
         TextView textView;
-        CharSequence replaceEmoji;
         int i2 = this.tabCount;
         this.tabCount = i2 + 1;
         if (i2 == 0 && this.selectedTabId == -1) {
@@ -296,7 +298,7 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
             NotificationCenter.listenEmojiLoading(textView);
         }
         textView.setText(Emoji.replaceEmoji(charSequence, textView.getPaint().getFontMetricsInt(), false));
-        int ceil = ((int) Math.ceil(textView.getPaint().measureText(replaceEmoji, 0, replaceEmoji.length()))) + textView.getPaddingLeft() + textView.getPaddingRight();
+        int ceil = ((int) Math.ceil(textView.getPaint().measureText(r6, 0, r6.length()))) + textView.getPaddingLeft() + textView.getPaddingRight();
         this.tabsContainer.addView(textView, LayoutHelper.createLinear(0, -1));
         this.allTextWidth += ceil;
         this.positionToWidth.put(i2, ceil);

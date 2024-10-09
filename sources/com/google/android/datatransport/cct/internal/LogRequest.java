@@ -2,6 +2,7 @@ package com.google.android.datatransport.cct.internal;
 
 import com.google.android.datatransport.cct.internal.AutoValue_LogRequest;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class LogRequest {
 

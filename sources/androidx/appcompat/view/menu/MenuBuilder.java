@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 /* loaded from: classes.dex */
 public class MenuBuilder implements SupportMenu {
     private static final int[] sCategoryToOrder = {1, 4, 5, 3, 2, 0};
@@ -165,8 +166,9 @@ public class MenuBuilder implements SupportMenu {
         onItemsChanged(false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x0019, code lost:
-        if (androidx.core.view.ViewConfigurationCompat.shouldShowMenuShortcutsWhenKeyboardPresent(android.view.ViewConfiguration.get(r2.mContext), r2.mContext) != false) goto L6;
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0019, code lost:
+    
+        if (androidx.core.view.ViewConfigurationCompat.shouldShowMenuShortcutsWhenKeyboardPresent(android.view.ViewConfiguration.get(r2.mContext), r2.mContext) != false) goto L9;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -552,19 +554,19 @@ public class MenuBuilder implements SupportMenu {
     }
 
     public ArrayList getVisibleItems() {
-        if (this.mIsVisibleItemsStale) {
-            this.mVisibleItems.clear();
-            int size = this.mItems.size();
-            for (int i = 0; i < size; i++) {
-                MenuItemImpl menuItemImpl = (MenuItemImpl) this.mItems.get(i);
-                if (menuItemImpl.isVisible()) {
-                    this.mVisibleItems.add(menuItemImpl);
-                }
-            }
-            this.mIsVisibleItemsStale = false;
-            this.mIsActionItemsStale = true;
+        if (!this.mIsVisibleItemsStale) {
             return this.mVisibleItems;
         }
+        this.mVisibleItems.clear();
+        int size = this.mItems.size();
+        for (int i = 0; i < size; i++) {
+            MenuItemImpl menuItemImpl = (MenuItemImpl) this.mItems.get(i);
+            if (menuItemImpl.isVisible()) {
+                this.mVisibleItems.add(menuItemImpl);
+            }
+        }
+        this.mIsVisibleItemsStale = false;
+        this.mIsActionItemsStale = true;
         return this.mVisibleItems;
     }
 
@@ -637,20 +639,25 @@ public class MenuBuilder implements SupportMenu {
         return performItemAction(menuItem, null, i);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002b, code lost:
-        if (r1 != false) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x002b, code lost:
+    
+        if (r1 != false) goto L17;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x002d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x002d, code lost:
+    
         close(true);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x003c, code lost:
-        if ((r9 & 1) == 0) goto L14;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0068, code lost:
-        if (r1 == false) goto L14;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x006b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x006b, code lost:
+    
         return r1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x003c, code lost:
+    
+        if ((r9 & 1) == 0) goto L17;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0068, code lost:
+    
+        if (r1 == false) goto L17;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

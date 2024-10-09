@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 final class WebvttCssParser {
     private static final Pattern VOICE_NAME_PATTERN = Pattern.compile("\\[voice=\"([^\"]*)\"\\]");
@@ -61,7 +62,8 @@ final class WebvttCssParser {
             if (i3 >= limit) {
                 parsableByteArray.skipBytes(limit - parsableByteArray.getPosition());
                 return true;
-            } else if (((char) data[i]) == '*' && ((char) data[i3]) == '/') {
+            }
+            if (((char) data[i]) == '*' && ((char) data[i3]) == '/') {
                 i += 2;
                 limit = i;
             } else {
@@ -72,13 +74,14 @@ final class WebvttCssParser {
 
     private static boolean maybeSkipWhitespace(ParsableByteArray parsableByteArray) {
         char peekCharAtPosition = peekCharAtPosition(parsableByteArray, parsableByteArray.getPosition());
-        if (peekCharAtPosition == '\t' || peekCharAtPosition == '\n' || peekCharAtPosition == '\f' || peekCharAtPosition == '\r' || peekCharAtPosition == ' ') {
-            parsableByteArray.skipBytes(1);
-            return true;
+        if (peekCharAtPosition != '\t' && peekCharAtPosition != '\n' && peekCharAtPosition != '\f' && peekCharAtPosition != '\r' && peekCharAtPosition != ' ') {
+            return false;
         }
-        return false;
+        parsableByteArray.skipBytes(1);
+        return true;
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:17:0x0064. Please report as an issue. */
     private static void parseFontSize(String str, WebvttCssStyle webvttCssStyle) {
         Matcher matcher = FONT_SIZE_PATTERN.matcher(Ascii.toLowerCase(str));
         if (!matcher.matches()) {
@@ -114,14 +117,15 @@ final class WebvttCssParser {
                 i = 3;
             case 1:
                 webvttCssStyle.setFontSizeUnit(i);
-                break;
+                webvttCssStyle.setFontSize(Float.parseFloat((String) Assertions.checkNotNull(matcher.group(1))));
+                return;
             case 2:
                 webvttCssStyle.setFontSizeUnit(1);
-                break;
+                webvttCssStyle.setFontSize(Float.parseFloat((String) Assertions.checkNotNull(matcher.group(1))));
+                return;
             default:
                 throw new IllegalStateException();
         }
-        webvttCssStyle.setFontSize(Float.parseFloat((String) Assertions.checkNotNull(matcher.group(1))));
     }
 
     private static String parseIdentifier(ParsableByteArray parsableByteArray, StringBuilder sb) {
@@ -148,10 +152,10 @@ final class WebvttCssParser {
             return null;
         }
         String parseIdentifier = parseIdentifier(parsableByteArray, sb);
-        if ("".equals(parseIdentifier)) {
-            return "" + ((char) parsableByteArray.readUnsignedByte());
+        if (!"".equals(parseIdentifier)) {
+            return parseIdentifier;
         }
-        return parseIdentifier;
+        return "" + ((char) parsableByteArray.readUnsignedByte());
     }
 
     private static String parsePropertyValue(ParsableByteArray parsableByteArray, StringBuilder sb) {
@@ -175,21 +179,21 @@ final class WebvttCssParser {
 
     private static String parseSelector(ParsableByteArray parsableByteArray, StringBuilder sb) {
         skipWhitespaceAndComments(parsableByteArray);
-        if (parsableByteArray.bytesLeft() >= 5 && "::cue".equals(parsableByteArray.readString(5))) {
-            int position = parsableByteArray.getPosition();
-            String parseNextToken = parseNextToken(parsableByteArray, sb);
-            if (parseNextToken == null) {
-                return null;
-            }
-            if ("{".equals(parseNextToken)) {
-                parsableByteArray.setPosition(position);
-                return "";
-            }
-            String readCueTarget = "(".equals(parseNextToken) ? readCueTarget(parsableByteArray) : null;
-            if (")".equals(parseNextToken(parsableByteArray, sb))) {
-                return readCueTarget;
-            }
+        if (parsableByteArray.bytesLeft() < 5 || !"::cue".equals(parsableByteArray.readString(5))) {
             return null;
+        }
+        int position = parsableByteArray.getPosition();
+        String parseNextToken = parseNextToken(parsableByteArray, sb);
+        if (parseNextToken == null) {
+            return null;
+        }
+        if ("{".equals(parseNextToken)) {
+            parsableByteArray.setPosition(position);
+            return "";
+        }
+        String readCueTarget = "(".equals(parseNextToken) ? readCueTarget(parsableByteArray) : null;
+        if (")".equals(parseNextToken(parsableByteArray, sb))) {
+            return readCueTarget;
         }
         return null;
     }
@@ -208,43 +212,59 @@ final class WebvttCssParser {
             if (!";".equals(parseNextToken)) {
                 if (!"}".equals(parseNextToken)) {
                     return;
+                } else {
+                    parsableByteArray.setPosition(position);
                 }
-                parsableByteArray.setPosition(position);
             }
             if ("color".equals(parseIdentifier)) {
                 webvttCssStyle.setFontColor(ColorParser.parseCssColor(parsePropertyValue));
-            } else if ("background-color".equals(parseIdentifier)) {
+                return;
+            }
+            if ("background-color".equals(parseIdentifier)) {
                 webvttCssStyle.setBackgroundColor(ColorParser.parseCssColor(parsePropertyValue));
-            } else {
-                boolean z = true;
-                if ("ruby-position".equals(parseIdentifier)) {
-                    if ("over".equals(parsePropertyValue)) {
-                        webvttCssStyle.setRubyPosition(1);
-                    } else if ("under".equals(parsePropertyValue)) {
+                return;
+            }
+            boolean z = true;
+            if ("ruby-position".equals(parseIdentifier)) {
+                if ("over".equals(parsePropertyValue)) {
+                    webvttCssStyle.setRubyPosition(1);
+                    return;
+                } else {
+                    if ("under".equals(parsePropertyValue)) {
                         webvttCssStyle.setRubyPosition(2);
+                        return;
                     }
-                } else if ("text-combine-upright".equals(parseIdentifier)) {
-                    if (!"all".equals(parsePropertyValue) && !parsePropertyValue.startsWith("digits")) {
-                        z = false;
-                    }
-                    webvttCssStyle.setCombineUpright(z);
-                } else if ("text-decoration".equals(parseIdentifier)) {
-                    if ("underline".equals(parsePropertyValue)) {
-                        webvttCssStyle.setUnderline(true);
-                    }
-                } else if ("font-family".equals(parseIdentifier)) {
-                    webvttCssStyle.setFontFamily(parsePropertyValue);
-                } else if ("font-weight".equals(parseIdentifier)) {
-                    if ("bold".equals(parsePropertyValue)) {
-                        webvttCssStyle.setBold(true);
-                    }
-                } else if ("font-style".equals(parseIdentifier)) {
-                    if ("italic".equals(parsePropertyValue)) {
-                        webvttCssStyle.setItalic(true);
-                    }
-                } else if ("font-size".equals(parseIdentifier)) {
-                    parseFontSize(parsePropertyValue, webvttCssStyle);
+                    return;
                 }
+            }
+            if ("text-combine-upright".equals(parseIdentifier)) {
+                if (!"all".equals(parsePropertyValue) && !parsePropertyValue.startsWith("digits")) {
+                    z = false;
+                }
+                webvttCssStyle.setCombineUpright(z);
+                return;
+            }
+            if ("text-decoration".equals(parseIdentifier)) {
+                if ("underline".equals(parsePropertyValue)) {
+                    webvttCssStyle.setUnderline(true);
+                    return;
+                }
+                return;
+            }
+            if ("font-family".equals(parseIdentifier)) {
+                webvttCssStyle.setFontFamily(parsePropertyValue);
+                return;
+            }
+            if ("font-weight".equals(parseIdentifier)) {
+                if ("bold".equals(parsePropertyValue)) {
+                    webvttCssStyle.setBold(true);
+                }
+            } else if ("font-style".equals(parseIdentifier)) {
+                if ("italic".equals(parsePropertyValue)) {
+                    webvttCssStyle.setItalic(true);
+                }
+            } else if ("font-size".equals(parseIdentifier)) {
+                parseFontSize(parsePropertyValue, webvttCssStyle);
             }
         }
     }

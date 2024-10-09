@@ -42,6 +42,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.DialogCell;
+
 /* loaded from: classes3.dex */
 public class LinkActionView extends LinearLayout {
     private ActionBarPopupWindow actionBarPopupWindow;
@@ -79,8 +80,7 @@ public class LinkActionView extends LinearLayout {
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
                 public void onMeasure(int i, int i2) {
-                    int min = Math.min(3, LinkActionView.this.usersCount);
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(min == 0 ? 0 : ((min - 1) * 20) + 32), 1073741824), i2);
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(Math.min(3, LinkActionView.this.usersCount) == 0 ? 0 : ((r2 - 1) * 20) + 32), 1073741824), i2);
                 }
             };
             LinearLayout linearLayout = new LinearLayout(context);
@@ -240,24 +240,23 @@ public class LinkActionView extends LinearLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r4v0, types: [android.widget.FrameLayout] */
+    /* JADX WARN: Type inference failed for: r4v1, types: [android.view.View] */
     /* JADX WARN: Type inference failed for: r4v9, types: [android.view.View] */
     public void getPointOnScreen(FrameLayout frameLayout, FrameLayout frameLayout2, float[] fArr) {
         float f = 0.0f;
         float f2 = 0.0f;
-        FrameLayout frameLayout3 = frameLayout;
-        while (frameLayout3 != frameLayout2) {
-            f2 += frameLayout3.getY();
-            f += frameLayout3.getX();
-            if (frameLayout3 instanceof ScrollView) {
-                f2 -= frameLayout3.getScrollY();
+        while (frameLayout != frameLayout2) {
+            f2 += frameLayout.getY();
+            f += frameLayout.getX();
+            if (frameLayout instanceof ScrollView) {
+                f2 -= frameLayout.getScrollY();
             }
-            if (!(frameLayout3.getParent() instanceof View)) {
+            if (!(frameLayout.getParent() instanceof View)) {
                 break;
             }
-            ?? r4 = (View) frameLayout3.getParent();
-            boolean z = r4 instanceof ViewGroup;
-            frameLayout3 = r4;
-            if (!z) {
+            frameLayout = (View) frameLayout.getParent();
+            if (!(frameLayout instanceof ViewGroup)) {
                 return;
             }
         }
@@ -573,29 +572,31 @@ public class LinkActionView extends LinearLayout {
     public void loadUsers(final TLRPC.TL_chatInviteExported tL_chatInviteExported, long j) {
         if (tL_chatInviteExported == null) {
             setUsers(0, null, false);
-        } else if (TextUtils.equals(this.loadedInviteLink, tL_chatInviteExported.link)) {
-        } else {
-            setUsers(tL_chatInviteExported.usage, tL_chatInviteExported.importers, false);
-            if (tL_chatInviteExported.usage <= 0 || tL_chatInviteExported.importers != null || this.loadingImporters) {
-                return;
-            }
-            TLRPC.TL_messages_getChatInviteImporters tL_messages_getChatInviteImporters = new TLRPC.TL_messages_getChatInviteImporters();
-            String str = tL_chatInviteExported.link;
-            if (str != null) {
-                tL_messages_getChatInviteImporters.flags |= 2;
-                tL_messages_getChatInviteImporters.link = str;
-            }
-            tL_messages_getChatInviteImporters.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(-j);
-            tL_messages_getChatInviteImporters.offset_user = new TLRPC.TL_inputUserEmpty();
-            tL_messages_getChatInviteImporters.limit = Math.min(tL_chatInviteExported.usage, 3);
-            this.loadingImporters = true;
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda10
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    LinkActionView.this.lambda$loadUsers$12(tL_chatInviteExported, tLObject, tL_error);
-                }
-            });
+            return;
         }
+        if (TextUtils.equals(this.loadedInviteLink, tL_chatInviteExported.link)) {
+            return;
+        }
+        setUsers(tL_chatInviteExported.usage, tL_chatInviteExported.importers, false);
+        if (tL_chatInviteExported.usage <= 0 || tL_chatInviteExported.importers != null || this.loadingImporters) {
+            return;
+        }
+        TLRPC.TL_messages_getChatInviteImporters tL_messages_getChatInviteImporters = new TLRPC.TL_messages_getChatInviteImporters();
+        String str = tL_chatInviteExported.link;
+        if (str != null) {
+            tL_messages_getChatInviteImporters.flags |= 2;
+            tL_messages_getChatInviteImporters.link = str;
+        }
+        tL_messages_getChatInviteImporters.peer = MessagesController.getInstance(UserConfig.selectedAccount).getInputPeer(-j);
+        tL_messages_getChatInviteImporters.offset_user = new TLRPC.TL_inputUserEmpty();
+        tL_messages_getChatInviteImporters.limit = Math.min(tL_chatInviteExported.usage, 3);
+        this.loadingImporters = true;
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda10
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                LinkActionView.this.lambda$loadUsers$12(tL_chatInviteExported, tLObject, tL_error);
+            }
+        });
     }
 
     public void setCanEdit(boolean z) {

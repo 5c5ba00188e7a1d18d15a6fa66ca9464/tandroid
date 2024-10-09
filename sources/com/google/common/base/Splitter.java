@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public final class Splitter {
     private final int limit;
@@ -28,26 +29,33 @@ public final class Splitter {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x002f, code lost:
-            if (r0 >= r1) goto L47;
+        /* JADX WARN: Code restructure failed: missing block: B:17:0x002f, code lost:
+        
+            if (r0 >= r1) goto L48;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:16:0x003d, code lost:
-            if (r6.trimmer.matches(r6.toSplit.charAt(r0)) == false) goto L21;
+        /* JADX WARN: Code restructure failed: missing block: B:19:0x003d, code lost:
+        
+            if (r6.trimmer.matches(r6.toSplit.charAt(r0)) == false) goto L47;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:17:0x003f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:20:0x003f, code lost:
+        
             r0 = r0 + 1;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x0042, code lost:
-            if (r1 <= r0) goto L46;
+        /* JADX WARN: Code restructure failed: missing block: B:23:0x0042, code lost:
+        
+            if (r1 <= r0) goto L49;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:20:0x0052, code lost:
-            if (r6.trimmer.matches(r6.toSplit.charAt(r1 - 1)) == false) goto L27;
+        /* JADX WARN: Code restructure failed: missing block: B:25:0x0052, code lost:
+        
+            if (r6.trimmer.matches(r6.toSplit.charAt(r1 - 1)) == false) goto L50;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:21:0x0054, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:26:0x0054, code lost:
+        
             r1 = r1 - 1;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:23:0x0059, code lost:
-            if (r6.omitEmptyStrings == false) goto L45;
+        /* JADX WARN: Code restructure failed: missing block: B:29:0x0059, code lost:
+        
+            if (r6.omitEmptyStrings == false) goto L39;
          */
         @Override // com.google.common.base.AbstractIterator
         /*

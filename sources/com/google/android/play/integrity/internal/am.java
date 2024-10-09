@@ -1,4 +1,5 @@
 package com.google.android.play.integrity.internal;
+
 /* loaded from: classes.dex */
 public abstract class am {
     public static void a(Object obj, Class cls) {

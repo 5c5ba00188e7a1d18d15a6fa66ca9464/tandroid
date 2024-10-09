@@ -18,6 +18,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.Security;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public abstract class StripeApiHandler {
     private static final SSLSocketFactory SSL_SOCKET_FACTORY = new StripeSSLSocketFactory();
@@ -108,12 +110,13 @@ public abstract class StripeApiHandler {
 
     private static List flattenParamsList(List list, String str) {
         LinkedList linkedList = new LinkedList();
+        Iterator it = list.iterator();
         String format = String.format("%s[]", str);
         if (list.isEmpty()) {
             linkedList.add(new Parameter(str, ""));
         } else {
-            for (Object obj : list) {
-                linkedList.addAll(flattenParamsValue(obj, format));
+            while (it.hasNext()) {
+                linkedList.addAll(flattenParamsValue(it.next(), format));
             }
         }
         return linkedList;
@@ -144,15 +147,15 @@ public abstract class StripeApiHandler {
         }
         if ("".equals(obj)) {
             throw new InvalidRequestException("You cannot set '" + str + "' to an empty string. We interpret empty strings as null in requests. You may set '" + str + "' to null to delete the property.", str, null, 0, null);
-        } else if (obj == null) {
+        }
+        if (obj == null) {
             LinkedList linkedList = new LinkedList();
             linkedList.add(new Parameter(str, ""));
             return linkedList;
-        } else {
-            LinkedList linkedList2 = new LinkedList();
-            linkedList2.add(new Parameter(str, obj.toString()));
-            return linkedList2;
         }
+        LinkedList linkedList2 = new LinkedList();
+        linkedList2.add(new Parameter(str, obj.toString()));
+        return linkedList2;
     }
 
     private static String formatURL(String str, String str2) {
@@ -227,9 +230,9 @@ public abstract class StripeApiHandler {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x002e  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0046 A[Catch: all -> 0x001c, IOException -> 0x001f, TryCatch #0 {IOException -> 0x001f, blocks: (B:3:0x0003, B:21:0x0030, B:26:0x004b, B:30:0x0057, B:31:0x005b, B:33:0x0065, B:32:0x0060, B:23:0x0036, B:24:0x0045, B:25:0x0046, B:8:0x0012, B:15:0x0021), top: B:43:0x0003, outer: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0053  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x002e  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0053  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0046 A[Catch: all -> 0x001c, IOException -> 0x001f, TryCatch #0 {IOException -> 0x001f, blocks: (B:4:0x0003, B:12:0x0030, B:14:0x004b, B:18:0x0057, B:19:0x005b, B:20:0x0065, B:24:0x0060, B:25:0x0036, B:26:0x0045, B:27:0x0046, B:28:0x0012, B:31:0x0021), top: B:3:0x0003, outer: #1 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -264,9 +267,10 @@ public abstract class StripeApiHandler {
                     c = 1;
                     if (c != 0) {
                         createGetConnection = createGetConnection(str2, str3, requestOptions);
-                    } else if (c != 1) {
-                        throw new APIConnectionException(String.format("Unrecognized HTTP method %s. This indicates a bug in the Stripe bindings. Please contact support@stripe.com for assistance.", str));
                     } else {
+                        if (c != 1) {
+                            throw new APIConnectionException(String.format("Unrecognized HTTP method %s. This indicates a bug in the Stripe bindings. Please contact support@stripe.com for assistance.", str));
+                        }
                         createGetConnection = createPostConnection(str2, str3, requestOptions);
                     }
                     HttpURLConnection httpURLConnection222 = createGetConnection;
@@ -294,8 +298,8 @@ public abstract class StripeApiHandler {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0095  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0026 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0095  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0026 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -314,50 +318,50 @@ public abstract class StripeApiHandler {
             Security.setProperty("networkaddress.cache.ttl", "0");
         } catch (SecurityException unused2) {
             bool = Boolean.FALSE;
-            if (requestOptions.getPublishableApiKey().trim().isEmpty()) {
+            if (!requestOptions.getPublishableApiKey().trim().isEmpty()) {
             }
         }
-        if (requestOptions.getPublishableApiKey().trim().isEmpty()) {
-            try {
-                StripeResponse stripeResponse = getStripeResponse(str, str2, map, requestOptions);
-                int responseCode = stripeResponse.getResponseCode();
-                String responseBody = stripeResponse.getResponseBody();
-                Map responseHeaders = stripeResponse.getResponseHeaders();
-                List list = responseHeaders == null ? null : (List) responseHeaders.get("Request-Id");
-                String str4 = (list == null || list.size() <= 0) ? null : (String) list.get(0);
-                if (responseCode < 200 || responseCode >= 300) {
-                    handleAPIError(responseBody, responseCode, str4);
-                }
-                Token parseToken = TokenParser.parseToken(responseBody);
-                if (bool.booleanValue()) {
-                    if (str3 == null) {
-                        Security.setProperty("networkaddress.cache.ttl", "-1");
-                    } else {
-                        Security.setProperty("networkaddress.cache.ttl", str3);
-                    }
-                }
-                return parseToken;
-            } catch (JSONException unused3) {
-                if (bool.booleanValue()) {
-                    if (str3 == null) {
-                        Security.setProperty("networkaddress.cache.ttl", "-1");
-                    } else {
-                        Security.setProperty("networkaddress.cache.ttl", str3);
-                    }
-                }
-                return null;
-            } catch (Throwable th) {
-                if (bool.booleanValue()) {
-                    if (str3 == null) {
-                        Security.setProperty("networkaddress.cache.ttl", "-1");
-                    } else {
-                        Security.setProperty("networkaddress.cache.ttl", str3);
-                    }
-                }
-                throw th;
-            }
+        if (!requestOptions.getPublishableApiKey().trim().isEmpty()) {
+            throw new AuthenticationException("No API key provided. (HINT: set your API key using 'Stripe.apiKey = <API-KEY>'. You can generate API keys from the Stripe web interface. See https://stripe.com/api for details or email support@stripe.com if you have questions.", null, 0);
         }
-        throw new AuthenticationException("No API key provided. (HINT: set your API key using 'Stripe.apiKey = <API-KEY>'. You can generate API keys from the Stripe web interface. See https://stripe.com/api for details or email support@stripe.com if you have questions.", null, 0);
+        try {
+            StripeResponse stripeResponse = getStripeResponse(str, str2, map, requestOptions);
+            int responseCode = stripeResponse.getResponseCode();
+            String responseBody = stripeResponse.getResponseBody();
+            Map responseHeaders = stripeResponse.getResponseHeaders();
+            List list = responseHeaders == null ? null : (List) responseHeaders.get("Request-Id");
+            String str4 = (list == null || list.size() <= 0) ? null : (String) list.get(0);
+            if (responseCode < 200 || responseCode >= 300) {
+                handleAPIError(responseBody, responseCode, str4);
+            }
+            Token parseToken = TokenParser.parseToken(responseBody);
+            if (bool.booleanValue()) {
+                if (str3 == null) {
+                    Security.setProperty("networkaddress.cache.ttl", "-1");
+                } else {
+                    Security.setProperty("networkaddress.cache.ttl", str3);
+                }
+            }
+            return parseToken;
+        } catch (JSONException unused3) {
+            if (bool.booleanValue()) {
+                if (str3 == null) {
+                    Security.setProperty("networkaddress.cache.ttl", "-1");
+                } else {
+                    Security.setProperty("networkaddress.cache.ttl", str3);
+                }
+            }
+            return null;
+        } catch (Throwable th) {
+            if (bool.booleanValue()) {
+                if (str3 == null) {
+                    Security.setProperty("networkaddress.cache.ttl", "-1");
+                } else {
+                    Security.setProperty("networkaddress.cache.ttl", str3);
+                }
+            }
+            throw th;
+        }
     }
 
     private static String urlEncode(String str) {

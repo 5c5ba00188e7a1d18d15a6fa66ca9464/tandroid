@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.util;
 
 import android.os.Looper;
+
 /* loaded from: classes.dex */
 public interface HandlerWrapper {
 

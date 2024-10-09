@@ -43,6 +43,7 @@ import org.telegram.ui.BlurSettingsBottomSheet;
 import org.telegram.ui.ChatBackgroundDrawable;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.WallpaperParallaxEffect;
+
 /* loaded from: classes3.dex */
 public class SizeNotifierFrameLayout extends FrameLayout {
     private static DispatchQueue blurQueue;
@@ -114,16 +115,28 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             super(context);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:117:0x02be, code lost:
-            if (r16.this$0.useRootView() != false) goto L76;
+        /* JADX WARN: Code restructure failed: missing block: B:103:0x0247, code lost:
+        
+            if (r16.this$0.bottomClip != 0) goto L103;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:118:0x02c0, code lost:
-            r12 = getRootView().getMeasuredHeight() - r11;
+        /* JADX WARN: Code restructure failed: missing block: B:120:0x02be, code lost:
+        
+            if (r16.this$0.useRootView() != false) goto L118;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:119:0x02ca, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:130:0x03b6, code lost:
+        
+            if (r16.this$0.bottomClip != 0) goto L103;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:56:0x0141, code lost:
+        
+            if (r16.this$0.useRootView() != false) goto L118;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:57:0x02ca, code lost:
+        
             r12 = getHeight();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:120:0x02ce, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:58:0x02ce, code lost:
+        
             r13 = java.lang.Math.max(getMeasuredWidth() / r7.getIntrinsicWidth(), r12 / r7.getIntrinsicHeight());
             r14 = (int) java.lang.Math.ceil((r7.getIntrinsicWidth() * r13) * r8);
             r4 = (int) java.lang.Math.ceil((r7.getIntrinsicHeight() * r13) * r8);
@@ -135,24 +148,21 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             r7.draw(r17);
             r16.this$0.checkSnowflake(r17);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:128:0x03b6, code lost:
-            if (r16.this$0.bottomClip != 0) goto L59;
+        /* JADX WARN: Code restructure failed: missing block: B:76:0x02c0, code lost:
+        
+            r12 = getRootView().getMeasuredHeight() - r11;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:68:0x0141, code lost:
-            if (r16.this$0.useRootView() != false) goto L76;
+        /* JADX WARN: Code restructure failed: missing block: B:86:0x01b2, code lost:
+        
+            if (r16.this$0.bottomClip != 0) goto L103;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:80:0x01b2, code lost:
-            if (r16.this$0.bottomClip != 0) goto L59;
+        /* JADX WARN: Code restructure failed: missing block: B:96:0x01f4, code lost:
+        
+            if (r16.this$0.bottomClip != 0) goto L103;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:88:0x01f4, code lost:
-            if (r16.this$0.bottomClip != 0) goto L59;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:96:0x0247, code lost:
-            if (r16.this$0.bottomClip != 0) goto L59;
-         */
-        /* JADX WARN: Removed duplicated region for block: B:144:0x0417  */
-        /* JADX WARN: Removed duplicated region for block: B:153:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x00a9  */
+        /* JADX WARN: Removed duplicated region for block: B:139:0x0417  */
+        /* JADX WARN: Removed duplicated region for block: B:142:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x00a9  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -387,20 +397,19 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             if (blurBitmap.needBlurBottom && (bitmap = blurBitmap.bottomBitmap) != null) {
                 Utilities.stackBlurBitmap(bitmap, this.radius);
             }
+            SizeNotifierFrameLayout.this.times = (int) (r2.times + (System.currentTimeMillis() - currentTimeMillis));
             SizeNotifierFrameLayout sizeNotifierFrameLayout = SizeNotifierFrameLayout.this;
-            sizeNotifierFrameLayout.times = (int) (sizeNotifierFrameLayout.times + (System.currentTimeMillis() - currentTimeMillis));
-            SizeNotifierFrameLayout sizeNotifierFrameLayout2 = SizeNotifierFrameLayout.this;
-            int i = sizeNotifierFrameLayout2.count + 1;
-            sizeNotifierFrameLayout2.count = i;
+            int i = sizeNotifierFrameLayout.count + 1;
+            sizeNotifierFrameLayout.count = i;
             if (i > 1000) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("chat blur generating average time");
-                SizeNotifierFrameLayout sizeNotifierFrameLayout3 = SizeNotifierFrameLayout.this;
-                sb.append(sizeNotifierFrameLayout3.times / sizeNotifierFrameLayout3.count);
+                SizeNotifierFrameLayout sizeNotifierFrameLayout2 = SizeNotifierFrameLayout.this;
+                sb.append(sizeNotifierFrameLayout2.times / sizeNotifierFrameLayout2.count);
                 FileLog.d(sb.toString());
-                SizeNotifierFrameLayout sizeNotifierFrameLayout4 = SizeNotifierFrameLayout.this;
-                sizeNotifierFrameLayout4.count = 0;
-                sizeNotifierFrameLayout4.times = 0;
+                SizeNotifierFrameLayout sizeNotifierFrameLayout3 = SizeNotifierFrameLayout.this;
+                sizeNotifierFrameLayout3.count = 0;
+                sizeNotifierFrameLayout3.times = 0;
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$BlurBackgroundTask$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -616,9 +625,10 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         int devicePerformanceClass = SharedConfig.getDevicePerformanceClass();
         if (devicePerformanceClass == 1) {
             f = 12.0f;
-        } else if (devicePerformanceClass == 2) {
-            return AndroidUtilities.density;
         } else {
+            if (devicePerformanceClass == 2) {
+                return AndroidUtilities.density;
+            }
             f = 15.0f;
         }
         return AndroidUtilities.dp(f);
@@ -643,8 +653,8 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00c5  */
-    /* JADX WARN: Removed duplicated region for block: B:28:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00c5  */
+    /* JADX WARN: Removed duplicated region for block: B:22:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -690,13 +700,12 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         Matrix matrix3 = this.matrix;
         BlurBitmap blurBitmap5 = this.currentBitmap;
         matrix3.preScale(blurBitmap5.topScaleX, blurBitmap5.topScaleY);
-        BlurBitmap blurBitmap6 = this.prevBitmap;
-        if (blurBitmap6 != null) {
-            this.matrix2.setTranslate(0.0f, (f5 - blurBitmap6.pixelFixOffset) - 34.0f);
+        if (this.prevBitmap != null) {
+            this.matrix2.setTranslate(0.0f, (f5 - r7.pixelFixOffset) - 34.0f);
             matrix = this.matrix2;
-            BlurBitmap blurBitmap7 = this.prevBitmap;
-            f2 = blurBitmap7.topScaleX;
-            f3 = blurBitmap7.topScaleY;
+            BlurBitmap blurBitmap6 = this.prevBitmap;
+            f2 = blurBitmap6.topScaleX;
+            f3 = blurBitmap6.topScaleY;
             matrix.preScale(f2, f3);
         }
         this.selectedBlurPaint.getShader().setLocalMatrix(this.matrix);
@@ -762,7 +771,9 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         int alpha = Color.alpha(Theme.getColor((DRAW_USING_RENDERNODE() && SharedConfig.getDevicePerformanceClass() == 2) ? Theme.key_chat_BlurAlpha : Theme.key_chat_BlurAlphaSlow));
         if (!SharedConfig.chatBlurEnabled()) {
             canvas.drawRect(rect, paint);
-        } else if (!DRAW_USING_RENDERNODE()) {
+            return;
+        }
+        if (!DRAW_USING_RENDERNODE()) {
             if (this.currentBitmap == null) {
                 canvas.drawRect(rect, paint);
                 return;
@@ -782,79 +793,81 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             }
             paint.setAlpha(alpha);
             canvas.drawRect(rect, paint);
-        } else if (!canvas.isHardwareAccelerated()) {
-            canvas.drawRect(rect, paint);
-        } else {
-            if (this.blurNodes == null) {
-                this.blurNodes = new RenderNode[2];
-            }
-            float renderNodeScale = getRenderNodeScale();
-            int i = !z ? 1 : 0;
-            if (!z && !this.blurNodeInvalidated[i] && Math.abs(getBottomOffset() - this.lastDrawnBottomBlurOffset) > 0.1f) {
-                this.blurNodeInvalidated[i] = true;
-            }
-            int dp = AndroidUtilities.dp(36.0f);
-            if (alpha < 255 && this.blurNodeInvalidated[i] && !this.blurNodeInvalidatedThisFrame[i]) {
-                RenderNode[] renderNodeArr = this.blurNodes;
-                if (renderNodeArr[i] == null) {
-                    renderNodeArr[i] = new RenderNode("blurNode" + i);
-                    ColorMatrix colorMatrix = new ColorMatrix();
-                    colorMatrix.setSaturation(2.0f);
-                    RenderNode renderNode = this.blurNodes[i];
-                    float blurRadius = getBlurRadius();
-                    float blurRadius2 = getBlurRadius();
-                    tileMode = Shader.TileMode.DECAL;
-                    createBlurEffect = RenderEffect.createBlurEffect(blurRadius, blurRadius2, tileMode);
-                    createColorFilterEffect = RenderEffect.createColorFilterEffect(new ColorMatrixColorFilter(colorMatrix));
-                    createChainEffect = RenderEffect.createChainEffect(createBlurEffect, createColorFilterEffect);
-                    renderNode.setRenderEffect(createChainEffect);
-                }
-                int measuredWidth = getMeasuredWidth();
-                int currentActionBarHeight = ActionBar.getCurrentActionBarHeight() + AndroidUtilities.statusBarHeight + AndroidUtilities.dp(100.0f);
-                this.blurNodes[i].setPosition(0, 0, (int) (measuredWidth / renderNodeScale), (int) (((dp * 2) + currentActionBarHeight) / renderNodeScale));
-                beginRecording = this.blurNodes[i].beginRecording();
-                drawingBlur = true;
-                float f3 = 1.0f / renderNodeScale;
-                beginRecording.scale(f3, f3);
-                beginRecording.drawPaint(paint);
-                beginRecording.translate(0.0f, dp);
-                if (!z) {
-                    float bottomOffset2 = getBottomOffset();
-                    this.lastDrawnBottomBlurOffset = bottomOffset2;
-                    float f4 = bottomOffset2 - currentActionBarHeight;
-                    this.drawnBottomOffset = f4;
-                    beginRecording.translate(0.0f, -f4);
-                }
-                drawListWithCallbacks(beginRecording, z);
-                drawingBlur = false;
-                this.blurNodes[i].endRecording();
-                this.blurNodeInvalidatedThisFrame[i] = true;
-                this.blurNodeInvalidated[i] = false;
-            }
-            if (!invalidateOptimized()) {
-                this.blurNodeInvalidated[i] = true;
-                invalidateBlurredViews();
-            }
-            canvas.save();
-            canvas.drawRect(rect, paint);
-            canvas.clipRect(rect);
-            RenderNode renderNode2 = this.blurNodes[i];
-            if (renderNode2 != null && alpha < 255) {
-                renderNode2.setAlpha(1.0f - (alpha / 255.0f));
-                if (z) {
-                    bottomOffset = (-f) - getTranslationY();
-                    f2 = 0.0f;
-                } else {
-                    f2 = 0.0f;
-                    bottomOffset = ((-f) + this.drawnBottomOffset) - (this.lastDrawnBottomBlurOffset - (getBottomOffset() + getListTranslationY()));
-                }
-                canvas.translate(f2, bottomOffset);
-                canvas.translate(f2, -dp);
-                canvas.scale(renderNodeScale, renderNodeScale);
-                canvas.drawRenderNode(this.blurNodes[i]);
-            }
-            canvas.restore();
+            return;
         }
+        if (!canvas.isHardwareAccelerated()) {
+            canvas.drawRect(rect, paint);
+            return;
+        }
+        if (this.blurNodes == null) {
+            this.blurNodes = new RenderNode[2];
+        }
+        float renderNodeScale = getRenderNodeScale();
+        int i = !z ? 1 : 0;
+        if (!z && !this.blurNodeInvalidated[i] && Math.abs(getBottomOffset() - this.lastDrawnBottomBlurOffset) > 0.1f) {
+            this.blurNodeInvalidated[i] = true;
+        }
+        int dp = AndroidUtilities.dp(36.0f);
+        if (alpha < 255 && this.blurNodeInvalidated[i] && !this.blurNodeInvalidatedThisFrame[i]) {
+            RenderNode[] renderNodeArr = this.blurNodes;
+            if (renderNodeArr[i] == null) {
+                renderNodeArr[i] = new RenderNode("blurNode" + i);
+                ColorMatrix colorMatrix = new ColorMatrix();
+                colorMatrix.setSaturation(2.0f);
+                RenderNode renderNode = this.blurNodes[i];
+                float blurRadius = getBlurRadius();
+                float blurRadius2 = getBlurRadius();
+                tileMode = Shader.TileMode.DECAL;
+                createBlurEffect = RenderEffect.createBlurEffect(blurRadius, blurRadius2, tileMode);
+                createColorFilterEffect = RenderEffect.createColorFilterEffect(new ColorMatrixColorFilter(colorMatrix));
+                createChainEffect = RenderEffect.createChainEffect(createBlurEffect, createColorFilterEffect);
+                renderNode.setRenderEffect(createChainEffect);
+            }
+            int measuredWidth = getMeasuredWidth();
+            int currentActionBarHeight = ActionBar.getCurrentActionBarHeight() + AndroidUtilities.statusBarHeight + AndroidUtilities.dp(100.0f);
+            this.blurNodes[i].setPosition(0, 0, (int) (measuredWidth / renderNodeScale), (int) (((dp * 2) + currentActionBarHeight) / renderNodeScale));
+            beginRecording = this.blurNodes[i].beginRecording();
+            drawingBlur = true;
+            float f3 = 1.0f / renderNodeScale;
+            beginRecording.scale(f3, f3);
+            beginRecording.drawPaint(paint);
+            beginRecording.translate(0.0f, dp);
+            if (!z) {
+                float bottomOffset2 = getBottomOffset();
+                this.lastDrawnBottomBlurOffset = bottomOffset2;
+                float f4 = bottomOffset2 - currentActionBarHeight;
+                this.drawnBottomOffset = f4;
+                beginRecording.translate(0.0f, -f4);
+            }
+            drawListWithCallbacks(beginRecording, z);
+            drawingBlur = false;
+            this.blurNodes[i].endRecording();
+            this.blurNodeInvalidatedThisFrame[i] = true;
+            this.blurNodeInvalidated[i] = false;
+        }
+        if (!invalidateOptimized()) {
+            this.blurNodeInvalidated[i] = true;
+            invalidateBlurredViews();
+        }
+        canvas.save();
+        canvas.drawRect(rect, paint);
+        canvas.clipRect(rect);
+        RenderNode renderNode2 = this.blurNodes[i];
+        if (renderNode2 != null && alpha < 255) {
+            renderNode2.setAlpha(1.0f - (alpha / 255.0f));
+            if (z) {
+                bottomOffset = (-f) - getTranslationY();
+                f2 = 0.0f;
+            } else {
+                f2 = 0.0f;
+                bottomOffset = ((-f) + this.drawnBottomOffset) - (this.lastDrawnBottomBlurOffset - (getBottomOffset() + getListTranslationY()));
+            }
+            canvas.translate(f2, bottomOffset);
+            canvas.translate(f2, -dp);
+            canvas.scale(renderNodeScale, renderNodeScale);
+            canvas.drawRenderNode(this.blurNodes[i]);
+        }
+        canvas.restore();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -865,29 +878,76 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         return this.backgroundDrawable;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x0019, code lost:
-        if (r2 != 0) goto L8;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0027, code lost:
-        if ((r0 instanceof org.telegram.ui.ChatBackgroundDrawable) != false) goto L13;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0029, code lost:
-        r2 = r3.backgroundTranslationY;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
+    /*  JADX ERROR: JadxRuntimeException in pass: IfRegionVisitor
+        jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r2v4 int, still in use, count: 2, list:
+          (r2v4 int) from 0x0019: IF  (r2v4 int) != (0 int)  -> B:8:0x002b A[HIDDEN]
+          (r2v4 int) from 0x002b: PHI (r2v2 int) = (r2v0 int), (r2v1 int), (r2v0 int), (r2v3 int), (r2v4 int), (r2v5 int) binds: [B:18:0x0027, B:13:0x0029, B:15:0x001e, B:16:0x0021, B:12:0x0019, B:7:0x0013] A[DONT_GENERATE, DONT_INLINE]
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:125)
+        	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
+        	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:67)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
+        	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverse(DepthRegionTraversal.java:19)
+        	at jadx.core.dex.visitors.regions.TernaryMod.process(TernaryMod.java:35)
+        	at jadx.core.dex.visitors.regions.IfRegionVisitor.process(IfRegionVisitor.java:34)
+        	at jadx.core.dex.visitors.regions.IfRegionVisitor.visit(IfRegionVisitor.java:30)
+        */
     public int getBackgroundSizeY() {
-        Drawable drawable = this.backgroundDrawable;
-        int i = 0;
-        if (drawable instanceof MotionBackgroundDrawable) {
-            if (!((MotionBackgroundDrawable) drawable).hasPattern()) {
-                i = this.animationInProgress ? (int) this.emojiOffset : this.emojiHeight;
-            } else if (this.backgroundTranslationY == 0) {
-                i = -this.keyboardHeight;
-            }
-        }
-        return getMeasuredHeight() - i;
+        /*
+            r3 = this;
+            android.graphics.drawable.Drawable r0 = r3.backgroundDrawable
+            boolean r1 = r0 instanceof org.telegram.ui.Components.MotionBackgroundDrawable
+            r2 = 0
+            if (r1 == 0) goto L25
+            org.telegram.ui.Components.MotionBackgroundDrawable r0 = (org.telegram.ui.Components.MotionBackgroundDrawable) r0
+            boolean r0 = r0.hasPattern()
+            if (r0 != 0) goto L1c
+            boolean r0 = r3.animationInProgress
+            if (r0 == 0) goto L17
+            float r0 = r3.emojiOffset
+            int r2 = (int) r0
+            goto L2b
+        L17:
+            int r2 = r3.emojiHeight
+            if (r2 == 0) goto L29
+            goto L2b
+        L1c:
+            int r0 = r3.backgroundTranslationY
+            if (r0 == 0) goto L21
+            goto L2b
+        L21:
+            int r0 = r3.keyboardHeight
+            int r2 = -r0
+            goto L2b
+        L25:
+            boolean r0 = r0 instanceof org.telegram.ui.ChatBackgroundDrawable
+            if (r0 == 0) goto L2b
+        L29:
+            int r2 = r3.backgroundTranslationY
+        L2b:
+            int r0 = r3.getMeasuredHeight()
+            int r0 = r0 - r2
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.Components.SizeNotifierFrameLayout.getBackgroundSizeY():int");
     }
 
     public int getBackgroundTranslationY() {
@@ -897,12 +957,12 @@ public class SizeNotifierFrameLayout extends FrameLayout {
                 return this.backgroundTranslationY;
             }
             return 0;
-        } else if (this.animationInProgress) {
-            return (int) this.emojiOffset;
-        } else {
-            int i = this.emojiHeight;
-            return i != 0 ? i : this.backgroundTranslationY;
         }
+        if (this.animationInProgress) {
+            return (int) this.emojiOffset;
+        }
+        int i = this.emojiHeight;
+        return i != 0 ? i : this.backgroundTranslationY;
     }
 
     protected float getBottomOffset() {

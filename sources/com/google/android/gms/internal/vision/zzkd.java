@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 final class zzkd implements zzkl {
     private zzkl[] zza;
@@ -20,7 +21,6 @@ final class zzkd implements zzkl {
 
     @Override // com.google.android.gms.internal.vision.zzkl
     public final zzki zzb(Class cls) {
-        zzkl[] zzklVarArr;
         for (zzkl zzklVar : this.zza) {
             if (zzklVar.zza(cls)) {
                 return zzklVar.zzb(cls);

@@ -3,6 +3,7 @@ package org.telegram.ui.Components;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.style.ReplacementSpan;
+
 /* loaded from: classes3.dex */
 public class EmptyStubSpan extends ReplacementSpan {
     @Override // android.text.style.ReplacementSpan

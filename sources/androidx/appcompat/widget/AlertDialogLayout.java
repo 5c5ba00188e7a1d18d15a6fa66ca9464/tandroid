@@ -10,6 +10,7 @@ import androidx.appcompat.R$id;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 public class AlertDialogLayout extends LinearLayoutCompat {
     public AlertDialogLayout(Context context, AttributeSet attributeSet) {
@@ -67,9 +68,10 @@ public class AlertDialogLayout extends LinearLayoutCompat {
                     view = childAt;
                 } else if (id == R$id.buttonPanel) {
                     view2 = childAt;
-                } else if ((id != R$id.contentPanel && id != R$id.customPanel) || view3 != null) {
-                    return false;
                 } else {
+                    if ((id != R$id.contentPanel && id != R$id.customPanel) || view3 != null) {
+                        return false;
+                    }
                     view3 = childAt;
                 }
             }
@@ -128,15 +130,15 @@ public class AlertDialogLayout extends LinearLayoutCompat {
             }
         }
         setMeasuredDimension(View.resolveSizeAndState(i10 + getPaddingLeft() + getPaddingRight(), i, i3), View.resolveSizeAndState(paddingTop, i2, 0));
-        if (mode2 != 1073741824) {
-            forceUniformWidth(childCount, i2);
+        if (mode2 == 1073741824) {
             return true;
         }
+        forceUniformWidth(childCount, i2);
         return true;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00a7  */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

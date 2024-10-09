@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
+
 /* loaded from: classes.dex */
 public abstract class LinearSmoothScrollerEnd extends RecyclerView.SmoothScroller {
     private final float MILLISECONDS_PER_PX;
@@ -67,7 +68,7 @@ public abstract class LinearSmoothScrollerEnd extends RecyclerView.SmoothScrolle
 
     @Override // androidx.recyclerview.widget.RecyclerView.SmoothScroller
     public PointF computeScrollVectorForPosition(int i) {
-        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        Object layoutManager = getLayoutManager();
         if (layoutManager instanceof RecyclerView.SmoothScroller.ScrollVectorProvider) {
             return ((RecyclerView.SmoothScroller.ScrollVectorProvider) layoutManager).computeScrollVectorForPosition(i);
         }

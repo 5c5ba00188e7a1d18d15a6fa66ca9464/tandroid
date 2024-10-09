@@ -34,6 +34,7 @@ import java.util.zip.CRC32;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class ExifInterface {
     static final Charset ASCII;
@@ -215,17 +216,17 @@ public class ExifInterface {
             int read2 = this.mDataInputStream.read();
             int read3 = this.mDataInputStream.read();
             int read4 = this.mDataInputStream.read();
-            if ((read | read2 | read3 | read4) >= 0) {
-                ByteOrder byteOrder = this.mByteOrder;
-                if (byteOrder == LITTLE_ENDIAN) {
-                    return (read4 << 24) + (read3 << 16) + (read2 << 8) + read;
-                }
-                if (byteOrder == BIG_ENDIAN) {
-                    return (read << 24) + (read2 << 16) + (read3 << 8) + read4;
-                }
-                throw new IOException("Invalid byte order: " + this.mByteOrder);
+            if ((read | read2 | read3 | read4) < 0) {
+                throw new EOFException();
             }
-            throw new EOFException();
+            ByteOrder byteOrder = this.mByteOrder;
+            if (byteOrder == LITTLE_ENDIAN) {
+                return (read4 << 24) + (read3 << 16) + (read2 << 8) + read;
+            }
+            if (byteOrder == BIG_ENDIAN) {
+                return (read << 24) + (read2 << 16) + (read3 << 8) + read4;
+            }
+            throw new IOException("Invalid byte order: " + this.mByteOrder);
         }
 
         @Override // java.io.DataInput
@@ -245,17 +246,17 @@ public class ExifInterface {
             int read6 = this.mDataInputStream.read();
             int read7 = this.mDataInputStream.read();
             int read8 = this.mDataInputStream.read();
-            if ((read | read2 | read3 | read4 | read5 | read6 | read7 | read8) >= 0) {
-                ByteOrder byteOrder = this.mByteOrder;
-                if (byteOrder == LITTLE_ENDIAN) {
-                    return (read8 << 56) + (read7 << 48) + (read6 << 40) + (read5 << 32) + (read4 << 24) + (read3 << 16) + (read2 << 8) + read;
-                }
-                if (byteOrder == BIG_ENDIAN) {
-                    return (read << 56) + (read2 << 48) + (read3 << 40) + (read4 << 32) + (read5 << 24) + (read6 << 16) + (read7 << 8) + read8;
-                }
-                throw new IOException("Invalid byte order: " + this.mByteOrder);
+            if ((read | read2 | read3 | read4 | read5 | read6 | read7 | read8) < 0) {
+                throw new EOFException();
             }
-            throw new EOFException();
+            ByteOrder byteOrder = this.mByteOrder;
+            if (byteOrder == LITTLE_ENDIAN) {
+                return (read8 << 56) + (read7 << 48) + (read6 << 40) + (read5 << 32) + (read4 << 24) + (read3 << 16) + (read2 << 8) + read;
+            }
+            if (byteOrder == BIG_ENDIAN) {
+                return (read << 56) + (read2 << 48) + (read3 << 40) + (read4 << 32) + (read5 << 24) + (read6 << 16) + (read7 << 8) + read8;
+            }
+            throw new IOException("Invalid byte order: " + this.mByteOrder);
         }
 
         @Override // java.io.DataInput
@@ -263,17 +264,17 @@ public class ExifInterface {
             this.mPosition += 2;
             int read = this.mDataInputStream.read();
             int read2 = this.mDataInputStream.read();
-            if ((read | read2) >= 0) {
-                ByteOrder byteOrder = this.mByteOrder;
-                if (byteOrder == LITTLE_ENDIAN) {
-                    return (short) ((read2 << 8) + read);
-                }
-                if (byteOrder == BIG_ENDIAN) {
-                    return (short) ((read << 8) + read2);
-                }
-                throw new IOException("Invalid byte order: " + this.mByteOrder);
+            if ((read | read2) < 0) {
+                throw new EOFException();
             }
-            throw new EOFException();
+            ByteOrder byteOrder = this.mByteOrder;
+            if (byteOrder == LITTLE_ENDIAN) {
+                return (short) ((read2 << 8) + read);
+            }
+            if (byteOrder == BIG_ENDIAN) {
+                return (short) ((read << 8) + read2);
+            }
+            throw new IOException("Invalid byte order: " + this.mByteOrder);
         }
 
         @Override // java.io.DataInput
@@ -297,17 +298,17 @@ public class ExifInterface {
             this.mPosition += 2;
             int read = this.mDataInputStream.read();
             int read2 = this.mDataInputStream.read();
-            if ((read | read2) >= 0) {
-                ByteOrder byteOrder = this.mByteOrder;
-                if (byteOrder == LITTLE_ENDIAN) {
-                    return (read2 << 8) + read;
-                }
-                if (byteOrder == BIG_ENDIAN) {
-                    return (read << 8) + read2;
-                }
-                throw new IOException("Invalid byte order: " + this.mByteOrder);
+            if ((read | read2) < 0) {
+                throw new EOFException();
             }
-            throw new EOFException();
+            ByteOrder byteOrder = this.mByteOrder;
+            if (byteOrder == LITTLE_ENDIAN) {
+                return (read2 << 8) + read;
+            }
+            if (byteOrder == BIG_ENDIAN) {
+                return (read << 8) + read2;
+            }
+            throw new IOException("Invalid byte order: " + this.mByteOrder);
         }
 
         @Override // java.io.InputStream
@@ -333,7 +334,7 @@ public class ExifInterface {
                     if (this.mSkipBuffer == null) {
                         this.mSkipBuffer = new byte[LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM];
                     }
-                    skip = this.mDataInputStream.read(this.mSkipBuffer, 0, Math.min((int) LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM, i3));
+                    skip = this.mDataInputStream.read(this.mSkipBuffer, 0, Math.min(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM, i3));
                     if (skip == -1) {
                         throw new EOFException("Reached EOF while skipping " + i + " bytes.");
                     }
@@ -410,64 +411,64 @@ public class ExifInterface {
 
         public double getDoubleValue(ByteOrder byteOrder) {
             Object value = getValue(byteOrder);
-            if (value != null) {
-                if (value instanceof String) {
-                    return Double.parseDouble((String) value);
-                }
-                if (value instanceof long[]) {
-                    long[] jArr = (long[]) value;
-                    if (jArr.length == 1) {
-                        return jArr[0];
-                    }
-                    throw new NumberFormatException("There are more than one component");
-                } else if (value instanceof int[]) {
-                    int[] iArr = (int[]) value;
-                    if (iArr.length == 1) {
-                        return iArr[0];
-                    }
-                    throw new NumberFormatException("There are more than one component");
-                } else if (value instanceof double[]) {
-                    double[] dArr = (double[]) value;
-                    if (dArr.length == 1) {
-                        return dArr[0];
-                    }
-                    throw new NumberFormatException("There are more than one component");
-                } else if (value instanceof Rational[]) {
-                    Rational[] rationalArr = (Rational[]) value;
-                    if (rationalArr.length == 1) {
-                        return rationalArr[0].calculate();
-                    }
-                    throw new NumberFormatException("There are more than one component");
-                } else {
-                    throw new NumberFormatException("Couldn't find a double value");
-                }
+            if (value == null) {
+                throw new NumberFormatException("NULL can't be converted to a double value");
             }
-            throw new NumberFormatException("NULL can't be converted to a double value");
+            if (value instanceof String) {
+                return Double.parseDouble((String) value);
+            }
+            if (value instanceof long[]) {
+                if (((long[]) value).length == 1) {
+                    return r5[0];
+                }
+                throw new NumberFormatException("There are more than one component");
+            }
+            if (value instanceof int[]) {
+                if (((int[]) value).length == 1) {
+                    return r5[0];
+                }
+                throw new NumberFormatException("There are more than one component");
+            }
+            if (value instanceof double[]) {
+                double[] dArr = (double[]) value;
+                if (dArr.length == 1) {
+                    return dArr[0];
+                }
+                throw new NumberFormatException("There are more than one component");
+            }
+            if (!(value instanceof Rational[])) {
+                throw new NumberFormatException("Couldn't find a double value");
+            }
+            Rational[] rationalArr = (Rational[]) value;
+            if (rationalArr.length == 1) {
+                return rationalArr[0].calculate();
+            }
+            throw new NumberFormatException("There are more than one component");
         }
 
         public int getIntValue(ByteOrder byteOrder) {
             Object value = getValue(byteOrder);
-            if (value != null) {
-                if (value instanceof String) {
-                    return Integer.parseInt((String) value);
-                }
-                if (value instanceof long[]) {
-                    long[] jArr = (long[]) value;
-                    if (jArr.length == 1) {
-                        return (int) jArr[0];
-                    }
-                    throw new NumberFormatException("There are more than one component");
-                } else if (value instanceof int[]) {
-                    int[] iArr = (int[]) value;
-                    if (iArr.length == 1) {
-                        return iArr[0];
-                    }
-                    throw new NumberFormatException("There are more than one component");
-                } else {
-                    throw new NumberFormatException("Couldn't find a integer value");
-                }
+            if (value == null) {
+                throw new NumberFormatException("NULL can't be converted to a integer value");
             }
-            throw new NumberFormatException("NULL can't be converted to a integer value");
+            if (value instanceof String) {
+                return Integer.parseInt((String) value);
+            }
+            if (value instanceof long[]) {
+                long[] jArr = (long[]) value;
+                if (jArr.length == 1) {
+                    return (int) jArr[0];
+                }
+                throw new NumberFormatException("There are more than one component");
+            }
+            if (!(value instanceof int[])) {
+                throw new NumberFormatException("Couldn't find a integer value");
+            }
+            int[] iArr = (int[]) value;
+            if (iArr.length == 1) {
+                return iArr[0];
+            }
+            throw new NumberFormatException("There are more than one component");
         }
 
         public String getStringValue(ByteOrder byteOrder) {
@@ -490,7 +491,8 @@ public class ExifInterface {
                     }
                 }
                 return sb.toString();
-            } else if (value instanceof int[]) {
+            }
+            if (value instanceof int[]) {
                 int[] iArr = (int[]) value;
                 while (i < iArr.length) {
                     sb.append(iArr[i]);
@@ -500,7 +502,8 @@ public class ExifInterface {
                     }
                 }
                 return sb.toString();
-            } else if (value instanceof double[]) {
+            }
+            if (value instanceof double[]) {
                 double[] dArr = (double[]) value;
                 while (i < dArr.length) {
                     sb.append(dArr[i]);
@@ -510,25 +513,25 @@ public class ExifInterface {
                     }
                 }
                 return sb.toString();
-            } else if (value instanceof Rational[]) {
-                Rational[] rationalArr = (Rational[]) value;
-                while (i < rationalArr.length) {
-                    sb.append(rationalArr[i].numerator);
-                    sb.append('/');
-                    sb.append(rationalArr[i].denominator);
-                    i++;
-                    if (i != rationalArr.length) {
-                        sb.append(",");
-                    }
-                }
-                return sb.toString();
-            } else {
+            }
+            if (!(value instanceof Rational[])) {
                 return null;
             }
+            Rational[] rationalArr = (Rational[]) value;
+            while (i < rationalArr.length) {
+                sb.append(rationalArr[i].numerator);
+                sb.append('/');
+                sb.append(rationalArr[i].denominator);
+                i++;
+                if (i != rationalArr.length) {
+                    sb.append(",");
+                }
+            }
+            return sb.toString();
         }
 
-        /* JADX WARN: Not initialized variable reg: 5, insn: 0x0030: MOVE  (r4 I:??[OBJECT, ARRAY]) = (r5 I:??[OBJECT, ARRAY]), block:B:17:0x0030 */
-        /* JADX WARN: Removed duplicated region for block: B:164:0x018f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Not initialized variable reg: 5, insn: 0x0030: MOVE (r4 I:??[OBJECT, ARRAY]) = (r5 I:??[OBJECT, ARRAY]), block:B:166:0x0030 */
+        /* JADX WARN: Removed duplicated region for block: B:169:0x018f A[EXC_TOP_SPLITTER, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -785,10 +788,10 @@ public class ExifInterface {
             if (j2 == 0) {
                 this.numerator = 0L;
                 this.denominator = 1L;
-                return;
+            } else {
+                this.numerator = j;
+                this.denominator = j2;
             }
-            this.numerator = j;
-            this.denominator = j2;
         }
 
         public double calculate() {
@@ -833,31 +836,30 @@ public class ExifInterface {
     }
 
     static {
-        ExifTag[] exifTagArr;
-        ExifTag[] exifTagArr2 = {new ExifTag("NewSubfileType", NotificationCenter.playerDidStartPlaying, 4), new ExifTag("SubfileType", NotificationCenter.closeSearchByActiveAction, 4), new ExifTag("ImageWidth", 256, 3, 4), new ExifTag("ImageLength", NotificationCenter.screenStateChanged, 3, 4), new ExifTag("BitsPerSample", NotificationCenter.didClearDatabase, 3), new ExifTag("Compression", NotificationCenter.voipServiceCreated, 3), new ExifTag("PhotometricInterpretation", NotificationCenter.showBulletin, 3), new ExifTag("ImageDescription", NotificationCenter.dialogsUnreadReactionsCounterChanged, 2), new ExifTag("Make", NotificationCenter.onDatabaseOpened, 2), new ExifTag("Model", NotificationCenter.onDownloadingFilesChanged, 2), new ExifTag("StripOffsets", NotificationCenter.onActivityResultReceived, 3, 4), new ExifTag("Orientation", NotificationCenter.onRequestPermissionResultReceived, 3), new ExifTag("SamplesPerPixel", NotificationCenter.premiumPromoUpdated, 3), new ExifTag("RowsPerStrip", NotificationCenter.premiumStatusChangedGlobal, 3, 4), new ExifTag("StripByteCounts", NotificationCenter.currentUserShowLimitReachedDialog, 3, 4), new ExifTag("XResolution", NotificationCenter.premiumStickersPreviewLoaded, 5), new ExifTag("YResolution", NotificationCenter.userEmojiStatusUpdated, 5), new ExifTag("PlanarConfiguration", NotificationCenter.requestPermissions, 3), new ExifTag("ResolutionUnit", NotificationCenter.uploadStoryProgress, 3), new ExifTag("TransferFunction", NotificationCenter.storiesReadUpdated, 3), new ExifTag("Software", 305, 2), new ExifTag("DateTime", 306, 2), new ExifTag("Artist", 315, 2), new ExifTag("WhitePoint", 318, 5), new ExifTag("PrimaryChromaticities", 319, 5), new ExifTag("SubIFDPointer", 330, 4), new ExifTag("JPEGInterchangeFormat", 513, 4), new ExifTag("JPEGInterchangeFormatLength", 514, 4), new ExifTag("YCbCrCoefficients", 529, 5), new ExifTag("YCbCrSubSampling", 530, 3), new ExifTag("YCbCrPositioning", 531, 3), new ExifTag("ReferenceBlackWhite", 532, 5), new ExifTag("Copyright", 33432, 2), new ExifTag("ExifIFDPointer", 34665, 4), new ExifTag("GPSInfoIFDPointer", 34853, 4), new ExifTag("SensorTopBorder", 4, 4), new ExifTag("SensorLeftBorder", 5, 4), new ExifTag("SensorBottomBorder", 6, 4), new ExifTag("SensorRightBorder", 7, 4), new ExifTag("ISO", 23, 3), new ExifTag("JpgFromRaw", 46, 7), new ExifTag("Xmp", 700, 1)};
-        IFD_TIFF_TAGS = exifTagArr2;
-        ExifTag[] exifTagArr3 = {new ExifTag("ExposureTime", 33434, 5), new ExifTag("FNumber", 33437, 5), new ExifTag("ExposureProgram", 34850, 3), new ExifTag("SpectralSensitivity", 34852, 2), new ExifTag("PhotographicSensitivity", 34855, 3), new ExifTag("OECF", 34856, 7), new ExifTag("SensitivityType", 34864, 3), new ExifTag("StandardOutputSensitivity", 34865, 4), new ExifTag("RecommendedExposureIndex", 34866, 4), new ExifTag("ISOSpeed", 34867, 4), new ExifTag("ISOSpeedLatitudeyyy", 34868, 4), new ExifTag("ISOSpeedLatitudezzz", 34869, 4), new ExifTag("ExifVersion", 36864, 2), new ExifTag("DateTimeOriginal", 36867, 2), new ExifTag("DateTimeDigitized", 36868, 2), new ExifTag("OffsetTime", 36880, 2), new ExifTag("OffsetTimeOriginal", 36881, 2), new ExifTag("OffsetTimeDigitized", 36882, 2), new ExifTag("ComponentsConfiguration", 37121, 7), new ExifTag("CompressedBitsPerPixel", 37122, 5), new ExifTag("ShutterSpeedValue", 37377, 10), new ExifTag("ApertureValue", 37378, 5), new ExifTag("BrightnessValue", 37379, 10), new ExifTag("ExposureBiasValue", 37380, 10), new ExifTag("MaxApertureValue", 37381, 5), new ExifTag("SubjectDistance", 37382, 5), new ExifTag("MeteringMode", 37383, 3), new ExifTag("LightSource", 37384, 3), new ExifTag("Flash", 37385, 3), new ExifTag("FocalLength", 37386, 5), new ExifTag("SubjectArea", 37396, 3), new ExifTag("MakerNote", 37500, 7), new ExifTag("UserComment", 37510, 7), new ExifTag("SubSecTime", 37520, 2), new ExifTag("SubSecTimeOriginal", 37521, 2), new ExifTag("SubSecTimeDigitized", 37522, 2), new ExifTag("FlashpixVersion", 40960, 7), new ExifTag("ColorSpace", 40961, 3), new ExifTag("PixelXDimension", 40962, 3, 4), new ExifTag("PixelYDimension", 40963, 3, 4), new ExifTag("RelatedSoundFile", 40964, 2), new ExifTag("InteroperabilityIFDPointer", 40965, 4), new ExifTag("FlashEnergy", 41483, 5), new ExifTag("SpatialFrequencyResponse", 41484, 7), new ExifTag("FocalPlaneXResolution", 41486, 5), new ExifTag("FocalPlaneYResolution", 41487, 5), new ExifTag("FocalPlaneResolutionUnit", 41488, 3), new ExifTag("SubjectLocation", 41492, 3), new ExifTag("ExposureIndex", 41493, 5), new ExifTag("SensingMethod", 41495, 3), new ExifTag("FileSource", 41728, 7), new ExifTag("SceneType", 41729, 7), new ExifTag("CFAPattern", 41730, 7), new ExifTag("CustomRendered", 41985, 3), new ExifTag("ExposureMode", 41986, 3), new ExifTag("WhiteBalance", 41987, 3), new ExifTag("DigitalZoomRatio", 41988, 5), new ExifTag("FocalLengthIn35mmFilm", 41989, 3), new ExifTag("SceneCaptureType", 41990, 3), new ExifTag("GainControl", 41991, 3), new ExifTag("Contrast", 41992, 3), new ExifTag("Saturation", 41993, 3), new ExifTag("Sharpness", 41994, 3), new ExifTag("DeviceSettingDescription", 41995, 7), new ExifTag("SubjectDistanceRange", 41996, 3), new ExifTag("ImageUniqueID", 42016, 2), new ExifTag("CameraOwnerName", 42032, 2), new ExifTag("BodySerialNumber", 42033, 2), new ExifTag("LensSpecification", 42034, 5), new ExifTag("LensMake", 42035, 2), new ExifTag("LensModel", 42036, 2), new ExifTag("Gamma", 42240, 5), new ExifTag("DNGVersion", 50706, 1), new ExifTag("DefaultCropSize", 50720, 3, 4)};
-        IFD_EXIF_TAGS = exifTagArr3;
-        ExifTag[] exifTagArr4 = {new ExifTag("GPSVersionID", 0, 1), new ExifTag("GPSLatitudeRef", 1, 2), new ExifTag("GPSLatitude", 2, 5, 10), new ExifTag("GPSLongitudeRef", 3, 2), new ExifTag("GPSLongitude", 4, 5, 10), new ExifTag("GPSAltitudeRef", 5, 1), new ExifTag("GPSAltitude", 6, 5), new ExifTag("GPSTimeStamp", 7, 5), new ExifTag("GPSSatellites", 8, 2), new ExifTag("GPSStatus", 9, 2), new ExifTag("GPSMeasureMode", 10, 2), new ExifTag("GPSDOP", 11, 5), new ExifTag("GPSSpeedRef", 12, 2), new ExifTag("GPSSpeed", 13, 5), new ExifTag("GPSTrackRef", 14, 2), new ExifTag("GPSTrack", 15, 5), new ExifTag("GPSImgDirectionRef", 16, 2), new ExifTag("GPSImgDirection", 17, 5), new ExifTag("GPSMapDatum", 18, 2), new ExifTag("GPSDestLatitudeRef", 19, 2), new ExifTag("GPSDestLatitude", 20, 5), new ExifTag("GPSDestLongitudeRef", 21, 2), new ExifTag("GPSDestLongitude", 22, 5), new ExifTag("GPSDestBearingRef", 23, 2), new ExifTag("GPSDestBearing", 24, 5), new ExifTag("GPSDestDistanceRef", 25, 2), new ExifTag("GPSDestDistance", 26, 5), new ExifTag("GPSProcessingMethod", 27, 7), new ExifTag("GPSAreaInformation", 28, 7), new ExifTag("GPSDateStamp", 29, 2), new ExifTag("GPSDifferential", 30, 3), new ExifTag("GPSHPositioningError", 31, 5)};
-        IFD_GPS_TAGS = exifTagArr4;
-        ExifTag[] exifTagArr5 = {new ExifTag("InteroperabilityIndex", 1, 2)};
-        IFD_INTEROPERABILITY_TAGS = exifTagArr5;
-        ExifTag[] exifTagArr6 = {new ExifTag("NewSubfileType", NotificationCenter.playerDidStartPlaying, 4), new ExifTag("SubfileType", NotificationCenter.closeSearchByActiveAction, 4), new ExifTag("ThumbnailImageWidth", 256, 3, 4), new ExifTag("ThumbnailImageLength", NotificationCenter.screenStateChanged, 3, 4), new ExifTag("BitsPerSample", NotificationCenter.didClearDatabase, 3), new ExifTag("Compression", NotificationCenter.voipServiceCreated, 3), new ExifTag("PhotometricInterpretation", NotificationCenter.showBulletin, 3), new ExifTag("ImageDescription", NotificationCenter.dialogsUnreadReactionsCounterChanged, 2), new ExifTag("Make", NotificationCenter.onDatabaseOpened, 2), new ExifTag("Model", NotificationCenter.onDownloadingFilesChanged, 2), new ExifTag("StripOffsets", NotificationCenter.onActivityResultReceived, 3, 4), new ExifTag("ThumbnailOrientation", NotificationCenter.onRequestPermissionResultReceived, 3), new ExifTag("SamplesPerPixel", NotificationCenter.premiumPromoUpdated, 3), new ExifTag("RowsPerStrip", NotificationCenter.premiumStatusChangedGlobal, 3, 4), new ExifTag("StripByteCounts", NotificationCenter.currentUserShowLimitReachedDialog, 3, 4), new ExifTag("XResolution", NotificationCenter.premiumStickersPreviewLoaded, 5), new ExifTag("YResolution", NotificationCenter.userEmojiStatusUpdated, 5), new ExifTag("PlanarConfiguration", NotificationCenter.requestPermissions, 3), new ExifTag("ResolutionUnit", NotificationCenter.uploadStoryProgress, 3), new ExifTag("TransferFunction", NotificationCenter.storiesReadUpdated, 3), new ExifTag("Software", 305, 2), new ExifTag("DateTime", 306, 2), new ExifTag("Artist", 315, 2), new ExifTag("WhitePoint", 318, 5), new ExifTag("PrimaryChromaticities", 319, 5), new ExifTag("SubIFDPointer", 330, 4), new ExifTag("JPEGInterchangeFormat", 513, 4), new ExifTag("JPEGInterchangeFormatLength", 514, 4), new ExifTag("YCbCrCoefficients", 529, 5), new ExifTag("YCbCrSubSampling", 530, 3), new ExifTag("YCbCrPositioning", 531, 3), new ExifTag("ReferenceBlackWhite", 532, 5), new ExifTag("Copyright", 33432, 2), new ExifTag("ExifIFDPointer", 34665, 4), new ExifTag("GPSInfoIFDPointer", 34853, 4), new ExifTag("DNGVersion", 50706, 1), new ExifTag("DefaultCropSize", 50720, 3, 4)};
-        IFD_THUMBNAIL_TAGS = exifTagArr6;
+        ExifTag[] exifTagArr = {new ExifTag("NewSubfileType", NotificationCenter.playerDidStartPlaying, 4), new ExifTag("SubfileType", NotificationCenter.closeSearchByActiveAction, 4), new ExifTag("ImageWidth", 256, 3, 4), new ExifTag("ImageLength", NotificationCenter.screenStateChanged, 3, 4), new ExifTag("BitsPerSample", NotificationCenter.didClearDatabase, 3), new ExifTag("Compression", NotificationCenter.voipServiceCreated, 3), new ExifTag("PhotometricInterpretation", NotificationCenter.showBulletin, 3), new ExifTag("ImageDescription", NotificationCenter.dialogsUnreadReactionsCounterChanged, 2), new ExifTag("Make", NotificationCenter.onDatabaseOpened, 2), new ExifTag("Model", NotificationCenter.onDownloadingFilesChanged, 2), new ExifTag("StripOffsets", NotificationCenter.onActivityResultReceived, 3, 4), new ExifTag("Orientation", NotificationCenter.onRequestPermissionResultReceived, 3), new ExifTag("SamplesPerPixel", NotificationCenter.premiumPromoUpdated, 3), new ExifTag("RowsPerStrip", NotificationCenter.premiumStatusChangedGlobal, 3, 4), new ExifTag("StripByteCounts", NotificationCenter.currentUserShowLimitReachedDialog, 3, 4), new ExifTag("XResolution", NotificationCenter.premiumStickersPreviewLoaded, 5), new ExifTag("YResolution", NotificationCenter.userEmojiStatusUpdated, 5), new ExifTag("PlanarConfiguration", NotificationCenter.requestPermissions, 3), new ExifTag("ResolutionUnit", NotificationCenter.uploadStoryProgress, 3), new ExifTag("TransferFunction", NotificationCenter.storiesReadUpdated, 3), new ExifTag("Software", 305, 2), new ExifTag("DateTime", 306, 2), new ExifTag("Artist", 315, 2), new ExifTag("WhitePoint", 318, 5), new ExifTag("PrimaryChromaticities", 319, 5), new ExifTag("SubIFDPointer", 330, 4), new ExifTag("JPEGInterchangeFormat", 513, 4), new ExifTag("JPEGInterchangeFormatLength", 514, 4), new ExifTag("YCbCrCoefficients", 529, 5), new ExifTag("YCbCrSubSampling", 530, 3), new ExifTag("YCbCrPositioning", 531, 3), new ExifTag("ReferenceBlackWhite", 532, 5), new ExifTag("Copyright", 33432, 2), new ExifTag("ExifIFDPointer", 34665, 4), new ExifTag("GPSInfoIFDPointer", 34853, 4), new ExifTag("SensorTopBorder", 4, 4), new ExifTag("SensorLeftBorder", 5, 4), new ExifTag("SensorBottomBorder", 6, 4), new ExifTag("SensorRightBorder", 7, 4), new ExifTag("ISO", 23, 3), new ExifTag("JpgFromRaw", 46, 7), new ExifTag("Xmp", 700, 1)};
+        IFD_TIFF_TAGS = exifTagArr;
+        ExifTag[] exifTagArr2 = {new ExifTag("ExposureTime", 33434, 5), new ExifTag("FNumber", 33437, 5), new ExifTag("ExposureProgram", 34850, 3), new ExifTag("SpectralSensitivity", 34852, 2), new ExifTag("PhotographicSensitivity", 34855, 3), new ExifTag("OECF", 34856, 7), new ExifTag("SensitivityType", 34864, 3), new ExifTag("StandardOutputSensitivity", 34865, 4), new ExifTag("RecommendedExposureIndex", 34866, 4), new ExifTag("ISOSpeed", 34867, 4), new ExifTag("ISOSpeedLatitudeyyy", 34868, 4), new ExifTag("ISOSpeedLatitudezzz", 34869, 4), new ExifTag("ExifVersion", 36864, 2), new ExifTag("DateTimeOriginal", 36867, 2), new ExifTag("DateTimeDigitized", 36868, 2), new ExifTag("OffsetTime", 36880, 2), new ExifTag("OffsetTimeOriginal", 36881, 2), new ExifTag("OffsetTimeDigitized", 36882, 2), new ExifTag("ComponentsConfiguration", 37121, 7), new ExifTag("CompressedBitsPerPixel", 37122, 5), new ExifTag("ShutterSpeedValue", 37377, 10), new ExifTag("ApertureValue", 37378, 5), new ExifTag("BrightnessValue", 37379, 10), new ExifTag("ExposureBiasValue", 37380, 10), new ExifTag("MaxApertureValue", 37381, 5), new ExifTag("SubjectDistance", 37382, 5), new ExifTag("MeteringMode", 37383, 3), new ExifTag("LightSource", 37384, 3), new ExifTag("Flash", 37385, 3), new ExifTag("FocalLength", 37386, 5), new ExifTag("SubjectArea", 37396, 3), new ExifTag("MakerNote", 37500, 7), new ExifTag("UserComment", 37510, 7), new ExifTag("SubSecTime", 37520, 2), new ExifTag("SubSecTimeOriginal", 37521, 2), new ExifTag("SubSecTimeDigitized", 37522, 2), new ExifTag("FlashpixVersion", 40960, 7), new ExifTag("ColorSpace", 40961, 3), new ExifTag("PixelXDimension", 40962, 3, 4), new ExifTag("PixelYDimension", 40963, 3, 4), new ExifTag("RelatedSoundFile", 40964, 2), new ExifTag("InteroperabilityIFDPointer", 40965, 4), new ExifTag("FlashEnergy", 41483, 5), new ExifTag("SpatialFrequencyResponse", 41484, 7), new ExifTag("FocalPlaneXResolution", 41486, 5), new ExifTag("FocalPlaneYResolution", 41487, 5), new ExifTag("FocalPlaneResolutionUnit", 41488, 3), new ExifTag("SubjectLocation", 41492, 3), new ExifTag("ExposureIndex", 41493, 5), new ExifTag("SensingMethod", 41495, 3), new ExifTag("FileSource", 41728, 7), new ExifTag("SceneType", 41729, 7), new ExifTag("CFAPattern", 41730, 7), new ExifTag("CustomRendered", 41985, 3), new ExifTag("ExposureMode", 41986, 3), new ExifTag("WhiteBalance", 41987, 3), new ExifTag("DigitalZoomRatio", 41988, 5), new ExifTag("FocalLengthIn35mmFilm", 41989, 3), new ExifTag("SceneCaptureType", 41990, 3), new ExifTag("GainControl", 41991, 3), new ExifTag("Contrast", 41992, 3), new ExifTag("Saturation", 41993, 3), new ExifTag("Sharpness", 41994, 3), new ExifTag("DeviceSettingDescription", 41995, 7), new ExifTag("SubjectDistanceRange", 41996, 3), new ExifTag("ImageUniqueID", 42016, 2), new ExifTag("CameraOwnerName", 42032, 2), new ExifTag("BodySerialNumber", 42033, 2), new ExifTag("LensSpecification", 42034, 5), new ExifTag("LensMake", 42035, 2), new ExifTag("LensModel", 42036, 2), new ExifTag("Gamma", 42240, 5), new ExifTag("DNGVersion", 50706, 1), new ExifTag("DefaultCropSize", 50720, 3, 4)};
+        IFD_EXIF_TAGS = exifTagArr2;
+        ExifTag[] exifTagArr3 = {new ExifTag("GPSVersionID", 0, 1), new ExifTag("GPSLatitudeRef", 1, 2), new ExifTag("GPSLatitude", 2, 5, 10), new ExifTag("GPSLongitudeRef", 3, 2), new ExifTag("GPSLongitude", 4, 5, 10), new ExifTag("GPSAltitudeRef", 5, 1), new ExifTag("GPSAltitude", 6, 5), new ExifTag("GPSTimeStamp", 7, 5), new ExifTag("GPSSatellites", 8, 2), new ExifTag("GPSStatus", 9, 2), new ExifTag("GPSMeasureMode", 10, 2), new ExifTag("GPSDOP", 11, 5), new ExifTag("GPSSpeedRef", 12, 2), new ExifTag("GPSSpeed", 13, 5), new ExifTag("GPSTrackRef", 14, 2), new ExifTag("GPSTrack", 15, 5), new ExifTag("GPSImgDirectionRef", 16, 2), new ExifTag("GPSImgDirection", 17, 5), new ExifTag("GPSMapDatum", 18, 2), new ExifTag("GPSDestLatitudeRef", 19, 2), new ExifTag("GPSDestLatitude", 20, 5), new ExifTag("GPSDestLongitudeRef", 21, 2), new ExifTag("GPSDestLongitude", 22, 5), new ExifTag("GPSDestBearingRef", 23, 2), new ExifTag("GPSDestBearing", 24, 5), new ExifTag("GPSDestDistanceRef", 25, 2), new ExifTag("GPSDestDistance", 26, 5), new ExifTag("GPSProcessingMethod", 27, 7), new ExifTag("GPSAreaInformation", 28, 7), new ExifTag("GPSDateStamp", 29, 2), new ExifTag("GPSDifferential", 30, 3), new ExifTag("GPSHPositioningError", 31, 5)};
+        IFD_GPS_TAGS = exifTagArr3;
+        ExifTag[] exifTagArr4 = {new ExifTag("InteroperabilityIndex", 1, 2)};
+        IFD_INTEROPERABILITY_TAGS = exifTagArr4;
+        ExifTag[] exifTagArr5 = {new ExifTag("NewSubfileType", NotificationCenter.playerDidStartPlaying, 4), new ExifTag("SubfileType", NotificationCenter.closeSearchByActiveAction, 4), new ExifTag("ThumbnailImageWidth", 256, 3, 4), new ExifTag("ThumbnailImageLength", NotificationCenter.screenStateChanged, 3, 4), new ExifTag("BitsPerSample", NotificationCenter.didClearDatabase, 3), new ExifTag("Compression", NotificationCenter.voipServiceCreated, 3), new ExifTag("PhotometricInterpretation", NotificationCenter.showBulletin, 3), new ExifTag("ImageDescription", NotificationCenter.dialogsUnreadReactionsCounterChanged, 2), new ExifTag("Make", NotificationCenter.onDatabaseOpened, 2), new ExifTag("Model", NotificationCenter.onDownloadingFilesChanged, 2), new ExifTag("StripOffsets", NotificationCenter.onActivityResultReceived, 3, 4), new ExifTag("ThumbnailOrientation", NotificationCenter.onRequestPermissionResultReceived, 3), new ExifTag("SamplesPerPixel", NotificationCenter.premiumPromoUpdated, 3), new ExifTag("RowsPerStrip", NotificationCenter.premiumStatusChangedGlobal, 3, 4), new ExifTag("StripByteCounts", NotificationCenter.currentUserShowLimitReachedDialog, 3, 4), new ExifTag("XResolution", NotificationCenter.premiumStickersPreviewLoaded, 5), new ExifTag("YResolution", NotificationCenter.userEmojiStatusUpdated, 5), new ExifTag("PlanarConfiguration", NotificationCenter.requestPermissions, 3), new ExifTag("ResolutionUnit", NotificationCenter.uploadStoryProgress, 3), new ExifTag("TransferFunction", NotificationCenter.storiesReadUpdated, 3), new ExifTag("Software", 305, 2), new ExifTag("DateTime", 306, 2), new ExifTag("Artist", 315, 2), new ExifTag("WhitePoint", 318, 5), new ExifTag("PrimaryChromaticities", 319, 5), new ExifTag("SubIFDPointer", 330, 4), new ExifTag("JPEGInterchangeFormat", 513, 4), new ExifTag("JPEGInterchangeFormatLength", 514, 4), new ExifTag("YCbCrCoefficients", 529, 5), new ExifTag("YCbCrSubSampling", 530, 3), new ExifTag("YCbCrPositioning", 531, 3), new ExifTag("ReferenceBlackWhite", 532, 5), new ExifTag("Copyright", 33432, 2), new ExifTag("ExifIFDPointer", 34665, 4), new ExifTag("GPSInfoIFDPointer", 34853, 4), new ExifTag("DNGVersion", 50706, 1), new ExifTag("DefaultCropSize", 50720, 3, 4)};
+        IFD_THUMBNAIL_TAGS = exifTagArr5;
         TAG_RAF_IMAGE_SIZE = new ExifTag("StripOffsets", NotificationCenter.onActivityResultReceived, 3);
-        ExifTag[] exifTagArr7 = {new ExifTag("ThumbnailImage", 256, 7), new ExifTag("CameraSettingsIFDPointer", 8224, 4), new ExifTag("ImageProcessingIFDPointer", 8256, 4)};
-        ORF_MAKER_NOTE_TAGS = exifTagArr7;
-        ExifTag[] exifTagArr8 = {new ExifTag("PreviewImageStart", NotificationCenter.screenStateChanged, 4), new ExifTag("PreviewImageLength", NotificationCenter.didClearDatabase, 4)};
-        ORF_CAMERA_SETTINGS_TAGS = exifTagArr8;
-        ExifTag[] exifTagArr9 = {new ExifTag("AspectFrame", 4371, 3)};
-        ORF_IMAGE_PROCESSING_TAGS = exifTagArr9;
-        ExifTag[] exifTagArr10 = {new ExifTag("ColorSpace", 55, 3)};
-        PEF_TAGS = exifTagArr10;
-        ExifTag[][] exifTagArr11 = {exifTagArr2, exifTagArr3, exifTagArr4, exifTagArr5, exifTagArr6, exifTagArr2, exifTagArr7, exifTagArr8, exifTagArr9, exifTagArr10};
-        EXIF_TAGS = exifTagArr11;
+        ExifTag[] exifTagArr6 = {new ExifTag("ThumbnailImage", 256, 7), new ExifTag("CameraSettingsIFDPointer", 8224, 4), new ExifTag("ImageProcessingIFDPointer", 8256, 4)};
+        ORF_MAKER_NOTE_TAGS = exifTagArr6;
+        ExifTag[] exifTagArr7 = {new ExifTag("PreviewImageStart", NotificationCenter.screenStateChanged, 4), new ExifTag("PreviewImageLength", NotificationCenter.didClearDatabase, 4)};
+        ORF_CAMERA_SETTINGS_TAGS = exifTagArr7;
+        ExifTag[] exifTagArr8 = {new ExifTag("AspectFrame", 4371, 3)};
+        ORF_IMAGE_PROCESSING_TAGS = exifTagArr8;
+        ExifTag[] exifTagArr9 = {new ExifTag("ColorSpace", 55, 3)};
+        PEF_TAGS = exifTagArr9;
+        ExifTag[][] exifTagArr10 = {exifTagArr, exifTagArr2, exifTagArr3, exifTagArr4, exifTagArr5, exifTagArr, exifTagArr6, exifTagArr7, exifTagArr8, exifTagArr9};
+        EXIF_TAGS = exifTagArr10;
         EXIF_POINTER_TAGS = new ExifTag[]{new ExifTag("SubIFDPointer", 330, 4), new ExifTag("ExifIFDPointer", 34665, 4), new ExifTag("GPSInfoIFDPointer", 34853, 4), new ExifTag("InteroperabilityIFDPointer", 40965, 4), new ExifTag("CameraSettingsIFDPointer", 8224, 1), new ExifTag("ImageProcessingIFDPointer", 8256, 1)};
-        sExifTagMapsForReading = new HashMap[exifTagArr11.length];
-        sExifTagMapsForWriting = new HashMap[exifTagArr11.length];
+        sExifTagMapsForReading = new HashMap[exifTagArr10.length];
+        sExifTagMapsForWriting = new HashMap[exifTagArr10.length];
         sTagSetForCompatibility = new HashSet(Arrays.asList("FNumber", "DigitalZoomRatio", "ExposureTime", "SubjectDistance", "GPSTimeStamp"));
         sExifPointerTagMap = new HashMap();
         Charset forName = Charset.forName("US-ASCII");
@@ -873,16 +875,16 @@ public class ExifInterface {
         simpleDateFormat2.setTimeZone(DesugarTimeZone.getTimeZone("UTC"));
         int i = 0;
         while (true) {
-            ExifTag[][] exifTagArr12 = EXIF_TAGS;
-            if (i >= exifTagArr12.length) {
+            ExifTag[][] exifTagArr11 = EXIF_TAGS;
+            if (i >= exifTagArr11.length) {
                 HashMap hashMap = sExifPointerTagMap;
-                ExifTag[] exifTagArr13 = EXIF_POINTER_TAGS;
-                hashMap.put(Integer.valueOf(exifTagArr13[0].number), 5);
-                hashMap.put(Integer.valueOf(exifTagArr13[1].number), 1);
-                hashMap.put(Integer.valueOf(exifTagArr13[2].number), 2);
-                hashMap.put(Integer.valueOf(exifTagArr13[3].number), 3);
-                hashMap.put(Integer.valueOf(exifTagArr13[4].number), 7);
-                hashMap.put(Integer.valueOf(exifTagArr13[5].number), 8);
+                ExifTag[] exifTagArr12 = EXIF_POINTER_TAGS;
+                hashMap.put(Integer.valueOf(exifTagArr12[0].number), 5);
+                hashMap.put(Integer.valueOf(exifTagArr12[1].number), 1);
+                hashMap.put(Integer.valueOf(exifTagArr12[2].number), 2);
+                hashMap.put(Integer.valueOf(exifTagArr12[3].number), 3);
+                hashMap.put(Integer.valueOf(exifTagArr12[4].number), 7);
+                hashMap.put(Integer.valueOf(exifTagArr12[5].number), 8);
                 NON_ZERO_TIME_PATTERN = Pattern.compile(".*[1-9].*");
                 GPS_TIMESTAMP_PATTERN = Pattern.compile("^(\\d{2}):(\\d{2}):(\\d{2})$");
                 DATETIME_PRIMARY_FORMAT_PATTERN = Pattern.compile("^(\\d{4}):(\\d{2}):(\\d{2})\\s(\\d{2}):(\\d{2}):(\\d{2})$");
@@ -891,7 +893,7 @@ public class ExifInterface {
             }
             sExifTagMapsForReading[i] = new HashMap();
             sExifTagMapsForWriting[i] = new HashMap();
-            for (ExifTag exifTag : exifTagArr12[i]) {
+            for (ExifTag exifTag : exifTagArr11[i]) {
                 sExifTagMapsForReading[i].put(Integer.valueOf(exifTag.number), exifTag);
                 sExifTagMapsForWriting[i].put(exifTag.name, exifTag);
             }
@@ -982,22 +984,22 @@ public class ExifInterface {
     }
 
     private ExifAttribute getExifAttribute(String str) {
-        if (str != null) {
-            if ("ISOSpeedRatings".equals(str)) {
-                if (DEBUG) {
-                    Log.d("ExifInterface", "getExifAttribute: Replacing TAG_ISO_SPEED_RATINGS with TAG_PHOTOGRAPHIC_SENSITIVITY.");
-                }
-                str = "PhotographicSensitivity";
-            }
-            for (int i = 0; i < EXIF_TAGS.length; i++) {
-                ExifAttribute exifAttribute = (ExifAttribute) this.mAttributes[i].get(str);
-                if (exifAttribute != null) {
-                    return exifAttribute;
-                }
-            }
-            return null;
+        if (str == null) {
+            throw new NullPointerException("tag shouldn't be null");
         }
-        throw new NullPointerException("tag shouldn't be null");
+        if ("ISOSpeedRatings".equals(str)) {
+            if (DEBUG) {
+                Log.d("ExifInterface", "getExifAttribute: Replacing TAG_ISO_SPEED_RATINGS with TAG_PHOTOGRAPHIC_SENSITIVITY.");
+            }
+            str = "PhotographicSensitivity";
+        }
+        for (int i = 0; i < EXIF_TAGS.length; i++) {
+            ExifAttribute exifAttribute = (ExifAttribute) this.mAttributes[i].get(str);
+            if (exifAttribute != null) {
+                return exifAttribute;
+            }
+        }
+        return null;
     }
 
     private void getHeifAttributes(final SeekableByteOrderedDataInputStream seekableByteOrderedDataInputStream) {
@@ -1116,126 +1118,130 @@ public class ExifInterface {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x0191, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x0191, code lost:
+    
         r22.setByteOrder(r21.mExifByteOrder);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x0196, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x0196, code lost:
+    
         return;
      */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00b7 A[FALL_THROUGH] */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x017b A[LOOP:0: B:10:0x0037->B:63:0x017b, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0182 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x017b A[LOOP:0: B:9:0x0037->B:33:0x017b, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0182 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void getJpegAttributes(ByteOrderedDataInputStream byteOrderedDataInputStream, int i, int i2) {
-        byte readByte;
-        byte readByte2;
         String str;
         if (DEBUG) {
             Log.d("ExifInterface", "getJpegAttributes starting with: " + byteOrderedDataInputStream);
         }
         byteOrderedDataInputStream.setByteOrder(ByteOrder.BIG_ENDIAN);
+        byte readByte = byteOrderedDataInputStream.readByte();
         byte b = -1;
-        if (byteOrderedDataInputStream.readByte() != -1) {
+        if (readByte != -1) {
             throw new IOException("Invalid marker: " + Integer.toHexString(readByte & 255));
-        } else if (byteOrderedDataInputStream.readByte() != -40) {
+        }
+        if (byteOrderedDataInputStream.readByte() != -40) {
             throw new IOException("Invalid marker: " + Integer.toHexString(readByte & 255));
-        } else {
-            int i3 = 2;
-            while (true) {
-                if (byteOrderedDataInputStream.readByte() != b) {
-                    throw new IOException("Invalid marker:" + Integer.toHexString(readByte2 & 255));
-                }
-                byte readByte3 = byteOrderedDataInputStream.readByte();
-                boolean z = DEBUG;
+        }
+        int i3 = 2;
+        while (true) {
+            byte readByte2 = byteOrderedDataInputStream.readByte();
+            if (readByte2 != b) {
+                throw new IOException("Invalid marker:" + Integer.toHexString(readByte2 & 255));
+            }
+            byte readByte3 = byteOrderedDataInputStream.readByte();
+            boolean z = DEBUG;
+            if (z) {
+                Log.d("ExifInterface", "Found JPEG segment indicator: " + Integer.toHexString(readByte3 & 255));
+            }
+            if (readByte3 != -39 && readByte3 != -38) {
+                int readUnsignedShort = byteOrderedDataInputStream.readUnsignedShort();
+                int i4 = readUnsignedShort - 2;
+                int i5 = i3 + 4;
                 if (z) {
-                    Log.d("ExifInterface", "Found JPEG segment indicator: " + Integer.toHexString(readByte3 & 255));
+                    Log.d("ExifInterface", "JPEG segment: " + Integer.toHexString(readByte3 & 255) + " (length: " + readUnsignedShort + ")");
                 }
-                if (readByte3 != -39 && readByte3 != -38) {
-                    int readUnsignedShort = byteOrderedDataInputStream.readUnsignedShort();
-                    int i4 = readUnsignedShort - 2;
-                    int i5 = i3 + 4;
-                    if (z) {
-                        Log.d("ExifInterface", "JPEG segment: " + Integer.toHexString(readByte3 & 255) + " (length: " + readUnsignedShort + ")");
-                    }
-                    if (i4 < 0) {
-                        throw new IOException("Invalid length");
-                    }
-                    if (readByte3 == -31) {
-                        byte[] bArr = new byte[i4];
-                        byteOrderedDataInputStream.readFully(bArr);
-                        int i6 = i5 + i4;
-                        byte[] bArr2 = IDENTIFIER_EXIF_APP1;
-                        if (ExifInterfaceUtils.startsWith(bArr, bArr2)) {
-                            byte[] copyOfRange = Arrays.copyOfRange(bArr, bArr2.length, i4);
-                            this.mOffsetToExifData = i + i5 + bArr2.length;
-                            readExifSegment(copyOfRange, i2);
-                            setThumbnailData(new ByteOrderedDataInputStream(copyOfRange));
-                        } else {
-                            byte[] bArr3 = IDENTIFIER_XMP_APP1;
-                            if (ExifInterfaceUtils.startsWith(bArr, bArr3)) {
-                                int length = i5 + bArr3.length;
-                                byte[] copyOfRange2 = Arrays.copyOfRange(bArr, bArr3.length, i4);
-                                if (getAttribute("Xmp") == null) {
-                                    str = "Invalid length";
-                                    this.mAttributes[0].put("Xmp", new ExifAttribute(1, copyOfRange2.length, length, copyOfRange2));
-                                    this.mXmpIsFromSeparateMarker = true;
-                                    i5 = i6;
-                                }
+                if (i4 < 0) {
+                    throw new IOException("Invalid length");
+                }
+                if (readByte3 == -31) {
+                    byte[] bArr = new byte[i4];
+                    byteOrderedDataInputStream.readFully(bArr);
+                    int i6 = i5 + i4;
+                    byte[] bArr2 = IDENTIFIER_EXIF_APP1;
+                    if (ExifInterfaceUtils.startsWith(bArr, bArr2)) {
+                        byte[] copyOfRange = Arrays.copyOfRange(bArr, bArr2.length, i4);
+                        this.mOffsetToExifData = i + i5 + bArr2.length;
+                        readExifSegment(copyOfRange, i2);
+                        setThumbnailData(new ByteOrderedDataInputStream(copyOfRange));
+                    } else {
+                        byte[] bArr3 = IDENTIFIER_XMP_APP1;
+                        if (ExifInterfaceUtils.startsWith(bArr, bArr3)) {
+                            int length = i5 + bArr3.length;
+                            byte[] copyOfRange2 = Arrays.copyOfRange(bArr, bArr3.length, i4);
+                            if (getAttribute("Xmp") == null) {
+                                str = "Invalid length";
+                                this.mAttributes[0].put("Xmp", new ExifAttribute(1, copyOfRange2.length, length, copyOfRange2));
+                                this.mXmpIsFromSeparateMarker = true;
+                                i5 = i6;
                             }
                         }
-                        str = "Invalid length";
-                        i5 = i6;
-                    } else if (readByte3 != -2) {
-                        switch (readByte3) {
-                            default:
-                                switch (readByte3) {
-                                    default:
-                                        switch (readByte3) {
-                                            default:
-                                                switch (readByte3) {
-                                                }
-                                            case -55:
-                                            case -54:
-                                            case -53:
-                                                byteOrderedDataInputStream.skipFully(1);
-                                                this.mAttributes[i2].put(i2 != 4 ? "ImageLength" : "ThumbnailImageLength", ExifAttribute.createULong(byteOrderedDataInputStream.readUnsignedShort(), this.mExifByteOrder));
-                                                this.mAttributes[i2].put(i2 != 4 ? "ImageWidth" : "ThumbnailImageWidth", ExifAttribute.createULong(byteOrderedDataInputStream.readUnsignedShort(), this.mExifByteOrder));
-                                                i4 = readUnsignedShort - 7;
-                                                break;
-                                        }
-                                    case -59:
-                                    case -58:
-                                    case -57:
-                                        break;
-                                }
-                            case -64:
-                            case -63:
-                            case -62:
-                            case -61:
-                                break;
-                        }
-                        str = "Invalid length";
-                        if (i4 >= 0) {
-                            throw new IOException(str);
-                        }
-                        byteOrderedDataInputStream.skipFully(i4);
-                        i3 = i5 + i4;
-                        b = -1;
-                    } else {
-                        byte[] bArr4 = new byte[i4];
-                        if (byteOrderedDataInputStream.read(bArr4) != i4) {
-                            throw new IOException("Invalid exif");
-                        }
-                        if (getAttribute("UserComment") == null) {
-                            this.mAttributes[1].put("UserComment", ExifAttribute.createString(new String(bArr4, ASCII)));
-                        }
-                        str = "Invalid length";
                     }
-                    i4 = 0;
-                    if (i4 >= 0) {
+                    str = "Invalid length";
+                    i5 = i6;
+                } else if (readByte3 != -2) {
+                    switch (readByte3) {
+                        case -64:
+                        case -63:
+                        case -62:
+                        case -61:
+                            break;
+                        default:
+                            switch (readByte3) {
+                                case -59:
+                                case -58:
+                                case -57:
+                                    break;
+                                default:
+                                    switch (readByte3) {
+                                        case -55:
+                                        case -54:
+                                        case -53:
+                                            break;
+                                        default:
+                                            switch (readByte3) {
+                                            }
+                                            if (i4 < 0) {
+                                                throw new IOException(str);
+                                            }
+                                            byteOrderedDataInputStream.skipFully(i4);
+                                            i3 = i5 + i4;
+                                            b = -1;
+                                            break;
+                                    }
+                            }
                     }
+                    byteOrderedDataInputStream.skipFully(1);
+                    this.mAttributes[i2].put(i2 != 4 ? "ImageLength" : "ThumbnailImageLength", ExifAttribute.createULong(byteOrderedDataInputStream.readUnsignedShort(), this.mExifByteOrder));
+                    this.mAttributes[i2].put(i2 != 4 ? "ImageWidth" : "ThumbnailImageWidth", ExifAttribute.createULong(byteOrderedDataInputStream.readUnsignedShort(), this.mExifByteOrder));
+                    i4 = readUnsignedShort - 7;
+                    str = "Invalid length";
+                    if (i4 < 0) {
+                    }
+                } else {
+                    byte[] bArr4 = new byte[i4];
+                    if (byteOrderedDataInputStream.read(bArr4) != i4) {
+                        throw new IOException("Invalid exif");
+                    }
+                    if (getAttribute("UserComment") == null) {
+                        this.mAttributes[1].put("UserComment", ExifAttribute.createString(new String(bArr4, ASCII)));
+                    }
+                    str = "Invalid length";
+                }
+                i4 = 0;
+                if (i4 < 0) {
                 }
             }
         }
@@ -1267,8 +1273,8 @@ public class ExifInterface {
         return isWebpFormat(bArr) ? 14 : 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x008c  */
-    /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x008c  */
+    /* JADX WARN: Removed duplicated region for block: B:31:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1294,7 +1300,7 @@ public class ExifInterface {
         byte[] bArr4 = new byte[bArr3.length];
         seekableByteOrderedDataInputStream2.readFully(bArr4);
         if (!Arrays.equals(bArr2, bArr)) {
-            j = Arrays.equals(bArr4, bArr3) ? 12L : 12L;
+            j = Arrays.equals(bArr4, bArr3) ? 12L : 8L;
             readImageFileDirectory(seekableByteOrderedDataInputStream2, 6);
             exifAttribute = (ExifAttribute) this.mAttributes[7].get("PreviewImageStart");
             exifAttribute2 = (ExifAttribute) this.mAttributes[7].get("PreviewImageLength");
@@ -1329,7 +1335,6 @@ public class ExifInterface {
             }
             return;
         }
-        j = 8;
         seekableByteOrderedDataInputStream2.seek(j);
         readImageFileDirectory(seekableByteOrderedDataInputStream2, 6);
         exifAttribute = (ExifAttribute) this.mAttributes[7].get("PreviewImageStart");
@@ -1509,8 +1514,9 @@ public class ExifInterface {
                         readExifSegment(bArr3, 0);
                         setThumbnailData(new ByteOrderedDataInputStream(bArr3));
                         return;
+                    } else {
+                        throw new IOException("Failed to read given length for given PNG chunk type: " + ExifInterfaceUtils.byteArrayToHexString(bArr2));
                     }
-                    throw new IOException("Failed to read given length for given PNG chunk type: " + ExifInterfaceUtils.byteArrayToHexString(bArr2));
                 }
                 if (readInt2 % 2 == 1) {
                     readInt2++;
@@ -1566,57 +1572,61 @@ public class ExifInterface {
         long[] convertToLongArray2 = ExifInterfaceUtils.convertToLongArray(exifAttribute2.getValue(this.mExifByteOrder));
         if (convertToLongArray == null || convertToLongArray.length == 0) {
             Log.w("ExifInterface", "stripOffsets should not be null or have zero length.");
-        } else if (convertToLongArray2 == null || convertToLongArray2.length == 0) {
+            return;
+        }
+        if (convertToLongArray2 == null || convertToLongArray2.length == 0) {
             Log.w("ExifInterface", "stripByteCounts should not be null or have zero length.");
-        } else if (convertToLongArray.length != convertToLongArray2.length) {
+            return;
+        }
+        if (convertToLongArray.length != convertToLongArray2.length) {
             Log.w("ExifInterface", "stripOffsets and stripByteCounts should have same length.");
-        } else {
-            long j = 0;
-            for (long j2 : convertToLongArray2) {
-                j += j2;
+            return;
+        }
+        long j = 0;
+        for (long j2 : convertToLongArray2) {
+            j += j2;
+        }
+        int i = (int) j;
+        byte[] bArr = new byte[i];
+        int i2 = 1;
+        this.mAreThumbnailStripsConsecutive = true;
+        this.mHasThumbnailStrips = true;
+        this.mHasThumbnail = true;
+        int i3 = 0;
+        int i4 = 0;
+        int i5 = 0;
+        while (i3 < convertToLongArray.length) {
+            int i6 = (int) convertToLongArray[i3];
+            int i7 = (int) convertToLongArray2[i3];
+            if (i3 < convertToLongArray.length - i2 && i6 + i7 != convertToLongArray[i3 + 1]) {
+                this.mAreThumbnailStripsConsecutive = false;
             }
-            int i = (int) j;
-            byte[] bArr = new byte[i];
-            int i2 = 1;
-            this.mAreThumbnailStripsConsecutive = true;
-            this.mHasThumbnailStrips = true;
-            this.mHasThumbnail = true;
-            int i3 = 0;
-            int i4 = 0;
-            int i5 = 0;
-            while (i3 < convertToLongArray.length) {
-                int i6 = (int) convertToLongArray[i3];
-                int i7 = (int) convertToLongArray2[i3];
-                if (i3 < convertToLongArray.length - i2 && i6 + i7 != convertToLongArray[i3 + 1]) {
-                    this.mAreThumbnailStripsConsecutive = false;
-                }
-                int i8 = i6 - i4;
-                if (i8 < 0) {
-                    Log.d("ExifInterface", "Invalid strip offset value");
-                    return;
-                }
-                long j3 = i8;
-                if (byteOrderedDataInputStream.skip(j3) != j3) {
-                    Log.d("ExifInterface", "Failed to skip " + i8 + " bytes.");
-                    return;
-                }
-                int i9 = i4 + i8;
-                byte[] bArr2 = new byte[i7];
-                if (byteOrderedDataInputStream.read(bArr2) != i7) {
-                    Log.d("ExifInterface", "Failed to read " + i7 + " bytes.");
-                    return;
-                }
-                i4 = i9 + i7;
-                System.arraycopy(bArr2, 0, bArr, i5, i7);
-                i5 += i7;
-                i3++;
-                i2 = 1;
+            int i8 = i6 - i4;
+            if (i8 < 0) {
+                Log.d("ExifInterface", "Invalid strip offset value");
+                return;
             }
-            this.mThumbnailBytes = bArr;
-            if (this.mAreThumbnailStripsConsecutive) {
-                this.mThumbnailOffset = (int) convertToLongArray[0];
-                this.mThumbnailLength = i;
+            long j3 = i8;
+            if (byteOrderedDataInputStream.skip(j3) != j3) {
+                Log.d("ExifInterface", "Failed to skip " + i8 + " bytes.");
+                return;
             }
+            int i9 = i4 + i8;
+            byte[] bArr2 = new byte[i7];
+            if (byteOrderedDataInputStream.read(bArr2) != i7) {
+                Log.d("ExifInterface", "Failed to read " + i7 + " bytes.");
+                return;
+            }
+            i4 = i9 + i7;
+            System.arraycopy(bArr2, 0, bArr, i5, i7);
+            i5 += i7;
+            i3++;
+            i2 = 1;
+        }
+        this.mThumbnailBytes = bArr;
+        if (this.mAreThumbnailStripsConsecutive) {
+            this.mThumbnailOffset = (int) convertToLongArray[0];
+            this.mThumbnailLength = i;
         }
     }
 
@@ -1766,7 +1776,6 @@ public class ExifInterface {
     }
 
     private boolean isOrfFormat(byte[] bArr) {
-        boolean z = false;
         ByteOrderedDataInputStream byteOrderedDataInputStream = null;
         try {
             ByteOrderedDataInputStream byteOrderedDataInputStream2 = new ByteOrderedDataInputStream(bArr);
@@ -1775,7 +1784,7 @@ public class ExifInterface {
                 this.mExifByteOrder = readByteOrder;
                 byteOrderedDataInputStream2.setByteOrder(readByteOrder);
                 short readShort = byteOrderedDataInputStream2.readShort();
-                z = (readShort == 20306 || readShort == 21330) ? true : true;
+                boolean z = readShort == 20306 || readShort == 21330;
                 byteOrderedDataInputStream2.close();
                 return z;
             } catch (Exception unused) {
@@ -1883,10 +1892,10 @@ public class ExifInterface {
                 return true;
             }
         }
-        if (DEBUG) {
-            Log.d("ExifInterface", "Unsupported data type value");
+        if (!DEBUG) {
             return false;
         }
+        Log.d("ExifInterface", "Unsupported data type value");
         return false;
     }
 
@@ -1915,16 +1924,17 @@ public class ExifInterface {
                     }
                     i2++;
                 }
-            } else if (bArr[i] != bArr2[i]) {
-                return false;
             } else {
+                if (bArr[i] != bArr2[i]) {
+                    return false;
+                }
                 i++;
             }
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x009f A[Catch: all -> 0x0015, TRY_LEAVE, TryCatch #0 {all -> 0x0015, blocks: (B:4:0x0004, B:6:0x0009, B:13:0x001e, B:15:0x0022, B:16:0x0030, B:18:0x0038, B:20:0x0041, B:31:0x0061, B:21:0x0045, B:23:0x004b, B:26:0x0052, B:29:0x005a, B:30:0x005e, B:32:0x006b, B:34:0x0075, B:37:0x007d, B:40:0x0085, B:43:0x008d, B:47:0x009b, B:49:0x009f), top: B:61:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:64:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x009f A[Catch: all -> 0x0015, TRY_LEAVE, TryCatch #0 {all -> 0x0015, blocks: (B:4:0x0004, B:6:0x0009, B:8:0x001e, B:10:0x0022, B:11:0x0030, B:13:0x0038, B:15:0x0041, B:16:0x0061, B:23:0x0045, B:25:0x004b, B:28:0x0052, B:31:0x005a, B:32:0x005e, B:33:0x006b, B:35:0x0075, B:38:0x007d, B:41:0x0085, B:44:0x008d, B:53:0x009b, B:55:0x009f), top: B:3:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2045,14 +2055,14 @@ public class ExifInterface {
                 Log.d("ExifInterface", "readExifSegment: Byte Align II");
             }
             return ByteOrder.LITTLE_ENDIAN;
-        } else if (readShort == 19789) {
+        }
+        if (readShort == 19789) {
             if (DEBUG) {
                 Log.d("ExifInterface", "readExifSegment: Byte Align MM");
             }
             return ByteOrder.BIG_ENDIAN;
-        } else {
-            throw new IOException("Invalid byte order: " + Integer.toHexString(readShort));
         }
+        throw new IOException("Invalid byte order: " + Integer.toHexString(readShort));
     }
 
     private void readExifSegment(byte[] bArr, int i) {
@@ -2061,12 +2071,12 @@ public class ExifInterface {
         readImageFileDirectory(seekableByteOrderedDataInputStream, i);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x027d  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0132  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x013a  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x021e  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0239  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0132  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x013a  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x021e  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x027d  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0239  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2075,7 +2085,6 @@ public class ExifInterface {
         String str;
         short s;
         short s2;
-        int[] iArr;
         long j;
         boolean z;
         String str2;
@@ -2136,7 +2145,7 @@ public class ExifInterface {
                                 readUnsignedShort3 = exifTag.primaryFormat;
                             }
                             s2 = s3;
-                            j = readInt * iArr[readUnsignedShort3];
+                            j = readInt * r5[readUnsignedShort3];
                             if (j < 0 || j > 2147483647L) {
                                 if (z2) {
                                     Log.d(str6, "Skip the tag entry since the number of components is invalid: " + readInt);
@@ -2229,9 +2238,10 @@ public class ExifInterface {
                                     }
                                 } else {
                                     long j4 = j2;
+                                    int position2 = seekableByteOrderedDataInputStream.position() + this.mOffsetToExifData;
                                     byte[] bArr = new byte[(int) j];
                                     seekableByteOrderedDataInputStream.readFully(bArr);
-                                    ExifAttribute exifAttribute = new ExifAttribute(readUnsignedShort3, readInt, seekableByteOrderedDataInputStream.position() + this.mOffsetToExifData, bArr);
+                                    ExifAttribute exifAttribute = new ExifAttribute(readUnsignedShort3, readInt, position2, bArr);
                                     this.mAttributes[i].put(exifTag.name, exifAttribute);
                                     if ("DNGVersion".equals(exifTag.name)) {
                                         this.mMimeType = 3;
@@ -2300,15 +2310,16 @@ public class ExifInterface {
                 }
                 readImageFileDirectory(seekableByteOrderedDataInputStream, i4);
                 return;
-            } else if (!z3) {
-                return;
-            } else {
-                sb = new StringBuilder();
-                str = "Stop reading file since re-reading an IFD may cause an infinite loop: ";
             }
-        } else if (!z3) {
-            return;
+            if (!z3) {
+                return;
+            }
+            sb = new StringBuilder();
+            str = "Stop reading file since re-reading an IFD may cause an infinite loop: ";
         } else {
+            if (!z3) {
+                return;
+            }
             sb = new StringBuilder();
             str = "Stop reading file since a wrong offset may cause an infinite loop: ";
         }
@@ -2387,25 +2398,29 @@ public class ExifInterface {
         if (exifAttribute == null || exifAttribute2 == null) {
             if (!DEBUG) {
                 return;
+            } else {
+                str = "First image does not contain valid size information";
             }
-            str = "First image does not contain valid size information";
-        } else if (exifAttribute3 != null && exifAttribute4 != null) {
-            int intValue = exifAttribute.getIntValue(this.mExifByteOrder);
-            int intValue2 = exifAttribute2.getIntValue(this.mExifByteOrder);
-            int intValue3 = exifAttribute3.getIntValue(this.mExifByteOrder);
-            int intValue4 = exifAttribute4.getIntValue(this.mExifByteOrder);
-            if (intValue >= intValue3 || intValue2 >= intValue4) {
+        } else {
+            if (exifAttribute3 != null && exifAttribute4 != null) {
+                int intValue = exifAttribute.getIntValue(this.mExifByteOrder);
+                int intValue2 = exifAttribute2.getIntValue(this.mExifByteOrder);
+                int intValue3 = exifAttribute3.getIntValue(this.mExifByteOrder);
+                int intValue4 = exifAttribute4.getIntValue(this.mExifByteOrder);
+                if (intValue >= intValue3 || intValue2 >= intValue4) {
+                    return;
+                }
+                HashMap[] hashMapArr = this.mAttributes;
+                HashMap hashMap = hashMapArr[i];
+                hashMapArr[i] = hashMapArr[i2];
+                hashMapArr[i2] = hashMap;
                 return;
             }
-            HashMap[] hashMapArr = this.mAttributes;
-            HashMap hashMap = hashMapArr[i];
-            hashMapArr[i] = hashMapArr[i2];
-            hashMapArr[i2] = hashMap;
-            return;
-        } else if (!DEBUG) {
-            return;
-        } else {
-            str = "Second image does not contain valid size information";
+            if (!DEBUG) {
+                return;
+            } else {
+                str = "Second image does not contain valid size information";
+            }
         }
         Log.d("ExifInterface", str);
     }
@@ -2436,7 +2451,9 @@ public class ExifInterface {
             ExifAttribute createUShort4 = ExifAttribute.createUShort(intValue3 - intValue4, this.mExifByteOrder);
             this.mAttributes[i].put("ImageLength", createUShort3);
             this.mAttributes[i].put("ImageWidth", createUShort4);
-        } else if (exifAttribute.format == 5) {
+            return;
+        }
+        if (exifAttribute.format == 5) {
             Rational[] rationalArr = (Rational[]) exifAttribute.getValue(this.mExifByteOrder);
             if (rationalArr != null && rationalArr.length == 2) {
                 createUShort = ExifAttribute.createURational(rationalArr[0], this.mExifByteOrder);
@@ -2450,21 +2467,20 @@ public class ExifInterface {
             arrays = Arrays.toString(rationalArr);
             sb.append(arrays);
             Log.w("ExifInterface", sb.toString());
-        } else {
-            int[] iArr = (int[]) exifAttribute.getValue(this.mExifByteOrder);
-            if (iArr != null && iArr.length == 2) {
-                createUShort = ExifAttribute.createUShort(iArr[0], this.mExifByteOrder);
-                createUShort2 = ExifAttribute.createUShort(iArr[1], this.mExifByteOrder);
-                this.mAttributes[i].put("ImageWidth", createUShort);
-                this.mAttributes[i].put("ImageLength", createUShort2);
-                return;
-            }
-            sb = new StringBuilder();
-            sb.append("Invalid crop size values. cropSize=");
-            arrays = Arrays.toString(iArr);
-            sb.append(arrays);
-            Log.w("ExifInterface", sb.toString());
         }
+        int[] iArr = (int[]) exifAttribute.getValue(this.mExifByteOrder);
+        if (iArr != null && iArr.length == 2) {
+            createUShort = ExifAttribute.createUShort(iArr[0], this.mExifByteOrder);
+            createUShort2 = ExifAttribute.createUShort(iArr[1], this.mExifByteOrder);
+            this.mAttributes[i].put("ImageWidth", createUShort);
+            this.mAttributes[i].put("ImageLength", createUShort2);
+            return;
+        }
+        sb = new StringBuilder();
+        sb.append("Invalid crop size values. cropSize=");
+        arrays = Arrays.toString(iArr);
+        sb.append(arrays);
+        Log.w("ExifInterface", sb.toString());
     }
 
     private void validateImages() {
@@ -2498,53 +2514,53 @@ public class ExifInterface {
 
     public String getAttribute(String str) {
         String str2;
-        if (str != null) {
-            ExifAttribute exifAttribute = getExifAttribute(str);
-            if (exifAttribute != null) {
-                if (!sTagSetForCompatibility.contains(str)) {
-                    return exifAttribute.getStringValue(this.mExifByteOrder);
-                }
-                if (str.equals("GPSTimeStamp")) {
-                    int i = exifAttribute.format;
-                    if (i == 5 || i == 10) {
-                        Rational[] rationalArr = (Rational[]) exifAttribute.getValue(this.mExifByteOrder);
-                        if (rationalArr != null && rationalArr.length == 3) {
-                            Rational rational = rationalArr[0];
-                            Integer valueOf = Integer.valueOf((int) (((float) rational.numerator) / ((float) rational.denominator)));
-                            Rational rational2 = rationalArr[1];
-                            Integer valueOf2 = Integer.valueOf((int) (((float) rational2.numerator) / ((float) rational2.denominator)));
-                            Rational rational3 = rationalArr[2];
-                            return String.format("%02d:%02d:%02d", valueOf, valueOf2, Integer.valueOf((int) (((float) rational3.numerator) / ((float) rational3.denominator))));
-                        }
-                        str2 = "Invalid GPS Timestamp array. array=" + Arrays.toString(rationalArr);
-                    } else {
-                        str2 = "GPS Timestamp format is not rational. format=" + exifAttribute.format;
-                    }
-                    Log.w("ExifInterface", str2);
-                    return null;
-                }
-                try {
-                    return Double.toString(exifAttribute.getDoubleValue(this.mExifByteOrder));
-                } catch (NumberFormatException unused) {
-                }
-            }
-            return null;
+        if (str == null) {
+            throw new NullPointerException("tag shouldn't be null");
         }
-        throw new NullPointerException("tag shouldn't be null");
+        ExifAttribute exifAttribute = getExifAttribute(str);
+        if (exifAttribute != null) {
+            if (!sTagSetForCompatibility.contains(str)) {
+                return exifAttribute.getStringValue(this.mExifByteOrder);
+            }
+            if (str.equals("GPSTimeStamp")) {
+                int i = exifAttribute.format;
+                if (i == 5 || i == 10) {
+                    Rational[] rationalArr = (Rational[]) exifAttribute.getValue(this.mExifByteOrder);
+                    if (rationalArr != null && rationalArr.length == 3) {
+                        Rational rational = rationalArr[0];
+                        Integer valueOf = Integer.valueOf((int) (((float) rational.numerator) / ((float) rational.denominator)));
+                        Rational rational2 = rationalArr[1];
+                        Integer valueOf2 = Integer.valueOf((int) (((float) rational2.numerator) / ((float) rational2.denominator)));
+                        Rational rational3 = rationalArr[2];
+                        return String.format("%02d:%02d:%02d", valueOf, valueOf2, Integer.valueOf((int) (((float) rational3.numerator) / ((float) rational3.denominator))));
+                    }
+                    str2 = "Invalid GPS Timestamp array. array=" + Arrays.toString(rationalArr);
+                } else {
+                    str2 = "GPS Timestamp format is not rational. format=" + exifAttribute.format;
+                }
+                Log.w("ExifInterface", str2);
+                return null;
+            }
+            try {
+                return Double.toString(exifAttribute.getDoubleValue(this.mExifByteOrder));
+            } catch (NumberFormatException unused) {
+            }
+        }
+        return null;
     }
 
     public int getAttributeInt(String str, int i) {
-        if (str != null) {
-            ExifAttribute exifAttribute = getExifAttribute(str);
-            if (exifAttribute == null) {
-                return i;
-            }
-            try {
-                return exifAttribute.getIntValue(this.mExifByteOrder);
-            } catch (NumberFormatException unused) {
-                return i;
-            }
+        if (str == null) {
+            throw new NullPointerException("tag shouldn't be null");
         }
-        throw new NullPointerException("tag shouldn't be null");
+        ExifAttribute exifAttribute = getExifAttribute(str);
+        if (exifAttribute == null) {
+            return i;
+        }
+        try {
+            return exifAttribute.getIntValue(this.mExifByteOrder);
+        } catch (NumberFormatException unused) {
+            return i;
+        }
     }
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.emoji2.text.EmojiCompat;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
+
 /* loaded from: classes.dex */
 final class EmojiInputFilter implements InputFilter {
     private EmojiCompat.InitCallback mInitCallback;
@@ -92,7 +93,8 @@ final class EmojiInputFilter implements InputFilter {
                     charSequence = charSequence.subSequence(i, i2);
                 }
                 return EmojiCompat.get().process(charSequence, 0, charSequence.length());
-            } else if (loadState != 3) {
+            }
+            if (loadState != 3) {
                 return charSequence;
             }
         }

@@ -11,6 +11,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public class GridLayoutManager extends LinearLayoutManager {
     protected int[] mCachedBorders;
@@ -100,34 +101,34 @@ public class GridLayoutManager extends LinearLayoutManager {
         }
 
         int getCachedSpanGroupIndex(int i, int i2) {
-            if (this.mCacheSpanGroupIndices) {
-                int i3 = this.mSpanGroupIndexCache.get(i, -1);
-                if (i3 != -1) {
-                    return i3;
-                }
-                int spanGroupIndex = getSpanGroupIndex(i, i2);
-                this.mSpanGroupIndexCache.put(i, spanGroupIndex);
-                return spanGroupIndex;
+            if (!this.mCacheSpanGroupIndices) {
+                return getSpanGroupIndex(i, i2);
             }
-            return getSpanGroupIndex(i, i2);
+            int i3 = this.mSpanGroupIndexCache.get(i, -1);
+            if (i3 != -1) {
+                return i3;
+            }
+            int spanGroupIndex = getSpanGroupIndex(i, i2);
+            this.mSpanGroupIndexCache.put(i, spanGroupIndex);
+            return spanGroupIndex;
         }
 
         int getCachedSpanIndex(int i, int i2) {
-            if (this.mCacheSpanIndices) {
-                int i3 = this.mSpanIndexCache.get(i, -1);
-                if (i3 != -1) {
-                    return i3;
-                }
-                int spanIndex = getSpanIndex(i, i2);
-                this.mSpanIndexCache.put(i, spanIndex);
-                return spanIndex;
+            if (!this.mCacheSpanIndices) {
+                return getSpanIndex(i, i2);
             }
-            return getSpanIndex(i, i2);
+            int i3 = this.mSpanIndexCache.get(i, -1);
+            if (i3 != -1) {
+                return i3;
+            }
+            int spanIndex = getSpanIndex(i, i2);
+            this.mSpanIndexCache.put(i, spanIndex);
+            return spanIndex;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:13:0x002e  */
-        /* JADX WARN: Removed duplicated region for block: B:21:0x0044  */
-        /* JADX WARN: Removed duplicated region for block: B:27:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:11:0x002e  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0044  */
+        /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -164,11 +165,11 @@ public class GridLayoutManager extends LinearLayoutManager {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0026  */
-        /* JADX WARN: Removed duplicated region for block: B:18:0x0033  */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:15:0x002d -> B:10:0x001f). Please submit an issue!!! */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:16:0x002f -> B:10:0x001f). Please submit an issue!!! */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:17:0x0031 -> B:10:0x001f). Please submit an issue!!! */
+        /* JADX WARN: Removed duplicated region for block: B:12:0x0026  */
+        /* JADX WARN: Removed duplicated region for block: B:17:0x0033  */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:14:0x002d -> B:10:0x001f). Please report as a decompilation issue!!! */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:15:0x002f -> B:10:0x001f). Please report as a decompilation issue!!! */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:16:0x0031 -> B:10:0x001f). Please report as a decompilation issue!!! */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -284,12 +285,12 @@ public class GridLayoutManager extends LinearLayoutManager {
             View findFirstVisibleChildClosestToStart = findFirstVisibleChildClosestToStart(!isSmoothScrollbarEnabled(), true);
             View findFirstVisibleChildClosestToEnd = findFirstVisibleChildClosestToEnd(!isSmoothScrollbarEnabled(), true);
             if (findFirstVisibleChildClosestToStart != null && findFirstVisibleChildClosestToEnd != null) {
-                if (isSmoothScrollbarEnabled()) {
-                    int decoratedEnd = this.mOrientationHelper.getDecoratedEnd(findFirstVisibleChildClosestToEnd) - this.mOrientationHelper.getDecoratedStart(findFirstVisibleChildClosestToStart);
-                    int cachedSpanGroupIndex = this.mSpanSizeLookup.getCachedSpanGroupIndex(getPosition(findFirstVisibleChildClosestToStart), this.mSpanCount);
-                    return (int) ((decoratedEnd / ((this.mSpanSizeLookup.getCachedSpanGroupIndex(getPosition(findFirstVisibleChildClosestToEnd), this.mSpanCount) - cachedSpanGroupIndex) + 1)) * (this.mSpanSizeLookup.getCachedSpanGroupIndex(state.getItemCount() - 1, this.mSpanCount) + 1));
+                if (!isSmoothScrollbarEnabled()) {
+                    return this.mSpanSizeLookup.getCachedSpanGroupIndex(state.getItemCount() - 1, this.mSpanCount) + 1;
                 }
-                return this.mSpanSizeLookup.getCachedSpanGroupIndex(state.getItemCount() - 1, this.mSpanCount) + 1;
+                int decoratedEnd = this.mOrientationHelper.getDecoratedEnd(findFirstVisibleChildClosestToEnd) - this.mOrientationHelper.getDecoratedStart(findFirstVisibleChildClosestToStart);
+                int cachedSpanGroupIndex = this.mSpanSizeLookup.getCachedSpanGroupIndex(getPosition(findFirstVisibleChildClosestToStart), this.mSpanCount);
+                return (int) ((decoratedEnd / ((this.mSpanSizeLookup.getCachedSpanGroupIndex(getPosition(findFirstVisibleChildClosestToEnd), this.mSpanCount) - cachedSpanGroupIndex) + 1)) * (this.mSpanSizeLookup.getCachedSpanGroupIndex(state.getItemCount() - 1, this.mSpanCount) + 1));
             }
         }
         return 0;
@@ -332,31 +333,31 @@ public class GridLayoutManager extends LinearLayoutManager {
     }
 
     private int getSpanGroupIndex(RecyclerView.Recycler recycler, RecyclerView.State state, int i) {
-        if (state.isPreLayout()) {
-            int convertPreLayoutPositionToPostLayout = recycler.convertPreLayoutPositionToPostLayout(i);
-            if (convertPreLayoutPositionToPostLayout == -1) {
-                Log.w("GridLayoutManager", "Cannot find span size for pre layout position. " + i);
-                return 0;
-            }
+        if (!state.isPreLayout()) {
+            return this.mSpanSizeLookup.getCachedSpanGroupIndex(i, this.mSpanCount);
+        }
+        int convertPreLayoutPositionToPostLayout = recycler.convertPreLayoutPositionToPostLayout(i);
+        if (convertPreLayoutPositionToPostLayout != -1) {
             return this.mSpanSizeLookup.getCachedSpanGroupIndex(convertPreLayoutPositionToPostLayout, this.mSpanCount);
         }
-        return this.mSpanSizeLookup.getCachedSpanGroupIndex(i, this.mSpanCount);
+        Log.w("GridLayoutManager", "Cannot find span size for pre layout position. " + i);
+        return 0;
     }
 
     private int getSpanIndex(RecyclerView.Recycler recycler, RecyclerView.State state, int i) {
-        if (state.isPreLayout()) {
-            int i2 = this.mPreLayoutSpanIndexCache.get(i, -1);
-            if (i2 != -1) {
-                return i2;
-            }
-            int convertPreLayoutPositionToPostLayout = recycler.convertPreLayoutPositionToPostLayout(i);
-            if (convertPreLayoutPositionToPostLayout == -1) {
-                Log.w("GridLayoutManager", "Cannot find span size for pre layout position. It is not cached, not in the adapter. Pos:" + i);
-                return 0;
-            }
+        if (!state.isPreLayout()) {
+            return this.mSpanSizeLookup.getCachedSpanIndex(i, this.mSpanCount);
+        }
+        int i2 = this.mPreLayoutSpanIndexCache.get(i, -1);
+        if (i2 != -1) {
+            return i2;
+        }
+        int convertPreLayoutPositionToPostLayout = recycler.convertPreLayoutPositionToPostLayout(i);
+        if (convertPreLayoutPositionToPostLayout != -1) {
             return this.mSpanSizeLookup.getCachedSpanIndex(convertPreLayoutPositionToPostLayout, this.mSpanCount);
         }
-        return this.mSpanSizeLookup.getCachedSpanIndex(i, this.mSpanCount);
+        Log.w("GridLayoutManager", "Cannot find span size for pre layout position. It is not cached, not in the adapter. Pos:" + i);
+        return 0;
     }
 
     private void guessMeasurement(float f, int i) {
@@ -483,9 +484,10 @@ public class GridLayoutManager extends LinearLayoutManager {
                     if (view == null) {
                         view = childAt;
                     }
-                } else if (this.mOrientationHelper.getDecoratedStart(childAt) < endAfterPadding && this.mOrientationHelper.getDecoratedEnd(childAt) >= startAfterPadding) {
-                    return childAt;
                 } else {
+                    if (this.mOrientationHelper.getDecoratedStart(childAt) < endAfterPadding && this.mOrientationHelper.getDecoratedEnd(childAt) >= startAfterPadding) {
+                        return childAt;
+                    }
                     if (view2 == null) {
                         view2 = childAt;
                     }
@@ -549,29 +551,31 @@ public class GridLayoutManager extends LinearLayoutManager {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public int getSpanSize(RecyclerView.Recycler recycler, RecyclerView.State state, int i) {
-        if (state.isPreLayout()) {
-            int i2 = this.mPreLayoutSpanSizeCache.get(i, -1);
-            if (i2 != -1) {
-                return i2;
-            }
-            int convertPreLayoutPositionToPostLayout = recycler.convertPreLayoutPositionToPostLayout(i);
-            if (convertPreLayoutPositionToPostLayout == -1) {
-                Log.w("GridLayoutManager", "Cannot find span size for pre layout position. It is not cached, not in the adapter. Pos:" + i);
-                return 1;
-            }
+        if (!state.isPreLayout()) {
+            return this.mSpanSizeLookup.getSpanSize(i);
+        }
+        int i2 = this.mPreLayoutSpanSizeCache.get(i, -1);
+        if (i2 != -1) {
+            return i2;
+        }
+        int convertPreLayoutPositionToPostLayout = recycler.convertPreLayoutPositionToPostLayout(i);
+        if (convertPreLayoutPositionToPostLayout != -1) {
             return this.mSpanSizeLookup.getSpanSize(convertPreLayoutPositionToPostLayout);
         }
-        return this.mSpanSizeLookup.getSpanSize(i);
+        Log.w("GridLayoutManager", "Cannot find span size for pre layout position. It is not cached, not in the adapter. Pos:" + i);
+        return 1;
     }
 
     public SpanSizeLookup getSpanSizeLookup() {
         return this.mSpanSizeLookup;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x009f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x009f, code lost:
+    
         r21.mFinished = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00a1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x00a1, code lost:
+    
         return;
      */
     @Override // androidx.recyclerview.widget.LinearLayoutManager
@@ -779,14 +783,16 @@ public class GridLayoutManager extends LinearLayoutManager {
         ensureViewSet();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x00d3, code lost:
-        if (r13 == (r2 > r15)) goto L49;
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x00d3, code lost:
+    
+        if (r13 == (r2 > r15)) goto L45;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x00f3, code lost:
-        if (r13 == (r2 > r7)) goto L50;
+    /* JADX WARN: Code restructure failed: missing block: B:77:0x00f3, code lost:
+    
+        if (r13 == (r2 > r7)) goto L72;
      */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x00fb  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0111  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x00fb  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0111  */
     @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -922,9 +928,10 @@ public class GridLayoutManager extends LinearLayoutManager {
                 state2 = state;
                 findContainingItemView = view2;
                 childCount = i5;
-            } else if (view4 != null) {
-                break;
             } else {
+                if (view4 != null) {
+                    break;
+                }
                 view2 = findContainingItemView;
                 view3 = view5;
             }
@@ -1068,9 +1075,9 @@ public class GridLayoutManager extends LinearLayoutManager {
             this.mSpanCount = i;
             this.mSpanSizeLookup.invalidateSpanIndexCache();
             requestLayout();
-            return;
+        } else {
+            throw new IllegalArgumentException("Span count should be at least 1. Provided " + i);
         }
-        throw new IllegalArgumentException("Span count should be at least 1. Provided " + i);
     }
 
     public void setSpanSizeLookup(SpanSizeLookup spanSizeLookup) {

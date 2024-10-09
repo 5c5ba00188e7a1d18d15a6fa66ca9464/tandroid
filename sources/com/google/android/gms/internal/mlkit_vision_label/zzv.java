@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 abstract class zzv extends zzag implements zzbj {
     /* JADX INFO: Access modifiers changed from: protected */

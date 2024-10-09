@@ -1,4 +1,5 @@
 package com.google.firebase.encoders;
+
 /* loaded from: classes.dex */
 public interface ObjectEncoderContext {
     ObjectEncoderContext add(FieldDescriptor fieldDescriptor, int i);

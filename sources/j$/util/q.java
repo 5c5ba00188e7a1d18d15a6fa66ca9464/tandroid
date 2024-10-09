@@ -3,6 +3,7 @@ package j$.util;
 import java.util.PrimitiveIterator;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class q implements PrimitiveIterator.OfDouble {
     public final /* synthetic */ r a;

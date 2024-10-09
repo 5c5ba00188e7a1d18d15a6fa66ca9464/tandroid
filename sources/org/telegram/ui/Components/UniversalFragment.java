@@ -10,6 +10,7 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BackDrawable;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public abstract class UniversalFragment extends BaseFragment {
     public UniversalRecyclerView listView;
@@ -33,7 +34,7 @@ public abstract class UniversalFragment extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    UniversalFragment.this.finishFragment();
+                    UniversalFragment.this.lambda$onBackPressed$300();
                 }
             }
         });

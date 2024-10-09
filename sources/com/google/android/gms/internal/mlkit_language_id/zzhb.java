@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class zzhb extends AbstractSet {
@@ -51,11 +52,11 @@ public class zzhb extends AbstractSet {
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
     public boolean remove(Object obj) {
         Map.Entry entry = (Map.Entry) obj;
-        if (contains(entry)) {
-            this.zza.remove(entry.getKey());
-            return true;
+        if (!contains(entry)) {
+            return false;
         }
-        return false;
+        this.zza.remove(entry.getKey());
+        return true;
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set

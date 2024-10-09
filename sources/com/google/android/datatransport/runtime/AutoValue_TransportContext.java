@@ -3,6 +3,7 @@ package com.google.android.datatransport.runtime;
 import com.google.android.datatransport.Priority;
 import com.google.android.datatransport.runtime.TransportContext;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 final class AutoValue_TransportContext extends TransportContext {
     private final String backendName;
@@ -32,11 +33,11 @@ final class AutoValue_TransportContext extends TransportContext {
 
         @Override // com.google.android.datatransport.runtime.TransportContext.Builder
         public TransportContext.Builder setBackendName(String str) {
-            if (str != null) {
-                this.backendName = str;
-                return this;
+            if (str == null) {
+                throw new NullPointerException("Null backendName");
             }
-            throw new NullPointerException("Null backendName");
+            this.backendName = str;
+            return this;
         }
 
         @Override // com.google.android.datatransport.runtime.TransportContext.Builder
@@ -47,11 +48,11 @@ final class AutoValue_TransportContext extends TransportContext {
 
         @Override // com.google.android.datatransport.runtime.TransportContext.Builder
         public TransportContext.Builder setPriority(Priority priority) {
-            if (priority != null) {
-                this.priority = priority;
-                return this;
+            if (priority == null) {
+                throw new NullPointerException("Null priority");
             }
-            throw new NullPointerException("Null priority");
+            this.priority = priority;
+            return this;
         }
     }
 
@@ -65,14 +66,14 @@ final class AutoValue_TransportContext extends TransportContext {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof TransportContext) {
-            TransportContext transportContext = (TransportContext) obj;
-            if (this.backendName.equals(transportContext.getBackendName())) {
-                if (Arrays.equals(this.extras, transportContext instanceof AutoValue_TransportContext ? ((AutoValue_TransportContext) transportContext).extras : transportContext.getExtras()) && this.priority.equals(transportContext.getPriority())) {
-                    return true;
-                }
-            }
+        if (!(obj instanceof TransportContext)) {
             return false;
+        }
+        TransportContext transportContext = (TransportContext) obj;
+        if (this.backendName.equals(transportContext.getBackendName())) {
+            if (Arrays.equals(this.extras, transportContext instanceof AutoValue_TransportContext ? ((AutoValue_TransportContext) transportContext).extras : transportContext.getExtras()) && this.priority.equals(transportContext.getPriority())) {
+                return true;
+            }
         }
         return false;
     }

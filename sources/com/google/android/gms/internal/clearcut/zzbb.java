@@ -3,6 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 public abstract class zzbb implements Serializable, Iterable {
     public static final zzbb zzfi = new zzbi(zzci.zzkt);
@@ -10,36 +11,37 @@ public abstract class zzbb implements Serializable, Iterable {
     private int zzfk = 0;
 
     static {
-        zzfj = zzaw.zzx() ? new zzbj(null) : new zzbd(null);
+        zzbc zzbcVar = null;
+        zzfj = zzaw.zzx() ? new zzbj(zzbcVar) : new zzbd(zzbcVar);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(int i, int i2, int i3) {
         int i4 = i2 - i;
-        if ((i | i2 | i4 | (i3 - i2)) < 0) {
-            if (i < 0) {
-                StringBuilder sb = new StringBuilder(32);
-                sb.append("Beginning index: ");
-                sb.append(i);
-                sb.append(" < 0");
-                throw new IndexOutOfBoundsException(sb.toString());
-            } else if (i2 < i) {
-                StringBuilder sb2 = new StringBuilder(66);
-                sb2.append("Beginning index larger than ending index: ");
-                sb2.append(i);
-                sb2.append(", ");
-                sb2.append(i2);
-                throw new IndexOutOfBoundsException(sb2.toString());
-            } else {
-                StringBuilder sb3 = new StringBuilder(37);
-                sb3.append("End index: ");
-                sb3.append(i2);
-                sb3.append(" >= ");
-                sb3.append(i3);
-                throw new IndexOutOfBoundsException(sb3.toString());
-            }
+        if ((i | i2 | i4 | (i3 - i2)) >= 0) {
+            return i4;
         }
-        return i4;
+        if (i < 0) {
+            StringBuilder sb = new StringBuilder(32);
+            sb.append("Beginning index: ");
+            sb.append(i);
+            sb.append(" < 0");
+            throw new IndexOutOfBoundsException(sb.toString());
+        }
+        if (i2 < i) {
+            StringBuilder sb2 = new StringBuilder(66);
+            sb2.append("Beginning index larger than ending index: ");
+            sb2.append(i);
+            sb2.append(", ");
+            sb2.append(i2);
+            throw new IndexOutOfBoundsException(sb2.toString());
+        }
+        StringBuilder sb3 = new StringBuilder(37);
+        sb3.append("End index: ");
+        sb3.append(i2);
+        sb3.append(" >= ");
+        sb3.append(i3);
+        throw new IndexOutOfBoundsException(sb3.toString());
     }
 
     public static zzbb zzb(byte[] bArr, int i, int i2) {

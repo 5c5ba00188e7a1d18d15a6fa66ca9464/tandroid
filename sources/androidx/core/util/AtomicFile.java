@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public class AtomicFile {
     private final File mBaseName;

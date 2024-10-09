@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzt extends zzu {
@@ -55,7 +56,8 @@ public final class zzt extends zzu {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzu
-    public final zzu zzh(int i, int i2) {
+    /* renamed from: zzh */
+    public final zzu subList(int i, int i2) {
         zzm.zzd(i, i2, this.zzb);
         zzu zzuVar = this.zzc;
         int i3 = this.zza;

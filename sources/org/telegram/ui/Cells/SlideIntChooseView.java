@@ -22,6 +22,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SeekBarView;
+
 /* loaded from: classes4.dex */
 public class SlideIntChooseView extends FrameLayout {
     private final AnimatedTextView maxText;
@@ -150,8 +151,7 @@ public class SlideIntChooseView extends FrameLayout {
     }
 
     private CharSequence processText(int i, int i2) {
-        String string = LocaleController.getString(i);
-        return ChannelMonetizationLayout.replaceTON(AndroidUtilities.replaceTags(string.replace("%d", "" + i2)), this.valueText.getPaint());
+        return ChannelMonetizationLayout.replaceTON(AndroidUtilities.replaceTags(LocaleController.getString(i).replace("%d", "" + i2)), this.valueText.getPaint());
     }
 
     private void setMaxTextEmojiSaturation(final float f, boolean z) {
@@ -209,11 +209,9 @@ public class SlideIntChooseView extends FrameLayout {
         this.value = i;
         this.options = options;
         this.whenChanged = callback;
-        int i2 = options.max;
-        int i3 = options.min;
-        int i4 = i2 - i3;
-        this.stepsCount = i4;
-        this.seekBarView.setProgress((i - i3) / i4, false);
+        int i2 = options.max - options.min;
+        this.stepsCount = i2;
+        this.seekBarView.setProgress((i - r3) / i2, false);
         updateTexts(i, false);
     }
 

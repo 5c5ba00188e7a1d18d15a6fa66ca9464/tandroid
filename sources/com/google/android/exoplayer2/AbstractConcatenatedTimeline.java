@@ -4,6 +4,7 @@ import android.util.Pair;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ShuffleOrder;
 import com.google.android.exoplayer2.util.Assertions;
+
 /* loaded from: classes.dex */
 public abstract class AbstractConcatenatedTimeline extends Timeline {
     private final int childCount;
@@ -81,16 +82,16 @@ public abstract class AbstractConcatenatedTimeline extends Timeline {
     @Override // com.google.android.exoplayer2.Timeline
     public final int getIndexOfPeriod(Object obj) {
         int indexOfPeriod;
-        if (obj instanceof Pair) {
-            Object childTimelineUidFromConcatenatedUid = getChildTimelineUidFromConcatenatedUid(obj);
-            Object childPeriodUidFromConcatenatedUid = getChildPeriodUidFromConcatenatedUid(obj);
-            int childIndexByChildUid = getChildIndexByChildUid(childTimelineUidFromConcatenatedUid);
-            if (childIndexByChildUid == -1 || (indexOfPeriod = getTimelineByChildIndex(childIndexByChildUid).getIndexOfPeriod(childPeriodUidFromConcatenatedUid)) == -1) {
-                return -1;
-            }
-            return getFirstPeriodIndexByChildIndex(childIndexByChildUid) + indexOfPeriod;
+        if (!(obj instanceof Pair)) {
+            return -1;
         }
-        return -1;
+        Object childTimelineUidFromConcatenatedUid = getChildTimelineUidFromConcatenatedUid(obj);
+        Object childPeriodUidFromConcatenatedUid = getChildPeriodUidFromConcatenatedUid(obj);
+        int childIndexByChildUid = getChildIndexByChildUid(childTimelineUidFromConcatenatedUid);
+        if (childIndexByChildUid == -1 || (indexOfPeriod = getTimelineByChildIndex(childIndexByChildUid).getIndexOfPeriod(childPeriodUidFromConcatenatedUid)) == -1) {
+            return -1;
+        }
+        return getFirstPeriodIndexByChildIndex(childIndexByChildUid) + indexOfPeriod;
     }
 
     @Override // com.google.android.exoplayer2.Timeline

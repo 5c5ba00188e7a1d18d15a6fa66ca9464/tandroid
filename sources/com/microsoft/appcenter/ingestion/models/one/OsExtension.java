@@ -4,6 +4,7 @@ import com.microsoft.appcenter.ingestion.models.Model;
 import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class OsExtension implements Model {
     private String name;
@@ -18,12 +19,12 @@ public class OsExtension implements Model {
         }
         OsExtension osExtension = (OsExtension) obj;
         String str = this.name;
-        if (str == null ? osExtension.name == null : str.equals(osExtension.name)) {
-            String str2 = this.ver;
-            String str3 = osExtension.ver;
-            return str2 != null ? str2.equals(str3) : str3 == null;
+        if (str == null ? osExtension.name != null : !str.equals(osExtension.name)) {
+            return false;
         }
-        return false;
+        String str2 = this.ver;
+        String str3 = osExtension.ver;
+        return str2 != null ? str2.equals(str3) : str3 == null;
     }
 
     public String getName() {

@@ -13,6 +13,7 @@ import androidx.collection.SimpleArrayMap;
 import androidx.core.internal.view.SupportMenu;
 import androidx.core.internal.view.SupportMenuItem;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public class SupportActionModeWrapper extends android.view.ActionMode {
     final Context mContext;
@@ -32,12 +33,12 @@ public class SupportActionModeWrapper extends android.view.ActionMode {
 
         private Menu getMenuWrapper(Menu menu) {
             Menu menu2 = (Menu) this.mMenus.get(menu);
-            if (menu2 == null) {
-                MenuWrapperICS menuWrapperICS = new MenuWrapperICS(this.mContext, (SupportMenu) menu);
-                this.mMenus.put(menu, menuWrapperICS);
-                return menuWrapperICS;
+            if (menu2 != null) {
+                return menu2;
             }
-            return menu2;
+            MenuWrapperICS menuWrapperICS = new MenuWrapperICS(this.mContext, (SupportMenu) menu);
+            this.mMenus.put(menu, menuWrapperICS);
+            return menuWrapperICS;
         }
 
         public android.view.ActionMode getActionModeWrapper(ActionMode actionMode) {

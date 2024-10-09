@@ -2,6 +2,7 @@ package androidx.biometric;
 
 import android.os.CancellationSignal;
 import android.util.Log;
+
 /* loaded from: classes.dex */
 class CancellationSignalProvider {
     private CancellationSignal mBiometricCancellationSignal;

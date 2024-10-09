@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public final class CameraMotionRenderer extends BaseRenderer {
     private final DecoderInputBuffer buffer;

@@ -1,4 +1,5 @@
 package com.google.zxing.common;
+
 /* loaded from: classes.dex */
 public final class PerspectiveTransform {
     private final float a11;
@@ -83,12 +84,14 @@ public final class PerspectiveTransform {
         float f16 = this.a12;
         float f17 = this.a22;
         float f18 = this.a32;
-        float f19 = (f18 * f14) + (f16 * f12) + (f17 * f13);
-        float f20 = this.a13;
-        float f21 = this.a23;
-        float f22 = (f2 * f20) + (f4 * f21);
-        float f23 = this.a33;
-        return new PerspectiveTransform(f7, f11, f15, (f16 * f2) + (f17 * f4) + (f18 * f6), (f16 * f8) + (f17 * f9) + (f18 * f10), f19, (f6 * f23) + f22, (f8 * f20) + (f9 * f21) + (f10 * f23), (f20 * f12) + (f21 * f13) + (f23 * f14));
+        float f19 = (f16 * f2) + (f17 * f4) + (f18 * f6);
+        float f20 = (f16 * f8) + (f17 * f9) + (f18 * f10);
+        float f21 = (f18 * f14) + (f16 * f12) + (f17 * f13);
+        float f22 = this.a13;
+        float f23 = this.a23;
+        float f24 = (f2 * f22) + (f4 * f23);
+        float f25 = this.a33;
+        return new PerspectiveTransform(f7, f11, f15, f19, f20, f21, (f6 * f25) + f24, (f8 * f22) + (f9 * f23) + (f10 * f25), (f22 * f12) + (f23 * f13) + (f25 * f14));
     }
 
     public void transformPoints(float[] fArr) {

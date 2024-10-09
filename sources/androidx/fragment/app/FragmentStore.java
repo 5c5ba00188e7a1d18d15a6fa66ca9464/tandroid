@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FragmentStore {
@@ -69,11 +70,12 @@ public class FragmentStore {
             printWriter.print(str);
             printWriter.println("Added Fragments:");
             for (int i = 0; i < size; i++) {
+                Fragment fragment2 = (Fragment) this.mAdded.get(i);
                 printWriter.print(str);
                 printWriter.print("  #");
                 printWriter.print(i);
                 printWriter.print(": ");
-                printWriter.println(((Fragment) this.mAdded.get(i)).toString());
+                printWriter.println(fragment2.toString());
             }
         }
     }
@@ -116,16 +118,16 @@ public class FragmentStore {
                 }
             }
         }
-        if (str != null) {
-            for (FragmentStateManager fragmentStateManager : this.mActive.values()) {
-                if (fragmentStateManager != null) {
-                    Fragment fragment2 = fragmentStateManager.getFragment();
-                    if (str.equals(fragment2.mTag)) {
-                        return fragment2;
-                    }
+        if (str == null) {
+            return null;
+        }
+        for (FragmentStateManager fragmentStateManager : this.mActive.values()) {
+            if (fragmentStateManager != null) {
+                Fragment fragment2 = fragmentStateManager.getFragment();
+                if (str.equals(fragment2.mTag)) {
+                    return fragment2;
                 }
             }
-            return null;
         }
         return null;
     }

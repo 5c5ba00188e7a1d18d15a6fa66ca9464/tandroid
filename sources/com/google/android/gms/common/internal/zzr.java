@@ -8,6 +8,7 @@ import com.google.android.gms.common.stats.ConnectionTracker;
 import com.google.android.gms.internal.common.zzi;
 import java.util.HashMap;
 import java.util.concurrent.Executor;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzr extends GmsClientSupervisor {
@@ -37,16 +38,14 @@ public final class zzr extends GmsClientSupervisor {
             try {
                 zzo zzoVar = (zzo) this.zzb.get(zznVar);
                 if (zzoVar == null) {
-                    String obj = zznVar.toString();
-                    throw new IllegalStateException("Nonexistent connection status for service config: " + obj);
-                } else if (!zzoVar.zzh(serviceConnection)) {
-                    String obj2 = zznVar.toString();
-                    throw new IllegalStateException("Trying to unbind a GmsServiceConnection  that was not bound before.  config=" + obj2);
-                } else {
-                    zzoVar.zzf(serviceConnection, str);
-                    if (zzoVar.zzi()) {
-                        this.zzd.sendMessageDelayed(this.zzd.obtainMessage(0, zznVar), this.zzg);
-                    }
+                    throw new IllegalStateException("Nonexistent connection status for service config: " + zznVar.toString());
+                }
+                if (!zzoVar.zzh(serviceConnection)) {
+                    throw new IllegalStateException("Trying to unbind a GmsServiceConnection  that was not bound before.  config=" + zznVar.toString());
+                }
+                zzoVar.zzf(serviceConnection, str);
+                if (zzoVar.zzi()) {
+                    this.zzd.sendMessageDelayed(this.zzd.obtainMessage(0, zznVar), this.zzg);
                 }
             } catch (Throwable th) {
                 throw th;
@@ -70,8 +69,7 @@ public final class zzr extends GmsClientSupervisor {
                 } else {
                     this.zzd.removeMessages(0, zznVar);
                     if (zzoVar.zzh(serviceConnection)) {
-                        String obj = zznVar.toString();
-                        throw new IllegalStateException("Trying to bind a GmsServiceConnection that was already connected before.  config=" + obj);
+                        throw new IllegalStateException("Trying to bind a GmsServiceConnection that was already connected before.  config=" + zznVar.toString());
                     }
                     zzoVar.zzd(serviceConnection, serviceConnection, str);
                     int zza = zzoVar.zza();

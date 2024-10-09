@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import java.lang.reflect.Method;
 import org.xmlpull.v1.XmlPullParser;
+
 /* loaded from: classes.dex */
 public abstract class DrawableCompat {
     private static Method sGetLayoutDirectionMethod;
@@ -131,16 +132,16 @@ public abstract class DrawableCompat {
             sGetLayoutDirectionMethodFetched = true;
         }
         Method method = sGetLayoutDirectionMethod;
-        if (method != null) {
-            try {
-                return ((Integer) method.invoke(drawable, null)).intValue();
-            } catch (Exception e2) {
-                Log.i("DrawableCompat", "Failed to invoke getLayoutDirection() via reflection", e2);
-                sGetLayoutDirectionMethod = null;
-                return 0;
-            }
+        if (method == null) {
+            return 0;
         }
-        return 0;
+        try {
+            return ((Integer) method.invoke(drawable, null)).intValue();
+        } catch (Exception e2) {
+            Log.i("DrawableCompat", "Failed to invoke getLayoutDirection() via reflection", e2);
+            sGetLayoutDirectionMethod = null;
+            return 0;
+        }
     }
 
     public static void inflate(Drawable drawable, Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) {
@@ -202,6 +203,7 @@ public abstract class DrawableCompat {
         return false;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setTint(Drawable drawable, int i) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.setTint(drawable, i);
@@ -210,6 +212,7 @@ public abstract class DrawableCompat {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setTintList(Drawable drawable, ColorStateList colorStateList) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.setTintList(drawable, colorStateList);
@@ -218,6 +221,7 @@ public abstract class DrawableCompat {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setTintMode(Drawable drawable, PorterDuff.Mode mode) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.setTintMode(drawable, mode);

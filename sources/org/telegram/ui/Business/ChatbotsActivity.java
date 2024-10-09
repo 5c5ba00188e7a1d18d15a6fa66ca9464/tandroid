@@ -45,6 +45,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
+
 /* loaded from: classes4.dex */
 public class ChatbotsActivity extends BaseFragment {
     public TLRPC.TL_connectedBot currentBot;
@@ -203,20 +204,20 @@ public class ChatbotsActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$0(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 6) {
-            this.scheduledLoading = false;
-            AndroidUtilities.cancelRunOnUIThread(this.search);
-            if (TextUtils.isEmpty(this.editText.getText())) {
-                this.lastQuery = null;
-                this.searchHelper.clear();
-                this.listView.adapter.update(true);
-            } else {
-                AndroidUtilities.runOnUIThread(this.search);
-            }
-            updateSearchLoading();
-            return true;
+        if (i != 6) {
+            return false;
         }
-        return false;
+        this.scheduledLoading = false;
+        AndroidUtilities.cancelRunOnUIThread(this.search);
+        if (TextUtils.isEmpty(this.editText.getText())) {
+            this.lastQuery = null;
+            this.searchHelper.clear();
+            this.listView.adapter.update(true);
+        } else {
+            AndroidUtilities.runOnUIThread(this.search);
+        }
+        updateSearchLoading();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -240,13 +241,13 @@ public class ChatbotsActivity extends BaseFragment {
                 this.lastQuery = null;
                 this.searchHelper.clear();
                 this.listView.adapter.update(true);
-                return;
+            } else {
+                SearchAdapterHelper searchAdapterHelper = this.searchHelper;
+                this.lastQuery = obj;
+                int i = this.searchId;
+                this.searchId = i + 1;
+                searchAdapterHelper.queryServerSearch(obj, true, false, true, false, false, 0L, false, 0, i, 0L);
             }
-            SearchAdapterHelper searchAdapterHelper = this.searchHelper;
-            this.lastQuery = obj;
-            int i = this.searchId;
-            this.searchId = i + 1;
-            searchAdapterHelper.queryServerSearch(obj, true, false, true, false, false, 0L, false, 0, i, 0L);
         }
     }
 
@@ -257,7 +258,7 @@ public class ChatbotsActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBackPressed$8(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -265,17 +266,19 @@ public class ChatbotsActivity extends BaseFragment {
         if (tL_error != null) {
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.showError(tL_error);
-        } else if (tLObject instanceof TLRPC.TL_boolFalse) {
+            return;
+        }
+        if (tLObject instanceof TLRPC.TL_boolFalse) {
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
-        } else {
-            int i = iArr[0] + 1;
-            iArr[0] = i;
-            if (i == arrayList.size()) {
-                BusinessChatbotController.getInstance(this.currentAccount).invalidate(true);
-                getMessagesController().clearFullUsers();
-                finishFragment();
-            }
+            return;
+        }
+        int i = iArr[0] + 1;
+        iArr[0] = i;
+        if (i == arrayList.size()) {
+            BusinessChatbotController.getInstance(this.currentAccount).invalidate(true);
+            getMessagesController().clearFullUsers();
+            lambda$onBackPressed$300();
         }
     }
 
@@ -326,22 +329,26 @@ public class ChatbotsActivity extends BaseFragment {
             BusinessRecipientsHelper businessRecipientsHelper2 = this.recipientsHelper;
             this.exclude = false;
             businessRecipientsHelper2.setExclude(false);
-        } else if (i2 == -5) {
-            boolean z = !this.allowReply;
-            this.allowReply = z;
-            ((TextCheckCell) view).setChecked(z);
-            checkDone(true);
-        } else if (i2 == -6) {
-            this.selectedBot = null;
-        } else if (uItem.viewType != 13 || (user = (TLRPC.User) this.foundBots.get(uItem.dialogId)) == null) {
-            return;
         } else {
-            if (!user.bot_business) {
-                showDialog(new AlertDialog.Builder(getContext(), this.resourceProvider).setTitle(LocaleController.getString(R.string.BusinessBotNotSupportedTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.BusinessBotNotSupportedMessage))).setPositiveButton(LocaleController.getString(R.string.OK), null).create());
-                return;
+            if (i2 == -5) {
+                boolean z = !this.allowReply;
+                this.allowReply = z;
+                ((TextCheckCell) view).setChecked(z);
+                checkDone(true);
+            }
+            if (i2 == -6) {
+                this.selectedBot = null;
             } else {
-                this.selectedBot = user;
-                AndroidUtilities.hideKeyboard(this.editText);
+                if (uItem.viewType != 13 || (user = (TLRPC.User) this.foundBots.get(uItem.dialogId)) == null) {
+                    return;
+                }
+                if (!user.bot_business) {
+                    showDialog(new AlertDialog.Builder(getContext(), this.resourceProvider).setTitle(LocaleController.getString(R.string.BusinessBotNotSupportedTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.BusinessBotNotSupportedMessage))).setPositiveButton(LocaleController.getString(R.string.OK), null).create());
+                    return;
+                } else {
+                    this.selectedBot = user;
+                    AndroidUtilities.hideKeyboard(this.editText);
+                }
             }
         }
         this.listView.adapter.update(true);
@@ -355,8 +362,10 @@ public class ChatbotsActivity extends BaseFragment {
             return;
         }
         if (!hasChanges()) {
-            finishFragment();
-        } else if (this.recipientsHelper.validate(this.listView)) {
+            lambda$onBackPressed$300();
+            return;
+        }
+        if (this.recipientsHelper.validate(this.listView)) {
             final ArrayList arrayList = new ArrayList();
             TLRPC.TL_connectedBot tL_connectedBot = this.currentBot;
             if (tL_connectedBot != null && ((user = this.selectedBot) == null || tL_connectedBot.bot_id != user.id)) {
@@ -381,7 +390,7 @@ public class ChatbotsActivity extends BaseFragment {
                 }
             }
             if (arrayList.isEmpty()) {
-                finishFragment();
+                lambda$onBackPressed$300();
                 return;
             }
             final int[] iArr = {0};
@@ -449,7 +458,7 @@ public class ChatbotsActivity extends BaseFragment {
             public void onItemClick(int i) {
                 if (i == -1) {
                     if (ChatbotsActivity.this.onBackPressed()) {
-                        ChatbotsActivity.this.finishFragment();
+                        ChatbotsActivity.this.lambda$onBackPressed$300();
                     }
                 } else if (i == 1) {
                     ChatbotsActivity.this.processDone();
@@ -594,52 +603,52 @@ public class ChatbotsActivity extends BaseFragment {
     }
 
     public boolean hasChanges() {
-        if (this.valueSet) {
-            TLRPC.User user = this.selectedBot;
-            boolean z = user != null;
-            TLRPC.TL_connectedBot tL_connectedBot = this.currentBot;
-            if (z != (tL_connectedBot != null)) {
-                return true;
-            }
-            if ((user == null ? 0L : user.id) != (tL_connectedBot != null ? tL_connectedBot.bot_id : 0L)) {
-                return true;
-            }
-            if (user != null) {
-                if (this.allowReply != tL_connectedBot.can_reply) {
-                    return true;
-                }
-                BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
-                if (businessRecipientsHelper != null && businessRecipientsHelper.hasChanges()) {
-                    return true;
-                }
-            }
+        if (!this.valueSet) {
             return false;
+        }
+        TLRPC.User user = this.selectedBot;
+        boolean z = user != null;
+        TLRPC.TL_connectedBot tL_connectedBot = this.currentBot;
+        if (z != (tL_connectedBot != null)) {
+            return true;
+        }
+        if ((user == null ? 0L : user.id) != (tL_connectedBot != null ? tL_connectedBot.bot_id : 0L)) {
+            return true;
+        }
+        if (user != null) {
+            if (this.allowReply != tL_connectedBot.can_reply) {
+                return true;
+            }
+            BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
+            if (businessRecipientsHelper != null && businessRecipientsHelper.hasChanges()) {
+                return true;
+            }
         }
         return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (hasChanges()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
-            builder.setMessage(LocaleController.getString(R.string.BusinessBotUnsavedChanges));
-            builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda1
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ChatbotsActivity.this.lambda$onBackPressed$7(dialogInterface, i);
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda2
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ChatbotsActivity.this.lambda$onBackPressed$8(dialogInterface, i);
-                }
-            });
-            showDialog(builder.create());
-            return false;
+        if (!hasChanges()) {
+            return super.onBackPressed();
         }
-        return super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
+        builder.setMessage(LocaleController.getString(R.string.BusinessBotUnsavedChanges));
+        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda1
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                ChatbotsActivity.this.lambda$onBackPressed$7(dialogInterface, i);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda2
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                ChatbotsActivity.this.lambda$onBackPressed$8(dialogInterface, i);
+            }
+        });
+        showDialog(builder.create());
+        return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

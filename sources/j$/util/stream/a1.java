@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class a1 implements B0 {
@@ -54,7 +55,7 @@ public class a1 implements B0 {
     }
 
     @Override // j$.util.stream.F0
-    /* renamed from: f */
+    /* renamed from: f, reason: merged with bridge method [inline-methods] */
     public final /* synthetic */ void i(Integer[] numArr, int i) {
         t0.o(this, numArr, i);
     }

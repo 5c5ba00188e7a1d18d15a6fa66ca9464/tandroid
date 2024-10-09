@@ -2,6 +2,7 @@ package com.google.android.gms.internal.vision;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+
 /* loaded from: classes.dex */
 final class zzff extends WeakReference {
     private final int zza;

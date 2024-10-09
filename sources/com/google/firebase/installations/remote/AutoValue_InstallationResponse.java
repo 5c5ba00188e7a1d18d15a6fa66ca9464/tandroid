@@ -1,6 +1,7 @@
 package com.google.firebase.installations.remote;
 
 import com.google.firebase.installations.remote.InstallationResponse;
+
 /* loaded from: classes.dex */
 final class AutoValue_InstallationResponse extends InstallationResponse {
     private final TokenResult authToken;
@@ -65,30 +66,30 @@ final class AutoValue_InstallationResponse extends InstallationResponse {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof InstallationResponse) {
-            InstallationResponse installationResponse = (InstallationResponse) obj;
-            String str = this.uri;
-            if (str != null ? str.equals(installationResponse.getUri()) : installationResponse.getUri() == null) {
-                String str2 = this.fid;
-                if (str2 != null ? str2.equals(installationResponse.getFid()) : installationResponse.getFid() == null) {
-                    String str3 = this.refreshToken;
-                    if (str3 != null ? str3.equals(installationResponse.getRefreshToken()) : installationResponse.getRefreshToken() == null) {
-                        TokenResult tokenResult = this.authToken;
-                        if (tokenResult != null ? tokenResult.equals(installationResponse.getAuthToken()) : installationResponse.getAuthToken() == null) {
-                            InstallationResponse.ResponseCode responseCode = this.responseCode;
-                            InstallationResponse.ResponseCode responseCode2 = installationResponse.getResponseCode();
-                            if (responseCode == null) {
-                                if (responseCode2 == null) {
-                                    return true;
-                                }
-                            } else if (responseCode.equals(responseCode2)) {
+        if (!(obj instanceof InstallationResponse)) {
+            return false;
+        }
+        InstallationResponse installationResponse = (InstallationResponse) obj;
+        String str = this.uri;
+        if (str != null ? str.equals(installationResponse.getUri()) : installationResponse.getUri() == null) {
+            String str2 = this.fid;
+            if (str2 != null ? str2.equals(installationResponse.getFid()) : installationResponse.getFid() == null) {
+                String str3 = this.refreshToken;
+                if (str3 != null ? str3.equals(installationResponse.getRefreshToken()) : installationResponse.getRefreshToken() == null) {
+                    TokenResult tokenResult = this.authToken;
+                    if (tokenResult != null ? tokenResult.equals(installationResponse.getAuthToken()) : installationResponse.getAuthToken() == null) {
+                        InstallationResponse.ResponseCode responseCode = this.responseCode;
+                        InstallationResponse.ResponseCode responseCode2 = installationResponse.getResponseCode();
+                        if (responseCode == null) {
+                            if (responseCode2 == null) {
                                 return true;
                             }
+                        } else if (responseCode.equals(responseCode2)) {
+                            return true;
                         }
                     }
                 }
             }
-            return false;
         }
         return false;
     }

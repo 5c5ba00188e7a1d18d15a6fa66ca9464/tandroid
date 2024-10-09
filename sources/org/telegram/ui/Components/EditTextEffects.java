@@ -25,6 +25,7 @@ import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.QuoteSpan;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
+
 /* loaded from: classes3.dex */
 public abstract class EditTextEffects extends EditText {
     private static final int SPOILER_TIMEOUT = 10000;
@@ -97,7 +98,6 @@ public abstract class EditTextEffects extends EditText {
     }
 
     private void checkSpoilerTimeout() {
-        TextStyleSpan[] textStyleSpanArr;
         int i;
         int i2;
         CharSequence text = getLayout() != null ? getLayout().getText() : null;
@@ -157,8 +157,9 @@ public abstract class EditTextEffects extends EditText {
             }
         });
         float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
-        for (SpoilerEffect spoilerEffect : this.spoilers) {
-            spoilerEffect.startRipple(this.lastRippleX, this.lastRippleY, sqrt, true);
+        Iterator<SpoilerEffect> it = this.spoilers.iterator();
+        while (it.hasNext()) {
+            it.next().startRipple(this.lastRippleX, this.lastRippleY, sqrt, true);
         }
     }
 
@@ -195,8 +196,9 @@ public abstract class EditTextEffects extends EditText {
             }
         });
         float sqrt = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
-        for (SpoilerEffect spoilerEffect2 : this.spoilers) {
-            spoilerEffect2.startRipple(f, f2, sqrt);
+        Iterator<SpoilerEffect> it = this.spoilers.iterator();
+        while (it.hasNext()) {
+            it.next().startRipple(f, f2, sqrt);
         }
     }
 
@@ -238,7 +240,6 @@ public abstract class EditTextEffects extends EditText {
     }
 
     public void invalidateEffects() {
-        TextStyleSpan[] textStyleSpanArr;
         Editable text = getText();
         if (text != null) {
             for (TextStyleSpan textStyleSpan : (TextStyleSpan[]) text.getSpans(0, text.length(), TextStyleSpan.class)) {
@@ -336,8 +337,9 @@ public abstract class EditTextEffects extends EditText {
             canvas.clipRect(-AndroidUtilities.dp(3.0f), (getScrollY() - super.getExtendedPaddingTop()) - this.offsetY, getMeasuredWidth(), ((getMeasuredHeight() + getScrollY()) + super.getExtendedPaddingBottom()) - this.offsetY);
         }
         this.path.rewind();
-        for (SpoilerEffect spoilerEffect : this.spoilers) {
-            android.graphics.Rect bounds = spoilerEffect.getBounds();
+        Iterator<SpoilerEffect> it = this.spoilers.iterator();
+        while (it.hasNext()) {
+            android.graphics.Rect bounds = it.next().getBounds();
             this.path.addRect(bounds.left, bounds.top, bounds.right, bounds.bottom, Path.Direction.CW);
         }
         canvas.clipPath(this.path, Region.Op.DIFFERENCE);
@@ -385,14 +387,14 @@ public abstract class EditTextEffects extends EditText {
         this.rect.set(0, (int) ((getScrollY() - super.getExtendedPaddingTop()) - this.offsetY), getWidth(), (int) (((getMeasuredHeight() + getScrollY()) + super.getExtendedPaddingBottom()) - this.offsetY));
         canvas.save();
         canvas.clipRect(this.rect);
-        for (SpoilerEffect spoilerEffect2 : this.spoilers) {
-            android.graphics.Rect bounds2 = spoilerEffect2.getBounds();
+        for (SpoilerEffect spoilerEffect : this.spoilers) {
+            android.graphics.Rect bounds2 = spoilerEffect.getBounds();
             android.graphics.Rect rect = this.rect;
             int i2 = rect.top;
             int i3 = bounds2.bottom;
             if ((i2 <= i3 && rect.bottom >= bounds2.top) || (bounds2.top <= rect.bottom && i3 >= i2)) {
-                spoilerEffect2.setColor(spoilerEffect2.insideQuote ? this.quoteColor : getPaint().getColor());
-                spoilerEffect2.draw(canvas);
+                spoilerEffect.setColor(spoilerEffect.insideQuote ? this.quoteColor : getPaint().getColor());
+                spoilerEffect.draw(canvas);
             }
         }
         canvas.restore();
@@ -425,7 +427,8 @@ public abstract class EditTextEffects extends EditText {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0047, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0047, code lost:
+    
         r7 = r7 - r6;
         r3.selStart += r7;
         r3.selEnd += r7;
@@ -490,7 +493,6 @@ public abstract class EditTextEffects extends EditText {
     }
 
     public void setSpoilersRevealed(boolean z, boolean z2) {
-        TextStyleSpan[] textStyleSpanArr;
         this.isSpoilersRevealed = z;
         Editable text = getText();
         if (text != null) {

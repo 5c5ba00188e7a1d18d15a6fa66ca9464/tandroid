@@ -4,10 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
+
 /* loaded from: classes3.dex */
 public class MusicPlayerReceiver extends BroadcastReceiver {
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x004f, code lost:
-        if (org.telegram.messenger.MediaController.getInstance().isMessagePaused() != false) goto L28;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x004f, code lost:
+    
+        if (org.telegram.messenger.MediaController.getInstance().isMessagePaused() != false) goto L59;
      */
     @Override // android.content.BroadcastReceiver
     /*
@@ -76,27 +78,28 @@ public class MusicPlayerReceiver extends BroadcastReceiver {
                 default:
                     return;
             }
-        } else if (intent.getExtras() == null || (keyEvent = (KeyEvent) intent.getExtras().get("android.intent.extra.KEY_EVENT")) == null || keyEvent.getAction() != 0) {
-        } else {
-            int keyCode = keyEvent.getKeyCode();
-            if (keyCode != 79 && keyCode != 85) {
-                if (keyCode != 87) {
-                    if (keyCode != 88) {
-                        if (keyCode != 126) {
-                            if (keyCode != 127) {
-                                return;
-                            }
-                            MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
+        }
+        if (intent.getExtras() == null || (keyEvent = (KeyEvent) intent.getExtras().get("android.intent.extra.KEY_EVENT")) == null || keyEvent.getAction() != 0) {
+            return;
+        }
+        int keyCode = keyEvent.getKeyCode();
+        if (keyCode != 79 && keyCode != 85) {
+            if (keyCode != 87) {
+                if (keyCode != 88) {
+                    if (keyCode != 126) {
+                        if (keyCode != 127) {
                             return;
                         }
-                        MediaController.getInstance().playMessage(MediaController.getInstance().getPlayingMessageObject());
+                        MediaController.getInstance().lambda$startAudioAgain$7(MediaController.getInstance().getPlayingMessageObject());
                         return;
                     }
-                    MediaController.getInstance().playPreviousMessage();
+                    MediaController.getInstance().playMessage(MediaController.getInstance().getPlayingMessageObject());
                     return;
                 }
-                MediaController.getInstance().playNextMessage();
+                MediaController.getInstance().playPreviousMessage();
+                return;
             }
+            MediaController.getInstance().playNextMessage();
         }
     }
 }

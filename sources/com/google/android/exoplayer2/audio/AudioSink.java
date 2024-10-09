@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.analytics.PlayerId;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public interface AudioSink {
 

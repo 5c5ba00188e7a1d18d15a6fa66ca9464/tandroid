@@ -26,6 +26,7 @@ import org.telegram.ui.Components.EditTextCaption;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.TypefaceSpan;
+
 /* loaded from: classes4.dex */
 public class EditTextCell extends FrameLayout {
     public boolean autofocused;
@@ -71,7 +72,7 @@ public class EditTextCell extends FrameLayout {
                         return;
                     }
                     if (Build.VERSION.SDK_INT >= 23) {
-                        menu.removeItem(16908341);
+                        menu.removeItem(android.R.id.shareText);
                     }
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(LocaleController.getString(R.string.Bold));
                     spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableStringBuilder.length(), 33);
@@ -157,8 +158,9 @@ public class EditTextCell extends FrameLayout {
                     int indexOf = editable.toString().indexOf("\n");
                     if (indexOf < 0) {
                         return;
+                    } else {
+                        editable.delete(indexOf, indexOf + 1);
                     }
-                    editable.delete(indexOf, indexOf + 1);
                 }
             }
 
@@ -281,11 +283,11 @@ public class EditTextCell extends FrameLayout {
         this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Cells.EditTextCell.1
             @Override // android.widget.TextView.OnEditorActionListener
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == 6) {
-                    runnable.run();
-                    return true;
+                if (i != 6) {
+                    return false;
                 }
-                return false;
+                runnable.run();
+                return true;
             }
         });
     }

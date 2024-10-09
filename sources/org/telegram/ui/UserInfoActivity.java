@@ -42,6 +42,7 @@ import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalFragment;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.UserInfoActivity;
+
 /* loaded from: classes4.dex */
 public class UserInfoActivity extends UniversalFragment implements NotificationCenter.NotificationCenterDelegate {
     private EditTextCell bioEdit;
@@ -256,20 +257,23 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
             int i2 = uItem.id;
             if (i2 == 1) {
                 this.whenSelected.run(null);
-                finishFragment();
-            } else if (i2 != 2) {
+                lambda$onBackPressed$300();
+                return;
+            }
+            if (i2 != 2) {
                 if (uItem.viewType == 12) {
-                    finishFragment();
+                    lambda$onBackPressed$300();
                     this.whenSelected.run(getMessagesController().getChat(Long.valueOf(-uItem.dialogId)));
-                }
-            } else {
-                this.invalidateAfterPause = true;
-                SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
-                if (BuildVars.DEBUG_VERSION || !globalMainSettings.getBoolean("channel_intro", false)) {
-                    presentFragment(new ActionIntroActivity(0));
-                    globalMainSettings.edit().putBoolean("channel_intro", true).apply();
                     return;
                 }
+                return;
+            }
+            this.invalidateAfterPause = true;
+            SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
+            if (BuildVars.DEBUG_VERSION || !globalMainSettings.getBoolean("channel_intro", false)) {
+                presentFragment(new ActionIntroActivity(0));
+                globalMainSettings.edit().putBoolean("channel_intro", true).apply();
+            } else {
                 Bundle bundle = new Bundle();
                 bundle.putInt("step", 0);
                 presentFragment(new ChannelCreateActivity(bundle));
@@ -399,7 +403,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
             int i = iArr[0] + 1;
             iArr[0] = i;
             if (i == arrayList.size()) {
-                finishFragment();
+                lambda$onBackPressed$300();
                 return;
             }
             return;
@@ -505,7 +509,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
             arrayList.add(tL_account_updatePersonalChannel);
         }
         if (arrayList.isEmpty()) {
-            finishFragment();
+            lambda$onBackPressed$300();
             return;
         }
         final int[] iArr = {0};
@@ -577,7 +581,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
 
     @Override // org.telegram.ui.Components.UniversalFragment, org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.EditProfileFirstName), false, false, -1, this.resourceProvider) { // from class: org.telegram.ui.UserInfoActivity.1
+        boolean z = false;
+        EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.EditProfileFirstName), z, false, -1, this.resourceProvider) { // from class: org.telegram.ui.UserInfoActivity.1
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
             public void onTextChanged(CharSequence charSequence) {
@@ -590,7 +595,9 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         editTextCell.setBackgroundColor(getThemedColor(i));
         this.firstNameEdit.setDivider(true);
         this.firstNameEdit.hideKeyboardOnEnter();
-        EditTextCell editTextCell2 = new EditTextCell(context, LocaleController.getString(R.string.EditProfileLastName), false, false, -1, this.resourceProvider) { // from class: org.telegram.ui.UserInfoActivity.2
+        boolean z2 = false;
+        boolean z3 = false;
+        EditTextCell editTextCell2 = new EditTextCell(context, LocaleController.getString(R.string.EditProfileLastName), z3, z2, -1, this.resourceProvider) { // from class: org.telegram.ui.UserInfoActivity.2
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
             public void onTextChanged(CharSequence charSequence) {
@@ -601,7 +608,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         this.lastNameEdit = editTextCell2;
         editTextCell2.setBackgroundColor(getThemedColor(i));
         this.lastNameEdit.hideKeyboardOnEnter();
-        EditTextCell editTextCell3 = new EditTextCell(context, LocaleController.getString(R.string.EditProfileBioHint), true, false, getMessagesController().getAboutLimit(), this.resourceProvider) { // from class: org.telegram.ui.UserInfoActivity.3
+        EditTextCell editTextCell3 = new EditTextCell(context, LocaleController.getString(R.string.EditProfileBioHint), true, z2, getMessagesController().getAboutLimit(), this.resourceProvider) { // from class: org.telegram.ui.UserInfoActivity.3
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
             public void onTextChanged(CharSequence charSequence) {
@@ -624,7 +631,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
             public void onItemClick(int i2) {
                 if (i2 == -1) {
                     if (UserInfoActivity.this.onBackPressed()) {
-                        UserInfoActivity.this.finishFragment();
+                        UserInfoActivity.this.lambda$onBackPressed$300();
                     }
                 } else if (i2 == 1) {
                     UserInfoActivity.this.processDone(true);
@@ -646,8 +653,10 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         UniversalRecyclerView universalRecyclerView;
         if (i == NotificationCenter.userInfoDidLoad) {
             setValue();
-        } else if (i != NotificationCenter.privacyRulesUpdated || (universalRecyclerView = this.listView) == null) {
         } else {
+            if (i != NotificationCenter.privacyRulesUpdated || (universalRecyclerView = this.listView) == null) {
+                return;
+            }
             universalRecyclerView.adapter.update(true);
         }
     }
@@ -682,15 +691,15 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
                 while (true) {
                     if (i >= privacyRules.size()) {
                         break;
-                    } else if (privacyRules.get(i) instanceof TLRPC.TL_privacyValueAllowContacts) {
+                    }
+                    if (privacyRules.get(i) instanceof TLRPC.TL_privacyValueAllowContacts) {
                         string3 = LocaleController.getString(R.string.EditProfileBirthdayInfoContacts);
                         break;
-                    } else {
-                        if ((privacyRules.get(i) instanceof TLRPC.TL_privacyValueAllowAll) || (privacyRules.get(i) instanceof TLRPC.TL_privacyValueDisallowAll)) {
-                            string3 = LocaleController.getString(R.string.EditProfileBirthdayInfo);
-                        }
-                        i++;
                     }
+                    if ((privacyRules.get(i) instanceof TLRPC.TL_privacyValueAllowAll) || (privacyRules.get(i) instanceof TLRPC.TL_privacyValueDisallowAll)) {
+                        string3 = LocaleController.getString(R.string.EditProfileBirthdayInfo);
+                    }
+                    i++;
                 }
             }
             this.birthdayInfo = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(string3, new Runnable() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda5
@@ -753,32 +762,34 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
                     UserInfoActivity.this.lambda$onClick$2((TLRPC.TL_birthday) obj);
                 }
             }, null, getResourceProvider()).create());
-        } else if (i2 == 2) {
+            return;
+        }
+        if (i2 == 2) {
             this.birthday = null;
             UniversalRecyclerView universalRecyclerView = this.listView;
             if (universalRecyclerView != null) {
                 universalRecyclerView.adapter.update(true);
             }
             checkDone(true);
-        } else {
-            if (i2 == 3) {
-                AdminedChannelsFetcher adminedChannelsFetcher = this.channels;
-                TLRPC.Chat chat = this.channel;
-                openingHoursActivity = new ChooseChannelFragment(adminedChannelsFetcher, chat == null ? 0L : chat.id, new Utilities.Callback() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda4
-                    @Override // org.telegram.messenger.Utilities.Callback
-                    public final void run(Object obj) {
-                        UserInfoActivity.this.lambda$onClick$3((TLRPC.Chat) obj);
-                    }
-                });
-            } else if (i2 == 5) {
-                openingHoursActivity = new org.telegram.ui.Business.LocationActivity();
-            } else if (i2 != 4) {
-                return;
-            } else {
-                openingHoursActivity = new OpeningHoursActivity();
-            }
-            presentFragment(openingHoursActivity);
+            return;
         }
+        if (i2 == 3) {
+            AdminedChannelsFetcher adminedChannelsFetcher = this.channels;
+            TLRPC.Chat chat = this.channel;
+            openingHoursActivity = new ChooseChannelFragment(adminedChannelsFetcher, chat == null ? 0L : chat.id, new Utilities.Callback() { // from class: org.telegram.ui.UserInfoActivity$$ExternalSyntheticLambda4
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    UserInfoActivity.this.lambda$onClick$3((TLRPC.Chat) obj);
+                }
+            });
+        } else if (i2 == 5) {
+            openingHoursActivity = new org.telegram.ui.Business.LocationActivity();
+        } else if (i2 != 4) {
+            return;
+        } else {
+            openingHoursActivity = new OpeningHoursActivity();
+        }
+        presentFragment(openingHoursActivity);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

@@ -2,6 +2,7 @@ package androidx.collection;
 
 import java.util.ConcurrentModificationException;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class SimpleArrayMap {
     static Object[] mBaseCache;
@@ -90,7 +91,9 @@ public class SimpleArrayMap {
                 } finally {
                 }
             }
-        } else if (iArr.length == 4) {
+            return;
+        }
+        if (iArr.length == 4) {
             synchronized (SimpleArrayMap.class) {
                 try {
                     if (mBaseCacheSize < 10) {
@@ -231,22 +234,22 @@ public class SimpleArrayMap {
             return -1;
         }
         int binarySearchHashes = binarySearchHashes(this.mHashes, i2, i);
-        if (binarySearchHashes >= 0 && !obj.equals(this.mArray[binarySearchHashes << 1])) {
-            int i3 = binarySearchHashes + 1;
-            while (i3 < i2 && this.mHashes[i3] == i) {
-                if (obj.equals(this.mArray[i3 << 1])) {
-                    return i3;
-                }
-                i3++;
-            }
-            for (int i4 = binarySearchHashes - 1; i4 >= 0 && this.mHashes[i4] == i; i4--) {
-                if (obj.equals(this.mArray[i4 << 1])) {
-                    return i4;
-                }
-            }
-            return i3 ^ (-1);
+        if (binarySearchHashes < 0 || obj.equals(this.mArray[binarySearchHashes << 1])) {
+            return binarySearchHashes;
         }
-        return binarySearchHashes;
+        int i3 = binarySearchHashes + 1;
+        while (i3 < i2 && this.mHashes[i3] == i) {
+            if (obj.equals(this.mArray[i3 << 1])) {
+                return i3;
+            }
+            i3++;
+        }
+        for (int i4 = binarySearchHashes - 1; i4 >= 0 && this.mHashes[i4] == i; i4--) {
+            if (obj.equals(this.mArray[i4 << 1])) {
+                return i4;
+            }
+        }
+        return i3 ^ (-1);
     }
 
     public int indexOfKey(Object obj) {
@@ -259,22 +262,22 @@ public class SimpleArrayMap {
             return -1;
         }
         int binarySearchHashes = binarySearchHashes(this.mHashes, i, 0);
-        if (binarySearchHashes >= 0 && this.mArray[binarySearchHashes << 1] != null) {
-            int i2 = binarySearchHashes + 1;
-            while (i2 < i && this.mHashes[i2] == 0) {
-                if (this.mArray[i2 << 1] == null) {
-                    return i2;
-                }
-                i2++;
-            }
-            for (int i3 = binarySearchHashes - 1; i3 >= 0 && this.mHashes[i3] == 0; i3--) {
-                if (this.mArray[i3 << 1] == null) {
-                    return i3;
-                }
-            }
-            return i2 ^ (-1);
+        if (binarySearchHashes < 0 || this.mArray[binarySearchHashes << 1] == null) {
+            return binarySearchHashes;
         }
-        return binarySearchHashes;
+        int i2 = binarySearchHashes + 1;
+        while (i2 < i && this.mHashes[i2] == 0) {
+            if (this.mArray[i2 << 1] == null) {
+                return i2;
+            }
+            i2++;
+        }
+        for (int i3 = binarySearchHashes - 1; i3 >= 0 && this.mHashes[i3] == 0; i3--) {
+            if (this.mArray[i3 << 1] == null) {
+                return i3;
+            }
+        }
+        return i2 ^ (-1);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -383,15 +386,15 @@ public class SimpleArrayMap {
 
     public boolean remove(Object obj, Object obj2) {
         int indexOfKey = indexOfKey(obj);
-        if (indexOfKey >= 0) {
-            Object valueAt = valueAt(indexOfKey);
-            if (obj2 == valueAt || (obj2 != null && obj2.equals(valueAt))) {
-                removeAt(indexOfKey);
-                return true;
-            }
+        if (indexOfKey < 0) {
             return false;
         }
-        return false;
+        Object valueAt = valueAt(indexOfKey);
+        if (obj2 != valueAt && (obj2 == null || !obj2.equals(valueAt))) {
+            return false;
+        }
+        removeAt(indexOfKey);
+        return true;
     }
 
     public Object removeAt(int i) {
@@ -437,11 +440,11 @@ public class SimpleArrayMap {
             }
             i4 = i5;
         }
-        if (i3 == this.mSize) {
-            this.mSize = i4;
-            return obj;
+        if (i3 != this.mSize) {
+            throw new ConcurrentModificationException();
         }
-        throw new ConcurrentModificationException();
+        this.mSize = i4;
+        return obj;
     }
 
     public Object replace(Object obj, Object obj2) {
@@ -454,15 +457,15 @@ public class SimpleArrayMap {
 
     public boolean replace(Object obj, Object obj2, Object obj3) {
         int indexOfKey = indexOfKey(obj);
-        if (indexOfKey >= 0) {
-            Object valueAt = valueAt(indexOfKey);
-            if (valueAt == obj2 || (obj2 != null && obj2.equals(valueAt))) {
-                setValueAt(indexOfKey, obj3);
-                return true;
-            }
+        if (indexOfKey < 0) {
             return false;
         }
-        return false;
+        Object valueAt = valueAt(indexOfKey);
+        if (valueAt != obj2 && (obj2 == null || !obj2.equals(valueAt))) {
+            return false;
+        }
+        setValueAt(indexOfKey, obj3);
+        return true;
     }
 
     public Object setValueAt(int i, Object obj) {

@@ -3,6 +3,7 @@ package j$.util;
 import j$.util.function.Function;
 import java.io.Serializable;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class d implements Comparator, Serializable {
     public final /* synthetic */ int a;

@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class ClippingMediaSource extends WrappingMediaSource {
     private final boolean allowDynamicClippingUpdates;

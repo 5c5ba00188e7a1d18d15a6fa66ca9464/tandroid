@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLException;
+
 /* loaded from: classes.dex */
 public abstract class HttpUtils {
     private static final Class[] RECOVERABLE_EXCEPTIONS = {EOFException.class, InterruptedIOException.class, SocketException.class, UnknownHostException.class, RejectedExecutionException.class};
@@ -37,20 +38,20 @@ public abstract class HttpUtils {
     }
 
     public static HttpsURLConnection createHttpsConnection(URL url) {
-        if ("https".equals(url.getProtocol())) {
-            URLConnection openConnection = url.openConnection();
-            if (openConnection instanceof HttpsURLConnection) {
-                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) openConnection;
-                if (Build.VERSION.SDK_INT <= 21) {
-                    httpsURLConnection.setSSLSocketFactory(new TLS1_2SocketFactory());
-                }
-                httpsURLConnection.setConnectTimeout(10000);
-                httpsURLConnection.setReadTimeout(10000);
-                return httpsURLConnection;
-            }
+        if (!"https".equals(url.getProtocol())) {
+            throw new IOException("App Center support only HTTPS connection.");
+        }
+        URLConnection openConnection = url.openConnection();
+        if (!(openConnection instanceof HttpsURLConnection)) {
             throw new IOException("App Center supports only HTTPS connection.");
         }
-        throw new IOException("App Center support only HTTPS connection.");
+        HttpsURLConnection httpsURLConnection = (HttpsURLConnection) openConnection;
+        if (Build.VERSION.SDK_INT <= 21) {
+            httpsURLConnection.setSSLSocketFactory(new TLS1_2SocketFactory());
+        }
+        httpsURLConnection.setConnectTimeout(10000);
+        httpsURLConnection.setReadTimeout(10000);
+        return httpsURLConnection;
     }
 
     public static String hideApiKeys(String str) {

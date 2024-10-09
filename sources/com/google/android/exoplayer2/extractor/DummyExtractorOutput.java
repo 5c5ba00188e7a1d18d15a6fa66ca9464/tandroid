@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.extractor;
+
 /* loaded from: classes.dex */
 public final class DummyExtractorOutput implements ExtractorOutput {
     @Override // com.google.android.exoplayer2.extractor.ExtractorOutput

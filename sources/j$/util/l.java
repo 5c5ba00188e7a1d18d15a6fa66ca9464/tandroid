@@ -1,6 +1,7 @@
 package j$.util;
 
 import java.util.NoSuchElementException;
+
 /* loaded from: classes2.dex */
 public final class l {
     private static final l c = new l();
@@ -40,33 +41,33 @@ public final class l {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof l) {
-            l lVar = (l) obj;
-            boolean z = this.a;
-            if (z && lVar.a) {
-                if (Double.compare(this.b, lVar.b) == 0) {
-                    return true;
-                }
-            } else if (z == lVar.a) {
+        if (!(obj instanceof l)) {
+            return false;
+        }
+        l lVar = (l) obj;
+        boolean z = this.a;
+        if (z && lVar.a) {
+            if (Double.compare(this.b, lVar.b) == 0) {
                 return true;
             }
-            return false;
+        } else if (z == lVar.a) {
+            return true;
         }
         return false;
     }
 
     public final int hashCode() {
-        if (this.a) {
-            long doubleToLongBits = Double.doubleToLongBits(this.b);
-            return (int) (doubleToLongBits ^ (doubleToLongBits >>> 32));
+        if (!this.a) {
+            return 0;
         }
-        return 0;
+        long doubleToLongBits = Double.doubleToLongBits(this.b);
+        return (int) (doubleToLongBits ^ (doubleToLongBits >>> 32));
     }
 
     public final String toString() {
-        if (this.a) {
-            return "OptionalDouble[" + this.b + "]";
+        if (!this.a) {
+            return "OptionalDouble.empty";
         }
-        return "OptionalDouble.empty";
+        return "OptionalDouble[" + this.b + "]";
     }
 }

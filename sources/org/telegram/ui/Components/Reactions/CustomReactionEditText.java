@@ -16,6 +16,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.EditTextCaption;
+
 /* loaded from: classes3.dex */
 public abstract class CustomReactionEditText extends EditTextCaption {
     private final GestureDetectorCompat gestureDetector;
@@ -150,7 +151,6 @@ public abstract class CustomReactionEditText extends EditTextCaption {
     }
 
     public void removeReactionsSpan(boolean z) {
-        AddReactionsSpan[] addReactionsSpanArr;
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(getText());
         for (final AddReactionsSpan addReactionsSpan : (AddReactionsSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), AddReactionsSpan.class)) {
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomReactionEditText$$ExternalSyntheticLambda1

@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.backends;
 
 import android.content.Context;
 import com.google.android.datatransport.runtime.time.Clock;
+
 /* loaded from: classes.dex */
 class CreationContextFactory {
     private final Context applicationContext;

@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class Y extends a0 {
     /* JADX INFO: Access modifiers changed from: package-private */

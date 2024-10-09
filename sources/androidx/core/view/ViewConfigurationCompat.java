@@ -1,5 +1,6 @@
 package androidx.core.view;
 
+import android.R;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewConfiguration;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public abstract class ViewConfigurationCompat {
     private static Method sGetScaledScrollFactorMethod;
@@ -53,7 +55,7 @@ public abstract class ViewConfigurationCompat {
             }
         }
         TypedValue typedValue = new TypedValue();
-        if (context.getTheme().resolveAttribute(16842829, typedValue, true)) {
+        if (context.getTheme().resolveAttribute(R.attr.listPreferredItemHeight, typedValue, true)) {
             return typedValue.getDimension(context.getResources().getDisplayMetrics());
         }
         return 0.0f;

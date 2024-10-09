@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* loaded from: classes.dex */
 public final class IntentSenderRequest implements Parcelable {
     public static final Parcelable.Creator<IntentSenderRequest> CREATOR = new Parcelable.Creator() { // from class: androidx.activity.result.IntentSenderRequest.1

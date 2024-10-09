@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 public enum zzex {
     zza(0),
@@ -10,7 +11,7 @@ public enum zzex {
     zzg(zzba.zzb),
     zzh(null),
     zzi(null);
-    
+
     private final Object zzk;
 
     zzex(Object obj) {

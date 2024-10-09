@@ -39,6 +39,7 @@ import org.telegram.ui.Components.CircularProgressDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Stories.recorder.DownloadButton;
+
 /* loaded from: classes4.dex */
 public class DownloadButton extends ImageView {
     private BuildingVideo buildingVideo;
@@ -90,8 +91,9 @@ public class DownloadButton extends ImageView {
         @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
         public void didReceivedNotification(int i, int i2, Object... objArr) {
             if (i == NotificationCenter.filePreparingStarted) {
-                MessageObject messageObject = (MessageObject) objArr[0];
-            } else if (i != NotificationCenter.fileNewChunkAvailable) {
+                return;
+            }
+            if (i != NotificationCenter.fileNewChunkAvailable) {
                 if (i == NotificationCenter.filePreparingFailed && ((MessageObject) objArr[0]) == this.messageObject) {
                     stop(false);
                     try {
@@ -102,9 +104,11 @@ public class DownloadButton extends ImageView {
                     } catch (Exception unused) {
                     }
                     this.onCancel.run();
+                    return;
                 }
-            } else if (((MessageObject) objArr[0]) == this.messageObject) {
-                String str = (String) objArr[1];
+                return;
+            }
+            if (((MessageObject) objArr[0]) == this.messageObject) {
                 ((Long) objArr[2]).longValue();
                 long longValue = ((Long) objArr[3]).longValue();
                 Float f = (Float) objArr[4];

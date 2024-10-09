@@ -1,6 +1,7 @@
 package kotlinx.coroutines;
 
 import kotlin.coroutines.CoroutineContext;
+
 /* loaded from: classes.dex */
 public interface Job extends CoroutineContext.Element {
     public static final Key Key = Key.$$INSTANCE;

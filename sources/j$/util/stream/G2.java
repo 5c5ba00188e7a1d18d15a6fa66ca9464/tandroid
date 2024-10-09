@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 final class G2 extends M2 implements j$.util.E {
     final /* synthetic */ H2 g;

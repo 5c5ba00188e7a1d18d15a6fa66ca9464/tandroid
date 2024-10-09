@@ -14,6 +14,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes3.dex */
 public class BackgroundGradientDrawable extends GradientDrawable {
     private final Paint bitmapPaint;
@@ -195,6 +196,7 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         return getGradientPoints(getGradientOrientation(i), i2, i3);
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x000e. Please report as an issue. */
     public static android.graphics.Rect getGradientPoints(GradientDrawable.Orientation orientation, int i, int i2) {
         android.graphics.Rect rect = new android.graphics.Rect();
         switch (2.$SwitchMap$android$graphics$drawable$GradientDrawable$Orientation[orientation.ordinal()]) {
@@ -204,53 +206,54 @@ public class BackgroundGradientDrawable extends GradientDrawable {
                 rect.top = 0;
                 rect.right = i;
                 rect.bottom = i2;
-                return rect;
+                break;
             case 2:
                 rect.left = i;
                 rect.top = 0;
                 rect.right = 0;
                 rect.bottom = i2;
-                return rect;
+                break;
             case 3:
                 rect.left = i;
                 i2 /= 2;
                 rect.top = i2;
                 rect.right = 0;
                 rect.bottom = i2;
-                return rect;
+                break;
             case 4:
                 rect.left = i;
                 rect.top = i2;
                 rect.right = 0;
                 rect.bottom = 0;
-                return rect;
+                break;
             case 5:
                 i /= 2;
                 rect.left = i;
                 rect.top = i2;
                 rect.right = i;
                 rect.bottom = 0;
-                return rect;
+                break;
             case 6:
                 rect.left = 0;
                 rect.top = i2;
                 rect.right = i;
                 rect.bottom = 0;
-                return rect;
+                break;
             case 7:
                 rect.left = 0;
                 i2 /= 2;
                 rect.top = i2;
                 rect.right = i;
                 rect.bottom = i2;
-                return rect;
+                break;
             default:
                 rect.left = 0;
                 rect.top = 0;
                 rect.right = i;
                 rect.bottom = i2;
-                return rect;
+                break;
         }
+        return rect;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -309,10 +312,11 @@ public class BackgroundGradientDrawable extends GradientDrawable {
                 }
             });
         } catch (Throwable th) {
+            final Bitmap bitmap = null;
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BackgroundGradientDrawable$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    BackgroundGradientDrawable.this.lambda$startDitheringInternal$1(runnableArr, createDitheredGradientBitmap, intSize, i, listenerArr);
+                    BackgroundGradientDrawable.this.lambda$startDitheringInternal$1(runnableArr, bitmap, intSize, i, listenerArr);
                 }
             });
             throw th;

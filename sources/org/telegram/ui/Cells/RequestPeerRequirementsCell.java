@@ -19,6 +19,7 @@ import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class RequestPeerRequirementsCell extends LinearLayout {
     private TLRPC.RequestPeerType requestPeerType;
@@ -100,18 +101,21 @@ public class RequestPeerRequirementsCell extends LinearLayout {
         }
         if (arrayList.size() == 1) {
             this.requirements.add(Requirement.make(TextUtils.concat(charSequence2, " ", ((Requirement) arrayList.get(0)).text)));
-        } else if (!arrayList.isEmpty()) {
-            SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(charSequence);
-            valueOf.append((CharSequence) " ");
-            for (int i = 0; i < arrayList.size(); i++) {
-                if (i > 0) {
-                    valueOf.append((CharSequence) ", ");
-                }
-                valueOf.append((CharSequence) ((Requirement) arrayList.get(i)).text.toString().toLowerCase());
-            }
-            valueOf.append((CharSequence) ".");
-            this.requirements.add(Requirement.make(valueOf));
+            return;
         }
+        if (arrayList.isEmpty()) {
+            return;
+        }
+        SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(charSequence);
+        valueOf.append((CharSequence) " ");
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (i > 0) {
+                valueOf.append((CharSequence) ", ");
+            }
+            valueOf.append((CharSequence) ((Requirement) arrayList.get(i)).text.toString().toLowerCase());
+        }
+        valueOf.append((CharSequence) ".");
+        this.requirements.add(Requirement.make(valueOf));
     }
 
     private void checkRequirement(Boolean bool, int i, int i2) {

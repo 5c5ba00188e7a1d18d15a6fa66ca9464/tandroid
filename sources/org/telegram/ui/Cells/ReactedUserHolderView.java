@@ -45,6 +45,7 @@ import org.telegram.ui.Components.MessageSeenCheckDrawable;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.StatusBadgeComponent;
 import org.telegram.ui.Stories.StoriesUtilities;
+
 /* loaded from: classes4.dex */
 public class ReactedUserHolderView extends FrameLayout {
     public static int STYLE_DEFAULT = 0;
@@ -102,10 +103,10 @@ public class ReactedUserHolderView extends FrameLayout {
             protected void onDraw(Canvas canvas) {
                 if (i != ReactedUserHolderView.STYLE_STORY) {
                     super.onDraw(canvas);
-                    return;
+                } else {
+                    ReactedUserHolderView.this.params.originalAvatarRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
+                    StoriesUtilities.drawAvatarWithStory(ReactedUserHolderView.this.dialogId, canvas, getImageReceiver(), ReactedUserHolderView.this.params);
                 }
-                ReactedUserHolderView.this.params.originalAvatarRect.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                StoriesUtilities.drawAvatarWithStory(ReactedUserHolderView.this.dialogId, canvas, getImageReceiver(), ReactedUserHolderView.this.params);
             }
 
             @Override // android.view.View
@@ -268,9 +269,8 @@ public class ReactedUserHolderView extends FrameLayout {
             return;
         }
         long peerId = MessageObject.getPeerId(messagePeerReaction.peer_id);
-        int i = (peerId > 0L ? 1 : (peerId == 0L ? 0 : -1));
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-        if (i > 0) {
+        if (peerId > 0) {
             user = messagesController.getUser(Long.valueOf(peerId));
             chat = null;
         } else {
@@ -281,14 +281,14 @@ public class ReactedUserHolderView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x02b3  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x02bb  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x02c6  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x02e8  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x02ff  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x0302  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01c2  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x01e4  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x02e8  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x01c2  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x01e4  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x02b3  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x02c6  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x02ff  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0302  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x02bb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

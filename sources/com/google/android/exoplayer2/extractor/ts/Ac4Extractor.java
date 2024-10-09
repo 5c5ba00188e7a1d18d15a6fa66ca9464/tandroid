@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Map;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public final class Ac4Extractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.Ac4Extractor$$ExternalSyntheticLambda0
@@ -30,7 +31,7 @@ public final class Ac4Extractor implements Extractor {
         }
     };
     private final Ac4Reader reader = new Ac4Reader();
-    private final ParsableByteArray sampleData = new ParsableByteArray((int) LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
+    private final ParsableByteArray sampleData = new ParsableByteArray(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
     private boolean startedPacket;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -71,14 +72,17 @@ public final class Ac4Extractor implements Extractor {
         this.reader.seek();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x003d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x003d, code lost:
+    
         r9.resetPeekPosition();
         r4 = r4 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0046, code lost:
-        if ((r4 - r3) < 8192) goto L15;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0046, code lost:
+    
+        if ((r4 - r3) < 8192) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0048, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0048, code lost:
+    
         return false;
      */
     @Override // com.google.android.exoplayer2.extractor.Extractor

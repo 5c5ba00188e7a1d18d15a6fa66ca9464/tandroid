@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentMap;
+
 /* loaded from: classes3.dex */
 public class FastDatePrinter implements DatePrinter, Serializable {
     public static final int FULL = 0;
@@ -187,11 +188,11 @@ public class FastDatePrinter implements DatePrinter, Serializable {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof TimeZoneDisplayKey) {
-                TimeZoneDisplayKey timeZoneDisplayKey = (TimeZoneDisplayKey) obj;
-                return this.mTimeZone.equals(timeZoneDisplayKey.mTimeZone) && this.mStyle == timeZoneDisplayKey.mStyle && this.mLocale.equals(timeZoneDisplayKey.mLocale);
+            if (!(obj instanceof TimeZoneDisplayKey)) {
+                return false;
             }
-            return false;
+            TimeZoneDisplayKey timeZoneDisplayKey = (TimeZoneDisplayKey) obj;
+            return this.mTimeZone.equals(timeZoneDisplayKey.mTimeZone) && this.mStyle == timeZoneDisplayKey.mStyle && this.mLocale.equals(timeZoneDisplayKey.mLocale);
         }
 
         public int hashCode() {
@@ -371,10 +372,10 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         public final void appendTo(StringBuffer stringBuffer, int i) {
             if (i >= 100) {
                 stringBuffer.append(Integer.toString(i));
-                return;
+            } else {
+                stringBuffer.append((char) ((i / 10) + 48));
+                stringBuffer.append((char) ((i % 10) + 48));
             }
-            stringBuffer.append((char) ((i / 10) + 48));
-            stringBuffer.append((char) ((i % 10) + 48));
         }
 
         @Override // org.telegram.messenger.time.FastDatePrinter.Rule
@@ -491,12 +492,12 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         TimeZoneDisplayKey timeZoneDisplayKey = new TimeZoneDisplayKey(timeZone, z, i, locale);
         ConcurrentMap<TimeZoneDisplayKey, String> concurrentMap = cTimeZoneDisplayCache;
         String str = concurrentMap.get(timeZoneDisplayKey);
-        if (str == null) {
-            String displayName = timeZone.getDisplayName(z, i, locale);
-            String putIfAbsent = concurrentMap.putIfAbsent(timeZoneDisplayKey, displayName);
-            return putIfAbsent != null ? putIfAbsent : displayName;
+        if (str != null) {
+            return str;
         }
-        return str;
+        String displayName = timeZone.getDisplayName(z, i, locale);
+        String putIfAbsent = concurrentMap.putIfAbsent(timeZoneDisplayKey, displayName);
+        return putIfAbsent != null ? putIfAbsent : displayName;
     }
 
     private void init() {
@@ -533,11 +534,11 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof FastDatePrinter) {
-            FastDatePrinter fastDatePrinter = (FastDatePrinter) obj;
-            return this.mPattern.equals(fastDatePrinter.mPattern) && this.mTimeZone.equals(fastDatePrinter.mTimeZone) && this.mLocale.equals(fastDatePrinter.mLocale);
+        if (!(obj instanceof FastDatePrinter)) {
+            return false;
         }
-        return false;
+        FastDatePrinter fastDatePrinter = (FastDatePrinter) obj;
+        return this.mPattern.equals(fastDatePrinter.mPattern) && this.mTimeZone.equals(fastDatePrinter.mTimeZone) && this.mLocale.equals(fastDatePrinter.mLocale);
     }
 
     @Override // org.telegram.messenger.time.DatePrinter
@@ -616,47 +617,33 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         return this.mPattern.hashCode() + ((this.mTimeZone.hashCode() + (this.mLocale.hashCode() * 13)) * 13);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0087, code lost:
-        if (r12 == 2) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0087, code lost:
+    
+        if (r12 == 2) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x009a, code lost:
-        if (r12 == 2) goto L23;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x009c, code lost:
-        r9 = org.telegram.messenger.time.FastDatePrinter.TwoDigitMonthField.INSTANCE;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x009f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x009f, code lost:
+    
         r9 = org.telegram.messenger.time.FastDatePrinter.UnpaddedMonthField.INSTANCE;
      */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r11v10, types: [org.telegram.messenger.time.FastDatePrinter$StringLiteral] */
-    /* JADX WARN: Type inference failed for: r11v11, types: [org.telegram.messenger.time.FastDatePrinter$CharacterLiteral] */
-    /* JADX WARN: Type inference failed for: r11v17, types: [org.telegram.messenger.time.FastDatePrinter$TextField] */
-    /* JADX WARN: Type inference failed for: r9v11, types: [org.telegram.messenger.time.FastDatePrinter$TimeZoneNameRule] */
-    /* JADX WARN: Type inference failed for: r9v12, types: [org.telegram.messenger.time.FastDatePrinter$TimeZoneNameRule] */
-    /* JADX WARN: Type inference failed for: r9v14 */
-    /* JADX WARN: Type inference failed for: r9v18, types: [org.telegram.messenger.time.FastDatePrinter$TimeZoneNumberRule] */
-    /* JADX WARN: Type inference failed for: r9v19, types: [org.telegram.messenger.time.FastDatePrinter$TimeZoneNumberRule] */
-    /* JADX WARN: Type inference failed for: r9v20, types: [org.telegram.messenger.time.FastDatePrinter$TextField] */
-    /* JADX WARN: Type inference failed for: r9v22, types: [org.telegram.messenger.time.FastDatePrinter$TwelveHourField] */
-    /* JADX WARN: Type inference failed for: r9v23, types: [org.telegram.messenger.time.FastDatePrinter$TwentyFourHourField] */
-    /* JADX WARN: Type inference failed for: r9v26, types: [org.telegram.messenger.time.FastDatePrinter$NumberRule] */
-    /* JADX WARN: Type inference failed for: r9v28, types: [org.telegram.messenger.time.FastDatePrinter$NumberRule] */
-    /* JADX WARN: Type inference failed for: r9v34, types: [org.telegram.messenger.time.FastDatePrinter$TextField] */
-    /* JADX WARN: Type inference failed for: r9v37, types: [org.telegram.messenger.time.FastDatePrinter$TextField] */
-    /* JADX WARN: Type inference failed for: r9v38, types: [org.telegram.messenger.time.FastDatePrinter$TextField] */
-    /* JADX WARN: Type inference failed for: r9v39, types: [org.telegram.messenger.time.FastDatePrinter$TwoDigitMonthField] */
-    /* JADX WARN: Type inference failed for: r9v40, types: [org.telegram.messenger.time.FastDatePrinter$UnpaddedMonthField] */
-    /* JADX WARN: Type inference failed for: r9v41, types: [org.telegram.messenger.time.FastDatePrinter$TextField] */
-    /* JADX WARN: Type inference failed for: r9v42, types: [org.telegram.messenger.time.FastDatePrinter$TextField] */
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x009c, code lost:
+    
+        r9 = org.telegram.messenger.time.FastDatePrinter.TwoDigitMonthField.INSTANCE;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x009a, code lost:
+    
+        if (r12 == 2) goto L30;
+     */
+    /* JADX WARN: Failed to find 'out' block for switch in B:10:0x0053. Please report as an issue. */
+    /* JADX WARN: Failed to find 'out' block for switch in B:11:0x0056. Please report as an issue. */
+    /* JADX WARN: Failed to find 'out' block for switch in B:12:0x0059. Please report as an issue. */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected List<Rule> parsePattern() {
         int i;
-        NumberRule selectNumberRule;
-        TwoDigitYearField twoDigitYearField;
-        ?? timeZoneNameRule;
+        Rule selectNumberRule;
+        Rule rule;
+        Rule timeZoneNameRule;
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(this.mLocale);
         ArrayList arrayList = new ArrayList();
         String[] eras = dateFormatSymbols.getEras();
@@ -683,13 +670,9 @@ public class FastDatePrinter implements DatePrinter, Serializable {
                     switch (charAt) {
                         case '\'':
                             String substring = parseToken.substring(1);
-                            if (substring.length() != 1) {
-                                selectNumberRule = new StringLiteral(substring);
-                                break;
-                            } else {
-                                selectNumberRule = new CharacterLiteral(substring.charAt(0));
-                                break;
-                            }
+                            selectNumberRule = substring.length() == 1 ? new CharacterLiteral(substring.charAt(0)) : new StringLiteral(substring);
+                            i = 1;
+                            break;
                         case 'S':
                             i5 = 14;
                             timeZoneNameRule = selectNumberRule(i5, length2);
@@ -737,6 +720,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
                                     break;
                                 case 'E':
                                     selectNumberRule = new TextField(7, length2 < 4 ? shortWeekdays : weekdays);
+                                    i = 1;
                                     break;
                                 case 'F':
                                     i5 = 8;
@@ -778,19 +762,18 @@ public class FastDatePrinter implements DatePrinter, Serializable {
                                     }
                             }
                     }
-                    i = 1;
                 } else if (length2 >= 4) {
                     timeZoneNameRule = new TimeZoneNameRule(this.mTimeZone, this.mLocale, 1);
                 } else {
-                    twoDigitYearField = new TimeZoneNameRule(this.mTimeZone, this.mLocale, 0);
-                    selectNumberRule = twoDigitYearField;
+                    rule = new TimeZoneNameRule(this.mTimeZone, this.mLocale, 0);
+                    selectNumberRule = rule;
                     i = 1;
                 }
                 selectNumberRule = timeZoneNameRule;
                 i = 1;
             } else if (length2 == 2) {
-                twoDigitYearField = TwoDigitYearField.INSTANCE;
-                selectNumberRule = twoDigitYearField;
+                rule = TwoDigitYearField.INSTANCE;
+                selectNumberRule = rule;
                 i = 1;
             } else {
                 if (length2 < 4) {

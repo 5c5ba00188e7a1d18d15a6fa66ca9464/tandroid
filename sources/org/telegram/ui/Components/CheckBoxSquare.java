@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class CheckBoxSquare extends View {
     private boolean attachedToWindow;
@@ -93,9 +94,8 @@ public class CheckBoxSquare extends View {
         int themedColor = getThemedColor(this.key1);
         int themedColor2 = getThemedColor(this.key2);
         float f2 = this.progress;
-        int i = (f2 > 0.5f ? 1 : (f2 == 0.5f ? 0 : -1));
         float f3 = f2 / 0.5f;
-        if (i <= 0) {
+        if (f2 <= 0.5f) {
             Theme.checkboxSquare_backgroundPaint.setColor(Color.rgb(Color.red(themedColor) + ((int) ((Color.red(themedColor2) - Color.red(themedColor)) * f3)), Color.green(themedColor) + ((int) ((Color.green(themedColor2) - Color.green(themedColor)) * f3)), Color.blue(themedColor) + ((int) ((Color.blue(themedColor2) - Color.blue(themedColor)) * f3))));
             f = f3;
         } else {
@@ -136,10 +136,10 @@ public class CheckBoxSquare extends View {
         this.isChecked = z;
         if (this.attachedToWindow && z2) {
             animateToCheckedState(z);
-            return;
+        } else {
+            cancelCheckAnimator();
+            setProgress(z ? 1.0f : 0.0f);
         }
-        cancelCheckAnimator();
-        setProgress(z ? 1.0f : 0.0f);
     }
 
     public void setColors(int i, int i2, int i3) {

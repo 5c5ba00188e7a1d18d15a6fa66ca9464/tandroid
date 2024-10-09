@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.EGLSurfaceTexture;
 import com.google.android.exoplayer2.util.GlUtil;
 import com.google.android.exoplayer2.util.Log;
+
 /* loaded from: classes.dex */
 public final class PlaceholderSurface extends Surface {
     private static int secureMode;
@@ -115,14 +116,14 @@ public final class PlaceholderSurface extends Surface {
                 Thread.currentThread().interrupt();
             }
             RuntimeException runtimeException = this.initException;
-            if (runtimeException == null) {
-                Error error = this.initError;
-                if (error == null) {
-                    return (PlaceholderSurface) Assertions.checkNotNull(this.surface);
-                }
-                throw error;
+            if (runtimeException != null) {
+                throw runtimeException;
             }
-            throw runtimeException;
+            Error error = this.initError;
+            if (error == null) {
+                return (PlaceholderSurface) Assertions.checkNotNull(this.surface);
+            }
+            throw error;
         }
 
         public void release() {

@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import kotlin.jvm.internal.DefaultConstructorMarker;
+
 /* loaded from: classes.dex */
 public final class LockFreeTaskQueueCore {
     public static final Companion Companion = new Companion(null);
@@ -98,11 +99,11 @@ public final class LockFreeTaskQueueCore {
 
     private final LockFreeTaskQueueCore fillPlaceholder(int i, Object obj) {
         Object obj2 = this.array.get(this.mask & i);
-        if ((obj2 instanceof Placeholder) && ((Placeholder) obj2).index == i) {
-            this.array.set(i & this.mask, obj);
-            return this;
+        if (!(obj2 instanceof Placeholder) || ((Placeholder) obj2).index != i) {
+            return null;
         }
-        return null;
+        this.array.set(i & this.mask, obj);
+        return this;
     }
 
     private final long markFrozen() {
@@ -132,7 +133,8 @@ public final class LockFreeTaskQueueCore {
         return null;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x004a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x004a, code lost:
+    
         return 1;
      */
     /*
@@ -210,14 +212,16 @@ public final class LockFreeTaskQueueCore {
                 if (this.singleConsumer) {
                     return null;
                 }
-            } else if (obj instanceof Placeholder) {
-                return null;
             } else {
+                if (obj instanceof Placeholder) {
+                    return null;
+                }
                 int i4 = (i + 1) & 1073741823;
                 if (_state$FU.compareAndSet(this, j, Companion.updateHead(j, i4))) {
                     this.array.set(this.mask & i, null);
                     return obj;
-                } else if (this.singleConsumer) {
+                }
+                if (this.singleConsumer) {
                     LockFreeTaskQueueCore lockFreeTaskQueueCore = this;
                     do {
                         lockFreeTaskQueueCore = lockFreeTaskQueueCore.removeSlowPath(i, i4);

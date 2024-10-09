@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.decoder;
 import android.media.MediaCodec;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class CryptoInfo {
     public int clearBlocks;
@@ -33,6 +34,7 @@ public final class CryptoInfo {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public CryptoInfo() {
         MediaCodec.CryptoInfo cryptoInfo = new MediaCodec.CryptoInfo();
         this.frameworkCryptoInfo = cryptoInfo;

@@ -2,6 +2,7 @@ package com.google.firebase.remoteconfig.internal;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+
 /* loaded from: classes.dex */
 public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
     private final FirebaseRemoteConfigSettings configSettings;

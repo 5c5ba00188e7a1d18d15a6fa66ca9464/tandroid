@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_common;
+
 /* loaded from: classes.dex */
 final class zzad implements zzai {
     private final int zza;
@@ -20,11 +21,11 @@ final class zzad implements zzai {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zzai) {
-            zzai zzaiVar = (zzai) obj;
-            return this.zza == zzaiVar.zza() && this.zzb.equals(zzaiVar.zzb());
+        if (!(obj instanceof zzai)) {
+            return false;
         }
-        return false;
+        zzai zzaiVar = (zzai) obj;
+        return this.zza == zzaiVar.zza() && this.zzb.equals(zzaiVar.zzb());
     }
 
     @Override // java.lang.annotation.Annotation

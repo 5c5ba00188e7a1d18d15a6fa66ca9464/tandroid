@@ -2,6 +2,7 @@ package com.google.common.collect;
 
 import com.google.common.base.Preconditions;
 import java.io.Serializable;
+
 /* loaded from: classes.dex */
 final class NaturalOrdering extends Ordering implements Serializable {
     static final NaturalOrdering INSTANCE = new NaturalOrdering();

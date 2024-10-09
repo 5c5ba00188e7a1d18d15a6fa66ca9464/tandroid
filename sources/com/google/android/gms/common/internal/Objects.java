@@ -3,6 +3,7 @@ package com.google.android.gms.common.internal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class Objects {
 
@@ -20,8 +21,7 @@ public abstract class Objects {
         public ToStringHelper add(String str, Object obj) {
             List list = this.zza;
             Preconditions.checkNotNull(str);
-            String valueOf = String.valueOf(obj);
-            list.add(str + "=" + valueOf);
+            list.add(str + "=" + String.valueOf(obj));
             return this;
         }
 

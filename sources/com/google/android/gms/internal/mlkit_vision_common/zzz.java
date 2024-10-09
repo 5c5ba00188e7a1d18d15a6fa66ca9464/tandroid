@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_common;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzz extends zzr {
@@ -21,8 +22,8 @@ public final class zzz extends zzr {
         return new zzz(null, objArr, 1);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x001f A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0020 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:5:0x001f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0020 A[RETURN] */
     @Override // com.google.android.gms.internal.mlkit_vision_common.zzr, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.

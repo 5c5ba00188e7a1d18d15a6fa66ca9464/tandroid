@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes.dex */
 public abstract class MimeTypes {
     private static final ArrayList customMimeTypes = new ArrayList();
@@ -27,22 +28,22 @@ public abstract class MimeTypes {
 
         public int getEncoding() {
             int i = this.audioObjectTypeIndication;
-            if (i != 2) {
-                if (i != 5) {
-                    if (i != 29) {
-                        if (i != 42) {
-                            if (i != 22) {
-                                return i != 23 ? 0 : 15;
-                            }
-                            return 1073741824;
-                        }
-                        return 16;
-                    }
-                    return 12;
-                }
+            if (i == 2) {
+                return 10;
+            }
+            if (i == 5) {
                 return 11;
             }
-            return 10;
+            if (i == 29) {
+                return 12;
+            }
+            if (i == 42) {
+                return 16;
+            }
+            if (i != 22) {
+                return i != 23 ? 0 : 15;
+            }
+            return 1073741824;
         }
     }
 
@@ -316,77 +317,77 @@ public abstract class MimeTypes {
     }
 
     public static String getMimeTypeFromMp4ObjectType(int i) {
-        if (i != 32) {
-            if (i != 33) {
-                if (i != 35) {
-                    if (i != 64) {
-                        if (i != 163) {
-                            if (i != 177) {
-                                if (i != 165) {
-                                    if (i != 166) {
-                                        switch (i) {
-                                            case 96:
-                                            case 97:
-                                            case 98:
-                                            case 99:
-                                            case 100:
-                                            case 101:
-                                                return "video/mpeg2";
-                                            case 102:
-                                            case 103:
-                                            case 104:
-                                                return MediaController.AUDIO_MIME_TYPE;
-                                            case 105:
-                                            case 107:
-                                                return "audio/mpeg";
-                                            case 106:
-                                                return "video/mpeg";
-                                            default:
-                                                switch (i) {
-                                                    case NotificationCenter.closeInCallActivity /* 169 */:
-                                                    case NotificationCenter.configLoaded /* 172 */:
-                                                        return "audio/vnd.dts";
-                                                    case NotificationCenter.groupCallVisibilityChanged /* 170 */:
-                                                    case NotificationCenter.appDidLogout /* 171 */:
-                                                        return "audio/vnd.dts.hd";
-                                                    case NotificationCenter.needDeleteDialog /* 173 */:
-                                                        return "audio/opus";
-                                                    case NotificationCenter.newEmojiSuggestionsAvailable /* 174 */:
-                                                        return "audio/ac4";
-                                                    default:
-                                                        return null;
-                                                }
-                                        }
-                                    }
-                                    return "audio/eac3";
-                                }
-                                return "audio/ac3";
-                            }
-                            return "video/x-vnd.on2.vp9";
-                        }
-                        return "video/wvc1";
-                    }
-                    return MediaController.AUDIO_MIME_TYPE;
-                }
-                return "video/hevc";
-            }
+        if (i == 32) {
+            return "video/mp4v-es";
+        }
+        if (i == 33) {
             return MediaController.VIDEO_MIME_TYPE;
         }
-        return "video/mp4v-es";
+        if (i == 35) {
+            return "video/hevc";
+        }
+        if (i == 64) {
+            return MediaController.AUDIO_MIME_TYPE;
+        }
+        if (i == 163) {
+            return "video/wvc1";
+        }
+        if (i == 177) {
+            return "video/x-vnd.on2.vp9";
+        }
+        if (i == 165) {
+            return "audio/ac3";
+        }
+        if (i == 166) {
+            return "audio/eac3";
+        }
+        switch (i) {
+            case 96:
+            case 97:
+            case 98:
+            case 99:
+            case 100:
+            case 101:
+                return "video/mpeg2";
+            case 102:
+            case 103:
+            case 104:
+                return MediaController.AUDIO_MIME_TYPE;
+            case 105:
+            case 107:
+                return "audio/mpeg";
+            case 106:
+                return "video/mpeg";
+            default:
+                switch (i) {
+                    case NotificationCenter.closeInCallActivity /* 169 */:
+                    case NotificationCenter.configLoaded /* 172 */:
+                        return "audio/vnd.dts";
+                    case NotificationCenter.groupCallVisibilityChanged /* 170 */:
+                    case NotificationCenter.appDidLogout /* 171 */:
+                        return "audio/vnd.dts.hd";
+                    case NotificationCenter.needDeleteDialog /* 173 */:
+                        return "audio/opus";
+                    case NotificationCenter.newEmojiSuggestionsAvailable /* 174 */:
+                        return "audio/ac4";
+                    default:
+                        return null;
+                }
+        }
     }
 
     static Mp4aObjectType getObjectTypeFromMp4aRFC6381CodecString(String str) {
         Matcher matcher = MP4A_RFC_6381_CODEC_PATTERN.matcher(str);
-        if (matcher.matches()) {
-            String str2 = (String) Assertions.checkNotNull(matcher.group(1));
-            String group = matcher.group(2);
-            try {
-                return new Mp4aObjectType(Integer.parseInt(str2, 16), group != null ? Integer.parseInt(group) : 0);
-            } catch (NumberFormatException unused) {
-                return null;
-            }
+        if (!matcher.matches()) {
+            return null;
         }
-        return null;
+        String str2 = (String) Assertions.checkNotNull(matcher.group(1));
+        String group = matcher.group(2);
+        try {
+            return new Mp4aObjectType(Integer.parseInt(str2, 16), group != null ? Integer.parseInt(group) : 0);
+        } catch (NumberFormatException unused) {
+            return null;
+        }
     }
 
     private static String getTopLevelType(String str) {

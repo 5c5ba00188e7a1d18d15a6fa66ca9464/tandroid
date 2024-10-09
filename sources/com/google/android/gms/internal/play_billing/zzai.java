@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.ListIterator;
+
 /* loaded from: classes.dex */
 public abstract class zzai extends zzah implements ListIterator {
     @Override // java.util.ListIterator

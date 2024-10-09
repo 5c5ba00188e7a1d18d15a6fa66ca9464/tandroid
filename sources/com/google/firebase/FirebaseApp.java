@@ -35,6 +35,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes.dex */
 public class FirebaseApp {
     private final Context applicationContext;
@@ -127,8 +128,9 @@ public class FirebaseApp {
         public void onReceive(Context context, Intent intent) {
             synchronized (FirebaseApp.LOCK) {
                 try {
-                    for (FirebaseApp firebaseApp : FirebaseApp.INSTANCES.values()) {
-                        firebaseApp.initializeAllApis();
+                    Iterator it = FirebaseApp.INSTANCES.values().iterator();
+                    while (it.hasNext()) {
+                        ((FirebaseApp) it.next()).initializeAllApis();
                     }
                 } catch (Throwable th) {
                     throw th;

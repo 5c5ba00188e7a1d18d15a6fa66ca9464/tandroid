@@ -2,6 +2,7 @@ package com.google.android.gms.common.api.internal;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.internal.BaseGmsClient;
+
 /* loaded from: classes.dex */
 final class zaan extends zabg {
     final /* synthetic */ BaseGmsClient.ConnectionProgressReportCallbacks zaa;

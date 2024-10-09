@@ -10,6 +10,7 @@ import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
 /* loaded from: classes.dex */
 public final class zzss {
     private static final zzat zzb = zzat.zzc("optional-module-barcode", "com.google.android.gms.vision.barcode");

@@ -11,6 +11,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.voip.NativeInstance;
 import org.webrtc.ContextUtils;
 import org.webrtc.VideoSink;
+
 /* loaded from: classes3.dex */
 public final class Instance {
     public static final int AUDIO_STATE_ACTIVE = 1;

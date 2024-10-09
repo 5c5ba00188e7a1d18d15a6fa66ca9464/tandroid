@@ -1,4 +1,5 @@
 package org.telegram.messenger.audioinfo.mp3;
+
 /* loaded from: classes3.dex */
 public class ID3v2FrameHeader {
     private int bodySize;

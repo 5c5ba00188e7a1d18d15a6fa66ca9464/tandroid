@@ -24,6 +24,7 @@ import androidx.core.view.inputmethod.InputConnectionCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.core.widget.TextViewOnReceiveContentListener;
 import androidx.core.widget.TintableCompoundDrawablesView;
+
 /* loaded from: classes.dex */
 public class AppCompatEditText extends EditText implements TintableBackgroundView, OnReceiveContentViewBehavior, TintableCompoundDrawablesView {
     private final AppCompatEmojiEditTextHelper mAppCompatEmojiEditTextHelper;
@@ -177,7 +178,7 @@ public class AppCompatEditText extends EditText implements TintableBackgroundVie
         return this.mDefaultOnReceiveContentListener.onReceiveContent(this, contentInfoCompat);
     }
 
-    @Override // android.widget.TextView
+    @Override // android.widget.EditText, android.widget.TextView
     public boolean onTextContextMenuItem(int i) {
         if (AppCompatReceiveContentHelper.maybeHandleMenuActionViaPerformReceiveContent(this, i)) {
             return true;

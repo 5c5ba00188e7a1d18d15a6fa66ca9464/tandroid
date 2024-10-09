@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzed {
@@ -156,17 +157,21 @@ public final class zzed {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00c2, code lost:
-        if (zzcz() != false) goto L31;
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x00c2, code lost:
+    
+        if (zzcz() != false) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x00c4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x00c4, code lost:
+    
         r5.zzof = zzcw();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x014b, code lost:
-        if ((r5.zznz & 2048) != 0) goto L31;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x014b, code lost:
+    
+        if ((r5.zznz & 2048) != 0) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x0153, code lost:
-        if (zzcz() != false) goto L31;
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0153, code lost:
+    
+        if (zzcz() != false) goto L39;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -174,75 +179,75 @@ public final class zzed {
     public final boolean next() {
         int i;
         Object type;
-        if (this.zznh.hasNext()) {
-            this.zzny = this.zznh.next();
-            int next = this.zznh.next();
-            this.zznz = next;
-            int i2 = next & NotificationCenter.closeSearchByActiveAction;
-            this.zzoa = i2;
-            int i3 = this.zzny;
-            if (i3 < this.zznr) {
-                this.zznr = i3;
+        if (!this.zznh.hasNext()) {
+            return false;
+        }
+        this.zzny = this.zznh.next();
+        int next = this.zznh.next();
+        this.zznz = next;
+        int i2 = next & NotificationCenter.closeSearchByActiveAction;
+        this.zzoa = i2;
+        int i3 = this.zzny;
+        if (i3 < this.zznr) {
+            this.zznr = i3;
+        }
+        if (i3 > this.zzns) {
+            this.zzns = i3;
+        }
+        zzcb zzcbVar = zzcb.zziw;
+        if (i2 == zzcbVar.id()) {
+            this.zznt++;
+        } else if (this.zzoa >= zzcb.zzhq.id() && this.zzoa <= zzcb.zziv.id()) {
+            this.zznu++;
+        }
+        int i4 = this.zznx + 1;
+        this.zznx = i4;
+        if (zzeh.zzc(this.zznr, this.zzny, i4)) {
+            int i5 = this.zzny + 1;
+            this.zznw = i5;
+            i = i5 - this.zznr;
+        } else {
+            i = this.zznv + 1;
+        }
+        this.zznv = i;
+        if ((this.zznz & 1024) != 0) {
+            int[] iArr = this.zzms;
+            int i6 = this.zznq;
+            this.zznq = i6 + 1;
+            iArr[i6] = this.zzny;
+        }
+        this.zzoe = null;
+        this.zzof = null;
+        this.zzog = null;
+        if (zzda()) {
+            this.zzob = this.zznh.next();
+            if (this.zzoa != zzcb.zzhh.id() + 51 && this.zzoa != zzcb.zzhp.id() + 51) {
+                if (this.zzoa == zzcb.zzhk.id() + 51) {
+                }
+                return true;
             }
-            if (i3 > this.zzns) {
-                this.zzns = i3;
+            type = zzcw();
+        } else {
+            this.zzod = zza(this.zzni, (String) zzcw());
+            if (zzde()) {
+                this.zzoc = this.zznh.next();
             }
-            zzcb zzcbVar = zzcb.zziw;
-            if (i2 == zzcbVar.id()) {
-                this.zznt++;
-            } else if (this.zzoa >= zzcb.zzhq.id() && this.zzoa <= zzcb.zziv.id()) {
-                this.zznu++;
-            }
-            int i4 = this.zznx + 1;
-            this.zznx = i4;
-            if (zzeh.zzc(this.zznr, this.zzny, i4)) {
-                int i5 = this.zzny + 1;
-                this.zznw = i5;
-                i = i5 - this.zznr;
+            if (this.zzoa == zzcb.zzhh.id() || this.zzoa == zzcb.zzhp.id()) {
+                type = this.zzod.getType();
             } else {
-                i = this.zznv + 1;
-            }
-            this.zznv = i;
-            if ((this.zznz & 1024) != 0) {
-                int[] iArr = this.zzms;
-                int i6 = this.zznq;
-                this.zznq = i6 + 1;
-                iArr[i6] = this.zzny;
-            }
-            this.zzoe = null;
-            this.zzof = null;
-            this.zzog = null;
-            if (zzda()) {
-                this.zzob = this.zznh.next();
-                if (this.zzoa != zzcb.zzhh.id() + 51 && this.zzoa != zzcb.zzhp.id() + 51) {
-                    if (this.zzoa == zzcb.zzhk.id() + 51) {
+                if (this.zzoa != zzcb.zzhz.id() && this.zzoa != zzcb.zziv.id()) {
+                    if (this.zzoa != zzcb.zzhk.id() && this.zzoa != zzcb.zzic.id() && this.zzoa != zzcb.zziq.id()) {
+                        if (this.zzoa == zzcbVar.id()) {
+                            this.zzog = zzcw();
+                        }
+                        return true;
                     }
-                    return true;
                 }
                 type = zzcw();
-            } else {
-                this.zzod = zza(this.zzni, (String) zzcw());
-                if (zzde()) {
-                    this.zzoc = this.zznh.next();
-                }
-                if (this.zzoa == zzcb.zzhh.id() || this.zzoa == zzcb.zzhp.id()) {
-                    type = this.zzod.getType();
-                } else {
-                    if (this.zzoa != zzcb.zzhz.id() && this.zzoa != zzcb.zziv.id()) {
-                        if (this.zzoa != zzcb.zzhk.id() && this.zzoa != zzcb.zzic.id() && this.zzoa != zzcb.zziq.id()) {
-                            if (this.zzoa == zzcbVar.id()) {
-                                this.zzog = zzcw();
-                            }
-                            return true;
-                        }
-                    }
-                    type = zzcw();
-                }
             }
-            this.zzoe = type;
-            return true;
         }
-        return false;
+        this.zzoe = type;
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

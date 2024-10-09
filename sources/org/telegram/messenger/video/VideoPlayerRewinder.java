@@ -3,6 +3,7 @@ package org.telegram.messenger.video;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.PhotoViewerWebView;
 import org.telegram.ui.Components.VideoPlayer;
+
 /* loaded from: classes3.dex */
 public class VideoPlayerRewinder {
     private long rewindBackSeekPlayerPosition;
@@ -38,9 +39,9 @@ public class VideoPlayerRewinder {
             } else {
                 VideoPlayerRewinder.access$522(VideoPlayerRewinder.this, j2);
             }
-            int i2 = (VideoPlayerRewinder.this.rewindBackSeekPlayerPosition > 0L ? 1 : (VideoPlayerRewinder.this.rewindBackSeekPlayerPosition == 0L ? 0 : -1));
+            long j3 = VideoPlayerRewinder.this.rewindBackSeekPlayerPosition;
             VideoPlayerRewinder videoPlayerRewinder2 = VideoPlayerRewinder.this;
-            if (i2 < 0) {
+            if (j3 < 0) {
                 videoPlayerRewinder2.rewindBackSeekPlayerPosition = 0L;
             } else if (videoPlayerRewinder2.rewindBackSeekPlayerPosition > duration) {
                 VideoPlayerRewinder.this.rewindBackSeekPlayerPosition = duration;
@@ -52,10 +53,10 @@ public class VideoPlayerRewinder {
                 VideoPlayerRewinder videoPlayerRewinder5 = VideoPlayerRewinder.this;
                 videoPlayerRewinder5.seekTo(videoPlayerRewinder5.rewindBackSeekPlayerPosition);
             }
-            long j3 = VideoPlayerRewinder.this.rewindBackSeekPlayerPosition - VideoPlayerRewinder.this.startRewindFrom;
+            long j4 = VideoPlayerRewinder.this.rewindBackSeekPlayerPosition - VideoPlayerRewinder.this.startRewindFrom;
             float duration2 = ((float) VideoPlayerRewinder.this.rewindBackSeekPlayerPosition) / ((float) VideoPlayerRewinder.this.getDuration());
             VideoPlayerRewinder videoPlayerRewinder6 = VideoPlayerRewinder.this;
-            videoPlayerRewinder6.updateRewindProgressUi(j3, duration2, videoPlayerRewinder6.rewindByBackSeek);
+            videoPlayerRewinder6.updateRewindProgressUi(j4, duration2, videoPlayerRewinder6.rewindByBackSeek);
             if (VideoPlayerRewinder.this.rewindBackSeekPlayerPosition == 0 || VideoPlayerRewinder.this.rewindBackSeekPlayerPosition >= duration) {
                 VideoPlayerRewinder videoPlayerRewinder7 = VideoPlayerRewinder.this;
                 if (videoPlayerRewinder7.rewindByBackSeek) {
@@ -85,9 +86,8 @@ public class VideoPlayerRewinder {
     }
 
     private long getCurrentPosition() {
-        PhotoViewerWebView photoViewerWebView = this.webView;
-        if (photoViewerWebView != null) {
-            return photoViewerWebView.getCurrentPosition();
+        if (this.webView != null) {
+            return r0.getCurrentPosition();
         }
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer == null) {
@@ -98,9 +98,8 @@ public class VideoPlayerRewinder {
 
     /* JADX INFO: Access modifiers changed from: private */
     public long getDuration() {
-        PhotoViewerWebView photoViewerWebView = this.webView;
-        if (photoViewerWebView != null) {
-            return photoViewerWebView.getVideoDuration();
+        if (this.webView != null) {
+            return r0.getVideoDuration();
         }
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer == null) {
@@ -109,12 +108,13 @@ public class VideoPlayerRewinder {
         return videoPlayer.getDuration();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0044, code lost:
-        if (r0 != 2) goto L24;
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0044, code lost:
+    
+        if (r0 != 2) goto L31;
      */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0070  */
-    /* JADX WARN: Removed duplicated region for block: B:41:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0070  */
+    /* JADX WARN: Removed duplicated region for block: B:34:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

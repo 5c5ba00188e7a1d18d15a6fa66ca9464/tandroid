@@ -29,6 +29,7 @@ import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.Stars.StarsIntroActivity;
+
 /* loaded from: classes3.dex */
 public class TableView extends android.widget.TableLayout {
     private final Paint backgroundPaint;
@@ -357,9 +358,8 @@ public class TableView extends android.widget.TableLayout {
                 avatarSpan.setImageDrawable(platformDrawable2);
                 z = false;
             } else {
-                int i3 = (j > 0L ? 1 : (j == 0L ? 0 : -1));
                 MessagesController messagesController = MessagesController.getInstance(i);
-                if (i3 >= 0) {
+                if (j >= 0) {
                     TLRPC.User user = messagesController.getUser(Long.valueOf(j));
                     z = user == null;
                     str = UserObject.getUserName(user);

@@ -4,6 +4,7 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.mlkit.vision.common.internal.MultiFlavorDetectorCreator;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public abstract class ImageLabelerOptionsBase implements MultiFlavorDetectorCreator.DetectorOptions {
     private final Executor zza;
@@ -36,11 +37,11 @@ public abstract class ImageLabelerOptionsBase implements MultiFlavorDetectorCrea
         if (obj == this) {
             return true;
         }
-        if (obj instanceof ImageLabelerOptionsBase) {
-            ImageLabelerOptionsBase imageLabelerOptionsBase = (ImageLabelerOptionsBase) obj;
-            return getClass().equals(imageLabelerOptionsBase.getClass()) && Float.compare(this.zzb, imageLabelerOptionsBase.zzb) == 0 && Objects.equal(imageLabelerOptionsBase.zza, this.zza);
+        if (!(obj instanceof ImageLabelerOptionsBase)) {
+            return false;
         }
-        return false;
+        ImageLabelerOptionsBase imageLabelerOptionsBase = (ImageLabelerOptionsBase) obj;
+        return getClass().equals(imageLabelerOptionsBase.getClass()) && Float.compare(this.zzb, imageLabelerOptionsBase.zzb) == 0 && Objects.equal(imageLabelerOptionsBase.zza, this.zza);
     }
 
     public float getConfidenceThreshold() {

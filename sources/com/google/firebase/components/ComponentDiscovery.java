@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class ComponentDiscovery {
     private final Object context;
@@ -31,12 +32,12 @@ public final class ComponentDiscovery {
                     Log.w("ComponentDiscovery", "Context has no PackageManager.");
                     return null;
                 }
-                ServiceInfo serviceInfo = packageManager.getServiceInfo(new ComponentName(context, this.discoveryService), 128);
-                if (serviceInfo == null) {
-                    Log.w("ComponentDiscovery", this.discoveryService + " has no service info.");
-                    return null;
+                ServiceInfo serviceInfo = packageManager.getServiceInfo(new ComponentName(context, (Class<?>) this.discoveryService), 128);
+                if (serviceInfo != null) {
+                    return serviceInfo.metaData;
                 }
-                return serviceInfo.metaData;
+                Log.w("ComponentDiscovery", this.discoveryService + " has no service info.");
+                return null;
             } catch (PackageManager.NameNotFoundException unused) {
                 Log.w("ComponentDiscovery", "Application info not found.");
                 return null;

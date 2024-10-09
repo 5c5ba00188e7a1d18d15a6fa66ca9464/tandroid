@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.widget.ImageView;
+
 /* loaded from: classes.dex */
 public abstract class ImageViewCompat {
 
@@ -27,6 +28,7 @@ public abstract class ImageViewCompat {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static ColorStateList getImageTintList(ImageView imageView) {
         if (Build.VERSION.SDK_INT >= 21) {
             return Api21Impl.getImageTintList(imageView);
@@ -37,6 +39,7 @@ public abstract class ImageViewCompat {
         return null;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static PorterDuff.Mode getImageTintMode(ImageView imageView) {
         if (Build.VERSION.SDK_INT >= 21) {
             return Api21Impl.getImageTintMode(imageView);
@@ -47,6 +50,7 @@ public abstract class ImageViewCompat {
         return null;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setImageTintList(ImageView imageView, ColorStateList colorStateList) {
         Drawable drawable;
         int i = Build.VERSION.SDK_INT;
@@ -67,6 +71,7 @@ public abstract class ImageViewCompat {
         imageView.setImageDrawable(drawable);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setImageTintMode(ImageView imageView, PorterDuff.Mode mode) {
         Drawable drawable;
         int i = Build.VERSION.SDK_INT;

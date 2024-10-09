@@ -9,6 +9,7 @@ import android.widget.Button;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class ProgressButton extends Button {
     private int angle;
@@ -38,14 +39,17 @@ public class ProgressButton extends Button {
         paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0095, code lost:
-        if (r10 > 1.0f) goto L15;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0095, code lost:
+    
+        if (r10 > 1.0f) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0097, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0097, code lost:
+    
         r9.progressAlpha = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x00a7, code lost:
-        if (r10 < 0.0f) goto L15;
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x00a7, code lost:
+    
+        if (r10 < 0.0f) goto L14;
      */
     @Override // android.widget.TextView, android.view.View
     /*
@@ -55,9 +59,8 @@ public class ProgressButton extends Button {
         super.onDraw(canvas);
         float f = 0.0f;
         if (this.drawProgress || this.progressAlpha != 0.0f) {
-            int measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(11.0f);
-            this.progressRect.set(measuredWidth, AndroidUtilities.dp(3.0f), measuredWidth + AndroidUtilities.dp(8.0f), AndroidUtilities.dp(11.0f));
-            this.progressPaint.setAlpha(Math.min((int) NotificationCenter.closeSearchByActiveAction, (int) (this.progressAlpha * 255.0f)));
+            this.progressRect.set(getMeasuredWidth() - AndroidUtilities.dp(11.0f), AndroidUtilities.dp(3.0f), r0 + AndroidUtilities.dp(8.0f), AndroidUtilities.dp(11.0f));
+            this.progressPaint.setAlpha(Math.min(NotificationCenter.closeSearchByActiveAction, (int) (this.progressAlpha * 255.0f)));
             canvas.drawArc(this.progressRect, this.angle, 220.0f, false, this.progressPaint);
             long currentTimeMillis = System.currentTimeMillis();
             if (Math.abs(this.lastUpdateTime - System.currentTimeMillis()) < 1000) {

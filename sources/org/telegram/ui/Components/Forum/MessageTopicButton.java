@@ -1,5 +1,6 @@
 package org.telegram.ui.Components.Forum;
 
+import android.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,7 +26,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
@@ -35,6 +35,7 @@ import org.telegram.ui.Components.AnimatedColor;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.StaticLayoutEx;
+
 /* loaded from: classes3.dex */
 public abstract class MessageTopicButton {
     private AvatarDrawable avatarDrawable;
@@ -73,7 +74,7 @@ public abstract class MessageTopicButton {
     private static final float[] darkSatValues = {0.64f, 0.89f, 0.84f, 0.87f, 0.74f, 0.66f, 0.81f, 0.81f, 0.71f, 0.51f, 0.61f, 0.55f, 0.62f, 0.64f};
     private static final float[] darkValValues = {0.92f, 0.9f, 0.82f, 0.82f, 0.84f, 0.84f, 0.82f, 0.88f, 0.96f, 0.1f, 0.93f, 0.88f, 0.96f, 0.92f};
     private static final int[] idleState = new int[0];
-    private static final int[] pressedState = {16842910, 16842919};
+    private static final int[] pressedState = {R.attr.state_enabled, R.attr.state_pressed};
 
     public MessageTopicButton(Context context, Theme.ResourcesProvider resourcesProvider) {
         this.context = context;
@@ -95,12 +96,13 @@ public abstract class MessageTopicButton {
         return resourcesProvider != null ? resourcesProvider.hasGradientService() : Theme.hasGradientService();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x0488, code lost:
-        if (r1.type == 5) goto L85;
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x0488, code lost:
+    
+        if (r1.type == 5) goto L83;
      */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x04d4  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x04b4  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x04c3  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x04b4  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x04d4  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x04c3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -152,7 +154,7 @@ public abstract class MessageTopicButton {
             }
         }
         if (this.topicArrowDrawable == null) {
-            this.topicArrowDrawable = this.context.getResources().getDrawable(R.drawable.msg_mini_topicarrow).mutate();
+            this.topicArrowDrawable = this.context.getResources().getDrawable(org.telegram.messenger.R.drawable.msg_mini_topicarrow).mutate();
         }
         Drawable drawable2 = this.topicArrowDrawable;
         int alphaComponent = ColorUtils.setAlphaComponent(this.topicNameColor, NotificationCenter.filePreparingStarted);
@@ -160,7 +162,7 @@ public abstract class MessageTopicButton {
         PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
         drawable2.setColorFilter(new PorterDuffColorFilter(alphaComponent, mode));
         if (this.topicClosedDrawable == null) {
-            this.topicClosedDrawable = this.context.getResources().getDrawable(R.drawable.msg_mini_lock2).mutate();
+            this.topicClosedDrawable = this.context.getResources().getDrawable(org.telegram.messenger.R.drawable.msg_mini_lock2).mutate();
         }
         Drawable drawable3 = this.topicClosedDrawable;
         int alphaComponent2 = ColorUtils.setAlphaComponent(this.topicNameColor, NotificationCenter.filePreparingStarted);
@@ -304,16 +306,17 @@ public abstract class MessageTopicButton {
         int i9 = messageObject2.type;
         if (i9 == 19) {
             f4 = 16.0f;
-        } else if (i9 == 0) {
-            i5 = dp9;
-            drawable = this.topicSelectorDrawable;
-            if (drawable == null) {
-            }
-            this.topicPaint.setColor(this.topicBackgroundColor);
-            if (this.topicIconDrawable != null) {
-            }
-            return i5;
         } else {
+            if (i9 == 0) {
+                i5 = dp9;
+                drawable = this.topicSelectorDrawable;
+                if (drawable == null) {
+                }
+                this.topicPaint.setColor(this.topicBackgroundColor);
+                if (this.topicIconDrawable != null) {
+                }
+                return i5;
+            }
             f4 = 9.0f;
         }
         i5 = AndroidUtilities.dp(f4) + dp9;
@@ -400,7 +403,8 @@ public abstract class MessageTopicButton {
                 this.topicPressed = false;
             }
             return this.topicPressed;
-        } else if (motionEvent.getAction() == 2) {
+        }
+        if (motionEvent.getAction() == 2) {
             boolean z = this.topicPressed;
             if (z != contains) {
                 if (z && (drawable = this.topicSelectorDrawable) != null) {
@@ -409,20 +413,19 @@ public abstract class MessageTopicButton {
                 this.topicPressed = contains;
             }
             return this.topicPressed;
-        } else {
-            if ((motionEvent.getAction() == 1 || motionEvent.getAction() == 3) && this.topicPressed) {
-                this.topicPressed = false;
-                Drawable drawable3 = this.topicSelectorDrawable;
-                if (drawable3 != null) {
-                    drawable3.setState(idleState);
-                }
-                if (motionEvent.getAction() == 1) {
-                    onClick();
-                    return true;
-                }
-            }
-            return false;
         }
+        if ((motionEvent.getAction() == 1 || motionEvent.getAction() == 3) && this.topicPressed) {
+            this.topicPressed = false;
+            Drawable drawable3 = this.topicSelectorDrawable;
+            if (drawable3 != null) {
+                drawable3.setState(idleState);
+            }
+            if (motionEvent.getAction() == 1) {
+                onClick();
+                return true;
+            }
+        }
+        return false;
     }
 
     public void draw(Canvas canvas, float f, float f2, float f3) {
@@ -502,8 +505,7 @@ public abstract class MessageTopicButton {
                 textPaint2.setColor(i4);
                 i3 = i4;
             }
-            TextPaint textPaint3 = Theme.chat_topicTextPaint;
-            textPaint3.setAlpha((int) (textPaint3.getAlpha() * f3 * (this.topicClosed ? 0.7f : 1.0f)));
+            Theme.chat_topicTextPaint.setAlpha((int) (r10.getAlpha() * f3 * (this.topicClosed ? 0.7f : 1.0f)));
             this.topicNameLayout.draw(canvas);
             canvas.restore();
         }
@@ -579,12 +581,12 @@ public abstract class MessageTopicButton {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00b9  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00c2  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00fd  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0102  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x010a  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00fd  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00c2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -611,39 +613,40 @@ public abstract class MessageTopicButton {
             this.avatarDrawable.setAvatarType(12);
             this.avatarDrawable.setScaleSize(dp2);
             this.imageReceiver.setImage(null, null, this.avatarDrawable, null, tLObject, 0);
-            i2 = R.string.RepliesTitle;
-        } else if (!z || !UserObject.isUserSelf((TLRPC.User) tLObject)) {
-            this.avatarDrawable.setInfo(messageObject.currentAccount, tLObject);
-            this.imageReceiver.setForUserOrChat(tLObject, this.avatarDrawable);
-            if (messageObject.isOutOwner()) {
-                int colorId = z ? UserObject.getColorId((TLRPC.User) tLObject) : tLObject instanceof TLRPC.Chat ? ChatObject.getColorId((TLRPC.Chat) tLObject) : 0;
-                if (colorId < 7) {
-                    i3 = Theme.keys_avatar_nameInMessage[colorId];
-                } else {
-                    MessagesController.PeerColors peerColors = MessagesController.getInstance(messageObject.currentAccount).peerColors;
-                    MessagesController.PeerColor color2 = peerColors != null ? peerColors.getColor(colorId) : null;
-                    if (color2 != null) {
-                        color = color2.getColor(0, this.resourcesProvider);
-                        this.topicNameColor = color;
-                        Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-                        this.topicBackgroundColor = Theme.multAlpha(this.topicNameColor, resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark() ? 0.12f : 0.1f);
-                        return setInternal(chatMessageCell, messageObject, i, forcedFirstName, 1);
-                    }
-                    i3 = Theme.key_chat_inReplyNameText;
-                }
-            } else {
-                i3 = Theme.key_chat_outReplyNameText;
-            }
-            color = getThemedColor(i3);
-            this.topicNameColor = color;
-            Theme.ResourcesProvider resourcesProvider2 = this.resourcesProvider;
-            this.topicBackgroundColor = Theme.multAlpha(this.topicNameColor, resourcesProvider2 != null ? resourcesProvider2.isDark() : Theme.isCurrentThemeDark() ? 0.12f : 0.1f);
-            return setInternal(chatMessageCell, messageObject, i, forcedFirstName, 1);
+            i2 = org.telegram.messenger.R.string.RepliesTitle;
         } else {
+            if (!z || !UserObject.isUserSelf((TLRPC.User) tLObject)) {
+                this.avatarDrawable.setInfo(messageObject.currentAccount, tLObject);
+                this.imageReceiver.setForUserOrChat(tLObject, this.avatarDrawable);
+                if (messageObject.isOutOwner()) {
+                    int colorId = z ? UserObject.getColorId((TLRPC.User) tLObject) : tLObject instanceof TLRPC.Chat ? ChatObject.getColorId((TLRPC.Chat) tLObject) : 0;
+                    if (colorId < 7) {
+                        i3 = Theme.keys_avatar_nameInMessage[colorId];
+                    } else {
+                        MessagesController.PeerColors peerColors = MessagesController.getInstance(messageObject.currentAccount).peerColors;
+                        MessagesController.PeerColor color2 = peerColors != null ? peerColors.getColor(colorId) : null;
+                        if (color2 != null) {
+                            color = color2.getColor(0, this.resourcesProvider);
+                            this.topicNameColor = color;
+                            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
+                            this.topicBackgroundColor = Theme.multAlpha(this.topicNameColor, resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark() ? 0.12f : 0.1f);
+                            return setInternal(chatMessageCell, messageObject, i, forcedFirstName, 1);
+                        }
+                        i3 = Theme.key_chat_inReplyNameText;
+                    }
+                } else {
+                    i3 = Theme.key_chat_outReplyNameText;
+                }
+                color = getThemedColor(i3);
+                this.topicNameColor = color;
+                Theme.ResourcesProvider resourcesProvider2 = this.resourcesProvider;
+                this.topicBackgroundColor = Theme.multAlpha(this.topicNameColor, resourcesProvider2 != null ? resourcesProvider2.isDark() : Theme.isCurrentThemeDark() ? 0.12f : 0.1f);
+                return setInternal(chatMessageCell, messageObject, i, forcedFirstName, 1);
+            }
             this.avatarDrawable.setAvatarType(22);
             this.avatarDrawable.setScaleSize(dp2);
             this.imageReceiver.setImage(null, null, this.avatarDrawable, null, tLObject, 0);
-            i2 = R.string.MyNotes;
+            i2 = org.telegram.messenger.R.string.MyNotes;
         }
         forcedFirstName = LocaleController.getString(i2);
         if (messageObject.isOutOwner()) {

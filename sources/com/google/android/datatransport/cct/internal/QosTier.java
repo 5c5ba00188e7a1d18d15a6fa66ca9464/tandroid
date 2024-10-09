@@ -1,6 +1,7 @@
 package com.google.android.datatransport.cct.internal;
 
 import android.util.SparseArray;
+
 /* loaded from: classes.dex */
 public enum QosTier {
     DEFAULT(0),
@@ -9,7 +10,7 @@ public enum QosTier {
     FAST_IF_RADIO_AWAKE(3),
     NEVER(4),
     UNRECOGNIZED(-1);
-    
+
     private static final SparseArray valueMap;
     private final int value;
 

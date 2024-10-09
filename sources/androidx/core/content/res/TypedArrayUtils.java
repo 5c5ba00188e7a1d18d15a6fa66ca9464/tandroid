@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import org.xmlpull.v1.XmlPullParser;
+
 /* loaded from: classes.dex */
 public abstract class TypedArrayUtils {
     public static boolean getNamedBoolean(TypedArray typedArray, XmlPullParser xmlPullParser, String str, int i, boolean z) {
@@ -17,16 +18,16 @@ public abstract class TypedArrayUtils {
     }
 
     public static ColorStateList getNamedColorStateList(TypedArray typedArray, XmlPullParser xmlPullParser, Resources.Theme theme, String str, int i) {
-        if (hasAttribute(xmlPullParser, str)) {
-            TypedValue typedValue = new TypedValue();
-            typedArray.getValue(i, typedValue);
-            int i2 = typedValue.type;
-            if (i2 != 2) {
-                return (i2 < 28 || i2 > 31) ? ColorStateListInflaterCompat.inflate(typedArray.getResources(), typedArray.getResourceId(i, 0), theme) : getNamedColorStateListFromInt(typedValue);
-            }
-            throw new UnsupportedOperationException("Failed to resolve attribute at index " + i + ": " + typedValue);
+        if (!hasAttribute(xmlPullParser, str)) {
+            return null;
         }
-        return null;
+        TypedValue typedValue = new TypedValue();
+        typedArray.getValue(i, typedValue);
+        int i2 = typedValue.type;
+        if (i2 != 2) {
+            return (i2 < 28 || i2 > 31) ? ColorStateListInflaterCompat.inflate(typedArray.getResources(), typedArray.getResourceId(i, 0), theme) : getNamedColorStateListFromInt(typedValue);
+        }
+        throw new UnsupportedOperationException("Failed to resolve attribute at index " + i + ": " + typedValue);
     }
 
     private static ColorStateList getNamedColorStateListFromInt(TypedValue typedValue) {

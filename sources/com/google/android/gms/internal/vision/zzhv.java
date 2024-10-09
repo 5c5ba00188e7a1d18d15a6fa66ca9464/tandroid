@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.util.Comparator;
+
 /* loaded from: classes.dex */
 final class zzhv implements Comparator {
     @Override // java.util.Comparator

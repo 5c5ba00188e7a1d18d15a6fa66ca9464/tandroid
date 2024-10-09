@@ -6,6 +6,7 @@ import android.content.pm.Signature;
 import com.google.android.gms.common.wrappers.Wrappers;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 /* loaded from: classes.dex */
 public abstract class AndroidUtilsLight {
     public static byte[] getPackageCertificateHashBytes(Context context, String str) {

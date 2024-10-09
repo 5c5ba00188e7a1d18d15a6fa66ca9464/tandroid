@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import com.google.android.gms.common.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public class ErrorDialogFragment extends DialogFragment {
     private Dialog zaa;
@@ -37,14 +38,14 @@ public class ErrorDialogFragment extends DialogFragment {
     @Override // android.app.DialogFragment
     public Dialog onCreateDialog(Bundle bundle) {
         Dialog dialog = this.zaa;
-        if (dialog == null) {
-            setShowsDialog(false);
-            if (this.zac == null) {
-                this.zac = new AlertDialog.Builder((Context) Preconditions.checkNotNull(getActivity())).create();
-            }
-            return this.zac;
+        if (dialog != null) {
+            return dialog;
         }
-        return dialog;
+        setShowsDialog(false);
+        if (this.zac == null) {
+            this.zac = new AlertDialog.Builder((Context) Preconditions.checkNotNull(getActivity())).create();
+        }
+        return this.zac;
     }
 
     @Override // android.app.DialogFragment

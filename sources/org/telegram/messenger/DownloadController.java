@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import org.telegram.SQLite.SQLiteCursor;
-import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLitePreparedStatement;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SendMessagesHelper;
@@ -26,6 +25,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes.dex */
 public class DownloadController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
     public static final int AUTODOWNLOAD_TYPE_AUDIO = 2;
@@ -105,17 +105,21 @@ public class DownloadController extends BaseController implements NotificationCe
         public boolean preloadVideo;
         public long[] sizes;
 
-        /* JADX WARN: Code restructure failed: missing block: B:19:0x00db, code lost:
-            if (org.telegram.messenger.Utilities.parseInt((java.lang.CharSequence) r11[11]).intValue() == 1) goto L36;
+        /* JADX WARN: Code restructure failed: missing block: B:15:0x00db, code lost:
+        
+            if (org.telegram.messenger.Utilities.parseInt((java.lang.CharSequence) r11[11]).intValue() == 1) goto L24;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:37:0x011f, code lost:
-            if (org.telegram.messenger.Utilities.parseInt((java.lang.CharSequence) r11[13]).intValue() == 1) goto L28;
+        /* JADX WARN: Code restructure failed: missing block: B:24:0x011f, code lost:
+        
+            if (org.telegram.messenger.Utilities.parseInt((java.lang.CharSequence) r11[13]).intValue() == 1) goto L43;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:42:0x0132, code lost:
-            if (org.telegram.messenger.Utilities.parseInt((java.lang.CharSequence) (r3 == null ? r12.split("_") : r3)[13]).intValue() == 1) goto L28;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:43:0x0134, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:28:0x0134, code lost:
+        
             r4 = true;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x0132, code lost:
+        
+            if (org.telegram.messenger.Utilities.parseInt((java.lang.CharSequence) (r3 == null ? r12.split("_") : r3)[13]).intValue() == 1) goto L43;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -188,13 +192,13 @@ public class DownloadController extends BaseController implements NotificationCe
             int[] iArr = this.mask;
             int i = iArr[0];
             int[] iArr2 = preset.mask;
-            if (i == iArr2[0] && iArr[1] == iArr2[1] && iArr[2] == iArr2[2] && iArr[3] == iArr2[3]) {
-                long[] jArr = this.sizes;
-                long j = jArr[0];
-                long[] jArr2 = preset.sizes;
-                return j == jArr2[0] && jArr[1] == jArr2[1] && jArr[2] == jArr2[2] && jArr[3] == jArr2[3] && this.preloadVideo == preset.preloadVideo && this.preloadMusic == preset.preloadMusic && this.maxVideoBitrate == preset.maxVideoBitrate && this.preloadStories == preset.preloadStories;
+            if (i != iArr2[0] || iArr[1] != iArr2[1] || iArr[2] != iArr2[2] || iArr[3] != iArr2[3]) {
+                return false;
             }
-            return false;
+            long[] jArr = this.sizes;
+            long j = jArr[0];
+            long[] jArr2 = preset.sizes;
+            return j == jArr2[0] && jArr[1] == jArr2[1] && jArr[2] == jArr2[2] && jArr[3] == jArr2[3] && this.preloadVideo == preset.preloadVideo && this.preloadMusic == preset.preloadMusic && this.maxVideoBitrate == preset.maxVideoBitrate && this.preloadStories == preset.preloadStories;
         }
 
         public boolean isEnabled() {
@@ -264,17 +268,17 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x02e2  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x02e9  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x02f8  */
-    /* JADX WARN: Removed duplicated region for block: B:45:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x02e2  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x02f8  */
+    /* JADX WARN: Removed duplicated region for block: B:39:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x02e9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public DownloadController(int i) {
         super(i);
         SharedPreferences.Editor putBoolean;
-        Integer num;
+        Object obj;
         this.lastCheckMask = 0;
         this.photoDownloadQueue = new ArrayList<>();
         this.audioDownloadQueue = new ArrayList<>();
@@ -351,24 +355,24 @@ public class DownloadController extends BaseController implements NotificationCe
             StringBuilder sb = new StringBuilder();
             String str2 = str;
             sb.append("mobileDataDownloadMask");
-            Object obj = "";
+            Object obj2 = "";
             if (i2 == 0) {
-                num = "";
+                obj = "";
             } else {
-                num = "";
-                obj = Integer.valueOf(i2);
+                obj = "";
+                obj2 = Integer.valueOf(i2);
             }
-            sb.append(obj);
+            sb.append(obj2);
             String sb2 = sb.toString();
             if (i2 == 0 || mainSettings.contains(sb2)) {
                 iArr[i2] = mainSettings.getInt(sb2, 13);
                 StringBuilder sb3 = new StringBuilder();
                 sb3.append("wifiDownloadMask");
-                sb3.append(i2 == 0 ? num : Integer.valueOf(i2));
+                sb3.append(i2 == 0 ? obj : Integer.valueOf(i2));
                 iArr2[i2] = mainSettings.getInt(sb3.toString(), 13);
                 StringBuilder sb4 = new StringBuilder();
                 sb4.append("roamingDownloadMask");
-                sb4.append(i2 == 0 ? num : Integer.valueOf(i2));
+                sb4.append(i2 == 0 ? obj : Integer.valueOf(i2));
                 iArr3[i2] = mainSettings.getInt(sb4.toString(), 1);
             } else {
                 iArr[i2] = iArr[0];
@@ -648,8 +652,7 @@ public class DownloadController extends BaseController implements NotificationCe
             }
             queryFinalized2.dispose();
             if (intValue > 100) {
-                SQLiteDatabase database = getMessagesStorage().getDatabase();
-                SQLiteCursor queryFinalized3 = database.queryFinalized("SELECT hash, id FROM downloading_documents WHERE state = 1 ORDER BY date ASC LIMIT " + (100 - intValue), new Object[0]);
+                SQLiteCursor queryFinalized3 = getMessagesStorage().getDatabase().queryFinalized("SELECT hash, id FROM downloading_documents WHERE state = 1 ORDER BY date ASC LIMIT " + (100 - intValue), new Object[0]);
                 ArrayList arrayList = new ArrayList();
                 while (queryFinalized3.next()) {
                     DownloadingDocumentEntry downloadingDocumentEntry = new DownloadingDocumentEntry();
@@ -712,10 +715,11 @@ public class DownloadController extends BaseController implements NotificationCe
                 if (i == 0) {
                     NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 1, LocaleController.formatString("MessageNotFound", R.string.MessageNotFound, new Object[0]));
                     return;
-                } else if (i == -1) {
-                    LaunchActivity.checkFreeDiscSpaceStatic(2);
-                    return;
                 } else {
+                    if (i == -1) {
+                        LaunchActivity.checkFreeDiscSpaceStatic(2);
+                        return;
+                    }
                     return;
                 }
             }
@@ -860,22 +864,25 @@ public class DownloadController extends BaseController implements NotificationCe
         this.observersByTag.put(fileDownloadProgressListener.getObserverTag(), str);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x006e, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r7.user_id)) != false) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x006e, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r7.user_id)) != false) goto L58;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x008f, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x008f, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L58;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x00cc, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x00cc, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L58;
      */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0141  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x00db  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x00e7  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x010c  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0116  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x011f  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00db  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0137  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0141  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0116  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00e7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -895,9 +902,10 @@ public class DownloadController extends BaseController implements NotificationCe
             i = 2;
         } else if (MessageObject.isPhoto(message) || MessageObject.isStickerMessage(message) || MessageObject.isAnimatedStickerMessage(message)) {
             i = 1;
-        } else if (MessageObject.getDocument(message) == null) {
-            return 0;
         } else {
+            if (MessageObject.getDocument(message) == null) {
+                return 0;
+            }
             i = 8;
         }
         TLRPC.Peer peer = message.peer_id;
@@ -928,9 +936,10 @@ public class DownloadController extends BaseController implements NotificationCe
                         return 0;
                     }
                     currentMobilePreset = getCurrentRoamingPreset();
-                } else if (!this.mobilePreset.enabled) {
-                    return 0;
                 } else {
+                    if (!this.mobilePreset.enabled) {
+                        return 0;
+                    }
                     currentMobilePreset = getCurrentMobilePreset();
                 }
                 i2 = currentMobilePreset.mask[c];
@@ -940,11 +949,11 @@ public class DownloadController extends BaseController implements NotificationCe
                 long messageSize = MessageObject.getMessageSize(message);
                 if (!isVideoMessage && currentMobilePreset.preloadVideo && messageSize > max && max > 2097152) {
                     return (i2 & i) != 0 ? 2 : 0;
-                } else if (i != 1 || (messageSize != 0 && messageSize <= max)) {
-                    return (i == 2 && (i2 & i) == 0) ? 0 : 1;
-                } else {
-                    return 0;
                 }
+                if (i != 1 || (messageSize != 0 && messageSize <= max)) {
+                    return (i == 2 && (i2 & i) == 0) ? 0 : 1;
+                }
+                return 0;
             }
             c = 0;
             autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
@@ -981,22 +990,25 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x004a, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r5.user_id)) != false) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x004a, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r5.user_id)) != false) goto L46;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x006b, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r14.from_id.user_id)) != false) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x006b, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r14.from_id.user_id)) != false) goto L46;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x00a8, code lost:
-        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r14.from_id.user_id)) != false) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x00a8, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r14.from_id.user_id)) != false) goto L46;
      */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x00b7  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00c3  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x00e8  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x00f2  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x00fb  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0112  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00e8  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00fb  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0112  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00f2  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00c3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1018,9 +1030,10 @@ public class DownloadController extends BaseController implements NotificationCe
                 i = 2;
             } else if (messageMedia instanceof TLRPC.TL_messageMediaPhoto) {
                 i = 1;
-            } else if (messageMedia.document == null) {
-                return 0;
             } else {
+                if (messageMedia.document == null) {
+                    return 0;
+                }
                 i = 8;
             }
             z = false;
@@ -1053,9 +1066,10 @@ public class DownloadController extends BaseController implements NotificationCe
                         return 0;
                     }
                     currentMobilePreset = getCurrentRoamingPreset();
-                } else if (!this.mobilePreset.enabled) {
-                    return 0;
                 } else {
+                    if (!this.mobilePreset.enabled) {
+                        return 0;
+                    }
                     currentMobilePreset = getCurrentMobilePreset();
                 }
                 i2 = currentMobilePreset.mask[c];
@@ -1065,11 +1079,11 @@ public class DownloadController extends BaseController implements NotificationCe
                 long mediaSize = MessageObject.getMediaSize(messageMedia);
                 if (!z && currentMobilePreset.preloadVideo && mediaSize > max && max > 2097152) {
                     return (i2 & i) != 0 ? 2 : 0;
-                } else if (i != 1 || (mediaSize != 0 && mediaSize <= max)) {
-                    return (i == 2 && (i2 & i) == 0) ? 0 : 1;
-                } else {
-                    return 0;
                 }
+                if (i != 1 || (mediaSize != 0 && mediaSize <= max)) {
+                    return (i == 2 && (i2 & i) == 0) ? 0 : 1;
+                }
+                return 0;
             }
             c = 0;
             autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
@@ -1119,9 +1133,10 @@ public class DownloadController extends BaseController implements NotificationCe
                 return false;
             }
             currentMobilePreset = getCurrentRoamingPreset();
-        } else if (!this.mobilePreset.enabled) {
-            return false;
         } else {
+            if (!this.mobilePreset.enabled) {
+                return false;
+            }
             currentMobilePreset = getCurrentMobilePreset();
         }
         int i2 = currentMobilePreset.mask[1];
@@ -1137,11 +1152,11 @@ public class DownloadController extends BaseController implements NotificationCe
         TLRPC.MessageMedia messageMedia;
         if (messageObject.type == 23) {
             return (!SharedConfig.isAutoplayVideo() || (storyItem = ((TLRPC.TL_messageMediaStory) MessageObject.getMedia(messageObject)).storyItem) == null || (messageMedia = storyItem.media) == null || messageMedia.document == null || !storyItem.isPublic) ? false : true;
-        } else if (messageObject.sponsoredMedia != null) {
-            return true;
-        } else {
-            return !messageObject.isHiddenSensitive() && canDownloadMedia(messageObject.messageOwner) == 1;
         }
+        if (messageObject.sponsoredMedia != null) {
+            return true;
+        }
+        return !messageObject.isHiddenSensitive() && canDownloadMedia(messageObject.messageOwner) == 1;
     }
 
     public int canDownloadMediaType(MessageObject messageObject) {
@@ -1149,14 +1164,14 @@ public class DownloadController extends BaseController implements NotificationCe
         TLRPC.MessageMedia messageMedia;
         if (messageObject.type == 23) {
             return (!SharedConfig.isAutoplayVideo() || (storyItem = ((TLRPC.TL_messageMediaStory) MessageObject.getMedia(messageObject)).storyItem) == null || (messageMedia = storyItem.media) == null || messageMedia.document == null || !storyItem.isPublic) ? 0 : 2;
-        } else if (messageObject.sponsoredMedia != null) {
-            return 2;
-        } else {
-            if (messageObject.isHiddenSensitive()) {
-                return 0;
-            }
-            return canDownloadMedia(messageObject.messageOwner);
         }
+        if (messageObject.sponsoredMedia != null) {
+            return 2;
+        }
+        if (messageObject.isHiddenSensitive()) {
+            return 0;
+        }
+        return canDownloadMedia(messageObject.messageOwner);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -1178,9 +1193,10 @@ public class DownloadController extends BaseController implements NotificationCe
                 return false;
             }
             currentMobilePreset = getCurrentRoamingPreset();
-        } else if (!this.mobilePreset.enabled) {
-            return false;
         } else {
+            if (!this.mobilePreset.enabled) {
+                return false;
+            }
             currentMobilePreset = getCurrentMobilePreset();
         }
         return currentMobilePreset.preloadStories;
@@ -1303,6 +1319,7 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:13:0x0045, code lost:
+    
         r3.remove(r2);
      */
     /*
@@ -1322,10 +1339,11 @@ public class DownloadController extends BaseController implements NotificationCe
                             i2++;
                         }
                     }
-                } else if (arrayList.get(i).getId() == this.recentDownloadingFiles.get(i2).getId() && this.recentDownloadingFiles.get(i2).getDialogId() == arrayList.get(i).getDialogId()) {
-                    arrayList2 = this.recentDownloadingFiles;
-                    break;
                 } else {
+                    if (arrayList.get(i).getId() == this.recentDownloadingFiles.get(i2).getId() && this.recentDownloadingFiles.get(i2).getDialogId() == arrayList.get(i).getDialogId()) {
+                        arrayList2 = this.recentDownloadingFiles;
+                        break;
+                    }
                     i2++;
                 }
             }
@@ -1369,7 +1387,9 @@ public class DownloadController extends BaseController implements NotificationCe
             this.listenerInProgress = false;
             processLaterArrays();
             checkDownloadFinished(str, num.intValue());
-        } else if (i == NotificationCenter.fileLoaded || i == NotificationCenter.httpFileDidLoad) {
+            return;
+        }
+        if (i == NotificationCenter.fileLoaded || i == NotificationCenter.httpFileDidLoad) {
             this.listenerInProgress = true;
             String str2 = (String) objArr[0];
             ArrayList<MessageObject> arrayList2 = this.loadingFileMessagesObservers.get(str2);
@@ -1395,7 +1415,9 @@ public class DownloadController extends BaseController implements NotificationCe
             this.listenerInProgress = false;
             processLaterArrays();
             checkDownloadFinished(str2, 0);
-        } else if (i == NotificationCenter.fileLoadProgressChanged) {
+            return;
+        }
+        if (i == NotificationCenter.fileLoadProgressChanged) {
             this.listenerInProgress = true;
             String str3 = (String) objArr[0];
             ArrayList<WeakReference<FileDownloadProgressListener>> arrayList4 = this.loadingFileObservers.get(str3);
@@ -1412,7 +1434,9 @@ public class DownloadController extends BaseController implements NotificationCe
             }
             this.listenerInProgress = false;
             processLaterArrays();
-        } else if (i == NotificationCenter.fileUploadProgressChanged) {
+            return;
+        }
+        if (i == NotificationCenter.fileUploadProgressChanged) {
             this.listenerInProgress = true;
             String str4 = (String) objArr[0];
             ArrayList<WeakReference<FileDownloadProgressListener>> arrayList5 = this.loadingFileObservers.get(str4);
@@ -1442,8 +1466,7 @@ public class DownloadController extends BaseController implements NotificationCe
                             if (delayedMessage.type == 4) {
                                 if (l5 != null && l5.longValue() + 4000 >= System.currentTimeMillis()) {
                                 }
-                                HashMap<Object, Object> hashMap = delayedMessage.extraHashMap;
-                                MessageObject messageObject = (MessageObject) hashMap.get(str4 + "_i");
+                                MessageObject messageObject = (MessageObject) delayedMessage.extraHashMap.get(str4 + "_i");
                                 if (messageObject != null && messageObject.isVideo()) {
                                     getMessagesController().sendTyping(j, i9, 5, 0);
                                 } else if (messageObject == null || messageObject.getDocument() == null) {
@@ -1501,9 +1524,10 @@ public class DownloadController extends BaseController implements NotificationCe
                 return 0;
             }
             currentMobilePreset = getCurrentRoamingPreset();
-        } else if (!this.mobilePreset.enabled) {
-            return 0;
         } else {
+            if (!this.mobilePreset.enabled) {
+                return 0;
+            }
             currentMobilePreset = getCurrentMobilePreset();
         }
         int[] iArr = currentMobilePreset.mask;
@@ -1526,60 +1550,61 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     protected int getAutodownloadMaskAll() {
-        if (this.mobilePreset.enabled || this.roamingPreset.enabled || this.wifiPreset.enabled) {
-            int i = 0;
-            for (int i2 = 0; i2 < 4; i2++) {
-                if ((getCurrentMobilePreset().mask[i2] & 1) != 0 || (getCurrentWiFiPreset().mask[i2] & 1) != 0 || (getCurrentRoamingPreset().mask[i2] & 1) != 0) {
-                    i |= 1;
-                }
-                if ((getCurrentMobilePreset().mask[i2] & 2) != 0 || (getCurrentWiFiPreset().mask[i2] & 2) != 0 || (getCurrentRoamingPreset().mask[i2] & 2) != 0) {
-                    i |= 2;
-                }
-                if ((getCurrentMobilePreset().mask[i2] & 4) != 0 || (getCurrentWiFiPreset().mask[i2] & 4) != 0 || (4 & getCurrentRoamingPreset().mask[i2]) != 0) {
-                    i |= 4;
-                }
-                if ((getCurrentMobilePreset().mask[i2] & 8) != 0 || (getCurrentWiFiPreset().mask[i2] & 8) != 0 || (getCurrentRoamingPreset().mask[i2] & 8) != 0) {
-                    i |= 8;
-                }
-            }
-            return i;
+        if (!this.mobilePreset.enabled && !this.roamingPreset.enabled && !this.wifiPreset.enabled) {
+            return 0;
         }
-        return 0;
+        int i = 0;
+        for (int i2 = 0; i2 < 4; i2++) {
+            if ((getCurrentMobilePreset().mask[i2] & 1) != 0 || (getCurrentWiFiPreset().mask[i2] & 1) != 0 || (getCurrentRoamingPreset().mask[i2] & 1) != 0) {
+                i |= 1;
+            }
+            if ((getCurrentMobilePreset().mask[i2] & 2) != 0 || (getCurrentWiFiPreset().mask[i2] & 2) != 0 || (getCurrentRoamingPreset().mask[i2] & 2) != 0) {
+                i |= 2;
+            }
+            if ((getCurrentMobilePreset().mask[i2] & 4) != 0 || (getCurrentWiFiPreset().mask[i2] & 4) != 0 || (4 & getCurrentRoamingPreset().mask[i2]) != 0) {
+                i |= 4;
+            }
+            if ((getCurrentMobilePreset().mask[i2] & 8) != 0 || (getCurrentWiFiPreset().mask[i2] & 8) != 0 || (getCurrentRoamingPreset().mask[i2] & 8) != 0) {
+                i |= 8;
+            }
+        }
+        return i;
     }
 
     public int getCurrentDownloadMask() {
         int autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
         int i = 0;
         if (autodownloadNetworkType == 1) {
-            if (this.wifiPreset.enabled) {
-                int i2 = 0;
-                while (i < 4) {
-                    i2 |= getCurrentWiFiPreset().mask[i];
-                    i++;
-                }
-                return i2;
+            if (!this.wifiPreset.enabled) {
+                return 0;
             }
-            return 0;
-        } else if (autodownloadNetworkType == 2) {
-            if (this.roamingPreset.enabled) {
-                int i3 = 0;
-                while (i < 4) {
-                    i3 |= getCurrentRoamingPreset().mask[i];
-                    i++;
-                }
-                return i3;
-            }
-            return 0;
-        } else if (this.mobilePreset.enabled) {
-            int i4 = 0;
+            int i2 = 0;
             while (i < 4) {
-                i4 |= getCurrentMobilePreset().mask[i];
+                i2 |= getCurrentWiFiPreset().mask[i];
                 i++;
             }
-            return i4;
-        } else {
+            return i2;
+        }
+        if (autodownloadNetworkType == 2) {
+            if (!this.roamingPreset.enabled) {
+                return 0;
+            }
+            int i3 = 0;
+            while (i < 4) {
+                i3 |= getCurrentRoamingPreset().mask[i];
+                i++;
+            }
+            return i3;
+        }
+        if (!this.mobilePreset.enabled) {
             return 0;
         }
+        int i4 = 0;
+        while (i < 4) {
+            i4 |= getCurrentMobilePreset().mask[i];
+            i++;
+        }
+        return i4;
     }
 
     public Preset getCurrentMobilePreset() {
@@ -1690,8 +1715,8 @@ public class DownloadController extends BaseController implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x008a  */
     /* JADX WARN: Type inference failed for: r8v13, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r8v4, types: [java.lang.String] */
     /*
@@ -1811,8 +1836,9 @@ public class DownloadController extends BaseController implements NotificationCe
             }
             if (z2 && z3 && z4) {
                 break;
+            } else {
+                i2++;
             }
-            i2++;
         }
         TLRPC.TL_autoDownloadSettings tL_autoDownloadSettings2 = tL_account_saveAutoDownloadSettings.settings;
         tL_autoDownloadSettings2.photo_size_max = z2 ? (int) currentRoamingPreset.sizes[0] : 0;

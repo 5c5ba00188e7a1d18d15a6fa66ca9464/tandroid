@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.audio.AudioProcessor;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public final class SilenceSkippingAudioProcessor extends BaseAudioProcessor {
     private int bytesPerFrame;
@@ -39,16 +40,14 @@ public final class SilenceSkippingAudioProcessor extends BaseAudioProcessor {
 
     private int findNoiseLimit(ByteBuffer byteBuffer) {
         int limit = byteBuffer.limit();
-        while (true) {
+        do {
             limit -= 2;
             if (limit < byteBuffer.position()) {
                 return byteBuffer.position();
             }
-            if (Math.abs((int) byteBuffer.getShort(limit)) > this.silenceThresholdLevel) {
-                int i = this.bytesPerFrame;
-                return ((limit / i) * i) + i;
-            }
-        }
+        } while (Math.abs((int) byteBuffer.getShort(limit)) <= this.silenceThresholdLevel);
+        int i = this.bytesPerFrame;
+        return ((limit / i) * i) + i;
     }
 
     private int findNoisePosition(ByteBuffer byteBuffer) {
@@ -210,9 +209,10 @@ public final class SilenceSkippingAudioProcessor extends BaseAudioProcessor {
                 processNoisy(byteBuffer);
             } else if (i == 1) {
                 processMaybeSilence(byteBuffer);
-            } else if (i != 2) {
-                throw new IllegalStateException();
             } else {
+                if (i != 2) {
+                    throw new IllegalStateException();
+                }
                 processSilence(byteBuffer);
             }
         }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.ResultReceiver;
+
 /* loaded from: classes.dex */
 public class PlayCoreDialogWrapperActivity extends Activity {
     private ResultReceiver zza;
@@ -58,13 +59,13 @@ public class PlayCoreDialogWrapperActivity extends Activity {
         if (extras == null) {
             zza();
             finish();
-            return;
-        }
-        try {
-            startIntentSenderForResult(((PendingIntent) extras.get("confirmation_intent")).getIntentSender(), 0, intent2, 0, 0, 0);
-        } catch (IntentSender.SendIntentException unused) {
-            zza();
-            finish();
+        } else {
+            try {
+                startIntentSenderForResult(((PendingIntent) extras.get("confirmation_intent")).getIntentSender(), 0, intent2, 0, 0, 0);
+            } catch (IntentSender.SendIntentException unused) {
+                zza();
+                finish();
+            }
         }
     }
 

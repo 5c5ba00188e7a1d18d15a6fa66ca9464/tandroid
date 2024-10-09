@@ -34,9 +34,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     private final ConstructorConstructor constructorConstructor;
@@ -94,8 +96,9 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
             }
             jsonWriter.beginObject();
             try {
-                for (BoundField boundField : this.fieldsData.serializedFields) {
-                    boundField.write(jsonWriter, obj);
+                Iterator it = this.fieldsData.serializedFields.iterator();
+                while (it.hasNext()) {
+                    ((BoundField) it.next()).write(jsonWriter, obj);
                 }
                 jsonWriter.endObject();
             } catch (IllegalAccessException e) {
@@ -248,6 +251,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Multi-variable type inference failed */
     public static void checkAccessible(Object obj, AccessibleObject accessibleObject) {
         if (Modifier.isStatic(((Member) accessibleObject).getModifiers())) {
             obj = null;
@@ -255,8 +259,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
         if (ReflectionAccessFilterHelper.canAccess(accessibleObject, obj)) {
             return;
         }
-        String accessibleObjectDescription = ReflectionHelper.getAccessibleObjectDescription(accessibleObject, true);
-        throw new JsonIOException(accessibleObjectDescription + " is not accessible and ReflectionAccessFilter does not permit making it accessible. Register a TypeAdapter for the declaring type, adjust the access filter or increase the visibility of the element and its declaring type.");
+        throw new JsonIOException(ReflectionHelper.getAccessibleObjectDescription(accessibleObject, true) + " is not accessible and ReflectionAccessFilter does not permit making it accessible. Register a TypeAdapter for the declaring type, adjust the access filter or increase the visibility of the element and its declaring type.");
     }
 
     private BoundField createBoundField(Gson gson, Field field, final Method method, String str, TypeToken typeToken, boolean z, final boolean z2) {
@@ -297,8 +300,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
                 if (z2) {
                     ReflectiveTypeAdapterFactory.checkAccessible(obj, this.field);
                 } else if (z5) {
-                    String accessibleObjectDescription = ReflectionHelper.getAccessibleObjectDescription(this.field, false);
-                    throw new JsonIOException("Cannot set value of 'static final' " + accessibleObjectDescription);
+                    throw new JsonIOException("Cannot set value of 'static final' " + ReflectionHelper.getAccessibleObjectDescription(this.field, false));
                 }
                 this.field.set(obj, read);
             }
@@ -318,8 +320,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
                     try {
                         obj2 = method2.invoke(obj, null);
                     } catch (InvocationTargetException e) {
-                        String accessibleObjectDescription = ReflectionHelper.getAccessibleObjectDescription(method, false);
-                        throw new JsonIOException("Accessor " + accessibleObjectDescription + " threw exception", e.getCause());
+                        throw new JsonIOException("Accessor " + ReflectionHelper.getAccessibleObjectDescription(method, false) + " threw exception", e.getCause());
                     }
                 } else {
                     obj2 = this.field.get(obj);
@@ -338,9 +339,9 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0108  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0108  */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v3 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -470,32 +471,32 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     @Override // com.google.gson.TypeAdapterFactory
     public TypeAdapter create(Gson gson, TypeToken typeToken) {
         Class rawType = typeToken.getRawType();
-        if (Object.class.isAssignableFrom(rawType)) {
-            if (ReflectionHelper.isAnonymousOrNonStaticLocal(rawType)) {
-                return new TypeAdapter() { // from class: com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.1
-                    @Override // com.google.gson.TypeAdapter
-                    public Object read(JsonReader jsonReader) {
-                        jsonReader.skipValue();
-                        return null;
-                    }
-
-                    public String toString() {
-                        return "AnonymousOrNonStaticLocalClassAdapter";
-                    }
-
-                    @Override // com.google.gson.TypeAdapter
-                    public void write(JsonWriter jsonWriter, Object obj) {
-                        jsonWriter.nullValue();
-                    }
-                };
-            }
-            ReflectionAccessFilter$FilterResult filterResult = ReflectionAccessFilterHelper.getFilterResult(this.reflectionFilters, rawType);
-            if (filterResult != ReflectionAccessFilter$FilterResult.BLOCK_ALL) {
-                boolean z = filterResult == ReflectionAccessFilter$FilterResult.BLOCK_INACCESSIBLE;
-                return ReflectionHelper.isRecord(rawType) ? new RecordAdapter(rawType, getBoundFields(gson, typeToken, rawType, z, true), z) : new FieldReflectionAdapter(this.constructorConstructor.get(typeToken), getBoundFields(gson, typeToken, rawType, z, false));
-            }
-            throw new JsonIOException("ReflectionAccessFilter does not permit using reflection for " + rawType + ". Register a TypeAdapter for this type or adjust the access filter.");
+        if (!Object.class.isAssignableFrom(rawType)) {
+            return null;
         }
-        return null;
+        if (ReflectionHelper.isAnonymousOrNonStaticLocal(rawType)) {
+            return new TypeAdapter() { // from class: com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.1
+                @Override // com.google.gson.TypeAdapter
+                public Object read(JsonReader jsonReader) {
+                    jsonReader.skipValue();
+                    return null;
+                }
+
+                public String toString() {
+                    return "AnonymousOrNonStaticLocalClassAdapter";
+                }
+
+                @Override // com.google.gson.TypeAdapter
+                public void write(JsonWriter jsonWriter, Object obj) {
+                    jsonWriter.nullValue();
+                }
+            };
+        }
+        ReflectionAccessFilter$FilterResult filterResult = ReflectionAccessFilterHelper.getFilterResult(this.reflectionFilters, rawType);
+        if (filterResult != ReflectionAccessFilter$FilterResult.BLOCK_ALL) {
+            boolean z = filterResult == ReflectionAccessFilter$FilterResult.BLOCK_INACCESSIBLE;
+            return ReflectionHelper.isRecord(rawType) ? new RecordAdapter(rawType, getBoundFields(gson, typeToken, rawType, z, true), z) : new FieldReflectionAdapter(this.constructorConstructor.get(typeToken), getBoundFields(gson, typeToken, rawType, z, false));
+        }
+        throw new JsonIOException("ReflectionAccessFilter does not permit using reflection for " + rawType + ". Register a TypeAdapter for this type or adjust the access filter.");
     }
 }

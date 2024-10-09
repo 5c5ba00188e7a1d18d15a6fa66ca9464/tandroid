@@ -37,6 +37,7 @@ import org.telegram.ui.Components.EmojiTabsStrip;
 import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.Premium.PremiumLockIconView;
 import org.telegram.ui.Components.Reactions.HwEmojis;
+
 /* loaded from: classes3.dex */
 public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
     private final int accentColor;
@@ -96,8 +97,8 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         private boolean selected;
         public boolean shown;
 
-        /* JADX WARN: Removed duplicated region for block: B:10:0x002e  */
         /* JADX WARN: Removed duplicated region for block: B:11:0x007b  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x002e  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -124,7 +125,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 }
                 setColor(Theme.getColor(Theme.key_chat_emojiPanelIcon, EmojiTabsStrip.this.resourcesProvider));
             }
-            Theme.createCircleSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 0, 0);
+            createRadSelectorDrawable = Theme.createCircleSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 0, 0);
             setBackground(createRadSelectorDrawable);
             if (Build.VERSION.SDK_INT < 23) {
             }
@@ -145,7 +146,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 setColor(Theme.getColor(Theme.key_chat_emojiPanelIcon, EmojiTabsStrip.this.resourcesProvider));
                 addView(this.imageView);
             }
-            Theme.createCircleSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 0, 0);
+            createRadSelectorDrawable = Theme.createCircleSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 0, 0);
             setBackground(createRadSelectorDrawable);
             ImageView imageView2 = new ImageView(context);
             this.imageView = imageView2;
@@ -230,7 +231,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 addView(this.lockView);
                 setColor(Theme.getColor(Theme.key_chat_emojiPanelIcon, EmojiTabsStrip.this.resourcesProvider));
             }
-            Theme.createCircleSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 0, 0);
+            createRadSelectorDrawable = Theme.createCircleSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 0, 0);
             setBackground(createRadSelectorDrawable);
             ImageView imageView2 = new ImageView(context) { // from class: org.telegram.ui.Components.EmojiTabsStrip.EmojiTabButton.1
                 @Override // android.view.View
@@ -368,8 +369,9 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x0039, code lost:
-            if (r1 != null) goto L9;
+        /* JADX WARN: Code restructure failed: missing block: B:20:0x0039, code lost:
+        
+            if (r1 != null) goto L19;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -643,9 +645,10 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                         if (!z && !EmojiTabButton.this.forceSelector) {
                             emojiTabButton = EmojiTabButton.this;
                             createRadSelectorDrawable = null;
-                        } else if (EmojiTabButton.this.getBackground() != null) {
-                            return;
                         } else {
+                            if (EmojiTabButton.this.getBackground() != null) {
+                                return;
+                            }
                             emojiTabButton = EmojiTabButton.this;
                             createRadSelectorDrawable = Theme.createRadSelectorDrawable(EmojiTabsStrip.this.selectorColor(), 8, 8);
                         }
@@ -899,9 +902,6 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
 
             @Override // android.view.ViewGroup, android.view.View
             protected void dispatchDraw(Canvas canvas) {
-                Paint paint;
-                Paint paint2;
-                Paint paint3;
                 for (Map.Entry entry : EmojiTabsStrip.this.removingViews.entrySet()) {
                     View view = (View) entry.getKey();
                     if (view != null) {
@@ -918,8 +918,9 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 }
                 float f = EmojiTabsStrip.this.showSelectedAlpha.set(EmojiTabsStrip.this.showSelected ? 1.0f : 0.0f);
                 int floor = (int) Math.floor(EmojiTabsStrip.this.selectT);
+                int ceil = (int) Math.ceil(EmojiTabsStrip.this.selectT);
                 getChildBounds(floor, this.from);
-                getChildBounds((int) Math.ceil(EmojiTabsStrip.this.selectT), this.to);
+                getChildBounds(ceil, this.to);
                 AndroidUtilities.lerp(this.from, this.to, EmojiTabsStrip.this.selectT - floor, this.rect);
                 float clamp = EmojiTabsStrip.this.emojiTabs != null ? MathUtils.clamp(1.0f - Math.abs(EmojiTabsStrip.this.selectT - 1.0f), 0.0f, 1.0f) : 0.0f;
                 float f2 = EmojiTabsStrip.this.selectAnimationT * 4.0f * (1.0f - EmojiTabsStrip.this.selectAnimationT);
@@ -930,9 +931,9 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                 float dp = AndroidUtilities.dp(AndroidUtilities.lerp(8.0f, 16.0f, clamp));
                 this.paint.setColor(EmojiTabsStrip.this.selectorColor());
                 if (EmojiTabsStrip.this.forceTabsShow) {
-                    this.paint.setAlpha((int) (paint3.getAlpha() * f * (1.0f - (clamp * 0.5f))));
+                    this.paint.setAlpha((int) (r6.getAlpha() * f * (1.0f - (clamp * 0.5f))));
                 } else {
-                    this.paint.setAlpha((int) (paint.getAlpha() * f));
+                    this.paint.setAlpha((int) (r3.getAlpha() * f));
                 }
                 this.path.rewind();
                 Path path = this.path;
@@ -945,7 +946,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
                     getChildBounds(1, this.rect);
                     this.path.addRoundRect(this.rect, AndroidUtilities.dpf2(16.0f), AndroidUtilities.dpf2(16.0f), direction);
                     this.paint.setColor(EmojiTabsStrip.this.selectorColor());
-                    this.paint.setAlpha((int) (paint2.getAlpha() * 0.5f));
+                    this.paint.setAlpha((int) (r0.getAlpha() * 0.5f));
                     canvas.drawPath(this.path, this.paint);
                 }
                 if (EmojiTabsStrip.this.emojiTabs != null) {
@@ -957,14 +958,14 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
 
             @Override // android.view.ViewGroup
             protected boolean drawChild(Canvas canvas, View view, long j) {
-                if (view == EmojiTabsStrip.this.emojiTabs) {
-                    canvas.save();
-                    canvas.clipPath(this.path);
-                    boolean drawChild = super.drawChild(canvas, view, j);
-                    canvas.restore();
-                    return drawChild;
+                if (view != EmojiTabsStrip.this.emojiTabs) {
+                    return super.drawChild(canvas, view, j);
                 }
-                return super.drawChild(canvas, view, j);
+                canvas.save();
+                canvas.clipPath(this.path);
+                boolean drawChild = super.drawChild(canvas, view, j);
+                canvas.restore();
+                return drawChild;
             }
 
             @Override // android.widget.LinearLayout, android.view.ViewGroup, android.view.View

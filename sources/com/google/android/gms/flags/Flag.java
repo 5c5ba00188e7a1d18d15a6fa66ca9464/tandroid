@@ -1,4 +1,5 @@
 package com.google.android.gms.flags;
+
 /* loaded from: classes.dex */
 public abstract class Flag {
     private final String mKey;

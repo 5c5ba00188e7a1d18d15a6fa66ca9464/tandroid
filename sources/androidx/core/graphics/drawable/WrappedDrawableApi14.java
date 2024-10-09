@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class WrappedDrawableApi14 extends Drawable implements Drawable.Callback, WrappedDrawable, TintAwareDrawable {
@@ -45,24 +46,24 @@ public class WrappedDrawableApi14 extends Drawable implements Drawable.Callback,
     }
 
     private boolean updateTint(int[] iArr) {
-        if (isCompatTintEnabled()) {
-            WrappedDrawableState wrappedDrawableState = this.mState;
-            ColorStateList colorStateList = wrappedDrawableState.mTint;
-            PorterDuff.Mode mode = wrappedDrawableState.mTintMode;
-            if (colorStateList == null || mode == null) {
-                this.mColorFilterSet = false;
-                clearColorFilter();
-            } else {
-                int colorForState = colorStateList.getColorForState(iArr, colorStateList.getDefaultColor());
-                if (!this.mColorFilterSet || colorForState != this.mCurrentColor || mode != this.mCurrentMode) {
-                    setColorFilter(colorForState, mode);
-                    this.mCurrentColor = colorForState;
-                    this.mCurrentMode = mode;
-                    this.mColorFilterSet = true;
-                    return true;
-                }
-            }
+        if (!isCompatTintEnabled()) {
             return false;
+        }
+        WrappedDrawableState wrappedDrawableState = this.mState;
+        ColorStateList colorStateList = wrappedDrawableState.mTint;
+        PorterDuff.Mode mode = wrappedDrawableState.mTintMode;
+        if (colorStateList == null || mode == null) {
+            this.mColorFilterSet = false;
+            clearColorFilter();
+        } else {
+            int colorForState = colorStateList.getColorForState(iArr, colorStateList.getDefaultColor());
+            if (!this.mColorFilterSet || colorForState != this.mCurrentColor || mode != this.mCurrentMode) {
+                setColorFilter(colorForState, mode);
+                this.mCurrentColor = colorForState;
+                this.mCurrentMode = mode;
+                this.mColorFilterSet = true;
+                return true;
+            }
         }
         return false;
     }

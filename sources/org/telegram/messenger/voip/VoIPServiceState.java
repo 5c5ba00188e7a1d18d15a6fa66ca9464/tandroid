@@ -1,6 +1,7 @@
 package org.telegram.messenger.voip;
 
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public interface VoIPServiceState {
 

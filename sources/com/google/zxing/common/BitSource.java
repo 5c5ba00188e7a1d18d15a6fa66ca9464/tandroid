@@ -1,6 +1,7 @@
 package com.google.zxing.common;
 
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class BitSource {
     private int bitOffset;
@@ -25,35 +26,36 @@ public final class BitSource {
             int i4 = 8 - i2;
             int min = Math.min(i, i4);
             int i5 = i4 - min;
+            int i6 = (NotificationCenter.closeSearchByActiveAction >> (8 - min)) << i5;
             byte[] bArr = this.bytes;
-            int i6 = this.byteOffset;
-            int i7 = (((NotificationCenter.closeSearchByActiveAction >> (8 - min)) << i5) & bArr[i6]) >> i5;
+            int i7 = this.byteOffset;
+            int i8 = (i6 & bArr[i7]) >> i5;
             i -= min;
-            int i8 = this.bitOffset + min;
-            this.bitOffset = i8;
-            if (i8 == 8) {
+            int i9 = this.bitOffset + min;
+            this.bitOffset = i9;
+            if (i9 == 8) {
                 this.bitOffset = 0;
-                this.byteOffset = i6 + 1;
+                this.byteOffset = i7 + 1;
             }
-            i3 = i7;
+            i3 = i8;
         }
-        if (i > 0) {
-            while (i >= 8) {
-                int i9 = i3 << 8;
-                byte[] bArr2 = this.bytes;
-                int i10 = this.byteOffset;
-                i3 = (bArr2[i10] & 255) | i9;
-                this.byteOffset = i10 + 1;
-                i -= 8;
-            }
-            if (i > 0) {
-                int i11 = 8 - i;
-                int i12 = (i3 << i) | ((((NotificationCenter.closeSearchByActiveAction >> i11) << i11) & this.bytes[this.byteOffset]) >> i11);
-                this.bitOffset += i;
-                return i12;
-            }
+        if (i <= 0) {
             return i3;
         }
-        return i3;
+        while (i >= 8) {
+            int i10 = i3 << 8;
+            byte[] bArr2 = this.bytes;
+            int i11 = this.byteOffset;
+            i3 = (bArr2[i11] & 255) | i10;
+            this.byteOffset = i11 + 1;
+            i -= 8;
+        }
+        if (i <= 0) {
+            return i3;
+        }
+        int i12 = 8 - i;
+        int i13 = (i3 << i) | ((((NotificationCenter.closeSearchByActiveAction >> i12) << i12) & this.bytes[this.byteOffset]) >> i12);
+        this.bitOffset += i;
+        return i13;
     }
 }

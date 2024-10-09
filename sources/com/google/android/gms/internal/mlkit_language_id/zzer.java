@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 final class zzer extends zzdi implements zzew, zzgi, RandomAccess {
     private static final zzer zza;
@@ -86,27 +87,27 @@ final class zzer extends zzdi implements zzew, zzgi, RandomAccess {
     public final boolean addAll(Collection collection) {
         zzc();
         zzeq.zza(collection);
-        if (collection instanceof zzer) {
-            zzer zzerVar = (zzer) collection;
-            int i = zzerVar.zzc;
-            if (i == 0) {
-                return false;
-            }
-            int i2 = this.zzc;
-            if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 >= i) {
-                int i3 = i2 + i;
-                int[] iArr = this.zzb;
-                if (i3 > iArr.length) {
-                    this.zzb = Arrays.copyOf(iArr, i3);
-                }
-                System.arraycopy(zzerVar.zzb, 0, this.zzb, this.zzc, zzerVar.zzc);
-                this.zzc = i3;
-                ((AbstractList) this).modCount++;
-                return true;
-            }
+        if (!(collection instanceof zzer)) {
+            return super.addAll(collection);
+        }
+        zzer zzerVar = (zzer) collection;
+        int i = zzerVar.zzc;
+        if (i == 0) {
+            return false;
+        }
+        int i2 = this.zzc;
+        if (ConnectionsManager.DEFAULT_DATACENTER_ID - i2 < i) {
             throw new OutOfMemoryError();
         }
-        return super.addAll(collection);
+        int i3 = i2 + i;
+        int[] iArr = this.zzb;
+        if (i3 > iArr.length) {
+            this.zzb = Arrays.copyOf(iArr, i3);
+        }
+        System.arraycopy(zzerVar.zzb, 0, this.zzb, this.zzc, zzerVar.zzc);
+        this.zzc = i3;
+        ((AbstractList) this).modCount++;
+        return true;
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
@@ -119,20 +120,20 @@ final class zzer extends zzdi implements zzew, zzgi, RandomAccess {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zzer) {
-            zzer zzerVar = (zzer) obj;
-            if (this.zzc != zzerVar.zzc) {
+        if (!(obj instanceof zzer)) {
+            return super.equals(obj);
+        }
+        zzer zzerVar = (zzer) obj;
+        if (this.zzc != zzerVar.zzc) {
+            return false;
+        }
+        int[] iArr = zzerVar.zzb;
+        for (int i = 0; i < this.zzc; i++) {
+            if (this.zzb[i] != iArr[i]) {
                 return false;
             }
-            int[] iArr = zzerVar.zzb;
-            for (int i = 0; i < this.zzc; i++) {
-                if (this.zzb[i] != iArr[i]) {
-                    return false;
-                }
-            }
-            return true;
         }
-        return super.equals(obj);
+        return true;
     }
 
     @Override // java.util.AbstractList, java.util.List
@@ -151,32 +152,31 @@ final class zzer extends zzdi implements zzew, zzgi, RandomAccess {
 
     @Override // java.util.AbstractList, java.util.List
     public final int indexOf(Object obj) {
-        if (obj instanceof Integer) {
-            int intValue = ((Integer) obj).intValue();
-            int size = size();
-            for (int i = 0; i < size; i++) {
-                if (this.zzb[i] == intValue) {
-                    return i;
-                }
-            }
+        if (!(obj instanceof Integer)) {
             return -1;
+        }
+        int intValue = ((Integer) obj).intValue();
+        int size = size();
+        for (int i = 0; i < size; i++) {
+            if (this.zzb[i] == intValue) {
+                return i;
+            }
         }
         return -1;
     }
 
     @Override // java.util.AbstractList, java.util.List
     public final /* synthetic */ Object remove(int i) {
-        int i2;
         zzc();
         zzc(i);
         int[] iArr = this.zzb;
-        int i3 = iArr[i];
+        int i2 = iArr[i];
         if (i < this.zzc - 1) {
-            System.arraycopy(iArr, i + 1, iArr, i, (i2 - i) - 1);
+            System.arraycopy(iArr, i + 1, iArr, i, (r2 - i) - 1);
         }
         this.zzc--;
         ((AbstractList) this).modCount++;
-        return Integer.valueOf(i3);
+        return Integer.valueOf(i2);
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdi, java.util.AbstractCollection, java.util.Collection, java.util.List

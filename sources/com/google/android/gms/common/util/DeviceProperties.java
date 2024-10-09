@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import com.google.android.gms.common.GooglePlayServicesUtilLight;
+
 /* loaded from: classes.dex */
 public abstract class DeviceProperties {
     private static Boolean zzd;
@@ -41,13 +42,13 @@ public abstract class DeviceProperties {
     }
 
     public static boolean isWearableWithoutPlayStore(Context context) {
-        if (!isWearable(context) || PlatformVersion.isAtLeastN()) {
-            if (zza(context)) {
-                return !PlatformVersion.isAtLeastO() || PlatformVersion.isAtLeastR();
-            }
-            return false;
+        if (isWearable(context) && !PlatformVersion.isAtLeastN()) {
+            return true;
         }
-        return true;
+        if (zza(context)) {
+            return !PlatformVersion.isAtLeastO() || PlatformVersion.isAtLeastR();
+        }
+        return false;
     }
 
     public static boolean zza(Context context) {

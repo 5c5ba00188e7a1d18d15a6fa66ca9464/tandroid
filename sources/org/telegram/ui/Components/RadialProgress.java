@@ -13,6 +13,7 @@ import android.view.animation.DecelerateInterpolator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class RadialProgress {
     private static DecelerateInterpolator decelerateInterpolator;
@@ -116,26 +117,33 @@ public class RadialProgress {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:33:0x008c, code lost:
-        if (r17.currentMiniDrawable != null) goto L33;
+    
+        if (r17.currentMiniDrawable != null) goto L34;
      */
     /* JADX WARN: Code restructure failed: missing block: B:34:0x008e, code lost:
+    
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00a3, code lost:
-        if (r1 <= 0.0f) goto L45;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x00bf, code lost:
-        if (r17.currentMiniDrawable != null) goto L33;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00c2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00c2, code lost:
+    
         r17.drawMiniProgress = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x00d2, code lost:
-        if (r1 <= 0.0f) goto L45;
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x00a3, code lost:
+    
+        if (r1 <= 0.0f) goto L56;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x00d4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x00d4, code lost:
+    
         r17.animatedAlphaValue = 0.0f;
         r17.previousDrawable = null;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x00bf, code lost:
+    
+        if (r17.currentMiniDrawable != null) goto L34;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00d2, code lost:
+    
+        if (r1 <= 0.0f) goto L56;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -148,8 +156,13 @@ public class RadialProgress {
         long j = currentTimeMillis - this.lastUpdateTime;
         this.lastUpdateTime = currentTimeMillis;
         Drawable drawable = this.checkBackgroundDrawable;
-        if (drawable != null && (this.currentDrawable == drawable || this.previousDrawable == drawable)) {
-            throw null;
+        if (drawable != null) {
+            if (this.currentDrawable == drawable) {
+                throw null;
+            }
+            if (this.previousDrawable == drawable) {
+                throw null;
+            }
         }
         boolean z2 = false;
         if (z) {
@@ -181,9 +194,10 @@ public class RadialProgress {
                     this.animatedAlphaValue = 0.0f;
                     this.previousMiniDrawable = null;
                 }
-            } else if (this.animatedProgressValue < 1.0f || this.previousDrawable == null) {
-                return;
             } else {
+                if (this.animatedProgressValue < 1.0f || this.previousDrawable == null) {
+                    return;
+                }
                 float f5 = this.animatedAlphaValue - (((float) j) / 200.0f);
                 this.animatedAlphaValue = f5;
             }
@@ -197,9 +211,10 @@ public class RadialProgress {
                 this.animatedAlphaValue = 0.0f;
                 this.previousMiniDrawable = null;
             }
-        } else if (this.previousDrawable == null) {
-            return;
         } else {
+            if (this.previousDrawable == null) {
+                return;
+            }
             float f7 = this.animatedAlphaValue - (((float) j) / 200.0f);
             this.animatedAlphaValue = f7;
         }

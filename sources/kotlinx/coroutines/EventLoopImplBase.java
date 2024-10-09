@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import kotlin.coroutines.CoroutineContext;
 import kotlinx.coroutines.internal.LockFreeTaskQueueCore;
 import kotlinx.coroutines.internal.Symbol;
+
 /* loaded from: classes.dex */
 public abstract class EventLoopImplBase extends EventLoopImplPlatform implements Delay {
     private static final /* synthetic */ AtomicReferenceFieldUpdater _queue$FU = AtomicReferenceFieldUpdater.newUpdater(EventLoopImplBase.class, Object.class, "_queue");
@@ -77,7 +78,7 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
         }
     }
 
-    /* JADX WARN: Type inference failed for: r0v0, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
     private final boolean isCompleted() {
         return this._isCompleted;
     }
@@ -107,7 +108,8 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
             if (!(obj instanceof LockFreeTaskQueueCore)) {
                 symbol = EventLoop_commonKt.CLOSED_EMPTY;
                 return obj == symbol ? Long.MAX_VALUE : 0L;
-            } else if (!((LockFreeTaskQueueCore) obj).isEmpty()) {
+            }
+            if (!((LockFreeTaskQueueCore) obj).isEmpty()) {
                 return 0L;
             }
         }
@@ -118,21 +120,21 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
     /* JADX INFO: Access modifiers changed from: protected */
     public boolean isEmpty() {
         Symbol symbol;
-        if (isUnconfinedQueueEmpty()) {
-            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(this._delayed);
-            Object obj = this._queue;
-            if (obj != null) {
-                if (obj instanceof LockFreeTaskQueueCore) {
-                    return ((LockFreeTaskQueueCore) obj).isEmpty();
-                }
-                symbol = EventLoop_commonKt.CLOSED_EMPTY;
-                if (obj != symbol) {
-                    return false;
-                }
-            }
-            return true;
+        if (!isUnconfinedQueueEmpty()) {
+            return false;
         }
-        return false;
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(this._delayed);
+        Object obj = this._queue;
+        if (obj != null) {
+            if (obj instanceof LockFreeTaskQueueCore) {
+                return ((LockFreeTaskQueueCore) obj).isEmpty();
+            }
+            symbol = EventLoop_commonKt.CLOSED_EMPTY;
+            if (obj != symbol) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public long processNextEvent() {
@@ -141,11 +143,11 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
         }
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(this._delayed);
         Runnable dequeue = dequeue();
-        if (dequeue != null) {
-            dequeue.run();
-            return 0L;
+        if (dequeue == null) {
+            return getNextTime();
         }
-        return getNextTime();
+        dequeue.run();
+        return 0L;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

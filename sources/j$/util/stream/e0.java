@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.LongFunction;
+
 /* loaded from: classes2.dex */
 final class e0 extends Z1 {
     public final /* synthetic */ int b;
@@ -20,7 +21,7 @@ final class e0 extends Z1 {
                 this.a.accept(((j$.util.function.f0) ((w) this.c).n).applyAsLong(j));
                 return;
             case 1:
-                this.a.accept((e2) ((LongFunction) ((u) this.c).n).apply(j));
+                this.a.r((e2) ((LongFunction) ((u) this.c).n).apply(j));
                 return;
             case 2:
                 this.a.accept(((j$.util.function.b0) ((v) this.c).n).a.applyAsInt(j));

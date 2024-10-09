@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_common;
+
 /* loaded from: classes.dex */
 final class zzly extends zzmd {
     private String zza;
@@ -28,19 +29,19 @@ final class zzly extends zzmd {
     @Override // com.google.android.gms.internal.mlkit_vision_common.zzmd
     public final zzme zzd() {
         String str;
-        if (this.zzd != 3 || (str = this.zza) == null) {
-            StringBuilder sb = new StringBuilder();
-            if (this.zza == null) {
-                sb.append(" libraryName");
-            }
-            if ((this.zzd & 1) == 0) {
-                sb.append(" enableFirelog");
-            }
-            if ((this.zzd & 2) == 0) {
-                sb.append(" firelogEventType");
-            }
-            throw new IllegalStateException("Missing required properties:".concat(sb.toString()));
+        if (this.zzd == 3 && (str = this.zza) != null) {
+            return new zzma(str, this.zzb, this.zzc, null);
         }
-        return new zzma(str, this.zzb, this.zzc, null);
+        StringBuilder sb = new StringBuilder();
+        if (this.zza == null) {
+            sb.append(" libraryName");
+        }
+        if ((this.zzd & 1) == 0) {
+            sb.append(" enableFirelog");
+        }
+        if ((this.zzd & 2) == 0) {
+            sb.append(" firelogEventType");
+        }
+        throw new IllegalStateException("Missing required properties:".concat(sb.toString()));
     }
 }

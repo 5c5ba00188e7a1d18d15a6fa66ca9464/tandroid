@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import java.nio.ShortBuffer;
 import java.util.Arrays;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 final class Sonic {
     private final int channelCount;
@@ -111,9 +112,9 @@ final class Sonic {
                 skipPitchPeriod = copyInputToOutput(i2);
             } else {
                 int findPitchPeriod = findPitchPeriod(this.inputBuffer, i2);
-                int i3 = (f > 1.0d ? 1 : (f == 1.0d ? 0 : -1));
+                double d = f;
                 short[] sArr = this.inputBuffer;
-                skipPitchPeriod = i3 > 0 ? findPitchPeriod + skipPitchPeriod(sArr, i2, f, findPitchPeriod) : insertPitchPeriod(sArr, i2, f, findPitchPeriod);
+                skipPitchPeriod = d > 1.0d ? findPitchPeriod + skipPitchPeriod(sArr, i2, f, findPitchPeriod) : insertPitchPeriod(sArr, i2, f, findPitchPeriod);
             }
             i2 += skipPitchPeriod;
         } while (this.maxRequiredFrameCount + i2 <= i);

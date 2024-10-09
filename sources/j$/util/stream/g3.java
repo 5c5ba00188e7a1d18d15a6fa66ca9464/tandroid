@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class g3 implements d2 {
     public final /* synthetic */ int a;
@@ -60,7 +61,8 @@ public final /* synthetic */ class g3 implements d2 {
     }
 
     @Override // j$.util.function.Consumer
-    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+    /* renamed from: accept */
+    public final /* bridge */ /* synthetic */ void r(Object obj) {
         switch (this.a) {
             case 0:
                 j((Long) obj);

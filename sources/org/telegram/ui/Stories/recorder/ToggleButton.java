@@ -19,6 +19,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Stories.recorder.FlashViews;
+
 /* loaded from: classes4.dex */
 public class ToggleButton extends View implements FlashViews.Invertable {
     private Bitmap activeBitmap;

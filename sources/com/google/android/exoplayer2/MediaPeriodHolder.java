@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelectorResult;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
+
 /* loaded from: classes.dex */
 final class MediaPeriodHolder {
     public boolean allRenderersInCorrectState;
@@ -181,11 +182,11 @@ final class MediaPeriodHolder {
     }
 
     public long getBufferedPositionUs() {
-        if (this.prepared) {
-            long bufferedPositionUs = this.hasEnabledTracks ? this.mediaPeriod.getBufferedPositionUs() : Long.MIN_VALUE;
-            return bufferedPositionUs == Long.MIN_VALUE ? this.info.durationUs : bufferedPositionUs;
+        if (!this.prepared) {
+            return this.info.startPositionUs;
         }
-        return this.info.startPositionUs;
+        long bufferedPositionUs = this.hasEnabledTracks ? this.mediaPeriod.getBufferedPositionUs() : Long.MIN_VALUE;
+        return bufferedPositionUs == Long.MIN_VALUE ? this.info.durationUs : bufferedPositionUs;
     }
 
     public MediaPeriodHolder getNext() {
@@ -249,7 +250,6 @@ final class MediaPeriodHolder {
     }
 
     public TrackSelectorResult selectTracks(float f, Timeline timeline) {
-        ExoTrackSelection[] exoTrackSelectionArr;
         TrackSelectorResult selectTracks = this.trackSelector.selectTracks(this.rendererCapabilities, getTrackGroups(), this.info.id, timeline);
         for (int i = 0; i < selectTracks.length; i++) {
             boolean z = true;

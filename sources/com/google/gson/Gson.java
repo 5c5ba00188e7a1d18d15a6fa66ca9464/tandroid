@@ -37,6 +37,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
+
 /* loaded from: classes.dex */
 public final class Gson {
     static final Strictness DEFAULT_STRICTNESS = null;
@@ -240,11 +241,11 @@ public final class Gson {
         return z ? TypeAdapters.DOUBLE : new TypeAdapter() { // from class: com.google.gson.Gson.1
             @Override // com.google.gson.TypeAdapter
             public Double read(JsonReader jsonReader) {
-                if (jsonReader.peek() == JsonToken.NULL) {
-                    jsonReader.nextNull();
-                    return null;
+                if (jsonReader.peek() != JsonToken.NULL) {
+                    return Double.valueOf(jsonReader.nextDouble());
                 }
-                return Double.valueOf(jsonReader.nextDouble());
+                jsonReader.nextNull();
+                return null;
             }
 
             @Override // com.google.gson.TypeAdapter
@@ -264,11 +265,11 @@ public final class Gson {
         return z ? TypeAdapters.FLOAT : new TypeAdapter() { // from class: com.google.gson.Gson.2
             @Override // com.google.gson.TypeAdapter
             public Float read(JsonReader jsonReader) {
-                if (jsonReader.peek() == JsonToken.NULL) {
-                    jsonReader.nextNull();
-                    return null;
+                if (jsonReader.peek() != JsonToken.NULL) {
+                    return Float.valueOf((float) jsonReader.nextDouble());
                 }
-                return Float.valueOf((float) jsonReader.nextDouble());
+                jsonReader.nextNull();
+                return null;
             }
 
             @Override // com.google.gson.TypeAdapter
@@ -291,11 +292,11 @@ public final class Gson {
         return longSerializationPolicy == LongSerializationPolicy.DEFAULT ? TypeAdapters.LONG : new TypeAdapter() { // from class: com.google.gson.Gson.3
             @Override // com.google.gson.TypeAdapter
             public Number read(JsonReader jsonReader) {
-                if (jsonReader.peek() == JsonToken.NULL) {
-                    jsonReader.nextNull();
-                    return null;
+                if (jsonReader.peek() != JsonToken.NULL) {
+                    return Long.valueOf(jsonReader.nextLong());
                 }
-                return Long.valueOf(jsonReader.nextLong());
+                jsonReader.nextNull();
+                return null;
             }
 
             @Override // com.google.gson.TypeAdapter
@@ -309,7 +310,8 @@ public final class Gson {
         };
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0051, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0051, code lost:
+    
         r2.setDelegate(r4);
         r0.put(r7, r4);
      */
@@ -384,10 +386,10 @@ public final class Gson {
                 z = true;
             }
         }
-        if (z) {
-            throw new IllegalArgumentException("GSON cannot serialize or deserialize " + typeToken);
+        if (!z) {
+            return getAdapter(typeToken);
         }
-        return getAdapter(typeToken);
+        throw new IllegalArgumentException("GSON cannot serialize or deserialize " + typeToken);
     }
 
     public JsonWriter newJsonWriter(Writer writer) {

@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class BaseDataSource implements DataSource {
     private DataSpec dataSpec;

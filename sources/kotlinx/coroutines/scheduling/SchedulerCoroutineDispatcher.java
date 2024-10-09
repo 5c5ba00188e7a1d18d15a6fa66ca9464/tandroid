@@ -2,6 +2,7 @@ package kotlinx.coroutines.scheduling;
 
 import kotlin.coroutines.CoroutineContext;
 import kotlinx.coroutines.ExecutorCoroutineDispatcher;
+
 /* loaded from: classes.dex */
 public abstract class SchedulerCoroutineDispatcher extends ExecutorCoroutineDispatcher {
     private final int corePoolSize;

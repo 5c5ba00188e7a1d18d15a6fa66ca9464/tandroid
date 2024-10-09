@@ -16,6 +16,7 @@ import com.google.android.exoplayer2.video.VideoSize;
 import com.google.common.base.Objects;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public interface Player {
     public static final ArrayList videoListeners = new ArrayList();

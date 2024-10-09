@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class FieldDescriptor {
     private final String name;
@@ -48,11 +49,11 @@ public final class FieldDescriptor {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof FieldDescriptor) {
-            FieldDescriptor fieldDescriptor = (FieldDescriptor) obj;
-            return this.name.equals(fieldDescriptor.name) && this.properties.equals(fieldDescriptor.properties);
+        if (!(obj instanceof FieldDescriptor)) {
+            return false;
         }
-        return false;
+        FieldDescriptor fieldDescriptor = (FieldDescriptor) obj;
+        return this.name.equals(fieldDescriptor.name) && this.properties.equals(fieldDescriptor.properties);
     }
 
     public String getName() {

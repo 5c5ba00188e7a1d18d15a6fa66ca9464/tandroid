@@ -5,6 +5,7 @@ import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class Data implements Model {
     private final JSONObject mProperties = new JSONObject();

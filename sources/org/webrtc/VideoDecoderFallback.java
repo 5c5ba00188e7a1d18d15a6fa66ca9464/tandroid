@@ -1,4 +1,5 @@
 package org.webrtc;
+
 /* loaded from: classes.dex */
 public class VideoDecoderFallback extends WrappedNativeVideoDecoder {
     private final VideoDecoder fallback;

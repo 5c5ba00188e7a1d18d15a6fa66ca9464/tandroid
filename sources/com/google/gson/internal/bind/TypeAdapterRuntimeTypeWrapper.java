@@ -8,6 +8,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class TypeAdapterRuntimeTypeWrapper extends TypeAdapter {

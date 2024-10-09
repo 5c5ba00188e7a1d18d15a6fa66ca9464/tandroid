@@ -7,6 +7,7 @@ import j$.util.function.Function;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class zzx implements Map, Serializable, j$.util.Map {
     private transient zzy zza;
@@ -101,12 +102,12 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
     @Override // java.util.Map
     public final /* bridge */ /* synthetic */ Set keySet() {
         zzy zzyVar = this.zzb;
-        if (zzyVar == null) {
-            zzy zzd = zzd();
-            this.zzb = zzd;
-            return zzd;
+        if (zzyVar != null) {
+            return zzyVar;
         }
-        return zzyVar;
+        zzy zzd = zzd();
+        this.zzb = zzd;
+        return zzd;
     }
 
     @Override // j$.util.Map
@@ -188,15 +189,15 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
     abstract zzr zza();
 
     @Override // java.util.Map
-    /* renamed from: zzb */
+    /* renamed from: zzb, reason: merged with bridge method [inline-methods] */
     public final zzr values() {
         zzr zzrVar = this.zzc;
-        if (zzrVar == null) {
-            zzr zza = zza();
-            this.zzc = zza;
-            return zza;
+        if (zzrVar != null) {
+            return zzrVar;
         }
-        return zzrVar;
+        zzr zza = zza();
+        this.zzc = zza;
+        return zza;
     }
 
     abstract zzy zzc();
@@ -204,14 +205,14 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
     abstract zzy zzd();
 
     @Override // java.util.Map
-    /* renamed from: zze */
+    /* renamed from: zze, reason: merged with bridge method [inline-methods] */
     public final zzy entrySet() {
         zzy zzyVar = this.zza;
-        if (zzyVar == null) {
-            zzy zzc = zzc();
-            this.zza = zzc;
-            return zzc;
+        if (zzyVar != null) {
+            return zzyVar;
         }
-        return zzyVar;
+        zzy zzc = zzc();
+        this.zza = zzc;
+        return zzc;
     }
 }

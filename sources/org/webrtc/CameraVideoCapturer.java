@@ -1,6 +1,7 @@
 package org.webrtc;
 
 import android.media.MediaRecorder;
+
 /* loaded from: classes.dex */
 public interface CameraVideoCapturer extends VideoCapturer {
 
@@ -47,8 +48,7 @@ public interface CameraVideoCapturer extends VideoCapturer {
                 public void run() {
                     CameraEventsHandler cameraEventsHandler2;
                     String str;
-                    int round = Math.round((CameraStatistics.this.frameCount * 1000.0f) / 2000.0f);
-                    Logging.d(CameraStatistics.TAG, "Camera fps: " + round + ".");
+                    Logging.d(CameraStatistics.TAG, "Camera fps: " + Math.round((CameraStatistics.this.frameCount * 1000.0f) / 2000.0f) + ".");
                     if (CameraStatistics.this.frameCount == 0) {
                         CameraStatistics.access$104(CameraStatistics.this);
                         if (CameraStatistics.this.freezePeriodCount * CameraStatistics.CAMERA_OBSERVER_PERIOD_MS >= CameraStatistics.CAMERA_FREEZE_REPORT_TIMOUT_MS && CameraStatistics.this.eventsHandler != null) {

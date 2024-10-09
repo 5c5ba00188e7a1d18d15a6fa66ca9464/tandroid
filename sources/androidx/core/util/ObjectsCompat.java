@@ -1,6 +1,7 @@
 package androidx.core.util;
 
 import java.util.Objects;
+
 /* loaded from: classes.dex */
 public abstract class ObjectsCompat {
 

@@ -8,9 +8,11 @@ import android.graphics.Paint;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.BitmapShaderTools;
+
 /* loaded from: classes3.dex */
 public class VoIPBackgroundProvider {
     private final Paint darkPaint;
@@ -121,8 +123,9 @@ public class VoIPBackgroundProvider {
     }
 
     public void invalidateViews() {
-        for (View view : this.views) {
-            view.invalidate();
+        Iterator it = this.views.iterator();
+        while (it.hasNext()) {
+            ((View) it.next()).invalidate();
         }
     }
 

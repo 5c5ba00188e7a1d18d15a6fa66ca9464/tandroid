@@ -2,6 +2,7 @@ package com.microsoft.appcenter.distribute.channel;
 
 import com.microsoft.appcenter.channel.AbstractChannelListener;
 import com.microsoft.appcenter.ingestion.models.Log;
+
 /* loaded from: classes.dex */
 public class DistributeInfoTracker extends AbstractChannelListener {
     private String mDistributionGroupId;

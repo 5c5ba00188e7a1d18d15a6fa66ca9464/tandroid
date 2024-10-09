@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class EventLog extends LogWithNameAndProperties {
     private UUID id;
@@ -16,17 +17,17 @@ public class EventLog extends LogWithNameAndProperties {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            EventLog eventLog = (EventLog) obj;
-            UUID uuid = this.id;
-            if (uuid == null ? eventLog.id == null : uuid.equals(eventLog.id)) {
-                List list = this.typedProperties;
-                List list2 = eventLog.typedProperties;
-                return list != null ? list.equals(list2) : list2 == null;
-            }
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
             return false;
         }
-        return false;
+        EventLog eventLog = (EventLog) obj;
+        UUID uuid = this.id;
+        if (uuid == null ? eventLog.id != null : !uuid.equals(eventLog.id)) {
+            return false;
+        }
+        List list = this.typedProperties;
+        List list2 = eventLog.typedProperties;
+        return list != null ? list.equals(list2) : list2 == null;
     }
 
     public UUID getId() {

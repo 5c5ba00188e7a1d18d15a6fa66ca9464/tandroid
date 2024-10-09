@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertContactsLayout;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
     private PhonebookShareAlertDelegate delegate;
@@ -137,8 +139,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ CharSequence lambda$onBindViewHolder$1(TLRPC.User user) {
-            PhoneFormat phoneFormat = PhoneFormat.getInstance();
-            return phoneFormat.format("+" + user.phone);
+            return PhoneFormat.getInstance().format("+" + user.phone);
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SectionsAdapter
@@ -291,33 +292,42 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ CharSequence lambda$onBindViewHolder$5(TLRPC.User user) {
-            PhoneFormat phoneFormat = PhoneFormat.getInstance();
-            return phoneFormat.format("+" + user.phone);
+            return PhoneFormat.getInstance().format("+" + user.phone);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:101:0x022f, code lost:
-            if (r6.contains(" " + r12) != false) goto L126;
+        /* JADX WARN: Code restructure failed: missing block: B:107:0x022f, code lost:
+        
+            if (r6.contains(" " + r12) != false) goto L108;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x00c4, code lost:
-            if (r5.contains(" " + r0) == false) goto L60;
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x00c4, code lost:
+        
+            if (r5.contains(" " + r0) == false) goto L36;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:40:0x00e1, code lost:
-            if (r6.contains(" " + r0) != false) goto L33;
+        /* JADX WARN: Code restructure failed: missing block: B:64:0x00e1, code lost:
+        
+            if (r6.contains(" " + r0) != false) goto L41;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:57:0x012d, code lost:
-            if (r12.contains(" " + r0) != false) goto L82;
+        /* JADX WARN: Code restructure failed: missing block: B:80:0x012d, code lost:
+        
+            if (r12.contains(" " + r0) != false) goto L60;
          */
-        /* JADX WARN: Removed duplicated region for block: B:126:0x0199 A[ADDED_TO_REGION, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x0138  */
-        /* JADX WARN: Removed duplicated region for block: B:78:0x018f  */
+        /* JADX WARN: Multi-variable type inference failed */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0138  */
+        /* JADX WARN: Removed duplicated region for block: B:48:0x018f  */
+        /* JADX WARN: Removed duplicated region for block: B:59:0x0199 A[ADDED_TO_REGION, SYNTHETIC] */
+        /* JADX WARN: Type inference failed for: r1v10 */
+        /* JADX WARN: Type inference failed for: r1v17 */
+        /* JADX WARN: Type inference failed for: r1v22 */
+        /* JADX WARN: Type inference failed for: r1v30 */
+        /* JADX WARN: Type inference failed for: r1v6 */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public /* synthetic */ void lambda$processSearch$1(String str, ArrayList arrayList, ArrayList arrayList2, int i, int i2) {
             String str2;
             String str3;
-            char c;
+            ?? r1;
             String publicUsername;
             String str4;
             String str5;
@@ -330,7 +340,9 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 return;
             }
             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-            translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
+            if (lowerCase.equals(translitString) || translitString.length() == 0) {
+                translitString = null;
+            }
             int i3 = (translitString != null ? 1 : 0) + 1;
             String[] strArr = new String[i3];
             strArr[0] = lowerCase;
@@ -356,23 +368,23 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                     translitString2 = null;
                 }
                 int i5 = 0;
-                char c2 = 0;
+                boolean z = false;
                 while (i5 < i3) {
                     String str6 = strArr[i5];
                     if (str2 != null) {
                         if (!str2.startsWith(str6)) {
                         }
-                        c = 1;
+                        r1 = 1;
                         String str7 = lowerCase2;
-                        if (c == 0 || (contact.phones.isEmpty() && contact.shortPhones.isEmpty())) {
+                        if (r1 == 0 || (contact.phones.isEmpty() && contact.shortPhones.isEmpty())) {
                             i5++;
                             lowerCase2 = str7;
-                            c2 = c;
+                            z = r1;
                         } else {
-                            if (c == 3) {
+                            if (r1 == 3) {
                                 str4 = contact.first_name;
                                 str5 = contact.last_name;
-                            } else if (c == 1) {
+                            } else if (r1 == 1) {
                                 TLRPC.User user3 = contact.user;
                                 generateSearchName = AndroidUtilities.generateSearchName(user3.first_name, user3.last_name, str6);
                                 arrayList4.add(generateSearchName);
@@ -397,13 +409,13 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                     if (str3 != null) {
                         if (!str3.startsWith(str6)) {
                         }
-                        c = 1;
+                        r1 = 1;
                         String str72 = lowerCase2;
-                        if (c == 0) {
+                        if (r1 == 0) {
                         }
                         i5++;
                         lowerCase2 = str72;
-                        c2 = c;
+                        z = r1;
                     }
                     TLRPC.User user4 = contact.user;
                     if (user4 == null || (publicUsername = UserObject.getPublicUsername(user4)) == null || !publicUsername.startsWith(str6)) {
@@ -413,19 +425,19 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                                     if (!translitString2.startsWith(str6)) {
                                     }
                                 }
-                                c = c2;
+                                r1 = z;
                             }
                         }
-                        c = 3;
+                        r1 = 3;
                     } else {
-                        c = 2;
+                        r1 = 2;
                     }
                     String str722 = lowerCase2;
-                    if (c == 0) {
+                    if (r1 == 0) {
                     }
                     i5++;
                     lowerCase2 = str722;
-                    c2 = c;
+                    z = r1;
                 }
             }
             for (int i6 = 0; i6 < arrayList2.size(); i6++) {
@@ -437,7 +449,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                     if (lowerCase3.equals(translitString3)) {
                         translitString3 = null;
                     }
-                    char c3 = 0;
+                    char c = 0;
                     for (int i7 = 0; i7 < i3; i7++) {
                         String str8 = strArr[i7];
                         if (!lowerCase3.startsWith(str8)) {
@@ -448,10 +460,10 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                                 }
                                 String publicUsername2 = UserObject.getPublicUsername(user5);
                                 if (publicUsername2 != null && publicUsername2.startsWith(str8)) {
-                                    c3 = 2;
+                                    c = 2;
                                 }
-                                if (c3 == 0 && user5.phone != null) {
-                                    if (c3 == 1) {
+                                if (c == 0 && user5.phone != null) {
+                                    if (c == 1) {
                                         arrayList4.add(AndroidUtilities.generateSearchName(user5.first_name, user5.last_name, str8));
                                     } else {
                                         arrayList4.add(AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(user5), null, "@" + str8));
@@ -460,8 +472,8 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                                 }
                             }
                         }
-                        c3 = 1;
-                        if (c3 == 0) {
+                        c = 1;
+                        if (c == 0) {
                         }
                     }
                 }
@@ -496,7 +508,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* renamed from: processSearch */
+        /* renamed from: processSearch, reason: merged with bridge method [inline-methods] */
         public void lambda$search$0(final String str, final int i) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
@@ -609,19 +621,19 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 this.searchResult.clear();
                 this.searchResultNames.clear();
                 notifyDataSetChanged();
-                return;
+            } else {
+                final int i = this.lastSearchId + 1;
+                this.lastSearchId = i;
+                DispatchQueue dispatchQueue = Utilities.searchQueue;
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatAttachAlertContactsLayout.ShareSearchAdapter.this.lambda$search$0(str, i);
+                    }
+                };
+                this.searchRunnable = runnable;
+                dispatchQueue.postRunnable(runnable, 300L);
             }
-            final int i = this.lastSearchId + 1;
-            this.lastSearchId = i;
-            DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$ShareSearchAdapter$$ExternalSyntheticLambda2
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatAttachAlertContactsLayout.ShareSearchAdapter.this.lambda$search$0(str, i);
-                }
-            };
-            this.searchRunnable = runnable;
-            dispatchQueue.postRunnable(runnable, 300L);
         }
     }
 
@@ -713,8 +725,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setStatus$3() {
             if (this.currentUser != null) {
-                PhoneFormat phoneFormat = PhoneFormat.getInstance();
-                this.formattedPhoneNumber = phoneFormat.format("+" + this.currentUser.phone);
+                this.formattedPhoneNumber = PhoneFormat.getInstance().format("+" + this.currentUser.phone);
                 this.formattedPhoneNumberUser = this.currentUser;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
@@ -784,7 +795,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             });
         }
 
-        /* renamed from: setStatus */
+        /* renamed from: setStatus, reason: merged with bridge method [inline-methods] */
         public void lambda$setData$0(CharSequence charSequence) {
             this.currentStatus = charSequence;
             if (charSequence == null) {
@@ -809,8 +820,9 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             this.statusTextView.setText(charSequence);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:47:0x0068, code lost:
-            if (r12.equals(r11.lastName) == false) goto L37;
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x0068, code lost:
+        
+            if (r12.equals(r11.lastName) == false) goto L51;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1023,20 +1035,20 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getCurrentTop() {
-        if (this.listView.getChildCount() != 0) {
-            int i = 0;
-            View childAt = this.listView.getChildAt(0);
-            RecyclerListView.Holder holder = (RecyclerListView.Holder) this.listView.findContainingViewHolder(childAt);
-            if (holder != null) {
-                int paddingTop = this.listView.getPaddingTop();
-                if (holder.getAdapterPosition() == 0 && childAt.getTop() >= 0) {
-                    i = childAt.getTop();
-                }
-                return paddingTop - i;
-            }
+        if (this.listView.getChildCount() == 0) {
             return -1000;
         }
-        return -1000;
+        int i = 0;
+        View childAt = this.listView.getChildAt(0);
+        RecyclerListView.Holder holder = (RecyclerListView.Holder) this.listView.findContainingViewHolder(childAt);
+        if (holder == null) {
+            return -1000;
+        }
+        int paddingTop = this.listView.getPaddingTop();
+        if (holder.getAdapterPosition() == 0 && childAt.getTop() >= 0) {
+            i = childAt.getTop();
+        }
+        return paddingTop - i;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1076,8 +1088,9 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
             int positionInSectionForPosition = this.listAdapter.getPositionInSectionForPosition(i);
             if (positionInSectionForPosition < 0 || sectionForPosition < 0) {
                 return;
+            } else {
+                item = this.listAdapter.getItem(sectionForPosition, positionInSectionForPosition);
             }
-            item = this.listAdapter.getItem(sectionForPosition, positionInSectionForPosition);
         }
         if (item != null) {
             if (!this.selectedContacts.isEmpty()) {
@@ -1131,18 +1144,18 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         RecyclerView.Adapter adapter = this.listView.getAdapter();
         ShareSearchAdapter shareSearchAdapter = this.searchAdapter;
         Object item = adapter == shareSearchAdapter ? shareSearchAdapter.getItem(i) : this.listAdapter.getItem(i);
-        if (item != null) {
-            addOrRemoveSelectedContact((UserCell) view, item);
-            return true;
+        if (item == null) {
+            return false;
         }
-        return false;
+        addOrRemoveSelectedContact((UserCell) view, item);
+        return true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00dd  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00fe  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00dd  */
     /* JADX WARN: Removed duplicated region for block: B:44:0x010a  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x011a  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x00fe  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1202,12 +1215,12 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                         if (i2 >= arrayList4.size()) {
                             arrayList4.add(vcardItem2);
                             break;
-                        } else if (((AndroidUtilities.VcardItem) arrayList4.get(i2)).getValue(false).equals(vcardItem2.getValue(false))) {
+                        }
+                        if (((AndroidUtilities.VcardItem) arrayList4.get(i2)).getValue(false).equals(vcardItem2.getValue(false))) {
                             vcardItem2.checked = false;
                             break;
-                        } else {
-                            i2++;
                         }
+                        i2++;
                     }
                 } else {
                     arrayList5.add(vcardItem2);
@@ -1295,7 +1308,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.shadowAnimation = animatorSet2;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, (Property<View, Float>) View.ALPHA, z ? 1.0f : 0.0f));
         this.shadowAnimation.setDuration(150L);
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout.5
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1334,8 +1347,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
     public void updateEmptyViewPosition() {
         View childAt;
         if (this.emptyView.getVisibility() == 0 && (childAt = this.listView.getChildAt(0)) != null) {
-            EmptyTextProgressView emptyTextProgressView = this.emptyView;
-            emptyTextProgressView.setTranslationY(((emptyTextProgressView.getMeasuredHeight() - getMeasuredHeight()) + childAt.getTop()) / 2);
+            this.emptyView.setTranslationY(((r1.getMeasuredHeight() - getMeasuredHeight()) + childAt.getTop()) / 2);
         }
     }
 

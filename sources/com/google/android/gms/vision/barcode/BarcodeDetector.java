@@ -9,6 +9,7 @@ import com.google.android.gms.internal.vision.zzs;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Frame;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public final class BarcodeDetector extends Detector {
     private final com.google.android.gms.internal.vision.zzm zza;
@@ -38,25 +39,25 @@ public final class BarcodeDetector extends Detector {
 
     public final SparseArray detect(Frame frame) {
         Barcode[] zza;
-        if (frame != null) {
-            zzs zza2 = zzs.zza(frame);
-            if (frame.getBitmap() != null) {
-                zza = this.zza.zza((Bitmap) Preconditions.checkNotNull(frame.getBitmap()), zza2);
-                if (zza == null) {
-                    throw new IllegalArgumentException("Internal barcode detector error; check logcat output.");
-                }
-            } else if (frame.getPlanes() != null) {
-                zza = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getBuffer()), new zzs(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getRowStride(), zza2.zzb, zza2.zzc, zza2.zzd, zza2.zze));
-            } else {
-                zza = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(frame.getGrayscaleImageData()), zza2);
-            }
-            SparseArray sparseArray = new SparseArray(zza.length);
-            for (Barcode barcode : zza) {
-                sparseArray.append(barcode.rawValue.hashCode(), barcode);
-            }
-            return sparseArray;
+        if (frame == null) {
+            throw new IllegalArgumentException("No frame supplied.");
         }
-        throw new IllegalArgumentException("No frame supplied.");
+        zzs zza2 = zzs.zza(frame);
+        if (frame.getBitmap() != null) {
+            zza = this.zza.zza((Bitmap) Preconditions.checkNotNull(frame.getBitmap()), zza2);
+            if (zza == null) {
+                throw new IllegalArgumentException("Internal barcode detector error; check logcat output.");
+            }
+        } else if (frame.getPlanes() != null) {
+            zza = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getBuffer()), new zzs(((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()))[0].getRowStride(), zza2.zzb, zza2.zzc, zza2.zzd, zza2.zze));
+        } else {
+            zza = this.zza.zza((ByteBuffer) Preconditions.checkNotNull(frame.getGrayscaleImageData()), zza2);
+        }
+        SparseArray sparseArray = new SparseArray(zza.length);
+        for (Barcode barcode : zza) {
+            sparseArray.append(barcode.rawValue.hashCode(), barcode);
+        }
+        return sparseArray;
     }
 
     public final boolean isOperational() {

@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.concurrent.ConcurrentHashMap;
 import j$.util.function.Consumer;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 final class b3 implements j$.util.Q, Consumer {
     private static final Object d = new Object();
@@ -26,7 +27,8 @@ final class b3 implements j$.util.Q, Consumer {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         this.c = obj;
     }
 
@@ -48,7 +50,7 @@ final class b3 implements j$.util.Q, Consumer {
     /* JADX INFO: Access modifiers changed from: package-private */
     public final void f(Consumer consumer, Object obj) {
         if (this.b.putIfAbsent(obj != null ? obj : d, Boolean.TRUE) == null) {
-            consumer.accept(obj);
+            consumer.r(obj);
         }
     }
 
@@ -75,7 +77,7 @@ final class b3 implements j$.util.Q, Consumer {
                 obj = d;
             }
             if (this.b.putIfAbsent(obj, Boolean.TRUE) == null) {
-                consumer.accept(this.c);
+                consumer.r(this.c);
                 this.c = null;
                 return true;
             }

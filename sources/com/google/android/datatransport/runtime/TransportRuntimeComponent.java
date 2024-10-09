@@ -3,6 +3,7 @@ package com.google.android.datatransport.runtime;
 import android.content.Context;
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStore;
 import java.io.Closeable;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class TransportRuntimeComponent implements Closeable {

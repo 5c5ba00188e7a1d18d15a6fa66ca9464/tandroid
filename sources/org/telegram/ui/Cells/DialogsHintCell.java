@@ -22,6 +22,7 @@ import org.telegram.ui.Components.AvatarsImageView;
 import org.telegram.ui.Components.BlurredFrameLayout;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
+
 /* loaded from: classes4.dex */
 public class DialogsHintCell extends BlurredFrameLayout {
     private final AvatarsImageView avatarsImageView;

@@ -1,4 +1,5 @@
 package kotlinx.coroutines;
+
 /* loaded from: classes.dex */
 public final class ThreadLocalEventLoop {
     public static final ThreadLocalEventLoop INSTANCE = new ThreadLocalEventLoop();

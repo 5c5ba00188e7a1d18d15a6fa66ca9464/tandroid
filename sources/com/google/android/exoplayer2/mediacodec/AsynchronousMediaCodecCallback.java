@@ -7,6 +7,7 @@ import android.os.HandlerThread;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AsynchronousMediaCodecCallback extends MediaCodec.Callback {

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import com.google.android.gms.common.internal.Objects;
+
 /* loaded from: classes.dex */
 public final class zzdw {
     private final zzoa zza;
@@ -26,11 +27,11 @@ public final class zzdw {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof zzdw) {
-            zzdw zzdwVar = (zzdw) obj;
-            return Objects.equal(this.zza, zzdwVar.zza) && Objects.equal(this.zzb, zzdwVar.zzb) && Objects.equal(null, null) && Objects.equal(this.zzd, zzdwVar.zzd);
+        if (!(obj instanceof zzdw)) {
+            return false;
         }
-        return false;
+        zzdw zzdwVar = (zzdw) obj;
+        return Objects.equal(this.zza, zzdwVar.zza) && Objects.equal(this.zzb, zzdwVar.zzb) && Objects.equal(null, null) && Objects.equal(this.zzd, zzdwVar.zzd);
     }
 
     public final int hashCode() {

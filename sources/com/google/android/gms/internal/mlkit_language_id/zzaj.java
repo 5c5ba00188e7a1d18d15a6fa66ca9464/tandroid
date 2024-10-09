@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public enum zzaj implements zzet {
     zzd(0),
@@ -124,7 +125,7 @@ public enum zzaj implements zzet {
     zzdo(NotificationCenter.nearEarEvent),
     zzdp(361),
     zzdq(371);
-    
+
     private static final zzes zzdr = new zzes() { // from class: com.google.android.gms.internal.mlkit_language_id.zzam
     };
     private final int zzds;

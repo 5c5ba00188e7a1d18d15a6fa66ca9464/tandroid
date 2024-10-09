@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class Z0 extends I0 implements x0 {
@@ -29,7 +30,8 @@ public final class Z0 extends I0 implements x0 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         int i = this.b;
         Object[] objArr = this.a;
         if (i >= objArr.length) {

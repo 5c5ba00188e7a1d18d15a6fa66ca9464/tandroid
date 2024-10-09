@@ -2,6 +2,7 @@ package androidx.recyclerview.widget;
 
 import androidx.recyclerview.widget.AdapterHelper;
 import java.util.List;
+
 /* loaded from: classes.dex */
 class OpReorderer {
     final Callback mCallback;
@@ -59,8 +60,10 @@ class OpReorderer {
             swapMoveAdd(list, i, updateOp, i2, updateOp2);
         } else if (i3 == 2) {
             swapMoveRemove(list, i, updateOp, i2, updateOp2);
-        } else if (i3 != 4) {
         } else {
+            if (i3 != 4) {
+                return;
+            }
             swapMoveUpdate(list, i, updateOp, i2, updateOp2);
         }
     }
@@ -71,19 +74,23 @@ class OpReorderer {
             int lastMoveOutOfOrder = getLastMoveOutOfOrder(list);
             if (lastMoveOutOfOrder == -1) {
                 return;
+            } else {
+                swapMoveOp(list, lastMoveOutOfOrder, lastMoveOutOfOrder + 1);
             }
-            swapMoveOp(list, lastMoveOutOfOrder, lastMoveOutOfOrder + 1);
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:46:0x009b, code lost:
-        if (r0 > r13.positionStart) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x009b, code lost:
+    
+        if (r0 > r13.positionStart) goto L60;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x00c5, code lost:
-        if (r0 >= r13.positionStart) goto L38;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00c7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00c7, code lost:
+    
         r11.itemCount = r0 - r13.itemCount;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x00c5, code lost:
+    
+        if (r0 >= r13.positionStart) goto L60;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -187,13 +194,13 @@ class OpReorderer {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0027  */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002b  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0046  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0046  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:18:0x004a  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0054  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0059  */
-    /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x002b  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0027  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

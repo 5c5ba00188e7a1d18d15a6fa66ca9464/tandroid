@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.IntFunction;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class H implements IntFunction {
     public final /* synthetic */ I a;

@@ -8,6 +8,7 @@ import com.google.android.gms.auth.api.signin.internal.zbd;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.internal.auth-api.zbl;
+
 /* loaded from: classes.dex */
 public abstract class Auth {
     public static final Api CREDENTIALS_API;
@@ -64,12 +65,12 @@ public abstract class Auth {
             if (obj == this) {
                 return true;
             }
-            if (obj instanceof AuthCredentialsOptions) {
-                AuthCredentialsOptions authCredentialsOptions = (AuthCredentialsOptions) obj;
-                String str = authCredentialsOptions.zbb;
-                return Objects.equal(null, null) && this.zbc == authCredentialsOptions.zbc && Objects.equal(this.zbd, authCredentialsOptions.zbd);
+            if (!(obj instanceof AuthCredentialsOptions)) {
+                return false;
             }
-            return false;
+            AuthCredentialsOptions authCredentialsOptions = (AuthCredentialsOptions) obj;
+            String str = authCredentialsOptions.zbb;
+            return Objects.equal(null, null) && this.zbc == authCredentialsOptions.zbc && Objects.equal(this.zbd, authCredentialsOptions.zbd);
         }
 
         public int hashCode() {

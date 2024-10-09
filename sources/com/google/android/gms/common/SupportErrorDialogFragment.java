@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import com.google.android.gms.common.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public class SupportErrorDialogFragment extends DialogFragment {
     private Dialog zaa;
@@ -37,14 +38,14 @@ public class SupportErrorDialogFragment extends DialogFragment {
     @Override // androidx.fragment.app.DialogFragment
     public Dialog onCreateDialog(Bundle bundle) {
         Dialog dialog = this.zaa;
-        if (dialog == null) {
-            setShowsDialog(false);
-            if (this.zac == null) {
-                this.zac = new AlertDialog.Builder((Context) Preconditions.checkNotNull(getContext())).create();
-            }
-            return this.zac;
+        if (dialog != null) {
+            return dialog;
         }
-        return dialog;
+        setShowsDialog(false);
+        if (this.zac == null) {
+            this.zac = new AlertDialog.Builder((Context) Preconditions.checkNotNull(getContext())).create();
+        }
+        return this.zac;
     }
 
     @Override // androidx.fragment.app.DialogFragment

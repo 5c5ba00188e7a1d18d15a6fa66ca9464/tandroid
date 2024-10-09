@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public abstract class Lists {
 
@@ -115,23 +116,23 @@ public abstract class Lists {
         if (obj == Preconditions.checkNotNull(list)) {
             return true;
         }
-        if (obj instanceof List) {
-            List list2 = (List) obj;
-            int size = list.size();
-            if (size != list2.size()) {
-                return false;
-            }
-            if ((list instanceof RandomAccess) && (list2 instanceof RandomAccess)) {
-                for (int i = 0; i < size; i++) {
-                    if (!Objects.equal(list.get(i), list2.get(i))) {
-                        return false;
-                    }
-                }
-                return true;
-            }
+        if (!(obj instanceof List)) {
+            return false;
+        }
+        List list2 = (List) obj;
+        int size = list.size();
+        if (size != list2.size()) {
+            return false;
+        }
+        if (!(list instanceof RandomAccess) || !(list2 instanceof RandomAccess)) {
             return Iterators.elementsEqual(list.iterator(), list2.iterator());
         }
-        return false;
+        for (int i = 0; i < size; i++) {
+            if (!Objects.equal(list.get(i), list2.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

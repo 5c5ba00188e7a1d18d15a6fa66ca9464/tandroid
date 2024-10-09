@@ -12,6 +12,8 @@ import com.google.android.gms.common.api.PendingResults;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.internal.GoogleApiManager;
 import com.google.android.gms.common.logging.Logger;
+import java.util.Iterator;
+
 /* loaded from: classes.dex */
 public abstract class zbm {
     private static final Logger zba = new Logger("GoogleSignInCommon", new String[0]);
@@ -48,13 +50,13 @@ public abstract class zbm {
         }
         Status status = (Status) intent.getParcelableExtra("googleSignInStatus");
         GoogleSignInAccount googleSignInAccount = (GoogleSignInAccount) intent.getParcelableExtra("googleSignInAccount");
-        if (googleSignInAccount == null) {
-            if (status == null) {
-                status = Status.RESULT_INTERNAL_ERROR;
-            }
-            return new GoogleSignInResult(null, status);
+        if (googleSignInAccount != null) {
+            return new GoogleSignInResult(googleSignInAccount, Status.RESULT_SUCCESS);
         }
-        return new GoogleSignInResult(googleSignInAccount, Status.RESULT_SUCCESS);
+        if (status == null) {
+            status = Status.RESULT_INTERNAL_ERROR;
+        }
+        return new GoogleSignInResult(null, status);
     }
 
     public static PendingResult zbf(GoogleApiClient googleApiClient, Context context, boolean z) {
@@ -72,8 +74,9 @@ public abstract class zbm {
 
     private static void zbh(Context context) {
         zbn.zbc(context).zbd();
-        for (GoogleApiClient googleApiClient : GoogleApiClient.getAllClients()) {
-            googleApiClient.maybeSignOut();
+        Iterator it = GoogleApiClient.getAllClients().iterator();
+        while (it.hasNext()) {
+            ((GoogleApiClient) it.next()).maybeSignOut();
         }
         GoogleApiManager.reportSignOut();
     }

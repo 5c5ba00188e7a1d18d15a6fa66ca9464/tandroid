@@ -6,6 +6,7 @@ import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes.dex */
 public class TaskQueue {
     private boolean zzb;
@@ -19,10 +20,10 @@ public class TaskQueue {
             try {
                 if (this.zzc.isEmpty()) {
                     this.zzb = false;
-                    return;
+                } else {
+                    zzv zzvVar = (zzv) this.zzc.remove();
+                    zzd(zzvVar.zza, zzvVar.zzb);
                 }
-                zzv zzvVar = (zzv) this.zzc.remove();
-                zzd(zzvVar.zza, zzvVar.zzb);
             } catch (Throwable th) {
                 throw th;
             }
@@ -65,10 +66,10 @@ public class TaskQueue {
             try {
                 if (this.zzb) {
                     this.zzc.add(new zzv(executor, runnable, null));
-                    return;
+                } else {
+                    this.zzb = true;
+                    zzd(executor, runnable);
                 }
-                this.zzb = true;
-                zzd(executor, runnable);
             } catch (Throwable th) {
                 throw th;
             }

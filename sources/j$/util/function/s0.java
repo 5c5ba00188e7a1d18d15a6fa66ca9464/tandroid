@@ -1,4 +1,5 @@
 package j$.util.function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class s0 implements java.util.function.Predicate {
     public final /* synthetic */ Predicate a;

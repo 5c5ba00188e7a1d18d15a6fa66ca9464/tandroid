@@ -1,4 +1,5 @@
 package com.google.android.gms.vision.clearcut;
+
 /* loaded from: classes.dex */
 public final class zzb {
     private final Object zzb = new Object();

@@ -19,6 +19,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.voip.VoIPStatusTextView;
+
 /* loaded from: classes3.dex */
 public class VoIPStatusTextView extends FrameLayout {
     boolean animationInProgress;
@@ -215,13 +216,19 @@ public class VoIPStatusTextView extends FrameLayout {
             this.textView[0].setVisibility(0);
             this.textView[1].setVisibility(8);
             this.timerView.setVisibility(8);
-        } else if (this.animationInProgress) {
+            return;
+        }
+        if (this.animationInProgress) {
             this.nextTextToSet = str;
-        } else if (this.timerShowing) {
+            return;
+        }
+        if (this.timerShowing) {
             this.textView[0].setText(str);
             replaceViews(this.timerView, this.textView[0], null);
-        } else if (this.textView[0].getText().equals(str)) {
         } else {
+            if (this.textView[0].getText().equals(str)) {
+                return;
+            }
             this.textView[1].setText(str);
             TextView[] textViewArr = this.textView;
             replaceViews(textViewArr[0], textViewArr[1], new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$$ExternalSyntheticLambda1
@@ -300,10 +307,11 @@ public class VoIPStatusTextView extends FrameLayout {
             if (this.animationInProgress) {
                 this.nextTextToSet = "timer";
                 return;
+            } else {
+                this.timerShowing = true;
+                replaceViews(this.textView[0], this.timerView, null);
+                return;
             }
-            this.timerShowing = true;
-            replaceViews(this.textView[0], this.timerView, null);
-            return;
         }
         ValueAnimator valueAnimator = this.animator;
         if (valueAnimator != null) {

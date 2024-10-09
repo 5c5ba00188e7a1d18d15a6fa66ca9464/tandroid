@@ -1,15 +1,16 @@
 package com.google.zxing.common;
 
 import com.google.zxing.NotFoundException;
+
 /* loaded from: classes.dex */
 public abstract class GridSampler {
     private static GridSampler gridSampler = new DefaultGridSampler();
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0035  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0076  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0035  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0076  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

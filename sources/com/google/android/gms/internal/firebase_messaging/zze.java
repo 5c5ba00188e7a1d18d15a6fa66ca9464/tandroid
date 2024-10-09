@@ -2,6 +2,7 @@ package com.google.android.gms.internal.firebase_messaging;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public abstract class zze {
     private static final zzae zza;

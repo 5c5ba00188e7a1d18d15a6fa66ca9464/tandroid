@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public abstract class Maps {
 
@@ -220,23 +221,23 @@ public abstract class Maps {
         @Override // java.util.AbstractMap, java.util.Map
         public Set entrySet() {
             Set set = this.entrySet;
-            if (set == null) {
-                Set createEntrySet = createEntrySet();
-                this.entrySet = createEntrySet;
-                return createEntrySet;
+            if (set != null) {
+                return set;
             }
-            return set;
+            Set createEntrySet = createEntrySet();
+            this.entrySet = createEntrySet;
+            return createEntrySet;
         }
 
         @Override // java.util.AbstractMap, java.util.Map
         public Collection values() {
             Collection collection = this.values;
-            if (collection == null) {
-                Collection createValues = createValues();
-                this.values = createValues;
-                return createValues;
+            if (collection != null) {
+                return collection;
             }
-            return collection;
+            Collection createValues = createValues();
+            this.values = createValues;
+            return createValues;
         }
     }
 

@@ -1,6 +1,7 @@
 package com.google.android.gms.common.util;
 
 import android.os.SystemClock;
+
 /* loaded from: classes.dex */
 public class DefaultClock implements Clock {
     private static final DefaultClock zza = new DefaultClock();

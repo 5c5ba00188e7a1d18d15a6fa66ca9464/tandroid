@@ -1,6 +1,7 @@
 package com.google.android.gms.vision;
 
 import android.util.SparseIntArray;
+
 /* loaded from: classes.dex */
 public final class zzc {
     private static final Object zza = new Object();

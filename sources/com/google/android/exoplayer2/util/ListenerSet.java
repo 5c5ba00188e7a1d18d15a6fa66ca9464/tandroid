@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.FlagSet;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArraySet;
+
 /* loaded from: classes.dex */
 public final class ListenerSet {
     private final Clock clock;

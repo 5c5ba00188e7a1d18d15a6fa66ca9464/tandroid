@@ -38,6 +38,7 @@ import org.telegram.ui.Cells.ManageChatTextCell;
 import org.telegram.ui.Cells.ManageChatUserCell;
 import org.telegram.ui.Components.GroupVoipInviteAlert;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class GroupVoipInviteAlert extends UsersAlertBase {
     private int addNewRow;
@@ -90,9 +91,10 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             if (i >= GroupVoipInviteAlert.this.participantsStartRow && i < GroupVoipInviteAlert.this.participantsEndRow) {
                 arrayList = GroupVoipInviteAlert.this.participants;
                 i2 = GroupVoipInviteAlert.this.participantsStartRow;
-            } else if (i < GroupVoipInviteAlert.this.contactsStartRow || i >= GroupVoipInviteAlert.this.contactsEndRow) {
-                return null;
             } else {
+                if (i < GroupVoipInviteAlert.this.contactsStartRow || i >= GroupVoipInviteAlert.this.contactsEndRow) {
+                    return null;
+                }
                 arrayList = GroupVoipInviteAlert.this.contacts;
                 i2 = GroupVoipInviteAlert.this.contactsStartRow;
             }
@@ -106,22 +108,22 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemViewType(int i) {
-            if ((i < GroupVoipInviteAlert.this.participantsStartRow || i >= GroupVoipInviteAlert.this.participantsEndRow) && (i < GroupVoipInviteAlert.this.contactsStartRow || i >= GroupVoipInviteAlert.this.contactsEndRow)) {
-                if (i == GroupVoipInviteAlert.this.addNewRow) {
-                    return 1;
-                }
-                if (i == GroupVoipInviteAlert.this.membersHeaderRow || i == GroupVoipInviteAlert.this.contactsHeaderRow) {
-                    return 2;
-                }
-                if (i == GroupVoipInviteAlert.this.emptyRow) {
-                    return 3;
-                }
-                if (i == GroupVoipInviteAlert.this.lastRow) {
-                    return 4;
-                }
-                return i == GroupVoipInviteAlert.this.flickerProgressRow ? 5 : 0;
+            if ((i >= GroupVoipInviteAlert.this.participantsStartRow && i < GroupVoipInviteAlert.this.participantsEndRow) || (i >= GroupVoipInviteAlert.this.contactsStartRow && i < GroupVoipInviteAlert.this.contactsEndRow)) {
+                return 0;
             }
-            return 0;
+            if (i == GroupVoipInviteAlert.this.addNewRow) {
+                return 1;
+            }
+            if (i == GroupVoipInviteAlert.this.membersHeaderRow || i == GroupVoipInviteAlert.this.contactsHeaderRow) {
+                return 2;
+            }
+            if (i == GroupVoipInviteAlert.this.emptyRow) {
+                return 3;
+            }
+            if (i == GroupVoipInviteAlert.this.lastRow) {
+                return 4;
+            }
+            return i == GroupVoipInviteAlert.this.flickerProgressRow ? 5 : 0;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -147,24 +149,30 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                 if (user != null) {
                     manageChatUserCell.setCustomImageVisible(GroupVoipInviteAlert.this.invitedUsers.contains(Long.valueOf(user.id)));
                     manageChatUserCell.setData(user, null, null, i != i3 - 1);
+                    return;
                 }
-            } else if (itemViewType == 1) {
+                return;
+            }
+            if (itemViewType == 1) {
                 ManageChatTextCell manageChatTextCell = (ManageChatTextCell) viewHolder.itemView;
                 if (i == GroupVoipInviteAlert.this.addNewRow) {
                     manageChatTextCell.setText(LocaleController.getString(R.string.VoipGroupCopyInviteLink), null, R.drawable.msg_link, 7, (!GroupVoipInviteAlert.this.loadingUsers || GroupVoipInviteAlert.this.firstLoaded) && GroupVoipInviteAlert.this.membersHeaderRow == -1 && !GroupVoipInviteAlert.this.participants.isEmpty());
-                }
-            } else if (itemViewType != 2) {
-            } else {
-                GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
-                if (i == GroupVoipInviteAlert.this.membersHeaderRow) {
-                    i2 = R.string.ChannelOtherMembers;
-                } else if (i != GroupVoipInviteAlert.this.contactsHeaderRow) {
                     return;
-                } else {
-                    i2 = GroupVoipInviteAlert.this.showContacts ? R.string.YourContactsToInvite : R.string.GroupContacts;
                 }
-                graySectionCell.setText(LocaleController.getString(i2));
+                return;
             }
+            if (itemViewType != 2) {
+                return;
+            }
+            GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
+            if (i == GroupVoipInviteAlert.this.membersHeaderRow) {
+                i2 = R.string.ChannelOtherMembers;
+            } else if (i != GroupVoipInviteAlert.this.contactsHeaderRow) {
+                return;
+            } else {
+                i2 = GroupVoipInviteAlert.this.showContacts ? R.string.YourContactsToInvite : R.string.GroupContacts;
+            }
+            graySectionCell.setText(LocaleController.getString(i2));
         }
 
         /* JADX WARN: Multi-variable type inference failed */
@@ -282,11 +290,12 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:42:0x00db, code lost:
-            if (r14.contains(" " + r4) != false) goto L48;
+        /* JADX WARN: Code restructure failed: missing block: B:36:0x00db, code lost:
+        
+            if (r14.contains(" " + r4) != false) goto L49;
          */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x00f5 A[LOOP:1: B:33:0x009f->B:52:0x00f5, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:61:0x00f1 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:43:0x00f5 A[LOOP:1: B:27:0x009f->B:43:0x00f5, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x00f1 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -298,7 +307,9 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                 return;
             }
             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-            translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
+            if (lowerCase.equals(translitString) || translitString.length() == 0) {
+                translitString = null;
+            }
             int i2 = (translitString != null ? 1 : 0) + 1;
             String[] strArr = new String[i2];
             strArr[0] = lowerCase;
@@ -488,7 +499,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:54:0x00e1  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x00e1  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -524,9 +535,10 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                 if (item instanceof TLRPC.ChannelParticipant) {
                     messagesController = MessagesController.getInstance(((BottomSheet) GroupVoipInviteAlert.this).currentAccount);
                     j = MessageObject.getPeerId(((TLRPC.ChannelParticipant) item).peer);
-                } else if (!(item instanceof TLRPC.ChatParticipant)) {
-                    return;
                 } else {
+                    if (!(item instanceof TLRPC.ChatParticipant)) {
+                        return;
+                    }
                     messagesController = MessagesController.getInstance(((BottomSheet) GroupVoipInviteAlert.this).currentAccount);
                     j = ((TLRPC.ChatParticipant) item).user_id;
                 }
@@ -728,11 +740,11 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x003a  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x004c A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0057 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0062 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x006b A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x003a  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x004c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0057 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0062 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x006b A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -764,16 +776,17 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                         return 1;
                     }
                     return i2 < i3 ? -1 : 0;
-                } else if (i2 >= 0 && i3 < 0) {
+                }
+                if (i2 >= 0 && i3 < 0) {
                     if (i2 > i3) {
                         return 1;
                     }
                     return i2 < i3 ? -1 : 0;
-                } else if ((i2 < 0 || i3 <= 0) && (i2 != 0 || i3 == 0)) {
-                    return (i3 >= 0 || i2 != 0) ? 1 : 0;
-                } else {
-                    return -1;
                 }
+                if ((i2 < 0 || i3 <= 0) && (i2 != 0 || i3 == 0)) {
+                    return (i3 >= 0 || i2 != 0) ? 1 : 0;
+                }
+                return -1;
             }
             i3 = 0;
             if (i2 <= 0) {
@@ -812,16 +825,17 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                 return 1;
             }
             return i2 < i3 ? -1 : 0;
-        } else if (i2 < 0 && i3 < 0) {
+        }
+        if (i2 < 0 && i3 < 0) {
             if (i2 > i3) {
                 return 1;
             }
             return i2 < i3 ? -1 : 0;
-        } else if ((i2 >= 0 || i3 <= 0) && (i2 != 0 || i3 == 0)) {
-            return ((i3 >= 0 || i2 <= 0) && (i3 != 0 || i2 == 0)) ? 0 : 1;
-        } else {
-            return -1;
         }
+        if ((i2 >= 0 || i3 <= 0) && (i2 != 0 || i3 == 0)) {
+            return ((i3 >= 0 || i2 <= 0) && (i3 != 0 || i2 == 0)) ? 0 : 1;
+        }
+        return -1;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -839,12 +853,12 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             while (true) {
                 if (i >= tL_channels_channelParticipants.participants.size()) {
                     break;
-                } else if (MessageObject.getPeerId(tL_channels_channelParticipants.participants.get(i).peer) == clientUserId) {
+                }
+                if (MessageObject.getPeerId(tL_channels_channelParticipants.participants.get(i).peer) == clientUserId) {
                     tL_channels_channelParticipants.participants.remove(i);
                     break;
-                } else {
-                    i++;
                 }
+                i++;
             }
             this.delayResults--;
             if (tL_channels_getParticipants.filter instanceof TLRPC.TL_channelParticipantsContacts) {
@@ -1054,21 +1068,22 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         TLRPC.ChatFull chatFull = this.info;
         if (chatFull != null && chatFull.participants_count <= 200) {
             tL_channelParticipantsRecent = new TLRPC.TL_channelParticipantsRecent();
-        } else if (!this.contactsEndReached) {
-            this.delayResults = 2;
-            tL_channels_getParticipants.filter = new TLRPC.TL_channelParticipantsContacts();
-            this.contactsEndReached = true;
-            loadChatParticipants(0, NotificationCenter.storyQualityUpdate, false);
-            tL_channels_getParticipants.filter.q = "";
-            tL_channels_getParticipants.offset = i;
-            tL_channels_getParticipants.limit = i2;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.GroupVoipInviteAlert$$ExternalSyntheticLambda1
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    GroupVoipInviteAlert.this.lambda$loadChatParticipants$4(tL_channels_getParticipants, tLObject, tL_error);
-                }
-            });
         } else {
+            if (!this.contactsEndReached) {
+                this.delayResults = 2;
+                tL_channels_getParticipants.filter = new TLRPC.TL_channelParticipantsContacts();
+                this.contactsEndReached = true;
+                loadChatParticipants(0, NotificationCenter.storyQualityUpdate, false);
+                tL_channels_getParticipants.filter.q = "";
+                tL_channels_getParticipants.offset = i;
+                tL_channels_getParticipants.limit = i2;
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.Components.GroupVoipInviteAlert$$ExternalSyntheticLambda1
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                        GroupVoipInviteAlert.this.lambda$loadChatParticipants$4(tL_channels_getParticipants, tLObject, tL_error);
+                    }
+                });
+            }
             tL_channelParticipantsRecent = new TLRPC.TL_channelParticipantsRecent();
         }
         tL_channels_getParticipants.filter = tL_channelParticipantsRecent;

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Supplier;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class r0 implements x3 {
@@ -20,6 +21,7 @@ public final class r0 implements x3 {
         return Boolean.valueOf(p0Var.b);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     @Override // j$.util.stream.x3
     public final Object c(b bVar, j$.util.Q q) {
         return (Boolean) new s0(this, bVar, q).invoke();

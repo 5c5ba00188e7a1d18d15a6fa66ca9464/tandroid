@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class EmojiCompat {
     private static volatile EmojiCompat sInstance;
@@ -180,11 +181,11 @@ public class EmojiCompat {
                     ((InitCallback) this.mInitCallbacks.get(i)).onFailed(this.mThrowable);
                     i++;
                 }
-                return;
-            }
-            while (i < size) {
-                ((InitCallback) this.mInitCallbacks.get(i)).onInitialized();
-                i++;
+            } else {
+                while (i < size) {
+                    ((InitCallback) this.mInitCallbacks.get(i)).onInitialized();
+                    i++;
+                }
             }
         }
     }

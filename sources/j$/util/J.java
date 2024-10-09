@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.LongConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class J implements Spliterator.OfLong {
     public final /* synthetic */ K a;
@@ -39,7 +40,7 @@ public final /* synthetic */ class J implements Spliterator.OfLong {
 
     @Override // java.util.Spliterator.OfPrimitive
     public final /* synthetic */ void forEachRemaining(LongConsumer longConsumer) {
-        this.a.forEachRemaining(longConsumer);
+        this.a.e(longConsumer);
     }
 
     @Override // java.util.Spliterator.OfLong, java.util.Spliterator
@@ -49,7 +50,7 @@ public final /* synthetic */ class J implements Spliterator.OfLong {
 
     @Override // java.util.Spliterator.OfLong
     public final /* synthetic */ void forEachRemaining(LongConsumer longConsumer) {
-        this.a.d(j$.util.function.U.a(longConsumer));
+        this.a.e(j$.util.function.U.a(longConsumer));
     }
 
     @Override // java.util.Spliterator
@@ -73,7 +74,7 @@ public final /* synthetic */ class J implements Spliterator.OfLong {
 
     @Override // java.util.Spliterator.OfPrimitive
     public final /* synthetic */ boolean tryAdvance(LongConsumer longConsumer) {
-        return this.a.tryAdvance(longConsumer);
+        return this.a.p(longConsumer);
     }
 
     @Override // java.util.Spliterator.OfLong, java.util.Spliterator
@@ -83,7 +84,7 @@ public final /* synthetic */ class J implements Spliterator.OfLong {
 
     @Override // java.util.Spliterator.OfLong
     public final /* synthetic */ boolean tryAdvance(LongConsumer longConsumer) {
-        return this.a.i(j$.util.function.U.a(longConsumer));
+        return this.a.p(j$.util.function.U.a(longConsumer));
     }
 
     @Override // java.util.Spliterator.OfLong, java.util.Spliterator.OfPrimitive, java.util.Spliterator

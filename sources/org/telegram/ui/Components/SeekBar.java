@@ -20,6 +20,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes3.dex */
 public class SeekBar {
     private static Paint paint;
@@ -145,12 +146,12 @@ public class SeekBar {
         while (true) {
             if (size < 0) {
                 break;
-            } else if (1.0f - ((Float) ((Pair) seekBar.timestamps.get(size)).first).floatValue() >= dp2) {
+            }
+            if (1.0f - ((Float) ((Pair) seekBar.timestamps.get(size)).first).floatValue() >= dp2) {
                 i = size + 1;
                 break;
-            } else {
-                size--;
             }
+            size--;
         }
         if (i < 0) {
             i = seekBar.timestamps.size();
@@ -297,30 +298,34 @@ public class SeekBar {
         this.lastVideoDuration = -1L;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00fc, code lost:
-        if (r1 > r0) goto L36;
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x00fc, code lost:
+    
+        if (r1 > r0) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x010d, code lost:
-        if (r1 < r0) goto L36;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x010f, code lost:
-        r11.currentRadius = r0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0111, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0111, code lost:
+    
         r0 = r11.parentView;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0113, code lost:
-        if (r0 == null) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0113, code lost:
+    
+        if (r0 == null) goto L43;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x0115, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0115, code lost:
+    
         r0.invalidate();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x010f, code lost:
+    
+        r11.currentRadius = r0;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x010d, code lost:
+    
+        if (r1 < r0) goto L39;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void draw(Canvas canvas) {
-        int i;
-        int i2;
         float f = this.alpha;
         if (f <= 0.0f) {
             return;
@@ -329,26 +334,26 @@ public class SeekBar {
             canvas.saveLayerAlpha(0.0f, 0.0f, this.width, this.height, (int) (f * 255.0f), 31);
         }
         RectF rectF = this.rect;
-        int i3 = thumbWidth / 2;
-        int i4 = this.height / 2;
-        int i5 = this.lineHeight / 2;
-        rectF.set(i3, i4 - i5, this.width - i3, i4 + i5);
+        int i = thumbWidth / 2;
+        int i2 = this.height / 2;
+        int i3 = this.lineHeight / 2;
+        rectF.set(i, i2 - i3, this.width - i, i2 + i3);
         paint.setColor(this.selected ? this.backgroundSelectedColor : this.backgroundColor);
         drawProgressBar(canvas, this.rect, paint);
         if (this.bufferedProgress > 0.0f) {
             paint.setColor(this.selected ? this.backgroundSelectedColor : this.cacheColor);
             RectF rectF2 = this.rect;
             float f2 = thumbWidth / 2;
-            int i6 = this.height / 2;
-            int i7 = this.lineHeight / 2;
-            rectF2.set(f2, i6 - i7, (this.bufferedProgress * (this.width - i2)) + f2, i6 + i7);
+            int i4 = this.height / 2;
+            int i5 = this.lineHeight / 2;
+            rectF2.set(f2, i4 - i5, (this.bufferedProgress * (this.width - r1)) + f2, i4 + i5);
             drawProgressBar(canvas, this.rect, paint);
         }
         RectF rectF3 = this.rect;
         float f3 = thumbWidth / 2;
-        int i8 = this.height / 2;
-        int i9 = this.lineHeight / 2;
-        rectF3.set(f3, i8 - i9, i + (this.pressed ? this.draggingThumbX : this.thumbX), i8 + i9);
+        int i6 = this.height / 2;
+        int i7 = this.lineHeight / 2;
+        rectF3.set(f3, i6 - i7, r1 + (this.pressed ? this.draggingThumbX : this.thumbX), i6 + i7);
         paint.setColor(this.progressColor);
         drawProgressBar(canvas, this.rect, paint);
         paint.setColor(this.circleColor);

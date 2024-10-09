@@ -2,6 +2,7 @@ package com.google.android.gms.dynamite;
 
 import android.os.Looper;
 import android.util.Log;
+
 /* loaded from: classes.dex */
 public abstract class zzb {
     private static volatile ClassLoader zza;
@@ -35,8 +36,7 @@ public abstract class zzb {
                 try {
                     classLoader = zzb.getContextClassLoader();
                 } catch (SecurityException e) {
-                    String message = e.getMessage();
-                    Log.w("DynamiteLoaderV2CL", "Failed to get thread context classloader " + message);
+                    Log.w("DynamiteLoaderV2CL", "Failed to get thread context classloader " + e.getMessage());
                 }
             }
             return classLoader;
@@ -45,8 +45,8 @@ public abstract class zzb {
 
     private static synchronized Thread zzc() {
         SecurityException e;
-        zza zzaVar;
-        zza zzaVar2;
+        Thread thread;
+        Thread thread2;
         ThreadGroup threadGroup;
         synchronized (zzb.class) {
             ThreadGroup threadGroup2 = Looper.getMainLooper().getThread().getThreadGroup();
@@ -55,63 +55,66 @@ public abstract class zzb {
             }
             synchronized (Void.class) {
                 try {
-                    int activeGroupCount = threadGroup2.activeGroupCount();
-                    ThreadGroup[] threadGroupArr = new ThreadGroup[activeGroupCount];
-                    threadGroup2.enumerate(threadGroupArr);
-                    int i = 0;
-                    int i2 = 0;
-                    while (true) {
-                        if (i2 >= activeGroupCount) {
-                            threadGroup = null;
-                            break;
+                    try {
+                        int activeGroupCount = threadGroup2.activeGroupCount();
+                        ThreadGroup[] threadGroupArr = new ThreadGroup[activeGroupCount];
+                        threadGroup2.enumerate(threadGroupArr);
+                        int i = 0;
+                        int i2 = 0;
+                        while (true) {
+                            if (i2 >= activeGroupCount) {
+                                threadGroup = null;
+                                break;
+                            }
+                            threadGroup = threadGroupArr[i2];
+                            if ("dynamiteLoader".equals(threadGroup.getName())) {
+                                break;
+                            }
+                            i2++;
                         }
-                        threadGroup = threadGroupArr[i2];
-                        if ("dynamiteLoader".equals(threadGroup.getName())) {
-                            break;
+                        if (threadGroup == null) {
+                            threadGroup = new ThreadGroup(threadGroup2, "dynamiteLoader");
                         }
-                        i2++;
-                    }
-                    if (threadGroup == null) {
-                        threadGroup = new ThreadGroup(threadGroup2, "dynamiteLoader");
-                    }
-                    int activeCount = threadGroup.activeCount();
-                    Thread[] threadArr = new Thread[activeCount];
-                    threadGroup.enumerate(threadArr);
-                    while (true) {
-                        if (i >= activeCount) {
-                            zzaVar2 = null;
-                            break;
+                        int activeCount = threadGroup.activeCount();
+                        Thread[] threadArr = new Thread[activeCount];
+                        threadGroup.enumerate(threadArr);
+                        while (true) {
+                            if (i >= activeCount) {
+                                thread2 = null;
+                                break;
+                            }
+                            thread2 = threadArr[i];
+                            if ("GmsDynamite".equals(thread2.getName())) {
+                                break;
+                            }
+                            i++;
                         }
-                        zzaVar2 = threadArr[i];
-                        if ("GmsDynamite".equals(zzaVar2.getName())) {
-                            break;
-                        }
-                        i++;
+                    } finally {
                     }
                 } catch (SecurityException e2) {
                     e = e2;
-                    zzaVar = null;
+                    thread = null;
                 }
-                if (zzaVar2 == null) {
+                if (thread2 == null) {
                     try {
-                        zzaVar = new zza(threadGroup, "GmsDynamite");
+                        thread = new zza(threadGroup, "GmsDynamite");
                         try {
-                            zzaVar.setContextClassLoader(null);
-                            zzaVar.start();
+                            thread.setContextClassLoader(null);
+                            thread.start();
                         } catch (SecurityException e3) {
                             e = e3;
                             Log.w("DynamiteLoaderV2CL", "Failed to enumerate thread/threadgroup " + e.getMessage());
-                            zzaVar2 = zzaVar;
-                            return zzaVar2;
+                            thread2 = thread;
+                            return thread2;
                         }
                     } catch (SecurityException e4) {
                         e = e4;
-                        zzaVar = zzaVar2;
+                        thread = thread2;
                     }
-                    zzaVar2 = zzaVar;
+                    thread2 = thread;
                 }
             }
-            return zzaVar2;
+            return thread2;
         }
     }
 }

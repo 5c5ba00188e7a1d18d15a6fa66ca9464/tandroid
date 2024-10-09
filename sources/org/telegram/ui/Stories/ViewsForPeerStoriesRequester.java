@@ -9,6 +9,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
+
 /* loaded from: classes4.dex */
 public class ViewsForPeerStoriesRequester {
     private static long lastRequestTime;
@@ -80,15 +81,17 @@ public class ViewsForPeerStoriesRequester {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: step */
+    /* renamed from: step, reason: merged with bridge method [inline-methods] */
     public void lambda$new$0() {
         if (this.isRunning) {
             long currentTimeMillis = 10000 - (System.currentTimeMillis() - lastRequestTime);
             if (currentTimeMillis > 0) {
                 AndroidUtilities.cancelRunOnUIThread(this.scheduleRequestRunnable);
                 AndroidUtilities.runOnUIThread(this.scheduleRequestRunnable, currentTimeMillis);
-            } else if (requestInternal()) {
             } else {
+                if (requestInternal()) {
+                    return;
+                }
                 this.currentReqId = 0;
                 this.isRunning = false;
             }
@@ -112,12 +115,12 @@ public class ViewsForPeerStoriesRequester {
         if (z) {
             this.isRunning = true;
             lambda$new$0();
-            return;
+        } else {
+            this.isRunning = false;
+            AndroidUtilities.cancelRunOnUIThread(this.scheduleRequestRunnable);
+            ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.currentReqId, false);
+            this.currentReqId = 0;
         }
-        this.isRunning = false;
-        AndroidUtilities.cancelRunOnUIThread(this.scheduleRequestRunnable);
-        ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.currentReqId, false);
-        this.currentReqId = 0;
     }
 
     protected boolean updateStories(ArrayList arrayList, TL_stories.TL_stories_storyViews tL_stories_storyViews) {

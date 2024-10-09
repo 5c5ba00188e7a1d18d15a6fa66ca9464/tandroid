@@ -1,6 +1,7 @@
 package androidx.core.content.res;
 
 import java.lang.reflect.Array;
+
 /* loaded from: classes.dex */
 abstract class GrowingArrayUtils {
     public static int[] append(int[] iArr, int i, int i2) {

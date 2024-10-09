@@ -11,6 +11,7 @@ import org.telegram.SQLite.SQLiteDatabase;
 import org.telegram.SQLite.SQLitePreparedStatement;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class DatabaseMigrationHelper {
     public static int migrate(MessagesStorage messagesStorage, int i) {
@@ -1394,17 +1395,17 @@ public class DatabaseMigrationHelper {
             sQLiteDatabase.executeFast("PRAGMA user_version = 158").stepThis().dispose();
             i7 = NotificationCenter.audioDidSent;
         }
-        if (i7 == 158) {
-            sQLiteDatabase.executeFast("DELETE FROM star_gifts2").stepThis().dispose();
-            sQLiteDatabase.executeFast("ALTER TABLE star_gifts2 ADD COLUMN pos INTEGER default 0;").stepThis().dispose();
-            sQLiteDatabase.executeFast("PRAGMA user_version = 159").stepThis().dispose();
-            return 159;
+        if (i7 != 158) {
+            return i7;
         }
-        return i7;
+        sQLiteDatabase.executeFast("DELETE FROM star_gifts2").stepThis().dispose();
+        sQLiteDatabase.executeFast("ALTER TABLE star_gifts2 ADD COLUMN pos INTEGER default 0;").stepThis().dispose();
+        sQLiteDatabase.executeFast("PRAGMA user_version = 159").stepThis().dispose();
+        return 159;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:58:0x02bd A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x02bf A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x02bf A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1419,8 +1420,7 @@ public class DatabaseMigrationHelper {
         Long valueOf;
         ArrayList arrayList;
         int i3 = 0;
-        File filesDirFixed = ApplicationLoader.getFilesDirFixed();
-        File file4 = new File(filesDirFixed, "recover_database_" + i + "/");
+        File file4 = new File(ApplicationLoader.getFilesDirFixed(), "recover_database_" + i + "/");
         file4.mkdirs();
         File file5 = new File(file4, "cache4.db");
         File file6 = new File(file4, "cache4.db-wal");

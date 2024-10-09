@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Predicate;
+
 /* loaded from: classes2.dex */
 final class l0 extends p0 {
     final /* synthetic */ q0 c;
@@ -15,7 +16,8 @@ final class l0 extends p0 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         boolean z;
         boolean z2;
         if (this.a) {

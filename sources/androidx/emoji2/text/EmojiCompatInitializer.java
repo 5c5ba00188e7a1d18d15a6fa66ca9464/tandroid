@@ -13,6 +13,7 @@ import androidx.startup.Initializer;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
+
 /* loaded from: classes.dex */
 public class EmojiCompatInitializer implements Initializer {
 
@@ -35,7 +36,7 @@ public class EmojiCompatInitializer implements Initializer {
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* renamed from: doLoad */
+        /* renamed from: doLoad, reason: merged with bridge method [inline-methods] */
         public void lambda$load$0(final EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback, final ThreadPoolExecutor threadPoolExecutor) {
             try {
                 FontRequestEmojiCompatConfig create = DefaultEmojiCompatConfig.create(this.mContext);

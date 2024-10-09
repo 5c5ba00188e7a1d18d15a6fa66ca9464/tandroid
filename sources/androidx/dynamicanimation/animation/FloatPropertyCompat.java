@@ -1,4 +1,5 @@
 package androidx.dynamicanimation.animation;
+
 /* loaded from: classes.dex */
 public abstract class FloatPropertyCompat {
     final String mPropertyName;

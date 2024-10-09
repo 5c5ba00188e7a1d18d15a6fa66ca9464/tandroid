@@ -6,6 +6,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.PathInterpolator;
 import androidx.core.graphics.PathParser;
+
 /* loaded from: classes3.dex */
 public class CubicBezierInterpolator implements Interpolator {
     public static final Interpolator Emphasized;

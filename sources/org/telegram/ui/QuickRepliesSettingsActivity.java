@@ -24,6 +24,7 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public class QuickRepliesSettingsActivity extends BaseFragment {
     private int explanationRow;
@@ -78,37 +79,38 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                 return;
             }
             if (itemViewType == 1) {
-                TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
-            } else if (itemViewType == 4) {
+                return;
+            }
+            if (itemViewType == 4) {
                 ((TextCheckCell) viewHolder.itemView).setTextAndCheck(LocaleController.getString(R.string.AllowCustomQuickReply), QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getBoolean("quick_reply_allow_custom", true), false);
-            } else {
-                switch (itemViewType) {
-                    case 9:
-                    case 10:
-                    case 11:
-                    case 12:
-                        EditTextSettingsCell editTextSettingsCell = (EditTextSettingsCell) viewHolder.itemView;
-                        if (i == QuickRepliesSettingsActivity.this.reply1Row) {
-                            str = LocaleController.getString(R.string.QuickReplyDefault1);
-                            str2 = "quick_reply_msg1";
-                        } else if (i == QuickRepliesSettingsActivity.this.reply2Row) {
-                            str = LocaleController.getString(R.string.QuickReplyDefault2);
-                            str2 = "quick_reply_msg2";
-                        } else if (i == QuickRepliesSettingsActivity.this.reply3Row) {
-                            str = LocaleController.getString(R.string.QuickReplyDefault3);
-                            str2 = "quick_reply_msg3";
-                        } else if (i == QuickRepliesSettingsActivity.this.reply4Row) {
-                            str = LocaleController.getString(R.string.QuickReplyDefault4);
-                            str2 = "quick_reply_msg4";
-                        } else {
-                            str = null;
-                            str2 = null;
-                        }
-                        editTextSettingsCell.setTextAndHint(QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str2, ""), str, i != QuickRepliesSettingsActivity.this.reply4Row);
-                        return;
-                    default:
-                        return;
-                }
+                return;
+            }
+            switch (itemViewType) {
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                    EditTextSettingsCell editTextSettingsCell = (EditTextSettingsCell) viewHolder.itemView;
+                    if (i == QuickRepliesSettingsActivity.this.reply1Row) {
+                        str = LocaleController.getString(R.string.QuickReplyDefault1);
+                        str2 = "quick_reply_msg1";
+                    } else if (i == QuickRepliesSettingsActivity.this.reply2Row) {
+                        str = LocaleController.getString(R.string.QuickReplyDefault2);
+                        str2 = "quick_reply_msg2";
+                    } else if (i == QuickRepliesSettingsActivity.this.reply3Row) {
+                        str = LocaleController.getString(R.string.QuickReplyDefault3);
+                        str2 = "quick_reply_msg3";
+                    } else if (i == QuickRepliesSettingsActivity.this.reply4Row) {
+                        str = LocaleController.getString(R.string.QuickReplyDefault4);
+                        str2 = "quick_reply_msg4";
+                    } else {
+                        str = null;
+                        str2 = null;
+                    }
+                    editTextSettingsCell.setTextAndHint(QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str2, ""), str, i != QuickRepliesSettingsActivity.this.reply4Row);
+                    return;
+                default:
+                    return;
             }
         }
 
@@ -155,7 +157,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    QuickRepliesSettingsActivity.this.finishFragment();
+                    QuickRepliesSettingsActivity.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -163,11 +165,12 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        FrameLayout frameLayout2 = (FrameLayout) this.fragmentView;
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
         recyclerListView.setVerticalScrollBarEnabled(false);
         this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
-        ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
+        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
         return this.fragmentView;
     }

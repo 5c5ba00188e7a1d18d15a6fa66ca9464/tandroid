@@ -3,9 +3,11 @@ package com.google.android.gms.internal.clearcut;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzdr {
@@ -18,26 +20,30 @@ public abstract class zzdr {
         return sb.toString();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x01e5, code lost:
-        if (((java.lang.Boolean) r11).booleanValue() == false) goto L79;
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x0219, code lost:
+    
+        if (((java.lang.Double) r11).doubleValue() == 0.0d) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x01e7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x01e5, code lost:
+    
+        if (((java.lang.Boolean) r11).booleanValue() == false) goto L80;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:79:0x01e7, code lost:
+    
         r7 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:85:0x01f6, code lost:
-        if (((java.lang.Integer) r11).intValue() == 0) goto L79;
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x01f6, code lost:
+    
+        if (((java.lang.Integer) r11).intValue() == 0) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x0207, code lost:
-        if (((java.lang.Float) r11).floatValue() == 0.0f) goto L79;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x0219, code lost:
-        if (((java.lang.Double) r11).doubleValue() == 0.0d) goto L79;
+    /* JADX WARN: Code restructure failed: missing block: B:96:0x0207, code lost:
+    
+        if (((java.lang.Float) r11).floatValue() == 0.0f) goto L80;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static void zza(zzdo zzdoVar, StringBuilder sb, int i) {
-        Method[] declaredMethods;
         boolean equals;
         HashMap hashMap = new HashMap();
         HashMap hashMap2 = new HashMap();
@@ -124,54 +130,64 @@ public abstract class zzdr {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static final void zza(StringBuilder sb, int i, String str, Object obj) {
         if (obj instanceof List) {
-            for (Object obj2 : (List) obj) {
-                zza(sb, i, str, obj2);
+            Iterator it = ((List) obj).iterator();
+            while (it.hasNext()) {
+                zza(sb, i, str, it.next());
             }
-        } else if (obj instanceof Map) {
-            for (Map.Entry entry : ((Map) obj).entrySet()) {
-                zza(sb, i, str, entry);
-            }
-        } else {
-            sb.append('\n');
-            int i2 = 0;
-            for (int i3 = 0; i3 < i; i3++) {
-                sb.append(' ');
-            }
-            sb.append(str);
-            if (obj instanceof String) {
-                sb.append(": \"");
-                sb.append(zzet.zzc(zzbb.zzf((String) obj)));
-                sb.append('\"');
-            } else if (obj instanceof zzbb) {
-                sb.append(": \"");
-                sb.append(zzet.zzc((zzbb) obj));
-                sb.append('\"');
-            } else if (obj instanceof zzcg) {
-                sb.append(" {");
-                zza((zzcg) obj, sb, i + 2);
-                sb.append("\n");
-                while (i2 < i) {
-                    sb.append(' ');
-                    i2++;
-                }
-                sb.append("}");
-            } else if (!(obj instanceof Map.Entry)) {
-                sb.append(": ");
-                sb.append(obj.toString());
-            } else {
-                sb.append(" {");
-                Map.Entry entry2 = (Map.Entry) obj;
-                int i4 = i + 2;
-                zza(sb, i4, "key", entry2.getKey());
-                zza(sb, i4, "value", entry2.getValue());
-                sb.append("\n");
-                while (i2 < i) {
-                    sb.append(' ');
-                    i2++;
-                }
-                sb.append("}");
-            }
+            return;
         }
+        if (obj instanceof Map) {
+            Iterator it2 = ((Map) obj).entrySet().iterator();
+            while (it2.hasNext()) {
+                zza(sb, i, str, (Map.Entry) it2.next());
+            }
+            return;
+        }
+        sb.append('\n');
+        int i2 = 0;
+        for (int i3 = 0; i3 < i; i3++) {
+            sb.append(' ');
+        }
+        sb.append(str);
+        if (obj instanceof String) {
+            sb.append(": \"");
+            sb.append(zzet.zzc(zzbb.zzf((String) obj)));
+            sb.append('\"');
+            return;
+        }
+        if (obj instanceof zzbb) {
+            sb.append(": \"");
+            sb.append(zzet.zzc((zzbb) obj));
+            sb.append('\"');
+            return;
+        }
+        if (obj instanceof zzcg) {
+            sb.append(" {");
+            zza((zzcg) obj, sb, i + 2);
+            sb.append("\n");
+            while (i2 < i) {
+                sb.append(' ');
+                i2++;
+            }
+            sb.append("}");
+            return;
+        }
+        if (!(obj instanceof Map.Entry)) {
+            sb.append(": ");
+            sb.append(obj.toString());
+            return;
+        }
+        sb.append(" {");
+        Map.Entry entry = (Map.Entry) obj;
+        int i4 = i + 2;
+        zza(sb, i4, "key", entry.getKey());
+        zza(sb, i4, "value", entry.getValue());
+        sb.append("\n");
+        while (i2 < i) {
+            sb.append(' ');
+            i2++;
+        }
+        sb.append("}");
     }
 
     private static final String zzj(String str) {

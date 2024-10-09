@@ -13,6 +13,7 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class StickerTabView extends FrameLayout {
     private static int indexPointer;
@@ -45,34 +46,35 @@ public class StickerTabView extends FrameLayout {
             this.imageView = backupImageView;
             backupImageView.setLayerNum(1);
             this.imageView.setAspectFit(false);
-        } else if (i == 1) {
-            ImageView imageView = new ImageView(context);
-            this.iconView = imageView;
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            addView(this.iconView, LayoutHelper.createFrame(24, 24, 17));
-            view = this.iconView;
-            this.visibleView = view;
-            TextView textView = new TextView(context) { // from class: org.telegram.ui.Components.StickerTabView.1
-                @Override // android.widget.TextView
-                public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                    super.setText(charSequence, bufferType);
-                }
-            };
-            this.textView = textView;
-            textView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Components.StickerTabView$$ExternalSyntheticLambda0
-                @Override // android.view.View.OnLayoutChangeListener
-                public final void onLayoutChange(View view2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10) {
-                    StickerTabView.this.lambda$new$0(view2, i3, i4, i5, i6, i7, i8, i9, i10);
-                }
-            });
-            this.textView.setLines(1);
-            this.textView.setEllipsize(TextUtils.TruncateAt.END);
-            this.textView.setTextSize(1, 11.0f);
-            this.textView.setGravity(1);
-            this.textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-            addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 81, 8.0f, 0.0f, 8.0f, 10.0f));
-            this.textView.setVisibility(8);
         } else {
+            if (i == 1) {
+                ImageView imageView = new ImageView(context);
+                this.iconView = imageView;
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                addView(this.iconView, LayoutHelper.createFrame(24, 24, 17));
+                view = this.iconView;
+                this.visibleView = view;
+                TextView textView = new TextView(context) { // from class: org.telegram.ui.Components.StickerTabView.1
+                    @Override // android.widget.TextView
+                    public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
+                        super.setText(charSequence, bufferType);
+                    }
+                };
+                this.textView = textView;
+                textView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Components.StickerTabView$$ExternalSyntheticLambda0
+                    @Override // android.view.View.OnLayoutChangeListener
+                    public final void onLayoutChange(View view2, int i3, int i4, int i5, int i6, int i7, int i8, int i9, int i10) {
+                        StickerTabView.this.lambda$new$0(view2, i3, i4, i5, i6, i7, i8, i9, i10);
+                    }
+                });
+                this.textView.setLines(1);
+                this.textView.setEllipsize(TextUtils.TruncateAt.END);
+                this.textView.setTextSize(1, 11.0f);
+                this.textView.setGravity(1);
+                this.textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+                addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 81, 8.0f, 0.0f, 8.0f, 10.0f));
+                this.textView.setVisibility(8);
+            }
             BackupImageView backupImageView2 = new BackupImageView(getContext());
             this.imageView = backupImageView2;
             backupImageView2.setLayerNum(1);
@@ -114,8 +116,9 @@ public class StickerTabView extends FrameLayout {
     }
 
     public void animateIfPositionChanged(final ViewGroup viewGroup) {
+        float left = getLeft();
         float f = this.lastLeft;
-        if (getLeft() != f && this.hasSavedLeft) {
+        if (left != f && this.hasSavedLeft) {
             this.dragOffset = f - getLeft();
             ValueAnimator valueAnimator = this.dragOffsetAnimator;
             if (valueAnimator != null) {

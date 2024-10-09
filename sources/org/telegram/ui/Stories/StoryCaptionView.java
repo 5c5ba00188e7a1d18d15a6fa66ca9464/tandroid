@@ -1,5 +1,6 @@
 package org.telegram.ui.Stories;
 
+import android.R;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -40,6 +41,7 @@ import com.google.android.exoplayer2.util.Consumer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
@@ -53,7 +55,6 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
@@ -77,6 +78,7 @@ import org.telegram.ui.PhotoViewer$CaptionTextView$$ExternalSyntheticLambda2;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoryCaptionView;
 import org.telegram.ui.Stories.recorder.StoryEntry;
+
 /* loaded from: classes4.dex */
 public class StoryCaptionView extends NestedScrollView {
     private Method abortAnimatedScrollMethod;
@@ -137,7 +139,7 @@ public class StoryCaptionView extends NestedScrollView {
         private final Path clipRipple = new Path();
         public final RectF bounds = new RectF();
 
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0099  */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0099  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -189,9 +191,8 @@ public class StoryCaptionView extends NestedScrollView {
             }
             long peerDialogId = DialogObject.getPeerDialogId(peer);
             reply2.peerId = Long.valueOf(peerDialogId);
-            int i3 = (peerDialogId > 0L ? 1 : (peerDialogId == 0L ? 0 : -1));
             MessagesController messagesController = MessagesController.getInstance(i);
-            if (i3 >= 0) {
+            if (peerDialogId >= 0) {
                 TLRPC.User user = messagesController.getUser(Long.valueOf(peerDialogId));
                 append2 = new SpannableStringBuilder(MessageObject.userSpan()).append((CharSequence) " ");
                 str = UserObject.getUserName(user);
@@ -224,7 +225,8 @@ public class StoryCaptionView extends NestedScrollView {
                     reply2.text = str;
                     reply2.small = TextUtils.isEmpty(str);
                     return reply2;
-                } else if (storyEntry.isRepostMessage && (arrayList = storyEntry.messageObjects) != null && arrayList.size() > 0) {
+                }
+                if (storyEntry.isRepostMessage && (arrayList = storyEntry.messageObjects) != null && arrayList.size() > 0) {
                     MessageObject messageObject = (MessageObject) uploadingStory.entry.messageObjects.get(0);
                     long repostDialogId = StoryEntry.getRepostDialogId(messageObject);
                     if (repostDialogId < 0 && (chat = MessagesController.getInstance(messageObject.currentAccount).getChat(Long.valueOf(-repostDialogId))) != null) {
@@ -342,7 +344,7 @@ public class StoryCaptionView extends NestedScrollView {
 
         public void setPressed(boolean z, float f, float f2) {
             this.bounce.setPressed(z);
-            this.ripple.setState(z ? new int[]{16842919, 16842910} : new int[0]);
+            this.ripple.setState(z ? new int[]{R.attr.state_pressed, R.attr.state_enabled} : new int[0]);
             if (!z || Build.VERSION.SDK_INT < 21) {
                 return;
             }
@@ -446,8 +448,9 @@ public class StoryCaptionView extends NestedScrollView {
                     int width = StoryCaptionTextView.this.getWidth();
                     int i3 = StoryCaptionTextView.this.horizontalPadding;
                     reply.draw(canvas, (width - i3) - i3);
+                    int height = this.reply.height() + AndroidUtilities.dp(8.0f);
                     canvas.restore();
-                    i = this.reply.height() + AndroidUtilities.dp(8.0f);
+                    i = height;
                 } else {
                     i = 0;
                 }
@@ -520,36 +523,35 @@ public class StoryCaptionView extends NestedScrollView {
                         float f2 = lineInfo.collapsedX;
                         float f3 = lineInfo.finalX;
                         if (f2 == f3) {
-                            StoryCaptionTextView storyCaptionTextView8 = StoryCaptionTextView.this;
-                            if (storyCaptionTextView8.progressToExpand != 0.0f) {
-                                canvas.translate(storyCaptionTextView8.horizontalPadding + f3, storyCaptionTextView8.verticalPadding + i + lineInfo.finalY);
+                            if (StoryCaptionTextView.this.progressToExpand != 0.0f) {
+                                canvas.translate(r1.horizontalPadding + f3, r1.verticalPadding + i + lineInfo.finalY);
                                 canvas.saveLayerAlpha(0.0f, 0.0f, lineInfo.staticLayout.getWidth(), lineInfo.staticLayout.getHeight(), (int) (StoryCaptionTextView.this.progressToExpand * 255.0f), 31);
                                 drawLayout(lineInfo.staticLayout, canvas, this.spoilers);
                                 if (z) {
                                     StaticLayout staticLayout3 = lineInfo.staticLayout;
-                                    StoryCaptionTextView storyCaptionTextView9 = StoryCaptionTextView.this;
-                                    putLayoutRects(staticLayout3, storyCaptionTextView9.horizontalPadding + lineInfo.finalX, storyCaptionTextView9.verticalPadding + i + lineInfo.finalY);
+                                    StoryCaptionTextView storyCaptionTextView8 = StoryCaptionTextView.this;
+                                    putLayoutRects(staticLayout3, storyCaptionTextView8.horizontalPadding + lineInfo.finalX, storyCaptionTextView8.verticalPadding + i + lineInfo.finalY);
                                 }
                                 lineInfo.staticLayout.draw(canvas);
                                 AnimatedEmojiSpan.EmojiGroupedSpans update3 = AnimatedEmojiSpan.update(0, StoryCaptionTextView.this, lineInfo.layoutEmoji, lineInfo.staticLayout);
                                 lineInfo.layoutEmoji = update3;
                                 StaticLayout staticLayout4 = lineInfo.staticLayout;
                                 List list = this.spoilers;
-                                StoryCaptionTextView storyCaptionTextView10 = StoryCaptionTextView.this;
+                                StoryCaptionTextView storyCaptionTextView9 = StoryCaptionTextView.this;
                                 i2 = i4;
-                                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout4, update3, 0.0f, list, 0.0f, 0.0f, 0.0f, storyCaptionTextView10.progressToExpand, storyCaptionTextView10.emojiColorFilter);
+                                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, staticLayout4, update3, 0.0f, list, 0.0f, 0.0f, 0.0f, storyCaptionTextView9.progressToExpand, storyCaptionTextView9.emojiColorFilter);
                                 canvas.restore();
                             }
                         } else {
                             i2 = i4;
                             float lerp = AndroidUtilities.lerp(f2, f3, StoryCaptionTextView.this.progressToExpand);
                             float lerp2 = AndroidUtilities.lerp(lineInfo.collapsedY, lineInfo.finalY, CubicBezierInterpolator.EASE_OUT.getInterpolation(StoryCaptionTextView.this.progressToExpand));
-                            StoryCaptionTextView storyCaptionTextView11 = StoryCaptionTextView.this;
-                            canvas.translate(storyCaptionTextView11.horizontalPadding + lerp, storyCaptionTextView11.verticalPadding + i + lerp2);
+                            StoryCaptionTextView storyCaptionTextView10 = StoryCaptionTextView.this;
+                            canvas.translate(storyCaptionTextView10.horizontalPadding + lerp, storyCaptionTextView10.verticalPadding + i + lerp2);
                             if (z) {
                                 StaticLayout staticLayout5 = lineInfo.staticLayout;
-                                StoryCaptionTextView storyCaptionTextView12 = StoryCaptionTextView.this;
-                                putLayoutRects(staticLayout5, storyCaptionTextView12.horizontalPadding + lerp, storyCaptionTextView12.verticalPadding + i + lerp2);
+                                StoryCaptionTextView storyCaptionTextView11 = StoryCaptionTextView.this;
+                                putLayoutRects(staticLayout5, storyCaptionTextView11.horizontalPadding + lerp, storyCaptionTextView11.verticalPadding + i + lerp2);
                             }
                             lineInfo.staticLayout.draw(canvas);
                             AnimatedEmojiSpan.EmojiGroupedSpans update4 = AnimatedEmojiSpan.update(0, StoryCaptionTextView.this, lineInfo.layoutEmoji, lineInfo.staticLayout);
@@ -599,8 +601,9 @@ public class StoryCaptionView extends NestedScrollView {
                     }
                 });
                 float sqrt = (float) Math.sqrt(Math.pow(StoryCaptionTextView.this.getWidth(), 2.0d) + Math.pow(StoryCaptionTextView.this.getHeight(), 2.0d));
-                for (SpoilerEffect spoilerEffect2 : this.spoilers) {
-                    spoilerEffect2.startRipple(f, f2, sqrt);
+                Iterator it = this.spoilers.iterator();
+                while (it.hasNext()) {
+                    ((SpoilerEffect) it.next()).startRipple(f, f2, sqrt);
                 }
             }
 
@@ -617,10 +620,12 @@ public class StoryCaptionView extends NestedScrollView {
             public /* synthetic */ void lambda$touch$4(LinkSpanDrawable linkSpanDrawable) {
                 LinkSpanDrawable linkSpanDrawable2 = this.pressedLink;
                 if (linkSpanDrawable == linkSpanDrawable2 && linkSpanDrawable2 != null && (linkSpanDrawable2.getSpan() instanceof URLSpan)) {
+                    StoryCaptionView storyCaptionView = StoryCaptionView.this;
+                    URLSpan uRLSpan = (URLSpan) this.pressedLink.getSpan();
                     StoryCaptionTextView storyCaptionTextView = StoryCaptionTextView.this;
                     LinkSpanDrawable.LinkCollector linkCollector = this.links;
                     Objects.requireNonNull(linkCollector);
-                    StoryCaptionView.this.onLinkLongPress((URLSpan) this.pressedLink.getSpan(), storyCaptionTextView, new PhotoViewer$CaptionTextView$$ExternalSyntheticLambda2(linkCollector));
+                    storyCaptionView.onLinkLongPress(uRLSpan, storyCaptionTextView, new PhotoViewer$CaptionTextView$$ExternalSyntheticLambda2(linkCollector));
                     this.pressedLink = null;
                 }
             }
@@ -706,7 +711,6 @@ public class StoryCaptionView extends NestedScrollView {
 
             public void measure(int i) {
                 int i2;
-                StoryCaptionTextView storyCaptionTextView;
                 if (TextUtils.isEmpty(this.text)) {
                     this.fullLayout = null;
                     this.textHeight = 0;
@@ -714,17 +718,17 @@ public class StoryCaptionView extends NestedScrollView {
                     if (reply != null) {
                         this.textHeight = reply.height() + AndroidUtilities.dp(4.0f);
                     }
-                    StoryCaptionTextView storyCaptionTextView2 = StoryCaptionTextView.this;
-                    if (this == storyCaptionTextView2.state[0]) {
-                        storyCaptionTextView2.showMore = null;
+                    StoryCaptionTextView storyCaptionTextView = StoryCaptionTextView.this;
+                    if (this == storyCaptionTextView.state[0]) {
+                        storyCaptionTextView.showMore = null;
                     }
                     this.firstLayout = null;
                     this.spoilersPool.addAll(this.spoilers);
                     this.spoilers.clear();
                     return;
                 }
-                StoryCaptionTextView storyCaptionTextView3 = StoryCaptionTextView.this;
-                StaticLayout makeTextLayout = storyCaptionTextView3.makeTextLayout(storyCaptionTextView3.textPaint, this.text, i);
+                StoryCaptionTextView storyCaptionTextView2 = StoryCaptionTextView.this;
+                StaticLayout makeTextLayout = storyCaptionTextView2.makeTextLayout(storyCaptionTextView2.textPaint, this.text, i);
                 this.fullLayout = makeTextLayout;
                 int height = makeTextLayout.getHeight();
                 this.textHeight = height;
@@ -742,19 +746,19 @@ public class StoryCaptionView extends NestedScrollView {
                         StoryCaptionTextView.this.shouldCollapse = false;
                     }
                 }
-                StoryCaptionTextView storyCaptionTextView4 = StoryCaptionTextView.this;
-                if (storyCaptionTextView4.shouldCollapse) {
+                StoryCaptionTextView storyCaptionTextView3 = StoryCaptionTextView.this;
+                if (storyCaptionTextView3.shouldCollapse) {
                     float lineTop = this.fullLayout.getLineTop(2) + this.fullLayout.getTopPadding();
                     if (this == StoryCaptionTextView.this.state[0]) {
-                        String string = LocaleController.getString(R.string.ShowMore);
+                        String string = LocaleController.getString(org.telegram.messenger.R.string.ShowMore);
+                        StoryCaptionTextView storyCaptionTextView4 = StoryCaptionTextView.this;
+                        storyCaptionTextView4.showMore = storyCaptionTextView4.makeTextLayout(storyCaptionTextView4.showMorePaint, string, i);
+                        StoryCaptionTextView.this.showMoreY = ((r8.verticalPadding + i2) + lineTop) - AndroidUtilities.dpf2(0.3f);
                         StoryCaptionTextView storyCaptionTextView5 = StoryCaptionTextView.this;
-                        storyCaptionTextView5.showMore = storyCaptionTextView5.makeTextLayout(storyCaptionTextView5.showMorePaint, string, i);
-                        StoryCaptionTextView.this.showMoreY = ((storyCaptionTextView.verticalPadding + i2) + lineTop) - AndroidUtilities.dpf2(0.3f);
-                        StoryCaptionTextView storyCaptionTextView6 = StoryCaptionTextView.this;
-                        storyCaptionTextView6.showMoreX = (storyCaptionTextView6.horizontalPadding + i) - storyCaptionTextView6.showMorePaint.measureText(string);
+                        storyCaptionTextView5.showMoreX = (storyCaptionTextView5.horizontalPadding + i) - storyCaptionTextView5.showMorePaint.measureText(string);
                     }
-                    StoryCaptionTextView storyCaptionTextView7 = StoryCaptionTextView.this;
-                    this.firstLayout = storyCaptionTextView7.makeTextLayout(storyCaptionTextView7.textPaint, this.text.subSequence(0, this.fullLayout.getLineEnd(2)), i);
+                    StoryCaptionTextView storyCaptionTextView6 = StoryCaptionTextView.this;
+                    this.firstLayout = storyCaptionTextView6.makeTextLayout(storyCaptionTextView6.textPaint, this.text.subSequence(0, this.fullLayout.getLineEnd(2)), i);
                     this.spoilersPool.addAll(this.spoilers);
                     this.spoilers.clear();
                     SpoilerEffect.addSpoilers(StoryCaptionView.this, this.fullLayout, this.spoilersPool, this.spoilers);
@@ -782,8 +786,8 @@ public class StoryCaptionView extends NestedScrollView {
                             if (TextUtils.isEmpty(subSequence)) {
                                 this.nextLinesLayouts[i4 - 3] = null;
                             } else {
-                                StoryCaptionTextView storyCaptionTextView8 = StoryCaptionTextView.this;
-                                StaticLayout makeTextLayout2 = storyCaptionTextView8.makeTextLayout(storyCaptionTextView8.textPaint, subSequence, i);
+                                StoryCaptionTextView storyCaptionTextView7 = StoryCaptionTextView.this;
+                                StaticLayout makeTextLayout2 = storyCaptionTextView7.makeTextLayout(storyCaptionTextView7.textPaint, subSequence, i);
                                 LineInfo lineInfo2 = new LineInfo();
                                 this.nextLinesLayouts[i4 - 3] = lineInfo2;
                                 lineInfo2.staticLayout = makeTextLayout2;
@@ -801,8 +805,8 @@ public class StoryCaptionView extends NestedScrollView {
                         }
                     }
                 } else {
-                    if (this == storyCaptionTextView4.state[0]) {
-                        storyCaptionTextView4.showMore = null;
+                    if (this == storyCaptionTextView3.state[0]) {
+                        storyCaptionTextView3.showMore = null;
                     }
                     this.firstLayout = null;
                     this.spoilersPool.addAll(this.spoilers);
@@ -810,8 +814,8 @@ public class StoryCaptionView extends NestedScrollView {
                     SpoilerEffect.addSpoilers(StoryCaptionTextView.this, this.fullLayout, this.spoilersPool, this.spoilers);
                 }
                 SpoilersClickDetector spoilersClickDetector = this.clickDetector;
-                StoryCaptionTextView storyCaptionTextView9 = StoryCaptionTextView.this;
-                spoilersClickDetector.setAdditionalOffsets(storyCaptionTextView9.horizontalPadding, storyCaptionTextView9.verticalPadding);
+                StoryCaptionTextView storyCaptionTextView8 = StoryCaptionTextView.this;
+                spoilersClickDetector.setAdditionalOffsets(storyCaptionTextView8.horizontalPadding, storyCaptionTextView8.verticalPadding);
             }
 
             public void setup(CharSequence charSequence, Reply reply) {
@@ -830,35 +834,35 @@ public class StoryCaptionView extends NestedScrollView {
                 storyCaptionTextView.requestLayout();
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:70:0x01a8  */
-            /* JADX WARN: Removed duplicated region for block: B:73:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:69:0x01a8  */
+            /* JADX WARN: Removed duplicated region for block: B:70:? A[RETURN, SYNTHETIC] */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             public boolean touch(MotionEvent motionEvent) {
-                StaticLayout staticLayout;
                 boolean z;
-                Reply reply;
                 CharacterStyle characterStyle;
                 AnimatedEmojiSpan animatedEmojiSpan;
                 boolean z2;
                 AnimatedEmojiSpan[] animatedEmojiSpanArr;
-                StoryCaptionTextView storyCaptionTextView;
-                StoryCaptionTextView storyCaptionTextView2 = StoryCaptionTextView.this;
+                StoryCaptionTextView storyCaptionTextView = StoryCaptionTextView.this;
                 boolean z3 = false;
-                if (storyCaptionTextView2.showMore != null) {
+                if (storyCaptionTextView.showMore != null) {
                     RectF rectF = AndroidUtilities.rectTmp;
-                    float f = storyCaptionTextView2.showMoreX;
-                    rectF.set(f, storyCaptionTextView2.showMoreY, staticLayout.getWidth() + f, StoryCaptionTextView.this.showMoreY + storyCaptionTextView.showMore.getHeight());
+                    float f = storyCaptionTextView.showMoreX;
+                    rectF.set(f, storyCaptionTextView.showMoreY, r1.getWidth() + f, StoryCaptionTextView.this.showMoreY + r6.showMore.getHeight());
                     if (rectF.contains(motionEvent.getX(), motionEvent.getY())) {
                         z = false;
                         if ((!z && motionEvent.getAction() == 0) || ((this.pressedLink != null || this.pressedEmoji != null) && motionEvent.getAction() == 1)) {
-                            int y = (int) ((motionEvent.getY() - StoryCaptionTextView.this.verticalPadding) - (this.reply == null ? 0 : reply.height() + AndroidUtilities.dp(8.0f)));
+                            Reply reply = this.reply;
+                            int height = reply == null ? 0 : reply.height() + AndroidUtilities.dp(8.0f);
+                            int x = (int) (motionEvent.getX() - StoryCaptionTextView.this.horizontalPadding);
+                            int y = (int) ((motionEvent.getY() - StoryCaptionTextView.this.verticalPadding) - height);
                             int lineForVertical = this.fullLayout.getLineForVertical(y);
-                            float x = (int) (motionEvent.getX() - StoryCaptionTextView.this.horizontalPadding);
-                            int offsetForHorizontal = this.fullLayout.getOffsetForHorizontal(lineForVertical, x);
+                            float f2 = x;
+                            int offsetForHorizontal = this.fullLayout.getOffsetForHorizontal(lineForVertical, f2);
                             float lineLeft = this.fullLayout.getLineLeft(lineForVertical);
-                            if (lineLeft > x || lineLeft + this.fullLayout.getLineWidth(lineForVertical) < x || y < 0 || y > this.fullLayout.getHeight()) {
+                            if (lineLeft > f2 || lineLeft + this.fullLayout.getLineWidth(lineForVertical) < f2 || y < 0 || y > this.fullLayout.getHeight()) {
                                 characterStyle = null;
                                 animatedEmojiSpan = null;
                             } else {
@@ -925,9 +929,10 @@ public class StoryCaptionView extends NestedScrollView {
                                 StoryCaptionView.this.onLinkClick(this.pressedLink.getSpan(), StoryCaptionView.this);
                             }
                             this.pressedLink = null;
-                        } else if (motionEvent.getAction() == 3) {
-                            return false;
                         } else {
+                            if (motionEvent.getAction() == 3) {
+                                return false;
+                            }
                             StoryCaptionTextView.this.clearPressedLinks();
                         }
                         this.pressedEmoji = null;
@@ -994,15 +999,15 @@ public class StoryCaptionView extends NestedScrollView {
             StaticLayout.Builder hyphenationFrequency;
             StaticLayout.Builder alignment;
             StaticLayout build;
-            if (Build.VERSION.SDK_INT >= 24) {
-                obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i);
-                breakStrategy = obtain.setBreakStrategy(0);
-                hyphenationFrequency = breakStrategy.setHyphenationFrequency(0);
-                alignment = hyphenationFrequency.setAlignment(LocaleController.isRTL ? StaticLayoutEx.ALIGN_RIGHT() : StaticLayoutEx.ALIGN_LEFT());
-                build = alignment.build();
-                return build;
+            if (Build.VERSION.SDK_INT < 24) {
+                return new StaticLayout(charSequence, textPaint, i, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             }
-            return new StaticLayout(charSequence, textPaint, i, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i);
+            breakStrategy = obtain.setBreakStrategy(0);
+            hyphenationFrequency = breakStrategy.setHyphenationFrequency(0);
+            alignment = hyphenationFrequency.setAlignment(LocaleController.isRTL ? StaticLayoutEx.ALIGN_RIGHT() : StaticLayoutEx.ALIGN_LEFT());
+            build = alignment.build();
+            return build;
         }
 
         public void animateUpdate() {
@@ -1054,11 +1059,10 @@ public class StoryCaptionView extends NestedScrollView {
             }
             StoryCaptionView.this.lastMotionX = motionEvent.getX();
             StoryCaptionView.this.lastMotionY = motionEvent.getY();
-            StaticLayout staticLayout = this.showMore;
-            if (staticLayout != null) {
+            if (this.showMore != null) {
                 RectF rectF = AndroidUtilities.rectTmp;
                 float f = this.showMoreX;
-                rectF.set(f, this.showMoreY, staticLayout.getWidth() + f, this.showMoreY + this.showMore.getHeight());
+                rectF.set(f, this.showMoreY, r0.getWidth() + f, this.showMoreY + this.showMore.getHeight());
                 if (rectF.contains(motionEvent.getX(), motionEvent.getY())) {
                     z = false;
                     textState = this.state[0];
@@ -1066,8 +1070,7 @@ public class StoryCaptionView extends NestedScrollView {
                         z2 = false;
                     } else {
                         RectF rectF2 = AndroidUtilities.rectTmp;
-                        int i = this.horizontalPadding;
-                        rectF2.set(i, this.verticalPadding, i + reply2.width(), this.verticalPadding + this.state[0].reply.height());
+                        rectF2.set(this.horizontalPadding, this.verticalPadding, r5 + reply2.width(), this.verticalPadding + this.state[0].reply.height());
                         z2 = rectF2.contains(motionEvent.getX(), motionEvent.getY());
                         if (z2) {
                             z = false;
@@ -1263,12 +1266,12 @@ public class StoryCaptionView extends NestedScrollView {
             Reply reply;
             Reply reply2;
             TextState textState = this.state[0];
-            if (textState == null || (textState.loadingDrawable != drawable && ((reply2 = this.state[0].reply) == null || reply2.ripple != drawable))) {
-                TextState textState2 = this.state[1];
-                if (textState2 == null || (textState2.loadingDrawable != drawable && ((reply = this.state[1].reply) == null || reply.ripple != drawable))) {
-                    return super.verifyDrawable(drawable);
-                }
+            if (textState != null && (textState.loadingDrawable == drawable || ((reply2 = this.state[0].reply) != null && reply2.ripple == drawable))) {
                 return true;
+            }
+            TextState textState2 = this.state[1];
+            if (textState2 == null || (textState2.loadingDrawable != drawable && ((reply = this.state[1].reply) == null || reply.ripple != drawable))) {
+                return super.verifyDrawable(drawable);
             }
             return true;
         }
@@ -1417,10 +1420,12 @@ public class StoryCaptionView extends NestedScrollView {
             final float scrollY = getScrollY();
             final float f = this.captionTextview.progressToExpand;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
+            final float f2 = 0.0f;
+            final float f3 = 0.0f;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryCaptionView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    StoryCaptionView.this.lambda$collapse$2(scrollY, r3, f, r5, valueAnimator);
+                    StoryCaptionView.this.lambda$collapse$2(scrollY, f2, f, f3, valueAnimator);
                 }
             });
             ofFloat.setDuration(250L);
@@ -1533,11 +1538,12 @@ public class StoryCaptionView extends NestedScrollView {
             this.expanded = true;
             final float scrollY = getScrollY();
             final float f = this.captionTextview.progressToExpand;
+            final float f2 = 1.0f;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryCaptionView$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    StoryCaptionView.this.lambda$expand$1(scrollY, f, r4, valueAnimator);
+                    StoryCaptionView.this.lambda$expand$1(scrollY, f, f2, valueAnimator);
                 }
             });
             ofFloat.setDuration(250L);

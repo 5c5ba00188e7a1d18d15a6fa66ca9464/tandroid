@@ -29,6 +29,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
+
 /* loaded from: classes3.dex */
 public class GLIconTextureView extends TextureView implements TextureView.SurfaceTextureListener {
     ArrayList animationIndexes;
@@ -94,7 +95,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             GLIconTextureView.this.animatorSet = new AnimatorSet();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(GLIconTextureView.this.mRenderer.angleX, f);
             ofFloat.addUpdateListener(GLIconTextureView.this.xUpdater);
-            long j = (long) NotificationCenter.updateAllMessages;
+            long j = NotificationCenter.updateAllMessages;
             ofFloat.setDuration(j);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             ofFloat.setInterpolator(cubicBezierInterpolator);
@@ -206,10 +207,11 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
                         gLIconTextureView = GLIconTextureView.this;
                         if (gLIconTextureView.mRenderer != null) {
                             break;
-                        }
-                        try {
-                            Thread.sleep(100L);
-                        } catch (InterruptedException unused) {
+                        } else {
+                            try {
+                                Thread.sleep(100L);
+                            } catch (InterruptedException unused) {
+                            }
                         }
                     }
                     if (gLIconTextureView.rendererChanged) {
@@ -269,10 +271,10 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
                 AnimatorSet animatorSet = GLIconTextureView.this.animatorSet;
                 if ((animatorSet == null || !animatorSet.isRunning()) && ((valueAnimator = GLIconTextureView.this.backAnimation) == null || !valueAnimator.isRunning())) {
                     GLIconTextureView.this.startIdleAnimation();
-                    return;
+                } else {
+                    GLIconTextureView gLIconTextureView = GLIconTextureView.this;
+                    gLIconTextureView.scheduleIdleAnimation(gLIconTextureView.idleDelay);
                 }
-                GLIconTextureView gLIconTextureView = GLIconTextureView.this;
-                gLIconTextureView.scheduleIdleAnimation(gLIconTextureView.idleDelay);
             }
         };
         this.xUpdater2 = new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView$$ExternalSyntheticLambda0
@@ -386,42 +388,43 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         this.mEglDisplay = eglGetDisplay;
         if (eglGetDisplay == EGL10.EGL_NO_DISPLAY) {
             throw new RuntimeException("eglGetDisplay failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
-        } else if (!this.mEgl.eglInitialize(eglGetDisplay, new int[2])) {
+        }
+        if (!this.mEgl.eglInitialize(eglGetDisplay, new int[2])) {
             throw new RuntimeException("eglInitialize failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
+        }
+        int[] iArr = new int[1];
+        EGLConfig[] eGLConfigArr = new EGLConfig[1];
+        int[] iArr2 = EmuDetector.with(getContext()).detect() ? new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 16, 12344} : new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 16, 12326, 0, 12338, 1, 12344};
+        this.eglConfig = null;
+        if (!this.mEgl.eglChooseConfig(this.mEglDisplay, iArr2, eGLConfigArr, 1, iArr)) {
+            throw new IllegalArgumentException("eglChooseConfig failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
+        }
+        if (iArr[0] > 0) {
+            this.eglConfig = eGLConfigArr[0];
+        }
+        EGLConfig eGLConfig = this.eglConfig;
+        if (eGLConfig == null) {
+            throw new RuntimeException("eglConfig not initialized");
+        }
+        this.mEglContext = this.mEgl.eglCreateContext(this.mEglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{12440, 2, 12344});
+        checkEglError();
+        this.mEglSurface = this.mEgl.eglCreateWindowSurface(this.mEglDisplay, this.eglConfig, this.mSurface, null);
+        checkEglError();
+        EGLSurface eGLSurface = this.mEglSurface;
+        if (eGLSurface == null || eGLSurface == EGL10.EGL_NO_SURFACE) {
+            int eglGetError = this.mEgl.eglGetError();
+            if (eglGetError == 12299) {
+                FileLog.e("eglCreateWindowSurface returned EGL10.EGL_BAD_NATIVE_WINDOW");
+                return;
+            }
+            throw new RuntimeException("eglCreateWindowSurface failed " + GLUtils.getEGLErrorString(eglGetError));
+        }
+        if (this.mEgl.eglMakeCurrent(this.mEglDisplay, eGLSurface, eGLSurface, this.mEglContext)) {
+            checkEglError();
+            this.mGl = (GL10) this.mEglContext.getGL();
+            checkEglError();
         } else {
-            int[] iArr = new int[1];
-            EGLConfig[] eGLConfigArr = new EGLConfig[1];
-            int[] iArr2 = EmuDetector.with(getContext()).detect() ? new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 16, 12344} : new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 16, 12326, 0, 12338, 1, 12344};
-            this.eglConfig = null;
-            if (!this.mEgl.eglChooseConfig(this.mEglDisplay, iArr2, eGLConfigArr, 1, iArr)) {
-                throw new IllegalArgumentException("eglChooseConfig failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
-            }
-            if (iArr[0] > 0) {
-                this.eglConfig = eGLConfigArr[0];
-            }
-            EGLConfig eGLConfig = this.eglConfig;
-            if (eGLConfig == null) {
-                throw new RuntimeException("eglConfig not initialized");
-            }
-            this.mEglContext = this.mEgl.eglCreateContext(this.mEglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{12440, 2, 12344});
-            checkEglError();
-            this.mEglSurface = this.mEgl.eglCreateWindowSurface(this.mEglDisplay, this.eglConfig, this.mSurface, null);
-            checkEglError();
-            EGLSurface eGLSurface = this.mEglSurface;
-            if (eGLSurface == null || eGLSurface == EGL10.EGL_NO_SURFACE) {
-                int eglGetError = this.mEgl.eglGetError();
-                if (eglGetError == 12299) {
-                    FileLog.e("eglCreateWindowSurface returned EGL10.EGL_BAD_NATIVE_WINDOW");
-                    return;
-                }
-                throw new RuntimeException("eglCreateWindowSurface failed " + GLUtils.getEGLErrorString(eglGetError));
-            } else if (this.mEgl.eglMakeCurrent(this.mEglDisplay, eGLSurface, eGLSurface, this.mEglContext)) {
-                checkEglError();
-                this.mGl = (GL10) this.mEglContext.getGL();
-                checkEglError();
-            } else {
-                throw new RuntimeException("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
-            }
+            throw new RuntimeException("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
         }
     }
 
@@ -675,10 +678,10 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         this.dialogIsVisible = z;
         if (!z) {
             scheduleIdleAnimation(this.idleDelay);
-            return;
+        } else {
+            AndroidUtilities.cancelRunOnUIThread(this.idleAnimation);
+            startBackAnimation();
         }
-        AndroidUtilities.cancelRunOnUIThread(this.idleAnimation);
-        startBackAnimation();
     }
 
     public void setDimensions(int i, int i2) {
@@ -748,7 +751,9 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             }
             if (intValue == 0) {
                 pullAnimation();
-            } else if (intValue == 1) {
+                return;
+            }
+            if (intValue == 1) {
                 slowFlipAnimation();
             } else if (intValue == 2) {
                 sleepAnimation();

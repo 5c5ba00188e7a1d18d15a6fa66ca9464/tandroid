@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 abstract class DecodedBitStreamParser {
     private static final char[] ALPHANUMERIC_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".toCharArray();
@@ -66,6 +67,7 @@ abstract class DecodedBitStreamParser {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Failed to find 'out' block for switch in B:8:0x0039. Please report as an issue. */
     public static DecoderResult decode(byte[] bArr, Version version, ErrorCorrectionLevel errorCorrectionLevel, Map map) {
         Mode mode;
         BitSource bitSource = new BitSource(bArr);
@@ -90,29 +92,26 @@ abstract class DecodedBitStreamParser {
                         break;
                     case 8:
                         mode = forBits;
-                        if (bitSource.available() >= 16) {
-                            int readBits = bitSource.readBits(8);
-                            i2 = bitSource.readBits(8);
-                            i = readBits;
-                            break;
-                        } else {
+                        if (bitSource.available() < 16) {
                             throw FormatException.getFormatInstance();
                         }
+                        int readBits = bitSource.readBits(8);
+                        i2 = bitSource.readBits(8);
+                        i = readBits;
+                        break;
                     case 9:
                         mode = forBits;
                         characterSetECI = CharacterSetECI.getCharacterSetECIByValue(parseECIValue(bitSource));
-                        if (characterSetECI != null) {
-                            break;
-                        } else {
+                        if (characterSetECI == null) {
                             throw FormatException.getFormatInstance();
                         }
+                        break;
                     case 10:
                         mode = forBits;
                         int readBits2 = bitSource.readBits(4);
                         int readBits3 = bitSource.readBits(mode.getCharacterCountBits(version));
                         if (readBits2 == 1) {
                             decodeHanziSegment(bitSource, sb, readBits3);
-                            break;
                         }
                         break;
                     default:
@@ -121,22 +120,20 @@ abstract class DecodedBitStreamParser {
                         if (i3 == 1) {
                             mode = forBits;
                             decodeNumericSegment(bitSource, sb, readBits4);
-                            break;
                         } else if (i3 == 2) {
                             mode = forBits;
                             decodeAlphanumericSegment(bitSource, sb, readBits4, z);
-                            break;
                         } else if (i3 == 3) {
                             mode = forBits;
                             decodeByteSegment(bitSource, sb, readBits4, characterSetECI, arrayList, map);
-                            break;
-                        } else if (i3 == 4) {
+                        } else {
+                            if (i3 != 4) {
+                                throw FormatException.getFormatInstance();
+                            }
                             decodeKanjiSegment(bitSource, sb, readBits4);
                             mode = forBits;
-                            break;
-                        } else {
-                            throw FormatException.getFormatInstance();
                         }
+                        break;
                 }
             } catch (IllegalArgumentException unused) {
                 throw FormatException.getFormatInstance();
@@ -261,9 +258,10 @@ abstract class DecodedBitStreamParser {
             }
             sb.append(toAlphaNumericChar(readBits3 / 10));
             readBits = readBits3 % 10;
-        } else if (i != 1) {
-            return;
         } else {
+            if (i != 1) {
+                return;
+            }
             if (bitSource.available() < 4) {
                 throw FormatException.getFormatInstance();
             }

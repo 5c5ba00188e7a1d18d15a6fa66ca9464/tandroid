@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class FontProvider {
@@ -73,21 +74,21 @@ public abstract class FontProvider {
         ProviderInfo resolveContentProvider = packageManager.resolveContentProvider(providerAuthority, 0);
         if (resolveContentProvider == null) {
             throw new PackageManager.NameNotFoundException("No package found for authority: " + providerAuthority);
-        } else if (!resolveContentProvider.packageName.equals(fontRequest.getProviderPackage())) {
-            throw new PackageManager.NameNotFoundException("Found content provider " + providerAuthority + ", but package was not " + fontRequest.getProviderPackage());
-        } else {
-            List convertToByteArrayList = convertToByteArrayList(packageManager.getPackageInfo(resolveContentProvider.packageName, 64).signatures);
-            Collections.sort(convertToByteArrayList, sByteArrayComparator);
-            List certificates = getCertificates(fontRequest, resources);
-            for (int i = 0; i < certificates.size(); i++) {
-                ArrayList arrayList = new ArrayList((Collection) certificates.get(i));
-                Collections.sort(arrayList, sByteArrayComparator);
-                if (equalsByteArrayList(convertToByteArrayList, arrayList)) {
-                    return resolveContentProvider;
-                }
-            }
-            return null;
         }
+        if (!resolveContentProvider.packageName.equals(fontRequest.getProviderPackage())) {
+            throw new PackageManager.NameNotFoundException("Found content provider " + providerAuthority + ", but package was not " + fontRequest.getProviderPackage());
+        }
+        List convertToByteArrayList = convertToByteArrayList(packageManager.getPackageInfo(resolveContentProvider.packageName, 64).signatures);
+        Collections.sort(convertToByteArrayList, sByteArrayComparator);
+        List certificates = getCertificates(fontRequest, resources);
+        for (int i = 0; i < certificates.size(); i++) {
+            ArrayList arrayList = new ArrayList((Collection) certificates.get(i));
+            Collections.sort(arrayList, sByteArrayComparator);
+            if (equalsByteArrayList(convertToByteArrayList, arrayList)) {
+                return resolveContentProvider;
+            }
+        }
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

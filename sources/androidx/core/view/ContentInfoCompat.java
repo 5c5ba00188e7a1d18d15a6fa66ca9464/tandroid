@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.ContentInfo;
 import androidx.core.util.Preconditions;
 import java.util.Objects;
+
 /* loaded from: classes.dex */
 public final class ContentInfoCompat {
     private final Compat mCompat;

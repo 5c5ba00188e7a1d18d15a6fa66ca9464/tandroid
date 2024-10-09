@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.LongBinaryOperator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class P implements S {
     public final /* synthetic */ LongBinaryOperator a;

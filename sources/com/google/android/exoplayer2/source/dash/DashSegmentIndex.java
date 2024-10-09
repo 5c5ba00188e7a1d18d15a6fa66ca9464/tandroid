@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.source.dash;
 
 import com.google.android.exoplayer2.source.dash.manifest.RangedUri;
+
 /* loaded from: classes.dex */
 public interface DashSegmentIndex {
     long getAvailableSegmentCount(long j, long j2);

@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public class TintContextWrapper extends ContextWrapper {
     private static final Object CACHE_LOCK = new Object();
@@ -36,36 +37,36 @@ public class TintContextWrapper extends ContextWrapper {
     }
 
     public static Context wrap(Context context) {
-        if (shouldWrap(context)) {
-            synchronized (CACHE_LOCK) {
-                try {
-                    ArrayList arrayList = sCache;
-                    if (arrayList == null) {
-                        sCache = new ArrayList();
-                    } else {
-                        for (int size = arrayList.size() - 1; size >= 0; size--) {
-                            WeakReference weakReference = (WeakReference) sCache.get(size);
-                            if (weakReference == null || weakReference.get() == null) {
-                                sCache.remove(size);
-                            }
-                        }
-                        for (int size2 = sCache.size() - 1; size2 >= 0; size2--) {
-                            WeakReference weakReference2 = (WeakReference) sCache.get(size2);
-                            TintContextWrapper tintContextWrapper = weakReference2 != null ? (TintContextWrapper) weakReference2.get() : null;
-                            if (tintContextWrapper != null && tintContextWrapper.getBaseContext() == context) {
-                                return tintContextWrapper;
-                            }
+        if (!shouldWrap(context)) {
+            return context;
+        }
+        synchronized (CACHE_LOCK) {
+            try {
+                ArrayList arrayList = sCache;
+                if (arrayList == null) {
+                    sCache = new ArrayList();
+                } else {
+                    for (int size = arrayList.size() - 1; size >= 0; size--) {
+                        WeakReference weakReference = (WeakReference) sCache.get(size);
+                        if (weakReference == null || weakReference.get() == null) {
+                            sCache.remove(size);
                         }
                     }
-                    TintContextWrapper tintContextWrapper2 = new TintContextWrapper(context);
-                    sCache.add(new WeakReference(tintContextWrapper2));
-                    return tintContextWrapper2;
-                } catch (Throwable th) {
-                    throw th;
+                    for (int size2 = sCache.size() - 1; size2 >= 0; size2--) {
+                        WeakReference weakReference2 = (WeakReference) sCache.get(size2);
+                        TintContextWrapper tintContextWrapper = weakReference2 != null ? (TintContextWrapper) weakReference2.get() : null;
+                        if (tintContextWrapper != null && tintContextWrapper.getBaseContext() == context) {
+                            return tintContextWrapper;
+                        }
+                    }
                 }
+                TintContextWrapper tintContextWrapper2 = new TintContextWrapper(context);
+                sCache.add(new WeakReference(tintContextWrapper2));
+                return tintContextWrapper2;
+            } catch (Throwable th) {
+                throw th;
             }
         }
-        return context;
     }
 
     @Override // android.content.ContextWrapper, android.content.Context

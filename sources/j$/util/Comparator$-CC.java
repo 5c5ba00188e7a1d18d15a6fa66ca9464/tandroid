@@ -6,6 +6,7 @@ import j$.util.function.ToIntFunction;
 import j$.util.function.ToLongFunction;
 import java.util.Collections;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class Comparator$-CC {
     public static Comparator a() {

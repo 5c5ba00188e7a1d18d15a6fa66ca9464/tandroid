@@ -5,6 +5,7 @@ import com.microsoft.appcenter.ingestion.models.json.JSONDateUtils;
 import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public abstract class CommonSchemaLog extends AbstractLog {
     private String cV;
@@ -21,41 +22,41 @@ public abstract class CommonSchemaLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            CommonSchemaLog commonSchemaLog = (CommonSchemaLog) obj;
-            String str = this.ver;
-            if (str == null ? commonSchemaLog.ver == null : str.equals(commonSchemaLog.ver)) {
-                String str2 = this.name;
-                if (str2 == null ? commonSchemaLog.name == null : str2.equals(commonSchemaLog.name)) {
-                    Double d = this.popSample;
-                    if (d == null ? commonSchemaLog.popSample == null : d.equals(commonSchemaLog.popSample)) {
-                        String str3 = this.iKey;
-                        if (str3 == null ? commonSchemaLog.iKey == null : str3.equals(commonSchemaLog.iKey)) {
-                            Long l = this.flags;
-                            if (l == null ? commonSchemaLog.flags == null : l.equals(commonSchemaLog.flags)) {
-                                String str4 = this.cV;
-                                if (str4 == null ? commonSchemaLog.cV == null : str4.equals(commonSchemaLog.cV)) {
-                                    Extensions extensions = this.ext;
-                                    if (extensions == null ? commonSchemaLog.ext == null : extensions.equals(commonSchemaLog.ext)) {
-                                        Data data = this.data;
-                                        Data data2 = commonSchemaLog.data;
-                                        return data != null ? data.equals(data2) : data2 == null;
-                                    }
-                                    return false;
-                                }
-                                return false;
-                            }
-                            return false;
-                        }
-                        return false;
-                    }
-                    return false;
-                }
-                return false;
-            }
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
             return false;
         }
-        return false;
+        CommonSchemaLog commonSchemaLog = (CommonSchemaLog) obj;
+        String str = this.ver;
+        if (str == null ? commonSchemaLog.ver != null : !str.equals(commonSchemaLog.ver)) {
+            return false;
+        }
+        String str2 = this.name;
+        if (str2 == null ? commonSchemaLog.name != null : !str2.equals(commonSchemaLog.name)) {
+            return false;
+        }
+        Double d = this.popSample;
+        if (d == null ? commonSchemaLog.popSample != null : !d.equals(commonSchemaLog.popSample)) {
+            return false;
+        }
+        String str3 = this.iKey;
+        if (str3 == null ? commonSchemaLog.iKey != null : !str3.equals(commonSchemaLog.iKey)) {
+            return false;
+        }
+        Long l = this.flags;
+        if (l == null ? commonSchemaLog.flags != null : !l.equals(commonSchemaLog.flags)) {
+            return false;
+        }
+        String str4 = this.cV;
+        if (str4 == null ? commonSchemaLog.cV != null : !str4.equals(commonSchemaLog.cV)) {
+            return false;
+        }
+        Extensions extensions = this.ext;
+        if (extensions == null ? commonSchemaLog.ext != null : !extensions.equals(commonSchemaLog.ext)) {
+            return false;
+        }
+        Data data = this.data;
+        Data data2 = commonSchemaLog.data;
+        return data != null ? data.equals(data2) : data2 == null;
     }
 
     public String getCV() {

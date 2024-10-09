@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import kotlin.Pair;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public abstract class BundleKt {
     public static final Bundle bundleOf(Pair... pairs) {
@@ -80,9 +81,10 @@ public abstract class BundleKt {
                         BundleApi18ImplKt.putBinder(bundle, str, (IBinder) component2);
                     } else if (i >= 21 && BundleKt$$ExternalSyntheticApiModelOutline0.m(component2)) {
                         BundleApi21ImplKt.putSize(bundle, str, BundleKt$$ExternalSyntheticApiModelOutline1.m(component2));
-                    } else if (i < 21 || !BundleKt$$ExternalSyntheticApiModelOutline2.m(component2)) {
-                        throw new IllegalArgumentException("Illegal value type " + component2.getClass().getCanonicalName() + " for key \"" + str + '\"');
                     } else {
+                        if (i < 21 || !BundleKt$$ExternalSyntheticApiModelOutline2.m(component2)) {
+                            throw new IllegalArgumentException("Illegal value type " + component2.getClass().getCanonicalName() + " for key \"" + str + '\"');
+                        }
                         BundleApi21ImplKt.putSizeF(bundle, str, BundleKt$$ExternalSyntheticApiModelOutline3.m(component2));
                     }
                 }

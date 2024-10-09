@@ -17,6 +17,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class PasscodeViewDialog extends Dialog {
     public final Context context;
@@ -84,13 +85,13 @@ public class PasscodeViewDialog extends Dialog {
     @Override // android.app.Dialog, android.view.Window.Callback
     public boolean dispatchKeyEvent(KeyEvent keyEvent) {
         LaunchActivity launchActivity;
-        if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0) {
-            if (this.passcodeView.onBackPressed() && (launchActivity = LaunchActivity.instance) != null) {
-                launchActivity.moveTaskToBack(true);
-            }
-            return true;
+        if (keyEvent.getKeyCode() != 4 || keyEvent.getRepeatCount() != 0) {
+            return super.dispatchKeyEvent(keyEvent);
         }
-        return super.dispatchKeyEvent(keyEvent);
+        if (this.passcodeView.onBackPressed() && (launchActivity = LaunchActivity.instance) != null) {
+            launchActivity.moveTaskToBack(true);
+        }
+        return true;
     }
 
     @Override // android.app.Dialog

@@ -9,6 +9,7 @@ import com.google.android.gms.common.internal.zzt;
 import com.google.android.gms.common.util.DeviceProperties;
 import com.google.android.gms.common.wrappers.Wrappers;
 import com.google.android.gms.internal.common.zzd;
+
 /* loaded from: classes.dex */
 public class GoogleApiAvailabilityLight {
     public static final int GOOGLE_PLAY_SERVICES_VERSION_CODE = GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
@@ -36,29 +37,29 @@ public class GoogleApiAvailabilityLight {
                 return null;
             }
             return zzt.zzc("com.google.android.gms");
-        } else if (context == null || !DeviceProperties.isWearableWithoutPlayStore(context)) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("gcore_");
-            sb.append(GOOGLE_PLAY_SERVICES_VERSION_CODE);
-            sb.append("-");
-            if (!TextUtils.isEmpty(str)) {
-                sb.append(str);
-            }
-            sb.append("-");
-            if (context != null) {
-                sb.append(context.getPackageName());
-            }
-            sb.append("-");
-            if (context != null) {
-                try {
-                    sb.append(Wrappers.packageManager(context).getPackageInfo(context.getPackageName(), 0).versionCode);
-                } catch (PackageManager.NameNotFoundException unused) {
-                }
-            }
-            return zzt.zzb("com.google.android.gms", sb.toString());
-        } else {
+        }
+        if (context != null && DeviceProperties.isWearableWithoutPlayStore(context)) {
             return zzt.zza();
         }
+        StringBuilder sb = new StringBuilder();
+        sb.append("gcore_");
+        sb.append(GOOGLE_PLAY_SERVICES_VERSION_CODE);
+        sb.append("-");
+        if (!TextUtils.isEmpty(str)) {
+            sb.append(str);
+        }
+        sb.append("-");
+        if (context != null) {
+            sb.append(context.getPackageName());
+        }
+        sb.append("-");
+        if (context != null) {
+            try {
+                sb.append(Wrappers.packageManager(context).getPackageInfo(context.getPackageName(), 0).versionCode);
+            } catch (PackageManager.NameNotFoundException unused) {
+            }
+        }
+        return zzt.zzb("com.google.android.gms", sb.toString());
     }
 
     public PendingIntent getErrorResolutionPendingIntent(Context context, int i, int i2) {

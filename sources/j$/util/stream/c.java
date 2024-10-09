@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import java.util.concurrent.CountedCompleter;
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes2.dex */
 abstract class c extends e {
     protected final AtomicReference h;
@@ -21,11 +22,11 @@ abstract class c extends e {
 
     @Override // j$.util.stream.e
     public final Object b() {
-        if (c()) {
-            Object obj = this.h.get();
-            return obj == null ? i() : obj;
+        if (!c()) {
+            return super.b();
         }
-        return super.b();
+        Object obj = this.h.get();
+        return obj == null ? i() : obj;
     }
 
     @Override // j$.util.stream.e, java.util.concurrent.CountedCompleter
@@ -62,25 +63,25 @@ abstract class c extends e {
             if (z2) {
                 obj = cVar.i();
                 break;
-            } else if (estimateSize <= j || (trySplit = q.trySplit()) == null) {
-                break;
-            } else {
-                c cVar3 = (c) cVar.d(trySplit);
-                cVar.d = cVar3;
-                c cVar4 = (c) cVar.d(q);
-                cVar.e = cVar4;
-                cVar.setPendingCount(1);
-                if (z) {
-                    q = trySplit;
-                    cVar = cVar3;
-                    cVar3 = cVar4;
-                } else {
-                    cVar = cVar4;
-                }
-                z = !z;
-                cVar3.fork();
-                estimateSize = q.estimateSize();
             }
+            if (estimateSize <= j || (trySplit = q.trySplit()) == null) {
+                break;
+            }
+            c cVar3 = (c) cVar.d(trySplit);
+            cVar.d = cVar3;
+            c cVar4 = (c) cVar.d(q);
+            cVar.e = cVar4;
+            cVar.setPendingCount(1);
+            if (z) {
+                q = trySplit;
+                cVar = cVar3;
+                cVar3 = cVar4;
+            } else {
+                cVar = cVar4;
+            }
+            z = !z;
+            cVar3.fork();
+            estimateSize = q.estimateSize();
         }
         obj = cVar.a();
         cVar.e(obj);

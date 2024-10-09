@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class BundleableUtil {
     public static void ensureClassLoader(Bundle bundle) {

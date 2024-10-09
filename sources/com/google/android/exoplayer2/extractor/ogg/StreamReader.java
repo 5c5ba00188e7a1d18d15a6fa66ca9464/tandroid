@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class StreamReader {
@@ -75,30 +76,30 @@ public abstract class StreamReader {
     }
 
     private int readHeadersAndUpdateState(ExtractorInput extractorInput) {
-        if (readHeaders(extractorInput)) {
-            Format format = this.setupData.format;
-            this.sampleRate = format.sampleRate;
-            if (!this.formatSet) {
-                this.trackOutput.format(format);
-                this.formatSet = true;
-            }
-            OggSeeker oggSeeker = this.setupData.oggSeeker;
-            if (oggSeeker == null) {
-                if (extractorInput.getLength() != -1) {
-                    OggPageHeader pageHeader = this.oggPacket.getPageHeader();
-                    this.oggSeeker = new DefaultOggSeeker(this, this.payloadStartPosition, extractorInput.getLength(), pageHeader.headerSize + pageHeader.bodySize, pageHeader.granulePosition, (pageHeader.type & 4) != 0);
-                    this.state = 2;
-                    this.oggPacket.trimPayload();
-                    return 0;
-                }
-                oggSeeker = new UnseekableOggSeeker();
-            }
-            this.oggSeeker = oggSeeker;
-            this.state = 2;
-            this.oggPacket.trimPayload();
-            return 0;
+        if (!readHeaders(extractorInput)) {
+            return -1;
         }
-        return -1;
+        Format format = this.setupData.format;
+        this.sampleRate = format.sampleRate;
+        if (!this.formatSet) {
+            this.trackOutput.format(format);
+            this.formatSet = true;
+        }
+        OggSeeker oggSeeker = this.setupData.oggSeeker;
+        if (oggSeeker == null) {
+            if (extractorInput.getLength() != -1) {
+                OggPageHeader pageHeader = this.oggPacket.getPageHeader();
+                this.oggSeeker = new DefaultOggSeeker(this, this.payloadStartPosition, extractorInput.getLength(), pageHeader.headerSize + pageHeader.bodySize, pageHeader.granulePosition, (pageHeader.type & 4) != 0);
+                this.state = 2;
+                this.oggPacket.trimPayload();
+                return 0;
+            }
+            oggSeeker = new UnseekableOggSeeker();
+        }
+        this.oggSeeker = oggSeeker;
+        this.state = 2;
+        this.oggPacket.trimPayload();
+        return 0;
     }
 
     private int readPayload(ExtractorInput extractorInput, PositionHolder positionHolder) {
@@ -162,21 +163,22 @@ public abstract class StreamReader {
     public final int read(ExtractorInput extractorInput, PositionHolder positionHolder) {
         assertInitialized();
         int i = this.state;
-        if (i != 0) {
-            if (i == 1) {
-                extractorInput.skipFully((int) this.payloadStartPosition);
-                this.state = 2;
-                return 0;
-            } else if (i == 2) {
-                Util.castNonNull(this.oggSeeker);
-                return readPayload(extractorInput, positionHolder);
-            } else if (i == 3) {
-                return -1;
-            } else {
-                throw new IllegalStateException();
-            }
+        if (i == 0) {
+            return readHeadersAndUpdateState(extractorInput);
         }
-        return readHeadersAndUpdateState(extractorInput);
+        if (i == 1) {
+            extractorInput.skipFully((int) this.payloadStartPosition);
+            this.state = 2;
+            return 0;
+        }
+        if (i == 2) {
+            Util.castNonNull(this.oggSeeker);
+            return readPayload(extractorInput, positionHolder);
+        }
+        if (i == 3) {
+            return -1;
+        }
+        throw new IllegalStateException();
     }
 
     protected abstract boolean readHeaders(ParsableByteArray parsableByteArray, long j, SetupData setupData);

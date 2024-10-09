@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2;
 
 import com.google.android.exoplayer2.drm.DrmSession;
+
 /* loaded from: classes.dex */
 public final class FormatHolder {
     public DrmSession drmSession;

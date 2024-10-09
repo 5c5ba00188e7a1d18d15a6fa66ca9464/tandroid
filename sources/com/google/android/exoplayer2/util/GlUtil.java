@@ -4,6 +4,7 @@ import android.content.Context;
 import android.opengl.EGL14;
 import android.opengl.GLES20;
 import android.opengl.GLU;
+
 /* loaded from: classes.dex */
 public abstract class GlUtil {
     public static final int[] EGL_CONFIG_ATTRIBUTES_RGBA_8888 = {12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 0, 12326, 0, 12344};

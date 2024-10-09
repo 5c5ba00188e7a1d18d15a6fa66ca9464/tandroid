@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import java.util.Collection;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class BundleListRetriever extends Binder {
     private static final int SUGGESTED_MAX_IPC_SIZE;
@@ -38,7 +39,7 @@ public final class BundleListRetriever extends Binder {
                     while (true) {
                         readInt = obtain2.readInt();
                         if (readInt == 1) {
-                            builder.add((Object) ((Bundle) Assertions.checkNotNull(obtain2.readBundle())));
+                            builder.add(Assertions.checkNotNull(obtain2.readBundle()));
                             i2++;
                         }
                     }

@@ -9,6 +9,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.Premium.PremiumGradient;
+
 /* loaded from: classes3.dex */
 public class StatusBadgeComponent {
     private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable statusDrawable;
@@ -52,11 +53,12 @@ public class StatusBadgeComponent {
                 }
             } else if (user != null && DialogObject.getEmojiStatusDocumentId(user.emoji_status) != 0) {
                 this.statusDrawable.set(DialogObject.getEmojiStatusDocumentId(user.emoji_status), z);
-            } else if (user == null || !user.premium) {
-                this.statusDrawable.set((Drawable) null, z);
-                this.statusDrawable.setColor(null);
-                return this.statusDrawable;
             } else {
+                if (user == null || !user.premium) {
+                    this.statusDrawable.set((Drawable) null, z);
+                    this.statusDrawable.setColor(null);
+                    return this.statusDrawable;
+                }
                 this.statusDrawable.set(PremiumGradient.getInstance().premiumStarDrawableMini, z);
             }
             this.statusDrawable.setColor(Integer.valueOf(i));

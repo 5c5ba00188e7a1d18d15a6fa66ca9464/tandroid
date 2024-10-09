@@ -2,6 +2,7 @@ package org.webrtc;
 
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 class H264Utils {
     public static VideoCodecInfo DEFAULT_H264_BASELINE_PROFILE_CODEC = new VideoCodecInfo("H264", getDefaultH264Params(false));

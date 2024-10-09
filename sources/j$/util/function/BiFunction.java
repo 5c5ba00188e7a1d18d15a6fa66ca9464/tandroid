@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.BinaryOperator;
+
 /* loaded from: classes2.dex */
 public interface BiFunction<T, U, R> {
 

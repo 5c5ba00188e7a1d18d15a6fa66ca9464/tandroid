@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.util.Map;
+
 /* loaded from: classes.dex */
 abstract class zzx implements Map.Entry {
     @Override // java.util.Map.Entry
@@ -28,8 +29,6 @@ abstract class zzx implements Map.Entry {
     }
 
     public final String toString() {
-        String valueOf = String.valueOf(getKey());
-        String valueOf2 = String.valueOf(getValue());
-        return valueOf + "=" + valueOf2;
+        return String.valueOf(getKey()) + "=" + String.valueOf(getValue());
     }
 }

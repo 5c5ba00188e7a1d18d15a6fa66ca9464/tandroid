@@ -4,6 +4,7 @@ import com.google.android.datatransport.runtime.AutoValue_EventInternal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class EventInternal {
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class zzjb extends zzhf {
     private static Map<Object, zzjb> zzd = new ConcurrentHashMap();
@@ -82,7 +83,7 @@ public abstract class zzjb extends zzhf {
         }
 
         @Override // com.google.android.gms.internal.vision.zzkn
-        /* renamed from: zzc */
+        /* renamed from: zzc, reason: merged with bridge method [inline-methods] */
         public zzjb zze() {
             if (this.zzb) {
                 return this.zza;
@@ -93,7 +94,7 @@ public abstract class zzjb extends zzhf {
             return this.zza;
         }
 
-        /* renamed from: zzd */
+        /* renamed from: zzd, reason: merged with bridge method [inline-methods] */
         public final zzjb zzf() {
             zzjb zzjbVar = (zzjb) zze();
             if (zzjbVar.zzk()) {

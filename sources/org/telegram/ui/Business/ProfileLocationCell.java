@@ -17,6 +17,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LoadingDrawable;
+
 /* loaded from: classes4.dex */
 public class ProfileLocationCell extends LinearLayout {
     private final ImageReceiver imageReceiver;

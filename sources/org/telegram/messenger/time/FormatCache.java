@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentMap;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
 public abstract class FormatCache<F extends Format> {
@@ -30,7 +31,6 @@ public abstract class FormatCache<F extends Format> {
         }
 
         public int hashCode() {
-            Object[] objArr;
             if (this.hashCode == 0) {
                 int i = 0;
                 for (Object obj : this.keys) {
@@ -55,16 +55,16 @@ public abstract class FormatCache<F extends Format> {
         MultipartKey multipartKey = new MultipartKey(num, num2, locale);
         ConcurrentMap<MultipartKey, String> concurrentMap = cDateTimeInstanceCache;
         String str = concurrentMap.get(multipartKey);
-        if (str == null) {
-            try {
-                String pattern = ((SimpleDateFormat) (num == null ? DateFormat.getTimeInstance(num2.intValue(), locale) : num2 == null ? DateFormat.getDateInstance(num.intValue(), locale) : DateFormat.getDateTimeInstance(num.intValue(), num2.intValue(), locale))).toPattern();
-                String putIfAbsent = concurrentMap.putIfAbsent(multipartKey, pattern);
-                return putIfAbsent != null ? putIfAbsent : pattern;
-            } catch (ClassCastException unused) {
-                throw new IllegalArgumentException("No date time pattern for locale: " + locale);
-            }
+        if (str != null) {
+            return str;
         }
-        return str;
+        try {
+            String pattern = ((SimpleDateFormat) (num == null ? DateFormat.getTimeInstance(num2.intValue(), locale) : num2 == null ? DateFormat.getDateInstance(num.intValue(), locale) : DateFormat.getDateTimeInstance(num.intValue(), num2.intValue(), locale))).toPattern();
+            String putIfAbsent = concurrentMap.putIfAbsent(multipartKey, pattern);
+            return putIfAbsent != null ? putIfAbsent : pattern;
+        } catch (ClassCastException unused) {
+            throw new IllegalArgumentException("No date time pattern for locale: " + locale);
+        }
     }
 
     protected abstract F createInstance(String str, TimeZone timeZone, Locale locale);
@@ -84,23 +84,23 @@ public abstract class FormatCache<F extends Format> {
     }
 
     public F getInstance(String str, TimeZone timeZone, Locale locale) {
-        if (str != null) {
-            if (timeZone == null) {
-                timeZone = TimeZone.getDefault();
-            }
-            if (locale == null) {
-                locale = Locale.getDefault();
-            }
-            MultipartKey multipartKey = new MultipartKey(str, timeZone, locale);
-            F f = this.cInstanceCache.get(multipartKey);
-            if (f == null) {
-                F createInstance = createInstance(str, timeZone, locale);
-                F putIfAbsent = this.cInstanceCache.putIfAbsent(multipartKey, createInstance);
-                return putIfAbsent != null ? putIfAbsent : createInstance;
-            }
+        if (str == null) {
+            throw new NullPointerException("pattern must not be null");
+        }
+        if (timeZone == null) {
+            timeZone = TimeZone.getDefault();
+        }
+        if (locale == null) {
+            locale = Locale.getDefault();
+        }
+        MultipartKey multipartKey = new MultipartKey(str, timeZone, locale);
+        F f = this.cInstanceCache.get(multipartKey);
+        if (f != null) {
             return f;
         }
-        throw new NullPointerException("pattern must not be null");
+        F createInstance = createInstance(str, timeZone, locale);
+        F putIfAbsent = this.cInstanceCache.putIfAbsent(multipartKey, createInstance);
+        return putIfAbsent != null ? putIfAbsent : createInstance;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

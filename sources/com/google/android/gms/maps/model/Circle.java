@@ -3,6 +3,7 @@ package com.google.android.gms.maps.model;
 import android.os.RemoteException;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.internal.maps.zzl;
+
 /* loaded from: classes.dex */
 public final class Circle {
     private final zzl zza;
@@ -12,14 +13,14 @@ public final class Circle {
     }
 
     public final boolean equals(Object obj) {
-        if (obj instanceof Circle) {
-            try {
-                return this.zza.zzy(((Circle) obj).zza);
-            } catch (RemoteException e) {
-                throw new RuntimeRemoteException(e);
-            }
+        if (!(obj instanceof Circle)) {
+            return false;
         }
-        return false;
+        try {
+            return this.zza.zzy(((Circle) obj).zza);
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
     }
 
     public double getRadius() {

@@ -2,6 +2,7 @@ package com.google.mlkit.nl.languageid;
 
 import com.google.android.gms.internal.mlkit_language_id.zzh;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class IdentifiedLanguage {
     private final String zza;
@@ -16,11 +17,11 @@ public final class IdentifiedLanguage {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof IdentifiedLanguage) {
-            IdentifiedLanguage identifiedLanguage = (IdentifiedLanguage) obj;
-            return Float.compare(identifiedLanguage.zzb, this.zzb) == 0 && zzh.zza(this.zza, identifiedLanguage.zza);
+        if (!(obj instanceof IdentifiedLanguage)) {
+            return false;
         }
-        return false;
+        IdentifiedLanguage identifiedLanguage = (IdentifiedLanguage) obj;
+        return Float.compare(identifiedLanguage.zzb, this.zzb) == 0 && zzh.zza(this.zza, identifiedLanguage.zza);
     }
 
     public final int hashCode() {

@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.IntFunction;
 import java.util.stream.Stream;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class r extends b implements j$.util.b {
@@ -54,8 +55,9 @@ public final class r extends b implements j$.util.b {
             k b = oVar.b();
             if (b == null) {
                 return;
+            } else {
+                consumer.r(b.c);
             }
-            consumer.accept(b.c);
         }
     }
 
@@ -80,18 +82,18 @@ public final class r extends b implements j$.util.b {
     @Override // java.util.Collection
     public final boolean remove(Object obj) {
         a aVar;
-        if (obj != null) {
-            Iterator it = iterator();
-            do {
-                aVar = (a) it;
-                if (!aVar.hasNext()) {
-                    return false;
-                }
-            } while (!obj.equals(((g) it).next()));
-            aVar.remove();
-            return true;
+        if (obj == null) {
+            return false;
         }
-        return false;
+        Object it = iterator();
+        do {
+            aVar = (a) it;
+            if (!aVar.hasNext()) {
+                return false;
+            }
+        } while (!obj.equals(((g) it).next()));
+        aVar.remove();
+        return true;
     }
 
     @Override // java.util.Collection
@@ -123,6 +125,7 @@ public final class r extends b implements j$.util.b {
         return P2.i0(j$.util.a.m(this));
     }
 
+    @Override // java.util.Collection
     public final Object[] toArray(IntFunction intFunction) {
         return toArray((Object[]) G.a(intFunction).apply(0));
     }

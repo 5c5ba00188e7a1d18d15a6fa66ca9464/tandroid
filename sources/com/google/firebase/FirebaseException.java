@@ -1,6 +1,7 @@
 package com.google.firebase;
 
 import com.google.android.gms.common.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public class FirebaseException extends Exception {
     /* JADX INFO: Access modifiers changed from: protected */

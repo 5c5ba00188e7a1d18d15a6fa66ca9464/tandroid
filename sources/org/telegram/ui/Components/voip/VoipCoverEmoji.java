@@ -14,6 +14,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes3.dex */
 public class VoipCoverEmoji {
     private final boolean allowAnimations;
@@ -87,10 +88,8 @@ public class VoipCoverEmoji {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, ValueAnimator valueAnimator) {
-        int i = this.fromRandomX;
-        this.randomX = (int) (i + ((this.toRandomX - i) * ((Float) valueAnimator.getAnimatedValue()).floatValue()));
-        int i2 = this.fromRandomY;
-        this.randomY = (int) (i2 + ((this.toRandomY - i2) * ((Float) valueAnimator.getAnimatedValue()).floatValue()));
+        this.randomX = (int) (this.fromRandomX + ((this.toRandomX - r0) * ((Float) valueAnimator.getAnimatedValue()).floatValue()));
+        this.randomY = (int) (this.fromRandomY + ((this.toRandomY - r0) * ((Float) valueAnimator.getAnimatedValue()).floatValue()));
         view.invalidate();
     }
 
@@ -140,18 +139,20 @@ public class VoipCoverEmoji {
             }
         }
         this.isShown = true;
+        final int i = 12;
         this.diffX = this.posX > getCenterX() ? AndroidUtilities.dp(12) : -AndroidUtilities.dp(12);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         ofFloat.setInterpolator(new CubicBezierInterpolator(0.34d, 1.36d, 0.64d, 1.0d));
+        final int i2 = 350;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoipCoverEmoji$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                VoipCoverEmoji.this.lambda$show$2(r2, r3, valueAnimator);
+                VoipCoverEmoji.this.lambda$show$2(i, i2, valueAnimator);
             }
         });
         long j = 350;
         ofFloat.setDuration(j);
-        long j2 = (long) NotificationCenter.updateBotMenuButton;
+        long j2 = NotificationCenter.updateBotMenuButton;
         ofFloat.setStartDelay(j2);
         ofFloat.start();
         ValueAnimator ofInt = ValueAnimator.ofInt(0, NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction);

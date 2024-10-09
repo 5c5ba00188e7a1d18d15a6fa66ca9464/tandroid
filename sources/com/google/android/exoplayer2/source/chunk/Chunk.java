@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.upstream.Loader;
 import com.google.android.exoplayer2.upstream.StatsDataSource;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class Chunk implements Loader.Loadable {
     protected final StatsDataSource dataSource;

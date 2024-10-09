@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+
 /* loaded from: classes.dex */
 public final class ContentDataSource extends BaseDataSource {
     private AssetFileDescriptor assetFileDescriptor;
@@ -118,40 +119,40 @@ public final class ContentDataSource extends BaseDataSource {
             }
             long startOffset = openAssetFileDescriptor.getStartOffset();
             long skip = fileInputStream.skip(dataSpec.position + startOffset) - startOffset;
-            if (skip == dataSpec.position) {
-                if (length == -1) {
-                    FileChannel channel = fileInputStream.getChannel();
-                    long size = channel.size();
-                    if (size == 0) {
-                        this.bytesRemaining = -1L;
-                    } else {
-                        long position = size - channel.position();
-                        this.bytesRemaining = position;
-                        if (position < 0) {
-                            throw new ContentDataSourceException(null, 2008);
-                        }
-                    }
+            if (skip != dataSpec.position) {
+                throw new ContentDataSourceException(null, 2008);
+            }
+            if (length == -1) {
+                FileChannel channel = fileInputStream.getChannel();
+                long size = channel.size();
+                if (size == 0) {
+                    this.bytesRemaining = -1L;
                 } else {
-                    long j = length - skip;
-                    this.bytesRemaining = j;
-                    if (j < 0) {
+                    long position = size - channel.position();
+                    this.bytesRemaining = position;
+                    if (position < 0) {
                         throw new ContentDataSourceException(null, 2008);
                     }
                 }
-                long j2 = dataSpec.length;
-                if (j2 != -1) {
-                    long j3 = this.bytesRemaining;
-                    if (j3 != -1) {
-                        j2 = Math.min(j3, j2);
-                    }
-                    this.bytesRemaining = j2;
+            } else {
+                long j = length - skip;
+                this.bytesRemaining = j;
+                if (j < 0) {
+                    throw new ContentDataSourceException(null, 2008);
                 }
-                this.opened = true;
-                transferStarted(dataSpec);
-                long j4 = dataSpec.length;
-                return j4 != -1 ? j4 : this.bytesRemaining;
             }
-            throw new ContentDataSourceException(null, 2008);
+            long j2 = dataSpec.length;
+            if (j2 != -1) {
+                long j3 = this.bytesRemaining;
+                if (j3 != -1) {
+                    j2 = Math.min(j3, j2);
+                }
+                this.bytesRemaining = j2;
+            }
+            this.opened = true;
+            transferStarted(dataSpec);
+            long j4 = dataSpec.length;
+            return j4 != -1 ? j4 : this.bytesRemaining;
         } catch (ContentDataSourceException e) {
             throw e;
         } catch (IOException e2) {

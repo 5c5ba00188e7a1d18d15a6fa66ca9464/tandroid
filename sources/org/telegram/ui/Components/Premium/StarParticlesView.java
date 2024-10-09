@@ -29,6 +29,7 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.GLIconSettingsView;
+
 /* loaded from: classes3.dex */
 public class StarParticlesView extends View {
     private LinearGradient clipGradient;
@@ -120,9 +121,9 @@ public class StarParticlesView extends View {
                 this.i = Drawable.access$208(Drawable.this);
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:34:0x00e1  */
-            /* JADX WARN: Removed duplicated region for block: B:38:0x0111  */
-            /* JADX WARN: Removed duplicated region for block: B:44:0x0142  */
+            /* JADX WARN: Removed duplicated region for block: B:40:0x00e1  */
+            /* JADX WARN: Removed duplicated region for block: B:43:0x0111  */
+            /* JADX WARN: Removed duplicated region for block: B:49:0x0142  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -240,18 +241,18 @@ public class StarParticlesView extends View {
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:12:0x0056  */
-            /* JADX WARN: Removed duplicated region for block: B:13:0x0058  */
-            /* JADX WARN: Removed duplicated region for block: B:16:0x006f  */
-            /* JADX WARN: Removed duplicated region for block: B:19:0x0083  */
-            /* JADX WARN: Removed duplicated region for block: B:39:0x014d  */
-            /* JADX WARN: Removed duplicated region for block: B:52:0x0223  */
-            /* JADX WARN: Removed duplicated region for block: B:55:0x023b  */
-            /* JADX WARN: Removed duplicated region for block: B:56:0x024e  */
-            /* JADX WARN: Removed duplicated region for block: B:62:0x02a2  */
-            /* JADX WARN: Removed duplicated region for block: B:64:0x02b3  */
-            /* JADX WARN: Removed duplicated region for block: B:87:0x02ff  */
-            /* JADX WARN: Removed duplicated region for block: B:90:0x0305  */
+            /* JADX WARN: Removed duplicated region for block: B:11:0x006f  */
+            /* JADX WARN: Removed duplicated region for block: B:14:0x0083  */
+            /* JADX WARN: Removed duplicated region for block: B:42:0x0223  */
+            /* JADX WARN: Removed duplicated region for block: B:45:0x023b  */
+            /* JADX WARN: Removed duplicated region for block: B:48:0x02a2  */
+            /* JADX WARN: Removed duplicated region for block: B:59:0x02ff  */
+            /* JADX WARN: Removed duplicated region for block: B:62:0x0305  */
+            /* JADX WARN: Removed duplicated region for block: B:79:0x02b3  */
+            /* JADX WARN: Removed duplicated region for block: B:80:0x024e  */
+            /* JADX WARN: Removed duplicated region for block: B:84:0x014d  */
+            /* JADX WARN: Removed duplicated region for block: B:8:0x0056  */
+            /* JADX WARN: Removed duplicated region for block: B:95:0x0058  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -270,7 +271,6 @@ public class StarParticlesView extends View {
                 int i2;
                 float f4;
                 float f5;
-                float nextFloat;
                 if (Drawable.this.type == 28) {
                     if (Utilities.fastRandom.nextFloat() < 0.13f) {
                         this.starIndex = 0;
@@ -376,17 +376,17 @@ public class StarParticlesView extends View {
                             this.inProgress = 0.0f;
                         }
                         if (drawable3.startFromCenter) {
-                            float nextFloat2 = (((Utilities.fastRandom.nextFloat() * 1.2f) + 0.6f) * Math.min(Drawable.this.rect.width(), Drawable.this.rect.height())) / 2.0f;
-                            float centerX2 = Drawable.this.rect.centerX() + Drawable.this.centerOffsetX + (((float) Math.cos(atan2)) * nextFloat2);
+                            float nextFloat = (((Utilities.fastRandom.nextFloat() * 1.2f) + 0.6f) * Math.min(Drawable.this.rect.width(), Drawable.this.rect.height())) / 2.0f;
+                            float centerX2 = Drawable.this.rect.centerX() + Drawable.this.centerOffsetX + (((float) Math.cos(atan2)) * nextFloat);
                             this.x = centerX2;
                             this.x2 = centerX2;
-                            float centerY2 = Drawable.this.rect.centerY() + Drawable.this.centerOffsetY + (((float) Math.sin(atan2)) * nextFloat2);
+                            float centerY2 = Drawable.this.rect.centerY() + Drawable.this.centerOffsetY + (((float) Math.sin(atan2)) * nextFloat);
                             this.y = centerY2;
                             this.y2 = centerY2;
                         }
                         this.first = false;
                     }
-                    abs = (int) Math.floor((nextFloat * (Drawable.this.stars.length - 1)) + 1.0f);
+                    abs = (int) Math.floor((r0 * (Drawable.this.stars.length - 1)) + 1.0f);
                 } else {
                     abs = Math.abs(Utilities.fastRandom.nextInt() % Drawable.this.stars.length);
                 }
@@ -438,7 +438,9 @@ public class StarParticlesView extends View {
                     fArr[i3] = this.x;
                     fArr[i3 + 1] = this.y;
                     drawable.pointsCount1 = i2 + 1;
-                } else if (i == 1) {
+                    return;
+                }
+                if (i == 1) {
                     Drawable drawable2 = Drawable.this;
                     float[] fArr2 = drawable2.points2;
                     int i4 = drawable2.pointsCount2;
@@ -446,7 +448,9 @@ public class StarParticlesView extends View {
                     fArr2[i5] = this.x;
                     fArr2[i5 + 1] = this.y;
                     drawable2.pointsCount2 = i4 + 1;
-                } else if (i == 2) {
+                    return;
+                }
+                if (i == 2) {
                     Drawable drawable3 = Drawable.this;
                     float[] fArr3 = drawable3.points3;
                     int i6 = drawable3.pointsCount3;
@@ -469,10 +473,10 @@ public class StarParticlesView extends View {
             return i;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:100:0x0266  */
-        /* JADX WARN: Removed duplicated region for block: B:121:0x028e A[SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x01ec  */
-        /* JADX WARN: Removed duplicated region for block: B:94:0x0243  */
+        /* JADX WARN: Removed duplicated region for block: B:100:0x0243  */
+        /* JADX WARN: Removed duplicated region for block: B:78:0x01ec  */
+        /* JADX WARN: Removed duplicated region for block: B:91:0x0266  */
+        /* JADX WARN: Removed duplicated region for block: B:93:0x028e A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

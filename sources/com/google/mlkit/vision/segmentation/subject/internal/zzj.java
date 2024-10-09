@@ -48,6 +48,7 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public final class zzj extends MLTask {
     private static final Feature[] zza = {OptionalModuleUtils.FEATURE_SUBJECT_SEGMENTATION};
@@ -144,23 +145,26 @@ public final class zzj extends MLTask {
     @Override // com.google.mlkit.common.sdkinternal.ModelResource
     public final synchronized void release() {
         try {
-            zzub zzubVar = this.zzi;
-            if (zzubVar != null) {
-                zzubVar.zzf();
+            try {
+                zzub zzubVar = this.zzi;
+                if (zzubVar != null) {
+                    zzubVar.zzf();
+                }
+            } catch (RemoteException unused) {
+                Log.e("SubjectSegmenterTask", "Failed to release subject segmenter");
             }
-        } catch (RemoteException unused) {
-            Log.e("SubjectSegmenterTask", "Failed to release subject segmenter");
+            this.zzg = true;
+            this.zze.zzf(new zztk() { // from class: com.google.mlkit.vision.segmentation.subject.internal.zzf
+                @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztk
+                public final zzta zza() {
+                    zzoc zzocVar = new zzoc();
+                    zzocVar.zze(zznz.zzb);
+                    return zzto.zzf(zzocVar);
+                }
+            }, zzob.zzez);
+        } finally {
+            this.zzi = null;
         }
-        this.zzi = null;
-        this.zzg = true;
-        this.zze.zzf(new zztk() { // from class: com.google.mlkit.vision.segmentation.subject.internal.zzf
-            @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztk
-            public final zzta zza() {
-                zzoc zzocVar = new zzoc();
-                zzocVar.zze(zznz.zzb);
-                return zzto.zzf(zzocVar);
-            }
-        }, zzob.zzez);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -213,7 +217,7 @@ public final class zzj extends MLTask {
     }
 
     @Override // com.google.mlkit.common.sdkinternal.MLTask
-    /* renamed from: zze */
+    /* renamed from: zze, reason: merged with bridge method [inline-methods] */
     public final synchronized SubjectSegmentationResult run(InputImage inputImage) {
         zzuh zzd;
         ArrayList arrayList;

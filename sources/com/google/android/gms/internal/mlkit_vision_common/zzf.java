@@ -1,19 +1,21 @@
 package com.google.android.gms.internal.mlkit_vision_common;
+
 /* loaded from: classes.dex */
 public abstract class zzf {
     public static int zza(int i, int i2, String str) {
         String zza;
-        if (i < 0 || i >= i2) {
-            if (i < 0) {
-                zza = zzg.zza("%s (%s) must not be negative", "index", Integer.valueOf(i));
-            } else if (i2 < 0) {
-                throw new IllegalArgumentException("negative size: " + i2);
-            } else {
-                zza = zzg.zza("%s (%s) must be less than size (%s)", "index", Integer.valueOf(i), Integer.valueOf(i2));
-            }
-            throw new IndexOutOfBoundsException(zza);
+        if (i >= 0 && i < i2) {
+            return i;
         }
-        return i;
+        if (i < 0) {
+            zza = zzg.zza("%s (%s) must not be negative", "index", Integer.valueOf(i));
+        } else {
+            if (i2 < 0) {
+                throw new IllegalArgumentException("negative size: " + i2);
+            }
+            zza = zzg.zza("%s (%s) must be less than size (%s)", "index", Integer.valueOf(i), Integer.valueOf(i2));
+        }
+        throw new IndexOutOfBoundsException(zza);
     }
 
     public static int zzb(int i, int i2, String str) {

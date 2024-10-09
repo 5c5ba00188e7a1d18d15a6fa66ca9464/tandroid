@@ -1,4 +1,5 @@
 package org.telegram.messenger;
+
 /* loaded from: classes3.dex */
 public class SegmentTree {
     private long[] array;
@@ -90,77 +91,77 @@ public class SegmentTree {
 
     private long rMaxQ(int i, int i2, int i3) {
         Node node = this.heap[i];
-        if (node.pendingVal == null || !contains(node.from, node.to, i2, i3)) {
-            if (contains(i2, i3, node.from, node.to)) {
-                return this.heap[i].max;
-            }
-            if (intersects(i2, i3, node.from, node.to)) {
-                propagate(i);
-                int i4 = i * 2;
-                return Math.max(rMaxQ(i4, i2, i3), rMaxQ(i4 + 1, i2, i3));
-            }
+        if (node.pendingVal != null && contains(node.from, node.to, i2, i3)) {
+            return node.pendingVal.intValue();
+        }
+        if (contains(i2, i3, node.from, node.to)) {
+            return this.heap[i].max;
+        }
+        if (!intersects(i2, i3, node.from, node.to)) {
             return 0L;
         }
-        return node.pendingVal.intValue();
+        propagate(i);
+        int i4 = i * 2;
+        return Math.max(rMaxQ(i4, i2, i3), rMaxQ(i4 + 1, i2, i3));
     }
 
     private long rMinQ(int i, int i2, int i3) {
         Node node = this.heap[i];
-        if (node.pendingVal == null || !contains(node.from, node.to, i2, i3)) {
-            if (contains(i2, i3, node.from, node.to)) {
-                return this.heap[i].min;
-            }
-            if (intersects(i2, i3, node.from, node.to)) {
-                propagate(i);
-                int i4 = i * 2;
-                return Math.min(rMinQ(i4, i2, i3), rMinQ(i4 + 1, i2, i3));
-            }
+        if (node.pendingVal != null && contains(node.from, node.to, i2, i3)) {
+            return node.pendingVal.intValue();
+        }
+        if (contains(i2, i3, node.from, node.to)) {
+            return this.heap[i].min;
+        }
+        if (!intersects(i2, i3, node.from, node.to)) {
             return 2147483647L;
         }
-        return node.pendingVal.intValue();
+        propagate(i);
+        int i4 = i * 2;
+        return Math.min(rMinQ(i4, i2, i3), rMinQ(i4 + 1, i2, i3));
     }
 
     public long rMaxQ(int i, int i2) {
         long[] jArr = this.array;
-        if (jArr.length < 30) {
-            if (i < 0) {
-                i = 0;
-            }
-            long j = Long.MIN_VALUE;
-            if (i2 > jArr.length - 1) {
-                i2 = jArr.length - 1;
-            }
-            while (i <= i2) {
-                long j2 = this.array[i];
-                if (j2 > j) {
-                    j = j2;
-                }
-                i++;
-            }
-            return j;
+        if (jArr.length >= 30) {
+            return rMaxQ(1, i, i2);
         }
-        return rMaxQ(1, i, i2);
+        if (i < 0) {
+            i = 0;
+        }
+        long j = Long.MIN_VALUE;
+        if (i2 > jArr.length - 1) {
+            i2 = jArr.length - 1;
+        }
+        while (i <= i2) {
+            long j2 = this.array[i];
+            if (j2 > j) {
+                j = j2;
+            }
+            i++;
+        }
+        return j;
     }
 
     public long rMinQ(int i, int i2) {
         long[] jArr = this.array;
-        if (jArr.length < 30) {
-            if (i < 0) {
-                i = 0;
-            }
-            long j = Long.MAX_VALUE;
-            if (i2 > jArr.length - 1) {
-                i2 = jArr.length - 1;
-            }
-            while (i <= i2) {
-                long j2 = this.array[i];
-                if (j2 < j) {
-                    j = j2;
-                }
-                i++;
-            }
-            return j;
+        if (jArr.length >= 30) {
+            return rMinQ(1, i, i2);
         }
-        return rMinQ(1, i, i2);
+        if (i < 0) {
+            i = 0;
+        }
+        long j = Long.MAX_VALUE;
+        if (i2 > jArr.length - 1) {
+            i2 = jArr.length - 1;
+        }
+        while (i <= i2) {
+            long j2 = this.array[i];
+            if (j2 < j) {
+                j = j2;
+            }
+            i++;
+        }
+        return j;
     }
 }

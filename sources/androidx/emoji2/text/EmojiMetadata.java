@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import androidx.emoji2.text.flatbuffer.MetadataItem;
+
 /* loaded from: classes.dex */
 public class EmojiMetadata {
     private static final ThreadLocal sMetadataItem = new ThreadLocal();

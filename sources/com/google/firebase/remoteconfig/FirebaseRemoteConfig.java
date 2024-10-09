@@ -23,6 +23,7 @@ import java.util.concurrent.Executor;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class FirebaseRemoteConfig {
     public static final byte[] DEFAULT_VALUE_FOR_BYTE_ARRAY = new byte[0];
@@ -88,16 +89,16 @@ public class FirebaseRemoteConfig {
 
     /* JADX INFO: Access modifiers changed from: private */
     public boolean processActivatePutTask(Task task) {
-        if (task.isSuccessful()) {
-            this.fetchedConfigsCache.clear();
-            if (task.getResult() != null) {
-                updateAbtWithActivatedExperiments(((ConfigContainer) task.getResult()).getAbtExperiments());
-                return true;
-            }
-            Log.e("FirebaseRemoteConfig", "Activated configs written to disk are null.");
+        if (!task.isSuccessful()) {
+            return false;
+        }
+        this.fetchedConfigsCache.clear();
+        if (task.getResult() != null) {
+            updateAbtWithActivatedExperiments(((ConfigContainer) task.getResult()).getAbtExperiments());
             return true;
         }
-        return false;
+        Log.e("FirebaseRemoteConfig", "Activated configs written to disk are null.");
+        return true;
     }
 
     static List toExperimentInfoMaps(JSONArray jSONArray) {

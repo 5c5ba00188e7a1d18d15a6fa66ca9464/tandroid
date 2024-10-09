@@ -49,6 +49,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.TranslateController;
 import org.telegram.tgnet.ConnectionsManager;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes.dex */
 public class DefaultTrackSelector extends MappingTrackSelector {
     private static final Ordering FORMAT_VALUE_ORDERING = Ordering.from(new Comparator() { // from class: com.google.android.exoplayer2.trackselection.DefaultTrackSelector$$ExternalSyntheticLambda0
@@ -113,12 +114,14 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                     i7 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                     i5 = 0;
                     break;
+                } else {
+                    i5 = DefaultTrackSelector.getFormatLanguageScore(this.format, (String) parameters.preferredAudioLanguages.get(i7), false);
+                    if (i5 > 0) {
+                        break;
+                    } else {
+                        i7++;
+                    }
                 }
-                i5 = DefaultTrackSelector.getFormatLanguageScore(this.format, (String) parameters.preferredAudioLanguages.get(i7), false);
-                if (i5 > 0) {
-                    break;
-                }
-                i7++;
             }
             this.preferredLanguageIndex = i7;
             this.preferredLanguageScore = i5;
@@ -140,12 +143,14 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                     i11 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                     i6 = 0;
                     break;
+                } else {
+                    i6 = DefaultTrackSelector.getFormatLanguageScore(this.format, systemLanguageCodes[i11], false);
+                    if (i6 > 0) {
+                        break;
+                    } else {
+                        i11++;
+                    }
                 }
-                i6 = DefaultTrackSelector.getFormatLanguageScore(this.format, systemLanguageCodes[i11], false);
-                if (i6 > 0) {
-                    break;
-                }
-                i11++;
             }
             this.localeLanguageMatchIndex = i11;
             this.localeLanguageScore = i6;
@@ -181,19 +186,19 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
 
         private int evaluateSelectionEligibility(int i, boolean z) {
-            if (DefaultTrackSelector.isSupported(i, this.parameters.exceedRendererCapabilitiesIfNecessary)) {
-                if (this.isWithinConstraints || this.parameters.exceedAudioConstraintsIfNecessary) {
-                    if (DefaultTrackSelector.isSupported(i, false) && this.isWithinConstraints && this.format.bitrate != -1) {
-                        Parameters parameters = this.parameters;
-                        if (!parameters.forceHighestSupportedBitrate && !parameters.forceLowestBitrate && (parameters.allowMultipleAdaptiveSelections || !z)) {
-                            return 2;
-                        }
-                    }
-                    return 1;
-                }
+            if (!DefaultTrackSelector.isSupported(i, this.parameters.exceedRendererCapabilitiesIfNecessary)) {
                 return 0;
             }
-            return 0;
+            if (!this.isWithinConstraints && !this.parameters.exceedAudioConstraintsIfNecessary) {
+                return 0;
+            }
+            if (DefaultTrackSelector.isSupported(i, false) && this.isWithinConstraints && this.format.bitrate != -1) {
+                Parameters parameters = this.parameters;
+                if (!parameters.forceHighestSupportedBitrate && !parameters.forceLowestBitrate && (parameters.allowMultipleAdaptiveSelections || !z)) {
+                    return 2;
+                }
+            }
+            return 1;
         }
 
         @Override // java.lang.Comparable
@@ -609,10 +614,6 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:8:0x001a  */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         private static boolean areSelectionOverridesEqual(Map map, Map map2) {
             if (map2.size() != map.size()) {
                 return false;
@@ -621,8 +622,6 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                 TrackGroupArray trackGroupArray = (TrackGroupArray) entry.getKey();
                 if (!map2.containsKey(trackGroupArray) || !Util.areEqual(entry.getValue(), map2.get(trackGroupArray))) {
                     return false;
-                }
-                while (r4.hasNext()) {
                 }
             }
             return true;
@@ -907,12 +906,14 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                     i7 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                     i4 = 0;
                     break;
+                } else {
+                    i4 = DefaultTrackSelector.getFormatLanguageScore(this.format, (String) of.get(i7), parameters.selectUndeterminedTextLanguage);
+                    if (i4 > 0) {
+                        break;
+                    } else {
+                        i7++;
+                    }
                 }
-                i4 = DefaultTrackSelector.getFormatLanguageScore(this.format, (String) of.get(i7), parameters.selectUndeterminedTextLanguage);
-                if (i4 > 0) {
-                    break;
-                }
-                i7++;
             }
             this.preferredLanguageIndex = i7;
             this.preferredLanguageScore = i4;
@@ -1003,12 +1004,12 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         private final boolean usesHardwareAcceleration;
         private final boolean usesPrimaryDecoder;
 
-        /* JADX WARN: Removed duplicated region for block: B:54:0x00a0  */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x00b2  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x00d5  */
-        /* JADX WARN: Removed duplicated region for block: B:72:0x00d7  */
-        /* JADX WARN: Removed duplicated region for block: B:75:0x00e2  */
-        /* JADX WARN: Removed duplicated region for block: B:78:0x00c8 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x00a0  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x00b2  */
+        /* JADX WARN: Removed duplicated region for block: B:62:0x00d5  */
+        /* JADX WARN: Removed duplicated region for block: B:65:0x00e2  */
+        /* JADX WARN: Removed duplicated region for block: B:69:0x00d7  */
+        /* JADX WARN: Removed duplicated region for block: B:73:0x00c8 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1055,8 +1056,9 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                                 String str = this.format.sampleMimeType;
                                 if (str != null && str.equals(parameters.preferredVideoMimeTypes.get(i5))) {
                                     break;
+                                } else {
+                                    i5++;
                                 }
-                                i5++;
                             }
                             this.preferredMimeTypeMatchIndex = i5;
                             this.usesPrimaryDecoder = RendererCapabilities.-CC.getDecoderSupport(i3) != 128;
@@ -1208,19 +1210,19 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
 
         private int evaluateSelectionEligibility(int i, int i2) {
-            if ((this.format.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) == 0 && DefaultTrackSelector.isSupported(i, this.parameters.exceedRendererCapabilitiesIfNecessary)) {
-                if (this.isWithinMaxConstraints || this.parameters.exceedVideoConstraintsIfNecessary) {
-                    if (DefaultTrackSelector.isSupported(i, false) && this.isWithinMinConstraints && this.isWithinMaxConstraints && this.format.bitrate != -1) {
-                        Parameters parameters = this.parameters;
-                        if (!parameters.forceHighestSupportedBitrate && !parameters.forceLowestBitrate && (i & i2) != 0) {
-                            return 2;
-                        }
-                    }
-                    return 1;
-                }
+            if ((this.format.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0 || !DefaultTrackSelector.isSupported(i, this.parameters.exceedRendererCapabilitiesIfNecessary)) {
                 return 0;
             }
-            return 0;
+            if (!this.isWithinMaxConstraints && !this.parameters.exceedVideoConstraintsIfNecessary) {
+                return 0;
+            }
+            if (DefaultTrackSelector.isSupported(i, false) && this.isWithinMinConstraints && this.isWithinMaxConstraints && this.format.bitrate != -1) {
+                Parameters parameters = this.parameters;
+                if (!parameters.forceHighestSupportedBitrate && !parameters.forceLowestBitrate && (i & i2) != 0) {
+                    return 2;
+                }
+            }
+            return 1;
         }
 
         @Override // com.google.android.exoplayer2.trackselection.DefaultTrackSelector.TrackInfo
@@ -1305,18 +1307,18 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     }
 
     protected static int getFormatLanguageScore(Format format, String str, boolean z) {
-        if (TextUtils.isEmpty(str) || !str.equals(format.language)) {
-            String normalizeUndeterminedLanguageToNull = normalizeUndeterminedLanguageToNull(str);
-            String normalizeUndeterminedLanguageToNull2 = normalizeUndeterminedLanguageToNull(format.language);
-            if (normalizeUndeterminedLanguageToNull2 == null || normalizeUndeterminedLanguageToNull == null) {
-                return (z && normalizeUndeterminedLanguageToNull2 == null) ? 1 : 0;
-            } else if (normalizeUndeterminedLanguageToNull2.startsWith(normalizeUndeterminedLanguageToNull) || normalizeUndeterminedLanguageToNull.startsWith(normalizeUndeterminedLanguageToNull2)) {
-                return 3;
-            } else {
-                return Util.splitAtFirst(normalizeUndeterminedLanguageToNull2, "-")[0].equals(Util.splitAtFirst(normalizeUndeterminedLanguageToNull, "-")[0]) ? 2 : 0;
-            }
+        if (!TextUtils.isEmpty(str) && str.equals(format.language)) {
+            return 4;
         }
-        return 4;
+        String normalizeUndeterminedLanguageToNull = normalizeUndeterminedLanguageToNull(str);
+        String normalizeUndeterminedLanguageToNull2 = normalizeUndeterminedLanguageToNull(format.language);
+        if (normalizeUndeterminedLanguageToNull2 == null || normalizeUndeterminedLanguageToNull == null) {
+            return (z && normalizeUndeterminedLanguageToNull2 == null) ? 1 : 0;
+        }
+        if (normalizeUndeterminedLanguageToNull2.startsWith(normalizeUndeterminedLanguageToNull) || normalizeUndeterminedLanguageToNull.startsWith(normalizeUndeterminedLanguageToNull2)) {
+            return 3;
+        }
+        return Util.splitAtFirst(normalizeUndeterminedLanguageToNull2, "-")[0].equals(Util.splitAtFirst(normalizeUndeterminedLanguageToNull, "-")[0]) ? 2 : 0;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1341,8 +1343,9 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         return i4;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x000c, code lost:
-        if ((r6 > r7) != (r4 > r5)) goto L8;
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x000c, code lost:
+    
+        if ((r6 > r7) != (r4 > r5)) goto L12;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1517,11 +1520,11 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     public static /* synthetic */ int lambda$static$0(Integer num, Integer num2) {
         if (num.intValue() == -1) {
             return num2.intValue() == -1 ? 0 : -1;
-        } else if (num2.intValue() == -1) {
-            return 1;
-        } else {
-            return num.intValue() - num2.intValue();
         }
+        if (num2.intValue() == -1) {
+            return 1;
+        }
+        return num.intValue() - num2.intValue();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1544,10 +1547,11 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                         break;
                     }
                     i2 = i3;
-                } else if (i != -1) {
-                    z = false;
-                    break;
                 } else {
+                    if (i != -1) {
+                        z = false;
+                        break;
+                    }
                     i = i3;
                 }
             }

@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* loaded from: classes.dex */
 public interface INotificationSideChannel extends IInterface {
     public static final String DESCRIPTOR = "android$support$v4$app$INotificationSideChannel".replace('$', '.');
@@ -83,10 +84,10 @@ public interface INotificationSideChannel extends IInterface {
         public static void writeTypedObject(Parcel parcel, Parcelable parcelable, int i) {
             if (parcelable == null) {
                 parcel.writeInt(0);
-                return;
+            } else {
+                parcel.writeInt(1);
+                parcelable.writeToParcel(parcel, i);
             }
-            parcel.writeInt(1);
-            parcelable.writeToParcel(parcel, i);
         }
     }
 

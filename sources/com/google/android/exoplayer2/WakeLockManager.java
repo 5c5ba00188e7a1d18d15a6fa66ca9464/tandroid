@@ -3,6 +3,7 @@ package com.google.android.exoplayer2;
 import android.content.Context;
 import android.os.PowerManager;
 import com.google.android.exoplayer2.util.Log;
+
 /* loaded from: classes.dex */
 final class WakeLockManager {
     private boolean enabled;
@@ -32,10 +33,11 @@ final class WakeLockManager {
             if (powerManager == null) {
                 Log.w("WakeLockManager", "PowerManager is null, therefore not creating the WakeLock.");
                 return;
+            } else {
+                PowerManager.WakeLock newWakeLock = powerManager.newWakeLock(1, "ExoPlayer:WakeLockManager");
+                this.wakeLock = newWakeLock;
+                newWakeLock.setReferenceCounted(false);
             }
-            PowerManager.WakeLock newWakeLock = powerManager.newWakeLock(1, "ExoPlayer:WakeLockManager");
-            this.wakeLock = newWakeLock;
-            newWakeLock.setReferenceCounted(false);
         }
         this.enabled = z;
         updateWakeLock();

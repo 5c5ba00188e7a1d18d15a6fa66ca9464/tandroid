@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
 /* loaded from: classes.dex */
 public final class AssetDataSource extends BaseDataSource {
     private final AssetManager assetManager;
@@ -68,22 +69,22 @@ public final class AssetDataSource extends BaseDataSource {
             transferInitializing(dataSpec);
             InputStream open = this.assetManager.open(str, 1);
             this.inputStream = open;
-            if (open.skip(dataSpec.position) >= dataSpec.position) {
-                long j = dataSpec.length;
-                if (j != -1) {
-                    this.bytesRemaining = j;
-                } else {
-                    long available = this.inputStream.available();
-                    this.bytesRemaining = available;
-                    if (available == 2147483647L) {
-                        this.bytesRemaining = -1L;
-                    }
-                }
-                this.opened = true;
-                transferStarted(dataSpec);
-                return this.bytesRemaining;
+            if (open.skip(dataSpec.position) < dataSpec.position) {
+                throw new AssetDataSourceException(null, 2008);
             }
-            throw new AssetDataSourceException(null, 2008);
+            long j = dataSpec.length;
+            if (j != -1) {
+                this.bytesRemaining = j;
+            } else {
+                long available = this.inputStream.available();
+                this.bytesRemaining = available;
+                if (available == 2147483647L) {
+                    this.bytesRemaining = -1L;
+                }
+            }
+            this.opened = true;
+            transferStarted(dataSpec);
+            return this.bytesRemaining;
         } catch (AssetDataSourceException e) {
             throw e;
         } catch (IOException e2) {

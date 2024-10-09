@@ -25,6 +25,7 @@ import org.telegram.ui.Components.ColorSpanUnderline;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScaleStateListAnimator;
+
 /* loaded from: classes4.dex */
 public class StickerSetNameCell extends FrameLayout {
     private ImageView buttonView;

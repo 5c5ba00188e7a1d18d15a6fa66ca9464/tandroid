@@ -25,6 +25,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Loadable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
+
 /* loaded from: classes3.dex */
 public class PremiumButtonView extends FrameLayout implements Loadable {
     public FrameLayout buttonLayout;
@@ -235,19 +236,18 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
         updateOverlay(true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00d2  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00d2  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void dispatchDraw(Canvas canvas) {
-        CounterView counterView;
         boolean z;
         float f;
         Paint paint;
         if (this.counterView != null) {
-            this.counterOffset.set(((counterView.counterDrawable.getWidth() * 0.85f) + AndroidUtilities.dp(3.0f)) / 2.0f);
+            this.counterOffset.set(((r0.counterDrawable.getWidth() * 0.85f) + AndroidUtilities.dp(3.0f)) / 2.0f);
             this.counterOffset2.set((getMeasuredWidth() / 2.0f) + (this.overlayTextView.getDrawable().getWidth() / 2.0f) + AndroidUtilities.dp(3.0f));
             this.overlayTextView.setTranslationX(-this.counterOffset.get());
             this.counterView.setTranslationX(this.counterOffset2.get() - this.counterOffset.get());

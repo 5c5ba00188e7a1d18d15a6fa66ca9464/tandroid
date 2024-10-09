@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 final class zzbm {
     private final Object zza;
@@ -11,11 +12,11 @@ final class zzbm {
     }
 
     public final boolean equals(Object obj) {
-        if (obj instanceof zzbm) {
-            zzbm zzbmVar = (zzbm) obj;
-            return this.zza == zzbmVar.zza && this.zzb == zzbmVar.zzb;
+        if (!(obj instanceof zzbm)) {
+            return false;
         }
-        return false;
+        zzbm zzbmVar = (zzbm) obj;
+        return this.zza == zzbmVar.zza && this.zzb == zzbmVar.zzb;
     }
 
     public final int hashCode() {

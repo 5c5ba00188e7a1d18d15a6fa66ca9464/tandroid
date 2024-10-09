@@ -18,6 +18,7 @@ import java.util.function.LongUnaryOperator;
 import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
 import java.util.stream.DoubleStream;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class j0 implements java.util.stream.LongStream {
     public final /* synthetic */ LongStream a;

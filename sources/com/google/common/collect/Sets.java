@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
+
 /* loaded from: classes.dex */
 public abstract class Sets {
 
@@ -159,19 +160,20 @@ public abstract class Sets {
         if (set instanceof SortedSet) {
             return filter((SortedSet) set, predicate);
         }
-        if (set instanceof FilteredSet) {
-            FilteredSet filteredSet = (FilteredSet) set;
-            return new FilteredSet((Set) filteredSet.unfiltered, Predicates.and(filteredSet.predicate, predicate));
+        if (!(set instanceof FilteredSet)) {
+            return new FilteredSet((Set) Preconditions.checkNotNull(set), (Predicate) Preconditions.checkNotNull(predicate));
         }
-        return new FilteredSet((Set) Preconditions.checkNotNull(set), (Predicate) Preconditions.checkNotNull(predicate));
+        FilteredSet filteredSet = (FilteredSet) set;
+        return new FilteredSet((Set) filteredSet.unfiltered, Predicates.and(filteredSet.predicate, predicate));
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static SortedSet filter(SortedSet sortedSet, Predicate predicate) {
-        if (sortedSet instanceof FilteredSet) {
-            FilteredSet filteredSet = (FilteredSet) sortedSet;
-            return new FilteredSortedSet((SortedSet) filteredSet.unfiltered, Predicates.and(filteredSet.predicate, predicate));
+        if (!(sortedSet instanceof FilteredSet)) {
+            return new FilteredSortedSet((SortedSet) Preconditions.checkNotNull(sortedSet), (Predicate) Preconditions.checkNotNull(predicate));
         }
-        return new FilteredSortedSet((SortedSet) Preconditions.checkNotNull(sortedSet), (Predicate) Preconditions.checkNotNull(predicate));
+        FilteredSet filteredSet = (FilteredSet) sortedSet;
+        return new FilteredSortedSet((SortedSet) filteredSet.unfiltered, Predicates.and(filteredSet.predicate, predicate));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -233,9 +235,10 @@ public abstract class Sets {
 
             @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
             public int size() {
+                Iterator it = set.iterator();
                 int i = 0;
-                for (Object obj : set) {
-                    if (set2.contains(obj)) {
+                while (it.hasNext()) {
+                    if (set2.contains(it.next())) {
                         i++;
                     }
                 }

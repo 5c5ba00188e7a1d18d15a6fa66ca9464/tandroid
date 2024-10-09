@@ -1,6 +1,7 @@
 package com.google.android.gms.common.internal;
 
 import android.content.Context;
+
 /* loaded from: classes.dex */
 public abstract class TelemetryLogging {
     public static TelemetryLoggingClient getClient(Context context) {

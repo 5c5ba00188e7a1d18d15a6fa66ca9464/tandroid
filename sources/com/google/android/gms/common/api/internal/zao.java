@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiActivity;
 import com.google.android.gms.common.internal.Preconditions;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zao implements Runnable {
@@ -30,9 +31,11 @@ public final class zao implements Runnable {
             if (zapVar2.zac.getErrorResolutionIntent(zapVar2.getActivity(), zab.getErrorCode(), null) != null) {
                 zap zapVar3 = this.zaa;
                 zapVar3.zac.zag(zapVar3.getActivity(), this.zaa.mLifecycleFragment, zab.getErrorCode(), 2, this.zaa);
-            } else if (zab.getErrorCode() != 18) {
-                this.zaa.zaa(zab, this.zab.zaa());
             } else {
+                if (zab.getErrorCode() != 18) {
+                    this.zaa.zaa(zab, this.zab.zaa());
+                    return;
+                }
                 zap zapVar4 = this.zaa;
                 Dialog zab2 = zapVar4.zac.zab(zapVar4.getActivity(), this.zaa);
                 zap zapVar5 = this.zaa;

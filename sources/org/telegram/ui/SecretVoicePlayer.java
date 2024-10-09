@@ -75,6 +75,7 @@ import org.telegram.ui.Components.TimerParticles;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.SecretVoicePlayer;
 import org.telegram.ui.Stories.recorder.HintView2;
+
 /* loaded from: classes4.dex */
 public class SecretVoicePlayer extends Dialog {
     private AudioVisualizerDrawable audioVisualizerDrawable;
@@ -166,10 +167,10 @@ public class SecretVoicePlayer extends Dialog {
         public void onStateChanged(boolean z, int i) {
             if (i == 4) {
                 SecretVoicePlayer.this.dismiss();
-                return;
+            } else {
+                AndroidUtilities.cancelRunOnUIThread(SecretVoicePlayer.this.checkTimeRunnable);
+                AndroidUtilities.runOnUIThread(SecretVoicePlayer.this.checkTimeRunnable, 16L);
             }
-            AndroidUtilities.cancelRunOnUIThread(SecretVoicePlayer.this.checkTimeRunnable);
-            AndroidUtilities.runOnUIThread(SecretVoicePlayer.this.checkTimeRunnable, 16L);
         }
 
         @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
@@ -221,11 +222,11 @@ public class SecretVoicePlayer extends Dialog {
 
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchKeyEventPreIme(KeyEvent keyEvent) {
-                if (keyEvent != null && keyEvent.getKeyCode() == 4 && keyEvent.getAction() == 1) {
-                    SecretVoicePlayer.this.dismiss();
-                    return true;
+                if (keyEvent == null || keyEvent.getKeyCode() != 4 || keyEvent.getAction() != 1) {
+                    return super.dispatchKeyEventPreIme(keyEvent);
                 }
-                return super.dispatchKeyEventPreIme(keyEvent);
+                SecretVoicePlayer.this.dismiss();
+                return true;
             }
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
@@ -249,9 +250,10 @@ public class SecretVoicePlayer extends Dialog {
                 if (view == SecretVoicePlayer.this.myCell || view == SecretVoicePlayer.this.hintView) {
                     canvas.save();
                     canvas.clipRect(0.0f, AndroidUtilities.lerp(SecretVoicePlayer.this.clipTop, 0.0f, SecretVoicePlayer.this.openProgress), getWidth(), AndroidUtilities.lerp(SecretVoicePlayer.this.clipBottom, getHeight(), SecretVoicePlayer.this.openProgress));
-                } else if (view != SecretVoicePlayer.this.textureView) {
-                    return super.drawChild(canvas, view, j);
                 } else {
+                    if (view != SecretVoicePlayer.this.textureView) {
+                        return super.drawChild(canvas, view, j);
+                    }
                     canvas.save();
                     this.clipPath.rewind();
                     this.clipPath.addCircle(SecretVoicePlayer.this.myCell.getX() + SecretVoicePlayer.this.rect.centerX(), SecretVoicePlayer.this.myCell.getY() + SecretVoicePlayer.this.rect.centerY(), SecretVoicePlayer.this.rect.width() / 2.0f, Path.Direction.CW);
@@ -535,12 +537,14 @@ public class SecretVoicePlayer extends Dialog {
         if (chatMessageCell != null) {
             int[] iArr = new int[2];
             chatMessageCell.getLocationOnScreen(iArr);
+            float f = iArr[0] - this.insets.left;
             int width = this.windowView.getWidth();
             Rect rect = this.insets;
-            this.tx = (iArr[0] - this.insets.left) - ((((width - rect.left) - rect.right) - this.cell.getWidth()) / 2.0f);
+            this.tx = f - ((((width - rect.left) - rect.right) - this.cell.getWidth()) / 2.0f);
+            float f2 = iArr[1] - this.insets.top;
             int height = this.windowView.getHeight();
             Rect rect2 = this.insets;
-            this.ty = (iArr[1] - this.insets.top) - (((((height - rect2.top) - rect2.bottom) - this.cell.getHeight()) - this.heightdiff) / 2.0f);
+            this.ty = f2 - (((((height - rect2.top) - rect2.bottom) - this.cell.getHeight()) - this.heightdiff) / 2.0f);
             if (!this.hasDestTranslation) {
                 this.hasDestTranslation = true;
                 this.dtx = 0.0f;
@@ -647,26 +651,28 @@ public class SecretVoicePlayer extends Dialog {
         if (alertDialog != null) {
             alertDialog.dismiss();
             this.backDialog = null;
-        } else if (this.dismissing || (messageObject = this.messageObject) == null || messageObject.isOutOwner()) {
+            return;
+        }
+        if (this.dismissing || (messageObject = this.messageObject) == null || messageObject.isOutOwner()) {
             super.onBackPressed();
-        } else {
-            AlertDialog create = new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(this.isRound ? R.string.VideoOnceCloseTitle : R.string.VoiceOnceCloseTitle)).setMessage(LocaleController.getString(this.isRound ? R.string.VideoOnceCloseMessage : R.string.VoiceOnceCloseMessage)).setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda5
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    SecretVoicePlayer.this.lambda$onBackPressed$3(dialogInterface, i);
-                }
-            }).setNegativeButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda6
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    SecretVoicePlayer.this.lambda$onBackPressed$4(dialogInterface, i);
-                }
-            }).create();
-            this.backDialog = create;
-            create.show();
-            TextView textView = (TextView) this.backDialog.getButton(-2);
-            if (textView != null) {
-                textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
+            return;
+        }
+        AlertDialog create = new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(this.isRound ? R.string.VideoOnceCloseTitle : R.string.VoiceOnceCloseTitle)).setMessage(LocaleController.getString(this.isRound ? R.string.VideoOnceCloseMessage : R.string.VoiceOnceCloseMessage)).setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda5
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                SecretVoicePlayer.this.lambda$onBackPressed$3(dialogInterface, i);
             }
+        }).setNegativeButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SecretVoicePlayer$$ExternalSyntheticLambda6
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                SecretVoicePlayer.this.lambda$onBackPressed$4(dialogInterface, i);
+            }
+        }).create();
+        this.backDialog = create;
+        create.show();
+        TextView textView = (TextView) this.backDialog.getButton(-2);
+        if (textView != null) {
+            textView.setTextColor(Theme.getColor(Theme.key_text_RedBold));
         }
     }
 
@@ -700,8 +706,8 @@ public class SecretVoicePlayer extends Dialog {
         AndroidUtilities.setLightNavigationBar(this.windowView, !Theme.isCurrentThemeDark());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:106:0x02e6  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x02e9  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x02e9  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x02e6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

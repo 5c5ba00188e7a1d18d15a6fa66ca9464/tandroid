@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.util;
 
 import android.net.Uri;
 import android.text.TextUtils;
+
 /* loaded from: classes.dex */
 public abstract class UriUtil {
     private static int[] getUriIndices(String str) {
@@ -106,39 +107,39 @@ public abstract class UriUtil {
             sb.append((CharSequence) str, 0, uriIndices2[3]);
             sb.append(str2);
             return sb.toString();
-        } else if (uriIndices[2] == 0) {
+        }
+        if (uriIndices[2] == 0) {
             sb.append((CharSequence) str, 0, uriIndices2[2]);
             sb.append(str2);
             return sb.toString();
-        } else {
-            int i = uriIndices[1];
-            if (i != 0) {
-                int i2 = uriIndices2[0] + 1;
-                sb.append((CharSequence) str, 0, i2);
-                sb.append(str2);
-                return removeDotSegments(sb, uriIndices[1] + i2, i2 + uriIndices[2]);
-            } else if (str2.charAt(i) == '/') {
-                sb.append((CharSequence) str, 0, uriIndices2[1]);
-                sb.append(str2);
-                int i3 = uriIndices2[1];
-                return removeDotSegments(sb, i3, uriIndices[2] + i3);
-            } else {
-                int i4 = uriIndices2[0] + 2;
-                int i5 = uriIndices2[1];
-                if (i4 >= i5 || i5 != uriIndices2[2]) {
-                    int lastIndexOf = str.lastIndexOf(47, uriIndices2[2] - 1);
-                    int i6 = lastIndexOf == -1 ? uriIndices2[1] : lastIndexOf + 1;
-                    sb.append((CharSequence) str, 0, i6);
-                    sb.append(str2);
-                    return removeDotSegments(sb, uriIndices2[1], i6 + uriIndices[2]);
-                }
-                sb.append((CharSequence) str, 0, i5);
-                sb.append('/');
-                sb.append(str2);
-                int i7 = uriIndices2[1];
-                return removeDotSegments(sb, i7, uriIndices[2] + i7 + 1);
-            }
         }
+        int i = uriIndices[1];
+        if (i != 0) {
+            int i2 = uriIndices2[0] + 1;
+            sb.append((CharSequence) str, 0, i2);
+            sb.append(str2);
+            return removeDotSegments(sb, uriIndices[1] + i2, i2 + uriIndices[2]);
+        }
+        if (str2.charAt(i) == '/') {
+            sb.append((CharSequence) str, 0, uriIndices2[1]);
+            sb.append(str2);
+            int i3 = uriIndices2[1];
+            return removeDotSegments(sb, i3, uriIndices[2] + i3);
+        }
+        int i4 = uriIndices2[0] + 2;
+        int i5 = uriIndices2[1];
+        if (i4 >= i5 || i5 != uriIndices2[2]) {
+            int lastIndexOf = str.lastIndexOf(47, uriIndices2[2] - 1);
+            int i6 = lastIndexOf == -1 ? uriIndices2[1] : lastIndexOf + 1;
+            sb.append((CharSequence) str, 0, i6);
+            sb.append(str2);
+            return removeDotSegments(sb, uriIndices2[1], i6 + uriIndices[2]);
+        }
+        sb.append((CharSequence) str, 0, i5);
+        sb.append('/');
+        sb.append(str2);
+        int i7 = uriIndices2[1];
+        return removeDotSegments(sb, i7, uriIndices[2] + i7 + 1);
     }
 
     public static Uri resolveToUri(String str, String str2) {

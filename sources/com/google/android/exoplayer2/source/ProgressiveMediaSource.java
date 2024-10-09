@@ -21,6 +21,7 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import org.telegram.messenger.FileLoaderPriorityQueue;
+
 /* loaded from: classes.dex */
 public final class ProgressiveMediaSource extends BaseMediaSource implements ProgressiveMediaPeriod.Listener {
     private final int continueLoadingCheckIntervalBytes;

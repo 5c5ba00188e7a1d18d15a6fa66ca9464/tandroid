@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 /* loaded from: classes3.dex */
 public class FillLastLinearLayoutManager extends LinearLayoutManager {
     private int additionalHeight;
@@ -73,8 +74,10 @@ public class FillLastLinearLayoutManager extends LinearLayoutManager {
                     if (i >= this.listHeight + i2) {
                         break;
                     }
-                } else if (i >= this.listHeight) {
-                    break;
+                } else {
+                    if (i >= this.listHeight) {
+                        break;
+                    }
                 }
             }
             this.lastItemHeight = this.fixedLastItemHeight ? Math.max(this.minimumHeight, i2 + (((this.listHeight - i) - this.additionalHeight) - this.listView.getPaddingBottom())) : Math.max(this.minimumHeight, ((this.listHeight - i) - this.additionalHeight) - this.listView.getPaddingBottom());

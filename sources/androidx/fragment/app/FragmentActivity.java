@@ -26,6 +26,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.savedstate.SavedStateRegistry;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+
 /* loaded from: classes.dex */
 public abstract class FragmentActivity extends ComponentActivity implements ActivityCompat.OnRequestPermissionsResultCallback, ActivityCompat.RequestPermissionsRequestCodeValidator {
     boolean mCreated;
@@ -247,13 +248,13 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
         if (super.onMenuItemSelected(i, menuItem)) {
             return true;
         }
-        if (i != 0) {
-            if (i != 6) {
-                return false;
-            }
-            return this.mFragments.dispatchContextItemSelected(menuItem);
+        if (i == 0) {
+            return this.mFragments.dispatchOptionsItemSelected(menuItem);
         }
-        return this.mFragments.dispatchOptionsItemSelected(menuItem);
+        if (i != 6) {
+            return false;
+        }
+        return this.mFragments.dispatchContextItemSelected(menuItem);
     }
 
     @Override // android.app.Activity

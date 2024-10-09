@@ -6,6 +6,7 @@ import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.wallet.wobs.WalletObjects;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class Wallet {
     public static final Api API;
@@ -45,11 +46,11 @@ public abstract class Wallet {
             }
 
             public Builder setTheme(int i) {
-                if (i == 0 || i == 1 || i == 2 || i == 3) {
-                    this.zzb = i;
-                    return this;
+                if (i != 0 && i != 1 && i != 2 && i != 3) {
+                    throw new IllegalArgumentException(String.format(Locale.US, "Invalid theme value %d", Integer.valueOf(i)));
                 }
-                throw new IllegalArgumentException(String.format(Locale.US, "Invalid theme value %d", Integer.valueOf(i)));
+                this.zzb = i;
+                return this;
             }
         }
 

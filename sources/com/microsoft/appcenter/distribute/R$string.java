@@ -1,4 +1,5 @@
 package com.microsoft.appcenter.distribute;
+
 /* loaded from: classes.dex */
 public abstract class R$string {
     public static final int appcenter_distribute_dialog_actioned_on_disabled_toast = 2131697597;

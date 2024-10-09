@@ -2,43 +2,44 @@ package com.google.android.gms.internal.clearcut;
 
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 abstract class zzax {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, int i3, zzay zzayVar) {
-        if ((i >>> 3) != 0) {
-            int i4 = i & 7;
-            if (i4 != 0) {
-                if (i4 != 1) {
-                    if (i4 != 2) {
-                        if (i4 != 3) {
-                            if (i4 == 5) {
-                                return i2 + 4;
-                            }
-                            throw zzco.zzbm();
-                        }
-                        int i5 = (i & (-8)) | 4;
-                        int i6 = 0;
-                        while (i2 < i3) {
-                            i2 = zza(bArr, i2, zzayVar);
-                            i6 = zzayVar.zzfd;
-                            if (i6 == i5) {
-                                break;
-                            }
-                            i2 = zza(i6, bArr, i2, i3, zzayVar);
-                        }
-                        if (i2 > i3 || i6 != i5) {
-                            throw zzco.zzbo();
-                        }
-                        return i2;
-                    }
-                    return zza(bArr, i2, zzayVar) + zzayVar.zzfd;
-                }
-                return i2 + 8;
-            }
+        if ((i >>> 3) == 0) {
+            throw zzco.zzbm();
+        }
+        int i4 = i & 7;
+        if (i4 == 0) {
             return zzb(bArr, i2, zzayVar);
         }
-        throw zzco.zzbm();
+        if (i4 == 1) {
+            return i2 + 8;
+        }
+        if (i4 == 2) {
+            return zza(bArr, i2, zzayVar) + zzayVar.zzfd;
+        }
+        if (i4 != 3) {
+            if (i4 == 5) {
+                return i2 + 4;
+            }
+            throw zzco.zzbm();
+        }
+        int i5 = (i & (-8)) | 4;
+        int i6 = 0;
+        while (i2 < i3) {
+            i2 = zza(bArr, i2, zzayVar);
+            i6 = zzayVar.zzfd;
+            if (i6 == i5) {
+                break;
+            }
+            i2 = zza(i6, bArr, i2, i3, zzayVar);
+        }
+        if (i2 > i3 || i6 != i5) {
+            throw zzco.zzbo();
+        }
+        return i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -51,53 +52,55 @@ abstract class zzax {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, int i3, zzey zzeyVar, zzay zzayVar) {
-        if ((i >>> 3) != 0) {
-            int i4 = i & 7;
-            if (i4 == 0) {
-                int zzb = zzb(bArr, i2, zzayVar);
-                zzeyVar.zzb(i, Long.valueOf(zzayVar.zzfe));
-                return zzb;
-            } else if (i4 == 1) {
-                zzeyVar.zzb(i, Long.valueOf(zzd(bArr, i2)));
-                return i2 + 8;
-            } else if (i4 == 2) {
-                int zza = zza(bArr, i2, zzayVar);
-                int i5 = zzayVar.zzfd;
-                zzeyVar.zzb(i, i5 == 0 ? zzbb.zzfi : zzbb.zzb(bArr, zza, i5));
-                return zza + i5;
-            } else if (i4 != 3) {
-                if (i4 == 5) {
-                    zzeyVar.zzb(i, Integer.valueOf(zzc(bArr, i2)));
-                    return i2 + 4;
-                }
-                throw zzco.zzbm();
-            } else {
-                zzey zzeb = zzey.zzeb();
-                int i6 = (i & (-8)) | 4;
-                int i7 = 0;
-                while (true) {
-                    if (i2 >= i3) {
-                        break;
-                    }
-                    int zza2 = zza(bArr, i2, zzayVar);
-                    int i8 = zzayVar.zzfd;
-                    i7 = i8;
-                    if (i8 == i6) {
-                        i2 = zza2;
-                        break;
-                    }
-                    int zza3 = zza(i7, bArr, zza2, i3, zzeb, zzayVar);
-                    i7 = i8;
-                    i2 = zza3;
-                }
-                if (i2 > i3 || i7 != i6) {
-                    throw zzco.zzbo();
-                }
-                zzeyVar.zzb(i, zzeb);
-                return i2;
-            }
+        if ((i >>> 3) == 0) {
+            throw zzco.zzbm();
         }
-        throw zzco.zzbm();
+        int i4 = i & 7;
+        if (i4 == 0) {
+            int zzb = zzb(bArr, i2, zzayVar);
+            zzeyVar.zzb(i, Long.valueOf(zzayVar.zzfe));
+            return zzb;
+        }
+        if (i4 == 1) {
+            zzeyVar.zzb(i, Long.valueOf(zzd(bArr, i2)));
+            return i2 + 8;
+        }
+        if (i4 == 2) {
+            int zza = zza(bArr, i2, zzayVar);
+            int i5 = zzayVar.zzfd;
+            zzeyVar.zzb(i, i5 == 0 ? zzbb.zzfi : zzbb.zzb(bArr, zza, i5));
+            return zza + i5;
+        }
+        if (i4 != 3) {
+            if (i4 != 5) {
+                throw zzco.zzbm();
+            }
+            zzeyVar.zzb(i, Integer.valueOf(zzc(bArr, i2)));
+            return i2 + 4;
+        }
+        zzey zzeb = zzey.zzeb();
+        int i6 = (i & (-8)) | 4;
+        int i7 = 0;
+        while (true) {
+            if (i2 >= i3) {
+                break;
+            }
+            int zza2 = zza(bArr, i2, zzayVar);
+            int i8 = zzayVar.zzfd;
+            i7 = i8;
+            if (i8 == i6) {
+                i2 = zza2;
+                break;
+            }
+            int zza3 = zza(i7, bArr, zza2, i3, zzeb, zzayVar);
+            i7 = i8;
+            i2 = zza3;
+        }
+        if (i2 > i3 || i7 != i6) {
+            throw zzco.zzbo();
+        }
+        zzeyVar.zzb(i, zzeb);
+        return i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -148,11 +151,11 @@ abstract class zzax {
     public static int zza(byte[] bArr, int i, zzay zzayVar) {
         int i2 = i + 1;
         byte b = bArr[i];
-        if (b >= 0) {
-            zzayVar.zzfd = b;
-            return i2;
+        if (b < 0) {
+            return zza(b, bArr, i2, zzayVar);
         }
-        return zza(b, bArr, i2, zzayVar);
+        zzayVar.zzfd = b;
+        return i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -163,16 +166,15 @@ abstract class zzax {
         if (zza < i2) {
             zza(bArr, zza, zzayVar);
             throw null;
-        } else if (zza == i2) {
-            return zza;
-        } else {
-            throw zzco.zzbl();
         }
+        if (zza == i2) {
+            return zza;
+        }
+        throw zzco.zzbl();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzb(byte[] bArr, int i, zzay zzayVar) {
-        byte b;
         int i2 = i + 1;
         long j = bArr[i];
         if (j >= 0) {
@@ -180,14 +182,14 @@ abstract class zzax {
             return i2;
         }
         int i3 = i + 2;
-        byte b2 = bArr[i2];
-        long j2 = (j & 127) | ((b2 & Byte.MAX_VALUE) << 7);
+        byte b = bArr[i2];
+        long j2 = (j & 127) | ((b & Byte.MAX_VALUE) << 7);
         int i4 = 7;
-        while (b2 < 0) {
+        while (b < 0) {
             int i5 = i3 + 1;
             i4 += 7;
-            j2 |= (b & Byte.MAX_VALUE) << i4;
-            b2 = bArr[i3];
+            j2 |= (r10 & Byte.MAX_VALUE) << i4;
+            b = bArr[i3];
             i3 = i5;
         }
         zzayVar.zzfe = j2;
@@ -220,11 +222,11 @@ abstract class zzax {
             return zza;
         }
         int i3 = zza + i2;
-        if (zzff.zze(bArr, zza, i3)) {
-            zzayVar.zzff = new String(bArr, zza, i2, zzci.UTF_8);
-            return i3;
+        if (!zzff.zze(bArr, zza, i3)) {
+            throw zzco.zzbp();
         }
-        throw zzco.zzbp();
+        zzayVar.zzff = new String(bArr, zza, i2, zzci.UTF_8);
+        return i3;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

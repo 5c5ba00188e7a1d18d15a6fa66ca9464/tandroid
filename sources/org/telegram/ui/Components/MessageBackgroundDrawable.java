@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.view.View;
 import android.view.ViewGroup;
+
 /* loaded from: classes3.dex */
 public class MessageBackgroundDrawable extends Drawable {
     private boolean animationInProgress;
@@ -29,9 +30,10 @@ public class MessageBackgroundDrawable extends Drawable {
 
     private void calcRadius() {
         android.graphics.Rect bounds = getBounds();
-        float centerX = bounds.left - bounds.centerX();
+        float centerX = bounds.centerX();
+        float f = bounds.left - centerX;
         float centerY = bounds.top - bounds.centerY();
-        this.finalRadius = (float) Math.ceil(Math.sqrt((centerX * centerX) + (centerY * centerY)));
+        this.finalRadius = (float) Math.ceil(Math.sqrt((f * f) + (centerY * centerY)));
     }
 
     private void invalidate() {
@@ -44,11 +46,13 @@ public class MessageBackgroundDrawable extends Drawable {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0049, code lost:
-        if (r6 >= 0.0f) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0049, code lost:
+    
+        if (r6 >= 0.0f) goto L26;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0056, code lost:
-        if (r6 >= 0.0f) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0056, code lost:
+    
+        if (r6 >= 0.0f) goto L26;
      */
     @Override // android.graphics.drawable.Drawable
     /*

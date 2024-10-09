@@ -24,6 +24,7 @@ import com.google.android.exoplayer2.video.VideoSize;
 import com.google.common.base.Objects;
 import java.io.IOException;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public interface AnalyticsListener {
 

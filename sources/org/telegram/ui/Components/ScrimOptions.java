@@ -45,6 +45,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
+
 /* loaded from: classes3.dex */
 public class ScrimOptions extends Dialog {
     private Bitmap blurBitmap;
@@ -107,11 +108,11 @@ public class ScrimOptions extends Dialog {
 
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchKeyEventPreIme(KeyEvent keyEvent) {
-                if (keyEvent != null && keyEvent.getKeyCode() == 4 && keyEvent.getAction() == 1) {
-                    ScrimOptions.this.onBackPressed();
-                    return true;
+                if (keyEvent == null || keyEvent.getKeyCode() != 4 || keyEvent.getAction() != 1) {
+                    return super.dispatchKeyEventPreIme(keyEvent);
                 }
-                return super.dispatchKeyEventPreIme(keyEvent);
+                ScrimOptions.this.onBackPressed();
+                return true;
             }
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
@@ -331,34 +332,33 @@ public class ScrimOptions extends Dialog {
         Drawable drawable = this.scrimDrawable;
         if (drawable != null) {
             android.graphics.Rect bounds = drawable.getBounds();
-            FrameLayout frameLayout = this.optionsContainer;
-            if (frameLayout != null) {
-                float f = this.scrimDrawableTx2;
-                float f2 = bounds.left + f;
-                float f3 = bounds.right + f;
-                float f4 = this.scrimDrawableTy2;
-                float f5 = bounds.top + f4;
-                float f6 = bounds.bottom + f4;
+            if (this.optionsContainer != null) {
+                float f = bounds.left;
+                float f2 = this.scrimDrawableTx2;
+                float f3 = f + f2;
+                float f4 = bounds.right + f2;
+                float f5 = bounds.top;
+                float f6 = this.scrimDrawableTy2;
+                float f7 = f5 + f6;
+                float f8 = bounds.bottom + f6;
                 boolean z2 = true;
-                if (f3 - frameLayout.getMeasuredWidth() < AndroidUtilities.dp(8.0f)) {
+                if (f4 - r1.getMeasuredWidth() < AndroidUtilities.dp(8.0f)) {
                     this.optionsView.setPivotX(AndroidUtilities.dp(6.0f));
-                    this.optionsContainer.setX(Math.min(this.containerView.getWidth() - this.optionsContainer.getWidth(), f2 - AndroidUtilities.dp(10.0f)) - this.containerView.getX());
+                    this.optionsContainer.setX(Math.min(this.containerView.getWidth() - this.optionsContainer.getWidth(), f3 - AndroidUtilities.dp(10.0f)) - this.containerView.getX());
                     z = false;
                 } else {
-                    View view = this.optionsView;
-                    view.setPivotX(view.getMeasuredWidth() - AndroidUtilities.dp(6.0f));
-                    this.optionsContainer.setX(Math.max(AndroidUtilities.dp(8.0f), (AndroidUtilities.dp(4.0f) + f3) - this.optionsContainer.getMeasuredWidth()) - this.containerView.getX());
+                    this.optionsView.setPivotX(r1.getMeasuredWidth() - AndroidUtilities.dp(6.0f));
+                    this.optionsContainer.setX(Math.max(AndroidUtilities.dp(8.0f), (AndroidUtilities.dp(4.0f) + f4) - this.optionsContainer.getMeasuredWidth()) - this.containerView.getX());
                     z = true;
                 }
-                this.scrimDrawableTx1 = z ? ((this.optionsContainer.getX() + this.optionsContainer.getWidth()) - AndroidUtilities.dp(6.0f)) - f3 : (this.optionsContainer.getX() + AndroidUtilities.dp(10.0f)) - f2;
+                this.scrimDrawableTx1 = z ? ((this.optionsContainer.getX() + this.optionsContainer.getWidth()) - AndroidUtilities.dp(6.0f)) - f4 : (this.optionsContainer.getX() + AndroidUtilities.dp(10.0f)) - f3;
                 this.scrimDrawableTy1 = 0.0f;
-                if (this.optionsContainer.getMeasuredHeight() + f6 > this.windowView.getMeasuredHeight() - AndroidUtilities.dp(16.0f)) {
-                    View view2 = this.optionsView;
-                    view2.setPivotY(view2.getMeasuredHeight() - AndroidUtilities.dp(6.0f));
-                    this.optionsContainer.setY(((f5 - AndroidUtilities.dp(4.0f)) - this.optionsContainer.getMeasuredHeight()) - this.containerView.getY());
+                if (this.optionsContainer.getMeasuredHeight() + f8 > this.windowView.getMeasuredHeight() - AndroidUtilities.dp(16.0f)) {
+                    this.optionsView.setPivotY(r0.getMeasuredHeight() - AndroidUtilities.dp(6.0f));
+                    this.optionsContainer.setY(((f7 - AndroidUtilities.dp(4.0f)) - this.optionsContainer.getMeasuredHeight()) - this.containerView.getY());
                 } else {
                     this.optionsView.setPivotY(AndroidUtilities.dp(6.0f));
-                    this.optionsContainer.setY(Math.min((this.windowView.getHeight() - this.optionsContainer.getMeasuredHeight()) - AndroidUtilities.dp(16.0f), f6) - this.containerView.getY());
+                    this.optionsContainer.setY(Math.min((this.windowView.getHeight() - this.optionsContainer.getMeasuredHeight()) - AndroidUtilities.dp(16.0f), f8) - this.containerView.getY());
                     z2 = false;
                 }
                 this.options.setSwipebackGravity(z, z2);
@@ -404,14 +404,14 @@ public class ScrimOptions extends Dialog {
 
     /* JADX WARN: Removed duplicated region for block: B:102:0x035b  */
     /* JADX WARN: Removed duplicated region for block: B:105:0x036c  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x0371  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x03d6  */
-    /* JADX WARN: Removed duplicated region for block: B:131:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x02f5  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x031a  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0329  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x034a  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0354  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x03d6  */
+    /* JADX WARN: Removed duplicated region for block: B:118:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0371  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0354  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x02f5  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x031a  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0329  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x034a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -509,7 +509,8 @@ public class ScrimOptions extends Dialog {
                     while (true) {
                         if (i14 >= characterStyleArr.length) {
                             break;
-                        } else if (characterStyleArr[i14] == characterStyle) {
+                        }
+                        if (characterStyleArr[i14] == characterStyle) {
                             i3 = ((Spanned) descriptionlayout.getText()).getSpanStart(characterStyle);
                             staticLayout3 = descriptionlayout;
                             i9 = ((Spanned) descriptionlayout.getText()).getSpanEnd(characterStyle);
@@ -517,9 +518,8 @@ public class ScrimOptions extends Dialog {
                             f2 = chatMessageCell.getDescriptionLayoutY();
                             i10 = descriptionlayout.getWidth();
                             break;
-                        } else {
-                            i14++;
                         }
+                        i14++;
                     }
                 }
             }

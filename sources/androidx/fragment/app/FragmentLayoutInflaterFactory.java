@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.R$styleable;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
@@ -18,8 +19,8 @@ public class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
         this.mFragmentManager = fragmentManager;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:51:0x014b  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x016a  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x014b  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x016a  */
     @Override // android.view.LayoutInflater.Factory2
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -104,30 +105,30 @@ public class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
                 }
             });
             return findFragmentById.mView;
-        } else if (findFragmentById.mInLayout) {
+        }
+        if (findFragmentById.mInLayout) {
             throw new IllegalArgumentException(attributeSet.getPositionDescription() + ": Duplicate id 0x" + Integer.toHexString(resourceId) + ", tag " + string + ", or parent id 0x" + Integer.toHexString(id) + " with another fragment for " + attributeValue);
-        } else {
-            findFragmentById.mInLayout = true;
-            FragmentManager fragmentManager2 = this.mFragmentManager;
-            findFragmentById.mFragmentManager = fragmentManager2;
-            findFragmentById.mHost = fragmentManager2.getHost();
-            findFragmentById.onInflate(this.mFragmentManager.getHost().getContext(), attributeSet, findFragmentById.mSavedFragmentState);
-            createOrGetFragmentStateManager = this.mFragmentManager.createOrGetFragmentStateManager(findFragmentById);
-            if (FragmentManager.isLoggingEnabled(2)) {
-                sb = new StringBuilder();
-                sb.append("Retained Fragment ");
-                sb.append(findFragmentById);
-                str2 = " has been re-attached via the <fragment> tag: id=0x";
-                sb.append(str2);
-                sb.append(Integer.toHexString(resourceId));
-                Log.v("FragmentManager", sb.toString());
-            }
-            findFragmentById.mContainer = (ViewGroup) view;
-            createOrGetFragmentStateManager.moveToExpectedState();
-            createOrGetFragmentStateManager.ensureInflatedView();
-            view2 = findFragmentById.mView;
-            if (view2 != null) {
-            }
+        }
+        findFragmentById.mInLayout = true;
+        FragmentManager fragmentManager2 = this.mFragmentManager;
+        findFragmentById.mFragmentManager = fragmentManager2;
+        findFragmentById.mHost = fragmentManager2.getHost();
+        findFragmentById.onInflate(this.mFragmentManager.getHost().getContext(), attributeSet, findFragmentById.mSavedFragmentState);
+        createOrGetFragmentStateManager = this.mFragmentManager.createOrGetFragmentStateManager(findFragmentById);
+        if (FragmentManager.isLoggingEnabled(2)) {
+            sb = new StringBuilder();
+            sb.append("Retained Fragment ");
+            sb.append(findFragmentById);
+            str2 = " has been re-attached via the <fragment> tag: id=0x";
+            sb.append(str2);
+            sb.append(Integer.toHexString(resourceId));
+            Log.v("FragmentManager", sb.toString());
+        }
+        findFragmentById.mContainer = (ViewGroup) view;
+        createOrGetFragmentStateManager.moveToExpectedState();
+        createOrGetFragmentStateManager.ensureInflatedView();
+        view2 = findFragmentById.mView;
+        if (view2 != null) {
         }
     }
 

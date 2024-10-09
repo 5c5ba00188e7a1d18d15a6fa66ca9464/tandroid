@@ -1,10 +1,11 @@
 package com.google.android.gms.internal.vision;
+
 /* JADX WARN: Enum visitor error
-jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzc uses external variables
-	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
-	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:391)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:320)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
+jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'zzc' uses external variables
+	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
+	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:395)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:324)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:262)
 	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
@@ -39,8 +40,10 @@ public class zzml {
         zzml zzmlVar2 = new zzml("FLOAT", 1, zzmo.zzc, 5);
         zzb = zzmlVar2;
         zzmo zzmoVar = zzmo.zzb;
+        final int i = 2;
         zzml zzmlVar3 = new zzml("INT64", 2, zzmoVar, 0);
         zzc = zzmlVar3;
+        final int i2 = 3;
         zzml zzmlVar4 = new zzml("UINT64", 3, zzmoVar, 0);
         zzd = zzmlVar4;
         zzmo zzmoVar2 = zzmo.zza;
@@ -52,19 +55,48 @@ public class zzml {
         zzg = zzmlVar7;
         zzml zzmlVar8 = new zzml("BOOL", 7, zzmo.zze, 0);
         zzh = zzmlVar8;
+        final int i3 = 8;
         final zzmo zzmoVar3 = zzmo.zzf;
-        zzml zzmlVar9 = new zzml("STRING", 8, zzmoVar3, 2) { // from class: com.google.android.gms.internal.vision.zzmk
+        final String str = "STRING";
+        zzml zzmlVar9 = new zzml(str, i3, zzmoVar3, i) { // from class: com.google.android.gms.internal.vision.zzmk
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i4 = 2;
+                int i5 = 8;
+            }
         };
         zzi = zzmlVar9;
         final zzmo zzmoVar4 = zzmo.zzi;
-        zzml zzmlVar10 = new zzml("GROUP", 9, zzmoVar4, 3) { // from class: com.google.android.gms.internal.vision.zzmn
+        final String str2 = "GROUP";
+        final int i4 = 9;
+        zzml zzmlVar10 = new zzml(str2, i4, zzmoVar4, i2) { // from class: com.google.android.gms.internal.vision.zzmn
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i5 = 3;
+                int i6 = 9;
+            }
         };
         zzj = zzmlVar10;
-        zzml zzmlVar11 = new zzml("MESSAGE", 10, zzmoVar4, 2) { // from class: com.google.android.gms.internal.vision.zzmm
+        final String str3 = "MESSAGE";
+        final int i5 = 10;
+        final int i6 = 2;
+        zzml zzmlVar11 = new zzml(str3, i5, zzmoVar4, i6) { // from class: com.google.android.gms.internal.vision.zzmm
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i7 = 2;
+                int i8 = 10;
+            }
         };
         zzk = zzmlVar11;
+        final int i7 = 11;
         final zzmo zzmoVar5 = zzmo.zzg;
-        zzml zzmlVar12 = new zzml("BYTES", 11, zzmoVar5, 2) { // from class: com.google.android.gms.internal.vision.zzmp
+        final String str4 = "BYTES";
+        zzml zzmlVar12 = new zzml(str4, i7, zzmoVar5, i6) { // from class: com.google.android.gms.internal.vision.zzmp
+            /* JADX INFO: Access modifiers changed from: package-private */
+            {
+                int i8 = 2;
+                int i9 = 11;
+            }
         };
         zzl = zzmlVar12;
         zzml zzmlVar13 = new zzml("UINT32", 12, zzmoVar2, 0);

@@ -4,6 +4,7 @@ import android.graphics.RectF;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
+
 /* loaded from: classes3.dex */
 public abstract class Utils {
     public static void HasGLError() {

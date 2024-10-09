@@ -2,6 +2,7 @@ package com.google.android.gms.dynamic;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zaa implements OnDelegateCreatedListener {
@@ -21,8 +22,9 @@ public final class zaa implements OnDelegateCreatedListener {
         linkedList = this.zaa.zac;
         Iterator it = linkedList.iterator();
         while (it.hasNext()) {
+            zah zahVar = (zah) it.next();
             lifecycleDelegate2 = this.zaa.zaa;
-            ((zah) it.next()).zab(lifecycleDelegate2);
+            zahVar.zab(lifecycleDelegate2);
         }
         linkedList2 = this.zaa.zac;
         linkedList2.clear();

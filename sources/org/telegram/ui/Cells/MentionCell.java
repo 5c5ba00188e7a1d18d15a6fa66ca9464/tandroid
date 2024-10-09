@@ -19,6 +19,7 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class MentionCell extends LinearLayout {
     private boolean attached;
@@ -180,8 +181,7 @@ public class MentionCell extends LinearLayout {
         this.nameTextView.setText(chat.title);
         String publicUsername = ChatObject.getPublicUsername(chat);
         if (publicUsername != null) {
-            TextView textView = this.usernameTextView;
-            textView.setText("@" + publicUsername);
+            this.usernameTextView.setText("@" + publicUsername);
         } else {
             this.usernameTextView.setText("");
         }
@@ -197,8 +197,8 @@ public class MentionCell extends LinearLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0050  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x006d  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x006d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -283,8 +283,7 @@ public class MentionCell extends LinearLayout {
         }
         this.nameTextView.setText(UserObject.getUserName(user));
         if (UserObject.getPublicUsername(user) != null) {
-            TextView textView = this.usernameTextView;
-            textView.setText("@" + UserObject.getPublicUsername(user));
+            this.usernameTextView.setText("@" + UserObject.getPublicUsername(user));
         } else {
             this.usernameTextView.setText("");
         }

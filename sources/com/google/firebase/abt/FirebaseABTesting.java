@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public class FirebaseABTesting {
     private final Provider analyticsConnector;
@@ -112,10 +113,11 @@ public class FirebaseABTesting {
         while (it.hasNext()) {
             hashSet.add(((AbtExperimentInfo) it.next()).getExperimentId());
         }
-        List<AnalyticsConnector.ConditionalUserProperty> allExperimentsInAnalytics = getAllExperimentsInAnalytics();
+        List allExperimentsInAnalytics = getAllExperimentsInAnalytics();
         HashSet hashSet2 = new HashSet();
-        for (AnalyticsConnector.ConditionalUserProperty conditionalUserProperty : allExperimentsInAnalytics) {
-            hashSet2.add(conditionalUserProperty.name);
+        Iterator it2 = allExperimentsInAnalytics.iterator();
+        while (it2.hasNext()) {
+            hashSet2.add(((AnalyticsConnector.ConditionalUserProperty) it2.next()).name);
         }
         removeExperiments(getExperimentsToRemove(allExperimentsInAnalytics, hashSet));
         addExperiments(getExperimentsToAdd(list, hashSet2));

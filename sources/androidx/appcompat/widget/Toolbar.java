@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +44,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 public class Toolbar extends ViewGroup {
     private MenuPresenter.Callback mActionMenuPresenterCallback;
@@ -104,7 +106,7 @@ public class Toolbar extends ViewGroup {
         }
 
         static void tryRegisterOnBackInvokedCallback(Object obj, Object obj2) {
-            ((OnBackInvokedDispatcher) obj).registerOnBackInvokedCallback((int) MediaController.VIDEO_BITRATE_480, (OnBackInvokedCallback) obj2);
+            ((OnBackInvokedDispatcher) obj).registerOnBackInvokedCallback(MediaController.VIDEO_BITRATE_480, (OnBackInvokedCallback) obj2);
         }
 
         static void tryUnregisterOnBackInvokedCallback(Object obj, Object obj2) {
@@ -123,9 +125,9 @@ public class Toolbar extends ViewGroup {
 
         @Override // androidx.appcompat.view.menu.MenuPresenter
         public boolean collapseItemActionView(MenuBuilder menuBuilder, MenuItemImpl menuItemImpl) {
-            View view = Toolbar.this.mExpandedActionView;
-            if (view instanceof CollapsibleActionView) {
-                ((CollapsibleActionView) view).onActionViewCollapsed();
+            KeyEvent.Callback callback = Toolbar.this.mExpandedActionView;
+            if (callback instanceof CollapsibleActionView) {
+                ((CollapsibleActionView) callback).onActionViewCollapsed();
             }
             Toolbar toolbar = Toolbar.this;
             toolbar.removeView(toolbar.mExpandedActionView);
@@ -172,9 +174,9 @@ public class Toolbar extends ViewGroup {
             Toolbar.this.removeChildrenForExpandedActionView();
             Toolbar.this.requestLayout();
             menuItemImpl.setActionViewExpanded(true);
-            View view = Toolbar.this.mExpandedActionView;
-            if (view instanceof CollapsibleActionView) {
-                ((CollapsibleActionView) view).onActionViewExpanded();
+            KeyEvent.Callback callback = Toolbar.this.mExpandedActionView;
+            if (callback instanceof CollapsibleActionView) {
+                ((CollapsibleActionView) callback).onActionViewExpanded();
             }
             Toolbar.this.updateBackInvokedCallbackState();
             return true;
@@ -458,10 +460,10 @@ public class Toolbar extends ViewGroup {
         generateDefaultLayoutParams.mViewType = 1;
         if (!z || this.mExpandedActionView == null) {
             addView(view, generateDefaultLayoutParams);
-            return;
+        } else {
+            view.setLayoutParams(generateDefaultLayoutParams);
+            this.mHiddenViews.add(view);
         }
-        view.setLayoutParams(generateDefaultLayoutParams);
-        this.mHiddenViews.add(view);
     }
 
     private void ensureContentInsets() {
@@ -540,27 +542,27 @@ public class Toolbar extends ViewGroup {
         int measuredHeight = view.getMeasuredHeight();
         int i2 = i > 0 ? (measuredHeight - i) / 2 : 0;
         int childVerticalGravity = getChildVerticalGravity(layoutParams.gravity);
-        if (childVerticalGravity != 48) {
-            if (childVerticalGravity != 80) {
-                int paddingTop = getPaddingTop();
-                int paddingBottom = getPaddingBottom();
-                int height = getHeight();
-                int i3 = (((height - paddingTop) - paddingBottom) - measuredHeight) / 2;
-                int i4 = ((ViewGroup.MarginLayoutParams) layoutParams).topMargin;
-                if (i3 < i4) {
-                    i3 = i4;
-                } else {
-                    int i5 = (((height - paddingBottom) - measuredHeight) - i3) - paddingTop;
-                    int i6 = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
-                    if (i5 < i6) {
-                        i3 = Math.max(0, i3 - (i6 - i5));
-                    }
-                }
-                return paddingTop + i3;
-            }
+        if (childVerticalGravity == 48) {
+            return getPaddingTop() - i2;
+        }
+        if (childVerticalGravity == 80) {
             return (((getHeight() - getPaddingBottom()) - measuredHeight) - ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin) - i2;
         }
-        return getPaddingTop() - i2;
+        int paddingTop = getPaddingTop();
+        int paddingBottom = getPaddingBottom();
+        int height = getHeight();
+        int i3 = (((height - paddingTop) - paddingBottom) - measuredHeight) / 2;
+        int i4 = ((ViewGroup.MarginLayoutParams) layoutParams).topMargin;
+        if (i3 < i4) {
+            i3 = i4;
+        } else {
+            int i5 = (((height - paddingBottom) - measuredHeight) - i3) - paddingTop;
+            int i6 = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
+            if (i5 < i6) {
+                i3 = Math.max(0, i3 - (i6 - i5));
+            }
+        }
+        return paddingTop + i3;
     }
 
     private int getChildVerticalGravity(int i) {
@@ -680,17 +682,17 @@ public class Toolbar extends ViewGroup {
     }
 
     private boolean shouldCollapse() {
-        if (this.mCollapsible) {
-            int childCount = getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childAt = getChildAt(i);
-                if (shouldLayout(childAt) && childAt.getMeasuredWidth() > 0 && childAt.getMeasuredHeight() > 0) {
-                    return false;
-                }
-            }
-            return true;
+        if (!this.mCollapsible) {
+            return false;
         }
-        return false;
+        int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View childAt = getChildAt(i);
+            if (shouldLayout(childAt) && childAt.getMeasuredWidth() > 0 && childAt.getMeasuredHeight() > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean shouldLayout(View view) {
@@ -1001,24 +1003,24 @@ public class Toolbar extends ViewGroup {
         return true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0297 A[LOOP:0: B:111:0x0295->B:112:0x0297, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x02b9 A[LOOP:1: B:114:0x02b7->B:115:0x02b9, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x02e3  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x02f2 A[LOOP:2: B:123:0x02f0->B:124:0x02f2, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x005e  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0073  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00ae  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00c3  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00de  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00f5  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00fa  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0112  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0122  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0125  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0129  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x012c  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x019b  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x019b  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x012c  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0125  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0112  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x00f5  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x005e  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0073  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00ae  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00c3  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00de  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00fa  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0297 A[LOOP:0: B:46:0x0295->B:47:0x0297, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x02b9 A[LOOP:1: B:50:0x02b7->B:51:0x02b9, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x02e3  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x02f2 A[LOOP:2: B:59:0x02f0->B:60:0x02f2, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0122  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0129  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x015d  */
     /* JADX WARN: Removed duplicated region for block: B:83:0x01ac  */
     /* JADX WARN: Removed duplicated region for block: B:97:0x021d  */
     @Override // android.view.ViewGroup, android.view.View
@@ -1163,11 +1165,12 @@ public class Toolbar extends ViewGroup {
                         max = i12 + Math.max(0, i30);
                         iArr[0] = Math.max(0, -i30);
                         if (shouldLayout) {
+                            LayoutParams layoutParams5 = (LayoutParams) this.mTitleTextView.getLayoutParams();
                             int measuredWidth = this.mTitleTextView.getMeasuredWidth() + max;
                             int measuredHeight = this.mTitleTextView.getMeasuredHeight() + paddingTop;
                             this.mTitleTextView.layout(max, paddingTop, measuredWidth, measuredHeight);
                             i15 = measuredWidth + this.mTitleMarginEnd;
-                            paddingTop = measuredHeight + ((ViewGroup.MarginLayoutParams) ((LayoutParams) this.mTitleTextView.getLayoutParams())).bottomMargin;
+                            paddingTop = measuredHeight + ((ViewGroup.MarginLayoutParams) layoutParams5).bottomMargin;
                         } else {
                             i15 = max;
                         }
@@ -1213,11 +1216,12 @@ public class Toolbar extends ViewGroup {
                     min2 -= Math.max(0, i34);
                     iArr[1] = Math.max(0, -i34);
                     if (shouldLayout) {
+                        LayoutParams layoutParams6 = (LayoutParams) this.mTitleTextView.getLayoutParams();
                         int measuredWidth3 = min2 - this.mTitleTextView.getMeasuredWidth();
                         int measuredHeight2 = this.mTitleTextView.getMeasuredHeight() + paddingTop;
                         this.mTitleTextView.layout(measuredWidth3, paddingTop, min2, measuredHeight2);
                         i17 = measuredWidth3 - this.mTitleMarginEnd;
-                        paddingTop = measuredHeight2 + ((ViewGroup.MarginLayoutParams) ((LayoutParams) this.mTitleTextView.getLayoutParams())).bottomMargin;
+                        paddingTop = measuredHeight2 + ((ViewGroup.MarginLayoutParams) layoutParams6).bottomMargin;
                     } else {
                         i17 = min2;
                     }
@@ -1481,11 +1485,11 @@ public class Toolbar extends ViewGroup {
         if (drawable != null) {
             ensureCollapseButtonView();
             this.mCollapseButtonView.setImageDrawable(drawable);
-            return;
-        }
-        ImageButton imageButton = this.mCollapseButtonView;
-        if (imageButton != null) {
-            imageButton.setImageDrawable(this.mCollapseIcon);
+        } else {
+            ImageButton imageButton = this.mCollapseButtonView;
+            if (imageButton != null) {
+                imageButton.setImageDrawable(this.mCollapseIcon);
+            }
         }
     }
 
@@ -1810,9 +1814,10 @@ public class Toolbar extends ViewGroup {
                     });
                 }
                 Api33Impl.tryRegisterOnBackInvokedCallback(findOnBackInvokedDispatcher, this.mBackInvokedCallback);
-            } else if (z || (onBackInvokedDispatcher = this.mBackInvokedDispatcher) == null) {
-                return;
             } else {
+                if (z || (onBackInvokedDispatcher = this.mBackInvokedDispatcher) == null) {
+                    return;
+                }
                 Api33Impl.tryUnregisterOnBackInvokedCallback(onBackInvokedDispatcher, this.mBackInvokedCallback);
                 findOnBackInvokedDispatcher = null;
             }

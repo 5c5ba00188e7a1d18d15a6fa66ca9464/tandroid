@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class zzy extends zzr implements Set {
     private transient zzu zza;
@@ -32,12 +33,12 @@ public abstract class zzy extends zzr implements Set {
     @Override // com.google.android.gms.internal.play_billing.zzr
     public zzu zzd() {
         zzu zzuVar = this.zza;
-        if (zzuVar == null) {
-            zzu zzh = zzh();
-            this.zza = zzh;
-            return zzh;
+        if (zzuVar != null) {
+            return zzuVar;
         }
-        return zzuVar;
+        zzu zzh = zzh();
+        this.zza = zzh;
+        return zzh;
     }
 
     zzu zzh() {

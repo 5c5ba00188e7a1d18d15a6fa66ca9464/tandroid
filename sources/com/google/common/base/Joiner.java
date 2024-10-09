@@ -2,6 +2,7 @@ package com.google.common.base;
 
 import java.io.IOException;
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 public class Joiner {
     private final String separator;

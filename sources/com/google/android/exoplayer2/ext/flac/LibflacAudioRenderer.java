@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.decoder.CryptoConfig;
 import com.google.android.exoplayer2.extractor.FlacStreamMetadata;
 import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class LibflacAudioRenderer extends DecoderAudioRenderer {
     private static final int METADATA_BLOCK_HEADER_SIZE = 4;
@@ -61,12 +62,12 @@ public final class LibflacAudioRenderer extends DecoderAudioRenderer {
 
     @Override // com.google.android.exoplayer2.audio.DecoderAudioRenderer
     protected int supportsFormatInternal(Format format) {
-        if (FlacLibrary.isAvailable() && "audio/flac".equalsIgnoreCase(format.sampleMimeType)) {
-            if (sinkSupportsFormat(format.initializationData.isEmpty() ? Util.getPcmFormat(2, format.channelCount, format.sampleRate) : getOutputFormat(new FlacStreamMetadata((byte[]) format.initializationData.get(0), 8)))) {
-                return format.cryptoType != 0 ? 2 : 4;
-            }
-            return 1;
+        if (!FlacLibrary.isAvailable() || !"audio/flac".equalsIgnoreCase(format.sampleMimeType)) {
+            return 0;
         }
-        return 0;
+        if (sinkSupportsFormat(format.initializationData.isEmpty() ? Util.getPcmFormat(2, format.channelCount, format.sampleRate) : getOutputFormat(new FlacStreamMetadata((byte[]) format.initializationData.get(0), 8)))) {
+            return format.cryptoType != 0 ? 2 : 4;
+        }
+        return 1;
     }
 }

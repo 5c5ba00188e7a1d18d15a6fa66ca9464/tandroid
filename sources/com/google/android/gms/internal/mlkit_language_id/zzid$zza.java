@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
+
 /* loaded from: classes.dex */
 public final class zzid$zza extends zzeo implements zzgb {
     private static final zzid$zza zzf;
@@ -24,7 +25,7 @@ public final class zzid$zza extends zzeo implements zzgb {
     public enum zzb implements zzet {
         zza(0),
         zzb(1);
-        
+
         private static final zzes zzc = new zzie();
         private final int zzd;
 
@@ -60,11 +61,12 @@ public final class zzid$zza extends zzeo implements zzgb {
     /* JADX WARN: Type inference failed for: r3v15, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
+        zzic zzicVar = null;
         switch (zzic.zza[i - 1]) {
             case 1:
                 return new zzid$zza();
             case 2:
-                return new zza(null);
+                return new zza(zzicVar);
             case 3:
                 return zzeo.zza(zzf, "\u0001\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0000\u0000\u0001ဌ\u0000\u0002ဉ\u0001", new Object[]{"zzc", "zzd", zzb.zzb(), "zze"});
             case 4:

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 final class zzdo implements zzdc {
     private final zzdf zza;
@@ -25,10 +26,11 @@ final class zzdo implements zzdc {
             if (charAt2 < 55296) {
                 this.zzd = i | (charAt2 << i3);
                 return;
+            } else {
+                i |= (charAt2 & 8191) << i3;
+                i3 += 13;
+                i2 = i4;
             }
-            i |= (charAt2 & 8191) << i3;
-            i3 += 13;
-            i2 = i4;
         }
     }
 

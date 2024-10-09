@@ -38,6 +38,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.PremiumPreviewFragment;
+
 /* loaded from: classes.dex */
 public class BillingController implements PurchasesUpdatedListener, BillingClientStateListener {
     public static ProductDetails PREMIUM_PRODUCT_DETAILS = null;
@@ -80,37 +81,37 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     }
 
     public static String getResponseCodeString(int i) {
-        if (i != 12) {
-            switch (i) {
-                case VoIPController.ERROR_LOCALIZED /* -3 */:
-                    return "SERVICE_TIMEOUT";
-                case VoIPController.ERROR_PRIVACY /* -2 */:
-                    return "FEATURE_NOT_SUPPORTED";
-                case -1:
-                    return "SERVICE_DISCONNECTED";
-                case 0:
-                    return "OK";
-                case 1:
-                    return "USER_CANCELED";
-                case 2:
-                    return "SERVICE_UNAVAILABLE";
-                case 3:
-                    return "BILLING_UNAVAILABLE";
-                case 4:
-                    return "ITEM_UNAVAILABLE";
-                case 5:
-                    return "DEVELOPER_ERROR";
-                case 6:
-                    return "ERROR";
-                case 7:
-                    return "ITEM_ALREADY_OWNED";
-                case 8:
-                    return "ITEM_NOT_OWNED";
-                default:
-                    return null;
-            }
+        if (i == 12) {
+            return "NETWORK_ERROR";
         }
-        return "NETWORK_ERROR";
+        switch (i) {
+            case VoIPController.ERROR_LOCALIZED /* -3 */:
+                return "SERVICE_TIMEOUT";
+            case VoIPController.ERROR_PRIVACY /* -2 */:
+                return "FEATURE_NOT_SUPPORTED";
+            case -1:
+                return "SERVICE_DISCONNECTED";
+            case 0:
+                return "OK";
+            case 1:
+                return "USER_CANCELED";
+            case 2:
+                return "SERVICE_UNAVAILABLE";
+            case 3:
+                return "BILLING_UNAVAILABLE";
+            case 4:
+                return "ITEM_UNAVAILABLE";
+            case 5:
+                return "DEVELOPER_ERROR";
+            case 6:
+                return "ERROR";
+            case 7:
+                return "ITEM_ALREADY_OWNED";
+            case 8:
+                return "ITEM_NOT_OWNED";
+            default:
+                return null;
+        }
     }
 
     public static /* synthetic */ void lambda$consumeGiftPurchase$5(BillingResult billingResult, String str) {
@@ -186,8 +187,9 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
             return;
         }
         accountInstance.getMessagesController().processUpdates((TLRPC.Updates) tLObject, false);
-        for (String str : purchase.getProducts()) {
-            Consumer remove = this.resultListeners.remove(str);
+        Iterator it = purchase.getProducts().iterator();
+        while (it.hasNext()) {
+            Consumer remove = this.resultListeners.remove((String) it.next());
             if (remove != null) {
                 remove.accept(billingResult);
             }
@@ -228,10 +230,10 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
         if (PREMIUM_PRODUCT_DETAILS == null) {
             switchToInvoice();
-            return;
+        } else {
+            switchBackFromInvoice();
+            NotificationCenter.getGlobalInstance().postNotificationNameOnUIThread(NotificationCenter.billingProductDetailsUpdated, new Object[0]);
         }
-        switchBackFromInvoice();
-        NotificationCenter.getGlobalInstance().postNotificationNameOnUIThread(NotificationCenter.billingProductDetailsUpdated, new Object[0]);
     }
 
     private void switchBackFromInvoice() {
@@ -403,39 +405,43 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
             if (runnable != null) {
                 runnable.run();
                 this.onCanceled = null;
+                return;
             }
-        } else if (list != null && !list.isEmpty()) {
-            this.lastPremiumTransaction = null;
-            for (final Purchase purchase : list) {
-                if (purchase.getProducts().contains(PREMIUM_PRODUCT_ID)) {
-                    this.lastPremiumTransaction = purchase.getOrderId();
-                    this.lastPremiumToken = purchase.getPurchaseToken();
-                }
-                if (!this.requestingTokens.contains(purchase.getPurchaseToken()) && purchase.getPurchaseState() == 1 && (extractDeveloperPayload = BillingUtilities.extractDeveloperPayload(purchase)) != null && extractDeveloperPayload.first != null) {
-                    if (purchase.isAcknowledged()) {
-                        consumeGiftPurchase(purchase, (TLRPC.InputStorePaymentPurpose) extractDeveloperPayload.second);
-                    } else {
-                        this.requestingTokens.add(purchase.getPurchaseToken());
-                        final TLRPC.TL_payments_assignPlayMarketTransaction tL_payments_assignPlayMarketTransaction = new TLRPC.TL_payments_assignPlayMarketTransaction();
-                        TLRPC.TL_dataJSON tL_dataJSON = new TLRPC.TL_dataJSON();
-                        tL_payments_assignPlayMarketTransaction.receipt = tL_dataJSON;
-                        tL_dataJSON.data = purchase.getOriginalJson();
-                        tL_payments_assignPlayMarketTransaction.purpose = (TLRPC.InputStorePaymentPurpose) extractDeveloperPayload.second;
-                        final AlertDialog alertDialog = new AlertDialog(ApplicationLoader.applicationContext, 3);
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda7
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                AlertDialog.this.showDelayed(500L);
-                            }
-                        });
-                        final AccountInstance accountInstance = (AccountInstance) extractDeveloperPayload.first;
-                        accountInstance.getConnectionsManager().sendRequest(tL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda8
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                                BillingController.this.lambda$onPurchasesUpdated$4(alertDialog, purchase, accountInstance, billingResult, tL_payments_assignPlayMarketTransaction, tLObject, tL_error);
-                            }
-                        }, 65602);
-                    }
+            return;
+        }
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+        this.lastPremiumTransaction = null;
+        for (final Purchase purchase : list) {
+            if (purchase.getProducts().contains(PREMIUM_PRODUCT_ID)) {
+                this.lastPremiumTransaction = purchase.getOrderId();
+                this.lastPremiumToken = purchase.getPurchaseToken();
+            }
+            if (!this.requestingTokens.contains(purchase.getPurchaseToken()) && purchase.getPurchaseState() == 1 && (extractDeveloperPayload = BillingUtilities.extractDeveloperPayload(purchase)) != null && extractDeveloperPayload.first != null) {
+                if (purchase.isAcknowledged()) {
+                    consumeGiftPurchase(purchase, (TLRPC.InputStorePaymentPurpose) extractDeveloperPayload.second);
+                } else {
+                    this.requestingTokens.add(purchase.getPurchaseToken());
+                    final TLRPC.TL_payments_assignPlayMarketTransaction tL_payments_assignPlayMarketTransaction = new TLRPC.TL_payments_assignPlayMarketTransaction();
+                    TLRPC.TL_dataJSON tL_dataJSON = new TLRPC.TL_dataJSON();
+                    tL_payments_assignPlayMarketTransaction.receipt = tL_dataJSON;
+                    tL_dataJSON.data = purchase.getOriginalJson();
+                    tL_payments_assignPlayMarketTransaction.purpose = (TLRPC.InputStorePaymentPurpose) extractDeveloperPayload.second;
+                    final AlertDialog alertDialog = new AlertDialog(ApplicationLoader.applicationContext, 3);
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda7
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            AlertDialog.this.showDelayed(500L);
+                        }
+                    });
+                    final AccountInstance accountInstance = (AccountInstance) extractDeveloperPayload.first;
+                    accountInstance.getConnectionsManager().sendRequest(tL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda8
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                            BillingController.this.lambda$onPurchasesUpdated$4(alertDialog, purchase, accountInstance, billingResult, tL_payments_assignPlayMarketTransaction, tLObject, tL_error);
+                        }
+                    }, 65602);
                 }
             }
         }

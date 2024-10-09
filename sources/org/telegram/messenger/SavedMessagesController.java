@@ -22,6 +22,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class SavedMessagesController {
     private final int currentAccount;
@@ -150,8 +151,9 @@ public class SavedMessagesController {
                 savedDialog = this.cachedDialogs.get(i2);
                 if (savedDialog.dialogId == savedDialog2.dialogId) {
                     break;
+                } else {
+                    i2++;
                 }
-                i2++;
             }
             if (savedDialog == null && !savedDialog2.pinned) {
                 this.cachedDialogs.add(savedDialog2);
@@ -246,24 +248,29 @@ public class SavedMessagesController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x0156, code lost:
-        if (r16 != null) goto L41;
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x016e, code lost:
+    
+        if (r16 != null) goto L62;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x016e, code lost:
-        if (r16 != null) goto L41;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x0171, code lost:
-        r16.dispose();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x0174, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x0174, code lost:
+    
         org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda2(r35, r9, r10, r12, r11, r39));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0184, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x0184, code lost:
+    
         return;
      */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x016b  */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0188  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x018d  */
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x0171, code lost:
+    
+        r16.dispose();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x0156, code lost:
+    
+        if (r16 != null) goto L62;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x016b  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0188  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x018d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -411,7 +418,7 @@ public class SavedMessagesController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x020d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -430,13 +437,13 @@ public class SavedMessagesController {
                 while (true) {
                     if (i2 >= this.cachedDialogs.size()) {
                         break;
-                    } else if (this.cachedDialogs.get(i2).dialogId == fromTL.dialogId) {
+                    }
+                    if (this.cachedDialogs.get(i2).dialogId == fromTL.dialogId) {
                         fromTL.messagesCount = this.cachedDialogs.get(i2).messagesCount;
                         this.cachedDialogs.get(i2).pinned = fromTL.pinned;
                         break;
-                    } else {
-                        i2++;
                     }
+                    i2++;
                 }
                 int i3 = 0;
                 while (true) {
@@ -454,34 +461,35 @@ public class SavedMessagesController {
             }
             this.dialogsEndReached = true;
             this.dialogsCount = tL_messages_savedDialogs.dialogs.size();
-        } else if (!(tLObject instanceof TLRPC.TL_messages_savedDialogsSlice)) {
-            if (!(tLObject instanceof TLRPC.TL_messages_savedDialogsNotModified)) {
-                if (tL_error != null) {
-                    this.dialogsLoaded = true;
-                    if ("SAVED_DIALOGS_UNSUPPORTED".equals(tL_error.text)) {
-                        this.unsupported = true;
+        } else {
+            if (!(tLObject instanceof TLRPC.TL_messages_savedDialogsSlice)) {
+                if (!(tLObject instanceof TLRPC.TL_messages_savedDialogsNotModified)) {
+                    if (tL_error != null) {
+                        this.dialogsLoaded = true;
+                        if ("SAVED_DIALOGS_UNSUPPORTED".equals(tL_error.text)) {
+                            this.unsupported = true;
+                        }
+                    }
+                    if (this.unsupported != z) {
+                    }
+                    this.dialogsLoading = false;
+                }
+                this.dialogsLoaded = true;
+                this.loadedDialogs.addAll(arrayList);
+                this.dialogsCount = ((TLRPC.TL_messages_savedDialogsNotModified) tLObject).count;
+                this.dialogsCountHidden = 0;
+                for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                    if (((SavedDialog) arrayList.get(i4)).isHidden()) {
+                        this.dialogsCountHidden++;
                     }
                 }
+                this.dialogsEndReached = this.loadedDialogs.size() >= this.dialogsCount;
+                this.unsupported = false;
                 if (this.unsupported != z) {
+                    MessagesController.getMainSettings(this.currentAccount).edit().putBoolean("savedMessagesUnsupported", this.unsupported).apply();
                 }
                 this.dialogsLoading = false;
             }
-            this.dialogsLoaded = true;
-            this.loadedDialogs.addAll(arrayList);
-            this.dialogsCount = ((TLRPC.TL_messages_savedDialogsNotModified) tLObject).count;
-            this.dialogsCountHidden = 0;
-            for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                if (((SavedDialog) arrayList.get(i4)).isHidden()) {
-                    this.dialogsCountHidden++;
-                }
-            }
-            this.dialogsEndReached = this.loadedDialogs.size() >= this.dialogsCount;
-            this.unsupported = false;
-            if (this.unsupported != z) {
-                MessagesController.getMainSettings(this.currentAccount).edit().putBoolean("savedMessagesUnsupported", this.unsupported).apply();
-            }
-            this.dialogsLoading = false;
-        } else {
             this.dialogsLoaded = true;
             TLRPC.TL_messages_savedDialogsSlice tL_messages_savedDialogsSlice = (TLRPC.TL_messages_savedDialogsSlice) tLObject;
             MessagesController.getInstance(this.currentAccount).putUsers(tL_messages_savedDialogsSlice.users, false);
@@ -494,13 +502,13 @@ public class SavedMessagesController {
                 while (true) {
                     if (i6 >= this.cachedDialogs.size()) {
                         break;
-                    } else if (this.cachedDialogs.get(i6).dialogId == fromTL2.dialogId) {
+                    }
+                    if (this.cachedDialogs.get(i6).dialogId == fromTL2.dialogId) {
                         fromTL2.messagesCount = this.cachedDialogs.get(i6).messagesCount;
                         this.cachedDialogs.get(i6).pinned = fromTL2.pinned;
                         break;
-                    } else {
-                        i6++;
                     }
+                    i6++;
                 }
                 int i7 = 0;
                 while (true) {
@@ -543,8 +551,9 @@ public class SavedMessagesController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0072, code lost:
-        if (r0 == null) goto L16;
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0072, code lost:
+    
+        if (r0 == null) goto L20;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -552,6 +561,7 @@ public class SavedMessagesController {
     public /* synthetic */ void lambda$saveCache$11(MessagesStorage messagesStorage, ArrayList arrayList) {
         SQLiteDatabase database = messagesStorage.getDatabase();
         SQLitePreparedStatement sQLitePreparedStatement = null;
+        sQLitePreparedStatement = null;
         try {
             try {
                 database.executeFast("DELETE FROM saved_dialogs").stepThis().dispose();
@@ -624,19 +634,24 @@ public class SavedMessagesController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:24:0x00b2, code lost:
+    
         if (r11 != null) goto L28;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x00b8, code lost:
-        if (r11 == null) goto L25;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x00ba, code lost:
-        r11.dispose();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x00bd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x00bd, code lost:
+    
         org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda3(r18, r6, r7, r10, r8, r9));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x00cb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x00cb, code lost:
+    
         return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x00ba, code lost:
+    
+        r11.dispose();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x00b8, code lost:
+    
+        if (r11 == null) goto L29;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -730,26 +745,26 @@ public class SavedMessagesController {
         if (update instanceof TLRPC.TL_updateSavedDialogPinned) {
             TLRPC.TL_updateSavedDialogPinned tL_updateSavedDialogPinned = (TLRPC.TL_updateSavedDialogPinned) update;
             TLRPC.DialogPeer dialogPeer = tL_updateSavedDialogPinned.peer;
-            if (dialogPeer instanceof TLRPC.TL_dialogPeer) {
-                long peerDialogId = DialogObject.getPeerDialogId(((TLRPC.TL_dialogPeer) dialogPeer).peer);
-                ArrayList<Long> arrayList = new ArrayList<>();
-                arrayList.add(Long.valueOf(peerDialogId));
-                return updatePinned(arrayList, tL_updateSavedDialogPinned.pinned, false);
+            if (!(dialogPeer instanceof TLRPC.TL_dialogPeer)) {
+                return false;
             }
-            return false;
-        } else if (update instanceof TLRPC.TL_updatePinnedSavedDialogs) {
-            TLRPC.TL_updatePinnedSavedDialogs tL_updatePinnedSavedDialogs = (TLRPC.TL_updatePinnedSavedDialogs) update;
-            ArrayList<Long> arrayList2 = new ArrayList<>(tL_updatePinnedSavedDialogs.order.size());
-            for (int i = 0; i < tL_updatePinnedSavedDialogs.order.size(); i++) {
-                TLRPC.DialogPeer dialogPeer2 = tL_updatePinnedSavedDialogs.order.get(i);
-                if (dialogPeer2 instanceof TLRPC.TL_dialogPeer) {
-                    arrayList2.add(Long.valueOf(DialogObject.getPeerDialogId(((TLRPC.TL_dialogPeer) dialogPeer2).peer)));
-                }
-            }
-            return updatePinnedOrder(this.loadedDialogs, arrayList2) || updatePinnedOrder(this.cachedDialogs, arrayList2);
-        } else {
+            long peerDialogId = DialogObject.getPeerDialogId(((TLRPC.TL_dialogPeer) dialogPeer).peer);
+            ArrayList<Long> arrayList = new ArrayList<>();
+            arrayList.add(Long.valueOf(peerDialogId));
+            return updatePinned(arrayList, tL_updateSavedDialogPinned.pinned, false);
+        }
+        if (!(update instanceof TLRPC.TL_updatePinnedSavedDialogs)) {
             return false;
         }
+        TLRPC.TL_updatePinnedSavedDialogs tL_updatePinnedSavedDialogs = (TLRPC.TL_updatePinnedSavedDialogs) update;
+        ArrayList<Long> arrayList2 = new ArrayList<>(tL_updatePinnedSavedDialogs.order.size());
+        for (int i = 0; i < tL_updatePinnedSavedDialogs.order.size(); i++) {
+            TLRPC.DialogPeer dialogPeer2 = tL_updatePinnedSavedDialogs.order.get(i);
+            if (dialogPeer2 instanceof TLRPC.TL_dialogPeer) {
+                arrayList2.add(Long.valueOf(DialogObject.getPeerDialogId(((TLRPC.TL_dialogPeer) dialogPeer2).peer)));
+            }
+        }
+        return updatePinnedOrder(this.loadedDialogs, arrayList2) || updatePinnedOrder(this.cachedDialogs, arrayList2);
     }
 
     private int removeDialog(long j) {
@@ -1101,45 +1116,48 @@ public class SavedMessagesController {
                     SavedMessagesController.this.lambda$loadDialogs$1();
                 }
             });
-        } else if (!z) {
-            this.dialogsLoading = true;
-            TLRPC.TL_messages_getSavedDialogs tL_messages_getSavedDialogs = new TLRPC.TL_messages_getSavedDialogs();
-            if (this.loadedDialogs.isEmpty()) {
-                savedDialog = null;
-            } else {
-                ArrayList<SavedDialog> arrayList = this.loadedDialogs;
-                savedDialog = arrayList.get(arrayList.size() - 1);
-            }
-            if (savedDialog != null) {
-                tL_messages_getSavedDialogs.offset_id = savedDialog.top_message_id;
-                tL_messages_getSavedDialogs.offset_date = savedDialog.getDate();
-                tL_inputPeerEmpty = MessagesController.getInstance(this.currentAccount).getInputPeer(savedDialog.dialogId);
-            } else {
-                tL_messages_getSavedDialogs.offset_id = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                tL_messages_getSavedDialogs.offset_date = 0;
-                tL_inputPeerEmpty = new TLRPC.TL_inputPeerEmpty();
-            }
-            tL_messages_getSavedDialogs.offset_peer = tL_inputPeerEmpty;
-            tL_messages_getSavedDialogs.limit = 20;
-            final ArrayList arrayList2 = new ArrayList();
-            arrayList2.addAll(this.allDialogs.subList(Math.min(this.loadedDialogs.size(), this.allDialogs.size()), Math.min(this.loadedDialogs.size() + tL_messages_getSavedDialogs.limit, this.allDialogs.size())));
-            for (int i = 0; i < arrayList2.size(); i++) {
-                SavedDialog savedDialog2 = (SavedDialog) arrayList2.get(i);
-                long calcHash = MediaDataController.calcHash(tL_messages_getSavedDialogs.hash, savedDialog2.pinned ? 1L : 0L);
-                tL_messages_getSavedDialogs.hash = calcHash;
-                long calcHash2 = MediaDataController.calcHash(calcHash, Math.abs(savedDialog2.dialogId));
-                tL_messages_getSavedDialogs.hash = calcHash2;
-                long calcHash3 = MediaDataController.calcHash(calcHash2, savedDialog2.top_message_id);
-                tL_messages_getSavedDialogs.hash = calcHash3;
-                tL_messages_getSavedDialogs.hash = MediaDataController.calcHash(calcHash3, savedDialog2.getDate());
-            }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_getSavedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda9
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    SavedMessagesController.this.lambda$loadDialogs$3(arrayList2, tLObject, tL_error);
-                }
-            });
+            return;
         }
+        if (z) {
+            return;
+        }
+        this.dialogsLoading = true;
+        TLRPC.TL_messages_getSavedDialogs tL_messages_getSavedDialogs = new TLRPC.TL_messages_getSavedDialogs();
+        if (this.loadedDialogs.isEmpty()) {
+            savedDialog = null;
+        } else {
+            ArrayList<SavedDialog> arrayList = this.loadedDialogs;
+            savedDialog = arrayList.get(arrayList.size() - 1);
+        }
+        if (savedDialog != null) {
+            tL_messages_getSavedDialogs.offset_id = savedDialog.top_message_id;
+            tL_messages_getSavedDialogs.offset_date = savedDialog.getDate();
+            tL_inputPeerEmpty = MessagesController.getInstance(this.currentAccount).getInputPeer(savedDialog.dialogId);
+        } else {
+            tL_messages_getSavedDialogs.offset_id = ConnectionsManager.DEFAULT_DATACENTER_ID;
+            tL_messages_getSavedDialogs.offset_date = 0;
+            tL_inputPeerEmpty = new TLRPC.TL_inputPeerEmpty();
+        }
+        tL_messages_getSavedDialogs.offset_peer = tL_inputPeerEmpty;
+        tL_messages_getSavedDialogs.limit = 20;
+        final ArrayList arrayList2 = new ArrayList();
+        arrayList2.addAll(this.allDialogs.subList(Math.min(this.loadedDialogs.size(), this.allDialogs.size()), Math.min(this.loadedDialogs.size() + tL_messages_getSavedDialogs.limit, this.allDialogs.size())));
+        for (int i = 0; i < arrayList2.size(); i++) {
+            SavedDialog savedDialog2 = (SavedDialog) arrayList2.get(i);
+            long calcHash = MediaDataController.calcHash(tL_messages_getSavedDialogs.hash, savedDialog2.pinned ? 1L : 0L);
+            tL_messages_getSavedDialogs.hash = calcHash;
+            long calcHash2 = MediaDataController.calcHash(calcHash, Math.abs(savedDialog2.dialogId));
+            tL_messages_getSavedDialogs.hash = calcHash2;
+            long calcHash3 = MediaDataController.calcHash(calcHash2, savedDialog2.top_message_id);
+            tL_messages_getSavedDialogs.hash = calcHash3;
+            tL_messages_getSavedDialogs.hash = MediaDataController.calcHash(calcHash3, savedDialog2.getDate());
+        }
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_getSavedDialogs, new RequestDelegate() { // from class: org.telegram.messenger.SavedMessagesController$$ExternalSyntheticLambda9
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                SavedMessagesController.this.lambda$loadDialogs$3(arrayList2, tLObject, tL_error);
+            }
+        });
     }
 
     public void preloadDialogs(boolean z) {
@@ -1172,13 +1190,13 @@ public class SavedMessagesController {
                 str2 = LocaleController.getString(R.string.MyNotes);
                 str3 = LocaleController.getString(R.string.SavedMessages);
             } else {
-                int i2 = (savedDialog.dialogId > 0L ? 1 : (savedDialog.dialogId == 0L ? 0 : -1));
-                MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
                 long j2 = savedDialog.dialogId;
-                if (i2 >= 0) {
-                    str2 = UserObject.getUserName(messagesController.getUser(Long.valueOf(j2)));
+                MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
+                long j3 = savedDialog.dialogId;
+                if (j2 >= 0) {
+                    str2 = UserObject.getUserName(messagesController.getUser(Long.valueOf(j3)));
                 } else {
-                    TLRPC.Chat chat = messagesController.getChat(Long.valueOf(-j2));
+                    TLRPC.Chat chat = messagesController.getChat(Long.valueOf(-j3));
                     str2 = chat != null ? chat.title : "";
                 }
             }
@@ -1206,14 +1224,17 @@ public class SavedMessagesController {
         saveCacheSchedule();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0025, code lost:
-        if (r0 == false) goto L6;
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0025, code lost:
+    
+        if (r0 == false) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0028, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0012, code lost:
+    
+        if (r0 == false) goto L14;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0028, code lost:
+    
         r0 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x0012, code lost:
-        if (r0 == false) goto L6;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1255,10 +1276,11 @@ public class SavedMessagesController {
                 if (i4 >= this.allDialogs.size()) {
                     savedDialog = null;
                     break;
-                } else if (this.allDialogs.get(i4).dialogId == keyAt) {
-                    savedDialog = this.allDialogs.get(i4);
-                    break;
                 } else {
+                    if (this.allDialogs.get(i4).dialogId == keyAt) {
+                        savedDialog = this.allDialogs.get(i4);
+                        break;
+                    }
                     i4++;
                 }
             }
@@ -1300,14 +1322,14 @@ public class SavedMessagesController {
                 arrayList2.remove(l);
             }
         }
-        if (arrayList2.size() <= (UserConfig.getInstance(this.currentAccount).isPremium() ? MessagesController.getInstance(this.currentAccount).savedDialogsPinnedLimitPremium : MessagesController.getInstance(this.currentAccount).savedDialogsPinnedLimitDefault) && !sameOrder(currentPinnedOrder, arrayList2)) {
-            if (!z2) {
-                return updatePinnedOrder(this.loadedDialogs, arrayList2) || updatePinnedOrder(this.cachedDialogs, arrayList2);
-            }
-            updatePinnedOrderToServer(arrayList2);
-            return true;
+        if (arrayList2.size() > (UserConfig.getInstance(this.currentAccount).isPremium() ? MessagesController.getInstance(this.currentAccount).savedDialogsPinnedLimitPremium : MessagesController.getInstance(this.currentAccount).savedDialogsPinnedLimitDefault) || sameOrder(currentPinnedOrder, arrayList2)) {
+            return false;
         }
-        return false;
+        if (!z2) {
+            return updatePinnedOrder(this.loadedDialogs, arrayList2) || updatePinnedOrder(this.cachedDialogs, arrayList2);
+        }
+        updatePinnedOrderToServer(arrayList2);
+        return true;
     }
 
     public boolean updatePinnedOrder(ArrayList<Long> arrayList) {

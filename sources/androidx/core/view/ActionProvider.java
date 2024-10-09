@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+
 /* loaded from: classes.dex */
 public abstract class ActionProvider {
     private final Context mContext;

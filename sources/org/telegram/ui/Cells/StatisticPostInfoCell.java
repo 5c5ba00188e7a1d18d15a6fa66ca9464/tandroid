@@ -34,6 +34,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.StatisticActivity;
 import org.telegram.ui.Stories.StoriesUtilities;
+
 /* loaded from: classes4.dex */
 public abstract class StatisticPostInfoCell extends FrameLayout {
     private final AvatarDrawable avatarDrawable;
@@ -61,13 +62,12 @@ public abstract class StatisticPostInfoCell extends FrameLayout {
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
             public void onDraw(Canvas canvas) {
-                int dp;
                 if (StatisticPostInfoCell.this.postInfo == null || !StatisticPostInfoCell.this.postInfo.isStory()) {
                     super.onDraw(canvas);
                     return;
                 }
-                float dp2 = AndroidUtilities.dp(1.0f);
-                StatisticPostInfoCell.this.storyAvatarParams.originalAvatarRect.set(dp2, dp2, getMeasuredWidth() - dp, getMeasuredHeight() - dp);
+                float dp = AndroidUtilities.dp(1.0f);
+                StatisticPostInfoCell.this.storyAvatarParams.originalAvatarRect.set(dp, dp, getMeasuredWidth() - r0, getMeasuredHeight() - r0);
                 StatisticPostInfoCell.this.storyAvatarParams.drawSegments = false;
                 StatisticPostInfoCell.this.storyAvatarParams.animate = false;
                 StatisticPostInfoCell.this.storyAvatarParams.drawInside = true;
@@ -204,14 +204,14 @@ public abstract class StatisticPostInfoCell extends FrameLayout {
         this.likes.setVisibility(8);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x00c9  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00e3  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0100  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0119  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x012e A[LOOP:0: B:27:0x012c->B:28:0x012e, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x01be  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x01c0  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x01ce  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x00e3  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x012e A[LOOP:0: B:15:0x012c->B:16:0x012e, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x01be  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x01ce  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x01c0  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0100  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x00c9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -227,43 +227,44 @@ public abstract class StatisticPostInfoCell extends FrameLayout {
             this.imageView.setImage(ImageLocation.getForObject(FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize()), messageObject.photoThumbsObject), "50_50", ImageLocation.getForObject(FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, 50), messageObject.photoThumbsObject), "b1", 0, messageObject);
             backupImageView = this.imageView;
             dp = AndroidUtilities.dp(9.0f);
-        } else if (this.chat.chat_photo.sizes.size() <= 0) {
-            TLRPC.Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(this.chat.id));
-            this.avatarDrawable.setInfo(chat);
-            this.imageView.setForUserOrChat(chat, this.avatarDrawable);
-            this.imageView.setRoundRadius(AndroidUtilities.dp(46.0f) >> 1);
-            this.imageView.setScaleX(1.0f);
-            this.imageView.setScaleY(1.0f);
-            if (messageObject.isStory()) {
+        } else {
+            if (this.chat.chat_photo.sizes.size() <= 0) {
+                TLRPC.Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(this.chat.id));
+                this.avatarDrawable.setInfo(chat);
+                this.imageView.setForUserOrChat(chat, this.avatarDrawable);
+                this.imageView.setRoundRadius(AndroidUtilities.dp(46.0f) >> 1);
                 this.imageView.setScaleX(1.0f);
                 this.imageView.setScaleY(1.0f);
-                this.imageView.setRoundRadius(AndroidUtilities.dp(46.0f) >> 1);
+                if (messageObject.isStory()) {
+                    this.imageView.setScaleX(1.0f);
+                    this.imageView.setScaleY(1.0f);
+                    this.imageView.setRoundRadius(AndroidUtilities.dp(46.0f) >> 1);
+                }
+                if (!messageObject.isMusic()) {
+                    charSequence = String.format("%s, %s", messageObject.getMusicTitle().trim(), messageObject.getMusicAuthor().trim());
+                } else if (messageObject.isStory()) {
+                    charSequence = LocaleController.getString(R.string.Story);
+                } else {
+                    CharSequence charSequence2 = messageObject.caption;
+                    charSequence = charSequence2 != null ? charSequence2 : messageObject.messageText;
+                }
+                if (charSequence == null) {
+                    charSequence = "";
+                }
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
+                for (URLSpan uRLSpan : (URLSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), URLSpan.class)) {
+                    spannableStringBuilder.removeSpan(uRLSpan);
+                }
+                this.message.setText(AndroidUtilities.trim(AndroidUtilities.replaceNewLines(spannableStringBuilder), null));
+                this.views.setText(String.format(LocaleController.getPluralString("Views", recentPostInfo.getViews()), AndroidUtilities.formatWholeNumber(recentPostInfo.getViews(), 0)));
+                Date date = new Date(recentPostInfo.getDate() * 1000);
+                this.date.setText(LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(date), LocaleController.getInstance().getFormatterDay().format(date)));
+                this.shares.setText(AndroidUtilities.formatWholeNumber(recentPostInfo.getForwards(), 0));
+                this.likes.setText(AndroidUtilities.formatWholeNumber(recentPostInfo.getReactions(), 0));
+                this.shares.setVisibility(recentPostInfo.getForwards() == 0 ? 0 : 8);
+                this.likes.setVisibility(recentPostInfo.getReactions() == 0 ? 8 : 0);
+                invalidate();
             }
-            if (!messageObject.isMusic()) {
-                charSequence = String.format("%s, %s", messageObject.getMusicTitle().trim(), messageObject.getMusicAuthor().trim());
-            } else if (messageObject.isStory()) {
-                charSequence = LocaleController.getString(R.string.Story);
-            } else {
-                CharSequence charSequence2 = messageObject.caption;
-                charSequence = charSequence2 != null ? charSequence2 : messageObject.messageText;
-            }
-            if (charSequence == null) {
-                charSequence = "";
-            }
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
-            for (URLSpan uRLSpan : (URLSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), URLSpan.class)) {
-                spannableStringBuilder.removeSpan(uRLSpan);
-            }
-            this.message.setText(AndroidUtilities.trim(AndroidUtilities.replaceNewLines(spannableStringBuilder), null));
-            this.views.setText(String.format(LocaleController.getPluralString("Views", recentPostInfo.getViews()), AndroidUtilities.formatWholeNumber(recentPostInfo.getViews(), 0)));
-            Date date = new Date(recentPostInfo.getDate() * 1000);
-            this.date.setText(LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(date), LocaleController.getInstance().getFormatterDay().format(date)));
-            this.shares.setText(AndroidUtilities.formatWholeNumber(recentPostInfo.getForwards(), 0));
-            this.likes.setText(AndroidUtilities.formatWholeNumber(recentPostInfo.getReactions(), 0));
-            this.shares.setVisibility(recentPostInfo.getForwards() == 0 ? 0 : 8);
-            this.likes.setVisibility(recentPostInfo.getReactions() == 0 ? 8 : 0);
-            invalidate();
-        } else {
             this.imageView.setImage(ImageLocation.getForPhoto(this.chat.chat_photo.sizes.get(0), this.chat.chat_photo), "50_50", (String) null, (Drawable) null, this.chat);
             backupImageView = this.imageView;
             dp = AndroidUtilities.dp(46.0f) >> 1;

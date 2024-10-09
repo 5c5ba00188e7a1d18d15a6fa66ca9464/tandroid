@@ -60,6 +60,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public final class MediaMetricsListener implements AnalyticsListener, PlaybackSessionManager.Listener {
     private String activeSessionId;
@@ -258,46 +259,46 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
             }
             int errorCode = ((MediaCodec.CryptoException) th).getErrorCode();
             return new ErrorInfo(getDrmErrorCode(errorCode), errorCode);
-        } else if (th instanceof HttpDataSource.InvalidResponseCodeException) {
+        }
+        if (th instanceof HttpDataSource.InvalidResponseCodeException) {
             return new ErrorInfo(5, ((HttpDataSource.InvalidResponseCodeException) th).responseCode);
-        } else {
-            if ((th instanceof HttpDataSource.InvalidContentTypeException) || (th instanceof ParserException)) {
-                return new ErrorInfo(z ? 10 : 11, 0);
+        }
+        if ((th instanceof HttpDataSource.InvalidContentTypeException) || (th instanceof ParserException)) {
+            return new ErrorInfo(z ? 10 : 11, 0);
+        }
+        boolean z3 = th instanceof HttpDataSource.HttpDataSourceException;
+        if (z3 || (th instanceof UdpDataSource.UdpDataSourceException)) {
+            if (NetworkTypeObserver.getInstance(context).getNetworkType() == 1) {
+                return new ErrorInfo(3, 0);
             }
-            boolean z3 = th instanceof HttpDataSource.HttpDataSourceException;
-            if (z3 || (th instanceof UdpDataSource.UdpDataSourceException)) {
-                if (NetworkTypeObserver.getInstance(context).getNetworkType() == 1) {
-                    return new ErrorInfo(3, 0);
-                }
-                Throwable cause = th.getCause();
-                return cause instanceof UnknownHostException ? new ErrorInfo(6, 0) : cause instanceof SocketTimeoutException ? new ErrorInfo(7, 0) : (z3 && ((HttpDataSource.HttpDataSourceException) th).type == 1) ? new ErrorInfo(4, 0) : new ErrorInfo(8, 0);
-            } else if (playbackException.errorCode == 1002) {
-                return new ErrorInfo(21, 0);
-            } else {
-                if (th instanceof DrmSession.DrmSessionException) {
-                    Throwable th2 = (Throwable) Assertions.checkNotNull(th.getCause());
-                    int i4 = Util.SDK_INT;
-                    if (i4 < 21 || !MediaMetricsListener$$ExternalSyntheticApiModelOutline48.m(th2)) {
-                        return (i4 < 23 || !MediaMetricsListener$$ExternalSyntheticApiModelOutline51.m(th2)) ? (i4 < 18 || !(th2 instanceof NotProvisionedException)) ? (i4 < 18 || !(th2 instanceof DeniedByServerException)) ? th2 instanceof UnsupportedDrmException ? new ErrorInfo(23, 0) : th2 instanceof DefaultDrmSessionManager.MissingSchemeDataException ? new ErrorInfo(28, 0) : new ErrorInfo(30, 0) : new ErrorInfo(29, 0) : new ErrorInfo(24, 0) : new ErrorInfo(27, 0);
-                    }
-                    diagnosticInfo = MediaMetricsListener$$ExternalSyntheticApiModelOutline49.m(th2).getDiagnosticInfo();
-                    int errorCodeFromPlatformDiagnosticsInfo = Util.getErrorCodeFromPlatformDiagnosticsInfo(diagnosticInfo);
-                    return new ErrorInfo(getDrmErrorCode(errorCodeFromPlatformDiagnosticsInfo), errorCodeFromPlatformDiagnosticsInfo);
-                } else if ((th instanceof FileDataSource.FileDataSourceException) && (th.getCause() instanceof FileNotFoundException)) {
-                    Throwable cause2 = ((Throwable) Assertions.checkNotNull(th.getCause())).getCause();
-                    if (Util.SDK_INT >= 21 && MediaMetricsListener$$ExternalSyntheticApiModelOutline52.m(cause2)) {
-                        i2 = MediaMetricsListener$$ExternalSyntheticApiModelOutline53.m(cause2).errno;
-                        i3 = OsConstants.EACCES;
-                        if (i2 == i3) {
-                            return new ErrorInfo(32, 0);
-                        }
-                    }
-                    return new ErrorInfo(31, 0);
-                } else {
-                    return new ErrorInfo(9, 0);
-                }
+            Throwable cause = th.getCause();
+            return cause instanceof UnknownHostException ? new ErrorInfo(6, 0) : cause instanceof SocketTimeoutException ? new ErrorInfo(7, 0) : (z3 && ((HttpDataSource.HttpDataSourceException) th).type == 1) ? new ErrorInfo(4, 0) : new ErrorInfo(8, 0);
+        }
+        if (playbackException.errorCode == 1002) {
+            return new ErrorInfo(21, 0);
+        }
+        if (th instanceof DrmSession.DrmSessionException) {
+            Throwable th2 = (Throwable) Assertions.checkNotNull(th.getCause());
+            int i4 = Util.SDK_INT;
+            if (i4 < 21 || !MediaMetricsListener$$ExternalSyntheticApiModelOutline48.m(th2)) {
+                return (i4 < 23 || !MediaMetricsListener$$ExternalSyntheticApiModelOutline51.m(th2)) ? (i4 < 18 || !(th2 instanceof NotProvisionedException)) ? (i4 < 18 || !(th2 instanceof DeniedByServerException)) ? th2 instanceof UnsupportedDrmException ? new ErrorInfo(23, 0) : th2 instanceof DefaultDrmSessionManager.MissingSchemeDataException ? new ErrorInfo(28, 0) : new ErrorInfo(30, 0) : new ErrorInfo(29, 0) : new ErrorInfo(24, 0) : new ErrorInfo(27, 0);
+            }
+            diagnosticInfo = MediaMetricsListener$$ExternalSyntheticApiModelOutline49.m(th2).getDiagnosticInfo();
+            int errorCodeFromPlatformDiagnosticsInfo = Util.getErrorCodeFromPlatformDiagnosticsInfo(diagnosticInfo);
+            return new ErrorInfo(getDrmErrorCode(errorCodeFromPlatformDiagnosticsInfo), errorCodeFromPlatformDiagnosticsInfo);
+        }
+        if (!(th instanceof FileDataSource.FileDataSourceException) || !(th.getCause() instanceof FileNotFoundException)) {
+            return new ErrorInfo(9, 0);
+        }
+        Throwable cause2 = ((Throwable) Assertions.checkNotNull(th.getCause())).getCause();
+        if (Util.SDK_INT >= 21 && MediaMetricsListener$$ExternalSyntheticApiModelOutline52.m(cause2)) {
+            i2 = MediaMetricsListener$$ExternalSyntheticApiModelOutline53.m(cause2).errno;
+            i3 = OsConstants.EACCES;
+            if (i2 == i3) {
+                return new ErrorInfo(32, 0);
             }
         }
+        return new ErrorInfo(31, 0);
     }
 
     private static Pair getLanguageAndRegion(String str) {
@@ -338,23 +339,23 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
             return 0;
         }
         int inferContentTypeForUriAndMimeType = Util.inferContentTypeForUriAndMimeType(localConfiguration.uri, localConfiguration.mimeType);
-        if (inferContentTypeForUriAndMimeType != 0) {
-            if (inferContentTypeForUriAndMimeType != 1) {
-                return inferContentTypeForUriAndMimeType != 2 ? 1 : 4;
-            }
-            return 5;
+        if (inferContentTypeForUriAndMimeType == 0) {
+            return 3;
         }
-        return 3;
+        if (inferContentTypeForUriAndMimeType != 1) {
+            return inferContentTypeForUriAndMimeType != 2 ? 1 : 4;
+        }
+        return 5;
     }
 
     private static int getTrackChangeReason(int i) {
-        if (i != 1) {
-            if (i != 2) {
-                return i != 3 ? 1 : 4;
-            }
-            return 3;
+        if (i == 1) {
+            return 2;
         }
-        return 2;
+        if (i != 2) {
+            return i != 3 ? 1 : 4;
+        }
+        return 3;
     }
 
     private void maybeAddSessions(AnalyticsListener.Events events) {
@@ -611,16 +612,17 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
                 return player.getPlaybackSuppressionReason() != 0 ? 10 : 6;
             }
             return 7;
-        } else if (playbackState == 3) {
+        }
+        if (playbackState == 3) {
             if (player.getPlayWhenReady()) {
                 return player.getPlaybackSuppressionReason() != 0 ? 9 : 3;
             }
             return 4;
-        } else if (playbackState != 1 || this.currentPlaybackState == 0) {
-            return this.currentPlaybackState;
-        } else {
-            return 12;
         }
+        if (playbackState != 1 || this.currentPlaybackState == 0) {
+            return this.currentPlaybackState;
+        }
+        return 12;
     }
 
     public LogSessionId getLogSessionId() {

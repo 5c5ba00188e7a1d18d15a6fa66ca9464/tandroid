@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.source.dash.manifest;
 
 import android.net.Uri;
 import com.google.android.exoplayer2.util.UriUtil;
+
 /* loaded from: classes.dex */
 public final class RangedUri {
     private int hashCode;

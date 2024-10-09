@@ -17,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
     protected final Method mAbortCreation;
@@ -110,7 +111,7 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
 
     protected Typeface createFromFamiliesWithDefault(Object obj) {
         try {
-            Object newInstance = Array.newInstance(this.mFontFamily, 1);
+            Object newInstance = Array.newInstance((Class<?>) this.mFontFamily, 1);
             Array.set(newInstance, 0, obj);
             return (Typeface) this.mCreateFromFamiliesWithDefault.invoke(null, newInstance, -1, -1);
         } catch (IllegalAccessException | InvocationTargetException unused) {
@@ -120,24 +121,23 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
 
     @Override // androidx.core.graphics.TypefaceCompatApi21Impl, androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, Resources resources, int i) {
-        FontResourcesParserCompat.FontFileResourceEntry[] entries;
-        if (isFontFamilyPrivateAPIAvailable()) {
-            Object newFamily = newFamily();
-            if (newFamily == null) {
-                return null;
-            }
-            for (FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry : fontFamilyFilesResourceEntry.getEntries()) {
-                if (!addFontFromAssetManager(context, newFamily, fontFileResourceEntry.getFileName(), fontFileResourceEntry.getTtcIndex(), fontFileResourceEntry.getWeight(), fontFileResourceEntry.isItalic() ? 1 : 0, FontVariationAxis.fromFontVariationSettings(fontFileResourceEntry.getVariationSettings()))) {
-                    abortCreation(newFamily);
-                    return null;
-                }
-            }
-            if (freeze(newFamily)) {
-                return createFromFamiliesWithDefault(newFamily);
-            }
+        if (!isFontFamilyPrivateAPIAvailable()) {
+            return super.createFromFontFamilyFilesResourceEntry(context, fontFamilyFilesResourceEntry, resources, i);
+        }
+        Object newFamily = newFamily();
+        if (newFamily == null) {
             return null;
         }
-        return super.createFromFontFamilyFilesResourceEntry(context, fontFamilyFilesResourceEntry, resources, i);
+        for (FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry : fontFamilyFilesResourceEntry.getEntries()) {
+            if (!addFontFromAssetManager(context, newFamily, fontFileResourceEntry.getFileName(), fontFileResourceEntry.getTtcIndex(), fontFileResourceEntry.getWeight(), fontFileResourceEntry.isItalic() ? 1 : 0, FontVariationAxis.fromFontVariationSettings(fontFileResourceEntry.getVariationSettings()))) {
+                abortCreation(newFamily);
+                return null;
+            }
+        }
+        if (freeze(newFamily)) {
+            return createFromFamiliesWithDefault(newFamily);
+        }
+        return null;
     }
 
     @Override // androidx.core.graphics.TypefaceCompatApi21Impl, androidx.core.graphics.TypefaceCompatBaseImpl
@@ -156,9 +156,12 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
                     }
                     return null;
                 }
-                Typeface build = new Typeface.Builder(openFileDescriptor.getFileDescriptor()).setWeight(findBestInfo.getWeight()).setItalic(findBestInfo.isItalic()).build();
-                openFileDescriptor.close();
-                return build;
+                try {
+                    Typeface build = new Typeface.Builder(openFileDescriptor.getFileDescriptor()).setWeight(findBestInfo.getWeight()).setItalic(findBestInfo.isItalic()).build();
+                    openFileDescriptor.close();
+                    return build;
+                } finally {
+                }
             } catch (IOException unused) {
                 return null;
             }
@@ -182,30 +185,30 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
         if (!z) {
             abortCreation(newFamily);
             return null;
-        } else if (freeze(newFamily) && (createFromFamiliesWithDefault = createFromFamiliesWithDefault(newFamily)) != null) {
-            return Typeface.create(createFromFamiliesWithDefault, i);
-        } else {
-            return null;
         }
+        if (freeze(newFamily) && (createFromFamiliesWithDefault = createFromFamiliesWithDefault(newFamily)) != null) {
+            return Typeface.create(createFromFamiliesWithDefault, i);
+        }
+        return null;
     }
 
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromResourcesFontFile(Context context, Resources resources, int i, String str, int i2) {
-        if (isFontFamilyPrivateAPIAvailable()) {
-            Object newFamily = newFamily();
-            if (newFamily == null) {
-                return null;
-            }
-            if (!addFontFromAssetManager(context, newFamily, str, 0, -1, -1, null)) {
-                abortCreation(newFamily);
-                return null;
-            } else if (freeze(newFamily)) {
-                return createFromFamiliesWithDefault(newFamily);
-            } else {
-                return null;
-            }
+        if (!isFontFamilyPrivateAPIAvailable()) {
+            return super.createFromResourcesFontFile(context, resources, i, str, i2);
         }
-        return super.createFromResourcesFontFile(context, resources, i, str, i2);
+        Object newFamily = newFamily();
+        if (newFamily == null) {
+            return null;
+        }
+        if (!addFontFromAssetManager(context, newFamily, str, 0, -1, -1, null)) {
+            abortCreation(newFamily);
+            return null;
+        }
+        if (freeze(newFamily)) {
+            return createFromFamiliesWithDefault(newFamily);
+        }
+        return null;
     }
 
     protected Method obtainAbortCreationMethod(Class cls) {
@@ -224,7 +227,7 @@ public class TypefaceCompatApi26Impl extends TypefaceCompatApi21Impl {
 
     protected Method obtainCreateFromFamiliesWithDefaultMethod(Class cls) {
         Class cls2 = Integer.TYPE;
-        Method declaredMethod = Typeface.class.getDeclaredMethod("createFromFamiliesWithDefault", Array.newInstance(cls, 1).getClass(), cls2, cls2);
+        Method declaredMethod = Typeface.class.getDeclaredMethod("createFromFamiliesWithDefault", Array.newInstance((Class<?>) cls, 1).getClass(), cls2, cls2);
         declaredMethod.setAccessible(true);
         return declaredMethod;
     }

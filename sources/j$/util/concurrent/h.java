@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.IntFunction;
 import java.util.stream.Stream;
+
 /* loaded from: classes2.dex */
 public final class h extends b implements Set, j$.util.b {
     public final /* synthetic */ int b;
@@ -106,8 +107,9 @@ public final class h extends b implements Set, j$.util.b {
                     k b = oVar.b();
                     if (b == null) {
                         return;
+                    } else {
+                        consumer.r(b.b);
                     }
-                    consumer.accept(b.b);
                 }
             default:
                 consumer.getClass();
@@ -120,8 +122,9 @@ public final class h extends b implements Set, j$.util.b {
                     k b2 = oVar2.b();
                     if (b2 == null) {
                         return;
+                    } else {
+                        consumer.r(new j(b2.b, b2.c, this.a));
                     }
-                    consumer.accept(new j(b2.b, b2.c, this.a));
                 }
         }
     }
@@ -142,7 +145,7 @@ public final class h extends b implements Set, j$.util.b {
     public final int hashCode() {
         switch (this.b) {
             case 0:
-                Iterator it = iterator();
+                Object it = iterator();
                 int i = 0;
                 while (((a) it).hasNext()) {
                     i += ((g) it).next().hashCode();
@@ -263,6 +266,7 @@ public final class h extends b implements Set, j$.util.b {
         }
     }
 
+    @Override // java.util.Collection
     public final Object[] toArray(IntFunction intFunction) {
         int i = this.b;
         I a = G.a(intFunction);

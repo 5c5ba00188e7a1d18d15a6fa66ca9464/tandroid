@@ -11,6 +11,7 @@ import com.google.common.base.Supplier;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
+
 /* loaded from: classes.dex */
 public final class DefaultPlaybackSessionManager implements PlaybackSessionManager {
     public static final Supplier DEFAULT_SESSION_ID_GENERATOR = new Supplier() { // from class: com.google.android.exoplayer2.analytics.DefaultPlaybackSessionManager$$ExternalSyntheticLambda0
@@ -166,13 +167,13 @@ public final class DefaultPlaybackSessionManager implements PlaybackSessionManag
                 }
             }
         }
-        if (sessionDescriptor == null) {
-            String str = (String) this.sessionIdGenerator.get();
-            SessionDescriptor sessionDescriptor3 = new SessionDescriptor(str, i, mediaPeriodId);
-            this.sessions.put(str, sessionDescriptor3);
-            return sessionDescriptor3;
+        if (sessionDescriptor != null) {
+            return sessionDescriptor;
         }
-        return sessionDescriptor;
+        String str = (String) this.sessionIdGenerator.get();
+        SessionDescriptor sessionDescriptor3 = new SessionDescriptor(str, i, mediaPeriodId);
+        this.sessions.put(str, sessionDescriptor3);
+        return sessionDescriptor3;
     }
 
     private void updateCurrentSession(AnalyticsListener.EventTime eventTime) {
@@ -224,11 +225,12 @@ public final class DefaultPlaybackSessionManager implements PlaybackSessionManag
         this.listener = listener;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0044, code lost:
-        if (r25.mediaPeriodId.windowSequenceNumber < r2.windowSequenceNumber) goto L17;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0044, code lost:
+    
+        if (r25.mediaPeriodId.windowSequenceNumber < r2.windowSequenceNumber) goto L21;
      */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00df A[Catch: all -> 0x0037, TryCatch #0 {all -> 0x0037, blocks: (B:4:0x0005, B:8:0x0014, B:11:0x0024, B:13:0x002e, B:18:0x003a, B:23:0x0048, B:25:0x0054, B:26:0x005a, B:28:0x005f, B:30:0x0065, B:32:0x007e, B:34:0x00d9, B:36:0x00df, B:38:0x00f5, B:40:0x0101, B:42:0x0107), top: B:47:0x0005 }] */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00f1  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00df A[Catch: all -> 0x0037, TryCatch #0 {all -> 0x0037, blocks: (B:4:0x0005, B:9:0x0014, B:12:0x0024, B:14:0x002e, B:19:0x003a, B:22:0x0048, B:24:0x0054, B:25:0x005a, B:27:0x005f, B:29:0x0065, B:31:0x007e, B:32:0x00d9, B:34:0x00df, B:35:0x00f5, B:37:0x0101, B:39:0x0107), top: B:3:0x0005 }] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00f1  */
     @Override // com.google.android.exoplayer2.analytics.PlaybackSessionManager
     /*
         Code decompiled incorrectly, please refer to instructions dump.

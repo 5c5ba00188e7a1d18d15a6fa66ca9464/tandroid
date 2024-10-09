@@ -12,6 +12,7 @@ import android.widget.RemoteViews;
 import java.util.ArrayList;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class ChatsWidgetProvider extends AppWidgetProvider {
     private static int getCellsForSize(int i) {
@@ -26,7 +27,7 @@ public class ChatsWidgetProvider extends AppWidgetProvider {
         int i2;
         ApplicationLoader.postInitApplication();
         int cellsForSize = getCellsForSize(appWidgetManager.getAppWidgetOptions(i).getInt("appWidgetMaxHeight"));
-        Intent intent = new Intent(context, ChatsWidgetService.class);
+        Intent intent = new Intent(context, (Class<?>) ChatsWidgetService.class);
         intent.putExtra("appWidgetId", i);
         intent.setData(Uri.parse(intent.toUri(1)));
         SharedPreferences sharedPreferences = context.getSharedPreferences("shortcut_widget", 0);
@@ -47,7 +48,7 @@ public class ChatsWidgetProvider extends AppWidgetProvider {
                 int i4 = R.id.list_view;
                 remoteViews.setRemoteAdapter(i, i4, intent);
                 remoteViews.setEmptyView(i4, R.id.empty_view);
-                Intent intent2 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
+                Intent intent2 = new Intent(ApplicationLoader.applicationContext, (Class<?>) LaunchActivity.class);
                 intent2.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
                 intent2.addFlags(ConnectionsManager.FileTypeFile);
                 intent2.addCategory("android.intent.category.LAUNCHER");
@@ -61,7 +62,7 @@ public class ChatsWidgetProvider extends AppWidgetProvider {
         int i42 = R.id.list_view;
         remoteViews2.setRemoteAdapter(i, i42, intent);
         remoteViews2.setEmptyView(i42, R.id.empty_view);
-        Intent intent22 = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
+        Intent intent22 = new Intent(ApplicationLoader.applicationContext, (Class<?>) LaunchActivity.class);
         intent22.setAction("com.tmessages.openchat" + Math.random() + ConnectionsManager.DEFAULT_DATACENTER_ID);
         intent22.addFlags(ConnectionsManager.FileTypeFile);
         intent22.addCategory("android.intent.category.LAUNCHER");

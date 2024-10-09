@@ -4,6 +4,7 @@ import com.microsoft.appcenter.ingestion.models.Model;
 import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class UserExtension implements Model {
     private String localId;
@@ -18,12 +19,12 @@ public class UserExtension implements Model {
         }
         UserExtension userExtension = (UserExtension) obj;
         String str = this.localId;
-        if (str == null ? userExtension.localId == null : str.equals(userExtension.localId)) {
-            String str2 = this.locale;
-            String str3 = userExtension.locale;
-            return str2 != null ? str2.equals(str3) : str3 == null;
+        if (str == null ? userExtension.localId != null : !str.equals(userExtension.localId)) {
+            return false;
         }
-        return false;
+        String str2 = this.locale;
+        String str3 = userExtension.locale;
+        return str2 != null ? str2.equals(str3) : str3 == null;
     }
 
     public String getLocalId() {

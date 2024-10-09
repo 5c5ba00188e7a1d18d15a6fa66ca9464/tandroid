@@ -21,6 +21,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Stories.recorder.StoryEntry;
+
 /* loaded from: classes3.dex */
 public class FilterShaders {
     private BlurProgram blurProgram;
@@ -157,10 +158,11 @@ public class FilterShaders {
                 f2 = Math.round(f);
                 if (f2 >= 1.0f) {
                     double d = f2;
+                    double pow = Math.pow(d, 2.0d) * (-2.0d);
                     double d2 = 0.00390625f;
                     double sqrt = Math.sqrt(Math.pow(d, 2.0d) * 6.283185307179586d);
                     Double.isNaN(d2);
-                    int floor = (int) Math.floor(Math.sqrt(Math.pow(d, 2.0d) * (-2.0d) * Math.log(d2 * sqrt)));
+                    int floor = (int) Math.floor(Math.sqrt(pow * Math.log(d2 * sqrt)));
                     i = floor + (floor % 2);
                 } else {
                     i = 0;
@@ -331,7 +333,7 @@ public class FilterShaders {
                 return null;
             }
             char c = 0;
-            double[][] dArr = (double[][]) Array.newInstance(Double.TYPE, size, 3);
+            double[][] dArr = (double[][]) Array.newInstance((Class<?>) Double.TYPE, size, 3);
             double[] dArr2 = new double[size];
             double[] dArr3 = dArr[0];
             dArr3[1] = 1.0d;
@@ -732,15 +734,15 @@ public class FilterShaders {
         GLES20.glCompileShader(glCreateShader);
         int[] iArr = new int[1];
         GLES20.glGetShaderiv(glCreateShader, 35713, iArr, 0);
-        if (iArr[0] == 0) {
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.e(GLES20.glGetShaderInfoLog(glCreateShader));
-                FileLog.e("shader code:\n " + str);
-            }
-            GLES20.glDeleteShader(glCreateShader);
-            return 0;
+        if (iArr[0] != 0) {
+            return glCreateShader;
         }
-        return glCreateShader;
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.e(GLES20.glGetShaderInfoLog(glCreateShader));
+            FileLog.e("shader code:\n " + str);
+        }
+        GLES20.glDeleteShader(glCreateShader);
+        return 0;
     }
 
     private void loadTexture(Bitmap bitmap, int i, int i2, int i3) {
@@ -799,14 +801,14 @@ public class FilterShaders {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0023  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0026  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x002b  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x002e  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0036  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0038  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0051  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x015e A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0023  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x002b  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0036  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0051  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x015e A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0038  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x002e  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0026  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -918,11 +920,11 @@ public class FilterShaders {
                     this.compositeInputImageHandle = GLES20.glGetUniformLocation(this.compositeProgram, "inputImageTexture3");
                     this.compositeCurveImageHandle = GLES20.glGetUniformLocation(this.compositeProgram, "toneCurveTexture");
                     this.compositeMixtureHandle = GLES20.glGetUniformLocation(this.compositeProgram, "mixturePercent");
-                    if (this.isVideo) {
-                        this.compositeMatrixHandle = GLES20.glGetUniformLocation(this.compositeProgram, "videoMatrix");
-                        this.compositeTexSizeHandle = GLES20.glGetUniformLocation(this.compositeProgram, "texSize");
+                    if (!this.isVideo) {
                         return true;
                     }
+                    this.compositeMatrixHandle = GLES20.glGetUniformLocation(this.compositeProgram, "videoMatrix");
+                    this.compositeTexSizeHandle = GLES20.glGetUniformLocation(this.compositeProgram, "texSize");
                     return true;
                 }
                 if (i2 == 1 && z) {

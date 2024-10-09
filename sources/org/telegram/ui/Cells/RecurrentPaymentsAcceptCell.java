@@ -10,6 +10,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CheckBoxSquare;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
+
 /* loaded from: classes4.dex */
 public class RecurrentPaymentsAcceptCell extends FrameLayout {
     private CheckBoxSquare checkBox;

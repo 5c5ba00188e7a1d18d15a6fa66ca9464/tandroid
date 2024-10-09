@@ -16,6 +16,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
+import android.util.Property;
 import android.util.Size;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,6 +62,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.FloatingToolbar;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public final class FloatingToolbar {
     private static final MenuItem.OnMenuItemClickListener NO_OP_MENUITEM_CLICK_LISTENER = new MenuItem.OnMenuItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingToolbar$$ExternalSyntheticLambda2
@@ -373,9 +375,9 @@ public final class FloatingToolbar {
             int dp = AndroidUtilities.dp(8.0f);
             this.mIconTextSpacing = dp;
             this.mLogAccelerateInterpolator = new LogAccelerateInterpolator();
-            this.mFastOutSlowInInterpolator = AnimationUtils.loadInterpolator(context, 17563661);
-            this.mLinearOutSlowInInterpolator = AnimationUtils.loadInterpolator(context, 17563662);
-            this.mFastOutLinearInInterpolator = AnimationUtils.loadInterpolator(context, 17563663);
+            this.mFastOutSlowInInterpolator = AnimationUtils.loadInterpolator(context, android.R.interpolator.fast_out_slow_in);
+            this.mLinearOutSlowInInterpolator = AnimationUtils.loadInterpolator(context, android.R.interpolator.linear_out_slow_in);
+            this.mFastOutLinearInInterpolator = AnimationUtils.loadInterpolator(context, android.R.interpolator.fast_out_linear_in);
             drawable = context.getDrawable(R.drawable.ft_avd_tooverflow);
             Drawable mutate = drawable.mutate();
             this.mArrow = mutate;
@@ -607,8 +609,10 @@ public final class FloatingToolbar {
                 @Override // android.widget.ArrayAdapter, android.widget.Adapter
                 public View getView(int i, View view, ViewGroup viewGroup) {
                     int width;
+                    OverflowPanelViewHelper overflowPanelViewHelper = FloatingToolbarPopup.this.mOverflowPanelViewHelper;
+                    MenuItem menuItem = (MenuItem) getItem(i);
                     width = FloatingToolbarPopup.this.mOverflowPanelSize.getWidth();
-                    return FloatingToolbarPopup.this.mOverflowPanelViewHelper.getView((MenuItem) getItem(i), width, view);
+                    return overflowPanelViewHelper.getView(menuItem, width, view);
                 }
             });
             overflowPanel.setOnItemClickListener(new AdapterView.OnItemClickListener() { // from class: org.telegram.ui.ActionBar.FloatingToolbar$FloatingToolbarPopup$$ExternalSyntheticLambda7
@@ -773,11 +777,11 @@ public final class FloatingToolbar {
                 this.mOverflowButtonIcon.setImageDrawable(this.mToOverflow);
                 this.mToOverflow.start();
                 closeOverflow();
-                return;
+            } else {
+                this.mOverflowButtonIcon.setImageDrawable(this.mToArrow);
+                this.mToArrow.start();
+                openOverflow();
             }
-            this.mOverflowButtonIcon.setImageDrawable(this.mToArrow);
-            this.mToArrow.start();
-            openOverflow();
         }
 
         private void openOverflow() {
@@ -1397,31 +1401,32 @@ public final class FloatingToolbar {
     /* JADX INFO: Access modifiers changed from: private */
     public static AnimatorSet createEnterAnimation(View view) {
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, 1.0f).setDuration(150L));
+        animatorSet.playTogether(ObjectAnimator.ofFloat(view, (Property<View, Float>) View.ALPHA, 0.0f, 1.0f).setDuration(150L));
         return animatorSet;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static AnimatorSet createExitAnimation(View view, int i, Animator.AnimatorListener animatorListener) {
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, 1.0f, 0.0f).setDuration(100L));
+        animatorSet.playTogether(ObjectAnimator.ofFloat(view, (Property<View, Float>) View.ALPHA, 1.0f, 0.0f).setDuration(100L));
         animatorSet.setStartDelay(i);
         animatorSet.addListener(animatorListener);
         return animatorSet;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0084, code lost:
-        if (r11 == 1) goto L4;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0084, code lost:
+    
+        if (r11 == 1) goto L5;
      */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0097  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0099  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x009c  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0097  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x009c  */
     /* JADX WARN: Removed duplicated region for block: B:24:0x00a1  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00a3  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00a7  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00a7  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0099  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

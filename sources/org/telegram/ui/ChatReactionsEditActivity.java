@@ -31,6 +31,7 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SimpleThemeDescription;
+
 /* loaded from: classes4.dex */
 public class ChatReactionsEditActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private RadioCell allReactions;
@@ -212,7 +213,7 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    ChatReactionsEditActivity.this.finishFragment();
+                    ChatReactionsEditActivity.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -307,14 +308,14 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
                         return 0;
                     }
                     return i3 == 1 ? 1 : 2;
-                } else if (i3 == 0) {
-                    return 3;
-                } else {
-                    if (i3 == 1) {
-                        return 0;
-                    }
-                    return i3 == 2 ? 1 : 2;
                 }
+                if (i3 == 0) {
+                    return 3;
+                }
+                if (i3 == 1) {
+                    return 0;
+                }
+                return i3 == 2 ? 1 : 2;
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -327,9 +328,10 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
                         headerCell2.setText(LocaleController.getString(R.string.OnlyAllowThisReactions));
                         headerCell2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                         return;
-                    } else if (itemViewType != 2) {
-                        return;
                     } else {
+                        if (itemViewType != 2) {
+                            return;
+                        }
                         AvailableReactionCell availableReactionCell = (AvailableReactionCell) viewHolder.itemView;
                         TLRPC.TL_availableReaction tL_availableReaction = (TLRPC.TL_availableReaction) ChatReactionsEditActivity.this.availableReactions.get(i3 - (ChatReactionsEditActivity.this.isChannel ? 2 : 3));
                         availableReactionCell.bind(tL_availableReaction, ChatReactionsEditActivity.this.chatReactions.contains(tL_availableReaction.reaction), ((BaseFragment) ChatReactionsEditActivity.this).currentAccount);
@@ -359,22 +361,22 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i3) {
-                if (i3 != 0) {
-                    if (i3 != 1) {
-                        if (i3 != 3) {
-                            return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));
-                        }
-                        FrameLayout frameLayout = new FrameLayout(context);
-                        if (ChatReactionsEditActivity.this.contorlsLayout.getParent() != null) {
-                            ((ViewGroup) ChatReactionsEditActivity.this.contorlsLayout.getParent()).removeView(ChatReactionsEditActivity.this.contorlsLayout);
-                        }
-                        frameLayout.addView(ChatReactionsEditActivity.this.contorlsLayout);
-                        frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                        return new RecyclerListView.Holder(frameLayout);
-                    }
+                if (i3 == 0) {
+                    return new RecyclerListView.Holder(new TextInfoPrivacyCell(context));
+                }
+                if (i3 == 1) {
                     return new RecyclerListView.Holder(new HeaderCell(context, 23));
                 }
-                return new RecyclerListView.Holder(new TextInfoPrivacyCell(context));
+                if (i3 != 3) {
+                    return new RecyclerListView.Holder(new AvailableReactionCell(context, false, false));
+                }
+                FrameLayout frameLayout = new FrameLayout(context);
+                if (ChatReactionsEditActivity.this.contorlsLayout.getParent() != null) {
+                    ((ViewGroup) ChatReactionsEditActivity.this.contorlsLayout.getParent()).removeView(ChatReactionsEditActivity.this.contorlsLayout);
+                }
+                frameLayout.addView(ChatReactionsEditActivity.this.contorlsLayout);
+                frameLayout.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                return new RecyclerListView.Holder(frameLayout);
             }
         };
         this.listAdapter = adapter;
@@ -416,8 +418,9 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
         }, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhiteBlackText, Theme.key_windowBackgroundWhiteGrayText2, Theme.key_listSelector, Theme.key_windowBackgroundGray, Theme.key_windowBackgroundWhiteGrayText4, Theme.key_text_RedRegular, Theme.key_windowBackgroundChecked, Theme.key_windowBackgroundCheckText, Theme.key_switchTrackBlue, Theme.key_switchTrackBlueChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
-        if (r0 == null) goto L9;
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x004c, code lost:
+    
+        if (r0 == null) goto L10;
      */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -464,9 +467,10 @@ public class ChatReactionsEditActivity extends BaseFragment implements Notificat
             }
             if (chatReactions instanceof TLRPC.TL_chatReactionsNone) {
                 i = 2;
-            } else if (!(chatReactions instanceof TLRPC.TL_chatReactionsSome)) {
-                return;
             } else {
+                if (!(chatReactions instanceof TLRPC.TL_chatReactionsSome)) {
+                    return;
+                }
                 TLRPC.TL_chatReactionsSome tL_chatReactionsSome = (TLRPC.TL_chatReactionsSome) chatReactions;
                 for (int i2 = 0; i2 < tL_chatReactionsSome.reactions.size(); i2++) {
                     if (tL_chatReactionsSome.reactions.get(i2) instanceof TLRPC.TL_reactionEmoji) {

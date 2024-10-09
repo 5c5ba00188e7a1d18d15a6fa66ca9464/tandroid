@@ -30,6 +30,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Loadable;
 import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Components.ScaleStateListAnimator;
+
 /* loaded from: classes4.dex */
 public class ButtonWithCounterView extends FrameLayout implements Loadable {
     private float countAlpha;

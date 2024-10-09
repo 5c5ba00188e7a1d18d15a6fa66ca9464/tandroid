@@ -25,6 +25,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class GroupCallPipButton extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, VoIPService.StateListener {
     float amplitude;
@@ -97,10 +98,10 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         public void setToPaint(Paint paint) {
             if (this.currentState != 2) {
                 paint.setShader(this.shader);
-                return;
+            } else {
+                paint.setShader(null);
+                paint.setColor(Theme.getColor(Theme.key_voipgroup_topPanelGray));
             }
-            paint.setShader(null);
-            paint.setColor(Theme.getColor(Theme.key_voipgroup_topPanelGray));
         }
 
         public void update(long j, float f) {
@@ -128,9 +129,10 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                     radialGradient = new RadialGradient(200.0f, 200.0f, 200.0f, new int[]{color3, color4}, (float[]) null, Shader.TileMode.CLAMP);
                     this.shader = radialGradient;
                 }
-            } else if (i != 3) {
-                return;
             } else {
+                if (i != 3) {
+                    return;
+                }
                 int i6 = this.color1;
                 int i7 = Theme.key_voipgroup_mutedByAdminGradient;
                 if (i6 != Theme.getColor(i7) || this.color2 != Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient2) || this.color3 != Theme.getColor(Theme.key_voipgroup_mutedByAdminGradient3)) {
@@ -219,6 +221,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         this.animateAmplitudeDiff = (min - this.amplitude) / ((BlobDrawable.AMPLITUDE_SPEED * 500.0f) + 100.0f);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     private void updateButtonState() {
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance == null || sharedInstance.groupCall == null) {
@@ -314,26 +317,26 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0227  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x029a  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x02a5  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x02ce  */
-    /* JADX WARN: Removed duplicated region for block: B:136:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00be  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00ef  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0109  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0117  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0129  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0154  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0158  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0166  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x016a  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0172  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x02ce  */
+    /* JADX WARN: Removed duplicated region for block: B:111:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x016a  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x0158  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0129  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x00ef  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0109  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0117  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0154  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0166  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0172  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0227  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0248  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x029a  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x02a5  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0236  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -544,8 +547,9 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                         }
                         if (this.removed) {
                             return;
+                        } else {
+                            return;
                         }
-                        return;
                     }
                 }
                 if (!z) {
@@ -696,16 +700,17 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                 sb.append(string);
                 sb.append(", ");
                 i2 = R.string.VoipTapToMute;
-            } else if (i != 2) {
-                if (i == 3) {
-                    sb = new StringBuilder();
-                    sb.append(string);
-                    sb.append(", ");
-                    i2 = R.string.VoipMutedByAdmin;
-                }
-                setContentDescription(string);
-                invalidate();
             } else {
+                if (i != 2) {
+                    if (i == 3) {
+                        sb = new StringBuilder();
+                        sb.append(string);
+                        sb.append(", ");
+                        i2 = R.string.VoipMutedByAdmin;
+                    }
+                    setContentDescription(string);
+                    invalidate();
+                }
                 sb = new StringBuilder();
                 sb.append(string);
                 sb.append(", ");

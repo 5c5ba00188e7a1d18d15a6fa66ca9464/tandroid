@@ -17,6 +17,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.util.Arrays;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class AmrExtractor implements Extractor {
     private static final int MAX_FRAME_SIZE_BYTES;
@@ -217,13 +218,13 @@ public final class AmrExtractor implements Extractor {
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public int read(ExtractorInput extractorInput, PositionHolder positionHolder) {
         assertInitialized();
-        if (extractorInput.getPosition() != 0 || readAmrHeader(extractorInput)) {
-            maybeOutputFormat();
-            int readSample = readSample(extractorInput);
-            maybeOutputSeekMap(extractorInput.getLength(), readSample);
-            return readSample;
+        if (extractorInput.getPosition() == 0 && !readAmrHeader(extractorInput)) {
+            throw ParserException.createForMalformedContainer("Could not find AMR header.", null);
         }
-        throw ParserException.createForMalformedContainer("Could not find AMR header.", null);
+        maybeOutputFormat();
+        int readSample = readSample(extractorInput);
+        maybeOutputSeekMap(extractorInput.getLength(), readSample);
+        return readSample;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor

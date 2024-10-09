@@ -5,6 +5,7 @@ import android.media.audiofx.AudioEffect;
 import android.media.audiofx.NoiseSuppressor;
 import java.util.UUID;
 import org.webrtc.Logging;
+
 /* loaded from: classes.dex */
 class WebRtcAudioEffects {
     private static final UUID AOSP_ACOUSTIC_ECHO_CANCELER = UUID.fromString("bb392ec0-8d4d-11e0-a896-0002a5d5c51b");
@@ -52,7 +53,7 @@ class WebRtcAudioEffects {
         }
         for (AudioEffect.Descriptor descriptor : availableEffects) {
             if (descriptor.type.equals(uuid)) {
-                return !descriptor.uuid.equals(uuid2);
+                return !r4.uuid.equals(uuid2);
             }
         }
         return false;
@@ -133,13 +134,13 @@ class WebRtcAudioEffects {
             Logging.w(TAG, "Platform AEC is not supported");
             this.shouldEnableAec = false;
             return false;
-        } else if (this.aec == null || z == this.shouldEnableAec) {
+        }
+        if (this.aec == null || z == this.shouldEnableAec) {
             this.shouldEnableAec = z;
             return true;
-        } else {
-            Logging.e(TAG, "Platform AEC state can't be modified while recording");
-            return false;
         }
+        Logging.e(TAG, "Platform AEC state can't be modified while recording");
+        return false;
     }
 
     public boolean setNS(boolean z) {
@@ -148,12 +149,12 @@ class WebRtcAudioEffects {
             Logging.w(TAG, "Platform NS is not supported");
             this.shouldEnableNs = false;
             return false;
-        } else if (this.ns == null || z == this.shouldEnableNs) {
+        }
+        if (this.ns == null || z == this.shouldEnableNs) {
             this.shouldEnableNs = z;
             return true;
-        } else {
-            Logging.e(TAG, "Platform NS state can't be modified while recording");
-            return false;
         }
+        Logging.e(TAG, "Platform NS state can't be modified while recording");
+        return false;
     }
 }

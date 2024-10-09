@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class Ac4Util {
     private static final int[] SAMPLE_COUNT = {2002, 2000, 1920, 1601, 1600, 1001, 1000, 960, 800, 800, 480, 400, 400, 2048};
@@ -52,14 +53,17 @@ public abstract class Ac4Util {
         return parseAc4SyncframeInfo(new ParsableBitArray(bArr)).sampleCount;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0084, code lost:
-        if (r11 != 11) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0084, code lost:
+    
+        if (r11 != 11) goto L46;
      */
     /* JADX WARN: Code restructure failed: missing block: B:41:0x0089, code lost:
-        if (r11 != 11) goto L39;
+    
+        if (r11 != 11) goto L46;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x008e, code lost:
-        if (r11 != 8) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x008e, code lost:
+    
+        if (r11 != 8) goto L46;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

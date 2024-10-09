@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzaf extends zzx {
@@ -21,11 +22,11 @@ public final class zzaf extends zzx {
     /* JADX WARN: Type inference failed for: r5v11 */
     /* JADX WARN: Type inference failed for: r5v13, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r5v4, types: [int[]] */
+    /* JADX WARN: Type inference failed for: r6v3, types: [java.lang.Object[]] */
     public static zzaf zzf(int i, Object[] objArr, zzw zzwVar) {
         int i2;
         short[] sArr;
         Object[] objArr2;
-        byte[] bArr;
         double d;
         int i3 = i;
         Object[] objArr3 = objArr;
@@ -67,8 +68,8 @@ public final class zzaf extends zzx {
             int i4 = i2 - 1;
             char c2 = 65535;
             if (i2 <= 128) {
-                byte[] bArr2 = new byte[i2];
-                Arrays.fill(bArr2, (byte) -1);
+                byte[] bArr = new byte[i2];
+                Arrays.fill(bArr, (byte) -1);
                 int i5 = 0;
                 for (int i6 = 0; i6 < i3; i6++) {
                     int i7 = i5 + i5;
@@ -81,33 +82,33 @@ public final class zzaf extends zzx {
                     int zza2 = zzq.zza(obj6.hashCode());
                     while (true) {
                         int i9 = zza2 & i4;
-                        int i10 = bArr2[i9] & 255;
+                        int i10 = bArr[i9] & 255;
                         if (i10 == 255) {
-                            bArr2[i9] = (byte) i7;
+                            bArr[i9] = (byte) i7;
                             if (i5 < i6) {
                                 objArr3[i7] = obj6;
                                 objArr3[i7 ^ 1] = obj7;
                             }
                             i5++;
-                        } else if (obj6.equals(objArr3[i10])) {
-                            int i11 = i10 ^ 1;
-                            Object obj8 = objArr3[i11];
-                            obj8.getClass();
-                            zzv zzvVar = new zzv(obj6, obj7, obj8);
-                            objArr3[i11] = obj7;
-                            obj = zzvVar;
-                            break;
                         } else {
+                            if (obj6.equals(objArr3[i10])) {
+                                int i11 = i10 ^ 1;
+                                Object obj8 = objArr3[i11];
+                                obj8.getClass();
+                                zzv zzvVar = new zzv(obj6, obj7, obj8);
+                                objArr3[i11] = obj7;
+                                obj = zzvVar;
+                                break;
+                            }
                             zza2 = i9 + 1;
                         }
                     }
                 }
                 if (i5 == i3) {
-                    bArr = bArr2;
-                    c = 2;
                     obj = bArr;
+                    c = 2;
                 } else {
-                    sArr = new Object[]{bArr2, Integer.valueOf(i5), obj};
+                    sArr = new Object[]{bArr, Integer.valueOf(i5), obj};
                 }
             } else if (i2 <= 32768) {
                 sArr = new short[i2];
@@ -132,15 +133,16 @@ public final class zzaf extends zzx {
                                 objArr3[i14 ^ 1] = obj10;
                             }
                             i12++;
-                        } else if (obj9.equals(objArr3[c3])) {
-                            int i17 = c3 ^ 1;
-                            Object obj11 = objArr3[i17];
-                            obj11.getClass();
-                            zzv zzvVar2 = new zzv(obj9, obj10, obj11);
-                            objArr3[i17] = obj10;
-                            obj = zzvVar2;
-                            break;
                         } else {
+                            if (obj9.equals(objArr3[c3])) {
+                                int i17 = c3 ^ 1;
+                                Object obj11 = objArr3[i17];
+                                obj11.getClass();
+                                zzv zzvVar2 = new zzv(obj9, obj10, obj11);
+                                objArr3[i17] = obj10;
+                                obj = zzvVar2;
+                                break;
+                            }
                             zza3 = i16 + 1;
                         }
                     }
@@ -174,15 +176,16 @@ public final class zzaf extends zzx {
                                 objArr3[i20 ^ 1] = obj13;
                             }
                             i19++;
-                        } else if (obj12.equals(objArr3[r15])) {
-                            int i23 = r15 ^ 1;
-                            Object obj14 = objArr3[i23];
-                            obj14.getClass();
-                            zzv zzvVar3 = new zzv(obj12, obj13, obj14);
-                            objArr3[i23] = obj13;
-                            obj = zzvVar3;
-                            break;
                         } else {
+                            if (obj12.equals(objArr3[r15])) {
+                                int i23 = r15 ^ 1;
+                                Object obj14 = objArr3[i23];
+                                obj14.getClass();
+                                zzv zzvVar3 = new zzv(obj12, obj13, obj14);
+                                objArr3[i23] = obj13;
+                                obj = zzvVar3;
+                                break;
+                            }
                             zza4 = i22 + 1;
                             c2 = 65535;
                         }
@@ -196,9 +199,8 @@ public final class zzaf extends zzx {
                     obj = objArr2;
                 }
             }
-            bArr = sArr;
+            obj = sArr;
             c = 2;
-            obj = bArr;
         }
         boolean z = obj instanceof Object[];
         Object obj15 = obj;
@@ -214,8 +216,8 @@ public final class zzaf extends zzx {
         return new zzaf(obj15, objArr3, i3);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:40:0x009e A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x009f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:5:0x009e A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x009f A[RETURN] */
     @Override // com.google.android.gms.internal.play_billing.zzx, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -243,12 +245,12 @@ public final class zzaf extends zzx {
                         int i3 = bArr[i2] & 255;
                         if (i3 == 255) {
                             break;
-                        } else if (obj.equals(objArr[i3])) {
+                        }
+                        if (obj.equals(objArr[i3])) {
                             obj2 = objArr[i3 ^ 1];
                             break;
-                        } else {
-                            zza2 = i2 + 1;
                         }
+                        zza2 = i2 + 1;
                     }
                 } else if (obj3 instanceof short[]) {
                     short[] sArr = (short[]) obj3;
@@ -259,12 +261,12 @@ public final class zzaf extends zzx {
                         char c = (char) sArr[i4];
                         if (c == 65535) {
                             break;
-                        } else if (obj.equals(objArr[c])) {
+                        }
+                        if (obj.equals(objArr[c])) {
                             obj2 = objArr[c ^ 1];
                             break;
-                        } else {
-                            zza3 = i4 + 1;
                         }
+                        zza3 = i4 + 1;
                     }
                 } else {
                     int[] iArr = (int[]) obj3;
@@ -275,12 +277,12 @@ public final class zzaf extends zzx {
                         int i6 = iArr[i5];
                         if (i6 == -1) {
                             break;
-                        } else if (obj.equals(objArr[i6])) {
+                        }
+                        if (obj.equals(objArr[i6])) {
                             obj2 = objArr[i6 ^ 1];
                             break;
-                        } else {
-                            zza4 = i5 + 1;
                         }
+                        zza4 = i5 + 1;
                     }
                 }
             }

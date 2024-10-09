@@ -1,5 +1,6 @@
 package androidx.appcompat.widget;
 
+import android.R;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
@@ -36,9 +37,10 @@ import androidx.appcompat.view.menu.ShowableListMenu;
 import androidx.core.util.ObjectsCompat;
 import androidx.core.view.TintableBackgroundView;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 public class AppCompatSpinner extends Spinner implements TintableBackgroundView {
-    private static final int[] ATTRS_ANDROID_SPINNERMODE = {16843505};
+    private static final int[] ATTRS_ANDROID_SPINNERMODE = {R.attr.spinnerMode};
     private final AppCompatBackgroundHelper mBackgroundTintHelper;
     int mDropDownWidth;
     private ForwardingListener mForwardingListener;
@@ -330,8 +332,8 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
             });
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:22:0x008d  */
-        /* JADX WARN: Removed duplicated region for block: B:23:0x009a  */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x008d  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x009a  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -362,10 +364,11 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
                     compatMeasureContentWidth = i5;
                 }
                 i2 = Math.max(compatMeasureContentWidth, (width - paddingLeft) - paddingRight);
-            } else if (i3 != -1) {
-                setContentWidth(i3);
-                setHorizontalOffset(!ViewUtils.isLayoutRtl(AppCompatSpinner.this) ? i + (((width - paddingRight) - getWidth()) - getHorizontalOriginalOffset()) : i + paddingLeft + getHorizontalOriginalOffset());
             } else {
+                if (i3 != -1) {
+                    setContentWidth(i3);
+                    setHorizontalOffset(!ViewUtils.isLayoutRtl(AppCompatSpinner.this) ? i + (((width - paddingRight) - getWidth()) - getHorizontalOriginalOffset()) : i + paddingLeft + getHorizontalOriginalOffset());
+                }
                 i2 = (width - paddingLeft) - paddingRight;
             }
             setContentWidth(i2);
@@ -422,10 +425,10 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
                     DropdownPopup dropdownPopup = DropdownPopup.this;
                     if (!dropdownPopup.isVisibleToUser(AppCompatSpinner.this)) {
                         DropdownPopup.this.dismiss();
-                        return;
+                    } else {
+                        DropdownPopup.this.computeContentWidth();
+                        DropdownPopup.super.show();
                     }
-                    DropdownPopup.this.computeContentWidth();
-                    DropdownPopup.super.show();
                 }
             };
             viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener);
@@ -515,15 +518,16 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         this(context, attributeSet, i, i2, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0062, code lost:
-        if (r11 == null) goto L8;
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0062, code lost:
+    
+        if (r11 == null) goto L32;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x006e  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00a8  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00d9  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x003d A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x006e  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00c0  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00d9  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x003d A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r11v10 */
     /* JADX WARN: Type inference failed for: r11v11 */
     /* JADX WARN: Type inference failed for: r11v12 */
@@ -612,7 +616,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
                     }
                     textArray = obtainStyledAttributes.getTextArray(R$styleable.Spinner_android_entries);
                     if (textArray != null) {
-                        ArrayAdapter arrayAdapter = new ArrayAdapter(context, 17367048, textArray);
+                        ArrayAdapter arrayAdapter = new ArrayAdapter(context, R.layout.simple_spinner_item, textArray);
                         arrayAdapter.setDropDownViewResource(R$layout.support_simple_spinner_dropdown_item);
                         setAdapter(arrayAdapter);
                     }
@@ -675,12 +679,12 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
             view.measure(makeMeasureSpec, makeMeasureSpec2);
             i2 = Math.max(i2, view.getMeasuredWidth());
         }
-        if (drawable != null) {
-            drawable.getPadding(this.mTempRect);
-            Rect rect = this.mTempRect;
-            return i2 + rect.left + rect.right;
+        if (drawable == null) {
+            return i2;
         }
-        return i2;
+        drawable.getPadding(this.mTempRect);
+        Rect rect = this.mTempRect;
+        return i2 + rect.left + rect.right;
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -809,14 +813,14 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
     @Override // android.widget.Spinner, android.view.View
     public boolean performClick() {
         SpinnerPopup spinnerPopup = this.mPopup;
-        if (spinnerPopup != null) {
-            if (spinnerPopup.isShowing()) {
-                return true;
-            }
-            showPopup();
+        if (spinnerPopup == null) {
+            return super.performClick();
+        }
+        if (spinnerPopup.isShowing()) {
             return true;
         }
-        return super.performClick();
+        showPopup();
+        return true;
     }
 
     @Override // android.widget.AdapterView
@@ -858,10 +862,10 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         SpinnerPopup spinnerPopup = this.mPopup;
         if (spinnerPopup == null) {
             super.setDropDownHorizontalOffset(i);
-            return;
+        } else {
+            spinnerPopup.setHorizontalOriginalOffset(i);
+            this.mPopup.setHorizontalOffset(i);
         }
-        spinnerPopup.setHorizontalOriginalOffset(i);
-        this.mPopup.setHorizontalOffset(i);
     }
 
     @Override // android.widget.Spinner

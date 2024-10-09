@@ -9,6 +9,7 @@ import com.stripe.android.net.RequestOptions;
 import com.stripe.android.net.StripeApiHandler;
 import com.stripe.android.util.StripeNetworkUtils;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class Stripe {
     private String defaultPublishableKey;
@@ -17,12 +18,17 @@ public class Stripe {
         public void create(final Card card, final String str, Executor executor, final TokenCallback tokenCallback) {
             Stripe.this.executeTokenTask(executor, new AsyncTask() { // from class: com.stripe.android.Stripe.1.1
                 /* JADX INFO: Access modifiers changed from: protected */
+                /* JADX WARN: Multi-variable type inference failed */
                 @Override // android.os.AsyncTask
                 public ResponseWrapper doInBackground(Void... voidArr) {
+                    Exception exc = null;
+                    Object[] objArr = 0;
+                    Object[] objArr2 = 0;
+                    Object[] objArr3 = 0;
                     try {
-                        return new ResponseWrapper(StripeApiHandler.createToken(StripeNetworkUtils.hashMapFromCard(card), RequestOptions.builder(str).build()), null);
+                        return new ResponseWrapper(StripeApiHandler.createToken(StripeNetworkUtils.hashMapFromCard(card), RequestOptions.builder(str).build()), exc);
                     } catch (StripeException e) {
-                        return new ResponseWrapper(null, e);
+                        return new ResponseWrapper(objArr2 == true ? 1 : 0, e);
                     }
                 }
 

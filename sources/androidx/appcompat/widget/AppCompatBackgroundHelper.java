@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import androidx.appcompat.R$styleable;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 class AppCompatBackgroundHelper {
     private TintInfo mBackgroundTint;
@@ -39,11 +40,11 @@ class AppCompatBackgroundHelper {
             tintInfo.mHasTintMode = true;
             tintInfo.mTintMode = backgroundTintMode;
         }
-        if (tintInfo.mHasTintList || tintInfo.mHasTintMode) {
-            AppCompatDrawableManager.tintDrawable(drawable, tintInfo, this.mView.getDrawableState());
-            return true;
+        if (!tintInfo.mHasTintList && !tintInfo.mHasTintMode) {
+            return false;
         }
-        return false;
+        AppCompatDrawableManager.tintDrawable(drawable, tintInfo, this.mView.getDrawableState());
+        return true;
     }
 
     private boolean shouldApplyFrameworkTintUsingColorFilter() {

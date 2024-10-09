@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.upstream;
 
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public class DataSourceException extends IOException {
     public final int reason;
@@ -25,6 +26,7 @@ public class DataSourceException extends IOException {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:0:?, code lost:
+    
         r2 = r2;
      */
     /*

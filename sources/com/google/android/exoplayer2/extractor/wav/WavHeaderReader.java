@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 abstract class WavHeaderReader {
 
@@ -31,16 +32,16 @@ abstract class WavHeaderReader {
     public static boolean checkFileType(ExtractorInput extractorInput) {
         ParsableByteArray parsableByteArray = new ParsableByteArray(8);
         int i = ChunkHeader.peek(extractorInput, parsableByteArray).id;
-        if (i == 1380533830 || i == 1380333108) {
-            extractorInput.peekFully(parsableByteArray.getData(), 0, 4);
-            parsableByteArray.setPosition(0);
-            int readInt = parsableByteArray.readInt();
-            if (readInt != 1463899717) {
-                Log.e("WavHeaderReader", "Unsupported form type: " + readInt);
-                return false;
-            }
+        if (i != 1380533830 && i != 1380333108) {
+            return false;
+        }
+        extractorInput.peekFully(parsableByteArray.getData(), 0, 4);
+        parsableByteArray.setPosition(0);
+        int readInt = parsableByteArray.readInt();
+        if (readInt == 1463899717) {
             return true;
         }
+        Log.e("WavHeaderReader", "Unsupported form type: " + readInt);
         return false;
     }
 

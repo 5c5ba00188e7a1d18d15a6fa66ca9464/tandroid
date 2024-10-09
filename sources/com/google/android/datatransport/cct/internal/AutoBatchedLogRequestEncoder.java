@@ -5,6 +5,7 @@ import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.encoders.config.Configurator;
 import com.google.firebase.encoders.config.EncoderConfig;
+
 /* loaded from: classes.dex */
 public final class AutoBatchedLogRequestEncoder implements Configurator {
     public static final Configurator CONFIG = new AutoBatchedLogRequestEncoder();

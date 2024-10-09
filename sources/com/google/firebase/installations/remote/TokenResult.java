@@ -1,6 +1,7 @@
 package com.google.firebase.installations.remote;
 
 import com.google.firebase.installations.remote.AutoValue_TokenResult;
+
 /* loaded from: classes.dex */
 public abstract class TokenResult {
 

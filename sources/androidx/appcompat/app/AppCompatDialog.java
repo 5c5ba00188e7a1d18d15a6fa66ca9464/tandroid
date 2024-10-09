@@ -10,6 +10,7 @@ import androidx.activity.ComponentDialog;
 import androidx.appcompat.R$attr;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.view.KeyEventDispatcher;
+
 /* loaded from: classes.dex */
 public abstract class AppCompatDialog extends ComponentDialog implements AppCompatCallback {
     private AppCompatDelegate mDelegate;
@@ -29,12 +30,12 @@ public abstract class AppCompatDialog extends ComponentDialog implements AppComp
     }
 
     private static int getThemeResId(Context context, int i) {
-        if (i == 0) {
-            TypedValue typedValue = new TypedValue();
-            context.getTheme().resolveAttribute(R$attr.dialogTheme, typedValue, true);
-            return typedValue.resourceId;
+        if (i != 0) {
+            return i;
         }
-        return i;
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(R$attr.dialogTheme, typedValue, true);
+        return typedValue.resourceId;
     }
 
     @Override // android.app.Dialog

@@ -14,6 +14,7 @@ import androidx.core.view.accessibility.AccessibilityNodeProviderCompat;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class AccessibilityDelegateCompat {
     private static final View.AccessibilityDelegate DEFAULT_DELEGATE = new View.AccessibilityDelegate();
@@ -134,11 +135,11 @@ public class AccessibilityDelegateCompat {
             return false;
         }
         ClickableSpan clickableSpan = (ClickableSpan) weakReference.get();
-        if (isSpanStillValid(clickableSpan, view)) {
-            clickableSpan.onClick(view);
-            return true;
+        if (!isSpanStillValid(clickableSpan, view)) {
+            return false;
         }
-        return false;
+        clickableSpan.onClick(view);
+        return true;
     }
 
     public boolean dispatchPopulateAccessibilityEvent(View view, AccessibilityEvent accessibilityEvent) {

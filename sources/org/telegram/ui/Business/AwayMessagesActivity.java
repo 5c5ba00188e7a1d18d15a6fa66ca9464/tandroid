@@ -35,6 +35,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
+
 /* loaded from: classes4.dex */
 public class AwayMessagesActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private int currentScheduleCustomEnd;
@@ -117,7 +118,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBackPressed$4(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -140,7 +141,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.showError(tL_error);
         } else if (!(tLObject instanceof TLRPC.TL_boolFalse)) {
-            finishFragment();
+            lambda$onBackPressed$300();
         } else {
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
@@ -190,41 +191,43 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             this.schedule = 0;
         } else if (i2 == 4) {
             this.schedule = 1;
-        } else if (i2 != 5) {
-            if (i2 == 8) {
-                context = getContext();
-                string = LocaleController.getString(R.string.BusinessAwayScheduleCustomStartTitle);
-                string2 = LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton);
-                j = this.scheduleCustomStart;
-                scheduleDatePickerDelegate = new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda6
-                    @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
-                    public final void didSelectDate(boolean z, int i3) {
-                        AwayMessagesActivity.this.lambda$onClick$5(view, z, i3);
-                    }
-                };
-            } else if (i2 != 9) {
-                if (i2 == 10) {
-                    boolean z = !this.offline_only;
-                    this.offline_only = z;
-                    ((TextCheckCell) view).setChecked(z);
-                    checkDone(true);
-                }
-                return;
-            } else {
-                context = getContext();
-                string = LocaleController.getString(R.string.BusinessAwayScheduleCustomEndTitle);
-                string2 = LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton);
-                j = this.scheduleCustomEnd;
-                scheduleDatePickerDelegate = new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda7
-                    @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
-                    public final void didSelectDate(boolean z2, int i3) {
-                        AwayMessagesActivity.this.lambda$onClick$6(view, z2, i3);
-                    }
-                };
-            }
-            AlertsCreator.createDatePickerDialog(context, string, string2, j, scheduleDatePickerDelegate);
-            return;
         } else {
+            if (i2 != 5) {
+                if (i2 == 8) {
+                    context = getContext();
+                    string = LocaleController.getString(R.string.BusinessAwayScheduleCustomStartTitle);
+                    string2 = LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton);
+                    j = this.scheduleCustomStart;
+                    scheduleDatePickerDelegate = new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda6
+                        @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
+                        public final void didSelectDate(boolean z, int i3) {
+                            AwayMessagesActivity.this.lambda$onClick$5(view, z, i3);
+                        }
+                    };
+                } else {
+                    if (i2 != 9) {
+                        if (i2 == 10) {
+                            boolean z = !this.offline_only;
+                            this.offline_only = z;
+                            ((TextCheckCell) view).setChecked(z);
+                            checkDone(true);
+                        }
+                        return;
+                    }
+                    context = getContext();
+                    string = LocaleController.getString(R.string.BusinessAwayScheduleCustomEndTitle);
+                    string2 = LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton);
+                    j = this.scheduleCustomEnd;
+                    scheduleDatePickerDelegate = new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda7
+                        @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
+                        public final void didSelectDate(boolean z2, int i3) {
+                            AwayMessagesActivity.this.lambda$onClick$6(view, z2, i3);
+                        }
+                    };
+                }
+                AlertsCreator.createDatePickerDialog(context, string, string2, j, scheduleDatePickerDelegate);
+                return;
+            }
             this.schedule = 2;
         }
         this.listView.adapter.update(true);
@@ -232,7 +235,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00be  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -243,7 +246,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             return;
         }
         if (!hasChanges()) {
-            finishFragment();
+            lambda$onBackPressed$300();
             return;
         }
         QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("away");
@@ -256,7 +259,9 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             AndroidUtilities.shakeViewSpring(findViewByItemId, i);
             UniversalRecyclerView universalRecyclerView = this.listView;
             universalRecyclerView.smoothScrollToPosition(universalRecyclerView.findPositionByItemId(2));
-        } else if (!z || this.recipientsHelper.validate(this.listView)) {
+            return;
+        }
+        if (!z || this.recipientsHelper.validate(this.listView)) {
             this.doneButtonDrawable.animateToProgress(1.0f);
             TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
             TLRPC.TL_account_updateBusinessAwayMessage tL_account_updateBusinessAwayMessage = new TLRPC.TL_account_updateBusinessAwayMessage();
@@ -379,7 +384,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             public void onItemClick(int i) {
                 if (i == -1) {
                     if (AwayMessagesActivity.this.onBackPressed()) {
-                        AwayMessagesActivity.this.finishFragment();
+                        AwayMessagesActivity.this.lambda$onBackPressed$300();
                     }
                 } else if (i == 1) {
                     AwayMessagesActivity.this.processDone();
@@ -431,72 +436,71 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
         if (i != NotificationCenter.quickRepliesUpdated) {
             if (i == NotificationCenter.userInfoDidLoad) {
                 setValue();
-                return;
             }
-            return;
+        } else {
+            UniversalRecyclerView universalRecyclerView = this.listView;
+            if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
+                universalAdapter.update(true);
+            }
+            checkDone(true);
         }
-        UniversalRecyclerView universalRecyclerView = this.listView;
-        if (universalRecyclerView != null && (universalAdapter = universalRecyclerView.adapter) != null) {
-            universalAdapter.update(true);
-        }
-        checkDone(true);
     }
 
     public boolean hasChanges() {
-        if (this.valueSet) {
-            boolean z = this.enabled;
-            TLRPC.TL_businessAwayMessage tL_businessAwayMessage = this.currentValue;
-            if (z != (tL_businessAwayMessage != null)) {
+        if (!this.valueSet) {
+            return false;
+        }
+        boolean z = this.enabled;
+        TLRPC.TL_businessAwayMessage tL_businessAwayMessage = this.currentValue;
+        if (z != (tL_businessAwayMessage != null)) {
+            return true;
+        }
+        if (z && tL_businessAwayMessage != null) {
+            if (tL_businessAwayMessage.recipients.exclude_selected != this.exclude) {
                 return true;
             }
-            if (z && tL_businessAwayMessage != null) {
-                if (tL_businessAwayMessage.recipients.exclude_selected != this.exclude) {
-                    return true;
-                }
-                BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
-                if (businessRecipientsHelper != null && businessRecipientsHelper.hasChanges()) {
-                    return true;
-                }
-                int i = this.currentValueScheduleType;
-                int i2 = this.schedule;
-                if (i != i2 || this.currentValue.offline_only != this.offline_only) {
-                    return true;
-                }
-                if (i2 == 2 && (this.currentScheduleCustomStart != this.scheduleCustomStart || this.currentScheduleCustomEnd != this.scheduleCustomEnd)) {
-                    return true;
-                }
+            BusinessRecipientsHelper businessRecipientsHelper = this.recipientsHelper;
+            if (businessRecipientsHelper != null && businessRecipientsHelper.hasChanges()) {
+                return true;
             }
-            return false;
+            int i = this.currentValueScheduleType;
+            int i2 = this.schedule;
+            if (i != i2 || this.currentValue.offline_only != this.offline_only) {
+                return true;
+            }
+            if (i2 == 2 && (this.currentScheduleCustomStart != this.scheduleCustomStart || this.currentScheduleCustomEnd != this.scheduleCustomEnd)) {
+                return true;
+            }
         }
         return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (hasChanges()) {
-            if (!this.enabled) {
-                processDone();
-                return false;
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
-            builder.setMessage(LocaleController.getString(R.string.BusinessAwayUnsavedChanges));
-            builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda3
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    AwayMessagesActivity.this.lambda$onBackPressed$3(dialogInterface, i);
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda4
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    AwayMessagesActivity.this.lambda$onBackPressed$4(dialogInterface, i);
-                }
-            });
-            showDialog(builder.create());
+        if (!hasChanges()) {
+            return super.onBackPressed();
+        }
+        if (!this.enabled) {
+            processDone();
             return false;
         }
-        return super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
+        builder.setMessage(LocaleController.getString(R.string.BusinessAwayUnsavedChanges));
+        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda3
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                AwayMessagesActivity.this.lambda$onBackPressed$3(dialogInterface, i);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda4
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                AwayMessagesActivity.this.lambda$onBackPressed$4(dialogInterface, i);
+            }
+        });
+        showDialog(builder.create());
+        return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

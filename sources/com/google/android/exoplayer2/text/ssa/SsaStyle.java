@@ -10,6 +10,7 @@ import com.google.common.base.Ascii;
 import com.google.common.primitives.Ints;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class SsaStyle {
@@ -52,7 +53,6 @@ public final class SsaStyle {
             this.length = i11;
         }
 
-        /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
         public static Format fromFormatLine(String str) {
             char c;
             String[] split = TextUtils.split(str.substring(7), ",");
@@ -75,75 +75,63 @@ public final class SsaStyle {
                             c = 0;
                             break;
                         }
-                        c = 65535;
                         break;
                     case -1026963764:
                         if (lowerCase.equals("underline")) {
                             c = 1;
                             break;
                         }
-                        c = 65535;
                         break;
                     case -192095652:
                         if (lowerCase.equals("strikeout")) {
                             c = 2;
                             break;
                         }
-                        c = 65535;
                         break;
                     case -70925746:
                         if (lowerCase.equals("primarycolour")) {
                             c = 3;
                             break;
                         }
-                        c = 65535;
                         break;
                     case 3029637:
                         if (lowerCase.equals("bold")) {
                             c = 4;
                             break;
                         }
-                        c = 65535;
                         break;
                     case 3373707:
                         if (lowerCase.equals("name")) {
                             c = 5;
                             break;
                         }
-                        c = 65535;
                         break;
                     case 366554320:
                         if (lowerCase.equals("fontsize")) {
                             c = 6;
                             break;
                         }
-                        c = 65535;
                         break;
                     case 767321349:
                         if (lowerCase.equals("borderstyle")) {
                             c = 7;
                             break;
                         }
-                        c = 65535;
                         break;
                     case 1767875043:
                         if (lowerCase.equals("alignment")) {
                             c = '\b';
                             break;
                         }
-                        c = 65535;
                         break;
                     case 1988365454:
                         if (lowerCase.equals("outlinecolour")) {
                             c = '\t';
                             break;
                         }
-                        c = 65535;
-                        break;
-                    default:
-                        c = 65535;
                         break;
                 }
+                c = 65535;
                 switch (c) {
                     case 0:
                         i7 = i11;
@@ -243,9 +231,10 @@ public final class SsaStyle {
                 }
                 group = matcher.group(1);
                 group2 = matcher.group(2);
-            } else if (!find2) {
-                return null;
             } else {
+                if (!find2) {
+                    return null;
+                }
                 group = matcher2.group(1);
                 group2 = matcher2.group(2);
             }

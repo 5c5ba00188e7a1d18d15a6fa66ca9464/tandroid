@@ -2,10 +2,12 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class zzw extends zzy implements Serializable {
     private transient Map zza;
@@ -74,8 +76,9 @@ public abstract class zzw extends zzy implements Serializable {
     }
 
     public final void zzl() {
-        for (Collection collection : this.zza.values()) {
-            collection.clear();
+        Iterator it = this.zza.values().iterator();
+        while (it.hasNext()) {
+            ((Collection) it.next()).clear();
         }
         this.zza.clear();
         this.zzb = 0;
@@ -85,18 +88,18 @@ public abstract class zzw extends zzy implements Serializable {
     public final boolean zzm(Object obj, Object obj2) {
         Collection collection = (Collection) this.zza.get(obj);
         if (collection != null) {
-            if (collection.add(obj2)) {
-                this.zzb++;
-                return true;
+            if (!collection.add(obj2)) {
+                return false;
             }
-            return false;
-        }
-        Collection zza = zza();
-        if (zza.add(obj2)) {
             this.zzb++;
-            this.zza.put(obj, zza);
             return true;
         }
-        throw new AssertionError("New Collection violated the Collection spec");
+        Collection zza = zza();
+        if (!zza.add(obj2)) {
+            throw new AssertionError("New Collection violated the Collection spec");
+        }
+        this.zzb++;
+        this.zza.put(obj, zza);
+        return true;
     }
 }

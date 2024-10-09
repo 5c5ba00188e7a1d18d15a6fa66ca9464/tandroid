@@ -5,6 +5,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class j implements java.util.stream.Collector {
     public final /* synthetic */ Collector a;

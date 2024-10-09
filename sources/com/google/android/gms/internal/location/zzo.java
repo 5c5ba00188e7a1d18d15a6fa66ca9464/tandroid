@@ -6,6 +6,7 @@ import com.google.android.gms.common.api.internal.IStatusCallback;
 import com.google.android.gms.location.LastLocationRequest;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationSettingsRequest;
+
 /* loaded from: classes.dex */
 public interface zzo extends IInterface {
     Location zzd();

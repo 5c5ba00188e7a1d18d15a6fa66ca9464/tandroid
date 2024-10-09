@@ -2,6 +2,7 @@ package org.telegram.ui.Components;
 
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
+
 /* loaded from: classes3.dex */
 public class ColorSpanUnderline extends ForegroundColorSpan {
     public ColorSpanUnderline(int i) {

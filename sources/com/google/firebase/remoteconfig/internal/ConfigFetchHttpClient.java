@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class ConfigFetchHttpClient {
     private static final Pattern GMP_APP_ID_PATTERN = Pattern.compile("^[^:]+:([0-9]+):(android|ios|web):([0-9a-f]+)");
@@ -62,30 +63,30 @@ public class ConfigFetchHttpClient {
 
     private JSONObject createFetchRequestBody(String str, String str2, Map map) {
         HashMap hashMap = new HashMap();
-        if (str != null) {
-            hashMap.put("appInstanceId", str);
-            hashMap.put("appInstanceIdToken", str2);
-            hashMap.put("appId", this.appId);
-            Locale locale = this.context.getResources().getConfiguration().locale;
-            hashMap.put("countryCode", locale.getCountry());
-            int i = Build.VERSION.SDK_INT;
-            hashMap.put("languageCode", i >= 21 ? locale.toLanguageTag() : locale.toString());
-            hashMap.put("platformVersion", Integer.toString(i));
-            hashMap.put("timeZone", TimeZone.getDefault().getID());
-            try {
-                PackageInfo packageInfo = this.context.getPackageManager().getPackageInfo(this.context.getPackageName(), 0);
-                if (packageInfo != null) {
-                    hashMap.put("appVersion", packageInfo.versionName);
-                    hashMap.put("appBuild", Long.toString(PackageInfoCompat.getLongVersionCode(packageInfo)));
-                }
-            } catch (PackageManager.NameNotFoundException unused) {
-            }
-            hashMap.put("packageName", this.context.getPackageName());
-            hashMap.put("sdkVersion", "21.0.1");
-            hashMap.put("analyticsUserProperties", new JSONObject(map));
-            return new JSONObject(hashMap);
+        if (str == null) {
+            throw new FirebaseRemoteConfigClientException("Fetch failed: Firebase installation id is null.");
         }
-        throw new FirebaseRemoteConfigClientException("Fetch failed: Firebase installation id is null.");
+        hashMap.put("appInstanceId", str);
+        hashMap.put("appInstanceIdToken", str2);
+        hashMap.put("appId", this.appId);
+        Locale locale = this.context.getResources().getConfiguration().locale;
+        hashMap.put("countryCode", locale.getCountry());
+        int i = Build.VERSION.SDK_INT;
+        hashMap.put("languageCode", i >= 21 ? locale.toLanguageTag() : locale.toString());
+        hashMap.put("platformVersion", Integer.toString(i));
+        hashMap.put("timeZone", TimeZone.getDefault().getID());
+        try {
+            PackageInfo packageInfo = this.context.getPackageManager().getPackageInfo(this.context.getPackageName(), 0);
+            if (packageInfo != null) {
+                hashMap.put("appVersion", packageInfo.versionName);
+                hashMap.put("appBuild", Long.toString(PackageInfoCompat.getLongVersionCode(packageInfo)));
+            }
+        } catch (PackageManager.NameNotFoundException unused) {
+        }
+        hashMap.put("packageName", this.context.getPackageName());
+        hashMap.put("sdkVersion", "21.0.1");
+        hashMap.put("analyticsUserProperties", new JSONObject(map));
+        return new JSONObject(hashMap);
     }
 
     private static ConfigContainer extractConfigs(JSONObject jSONObject, Date date) {
@@ -151,11 +152,11 @@ public class ConfigFetchHttpClient {
         try {
             Context context = this.context;
             byte[] packageCertificateHashBytes = AndroidUtilsLight.getPackageCertificateHashBytes(context, context.getPackageName());
-            if (packageCertificateHashBytes == null) {
-                Log.e("FirebaseRemoteConfig", "Could not get fingerprint hash for package: " + this.context.getPackageName());
-                return null;
+            if (packageCertificateHashBytes != null) {
+                return Hex.bytesToStringUppercase(packageCertificateHashBytes, false);
             }
-            return Hex.bytesToStringUppercase(packageCertificateHashBytes, false);
+            Log.e("FirebaseRemoteConfig", "Could not get fingerprint hash for package: " + this.context.getPackageName());
+            return null;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e("FirebaseRemoteConfig", "No such package: " + this.context.getPackageName(), e);
             return null;
@@ -213,16 +214,16 @@ public class ConfigFetchHttpClient {
                 setFetchRequestBody(httpURLConnection, createFetchRequestBody(str, str2, map).toString().getBytes("utf-8"));
                 httpURLConnection.connect();
                 int responseCode = httpURLConnection.getResponseCode();
-                if (responseCode == 200) {
-                    String headerField = httpURLConnection.getHeaderField("ETag");
-                    JSONObject fetchResponseBody = getFetchResponseBody(httpURLConnection);
-                    try {
-                        httpURLConnection.getInputStream().close();
-                    } catch (IOException unused) {
-                    }
-                    return !backendHasUpdates(fetchResponseBody) ? ConfigFetchHandler.FetchResponse.forBackendHasNoUpdates(date) : ConfigFetchHandler.FetchResponse.forBackendUpdatesFetched(extractConfigs(fetchResponseBody, date), headerField);
+                if (responseCode != 200) {
+                    throw new FirebaseRemoteConfigServerException(responseCode, httpURLConnection.getResponseMessage());
                 }
-                throw new FirebaseRemoteConfigServerException(responseCode, httpURLConnection.getResponseMessage());
+                String headerField = httpURLConnection.getHeaderField("ETag");
+                JSONObject fetchResponseBody = getFetchResponseBody(httpURLConnection);
+                try {
+                    httpURLConnection.getInputStream().close();
+                } catch (IOException unused) {
+                }
+                return !backendHasUpdates(fetchResponseBody) ? ConfigFetchHandler.FetchResponse.forBackendHasNoUpdates(date) : ConfigFetchHandler.FetchResponse.forBackendUpdatesFetched(extractConfigs(fetchResponseBody, date), headerField);
             } finally {
                 httpURLConnection.disconnect();
                 try {

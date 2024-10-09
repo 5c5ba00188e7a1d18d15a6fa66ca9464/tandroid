@@ -1,4 +1,5 @@
 package com.google.android.datatransport.cct.internal;
+
 /* loaded from: classes.dex */
 final class AutoValue_LogResponse extends LogResponse {
     private final long nextRequestWaitMillis;

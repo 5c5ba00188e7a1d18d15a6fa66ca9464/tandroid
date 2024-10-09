@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 interface zzib {
     int zza();

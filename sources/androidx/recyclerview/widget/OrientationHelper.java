@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
+
 /* loaded from: classes.dex */
 public abstract class OrientationHelper {
     private int mLastTotalSpace;
@@ -95,13 +96,13 @@ public abstract class OrientationHelper {
     }
 
     public static OrientationHelper createOrientationHelper(RecyclerView.LayoutManager layoutManager, int i) {
-        if (i != 0) {
-            if (i == 1) {
-                return createVerticalHelper(layoutManager);
-            }
-            throw new IllegalArgumentException("invalid orientation");
+        if (i == 0) {
+            return createHorizontalHelper(layoutManager);
         }
-        return createHorizontalHelper(layoutManager);
+        if (i == 1) {
+            return createVerticalHelper(layoutManager);
+        }
+        throw new IllegalArgumentException("invalid orientation");
     }
 
     public static OrientationHelper createVerticalHelper(RecyclerView.LayoutManager layoutManager) {

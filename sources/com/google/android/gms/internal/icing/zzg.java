@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class zzg extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzg> CREATOR = new zzh();

@@ -53,6 +53,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.QRCodeBottomSheet;
+
 /* loaded from: classes4.dex */
 public class ProxySettingsActivity extends BaseFragment {
     private boolean addingNewProxy;
@@ -142,11 +143,11 @@ public class ProxySettingsActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
         if (i != 5) {
-            if (i == 6) {
-                finishFragment();
-                return true;
+            if (i != 6) {
+                return false;
             }
-            return false;
+            lambda$onBackPressed$300();
+            return true;
         }
         int intValue = ((Integer) textView.getTag()).intValue() + 1;
         EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
@@ -209,8 +210,8 @@ public class ProxySettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00ce A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00ce A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00cf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -390,9 +391,8 @@ public class ProxySettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x002d A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x002e  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x002e  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x002d A[RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -453,67 +453,60 @@ public class ProxySettingsActivity extends BaseFragment {
                                             c = 0;
                                             break;
                                         }
-                                        c = 65535;
                                         break;
                                     case -905826493:
                                         if (lowerCase.equals("server")) {
                                             c = 1;
                                             break;
                                         }
-                                        c = 65535;
                                         break;
                                     case 3433489:
                                         if (lowerCase.equals("pass")) {
                                             c = 2;
                                             break;
                                         }
-                                        c = 65535;
                                         break;
                                     case 3446913:
                                         if (lowerCase.equals("port")) {
                                             c = 3;
                                             break;
                                         }
-                                        c = 65535;
                                         break;
                                     case 3599307:
                                         if (lowerCase.equals("user")) {
                                             c = 4;
                                             break;
                                         }
-                                        c = 65535;
-                                        break;
-                                    default:
-                                        c = 65535;
                                         break;
                                 }
+                                c = 65535;
                                 switch (c) {
                                     case 0:
-                                        if (this.pasteType != 1) {
+                                        if (this.pasteType == 1) {
+                                            this.pasteFields[4] = split[1];
                                             break;
                                         } else {
-                                            this.pasteFields[4] = split[1];
-                                            continue;
+                                            break;
                                         }
                                     case 1:
                                         this.pasteFields[0] = split[1];
-                                        continue;
+                                        break;
                                     case 2:
                                         if (this.pasteType == 0) {
                                             this.pasteFields[3] = split[1];
                                             break;
                                         } else {
-                                            continue;
+                                            break;
                                         }
                                     case 3:
                                         this.pasteFields[1] = split[1];
-                                        continue;
+                                        break;
                                     case 4:
                                         if (this.pasteType == 0) {
                                             this.pasteFields[2] = split[1];
                                             break;
                                         } else {
-                                            continue;
+                                            break;
                                         }
                                 }
                             }
@@ -527,13 +520,13 @@ public class ProxySettingsActivity extends BaseFragment {
                         return;
                     }
                     return;
-                } else if (this.pasteCell.getVisibility() != 8) {
+                }
+                if (this.pasteCell.getVisibility() != 8) {
                     this.pasteCell.setVisibility(8);
                     this.sectionCell[2].setVisibility(8);
                     return;
-                } else {
-                    return;
                 }
+                return;
             }
             return;
         }
@@ -542,10 +535,10 @@ public class ProxySettingsActivity extends BaseFragment {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0269  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x02e0  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x030e  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0313  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0269  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x030e  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0313  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x02e0  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -607,7 +600,7 @@ public class ProxySettingsActivity extends BaseFragment {
                     edit.commit();
                     NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.proxySettingsChanged, new Object[0]);
                 }
-                ProxySettingsActivity.this.finishFragment();
+                ProxySettingsActivity.this.lambda$onBackPressed$300();
             }
         });
         ActionBarMenuItem addItemWithWidth = this.actionBar.createMenu().addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f));

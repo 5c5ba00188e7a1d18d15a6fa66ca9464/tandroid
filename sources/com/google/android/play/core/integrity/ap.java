@@ -1,4 +1,5 @@
 package com.google.android.play.core.integrity;
+
 /* loaded from: classes.dex */
 abstract class ap {
     /* JADX INFO: Access modifiers changed from: package-private */

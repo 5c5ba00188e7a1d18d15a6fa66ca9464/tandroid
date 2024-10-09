@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class r1 extends O2 implements F0, x0 {
@@ -28,8 +29,9 @@ public final class r1 extends O2 implements F0, x0 {
     }
 
     @Override // j$.util.stream.O2, j$.util.function.Consumer
-    public final void accept(Object obj) {
-        super.accept(obj);
+    /* renamed from: accept */
+    public final void r(Object obj) {
+        super.r(obj);
     }
 
     @Override // j$.util.stream.x0
@@ -87,12 +89,12 @@ public final class r1 extends O2 implements F0, x0 {
     @Override // j$.util.stream.F0
     public final Object[] s(j$.util.function.I i) {
         long count = count();
-        if (count < 2147483639) {
-            Object[] objArr = (Object[]) i.apply((int) count);
-            i(objArr, 0);
-            return objArr;
+        if (count >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        Object[] objArr = (Object[]) i.apply((int) count);
+        i(objArr, 0);
+        return objArr;
     }
 
     @Override // j$.util.stream.O2, java.lang.Iterable

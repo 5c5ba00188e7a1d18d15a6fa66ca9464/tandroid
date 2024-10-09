@@ -33,6 +33,7 @@ import org.telegram.ui.Adapters.DrawerLayoutAdapter;
 import org.telegram.ui.Components.ForegroundDetector;
 import org.telegram.ui.IUpdateLayout;
 import org.telegram.ui.LauncherIconController;
+
 /* loaded from: classes.dex */
 public class ApplicationLoader extends Application {
     public static volatile Context applicationContext = null;
@@ -125,15 +126,15 @@ public class ApplicationLoader extends Application {
         if (currentNetworkInfo.getType() != 1 && currentNetworkInfo.getType() != 9) {
             return currentNetworkInfo.isRoaming() ? 2 : 0;
         }
-        if (Build.VERSION.SDK_INT < 24 || (!((i = lastKnownNetworkType) == 0 || i == 1) || System.currentTimeMillis() - lastNetworkCheckTypeTime >= 5000)) {
-            if (connectivityManager.isActiveNetworkMetered()) {
-                lastKnownNetworkType = 0;
-            } else {
-                lastKnownNetworkType = 1;
-            }
-            lastNetworkCheckTypeTime = System.currentTimeMillis();
+        if (Build.VERSION.SDK_INT >= 24 && (((i = lastKnownNetworkType) == 0 || i == 1) && System.currentTimeMillis() - lastNetworkCheckTypeTime < 5000)) {
             return lastKnownNetworkType;
         }
+        if (connectivityManager.isActiveNetworkMetered()) {
+            lastKnownNetworkType = 0;
+        } else {
+            lastKnownNetworkType = 1;
+        }
+        lastNetworkCheckTypeTime = System.currentTimeMillis();
         return lastKnownNetworkType;
     }
 
@@ -263,16 +264,16 @@ public class ApplicationLoader extends Application {
             ensureCurrentNetworkGet(false);
             if (currentNetworkInfo != null && !currentNetworkInfo.isConnectedOrConnecting() && !currentNetworkInfo.isAvailable()) {
                 NetworkInfo networkInfo = connectivityManager.getNetworkInfo(0);
-                if (networkInfo == null || !networkInfo.isConnectedOrConnecting()) {
-                    NetworkInfo networkInfo2 = connectivityManager.getNetworkInfo(1);
-                    if (networkInfo2 != null) {
-                        if (networkInfo2.isConnectedOrConnecting()) {
-                            return true;
-                        }
-                    }
-                    return false;
+                if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+                    return true;
                 }
-                return true;
+                NetworkInfo networkInfo2 = connectivityManager.getNetworkInfo(1);
+                if (networkInfo2 != null) {
+                    if (networkInfo2.isConnectedOrConnecting()) {
+                        return true;
+                    }
+                }
+                return false;
             }
             return true;
         } catch (Exception e) {
@@ -287,16 +288,16 @@ public class ApplicationLoader extends Application {
             NetworkInfo activeNetworkInfo = connectivityManager2.getActiveNetworkInfo();
             if (activeNetworkInfo == null || (!activeNetworkInfo.isConnectedOrConnecting() && !activeNetworkInfo.isAvailable())) {
                 NetworkInfo networkInfo = connectivityManager2.getNetworkInfo(0);
-                if (networkInfo == null || !networkInfo.isConnectedOrConnecting()) {
-                    NetworkInfo networkInfo2 = connectivityManager2.getNetworkInfo(1);
-                    if (networkInfo2 != null) {
-                        if (networkInfo2.isConnectedOrConnecting()) {
-                            return true;
-                        }
-                    }
-                    return false;
+                if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+                    return true;
                 }
-                return true;
+                NetworkInfo networkInfo2 = connectivityManager2.getNetworkInfo(1);
+                if (networkInfo2 != null) {
+                    if (networkInfo2.isConnectedOrConnecting()) {
+                        return true;
+                    }
+                }
+                return false;
             }
             return true;
         } catch (Exception e) {
@@ -428,12 +429,12 @@ public class ApplicationLoader extends Application {
             z = false;
         }
         if (!globalNotificationsSettings.getBoolean(str, z)) {
-            applicationContext.stopService(new Intent(applicationContext, NotificationsService.class));
-            return;
-        }
-        try {
-            applicationContext.startService(new Intent(applicationContext, NotificationsService.class));
-        } catch (Throwable unused) {
+            applicationContext.stopService(new Intent(applicationContext, (Class<?>) NotificationsService.class));
+        } else {
+            try {
+                applicationContext.startService(new Intent(applicationContext, (Class<?>) NotificationsService.class));
+            } catch (Throwable unused) {
+            }
         }
     }
 
@@ -529,8 +530,7 @@ public class ApplicationLoader extends Application {
                     str = Build.CPU_ABI2;
                 }
                 sb.append(str);
-                String sb3 = sb.toString();
-                FileLog.d("buildVersion = " + String.format(Locale.US, "v%s (%d[%d]) %s", packageInfo.versionName, Integer.valueOf(packageInfo.versionCode / 10), Integer.valueOf(packageInfo.versionCode % 10), sb3));
+                FileLog.d("buildVersion = " + String.format(Locale.US, "v%s (%d[%d]) %s", packageInfo.versionName, Integer.valueOf(packageInfo.versionCode / 10), Integer.valueOf(packageInfo.versionCode % 10), sb.toString()));
             } catch (Exception e) {
                 FileLog.e(e);
             }

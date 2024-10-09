@@ -4,6 +4,7 @@ import android.os.SystemClock;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.primitives.Longs;
+
 /* loaded from: classes.dex */
 public final class DefaultLivePlaybackSpeedControl implements LivePlaybackSpeedControl {
     private float adjustedPlaybackSpeed;
@@ -132,16 +133,16 @@ public final class DefaultLivePlaybackSpeedControl implements LivePlaybackSpeedC
             return 1.0f;
         }
         updateSmoothedMinPossibleLiveOffsetUs(j, j2);
-        if (this.lastPlaybackSpeedUpdateMs == -9223372036854775807L || SystemClock.elapsedRealtime() - this.lastPlaybackSpeedUpdateMs >= this.minUpdateIntervalMs) {
-            this.lastPlaybackSpeedUpdateMs = SystemClock.elapsedRealtime();
-            adjustTargetLiveOffsetUs(j);
-            long j3 = j - this.currentTargetLiveOffsetUs;
-            if (Math.abs(j3) < this.maxLiveOffsetErrorUsForUnitSpeed) {
-                this.adjustedPlaybackSpeed = 1.0f;
-            } else {
-                this.adjustedPlaybackSpeed = Util.constrainValue((this.proportionalControlFactor * ((float) j3)) + 1.0f, this.minPlaybackSpeed, this.maxPlaybackSpeed);
-            }
+        if (this.lastPlaybackSpeedUpdateMs != -9223372036854775807L && SystemClock.elapsedRealtime() - this.lastPlaybackSpeedUpdateMs < this.minUpdateIntervalMs) {
             return this.adjustedPlaybackSpeed;
+        }
+        this.lastPlaybackSpeedUpdateMs = SystemClock.elapsedRealtime();
+        adjustTargetLiveOffsetUs(j);
+        long j3 = j - this.currentTargetLiveOffsetUs;
+        if (Math.abs(j3) < this.maxLiveOffsetErrorUsForUnitSpeed) {
+            this.adjustedPlaybackSpeed = 1.0f;
+        } else {
+            this.adjustedPlaybackSpeed = Util.constrainValue((this.proportionalControlFactor * ((float) j3)) + 1.0f, this.minPlaybackSpeed, this.maxPlaybackSpeed);
         }
         return this.adjustedPlaybackSpeed;
     }

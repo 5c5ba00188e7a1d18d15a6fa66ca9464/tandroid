@@ -5,6 +5,7 @@ import android.transition.ChangeBounds;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionSet;
+
 /* loaded from: classes3.dex */
 public abstract class TransitionExt {
     public static Transition createSimpleTransition() {

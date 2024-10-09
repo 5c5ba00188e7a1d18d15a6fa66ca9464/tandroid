@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.concurrent.atomic.AtomicLong;
+
 /* loaded from: classes2.dex */
 abstract class u3 {
     protected final j$.util.Q a;
@@ -47,9 +48,10 @@ abstract class u3 {
                 if (min <= 0) {
                     break;
                 }
-            } else if (z) {
-                return j;
             } else {
+                if (z) {
+                    return j;
+                }
                 return 0L;
             }
         } while (!atomicLong.compareAndSet(j2, j2 - min));

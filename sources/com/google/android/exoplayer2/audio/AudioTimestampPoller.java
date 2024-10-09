@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.audio;
 import android.media.AudioTimestamp;
 import android.media.AudioTrack;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 final class AudioTimestampPoller {
     private final AudioTimestampV19 audioTimestamp;
@@ -51,10 +52,10 @@ final class AudioTimestampPoller {
         if (Util.SDK_INT >= 19) {
             this.audioTimestamp = new AudioTimestampV19(audioTrack);
             reset();
-            return;
+        } else {
+            this.audioTimestamp = null;
+            updateState(3);
         }
-        this.audioTimestamp = null;
-        updateState(3);
     }
 
     private void updateState(int i) {
@@ -67,9 +68,10 @@ final class AudioTimestampPoller {
         } else if (i != 1) {
             if (i == 2 || i == 3) {
                 j = 10000000;
-            } else if (i != 4) {
-                throw new IllegalStateException();
             } else {
+                if (i != 4) {
+                    throw new IllegalStateException();
+                }
                 j = 500000;
             }
         }
@@ -103,10 +105,12 @@ final class AudioTimestampPoller {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:18:0x002d, code lost:
-        if (r0 != false) goto L19;
+    
+        if (r0 != false) goto L26;
      */
     /* JADX WARN: Code restructure failed: missing block: B:20:0x0030, code lost:
-        if (r0 == false) goto L19;
+    
+        if (r0 == false) goto L26;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

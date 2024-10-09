@@ -2,6 +2,7 @@ package com.google.android.gms.common.api.internal;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+
 /* loaded from: classes.dex */
 public interface zaca {
     BaseImplementation$ApiMethodImpl zae(BaseImplementation$ApiMethodImpl baseImplementation$ApiMethodImpl);

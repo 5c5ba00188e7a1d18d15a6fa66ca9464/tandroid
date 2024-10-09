@@ -41,6 +41,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
+
 /* loaded from: classes4.dex */
 public class ActionIntroActivity extends BaseFragment implements LocationController.LocationFetchCallback {
     private TextView buttonTextView;
@@ -91,7 +92,9 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
             Bundle bundle = new Bundle();
             bundle.putInt("step", 0);
             presentFragment(new ChannelCreateActivity(bundle), true);
-        } else if (i == 3) {
+            return;
+        }
+        if (i == 3) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.PhoneNumberChangeTitle));
             builder.setMessage(LocaleController.getString(R.string.PhoneNumberAlert));
@@ -103,13 +106,17 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             showDialog(builder.create());
-        } else if (i != 5) {
+            return;
+        }
+        if (i != 5) {
             if (i != 6) {
                 return;
             }
             presentFragment(new PasscodeActivity(1), true);
-        } else if (getParentActivity() == null) {
         } else {
+            if (getParentActivity() == null) {
+                return;
+            }
             if (Build.VERSION.SDK_INT >= 23) {
                 checkSelfPermission = getParentActivity().checkSelfPermission("android.permission.CAMERA");
                 if (checkSelfPermission != 0) {
@@ -207,7 +214,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x04ce  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x04ce  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -237,7 +244,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                 public void onItemClick(int i4) {
                     if (i4 == -1) {
-                        ActionIntroActivity.this.finishFragment();
+                        ActionIntroActivity.this.lambda$onBackPressed$300();
                     }
                 }
             });
@@ -306,7 +313,8 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                         i10 = ActionIntroActivity.this.subtitleTextView.getMeasuredWidth() + i11;
                         textView6 = ActionIntroActivity.this.subtitleTextView;
                         textView7.layout(i11, i12, i10, textView6.getMeasuredHeight() + i12);
-                    } else if (i16 != 5) {
+                    }
+                    if (i16 != 5) {
                         if (i16 != 6) {
                             return;
                         }
@@ -426,8 +434,9 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 textView7.layout(i11, i12, i10, textView6.getMeasuredHeight() + i12);
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:25:0x00ce, code lost:
-                if (r13.this$0.currentType == 6) goto L24;
+            /* JADX WARN: Code restructure failed: missing block: B:23:0x00ce, code lost:
+            
+                if (r13.this$0.currentType == 6) goto L26;
              */
             @Override // android.view.View
             /*
@@ -471,61 +480,62 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                         dp3 = AndroidUtilities.dp(72.0f);
                         makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size - dp3, 1073741824);
                     }
-                } else if (i7 != 3) {
-                    if (i7 != 5) {
-                        if (i7 == 6) {
-                            if (ActionIntroActivity.this.currentType == 6) {
-                                rLottieImageView = ActionIntroActivity.this.imageView;
-                                f2 = 140.0f;
-                            } else {
-                                rLottieImageView = ActionIntroActivity.this.imageView;
-                                f2 = 100.0f;
+                } else {
+                    if (i7 != 3) {
+                        if (i7 != 5) {
+                            if (i7 == 6) {
+                                if (ActionIntroActivity.this.currentType == 6) {
+                                    rLottieImageView = ActionIntroActivity.this.imageView;
+                                    f2 = 140.0f;
+                                } else {
+                                    rLottieImageView = ActionIntroActivity.this.imageView;
+                                    f2 = 100.0f;
+                                }
+                                rLottieImageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824));
+                                textView6 = ActionIntroActivity.this.titleTextView;
+                                if (size > size2) {
+                                    f = size;
+                                    int i82 = (int) (f * 0.6f);
+                                    textView6.measure(View.MeasureSpec.makeMeasureSpec(i82, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                                    ActionIntroActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(i82, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                                    textView7 = ActionIntroActivity.this.buttonTextView;
+                                    makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(i82, 1073741824);
+                                    f3 = 42.0f;
+                                } else {
+                                    textView6.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                                    ActionIntroActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                                }
                             }
-                            rLottieImageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(f2), 1073741824));
-                            textView6 = ActionIntroActivity.this.titleTextView;
-                            if (size > size2) {
-                                f = size;
-                                int i82 = (int) (f * 0.6f);
-                                textView6.measure(View.MeasureSpec.makeMeasureSpec(i82, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                                ActionIntroActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(i82, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                                textView7 = ActionIntroActivity.this.buttonTextView;
-                                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(i82, 1073741824);
-                                f3 = 42.0f;
-                            } else {
-                                textView6.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                                ActionIntroActivity.this.descriptionText.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            }
-                        }
-                    } else if (ActionIntroActivity.this.showingAsBottomSheet) {
-                        ActionIntroActivity.this.imageView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size2 * 0.32f), 1073741824));
-                        ActionIntroActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                        ActionIntroActivity.this.descriptionLayout.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                        ActionIntroActivity.this.buttonTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
-                        size2 = ActionIntroActivity.this.buttonTextView.getMeasuredHeight() + ActionIntroActivity.this.imageView.getMeasuredHeight() + ActionIntroActivity.this.titleTextView.getMeasuredHeight() + AndroidUtilities.dp(20.0f) + ActionIntroActivity.this.titleTextView.getMeasuredHeight() + ActionIntroActivity.this.descriptionLayout.getMeasuredHeight();
-                    } else {
-                        RLottieImageView rLottieImageView3 = ActionIntroActivity.this.imageView;
-                        if (size > size2) {
-                            float f4 = size;
-                            rLottieImageView3.measure(View.MeasureSpec.makeMeasureSpec((int) (0.45f * f4), 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size2 * 0.68f), 1073741824));
-                            i6 = (int) (f4 * 0.6f);
-                            ActionIntroActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(i6, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            view = ActionIntroActivity.this.descriptionLayout;
-                            makeMeasureSpec2 = View.MeasureSpec.makeMeasureSpec(i6, Integer.MIN_VALUE);
-                            view.measure(makeMeasureSpec2, View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            textView7 = ActionIntroActivity.this.buttonTextView;
-                            makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(i6, Integer.MIN_VALUE);
-                            f3 = 42.0f;
-                        } else {
-                            rLottieImageView3.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size2 * 0.399f), 1073741824));
+                        } else if (ActionIntroActivity.this.showingAsBottomSheet) {
+                            ActionIntroActivity.this.imageView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size2 * 0.32f), 1073741824));
                             ActionIntroActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
                             ActionIntroActivity.this.descriptionLayout.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                            textView7 = ActionIntroActivity.this.buttonTextView;
-                            makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE);
-                            f3 = 42.0f;
+                            ActionIntroActivity.this.buttonTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(42.0f), 1073741824));
+                            size2 = ActionIntroActivity.this.buttonTextView.getMeasuredHeight() + ActionIntroActivity.this.imageView.getMeasuredHeight() + ActionIntroActivity.this.titleTextView.getMeasuredHeight() + AndroidUtilities.dp(20.0f) + ActionIntroActivity.this.titleTextView.getMeasuredHeight() + ActionIntroActivity.this.descriptionLayout.getMeasuredHeight();
+                        } else {
+                            RLottieImageView rLottieImageView3 = ActionIntroActivity.this.imageView;
+                            if (size > size2) {
+                                float f4 = size;
+                                rLottieImageView3.measure(View.MeasureSpec.makeMeasureSpec((int) (0.45f * f4), 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size2 * 0.68f), 1073741824));
+                                i6 = (int) (f4 * 0.6f);
+                                ActionIntroActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(i6, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                                view = ActionIntroActivity.this.descriptionLayout;
+                                makeMeasureSpec2 = View.MeasureSpec.makeMeasureSpec(i6, Integer.MIN_VALUE);
+                                view.measure(makeMeasureSpec2, View.MeasureSpec.makeMeasureSpec(size2, 0));
+                                textView7 = ActionIntroActivity.this.buttonTextView;
+                                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(i6, Integer.MIN_VALUE);
+                                f3 = 42.0f;
+                            } else {
+                                rLottieImageView3.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size2 * 0.399f), 1073741824));
+                                ActionIntroActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                                ActionIntroActivity.this.descriptionLayout.measure(View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(size2, 0));
+                                textView7 = ActionIntroActivity.this.buttonTextView;
+                                makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(size, Integer.MIN_VALUE);
+                                f3 = 42.0f;
+                            }
                         }
+                        setMeasuredDimension(size, size2);
                     }
-                    setMeasuredDimension(size, size2);
-                } else {
                     ActionIntroActivity.this.imageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(150.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(150.0f), 1073741824));
                     ActionIntroActivity actionIntroActivity = ActionIntroActivity.this;
                     if (size > size2) {
@@ -737,36 +747,37 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
             this.descriptionText.setText(LocaleController.getString(R.string.ChannelAlertText));
             textView2 = this.buttonTextView;
             i = R.string.ChannelAlertCreate2;
-        } else if (i13 != 3) {
-            if (i13 == 5) {
-                this.colors = new int[8];
-                updateColors();
-                this.imageView.setAnimation(R.raw.qr_login, 334, 334, this.colors);
-                this.imageView.setScaleType(ImageView.ScaleType.CENTER);
-                this.titleTextView.setText(LocaleController.getString(R.string.AuthAnotherClient));
-                this.buttonTextView.setText(LocaleController.getString(R.string.AuthAnotherClientScan));
-                this.imageView.playAnimation();
-            } else if (i13 == 6) {
-                this.imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                this.imageView.setAnimation(R.raw.utyan_passcode, NotificationCenter.storyQualityUpdate, NotificationCenter.storyQualityUpdate);
-                this.imageView.setFocusable(false);
-                this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda3
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        ActionIntroActivity.this.lambda$createView$3(view);
-                    }
-                });
-                this.titleTextView.setText(LocaleController.getString(R.string.Passcode));
-                this.descriptionText.setText(LocaleController.getString(R.string.ChangePasscodeInfoShort));
-                textView2 = this.buttonTextView;
-                i = R.string.EnablePasscode;
-            }
-            if (this.flickerButton) {
-                this.buttonTextView.setPadding(AndroidUtilities.dp(34.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(34.0f), AndroidUtilities.dp(8.0f));
-                this.buttonTextView.setTextSize(1, 15.0f);
-            }
-            return this.fragmentView;
         } else {
+            if (i13 != 3) {
+                if (i13 == 5) {
+                    this.colors = new int[8];
+                    updateColors();
+                    this.imageView.setAnimation(R.raw.qr_login, 334, 334, this.colors);
+                    this.imageView.setScaleType(ImageView.ScaleType.CENTER);
+                    this.titleTextView.setText(LocaleController.getString(R.string.AuthAnotherClient));
+                    this.buttonTextView.setText(LocaleController.getString(R.string.AuthAnotherClientScan));
+                    this.imageView.playAnimation();
+                } else if (i13 == 6) {
+                    this.imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    this.imageView.setAnimation(R.raw.utyan_passcode, NotificationCenter.storyQualityUpdate, NotificationCenter.storyQualityUpdate);
+                    this.imageView.setFocusable(false);
+                    this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda3
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            ActionIntroActivity.this.lambda$createView$3(view);
+                        }
+                    });
+                    this.titleTextView.setText(LocaleController.getString(R.string.Passcode));
+                    this.descriptionText.setText(LocaleController.getString(R.string.ChangePasscodeInfoShort));
+                    textView2 = this.buttonTextView;
+                    i = R.string.EnablePasscode;
+                }
+                if (this.flickerButton) {
+                    this.buttonTextView.setPadding(AndroidUtilities.dp(34.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(34.0f), AndroidUtilities.dp(8.0f));
+                    this.buttonTextView.setTextSize(1, 15.0f);
+                }
+                return this.fragmentView;
+            }
             this.subtitleTextView.setVisibility(0);
             this.imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             this.imageView.setAnimation(R.raw.utyan_change_number, NotificationCenter.storyQualityUpdate, NotificationCenter.storyQualityUpdate);
@@ -782,10 +793,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 user = userConfig.getCurrentUser();
             }
             if (user != null) {
-                TextView textView14 = this.subtitleTextView;
-                int i14 = R.string.PhoneNumberKeepButton;
-                PhoneFormat phoneFormat = PhoneFormat.getInstance();
-                textView14.setText(LocaleController.formatString("PhoneNumberKeepButton", i14, phoneFormat.format("+" + user.phone)));
+                this.subtitleTextView.setText(LocaleController.formatString("PhoneNumberKeepButton", R.string.PhoneNumberKeepButton, PhoneFormat.getInstance().format("+" + user.phone)));
             }
             this.subtitleTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
@@ -793,9 +801,9 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                     ActionIntroActivity.this.lambda$createView$5(view);
                 }
             });
-            TextView textView15 = this.titleTextView;
+            TextView textView14 = this.titleTextView;
             i = R.string.PhoneNumberChange2;
-            textView15.setText(LocaleController.getString(i));
+            textView14.setText(LocaleController.getString(i));
             this.descriptionText.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PhoneNumberHelp)));
             textView2 = this.buttonTextView;
         }

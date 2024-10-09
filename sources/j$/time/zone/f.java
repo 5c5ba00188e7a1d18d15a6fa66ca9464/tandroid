@@ -5,6 +5,7 @@ import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 /* loaded from: classes2.dex */
 public abstract class f {
     private static final CopyOnWriteArrayList a;
@@ -19,19 +20,21 @@ public abstract class f {
         copyOnWriteArrayList.addAll(arrayList);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static ZoneRules a(String str, boolean z) {
         j$.util.a.B(str, "zoneId");
         ConcurrentHashMap concurrentHashMap = b;
         f fVar = (f) concurrentHashMap.get(str);
-        if (fVar == null) {
-            if (concurrentHashMap.isEmpty()) {
-                throw new c("No time-zone data files registered");
-            }
-            throw new c("Unknown time-zone ID: ".concat(str));
+        if (fVar != null) {
+            return fVar.b(str);
         }
-        return fVar.b(str);
+        if (concurrentHashMap.isEmpty()) {
+            throw new c("No time-zone data files registered");
+        }
+        throw new c("Unknown time-zone ID: ".concat(str));
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void d(f fVar) {
         j$.util.a.B(fVar, "provider");
         for (String str : fVar.c()) {

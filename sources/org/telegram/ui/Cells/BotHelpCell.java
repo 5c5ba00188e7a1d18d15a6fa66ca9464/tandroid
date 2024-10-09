@@ -1,5 +1,6 @@
 package org.telegram.ui.Cells;
 
+import android.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -29,7 +30,6 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
-import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
@@ -39,6 +39,7 @@ import org.telegram.ui.Components.LinkPath;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanNoUnderline;
+
 /* loaded from: classes4.dex */
 public class BotHelpCell extends View {
     private boolean animating;
@@ -130,7 +131,6 @@ public class BotHelpCell extends View {
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
-        int i;
         int width = (getWidth() - this.width) / 2;
         int dp = this.photoHeight + AndroidUtilities.dp(2.0f);
         Drawable shadowDrawable = Theme.chat_msgInMediaDrawable.getShadowDrawable();
@@ -139,30 +139,30 @@ public class BotHelpCell extends View {
             shadowDrawable.draw(canvas);
         }
         Point point = AndroidUtilities.displaySize;
-        int i2 = point.x;
-        int i3 = point.y;
+        int i = point.x;
+        int i2 = point.y;
         if (getParent() instanceof View) {
             View view = (View) getParent();
-            i2 = view.getMeasuredWidth();
-            i3 = view.getMeasuredHeight();
+            i = view.getMeasuredWidth();
+            i2 = view.getMeasuredHeight();
         }
-        int i4 = i3;
+        int i3 = i2;
         Theme.MessageDrawable messageDrawable = (Theme.MessageDrawable) getThemedDrawable("drawableMsgInMedia");
-        messageDrawable.setTop((int) getY(), i2, i4, false, false);
+        messageDrawable.setTop((int) getY(), i, i3, false, false);
         messageDrawable.setBounds(width, 0, this.width + width, this.height);
         messageDrawable.draw(canvas);
         Drawable drawable = this.selectorDrawable;
         if (drawable != null) {
-            int i5 = this.selectorDrawableRadius;
-            int i6 = SharedConfig.bubbleRadius;
-            if (i5 != i6) {
-                this.selectorDrawableRadius = i6;
-                Theme.setMaskDrawableRad(drawable, i6, i6);
+            int i4 = this.selectorDrawableRadius;
+            int i5 = SharedConfig.bubbleRadius;
+            if (i4 != i5) {
+                this.selectorDrawableRadius = i5;
+                Theme.setMaskDrawableRad(drawable, i5, i5);
             }
             this.selectorDrawable.setBounds(AndroidUtilities.dp(2.0f) + width, AndroidUtilities.dp(2.0f), (this.width + width) - AndroidUtilities.dp(2.0f), this.height - AndroidUtilities.dp(2.0f));
             this.selectorDrawable.draw(canvas);
         }
-        this.imageReceiver.setImageCoords(width + i, this.imagePadding, this.width - (i * 2), this.photoHeight - i);
+        this.imageReceiver.setImageCoords(width + r3, this.imagePadding, this.width - (r3 * 2), this.photoHeight - r3);
         this.imageReceiver.draw(canvas);
         Theme.chat_msgTextPaint.setColor(getThemedColor(Theme.key_chat_messageTextIn));
         Theme.chat_msgTextPaint.linkColor = getThemedColor(Theme.key_chat_messageLinkIn);
@@ -198,12 +198,13 @@ public class BotHelpCell extends View {
         setMeasuredDimension(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), this.height + AndroidUtilities.dp(8.0f));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00fc, code lost:
-        if (r2 != null) goto L84;
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x00fc, code lost:
+    
+        if (r2 != null) goto L54;
      */
-    /* JADX WARN: Removed duplicated region for block: B:100:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0180  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0180  */
+    /* JADX WARN: Removed duplicated region for block: B:56:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -300,7 +301,7 @@ public class BotHelpCell extends View {
                 }
                 if (this.selectorDrawable != null) {
                     if (!z && y > 0.0f && motionEvent.getAction() == 0 && isClickable()) {
-                        this.selectorDrawable.setState(new int[]{16842919, 16842910});
+                        this.selectorDrawable.setState(new int[]{R.attr.state_pressed, R.attr.state_enabled});
                         if (Build.VERSION.SDK_INT >= 21) {
                             this.selectorDrawable.setHotspot(motionEvent.getX(), motionEvent.getY());
                         }
@@ -315,7 +316,8 @@ public class BotHelpCell extends View {
                     z = true;
                 }
                 return !z || super.onTouchEvent(motionEvent);
-            } else if (motionEvent.getAction() == 3) {
+            }
+            if (motionEvent.getAction() == 3) {
                 resetPressedLink();
             }
         }
@@ -395,7 +397,7 @@ public class BotHelpCell extends View {
         if (this.isTextVisible) {
             String[] split = str2.split("\n");
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-            String string = LocaleController.getString(R.string.BotInfoTitle);
+            String string = LocaleController.getString(org.telegram.messenger.R.string.BotInfoTitle);
             if (z) {
                 spannableStringBuilder.append((CharSequence) string);
                 spannableStringBuilder.append((CharSequence) "\n\n");

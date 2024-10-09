@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class WebFile extends TLObject {
     public ArrayList<TLRPC.DocumentAttribute> attributes;
@@ -48,20 +49,20 @@ public class WebFile extends TLObject {
     }
 
     public static WebFile createWithWebDocument(TLRPC.WebDocument webDocument) {
-        if (webDocument instanceof TLRPC.TL_webDocument) {
-            WebFile webFile = new WebFile();
-            TLRPC.TL_webDocument tL_webDocument = (TLRPC.TL_webDocument) webDocument;
-            TLRPC.TL_inputWebFileLocation tL_inputWebFileLocation = new TLRPC.TL_inputWebFileLocation();
-            webFile.location = tL_inputWebFileLocation;
-            String str = webDocument.url;
-            webFile.url = str;
-            tL_inputWebFileLocation.url = str;
-            tL_inputWebFileLocation.access_hash = tL_webDocument.access_hash;
-            webFile.size = tL_webDocument.size;
-            webFile.mime_type = tL_webDocument.mime_type;
-            webFile.attributes = tL_webDocument.attributes;
-            return webFile;
+        if (!(webDocument instanceof TLRPC.TL_webDocument)) {
+            return null;
         }
-        return null;
+        WebFile webFile = new WebFile();
+        TLRPC.TL_webDocument tL_webDocument = (TLRPC.TL_webDocument) webDocument;
+        TLRPC.TL_inputWebFileLocation tL_inputWebFileLocation = new TLRPC.TL_inputWebFileLocation();
+        webFile.location = tL_inputWebFileLocation;
+        String str = webDocument.url;
+        webFile.url = str;
+        tL_inputWebFileLocation.url = str;
+        tL_inputWebFileLocation.access_hash = tL_webDocument.access_hash;
+        webFile.size = tL_webDocument.size;
+        webFile.mime_type = tL_webDocument.mime_type;
+        webFile.attributes = tL_webDocument.attributes;
+        return webFile;
     }
 }

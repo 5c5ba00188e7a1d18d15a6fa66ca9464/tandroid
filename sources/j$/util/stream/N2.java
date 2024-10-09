@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import java.util.Arrays;
 import java.util.Spliterator;
+
 /* loaded from: classes2.dex */
 abstract class N2 extends d implements Iterable {
     Object e;
@@ -55,12 +56,12 @@ abstract class N2 extends d implements Iterable {
 
     public Object e() {
         long count = count();
-        if (count < 2147483639) {
-            Object c = c((int) count);
-            d(c, 0);
-            return c;
+        if (count >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        Object c = c((int) count);
+        d(c, 0);
+        return c;
     }
 
     public void g(Object obj) {
@@ -91,27 +92,26 @@ abstract class N2 extends d implements Iterable {
                 return 0;
             }
             throw new IndexOutOfBoundsException(Long.toString(j));
-        } else if (j < count()) {
-            for (int i = 0; i <= this.c; i++) {
-                if (j < this.d[i] + v(this.f[i])) {
-                    return i;
-                }
-            }
-            throw new IndexOutOfBoundsException(Long.toString(j));
-        } else {
+        }
+        if (j >= count()) {
             throw new IndexOutOfBoundsException(Long.toString(j));
         }
+        for (int i = 0; i <= this.c; i++) {
+            if (j < this.d[i] + v(this.f[i])) {
+                return i;
+            }
+        }
+        throw new IndexOutOfBoundsException(Long.toString(j));
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final void x(long j) {
         long v;
-        int i;
-        int i2 = this.c;
-        if (i2 == 0) {
+        int i = this.c;
+        if (i == 0) {
             v = v(this.e);
         } else {
-            v = v(this.f[i2]) + this.d[i2];
+            v = v(this.f[i]) + this.d[i];
         }
         if (j > v) {
             if (this.f == null) {
@@ -120,24 +120,24 @@ abstract class N2 extends d implements Iterable {
                 this.d = new long[8];
                 y[0] = this.e;
             }
-            int i3 = this.c + 1;
+            int i2 = this.c + 1;
             while (j > v) {
                 Object[] objArr = this.f;
-                if (i3 >= objArr.length) {
+                if (i2 >= objArr.length) {
                     int length = objArr.length * 2;
                     this.f = Arrays.copyOf(objArr, length);
                     this.d = Arrays.copyOf(this.d, length);
                 }
-                int i4 = this.a;
-                if (i3 != 0 && i3 != 1) {
-                    i4 = Math.min((i4 + i3) - 1, 30);
+                int i3 = this.a;
+                if (i2 != 0 && i2 != 1) {
+                    i3 = Math.min((i3 + i2) - 1, 30);
                 }
-                int i5 = 1 << i4;
-                this.f[i3] = c(i5);
+                int i4 = 1 << i3;
+                this.f[i2] = c(i4);
                 long[] jArr = this.d;
-                jArr[i3] = jArr[i3 - 1] + v(this.f[i]);
-                v += i5;
-                i3++;
+                jArr[i2] = jArr[i2 - 1] + v(this.f[r6]);
+                v += i4;
+                i2++;
             }
         }
     }

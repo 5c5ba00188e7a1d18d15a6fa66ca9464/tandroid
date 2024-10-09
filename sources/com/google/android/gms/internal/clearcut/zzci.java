@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+
 /* loaded from: classes.dex */
 public abstract class zzci {
     public static final byte[] zzkt;

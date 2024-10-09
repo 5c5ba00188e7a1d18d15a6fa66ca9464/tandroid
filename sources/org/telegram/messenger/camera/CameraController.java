@@ -38,6 +38,7 @@ import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.SerializedData;
+
 /* loaded from: classes3.dex */
 public class CameraController implements MediaRecorder.OnInfoListener {
     private static final int CORE_POOL_SIZE = 1;
@@ -111,14 +112,16 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x002e, code lost:
-        if (r3 == null) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00af, code lost:
+    
+        if (r1 == null) goto L40;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00af, code lost:
-        if (r1 == null) goto L25;
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x002e, code lost:
+    
+        if (r3 == null) goto L13;
      */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x00d1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* renamed from: finishRecordingVideo */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00d1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* renamed from: finishRecordingVideo, reason: merged with bridge method [inline-methods] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -299,26 +302,26 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                 int i7 = pack4 - 1;
                 if (pack4 <= 0 || i6 < 12) {
                     break;
-                } else if (pack(bArr, i5, 2, z) == 274) {
+                }
+                if (pack(bArr, i5, 2, z) == 274) {
                     int pack5 = pack(bArr, i5 + 8, 2, z);
-                    if (pack5 != 1) {
-                        if (pack5 != 3) {
-                            if (pack5 != 6) {
-                                if (pack5 != 8) {
-                                    return -1;
-                                }
-                                return NotificationCenter.dialogsUnreadReactionsCounterChanged;
-                            }
-                            return 90;
-                        }
+                    if (pack5 == 1) {
+                        return 0;
+                    }
+                    if (pack5 == 3) {
                         return NotificationCenter.updateBotMenuButton;
                     }
-                    return 0;
-                } else {
-                    i5 += 12;
-                    i6 -= 12;
-                    pack4 = i7;
+                    if (pack5 == 6) {
+                        return 90;
+                    }
+                    if (pack5 != 8) {
+                        return -1;
+                    }
+                    return NotificationCenter.dialogsUnreadReactionsCounterChanged;
                 }
+                i5 += 12;
+                i6 -= 12;
+                pack4 = i7;
             }
         }
         return -1;
@@ -959,9 +962,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00d9 A[Catch: Exception -> 0x00bf, TRY_LEAVE, TryCatch #0 {Exception -> 0x00bf, blocks: (B:9:0x0055, B:31:0x00bb, B:34:0x00c2, B:36:0x00d9), top: B:43:0x0055 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00d9 A[Catch: Exception -> 0x00bf, TRY_LEAVE, TryCatch #0 {Exception -> 0x00bf, blocks: (B:9:0x0055, B:34:0x00bb, B:36:0x00c2, B:38:0x00d9), top: B:8:0x0055 }] */
     /* JADX WARN: Removed duplicated region for block: B:41:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:54:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:43:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1160,7 +1163,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                     CameraController.lambda$openRound$9(CameraSession.this, runnable2, surfaceTexture, runnable);
                 }
             });
-        } else if (BuildVars.LOGS_ENABLED) {
+            return;
+        }
+        if (BuildVars.LOGS_ENABLED) {
             FileLog.d("failed to open round " + cameraSession + " tex = " + surfaceTexture);
         }
     }
@@ -1183,7 +1188,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                     CameraController.this.lambda$recordVideo$13(obj, iCameraView, file, z2, runnable);
                 }
             });
-        } else if (obj instanceof CameraSession) {
+            return;
+        }
+        if (obj instanceof CameraSession) {
             final CameraSession cameraSession = (CameraSession) obj;
             final CameraInfo cameraInfo = cameraSession.cameraInfo;
             final Camera camera = cameraInfo.camera;
@@ -1242,10 +1249,10 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                     CameraController.this.lambda$stopVideoRecording$17(obj, z, z2);
                 }
             });
-            return;
+        } else {
+            iCameraView.stopRecording();
+            this.recordingCurrentCameraView = null;
         }
-        iCameraView.stopRecording();
-        this.recordingCurrentCameraView = null;
     }
 
     public boolean takePicture(final File file, final boolean z, Object obj, final Utilities.Callback<Integer> callback) {

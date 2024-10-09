@@ -2,6 +2,7 @@ package com.google.android.exoplayer2;
 
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class SeekParameters {
     public static final SeekParameters CLOSEST_SYNC;

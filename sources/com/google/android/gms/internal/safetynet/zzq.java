@@ -2,6 +2,7 @@ package com.google.android.gms.internal.safetynet;
 
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.Status;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzq extends zzd {

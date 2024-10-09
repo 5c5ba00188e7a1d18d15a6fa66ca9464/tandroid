@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.source;
 
 import com.google.android.exoplayer2.Format;
+
 /* loaded from: classes.dex */
 public final class MediaLoadData {
     public final int dataType;

@@ -4,6 +4,7 @@ import android.os.Build;
 import android.text.TextPaint;
 import androidx.core.graphics.PaintCompat;
 import androidx.emoji2.text.EmojiCompat;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class DefaultGlyphChecker implements EmojiCompat.GlyphChecker {
@@ -28,15 +29,15 @@ public class DefaultGlyphChecker implements EmojiCompat.GlyphChecker {
     @Override // androidx.emoji2.text.EmojiCompat.GlyphChecker
     public boolean hasGlyph(CharSequence charSequence, int i, int i2, int i3) {
         int i4 = Build.VERSION.SDK_INT;
-        if (i4 >= 23 || i3 <= i4) {
-            StringBuilder stringBuilder = getStringBuilder();
-            stringBuilder.setLength(0);
-            while (i < i2) {
-                stringBuilder.append(charSequence.charAt(i));
-                i++;
-            }
-            return PaintCompat.hasGlyph(this.mTextPaint, stringBuilder.toString());
+        if (i4 < 23 && i3 > i4) {
+            return false;
         }
-        return false;
+        StringBuilder stringBuilder = getStringBuilder();
+        stringBuilder.setLength(0);
+        while (i < i2) {
+            stringBuilder.append(charSequence.charAt(i));
+            i++;
+        }
+        return PaintCompat.hasGlyph(this.mTextPaint, stringBuilder.toString());
     }
 }

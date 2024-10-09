@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.text.webvtt;
 
 import com.google.android.exoplayer2.text.Cue;
+
 /* loaded from: classes.dex */
 public final class WebvttCueInfo {
     public final Cue cue;

@@ -39,6 +39,7 @@ import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.ReactionsContainerLayout;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
+
 /* loaded from: classes3.dex */
 public class ReactionsEffectOverlay {
     public static ReactionsEffectOverlay currentOverlay;
@@ -118,35 +119,36 @@ public class ReactionsEffectOverlay {
             ReactionsEffectOverlay.this.removeCurrentView();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:220:0x0537, code lost:
-            if (((int) (r9 - ((r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getCurrentFrame() / r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getFramesCount()) * r9))) < r7.leftTime) goto L172;
+        /* JADX WARN: Code restructure failed: missing block: B:144:0x0537, code lost:
+        
+            if (((int) (r9 - ((r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getCurrentFrame() / r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getFramesCount()) * r9))) < r7.leftTime) goto L223;
          */
-        /* JADX WARN: Removed duplicated region for block: B:101:0x025f  */
-        /* JADX WARN: Removed duplicated region for block: B:103:0x0279  */
-        /* JADX WARN: Removed duplicated region for block: B:108:0x0293  */
-        /* JADX WARN: Removed duplicated region for block: B:118:0x02ba  */
-        /* JADX WARN: Removed duplicated region for block: B:123:0x02f6  */
-        /* JADX WARN: Removed duplicated region for block: B:127:0x0308  */
-        /* JADX WARN: Removed duplicated region for block: B:137:0x0323  */
-        /* JADX WARN: Removed duplicated region for block: B:167:0x03cb  */
-        /* JADX WARN: Removed duplicated region for block: B:210:0x04c0  */
-        /* JADX WARN: Removed duplicated region for block: B:215:0x04e3  */
-        /* JADX WARN: Removed duplicated region for block: B:230:0x056a  */
-        /* JADX WARN: Removed duplicated region for block: B:231:0x056d  */
-        /* JADX WARN: Removed duplicated region for block: B:234:0x0633  */
-        /* JADX WARN: Removed duplicated region for block: B:239:0x0640  */
-        /* JADX WARN: Removed duplicated region for block: B:240:0x0654  */
-        /* JADX WARN: Removed duplicated region for block: B:243:0x065e  */
-        /* JADX WARN: Removed duplicated region for block: B:248:0x0672  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x00c1  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x010e  */
-        /* JADX WARN: Removed duplicated region for block: B:72:0x0188 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:84:0x01b5  */
-        /* JADX WARN: Removed duplicated region for block: B:87:0x01c5  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x01e3  */
-        /* JADX WARN: Removed duplicated region for block: B:91:0x01ee  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x0219  */
-        /* JADX WARN: Removed duplicated region for block: B:98:0x021c  */
+        /* JADX WARN: Removed duplicated region for block: B:100:0x02f6  */
+        /* JADX WARN: Removed duplicated region for block: B:104:0x0323  */
+        /* JADX WARN: Removed duplicated region for block: B:134:0x04c0  */
+        /* JADX WARN: Removed duplicated region for block: B:139:0x04e3  */
+        /* JADX WARN: Removed duplicated region for block: B:148:0x056a  */
+        /* JADX WARN: Removed duplicated region for block: B:151:0x0633  */
+        /* JADX WARN: Removed duplicated region for block: B:156:0x0640  */
+        /* JADX WARN: Removed duplicated region for block: B:159:0x065e  */
+        /* JADX WARN: Removed duplicated region for block: B:166:0x0672  */
+        /* JADX WARN: Removed duplicated region for block: B:170:0x0654  */
+        /* JADX WARN: Removed duplicated region for block: B:171:0x056d  */
+        /* JADX WARN: Removed duplicated region for block: B:183:0x03cb  */
+        /* JADX WARN: Removed duplicated region for block: B:225:0x0308  */
+        /* JADX WARN: Removed duplicated region for block: B:233:0x0279  */
+        /* JADX WARN: Removed duplicated region for block: B:236:0x021c  */
+        /* JADX WARN: Removed duplicated region for block: B:237:0x01ee  */
+        /* JADX WARN: Removed duplicated region for block: B:243:0x0188 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:244:0x010e  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00c1  */
+        /* JADX WARN: Removed duplicated region for block: B:69:0x01b5  */
+        /* JADX WARN: Removed duplicated region for block: B:72:0x01c5  */
+        /* JADX WARN: Removed duplicated region for block: B:75:0x01e3  */
+        /* JADX WARN: Removed duplicated region for block: B:78:0x0219  */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x025f  */
+        /* JADX WARN: Removed duplicated region for block: B:85:0x0293  */
+        /* JADX WARN: Removed duplicated region for block: B:95:0x02ba  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -169,7 +171,6 @@ public class ReactionsEffectOverlay {
             int i2;
             int i3;
             float f11;
-            int i4;
             float f12;
             if (ReactionsEffectOverlay.this.dismissed) {
                 if (ReactionsEffectOverlay.this.dismissProgress != 1.0f) {
@@ -255,7 +256,7 @@ public class ReactionsEffectOverlay {
                         if (f4 < f12) {
                             f4 = f12;
                         }
-                        if (this.val$emojiSize + f4 > i4 + getMeasuredWidth()) {
+                        if (this.val$emojiSize + f4 > r14 + getMeasuredWidth()) {
                             f4 = (ReactionsEffectOverlay.this.loc[0] + getMeasuredWidth()) - this.val$emojiSize;
                         }
                     }
@@ -324,14 +325,14 @@ public class ReactionsEffectOverlay {
                             ReactionsEffectOverlay reactionsEffectOverlay3 = ReactionsEffectOverlay.this;
                             f10 = reactionsEffectOverlay3.animateOutProgress;
                             if (f10 != 1.0f) {
-                                int i5 = this.val$animationType;
-                                if (i5 == 1) {
+                                int i4 = this.val$animationType;
+                                if (i4 == 1) {
                                     reactionsEffectOverlay3.animateOutProgress = 1.0f;
                                 } else {
-                                    reactionsEffectOverlay3.animateOutProgress = f10 + (16.0f / (i5 == 2 ? 350.0f : 220.0f));
+                                    reactionsEffectOverlay3.animateOutProgress = f10 + (16.0f / (i4 == 2 ? 350.0f : 220.0f));
                                 }
                                 if (reactionsEffectOverlay3.animateOutProgress > 0.7f) {
-                                    if (!this.val$isStories || i5 != 2) {
+                                    if (!this.val$isStories || i4 != 2) {
                                         ReactionsEffectOverlay.startShortAnimation();
                                     } else if (!reactionsEffectOverlay3.isFinished) {
                                         reactionsEffectOverlay3.isFinished = true;
@@ -351,8 +352,8 @@ public class ReactionsEffectOverlay {
                                 }
                                 ReactionsEffectOverlay reactionsEffectOverlay4 = ReactionsEffectOverlay.this;
                                 if (reactionsEffectOverlay4.animateOutProgress >= 1.0f) {
-                                    int i6 = this.val$animationType;
-                                    if ((i6 == 0 || i6 == 2) && (chatMessageCell = this.val$cell) != null) {
+                                    int i5 = this.val$animationType;
+                                    if ((i5 == 0 || i5 == 2) && (chatMessageCell = this.val$cell) != null) {
                                         chatMessageCell.reactionsLayoutInBubble.animateReaction(reactionsEffectOverlay4.reaction);
                                     }
                                     ReactionsEffectOverlay.this.animateOutProgress = 1.0f;
@@ -543,7 +544,7 @@ public class ReactionsEffectOverlay {
                 f12 = ReactionsEffectOverlay.this.loc[0];
                 if (f4 < f12) {
                 }
-                if (this.val$emojiSize + f4 > i4 + getMeasuredWidth()) {
+                if (this.val$emojiSize + f4 > r14 + getMeasuredWidth()) {
                 }
             }
             CubicBezierInterpolator cubicBezierInterpolator2 = CubicBezierInterpolator.DEFAULT;
@@ -724,17 +725,20 @@ public class ReactionsEffectOverlay {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x05e8  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x061f  */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x062c  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x062e  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x05e8  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x062c  */
+    /* JADX WARN: Removed duplicated region for block: B:187:0x062e  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x061f  */
     /* JADX WARN: Type inference failed for: r15v13 */
     /* JADX WARN: Type inference failed for: r15v15 */
     /* JADX WARN: Type inference failed for: r15v16 */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */
+    /* JADX WARN: Type inference failed for: r1v36, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v37, types: [org.telegram.messenger.ImageReceiver] */
+    /* JADX WARN: Type inference failed for: r1v60, types: [org.telegram.ui.Components.RLottieDrawable] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -755,8 +759,8 @@ public class ReactionsEffectOverlay {
         int i6;
         ?? r15;
         int i7;
-        AnimatedEmojiDrawable animatedEmojiDrawable;
         int i8;
+        AnimatedEmojiDrawable animatedEmojiDrawable;
         int i9;
         ImageLocation forDocument;
         StringBuilder sb;
@@ -1072,7 +1076,7 @@ public class ReactionsEffectOverlay {
             r15 = 0;
             if (i5 == 0) {
                 i7 = i;
-                new AnimatedEmojiDrawable(1, i7, visibleReaction.documentId);
+                animatedEmojiDrawable = new AnimatedEmojiDrawable(1, i7, visibleReaction.documentId);
             } else {
                 i7 = i;
                 animatedEmojiDrawable = i5 == 2 ? new AnimatedEmojiDrawable(2, i7, visibleReaction.documentId) : animatedEmojiDrawable;
@@ -1104,7 +1108,7 @@ public class ReactionsEffectOverlay {
         animationView2.getImageReceiver().setAutoRepeat(r15);
         animationView2.getImageReceiver().setAllowStartAnimation(r15);
         if (animationView2.getImageReceiver().getLottieAnimation() != null) {
-            RLottieDrawable lottieAnimation = animationView2.getImageReceiver().getLottieAnimation();
+            ?? lottieAnimation = animationView2.getImageReceiver().getLottieAnimation();
             if (i5 == i6) {
                 lottieAnimation.setCurrentFrame(animationView2.getImageReceiver().getLottieAnimation().getFramesCount() - 1, r15);
             } else {
@@ -1171,15 +1175,15 @@ public class ReactionsEffectOverlay {
 
     public static boolean isPlaying(int i, long j, ReactionsLayoutInBubble.VisibleReaction visibleReaction) {
         ReactionsEffectOverlay reactionsEffectOverlay = currentOverlay;
-        if (reactionsEffectOverlay != null) {
-            int i2 = reactionsEffectOverlay.animationType;
-            if (i2 == 2 || i2 == 0) {
-                long j2 = reactionsEffectOverlay.groupId;
-                return ((j2 != 0 && j == j2) || i == reactionsEffectOverlay.messageId) && reactionsEffectOverlay.reaction.equals(visibleReaction);
-            }
+        if (reactionsEffectOverlay == null) {
             return false;
         }
-        return false;
+        int i2 = reactionsEffectOverlay.animationType;
+        if (i2 != 2 && i2 != 0) {
+            return false;
+        }
+        long j2 = reactionsEffectOverlay.groupId;
+        return ((j2 != 0 && j == j2) || i == reactionsEffectOverlay.messageId) && reactionsEffectOverlay.reaction.equals(visibleReaction);
     }
 
     public static void onScrolled(int i) {
@@ -1221,11 +1225,13 @@ public class ReactionsEffectOverlay {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0069, code lost:
-        if (r25 != 2) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0069, code lost:
+    
+        if (r25 != 2) goto L31;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0073, code lost:
-        if (r0.isShowing() == false) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0073, code lost:
+    
+        if (r0.isShowing() == false) goto L31;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

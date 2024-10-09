@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Supplier;
 import java.util.Comparator;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class U2 implements j$.util.Q {

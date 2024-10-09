@@ -1,8 +1,8 @@
 package com.google.android.gms.internal.icing;
 
 import android.os.Parcel;
-import android.os.ParcelFileDescriptor;
 import com.google.android.gms.common.api.Status;
+
 /* loaded from: classes.dex */
 public abstract class zzab extends zzb implements zzac {
     public zzab() {
@@ -14,12 +14,10 @@ public abstract class zzab extends zzb implements zzac {
         if (i == 1) {
             zzb((Status) zzc.zza(parcel, Status.CREATOR));
         } else if (i == 2) {
-            Status status = (Status) zzc.zza(parcel, Status.CREATOR);
-            ParcelFileDescriptor parcelFileDescriptor = (ParcelFileDescriptor) zzc.zza(parcel, ParcelFileDescriptor.CREATOR);
-        } else if (i != 4) {
-            return false;
         } else {
-            zzo zzoVar = (zzo) zzc.zza(parcel, zzo.CREATOR);
+            if (i != 4) {
+                return false;
+            }
         }
         return true;
     }

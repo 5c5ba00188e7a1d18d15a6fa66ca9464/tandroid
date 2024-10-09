@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.extractor.ExtractorOutput;
 import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.extractor.TrackOutput;
+
 /* loaded from: classes.dex */
 public final class StartOffsetExtractorOutput implements ExtractorOutput {
     private final ExtractorOutput extractorOutput;

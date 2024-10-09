@@ -8,6 +8,7 @@ import android.view.animation.DecelerateInterpolator;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes4.dex */
 public class BackDrawable extends Drawable {
     private boolean alwaysClose;
@@ -120,8 +121,8 @@ public class BackDrawable extends Drawable {
         invalidateSelf();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x001b  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0037  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0037  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x001b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -130,7 +131,7 @@ public class BackDrawable extends Drawable {
         this.lastFrameTime = 0L;
         float f2 = this.currentRotation;
         if (f2 != 1.0f) {
-            z2 = f2 == 0.0f ? false : false;
+            z2 = f2 != 0.0f;
             this.lastFrameTime = 0L;
             if (z) {
                 this.currentRotation = f;
@@ -141,7 +142,6 @@ public class BackDrawable extends Drawable {
             this.finalRotation = f;
             invalidateSelf();
         }
-        z2 = true;
         this.reverseAngle = z2;
         this.lastFrameTime = 0L;
         if (z) {

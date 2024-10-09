@@ -1,6 +1,7 @@
 package com.stripe.android.net;
 
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class StripeResponse {
     private String mResponseBody;

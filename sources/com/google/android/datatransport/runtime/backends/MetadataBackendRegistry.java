@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 class MetadataBackendRegistry implements BackendRegistry {
     private final BackendFactoryProvider backendFactoryProvider;
@@ -60,12 +61,12 @@ class MetadataBackendRegistry implements BackendRegistry {
                     Log.w("BackendRegistry", "Context has no PackageManager.");
                     return null;
                 }
-                ServiceInfo serviceInfo = packageManager.getServiceInfo(new ComponentName(context, TransportBackendDiscovery.class), 128);
-                if (serviceInfo == null) {
-                    Log.w("BackendRegistry", "TransportBackendDiscovery has no service info.");
-                    return null;
+                ServiceInfo serviceInfo = packageManager.getServiceInfo(new ComponentName(context, (Class<?>) TransportBackendDiscovery.class), 128);
+                if (serviceInfo != null) {
+                    return serviceInfo.metaData;
                 }
-                return serviceInfo.metaData;
+                Log.w("BackendRegistry", "TransportBackendDiscovery has no service info.");
+                return null;
             } catch (PackageManager.NameNotFoundException unused) {
                 Log.w("BackendRegistry", "Application info not found.");
                 return null;

@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public class HttpClientRetryer extends HttpClientDecorator {
     static final long[] RETRY_INTERVALS;
@@ -30,7 +31,6 @@ public class HttpClientRetryer extends HttpClientDecorator {
 
         @Override // com.microsoft.appcenter.http.HttpClientCallDecorator, com.microsoft.appcenter.http.ServiceCallback
         public void onCallFailed(Exception exc) {
-            long j;
             String str;
             int i = this.mRetryCount;
             long[] jArr = HttpClientRetryer.RETRY_INTERVALS;
@@ -42,7 +42,7 @@ public class HttpClientRetryer extends HttpClientDecorator {
             if (parseLong == 0) {
                 int i2 = this.mRetryCount;
                 this.mRetryCount = i2 + 1;
-                parseLong = (jArr[i2] / 2) + HttpClientRetryer.this.mRandom.nextInt((int) j);
+                parseLong = (jArr[i2] / 2) + HttpClientRetryer.this.mRandom.nextInt((int) r0);
             }
             String str2 = "Try #" + this.mRetryCount + " failed and will be retried in " + parseLong + " ms";
             if (exc instanceof UnknownHostException) {

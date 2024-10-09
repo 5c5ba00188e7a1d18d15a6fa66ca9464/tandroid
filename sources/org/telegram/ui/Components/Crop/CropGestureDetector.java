@@ -8,6 +8,7 @@ import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public class CropGestureDetector {
     private ScaleGestureDetector mDetector;

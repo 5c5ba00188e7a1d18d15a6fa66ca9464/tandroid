@@ -1,5 +1,6 @@
 package org.telegram.ui.Components;
 
+import android.R;
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -17,9 +18,10 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.BaseCell;
+
 /* loaded from: classes3.dex */
 public class CanvasButton {
-    private static final int[] pressedState = {16842910, 16842919};
+    private static final int[] pressedState = {R.attr.state_enabled, R.attr.state_pressed};
     boolean buttonPressed;
     private Runnable delegate;
     CornerPath drawingPath;
@@ -110,11 +112,12 @@ public class CanvasButton {
                     paint.setPathEffect(this.pathEffect);
                     canvas.drawRoundRect((RectF) this.drawingRects.get(0), 0.0f, 0.0f, paint);
                     return;
+                } else {
+                    paint.setPathEffect(null);
+                    float min = Math.min(((RectF) this.drawingRects.get(0)).width(), ((RectF) this.drawingRects.get(0)).height()) / 2.0f;
+                    canvas.drawRoundRect((RectF) this.drawingRects.get(0), min, min, paint);
+                    return;
                 }
-                paint.setPathEffect(null);
-                float min = Math.min(((RectF) this.drawingRects.get(0)).width(), ((RectF) this.drawingRects.get(0)).height()) / 2.0f;
-                canvas.drawRoundRect((RectF) this.drawingRects.get(0), min, min, paint);
-                return;
             }
             return;
         }
@@ -139,9 +142,11 @@ public class CanvasButton {
                     float f = ((RectF) this.drawingRects.get(i2)).right;
                     float f2 = ((RectF) this.drawingRects.get(i8)).right;
                     if (Math.abs(f - f2) < AndroidUtilities.dp(4.0f)) {
+                        RectF rectF = (RectF) this.drawingRects.get(i8);
+                        RectF rectF2 = (RectF) this.drawingRects.get(i2);
                         float max = Math.max(f, f2);
-                        ((RectF) this.drawingRects.get(i2)).right = max;
-                        ((RectF) this.drawingRects.get(i8)).right = max;
+                        rectF2.right = max;
+                        rectF.right = max;
                     }
                 }
                 if (i2 == 0 || ((RectF) this.drawingRects.get(i2)).bottom > i3) {

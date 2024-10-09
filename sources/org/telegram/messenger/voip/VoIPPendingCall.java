@@ -10,6 +10,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.voip.VoIPHelper;
+
 /* loaded from: classes3.dex */
 public final class VoIPPendingCall {
     private AccountInstance accountInstance;

@@ -1,4 +1,5 @@
 package androidx.appcompat.widget;
+
 /* loaded from: classes.dex */
 class RtlSpacingHelper {
     private int mLeft = 0;
@@ -38,11 +39,13 @@ class RtlSpacingHelper {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x001a, code lost:
-        if (r2 != Integer.MIN_VALUE) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x001a, code lost:
+    
+        if (r2 != Integer.MIN_VALUE) goto L15;
      */
     /* JADX WARN: Code restructure failed: missing block: B:21:0x002a, code lost:
-        if (r2 != Integer.MIN_VALUE) goto L14;
+    
+        if (r2 != Integer.MIN_VALUE) goto L15;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

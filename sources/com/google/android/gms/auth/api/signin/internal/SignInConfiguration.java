@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class SignInConfiguration extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<SignInConfiguration> CREATOR = new zbu();
@@ -19,20 +20,20 @@ public final class SignInConfiguration extends AbstractSafeParcelable implements
     }
 
     public final boolean equals(Object obj) {
-        if (obj instanceof SignInConfiguration) {
-            SignInConfiguration signInConfiguration = (SignInConfiguration) obj;
-            if (this.zba.equals(signInConfiguration.zba)) {
-                GoogleSignInOptions googleSignInOptions = this.zbb;
-                GoogleSignInOptions googleSignInOptions2 = signInConfiguration.zbb;
-                if (googleSignInOptions == null) {
-                    if (googleSignInOptions2 == null) {
-                        return true;
-                    }
-                } else if (googleSignInOptions.equals(googleSignInOptions2)) {
+        if (!(obj instanceof SignInConfiguration)) {
+            return false;
+        }
+        SignInConfiguration signInConfiguration = (SignInConfiguration) obj;
+        if (this.zba.equals(signInConfiguration.zba)) {
+            GoogleSignInOptions googleSignInOptions = this.zbb;
+            GoogleSignInOptions googleSignInOptions2 = signInConfiguration.zbb;
+            if (googleSignInOptions == null) {
+                if (googleSignInOptions2 == null) {
                     return true;
                 }
+            } else if (googleSignInOptions.equals(googleSignInOptions2)) {
+                return true;
             }
-            return false;
         }
         return false;
     }

@@ -3,6 +3,7 @@ package androidx.biometric;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.Build;
+
 /* loaded from: classes.dex */
 abstract class KeyguardUtils {
 

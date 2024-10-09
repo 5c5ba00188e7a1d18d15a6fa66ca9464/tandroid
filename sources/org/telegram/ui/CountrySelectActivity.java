@@ -53,6 +53,7 @@ import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSynthe
 import org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda31;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.CountrySelectActivity;
+
 /* loaded from: classes4.dex */
 public class CountrySelectActivity extends BaseFragment {
     private CountrySelectActivityDelegate delegate;
@@ -184,8 +185,9 @@ public class CountrySelectActivity extends BaseFragment {
                 boostRepository$$ExternalSyntheticLambda31 = new BoostRepository$$ExternalSyntheticLambda31();
             }
             Collections.sort(this.sortedCountries, boostRepository$$ExternalSyntheticLambda31);
-            for (ArrayList arrayList4 : this.countries.values()) {
-                Collections.sort(arrayList4, new Comparator() { // from class: org.telegram.ui.CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda0
+            Iterator it = this.countries.values().iterator();
+            while (it.hasNext()) {
+                Collections.sort((ArrayList) it.next(), new Comparator() { // from class: org.telegram.ui.CountrySelectActivity$CountryAdapter$$ExternalSyntheticLambda0
                     @Override // java.util.Comparator
                     public final int compare(Object obj, Object obj2) {
                         int lambda$new$0;
@@ -296,8 +298,9 @@ public class CountrySelectActivity extends BaseFragment {
 
         public CountrySearchAdapter(Context context, HashMap hashMap) {
             this.mContext = context;
-            for (List<Country> list : hashMap.values()) {
-                for (Country country : list) {
+            Iterator it = hashMap.values().iterator();
+            while (it.hasNext()) {
+                for (Country country : (List) it.next()) {
                     this.countryList.add(country);
                     ArrayList arrayList = new ArrayList(Arrays.asList(country.name.split(" ")));
                     String str = country.defaultName;
@@ -496,13 +499,14 @@ public class CountrySelectActivity extends BaseFragment {
             int positionInSectionForPosition = this.listViewAdapter.getPositionInSectionForPosition(i);
             if (positionInSectionForPosition < 0 || sectionForPosition < 0) {
                 return;
+            } else {
+                item = this.listViewAdapter.getItem(sectionForPosition, positionInSectionForPosition);
             }
-            item = this.listViewAdapter.getItem(sectionForPosition, positionInSectionForPosition);
         }
         if (i < 0) {
             return;
         }
-        finishFragment();
+        lambda$onBackPressed$300();
         if (item == null || (countrySelectActivityDelegate = this.delegate) == null) {
             return;
         }
@@ -524,7 +528,7 @@ public class CountrySelectActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
                 if (i2 == -1) {
-                    CountrySelectActivity.this.finishFragment();
+                    CountrySelectActivity.this.lambda$onBackPressed$300();
                 }
             }
         });

@@ -14,6 +14,7 @@ import org.telegram.ui.Charts.data.DoubleLinearChartData;
 import org.telegram.ui.Charts.view_data.ChartHorizontalLinesData;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
+
 /* loaded from: classes4.dex */
 public class DoubleLinearChartView extends BaseChartView {
     public DoubleLinearChartView(Context context, Theme.ResourcesProvider resourcesProvider) {
@@ -242,23 +243,24 @@ public class DoubleLinearChartView extends BaseChartView {
         if (i < 0 || !this.legendShowing) {
             return;
         }
+        int i2 = (int) (this.chartActiveLineAlpha * this.selectionA);
         float f = this.chartWidth;
         ChartPickerDelegate chartPickerDelegate = this.pickerDelegate;
         float f2 = chartPickerDelegate.pickerEnd;
         float f3 = chartPickerDelegate.pickerStart;
         float f4 = f / (f2 - f3);
         float f5 = (((DoubleLinearChartData) this.chartData).xPercentage[i] * f4) - ((f3 * f4) - BaseChartView.HORIZONTAL_PADDING);
-        this.selectedLinePaint.setAlpha((int) (this.chartActiveLineAlpha * this.selectionA));
+        this.selectedLinePaint.setAlpha(i2);
         canvas.drawLine(f5, 0.0f, f5, this.chartArea.bottom, this.selectedLinePaint);
         this.tmpN = this.lines.size();
-        int i2 = 0;
+        int i3 = 0;
         while (true) {
-            this.tmpI = i2;
-            int i3 = this.tmpI;
-            if (i3 >= this.tmpN) {
+            this.tmpI = i3;
+            int i4 = this.tmpI;
+            if (i4 >= this.tmpN) {
                 return;
             }
-            LineViewData lineViewData = (LineViewData) this.lines.get(i3);
+            LineViewData lineViewData = (LineViewData) this.lines.get(i4);
             if (lineViewData.enabled || lineViewData.alpha != 0.0f) {
                 float f6 = ((float) lineViewData.line.y[this.selectedIndex]) * ((DoubleLinearChartData) this.chartData).linesK[this.tmpI];
                 float f7 = this.currentMinHeight;
@@ -268,14 +270,14 @@ public class DoubleLinearChartView extends BaseChartView {
                 canvas.drawPoint(f5, measuredHeight, lineViewData.selectionPaint);
                 canvas.drawPoint(f5, measuredHeight, this.selectionBackgroundPaint);
             }
-            i2 = this.tmpI + 1;
+            i3 = this.tmpI + 1;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0043  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x004a  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0043  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x007b  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x004a  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -303,51 +305,54 @@ public class DoubleLinearChartView extends BaseChartView {
                 i = this.transitionMode;
                 if (i != 2) {
                     f2 = 1.0f - this.transitionParams.progress;
-                } else if (i != 1 && i != 3) {
-                    f3 = 1.0f;
-                    this.linePaint.setAlpha((int) (chartHorizontalLinesData.alpha * 0.1f * f3));
-                    int measuredHeight = getMeasuredHeight() - this.chartBottom;
-                    int i8 = BaseChartView.SIGNATURE_TEXT_HEIGHT;
-                    int i9 = measuredHeight - i8;
-                    int textSize = (int) (i8 - this.signaturePaint.getTextSize());
-                    i2 = 0;
-                    while (i2 < length) {
-                        int i10 = i6;
-                        float f7 = this.currentMinHeight;
-                        int measuredHeight2 = (int) ((getMeasuredHeight() - this.chartBottom) - (i9 * ((((float) chartHorizontalLinesData.values[i2]) - f7) / (this.currentMaxHeight - f7))));
-                        if (chartHorizontalLinesData.valuesStr == null || this.lines.size() <= 0) {
-                            i3 = i2;
-                            i4 = textSize;
-                            i5 = i9;
-                        } else {
-                            if (chartHorizontalLinesData.valuesStr2 == null || this.lines.size() < 2) {
-                                this.signaturePaint.setColor(Theme.getColor(Theme.key_statisticChartSignature, this.resourcesProvider));
-                                textPaint = this.signaturePaint;
-                                f4 = chartHorizontalLinesData.alpha;
-                                f5 = this.signaturePaintAlpha;
-                            } else {
-                                this.signaturePaint.setColor(((LineViewData) this.lines.get(i7)).lineColor);
-                                textPaint = this.signaturePaint;
-                                f4 = chartHorizontalLinesData.alpha;
-                                f5 = ((LineViewData) this.lines.get(i7)).alpha;
-                            }
-                            textPaint.setAlpha((int) (f4 * f5 * f3 * f));
-                            i3 = i2;
-                            i4 = textSize;
-                            i5 = i9;
-                            chartHorizontalLinesData.drawText(canvas, 0, i2, BaseChartView.HORIZONTAL_PADDING, measuredHeight2 - textSize, this.signaturePaint);
-                        }
-                        if (chartHorizontalLinesData.valuesStr2 != null && this.lines.size() > 1) {
-                            this.signaturePaint2.setColor(((LineViewData) this.lines.get(i10)).lineColor);
-                            this.signaturePaint2.setAlpha((int) (chartHorizontalLinesData.alpha * ((LineViewData) this.lines.get(i10)).alpha * f3 * f));
-                            chartHorizontalLinesData.drawText(canvas, 1, i3, getMeasuredWidth() - BaseChartView.HORIZONTAL_PADDING, measuredHeight2 - i4, this.signaturePaint2);
-                        }
-                        i2 = i3 + 1;
-                        textSize = i4;
-                        i6 = i10;
-                        i9 = i5;
-                    }
                 } else {
+                    if (i != 1 && i != 3) {
+                        f3 = 1.0f;
+                        this.linePaint.setAlpha((int) (chartHorizontalLinesData.alpha * 0.1f * f3));
+                        int measuredHeight = getMeasuredHeight() - this.chartBottom;
+                        int i8 = BaseChartView.SIGNATURE_TEXT_HEIGHT;
+                        int i9 = measuredHeight - i8;
+                        int textSize = (int) (i8 - this.signaturePaint.getTextSize());
+                        i2 = 0;
+                        while (i2 < length) {
+                            float measuredHeight2 = getMeasuredHeight() - this.chartBottom;
+                            int i10 = i6;
+                            float f7 = (float) chartHorizontalLinesData.values[i2];
+                            float f8 = this.currentMinHeight;
+                            int i11 = (int) (measuredHeight2 - (i9 * ((f7 - f8) / (this.currentMaxHeight - f8))));
+                            if (chartHorizontalLinesData.valuesStr == null || this.lines.size() <= 0) {
+                                i3 = i2;
+                                i4 = textSize;
+                                i5 = i9;
+                            } else {
+                                if (chartHorizontalLinesData.valuesStr2 == null || this.lines.size() < 2) {
+                                    this.signaturePaint.setColor(Theme.getColor(Theme.key_statisticChartSignature, this.resourcesProvider));
+                                    textPaint = this.signaturePaint;
+                                    f4 = chartHorizontalLinesData.alpha;
+                                    f5 = this.signaturePaintAlpha;
+                                } else {
+                                    this.signaturePaint.setColor(((LineViewData) this.lines.get(i7)).lineColor);
+                                    textPaint = this.signaturePaint;
+                                    f4 = chartHorizontalLinesData.alpha;
+                                    f5 = ((LineViewData) this.lines.get(i7)).alpha;
+                                }
+                                textPaint.setAlpha((int) (f4 * f5 * f3 * f));
+                                i3 = i2;
+                                i4 = textSize;
+                                i5 = i9;
+                                chartHorizontalLinesData.drawText(canvas, 0, i2, BaseChartView.HORIZONTAL_PADDING, i11 - textSize, this.signaturePaint);
+                            }
+                            if (chartHorizontalLinesData.valuesStr2 != null && this.lines.size() > 1) {
+                                this.signaturePaint2.setColor(((LineViewData) this.lines.get(i10)).lineColor);
+                                this.signaturePaint2.setAlpha((int) (chartHorizontalLinesData.alpha * ((LineViewData) this.lines.get(i10)).alpha * f3 * f));
+                                chartHorizontalLinesData.drawText(canvas, 1, i3, getMeasuredWidth() - BaseChartView.HORIZONTAL_PADDING, i11 - i4, this.signaturePaint2);
+                            }
+                            i2 = i3 + 1;
+                            textSize = i4;
+                            i6 = i10;
+                            i9 = i5;
+                        }
+                    }
                     f2 = this.transitionParams.progress;
                 }
                 f3 = f2;

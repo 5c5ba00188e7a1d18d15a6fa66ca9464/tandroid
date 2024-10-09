@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import com.google.firebase.encoders.EncodingException;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ValueEncoderContext;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzcs implements ValueEncoderContext {

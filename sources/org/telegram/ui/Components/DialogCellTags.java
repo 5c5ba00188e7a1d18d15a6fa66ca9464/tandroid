@@ -12,6 +12,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class DialogCellTags {
     private final ArrayList filters = new ArrayList();
@@ -159,12 +160,12 @@ public class DialogCellTags {
                 if (i5 >= this.filters.size()) {
                     dialogFilter = null;
                     break;
-                } else if (((MessagesController.DialogFilter) this.filters.get(i5)).id == tag2.filterId) {
+                }
+                if (((MessagesController.DialogFilter) this.filters.get(i5)).id == tag2.filterId) {
                     dialogFilter = (MessagesController.DialogFilter) this.filters.get(i5);
                     break;
-                } else {
-                    i5++;
                 }
+                i5++;
             }
             if (dialogFilter == null) {
                 this.tags.remove(i4);
@@ -185,12 +186,12 @@ public class DialogCellTags {
                 if (i7 >= this.tags.size()) {
                     tag = null;
                     break;
-                } else if (((Tag) this.tags.get(i7)).filterId == dialogFilter4.id) {
+                }
+                if (((Tag) this.tags.get(i7)).filterId == dialogFilter4.id) {
                     tag = (Tag) this.tags.get(i7);
                     break;
-                } else {
-                    i7++;
                 }
+                i7++;
             }
             if (tag == null) {
                 this.tags.add(i6, Tag.fromFilter(i, dialogFilter4));

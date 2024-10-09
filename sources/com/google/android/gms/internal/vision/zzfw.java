@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzfi$zzj;
+
 /* loaded from: classes.dex */
 final class zzfw implements zzjg {
     static final zzjg zza = new zzfw();

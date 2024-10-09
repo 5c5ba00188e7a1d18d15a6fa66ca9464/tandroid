@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class u {
@@ -21,8 +22,11 @@ public final class u {
         for (Map.Entry entry : map.entrySet()) {
             HashMap hashMap2 = new HashMap();
             for (Map.Entry entry2 : ((Map) entry.getValue()).entrySet()) {
+                String str = (String) entry2.getValue();
+                String str2 = (String) entry2.getValue();
+                Long l = (Long) entry2.getKey();
                 int i = v.c;
-                hashMap2.put((String) entry2.getValue(), new AbstractMap.SimpleImmutableEntry((String) entry2.getValue(), (Long) entry2.getKey()));
+                hashMap2.put(str, new AbstractMap.SimpleImmutableEntry(str2, l));
             }
             ArrayList arrayList2 = new ArrayList(hashMap2.values());
             comparator2 = v.b;

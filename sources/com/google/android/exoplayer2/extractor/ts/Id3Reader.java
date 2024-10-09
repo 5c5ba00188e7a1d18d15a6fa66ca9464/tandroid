@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+
 /* loaded from: classes.dex */
 public final class Id3Reader implements ElementaryStreamReader {
     private TrackOutput output;
@@ -31,9 +32,10 @@ public final class Id3Reader implements ElementaryStreamReader {
                         Log.w("Id3Reader", "Discarding invalid ID3 tag");
                         this.writingSample = false;
                         return;
+                    } else {
+                        this.id3Header.skipBytes(3);
+                        this.sampleSize = this.id3Header.readSynchSafeInt() + 10;
                     }
-                    this.id3Header.skipBytes(3);
-                    this.sampleSize = this.id3Header.readSynchSafeInt() + 10;
                 }
             }
             int min2 = Math.min(bytesLeft, this.sampleSize - this.sampleBytesRead);

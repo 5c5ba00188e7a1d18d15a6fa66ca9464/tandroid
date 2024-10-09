@@ -1,6 +1,7 @@
 package org.telegram.ui.Cells;
 
 import org.telegram.ui.Components.RLottieDrawable;
+
 /* loaded from: classes4.dex */
 public final /* synthetic */ class ShareDialogCell$RepostStoryDrawable$$ExternalSyntheticLambda0 implements Runnable {
     public final /* synthetic */ RLottieDrawable f$0;

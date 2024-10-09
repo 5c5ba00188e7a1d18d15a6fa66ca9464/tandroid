@@ -1,6 +1,7 @@
 package com.google.common.collect;
 
 import java.util.ListIterator;
+
 /* loaded from: classes.dex */
 abstract class TransformedListIterator extends TransformedIterator implements ListIterator {
     /* JADX INFO: Access modifiers changed from: package-private */

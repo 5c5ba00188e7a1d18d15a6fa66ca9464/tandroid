@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -23,6 +22,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
 import org.telegram.ui.Components.VideoPlayer;
+
 /* loaded from: classes4.dex */
 public class ChooseQualityLayout {
     public final LinearLayout buttonsLayout;
@@ -71,18 +71,16 @@ public class ChooseQualityLayout {
 
         @Override // android.graphics.drawable.Drawable
         public void draw(Canvas canvas) {
-            Rect bounds = getBounds();
-            this.base.setBounds(bounds);
+            this.base.setBounds(getBounds());
             canvas.save();
-            canvas.rotate(this.rotation * (-180.0f), bounds.centerX(), bounds.centerY());
+            canvas.rotate(this.rotation * (-180.0f), r0.centerX(), r0.centerY());
             this.base.draw(canvas);
             canvas.restore();
             this.bgPaint.setColor(Theme.getColor(Theme.key_featuredStickers_addButton));
-            float width = bounds.left + (bounds.width() * 0.97f);
-            float height = bounds.top + (bounds.height() * 0.75f);
-            float dp = (AndroidUtilities.dp(5.0f) * this.text.isNotEmpty()) + this.text.getCurrentWidth();
-            float dp2 = AndroidUtilities.dp(11.0f) / 2.0f;
-            this.rect.set(width - dp, height - dp2, width, height + dp2);
+            float width = r0.left + (r0.width() * 0.97f);
+            float height = r0.top + (r0.height() * 0.75f);
+            float dp = AndroidUtilities.dp(11.0f) / 2.0f;
+            this.rect.set(width - ((AndroidUtilities.dp(5.0f) * this.text.isNotEmpty()) + this.text.getCurrentWidth()), height - dp, width, height + dp);
             canvas.drawRoundRect(this.rect, AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), this.bgPaint);
             this.text.setBounds(this.rect);
             this.text.draw(canvas);
@@ -162,56 +160,56 @@ public class ChooseQualityLayout {
 
     public boolean update(VideoPlayer videoPlayer) {
         String str;
-        if (videoPlayer != null && videoPlayer.getQualitiesCount() > 1) {
-            this.buttonsLayout.removeAllViews();
-            final int i = -1;
-            while (i < videoPlayer.getQualitiesCount()) {
-                VideoPlayer.QualityUri quality = i == -1 ? null : videoPlayer.getQuality(i);
-                String str2 = "";
-                if (quality == null) {
-                    str = LocaleController.getString(R.string.QualityAuto);
-                } else if (SharedConfig.debugVideoQualities) {
-                    String str3 = quality.width + "x" + quality.height;
-                    if (quality.original) {
-                        str3 = str3 + " (" + LocaleController.getString(R.string.QualityOriginal).toLowerCase() + ")";
-                    }
-                    str2 = "" + AndroidUtilities.formatFileSize((long) quality.bitrate).replace(" ", "") + "/s";
-                    if (quality.codec != null) {
-                        str2 = str2 + ", " + quality.codec;
-                    }
-                    str = str3;
-                } else {
-                    int min = Math.min(quality.width, quality.height);
-                    if (Math.abs(min - 1080) < 30) {
-                        min = 1080;
-                    } else if (Math.abs(min - 720) < 30) {
-                        min = 720;
-                    } else if (Math.abs(min - 360) < 30) {
-                        min = 360;
-                    } else if (Math.abs(min - 240) < 30) {
-                        min = NotificationCenter.needSetDayNightTheme;
-                    } else if (Math.abs(min - 144) < 30) {
-                        min = NotificationCenter.messagePlayingProgressDidChanged;
-                    }
-                    str = min + "p";
-                }
-                ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.buttonsLayout, 0, str, true, null);
-                if (!TextUtils.isEmpty(str2)) {
-                    addItem.setSubtext(str2);
-                }
-                addItem.setChecked(i == videoPlayer.getSelectedQuality());
-                addItem.setColors(-328966, -328966);
-                addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseQualityLayout$$ExternalSyntheticLambda1
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        ChooseQualityLayout.this.lambda$update$1(i, view);
-                    }
-                });
-                addItem.setSelectorColor(268435455);
-                i++;
-            }
-            return true;
+        if (videoPlayer == null || videoPlayer.getQualitiesCount() <= 1) {
+            return false;
         }
-        return false;
+        this.buttonsLayout.removeAllViews();
+        final int i = -1;
+        while (i < videoPlayer.getQualitiesCount()) {
+            VideoPlayer.QualityUri quality = i == -1 ? null : videoPlayer.getQuality(i);
+            String str2 = "";
+            if (quality == null) {
+                str = LocaleController.getString(R.string.QualityAuto);
+            } else if (SharedConfig.debugVideoQualities) {
+                String str3 = quality.width + "x" + quality.height;
+                if (quality.original) {
+                    str3 = str3 + " (" + LocaleController.getString(R.string.QualityOriginal).toLowerCase() + ")";
+                }
+                str2 = "" + AndroidUtilities.formatFileSize((long) quality.bitrate).replace(" ", "") + "/s";
+                if (quality.codec != null) {
+                    str2 = str2 + ", " + quality.codec;
+                }
+                str = str3;
+            } else {
+                int min = Math.min(quality.width, quality.height);
+                if (Math.abs(min - 1080) < 30) {
+                    min = 1080;
+                } else if (Math.abs(min - 720) < 30) {
+                    min = 720;
+                } else if (Math.abs(min - 360) < 30) {
+                    min = 360;
+                } else if (Math.abs(min - 240) < 30) {
+                    min = NotificationCenter.needSetDayNightTheme;
+                } else if (Math.abs(min - 144) < 30) {
+                    min = NotificationCenter.messagePlayingProgressDidChanged;
+                }
+                str = min + "p";
+            }
+            ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.buttonsLayout, 0, str, true, null);
+            if (!TextUtils.isEmpty(str2)) {
+                addItem.setSubtext(str2);
+            }
+            addItem.setChecked(i == videoPlayer.getSelectedQuality());
+            addItem.setColors(-328966, -328966);
+            addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseQualityLayout$$ExternalSyntheticLambda1
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    ChooseQualityLayout.this.lambda$update$1(i, view);
+                }
+            });
+            addItem.setSelectorColor(268435455);
+            i++;
+        }
+        return true;
     }
 }

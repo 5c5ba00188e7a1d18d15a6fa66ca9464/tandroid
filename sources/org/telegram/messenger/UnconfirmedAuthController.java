@@ -15,6 +15,7 @@ import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class UnconfirmedAuthController {
     private final int currentAccount;
@@ -178,7 +179,8 @@ public class UnconfirmedAuthController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x004f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x004f, code lost:
+    
         if (r3 == null) goto L19;
      */
     /*
@@ -227,20 +229,25 @@ public class UnconfirmedAuthController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x004b, code lost:
-        if (r1 != null) goto L12;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x005e, code lost:
+    
+        return;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0051, code lost:
-        if (r1 == null) goto L9;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0053, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0053, code lost:
+    
         r1.dispose();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0056, code lost:
-        org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda4(r5));
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0051, code lost:
+    
+        if (r1 == null) goto L17;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x005e, code lost:
-        return;
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x004b, code lost:
+    
+        if (r1 != null) goto L16;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x0056, code lost:
+    
+        org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda4(r5));
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -441,14 +448,14 @@ public class UnconfirmedAuthController {
         }
         if (this.fetchingCache) {
             this.saveAfterFetch = true;
-            return;
+        } else {
+            this.savingCache = true;
+            MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda6
+                @Override // java.lang.Runnable
+                public final void run() {
+                    UnconfirmedAuthController.this.lambda$saveCache$4();
+                }
+            });
         }
-        this.savingCache = true;
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda6
-            @Override // java.lang.Runnable
-            public final void run() {
-                UnconfirmedAuthController.this.lambda$saveCache$4();
-            }
-        });
     }
 }

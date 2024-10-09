@@ -29,6 +29,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Storage.CacheModel;
+
 /* loaded from: classes3.dex */
 public abstract class StorageDiagramView extends View implements NotificationCenter.NotificationCenterDelegate {
     private float[] animateToPercentage;
@@ -103,11 +104,11 @@ public abstract class StorageDiagramView extends View implements NotificationCen
             this.dialogText = LocaleController.getString(R.string.CacheOtherChats);
             this.avatarDrawable.setAvatarType(14);
             this.avatarImageReceiver.setForUserOrChat(null, this.avatarDrawable);
-            return;
+        } else {
+            String dialogPhotoTitle = DialogObject.setDialogPhotoTitle(this.avatarImageReceiver, this.avatarDrawable, MessagesController.getInstance(UserConfig.selectedAccount).getUserOrChat(j));
+            this.dialogText = dialogPhotoTitle;
+            this.dialogText = Emoji.replaceEmoji((CharSequence) dialogPhotoTitle, (Paint.FontMetricsInt) null, AndroidUtilities.dp(6.0f), false);
         }
-        String dialogPhotoTitle = DialogObject.setDialogPhotoTitle(this.avatarImageReceiver, this.avatarDrawable, MessagesController.getInstance(UserConfig.selectedAccount).getUserOrChat(j));
-        this.dialogText = dialogPhotoTitle;
-        this.dialogText = Emoji.replaceEmoji((CharSequence) dialogPhotoTitle, (Paint.FontMetricsInt) null, AndroidUtilities.dp(6.0f), false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.NoSuchElementException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzdm extends zzdo {
@@ -22,10 +23,10 @@ public final class zzdm extends zzdo {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzds
     public final byte zza() {
         int i = this.zza;
-        if (i < this.zzb) {
-            this.zza = i + 1;
-            return this.zzc.zzb(i);
+        if (i >= this.zzb) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        this.zza = i + 1;
+        return this.zzc.zzb(i);
     }
 }

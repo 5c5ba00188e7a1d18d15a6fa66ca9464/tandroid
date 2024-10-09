@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 public abstract class zzdh implements zzfy {
     protected abstract zzdh zza(zzde zzdeVar);

@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.extractor.wav;
+
 /* loaded from: classes.dex */
 final class WavFormat {
     public final int averageBytesPerSecond;

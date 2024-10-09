@@ -8,6 +8,7 @@ import androidx.savedstate.SavedStateRegistry;
 import androidx.savedstate.SavedStateRegistryOwner;
 import java.lang.reflect.Constructor;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class SavedStateViewModelFactory extends ViewModelProvider.OnRequeryFactory implements ViewModelProvider.Factory {
     private Application application;
@@ -40,19 +41,19 @@ public final class SavedStateViewModelFactory extends ViewModelProvider.OnRequer
         Intrinsics.checkNotNullParameter(modelClass, "modelClass");
         Intrinsics.checkNotNullParameter(extras, "extras");
         String str = (String) extras.get(ViewModelProvider.NewInstanceFactory.VIEW_MODEL_KEY);
-        if (str != null) {
-            if (extras.get(SavedStateHandleSupport.SAVED_STATE_REGISTRY_OWNER_KEY) == null || extras.get(SavedStateHandleSupport.VIEW_MODEL_STORE_OWNER_KEY) == null) {
-                if (this.lifecycle != null) {
-                    return create(str, modelClass);
-                }
-                throw new IllegalStateException("SAVED_STATE_REGISTRY_OWNER_KEY andVIEW_MODEL_STORE_OWNER_KEY must be provided in the creation extras tosuccessfully create a ViewModel.");
-            }
-            Application application = (Application) extras.get(ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY);
-            boolean isAssignableFrom = AndroidViewModel.class.isAssignableFrom(modelClass);
-            Constructor findMatchingConstructor = SavedStateViewModelFactoryKt.findMatchingConstructor(modelClass, (!isAssignableFrom || application == null) ? SavedStateViewModelFactoryKt.VIEWMODEL_SIGNATURE : SavedStateViewModelFactoryKt.ANDROID_VIEWMODEL_SIGNATURE);
-            return findMatchingConstructor == null ? this.factory.create(modelClass, extras) : (!isAssignableFrom || application == null) ? SavedStateViewModelFactoryKt.newInstance(modelClass, findMatchingConstructor, SavedStateHandleSupport.createSavedStateHandle(extras)) : SavedStateViewModelFactoryKt.newInstance(modelClass, findMatchingConstructor, application, SavedStateHandleSupport.createSavedStateHandle(extras));
+        if (str == null) {
+            throw new IllegalStateException("VIEW_MODEL_KEY must always be provided by ViewModelProvider");
         }
-        throw new IllegalStateException("VIEW_MODEL_KEY must always be provided by ViewModelProvider");
+        if (extras.get(SavedStateHandleSupport.SAVED_STATE_REGISTRY_OWNER_KEY) == null || extras.get(SavedStateHandleSupport.VIEW_MODEL_STORE_OWNER_KEY) == null) {
+            if (this.lifecycle != null) {
+                return create(str, modelClass);
+            }
+            throw new IllegalStateException("SAVED_STATE_REGISTRY_OWNER_KEY andVIEW_MODEL_STORE_OWNER_KEY must be provided in the creation extras tosuccessfully create a ViewModel.");
+        }
+        Application application = (Application) extras.get(ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY);
+        boolean isAssignableFrom = AndroidViewModel.class.isAssignableFrom(modelClass);
+        Constructor findMatchingConstructor = SavedStateViewModelFactoryKt.findMatchingConstructor(modelClass, (!isAssignableFrom || application == null) ? SavedStateViewModelFactoryKt.VIEWMODEL_SIGNATURE : SavedStateViewModelFactoryKt.ANDROID_VIEWMODEL_SIGNATURE);
+        return findMatchingConstructor == null ? this.factory.create(modelClass, extras) : (!isAssignableFrom || application == null) ? SavedStateViewModelFactoryKt.newInstance(modelClass, findMatchingConstructor, SavedStateHandleSupport.createSavedStateHandle(extras)) : SavedStateViewModelFactoryKt.newInstance(modelClass, findMatchingConstructor, application, SavedStateHandleSupport.createSavedStateHandle(extras));
     }
 
     public final ViewModel create(String key, Class modelClass) {
@@ -60,27 +61,27 @@ public final class SavedStateViewModelFactory extends ViewModelProvider.OnRequer
         Application application;
         Intrinsics.checkNotNullParameter(key, "key");
         Intrinsics.checkNotNullParameter(modelClass, "modelClass");
-        if (this.lifecycle != null) {
-            boolean isAssignableFrom = AndroidViewModel.class.isAssignableFrom(modelClass);
-            Constructor findMatchingConstructor = SavedStateViewModelFactoryKt.findMatchingConstructor(modelClass, (!isAssignableFrom || this.application == null) ? SavedStateViewModelFactoryKt.VIEWMODEL_SIGNATURE : SavedStateViewModelFactoryKt.ANDROID_VIEWMODEL_SIGNATURE);
-            if (findMatchingConstructor == null) {
-                return this.application != null ? this.factory.create(modelClass) : ViewModelProvider.NewInstanceFactory.Companion.getInstance().create(modelClass);
-            }
-            SavedStateHandleController create = LegacySavedStateHandleController.create(this.savedStateRegistry, this.lifecycle, key, this.defaultArgs);
-            if (!isAssignableFrom || (application = this.application) == null) {
-                SavedStateHandle handle = create.getHandle();
-                Intrinsics.checkNotNullExpressionValue(handle, "controller.handle");
-                newInstance = SavedStateViewModelFactoryKt.newInstance(modelClass, findMatchingConstructor, handle);
-            } else {
-                Intrinsics.checkNotNull(application);
-                SavedStateHandle handle2 = create.getHandle();
-                Intrinsics.checkNotNullExpressionValue(handle2, "controller.handle");
-                newInstance = SavedStateViewModelFactoryKt.newInstance(modelClass, findMatchingConstructor, application, handle2);
-            }
-            newInstance.setTagIfAbsent("androidx.lifecycle.savedstate.vm.tag", create);
-            return newInstance;
+        if (this.lifecycle == null) {
+            throw new UnsupportedOperationException("SavedStateViewModelFactory constructed with empty constructor supports only calls to create(modelClass: Class<T>, extras: CreationExtras).");
         }
-        throw new UnsupportedOperationException("SavedStateViewModelFactory constructed with empty constructor supports only calls to create(modelClass: Class<T>, extras: CreationExtras).");
+        boolean isAssignableFrom = AndroidViewModel.class.isAssignableFrom(modelClass);
+        Constructor findMatchingConstructor = SavedStateViewModelFactoryKt.findMatchingConstructor(modelClass, (!isAssignableFrom || this.application == null) ? SavedStateViewModelFactoryKt.VIEWMODEL_SIGNATURE : SavedStateViewModelFactoryKt.ANDROID_VIEWMODEL_SIGNATURE);
+        if (findMatchingConstructor == null) {
+            return this.application != null ? this.factory.create(modelClass) : ViewModelProvider.NewInstanceFactory.Companion.getInstance().create(modelClass);
+        }
+        SavedStateHandleController create = LegacySavedStateHandleController.create(this.savedStateRegistry, this.lifecycle, key, this.defaultArgs);
+        if (!isAssignableFrom || (application = this.application) == null) {
+            SavedStateHandle handle = create.getHandle();
+            Intrinsics.checkNotNullExpressionValue(handle, "controller.handle");
+            newInstance = SavedStateViewModelFactoryKt.newInstance(modelClass, findMatchingConstructor, handle);
+        } else {
+            Intrinsics.checkNotNull(application);
+            SavedStateHandle handle2 = create.getHandle();
+            Intrinsics.checkNotNullExpressionValue(handle2, "controller.handle");
+            newInstance = SavedStateViewModelFactoryKt.newInstance(modelClass, findMatchingConstructor, application, handle2);
+        }
+        newInstance.setTagIfAbsent("androidx.lifecycle.savedstate.vm.tag", create);
+        return newInstance;
     }
 
     @Override // androidx.lifecycle.ViewModelProvider.OnRequeryFactory

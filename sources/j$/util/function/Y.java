@@ -1,4 +1,5 @@
 package j$.util.function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class Y implements java.util.function.LongFunction {
     public final /* synthetic */ LongFunction a;

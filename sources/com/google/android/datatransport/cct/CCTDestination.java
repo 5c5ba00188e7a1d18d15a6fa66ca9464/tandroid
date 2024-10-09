@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public final class CCTDestination implements EncodedDestination {
     private static final String DEFAULT_API_KEY;
@@ -38,22 +39,22 @@ public final class CCTDestination implements EncodedDestination {
 
     public static CCTDestination fromByteArray(byte[] bArr) {
         String str = new String(bArr, Charset.forName("UTF-8"));
-        if (str.startsWith("1$")) {
-            String[] split = str.substring(2).split(Pattern.quote("\\"), 2);
-            if (split.length == 2) {
-                String str2 = split[0];
-                if (str2.isEmpty()) {
-                    throw new IllegalArgumentException("Missing endpoint in CCTDestination extras");
-                }
-                String str3 = split[1];
-                if (str3.isEmpty()) {
-                    str3 = null;
-                }
-                return new CCTDestination(str2, str3);
-            }
+        if (!str.startsWith("1$")) {
+            throw new IllegalArgumentException("Version marker missing from extras");
+        }
+        String[] split = str.substring(2).split(Pattern.quote("\\"), 2);
+        if (split.length != 2) {
             throw new IllegalArgumentException("Extra is not a valid encoded LegacyFlgDestination");
         }
-        throw new IllegalArgumentException("Version marker missing from extras");
+        String str2 = split[0];
+        if (str2.isEmpty()) {
+            throw new IllegalArgumentException("Missing endpoint in CCTDestination extras");
+        }
+        String str3 = split[1];
+        if (str3.isEmpty()) {
+            str3 = null;
+        }
+        return new CCTDestination(str2, str3);
     }
 
     public byte[] asByteArray() {

@@ -3,6 +3,7 @@ package com.google.android.gms.internal.vision;
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzkg implements zzkh {
     @Override // com.google.android.gms.internal.vision.zzkh
@@ -13,13 +14,13 @@ final class zzkg implements zzkh {
             return 0;
         }
         Iterator it = zzkeVar.entrySet().iterator();
-        if (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            entry.getKey();
-            entry.getValue();
-            throw new NoSuchMethodError();
+        if (!it.hasNext()) {
+            return 0;
         }
-        return 0;
+        Map.Entry entry = (Map.Entry) it.next();
+        entry.getKey();
+        entry.getValue();
+        throw new NoSuchMethodError();
     }
 
     @Override // com.google.android.gms.internal.vision.zzkh

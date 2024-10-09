@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.extractor;
+
 /* loaded from: classes.dex */
 public abstract class ForwardingExtractorInput implements ExtractorInput {
     private final ExtractorInput input;

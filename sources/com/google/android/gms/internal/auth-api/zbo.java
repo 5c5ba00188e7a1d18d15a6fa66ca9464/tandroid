@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.ClientSettings;
 import com.google.android.gms.common.internal.GmsClient;
+
 /* loaded from: classes.dex */
 public final class zbo extends GmsClient {
     private final Auth.AuthCredentialsOptions zba;

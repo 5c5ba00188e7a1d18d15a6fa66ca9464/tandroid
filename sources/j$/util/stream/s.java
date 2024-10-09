@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class s extends X1 {
     public final /* synthetic */ int b;
@@ -18,7 +19,7 @@ final class s extends X1 {
                 this.a.accept(((j$.util.function.w) ((t) this.c).n).a.applyAsDouble(d));
                 return;
             case 1:
-                this.a.accept((e2) ((j$.util.function.q) ((u) this.c).n).apply(d));
+                this.a.r((e2) ((j$.util.function.q) ((u) this.c).n).apply(d));
                 return;
             case 2:
                 this.a.accept(((j$.util.function.s) ((v) this.c).n).a.applyAsInt(d));

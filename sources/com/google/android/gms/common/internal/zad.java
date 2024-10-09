@@ -2,6 +2,7 @@ package com.google.android.gms.common.internal;
 
 import android.app.Activity;
 import android.content.Intent;
+
 /* loaded from: classes.dex */
 final class zad extends zag {
     final /* synthetic */ Intent zaa;

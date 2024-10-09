@@ -1,4 +1,5 @@
 package j$.util.function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class w0 implements java.util.function.ToDoubleFunction {
     public final /* synthetic */ ToDoubleFunction a;

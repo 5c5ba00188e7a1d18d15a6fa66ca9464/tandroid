@@ -3,6 +3,7 @@ package kotlin;
 import java.io.Serializable;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public abstract class Result implements Serializable {
     public static final Companion Companion = new Companion(null);

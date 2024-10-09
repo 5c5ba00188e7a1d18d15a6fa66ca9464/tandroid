@@ -22,6 +22,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Switch;
+
 /* loaded from: classes4.dex */
 public class AvailableReactionCell extends FrameLayout {
     private boolean canLock;
@@ -86,21 +87,20 @@ public class AvailableReactionCell extends FrameLayout {
 
     public void bind(TLRPC.TL_availableReaction tL_availableReaction, boolean z, int i) {
         TLRPC.TL_availableReaction tL_availableReaction2;
-        boolean z2 = true;
-        boolean z3 = (tL_availableReaction == null || (tL_availableReaction2 = this.react) == null || !tL_availableReaction.reaction.equals(tL_availableReaction2.reaction)) ? false : true;
+        boolean z2 = (tL_availableReaction == null || (tL_availableReaction2 = this.react) == null || !tL_availableReaction.reaction.equals(tL_availableReaction2.reaction)) ? false : true;
         this.react = tL_availableReaction;
         this.textView.setText(tL_availableReaction.title);
         this.imageView.setImage(ImageLocation.getForDocument(tL_availableReaction.activate_animation), "30_30_pcache", "tgs", DocumentObject.getSvgThumb(tL_availableReaction.static_icon, Theme.key_windowBackgroundGray, 1.0f), tL_availableReaction);
-        z2 = (this.canLock && tL_availableReaction.premium && !UserConfig.getInstance(i).isPremium()) ? false : false;
-        this.locked = z2;
-        if (z2) {
+        boolean z3 = this.canLock && tL_availableReaction.premium && !UserConfig.getInstance(i).isPremium();
+        this.locked = z3;
+        if (z3) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.other_lockedfolders2);
             drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_stickers_menu), PorterDuff.Mode.MULTIPLY));
             this.textView.setRightDrawable(drawable);
         } else {
             this.textView.setRightDrawable((Drawable) null);
         }
-        setChecked(z, z3);
+        setChecked(z, z2);
     }
 
     public boolean isChecked() {

@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Trace;
 import android.util.Log;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public abstract class TraceCompat {
     private static Method sAsyncTraceBeginMethod;

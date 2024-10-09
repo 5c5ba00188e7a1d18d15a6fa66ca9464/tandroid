@@ -12,6 +12,7 @@ import org.webrtc.Camera1Session;
 import org.webrtc.CameraEnumerationAndroid;
 import org.webrtc.CameraSession;
 import org.webrtc.VideoSink;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class Camera1Session implements CameraSession {
@@ -62,23 +63,25 @@ public class Camera1Session implements CameraSession {
             Camera1Session.this.checkIsOnCameraThread();
             if (camera != Camera1Session.this.camera) {
                 Logging.e(Camera1Session.TAG, "Callback from a different camera. This should never happen.");
-            } else if (Camera1Session.this.state != SessionState.RUNNING) {
-                Logging.d(Camera1Session.TAG, "Bytebuffer frame captured but camera is no longer running.");
-            } else {
-                long nanos = TimeUnit.MILLISECONDS.toNanos(SystemClock.elapsedRealtime());
-                if (!Camera1Session.this.firstFrameReported) {
-                    Camera1Session.camera1StartTimeMsHistogram.addSample((int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - Camera1Session.this.constructionTimeNs));
-                    Camera1Session.this.firstFrameReported = true;
-                }
-                VideoFrame videoFrame = new VideoFrame(new NV21Buffer(bArr, Camera1Session.this.captureFormat.width, Camera1Session.this.captureFormat.height, new Runnable() { // from class: org.webrtc.Camera1Session$2$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        Camera1Session.2.this.lambda$onPreviewFrame$1(bArr);
-                    }
-                }), Camera1Session.this.getFrameOrientation(), nanos);
-                Camera1Session.this.events.onFrameCaptured(Camera1Session.this, videoFrame);
-                videoFrame.release();
+                return;
             }
+            if (Camera1Session.this.state != SessionState.RUNNING) {
+                Logging.d(Camera1Session.TAG, "Bytebuffer frame captured but camera is no longer running.");
+                return;
+            }
+            long nanos = TimeUnit.MILLISECONDS.toNanos(SystemClock.elapsedRealtime());
+            if (!Camera1Session.this.firstFrameReported) {
+                Camera1Session.camera1StartTimeMsHistogram.addSample((int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - Camera1Session.this.constructionTimeNs));
+                Camera1Session.this.firstFrameReported = true;
+            }
+            VideoFrame videoFrame = new VideoFrame(new NV21Buffer(bArr, Camera1Session.this.captureFormat.width, Camera1Session.this.captureFormat.height, new Runnable() { // from class: org.webrtc.Camera1Session$2$$ExternalSyntheticLambda0
+                @Override // java.lang.Runnable
+                public final void run() {
+                    Camera1Session.2.this.lambda$onPreviewFrame$1(bArr);
+                }
+            }), Camera1Session.this.getFrameOrientation(), nanos);
+            Camera1Session.this.events.onFrameCaptured(Camera1Session.this, videoFrame);
+            videoFrame.release();
         }
     }
 
@@ -120,8 +123,7 @@ public class Camera1Session implements CameraSession {
         try {
             Camera open = Camera.open(i);
             if (open == null) {
-                CameraSession.FailureType failureType = CameraSession.FailureType.ERROR;
-                createSessionCallback.onFailure(failureType, "android.hardware.Camera.open returned null for camera id = " + i);
+                createSessionCallback.onFailure(CameraSession.FailureType.ERROR, "android.hardware.Camera.open returned null for camera id = " + i);
                 return;
             }
             try {

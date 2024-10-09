@@ -44,6 +44,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PaymentFormActivity;
 import org.telegram.ui.bots.BotWebViewSheet;
+
 /* loaded from: classes3.dex */
 public abstract class BoostRepository {
     private static HashMap cachedGiftOptions;
@@ -115,18 +116,18 @@ public abstract class BoostRepository {
     }
 
     public static List filterGiftOptionsByBilling(List list) {
-        if (isGoogleBillingAvailable()) {
-            ArrayList arrayList = new ArrayList();
-            Iterator it = list.iterator();
-            while (it.hasNext()) {
-                TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption = (TLRPC.TL_premiumGiftCodeOption) it.next();
-                if (tL_premiumGiftCodeOption.store_product != null) {
-                    arrayList.add(tL_premiumGiftCodeOption);
-                }
-            }
-            return arrayList;
+        if (!isGoogleBillingAvailable()) {
+            return list;
         }
-        return list;
+        ArrayList arrayList = new ArrayList();
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption = (TLRPC.TL_premiumGiftCodeOption) it.next();
+            if (tL_premiumGiftCodeOption.store_product != null) {
+                arrayList.add(tL_premiumGiftCodeOption);
+            }
+        }
+        return arrayList;
     }
 
     public static List getCachedGiftOptions(int i) {
@@ -407,8 +408,9 @@ public abstract class BoostRepository {
                 boostRepository$$ExternalSyntheticLambda31 = new BoostRepository$$ExternalSyntheticLambda31();
             }
             Collections.sort(arrayList, boostRepository$$ExternalSyntheticLambda31);
-            for (List list2 : hashMap.values()) {
-                Collections.sort(list2, new Comparator() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda32
+            Iterator it = hashMap.values().iterator();
+            while (it.hasNext()) {
+                Collections.sort((List) it.next(), new Comparator() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda32
                     @Override // java.util.Comparator
                     public final int compare(Object obj, Object obj2) {
                         int lambda$loadCountries$25;
@@ -615,15 +617,15 @@ public abstract class BoostRepository {
         }
         if (paymentFormActivity == null) {
             callback.run(null);
-            return;
+        } else {
+            paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda38
+                @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
+                public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
+                    BoostRepository.lambda$payGiftCodeByInvoice$2(Utilities.Callback.this, callback, invoiceStatus);
+                }
+            });
+            LaunchActivity.getLastFragment().showAsSheet(paymentFormActivity, new BaseFragment.BottomSheetParams());
         }
-        paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda38
-            @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
-            public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
-                BoostRepository.lambda$payGiftCodeByInvoice$2(Utilities.Callback.this, callback, invoiceStatus);
-            }
-        });
-        LaunchActivity.getLastFragment().showAsSheet(paymentFormActivity, new BaseFragment.BottomSheetParams());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -733,15 +735,15 @@ public abstract class BoostRepository {
         }
         if (paymentFormActivity == null) {
             callback.run(null);
-            return;
+        } else {
+            paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda34
+                @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
+                public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
+                    BoostRepository.lambda$payGiveAwayByInvoice$15(Utilities.Callback.this, callback, invoiceStatus);
+                }
+            });
+            LaunchActivity.getLastFragment().showAsSheet(paymentFormActivity, new BaseFragment.BottomSheetParams());
         }
-        paymentFormActivity.setPaymentFormCallback(new PaymentFormActivity.PaymentFormCallback() { // from class: org.telegram.ui.Components.Premium.boosts.BoostRepository$$ExternalSyntheticLambda34
-            @Override // org.telegram.ui.PaymentFormActivity.PaymentFormCallback
-            public final void onInvoiceStatusChanged(PaymentFormActivity.InvoiceStatus invoiceStatus) {
-                BoostRepository.lambda$payGiveAwayByInvoice$15(Utilities.Callback.this, callback, invoiceStatus);
-            }
-        });
-        LaunchActivity.getLastFragment().showAsSheet(paymentFormActivity, new BaseFragment.BottomSheetParams());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -810,9 +812,10 @@ public abstract class BoostRepository {
                     tL_inputStorePaymentStarsGiveaway.additional_peers.add(messagesController.getInputPeer(-((TLRPC.Chat) tLObject).id));
                 }
             }
-        } else if (!(prepaidGiveaway instanceof TL_stories.TL_prepaidStarsGiveaway)) {
-            return;
         } else {
+            if (!(prepaidGiveaway instanceof TL_stories.TL_prepaidStarsGiveaway)) {
+                return;
+            }
             tL_inputStorePaymentStarsGiveaway = new TLRPC.TL_inputStorePaymentStarsGiveaway();
             tL_inputStorePaymentStarsGiveaway.only_new_subscribers = z;
             tL_inputStorePaymentStarsGiveaway.winners_are_visible = z2;

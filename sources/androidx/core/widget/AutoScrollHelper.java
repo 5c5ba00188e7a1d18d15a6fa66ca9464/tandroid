@@ -9,6 +9,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 public abstract class AutoScrollHelper implements View.OnTouchListener {
     private static final int DEFAULT_ACTIVATION_DELAY = ViewConfiguration.getTapTimeout();
@@ -71,8 +72,9 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
             }
             long currentAnimationTimeMillis = AnimationUtils.currentAnimationTimeMillis();
             float interpolateValue = interpolateValue(getValueAt(currentAnimationTimeMillis));
+            long j = currentAnimationTimeMillis - this.mDeltaTime;
             this.mDeltaTime = currentAnimationTimeMillis;
-            float f = ((float) (currentAnimationTimeMillis - this.mDeltaTime)) * interpolateValue;
+            float f = ((float) j) * interpolateValue;
             this.mDeltaX = (int) (this.mTargetVelocityX * f);
             this.mDeltaY = (int) (f * this.mTargetVelocityY);
         }
@@ -223,9 +225,10 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
         float constrainEdgeValue = constrainEdgeValue(f2 - f4, constrain) - constrainEdgeValue(f4, constrain);
         if (constrainEdgeValue < 0.0f) {
             interpolation = -this.mEdgeInterpolator.getInterpolation(-constrainEdgeValue);
-        } else if (constrainEdgeValue <= 0.0f) {
-            return 0.0f;
         } else {
+            if (constrainEdgeValue <= 0.0f) {
+                return 0.0f;
+            }
             interpolation = this.mEdgeInterpolator.getInterpolation(constrainEdgeValue);
         }
         return constrain(interpolation, -1.0f, 1.0f);
@@ -266,7 +269,8 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:11:0x0013, code lost:
-        if (r0 != 3) goto L12;
+    
+        if (r0 != 3) goto L20;
      */
     @Override // android.view.View.OnTouchListener
     /*

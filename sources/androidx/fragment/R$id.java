@@ -1,4 +1,5 @@
 package androidx.fragment;
+
 /* loaded from: classes.dex */
 public abstract class R$id {
     public static final int fragment_container_view_tag = 2131296392;

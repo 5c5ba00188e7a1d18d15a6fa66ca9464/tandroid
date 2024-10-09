@@ -12,6 +12,7 @@ import com.microsoft.appcenter.utils.NetworkStateHelper;
 import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
 import java.util.UUID;
 import org.json.JSONException;
+
 /* loaded from: classes.dex */
 abstract class DistributeUtils {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -32,16 +33,16 @@ abstract class DistributeUtils {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static ReleaseDetails loadCachedReleaseDetails() {
         String string = SharedPreferencesManager.getString("Distribute.release_details");
-        if (string != null) {
-            try {
-                return ReleaseDetails.parse(string);
-            } catch (JSONException e) {
-                AppCenterLog.error("AppCenterDistribute", "Invalid release details in cache.", e);
-                SharedPreferencesManager.remove("Distribute.release_details");
-                return null;
-            }
+        if (string == null) {
+            return null;
         }
-        return null;
+        try {
+            return ReleaseDetails.parse(string);
+        } catch (JSONException e) {
+            AppCenterLog.error("AppCenterDistribute", "Invalid release details in cache.", e);
+            SharedPreferencesManager.remove("Distribute.release_details");
+            return null;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

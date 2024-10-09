@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 import androidx.appcompat.R$styleable;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 class AppCompatSeekBarHelper extends AppCompatProgressBarHelper {
     private boolean mHasTickMarkTint;

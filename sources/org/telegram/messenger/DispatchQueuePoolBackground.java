@@ -4,6 +4,7 @@ import android.os.SystemClock;
 import android.util.SparseIntArray;
 import java.util.ArrayList;
 import org.telegram.ui.Components.Reactions.HwEmojis;
+
 /* loaded from: classes3.dex */
 public class DispatchQueuePoolBackground {
     public static final String THREAD_PREFIX = "DispatchQueuePoolThreadSafety_";
@@ -42,10 +43,10 @@ public class DispatchQueuePoolBackground {
             }
             if (DispatchQueuePoolBackground.this.queues.isEmpty() && DispatchQueuePoolBackground.this.busyQueues.isEmpty()) {
                 DispatchQueuePoolBackground.this.cleanupScheduled = false;
-                return;
+            } else {
+                Utilities.globalQueue.postRunnable(this, 30000L);
+                DispatchQueuePoolBackground.this.cleanupScheduled = true;
             }
-            Utilities.globalQueue.postRunnable(this, 30000L);
-            DispatchQueuePoolBackground.this.cleanupScheduled = true;
         }
     };
     private int guid = Utilities.random.nextInt();
@@ -87,9 +88,9 @@ public class DispatchQueuePoolBackground {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00a9  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00ad  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00ad  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -195,7 +196,7 @@ public class DispatchQueuePoolBackground {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$finishCollectUpdateRunnables$3(final ArrayList arrayList) {
-        backgroundQueue.execute(arrayList);
+        backgroundQueue.execute((ArrayList<Runnable>) arrayList);
         arrayList.clear();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable

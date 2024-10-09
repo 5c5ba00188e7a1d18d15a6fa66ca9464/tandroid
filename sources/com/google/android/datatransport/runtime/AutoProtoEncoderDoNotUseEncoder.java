@@ -13,6 +13,7 @@ import com.google.firebase.encoders.ObjectEncoderContext;
 import com.google.firebase.encoders.config.Configurator;
 import com.google.firebase.encoders.config.EncoderConfig;
 import com.google.firebase.encoders.proto.AtProtobuf;
+
 /* loaded from: classes.dex */
 public final class AutoProtoEncoderDoNotUseEncoder implements Configurator {
     public static final Configurator CONFIG = new AutoProtoEncoderDoNotUseEncoder();

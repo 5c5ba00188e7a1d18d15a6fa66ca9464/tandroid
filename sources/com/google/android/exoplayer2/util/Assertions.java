@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.util;
 
 import android.text.TextUtils;
+
 /* loaded from: classes.dex */
 public abstract class Assertions {
     public static void checkArgument(boolean z) {

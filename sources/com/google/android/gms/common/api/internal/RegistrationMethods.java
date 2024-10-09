@@ -3,6 +3,7 @@ package com.google.android.gms.common.api.internal;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public class RegistrationMethods {
     public final RegisterListenerMethod register;

@@ -3,6 +3,7 @@ package com.google.android.gms.common.internal;
 import android.app.PendingIntent;
 import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
+
 /* loaded from: classes.dex */
 abstract class zza extends zzc {
     public final int zza;
@@ -25,9 +26,10 @@ abstract class zza extends zzc {
             this.zzc.zzp(1, null);
             Bundle bundle = this.zzb;
             connectionResult = new ConnectionResult(this.zza, bundle != null ? (PendingIntent) bundle.getParcelable("pendingIntent") : null);
-        } else if (zzd()) {
-            return;
         } else {
+            if (zzd()) {
+                return;
+            }
             this.zzc.zzp(1, null);
             connectionResult = new ConnectionResult(8, null);
         }

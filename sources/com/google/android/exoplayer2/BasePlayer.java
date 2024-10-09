@@ -2,6 +2,7 @@ package com.google.android.exoplayer2;
 
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.video.VideoListener;
+
 /* loaded from: classes.dex */
 public abstract class BasePlayer implements Player {
     protected final Timeline.Window window = new Timeline.Window();

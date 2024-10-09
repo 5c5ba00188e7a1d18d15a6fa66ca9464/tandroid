@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.extractor;
 
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+
 /* loaded from: classes.dex */
 public abstract class CeaUtil {
     public static void consume(long j, ParsableByteArray parsableByteArray, TrackOutput[] trackOutputArr) {

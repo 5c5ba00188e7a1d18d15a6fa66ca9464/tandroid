@@ -18,6 +18,7 @@ import com.google.android.gms.common.internal.GmsClient;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.zat;
+
 /* loaded from: classes.dex */
 public class SignInClientImpl extends GmsClient implements com.google.android.gms.signin.zae {
     public static final /* synthetic */ int $r8$clinit = 0;

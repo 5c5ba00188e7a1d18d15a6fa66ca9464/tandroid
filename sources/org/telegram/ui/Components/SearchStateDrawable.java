@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import com.google.zxing.common.detector.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public class SearchStateDrawable extends Drawable {
     private float cx;
@@ -55,9 +56,7 @@ public class SearchStateDrawable extends Drawable {
         if (f5 < 0.0f) {
             f5 += 360.0f;
         }
-        int i = (f4 > f5 ? 1 : (f4 == f5 ? 0 : -1));
-        int i2 = (f > f4 ? 1 : (f == f4 ? 0 : -1));
-        return i > 0 ? i2 >= 0 || f <= f5 : i2 >= 0 && f <= f5;
+        return f4 > f5 ? f >= f4 || f <= f5 : f >= f4 && f <= f5;
     }
 
     private void drawCircle(Canvas canvas, float f, float f2, float f3) {
@@ -100,8 +99,11 @@ public class SearchStateDrawable extends Drawable {
             if (i != 2) {
                 AndroidUtilities.cancelRunOnUIThread(this.delaySetProgress);
                 this.delaySetProgress = null;
+                return;
             }
-        } else if (!z2 && i == 2) {
+            return;
+        }
+        if (!z2 && i == 2) {
             if (this.delaySetProgress == null) {
                 Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.SearchStateDrawable$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
@@ -111,43 +113,44 @@ public class SearchStateDrawable extends Drawable {
                 };
                 this.delaySetProgress = runnable;
                 AndroidUtilities.runOnUIThread(runnable, 65L);
+                return;
             }
-        } else {
-            Runnable runnable2 = this.delaySetProgress;
-            if (runnable2 != null) {
-                AndroidUtilities.cancelRunOnUIThread(runnable2);
-            }
-            boolean z3 = false;
-            if (this.progress.get() < 1.0f && z) {
-                setIconState(this.toState, false);
-            }
-            if (i == 2) {
-                this.progressAngleFrom = 180.0f;
-                this.progressStart = -1L;
-            } else if (this.toState == 2) {
-                if (i == 0) {
-                    this.progressAngleTo = -45.0f;
-                } else {
-                    this.progressAngleTo = 0.0f;
-                }
-            }
-            if (z) {
-                int i2 = this.toState;
-                this.fromState = i2;
-                this.toState = i;
-                if (i2 == 2 && i != 2) {
-                    z3 = true;
-                }
-                this.waitingForProgressToEnd = z3;
-                this.progress.set(0.0f, true);
-            } else {
-                this.toState = i;
-                this.fromState = i;
-                this.waitingForProgressToEnd = false;
-                this.progress.set(1.0f, true);
-            }
-            invalidateSelf();
+            return;
         }
+        Runnable runnable2 = this.delaySetProgress;
+        if (runnable2 != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable2);
+        }
+        boolean z3 = false;
+        if (this.progress.get() < 1.0f && z) {
+            setIconState(this.toState, false);
+        }
+        if (i == 2) {
+            this.progressAngleFrom = 180.0f;
+            this.progressStart = -1L;
+        } else if (this.toState == 2) {
+            if (i == 0) {
+                this.progressAngleTo = -45.0f;
+            } else {
+                this.progressAngleTo = 0.0f;
+            }
+        }
+        if (z) {
+            int i2 = this.toState;
+            this.fromState = i2;
+            this.toState = i;
+            if (i2 == 2 && i != 2) {
+                z3 = true;
+            }
+            this.waitingForProgressToEnd = z3;
+            this.progress.set(0.0f, true);
+        } else {
+            this.toState = i;
+            this.fromState = i;
+            this.waitingForProgressToEnd = false;
+            this.progress.set(1.0f, true);
+        }
+        invalidateSelf();
     }
 
     private float w(float f) {

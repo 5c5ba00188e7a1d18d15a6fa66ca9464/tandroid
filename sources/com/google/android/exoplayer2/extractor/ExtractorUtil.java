@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.extractor;
 
 import com.google.android.exoplayer2.ParserException;
 import java.io.EOFException;
+
 /* loaded from: classes.dex */
 public abstract class ExtractorUtil {
     public static void checkContainerInput(boolean z, String str) {

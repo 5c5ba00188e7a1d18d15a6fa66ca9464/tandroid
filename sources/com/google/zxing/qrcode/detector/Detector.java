@@ -11,6 +11,7 @@ import com.google.zxing.common.PerspectiveTransform;
 import com.google.zxing.common.detector.MathUtils;
 import com.google.zxing.qrcode.decoder.Version;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class Detector {
     private final BitMatrix image;
@@ -172,13 +173,13 @@ public class Detector {
         int max = Math.max(0, i - i3);
         int min = Math.min(this.image.getWidth() - 1, i + i3) - max;
         float f3 = 3.0f * f;
-        if (min >= f3) {
-            int max2 = Math.max(0, i2 - i3);
-            int min2 = Math.min(this.image.getHeight() - 1, i2 + i3) - max2;
-            if (min2 >= f3) {
-                return new AlignmentPatternFinder(this.image, max, max2, min, min2, f, null).find();
-            }
+        if (min < f3) {
             throw NotFoundException.getNotFoundInstance();
+        }
+        int max2 = Math.max(0, i2 - i3);
+        int min2 = Math.min(this.image.getHeight() - 1, i2 + i3) - max2;
+        if (min2 >= f3) {
+            return new AlignmentPatternFinder(this.image, max, max2, min, min2, f, null).find();
         }
         throw NotFoundException.getNotFoundInstance();
     }
@@ -189,27 +190,27 @@ public class Detector {
         FinderPattern topRight = finderPatternInfo.getTopRight();
         FinderPattern bottomLeft = finderPatternInfo.getBottomLeft();
         float calculateModuleSize = calculateModuleSize(topLeft, topRight, bottomLeft);
-        if (calculateModuleSize >= 1.0f) {
-            int computeDimension = computeDimension(topLeft, topRight, bottomLeft, calculateModuleSize);
-            Version provisionalVersionForDimension = Version.getProvisionalVersionForDimension(computeDimension);
-            int dimensionForVersion = provisionalVersionForDimension.getDimensionForVersion() - 7;
-            if (provisionalVersionForDimension.getAlignmentPatternCenters().length > 0) {
-                float x = (topRight.getX() - topLeft.getX()) + bottomLeft.getX();
-                float y = (topRight.getY() - topLeft.getY()) + bottomLeft.getY();
-                float f = 1.0f - (3.0f / dimensionForVersion);
-                int x2 = (int) (topLeft.getX() + ((x - topLeft.getX()) * f));
-                int y2 = (int) (topLeft.getY() + (f * (y - topLeft.getY())));
-                for (int i = 4; i <= 16; i <<= 1) {
-                    try {
-                        alignmentPattern = findAlignmentInRegion(calculateModuleSize, x2, y2, i);
-                        break;
-                    } catch (NotFoundException unused) {
-                    }
+        if (calculateModuleSize < 1.0f) {
+            throw NotFoundException.getNotFoundInstance();
+        }
+        int computeDimension = computeDimension(topLeft, topRight, bottomLeft, calculateModuleSize);
+        Version provisionalVersionForDimension = Version.getProvisionalVersionForDimension(computeDimension);
+        int dimensionForVersion = provisionalVersionForDimension.getDimensionForVersion() - 7;
+        if (provisionalVersionForDimension.getAlignmentPatternCenters().length > 0) {
+            float x = (topRight.getX() - topLeft.getX()) + bottomLeft.getX();
+            float y = (topRight.getY() - topLeft.getY()) + bottomLeft.getY();
+            float f = 1.0f - (3.0f / dimensionForVersion);
+            int x2 = (int) (topLeft.getX() + ((x - topLeft.getX()) * f));
+            int y2 = (int) (topLeft.getY() + (f * (y - topLeft.getY())));
+            for (int i = 4; i <= 16; i <<= 1) {
+                try {
+                    alignmentPattern = findAlignmentInRegion(calculateModuleSize, x2, y2, i);
+                    break;
+                } catch (NotFoundException unused) {
                 }
             }
-            alignmentPattern = null;
-            return new DetectorResult(sampleGrid(this.image, createTransform(topLeft, topRight, bottomLeft, alignmentPattern, computeDimension), computeDimension), alignmentPattern == null ? new ResultPoint[]{bottomLeft, topLeft, topRight} : new ResultPoint[]{bottomLeft, topLeft, topRight, alignmentPattern});
         }
-        throw NotFoundException.getNotFoundInstance();
+        alignmentPattern = null;
+        return new DetectorResult(sampleGrid(this.image, createTransform(topLeft, topRight, bottomLeft, alignmentPattern, computeDimension), computeDimension), alignmentPattern == null ? new ResultPoint[]{bottomLeft, topLeft, topRight} : new ResultPoint[]{bottomLeft, topLeft, topRight, alignmentPattern});
     }
 }

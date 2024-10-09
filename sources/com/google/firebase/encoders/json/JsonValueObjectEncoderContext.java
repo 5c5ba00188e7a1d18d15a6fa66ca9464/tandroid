@@ -11,7 +11,9 @@ import com.google.firebase.encoders.ValueEncoderContext;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class JsonValueObjectEncoderContext implements ObjectEncoderContext, ValueEncoderContext {
@@ -39,11 +41,11 @@ public final class JsonValueObjectEncoderContext implements ObjectEncoderContext
     private JsonValueObjectEncoderContext internalAdd(String str, Object obj) {
         maybeUnNest();
         this.jsonWriter.name(str);
-        if (obj == null) {
-            this.jsonWriter.nullValue();
-            return this;
+        if (obj != null) {
+            return add(obj, false);
         }
-        return add(obj, false);
+        this.jsonWriter.nullValue();
+        return this;
     }
 
     private JsonValueObjectEncoderContext internalAddIgnoreNullValues(String str, Object obj) {
@@ -97,25 +99,29 @@ public final class JsonValueObjectEncoderContext implements ObjectEncoderContext
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public JsonValueObjectEncoderContext add(Object obj, boolean z) {
-        int[] iArr;
         int i = 0;
         if (z && cannotBeInline(obj)) {
             throw new EncodingException(String.format("%s cannot be encoded inline", obj == null ? null : obj.getClass()));
-        } else if (obj == null) {
+        }
+        if (obj == null) {
             this.jsonWriter.nullValue();
             return this;
-        } else if (obj instanceof Number) {
+        }
+        if (obj instanceof Number) {
             this.jsonWriter.value((Number) obj);
             return this;
-        } else if (!obj.getClass().isArray()) {
+        }
+        if (!obj.getClass().isArray()) {
             if (obj instanceof Collection) {
                 this.jsonWriter.beginArray();
-                for (Object obj2 : (Collection) obj) {
-                    add(obj2, false);
+                Iterator it = ((Collection) obj).iterator();
+                while (it.hasNext()) {
+                    add(it.next(), false);
                 }
                 this.jsonWriter.endArray();
                 return this;
-            } else if (obj instanceof Map) {
+            }
+            if (obj instanceof Map) {
                 this.jsonWriter.beginObject();
                 for (Map.Entry entry : ((Map) obj).entrySet()) {
                     Object key = entry.getKey();
@@ -127,65 +133,64 @@ public final class JsonValueObjectEncoderContext implements ObjectEncoderContext
                 }
                 this.jsonWriter.endObject();
                 return this;
-            } else {
-                ObjectEncoder objectEncoder = (ObjectEncoder) this.objectEncoders.get(obj.getClass());
-                if (objectEncoder != null) {
-                    return doEncode(objectEncoder, obj, z);
-                }
-                ValueEncoder valueEncoder = (ValueEncoder) this.valueEncoders.get(obj.getClass());
-                if (valueEncoder != null) {
-                    valueEncoder.encode(obj, this);
-                    return this;
-                } else if (obj instanceof Enum) {
-                    add(((Enum) obj).name());
-                    return this;
-                } else {
-                    return doEncode(this.fallbackEncoder, obj, z);
-                }
             }
-        } else if (obj instanceof byte[]) {
-            return add((byte[]) obj);
-        } else {
-            this.jsonWriter.beginArray();
-            if (obj instanceof int[]) {
-                int length = ((int[]) obj).length;
-                while (i < length) {
-                    this.jsonWriter.value(iArr[i]);
-                    i++;
-                }
-            } else if (obj instanceof long[]) {
-                long[] jArr = (long[]) obj;
-                int length2 = jArr.length;
-                while (i < length2) {
-                    add(jArr[i]);
-                    i++;
-                }
-            } else if (obj instanceof double[]) {
-                double[] dArr = (double[]) obj;
-                int length3 = dArr.length;
-                while (i < length3) {
-                    this.jsonWriter.value(dArr[i]);
-                    i++;
-                }
-            } else if (obj instanceof boolean[]) {
-                boolean[] zArr = (boolean[]) obj;
-                int length4 = zArr.length;
-                while (i < length4) {
-                    this.jsonWriter.value(zArr[i]);
-                    i++;
-                }
-            } else if (obj instanceof Number[]) {
-                for (Number number : (Number[]) obj) {
-                    add((Object) number, false);
-                }
-            } else {
-                for (Object obj3 : (Object[]) obj) {
-                    add(obj3, false);
-                }
+            ObjectEncoder objectEncoder = (ObjectEncoder) this.objectEncoders.get(obj.getClass());
+            if (objectEncoder != null) {
+                return doEncode(objectEncoder, obj, z);
             }
-            this.jsonWriter.endArray();
+            ValueEncoder valueEncoder = (ValueEncoder) this.valueEncoders.get(obj.getClass());
+            if (valueEncoder != null) {
+                valueEncoder.encode(obj, this);
+                return this;
+            }
+            if (!(obj instanceof Enum)) {
+                return doEncode(this.fallbackEncoder, obj, z);
+            }
+            add(((Enum) obj).name());
             return this;
         }
+        if (obj instanceof byte[]) {
+            return add((byte[]) obj);
+        }
+        this.jsonWriter.beginArray();
+        if (obj instanceof int[]) {
+            int length = ((int[]) obj).length;
+            while (i < length) {
+                this.jsonWriter.value(r7[i]);
+                i++;
+            }
+        } else if (obj instanceof long[]) {
+            long[] jArr = (long[]) obj;
+            int length2 = jArr.length;
+            while (i < length2) {
+                add(jArr[i]);
+                i++;
+            }
+        } else if (obj instanceof double[]) {
+            double[] dArr = (double[]) obj;
+            int length3 = dArr.length;
+            while (i < length3) {
+                this.jsonWriter.value(dArr[i]);
+                i++;
+            }
+        } else if (obj instanceof boolean[]) {
+            boolean[] zArr = (boolean[]) obj;
+            int length4 = zArr.length;
+            while (i < length4) {
+                this.jsonWriter.value(zArr[i]);
+                i++;
+            }
+        } else if (obj instanceof Number[]) {
+            for (Number number : (Number[]) obj) {
+                add((Object) number, false);
+            }
+        } else {
+            for (Object obj2 : (Object[]) obj) {
+                add(obj2, false);
+            }
+        }
+        this.jsonWriter.endArray();
+        return this;
     }
 
     @Override // com.google.firebase.encoders.ValueEncoderContext

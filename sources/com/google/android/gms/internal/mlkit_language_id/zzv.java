@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+
 /* loaded from: classes.dex */
 final class zzv extends WeakReference {
     private final int zza;

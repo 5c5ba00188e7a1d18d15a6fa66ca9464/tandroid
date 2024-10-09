@@ -9,6 +9,7 @@ import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
 import androidx.appcompat.R$styleable;
 import androidx.emoji2.viewsintegration.EmojiEditTextHelper;
+
 /* loaded from: classes.dex */
 class AppCompatEmojiEditTextHelper {
     private final EmojiEditTextHelper mEmojiEditTextHelper;

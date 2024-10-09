@@ -27,6 +27,7 @@ import org.telegram.ui.Components.StarAppsSheet;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public class ExplainStarsSheet extends BottomSheetWithRecyclerListView {
     private UniversalAdapter adapter;

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.data.DataHolder;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class zzj implements Parcelable.Creator {
     /* JADX INFO: Access modifiers changed from: package-private */

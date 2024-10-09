@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver {
     private static final Object GET_INSTANCE_LOCK = new Object();
@@ -66,13 +67,13 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver {
     }
 
     static boolean ensureDir(File file) {
-        if (!file.exists() || file.isDirectory() || file.delete()) {
-            if (file.exists()) {
-                return true;
-            }
-            return file.mkdirs();
+        if (file.exists() && !file.isDirectory() && !file.delete()) {
+            return false;
         }
-        return false;
+        if (file.exists()) {
+            return true;
+        }
+        return file.mkdirs();
     }
 
     public static ShortcutInfoCompatSaverImpl getInstance(Context context) {
@@ -155,8 +156,9 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver {
         return create;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0012, code lost:
-        if (r2 != 5) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x0012, code lost:
+    
+        if (r2 != 5) goto L13;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -184,7 +186,6 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver {
     }
 
     void deleteDanglingBitmaps(List list) {
-        File[] listFiles;
         ArrayList arrayList = new ArrayList();
         Iterator it = list.iterator();
         while (it.hasNext()) {
@@ -239,8 +240,9 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver {
             @Override // java.util.concurrent.Callable
             public ArrayList call() {
                 ArrayList arrayList = new ArrayList();
-                for (ShortcutsInfoSerialization.ShortcutContainer shortcutContainer : ShortcutInfoCompatSaverImpl.this.mShortcutsMap.values()) {
-                    arrayList.add(new ShortcutInfoCompat.Builder(shortcutContainer.mShortcutInfo).build());
+                Iterator it = ShortcutInfoCompatSaverImpl.this.mShortcutsMap.values().iterator();
+                while (it.hasNext()) {
+                    arrayList.add(new ShortcutInfoCompat.Builder(((ShortcutsInfoSerialization.ShortcutContainer) it.next()).mShortcutInfo).build());
                 }
                 return arrayList;
             }
@@ -254,8 +256,9 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver {
             @Override // java.lang.Runnable
             public void run() {
                 ShortcutInfoCompatSaverImpl.this.mShortcutsMap.clear();
-                for (ListenableFuture listenableFuture : ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.values()) {
-                    listenableFuture.cancel(false);
+                Iterator it = ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.values().iterator();
+                while (it.hasNext()) {
+                    ((ListenableFuture) it.next()).cancel(false);
                 }
                 ShortcutInfoCompatSaverImpl.this.mScheduledBitmapTasks.clear();
                 ShortcutInfoCompatSaverImpl.this.scheduleSyncCurrentState(create);

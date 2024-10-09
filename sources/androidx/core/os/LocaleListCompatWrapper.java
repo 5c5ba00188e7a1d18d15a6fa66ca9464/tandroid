@@ -3,6 +3,7 @@ package androidx.core.os;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 final class LocaleListCompatWrapper implements LocaleListInterface {
     private final Locale[] mList;

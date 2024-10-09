@@ -71,6 +71,7 @@ import org.telegram.ui.Components.LinkActionView;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TypefaceSpan;
+
 /* loaded from: classes4.dex */
 public class ChatEditTypeActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ShadowSectionCell adminedInfoCell;
@@ -215,8 +216,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                     charSequence.setSpan(new ClickableSpan() { // from class: org.telegram.ui.ChatEditTypeActivity.6.1
                         @Override // android.text.style.ClickableSpan
                         public void onClick(View view) {
-                            Context context = 6.this.getContext();
-                            Browser.openUrl(context, "https://fragment.com/username/" + obj);
+                            Browser.openUrl(6.this.getContext(), "https://fragment.com/username/" + obj);
                         }
 
                         @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
@@ -366,8 +366,9 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             }
 
             private void swapListElements(List list, int i, int i2) {
+                TLRPC.TL_username tL_username = (TLRPC.TL_username) list.get(i);
                 list.set(i, (TLRPC.TL_username) list.get(i2));
-                list.set(i2, (TLRPC.TL_username) list.get(i));
+                list.set(i2, tL_username);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -432,13 +433,10 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                if (i != 0) {
-                    if (i != 1) {
-                        if (i != 2) {
-                            return null;
-                        }
-                        return new RecyclerListView.Holder(new TextInfoPrivacyCell(UsernamesListView.this.getContext(), ((RecyclerListView) UsernamesListView.this).resourcesProvider));
-                    }
+                if (i == 0) {
+                    return new RecyclerListView.Holder(new HeaderCell(UsernamesListView.this.getContext(), ((RecyclerListView) UsernamesListView.this).resourcesProvider));
+                }
+                if (i == 1) {
                     return new RecyclerListView.Holder(new ChangeUsernameActivity.UsernameCell(UsernamesListView.this.getContext(), ((RecyclerListView) UsernamesListView.this).resourcesProvider) { // from class: org.telegram.ui.ChatEditTypeActivity.UsernamesListView.Adapter.1
                         @Override // org.telegram.ui.ChangeUsernameActivity.UsernameCell
                         protected String getUsernameEditable() {
@@ -449,7 +447,10 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                         }
                     });
                 }
-                return new RecyclerListView.Holder(new HeaderCell(UsernamesListView.this.getContext(), ((RecyclerListView) UsernamesListView.this).resourcesProvider));
+                if (i != 2) {
+                    return null;
+                }
+                return new RecyclerListView.Holder(new TextInfoPrivacyCell(UsernamesListView.this.getContext(), ((RecyclerListView) UsernamesListView.this).resourcesProvider));
             }
 
             public void swapElements(int i, int i2) {
@@ -499,15 +500,15 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
 
             @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2) {
-                if (viewHolder.getItemViewType() == viewHolder2.getItemViewType()) {
-                    View view = viewHolder2.itemView;
-                    if (!(view instanceof ChangeUsernameActivity.UsernameCell) || ((ChangeUsernameActivity.UsernameCell) view).active) {
-                        UsernamesListView.this.adapter.swapElements(viewHolder.getAdapterPosition(), viewHolder2.getAdapterPosition());
-                        return true;
-                    }
+                if (viewHolder.getItemViewType() != viewHolder2.getItemViewType()) {
                     return false;
                 }
-                return false;
+                View view = viewHolder2.itemView;
+                if ((view instanceof ChangeUsernameActivity.UsernameCell) && !((ChangeUsernameActivity.UsernameCell) view).active) {
+                    return false;
+                }
+                UsernamesListView.this.adapter.swapElements(viewHolder.getAdapterPosition(), viewHolder2.getAdapterPosition());
+                return true;
             }
 
             @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
@@ -763,30 +764,29 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             this.checkTextView.setTextColorByKey(Theme.key_text_RedRegular);
             return false;
         }
-        if (str == null || str.length() < 4) {
-            if (this.isChannel) {
-                textInfoPrivacyCell = this.checkTextView;
-                i = R.string.LinkInvalidShort;
-            } else {
-                textInfoPrivacyCell = this.checkTextView;
-                i = R.string.LinkInvalidShortMega;
+        if (str != null && str.length() >= 4) {
+            if (str.length() <= 32) {
+                this.checkTextView.setText(LocaleController.getString(R.string.LinkChecking));
+                this.checkTextView.setTextColorByKey(Theme.key_windowBackgroundWhiteGrayText8);
+                this.lastCheckName = str;
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda11
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChatEditTypeActivity.this.lambda$checkUserName$25(str);
+                    }
+                };
+                this.checkRunnable = runnable2;
+                AndroidUtilities.runOnUIThread(runnable2, 300L);
+                return true;
             }
-        } else if (str.length() <= 32) {
-            this.checkTextView.setText(LocaleController.getString(R.string.LinkChecking));
-            this.checkTextView.setTextColorByKey(Theme.key_windowBackgroundWhiteGrayText8);
-            this.lastCheckName = str;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda11
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChatEditTypeActivity.this.lambda$checkUserName$25(str);
-                }
-            };
-            this.checkRunnable = runnable2;
-            AndroidUtilities.runOnUIThread(runnable2, 300L);
-            return true;
-        } else {
             textInfoPrivacyCell = this.checkTextView;
             i = R.string.LinkInvalidLong;
+        } else if (this.isChannel) {
+            textInfoPrivacyCell = this.checkTextView;
+            i = R.string.LinkInvalidShort;
+        } else {
+            textInfoPrivacyCell = this.checkTextView;
+            i = R.string.LinkInvalidShortMega;
         }
         textInfoPrivacyCell.setText(LocaleController.getString(i));
         this.checkTextView.setTextColorByKey(Theme.key_text_RedRegular);
@@ -828,16 +828,17 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             this.checkTextView.setText(LocaleController.getString(R.string.UsernameInvalidShort));
             textInfoPrivacyCell2 = this.checkTextView;
             i2 = Theme.key_text_RedRegular;
-        } else if (tL_error == null || !"USERNAME_PURCHASE_AVAILABLE".equals(tL_error.text)) {
-            if (tL_error == null || !"CHANNELS_ADMIN_PUBLIC_TOO_MUCH".equals(tL_error.text)) {
-                this.checkTextView.setText(LocaleController.getString(R.string.LinkInUse));
-                this.checkTextView.setTextColorByKey(Theme.key_text_RedRegular);
-            } else {
-                this.canCreatePublic = false;
-                showPremiumIncreaseLimitDialog();
-            }
-            this.lastNameAvailable = false;
         } else {
+            if (tL_error == null || !"USERNAME_PURCHASE_AVAILABLE".equals(tL_error.text)) {
+                if (tL_error == null || !"CHANNELS_ADMIN_PUBLIC_TOO_MUCH".equals(tL_error.text)) {
+                    this.checkTextView.setText(LocaleController.getString(R.string.LinkInUse));
+                    this.checkTextView.setTextColorByKey(Theme.key_text_RedRegular);
+                } else {
+                    this.canCreatePublic = false;
+                    showPremiumIncreaseLimitDialog();
+                }
+                this.lastNameAvailable = false;
+            }
             if (tL_channels_checkUsername.username.length() == 4) {
                 textInfoPrivacyCell = this.checkTextView;
                 i = R.string.UsernameInvalidShortPurchase;
@@ -890,10 +891,10 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         if (this.isPrivate) {
             if (!this.canCreatePublic) {
                 showPremiumIncreaseLimitDialog();
-                return;
+            } else {
+                this.isPrivate = false;
+                updatePrivatePublic();
             }
-            this.isPrivate = false;
-            updatePrivatePublic();
         }
     }
 
@@ -1011,18 +1012,16 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.AppName));
         if (this.isChannel) {
-            int i = R.string.RevokeLinkAlertChannel;
-            formatString = LocaleController.formatString("RevokeLinkAlertChannel", i, getMessagesController().linkPrefix + "/" + ChatObject.getPublicUsername(currentChannel), currentChannel.title);
+            formatString = LocaleController.formatString("RevokeLinkAlertChannel", R.string.RevokeLinkAlertChannel, getMessagesController().linkPrefix + "/" + ChatObject.getPublicUsername(currentChannel), currentChannel.title);
         } else {
-            int i2 = R.string.RevokeLinkAlert;
-            formatString = LocaleController.formatString("RevokeLinkAlert", i2, getMessagesController().linkPrefix + "/" + ChatObject.getPublicUsername(currentChannel), currentChannel.title);
+            formatString = LocaleController.formatString("RevokeLinkAlert", R.string.RevokeLinkAlert, getMessagesController().linkPrefix + "/" + ChatObject.getPublicUsername(currentChannel), currentChannel.title);
         }
         builder.setMessage(AndroidUtilities.replaceTags(formatString));
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda0
             @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
-                ChatEditTypeActivity.this.lambda$loadAdminedChannels$19(currentChannel, dialogInterface, i3);
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                ChatEditTypeActivity.this.lambda$loadAdminedChannels$19(currentChannel, dialogInterface, i);
             }
         });
         showDialog(builder.create());
@@ -1196,7 +1195,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     public void processDone() {
         AndroidUtilities.runOnUIThread(this.enableDoneLoading, 200L);
         if (trySetUsername() && trySetRestrict() && tryUpdateJoinSettings()) {
-            finishFragment();
+            lambda$onBackPressed$300();
         }
     }
 
@@ -1289,7 +1288,8 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         String obj = this.isPrivate ? "" : this.usernameTextView.getText().toString();
         if (publicUsername.equals(obj)) {
             return tryDeactivateAllLinks();
-        } else if (ChatObject.isChannel(this.currentChat)) {
+        }
+        if (ChatObject.isChannel(this.currentChat)) {
             getMessagesController().updateChannelUserName(this, this.chatId, obj, new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda17
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -1302,15 +1302,14 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                 }
             });
             return false;
-        } else {
-            getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda16
-                @Override // org.telegram.messenger.MessagesStorage.LongCallback
-                public final void run(long j) {
-                    ChatEditTypeActivity.this.lambda$trySetUsername$11(j);
-                }
-            });
-            return false;
         }
+        getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda16
+            @Override // org.telegram.messenger.MessagesStorage.LongCallback
+            public final void run(long j) {
+                ChatEditTypeActivity.this.lambda$trySetUsername$11(j);
+            }
+        });
+        return false;
     }
 
     private boolean tryUpdateJoinSettings() {
@@ -1373,20 +1372,24 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x010f, code lost:
-        if (r9.isPrivate != false) goto L93;
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x0129, code lost:
+    
+        if (r9.isPrivate != false) goto L41;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0129, code lost:
-        if (r9.isPrivate != false) goto L93;
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x010f, code lost:
+    
+        if (r9.isPrivate != false) goto L41;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x012b, code lost:
-        r4 = org.telegram.messenger.R.string.ChannelInviteLinkTitle;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0132, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0132, code lost:
+    
         r4 = org.telegram.messenger.R.string.ChannelLinkTitle;
      */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0221  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x0247  */
+    /* JADX WARN: Code restructure failed: missing block: B:93:0x012b, code lost:
+    
+        r4 = org.telegram.messenger.R.string.ChannelInviteLinkTitle;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0221  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0247  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1417,7 +1420,6 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                 this.typeInfoCell.setBackgroundDrawable(this.checkTextView.getVisibility() == 0 ? null : Theme.getThemedDrawableByKey(this.typeInfoCell.getContext(), R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                 view = this.adminedInfoCell;
                 view.setBackgroundDrawable(drawable);
-                boolean z = true;
                 this.radioButtonCell1.setChecked(!this.isPrivate, true);
                 this.radioButtonCell2.setChecked(this.isPrivate, true);
                 this.usernameTextView.clearFocus();
@@ -1438,7 +1440,6 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(textInfoPrivacyCell2.getContext(), R.drawable.greydivider_top, i5));
             this.loadingAdminedCell.setVisibility(8);
             this.adminnedChannelsLayout.setVisibility(0);
-            boolean z2 = true;
             this.radioButtonCell1.setChecked(!this.isPrivate, true);
             this.radioButtonCell2.setChecked(this.isPrivate, true);
             this.usernameTextView.clearFocus();
@@ -1496,7 +1497,6 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                 drawable = Theme.getThemedDrawableByKey(this.typeInfoCell.getContext(), i7, i8);
             }
             view.setBackgroundDrawable(drawable);
-            boolean z22 = true;
             this.radioButtonCell1.setChecked(!this.isPrivate, true);
             this.radioButtonCell2.setChecked(this.isPrivate, true);
             this.usernameTextView.clearFocus();
@@ -1511,7 +1511,6 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         TextInfoPrivacyCell textInfoPrivacyCell6 = this.typeInfoCell;
         textInfoPrivacyCell6.setBackgroundDrawable(Theme.getThemedDrawableByKey(textInfoPrivacyCell6.getContext(), R.drawable.greydivider, i8));
         this.manageLinksInfoCell.setBackground(Theme.getThemedDrawableByKey(this.typeInfoCell.getContext(), i7, i8));
-        boolean z222 = true;
         this.radioButtonCell1.setChecked(!this.isPrivate, true);
         this.radioButtonCell2.setChecked(this.isPrivate, true);
         this.usernameTextView.clearFocus();
@@ -1520,7 +1519,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             joinToSendSettingsView.setVisibility((this.isChannel || this.isPrivate) ? 8 : 0);
             JoinToSendSettingsView joinToSendSettingsView2 = this.joinContainer;
             TLRPC.ChatFull chatFull2 = this.info;
-            joinToSendSettingsView2.showJoinToSend((chatFull2 == null || chatFull2.linked_chat_id == 0) ? false : false);
+            joinToSendSettingsView2.showJoinToSend((chatFull2 == null || chatFull2.linked_chat_id == 0) ? false : true);
         }
         usernamesListView = this.usernamesListView;
         if (usernamesListView != null) {
@@ -1552,7 +1551,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i6) {
                 if (i6 == -1) {
-                    ChatEditTypeActivity.this.finishFragment();
+                    ChatEditTypeActivity.this.lambda$onBackPressed$300();
                 } else if (i6 == 1) {
                     if (ChatEditTypeActivity.this.doneButtonDrawable == null || ChatEditTypeActivity.this.doneButtonDrawable.getProgress() <= 0.0f) {
                         ChatEditTypeActivity.this.processDone();
@@ -2010,8 +2009,9 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         AndroidUtilities.showKeyboard(this.usernameTextView);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0048, code lost:
-        if (r0 == null) goto L9;
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x0048, code lost:
+    
+        if (r0 == null) goto L10;
      */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*

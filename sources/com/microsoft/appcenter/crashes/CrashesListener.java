@@ -1,6 +1,7 @@
 package com.microsoft.appcenter.crashes;
 
 import com.microsoft.appcenter.crashes.model.ErrorReport;
+
 /* loaded from: classes.dex */
 public interface CrashesListener {
     Iterable getErrorAttachments(ErrorReport errorReport);

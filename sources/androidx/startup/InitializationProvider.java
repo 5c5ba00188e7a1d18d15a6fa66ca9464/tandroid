@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+
 /* loaded from: classes.dex */
 public class InitializationProvider extends ContentProvider {
     @Override // android.content.ContentProvider
@@ -25,14 +26,14 @@ public class InitializationProvider extends ContentProvider {
     @Override // android.content.ContentProvider
     public final boolean onCreate() {
         Context context = getContext();
-        if (context != null) {
-            if (context.getApplicationContext() != null) {
-                AppInitializer.getInstance(context).discoverAndInitialize();
-                return true;
-            }
+        if (context == null) {
+            throw new StartupException("Context cannot be null");
+        }
+        if (context.getApplicationContext() == null) {
             return true;
         }
-        throw new StartupException("Context cannot be null");
+        AppInitializer.getInstance(context).discoverAndInitialize();
+        return true;
     }
 
     @Override // android.content.ContentProvider

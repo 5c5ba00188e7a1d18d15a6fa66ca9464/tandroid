@@ -1,4 +1,5 @@
 package com.google.android.play.integrity.internal;
+
 /* loaded from: classes.dex */
 final class e extends f {
     private final int a;

@@ -4,6 +4,7 @@ import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class StartServiceLog extends AbstractLog {
     private List services;
@@ -13,12 +14,12 @@ public class StartServiceLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            List list = this.services;
-            List list2 = ((StartServiceLog) obj).services;
-            return list != null ? list.equals(list2) : list2 == null;
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
+            return false;
         }
-        return false;
+        List list = this.services;
+        List list2 = ((StartServiceLog) obj).services;
+        return list != null ? list.equals(list2) : list2 == null;
     }
 
     public List getServices() {

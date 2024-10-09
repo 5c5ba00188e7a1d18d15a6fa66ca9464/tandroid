@@ -49,6 +49,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.SelectAnimatedEmojiDialog;
+
 /* loaded from: classes3.dex */
 public class AnimatedEmojiDrawable extends Drawable {
     private static boolean LOG_MEMORY_LEAK = false;
@@ -90,14 +91,14 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         private boolean checkThread() {
-            if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
-                if (BuildVars.DEBUG_VERSION) {
-                    FileLog.e("EmojiDocumentFetcher", new IllegalStateException("Wrong thread"));
-                    return false;
-                }
+            if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+                return true;
+            }
+            if (!BuildVars.DEBUG_VERSION) {
                 return false;
             }
-            return true;
+            FileLog.e("EmojiDocumentFetcher", new IllegalStateException("Wrong thread"));
+            return false;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -158,8 +159,8 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:18:0x004b A[Catch: SQLiteException -> 0x004f, TryCatch #0 {SQLiteException -> 0x004f, blocks: (B:3:0x000a, B:4:0x0011, B:6:0x0017, B:8:0x001f, B:18:0x004b, B:16:0x0046, B:21:0x0051, B:22:0x0054), top: B:26:0x000a }] */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x0051 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x004b A[Catch: SQLiteException -> 0x004f, TryCatch #0 {SQLiteException -> 0x004f, blocks: (B:3:0x000a, B:4:0x0011, B:6:0x0017, B:8:0x001f, B:15:0x004b, B:21:0x0046, B:17:0x0051, B:26:0x0054), top: B:2:0x000a }] */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x0051 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -200,7 +201,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* renamed from: loadFromDatabase */
+        /* renamed from: loadFromDatabase, reason: merged with bridge method [inline-methods] */
         public void lambda$loadFromDatabase$1(ArrayList arrayList) {
             MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
             SQLiteDatabase database = messagesStorage.getDatabase();
@@ -276,7 +277,7 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* renamed from: processDocumentsAndLoadMore */
+        /* renamed from: processDocumentsAndLoadMore, reason: merged with bridge method [inline-methods] */
         public void lambda$processDatabaseResult$2(ArrayList arrayList, HashSet hashSet) {
             processDocuments(arrayList);
             if (hashSet.isEmpty()) {
@@ -306,7 +307,9 @@ public class AnimatedEmojiDrawable extends Drawable {
                         if (receivedDocument != null) {
                             receivedDocument.run(document);
                         }
-                    } else if (checkThread()) {
+                        return;
+                    }
+                    if (checkThread()) {
                         if (this.loadingDocuments == null) {
                             this.loadingDocuments = new HashMap();
                         }
@@ -554,9 +557,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                     }
                     this.drawables[0].setBounds(bounds);
                 } else {
-                    int i7 = (f > 1.0f ? 1 : (f == 1.0f ? 0 : -1));
                     if (this.center) {
-                        if (i7 < 0) {
+                        if (f < 1.0f) {
                             float interpolation2 = this.overshootInterpolator.getInterpolation(f);
                             canvas.scale(interpolation2, interpolation2, bounds.centerX(), bounds.centerY());
                         }
@@ -567,7 +569,7 @@ public class AnimatedEmojiDrawable extends Drawable {
                         centerY = bounds.centerY() - i2;
                         i3 = bounds.centerX();
                     } else {
-                        if (i7 < 0) {
+                        if (f < 1.0f) {
                             float interpolation3 = this.overshootInterpolator.getInterpolation(f);
                             canvas.scale(interpolation3, interpolation3, bounds.left + (intrinsicWidth2 / 2.0f), bounds.centerY());
                         }
@@ -959,14 +961,14 @@ public class AnimatedEmojiDrawable extends Drawable {
             fetchers = new HashMap();
         }
         EmojiDocumentFetcher emojiDocumentFetcher = (EmojiDocumentFetcher) fetchers.get(Integer.valueOf(i));
-        if (emojiDocumentFetcher == null) {
-            HashMap hashMap = fetchers;
-            Integer valueOf = Integer.valueOf(i);
-            EmojiDocumentFetcher emojiDocumentFetcher2 = new EmojiDocumentFetcher(i);
-            hashMap.put(valueOf, emojiDocumentFetcher2);
-            return emojiDocumentFetcher2;
+        if (emojiDocumentFetcher != null) {
+            return emojiDocumentFetcher;
         }
-        return emojiDocumentFetcher;
+        HashMap hashMap = fetchers;
+        Integer valueOf = Integer.valueOf(i);
+        EmojiDocumentFetcher emojiDocumentFetcher2 = new EmojiDocumentFetcher(i);
+        hashMap.put(valueOf, emojiDocumentFetcher2);
+        return emojiDocumentFetcher2;
     }
 
     public static int getDominantColor(AnimatedEmojiDrawable animatedEmojiDrawable) {
@@ -994,8 +996,9 @@ public class AnimatedEmojiDrawable extends Drawable {
         return num.intValue();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:113:0x020a, code lost:
-        if (r3 != null) goto L70;
+    /* JADX WARN: Code restructure failed: missing block: B:139:0x020a, code lost:
+    
+        if (r3 != null) goto L116;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1055,7 +1058,9 @@ public class AnimatedEmojiDrawable extends Drawable {
                 this.imageReceiver.setVideoThumbIsSame(true);
                 boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || ((i = this.cacheType) == 2 && !liteModeKeyboard) || (i == 3 && !liteModeReactions);
                 int i8 = this.cacheType;
-                z2 = (i8 == 13 || i8 == 16) ? true : true;
+                if (i8 == 13 || i8 == 16) {
+                    z2 = true;
+                }
                 if (i8 == 24) {
                     z2 = false;
                 }
@@ -1227,12 +1232,13 @@ public class AnimatedEmojiDrawable extends Drawable {
                 int i16 = this.cacheType;
                 if (i16 == 5 || i16 == 6) {
                     f = 6.0f;
-                } else if (i16 != 24) {
-                    i5 = 0;
-                    this.imageReceiver.setRoundRadius(i5);
-                    updateAttachState();
-                    invalidate();
                 } else {
+                    if (i16 != 24) {
+                        i5 = 0;
+                        this.imageReceiver.setRoundRadius(i5);
+                        updateAttachState();
+                        invalidate();
+                    }
                     f = 14.0f;
                 }
                 i5 = AndroidUtilities.dp(f);
@@ -1276,12 +1282,12 @@ public class AnimatedEmojiDrawable extends Drawable {
             longSparseArray = longSparseArray2;
         }
         AnimatedEmojiDrawable animatedEmojiDrawable = (AnimatedEmojiDrawable) longSparseArray.get(j);
-        if (animatedEmojiDrawable == null) {
-            AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(i2, i, j, str);
-            longSparseArray.put(j, animatedEmojiDrawable2);
-            return animatedEmojiDrawable2;
+        if (animatedEmojiDrawable != null) {
+            return animatedEmojiDrawable;
         }
-        return animatedEmojiDrawable;
+        AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(i2, i, j, str);
+        longSparseArray.put(j, animatedEmojiDrawable2);
+        return animatedEmojiDrawable2;
     }
 
     public static AnimatedEmojiDrawable make(int i, int i2, TLRPC.Document document) {
@@ -1297,13 +1303,13 @@ public class AnimatedEmojiDrawable extends Drawable {
             longSparseArray = longSparseArray2;
         }
         AnimatedEmojiDrawable animatedEmojiDrawable = (AnimatedEmojiDrawable) longSparseArray.get(document.id);
-        if (animatedEmojiDrawable == null) {
-            long j = document.id;
-            AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(i2, i, document);
-            longSparseArray.put(j, animatedEmojiDrawable2);
-            return animatedEmojiDrawable2;
+        if (animatedEmojiDrawable != null) {
+            return animatedEmojiDrawable;
         }
-        return animatedEmojiDrawable;
+        long j = document.id;
+        AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(i2, i, document);
+        longSparseArray.put(j, animatedEmojiDrawable2);
+        return animatedEmojiDrawable2;
     }
 
     public static void updateAll() {
@@ -1388,21 +1394,23 @@ public class AnimatedEmojiDrawable extends Drawable {
         } else if (i2 == 1 || i2 == 4 || i2 == 19 || i2 == 20) {
             abs = Math.abs(Theme.chat_msgTextPaintEmoji[2].ascent());
             textPaint = Theme.chat_msgTextPaintEmoji[2];
-        } else if (i2 != 8) {
-            if (i2 == 14 || i2 == 15 || i2 == 17) {
-                i = 100;
-            } else if (i2 == 11 || i2 == 22) {
-                i = 56;
-            } else if (i2 == 24) {
-                i = NotificationCenter.filePreparingStarted;
-            } else if (i2 == 23) {
-                this.sizedp = 14;
-                return;
-            } else {
-                i = 34;
-            }
-            this.sizedp = i;
         } else {
+            if (i2 != 8) {
+                if (i2 == 14 || i2 == 15 || i2 == 17) {
+                    i = 100;
+                } else if (i2 == 11 || i2 == 22) {
+                    i = 56;
+                } else if (i2 == 24) {
+                    i = NotificationCenter.filePreparingStarted;
+                } else {
+                    if (i2 == 23) {
+                        this.sizedp = 14;
+                        return;
+                    }
+                    i = 34;
+                }
+                this.sizedp = i;
+            }
             abs = Math.abs(Theme.chat_msgTextPaintEmoji[0].ascent());
             textPaint = Theme.chat_msgTextPaintEmoji[0];
         }
@@ -1444,14 +1452,14 @@ public class AnimatedEmojiDrawable extends Drawable {
         if (bool != null) {
             return bool.booleanValue();
         }
-        if (this.document != null) {
-            if (!isDefaultStatusEmoji() && !MessageObject.isTextColorEmoji(this.document)) {
-                z = false;
-            }
-            this.canOverrideColorCached = Boolean.valueOf(z);
-            return z;
+        if (this.document == null) {
+            return false;
         }
-        return false;
+        if (!isDefaultStatusEmoji() && !MessageObject.isTextColorEmoji(this.document)) {
+            z = false;
+        }
+        this.canOverrideColorCached = Boolean.valueOf(z);
+        return z;
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -1527,7 +1535,8 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:15:0x002c, code lost:
-        if (r2 != 2964141614563343L) goto L16;
+    
+        if (r2 != 2964141614563343L) goto L17;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

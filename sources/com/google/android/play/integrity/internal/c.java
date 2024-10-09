@@ -3,6 +3,7 @@ package com.google.android.play.integrity.internal;
 import android.os.BadParcelableException;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* loaded from: classes.dex */
 public abstract class c {
     private static final ClassLoader a = c.class.getClassLoader();

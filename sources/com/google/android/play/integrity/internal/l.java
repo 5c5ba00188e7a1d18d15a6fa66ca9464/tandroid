@@ -3,6 +3,7 @@ package com.google.android.play.integrity.internal;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcel;
+
 /* loaded from: classes.dex */
 public final class l extends a implements n {
     /* JADX INFO: Access modifiers changed from: package-private */

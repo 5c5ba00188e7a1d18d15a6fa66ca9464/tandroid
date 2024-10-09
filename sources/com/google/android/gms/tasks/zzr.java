@@ -2,6 +2,7 @@ package com.google.android.gms.tasks;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzr {

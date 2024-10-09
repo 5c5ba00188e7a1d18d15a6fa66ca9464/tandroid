@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public final class NetworkTypeObserver {
     private static NetworkTypeObserver staticInstance;

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 public abstract class X1 implements b2 {
     protected final e2 a;
@@ -23,7 +24,8 @@ public abstract class X1 implements b2 {
     }
 
     @Override // j$.util.function.Consumer
-    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+    /* renamed from: accept */
+    public final /* bridge */ /* synthetic */ void r(Object obj) {
         r((Double) obj);
     }
 

@@ -9,6 +9,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class StickerImageView extends BackupImageView implements NotificationCenter.NotificationCenterDelegate {
     int currentAccount;
@@ -45,9 +46,9 @@ public class StickerImageView extends BackupImageView implements NotificationCen
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.diceStickersDidLoad);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0034  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0042  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0042  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0049  */
     /* JADX WARN: Removed duplicated region for block: B:18:0x0057  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -72,10 +73,11 @@ public class StickerImageView extends BackupImageView implements NotificationCen
                 if (document == null) {
                     setImage(ImageLocation.getForDocument(document), "130_130", "tgs", svgThumb, tL_messages_stickerSet);
                     return;
+                } else {
+                    this.imageReceiver.clearImage();
+                    MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(this.stickerPackName, false, tL_messages_stickerSet == null);
+                    return;
                 }
-                this.imageReceiver.clearImage();
-                MediaDataController.getInstance(this.currentAccount).loadStickersByEmojiOrName(this.stickerPackName, false, tL_messages_stickerSet == null);
-                return;
             }
         }
         document = null;

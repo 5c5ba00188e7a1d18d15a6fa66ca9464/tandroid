@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_common;
+
 /* loaded from: classes.dex */
 final class zzlv extends zzlx {
     private static final zzlv zza = new zzlv("unusedTag");

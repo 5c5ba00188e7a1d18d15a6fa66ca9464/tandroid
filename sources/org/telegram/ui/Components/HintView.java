@@ -12,6 +12,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.util.Property;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -28,6 +29,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.HintView;
+
 /* loaded from: classes3.dex */
 public class HintView extends FrameLayout {
     private AnimatorSet animatorSet;
@@ -121,21 +123,25 @@ public class HintView extends FrameLayout {
         this(context, i, z, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x008e, code lost:
-        if (r12 != false) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x008e, code lost:
+    
+        if (r12 != false) goto L34;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x00d7, code lost:
-        if (r12 != false) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x00dd, code lost:
+    
+        r6 = r4;
+        r3 = r5;
+        r8 = 6.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x00d9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00d9, code lost:
+    
         r6 = r4;
         r3 = r5;
         r8 = 0.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00dd, code lost:
-        r6 = r4;
-        r3 = r5;
-        r8 = 6.0f;
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x00d7, code lost:
+    
+        if (r12 != false) goto L34;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -212,24 +218,27 @@ public class HintView extends FrameLayout {
         hide(true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x013e, code lost:
-        if (r1 < 0) goto L31;
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x013e, code lost:
+    
+        if (r1 < 0) goto L68;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x0141, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0141, code lost:
+    
         r6 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x015e, code lost:
-        if (r1 >= 0) goto L55;
+    /* JADX WARN: Code restructure failed: missing block: B:60:0x015e, code lost:
+    
+        if (r1 >= 0) goto L62;
      */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00b4  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00b7  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0102  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0113  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x012e  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x014c  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0177  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0189  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0193  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0177  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0189  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0193  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x012e  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x014c  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x00b7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -259,75 +268,76 @@ public class HintView extends FrameLayout {
             if (i7 == 6 && this.isTopArrow) {
                 measuredHeight = view.getMeasuredHeight() + getMeasuredHeight();
                 dp = AndroidUtilities.dp(10.0f);
-            } else if (i7 != 7 && (i7 != 8 || !this.isTopArrow)) {
-                if (i7 == 8) {
-                    dp2 -= AndroidUtilities.dp(10.0f);
-                }
-                i2 = this.currentType;
-                int i8 = 0;
-                if (i2 == 8 || !this.isTopArrow) {
-                    measuredWidth = i2 != 3 ? iArr[0] : iArr[0] + (view.getMeasuredWidth() / 2);
-                } else if (view instanceof SimpleTextView) {
-                    SimpleTextView simpleTextView = (SimpleTextView) view;
-                    Drawable rightDrawable = simpleTextView.getRightDrawable();
-                    measuredWidth = (iArr[0] + (rightDrawable != null ? rightDrawable.getBounds().centerX() : simpleTextView.getTextWidth() / 2)) - AndroidUtilities.dp(8.0f);
-                } else {
-                    measuredWidth = view instanceof TextView ? (iArr[0] + ((TextView) view).getMeasuredWidth()) - AndroidUtilities.dp(16.5f) : iArr[0];
-                }
-                view2 = (View) getParent();
-                view2.getLocationInWindow(iArr);
-                i3 = measuredWidth - iArr[0];
-                int i9 = (dp2 - iArr[1]) - this.bottomOffset;
-                int measuredWidth4 = view2.getMeasuredWidth();
-                if (this.isTopArrow || (i6 = this.currentType) == 6 || i6 == 7 || i6 == 8) {
-                    f = this.extraTranslationY;
-                    measuredHeight2 = i9 - getMeasuredHeight();
-                } else {
-                    f = this.extraTranslationY;
-                    measuredHeight2 = AndroidUtilities.dp(44.0f);
-                }
-                float f2 = measuredHeight2;
-                this.translationY = f2;
-                setTranslationY(f + f2);
-                if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                    i4 = 0;
-                    i5 = 0;
-                } else {
-                    i4 = ((ViewGroup.MarginLayoutParams) getLayoutParams()).leftMargin;
-                    i5 = ((ViewGroup.MarginLayoutParams) getLayoutParams()).rightMargin;
-                }
-                if (this.currentType != 8 && !this.isTopArrow) {
-                    i8 = (((measuredWidth4 - i4) - i5) - getMeasuredWidth()) / 2;
-                } else if (i3 <= view2.getMeasuredWidth() / 2) {
-                    if (this.currentType == 3) {
-                        measuredWidth2 = (int) (measuredWidth4 - (getMeasuredWidth() * 1.5f));
-                    } else {
-                        i8 = (measuredWidth4 - getMeasuredWidth()) - (i5 + i4);
+            } else {
+                if (i7 != 7 && (i7 != 8 || !this.isTopArrow)) {
+                    if (i7 == 8) {
+                        dp2 -= AndroidUtilities.dp(10.0f);
                     }
-                } else if (this.currentType == 3) {
-                    measuredWidth2 = (i3 - (getMeasuredWidth() / 2)) - this.arrowImageView.getMeasuredWidth();
-                }
-                setTranslationX(i8);
-                float measuredWidth5 = (i3 - (i4 + i8)) - (this.arrowImageView.getMeasuredWidth() / 2.0f);
-                if (this.currentType == 7) {
-                    measuredWidth5 += AndroidUtilities.dp(2.0f);
-                }
-                this.arrowImageView.setTranslationX(measuredWidth5);
-                if (i3 <= view2.getMeasuredWidth() / 2) {
-                    if (measuredWidth5 >= AndroidUtilities.dp(10.0f)) {
+                    i2 = this.currentType;
+                    int i8 = 0;
+                    if (i2 == 8 || !this.isTopArrow) {
+                        measuredWidth = i2 != 3 ? iArr[0] : iArr[0] + (view.getMeasuredWidth() / 2);
+                    } else if (view instanceof SimpleTextView) {
+                        SimpleTextView simpleTextView = (SimpleTextView) view;
+                        Drawable rightDrawable = simpleTextView.getRightDrawable();
+                        measuredWidth = (iArr[0] + (rightDrawable != null ? rightDrawable.getBounds().centerX() : simpleTextView.getTextWidth() / 2)) - AndroidUtilities.dp(8.0f);
+                    } else {
+                        measuredWidth = view instanceof TextView ? (iArr[0] + ((TextView) view).getMeasuredWidth()) - AndroidUtilities.dp(16.5f) : iArr[0];
+                    }
+                    view2 = (View) getParent();
+                    view2.getLocationInWindow(iArr);
+                    i3 = measuredWidth - iArr[0];
+                    int i9 = (dp2 - iArr[1]) - this.bottomOffset;
+                    int measuredWidth4 = view2.getMeasuredWidth();
+                    if (this.isTopArrow || (i6 = this.currentType) == 6 || i6 == 7 || i6 == 8) {
+                        f = this.extraTranslationY;
+                        measuredHeight2 = i9 - getMeasuredHeight();
+                    } else {
+                        f = this.extraTranslationY;
+                        measuredHeight2 = AndroidUtilities.dp(44.0f);
+                    }
+                    float f2 = measuredHeight2;
+                    this.translationY = f2;
+                    setTranslationY(f + f2);
+                    if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                        i4 = 0;
+                        i5 = 0;
+                    } else {
+                        i4 = ((ViewGroup.MarginLayoutParams) getLayoutParams()).leftMargin;
+                        i5 = ((ViewGroup.MarginLayoutParams) getLayoutParams()).rightMargin;
+                    }
+                    if (this.currentType != 8 && !this.isTopArrow) {
+                        i8 = (((measuredWidth4 - i4) - i5) - getMeasuredWidth()) / 2;
+                    } else if (i3 <= view2.getMeasuredWidth() / 2) {
+                        if (this.currentType == 3) {
+                            measuredWidth2 = (int) (measuredWidth4 - (getMeasuredWidth() * 1.5f));
+                        } else {
+                            i8 = (measuredWidth4 - getMeasuredWidth()) - (i5 + i4);
+                        }
+                    } else if (this.currentType == 3) {
+                        measuredWidth2 = (i3 - (getMeasuredWidth() / 2)) - this.arrowImageView.getMeasuredWidth();
+                    }
+                    setTranslationX(i8);
+                    float measuredWidth5 = (i3 - (i4 + i8)) - (this.arrowImageView.getMeasuredWidth() / 2.0f);
+                    if (this.currentType == 7) {
+                        measuredWidth5 += AndroidUtilities.dp(2.0f);
+                    }
+                    this.arrowImageView.setTranslationX(measuredWidth5);
+                    if (i3 <= view2.getMeasuredWidth() / 2) {
+                        if (measuredWidth5 >= AndroidUtilities.dp(10.0f)) {
+                            return;
+                        }
+                    } else if (measuredWidth5 > getMeasuredWidth() - AndroidUtilities.dp(24.0f)) {
+                        measuredWidth3 = (measuredWidth5 - getMeasuredWidth()) + AndroidUtilities.dp(24.0f);
+                        setTranslationX(measuredWidth3);
+                        this.arrowImageView.setTranslationX(measuredWidth5 - measuredWidth3);
+                    } else if (measuredWidth5 >= AndroidUtilities.dp(10.0f)) {
                         return;
                     }
-                } else if (measuredWidth5 > getMeasuredWidth() - AndroidUtilities.dp(24.0f)) {
-                    measuredWidth3 = (measuredWidth5 - getMeasuredWidth()) + AndroidUtilities.dp(24.0f);
-                    setTranslationX(measuredWidth3);
+                    measuredWidth3 = measuredWidth5 - AndroidUtilities.dp(10.0f);
+                    setTranslationX(getTranslationX() + measuredWidth3);
                     this.arrowImageView.setTranslationX(measuredWidth5 - measuredWidth3);
-                } else if (measuredWidth5 >= AndroidUtilities.dp(10.0f)) {
-                    return;
                 }
-                measuredWidth3 = measuredWidth5 - AndroidUtilities.dp(10.0f);
-                setTranslationX(getTranslationX() + measuredWidth3);
-                this.arrowImageView.setTranslationX(measuredWidth5 - measuredWidth3);
-            } else {
                 measuredHeight = view.getMeasuredHeight() + getMeasuredHeight();
                 dp = AndroidUtilities.dp(8.0f);
             }
@@ -440,11 +450,11 @@ public class HintView extends FrameLayout {
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.animatorSet = animatorSet2;
         if (this.useScale) {
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 1.0f, 0.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, 1.0f, 0.5f), ObjectAnimator.ofFloat(this, View.SCALE_X, 1.0f, 0.5f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, (Property<HintView, Float>) View.ALPHA, 1.0f, 0.0f), ObjectAnimator.ofFloat(this, (Property<HintView, Float>) View.SCALE_Y, 1.0f, 0.5f), ObjectAnimator.ofFloat(this, (Property<HintView, Float>) View.SCALE_X, 1.0f, 0.5f));
             this.animatorSet.setDuration(150L);
             this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
         } else {
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, (Property<HintView, Float>) View.ALPHA, 0.0f));
             this.animatorSet.setDuration(300L);
         }
         this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.HintView.3
@@ -543,15 +553,18 @@ public class HintView extends FrameLayout {
     public void setVisibleListener(VisibilityListener visibilityListener) {
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:83:0x0219, code lost:
-        if (r2 < org.telegram.messenger.AndroidUtilities.dp(10.0f)) goto L43;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0219, code lost:
+    
+        if (r2 < org.telegram.messenger.AndroidUtilities.dp(10.0f)) goto L91;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x024a, code lost:
-        if (r2 < org.telegram.messenger.AndroidUtilities.dp(10.0f)) goto L43;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:91:0x024c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x024c, code lost:
+    
         r5 = r2 - org.telegram.messenger.AndroidUtilities.dp(10.0f);
         setTranslationX(getTranslationX() + r5);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x024a, code lost:
+    
+        if (r2 < org.telegram.messenger.AndroidUtilities.dp(10.0f)) goto L91;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -564,143 +577,143 @@ public class HintView extends FrameLayout {
         int i3;
         float measuredWidth;
         int i4 = this.currentType;
-        if (!(i4 == 5 && i2 == this.shownY && this.messageCell == chatMessageCell) && (i4 == 5 || ((i4 != 0 || getTag() == null) && this.messageCell != chatMessageCell))) {
-            Runnable runnable = this.hideRunnable;
-            if (runnable != null) {
-                AndroidUtilities.cancelRunOnUIThread(runnable);
-                this.hideRunnable = null;
+        if ((i4 == 5 && i2 == this.shownY && this.messageCell == chatMessageCell) || (i4 != 5 && ((i4 == 0 && getTag() != null) || this.messageCell == chatMessageCell))) {
+            return false;
+        }
+        Runnable runnable = this.hideRunnable;
+        if (runnable != null) {
+            AndroidUtilities.cancelRunOnUIThread(runnable);
+            this.hideRunnable = null;
+        }
+        int[] iArr = new int[2];
+        chatMessageCell.getLocationInWindow(iArr);
+        int i5 = iArr[1];
+        ((View) getParent()).getLocationInWindow(iArr);
+        int i6 = i5 - iArr[1];
+        View view = (View) chatMessageCell.getParent();
+        int i7 = this.currentType;
+        if (i7 == 0) {
+            ImageReceiver photoImage = chatMessageCell.getPhotoImage();
+            dp = (int) (i6 + photoImage.getImageY());
+            int imageHeight = (int) photoImage.getImageHeight();
+            int i8 = dp + imageHeight;
+            int measuredHeight = view.getMeasuredHeight();
+            if (dp <= getMeasuredHeight() + AndroidUtilities.dp(10.0f) || i8 > measuredHeight + (imageHeight / 4)) {
+                return false;
             }
-            int[] iArr = new int[2];
-            chatMessageCell.getLocationInWindow(iArr);
-            int i5 = iArr[1];
-            ((View) getParent()).getLocationInWindow(iArr);
-            int i6 = i5 - iArr[1];
-            View view = (View) chatMessageCell.getParent();
-            int i7 = this.currentType;
-            if (i7 == 0) {
-                ImageReceiver photoImage = chatMessageCell.getPhotoImage();
-                dp = (int) (i6 + photoImage.getImageY());
-                int imageHeight = (int) photoImage.getImageHeight();
-                int i8 = dp + imageHeight;
-                int measuredHeight = view.getMeasuredHeight();
-                if (dp <= getMeasuredHeight() + AndroidUtilities.dp(10.0f) || i8 > measuredHeight + (imageHeight / 4)) {
-                    return false;
-                }
-                forwardNameCenterX = chatMessageCell.getNoSoundIconCenterX();
-                measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
-            } else if (i7 == 5) {
-                Integer num = (Integer) obj;
-                dp = i6 + i2;
-                this.shownY = i2;
-                if (num.intValue() == -1) {
+            forwardNameCenterX = chatMessageCell.getNoSoundIconCenterX();
+            measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
+        } else if (i7 == 5) {
+            Integer num = (Integer) obj;
+            dp = i6 + i2;
+            this.shownY = i2;
+            if (num.intValue() == -1) {
+                textView = this.textView;
+                i3 = R.string.PollSelectOption;
+            } else if (chatMessageCell.getMessageObject().isQuiz()) {
+                if (num.intValue() == 0) {
                     textView = this.textView;
-                    i3 = R.string.PollSelectOption;
-                } else if (chatMessageCell.getMessageObject().isQuiz()) {
-                    if (num.intValue() == 0) {
-                        textView = this.textView;
-                        i3 = R.string.NoVotesQuiz;
-                    } else {
-                        textView = this.textView;
-                        formatPluralString = LocaleController.formatPluralString("Answer", num.intValue(), new Object[0]);
-                        textView.setText(formatPluralString);
-                        measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
-                        forwardNameCenterX = i;
-                    }
-                } else if (num.intValue() == 0) {
-                    textView = this.textView;
-                    i3 = R.string.NoVotes;
+                    i3 = R.string.NoVotesQuiz;
                 } else {
                     textView = this.textView;
-                    formatPluralString = LocaleController.formatPluralString("Vote", num.intValue(), new Object[0]);
+                    formatPluralString = LocaleController.formatPluralString("Answer", num.intValue(), new Object[0]);
                     textView.setText(formatPluralString);
                     measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
                     forwardNameCenterX = i;
                 }
-                formatPluralString = LocaleController.getString(i3);
+            } else if (num.intValue() == 0) {
+                textView = this.textView;
+                i3 = R.string.NoVotes;
+            } else {
+                textView = this.textView;
+                formatPluralString = LocaleController.formatPluralString("Vote", num.intValue(), new Object[0]);
                 textView.setText(formatPluralString);
                 measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
                 forwardNameCenterX = i;
+            }
+            formatPluralString = LocaleController.getString(i3);
+            textView.setText(formatPluralString);
+            measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
+            forwardNameCenterX = i;
+        } else {
+            MessageObject messageObject = chatMessageCell.getMessageObject();
+            String str = this.overrideText;
+            if (str == null) {
+                this.textView.setText(LocaleController.getString(R.string.HidAccount));
             } else {
-                MessageObject messageObject = chatMessageCell.getMessageObject();
-                String str = this.overrideText;
-                if (str == null) {
-                    this.textView.setText(LocaleController.getString(R.string.HidAccount));
-                } else {
-                    this.textView.setText(str);
-                }
-                measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
-                TLRPC.User currentUser = chatMessageCell.getCurrentUser();
-                if (currentUser == null || currentUser.id != 0) {
-                    dp = i6 + AndroidUtilities.dp(22.0f);
-                    if (!messageObject.isOutOwner() && chatMessageCell.isDrawNameLayout()) {
-                        dp += AndroidUtilities.dp(20.0f);
-                    }
-                    if (!messageObject.shouldDrawWithoutBackground() && chatMessageCell.isDrawTopic()) {
-                        dp = (int) (dp + AndroidUtilities.dp(5.0f) + chatMessageCell.getDrawTopicHeight());
-                    }
-                } else {
-                    dp = i6 + ((chatMessageCell.getMeasuredHeight() - Math.max(0, chatMessageCell.getBottom() - view.getMeasuredHeight())) - AndroidUtilities.dp(50.0f));
-                }
-                if (!this.isTopArrow && dp <= getMeasuredHeight() + AndroidUtilities.dp(10.0f)) {
-                    return false;
-                }
-                forwardNameCenterX = chatMessageCell.getForwardNameCenterX();
+                this.textView.setText(str);
             }
-            int measuredWidth2 = view.getMeasuredWidth();
-            if (this.isTopArrow) {
-                float f = this.extraTranslationY;
-                float dp2 = AndroidUtilities.dp(44.0f);
-                this.translationY = dp2;
-                setTranslationY(f + dp2);
+            measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
+            TLRPC.User currentUser = chatMessageCell.getCurrentUser();
+            if (currentUser == null || currentUser.id != 0) {
+                dp = i6 + AndroidUtilities.dp(22.0f);
+                if (!messageObject.isOutOwner() && chatMessageCell.isDrawNameLayout()) {
+                    dp += AndroidUtilities.dp(20.0f);
+                }
+                if (!messageObject.shouldDrawWithoutBackground() && chatMessageCell.isDrawTopic()) {
+                    dp = (int) (dp + AndroidUtilities.dp(5.0f) + chatMessageCell.getDrawTopicHeight());
+                }
             } else {
-                float f2 = this.extraTranslationY;
-                float measuredHeight2 = dp - getMeasuredHeight();
-                this.translationY = measuredHeight2;
-                setTranslationY(f2 + measuredHeight2);
+                dp = i6 + ((chatMessageCell.getMeasuredHeight() - Math.max(0, chatMessageCell.getBottom() - view.getMeasuredHeight())) - AndroidUtilities.dp(50.0f));
             }
-            int left = chatMessageCell.getLeft() + forwardNameCenterX;
-            int dp3 = AndroidUtilities.dp(19.0f);
-            if (this.currentType == 5) {
-                int max = Math.max(0, (forwardNameCenterX - (getMeasuredWidth() / 2)) - AndroidUtilities.dp(19.1f));
-                setTranslationX(max);
-                dp3 += max;
-            } else if (left > view.getMeasuredWidth() / 2) {
-                int measuredWidth3 = (measuredWidth2 - getMeasuredWidth()) - AndroidUtilities.dp(38.0f);
-                setTranslationX(measuredWidth3);
-                dp3 += measuredWidth3;
-            } else {
-                setTranslationX(0.0f);
+            if (!this.isTopArrow && dp <= getMeasuredHeight() + AndroidUtilities.dp(10.0f)) {
+                return false;
             }
-            float left2 = ((chatMessageCell.getLeft() + forwardNameCenterX) - dp3) - (this.arrowImageView.getMeasuredWidth() / 2);
-            this.arrowImageView.setTranslationX(left2);
-            if (left <= view.getMeasuredWidth() / 2) {
-                if (left2 > getMeasuredWidth() - AndroidUtilities.dp(24.0f)) {
-                    measuredWidth = (left2 - getMeasuredWidth()) + AndroidUtilities.dp(24.0f);
-                    setTranslationX(measuredWidth);
-                }
-            }
-            this.arrowImageView.setTranslationX(left2 - measuredWidth);
-            this.messageCell = chatMessageCell;
-            AnimatorSet animatorSet = this.animatorSet;
-            if (animatorSet != null) {
-                animatorSet.cancel();
-                this.animatorSet = null;
-            }
-            setTag(1);
-            setVisibility(0);
-            if (z) {
-                AnimatorSet animatorSet2 = new AnimatorSet();
-                this.animatorSet = animatorSet2;
-                animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f));
-                this.animatorSet.addListener(new 1());
-                this.animatorSet.setDuration(300L);
-                this.animatorSet.start();
-            } else {
-                setAlpha(1.0f);
-            }
-            return true;
+            forwardNameCenterX = chatMessageCell.getForwardNameCenterX();
         }
-        return false;
+        int measuredWidth2 = view.getMeasuredWidth();
+        if (this.isTopArrow) {
+            float f = this.extraTranslationY;
+            float dp2 = AndroidUtilities.dp(44.0f);
+            this.translationY = dp2;
+            setTranslationY(f + dp2);
+        } else {
+            float f2 = this.extraTranslationY;
+            float measuredHeight2 = dp - getMeasuredHeight();
+            this.translationY = measuredHeight2;
+            setTranslationY(f2 + measuredHeight2);
+        }
+        int left = chatMessageCell.getLeft() + forwardNameCenterX;
+        int dp3 = AndroidUtilities.dp(19.0f);
+        if (this.currentType == 5) {
+            int max = Math.max(0, (forwardNameCenterX - (getMeasuredWidth() / 2)) - AndroidUtilities.dp(19.1f));
+            setTranslationX(max);
+            dp3 += max;
+        } else if (left > view.getMeasuredWidth() / 2) {
+            int measuredWidth3 = (measuredWidth2 - getMeasuredWidth()) - AndroidUtilities.dp(38.0f);
+            setTranslationX(measuredWidth3);
+            dp3 += measuredWidth3;
+        } else {
+            setTranslationX(0.0f);
+        }
+        float left2 = ((chatMessageCell.getLeft() + forwardNameCenterX) - dp3) - (this.arrowImageView.getMeasuredWidth() / 2);
+        this.arrowImageView.setTranslationX(left2);
+        if (left <= view.getMeasuredWidth() / 2) {
+            if (left2 > getMeasuredWidth() - AndroidUtilities.dp(24.0f)) {
+                measuredWidth = (left2 - getMeasuredWidth()) + AndroidUtilities.dp(24.0f);
+                setTranslationX(measuredWidth);
+            }
+        }
+        this.arrowImageView.setTranslationX(left2 - measuredWidth);
+        this.messageCell = chatMessageCell;
+        AnimatorSet animatorSet = this.animatorSet;
+        if (animatorSet != null) {
+            animatorSet.cancel();
+            this.animatorSet = null;
+        }
+        setTag(1);
+        setVisibility(0);
+        if (z) {
+            AnimatorSet animatorSet2 = new AnimatorSet();
+            this.animatorSet = animatorSet2;
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, (Property<HintView, Float>) View.ALPHA, 0.0f, 1.0f));
+            this.animatorSet.addListener(new 1());
+            this.animatorSet.setDuration(300L);
+            this.animatorSet.start();
+        } else {
+            setAlpha(1.0f);
+        }
+        return true;
     }
 
     public boolean showForMessageCell(ChatMessageCell chatMessageCell, boolean z) {
@@ -734,11 +747,11 @@ public class HintView extends FrameLayout {
             if (this.useScale) {
                 setPivotX(this.arrowImageView.getX() + (this.arrowImageView.getMeasuredWidth() / 2.0f));
                 setPivotY(this.arrowImageView.getY() + (this.arrowImageView.getMeasuredHeight() / 2.0f));
-                this.animatorSet.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, 0.5f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_X, 0.5f, 1.0f));
+                this.animatorSet.playTogether(ObjectAnimator.ofFloat(this, (Property<HintView, Float>) View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this, (Property<HintView, Float>) View.SCALE_Y, 0.5f, 1.0f), ObjectAnimator.ofFloat(this, (Property<HintView, Float>) View.SCALE_X, 0.5f, 1.0f));
                 this.animatorSet.setDuration(350L);
                 this.animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             } else {
-                animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f));
+                animatorSet2.playTogether(ObjectAnimator.ofFloat(this, (Property<HintView, Float>) View.ALPHA, 0.0f, 1.0f));
                 this.animatorSet.setDuration(300L);
             }
             this.animatorSet.addListener(new 2());

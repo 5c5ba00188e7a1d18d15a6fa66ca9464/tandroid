@@ -4,6 +4,7 @@ import android.media.AudioAttributes;
 import android.os.Bundle;
 import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class AudioAttributes implements Bundleable {
     public final int allowedCapturePolicy;

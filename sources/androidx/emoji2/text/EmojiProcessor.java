@@ -11,6 +11,7 @@ import android.view.inputmethod.InputConnection;
 import androidx.emoji2.text.EmojiCompat;
 import androidx.emoji2.text.MetadataRepo;
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class EmojiProcessor {
@@ -43,9 +44,10 @@ public final class EmojiProcessor {
                         i2--;
                     } else if (!Character.isSurrogate(charAt)) {
                         i2--;
-                    } else if (Character.isHighSurrogate(charAt)) {
-                        return -1;
                     } else {
+                        if (Character.isHighSurrogate(charAt)) {
+                            return -1;
+                        }
                         z = true;
                     }
                 }
@@ -77,9 +79,10 @@ public final class EmojiProcessor {
                     } else if (!Character.isSurrogate(charAt)) {
                         i2--;
                         i++;
-                    } else if (Character.isLowSurrogate(charAt)) {
-                        return -1;
                     } else {
+                        if (Character.isLowSurrogate(charAt)) {
+                            return -1;
+                        }
                         i++;
                         z = true;
                     }
@@ -256,11 +259,11 @@ public final class EmojiProcessor {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean handleOnKeyDown(Editable editable, int i, KeyEvent keyEvent) {
-        if (i != 67 ? i != 112 ? false : delete(editable, keyEvent, true) : delete(editable, keyEvent, false)) {
-            MetaKeyKeyListener.adjustMetaAfterKeypress(editable);
-            return true;
+        if (!(i != 67 ? i != 112 ? false : delete(editable, keyEvent, true) : delete(editable, keyEvent, false))) {
+            return false;
         }
-        return false;
+        MetaKeyKeyListener.adjustMetaAfterKeypress(editable);
+        return true;
     }
 
     private boolean hasGlyph(CharSequence charSequence, int i, int i2, EmojiMetadata emojiMetadata) {
@@ -279,12 +282,12 @@ public final class EmojiProcessor {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x00d7 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x00a2 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0049 A[Catch: all -> 0x002a, TryCatch #0 {all -> 0x002a, blocks: (B:7:0x000e, B:10:0x0013, B:12:0x0017, B:14:0x0024, B:21:0x003a, B:23:0x0042, B:25:0x0045, B:27:0x0049, B:29:0x0055, B:30:0x0058, B:32:0x0065, B:38:0x0074, B:39:0x0080, B:43:0x009b, B:51:0x00ab, B:54:0x00b7, B:55:0x00c1, B:56:0x00cb, B:58:0x00d2, B:59:0x00d7, B:61:0x00e2, B:63:0x00e9, B:67:0x00f3, B:70:0x00ff, B:71:0x0104, B:73:0x010d, B:18:0x002f), top: B:88:0x000e }] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x00ff A[Catch: all -> 0x002a, TryCatch #0 {all -> 0x002a, blocks: (B:7:0x000e, B:10:0x0013, B:12:0x0017, B:14:0x0024, B:21:0x003a, B:23:0x0042, B:25:0x0045, B:27:0x0049, B:29:0x0055, B:30:0x0058, B:32:0x0065, B:38:0x0074, B:39:0x0080, B:43:0x009b, B:51:0x00ab, B:54:0x00b7, B:55:0x00c1, B:56:0x00cb, B:58:0x00d2, B:59:0x00d7, B:61:0x00e2, B:63:0x00e9, B:67:0x00f3, B:70:0x00ff, B:71:0x0104, B:73:0x010d, B:18:0x002f), top: B:88:0x000e }] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x010d A[Catch: all -> 0x002a, TRY_LEAVE, TryCatch #0 {all -> 0x002a, blocks: (B:7:0x000e, B:10:0x0013, B:12:0x0017, B:14:0x0024, B:21:0x003a, B:23:0x0042, B:25:0x0045, B:27:0x0049, B:29:0x0055, B:30:0x0058, B:32:0x0065, B:38:0x0074, B:39:0x0080, B:43:0x009b, B:51:0x00ab, B:54:0x00b7, B:55:0x00c1, B:56:0x00cb, B:58:0x00d2, B:59:0x00d7, B:61:0x00e2, B:63:0x00e9, B:67:0x00f3, B:70:0x00ff, B:71:0x0104, B:73:0x010d, B:18:0x002f), top: B:88:0x000e }] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0049 A[Catch: all -> 0x002a, TryCatch #0 {all -> 0x002a, blocks: (B:100:0x000e, B:103:0x0013, B:105:0x0017, B:107:0x0024, B:9:0x003a, B:11:0x0042, B:13:0x0045, B:15:0x0049, B:17:0x0055, B:19:0x0058, B:23:0x0065, B:29:0x0074, B:30:0x0080, B:34:0x009b, B:60:0x00ab, B:64:0x00b7, B:65:0x00c1, B:47:0x00cb, B:50:0x00d2, B:37:0x00d7, B:39:0x00e2, B:71:0x00e9, B:75:0x00f3, B:78:0x00ff, B:79:0x0104, B:81:0x010d, B:6:0x002f), top: B:99:0x000e }] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00d7 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00a2 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x00ff A[Catch: all -> 0x002a, TryCatch #0 {all -> 0x002a, blocks: (B:100:0x000e, B:103:0x0013, B:105:0x0017, B:107:0x0024, B:9:0x003a, B:11:0x0042, B:13:0x0045, B:15:0x0049, B:17:0x0055, B:19:0x0058, B:23:0x0065, B:29:0x0074, B:30:0x0080, B:34:0x009b, B:60:0x00ab, B:64:0x00b7, B:65:0x00c1, B:47:0x00cb, B:50:0x00d2, B:37:0x00d7, B:39:0x00e2, B:71:0x00e9, B:75:0x00f3, B:78:0x00ff, B:79:0x0104, B:81:0x010d, B:6:0x002f), top: B:99:0x000e }] */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x010d A[Catch: all -> 0x002a, TRY_LEAVE, TryCatch #0 {all -> 0x002a, blocks: (B:100:0x000e, B:103:0x0013, B:105:0x0017, B:107:0x0024, B:9:0x003a, B:11:0x0042, B:13:0x0045, B:15:0x0049, B:17:0x0055, B:19:0x0058, B:23:0x0065, B:29:0x0074, B:30:0x0080, B:34:0x009b, B:60:0x00ab, B:64:0x00b7, B:65:0x00c1, B:47:0x00cb, B:50:0x00d2, B:37:0x00d7, B:39:0x00e2, B:71:0x00e9, B:75:0x00f3, B:78:0x00ff, B:79:0x0104, B:81:0x010d, B:6:0x002f), top: B:99:0x000e }] */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0119  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

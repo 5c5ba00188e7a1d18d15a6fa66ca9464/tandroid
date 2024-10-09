@@ -4,6 +4,7 @@ import android.graphics.Paint;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Charts.data.ChartData;
+
 /* loaded from: classes4.dex */
 public class BarViewData extends LineViewData {
     public int blendColor;

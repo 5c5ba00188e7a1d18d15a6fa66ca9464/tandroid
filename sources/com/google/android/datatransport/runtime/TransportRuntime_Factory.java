@@ -6,6 +6,7 @@ import com.google.android.datatransport.runtime.scheduling.jobscheduling.Uploade
 import com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkInitializer;
 import com.google.android.datatransport.runtime.time.Clock;
 import javax.inject.Provider;
+
 /* loaded from: classes.dex */
 public final class TransportRuntime_Factory implements Factory {
     private final Provider eventClockProvider;

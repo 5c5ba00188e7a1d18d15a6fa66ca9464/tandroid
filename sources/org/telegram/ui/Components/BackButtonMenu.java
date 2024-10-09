@@ -33,6 +33,7 @@ import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.TopicsFragment;
+
 /* loaded from: classes3.dex */
 public abstract class BackButtonMenu {
 
@@ -92,8 +93,8 @@ public abstract class BackButtonMenu {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0083  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0093 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0083  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0093 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -140,9 +141,10 @@ public abstract class BackButtonMenu {
                                     if (currentChat != null || user != null) {
                                         arrayList.add(pulledDialog);
                                     }
-                                } else if (((PulledDialog) arrayList.get(i3)).dialogId == dialogId) {
-                                    break;
                                 } else {
+                                    if (((PulledDialog) arrayList.get(i3)).dialogId == dialogId) {
+                                        break;
+                                    }
                                     i3++;
                                 }
                             }
@@ -180,11 +182,11 @@ public abstract class BackButtonMenu {
                         if (i5 >= arrayList.size()) {
                             arrayList.add(pulledDialog2);
                             break;
-                        } else if (((PulledDialog) arrayList.get(i5)).dialogId == pulledDialog2.dialogId) {
-                            break;
-                        } else {
-                            i5++;
                         }
+                        if (((PulledDialog) arrayList.get(i5)).dialogId == pulledDialog2.dialogId) {
+                            break;
+                        }
+                        i5++;
                     }
                 }
             }
@@ -213,8 +215,7 @@ public abstract class BackButtonMenu {
             i = -1;
             for (int i2 = 0; i2 < pulledDialogs.size(); i2++) {
                 PulledDialog pulledDialog2 = (PulledDialog) pulledDialogs.get(i2);
-                TLRPC.TL_forumTopic tL_forumTopic = pulledDialog2.topic;
-                if (tL_forumTopic != null && tL_forumTopic.id != j2) {
+                if (pulledDialog2.topic != null && r7.id != j2) {
                     int i3 = pulledDialog2.stackIndex;
                     if (i3 >= i) {
                         i = i3;
@@ -295,9 +296,9 @@ public abstract class BackButtonMenu {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00aa A[LOOP:1: B:36:0x00a6->B:38:0x00aa, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x00b6 A[EDGE_INSN: B:46:0x00b6->B:39:0x00b6 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00aa A[LOOP:1: B:31:0x00a6->B:33:0x00aa, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00b6 A[EDGE_INSN: B:34:0x00b6->B:35:0x00b6 BREAK  A[LOOP:1: B:31:0x00a6->B:33:0x00aa], SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00c0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -366,8 +367,8 @@ public abstract class BackButtonMenu {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0247  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0267 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0247  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0267 A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r12v5, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout, android.view.View] */
     /* JADX WARN: Type inference failed for: r1v13, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */

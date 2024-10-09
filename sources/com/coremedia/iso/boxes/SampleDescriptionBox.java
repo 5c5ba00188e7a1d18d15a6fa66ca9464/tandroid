@@ -4,6 +4,7 @@ import com.coremedia.iso.IsoTypeWriter;
 import com.googlecode.mp4parser.AbstractContainerBox;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
+
 /* loaded from: classes.dex */
 public class SampleDescriptionBox extends AbstractContainerBox implements Box {
     private int flags;

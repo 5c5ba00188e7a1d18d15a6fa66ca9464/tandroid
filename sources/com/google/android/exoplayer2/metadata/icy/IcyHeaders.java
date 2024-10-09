@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class IcyHeaders implements Metadata.Entry {
     public static final Parcelable.Creator<IcyHeaders> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.icy.IcyHeaders.1
@@ -49,17 +50,17 @@ public final class IcyHeaders implements Metadata.Entry {
         this.metadataInterval = parcel.readInt();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x005b  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0064  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0083  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x008c  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0097  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00a6  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00eb  */
-    /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0083  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0097  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00b1  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00eb  */
+    /* JADX WARN: Removed duplicated region for block: B:32:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00a6  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x008c  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0078  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0064  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

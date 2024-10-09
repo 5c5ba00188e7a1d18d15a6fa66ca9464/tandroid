@@ -3,6 +3,7 @@ package com.google.android.gms.internal.vision;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
+
 /* loaded from: classes.dex */
 public abstract class zzb implements IInterface {
     private final IBinder zza;

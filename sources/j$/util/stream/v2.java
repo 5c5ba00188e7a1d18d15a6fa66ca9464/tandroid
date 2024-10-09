@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Arrays;
+
 /* loaded from: classes2.dex */
 final class v2 extends r2 {
     private L2 c;
@@ -19,12 +20,13 @@ final class v2 extends r2 {
     public final void m() {
         long[] jArr = (long[]) this.c.e();
         Arrays.sort(jArr);
+        long length = jArr.length;
         e2 e2Var = this.a;
-        e2Var.n(jArr.length);
+        e2Var.n(length);
         int i = 0;
         if (this.b) {
-            int length = jArr.length;
-            while (i < length) {
+            int length2 = jArr.length;
+            while (i < length2) {
                 long j = jArr[i];
                 if (e2Var.q()) {
                     break;
@@ -33,8 +35,8 @@ final class v2 extends r2 {
                 i++;
             }
         } else {
-            int length2 = jArr.length;
-            while (i < length2) {
+            int length3 = jArr.length;
+            while (i < length3) {
                 e2Var.accept(jArr[i]);
                 i++;
             }

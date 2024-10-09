@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
 import j$.util.function.Function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class r implements j$.util.function.f {
     public final /* synthetic */ int a;

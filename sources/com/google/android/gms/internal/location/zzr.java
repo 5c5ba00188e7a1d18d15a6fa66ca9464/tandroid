@@ -2,6 +2,7 @@ package com.google.android.gms.internal.location;
 
 import android.os.Parcel;
 import com.google.android.gms.location.LocationSettingsResult;
+
 /* loaded from: classes.dex */
 public abstract class zzr extends zzb implements zzs {
     public zzr() {
@@ -10,11 +11,12 @@ public abstract class zzr extends zzb implements zzs {
 
     @Override // com.google.android.gms.internal.location.zzb
     protected final boolean zza(int i, Parcel parcel, Parcel parcel2, int i2) {
-        if (i == 1) {
-            zzc.zzb(parcel);
-            zzb((LocationSettingsResult) zzc.zza(parcel, LocationSettingsResult.CREATOR));
-            return true;
+        if (i != 1) {
+            return false;
         }
-        return false;
+        LocationSettingsResult locationSettingsResult = (LocationSettingsResult) zzc.zza(parcel, LocationSettingsResult.CREATOR);
+        zzc.zzb(parcel);
+        zzb(locationSettingsResult);
+        return true;
     }
 }

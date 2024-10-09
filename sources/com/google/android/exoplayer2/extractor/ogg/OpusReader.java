@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.collect.ImmutableList;
 import java.util.Arrays;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class OpusReader extends StreamReader {
     private boolean firstCommentHeaderSeen;

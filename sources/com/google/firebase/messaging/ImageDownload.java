@@ -18,6 +18,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 class ImageDownload implements Closeable {
     private volatile InputStream connectionInputStream;
@@ -30,39 +31,39 @@ class ImageDownload implements Closeable {
 
     private byte[] blockingDownloadBytes() {
         URLConnection openConnection = this.url.openConnection();
-        if (openConnection.getContentLength() <= 1048576) {
-            InputStream inputStream = openConnection.getInputStream();
-            try {
-                this.connectionInputStream = inputStream;
-                byte[] zza = zzl.zza(zzl.zzb(inputStream, 1048577L));
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-                if (Log.isLoggable("FirebaseMessaging", 2)) {
-                    String valueOf = String.valueOf(this.url);
-                    StringBuilder sb = new StringBuilder(valueOf.length() + 34);
-                    sb.append("Downloaded ");
-                    sb.append(zza.length);
-                    sb.append(" bytes from ");
-                    sb.append(valueOf);
-                    Log.v("FirebaseMessaging", sb.toString());
-                }
-                if (zza.length <= 1048576) {
-                    return zza;
-                }
-                throw new IOException("Image exceeds max size of 1048576");
-            } catch (Throwable th) {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (Throwable th2) {
-                        zzt.zza(th, th2);
-                    }
-                }
-                throw th;
-            }
+        if (openConnection.getContentLength() > 1048576) {
+            throw new IOException("Content-Length exceeds max size of 1048576");
         }
-        throw new IOException("Content-Length exceeds max size of 1048576");
+        InputStream inputStream = openConnection.getInputStream();
+        try {
+            this.connectionInputStream = inputStream;
+            byte[] zza = zzl.zza(zzl.zzb(inputStream, 1048577L));
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (Log.isLoggable("FirebaseMessaging", 2)) {
+                String valueOf = String.valueOf(this.url);
+                StringBuilder sb = new StringBuilder(valueOf.length() + 34);
+                sb.append("Downloaded ");
+                sb.append(zza.length);
+                sb.append(" bytes from ");
+                sb.append(valueOf);
+                Log.v("FirebaseMessaging", sb.toString());
+            }
+            if (zza.length <= 1048576) {
+                return zza;
+            }
+            throw new IOException("Image exceeds max size of 1048576");
+        } catch (Throwable th) {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (Throwable th2) {
+                    zzt.zza(th, th2);
+                }
+            }
+            throw th;
+        }
     }
 
     public static ImageDownload create(String str) {

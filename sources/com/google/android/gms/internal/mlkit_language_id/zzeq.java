@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+
 /* loaded from: classes.dex */
 public abstract class zzeq {
     public static final byte[] zzb;

@@ -27,6 +27,7 @@ import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes4.dex */
 public class DraftsController {
     public final int currentAccount;
@@ -765,7 +766,8 @@ public class DraftsController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0044, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0044, code lost:
+    
         r12.drafts.add(r6);
         r2.add(java.lang.Long.valueOf(r6.draftId));
      */
@@ -818,8 +820,9 @@ public class DraftsController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x009b, code lost:
-        if (r1 == null) goto L34;
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x009b, code lost:
+    
+        if (r1 == null) goto L33;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

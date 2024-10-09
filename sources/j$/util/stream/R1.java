@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Function;
+
 /* loaded from: classes2.dex */
 final class R1 extends a2 {
     public final /* synthetic */ int b = 2;
@@ -29,7 +30,8 @@ final class R1 extends a2 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         switch (this.b) {
             case 0:
                 LongStream longStream = (LongStream) ((Function) ((w) this.d).n).apply(obj);

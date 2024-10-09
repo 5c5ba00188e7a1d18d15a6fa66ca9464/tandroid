@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public class GestureDetector2 {
     private boolean mAlwaysInBiggerTapRegion;
@@ -53,11 +54,16 @@ public class GestureDetector2 {
             int i = message.what;
             if (i == 1) {
                 GestureDetector2.this.mListener.onShowPress(GestureDetector2.this.mCurrentDownEvent);
-            } else if (i == 2) {
+                return;
+            }
+            if (i == 2) {
                 GestureDetector2.this.dispatchLongPress();
-            } else if (i != 3) {
+                return;
+            }
+            if (i != 3) {
                 throw new RuntimeException("Unknown message " + message);
-            } else if (GestureDetector2.this.mDoubleTapListener != null) {
+            }
+            if (GestureDetector2.this.mDoubleTapListener != null) {
                 if (GestureDetector2.this.mStillDown) {
                     GestureDetector2.this.mDeferConfirmSingleTap = true;
                 } else {
@@ -182,20 +188,20 @@ public class GestureDetector2 {
     }
 
     private boolean isConsideredDoubleTap(MotionEvent motionEvent, MotionEvent motionEvent2, MotionEvent motionEvent3) {
-        if (this.mAlwaysInBiggerTapRegion) {
-            long eventTime = motionEvent3.getEventTime() - motionEvent2.getEventTime();
-            if (eventTime > DOUBLE_TAP_TIMEOUT || eventTime < 40) {
-                return false;
-            }
-            int x = ((int) motionEvent.getX()) - ((int) motionEvent3.getX());
-            int y = ((int) motionEvent.getY()) - ((int) motionEvent3.getY());
-            return (x * x) + (y * y) < this.mDoubleTapSlopSquare;
+        if (!this.mAlwaysInBiggerTapRegion) {
+            return false;
         }
-        return false;
+        long eventTime = motionEvent3.getEventTime() - motionEvent2.getEventTime();
+        if (eventTime > DOUBLE_TAP_TIMEOUT || eventTime < 40) {
+            return false;
+        }
+        int x = ((int) motionEvent.getX()) - ((int) motionEvent3.getX());
+        int y = ((int) motionEvent.getY()) - ((int) motionEvent3.getY());
+        return (x * x) + (y * y) < this.mDoubleTapSlopSquare;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:149:0x02bb  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x02bb  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x02d1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -290,7 +296,8 @@ public class GestureDetector2 {
             }
             this.mHandler.sendEmptyMessageAtTime(1, this.mCurrentDownEvent.getDownTime() + TAP_TIMEOUT);
             return z | this.mListener.onDown(motionEvent);
-        } else if (i3 == 1) {
+        }
+        if (i3 == 1) {
             this.mStillDown = false;
             this.mListener.onUp(motionEvent);
             MotionEvent obtain = MotionEvent.obtain(motionEvent);
@@ -338,119 +345,121 @@ public class GestureDetector2 {
             this.mHandler.removeMessages(1);
             this.mHandler.removeMessages(2);
             return onFling;
-        } else if (i3 != 2) {
+        }
+        if (i3 != 2) {
             if (i3 == 3) {
                 cancel();
                 return false;
-            } else if (i3 == 5) {
+            }
+            if (i3 == 5) {
                 this.mLastFocusX = f4;
                 this.mDownFocusX = f4;
                 this.mLastFocusY = f5;
                 this.mDownFocusY = f5;
                 cancelTaps();
                 return false;
-            } else if (i3 != 6) {
-                return false;
-            } else {
-                this.mLastFocusX = f4;
-                this.mDownFocusX = f4;
-                this.mLastFocusY = f5;
-                this.mDownFocusY = f5;
-                this.mVelocityTracker.computeCurrentVelocity(1000, this.mMaximumFlingVelocity);
-                int actionIndex2 = motionEvent.getActionIndex();
-                int pointerId2 = motionEvent.getPointerId(actionIndex2);
-                float xVelocity2 = this.mVelocityTracker.getXVelocity(pointerId2);
-                float yVelocity2 = this.mVelocityTracker.getYVelocity(pointerId2);
-                for (int i5 = 0; i5 < pointerCount; i5++) {
-                    if (i5 != actionIndex2) {
-                        int pointerId3 = motionEvent.getPointerId(i5);
-                        if ((this.mVelocityTracker.getXVelocity(pointerId3) * xVelocity2) + (this.mVelocityTracker.getYVelocity(pointerId3) * yVelocity2) < 0.0f) {
-                            this.mVelocityTracker.clear();
-                            return false;
-                        }
-                    }
-                }
+            }
+            if (i3 != 6) {
                 return false;
             }
-        } else if (this.mInLongPress || this.mInContextClick) {
-            return false;
-        } else {
-            int i6 = Build.VERSION.SDK_INT;
-            int classification = i6 >= 29 ? motionEvent.getClassification() : 0;
-            boolean hasMessages2 = this.mHandler.hasMessages(2);
-            float f6 = this.mLastFocusX - f4;
-            float f7 = this.mLastFocusY - f5;
-            if (this.mIsDoubleTapping) {
-                OnDoubleTapListener onDoubleTapListener4 = this.mDoubleTapListener;
-                if (onDoubleTapListener4 == null || !onDoubleTapListener4.onDoubleTapEvent(motionEvent)) {
-                    i = classification;
-                    z2 = hasMessages2;
-                    i2 = 29;
-                    z3 = false;
-                } else {
-                    i = classification;
-                    z2 = hasMessages2;
-                    i2 = 29;
+            this.mLastFocusX = f4;
+            this.mDownFocusX = f4;
+            this.mLastFocusY = f5;
+            this.mDownFocusY = f5;
+            this.mVelocityTracker.computeCurrentVelocity(1000, this.mMaximumFlingVelocity);
+            int actionIndex2 = motionEvent.getActionIndex();
+            int pointerId2 = motionEvent.getPointerId(actionIndex2);
+            float xVelocity2 = this.mVelocityTracker.getXVelocity(pointerId2);
+            float yVelocity2 = this.mVelocityTracker.getYVelocity(pointerId2);
+            for (int i5 = 0; i5 < pointerCount; i5++) {
+                if (i5 != actionIndex2) {
+                    int pointerId3 = motionEvent.getPointerId(i5);
+                    if ((this.mVelocityTracker.getXVelocity(pointerId3) * xVelocity2) + (this.mVelocityTracker.getYVelocity(pointerId3) * yVelocity2) < 0.0f) {
+                        this.mVelocityTracker.clear();
+                        return false;
+                    }
                 }
+            }
+            return false;
+        }
+        if (this.mInLongPress || this.mInContextClick) {
+            return false;
+        }
+        int i6 = Build.VERSION.SDK_INT;
+        int classification = i6 >= 29 ? motionEvent.getClassification() : 0;
+        boolean hasMessages2 = this.mHandler.hasMessages(2);
+        float f6 = this.mLastFocusX - f4;
+        float f7 = this.mLastFocusY - f5;
+        if (this.mIsDoubleTapping) {
+            OnDoubleTapListener onDoubleTapListener4 = this.mDoubleTapListener;
+            if (onDoubleTapListener4 == null || !onDoubleTapListener4.onDoubleTapEvent(motionEvent)) {
+                i = classification;
+                z2 = hasMessages2;
+                i2 = 29;
+                z3 = false;
             } else {
-                if (this.mAlwaysInTapRegion) {
-                    int i7 = (int) (f4 - this.mDownFocusX);
-                    int i8 = (int) (f5 - this.mDownFocusY);
-                    int i9 = (i7 * i7) + (i8 * i8);
-                    int i10 = this.mTouchSlopSquare;
-                    boolean z5 = i6 >= 29 && classification == 1;
-                    if (hasMessages2 && z5) {
-                        if (i9 > i10) {
-                            this.mHandler.removeMessages(2);
-                            i = classification;
-                            z2 = hasMessages2;
-                            long longPressTimeout = ViewConfiguration.getLongPressTimeout();
-                            Handler handler2 = this.mHandler;
-                            handler2.sendMessageDelayed(handler2.obtainMessage(2, 0, 0), ((float) longPressTimeout) * 2.0f);
-                        } else {
-                            i = classification;
-                            z2 = hasMessages2;
-                        }
-                        i10 = (int) (i10 * 4.0f);
+                i = classification;
+                z2 = hasMessages2;
+                i2 = 29;
+            }
+        } else {
+            if (this.mAlwaysInTapRegion) {
+                int i7 = (int) (f4 - this.mDownFocusX);
+                int i8 = (int) (f5 - this.mDownFocusY);
+                int i9 = (i7 * i7) + (i8 * i8);
+                int i10 = this.mTouchSlopSquare;
+                boolean z5 = i6 >= 29 && classification == 1;
+                if (hasMessages2 && z5) {
+                    if (i9 > i10) {
+                        this.mHandler.removeMessages(2);
+                        i = classification;
+                        z2 = hasMessages2;
+                        long longPressTimeout = ViewConfiguration.getLongPressTimeout();
+                        Handler handler2 = this.mHandler;
+                        handler2.sendMessageDelayed(handler2.obtainMessage(2, 0, 0), ((float) longPressTimeout) * 2.0f);
                     } else {
                         i = classification;
                         z2 = hasMessages2;
                     }
-                    if (i9 > i10) {
-                        boolean onScroll = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
-                        this.mLastFocusX = f4;
-                        this.mLastFocusY = f5;
-                        this.mAlwaysInTapRegion = false;
-                        this.mHandler.removeMessages(3);
-                        this.mHandler.removeMessages(1);
-                        this.mHandler.removeMessages(2);
-                        z3 = onScroll;
-                    } else {
-                        z3 = false;
-                    }
-                    if (i9 > this.mDoubleTapTouchSlopSquare) {
-                        this.mAlwaysInBiggerTapRegion = false;
-                    }
+                    i10 = (int) (i10 * 4.0f);
                 } else {
                     i = classification;
                     z2 = hasMessages2;
-                    if (Math.abs(f6) >= 1.0f || Math.abs(f7) >= 1.0f) {
-                        z3 = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
-                        this.mLastFocusX = f4;
-                        this.mLastFocusY = f5;
-                    }
-                    i2 = 29;
+                }
+                if (i9 > i10) {
+                    boolean onScroll = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
+                    this.mLastFocusX = f4;
+                    this.mLastFocusY = f5;
+                    this.mAlwaysInTapRegion = false;
+                    this.mHandler.removeMessages(3);
+                    this.mHandler.removeMessages(1);
+                    this.mHandler.removeMessages(2);
+                    z3 = onScroll;
+                } else {
                     z3 = false;
                 }
+                if (i9 > this.mDoubleTapTouchSlopSquare) {
+                    this.mAlwaysInBiggerTapRegion = false;
+                }
+            } else {
+                i = classification;
+                z2 = hasMessages2;
+                if (Math.abs(f6) >= 1.0f || Math.abs(f7) >= 1.0f) {
+                    z3 = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, f6, f7);
+                    this.mLastFocusX = f4;
+                    this.mLastFocusY = f5;
+                }
                 i2 = 29;
+                z3 = false;
             }
-            if (i6 >= i2 && i == 2 && z2) {
-                this.mHandler.removeMessages(2);
-                Handler handler3 = this.mHandler;
-                handler3.sendMessage(handler3.obtainMessage(2, 0, 0));
-            }
-            return z3;
+            i2 = 29;
         }
+        if (i6 >= i2 && i == 2 && z2) {
+            this.mHandler.removeMessages(2);
+            Handler handler3 = this.mHandler;
+            handler3.sendMessage(handler3.obtainMessage(2, 0, 0));
+        }
+        return z3;
     }
 
     public void setIsLongpressEnabled(boolean z) {

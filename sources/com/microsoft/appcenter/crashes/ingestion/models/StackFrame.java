@@ -4,6 +4,7 @@ import com.microsoft.appcenter.ingestion.models.Model;
 import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class StackFrame implements Model {
     private String className;
@@ -20,20 +21,20 @@ public class StackFrame implements Model {
         }
         StackFrame stackFrame = (StackFrame) obj;
         String str = this.className;
-        if (str == null ? stackFrame.className == null : str.equals(stackFrame.className)) {
-            String str2 = this.methodName;
-            if (str2 == null ? stackFrame.methodName == null : str2.equals(stackFrame.methodName)) {
-                Integer num = this.lineNumber;
-                if (num == null ? stackFrame.lineNumber == null : num.equals(stackFrame.lineNumber)) {
-                    String str3 = this.fileName;
-                    String str4 = stackFrame.fileName;
-                    return str3 != null ? str3.equals(str4) : str4 == null;
-                }
-                return false;
-            }
+        if (str == null ? stackFrame.className != null : !str.equals(stackFrame.className)) {
             return false;
         }
-        return false;
+        String str2 = this.methodName;
+        if (str2 == null ? stackFrame.methodName != null : !str2.equals(stackFrame.methodName)) {
+            return false;
+        }
+        Integer num = this.lineNumber;
+        if (num == null ? stackFrame.lineNumber != null : !num.equals(stackFrame.lineNumber)) {
+            return false;
+        }
+        String str3 = this.fileName;
+        String str4 = stackFrame.fileName;
+        return str3 != null ? str3.equals(str4) : str4 == null;
     }
 
     public String getClassName() {

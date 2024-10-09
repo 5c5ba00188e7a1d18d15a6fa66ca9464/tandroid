@@ -20,6 +20,7 @@ import j$.util.Collection$-EL;
 import j$.util.function.Predicate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -43,6 +44,7 @@ import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TranslateAlert2;
+
 /* loaded from: classes4.dex */
 public class RestrictedLanguagesSelectActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private static boolean gotRestrictedLanguages;
@@ -72,11 +74,11 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         public int getItemCount() {
             if (!this.search) {
                 return (RestrictedLanguagesSelectActivity.this.separatorRow >= 0 ? 1 : 0) + RestrictedLanguagesSelectActivity.this.allLanguages.size();
-            } else if (RestrictedLanguagesSelectActivity.this.searchResult == null) {
-                return 0;
-            } else {
-                return RestrictedLanguagesSelectActivity.this.searchResult.size();
             }
+            if (RestrictedLanguagesSelectActivity.this.searchResult == null) {
+                return 0;
+            }
+            return RestrictedLanguagesSelectActivity.this.searchResult.size();
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -89,8 +91,9 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             return viewHolder.getItemViewType() == 0;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x004e, code lost:
-            if (r7 == (r5.this$0.searchResult.size() - 1)) goto L24;
+        /* JADX WARN: Code restructure failed: missing block: B:15:0x004e, code lost:
+        
+            if (r7 == (r5.this$0.searchResult.size() - 1)) goto L27;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
@@ -138,20 +141,20 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            HeaderCell headerCell;
+            View view;
             if (i == 0) {
                 View textCheckbox2Cell = new TextCheckbox2Cell(this.mContext);
                 textCheckbox2Cell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                headerCell = textCheckbox2Cell;
+                view = textCheckbox2Cell;
             } else if (i != 2) {
-                headerCell = new ShadowSectionCell(this.mContext);
+                view = new ShadowSectionCell(this.mContext);
             } else {
-                HeaderCell headerCell2 = new HeaderCell(this.mContext);
-                headerCell2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                headerCell2.setText(LocaleController.getString(R.string.ChooseLanguages));
-                headerCell = headerCell2;
+                HeaderCell headerCell = new HeaderCell(this.mContext);
+                headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                headerCell.setText(LocaleController.getString(R.string.ChooseLanguages));
+                view = headerCell;
             }
-            return new RecyclerListView.Holder(headerCell);
+            return new RecyclerListView.Holder(view);
         }
     }
 
@@ -240,7 +243,6 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         }, new Utilities.Callback() { // from class: org.telegram.ui.RestrictedLanguagesSelectActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                Runnable runnable = (Runnable) obj;
                 Utilities.Callback.this.run(hashSet);
             }
         });
@@ -401,8 +403,9 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
     public static /* synthetic */ void lambda$getExtendedDoNotTranslate$5(HashSet hashSet, Runnable runnable) {
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) ApplicationLoader.applicationContext.getSystemService("input_method");
-            for (InputMethodInfo inputMethodInfo : inputMethodManager.getEnabledInputMethodList()) {
-                for (InputMethodSubtype inputMethodSubtype : inputMethodManager.getEnabledInputMethodSubtypeList(inputMethodInfo, true)) {
+            Iterator<InputMethodInfo> it = inputMethodManager.getEnabledInputMethodList().iterator();
+            while (it.hasNext()) {
+                for (InputMethodSubtype inputMethodSubtype : inputMethodManager.getEnabledInputMethodSubtypeList(it.next(), true)) {
                     if ("keyboard".equals(inputMethodSubtype.getMode())) {
                         String locale = inputMethodSubtype.getLocale();
                         if (locale != null && locale.contains("_")) {
@@ -498,7 +501,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    RestrictedLanguagesSelectActivity.this.finishFragment();
+                    RestrictedLanguagesSelectActivity.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -528,9 +531,10 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
                     }
                     recyclerListView = RestrictedLanguagesSelectActivity.this.listView;
                     listAdapter = RestrictedLanguagesSelectActivity.this.searchListViewAdapter;
-                } else if (RestrictedLanguagesSelectActivity.this.listView == null) {
-                    return;
                 } else {
+                    if (RestrictedLanguagesSelectActivity.this.listView == null) {
+                        return;
+                    }
                     RestrictedLanguagesSelectActivity.this.emptyView.setVisibility(8);
                     recyclerListView = RestrictedLanguagesSelectActivity.this.listView;
                     listAdapter = RestrictedLanguagesSelectActivity.this.listAdapter;

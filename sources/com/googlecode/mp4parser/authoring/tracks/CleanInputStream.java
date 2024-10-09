@@ -3,6 +3,7 @@ package com.googlecode.mp4parser.authoring.tracks;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 /* loaded from: classes.dex */
 public class CleanInputStream extends FilterInputStream {
     int prev;

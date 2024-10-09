@@ -3,6 +3,7 @@ package org.webrtc;
 import java.util.List;
 import java.util.Map;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes.dex */
 public class RtpParameters {
     public final List<Codec> codecs;

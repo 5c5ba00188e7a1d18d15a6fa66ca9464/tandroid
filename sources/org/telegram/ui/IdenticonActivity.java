@@ -39,6 +39,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.IdenticonDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.URLSpanReplacement;
+
 /* loaded from: classes4.dex */
 public class IdenticonActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private AnimatorSet animatorSet;
@@ -140,7 +141,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    IdenticonActivity.this.finishFragment();
+                    IdenticonActivity.this.lambda$onBackPressed$300();
                 }
             }
         });

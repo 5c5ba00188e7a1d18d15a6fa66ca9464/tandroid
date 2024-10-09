@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.util.Property;
 import android.view.View;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
@@ -16,6 +17,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.voip.ImageWithWavesView;
+
 /* loaded from: classes3.dex */
 public class ImageWithWavesView extends FrameLayout {
     private final boolean allowAnimations;
@@ -181,11 +183,11 @@ public class ImageWithWavesView extends FrameLayout {
         avatarWavesDrawable.setShowWaves(true, this);
         BackupImageView backupImageView = new BackupImageView(context);
         this.backupImageView = backupImageView;
-        addView(backupImageView, LayoutHelper.createFrame((int) NotificationCenter.fileUploadFailed, (int) NotificationCenter.fileUploadFailed, 17));
+        addView(backupImageView, LayoutHelper.createFrame(NotificationCenter.fileUploadFailed, NotificationCenter.fileUploadFailed, 17));
         setWillNotDraw(false);
         AnimatorSet animatorSet = new AnimatorSet();
         this.animatorSet = animatorSet;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(this, View.SCALE_X, 1.0f, 1.05f, 1.0f, 1.05f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, 1.0f, 1.05f, 1.0f, 1.05f, 1.0f));
+        animatorSet.playTogether(ObjectAnimator.ofFloat(this, (Property<ImageWithWavesView, Float>) View.SCALE_X, 1.0f, 1.05f, 1.0f, 1.05f, 1.0f), ObjectAnimator.ofFloat(this, (Property<ImageWithWavesView, Float>) View.SCALE_Y, 1.0f, 1.05f, 1.0f, 1.05f, 1.0f));
         this.animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         this.animatorSet.setDuration(3000L);
         boolean isEnabled = LiteMode.isEnabled(512);
@@ -207,7 +209,7 @@ public class ImageWithWavesView extends FrameLayout {
         this.isConnectedCalled = true;
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.animatorSet = animatorSet2;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.SCALE_X, getScaleX(), 1.05f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, getScaleY(), 1.05f, 1.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this, (Property<ImageWithWavesView, Float>) View.SCALE_X, getScaleX(), 1.05f, 1.0f), ObjectAnimator.ofFloat(this, (Property<ImageWithWavesView, Float>) View.SCALE_Y, getScaleY(), 1.05f, 1.0f));
         this.animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         this.animatorSet.setDuration(400L);
         this.animatorSet.start();
@@ -230,7 +232,7 @@ public class ImageWithWavesView extends FrameLayout {
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.animatorSet = animatorSet2;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, getAlpha(), 1.0f), ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, getTranslationY(), -AndroidUtilities.dp(24.0f)), ObjectAnimator.ofFloat(this, View.SCALE_X, getScaleX(), 0.9f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, getScaleY(), 0.9f, 1.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this, (Property<ImageWithWavesView, Float>) View.ALPHA, getAlpha(), 1.0f), ObjectAnimator.ofFloat(this, (Property<ImageWithWavesView, Float>) View.TRANSLATION_Y, getTranslationY(), -AndroidUtilities.dp(24.0f)), ObjectAnimator.ofFloat(this, (Property<ImageWithWavesView, Float>) View.SCALE_X, getScaleX(), 0.9f, 1.0f), ObjectAnimator.ofFloat(this, (Property<ImageWithWavesView, Float>) View.SCALE_Y, getScaleY(), 0.9f, 1.0f));
         this.animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.animatorSet.setDuration(300L);
         this.animatorSet.setStartDelay(250L);

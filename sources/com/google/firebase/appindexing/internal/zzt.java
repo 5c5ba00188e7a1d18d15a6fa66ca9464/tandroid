@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseAppIndexingInvalidArgumentException;
 import com.google.firebase.appindexing.FirebaseUserActions;
+
 /* loaded from: classes.dex */
 public final class zzt extends FirebaseUserActions {
     private final zzr zza;

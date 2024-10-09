@@ -13,6 +13,7 @@ import android.os.SystemClock;
 import android.util.SparseArray;
 import androidx.core.graphics.drawable.DrawableCompat;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class DrawableContainerCompat extends Drawable implements Drawable.Callback {
     private Runnable mAnimationRunnable;
@@ -556,9 +557,9 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
         return i == 0 ? NotificationCenter.audioRouteChanged : i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x003d  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0066 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:26:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x003d  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0066 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:23:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -595,8 +596,9 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
                         z3 = z2;
                         if (z) {
                             return;
+                        } else {
+                            return;
                         }
-                        return;
                     }
                     this.mExitAnimationEnd = 0L;
                     z3 = z2;
@@ -660,11 +662,11 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
 
     @Override // android.graphics.drawable.Drawable
     public final Drawable.ConstantState getConstantState() {
-        if (this.mDrawableContainerState.canConstantState()) {
-            this.mDrawableContainerState.mChangingConfigurations = getChangingConfigurations();
-            return this.mDrawableContainerState;
+        if (!this.mDrawableContainerState.canConstantState()) {
+            return null;
         }
-        return null;
+        this.mDrawableContainerState.mChangingConfigurations = getChangingConfigurations();
+        return this.mDrawableContainerState;
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -871,8 +873,8 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x006b  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0073  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x006b  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0073  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

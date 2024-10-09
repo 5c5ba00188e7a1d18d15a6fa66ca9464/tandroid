@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class LinkedTreeMap extends AbstractMap implements Serializable {
     private static final Comparator NATURAL_ORDER = new Comparator() { // from class: com.google.gson.internal.LinkedTreeMap.1
@@ -59,11 +60,11 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
         @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
         public boolean remove(Object obj) {
             Node findByEntry;
-            if ((obj instanceof Map.Entry) && (findByEntry = LinkedTreeMap.this.findByEntry((Map.Entry) obj)) != null) {
-                LinkedTreeMap.this.removeInternal(findByEntry, true);
-                return true;
+            if (!(obj instanceof Map.Entry) || (findByEntry = LinkedTreeMap.this.findByEntry((Map.Entry) obj)) == null) {
+                return false;
             }
-            return false;
+            LinkedTreeMap.this.removeInternal(findByEntry, true);
+            return true;
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
@@ -132,15 +133,15 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
         final Node nextNode() {
             Node node = this.next;
             LinkedTreeMap linkedTreeMap = LinkedTreeMap.this;
-            if (node != linkedTreeMap.header) {
-                if (linkedTreeMap.modCount == this.expectedModCount) {
-                    this.next = node.next;
-                    this.lastReturned = node;
-                    return node;
-                }
+            if (node == linkedTreeMap.header) {
+                throw new NoSuchElementException();
+            }
+            if (linkedTreeMap.modCount != this.expectedModCount) {
                 throw new ConcurrentModificationException();
             }
-            throw new NoSuchElementException();
+            this.next = node.next;
+            this.lastReturned = node;
+            return node;
         }
 
         @Override // java.util.Iterator
@@ -188,28 +189,28 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
 
         @Override // java.util.Map.Entry
         public boolean equals(Object obj) {
-            if (obj instanceof Map.Entry) {
-                Map.Entry entry = (Map.Entry) obj;
-                Object obj2 = this.key;
-                if (obj2 == null) {
-                    if (entry.getKey() != null) {
-                        return false;
-                    }
-                } else if (!obj2.equals(entry.getKey())) {
-                    return false;
-                }
-                Object obj3 = this.value;
-                Object value = entry.getValue();
-                if (obj3 == null) {
-                    if (value != null) {
-                        return false;
-                    }
-                } else if (!obj3.equals(value)) {
-                    return false;
-                }
-                return true;
+            if (!(obj instanceof Map.Entry)) {
+                return false;
             }
-            return false;
+            Map.Entry entry = (Map.Entry) obj;
+            Object obj2 = this.key;
+            if (obj2 == null) {
+                if (entry.getKey() != null) {
+                    return false;
+                }
+            } else if (!obj2.equals(entry.getKey())) {
+                return false;
+            }
+            Object obj3 = this.value;
+            Object value = entry.getValue();
+            if (obj3 == null) {
+                if (value != null) {
+                    return false;
+                }
+            } else if (!obj3.equals(value)) {
+                return false;
+            }
+            return true;
         }
 
         public Node first() {
@@ -248,12 +249,12 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
 
         @Override // java.util.Map.Entry
         public Object setValue(Object obj) {
-            if (obj != null || this.allowNullValue) {
-                Object obj2 = this.value;
-                this.value = obj;
-                return obj2;
+            if (obj == null && !this.allowNullValue) {
+                throw new NullPointerException("value == null");
             }
-            throw new NullPointerException("value == null");
+            Object obj2 = this.value;
+            this.value = obj;
+            return obj2;
         }
 
         public String toString() {
@@ -422,27 +423,28 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
         } else {
             i = 0;
         }
-        if (z) {
-            Node node4 = this.header;
-            if (node2 != null) {
-                node = new Node(this.allowNullValues, node2, obj, node4, node4.prev);
-                if (i < 0) {
-                    node2.left = node;
-                } else {
-                    node2.right = node;
-                }
-                rebalance(node2, true);
-            } else if (comparator == NATURAL_ORDER && !(obj instanceof Comparable)) {
-                throw new ClassCastException(obj.getClass().getName() + " is not Comparable");
-            } else {
-                node = new Node(this.allowNullValues, node2, obj, node4, node4.prev);
-                this.root = node;
-            }
-            this.size++;
-            this.modCount++;
-            return node;
+        if (!z) {
+            return null;
         }
-        return null;
+        Node node4 = this.header;
+        if (node2 != null) {
+            node = new Node(this.allowNullValues, node2, obj, node4, node4.prev);
+            if (i < 0) {
+                node2.left = node;
+            } else {
+                node2.right = node;
+            }
+            rebalance(node2, true);
+        } else {
+            if (comparator == NATURAL_ORDER && !(obj instanceof Comparable)) {
+                throw new ClassCastException(obj.getClass().getName() + " is not Comparable");
+            }
+            node = new Node(this.allowNullValues, node2, obj, node4, node4.prev);
+            this.root = node;
+        }
+        this.size++;
+        this.modCount++;
+        return node;
     }
 
     Node findByEntry(Map.Entry entry) {
@@ -454,14 +456,14 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
     }
 
     Node findByObject(Object obj) {
-        if (obj != null) {
-            try {
-                return find(obj, false);
-            } catch (ClassCastException unused) {
-                return null;
-            }
+        if (obj == null) {
+            return null;
         }
-        return null;
+        try {
+            return find(obj, false);
+        } catch (ClassCastException unused) {
+            return null;
+        }
     }
 
     @Override // java.util.AbstractMap, java.util.Map
@@ -486,16 +488,16 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
 
     @Override // java.util.AbstractMap, java.util.Map
     public Object put(Object obj, Object obj2) {
-        if (obj != null) {
-            if (obj2 != null || this.allowNullValues) {
-                Node find = find(obj, true);
-                Object obj3 = find.value;
-                find.value = obj2;
-                return obj3;
-            }
+        if (obj == null) {
+            throw new NullPointerException("key == null");
+        }
+        if (obj2 == null && !this.allowNullValues) {
             throw new NullPointerException("value == null");
         }
-        throw new NullPointerException("key == null");
+        Node find = find(obj, true);
+        Object obj3 = find.value;
+        find.value = obj2;
+        return obj3;
     }
 
     @Override // java.util.AbstractMap, java.util.Map

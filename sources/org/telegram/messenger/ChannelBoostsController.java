@@ -18,6 +18,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.Premium.boosts.BoostRepository;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class ChannelBoostsController {
     public static final int BOOSTS_FOR_LEVEL_1 = 1;
@@ -60,11 +61,12 @@ public class ChannelBoostsController {
             return canApplyBoost;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x00c1, code lost:
-            if (org.telegram.ui.Components.Premium.boosts.BoostRepository.isMultiBoostsAvailable() == false) goto L46;
+        /* JADX WARN: Code restructure failed: missing block: B:50:0x00c1, code lost:
+        
+            if (org.telegram.ui.Components.Premium.boosts.BoostRepository.isMultiBoostsAvailable() == false) goto L34;
          */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x00ca  */
-        /* JADX WARN: Removed duplicated region for block: B:60:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:54:0x00ca  */
+        /* JADX WARN: Removed duplicated region for block: B:57:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

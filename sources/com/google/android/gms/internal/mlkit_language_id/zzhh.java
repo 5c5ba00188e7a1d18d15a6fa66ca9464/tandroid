@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 abstract class zzhh {
     /* JADX INFO: Access modifiers changed from: package-private */

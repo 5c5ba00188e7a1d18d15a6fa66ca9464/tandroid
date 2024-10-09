@@ -4,7 +4,9 @@ import com.google.firebase.inject.Provider;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class LazySet implements Provider {
@@ -22,8 +24,9 @@ public class LazySet implements Provider {
 
     private synchronized void updateSet() {
         try {
-            for (Provider provider : this.providers) {
-                this.actualSet.add(provider.get());
+            Iterator it = this.providers.iterator();
+            while (it.hasNext()) {
+                this.actualSet.add(((Provider) it.next()).get());
             }
             this.providers = null;
         } catch (Throwable th) {

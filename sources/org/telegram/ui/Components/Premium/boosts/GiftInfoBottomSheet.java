@@ -25,6 +25,7 @@ import org.telegram.ui.Components.Premium.boosts.GiftInfoBottomSheet;
 import org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     private GiftInfoAdapter adapter;
@@ -76,13 +77,14 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
             if (tLObject instanceof TLRPC.Chat) {
                 baseFragment = GiftInfoBottomSheet.this.getBaseFragment();
                 j = -((TLRPC.Chat) tLObject).id;
-            } else if (!(tLObject instanceof TLRPC.User)) {
-                Bundle bundle = new Bundle();
-                bundle.putLong("chat_id", -DialogObject.getPeerDialogId(GiftInfoBottomSheet.this.giftCode.from_id));
-                bundle.putInt("message_id", GiftInfoBottomSheet.this.giftCode.giveaway_msg_id);
-                GiftInfoBottomSheet.this.getBaseFragment().presentFragment(new ChatActivity(bundle));
-                return;
             } else {
+                if (!(tLObject instanceof TLRPC.User)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("chat_id", -DialogObject.getPeerDialogId(GiftInfoBottomSheet.this.giftCode.from_id));
+                    bundle.putInt("message_id", GiftInfoBottomSheet.this.giftCode.giveaway_msg_id);
+                    GiftInfoBottomSheet.this.getBaseFragment().presentFragment(new ChatActivity(bundle));
+                    return;
+                }
                 baseFragment = GiftInfoBottomSheet.this.getBaseFragment();
                 j = ((TLRPC.User) tLObject).id;
             }
@@ -119,9 +121,10 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
             if (!path.startsWith("/giftcode") || lastPathSegment == null) {
                 return false;
             }
-        } else if (!scheme.equals("tg")) {
-            return false;
         } else {
+            if (!scheme.equals("tg")) {
+                return false;
+            }
             String uri = data.toString();
             lastPathSegment = data.getLastPathSegment();
             if ((!uri.startsWith("tg:giftcode") && !uri.startsWith("tg://giftcode")) || lastPathSegment == null) {

@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import org.webrtc.MediaStreamTrack;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class AudioFocusManager {
@@ -84,7 +85,6 @@ public final class AudioFocusManager {
         }
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     private static int convertAudioAttributesToFocusGain(AudioAttributes audioAttributes) {
         if (audioAttributes == null) {
             return 0;
@@ -101,6 +101,10 @@ public final class AudioFocusManager {
                 return 2;
             case 3:
                 return 0;
+            case 11:
+                if (audioAttributes.contentType == 1) {
+                    return 2;
+                }
             case 5:
             case 6:
             case 7:
@@ -109,12 +113,7 @@ public final class AudioFocusManager {
             case 10:
             case 12:
             case 13:
-                break;
-            case 11:
-                if (audioAttributes.contentType == 1) {
-                    return 2;
-                }
-                break;
+                return 3;
             case 15:
             default:
                 Log.w("AudioFocusManager", "Unidentified audio usage: " + audioAttributes.usage);
@@ -122,7 +121,6 @@ public final class AudioFocusManager {
             case 16:
                 return Util.SDK_INT >= 19 ? 4 : 2;
         }
-        return 3;
     }
 
     private void executePlayerCommand(int i) {
@@ -143,7 +141,9 @@ public final class AudioFocusManager {
                 i2 = 3;
             }
             setAudioFocusState(i2);
-        } else if (i == -1) {
+            return;
+        }
+        if (i == -1) {
             executePlayerCommand(-1);
             abandonAudioFocusIfHeld();
         } else if (i == 1) {
@@ -243,10 +243,10 @@ public final class AudioFocusManager {
         if (shouldAbandonAudioFocusIfHeld(i)) {
             abandonAudioFocusIfHeld();
             return z ? 1 : -1;
-        } else if (z) {
-            return requestAudioFocus();
-        } else {
-            return -1;
         }
+        if (z) {
+            return requestAudioFocus();
+        }
+        return -1;
     }
 }

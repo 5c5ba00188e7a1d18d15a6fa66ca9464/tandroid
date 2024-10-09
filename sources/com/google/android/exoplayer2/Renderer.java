@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.PlayerMessage;
 import com.google.android.exoplayer2.analytics.PlayerId;
 import com.google.android.exoplayer2.source.SampleStream;
 import com.google.android.exoplayer2.util.MediaClock;
+
 /* loaded from: classes.dex */
 public interface Renderer extends PlayerMessage.Target {
 

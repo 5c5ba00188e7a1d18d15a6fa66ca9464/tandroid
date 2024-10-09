@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* loaded from: classes.dex */
 public abstract class FontResourcesParserCompat {
 

@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.util.Property;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.ChecksHintView;
+
 /* loaded from: classes3.dex */
 public class ChecksHintView extends FrameLayout {
     private AnimatorSet animatorSet;
@@ -126,7 +128,7 @@ public class ChecksHintView extends FrameLayout {
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.animatorSet = animatorSet2;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this, View.SCALE_X, 0.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, 0.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this, (Property<ChecksHintView, Float>) View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this, (Property<ChecksHintView, Float>) View.SCALE_X, 0.0f), ObjectAnimator.ofFloat(this, (Property<ChecksHintView, Float>) View.SCALE_Y, 0.0f));
         this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChecksHintView.3
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
@@ -140,15 +142,18 @@ public class ChecksHintView extends FrameLayout {
         this.animatorSet.start();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x00b3, code lost:
-        if (r6 < org.telegram.messenger.AndroidUtilities.dp(10.0f)) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x00b3, code lost:
+    
+        if (r6 < org.telegram.messenger.AndroidUtilities.dp(10.0f)) goto L23;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x00e5, code lost:
-        if (r6 < org.telegram.messenger.AndroidUtilities.dp(10.0f)) goto L32;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00e7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x00e7, code lost:
+    
         r3 = r6 - org.telegram.messenger.AndroidUtilities.dp(10.0f);
         setTranslationX(getTranslationX() + r3);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00e5, code lost:
+    
+        if (r6 < org.telegram.messenger.AndroidUtilities.dp(10.0f)) goto L23;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -208,7 +213,7 @@ public class ChecksHintView extends FrameLayout {
         if (z) {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animatorSet = animatorSet2;
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_X, 0.0f, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, 0.0f, 1.0f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, (Property<ChecksHintView, Float>) View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this, (Property<ChecksHintView, Float>) View.SCALE_X, 0.0f, 1.0f), ObjectAnimator.ofFloat(this, (Property<ChecksHintView, Float>) View.SCALE_Y, 0.0f, 1.0f));
             this.animatorSet.addListener(new 1());
             this.animatorSet.setDuration(180L);
             this.animatorSet.start();

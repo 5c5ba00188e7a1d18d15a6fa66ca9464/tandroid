@@ -11,6 +11,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class UserNameResolver {
     private static final long CACHE_TIME = 3600000;

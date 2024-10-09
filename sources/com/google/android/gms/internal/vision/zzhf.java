@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class zzhf implements zzkk {
     protected int zza = 0;
@@ -17,42 +18,47 @@ public abstract class zzhf implements zzkk {
             int size = list.size();
             for (Object obj : zzd) {
                 if (obj == null) {
+                    int size2 = zzjvVar.size() - size;
                     StringBuilder sb = new StringBuilder(37);
                     sb.append("Element at index ");
-                    sb.append(zzjvVar.size() - size);
+                    sb.append(size2);
                     sb.append(" is null.");
                     String sb2 = sb.toString();
-                    for (int size2 = zzjvVar.size() - 1; size2 >= size; size2--) {
-                        zzjvVar.remove(size2);
+                    for (int size3 = zzjvVar.size() - 1; size3 >= size; size3--) {
+                        zzjvVar.remove(size3);
                     }
                     throw new NullPointerException(sb2);
-                } else if (obj instanceof zzht) {
+                }
+                if (obj instanceof zzht) {
                     zzjvVar.zza((zzht) obj);
                 } else {
                     zzjvVar.add((String) obj);
                 }
             }
-        } else if (iterable instanceof zzkw) {
+            return;
+        }
+        if (iterable instanceof zzkw) {
             list.addAll((Collection) iterable);
-        } else {
-            if ((list instanceof ArrayList) && (iterable instanceof Collection)) {
-                ((ArrayList) list).ensureCapacity(list.size() + ((Collection) iterable).size());
-            }
-            int size3 = list.size();
-            for (Object obj2 : iterable) {
-                if (obj2 == null) {
-                    StringBuilder sb3 = new StringBuilder(37);
-                    sb3.append("Element at index ");
-                    sb3.append(list.size() - size3);
-                    sb3.append(" is null.");
-                    String sb4 = sb3.toString();
-                    for (int size4 = list.size() - 1; size4 >= size3; size4--) {
-                        list.remove(size4);
-                    }
-                    throw new NullPointerException(sb4);
+            return;
+        }
+        if ((list instanceof ArrayList) && (iterable instanceof Collection)) {
+            ((ArrayList) list).ensureCapacity(list.size() + ((Collection) iterable).size());
+        }
+        int size4 = list.size();
+        for (Object obj2 : iterable) {
+            if (obj2 == null) {
+                int size5 = list.size() - size4;
+                StringBuilder sb3 = new StringBuilder(37);
+                sb3.append("Element at index ");
+                sb3.append(size5);
+                sb3.append(" is null.");
+                String sb4 = sb3.toString();
+                for (int size6 = list.size() - 1; size6 >= size4; size6--) {
+                    list.remove(size6);
                 }
-                list.add(obj2);
+                throw new NullPointerException(sb4);
             }
+            list.add(obj2);
         }
     }
 

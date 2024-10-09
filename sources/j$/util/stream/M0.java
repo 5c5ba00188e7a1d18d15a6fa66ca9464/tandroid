@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class M0 extends P0 implements z0 {
@@ -10,7 +11,7 @@ public final class M0 extends P0 implements z0 {
     }
 
     @Override // j$.util.stream.F0
-    /* renamed from: b */
+    /* renamed from: b, reason: merged with bridge method [inline-methods] */
     public final /* synthetic */ void i(Double[] dArr, int i) {
         t0.n(this, dArr, i);
     }

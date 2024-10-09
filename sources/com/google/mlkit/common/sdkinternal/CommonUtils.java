@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.google.android.gms.common.internal.GmsLogger;
 import com.google.android.gms.common.util.PlatformVersion;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class CommonUtils {
     private static final GmsLogger zza = new GmsLogger("CommonUtils", "");

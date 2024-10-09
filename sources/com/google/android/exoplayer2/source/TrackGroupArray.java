@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class TrackGroupArray implements Bundleable {
     private int hashCode;

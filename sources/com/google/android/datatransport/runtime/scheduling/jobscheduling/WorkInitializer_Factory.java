@@ -5,6 +5,7 @@ import com.google.android.datatransport.runtime.scheduling.persistence.EventStor
 import com.google.android.datatransport.runtime.synchronization.SynchronizationGuard;
 import java.util.concurrent.Executor;
 import javax.inject.Provider;
+
 /* loaded from: classes.dex */
 public final class WorkInitializer_Factory implements Factory {
     private final Provider executorProvider;

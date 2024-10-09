@@ -1,4 +1,5 @@
 package j$.util.function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class y0 implements java.util.function.ToIntFunction {
     public final /* synthetic */ ToIntFunction a;

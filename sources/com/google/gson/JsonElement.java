@@ -4,6 +4,7 @@ import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+
 /* loaded from: classes.dex */
 public abstract class JsonElement {
     public JsonArray getAsJsonArray() {

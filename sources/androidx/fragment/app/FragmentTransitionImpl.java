@@ -4,7 +4,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import androidx.core.os.CancellationSignal;
 import androidx.core.view.OneShotPreDrawListener;
 import androidx.core.view.ViewCompat;
@@ -12,6 +11,7 @@ import androidx.core.view.ViewGroupCompat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class FragmentTransitionImpl {
     /* JADX INFO: Access modifiers changed from: protected */
@@ -73,20 +73,20 @@ public abstract class FragmentTransitionImpl {
     public void captureTransitioningViews(ArrayList arrayList, View view) {
         if (view.getVisibility() == 0) {
             boolean z = view instanceof ViewGroup;
-            ViewGroup viewGroup = view;
+            View view2 = view;
             if (z) {
-                ViewGroup viewGroup2 = (ViewGroup) view;
-                boolean isTransitionGroup = ViewGroupCompat.isTransitionGroup(viewGroup2);
-                viewGroup = viewGroup2;
+                ViewGroup viewGroup = (ViewGroup) view;
+                boolean isTransitionGroup = ViewGroupCompat.isTransitionGroup(viewGroup);
+                view2 = viewGroup;
                 if (!isTransitionGroup) {
-                    int childCount = viewGroup2.getChildCount();
+                    int childCount = viewGroup.getChildCount();
                     for (int i = 0; i < childCount; i++) {
-                        captureTransitioningViews(arrayList, viewGroup2.getChildAt(i));
+                        captureTransitioningViews(arrayList, viewGroup.getChildAt(i));
                     }
                     return;
                 }
             }
-            arrayList.add(viewGroup);
+            arrayList.add(view2);
         }
     }
 
@@ -116,7 +116,7 @@ public abstract class FragmentTransitionImpl {
             rectF.set(0.0f, 0.0f, view.getWidth(), view.getHeight());
             view.getMatrix().mapRect(rectF);
             rectF.offset(view.getLeft(), view.getTop());
-            ViewParent parent = view.getParent();
+            Object parent = view.getParent();
             while (parent instanceof View) {
                 View view2 = (View) parent;
                 rectF.offset(-view2.getScrollX(), -view2.getScrollY());
@@ -124,9 +124,8 @@ public abstract class FragmentTransitionImpl {
                 rectF.offset(view2.getLeft(), view2.getTop());
                 parent = view2.getParent();
             }
-            int[] iArr = new int[2];
-            view.getRootView().getLocationOnScreen(iArr);
-            rectF.offset(iArr[0], iArr[1]);
+            view.getRootView().getLocationOnScreen(new int[2]);
+            rectF.offset(r1[0], r1[1]);
             rect.set(Math.round(rectF.left), Math.round(rectF.top), Math.round(rectF.right), Math.round(rectF.bottom));
         }
     }
@@ -207,12 +206,12 @@ public abstract class FragmentTransitionImpl {
                 while (true) {
                     if (i2 >= size) {
                         break;
-                    } else if (str.equals(arrayList3.get(i2))) {
+                    }
+                    if (str.equals(arrayList3.get(i2))) {
                         ViewCompat.setTransitionName((View) arrayList2.get(i2), transitionName);
                         break;
-                    } else {
-                        i2++;
                     }
+                    i2++;
                 }
             }
         }

@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.audio;
 
 import android.os.Handler;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public final /* synthetic */ class DefaultAudioSink$StreamEventCallbackV29$$ExternalSyntheticLambda2 implements Executor {
     public final /* synthetic */ Handler f$0;

@@ -10,6 +10,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class SerializedData extends AbstractSerializedData {
     private DataInputStream in;
@@ -172,11 +173,11 @@ public class SerializedData extends AbstractSerializedData {
             if (z) {
                 throw new RuntimeException("read byte error", e);
             }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.e("read byte error");
-                FileLog.e(e);
+            if (!BuildVars.LOGS_ENABLED) {
                 return (byte) 0;
             }
+            FileLog.e("read byte error");
+            FileLog.e(e);
             return (byte) 0;
         }
     }
@@ -207,11 +208,11 @@ public class SerializedData extends AbstractSerializedData {
             if (z) {
                 throw new RuntimeException("read byte array error", e);
             }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.e("read byte array error");
-                FileLog.e(e);
+            if (!BuildVars.LOGS_ENABLED) {
                 return null;
             }
+            FileLog.e("read byte array error");
+            FileLog.e(e);
             return null;
         }
     }
@@ -252,11 +253,11 @@ public class SerializedData extends AbstractSerializedData {
             if (z) {
                 throw new RuntimeException("read double error", e);
             }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.e("read double error");
-                FileLog.e(e);
+            if (!BuildVars.LOGS_ENABLED) {
                 return 0.0d;
             }
+            FileLog.e("read double error");
+            FileLog.e(e);
             return 0.0d;
         }
     }
@@ -269,11 +270,11 @@ public class SerializedData extends AbstractSerializedData {
             if (z) {
                 throw new RuntimeException("read float error", e);
             }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.e("read float error");
-                FileLog.e(e);
+            if (!BuildVars.LOGS_ENABLED) {
                 return 0.0f;
             }
+            FileLog.e("read float error");
+            FileLog.e(e);
             return 0.0f;
         }
     }
@@ -346,11 +347,11 @@ public class SerializedData extends AbstractSerializedData {
             if (z) {
                 throw new RuntimeException("read string error", e);
             }
-            if (BuildVars.LOGS_ENABLED) {
-                FileLog.e("read string error");
-                FileLog.e(e);
+            if (!BuildVars.LOGS_ENABLED) {
                 return null;
             }
+            FileLog.e("read string error");
+            FileLog.e(e);
             return null;
         }
     }
@@ -480,11 +481,11 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x003e A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:15:0x003a, B:17:0x003e, B:22:0x004e, B:24:0x0053, B:26:0x0057, B:27:0x005e, B:18:0x0044, B:9:0x0012, B:14:0x0038, B:10:0x0016, B:12:0x001a, B:13:0x0035), top: B:33:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0044 A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:15:0x003a, B:17:0x003e, B:22:0x004e, B:24:0x0053, B:26:0x0057, B:27:0x005e, B:18:0x0044, B:9:0x0012, B:14:0x0038, B:10:0x0016, B:12:0x001a, B:13:0x0035), top: B:33:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x004d  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0053 A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:15:0x003a, B:17:0x003e, B:22:0x004e, B:24:0x0053, B:26:0x0057, B:27:0x005e, B:18:0x0044, B:9:0x0012, B:14:0x0038, B:10:0x0016, B:12:0x001a, B:13:0x0035), top: B:33:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0053 A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:7:0x003a, B:9:0x003e, B:13:0x004e, B:15:0x0053, B:17:0x0057, B:20:0x005e, B:27:0x0044, B:28:0x0012, B:29:0x0038, B:30:0x0016, B:32:0x001a, B:33:0x0035), top: B:2:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x004d  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0044 A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:7:0x003a, B:9:0x003e, B:13:0x004e, B:15:0x0053, B:17:0x0057, B:20:0x005e, B:27:0x0044, B:28:0x0012, B:29:0x0038, B:30:0x0016, B:32:0x001a, B:33:0x0035), top: B:2:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x003e A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:7:0x003a, B:9:0x003e, B:13:0x004e, B:15:0x0053, B:17:0x0057, B:20:0x005e, B:27:0x0044, B:28:0x0012, B:29:0x0038, B:30:0x0016, B:32:0x001a, B:33:0x0035), top: B:2:0x0004 }] */
     @Override // org.telegram.tgnet.AbstractSerializedData
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -514,7 +515,8 @@ public class SerializedData extends AbstractSerializedData {
                 }
                 while ((i2 + i4) % 4 != 0) {
                 }
-            } else if (this.justCalc) {
+            }
+            if (this.justCalc) {
                 i3 = this.len + 1;
                 this.len = i3;
                 if (this.justCalc) {
@@ -523,19 +525,18 @@ public class SerializedData extends AbstractSerializedData {
                 }
                 while ((i2 + i4) % 4 != 0) {
                 }
+            }
+            this.out.write(i2);
+            if (this.justCalc) {
+                this.out.write(bArr, i, i2);
             } else {
-                this.out.write(i2);
+                this.len += i2;
+            }
+            for (i4 = i2 > 253 ? 1 : 4; (i2 + i4) % 4 != 0; i4++) {
                 if (this.justCalc) {
-                    this.out.write(bArr, i, i2);
+                    this.len++;
                 } else {
-                    this.len += i2;
-                }
-                for (i4 = i2 > 253 ? 1 : 4; (i2 + i4) % 4 != 0; i4++) {
-                    if (this.justCalc) {
-                        this.len++;
-                    } else {
-                        this.out.write(0);
-                    }
+                    this.out.write(0);
                 }
             }
         } catch (Exception e) {

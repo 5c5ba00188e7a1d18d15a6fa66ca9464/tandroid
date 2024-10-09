@@ -5,14 +5,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import java.util.IllegalFormatException;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public final class s {
     private final String a;
 
     public s(String str) {
-        int myUid = Process.myUid();
-        int myPid = Process.myPid();
-        this.a = ("UID: [" + myUid + "]  PID: [" + myPid + "] ").concat(str);
+        this.a = ("UID: [" + Process.myUid() + "]  PID: [" + Process.myPid() + "] ").concat(str);
     }
 
     private static String f(String str, String str2, Object... objArr) {

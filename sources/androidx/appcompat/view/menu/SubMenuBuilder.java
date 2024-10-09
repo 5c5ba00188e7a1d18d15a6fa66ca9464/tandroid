@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import androidx.appcompat.view.menu.MenuBuilder;
+
 /* loaded from: classes.dex */
 public class SubMenuBuilder extends MenuBuilder implements SubMenu {
     private MenuItemImpl mItem;

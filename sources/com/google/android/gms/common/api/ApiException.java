@@ -1,16 +1,11 @@
 package com.google.android.gms.common.api;
+
 /* loaded from: classes.dex */
 public class ApiException extends Exception {
     protected final Status mStatus;
 
-    /* JADX WARN: Illegal instructions before constructor call */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public ApiException(Status status) {
-        super(r0 + ": " + r1);
-        int statusCode = status.getStatusCode();
-        String statusMessage = status.getStatusMessage() != null ? status.getStatusMessage() : "";
+        super(status.getStatusCode() + ": " + (status.getStatusMessage() != null ? status.getStatusMessage() : ""));
         this.mStatus = status;
     }
 

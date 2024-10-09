@@ -18,6 +18,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
+
 /* loaded from: classes4.dex */
 public class OpeningHoursDayActivity extends BaseFragment {
     public boolean enabled;
@@ -122,33 +123,35 @@ public class OpeningHoursDayActivity extends BaseFragment {
             if (runnable == null) {
                 return;
             }
-        } else if (i3 == -2) {
-            if (this.periods.isEmpty() || is24()) {
-                if (is24()) {
-                    this.periods.clear();
-                }
-                int clamp = Utilities.clamp(480, this.max - 1, this.min);
-                int clamp2 = Utilities.clamp(1200, this.max, clamp + 1);
-                arrayList = this.periods;
-                period = new OpeningHoursActivity.Period(clamp, clamp2);
-            } else {
-                ArrayList arrayList2 = this.periods;
-                int i4 = ((OpeningHoursActivity.Period) arrayList2.get(arrayList2.size() - 1)).end;
-                int clamp3 = Utilities.clamp(i4 + 30, this.max - 1, this.min);
-                int clamp4 = Utilities.clamp((i4 + 1560) / 2, this.max, clamp3 + 1);
-                arrayList = this.periods;
-                period = new OpeningHoursActivity.Period(clamp3, clamp4);
-            }
-            arrayList.add(period);
-            Runnable runnable2 = this.whenApplied;
-            if (runnable2 != null) {
-                runnable2.run();
-            }
-            this.listView.adapter.update(true);
-            return;
-        } else if (uItem.viewType != 3 || (i2 = i3 / 3) < 0 || i2 >= this.periods.size()) {
-            return;
         } else {
+            if (i3 == -2) {
+                if (this.periods.isEmpty() || is24()) {
+                    if (is24()) {
+                        this.periods.clear();
+                    }
+                    int clamp = Utilities.clamp(480, this.max - 1, this.min);
+                    int clamp2 = Utilities.clamp(1200, this.max, clamp + 1);
+                    arrayList = this.periods;
+                    period = new OpeningHoursActivity.Period(clamp, clamp2);
+                } else {
+                    ArrayList arrayList2 = this.periods;
+                    int i4 = ((OpeningHoursActivity.Period) arrayList2.get(arrayList2.size() - 1)).end;
+                    int clamp3 = Utilities.clamp(i4 + 30, this.max - 1, this.min);
+                    int clamp4 = Utilities.clamp((i4 + 1560) / 2, this.max, clamp3 + 1);
+                    arrayList = this.periods;
+                    period = new OpeningHoursActivity.Period(clamp3, clamp4);
+                }
+                arrayList.add(period);
+                Runnable runnable2 = this.whenApplied;
+                if (runnable2 != null) {
+                    runnable2.run();
+                }
+                this.listView.adapter.update(true);
+                return;
+            }
+            if (uItem.viewType != 3 || (i2 = i3 / 3) < 0 || i2 >= this.periods.size()) {
+                return;
+            }
             int i5 = i2 - 1;
             OpeningHoursActivity.Period period2 = i5 >= 0 ? (OpeningHoursActivity.Period) this.periods.get(i5) : null;
             final OpeningHoursActivity.Period period3 = (OpeningHoursActivity.Period) this.periods.get(i2);
@@ -163,7 +166,8 @@ public class OpeningHoursDayActivity extends BaseFragment {
                     }
                 });
                 return;
-            } else if (i7 == 1) {
+            }
+            if (i7 == 1) {
                 AlertsCreator.createTimePickerDialog(getContext(), LocaleController.getString(R.string.BusinessHoursDayCloseHourPicker), period3.end, period3.start + 1, period4 == null ? this.max : period4.start - 1, new Utilities.Callback() { // from class: org.telegram.ui.Business.OpeningHoursDayActivity$$ExternalSyntheticLambda3
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
@@ -171,18 +175,18 @@ public class OpeningHoursDayActivity extends BaseFragment {
                     }
                 });
                 return;
-            } else if (i7 != 2) {
+            }
+            if (i7 != 2) {
                 return;
-            } else {
-                this.periods.remove(i2);
-                if (this.periods.isEmpty()) {
-                    this.periods.add(new OpeningHoursActivity.Period(0, 1439));
-                }
-                this.listView.adapter.update(true);
-                runnable = this.whenApplied;
-                if (runnable == null) {
-                    return;
-                }
+            }
+            this.periods.remove(i2);
+            if (this.periods.isEmpty()) {
+                this.periods.add(new OpeningHoursActivity.Period(0, 1439));
+            }
+            this.listView.adapter.update(true);
+            runnable = this.whenApplied;
+            if (runnable == null) {
+                return;
             }
         }
         runnable.run();
@@ -210,7 +214,7 @@ public class OpeningHoursDayActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    OpeningHoursDayActivity.this.finishFragment();
+                    OpeningHoursDayActivity.this.lambda$onBackPressed$300();
                 }
             }
         });

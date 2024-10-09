@@ -4,6 +4,7 @@ import kotlin.coroutines.ContinuationInterceptor;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.jvm.functions.Function2;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public interface CoroutineContext {
 
@@ -51,11 +52,11 @@ public interface CoroutineContext {
 
             public static Element get(Element element, Key key) {
                 Intrinsics.checkNotNullParameter(key, "key");
-                if (Intrinsics.areEqual(element.getKey(), key)) {
-                    Intrinsics.checkNotNull(element, "null cannot be cast to non-null type E of kotlin.coroutines.CoroutineContext.Element.get");
-                    return element;
+                if (!Intrinsics.areEqual(element.getKey(), key)) {
+                    return null;
                 }
-                return null;
+                Intrinsics.checkNotNull(element, "null cannot be cast to non-null type E of kotlin.coroutines.CoroutineContext.Element.get");
+                return element;
             }
 
             public static CoroutineContext minusKey(Element element, Key key) {

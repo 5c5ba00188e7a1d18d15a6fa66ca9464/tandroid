@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 abstract class zzah implements Iterator {
     int zzb;
@@ -36,14 +37,14 @@ abstract class zzah implements Iterator {
     @Override // java.util.Iterator
     public final Object next() {
         zzb();
-        if (hasNext()) {
-            int i = this.zzc;
-            this.zzd = i;
-            Object zza = zza(i);
-            this.zzc = this.zze.zzf(this.zzc);
-            return zza;
+        if (!hasNext()) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        int i = this.zzc;
+        this.zzd = i;
+        Object zza = zza(i);
+        this.zzc = this.zze.zzf(this.zzc);
+        return zza;
     }
 
     @Override // java.util.Iterator

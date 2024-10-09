@@ -3,6 +3,7 @@ package com.google.android.gms.common.api.internal;
 import android.util.Log;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public final class zae extends zai {
     protected final BaseImplementation$ApiMethodImpl zaa;
@@ -23,10 +24,8 @@ public final class zae extends zai {
 
     @Override // com.google.android.gms.common.api.internal.zai
     public final void zae(Exception exc) {
-        String simpleName = exc.getClass().getSimpleName();
-        String localizedMessage = exc.getLocalizedMessage();
         try {
-            this.zaa.setFailedResult(new Status(10, simpleName + ": " + localizedMessage));
+            this.zaa.setFailedResult(new Status(10, exc.getClass().getSimpleName() + ": " + exc.getLocalizedMessage()));
         } catch (IllegalStateException e) {
             Log.w("ApiCallRunner", "Exception reporting failure", e);
         }

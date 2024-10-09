@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.ext.SdkExtensions;
 import java.util.Locale;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 public abstract class BuildCompat {
     public static final int AD_SERVICES_EXTENSION_INT;

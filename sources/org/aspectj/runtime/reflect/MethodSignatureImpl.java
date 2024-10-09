@@ -1,6 +1,7 @@
 package org.aspectj.runtime.reflect;
 
 import org.aspectj.lang.reflect.MethodSignature;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class MethodSignatureImpl extends CodeSignatureImpl implements MethodSignature {

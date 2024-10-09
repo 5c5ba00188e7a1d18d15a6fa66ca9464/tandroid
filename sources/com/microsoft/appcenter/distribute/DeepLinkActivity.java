@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.microsoft.appcenter.utils.AppCenterLog;
+
 /* loaded from: classes.dex */
 public class DeepLinkActivity extends Activity {
     @Override // android.app.Activity

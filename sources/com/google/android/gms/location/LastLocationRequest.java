@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.internal.location.zzd;
 import com.google.android.gms.internal.location.zzdj;
+
 /* loaded from: classes.dex */
 public final class LastLocationRequest extends AbstractSafeParcelable {
     public static final Parcelable.Creator<LastLocationRequest> CREATOR = new zzv();
@@ -39,11 +40,11 @@ public final class LastLocationRequest extends AbstractSafeParcelable {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof LastLocationRequest) {
-            LastLocationRequest lastLocationRequest = (LastLocationRequest) obj;
-            return this.zza == lastLocationRequest.zza && this.zzb == lastLocationRequest.zzb && this.zzc == lastLocationRequest.zzc && Objects.equal(this.zzd, lastLocationRequest.zzd) && Objects.equal(this.zze, lastLocationRequest.zze);
+        if (!(obj instanceof LastLocationRequest)) {
+            return false;
         }
-        return false;
+        LastLocationRequest lastLocationRequest = (LastLocationRequest) obj;
+        return this.zza == lastLocationRequest.zza && this.zzb == lastLocationRequest.zzb && this.zzc == lastLocationRequest.zzc && Objects.equal(this.zzd, lastLocationRequest.zzd) && Objects.equal(this.zze, lastLocationRequest.zze);
     }
 
     public int getGranularity() {

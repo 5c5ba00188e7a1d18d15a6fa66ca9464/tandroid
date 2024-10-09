@@ -8,6 +8,7 @@ import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class ParticipantsTypeCell extends BaseCell {
     public static int TYPE_ALL = 0;
@@ -28,8 +29,8 @@ public class ParticipantsTypeCell extends BaseCell {
         return true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0050  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x005f  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x005f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

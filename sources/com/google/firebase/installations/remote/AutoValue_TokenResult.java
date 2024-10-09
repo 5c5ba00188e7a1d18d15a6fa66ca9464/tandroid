@@ -1,6 +1,7 @@
 package com.google.firebase.installations.remote;
 
 import com.google.firebase.installations.remote.TokenResult;
+
 /* loaded from: classes.dex */
 final class AutoValue_TokenResult extends TokenResult {
     private final TokenResult.ResponseCode responseCode;
@@ -54,23 +55,23 @@ final class AutoValue_TokenResult extends TokenResult {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof TokenResult) {
-            TokenResult tokenResult = (TokenResult) obj;
-            String str = this.token;
-            if (str != null ? str.equals(tokenResult.getToken()) : tokenResult.getToken() == null) {
-                if (this.tokenExpirationTimestamp == tokenResult.getTokenExpirationTimestamp()) {
-                    TokenResult.ResponseCode responseCode = this.responseCode;
-                    TokenResult.ResponseCode responseCode2 = tokenResult.getResponseCode();
-                    if (responseCode == null) {
-                        if (responseCode2 == null) {
-                            return true;
-                        }
-                    } else if (responseCode.equals(responseCode2)) {
+        if (!(obj instanceof TokenResult)) {
+            return false;
+        }
+        TokenResult tokenResult = (TokenResult) obj;
+        String str = this.token;
+        if (str != null ? str.equals(tokenResult.getToken()) : tokenResult.getToken() == null) {
+            if (this.tokenExpirationTimestamp == tokenResult.getTokenExpirationTimestamp()) {
+                TokenResult.ResponseCode responseCode = this.responseCode;
+                TokenResult.ResponseCode responseCode2 = tokenResult.getResponseCode();
+                if (responseCode == null) {
+                    if (responseCode2 == null) {
                         return true;
                     }
+                } else if (responseCode.equals(responseCode2)) {
+                    return true;
                 }
             }
-            return false;
         }
         return false;
     }

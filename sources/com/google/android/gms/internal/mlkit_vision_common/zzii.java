@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_common;
+
 /* loaded from: classes.dex */
 public enum zzii implements zzag {
     zza(0),
@@ -11,7 +12,7 @@ public enum zzii implements zzag {
     zzh(5),
     zzi(6),
     zzj(9);
-    
+
     private final int zzl;
 
     zzii(int i) {

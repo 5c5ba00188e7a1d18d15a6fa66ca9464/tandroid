@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzdr {
@@ -232,7 +233,6 @@ public abstract class zzdr {
             return 0;
         }
         if (list instanceof zzcc) {
-            zzcc zzccVar = (zzcc) list;
             if (size <= 0) {
                 return 0;
             }
@@ -276,14 +276,14 @@ public abstract class zzdr {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzi(int i, List list, zzdp zzdpVar) {
         int size = list.size();
-        if (size != 0) {
-            int i2 = 0;
-            for (int i3 = 0; i3 < size; i3++) {
-                i2 += zzbi.zzt(i, (zzdf) list.get(i3), zzdpVar);
-            }
-            return i2;
+        if (size == 0) {
+            return 0;
         }
-        return 0;
+        int i2 = 0;
+        for (int i3 = 0; i3 < size; i3++) {
+            i2 += zzbi.zzt(i, (zzdf) list.get(i3), zzdpVar);
+        }
+        return i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -302,7 +302,6 @@ public abstract class zzdr {
             return 0;
         }
         if (list instanceof zzcc) {
-            zzcc zzccVar = (zzcc) list;
             if (size <= 0) {
                 return 0;
             }
@@ -330,7 +329,6 @@ public abstract class zzdr {
             return 0;
         }
         if (list instanceof zzcu) {
-            zzcu zzcuVar = (zzcu) list;
             if (size <= 0) {
                 return 0;
             }
@@ -377,7 +375,6 @@ public abstract class zzdr {
             return 0;
         }
         if (list instanceof zzcc) {
-            zzcc zzccVar = (zzcc) list;
             if (size <= 0) {
                 return 0;
             }
@@ -407,7 +404,6 @@ public abstract class zzdr {
             return 0;
         }
         if (list instanceof zzcu) {
-            zzcu zzcuVar = (zzcu) list;
             if (size <= 0) {
                 return 0;
             }
@@ -473,7 +469,6 @@ public abstract class zzdr {
             return 0;
         }
         if (list instanceof zzcc) {
-            zzcc zzccVar = (zzcc) list;
             if (size <= 0) {
                 return 0;
             }
@@ -502,7 +497,6 @@ public abstract class zzdr {
             return 0;
         }
         if (list instanceof zzcu) {
-            zzcu zzcuVar = (zzcu) list;
             if (size <= 0) {
                 return 0;
             }

@@ -17,6 +17,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
     private static Method sAddFontWeightStyle = null;
@@ -37,7 +38,7 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
     private static Typeface createFromFamiliesWithDefault(Object obj) {
         init();
         try {
-            Object newInstance = Array.newInstance(sFontFamily, 1);
+            Object newInstance = Array.newInstance((Class<?>) sFontFamily, 1);
             Array.set(newInstance, 0, obj);
             return (Typeface) sCreateFromFamiliesWithDefault.invoke(null, newInstance);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -91,7 +92,6 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
 
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, Resources resources, int i) {
-        FontResourcesParserCompat.FontFileResourceEntry[] entries;
         Object newFamily = newFamily();
         for (FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry : fontFamilyFilesResourceEntry.getEntries()) {
             File tempFile = TypefaceCompatUtil.getTempFile(context);
@@ -128,17 +128,29 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
                 }
                 return null;
             }
-            File file = getFile(openFileDescriptor);
-            if (file != null && file.canRead()) {
-                Typeface createFromFile = Typeface.createFromFile(file);
-                openFileDescriptor.close();
-                return createFromFile;
+            try {
+                File file = getFile(openFileDescriptor);
+                if (file != null && file.canRead()) {
+                    Typeface createFromFile = Typeface.createFromFile(file);
+                    openFileDescriptor.close();
+                    return createFromFile;
+                }
+                FileInputStream fileInputStream = new FileInputStream(openFileDescriptor.getFileDescriptor());
+                try {
+                    Typeface createFromInputStream = super.createFromInputStream(context, fileInputStream);
+                    fileInputStream.close();
+                    openFileDescriptor.close();
+                    return createFromInputStream;
+                } finally {
+                }
+            } catch (Throwable th) {
+                try {
+                    openFileDescriptor.close();
+                } catch (Throwable th2) {
+                    th.addSuppressed(th2);
+                }
+                throw th;
             }
-            FileInputStream fileInputStream = new FileInputStream(openFileDescriptor.getFileDescriptor());
-            Typeface createFromInputStream = super.createFromInputStream(context, fileInputStream);
-            fileInputStream.close();
-            openFileDescriptor.close();
-            return createFromInputStream;
         } catch (IOException unused) {
             return null;
         }

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
+
 /* loaded from: classes4.dex */
 public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLayout.IViewWithInvalidateCallback {
     private boolean cachingBottom;

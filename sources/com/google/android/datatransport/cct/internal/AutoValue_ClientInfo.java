@@ -1,6 +1,7 @@
 package com.google.android.datatransport.cct.internal;
 
 import com.google.android.datatransport.cct.internal.ClientInfo;
+
 /* loaded from: classes.dex */
 final class AutoValue_ClientInfo extends ClientInfo {
     private final AndroidClientInfo androidClientInfo;
@@ -38,21 +39,21 @@ final class AutoValue_ClientInfo extends ClientInfo {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof ClientInfo) {
-            ClientInfo clientInfo = (ClientInfo) obj;
-            ClientInfo.ClientType clientType = this.clientType;
-            if (clientType != null ? clientType.equals(clientInfo.getClientType()) : clientInfo.getClientType() == null) {
-                AndroidClientInfo androidClientInfo = this.androidClientInfo;
-                AndroidClientInfo androidClientInfo2 = clientInfo.getAndroidClientInfo();
-                if (androidClientInfo == null) {
-                    if (androidClientInfo2 == null) {
-                        return true;
-                    }
-                } else if (androidClientInfo.equals(androidClientInfo2)) {
+        if (!(obj instanceof ClientInfo)) {
+            return false;
+        }
+        ClientInfo clientInfo = (ClientInfo) obj;
+        ClientInfo.ClientType clientType = this.clientType;
+        if (clientType != null ? clientType.equals(clientInfo.getClientType()) : clientInfo.getClientType() == null) {
+            AndroidClientInfo androidClientInfo = this.androidClientInfo;
+            AndroidClientInfo androidClientInfo2 = clientInfo.getAndroidClientInfo();
+            if (androidClientInfo == null) {
+                if (androidClientInfo2 == null) {
                     return true;
                 }
+            } else if (androidClientInfo.equals(androidClientInfo2)) {
+                return true;
             }
-            return false;
         }
         return false;
     }

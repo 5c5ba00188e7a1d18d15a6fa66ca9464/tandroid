@@ -8,6 +8,7 @@ import com.google.android.gms.common.internal.BaseGmsClient;
 import com.google.android.gms.common.internal.zal;
 import java.util.ArrayList;
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zaao extends zaav {
@@ -48,23 +49,25 @@ public final class zaao extends zaav {
         }
         int i = -1;
         int i2 = 0;
-        if (arrayList.isEmpty()) {
-            int size = arrayList2.size();
+        if (!arrayList.isEmpty()) {
+            int size = arrayList.size();
             while (i2 < size) {
-                context3 = this.zaa.zac;
-                i = zalVar.zab(context3, (Api.Client) arrayList2.get(i2));
+                Api.Client client2 = (Api.Client) arrayList.get(i2);
+                context = this.zaa.zac;
+                i = zalVar.zab(context, client2);
                 i2++;
-                if (i == 0) {
+                if (i != 0) {
                     break;
                 }
             }
         } else {
-            int size2 = arrayList.size();
+            int size2 = arrayList2.size();
             while (i2 < size2) {
-                context = this.zaa.zac;
-                i = zalVar.zab(context, (Api.Client) arrayList.get(i2));
+                Api.Client client3 = (Api.Client) arrayList2.get(i2);
+                context3 = this.zaa.zac;
+                i = zalVar.zab(context3, client3);
                 i2++;
-                if (i != 0) {
+                if (i == 0) {
                     break;
                 }
             }
@@ -85,17 +88,17 @@ public final class zaao extends zaav {
                 zaeVar2.zab();
             }
         }
-        for (Api.Client client2 : this.zac.keySet()) {
-            BaseGmsClient.ConnectionProgressReportCallbacks connectionProgressReportCallbacks = (BaseGmsClient.ConnectionProgressReportCallbacks) this.zac.get(client2);
-            if (client2.requiresGooglePlayServices()) {
+        for (Api.Client client4 : this.zac.keySet()) {
+            BaseGmsClient.ConnectionProgressReportCallbacks connectionProgressReportCallbacks = (BaseGmsClient.ConnectionProgressReportCallbacks) this.zac.get(client4);
+            if (client4.requiresGooglePlayServices()) {
                 context2 = this.zaa.zac;
-                if (zalVar.zab(context2, client2) != 0) {
+                if (zalVar.zab(context2, client4) != 0) {
                     zaaw zaawVar3 = this.zaa;
                     zabiVar = zaawVar3.zaa;
                     zabiVar.zal(new zaan(this, zaawVar3, connectionProgressReportCallbacks));
                 }
             }
-            client2.connect(connectionProgressReportCallbacks);
+            client4.connect(connectionProgressReportCallbacks);
         }
     }
 }

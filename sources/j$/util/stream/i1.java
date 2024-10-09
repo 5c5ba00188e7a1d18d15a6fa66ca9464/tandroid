@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import java.util.ArrayDeque;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 abstract class i1 implements j$.util.Q {
     F0 a;
@@ -81,21 +82,21 @@ abstract class i1 implements j$.util.Q {
         if (this.a == null) {
             return false;
         }
-        if (this.d == null) {
-            j$.util.Q q = this.c;
-            if (q == null) {
-                ArrayDeque f = f();
-                this.e = f;
-                F0 b = b(f);
-                if (b == null) {
-                    this.a = null;
-                    return false;
-                }
-                q = b.spliterator();
-            }
-            this.d = q;
+        if (this.d != null) {
             return true;
         }
+        j$.util.Q q = this.c;
+        if (q == null) {
+            ArrayDeque f = f();
+            this.e = f;
+            F0 b = b(f);
+            if (b == null) {
+                this.a = null;
+                return false;
+            }
+            q = b.spliterator();
+        }
+        this.d = q;
         return true;
     }
 

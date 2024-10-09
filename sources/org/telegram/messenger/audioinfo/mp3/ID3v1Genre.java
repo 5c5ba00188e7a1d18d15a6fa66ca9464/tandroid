@@ -1,4 +1,5 @@
 package org.telegram.messenger.audioinfo.mp3;
+
 /* loaded from: classes3.dex */
 public enum ID3v1Genre {
     Blues("Blues"),
@@ -127,7 +128,7 @@ public enum ID3v1Genre {
     ACapella("A capella"),
     EuroHouse("Euro-House"),
     DanceHall("Dance Hall");
-    
+
     private final String description;
 
     ID3v1Genre(String str) {

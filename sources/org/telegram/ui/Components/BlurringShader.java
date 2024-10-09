@@ -34,6 +34,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.BlurringShader;
+
 /* loaded from: classes3.dex */
 public class BlurringShader {
     private Bitmap bitmap;
@@ -297,7 +298,7 @@ public class BlurringShader {
             this(blurManager, view, i, false);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:47:0x0130 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:6:0x0130 A[ADDED_TO_REGION] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -320,37 +321,66 @@ public class BlurringShader {
                     PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
                     paint.setXfermode(new PorterDuffXfermode(mode));
                     this.oldPaint.setXfermode(new PorterDuffXfermode(mode));
-                } else if (i != 2) {
-                    if (i != 1) {
-                        if (i == 3) {
-                            AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.5f);
-                        } else if (i == 4) {
-                            AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.6f);
-                            AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, 0.3f);
-                            f = 1.2f;
-                        } else if (i == 6) {
-                            AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.4f);
-                            AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix, 0.35f);
-                        } else if (i == 7) {
-                            AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.5f);
-                            f = 0.95f;
-                        } else if (i == 8) {
-                            AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, -0.15f);
-                            AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.47f);
-                        } else if (i == 9) {
-                            Paint paint2 = this.paint;
-                            PorterDuff.Mode mode2 = PorterDuff.Mode.SRC_IN;
-                            paint2.setXfermode(new PorterDuffXfermode(mode2));
-                            this.oldPaint.setXfermode(new PorterDuffXfermode(mode2));
-                            AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, 0.4f);
-                        } else if (i == 10) {
-                            colorMatrix.setSaturation(1.6f);
-                            AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix, this.wasDark ? 0.97f : 0.92f);
-                            AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, this.wasDark ? 0.12f : -0.06f);
+                } else {
+                    if (i != 2) {
+                        if (i != 1) {
+                            if (i == 3) {
+                                AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.5f);
+                            } else if (i == 4) {
+                                AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.6f);
+                                AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, 0.3f);
+                                f = 1.2f;
+                            } else if (i == 6) {
+                                AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.4f);
+                                AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix, 0.35f);
+                            } else if (i == 7) {
+                                AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.5f);
+                                f = 0.95f;
+                            } else if (i == 8) {
+                                AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, -0.15f);
+                                AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.47f);
+                            } else if (i == 9) {
+                                Paint paint2 = this.paint;
+                                PorterDuff.Mode mode2 = PorterDuff.Mode.SRC_IN;
+                                paint2.setXfermode(new PorterDuffXfermode(mode2));
+                                this.oldPaint.setXfermode(new PorterDuffXfermode(mode2));
+                                AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, 0.4f);
+                            } else if (i == 10) {
+                                colorMatrix.setSaturation(1.6f);
+                                AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix, this.wasDark ? 0.97f : 0.92f);
+                                AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, this.wasDark ? 0.12f : -0.06f);
+                            }
+                            this.paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+                            this.oldPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+                            if (view.isAttachedToWindow() && blurManager != null) {
+                                blurManager.attach(this);
+                            }
+                            view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.BlurringShader.StoryBlurDrawer.1
+                                @Override // android.view.View.OnAttachStateChangeListener
+                                public void onViewAttachedToWindow(View view2) {
+                                    BlurManager blurManager2 = blurManager;
+                                    if (blurManager2 != null) {
+                                        blurManager2.attach(StoryBlurDrawer.this);
+                                    }
+                                }
+
+                                @Override // android.view.View.OnAttachStateChangeListener
+                                public void onViewDetachedFromWindow(View view2) {
+                                    BlurManager blurManager2 = blurManager;
+                                    if (blurManager2 != null) {
+                                        blurManager2.detach(StoryBlurDrawer.this);
+                                    }
+                                    StoryBlurDrawer.this.recycle();
+                                }
+                            });
                         }
+                        AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.35f);
+                        AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, 0.7f);
+                        f = 1.5f;
+                        AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix, f);
                         this.paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
                         this.oldPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-                        if (view.isAttachedToWindow() && blurManager != null) {
+                        if (view.isAttachedToWindow()) {
                             blurManager.attach(this);
                         }
                         view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.BlurringShader.StoryBlurDrawer.1
@@ -372,34 +402,6 @@ public class BlurringShader {
                             }
                         });
                     }
-                    AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.35f);
-                    AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, 0.7f);
-                    f = 1.5f;
-                    AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix, f);
-                    this.paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-                    this.oldPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-                    if (view.isAttachedToWindow()) {
-                        blurManager.attach(this);
-                    }
-                    view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.BlurringShader.StoryBlurDrawer.1
-                        @Override // android.view.View.OnAttachStateChangeListener
-                        public void onViewAttachedToWindow(View view2) {
-                            BlurManager blurManager2 = blurManager;
-                            if (blurManager2 != null) {
-                                blurManager2.attach(StoryBlurDrawer.this);
-                            }
-                        }
-
-                        @Override // android.view.View.OnAttachStateChangeListener
-                        public void onViewDetachedFromWindow(View view2) {
-                            BlurManager blurManager2 = blurManager;
-                            if (blurManager2 != null) {
-                                blurManager2.detach(StoryBlurDrawer.this);
-                            }
-                            StoryBlurDrawer.this.recycle();
-                        }
-                    });
-                } else {
                     Paint paint3 = this.paint;
                     PorterDuff.Mode mode3 = PorterDuff.Mode.SRC_IN;
                     paint3.setXfermode(new PorterDuffXfermode(mode3));
@@ -571,13 +573,13 @@ public class BlurringShader {
                 this.bitmapShader = bitmapShader2;
                 this.paint.setShader(bitmapShader2);
             }
-            if (setupMatrix(bitmap.getWidth(), bitmap.getHeight())) {
-                this.matrix.postTranslate(-f2, -f3);
-                this.bitmapShader.setLocalMatrix(this.matrix);
-                this.paint.setAlpha((int) (f * 255.0f));
-                return this.paint;
+            if (!setupMatrix(bitmap.getWidth(), bitmap.getHeight())) {
+                return null;
             }
-            return null;
+            this.matrix.postTranslate(-f2, -f3);
+            this.bitmapShader.setLocalMatrix(this.matrix);
+            this.paint.setAlpha((int) (f * 255.0f));
+            return this.paint;
         }
 
         public Paint[] getPaints(float f, float f2, float f3) {
@@ -629,20 +631,25 @@ public class BlurringShader {
                 }
 
                 /* JADX WARN: Code restructure failed: missing block: B:13:0x0083, code lost:
-                    if (r5 > 0.0f) goto L16;
+                
+                    if (r5 > 0.0f) goto L20;
                  */
-                /* JADX WARN: Code restructure failed: missing block: B:19:0x009f, code lost:
-                    if (r5 > 0.0f) goto L16;
+                /* JADX WARN: Code restructure failed: missing block: B:14:0x00a7, code lost:
+                
+                    r13.drawRect(r1, r12.dimPaint);
                  */
-                /* JADX WARN: Code restructure failed: missing block: B:20:0x00a1, code lost:
+                /* JADX WARN: Code restructure failed: missing block: B:15:0x00ac, code lost:
+                
+                    return;
+                 */
+                /* JADX WARN: Code restructure failed: missing block: B:16:0x00a1, code lost:
+                
                     r0 = org.telegram.messenger.AndroidUtilities.rectTmp;
                     r0.set(r1);
                  */
-                /* JADX WARN: Code restructure failed: missing block: B:21:0x00a7, code lost:
-                    r13.drawRect(r1, r12.dimPaint);
-                 */
-                /* JADX WARN: Code restructure failed: missing block: B:22:0x00ac, code lost:
-                    return;
+                /* JADX WARN: Code restructure failed: missing block: B:23:0x009f, code lost:
+                
+                    if (r5 > 0.0f) goto L20;
                  */
                 @Override // android.graphics.drawable.Drawable
                 /*
@@ -771,10 +778,6 @@ public class BlurringShader {
         public /* synthetic */ void lambda$getBitmap$1(final Bitmap bitmap, int i, int i2, final String str, final boolean z) {
             int i3;
             int i4;
-            int i5;
-            int i6;
-            int i7;
-            int i8;
             if (bitmap == null || bitmap.isRecycled()) {
                 return;
             }
@@ -788,12 +791,12 @@ public class BlurringShader {
                 i4 = round2;
                 i3 = round;
             }
-            int i9 = this.padding * 2;
-            final Bitmap createBitmap = Bitmap.createBitmap(i9 + i3, i9 + i4, Bitmap.Config.ARGB_8888);
+            int i5 = this.padding * 2;
+            final Bitmap createBitmap = Bitmap.createBitmap(i5 + i3, i5 + i4, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(createBitmap);
             android.graphics.Rect rect = new android.graphics.Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-            int i10 = this.padding;
-            android.graphics.Rect rect2 = new android.graphics.Rect(i10, i10, i10 + round, i10 + round2);
+            int i6 = this.padding;
+            android.graphics.Rect rect2 = new android.graphics.Rect(i6, i6, i6 + round, i6 + round2);
             float f = this.padding;
             canvas.translate((i3 / 2.0f) + f, f + (i4 / 2.0f));
             if (i2 == 1) {
@@ -806,14 +809,14 @@ public class BlurringShader {
             canvas.translate(f2 - (round / 2.0f), f2 - (round2 / 2.0f));
             canvas.drawBitmap(bitmap, rect, rect2, (Paint) null);
             Utilities.stackBlurBitmap(createBitmap, 6);
-            int i11 = this.padding;
-            if (i11 > 0) {
-                canvas.drawRect(0.0f, 0.0f, round + i11, i11, this.clearPaint);
+            int i7 = this.padding;
+            if (i7 > 0) {
+                canvas.drawRect(0.0f, 0.0f, round + i7, i7, this.clearPaint);
                 float f3 = this.padding;
-                canvas.drawRect(0.0f, f3, f3, i5 + round2, this.clearPaint);
-                int i12 = this.padding;
-                canvas.drawRect(i12 + round, i12, i6 + i12, i12 + round2, this.clearPaint);
-                canvas.drawRect(0.0f, round2 + this.padding, round + i7 + i7, i8 + i7, this.clearPaint);
+                canvas.drawRect(0.0f, f3, f3, r0 + round2, this.clearPaint);
+                int i8 = this.padding;
+                canvas.drawRect(i8 + round, i8, r2 + i8, i8 + round2, this.clearPaint);
+                canvas.drawRect(0.0f, round2 + this.padding, round + r0 + r0, r3 + r0, this.clearPaint);
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlurringShader$ThumbBlurer$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
@@ -1014,10 +1017,10 @@ public class BlurringShader {
     public Bitmap getBitmap() {
         synchronized (this.bitmapLock) {
             try {
-                if (this.bitmapAvailable) {
-                    return this.bitmap;
+                if (!this.bitmapAvailable) {
+                    return null;
                 }
-                return null;
+                return this.bitmap;
             } catch (Throwable th) {
                 throw th;
             }
@@ -1046,8 +1049,6 @@ public class BlurringShader {
     }
 
     public boolean setup(float f, boolean z, int i) {
-        int i2;
-        int i3;
         this.width = (int) Math.round(Math.sqrt(f * 324.0f));
         this.height = (int) Math.round(Math.sqrt(324.0f / f));
         this.padding = i;
@@ -1069,11 +1070,11 @@ public class BlurringShader {
         this.posBuffer = asFloatBuffer;
         asFloatBuffer.put(fArr);
         this.posBuffer.position(0);
-        for (int i4 = 0; i4 < 4; i4++) {
-            int i5 = i4 * 2;
-            fArr[i5] = fArr[i5] * ((i2 - i) / this.width);
-            int i6 = i5 + 1;
-            fArr[i6] = fArr[i6] * ((i3 - i) / this.height);
+        for (int i2 = 0; i2 < 4; i2++) {
+            int i3 = i2 * 2;
+            fArr[i3] = fArr[i3] * ((r13 - i) / this.width);
+            int i4 = i3 + 1;
+            fArr[i4] = fArr[i4] * ((r13 - i) / this.height);
         }
         ByteBuffer allocateDirect2 = ByteBuffer.allocateDirect(32);
         allocateDirect2.order(ByteOrder.nativeOrder());
@@ -1092,8 +1093,8 @@ public class BlurringShader {
         if (readRes == null || readRes2 == null) {
             return false;
         }
-        for (int i7 = 0; i7 < 2; i7++) {
-            if (i7 == 1) {
+        for (int i5 = 0; i5 < 2; i5++) {
+            if (i5 == 1) {
                 readRes2 = "#extension GL_OES_EGL_image_external : require\n" + readRes2.replace("sampler2D tex", "samplerExternalOES tex");
             }
             int loadShader = FilterShaders.loadShader(35633, readRes);
@@ -1113,30 +1114,30 @@ public class BlurringShader {
                 GLES20.glDeleteProgram(glCreateProgram);
                 return false;
             }
-            this.program[i7] = new Program(glCreateProgram);
+            this.program[i5] = new Program(glCreateProgram);
         }
         GLES20.glGenFramebuffers(3, this.framebuffer, 0);
         GLES20.glGenTextures(3, this.texture, 0);
-        int i8 = 0;
-        while (i8 < 3) {
-            GLES20.glBindTexture(3553, this.texture[i8]);
-            GLES20.glTexImage2D(3553, 0, 6408, this.width + (i8 == 2 ? i * 2 : 0), this.height + (i8 == 2 ? i * 2 : 0), 0, 6408, 5121, null);
+        int i6 = 0;
+        while (i6 < 3) {
+            GLES20.glBindTexture(3553, this.texture[i6]);
+            GLES20.glTexImage2D(3553, 0, 6408, this.width + (i6 == 2 ? i * 2 : 0), this.height + (i6 == 2 ? i * 2 : 0), 0, 6408, 5121, null);
             GLES20.glTexParameteri(3553, 10242, 33071);
             GLES20.glTexParameteri(3553, 10243, 33071);
             GLES20.glTexParameteri(3553, 10241, 9729);
             GLES20.glTexParameteri(3553, 10240, 9729);
-            GLES20.glBindFramebuffer(36160, this.framebuffer[i8]);
-            GLES20.glFramebufferTexture2D(36160, 36064, 3553, this.texture[i8], 0);
+            GLES20.glBindFramebuffer(36160, this.framebuffer[i6]);
+            GLES20.glFramebufferTexture2D(36160, 36064, 3553, this.texture[i6], 0);
             if (GLES20.glCheckFramebufferStatus(36160) != 36053) {
                 return false;
             }
-            i8++;
+            i6++;
         }
         GLES20.glBindFramebuffer(36160, 0);
         if (z) {
-            int i9 = i * 2;
-            this.bitmap = Bitmap.createBitmap(this.width + i9, this.height + i9, Bitmap.Config.ARGB_8888);
-            this.buffer = ByteBuffer.allocateDirect((this.width + i9) * (i9 + this.height) * 4);
+            int i7 = i * 2;
+            this.bitmap = Bitmap.createBitmap(this.width + i7, this.height + i7, Bitmap.Config.ARGB_8888);
+            this.buffer = ByteBuffer.allocateDirect((this.width + i7) * (i7 + this.height) * 4);
         }
         return true;
     }

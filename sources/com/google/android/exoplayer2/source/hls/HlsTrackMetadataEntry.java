@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.metadata.Metadata;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class HlsTrackMetadataEntry implements Metadata.Entry {
     public static final Parcelable.Creator<HlsTrackMetadataEntry> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.source.hls.HlsTrackMetadataEntry.1

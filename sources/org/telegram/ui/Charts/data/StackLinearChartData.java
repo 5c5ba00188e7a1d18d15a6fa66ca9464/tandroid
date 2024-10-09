@@ -7,6 +7,7 @@ import java.util.Iterator;
 import org.json.JSONObject;
 import org.telegram.messenger.SegmentTree;
 import org.telegram.ui.Charts.data.ChartData;
+
 /* loaded from: classes4.dex */
 public class StackLinearChartData extends ChartData {
     public int simplifiedSize;
@@ -109,7 +110,7 @@ public class StackLinearChartData extends ChartData {
         int size = this.lines.size();
         int max = Math.max(1, Math.round(length / 140.0f));
         int i = length / max;
-        this.simplifiedY = (long[][]) Array.newInstance(Long.TYPE, size, i);
+        this.simplifiedY = (long[][]) Array.newInstance((Class<?>) Long.TYPE, size, i);
         long[] jArr = new long[size];
         for (int i2 = 0; i2 < length; i2++) {
             for (int i3 = 0; i3 < size; i3++) {

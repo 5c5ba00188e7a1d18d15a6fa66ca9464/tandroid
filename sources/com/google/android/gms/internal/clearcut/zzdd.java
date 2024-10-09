@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzdd implements zzeg {
@@ -33,17 +34,17 @@ public final class zzdd implements zzeg {
         zzdm zzb = this.zzly.zzb(cls);
         if (zzb.zzcg()) {
             return zzcg.class.isAssignableFrom(cls) ? zzdu.zza(zzeh.zzdo(), zzbx.zzap(), zzb.zzch()) : zzdu.zza(zzeh.zzdm(), zzbx.zzaq(), zzb.zzch());
-        } else if (!zzcg.class.isAssignableFrom(cls)) {
+        }
+        if (!zzcg.class.isAssignableFrom(cls)) {
             boolean zza = zza(zzb);
             zzdw zzcj = zzdy.zzcj();
             zzcy zzbv = zzcy.zzbv();
             return zza ? zzds.zza(cls, zzb, zzcj, zzbv, zzeh.zzdm(), zzbx.zzaq(), zzdl.zzcc()) : zzds.zza(cls, zzb, zzcj, zzbv, zzeh.zzdn(), (zzbu) null, zzdl.zzcc());
-        } else {
-            boolean zza2 = zza(zzb);
-            zzdw zzck = zzdy.zzck();
-            zzcy zzbw = zzcy.zzbw();
-            zzex zzdo = zzeh.zzdo();
-            return zza2 ? zzds.zza(cls, zzb, zzck, zzbw, zzdo, zzbx.zzap(), zzdl.zzcd()) : zzds.zza(cls, zzb, zzck, zzbw, zzdo, (zzbu) null, zzdl.zzcd());
         }
+        boolean zza2 = zza(zzb);
+        zzdw zzck = zzdy.zzck();
+        zzcy zzbw = zzcy.zzbw();
+        zzex zzdo = zzeh.zzdo();
+        return zza2 ? zzds.zza(cls, zzb, zzck, zzbw, zzdo, zzbx.zzap(), zzdl.zzcd()) : zzds.zza(cls, zzb, zzck, zzbw, zzdo, (zzbu) null, zzdl.zzcd());
     }
 }

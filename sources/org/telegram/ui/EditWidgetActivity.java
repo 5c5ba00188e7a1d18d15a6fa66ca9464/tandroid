@@ -66,6 +66,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.EditWidgetActivity;
+
 /* loaded from: classes4.dex */
 public class EditWidgetActivity extends BaseFragment {
     private int chatsEndRow;
@@ -147,10 +148,10 @@ public class EditWidgetActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$onCreateViewHolder$0(GroupCreateUserCell groupCreateUserCell, View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == 0) {
-                EditWidgetActivity.this.itemTouchHelper.startDrag(EditWidgetActivity.this.listView.getChildViewHolder(groupCreateUserCell));
+            if (motionEvent.getAction() != 0) {
                 return false;
             }
+            EditWidgetActivity.this.itemTouchHelper.startDrag(EditWidgetActivity.this.listView.getChildViewHolder(groupCreateUserCell));
             return false;
         }
 
@@ -176,22 +177,27 @@ public class EditWidgetActivity extends BaseFragment {
             return itemViewType == 1 || itemViewType == 3;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:12:0x0042, code lost:
-            if (r9 != (r7.this$0.chatsEndRow - 1)) goto L12;
+        /* JADX WARN: Code restructure failed: missing block: B:10:0x0042, code lost:
+        
+            if (r9 != (r7.this$0.chatsEndRow - 1)) goto L18;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x005b, code lost:
-            if (r9 != (r7.this$0.chatsEndRow - 1)) goto L12;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:17:0x005e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x005e, code lost:
+        
             r1 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x005f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:12:0x005f, code lost:
+        
             r8.setObject(r0, null, null, r1);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:38:?, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:13:?, code lost:
+        
             return;
          */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x0101  */
+        /* JADX WARN: Code restructure failed: missing block: B:16:0x005b, code lost:
+        
+            if (r9 != (r7.this$0.chatsEndRow - 1)) goto L18;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x0101  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -212,14 +218,18 @@ public class EditWidgetActivity extends BaseFragment {
                             spannableStringBuilder.append((CharSequence) "\n\n").append((CharSequence) AndroidUtilities.replaceTags(LocaleController.getString(R.string.WidgetPasscode2)));
                         }
                         textInfoPrivacyCell.setText(spannableStringBuilder);
+                        return;
                     }
                     i2 = R.string.EditWidgetChatsInfo;
                     spannableStringBuilder.append((CharSequence) LocaleController.getString(i2));
                     if (SharedConfig.passcodeHash.length() > 0) {
                     }
                     textInfoPrivacyCell.setText(spannableStringBuilder);
+                    return;
                 }
-            } else if (itemViewType == 1) {
+                return;
+            }
+            if (itemViewType == 1) {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(-1, Theme.key_windowBackgroundWhiteBlueText4);
                 Drawable drawable = this.mContext.getResources().getDrawable(R.drawable.poll_add_circle);
@@ -230,51 +240,53 @@ public class EditWidgetActivity extends BaseFragment {
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_checkboxCheck), mode));
                 textCell.setTextAndIcon(LocaleController.getString(R.string.SelectChats), new CombinedDrawable(drawable, drawable2), EditWidgetActivity.this.chatsStartRow != -1);
                 textCell.getImageView().setPadding(0, AndroidUtilities.dp(7.0f), 0, 0);
-            } else if (itemViewType != 3) {
+                return;
+            }
+            if (itemViewType != 3) {
+                return;
+            }
+            GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
+            Long l = (Long) EditWidgetActivity.this.selectedDialogs.get(i - EditWidgetActivity.this.chatsStartRow);
+            long longValue = l.longValue();
+            if (DialogObject.isUserDialog(longValue)) {
+                chat = EditWidgetActivity.this.getMessagesController().getUser(l);
             } else {
-                GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
-                Long l = (Long) EditWidgetActivity.this.selectedDialogs.get(i - EditWidgetActivity.this.chatsStartRow);
-                long longValue = l.longValue();
-                if (DialogObject.isUserDialog(longValue)) {
-                    chat = EditWidgetActivity.this.getMessagesController().getUser(l);
-                } else {
-                    chat = EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-longValue));
-                }
+                chat = EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-longValue));
             }
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            GroupCreateUserCell groupCreateUserCell;
+            FrameLayout frameLayout;
             if (i == 0) {
                 FrameLayout textInfoPrivacyCell = new TextInfoPrivacyCell(this.mContext);
                 textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                groupCreateUserCell = textInfoPrivacyCell;
+                frameLayout = textInfoPrivacyCell;
             } else if (i == 1) {
                 FrameLayout textCell = new TextCell(this.mContext);
                 textCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                groupCreateUserCell = textCell;
+                frameLayout = textCell;
             } else if (i != 2) {
-                final GroupCreateUserCell groupCreateUserCell2 = new GroupCreateUserCell(this.mContext, 0, 0, false);
+                final GroupCreateUserCell groupCreateUserCell = new GroupCreateUserCell(this.mContext, 0, 0, false);
                 ImageView imageView = new ImageView(this.mContext);
                 imageView.setImageResource(R.drawable.list_reorder);
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
-                groupCreateUserCell2.setTag(R.id.object_tag, imageView);
-                groupCreateUserCell2.addView(imageView, LayoutHelper.createFrame(40, -1.0f, (LocaleController.isRTL ? 3 : 5) | 16, 10.0f, 0.0f, 10.0f, 0.0f));
+                groupCreateUserCell.setTag(R.id.object_tag, imageView);
+                groupCreateUserCell.addView(imageView, LayoutHelper.createFrame(40, -1.0f, (LocaleController.isRTL ? 3 : 5) | 16, 10.0f, 0.0f, 10.0f, 0.0f));
                 imageView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.EditWidgetActivity$ListAdapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnTouchListener
                     public final boolean onTouch(View view, MotionEvent motionEvent) {
                         boolean lambda$onCreateViewHolder$0;
-                        lambda$onCreateViewHolder$0 = EditWidgetActivity.ListAdapter.this.lambda$onCreateViewHolder$0(groupCreateUserCell2, view, motionEvent);
+                        lambda$onCreateViewHolder$0 = EditWidgetActivity.ListAdapter.this.lambda$onCreateViewHolder$0(groupCreateUserCell, view, motionEvent);
                         return lambda$onCreateViewHolder$0;
                     }
                 });
                 imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_pinnedIcon), PorterDuff.Mode.MULTIPLY));
-                groupCreateUserCell = groupCreateUserCell2;
+                frameLayout = groupCreateUserCell;
             } else {
-                groupCreateUserCell = EditWidgetActivity.this.widgetPreviewCell = new WidgetPreviewCell(this.mContext);
+                frameLayout = EditWidgetActivity.this.widgetPreviewCell = new WidgetPreviewCell(this.mContext);
             }
-            return new RecyclerListView.Holder(groupCreateUserCell);
+            return new RecyclerListView.Holder(frameLayout);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -292,8 +304,9 @@ public class EditWidgetActivity extends BaseFragment {
             if (i3 < 0 || i4 < 0 || i3 >= i5 || i4 >= i5) {
                 return false;
             }
+            Long l = (Long) EditWidgetActivity.this.selectedDialogs.get(i3);
             EditWidgetActivity.this.selectedDialogs.set(i3, (Long) EditWidgetActivity.this.selectedDialogs.get(i4));
-            EditWidgetActivity.this.selectedDialogs.set(i4, (Long) EditWidgetActivity.this.selectedDialogs.get(i3));
+            EditWidgetActivity.this.selectedDialogs.set(i4, l);
             notifyItemMoved(i, i2);
             return true;
         }
@@ -397,10 +410,10 @@ public class EditWidgetActivity extends BaseFragment {
                 if (EditWidgetActivity.this.widgetType == 1) {
                     while (i2 < 2) {
                         this.cells[i2] = (ViewGroup) EditWidgetActivity.this.getParentActivity().getLayoutInflater().inflate(R.layout.contacts_widget_item, (ViewGroup) null);
-                        linearLayout2.addView(this.cells[i2], LayoutHelper.createLinear((int) NotificationCenter.audioRouteChanged, -2));
+                        linearLayout2.addView(this.cells[i2], LayoutHelper.createLinear(NotificationCenter.audioRouteChanged, -2));
                         i2++;
                     }
-                    linearLayout2.addView(EditWidgetActivity.this.previewImageView, LayoutHelper.createLinear((int) NotificationCenter.audioRouteChanged, (int) NotificationCenter.audioRouteChanged, 17));
+                    linearLayout2.addView(EditWidgetActivity.this.previewImageView, LayoutHelper.createLinear(NotificationCenter.audioRouteChanged, NotificationCenter.audioRouteChanged, 17));
                     imageView = EditWidgetActivity.this.previewImageView;
                     i = R.drawable.contacts_widget_preview;
                 }
@@ -412,7 +425,7 @@ public class EditWidgetActivity extends BaseFragment {
                 linearLayout2.addView(this.cells[i2], LayoutHelper.createLinear(-1, -2));
                 i2++;
             }
-            linearLayout2.addView(EditWidgetActivity.this.previewImageView, LayoutHelper.createLinear((int) NotificationCenter.channelStarsUpdated, (int) NotificationCenter.audioRouteChanged, 17));
+            linearLayout2.addView(EditWidgetActivity.this.previewImageView, LayoutHelper.createLinear(NotificationCenter.channelStarsUpdated, NotificationCenter.audioRouteChanged, 17));
             imageView = EditWidgetActivity.this.previewImageView;
             i = R.drawable.chats_widget_preview;
             imageView.setImageResource(i);
@@ -526,32 +539,37 @@ public class EditWidgetActivity extends BaseFragment {
 
         /* JADX WARN: Can't wrap try/catch for region: R(21:293|(1:295)(2:389|(1:391)(2:392|(1:394)(3:395|297|(16:388|312|(1:314)(1:387)|315|(2:383|384)(1:317)|318|319|(4:(4:362|363|(2:365|366)(2:368|(1:370))|367)(2:322|323)|324|325|326)(5:375|376|377|378|379)|327|328|(1:330)(1:354)|331|332|(7:334|(1:336)(1:348)|337|(1:339)(1:347)|340|(1:342)(1:346)|343)(3:349|(1:351)(1:353)|352)|344|345)(17:310|311|312|(0)(0)|315|(0)(0)|318|319|(0)(0)|327|328|(0)(0)|331|332|(0)(0)|344|345))))|296|297|(1:299)|388|312|(0)(0)|315|(0)(0)|318|319|(0)(0)|327|328|(0)(0)|331|332|(0)(0)|344|345) */
         /* JADX WARN: Can't wrap try/catch for region: R(8:124|(1:126)(2:134|(1:136)(7:137|(1:139)(1:140)|128|129|130|105|106))|127|128|129|130|105|106) */
-        /* JADX WARN: Code restructure failed: missing block: B:112:0x0276, code lost:
-            if ((r0 instanceof org.telegram.tgnet.TLRPC.TL_messageActionChannelMigrateFrom) != false) goto L69;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:170:0x03c2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:132:0x03c2, code lost:
+        
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:171:0x03c3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:133:0x03c3, code lost:
+        
             org.telegram.messenger.FileLog.e(r0);
             r5 = r5;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:229:0x04e3, code lost:
-            if (r3.isMediaEmpty() == false) goto L70;
+        /* JADX WARN: Code restructure failed: missing block: B:190:0x04e3, code lost:
+        
+            if (r3.isMediaEmpty() == false) goto L230;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:366:0x085f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:356:0x085f, code lost:
+        
             r0 = th;
          */
-        /* JADX WARN: Removed duplicated region for block: B:331:0x0791  */
-        /* JADX WARN: Removed duplicated region for block: B:332:0x0794  */
-        /* JADX WARN: Removed duplicated region for block: B:339:0x07c0  */
-        /* JADX WARN: Removed duplicated region for block: B:342:0x07d7  */
-        /* JADX WARN: Removed duplicated region for block: B:359:0x0813 A[Catch: all -> 0x080f, TRY_LEAVE, TryCatch #7 {all -> 0x080f, blocks: (B:356:0x0806, B:355:0x0800, B:359:0x0813), top: B:417:0x0806 }] */
-        /* JADX WARN: Removed duplicated region for block: B:365:0x085c A[Catch: all -> 0x085f, TryCatch #6 {all -> 0x085f, blocks: (B:363:0x0853, B:365:0x085c, B:369:0x0863, B:368:0x0861), top: B:415:0x0853 }] */
-        /* JADX WARN: Removed duplicated region for block: B:368:0x0861 A[Catch: all -> 0x085f, TryCatch #6 {all -> 0x085f, blocks: (B:363:0x0853, B:365:0x085c, B:369:0x0863, B:368:0x0861), top: B:415:0x0853 }] */
-        /* JADX WARN: Removed duplicated region for block: B:376:0x0876  */
-        /* JADX WARN: Removed duplicated region for block: B:390:0x08c2  */
-        /* JADX WARN: Removed duplicated region for block: B:407:0x07a1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Code restructure failed: missing block: B:68:0x0276, code lost:
+        
+            if ((r0 instanceof org.telegram.tgnet.TLRPC.TL_messageActionChannelMigrateFrom) != false) goto L113;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:314:0x0791  */
+        /* JADX WARN: Removed duplicated region for block: B:317:0x07c0  */
+        /* JADX WARN: Removed duplicated region for block: B:321:0x07d7  */
+        /* JADX WARN: Removed duplicated region for block: B:330:0x085c A[Catch: all -> 0x085f, TryCatch #6 {all -> 0x085f, blocks: (B:328:0x0853, B:330:0x085c, B:331:0x0863, B:354:0x0861), top: B:327:0x0853 }] */
+        /* JADX WARN: Removed duplicated region for block: B:334:0x0876  */
+        /* JADX WARN: Removed duplicated region for block: B:349:0x08c2  */
+        /* JADX WARN: Removed duplicated region for block: B:354:0x0861 A[Catch: all -> 0x085f, TryCatch #6 {all -> 0x085f, blocks: (B:328:0x0853, B:330:0x085c, B:331:0x0863, B:354:0x0861), top: B:327:0x0853 }] */
+        /* JADX WARN: Removed duplicated region for block: B:375:0x0813 A[Catch: all -> 0x080f, TRY_LEAVE, TryCatch #7 {all -> 0x080f, blocks: (B:326:0x0806, B:323:0x0800, B:375:0x0813), top: B:325:0x0806 }] */
+        /* JADX WARN: Removed duplicated region for block: B:383:0x07a1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:387:0x0794  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -559,7 +577,7 @@ public class EditWidgetActivity extends BaseFragment {
             TLRPC.Dialog dialog;
             TLRPC.TL_dialog tL_dialog;
             long longValue;
-            TLRPC.TL_dialog tL_dialog2;
+            TLRPC.Dialog dialog2;
             String str;
             TLRPC.Chat chat;
             TLRPC.FileLocation fileLocation;
@@ -579,8 +597,8 @@ public class EditWidgetActivity extends BaseFragment {
             TLRPC.UserProfilePhoto userProfilePhoto;
             TLRPC.FileLocation fileLocation4;
             ImageView imageView;
-            TLRPC.Dialog dialog2;
             TLRPC.Dialog dialog3;
+            TLRPC.Dialog dialog4;
             TLRPC.Chat chat3;
             String str2;
             TLRPC.User user3;
@@ -617,29 +635,29 @@ public class EditWidgetActivity extends BaseFragment {
                 while (i13 < i11) {
                     if (EditWidgetActivity.this.selectedDialogs.isEmpty()) {
                         if (i13 < EditWidgetActivity.this.getMessagesController().dialogsServerOnly.size()) {
-                            dialog2 = EditWidgetActivity.this.getMessagesController().dialogsServerOnly.get(i13);
-                            dialog3 = dialog2;
+                            dialog3 = EditWidgetActivity.this.getMessagesController().dialogsServerOnly.get(i13);
+                            dialog4 = dialog3;
                         }
-                        dialog3 = null;
+                        dialog4 = null;
                     } else {
                         if (i13 < EditWidgetActivity.this.selectedDialogs.size()) {
-                            dialog2 = (TLRPC.Dialog) EditWidgetActivity.this.getMessagesController().dialogs_dict.get(((Long) EditWidgetActivity.this.selectedDialogs.get(i13)).longValue());
-                            if (dialog2 == null) {
-                                dialog2 = new TLRPC.TL_dialog();
-                                dialog2.id = ((Long) EditWidgetActivity.this.selectedDialogs.get(i13)).longValue();
+                            dialog3 = (TLRPC.Dialog) EditWidgetActivity.this.getMessagesController().dialogs_dict.get(((Long) EditWidgetActivity.this.selectedDialogs.get(i13)).longValue());
+                            if (dialog3 == null) {
+                                dialog3 = new TLRPC.TL_dialog();
+                                dialog3.id = ((Long) EditWidgetActivity.this.selectedDialogs.get(i13)).longValue();
                             }
-                            dialog3 = dialog2;
+                            dialog4 = dialog3;
                         }
-                        dialog3 = null;
+                        dialog4 = null;
                     }
                     ViewGroup[] viewGroupArr = this.cells;
-                    if (dialog3 == null) {
+                    if (dialog4 == null) {
                         viewGroupArr[i13].setVisibility(i10);
                         i5 = i13;
                     } else {
                         viewGroupArr[i13].setVisibility(i12);
-                        if (DialogObject.isUserDialog(dialog3.id)) {
-                            user3 = EditWidgetActivity.this.getMessagesController().getUser(Long.valueOf(dialog3.id));
+                        if (DialogObject.isUserDialog(dialog4.id)) {
+                            user3 = EditWidgetActivity.this.getMessagesController().getUser(Long.valueOf(dialog4.id));
                             if (user3 != null) {
                                 if (UserObject.isUserSelf(user3)) {
                                     i9 = R.string.SavedMessages;
@@ -665,7 +683,7 @@ public class EditWidgetActivity extends BaseFragment {
                             fileLocation5 = null;
                             chat3 = null;
                         } else {
-                            TLRPC.Chat chat5 = EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-dialog3.id));
+                            TLRPC.Chat chat5 = EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-dialog4.id));
                             if (chat5 != null) {
                                 str2 = chat5.title;
                                 TLRPC.ChatPhoto chatPhoto = chat5.photo;
@@ -726,7 +744,7 @@ public class EditWidgetActivity extends BaseFragment {
                         }
                         canvas.setBitmap(null);
                         ((ImageView) this.cells[i13].findViewById(R.id.shortcut_widget_item_avatar)).setImageBitmap(createBitmap);
-                        ArrayList arrayList = (ArrayList) EditWidgetActivity.this.getMessagesController().dialogMessage.get(dialog3.id);
+                        ArrayList arrayList = (ArrayList) EditWidgetActivity.this.getMessagesController().dialogMessage.get(dialog4.id);
                         MessageObject messageObject = (arrayList == null || arrayList.size() <= 0) ? null : (MessageObject) arrayList.get(0);
                         if (messageObject != null) {
                             long fromChatId = messageObject.getFromChatId();
@@ -875,19 +893,19 @@ public class EditWidgetActivity extends BaseFragment {
                             ((TextView) this.cells[i5].findViewById(i142)).setTextColor(color);
                         } else {
                             i5 = i13;
-                            if (dialog3.last_message_date != 0) {
-                                ((TextView) this.cells[i5].findViewById(R.id.shortcut_widget_item_time)).setText(LocaleController.stringForMessageListDate(dialog3.last_message_date));
+                            if (dialog4.last_message_date != 0) {
+                                ((TextView) this.cells[i5].findViewById(R.id.shortcut_widget_item_time)).setText(LocaleController.stringForMessageListDate(dialog4.last_message_date));
                             } else {
                                 ((TextView) this.cells[i5].findViewById(R.id.shortcut_widget_item_time)).setText("");
                             }
                             ((TextView) this.cells[i5].findViewById(R.id.shortcut_widget_item_message)).setText("");
                         }
-                        if (dialog3.unread_count > 0) {
+                        if (dialog4.unread_count > 0) {
                             ViewGroup viewGroup3 = this.cells[i5];
                             int i15 = R.id.shortcut_widget_item_badge;
-                            ((TextView) viewGroup3.findViewById(i15)).setText(String.format("%d", Integer.valueOf(dialog3.unread_count)));
+                            ((TextView) viewGroup3.findViewById(i15)).setText(String.format("%d", Integer.valueOf(dialog4.unread_count)));
                             this.cells[i5].findViewById(i15).setVisibility(0);
-                            if (EditWidgetActivity.this.getMessagesController().isDialogMuted(dialog3.id, 0L)) {
+                            if (EditWidgetActivity.this.getMessagesController().isDialogMuted(dialog4.id, 0L)) {
                                 findViewById2 = this.cells[i5].findViewById(i15);
                                 i6 = R.drawable.widget_counter_muted;
                             } else {
@@ -923,11 +941,11 @@ public class EditWidgetActivity extends BaseFragment {
                                 if (dialog == null) {
                                     tL_dialog = new TLRPC.TL_dialog();
                                     tL_dialog.id = longValue;
-                                    tL_dialog2 = tL_dialog;
+                                    dialog2 = tL_dialog;
                                 }
-                                tL_dialog2 = dialog;
+                                dialog2 = dialog;
                             }
-                            tL_dialog2 = null;
+                            dialog2 = null;
                         } else {
                             if (i20 < EditWidgetActivity.this.selectedDialogs.size()) {
                                 dialog = (TLRPC.Dialog) EditWidgetActivity.this.getMessagesController().dialogs_dict.get(((Long) EditWidgetActivity.this.selectedDialogs.get(i20)).longValue());
@@ -935,14 +953,14 @@ public class EditWidgetActivity extends BaseFragment {
                                     tL_dialog = new TLRPC.TL_dialog();
                                     longValue = ((Long) EditWidgetActivity.this.selectedDialogs.get(i20)).longValue();
                                     tL_dialog.id = longValue;
-                                    tL_dialog2 = tL_dialog;
+                                    dialog2 = tL_dialog;
                                 }
-                                tL_dialog2 = dialog;
+                                dialog2 = dialog;
                             }
-                            tL_dialog2 = null;
+                            dialog2 = null;
                         }
                         ViewGroup[] viewGroupArr2 = this.cells;
-                        if (tL_dialog2 == null) {
+                        if (dialog2 == null) {
                             viewGroupArr2[i18].findViewById(i19 == 0 ? R.id.contacts_widget_item1 : R.id.contacts_widget_item2).setVisibility(4);
                             if (i20 == 0 || i20 == 2) {
                                 this.cells[i18].setVisibility(8);
@@ -953,8 +971,8 @@ public class EditWidgetActivity extends BaseFragment {
                             if (i20 == 0 || i20 == 2) {
                                 this.cells[i18].setVisibility(0);
                             }
-                            if (DialogObject.isUserDialog(tL_dialog2.id)) {
-                                user2 = EditWidgetActivity.this.getMessagesController().getUser(Long.valueOf(tL_dialog2.id));
+                            if (DialogObject.isUserDialog(dialog2.id)) {
+                                user2 = EditWidgetActivity.this.getMessagesController().getUser(Long.valueOf(dialog2.id));
                                 if (UserObject.isUserSelf(user2)) {
                                     i4 = R.string.SavedMessages;
                                 } else if (UserObject.isReplyUser(user2)) {
@@ -974,7 +992,7 @@ public class EditWidgetActivity extends BaseFragment {
                                             } catch (Throwable th2) {
                                                 th = th2;
                                                 FileLog.e(th);
-                                                i = tL_dialog2.unread_count;
+                                                i = dialog2.unread_count;
                                                 if (i <= 0) {
                                                 }
                                                 findViewById.setVisibility(i2);
@@ -1001,7 +1019,7 @@ public class EditWidgetActivity extends BaseFragment {
                                                 } catch (Throwable th3) {
                                                     th = th3;
                                                     FileLog.e(th);
-                                                    i = tL_dialog2.unread_count;
+                                                    i = dialog2.unread_count;
                                                     if (i <= 0) {
                                                     }
                                                     findViewById.setVisibility(i2);
@@ -1019,7 +1037,7 @@ public class EditWidgetActivity extends BaseFragment {
                                             } catch (Throwable th4) {
                                                 th = th4;
                                                 FileLog.e(th);
-                                                i = tL_dialog2.unread_count;
+                                                i = dialog2.unread_count;
                                                 if (i <= 0) {
                                                 }
                                                 findViewById.setVisibility(i2);
@@ -1042,7 +1060,7 @@ public class EditWidgetActivity extends BaseFragment {
                                             } catch (Throwable th5) {
                                                 th = th5;
                                                 FileLog.e(th);
-                                                i = tL_dialog2.unread_count;
+                                                i = dialog2.unread_count;
                                                 if (i <= 0) {
                                                 }
                                                 findViewById.setVisibility(i2);
@@ -1053,7 +1071,7 @@ public class EditWidgetActivity extends BaseFragment {
                                         }
                                         canvas2.setBitmap(bitmap);
                                         ((ImageView) this.cells[i18].findViewById(i19 == 0 ? R.id.contacts_widget_item_avatar1 : R.id.contacts_widget_item_avatar2)).setImageBitmap(createBitmap2);
-                                        i = tL_dialog2.unread_count;
+                                        i = dialog2.unread_count;
                                         if (i <= 0) {
                                             ((TextView) this.cells[i18].findViewById(i19 == 0 ? R.id.contacts_widget_item_badge1 : R.id.contacts_widget_item_badge2)).setText(i > 99 ? String.format("%d+", 99) : String.format("%d", Integer.valueOf(i)));
                                             findViewById = this.cells[i18].findViewById(i19 == 0 ? R.id.contacts_widget_item_badge_bg1 : R.id.contacts_widget_item_badge_bg2);
@@ -1081,7 +1099,7 @@ public class EditWidgetActivity extends BaseFragment {
                                         }
                                         canvas22.setBitmap(bitmap);
                                         ((ImageView) this.cells[i18].findViewById(i19 == 0 ? R.id.contacts_widget_item_avatar1 : R.id.contacts_widget_item_avatar2)).setImageBitmap(createBitmap22);
-                                        i = tL_dialog2.unread_count;
+                                        i = dialog2.unread_count;
                                         if (i <= 0) {
                                         }
                                         findViewById.setVisibility(i2);
@@ -1105,13 +1123,13 @@ public class EditWidgetActivity extends BaseFragment {
                                 }
                                 canvas222.setBitmap(bitmap);
                                 ((ImageView) this.cells[i18].findViewById(i19 == 0 ? R.id.contacts_widget_item_avatar1 : R.id.contacts_widget_item_avatar2)).setImageBitmap(createBitmap222);
-                                i = tL_dialog2.unread_count;
+                                i = dialog2.unread_count;
                                 if (i <= 0) {
                                 }
                                 findViewById.setVisibility(i2);
                                 i3 = 1;
                             } else {
-                                TLRPC.Chat chat6 = EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-tL_dialog2.id));
+                                TLRPC.Chat chat6 = EditWidgetActivity.this.getMessagesController().getChat(Long.valueOf(-dialog2.id));
                                 str = chat6.title;
                                 TLRPC.ChatPhoto chatPhoto2 = chat6.photo;
                                 if (chatPhoto2 != null && (fileLocation2 = chatPhoto2.photo_small) != null) {
@@ -1133,7 +1151,7 @@ public class EditWidgetActivity extends BaseFragment {
                                         }
                                         canvas2222.setBitmap(bitmap);
                                         ((ImageView) this.cells[i18].findViewById(i19 == 0 ? R.id.contacts_widget_item_avatar1 : R.id.contacts_widget_item_avatar2)).setImageBitmap(createBitmap2222);
-                                        i = tL_dialog2.unread_count;
+                                        i = dialog2.unread_count;
                                         if (i <= 0) {
                                         }
                                         findViewById.setVisibility(i2);
@@ -1154,7 +1172,7 @@ public class EditWidgetActivity extends BaseFragment {
                                 }
                                 canvas22222.setBitmap(bitmap);
                                 ((ImageView) this.cells[i18].findViewById(i19 == 0 ? R.id.contacts_widget_item_avatar1 : R.id.contacts_widget_item_avatar2)).setImageBitmap(createBitmap22222);
-                                i = tL_dialog2.unread_count;
+                                i = dialog2.unread_count;
                                 if (i <= 0) {
                                 }
                                 findViewById.setVisibility(i2);
@@ -1279,30 +1297,34 @@ public class EditWidgetActivity extends BaseFragment {
                 if (i2 == -1) {
                     if (EditWidgetActivity.this.delegate == null) {
                         EditWidgetActivity.this.finishActivity();
+                        return;
                     } else {
-                        EditWidgetActivity.this.finishFragment();
+                        EditWidgetActivity.this.lambda$onBackPressed$300();
+                        return;
                     }
-                } else if (i2 == 1 && EditWidgetActivity.this.getParentActivity() != null) {
-                    ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
-                    for (int i3 = 0; i3 < EditWidgetActivity.this.selectedDialogs.size(); i3++) {
-                        arrayList.add(MessagesStorage.TopicKey.of(((Long) EditWidgetActivity.this.selectedDialogs.get(i3)).longValue(), 0L));
-                    }
-                    EditWidgetActivity.this.getMessagesStorage().putWidgetDialogs(EditWidgetActivity.this.currentWidgetId, arrayList);
-                    SharedPreferences.Editor edit = EditWidgetActivity.this.getParentActivity().getSharedPreferences("shortcut_widget", 0).edit();
-                    edit.putInt("account" + EditWidgetActivity.this.currentWidgetId, ((BaseFragment) EditWidgetActivity.this).currentAccount);
-                    edit.putInt("type" + EditWidgetActivity.this.currentWidgetId, EditWidgetActivity.this.widgetType);
-                    edit.commit();
-                    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(EditWidgetActivity.this.getParentActivity());
-                    if (EditWidgetActivity.this.widgetType == 0) {
-                        ChatsWidgetProvider.updateWidget(EditWidgetActivity.this.getParentActivity(), appWidgetManager, EditWidgetActivity.this.currentWidgetId);
-                    } else {
-                        ContactsWidgetProvider.updateWidget(EditWidgetActivity.this.getParentActivity(), appWidgetManager, EditWidgetActivity.this.currentWidgetId);
-                    }
-                    if (EditWidgetActivity.this.delegate != null) {
-                        EditWidgetActivity.this.delegate.didSelectDialogs(EditWidgetActivity.this.selectedDialogs);
-                    } else {
-                        EditWidgetActivity.this.finishActivity();
-                    }
+                }
+                if (i2 != 1 || EditWidgetActivity.this.getParentActivity() == null) {
+                    return;
+                }
+                ArrayList<MessagesStorage.TopicKey> arrayList = new ArrayList<>();
+                for (int i3 = 0; i3 < EditWidgetActivity.this.selectedDialogs.size(); i3++) {
+                    arrayList.add(MessagesStorage.TopicKey.of(((Long) EditWidgetActivity.this.selectedDialogs.get(i3)).longValue(), 0L));
+                }
+                EditWidgetActivity.this.getMessagesStorage().putWidgetDialogs(EditWidgetActivity.this.currentWidgetId, arrayList);
+                SharedPreferences.Editor edit = EditWidgetActivity.this.getParentActivity().getSharedPreferences("shortcut_widget", 0).edit();
+                edit.putInt("account" + EditWidgetActivity.this.currentWidgetId, ((BaseFragment) EditWidgetActivity.this).currentAccount);
+                edit.putInt("type" + EditWidgetActivity.this.currentWidgetId, EditWidgetActivity.this.widgetType);
+                edit.commit();
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(EditWidgetActivity.this.getParentActivity());
+                if (EditWidgetActivity.this.widgetType == 0) {
+                    ChatsWidgetProvider.updateWidget(EditWidgetActivity.this.getParentActivity(), appWidgetManager, EditWidgetActivity.this.currentWidgetId);
+                } else {
+                    ContactsWidgetProvider.updateWidget(EditWidgetActivity.this.getParentActivity(), appWidgetManager, EditWidgetActivity.this.currentWidgetId);
+                }
+                if (EditWidgetActivity.this.delegate != null) {
+                    EditWidgetActivity.this.delegate.didSelectDialogs(EditWidgetActivity.this.selectedDialogs);
+                } else {
+                    EditWidgetActivity.this.finishActivity();
                 }
             }
         });
@@ -1363,11 +1385,11 @@ public class EditWidgetActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (this.delegate == null) {
-            finishActivity();
-            return false;
+        if (this.delegate != null) {
+            return super.onBackPressed();
         }
-        return super.onBackPressed();
+        finishActivity();
+        return false;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

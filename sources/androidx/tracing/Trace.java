@@ -3,6 +3,7 @@ package androidx.tracing;
 import android.util.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public abstract class Trace {
     private static Method sIsTagEnabledMethod;

@@ -1,4 +1,5 @@
 package j$.time.format;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class k implements g {
@@ -36,43 +37,42 @@ public final class k implements g {
         }
         long longValue = e.longValue();
         int i = (int) longValue;
-        if (longValue == i) {
-            String str = this.a;
-            if (i != 0) {
-                int abs = Math.abs((i / 3600) % 100);
-                int abs2 = Math.abs((i / 60) % 60);
-                int abs3 = Math.abs(i % 60);
-                int length = sb.length();
-                sb.append(i < 0 ? "-" : "+");
-                sb.append((char) ((abs / 10) + 48));
-                sb.append((char) ((abs % 10) + 48));
-                int i2 = this.b;
-                if (i2 >= 3 || (i2 >= 1 && abs2 > 0)) {
-                    int i3 = i2 % 2;
+        if (longValue != i) {
+            throw new ArithmeticException();
+        }
+        String str = this.a;
+        if (i != 0) {
+            int abs = Math.abs((i / 3600) % 100);
+            int abs2 = Math.abs((i / 60) % 60);
+            int abs3 = Math.abs(i % 60);
+            int length = sb.length();
+            sb.append(i < 0 ? "-" : "+");
+            sb.append((char) ((abs / 10) + 48));
+            sb.append((char) ((abs % 10) + 48));
+            int i2 = this.b;
+            if (i2 >= 3 || (i2 >= 1 && abs2 > 0)) {
+                int i3 = i2 % 2;
+                sb.append(i3 == 0 ? ":" : "");
+                sb.append((char) ((abs2 / 10) + 48));
+                sb.append((char) ((abs2 % 10) + 48));
+                abs += abs2;
+                if (i2 >= 7 || (i2 >= 5 && abs3 > 0)) {
                     sb.append(i3 == 0 ? ":" : "");
-                    sb.append((char) ((abs2 / 10) + 48));
-                    sb.append((char) ((abs2 % 10) + 48));
-                    abs += abs2;
-                    if (i2 >= 7 || (i2 >= 5 && abs3 > 0)) {
-                        sb.append(i3 == 0 ? ":" : "");
-                        sb.append((char) ((abs3 / 10) + 48));
-                        sb.append((char) ((abs3 % 10) + 48));
-                        abs += abs3;
-                    }
+                    sb.append((char) ((abs3 / 10) + 48));
+                    sb.append((char) ((abs3 % 10) + 48));
+                    abs += abs3;
                 }
-                if (abs == 0) {
-                    sb.setLength(length);
-                }
-                return true;
             }
-            sb.append(str);
+            if (abs == 0) {
+                sb.setLength(length);
+            }
             return true;
         }
-        throw new ArithmeticException();
+        sb.append(str);
+        return true;
     }
 
     public final String toString() {
-        String replace = this.a.replace("'", "''");
-        return "Offset(" + c[this.b] + ",'" + replace + "')";
+        return "Offset(" + c[this.b] + ",'" + this.a.replace("'", "''") + "')";
     }
 }

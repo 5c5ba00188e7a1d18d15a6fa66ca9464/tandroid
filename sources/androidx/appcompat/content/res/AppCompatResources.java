@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import androidx.appcompat.widget.ResourceManagerInternal;
 import androidx.core.content.ContextCompat;
+
 /* loaded from: classes.dex */
 public abstract class AppCompatResources {
     public static ColorStateList getColorStateList(Context context, int i) {

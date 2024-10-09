@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.R$styleable;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 public abstract class LinearLayoutCompat extends ViewGroup {
     private boolean mBaselineAligned;
@@ -211,26 +212,26 @@ public abstract class LinearLayoutCompat extends ViewGroup {
         }
         int childCount = getChildCount();
         int i2 = this.mBaselineAlignedChildIndex;
-        if (childCount > i2) {
-            View childAt = getChildAt(i2);
-            int baseline = childAt.getBaseline();
-            if (baseline == -1) {
-                if (this.mBaselineAlignedChildIndex == 0) {
-                    return -1;
-                }
-                throw new RuntimeException("mBaselineAlignedChildIndex of LinearLayout points to a View that doesn't know how to get its baseline.");
-            }
-            int i3 = this.mBaselineChildTop;
-            if (this.mOrientation == 1 && (i = this.mGravity & 112) != 48) {
-                if (i == 16) {
-                    i3 += ((((getBottom() - getTop()) - getPaddingTop()) - getPaddingBottom()) - this.mTotalLength) / 2;
-                } else if (i == 80) {
-                    i3 = ((getBottom() - getTop()) - getPaddingBottom()) - this.mTotalLength;
-                }
-            }
-            return i3 + ((LinearLayout.LayoutParams) ((LayoutParams) childAt.getLayoutParams())).topMargin + baseline;
+        if (childCount <= i2) {
+            throw new RuntimeException("mBaselineAlignedChildIndex of LinearLayout set to an index that is out of bounds.");
         }
-        throw new RuntimeException("mBaselineAlignedChildIndex of LinearLayout set to an index that is out of bounds.");
+        View childAt = getChildAt(i2);
+        int baseline = childAt.getBaseline();
+        if (baseline == -1) {
+            if (this.mBaselineAlignedChildIndex == 0) {
+                return -1;
+            }
+            throw new RuntimeException("mBaselineAlignedChildIndex of LinearLayout points to a View that doesn't know how to get its baseline.");
+        }
+        int i3 = this.mBaselineChildTop;
+        if (this.mOrientation == 1 && (i = this.mGravity & 112) != 48) {
+            if (i == 16) {
+                i3 += ((((getBottom() - getTop()) - getPaddingTop()) - getPaddingBottom()) - this.mTotalLength) / 2;
+            } else if (i == 80) {
+                i3 = ((getBottom() - getTop()) - getPaddingBottom()) - this.mTotalLength;
+            }
+        }
+        return i3 + ((LinearLayout.LayoutParams) ((LayoutParams) childAt.getLayoutParams())).topMargin + baseline;
     }
 
     public int getBaselineAlignedChildIndex() {
@@ -289,24 +290,25 @@ public abstract class LinearLayoutCompat extends ViewGroup {
     public boolean hasDividerBeforeChildAt(int i) {
         if (i == 0) {
             return (this.mShowDividers & 1) != 0;
-        } else if (i == getChildCount()) {
+        }
+        if (i == getChildCount()) {
             return (this.mShowDividers & 4) != 0;
-        } else if ((this.mShowDividers & 2) != 0) {
-            for (int i2 = i - 1; i2 >= 0; i2--) {
-                if (getChildAt(i2).getVisibility() != 8) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
+        }
+        if ((this.mShowDividers & 2) == 0) {
             return false;
         }
+        for (int i2 = i - 1; i2 >= 0; i2--) {
+            if (getChildAt(i2).getVisibility() != 8) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00ba  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00ec  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0100  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00b1  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00ba  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0100  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00ec  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -382,8 +384,9 @@ public abstract class LinearLayoutCompat extends ViewGroup {
                         int i20 = ((LinearLayout.LayoutParams) layoutParams).leftMargin + paddingLeft;
                         i13 = paddingTop;
                         setChildFrame(virtualChildAt, i20 + getLocationOffset(virtualChildAt), i12, measuredWidth, measuredHeight);
+                        int nextLocationOffset = i20 + measuredWidth + ((LinearLayout.LayoutParams) layoutParams).rightMargin + getNextLocationOffset(virtualChildAt);
                         i17 = i19 + getChildrenSkipCount(virtualChildAt, i18);
-                        paddingLeft = i20 + measuredWidth + ((LinearLayout.LayoutParams) layoutParams).rightMargin + getNextLocationOffset(virtualChildAt);
+                        paddingLeft = nextLocationOffset;
                         i17++;
                         virtualChildCount = i7;
                         i16 = i11;
@@ -405,8 +408,9 @@ public abstract class LinearLayoutCompat extends ViewGroup {
                 int i202 = ((LinearLayout.LayoutParams) layoutParams).leftMargin + paddingLeft;
                 i13 = paddingTop;
                 setChildFrame(virtualChildAt, i202 + getLocationOffset(virtualChildAt), i12, measuredWidth, measuredHeight);
+                int nextLocationOffset2 = i202 + measuredWidth + ((LinearLayout.LayoutParams) layoutParams).rightMargin + getNextLocationOffset(virtualChildAt);
                 i17 = i19 + getChildrenSkipCount(virtualChildAt, i18);
-                paddingLeft = i202 + measuredWidth + ((LinearLayout.LayoutParams) layoutParams).rightMargin + getNextLocationOffset(virtualChildAt);
+                paddingLeft = nextLocationOffset2;
                 i17++;
                 virtualChildCount = i7;
                 i16 = i11;
@@ -422,7 +426,7 @@ public abstract class LinearLayoutCompat extends ViewGroup {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x009f  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x009f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -462,8 +466,9 @@ public abstract class LinearLayoutCompat extends ViewGroup {
                     }
                     int i14 = paddingTop + ((LinearLayout.LayoutParams) layoutParams).topMargin;
                     setChildFrame(virtualChildAt, i13, i14 + getLocationOffset(virtualChildAt), measuredWidth, measuredHeight);
+                    int nextLocationOffset = i14 + measuredHeight + ((LinearLayout.LayoutParams) layoutParams).bottomMargin + getNextLocationOffset(virtualChildAt);
                     i11 += getChildrenSkipCount(virtualChildAt, i11);
-                    paddingTop = i14 + measuredHeight + ((LinearLayout.LayoutParams) layoutParams).bottomMargin + getNextLocationOffset(virtualChildAt);
+                    paddingTop = nextLocationOffset;
                 } else {
                     i5 = paddingRight - measuredWidth;
                 }
@@ -473,8 +478,9 @@ public abstract class LinearLayoutCompat extends ViewGroup {
                 }
                 int i142 = paddingTop + ((LinearLayout.LayoutParams) layoutParams).topMargin;
                 setChildFrame(virtualChildAt, i132, i142 + getLocationOffset(virtualChildAt), measuredWidth, measuredHeight);
+                int nextLocationOffset2 = i142 + measuredHeight + ((LinearLayout.LayoutParams) layoutParams).bottomMargin + getNextLocationOffset(virtualChildAt);
                 i11 += getChildrenSkipCount(virtualChildAt, i11);
-                paddingTop = i142 + measuredHeight + ((LinearLayout.LayoutParams) layoutParams).bottomMargin + getNextLocationOffset(virtualChildAt);
+                paddingTop = nextLocationOffset2;
             }
             i11++;
         }
@@ -484,27 +490,32 @@ public abstract class LinearLayoutCompat extends ViewGroup {
         measureChildWithMargins(view, i2, i3, i4, i5);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:167:0x03aa, code lost:
-        if (r8 > 0) goto L181;
+    /* JADX WARN: Code restructure failed: missing block: B:179:0x03aa, code lost:
+    
+        if (r8 > 0) goto L170;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:169:0x03ad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:180:0x03ad, code lost:
+    
         r8 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:170:0x03ae, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:181:0x03ae, code lost:
+    
         r14.measure(android.view.View.MeasureSpec.makeMeasureSpec(r8, r3), r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:173:0x03be, code lost:
-        if (r8 < 0) goto L180;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:175:0x03c1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:182:0x03c1, code lost:
+    
         r9 = android.view.View.combineMeasuredStates(r9, r14.getMeasuredState() & (-16777216));
         r0 = r0;
         r3 = r2;
      */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x0446  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x018f  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01c3  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01d1  */
+    /* JADX WARN: Code restructure failed: missing block: B:214:0x03be, code lost:
+    
+        if (r8 < 0) goto L169;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x0446  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x018f  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x01c3  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x01d1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -890,24 +901,30 @@ public abstract class LinearLayoutCompat extends ViewGroup {
         return 0;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:130:0x02d0, code lost:
-        if (r15 > 0) goto L151;
+    /* JADX WARN: Code restructure failed: missing block: B:149:0x02d0, code lost:
+    
+        if (r15 > 0) goto L133;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:132:0x02d3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:150:0x02d3, code lost:
+    
         r15 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:133:0x02d4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:151:0x02d4, code lost:
+    
         r13.measure(r0, android.view.View.MeasureSpec.makeMeasureSpec(r15, r10));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:136:0x02e4, code lost:
-        if (r15 < 0) goto L150;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:138:0x02e7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:152:0x02e7, code lost:
+    
         r1 = android.view.View.combineMeasuredStates(r1, r13.getMeasuredState() & (-256));
         r0 = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:143:0x0312, code lost:
-        if (((android.widget.LinearLayout.LayoutParams) r14).width == (-1)) goto L158;
+    /* JADX WARN: Code restructure failed: missing block: B:156:0x0312, code lost:
+    
+        if (((android.widget.LinearLayout.LayoutParams) r14).width == (-1)) goto L147;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:168:0x02e4, code lost:
+    
+        if (r15 < 0) goto L132;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1165,11 +1182,12 @@ public abstract class LinearLayoutCompat extends ViewGroup {
                         i17 = Math.max(i17, i50);
                         i23 = i15;
                     }
+                    int childrenSkipCount = getChildrenSkipCount(view, i18) + i18;
                     i22 = max2;
                     i21 = max4;
                     f = f7;
                     i24 = i17;
-                    i25 = getChildrenSkipCount(view, i18) + i18;
+                    i25 = childrenSkipCount;
                     i20 = combineMeasuredStates;
                 }
             }

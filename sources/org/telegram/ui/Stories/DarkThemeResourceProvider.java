@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes4.dex */
 public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
     Paint actionPaint;
@@ -203,13 +204,13 @@ public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
     public Drawable getDrawable(String str) {
-        if (Objects.equals(str, "drawableMsgOutMedia")) {
-            if (this.msgOutMedia == null) {
-                this.msgOutMedia = new Theme.MessageDrawable(1, true, false, this);
-            }
-            return this.msgOutMedia;
+        if (!Objects.equals(str, "drawableMsgOutMedia")) {
+            return Theme.ResourcesProvider.-CC.$default$getDrawable(this, str);
         }
-        return Theme.ResourcesProvider.-CC.$default$getDrawable(this, str);
+        if (this.msgOutMedia == null) {
+            this.msgOutMedia = new Theme.MessageDrawable(1, true, false, this);
+        }
+        return this.msgOutMedia;
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -217,15 +218,15 @@ public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
         if (str.equals("paintDivider")) {
             return this.dividerPaint;
         }
-        if (str.equals("paintChatActionBackground")) {
-            if (this.actionPaint == null) {
-                Paint paint = new Paint(1);
-                this.actionPaint = paint;
-                paint.setColor(ColorUtils.blendARGB(-16777216, -1, 0.1f));
-            }
-            return this.actionPaint;
+        if (!str.equals("paintChatActionBackground")) {
+            return Theme.getThemePaint(str);
         }
-        return Theme.getThemePaint(str);
+        if (this.actionPaint == null) {
+            Paint paint = new Paint(1);
+            this.actionPaint = paint;
+            paint.setColor(ColorUtils.blendARGB(-16777216, -1, 0.1f));
+        }
+        return this.actionPaint;
     }
 
     @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider

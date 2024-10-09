@@ -16,6 +16,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes4.dex */
 public class TimezonesController {
     private static volatile TimezonesController[] Instance = new TimezonesController[4];
@@ -147,32 +148,33 @@ public class TimezonesController {
         if (tL_timezone == null) {
             return null;
         }
-        if (z) {
-            return tL_timezone.name + ", " + getTimezoneOffsetName(tL_timezone);
+        if (!z) {
+            return tL_timezone.name;
         }
-        return tL_timezone.name;
+        return tL_timezone.name + ", " + getTimezoneOffsetName(tL_timezone);
     }
 
     public String getTimezoneOffsetName(TLRPC.TL_timezone tL_timezone) {
-        if (tL_timezone.utc_offset != 0) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("GMT");
-            sb.append(tL_timezone.utc_offset < 0 ? "-" : "+");
-            String sb2 = sb.toString();
-            int abs = Math.abs(tL_timezone.utc_offset) / 60;
-            int i = abs / 60;
-            int i2 = abs % 60;
-            StringBuilder sb3 = new StringBuilder();
-            sb3.append(sb2);
-            sb3.append(i < 10 ? "0" : "");
-            sb3.append(i);
-            StringBuilder sb4 = new StringBuilder();
-            sb4.append(sb3.toString() + ":");
-            sb4.append(i2 < 10 ? "0" : "");
-            sb4.append(i2);
-            return sb4.toString();
+        if (tL_timezone.utc_offset == 0) {
+            return "GMT";
         }
-        return "GMT";
+        StringBuilder sb = new StringBuilder();
+        sb.append("GMT");
+        sb.append(tL_timezone.utc_offset < 0 ? "-" : "+");
+        String sb2 = sb.toString();
+        int abs = Math.abs(tL_timezone.utc_offset) / 60;
+        int i = abs / 60;
+        int i2 = abs % 60;
+        StringBuilder sb3 = new StringBuilder();
+        sb3.append(sb2);
+        sb3.append(i < 10 ? "0" : "");
+        sb3.append(i);
+        String str = sb3.toString() + ":";
+        StringBuilder sb4 = new StringBuilder();
+        sb4.append(str);
+        sb4.append(i2 < 10 ? "0" : "");
+        sb4.append(i2);
+        return sb4.toString();
     }
 
     public ArrayList getTimezones() {

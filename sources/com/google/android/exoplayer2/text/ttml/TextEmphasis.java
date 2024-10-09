@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 final class TextEmphasis {
     public final int markFill;
@@ -34,12 +35,13 @@ final class TextEmphasis {
         return parseWords(ImmutableSet.copyOf(TextUtils.split(lowerCase, WHITESPACE_PATTERN)));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00eb, code lost:
-        if (r9.equals("dot") != false) goto L47;
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x00eb, code lost:
+    
+        if (r9.equals("dot") != false) goto L70;
      */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x00da  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x00f8  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0103  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00da  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0103  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00f8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

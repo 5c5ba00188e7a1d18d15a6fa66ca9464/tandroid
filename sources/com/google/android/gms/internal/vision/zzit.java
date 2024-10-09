@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 abstract /* synthetic */ class zzit {
     static final /* synthetic */ int[] zza;

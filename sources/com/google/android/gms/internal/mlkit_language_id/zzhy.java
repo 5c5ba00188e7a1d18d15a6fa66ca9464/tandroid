@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 public enum zzhy {
     zza(0),
@@ -10,7 +11,7 @@ public enum zzhy {
     zzg(zzdn.zza),
     zzh(null),
     zzi(null);
-    
+
     private final Object zzj;
 
     zzhy(Object obj) {

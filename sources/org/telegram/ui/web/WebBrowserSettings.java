@@ -53,6 +53,7 @@ import org.telegram.ui.Components.UniversalFragment;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.web.BrowserHistory;
 import org.telegram.ui.web.WebMetadataCache;
+
 /* loaded from: classes.dex */
 public class WebBrowserSettings extends UniversalFragment implements NotificationCenter.NotificationCenterDelegate {
     private Drawable addIcon;
@@ -185,7 +186,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
 
                     {
                         this.val$s = charSequence2;
-                        this.text = new Text(charSequence2.substring(0, !charSequence2.isEmpty()), 14.0f, AndroidUtilities.bold());
+                        this.text = new Text(charSequence2.substring(0, !charSequence2.isEmpty() ? 1 : 0), 14.0f, AndroidUtilities.bold());
                     }
 
                     @Override // android.graphics.drawable.Drawable
@@ -222,7 +223,8 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:23:0x003c, code lost:
-        if (r6 != false) goto L26;
+    
+        if (r6 != false) goto L29;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -263,13 +265,13 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             return 0L;
         }
         File[] listFiles = file.listFiles();
-        if (listFiles != null) {
-            for (File file2 : listFiles) {
-                j += getDirectorySize(file2, bool);
-            }
-            return j;
+        if (listFiles == null) {
+            return 0L;
         }
-        return 0L;
+        for (File file2 : listFiles) {
+            j += getDirectorySize(file2, bool);
+        }
+        return j;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -436,13 +438,13 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onClick$6(HistoryFragment[] historyFragmentArr, BrowserHistory.Entry entry) {
-        historyFragmentArr[0].finishFragment();
+        historyFragmentArr[0].lambda$onBackPressed$300();
         if (this.whenHistoryClicked == null) {
             Browser.openUrl(getContext(), entry.url);
-            return;
+        } else {
+            lambda$onBackPressed$300();
+            this.whenHistoryClicked.run(entry);
         }
-        finishFragment();
-        this.whenHistoryClicked.run(entry);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -466,14 +468,13 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     }
 
     private void loadSizes() {
-        ArrayList history = BrowserHistory.getHistory(new Utilities.Callback() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda0
+        if (BrowserHistory.getHistory(new Utilities.Callback() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 WebBrowserSettings.this.lambda$loadSizes$0((ArrayList) obj);
             }
-        });
-        if (history != null) {
-            this.historySize = history.size();
+        }) != null) {
+            this.historySize = r0.size();
             UniversalRecyclerView universalRecyclerView = this.listView;
             if (universalRecyclerView != null && universalRecyclerView.adapter != null && universalRecyclerView.isAttachedToWindow()) {
                 this.listView.adapter.update(true);
@@ -516,8 +517,8 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         universalRecyclerView.adapter.update(true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0117  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0117  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0119  */
     @Override // org.telegram.ui.Components.UniversalFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -606,207 +607,211 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             SharedConfig.toggleBrowserAdaptableColors();
             textCheckCell = (TextCheckCell) view;
             z = SharedConfig.adaptableColorInBrowser;
-        } else if (i2 != 13) {
-            if (i2 == 1) {
-                SharedConfig.toggleInappBrowser();
-                TextCheckCell textCheckCell2 = (TextCheckCell) view;
-                textCheckCell2.setChecked(SharedConfig.inappBrowser);
-                boolean z2 = SharedConfig.inappBrowser;
-                textCheckCell2.setBackgroundColorAnimated(z2, Theme.getColor(z2 ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked));
-            } else if (i2 == 10) {
-                SharedConfig.toggleCustomTabs(true);
-            } else if (i2 != 11) {
-                String str = "";
-                if (i2 == 2) {
-                    AlertDialog.Builder title = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsCacheClear));
-                    int i3 = R.string.BrowserSettingsCacheClearText;
-                    if (this.cacheSize != 0) {
-                        str = " (" + AndroidUtilities.formatFileSize(this.cacheSize) + ")";
-                    }
-                    message = title.setMessage(LocaleController.formatString(i3, str));
-                    string = LocaleController.getString(R.string.Clear);
-                    onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda3
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i4) {
-                            WebBrowserSettings.this.lambda$onClick$3(dialogInterface, i4);
-                        }
-                    };
-                } else if (i2 == 3) {
-                    AlertDialog.Builder title2 = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsCookiesClear));
-                    int i4 = R.string.BrowserSettingsCookiesClearText;
-                    if (this.cookiesSize != 0) {
-                        str = " (" + AndroidUtilities.formatFileSize(this.cookiesSize) + ")";
-                    }
-                    message = title2.setMessage(LocaleController.formatString(i4, str));
-                    string = LocaleController.getString(R.string.Clear);
-                    onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda5
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i5) {
-                            WebBrowserSettings.this.lambda$onClick$4(dialogInterface, i5);
-                        }
-                    };
-                } else if (i2 == 7) {
-                    Iterator it = BrowserHistory.getHistory().iterator();
-                    long j = Long.MAX_VALUE;
-                    while (it.hasNext()) {
-                        j = Math.min(j, ((BrowserHistory.Entry) it.next()).time);
-                    }
-                    message = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsHistoryClear)).setMessage(LocaleController.formatString(R.string.BrowserSettingsHistoryClearText, LocaleController.formatDateChat(j / 1000)));
-                    string = LocaleController.getString(R.string.Clear);
-                    onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda6
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i5) {
-                            WebBrowserSettings.this.lambda$onClick$5(dialogInterface, i5);
-                        }
-                    };
-                } else if (i2 == 9) {
-                    final HistoryFragment[] historyFragmentArr = {null};
-                    HistoryFragment historyFragment = new HistoryFragment(null, new Utilities.Callback() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda7
-                        @Override // org.telegram.messenger.Utilities.Callback
-                        public final void run(Object obj) {
-                            WebBrowserSettings.this.lambda$onClick$6(historyFragmentArr, (BrowserHistory.Entry) obj);
-                        }
-                    });
-                    historyFragmentArr[0] = historyFragment;
-                    presentFragment(historyFragment);
-                    return;
-                } else if (i2 != 5) {
-                    if (uItem.instanceOf(WebsiteView.Factory.class)) {
-                        WebsiteView websiteView = (WebsiteView) view;
-                        final ArrayList arrayList = websiteView.domains;
-                        ItemOptions.makeOptions((ViewGroup) this.fragmentView, websiteView).add(R.drawable.menu_delete_old, LocaleController.getString(R.string.Remove), new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda8
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                WebBrowserSettings.this.lambda$onClick$7(arrayList);
-                            }
-                        }).show();
-                        return;
-                    }
-                    int i5 = uItem.id;
-                    if (i5 == 6) {
-                        if (getParentActivity() == null) {
-                            return;
-                        }
-                        final AtomicReference atomicReference = new AtomicReference();
-                        LinearLayout linearLayout = new LinearLayout(getContext());
-                        linearLayout.setOrientation(1);
-                        ArrayList searchEngines = SearchEngine.getSearchEngines();
-                        int size = searchEngines.size();
-                        CharSequence[] charSequenceArr = new CharSequence[size];
-                        final int i6 = 0;
-                        while (i6 < size) {
-                            charSequenceArr[i6] = ((SearchEngine) searchEngines.get(i6)).name;
-                            RadioColorCell radioColorCell = new RadioColorCell(getParentActivity());
-                            radioColorCell.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
-                            radioColorCell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                            radioColorCell.setTextAndValue(charSequenceArr[i6], i6 == SharedConfig.searchEngineType);
-                            radioColorCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
-                            linearLayout.addView(radioColorCell);
-                            radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda9
-                                @Override // android.view.View.OnClickListener
-                                public final void onClick(View view2) {
-                                    WebBrowserSettings.lambda$onClick$8(i6, view, atomicReference, view2);
-                                }
-                            });
-                            i6++;
-                        }
-                        AlertDialog create = new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString(R.string.SearchEngine)).setView(linearLayout).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).create();
-                        atomicReference.set(create);
-                        showDialog(create);
-                        return;
-                    } else if (i5 == 4) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), getResourceProvider());
-                        builder.setTitle(LocaleController.getString(R.string.BrowserSettingsAddTitle));
-                        LinearLayout linearLayout2 = new LinearLayout(getContext());
-                        linearLayout2.setOrientation(1);
-                        TextView textView = new TextView(getContext());
-                        int i7 = Theme.key_dialogTextBlack;
-                        textView.setTextColor(Theme.getColor(i7, getResourceProvider()));
-                        textView.setTextSize(1, 16.0f);
-                        textView.setText(LocaleController.getString(R.string.BrowserSettingsAddText));
-                        linearLayout2.addView(textView, LayoutHelper.createLinear(-1, -2, 24.0f, 5.0f, 24.0f, 12.0f));
-                        final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(getContext()) { // from class: org.telegram.ui.web.WebBrowserSettings.2
-                            /* JADX INFO: Access modifiers changed from: protected */
-                            @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                            public void onMeasure(int i8, int i9) {
-                                super.onMeasure(i8, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(36.0f), 1073741824));
-                            }
-                        };
-                        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda10
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                WebBrowserSettings.this.lambda$onClick$11(editTextBoldCursor, r3);
-                            }
-                        };
-                        editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.web.WebBrowserSettings.3
-                            @Override // android.widget.TextView.OnEditorActionListener
-                            public boolean onEditorAction(TextView textView2, int i8, KeyEvent keyEvent) {
-                                if (i8 == 6) {
-                                    runnable.run();
-                                    return true;
-                                }
-                                return false;
-                            }
-                        });
-                        editTextBoldCursor.setTextSize(1, 18.0f);
-                        editTextBoldCursor.setText("");
-                        editTextBoldCursor.setTextColor(Theme.getColor(i7, getResourceProvider()));
-                        editTextBoldCursor.setHintColor(Theme.getColor(Theme.key_groupcreate_hintText, getResourceProvider()));
-                        editTextBoldCursor.setHintText(LocaleController.getString(R.string.BrowserSettingsAddHint));
-                        editTextBoldCursor.setSingleLine(true);
-                        editTextBoldCursor.setFocusable(true);
-                        editTextBoldCursor.setInputType(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
-                        editTextBoldCursor.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, getResourceProvider()), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, getResourceProvider()), Theme.getColor(Theme.key_text_RedRegular, getResourceProvider()));
-                        editTextBoldCursor.setImeOptions(6);
-                        editTextBoldCursor.setBackgroundDrawable(null);
-                        editTextBoldCursor.setPadding(0, 0, AndroidUtilities.dp(42.0f), 0);
-                        linearLayout2.addView(editTextBoldCursor, LayoutHelper.createLinear(-1, -2, 24.0f, 0.0f, 24.0f, 10.0f));
-                        builder.setView(linearLayout2);
-                        builder.setWidth(AndroidUtilities.dp(292.0f));
-                        builder.setPositiveButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda11
-                            @Override // android.content.DialogInterface.OnClickListener
-                            public final void onClick(DialogInterface dialogInterface, int i8) {
-                                runnable.run();
-                            }
-                        });
-                        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda12
-                            @Override // android.content.DialogInterface.OnClickListener
-                            public final void onClick(DialogInterface dialogInterface, int i8) {
-                                dialogInterface.dismiss();
-                            }
-                        });
-                        AlertDialog create2 = builder.create();
-                        final AlertDialog[] alertDialogArr = {create2};
-                        create2.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda13
-                            @Override // android.content.DialogInterface.OnDismissListener
-                            public final void onDismiss(DialogInterface dialogInterface) {
-                                AndroidUtilities.hideKeyboard(EditTextBoldCursor.this);
-                            }
-                        });
-                        alertDialogArr[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda4
-                            @Override // android.content.DialogInterface.OnShowListener
-                            public final void onShow(DialogInterface dialogInterface) {
-                                WebBrowserSettings.lambda$onClick$15(EditTextBoldCursor.this, dialogInterface);
-                            }
-                        });
-                        alertDialogArr[0].setDismissDialogByButtons(false);
-                        alertDialogArr[0].show();
-                        return;
-                    } else {
-                        return;
-                    }
-                } else {
-                    RestrictedDomainsList.getInstance().restrictedDomains.clear();
-                    RestrictedDomainsList.getInstance().scheduleSave();
-                }
-                message.setPositiveButton(string, onClickListener).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
-                return;
-            } else {
-                SharedConfig.toggleCustomTabs(false);
-            }
-            this.listView.adapter.update(true);
-            return;
         } else {
+            if (i2 != 13) {
+                if (i2 == 1) {
+                    SharedConfig.toggleInappBrowser();
+                    TextCheckCell textCheckCell2 = (TextCheckCell) view;
+                    textCheckCell2.setChecked(SharedConfig.inappBrowser);
+                    boolean z2 = SharedConfig.inappBrowser;
+                    textCheckCell2.setBackgroundColorAnimated(z2, Theme.getColor(z2 ? Theme.key_windowBackgroundChecked : Theme.key_windowBackgroundUnchecked));
+                } else if (i2 == 10) {
+                    SharedConfig.toggleCustomTabs(true);
+                } else {
+                    if (i2 != 11) {
+                        String str = "";
+                        if (i2 == 2) {
+                            AlertDialog.Builder title = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsCacheClear));
+                            int i3 = R.string.BrowserSettingsCacheClearText;
+                            if (this.cacheSize != 0) {
+                                str = " (" + AndroidUtilities.formatFileSize(this.cacheSize) + ")";
+                            }
+                            message = title.setMessage(LocaleController.formatString(i3, str));
+                            string = LocaleController.getString(R.string.Clear);
+                            onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda3
+                                @Override // android.content.DialogInterface.OnClickListener
+                                public final void onClick(DialogInterface dialogInterface, int i4) {
+                                    WebBrowserSettings.this.lambda$onClick$3(dialogInterface, i4);
+                                }
+                            };
+                        } else if (i2 == 3) {
+                            AlertDialog.Builder title2 = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsCookiesClear));
+                            int i4 = R.string.BrowserSettingsCookiesClearText;
+                            if (this.cookiesSize != 0) {
+                                str = " (" + AndroidUtilities.formatFileSize(this.cookiesSize) + ")";
+                            }
+                            message = title2.setMessage(LocaleController.formatString(i4, str));
+                            string = LocaleController.getString(R.string.Clear);
+                            onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda5
+                                @Override // android.content.DialogInterface.OnClickListener
+                                public final void onClick(DialogInterface dialogInterface, int i5) {
+                                    WebBrowserSettings.this.lambda$onClick$4(dialogInterface, i5);
+                                }
+                            };
+                        } else if (i2 == 7) {
+                            Iterator it = BrowserHistory.getHistory().iterator();
+                            long j = Long.MAX_VALUE;
+                            while (it.hasNext()) {
+                                j = Math.min(j, ((BrowserHistory.Entry) it.next()).time);
+                            }
+                            message = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsHistoryClear)).setMessage(LocaleController.formatString(R.string.BrowserSettingsHistoryClearText, LocaleController.formatDateChat(j / 1000)));
+                            string = LocaleController.getString(R.string.Clear);
+                            onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda6
+                                @Override // android.content.DialogInterface.OnClickListener
+                                public final void onClick(DialogInterface dialogInterface, int i5) {
+                                    WebBrowserSettings.this.lambda$onClick$5(dialogInterface, i5);
+                                }
+                            };
+                        } else {
+                            if (i2 == 9) {
+                                final HistoryFragment[] historyFragmentArr = {null};
+                                HistoryFragment historyFragment = new HistoryFragment(null, new Utilities.Callback() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda7
+                                    @Override // org.telegram.messenger.Utilities.Callback
+                                    public final void run(Object obj) {
+                                        WebBrowserSettings.this.lambda$onClick$6(historyFragmentArr, (BrowserHistory.Entry) obj);
+                                    }
+                                });
+                                historyFragmentArr[0] = historyFragment;
+                                presentFragment(historyFragment);
+                                return;
+                            }
+                            if (i2 != 5) {
+                                if (uItem.instanceOf(WebsiteView.Factory.class)) {
+                                    WebsiteView websiteView = (WebsiteView) view;
+                                    final ArrayList arrayList = websiteView.domains;
+                                    ItemOptions.makeOptions((ViewGroup) this.fragmentView, websiteView).add(R.drawable.menu_delete_old, LocaleController.getString(R.string.Remove), new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda8
+                                        @Override // java.lang.Runnable
+                                        public final void run() {
+                                            WebBrowserSettings.this.lambda$onClick$7(arrayList);
+                                        }
+                                    }).show();
+                                    return;
+                                }
+                                int i5 = uItem.id;
+                                if (i5 == 6) {
+                                    if (getParentActivity() == null) {
+                                        return;
+                                    }
+                                    final AtomicReference atomicReference = new AtomicReference();
+                                    LinearLayout linearLayout = new LinearLayout(getContext());
+                                    linearLayout.setOrientation(1);
+                                    ArrayList searchEngines = SearchEngine.getSearchEngines();
+                                    int size = searchEngines.size();
+                                    CharSequence[] charSequenceArr = new CharSequence[size];
+                                    final int i6 = 0;
+                                    while (i6 < size) {
+                                        charSequenceArr[i6] = ((SearchEngine) searchEngines.get(i6)).name;
+                                        RadioColorCell radioColorCell = new RadioColorCell(getParentActivity());
+                                        radioColorCell.setPadding(AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f), 0);
+                                        radioColorCell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+                                        radioColorCell.setTextAndValue(charSequenceArr[i6], i6 == SharedConfig.searchEngineType);
+                                        radioColorCell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 2));
+                                        linearLayout.addView(radioColorCell);
+                                        radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda9
+                                            @Override // android.view.View.OnClickListener
+                                            public final void onClick(View view2) {
+                                                WebBrowserSettings.lambda$onClick$8(i6, view, atomicReference, view2);
+                                            }
+                                        });
+                                        i6++;
+                                    }
+                                    AlertDialog create = new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString(R.string.SearchEngine)).setView(linearLayout).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).create();
+                                    atomicReference.set(create);
+                                    showDialog(create);
+                                    return;
+                                }
+                                if (i5 == 4) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), getResourceProvider());
+                                    builder.setTitle(LocaleController.getString(R.string.BrowserSettingsAddTitle));
+                                    LinearLayout linearLayout2 = new LinearLayout(getContext());
+                                    linearLayout2.setOrientation(1);
+                                    TextView textView = new TextView(getContext());
+                                    int i7 = Theme.key_dialogTextBlack;
+                                    textView.setTextColor(Theme.getColor(i7, getResourceProvider()));
+                                    textView.setTextSize(1, 16.0f);
+                                    textView.setText(LocaleController.getString(R.string.BrowserSettingsAddText));
+                                    linearLayout2.addView(textView, LayoutHelper.createLinear(-1, -2, 24.0f, 5.0f, 24.0f, 12.0f));
+                                    final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(getContext()) { // from class: org.telegram.ui.web.WebBrowserSettings.2
+                                        /* JADX INFO: Access modifiers changed from: protected */
+                                        @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
+                                        public void onMeasure(int i8, int i9) {
+                                            super.onMeasure(i8, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(36.0f), 1073741824));
+                                        }
+                                    };
+                                    final Runnable runnable = new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda10
+                                        @Override // java.lang.Runnable
+                                        public final void run() {
+                                            WebBrowserSettings.this.lambda$onClick$11(editTextBoldCursor, r3);
+                                        }
+                                    };
+                                    editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.web.WebBrowserSettings.3
+                                        @Override // android.widget.TextView.OnEditorActionListener
+                                        public boolean onEditorAction(TextView textView2, int i8, KeyEvent keyEvent) {
+                                            if (i8 != 6) {
+                                                return false;
+                                            }
+                                            runnable.run();
+                                            return true;
+                                        }
+                                    });
+                                    editTextBoldCursor.setTextSize(1, 18.0f);
+                                    editTextBoldCursor.setText("");
+                                    editTextBoldCursor.setTextColor(Theme.getColor(i7, getResourceProvider()));
+                                    editTextBoldCursor.setHintColor(Theme.getColor(Theme.key_groupcreate_hintText, getResourceProvider()));
+                                    editTextBoldCursor.setHintText(LocaleController.getString(R.string.BrowserSettingsAddHint));
+                                    editTextBoldCursor.setSingleLine(true);
+                                    editTextBoldCursor.setFocusable(true);
+                                    editTextBoldCursor.setInputType(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
+                                    editTextBoldCursor.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, getResourceProvider()), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, getResourceProvider()), Theme.getColor(Theme.key_text_RedRegular, getResourceProvider()));
+                                    editTextBoldCursor.setImeOptions(6);
+                                    editTextBoldCursor.setBackgroundDrawable(null);
+                                    editTextBoldCursor.setPadding(0, 0, AndroidUtilities.dp(42.0f), 0);
+                                    linearLayout2.addView(editTextBoldCursor, LayoutHelper.createLinear(-1, -2, 24.0f, 0.0f, 24.0f, 10.0f));
+                                    builder.setView(linearLayout2);
+                                    builder.setWidth(AndroidUtilities.dp(292.0f));
+                                    builder.setPositiveButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda11
+                                        @Override // android.content.DialogInterface.OnClickListener
+                                        public final void onClick(DialogInterface dialogInterface, int i8) {
+                                            runnable.run();
+                                        }
+                                    });
+                                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda12
+                                        @Override // android.content.DialogInterface.OnClickListener
+                                        public final void onClick(DialogInterface dialogInterface, int i8) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    AlertDialog create2 = builder.create();
+                                    final AlertDialog[] alertDialogArr = {create2};
+                                    create2.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda13
+                                        @Override // android.content.DialogInterface.OnDismissListener
+                                        public final void onDismiss(DialogInterface dialogInterface) {
+                                            AndroidUtilities.hideKeyboard(EditTextBoldCursor.this);
+                                        }
+                                    });
+                                    alertDialogArr[0].setOnShowListener(new DialogInterface.OnShowListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda4
+                                        @Override // android.content.DialogInterface.OnShowListener
+                                        public final void onShow(DialogInterface dialogInterface) {
+                                            WebBrowserSettings.lambda$onClick$15(EditTextBoldCursor.this, dialogInterface);
+                                        }
+                                    });
+                                    alertDialogArr[0].setDismissDialogByButtons(false);
+                                    alertDialogArr[0].show();
+                                    return;
+                                }
+                                return;
+                            }
+                            RestrictedDomainsList.getInstance().restrictedDomains.clear();
+                            RestrictedDomainsList.getInstance().scheduleSave();
+                        }
+                        message.setPositiveButton(string, onClickListener).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
+                        return;
+                    }
+                    SharedConfig.toggleCustomTabs(false);
+                }
+                this.listView.adapter.update(true);
+                return;
+            }
             SharedConfig.toggleLocalInstantView();
             textCheckCell = (TextCheckCell) view;
             z = SharedConfig.onlyLocalInstantView;

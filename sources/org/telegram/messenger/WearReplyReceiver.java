@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.core.app.RemoteInput;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class WearReplyReceiver extends BroadcastReceiver {
     /* JADX INFO: Access modifiers changed from: private */

@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 /* loaded from: classes.dex */
 public final class BaseUrlExclusionList {
     private final Map excludedPriorities;
@@ -147,12 +148,12 @@ public final class BaseUrlExclusionList {
                 }
             }
             BaseUrl baseUrl2 = (BaseUrl) this.selectionsTaken.get(arrayList);
-            if (baseUrl2 == null) {
-                BaseUrl selectWeighted = selectWeighted(applyExclusions.subList(0, arrayList.size()));
-                this.selectionsTaken.put(arrayList, selectWeighted);
-                return selectWeighted;
+            if (baseUrl2 != null) {
+                return baseUrl2;
             }
-            return baseUrl2;
+            BaseUrl selectWeighted = selectWeighted(applyExclusions.subList(0, arrayList.size()));
+            this.selectionsTaken.put(arrayList, selectWeighted);
+            return selectWeighted;
         }
         obj = Iterables.getFirst(applyExclusions, null);
         return (BaseUrl) obj;

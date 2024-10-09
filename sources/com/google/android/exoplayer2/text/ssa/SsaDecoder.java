@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public final class SsaDecoder extends SimpleSubtitleDecoder {
     private static final Pattern SSA_TIMECODE_PATTERN = Pattern.compile("(?:(\\d+):)?(\\d+):(\\d+)[:.](\\d+)");
@@ -56,15 +57,15 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
             if (size < 0) {
                 i = 0;
                 break;
-            } else if (((Long) list.get(size)).longValue() == j) {
-                return size;
-            } else {
-                if (((Long) list.get(size)).longValue() < j) {
-                    i = size + 1;
-                    break;
-                }
-                size--;
             }
+            if (((Long) list.get(size)).longValue() == j) {
+                return size;
+            }
+            if (((Long) list.get(size)).longValue() < j) {
+                i = size + 1;
+                break;
+            }
+            size--;
         }
         list.add(i, Long.valueOf(j));
         list2.add(i, i == 0 ? new ArrayList() : new ArrayList((Collection) list2.get(i - 1)));
@@ -72,17 +73,17 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
     }
 
     private static float computeDefaultLineOrPosition(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                return i != 2 ? -3.4028235E38f : 0.95f;
-            }
-            return 0.5f;
+        if (i == 0) {
+            return 0.05f;
         }
-        return 0.05f;
+        if (i != 1) {
+            return i != 2 ? -3.4028235E38f : 0.95f;
+        }
+        return 0.5f;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0082  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0092  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -243,7 +244,8 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
             String readLine = parsableByteArray.readLine();
             if (readLine == null || (parsableByteArray.bytesLeft() != 0 && parsableByteArray.peekUnsignedByte() == 91)) {
                 break;
-            } else if (readLine.startsWith("Format:")) {
+            }
+            if (readLine.startsWith("Format:")) {
                 format = SsaStyle.Format.fromFormatLine(readLine);
             } else if (readLine.startsWith("Style:")) {
                 if (format == null) {

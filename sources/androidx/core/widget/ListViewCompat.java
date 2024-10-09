@@ -1,6 +1,7 @@
 package androidx.core.widget;
 
 import android.widget.ListView;
+
 /* loaded from: classes.dex */
 public abstract class ListViewCompat {
 

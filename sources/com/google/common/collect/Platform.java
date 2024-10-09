@@ -3,6 +3,7 @@ package com.google.common.collect;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 abstract class Platform {
     /* JADX INFO: Access modifiers changed from: package-private */

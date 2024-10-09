@@ -37,6 +37,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ThemeSmallPreviewView;
 import org.telegram.ui.DefaultThemesPreviewCell;
+
 /* loaded from: classes4.dex */
 public class DefaultThemesPreviewCell extends LinearLayout {
     private final ChatThemeBottomSheet.Adapter adapter;
@@ -98,10 +99,12 @@ public class DefaultThemesPreviewCell extends LinearLayout {
                 final int i4 = (DefaultThemesPreviewCell.this.navBarAnimator == null || !DefaultThemesPreviewCell.this.navBarAnimator.isRunning()) ? i2 : DefaultThemesPreviewCell.this.navBarColor;
                 DefaultThemesPreviewCell.this.navBarAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
                 final float f = z ? 50.0f : 200.0f;
+                final float f2 = 350.0f;
+                final float f3 = 150.0f;
                 DefaultThemesPreviewCell.this.navBarAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.DefaultThemesPreviewCell.2.3
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        DefaultThemesPreviewCell.this.navBarColor = ColorUtils.blendARGB(i4, color2, Math.max(0.0f, Math.min(1.0f, ((((Float) valueAnimator.getAnimatedValue()).floatValue() * r2) - f) / r4)));
+                        DefaultThemesPreviewCell.this.navBarColor = ColorUtils.blendARGB(i4, color2, Math.max(0.0f, Math.min(1.0f, ((((Float) valueAnimator.getAnimatedValue()).floatValue() * f2) - f) / f3)));
                         AndroidUtilities.setNavigationBarColor(window, DefaultThemesPreviewCell.this.navBarColor, false);
                         AndroidUtilities.setLightNavigationBar(window, AndroidUtilities.computePerceivedBrightness(DefaultThemesPreviewCell.this.navBarColor) >= 0.721f);
                     }
@@ -127,10 +130,10 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             Theme.turnOffAutoNight(baseFragment);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:29:0x007c  */
-        /* JADX WARN: Removed duplicated region for block: B:31:0x0082  */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x008d  */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x0093  */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x007c  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x008d  */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x0093  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x0082  */
         @Override // android.view.View.OnClickListener
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -145,10 +148,14 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
             String str = "Blue";
             String string = sharedPreferences.getString("lastDayTheme", "Blue");
-            string = (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) ? "Blue" : "Blue";
+            if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
+                string = "Blue";
+            }
             String str2 = "Dark Blue";
             String string2 = sharedPreferences.getString("lastDarkTheme", "Dark Blue");
-            string2 = (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) ? "Dark Blue" : "Dark Blue";
+            if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
+                string2 = "Dark Blue";
+            }
             Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
             if (!string.equals(string2)) {
                 str2 = string2;
@@ -440,10 +447,11 @@ public class DefaultThemesPreviewCell extends LinearLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x006f, code lost:
-        if (r0 == 1) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x006f, code lost:
+    
+        if (r0 == 1) goto L30;
      */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0083  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0083  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -478,7 +486,8 @@ public class DefaultThemesPreviewCell extends LinearLayout {
                 adapter.notifyItemRangeChanged(0, adapter.items.size());
             }
             updateSelectedPosition();
-        } else if (Theme.isCurrentThemeDay()) {
+        }
+        if (Theme.isCurrentThemeDay()) {
             i3 = 0;
         }
         this.themeIndex = i3;

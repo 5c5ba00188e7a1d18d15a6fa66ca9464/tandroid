@@ -2,6 +2,7 @@ package org.telegram.ui.Stories.recorder;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes4.dex */
 public class FfmpegAudioWaveformLoader {
     private Utilities.Callback2<short[], Integer> onChunkReceived;
@@ -18,7 +19,7 @@ public class FfmpegAudioWaveformLoader {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: init */
+    /* renamed from: init, reason: merged with bridge method [inline-methods] */
     public native void lambda$new$0(String str, int i);
 
     /* JADX INFO: Access modifiers changed from: private */

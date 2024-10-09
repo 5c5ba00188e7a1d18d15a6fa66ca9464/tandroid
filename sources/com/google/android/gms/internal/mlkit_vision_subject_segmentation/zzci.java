@@ -4,6 +4,7 @@ import com.google.firebase.encoders.ObjectEncoder;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class zzci {
     private final Map zza;

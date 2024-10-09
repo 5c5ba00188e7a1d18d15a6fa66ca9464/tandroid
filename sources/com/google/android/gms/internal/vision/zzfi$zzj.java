@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
+
 /* loaded from: classes.dex */
 public final class zzfi$zzj extends zzjb implements zzkm {
     private static final zzfi$zzj zzi;
@@ -18,7 +19,7 @@ public final class zzfi$zzj extends zzjb implements zzkm {
         zzb(1),
         zzc(2),
         zzd(3);
-        
+
         private static final zzjh zze = new zzfx();
         private final int zzf;
 
@@ -27,19 +28,19 @@ public final class zzfi$zzj extends zzjb implements zzkm {
         }
 
         public static zza zza(int i) {
-            if (i != 0) {
-                if (i != 1) {
-                    if (i != 2) {
-                        if (i != 3) {
-                            return null;
-                        }
-                        return zzd;
-                    }
-                    return zzc;
-                }
+            if (i == 0) {
+                return zza;
+            }
+            if (i == 1) {
                 return zzb;
             }
-            return zza;
+            if (i == 2) {
+                return zzc;
+            }
+            if (i != 3) {
+                return null;
+            }
+            return zzd;
         }
 
         public static zzjg zzb() {
@@ -145,11 +146,12 @@ public final class zzfi$zzj extends zzjb implements zzkm {
     /* JADX WARN: Type inference failed for: r3v18, types: [com.google.android.gms.internal.vision.zzkx, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {
+        zzfk zzfkVar = null;
         switch (zzfk.zza[i - 1]) {
             case 1:
                 return new zzfi$zzj();
             case 2:
-                return new zzb(null);
+                return new zzb(zzfkVar);
             case 3:
                 return zzjb.zza(zzi, "\u0001\u0005\u0000\u0001\u0001\u0005\u0005\u0000\u0000\u0000\u0001ဌ\u0000\u0002ဂ\u0001\u0003ဂ\u0002\u0004ဂ\u0004\u0005ဂ\u0003", new Object[]{"zzc", "zzd", zza.zzb(), "zze", "zzf", "zzh", "zzg"});
             case 4:

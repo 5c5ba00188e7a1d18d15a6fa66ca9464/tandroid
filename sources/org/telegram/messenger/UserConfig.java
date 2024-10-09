@@ -11,6 +11,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes.dex */
 public class UserConfig extends BaseController {
     private static volatile UserConfig[] Instance = new UserConfig[4];
@@ -447,25 +448,23 @@ public class UserConfig extends BaseController {
     public LongSparseArray<SaveToGallerySettingsHelper.DialogException> getSaveGalleryExceptions(int i) {
         if (i == 1) {
             if (this.userSaveGalleryExceptions == null) {
-                Context context = ApplicationLoader.applicationContext;
-                this.userSaveGalleryExceptions = SaveToGallerySettingsHelper.loadExceptions(context.getSharedPreferences(SaveToGallerySettingsHelper.USERS_PREF_NAME + "_" + this.currentAccount, 0));
+                this.userSaveGalleryExceptions = SaveToGallerySettingsHelper.loadExceptions(ApplicationLoader.applicationContext.getSharedPreferences(SaveToGallerySettingsHelper.USERS_PREF_NAME + "_" + this.currentAccount, 0));
             }
             return this.userSaveGalleryExceptions;
-        } else if (i == 2) {
+        }
+        if (i == 2) {
             if (this.groupsSaveGalleryExceptions == null) {
-                Context context2 = ApplicationLoader.applicationContext;
-                this.groupsSaveGalleryExceptions = SaveToGallerySettingsHelper.loadExceptions(context2.getSharedPreferences(SaveToGallerySettingsHelper.GROUPS_PREF_NAME + "_" + this.currentAccount, 0));
+                this.groupsSaveGalleryExceptions = SaveToGallerySettingsHelper.loadExceptions(ApplicationLoader.applicationContext.getSharedPreferences(SaveToGallerySettingsHelper.GROUPS_PREF_NAME + "_" + this.currentAccount, 0));
             }
             return this.groupsSaveGalleryExceptions;
-        } else if (i == 4) {
-            if (this.chanelSaveGalleryExceptions == null) {
-                Context context3 = ApplicationLoader.applicationContext;
-                this.chanelSaveGalleryExceptions = SaveToGallerySettingsHelper.loadExceptions(context3.getSharedPreferences(SaveToGallerySettingsHelper.CHANNELS_PREF_NAME + "_" + this.currentAccount, 0));
-            }
-            return this.chanelSaveGalleryExceptions;
-        } else {
+        }
+        if (i != 4) {
             return null;
         }
+        if (this.chanelSaveGalleryExceptions == null) {
+            this.chanelSaveGalleryExceptions = SaveToGallerySettingsHelper.loadExceptions(ApplicationLoader.applicationContext.getSharedPreferences(SaveToGallerySettingsHelper.CHANNELS_PREF_NAME + "_" + this.currentAccount, 0));
+        }
+        return this.chanelSaveGalleryExceptions;
     }
 
     public int getTotalDialogsCount(int i) {
@@ -489,8 +488,7 @@ public class UserConfig extends BaseController {
     }
 
     public boolean isPinnedDialogsLoaded(int i) {
-        SharedPreferences preferences = getPreferences();
-        return preferences.getBoolean("2pinnedDialogsLoaded" + i, false);
+        return getPreferences().getBoolean("2pinnedDialogsLoaded" + i, false);
     }
 
     public boolean isPremium() {
@@ -502,14 +500,16 @@ public class UserConfig extends BaseController {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(20:9|(1:11)|12|(16:17|18|19|20|(1:24)|26|(1:28)|29|(1:33)|34|(1:38)|39|(1:41)|42|43|44)|47|18|19|20|(2:22|24)|26|(0)|29|(2:31|33)|34|(2:36|38)|39|(0)|42|43|44) */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0144, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x0144, code lost:
+    
         r2 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x0145, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x0145, code lost:
+    
         org.telegram.messenger.FileLog.e(r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0152 A[Catch: all -> 0x0009, TryCatch #0 {all -> 0x0009, blocks: (B:4:0x0003, B:6:0x0007, B:10:0x000c, B:12:0x0015, B:13:0x001d, B:15:0x00dc, B:20:0x00e8, B:21:0x0123, B:23:0x012b, B:25:0x0131, B:29:0x0148, B:31:0x0152, B:32:0x017a, B:34:0x0182, B:36:0x0188, B:37:0x019a, B:39:0x01a2, B:41:0x01a8, B:42:0x01ba, B:44:0x01be, B:45:0x01c7, B:46:0x01c9, B:28:0x0145), top: B:50:0x0003, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x01be A[Catch: all -> 0x0009, TryCatch #0 {all -> 0x0009, blocks: (B:4:0x0003, B:6:0x0007, B:10:0x000c, B:12:0x0015, B:13:0x001d, B:15:0x00dc, B:20:0x00e8, B:21:0x0123, B:23:0x012b, B:25:0x0131, B:29:0x0148, B:31:0x0152, B:32:0x017a, B:34:0x0182, B:36:0x0188, B:37:0x019a, B:39:0x01a2, B:41:0x01a8, B:42:0x01ba, B:44:0x01be, B:45:0x01c7, B:46:0x01c9, B:28:0x0145), top: B:50:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0152 A[Catch: all -> 0x0009, TryCatch #0 {all -> 0x0009, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000c, B:11:0x0015, B:12:0x001d, B:14:0x00dc, B:18:0x00e8, B:20:0x0123, B:22:0x012b, B:24:0x0131, B:26:0x0148, B:28:0x0152, B:29:0x017a, B:31:0x0182, B:33:0x0188, B:34:0x019a, B:36:0x01a2, B:38:0x01a8, B:39:0x01ba, B:41:0x01be, B:42:0x01c7, B:43:0x01c9, B:46:0x0145), top: B:3:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01be A[Catch: all -> 0x0009, TryCatch #0 {all -> 0x0009, blocks: (B:4:0x0003, B:6:0x0007, B:9:0x000c, B:11:0x0015, B:12:0x001d, B:14:0x00dc, B:18:0x00e8, B:20:0x0123, B:22:0x012b, B:24:0x0131, B:26:0x0148, B:28:0x0152, B:29:0x017a, B:31:0x0182, B:33:0x0188, B:34:0x019a, B:36:0x01a2, B:38:0x01a8, B:39:0x01ba, B:41:0x01be, B:42:0x01c7, B:43:0x01c9, B:46:0x0145), top: B:3:0x0003, inners: #1 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -720,8 +720,7 @@ public class UserConfig extends BaseController {
     }
 
     public void setPinnedDialogsLoaded(int i, boolean z) {
-        SharedPreferences.Editor edit = getPreferences().edit();
-        edit.putBoolean("2pinnedDialogsLoaded" + i, z).commit();
+        getPreferences().edit().putBoolean("2pinnedDialogsLoaded" + i, z).commit();
     }
 
     public void setTotalDialogsCount(int i, int i2) {
@@ -737,20 +736,18 @@ public class UserConfig extends BaseController {
         LongSparseArray<SaveToGallerySettingsHelper.DialogException> longSparseArray2;
         if (i == 1) {
             this.userSaveGalleryExceptions = longSparseArray;
-            Context context = ApplicationLoader.applicationContext;
-            sharedPreferences = context.getSharedPreferences(SaveToGallerySettingsHelper.USERS_PREF_NAME + "_" + this.currentAccount, 0);
+            sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences(SaveToGallerySettingsHelper.USERS_PREF_NAME + "_" + this.currentAccount, 0);
             longSparseArray2 = this.userSaveGalleryExceptions;
         } else if (i == 2) {
             this.groupsSaveGalleryExceptions = longSparseArray;
-            Context context2 = ApplicationLoader.applicationContext;
-            sharedPreferences = context2.getSharedPreferences(SaveToGallerySettingsHelper.GROUPS_PREF_NAME + "_" + this.currentAccount, 0);
+            sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences(SaveToGallerySettingsHelper.GROUPS_PREF_NAME + "_" + this.currentAccount, 0);
             longSparseArray2 = this.groupsSaveGalleryExceptions;
-        } else if (i != 4) {
-            return;
         } else {
+            if (i != 4) {
+                return;
+            }
             this.chanelSaveGalleryExceptions = longSparseArray;
-            Context context3 = ApplicationLoader.applicationContext;
-            sharedPreferences = context3.getSharedPreferences(SaveToGallerySettingsHelper.CHANNELS_PREF_NAME + "_" + this.currentAccount, 0);
+            sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences(SaveToGallerySettingsHelper.CHANNELS_PREF_NAME + "_" + this.currentAccount, 0);
             longSparseArray2 = this.chanelSaveGalleryExceptions;
         }
         SaveToGallerySettingsHelper.saveExceptions(sharedPreferences, longSparseArray2);

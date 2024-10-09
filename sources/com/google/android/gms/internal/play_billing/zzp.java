@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 abstract class zzp {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -9,7 +10,6 @@ abstract class zzp {
         if (obj2 != null) {
             return;
         }
-        String obj3 = obj.toString();
-        throw new NullPointerException("null value in entry: " + obj3 + "=null");
+        throw new NullPointerException("null value in entry: " + obj.toString() + "=null");
     }
 }

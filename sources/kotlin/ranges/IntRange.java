@@ -1,6 +1,7 @@
 package kotlin.ranges;
 
 import kotlin.jvm.internal.DefaultConstructorMarker;
+
 /* loaded from: classes.dex */
 public final class IntRange extends IntProgression {
     public static final Companion Companion = new Companion(null);

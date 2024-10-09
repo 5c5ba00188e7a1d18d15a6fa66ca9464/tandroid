@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
 import com.google.android.exoplayer2.source.SampleStream;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.MediaClock;
+
 /* loaded from: classes.dex */
 public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     private RendererConfiguration configuration;

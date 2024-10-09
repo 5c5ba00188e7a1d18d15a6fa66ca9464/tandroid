@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzfv implements zzfs {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfs

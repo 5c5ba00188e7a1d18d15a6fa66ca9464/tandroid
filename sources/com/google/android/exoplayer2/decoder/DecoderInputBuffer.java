@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.decoder;
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
 import com.google.android.exoplayer2.Format;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public class DecoderInputBuffer extends Buffer {
     private final int bufferReplacementMode;

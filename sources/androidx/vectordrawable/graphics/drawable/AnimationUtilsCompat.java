@@ -23,9 +23,11 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import java.io.IOException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* loaded from: classes.dex */
 public abstract class AnimationUtilsCompat {
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x00ca, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x00ca, code lost:
+    
         return r4;
      */
     /*
@@ -60,9 +62,10 @@ public abstract class AnimationUtilsCompat {
                             accelerateInterpolator = new AnticipateOvershootInterpolator(context, asAttributeSet);
                         } else if (name.equals("bounceInterpolator")) {
                             interpolator = new BounceInterpolator();
-                        } else if (!name.equals("pathInterpolator")) {
-                            throw new RuntimeException("Unknown interpolator name: " + xmlPullParser.getName());
                         } else {
+                            if (!name.equals("pathInterpolator")) {
+                                throw new RuntimeException("Unknown interpolator name: " + xmlPullParser.getName());
+                            }
                             accelerateInterpolator = new PathInterpolatorCompat(context, asAttributeSet, xmlPullParser);
                         }
                         interpolator = accelerateInterpolator;

@@ -21,6 +21,7 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.DoubleStream;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class P2 implements java.util.stream.Stream {
     public final /* synthetic */ Stream a;

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class zzlv extends RuntimeException {
     private final List zza;

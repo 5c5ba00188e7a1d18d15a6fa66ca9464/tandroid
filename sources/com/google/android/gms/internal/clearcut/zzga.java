@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class zzga {
     public static String zza(zzfz zzfzVar) {
@@ -25,7 +26,6 @@ public abstract class zzga {
     }
 
     private static void zza(String str, Object obj, StringBuffer stringBuffer, StringBuffer stringBuffer2) {
-        Field[] fields;
         if (obj != null) {
             if (!(obj instanceof zzfz)) {
                 String zzl = zzl(str);

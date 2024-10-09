@@ -27,6 +27,7 @@ import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Stories.SelfStoryViewsView;
+
 /* loaded from: classes4.dex */
 public abstract class SelfStoriesPreviewView extends View {
     boolean checkScroll;
@@ -79,8 +80,10 @@ public abstract class SelfStoriesPreviewView extends View {
             if (spannableStringBuilder.length() == 0) {
                 createStaticLayout = null;
             } else {
+                TextPaint textPaint = this.paint;
+                int i = (int) (SelfStoriesPreviewView.this.textWidth + 1.0f);
                 Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
-                StaticLayout createStaticLayout2 = StaticLayoutEx.createStaticLayout(spannableStringBuilder, this.paint, (int) (SelfStoriesPreviewView.this.textWidth + 1.0f), alignment, 1.0f, 0.0f, false, null, ConnectionsManager.DEFAULT_DATACENTER_ID, 1);
+                StaticLayout createStaticLayout2 = StaticLayoutEx.createStaticLayout(spannableStringBuilder, textPaint, i, alignment, 1.0f, 0.0f, false, null, ConnectionsManager.DEFAULT_DATACENTER_ID, 1);
                 this.layout = createStaticLayout2;
                 if (createStaticLayout2.getLineCount() <= 1) {
                     return;
@@ -333,12 +336,12 @@ public abstract class SelfStoriesPreviewView extends View {
         int i3 = 0;
         int i4 = -1;
         while (i3 < this.storyItems.size()) {
-            int i5 = this.viewW;
-            float f7 = (-this.scrollX) + ((this.childPadding + i5) * i3);
-            float f8 = ((i5 / f5) + f7) - measuredWidth;
-            float abs = Math.abs(f8);
+            float f7 = -this.scrollX;
+            float f8 = f7 + ((this.childPadding + r10) * i3);
+            float f9 = ((this.viewW / f5) + f8) - measuredWidth;
+            float abs = Math.abs(f9);
             if (abs < this.viewW) {
-                f = 1.0f - (Math.abs(f8) / this.viewW);
+                f = 1.0f - (Math.abs(f9) / this.viewW);
                 f2 = (0.2f * f) + 1.0f;
             } else {
                 f = 0.0f;
@@ -348,37 +351,37 @@ public abstract class SelfStoriesPreviewView extends View {
                 i4 = i3;
                 f6 = abs;
             }
-            float f9 = f8 < 0.0f ? f7 - ((this.viewW * 0.1f) * (1.0f - f)) : f7 + (this.viewW * 0.1f * (1.0f - f));
-            if (f9 > getMeasuredWidth() || this.viewW + f9 < 0.0f) {
+            float f10 = f9 < 0.0f ? f8 - ((this.viewW * 0.1f) * (1.0f - f)) : f8 + (this.viewW * 0.1f * (1.0f - f));
+            if (f10 > getMeasuredWidth() || this.viewW + f10 < 0.0f) {
                 f3 = measuredWidth;
                 f4 = f6;
             } else {
                 ImageHolder findOrCreateImageReceiver = findOrCreateImageReceiver(i3, this.imageReceiversTmp);
-                float f10 = this.viewW;
-                float f11 = f10 * f2;
-                float f12 = this.viewH;
-                float f13 = f2 * f12;
-                float f14 = f9 - ((f11 - f10) / f5);
-                float f15 = this.topPadding - ((f13 - f12) / f5);
+                float f11 = this.viewW;
+                float f12 = f11 * f2;
+                float f13 = this.viewH;
+                float f14 = f2 * f13;
+                float f15 = f10 - ((f12 - f11) / f5);
+                float f16 = this.topPadding - ((f14 - f13) / f5);
                 if (this.progressToOpen == 0.0f || i3 == (i = this.lastClosestPosition)) {
                     f3 = measuredWidth;
                     f4 = f6;
-                    findOrCreateImageReceiver.receiver.setImageCoords(f14, f15, f11, f13);
+                    findOrCreateImageReceiver.receiver.setImageCoords(f15, f16, f12, f14);
                 } else {
                     f3 = measuredWidth;
                     f4 = f6;
-                    findOrCreateImageReceiver.receiver.setImageCoords(AndroidUtilities.lerp((i3 - i) * getMeasuredWidth(), f14, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromY, f15, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromW, f11, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromH, f13, this.progressToOpen));
+                    findOrCreateImageReceiver.receiver.setImageCoords(AndroidUtilities.lerp((i3 - i) * getMeasuredWidth(), f15, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromY, f16, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromW, f12, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromH, f14, this.progressToOpen));
                 }
                 if (this.progressToOpen == 1.0f || i3 != this.lastClosestPosition) {
                     findOrCreateImageReceiver.receiver.draw(canvas);
                     if (findOrCreateImageReceiver.layout != null) {
-                        int i6 = (int) (((f * 0.3f) + 0.7f) * 255.0f);
-                        this.gradientDrawable.setAlpha(i6);
+                        int i5 = (int) (((f * 0.3f) + 0.7f) * 255.0f);
+                        this.gradientDrawable.setAlpha(i5);
                         this.gradientDrawable.setBounds((int) findOrCreateImageReceiver.receiver.getImageX(), (int) (findOrCreateImageReceiver.receiver.getImageY2() - AndroidUtilities.dp(24.0f)), (int) findOrCreateImageReceiver.receiver.getImageX2(), ((int) findOrCreateImageReceiver.receiver.getImageY2()) + 2);
                         this.gradientDrawable.draw(canvas);
                         canvas.save();
                         canvas.translate(findOrCreateImageReceiver.receiver.getCenterX() - (this.textWidth / 2.0f), (findOrCreateImageReceiver.receiver.getImageY2() - AndroidUtilities.dp(8.0f)) - findOrCreateImageReceiver.layout.getHeight());
-                        findOrCreateImageReceiver.paint.setAlpha(i6);
+                        findOrCreateImageReceiver.paint.setAlpha(i5);
                         findOrCreateImageReceiver.layout.draw(canvas);
                         canvas.restore();
                         this.lastDrawnImageReceivers.add(findOrCreateImageReceiver);
@@ -396,8 +399,8 @@ public abstract class SelfStoriesPreviewView extends View {
             this.lastClosestPosition = i4;
             onClosestPositionChanged(i4);
         }
-        for (int i7 = 0; i7 < this.imageReceiversTmp.size(); i7++) {
-            ((ImageHolder) this.imageReceiversTmp.get(i7)).onDetach();
+        for (int i6 = 0; i6 < this.imageReceiversTmp.size(); i6++) {
+            ((ImageHolder) this.imageReceiversTmp.get(i6)).onDetach();
         }
         this.imageReceiversTmp.clear();
     }
@@ -450,13 +453,11 @@ public abstract class SelfStoriesPreviewView extends View {
                 this.scrollAnimator = null;
             }
             if (!z) {
-                int i2 = this.viewW;
-                this.scrollX = ((-getMeasuredWidth()) / 2.0f) + (i2 / 2.0f) + ((i2 + this.childPadding) * i);
+                this.scrollX = ((-getMeasuredWidth()) / 2.0f) + (this.viewW / 2.0f) + ((r0 + this.childPadding) * i);
                 invalidate();
                 return;
             }
-            int i3 = this.viewW;
-            float f = ((-getMeasuredWidth()) / 2.0f) + (i3 / 2.0f) + ((i3 + this.childPadding) * i);
+            float f = ((-getMeasuredWidth()) / 2.0f) + (this.viewW / 2.0f) + ((r1 + this.childPadding) * i);
             float f2 = this.scrollX;
             if (f == f2) {
                 return;
@@ -493,14 +494,11 @@ public abstract class SelfStoriesPreviewView extends View {
             valueAnimator.cancel();
             this.scrollAnimator = null;
         }
-        int i2 = this.viewW;
-        float f3 = ((-getMeasuredWidth()) / 2.0f) + (i2 / 2.0f) + ((i2 + this.childPadding) * i);
+        float f3 = ((-getMeasuredWidth()) / 2.0f) + (this.viewW / 2.0f) + ((r2 + this.childPadding) * i);
         if (f > 0.0f) {
-            int i3 = this.viewW;
-            f2 = ((-getMeasuredWidth()) / 2.0f) + (i3 / 2.0f) + ((i3 + this.childPadding) * (i + 1));
+            f2 = ((-getMeasuredWidth()) / 2.0f) + (this.viewW / 2.0f) + ((r4 + this.childPadding) * (i + 1));
         } else {
-            int i4 = this.viewW;
-            f2 = ((-getMeasuredWidth()) / 2.0f) + (i4 / 2.0f) + ((i4 + this.childPadding) * (i - 1));
+            f2 = ((-getMeasuredWidth()) / 2.0f) + (this.viewW / 2.0f) + ((r4 + this.childPadding) * (i - 1));
             f = -f;
         }
         if (f == 0.0f) {

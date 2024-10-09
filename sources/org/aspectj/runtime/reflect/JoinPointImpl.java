@@ -3,6 +3,7 @@ package org.aspectj.runtime.reflect;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.SourceLocation;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class JoinPointImpl implements JoinPoint {

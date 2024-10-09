@@ -22,6 +22,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LoadingSpan;
 import org.telegram.ui.Components.RadioButton;
+
 /* loaded from: classes3.dex */
 public class StarGiveawayOptionCell extends FrameLayout {
     private final AnimatedFloat animatedStarsCount;

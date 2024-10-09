@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 abstract class zzlq {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -44,7 +45,6 @@ abstract class zzlq {
                         }
                         sb.append((char) zza);
                         continue;
-                        break;
                 }
             } else {
                 str = "\\\\";

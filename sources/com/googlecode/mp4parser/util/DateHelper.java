@@ -1,6 +1,7 @@
 package com.googlecode.mp4parser.util;
 
 import java.util.Date;
+
 /* loaded from: classes.dex */
 public abstract class DateHelper {
     public static long convert(Date date) {

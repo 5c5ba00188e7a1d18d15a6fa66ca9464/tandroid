@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
+
 /* loaded from: classes.dex */
 public final class TtmlDecoder extends SimpleSubtitleDecoder {
     private final XmlPullParserFactory xmlParserFactory;
@@ -151,10 +152,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
             try {
                 int parseInt = Integer.parseInt((String) Assertions.checkNotNull(matcher.group(1)));
                 int parseInt2 = Integer.parseInt((String) Assertions.checkNotNull(matcher.group(2)));
-                if (parseInt == 0 || parseInt2 == 0) {
-                    throw new SubtitleDecoderException("Invalid cell resolution " + parseInt + " " + parseInt2);
+                if (parseInt != 0 && parseInt2 != 0) {
+                    return new CellResolution(parseInt, parseInt2);
                 }
-                return new CellResolution(parseInt, parseInt2);
+                throw new SubtitleDecoderException("Invalid cell resolution " + parseInt + " " + parseInt2);
             } catch (NumberFormatException unused) {
                 sb = new StringBuilder();
             }
@@ -172,9 +173,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         String[] split = Util.split(str, "\\s+");
         if (split.length == 1) {
             matcher = FONT_SIZE.matcher(str);
-        } else if (split.length != 2) {
-            throw new SubtitleDecoderException("Invalid number of entries for fontSize: " + split.length + ".");
         } else {
+            if (split.length != 2) {
+                throw new SubtitleDecoderException("Invalid number of entries for fontSize: " + split.length + ".");
+            }
             matcher = FONT_SIZE.matcher(split[1]);
             Log.w("TtmlDecoder", "Multiple values in fontSize attribute. Picking the second value for vertical font size and ignoring the first.");
         }
@@ -226,11 +228,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         int parseInt = attributeValue != null ? Integer.parseInt(attributeValue) : 30;
         String attributeValue2 = xmlPullParser.getAttributeValue("http://www.w3.org/ns/ttml#parameter", "frameRateMultiplier");
         if (attributeValue2 != null) {
-            String[] split = Util.split(attributeValue2, " ");
-            if (split.length != 2) {
+            if (Util.split(attributeValue2, " ").length != 2) {
                 throw new SubtitleDecoderException("frameRateMultiplier doesn't have 2 parts");
             }
-            f = Integer.parseInt(split[0]) / Integer.parseInt(split[1]);
+            f = Integer.parseInt(r2[0]) / Integer.parseInt(r2[1]);
         } else {
             f = 1.0f;
         }
@@ -285,7 +286,6 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         } while (!XmlPullParserUtil.isEndTag(xmlPullParser, "metadata"));
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     private static TtmlNode parseNode(XmlPullParser xmlPullParser, TtmlNode ttmlNode, Map map, FrameAndTickRate frameAndTickRate) {
         long j;
         long j2;
@@ -308,50 +308,44 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                         c = 0;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 99841:
                     if (attributeName.equals("dur")) {
                         c = 1;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 100571:
                     if (attributeName.equals("end")) {
                         c = 2;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 93616297:
                     if (attributeName.equals("begin")) {
                         c = 3;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 109780401:
                     if (attributeName.equals("style")) {
                         c = 4;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 1292595405:
                     if (attributeName.equals("backgroundImage")) {
                         c = 5;
                         break;
                     }
-                    c = 65535;
-                    break;
-                default:
-                    c = 65535;
                     break;
             }
+            c = 65535;
             switch (c) {
                 case 0:
-                    if (map.containsKey(attributeValue)) {
+                    if (!map.containsKey(attributeValue)) {
+                        break;
+                    } else {
                         str2 = attributeValue;
                         continue;
                     }
@@ -410,10 +404,11 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x0186, code lost:
-        if (r0.equals("tb") == false) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0186, code lost:
+    
+        if (r0.equals("tb") == false) goto L50;
      */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0159  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0159  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -468,9 +463,8 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
             } else {
                 try {
                     int parseInt = Integer.parseInt((String) Assertions.checkNotNull(matcher2.group(1)));
-                    int parseInt2 = Integer.parseInt((String) Assertions.checkNotNull(matcher2.group(2)));
                     f = parseInt / ttsExtent.width;
-                    parseFloat = parseInt2 / ttsExtent.height;
+                    parseFloat = Integer.parseInt((String) Assertions.checkNotNull(matcher2.group(2))) / ttsExtent.height;
                 } catch (NumberFormatException unused2) {
                     sb = new StringBuilder();
                     sb.append(str3);
@@ -510,11 +504,9 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                     str = sb.toString();
                 } else {
                     try {
-                        int parseInt3 = Integer.parseInt((String) Assertions.checkNotNull(matcher4.group(1)));
-                        int parseInt4 = Integer.parseInt((String) Assertions.checkNotNull(matcher4.group(2)));
-                        float f3 = parseInt3 / ttsExtent.width;
-                        parseFloat2 = f3;
-                        parseFloat3 = parseInt4 / ttsExtent.height;
+                        int parseInt2 = Integer.parseInt((String) Assertions.checkNotNull(matcher4.group(1)));
+                        parseFloat2 = parseInt2 / ttsExtent.width;
+                        parseFloat3 = Integer.parseInt((String) Assertions.checkNotNull(matcher4.group(2))) / ttsExtent.height;
                     } catch (NumberFormatException unused4) {
                         sb = new StringBuilder();
                         sb.append(str3);
@@ -538,7 +530,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                         f2 = parseFloat + parseFloat3;
                         i = 2;
                     }
-                    float f4 = 1.0f / cellResolution2.rows;
+                    float f3 = 1.0f / cellResolution2.rows;
                     attributeValue = XmlPullParserUtil.getAttributeValue(xmlPullParser, "writingMode");
                     if (attributeValue != null) {
                         String lowerCase2 = Ascii.toLowerCase(attributeValue);
@@ -573,20 +565,20 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                                 i2 = 1;
                                 break;
                         }
-                        return new TtmlRegion(attributeValue2, f, f2, 0, i, parseFloat2, parseFloat3, 1, f4, i2);
+                        return new TtmlRegion(attributeValue2, f, f2, 0, i, parseFloat2, parseFloat3, 1, f3, i2);
                     }
                     i2 = Integer.MIN_VALUE;
-                    return new TtmlRegion(attributeValue2, f, f2, 0, i, parseFloat2, parseFloat3, 1, f4, i2);
+                    return new TtmlRegion(attributeValue2, f, f2, 0, i, parseFloat2, parseFloat3, 1, f3, i2);
                 }
                 cellResolution2 = cellResolution;
                 f2 = parseFloat;
                 i = 0;
-                float f42 = 1.0f / cellResolution2.rows;
+                float f32 = 1.0f / cellResolution2.rows;
                 attributeValue = XmlPullParserUtil.getAttributeValue(xmlPullParser, "writingMode");
                 if (attributeValue != null) {
                 }
                 i2 = Integer.MIN_VALUE;
-                return new TtmlRegion(attributeValue2, f, f2, 0, i, parseFloat2, parseFloat3, 1, f42, i2);
+                return new TtmlRegion(attributeValue2, f, f2, 0, i, parseFloat2, parseFloat3, 1, f32, i2);
             }
             str = "Ignoring region without an extent";
         } else {
@@ -610,10 +602,11 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         }
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x01c5, code lost:
-        if (r3.equals("text") == false) goto L49;
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x01c5, code lost:
+    
+        if (r3.equals("text") == false) goto L101;
      */
+    /* JADX WARN: Failed to find 'out' block for switch in B:85:0x025c. Please report as an issue. */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -634,110 +627,93 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                         c = 0;
                         break;
                     }
-                    c = 65535;
                     break;
                 case -1224696685:
                     if (attributeName.equals("fontFamily")) {
                         c = 1;
                         break;
                     }
-                    c = 65535;
                     break;
                 case -1065511464:
                     if (attributeName.equals("textAlign")) {
                         c = 2;
                         break;
                     }
-                    c = 65535;
                     break;
                 case -879295043:
                     if (attributeName.equals("textDecoration")) {
                         c = 3;
                         break;
                     }
-                    c = 65535;
                     break;
                 case -734428249:
                     if (attributeName.equals("fontWeight")) {
                         c = 4;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 3355:
                     if (attributeName.equals("id")) {
                         c = 5;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 3511770:
                     if (attributeName.equals("ruby")) {
                         c = 6;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 94842723:
                     if (attributeName.equals("color")) {
                         c = 7;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 109403361:
                     if (attributeName.equals("shear")) {
                         c = '\b';
                         break;
                     }
-                    c = 65535;
                     break;
                 case 110138194:
                     if (attributeName.equals("textCombine")) {
                         c = '\t';
                         break;
                     }
-                    c = 65535;
                     break;
                 case 365601008:
                     if (attributeName.equals("fontSize")) {
                         c = '\n';
                         break;
                     }
-                    c = 65535;
                     break;
                 case 921125321:
                     if (attributeName.equals("textEmphasis")) {
                         c = 11;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 1115953443:
                     if (attributeName.equals("rubyPosition")) {
                         c = '\f';
                         break;
                     }
-                    c = 65535;
                     break;
                 case 1287124693:
                     if (attributeName.equals("backgroundColor")) {
                         c = '\r';
                         break;
                     }
-                    c = 65535;
                     break;
                 case 1754920356:
                     if (attributeName.equals("multiRowAlign")) {
                         c = 14;
                         break;
                     }
-                    c = 65535;
-                    break;
-                default:
-                    c = 65535;
                     break;
             }
+            c = 65535;
             switch (c) {
                 case 0:
                     ttmlStyle = createIfNull(ttmlStyle).setItalic("italic".equalsIgnoreCase(attributeValue));
@@ -780,25 +756,24 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                     switch (c3) {
                         case 0:
                             ttmlStyle = createIfNull(ttmlStyle).setUnderline(false);
-                            continue;
+                            break;
                         case 1:
                             ttmlStyle = createIfNull(ttmlStyle).setUnderline(true);
-                            continue;
+                            break;
                         case 2:
                             ttmlStyle = createIfNull(ttmlStyle).setLinethrough(false);
-                            continue;
+                            break;
                         case 3:
                             ttmlStyle = createIfNull(ttmlStyle).setLinethrough(true);
                             continue;
-                            continue;
                     }
-                    break;
                 case 4:
                     ttmlStyle = createIfNull(ttmlStyle).setBold("bold".equalsIgnoreCase(attributeValue));
                     continue;
                 case 5:
                     if ("style".equals(xmlPullParser.getName())) {
                         ttmlStyle = createIfNull(ttmlStyle).setId(attributeValue);
+                        break;
                     } else {
                         continue;
                     }
@@ -811,60 +786,51 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                                 c2 = 0;
                                 break;
                             }
-                            c2 = 65535;
                             break;
                         case -410956671:
                             if (lowerCase2.equals("container")) {
                                 c2 = 1;
                                 break;
                             }
-                            c2 = 65535;
                             break;
                         case -250518009:
                             if (lowerCase2.equals("delimiter")) {
                                 c2 = 2;
                                 break;
                             }
-                            c2 = 65535;
                             break;
                         case -136074796:
                             if (lowerCase2.equals("textContainer")) {
                                 c2 = 3;
                                 break;
                             }
-                            c2 = 65535;
                             break;
                         case 3016401:
                             if (lowerCase2.equals("base")) {
                                 c2 = 4;
                                 break;
                             }
-                            c2 = 65535;
                             break;
                         case 3556653:
                             break;
-                        default:
-                            c2 = 65535;
-                            break;
                     }
+                    c2 = 65535;
                     switch (c2) {
                         case 0:
                         case 4:
                             ttmlStyle = createIfNull(ttmlStyle).setRubyType(2);
-                            continue;
+                            break;
                         case 1:
                             ttmlStyle = createIfNull(ttmlStyle).setRubyType(1);
-                            continue;
+                            break;
                         case 2:
                             ttmlStyle = createIfNull(ttmlStyle).setRubyType(4);
-                            continue;
+                            break;
                         case 3:
                         case 5:
                             ttmlStyle = createIfNull(ttmlStyle).setRubyType(3);
                             continue;
-                            continue;
                     }
-                    break;
                 case 7:
                     ttmlStyle = createIfNull(ttmlStyle);
                     try {
@@ -883,7 +849,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                     lowerCase3.hashCode();
                     if (lowerCase3.equals("all")) {
                         ttmlStyle = createIfNull(ttmlStyle).setTextCombine(true);
-                    } else if (lowerCase3.equals("none")) {
+                        break;
+                    } else if (!lowerCase3.equals("none")) {
+                        break;
+                    } else {
                         ttmlStyle = createIfNull(ttmlStyle).setTextCombine(false);
                         continue;
                     }
@@ -905,7 +874,10 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                     lowerCase4.hashCode();
                     if (lowerCase4.equals("before")) {
                         ttmlStyle = createIfNull(ttmlStyle).setRubyPosition(1);
-                    } else if (lowerCase4.equals("after")) {
+                        break;
+                    } else if (!lowerCase4.equals("after")) {
+                        break;
+                    } else {
                         ttmlStyle = createIfNull(ttmlStyle).setRubyPosition(2);
                         continue;
                     }
@@ -922,7 +894,6 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                 case 14:
                     ttmlStyle = createIfNull(ttmlStyle).setMultiRowAlign(parseAlignment(attributeValue));
                     continue;
-                default:
             }
             sb.append(str);
             sb.append(attributeValue);
@@ -937,16 +908,17 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00d1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x00d1, code lost:
+    
         if (r13.equals("ms") == false) goto L21;
      */
+    /* JADX WARN: Failed to find 'out' block for switch in B:22:0x00ff. Please report as an issue. */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static long parseTimeExpression(String str, FrameAndTickRate frameAndTickRate) {
         double d;
         double d2;
-        String group;
         Matcher matcher = CLOCK_TIME.matcher(str);
         char c = 4;
         if (matcher.matches()) {
@@ -957,12 +929,12 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
             double parseLong3 = Long.parseLong((String) Assertions.checkNotNull(matcher.group(3)));
             Double.isNaN(parseLong3);
             double d3 = parseLong + parseLong2 + parseLong3;
-            String group2 = matcher.group(4);
+            String group = matcher.group(4);
             double d4 = 0.0d;
-            double parseDouble = d3 + (group2 != null ? Double.parseDouble(group2) : 0.0d) + (matcher.group(5) != null ? ((float) Long.parseLong(group)) / frameAndTickRate.effectiveFrameRate : 0.0d);
-            String group3 = matcher.group(6);
-            if (group3 != null) {
-                double parseLong4 = Long.parseLong(group3);
+            double parseDouble = d3 + (group != null ? Double.parseDouble(group) : 0.0d) + (matcher.group(5) != null ? ((float) Long.parseLong(r13)) / frameAndTickRate.effectiveFrameRate : 0.0d);
+            String group2 = matcher.group(6);
+            if (group2 != null) {
+                double parseLong4 = Long.parseLong(group2);
                 double d5 = frameAndTickRate.subFrameRate;
                 Double.isNaN(parseLong4);
                 Double.isNaN(d5);
@@ -1019,27 +991,26 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                 d = frameAndTickRate.effectiveFrameRate;
                 Double.isNaN(d);
                 parseDouble2 /= d;
-                return (long) (parseDouble2 * 1000000.0d);
+                break;
             case 1:
                 d2 = 3600.0d;
                 parseDouble2 *= d2;
-                return (long) (parseDouble2 * 1000000.0d);
+                break;
             case 2:
                 d2 = 60.0d;
                 parseDouble2 *= d2;
-                return (long) (parseDouble2 * 1000000.0d);
+                break;
             case 3:
                 d = frameAndTickRate.tickRate;
                 Double.isNaN(d);
                 parseDouble2 /= d;
-                return (long) (parseDouble2 * 1000000.0d);
+                break;
             case 4:
                 d = 1000.0d;
                 parseDouble2 /= d;
-                return (long) (parseDouble2 * 1000000.0d);
-            default:
-                return (long) (parseDouble2 * 1000000.0d);
+                break;
         }
+        return (long) (parseDouble2 * 1000000.0d);
     }
 
     private static TtsExtent parseTtsExtent(XmlPullParser xmlPullParser) {

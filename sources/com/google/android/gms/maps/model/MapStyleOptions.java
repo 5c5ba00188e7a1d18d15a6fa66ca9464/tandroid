@@ -9,6 +9,7 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.util.IOUtils;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public final class MapStyleOptions extends AbstractSafeParcelable {
     public static final Parcelable.Creator<MapStyleOptions> CREATOR = new zzh();
@@ -23,8 +24,7 @@ public final class MapStyleOptions extends AbstractSafeParcelable {
         try {
             return new MapStyleOptions(new String(IOUtils.readInputStreamFully(context.getResources().openRawResource(i)), "UTF-8"));
         } catch (IOException e) {
-            String obj = e.toString();
-            throw new Resources.NotFoundException("Failed to read resource " + i + ": " + obj);
+            throw new Resources.NotFoundException("Failed to read resource " + i + ": " + e.toString());
         }
     }
 

@@ -1,6 +1,7 @@
 package com.google.android.play.integrity.internal;
 
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 public abstract class t implements Runnable {
     private final TaskCompletionSource a;

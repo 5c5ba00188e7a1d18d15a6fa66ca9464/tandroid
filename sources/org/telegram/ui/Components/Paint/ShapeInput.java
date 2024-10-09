@@ -11,6 +11,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Size;
+
 /* loaded from: classes3.dex */
 public class ShapeInput {
     private Point center;
@@ -178,59 +179,59 @@ public class ShapeInput {
             double d2 = this.shape.thickness / 2.0f;
             Double.isNaN(d2);
             return d - d2 < ((double) AndroidUtilities.dp(30.0f));
-        } else if (this.shape.getType() != 1 && this.shape.getType() != 3) {
-            if (this.shape.getType() == 4) {
-                Size size = this.renderView.getPainting().getSize();
-                Shape shape3 = this.shape;
-                float distToLine = distToLine(f, f2, shape3.centerX, shape3.centerY, shape3.middleX, shape3.middleY);
-                Shape shape4 = this.shape;
-                return Math.min(distToLine, distToLine(f, f2, shape4.radiusX, shape4.radiusY, shape4.middleX, shape4.middleY)) - (this.shape.thickness / 2.0f) < Math.min(size.width, size.height) * 0.1f;
-            }
-            return false;
-        } else {
-            Shape shape5 = this.shape;
-            float f4 = shape5.centerX;
-            float f5 = shape5.radiusX;
-            float f6 = shape5.thickness / 2.0f;
-            float f7 = (f4 - f5) - f6;
-            float f8 = shape5.centerY;
-            float f9 = shape5.radiusY;
-            float f10 = (f8 - f9) - f6;
-            float f11 = f4 + f5 + f6;
-            float f12 = f8 + f9 + f6;
-            if (f2 <= f10 || f2 >= f12) {
-                if (f >= f7 || f <= f11) {
-                    double d3 = f - f7;
-                    double d4 = f2 - f10;
-                    double d5 = f - f11;
-                    double d6 = f2 - f12;
-                    sqrt = (float) Math.sqrt(Math.min(Math.min(Math.pow(d3, 2.0d) + Math.pow(d4, 2.0d), Math.pow(d5, 2.0d) + Math.pow(d4, 2.0d)), Math.min(Math.pow(d3, 2.0d) + Math.pow(d6, 2.0d), Math.pow(d5, 2.0d) + Math.pow(d6, 2.0d))));
-                } else if (f2 < f10) {
-                    sqrt = f10 - f2;
-                } else {
-                    if (f2 > f12) {
-                        sqrt = f2 - f12;
-                    }
-                    f3 = 0.0f;
-                }
-                f3 = sqrt;
-            } else {
-                if (f < f7) {
-                    sqrt = f7 - f;
-                } else {
-                    if (f > f11) {
-                        sqrt = f - f11;
-                    }
-                    f3 = 0.0f;
-                }
-                f3 = sqrt;
-            }
-            if (this.shape.getType() == 3) {
-                Shape shape6 = this.shape;
-                f3 = Math.min(f3, distToLine(f, f2, shape6.centerX, shape6.centerY, shape6.middleX, shape6.middleY));
-            }
-            return f3 < ((float) AndroidUtilities.dp(30.0f));
         }
+        if (this.shape.getType() != 1 && this.shape.getType() != 3) {
+            if (this.shape.getType() != 4) {
+                return false;
+            }
+            Size size = this.renderView.getPainting().getSize();
+            Shape shape3 = this.shape;
+            float distToLine = distToLine(f, f2, shape3.centerX, shape3.centerY, shape3.middleX, shape3.middleY);
+            Shape shape4 = this.shape;
+            return Math.min(distToLine, distToLine(f, f2, shape4.radiusX, shape4.radiusY, shape4.middleX, shape4.middleY)) - (this.shape.thickness / 2.0f) < Math.min(size.width, size.height) * 0.1f;
+        }
+        Shape shape5 = this.shape;
+        float f4 = shape5.centerX;
+        float f5 = shape5.radiusX;
+        float f6 = shape5.thickness / 2.0f;
+        float f7 = (f4 - f5) - f6;
+        float f8 = shape5.centerY;
+        float f9 = shape5.radiusY;
+        float f10 = (f8 - f9) - f6;
+        float f11 = f4 + f5 + f6;
+        float f12 = f8 + f9 + f6;
+        if (f2 <= f10 || f2 >= f12) {
+            if (f >= f7 || f <= f11) {
+                double d3 = f - f7;
+                double d4 = f2 - f10;
+                double d5 = f - f11;
+                double d6 = f2 - f12;
+                sqrt = (float) Math.sqrt(Math.min(Math.min(Math.pow(d3, 2.0d) + Math.pow(d4, 2.0d), Math.pow(d5, 2.0d) + Math.pow(d4, 2.0d)), Math.min(Math.pow(d3, 2.0d) + Math.pow(d6, 2.0d), Math.pow(d5, 2.0d) + Math.pow(d6, 2.0d))));
+            } else if (f2 < f10) {
+                sqrt = f10 - f2;
+            } else {
+                if (f2 > f12) {
+                    sqrt = f2 - f12;
+                }
+                f3 = 0.0f;
+            }
+            f3 = sqrt;
+        } else {
+            if (f < f7) {
+                sqrt = f7 - f;
+            } else {
+                if (f > f11) {
+                    sqrt = f - f11;
+                }
+                f3 = 0.0f;
+            }
+            f3 = sqrt;
+        }
+        if (this.shape.getType() == 3) {
+            Shape shape6 = this.shape;
+            f3 = Math.min(f3, distToLine(f, f2, shape6.centerX, shape6.centerY, shape6.middleX, shape6.middleY));
+        }
+        return f3 < ((float) AndroidUtilities.dp(30.0f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -513,9 +514,10 @@ public class ShapeInput {
                 @Override // org.telegram.ui.Components.Paint.ShapeInput.Point
                 protected void update(float f8, float f9) {
                     double atan2 = Math.atan2(ShapeInput.this.shape.centerY - ShapeInput.this.shape.middleY, ShapeInput.this.shape.centerX - ShapeInput.this.shape.middleX) + 1.5707963267948966d;
+                    float distance = (MathUtils.distance(ShapeInput.this.shape.centerX, ShapeInput.this.shape.centerY, ShapeInput.this.shape.middleX, ShapeInput.this.shape.middleY) * 5.5f) / 2.0f;
                     Shape shape3 = ShapeInput.this.shape;
                     ShapeInput shapeInput = ShapeInput.this;
-                    shape3.arrowTriangleLength = Math.min((MathUtils.distance(ShapeInput.this.shape.centerX, ShapeInput.this.shape.centerY, ShapeInput.this.shape.middleX, ShapeInput.this.shape.middleY) * 5.5f) / 2.0f, Math.max(100.0f, (-shapeInput.distToLine(f8, f9, shapeInput.shape.centerX, ShapeInput.this.shape.centerY, atan2)) * 5.5f));
+                    shape3.arrowTriangleLength = Math.min(distance, Math.max(100.0f, (-shapeInput.distToLine(f8, f9, shapeInput.shape.centerX, ShapeInput.this.shape.centerY, atan2)) * 5.5f));
                     set();
                 }
             };
@@ -610,12 +612,13 @@ public class ShapeInput {
                 }
             });
         }
+        boolean z = true;
         if (this.shape.getType() == 1 || this.shape.getType() == 3) {
             this.allPoints.add(new CornerPoint(this.shape, false, false));
             this.allPoints.add(new CornerPoint(this.shape, true, false));
             this.allPoints.add(new CornerPoint(this.shape, false, true));
             this.allPoints.add(new CornerPoint(this.shape, true, true));
-            this.allPoints.add(new Point(true) { // from class: org.telegram.ui.Components.Paint.ShapeInput.6
+            this.allPoints.add(new Point(z) { // from class: org.telegram.ui.Components.Paint.ShapeInput.6
                 @Override // org.telegram.ui.Components.Paint.ShapeInput.Point
                 void set() {
                     set(ShapeInput.this.shape.centerX, ShapeInput.this.shape.centerY - Math.abs(ShapeInput.this.shape.radiusY));
@@ -692,7 +695,7 @@ public class ShapeInput {
             point4.rotate = false;
             this.movingPoints.add(point4);
         }
-        this.center = new Point(true) { // from class: org.telegram.ui.Components.Paint.ShapeInput.8
+        this.center = new Point(z) { // from class: org.telegram.ui.Components.Paint.ShapeInput.8
             @Override // org.telegram.ui.Components.Paint.ShapeInput.Point
             void set() {
                 this.x = ShapeInput.this.shape.centerX;

@@ -4,6 +4,7 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzrx;
 import com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzrz;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class SubjectSegmenterOptions {
     private final boolean zza;
@@ -70,11 +71,11 @@ public class SubjectSegmenterOptions {
             if (obj == this) {
                 return true;
             }
-            if (obj instanceof SubjectResultOptions) {
-                SubjectResultOptions subjectResultOptions = (SubjectResultOptions) obj;
-                return this.zza == subjectResultOptions.zza && this.zzb == subjectResultOptions.zzb;
+            if (!(obj instanceof SubjectResultOptions)) {
+                return false;
             }
-            return false;
+            SubjectResultOptions subjectResultOptions = (SubjectResultOptions) obj;
+            return this.zza == subjectResultOptions.zza && this.zzb == subjectResultOptions.zzb;
         }
 
         public int hashCode() {
@@ -95,11 +96,11 @@ public class SubjectSegmenterOptions {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof SubjectSegmenterOptions) {
-            SubjectSegmenterOptions subjectSegmenterOptions = (SubjectSegmenterOptions) obj;
-            return this.zza == subjectSegmenterOptions.zza && this.zzb == subjectSegmenterOptions.zzb && this.zzc == subjectSegmenterOptions.zzc && this.zzd == subjectSegmenterOptions.zzd && this.zze == subjectSegmenterOptions.zze && Objects.equal(this.zzf, subjectSegmenterOptions.zzf);
+        if (!(obj instanceof SubjectSegmenterOptions)) {
+            return false;
         }
-        return false;
+        SubjectSegmenterOptions subjectSegmenterOptions = (SubjectSegmenterOptions) obj;
+        return this.zza == subjectSegmenterOptions.zza && this.zzb == subjectSegmenterOptions.zzb && this.zzc == subjectSegmenterOptions.zzc && this.zzd == subjectSegmenterOptions.zzd && this.zze == subjectSegmenterOptions.zze && Objects.equal(this.zzf, subjectSegmenterOptions.zzf);
     }
 
     public int hashCode() {

@@ -6,6 +6,7 @@ import android.location.LocationManager;
 import android.util.Log;
 import androidx.core.content.PermissionChecker;
 import java.util.Calendar;
+
 /* loaded from: classes.dex */
 class TwilightManager {
     private static TwilightManager sInstance;

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.nio.charset.Charset;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class zzid extends zzia {
@@ -17,20 +18,20 @@ public class zzid extends zzia {
         if (obj == this) {
             return true;
         }
-        if ((obj instanceof zzht) && zza() == ((zzht) obj).zza()) {
-            if (zza() == 0) {
-                return true;
-            }
-            if (obj instanceof zzid) {
-                zzid zzidVar = (zzid) obj;
-                int zzd = zzd();
-                int zzd2 = zzidVar.zzd();
-                if (zzd == 0 || zzd2 == 0 || zzd == zzd2) {
-                    return zza(zzidVar, 0, zza());
-                }
-                return false;
-            }
+        if (!(obj instanceof zzht) || zza() != ((zzht) obj).zza()) {
+            return false;
+        }
+        if (zza() == 0) {
+            return true;
+        }
+        if (!(obj instanceof zzid)) {
             return obj.equals(this);
+        }
+        zzid zzidVar = (zzid) obj;
+        int zzd = zzd();
+        int zzd2 = zzidVar.zzd();
+        if (zzd == 0 || zzd2 == 0 || zzd == zzd2) {
+            return zza(zzidVar, 0, zza());
         }
         return false;
     }
@@ -76,7 +77,8 @@ public class zzid extends zzia {
             sb.append(i2);
             sb.append(zza);
             throw new IllegalArgumentException(sb.toString());
-        } else if (i2 > zzhtVar.zza()) {
+        }
+        if (i2 > zzhtVar.zza()) {
             int zza2 = zzhtVar.zza();
             StringBuilder sb2 = new StringBuilder(59);
             sb2.append("Ran off end of other: 0, ");
@@ -84,24 +86,24 @@ public class zzid extends zzia {
             sb2.append(", ");
             sb2.append(zza2);
             throw new IllegalArgumentException(sb2.toString());
-        } else if (zzhtVar instanceof zzid) {
-            zzid zzidVar = (zzid) zzhtVar;
-            byte[] bArr = this.zzb;
-            byte[] bArr2 = zzidVar.zzb;
-            int zze = zze() + i2;
-            int zze2 = zze();
-            int zze3 = zzidVar.zze();
-            while (zze2 < zze) {
-                if (bArr[zze2] != bArr2[zze3]) {
-                    return false;
-                }
-                zze2++;
-                zze3++;
-            }
-            return true;
-        } else {
+        }
+        if (!(zzhtVar instanceof zzid)) {
             return zzhtVar.zza(0, i2).equals(zza(0, i2));
         }
+        zzid zzidVar = (zzid) zzhtVar;
+        byte[] bArr = this.zzb;
+        byte[] bArr2 = zzidVar.zzb;
+        int zze = zze() + i2;
+        int zze2 = zze();
+        int zze3 = zzidVar.zze();
+        while (zze2 < zze) {
+            if (bArr[zze2] != bArr2[zze3]) {
+                return false;
+            }
+            zze2++;
+            zze3++;
+        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

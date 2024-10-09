@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 abstract /* synthetic */ class G0 {
     static final /* synthetic */ int[] a;

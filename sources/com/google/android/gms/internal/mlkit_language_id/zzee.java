@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Map;
+
 /* loaded from: classes.dex */
 abstract class zzee {
     /* JADX INFO: Access modifiers changed from: package-private */

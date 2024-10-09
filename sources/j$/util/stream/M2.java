@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Comparator;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class M2 implements j$.util.N {
@@ -44,7 +45,7 @@ public abstract class M2 implements j$.util.N {
     abstract j$.util.N f(Object obj, int i, int i2);
 
     @Override // j$.util.N
-    /* renamed from: forEachRemaining */
+    /* renamed from: forEachRemaining, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public final void e(Object obj) {
         N2 n2;
         obj.getClass();
@@ -87,31 +88,31 @@ public abstract class M2 implements j$.util.N {
     }
 
     @Override // j$.util.N
-    /* renamed from: tryAdvance */
+    /* renamed from: tryAdvance, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public final boolean p(Object obj) {
         obj.getClass();
         int i = this.a;
         int i2 = this.b;
-        if (i < i2 || (i == i2 && this.c < this.d)) {
-            Object obj2 = this.e;
-            int i3 = this.c;
-            this.c = i3 + 1;
-            b(i3, obj2, obj);
-            int i4 = this.c;
-            Object obj3 = this.e;
-            N2 n2 = this.f;
-            if (i4 == n2.v(obj3)) {
-                this.c = 0;
-                int i5 = this.a + 1;
-                this.a = i5;
-                Object[] objArr = n2.f;
-                if (objArr != null && i5 <= i2) {
-                    this.e = objArr[i5];
-                }
-            }
-            return true;
+        if (i >= i2 && (i != i2 || this.c >= this.d)) {
+            return false;
         }
-        return false;
+        Object obj2 = this.e;
+        int i3 = this.c;
+        this.c = i3 + 1;
+        b(i3, obj2, obj);
+        int i4 = this.c;
+        Object obj3 = this.e;
+        N2 n2 = this.f;
+        if (i4 == n2.v(obj3)) {
+            this.c = 0;
+            int i5 = this.a + 1;
+            this.a = i5;
+            Object[] objArr = n2.f;
+            if (objArr != null && i5 <= i2) {
+                this.e = objArr[i5];
+            }
+        }
+        return true;
     }
 
     @Override // j$.util.N, j$.util.Q
@@ -142,17 +143,17 @@ public abstract class M2 implements j$.util.N {
             this.c = 0;
             this.e = n2.f[i2];
             return h;
-        } else if (i == i2) {
-            int i5 = this.c;
-            int i6 = (this.d - i5) / 2;
-            if (i6 == 0) {
-                return null;
-            }
-            j$.util.N f = f(this.e, i5, i6);
-            this.c += i6;
-            return f;
-        } else {
+        }
+        if (i != i2) {
             return null;
         }
+        int i5 = this.c;
+        int i6 = (this.d - i5) / 2;
+        if (i6 == 0) {
+            return null;
+        }
+        j$.util.N f = f(this.e, i5, i6);
+        this.c += i6;
+        return f;
     }
 }

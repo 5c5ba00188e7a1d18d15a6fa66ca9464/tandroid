@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.common.primitives.Ints;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class DefaultDrmSessionManagerProvider implements DrmSessionManagerProvider {
     private MediaItem.DrmConfiguration drmConfiguration;

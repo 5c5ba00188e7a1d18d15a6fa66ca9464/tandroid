@@ -7,6 +7,7 @@ import j$.util.function.Function;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class zzax implements Map, Serializable, j$.util.Map {
     private transient zzay zza;
@@ -106,12 +107,12 @@ public abstract class zzax implements Map, Serializable, j$.util.Map {
     @Override // java.util.Map
     public final /* bridge */ /* synthetic */ Set keySet() {
         zzay zzayVar = this.zzb;
-        if (zzayVar == null) {
-            zzay zze = zze();
-            this.zzb = zze;
-            return zze;
+        if (zzayVar != null) {
+            return zzayVar;
         }
-        return zzayVar;
+        zzay zze = zze();
+        this.zzb = zze;
+        return zze;
     }
 
     @Override // j$.util.Map
@@ -191,15 +192,15 @@ public abstract class zzax implements Map, Serializable, j$.util.Map {
     abstract zzaq zza();
 
     @Override // java.util.Map
-    /* renamed from: zzb */
+    /* renamed from: zzb, reason: merged with bridge method [inline-methods] */
     public final zzaq values() {
         zzaq zzaqVar = this.zzc;
-        if (zzaqVar == null) {
-            zzaq zza = zza();
-            this.zzc = zza;
-            return zza;
+        if (zzaqVar != null) {
+            return zzaqVar;
         }
-        return zzaqVar;
+        zzaq zza = zza();
+        this.zzc = zza;
+        return zza;
     }
 
     abstract zzay zzd();
@@ -207,14 +208,14 @@ public abstract class zzax implements Map, Serializable, j$.util.Map {
     abstract zzay zze();
 
     @Override // java.util.Map
-    /* renamed from: zzf */
+    /* renamed from: zzf, reason: merged with bridge method [inline-methods] */
     public final zzay entrySet() {
         zzay zzayVar = this.zza;
-        if (zzayVar == null) {
-            zzay zzd = zzd();
-            this.zza = zzd;
-            return zzd;
+        if (zzayVar != null) {
+            return zzayVar;
         }
-        return zzayVar;
+        zzay zzd = zzd();
+        this.zza = zzd;
+        return zzd;
     }
 }

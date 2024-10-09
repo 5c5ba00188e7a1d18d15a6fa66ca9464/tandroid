@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class FragmentLifecycleCallbacksDispatcher {

@@ -3,6 +3,7 @@ package com.google.android.gms.auth.api;
 import com.google.android.gms.auth.api.proxy.ProxyApi;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.internal.auth.zzbt;
+
 /* loaded from: classes.dex */
 public abstract class AuthProxy {
     public static final Api API;

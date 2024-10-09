@@ -31,6 +31,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ProgressButton;
 import org.telegram.ui.Components.ViewHelper;
+
 /* loaded from: classes4.dex */
 public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
     private final ProgressButton addButton;
@@ -153,13 +154,13 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
             AnimatorSet animatorSet3 = this.animatorSet;
             Button button = this.deleteButton;
             Property property = View.ALPHA;
-            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(button, property, f);
+            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(button, (Property<Button, Float>) property, f);
             Button button2 = this.deleteButton;
             Property property2 = View.SCALE_X;
-            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(button2, property2, f);
+            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(button2, (Property<Button, Float>) property2, f);
             Button button3 = this.deleteButton;
             Property property3 = View.SCALE_Y;
-            animatorSet3.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(button3, property3, f), ObjectAnimator.ofFloat(this.addButton, property, f2), ObjectAnimator.ofFloat(this.addButton, property2, f2), ObjectAnimator.ofFloat(this.addButton, property3, f2));
+            animatorSet3.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(button3, (Property<Button, Float>) property3, f), ObjectAnimator.ofFloat(this.addButton, (Property<ProgressButton, Float>) property, f2), ObjectAnimator.ofFloat(this.addButton, (Property<ProgressButton, Float>) property2, f2), ObjectAnimator.ofFloat(this.addButton, (Property<ProgressButton, Float>) property3, f2));
             this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.ArchivedStickerSetCell.1
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
@@ -233,11 +234,12 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
         this.onCheckedChangeListener = onCheckedChangeListener;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x006a, code lost:
-        if (r0.isEmpty() == false) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x006a, code lost:
+    
+        if (r0.isEmpty() == false) goto L24;
      */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0087  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00fe  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0087  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x00fe  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

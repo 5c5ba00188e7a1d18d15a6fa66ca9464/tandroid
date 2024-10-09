@@ -1,7 +1,6 @@
 package org.telegram.PhoneFormat;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.Locale;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class PhoneFormat {
     private static volatile PhoneFormat Instance;
@@ -72,7 +72,7 @@ public class PhoneFormat {
         return sb.toString();
     }
 
-    /* JADX WARN: Type inference failed for: r2v10, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v10, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v12 */
     /* JADX WARN: Type inference failed for: r2v9 */
     public CallingCodeInfo callingCodeInfo(String str) {
@@ -184,57 +184,61 @@ public class PhoneFormat {
     }
 
     public String format(String str) {
-        if (this.initialzed) {
-            try {
-                String strip = strip(str);
-                if (strip.startsWith("+")) {
-                    String substring = strip.substring(1);
-                    CallingCodeInfo findCallingCodeInfo = findCallingCodeInfo(substring);
-                    if (findCallingCodeInfo != null) {
-                        String format = findCallingCodeInfo.format(substring);
-                        return "+" + format;
-                    }
+        if (!this.initialzed) {
+            return str;
+        }
+        try {
+            String strip = strip(str);
+            if (strip.startsWith("+")) {
+                String substring = strip.substring(1);
+                CallingCodeInfo findCallingCodeInfo = findCallingCodeInfo(substring);
+                if (findCallingCodeInfo == null) {
                     return str;
                 }
-                CallingCodeInfo callingCodeInfo = callingCodeInfo(this.defaultCallingCode);
-                if (callingCodeInfo == null) {
-                    return str;
-                }
-                String matchingAccessCode = callingCodeInfo.matchingAccessCode(strip);
-                if (matchingAccessCode != null) {
-                    String substring2 = strip.substring(matchingAccessCode.length());
-                    CallingCodeInfo findCallingCodeInfo2 = findCallingCodeInfo(substring2);
-                    if (findCallingCodeInfo2 != null) {
-                        substring2 = findCallingCodeInfo2.format(substring2);
-                    }
-                    return substring2.length() == 0 ? matchingAccessCode : String.format("%s %s", matchingAccessCode, substring2);
-                }
-                return callingCodeInfo.format(strip);
-            } catch (Exception e) {
-                FileLog.e(e);
+                return "+" + findCallingCodeInfo.format(substring);
+            }
+            CallingCodeInfo callingCodeInfo = callingCodeInfo(this.defaultCallingCode);
+            if (callingCodeInfo == null) {
                 return str;
             }
+            String matchingAccessCode = callingCodeInfo.matchingAccessCode(strip);
+            if (matchingAccessCode == null) {
+                return callingCodeInfo.format(strip);
+            }
+            String substring2 = strip.substring(matchingAccessCode.length());
+            CallingCodeInfo findCallingCodeInfo2 = findCallingCodeInfo(substring2);
+            if (findCallingCodeInfo2 != null) {
+                substring2 = findCallingCodeInfo2.format(substring2);
+            }
+            return substring2.length() == 0 ? matchingAccessCode : String.format("%s %s", matchingAccessCode, substring2);
+        } catch (Exception e) {
+            FileLog.e(e);
+            return str;
         }
-        return str;
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x00bb A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x00b1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00bb A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:64:? A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x00b1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Type inference failed for: r1v1 */
+    /* JADX WARN: Type inference failed for: r1v10, types: [java.io.InputStream] */
     /* JADX WARN: Type inference failed for: r1v11 */
     /* JADX WARN: Type inference failed for: r1v3 */
+    /* JADX WARN: Type inference failed for: r1v4 */
     /* JADX WARN: Type inference failed for: r1v6, types: [java.io.InputStream] */
+    /* JADX WARN: Type inference failed for: r1v7, types: [java.io.InputStream] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void init(String str) {
         ByteArrayOutputStream byteArrayOutputStream;
-        InputStream inputStream;
-        ByteArrayOutputStream byteArrayOutputStream2;
         ?? r1;
+        ByteArrayOutputStream byteArrayOutputStream2;
+        ?? r12;
         ByteArrayOutputStream byteArrayOutputStream3 = null;
         try {
-            inputStream = ApplicationLoader.applicationContext.getAssets().open("PhoneFormats.dat");
+            r1 = ApplicationLoader.applicationContext.getAssets().open("PhoneFormats.dat");
             try {
                 try {
                     byteArrayOutputStream2 = new ByteArrayOutputStream();
@@ -243,11 +247,11 @@ public class PhoneFormat {
                 }
             } catch (Throwable th) {
                 th = th;
-                InputStream inputStream2 = inputStream;
+                ByteArrayOutputStream byteArrayOutputStream4 = r1;
                 byteArrayOutputStream = byteArrayOutputStream3;
-                byteArrayOutputStream3 = inputStream2;
+                byteArrayOutputStream3 = byteArrayOutputStream4;
                 byteArrayOutputStream2 = byteArrayOutputStream;
-                r1 = byteArrayOutputStream3;
+                r12 = byteArrayOutputStream3;
                 if (byteArrayOutputStream2 != null) {
                     try {
                         byteArrayOutputStream2.close();
@@ -255,37 +259,39 @@ public class PhoneFormat {
                         FileLog.e(e2);
                     }
                 }
-                if (r1 != 0) {
-                    try {
-                        r1.close();
-                    } catch (Exception e3) {
-                        FileLog.e(e3);
-                    }
+                if (r12 == 0) {
+                    throw th;
                 }
-                throw th;
+                try {
+                    r12.close();
+                    throw th;
+                } catch (Exception e3) {
+                    FileLog.e(e3);
+                    throw th;
+                }
             }
         } catch (Exception e4) {
             e = e4;
-            inputStream = null;
+            r1 = 0;
         } catch (Throwable th2) {
             th = th2;
             byteArrayOutputStream = null;
             byteArrayOutputStream2 = byteArrayOutputStream;
-            r1 = byteArrayOutputStream3;
+            r12 = byteArrayOutputStream3;
             if (byteArrayOutputStream2 != null) {
             }
-            if (r1 != 0) {
+            if (r12 == 0) {
             }
-            throw th;
         }
         try {
             byte[] bArr = new byte[1024];
             while (true) {
-                int read = inputStream.read(bArr, 0, 1024);
+                int read = r1.read(bArr, 0, 1024);
                 if (read == -1) {
                     break;
+                } else {
+                    byteArrayOutputStream2.write(bArr, 0, read);
                 }
-                byteArrayOutputStream2.write(bArr, 0, read);
             }
             byte[] byteArray = byteArrayOutputStream2.toByteArray();
             this.data = byteArray;
@@ -298,7 +304,7 @@ public class PhoneFormat {
                 FileLog.e(e5);
             }
             try {
-                inputStream.close();
+                r1.close();
             } catch (Exception e6) {
                 FileLog.e(e6);
             }
@@ -306,10 +312,10 @@ public class PhoneFormat {
                 str = Locale.getDefault().getCountry().toLowerCase();
             }
             this.defaultCountry = str;
-            this.callingCodeOffsets = new HashMap((int) NotificationCenter.closeSearchByActiveAction);
-            this.callingCodeCountries = new HashMap((int) NotificationCenter.closeSearchByActiveAction);
+            this.callingCodeOffsets = new HashMap(NotificationCenter.closeSearchByActiveAction);
+            this.callingCodeCountries = new HashMap(NotificationCenter.closeSearchByActiveAction);
             this.callingCodeData = new HashMap(10);
-            this.countryCallingCode = new HashMap((int) NotificationCenter.closeSearchByActiveAction);
+            this.countryCallingCode = new HashMap(NotificationCenter.closeSearchByActiveAction);
             parseDataHeader();
             this.initialzed = true;
         } catch (Exception e7) {
@@ -323,21 +329,20 @@ public class PhoneFormat {
                     FileLog.e(e8);
                 }
             }
-            if (inputStream != null) {
+            if (r1 != 0) {
                 try {
-                    inputStream.close();
+                    r1.close();
                 } catch (Exception e9) {
                     FileLog.e(e9);
                 }
             }
         } catch (Throwable th3) {
             th = th3;
-            r1 = inputStream;
+            r12 = r1;
             if (byteArrayOutputStream2 != null) {
             }
-            if (r1 != 0) {
+            if (r12 == 0) {
             }
-            throw th;
         }
     }
 
@@ -369,32 +374,36 @@ public class PhoneFormat {
     }
 
     short value16(int i) {
-        if (i + 2 <= this.data.length) {
-            this.buffer.position(i);
-            return this.buffer.getShort();
+        if (i + 2 > this.data.length) {
+            return (short) 0;
         }
-        return (short) 0;
+        this.buffer.position(i);
+        return this.buffer.getShort();
     }
 
     int value32(int i) {
-        if (i + 4 <= this.data.length) {
-            this.buffer.position(i);
-            return this.buffer.getInt();
+        if (i + 4 > this.data.length) {
+            return 0;
         }
-        return 0;
+        this.buffer.position(i);
+        return this.buffer.getInt();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0015, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x000d, code lost:
+    
+        if (r5 != r1) goto L10;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x000f, code lost:
+    
+        return "";
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0015, code lost:
+    
         return new java.lang.String(r2, r5, r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x000c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x000c, code lost:
+    
         r1 = r1 - r5;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x000d, code lost:
-        if (r5 != r1) goto L13;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x000f, code lost:
-        return "";
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

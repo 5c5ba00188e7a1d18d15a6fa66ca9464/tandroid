@@ -17,6 +17,7 @@ import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorCompat;
+
 /* loaded from: classes.dex */
 public class ActionBarContextView extends AbsActionBarView {
     private View mClose;
@@ -69,9 +70,8 @@ public class ActionBarContextView extends AbsActionBarView {
         this.mSubtitleView.setText(this.mSubtitle);
         boolean z = !TextUtils.isEmpty(this.mTitle);
         boolean z2 = !TextUtils.isEmpty(this.mSubtitle);
-        int i = 8;
         this.mSubtitleView.setVisibility(z2 ? 0 : 8);
-        this.mTitleLayout.setVisibility((z || z2) ? 0 : 0);
+        this.mTitleLayout.setVisibility((z || z2) ? 0 : 8);
         if (this.mTitleLayout.getParent() == null) {
             addView(this.mTitleLayout);
         }
@@ -111,7 +111,7 @@ public class ActionBarContextView extends AbsActionBarView {
         return this.mTitle;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x003e  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x003e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -237,71 +237,71 @@ public class ActionBarContextView extends AbsActionBarView {
     protected void onMeasure(int i, int i2) {
         if (View.MeasureSpec.getMode(i) != 1073741824) {
             throw new IllegalStateException(getClass().getSimpleName() + " can only be used with android:layout_width=\"match_parent\" (or fill_parent)");
-        } else if (View.MeasureSpec.getMode(i2) == 0) {
-            throw new IllegalStateException(getClass().getSimpleName() + " can only be used with android:layout_height=\"wrap_content\"");
-        } else {
-            int size = View.MeasureSpec.getSize(i);
-            int i3 = this.mContentHeight;
-            if (i3 <= 0) {
-                i3 = View.MeasureSpec.getSize(i2);
-            }
-            int paddingTop = getPaddingTop() + getPaddingBottom();
-            int paddingLeft = (size - getPaddingLeft()) - getPaddingRight();
-            int i4 = i3 - paddingTop;
-            int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(i4, Integer.MIN_VALUE);
-            View view = this.mClose;
-            if (view != null) {
-                int measureChildView = measureChildView(view, paddingLeft, makeMeasureSpec, 0);
-                ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.mClose.getLayoutParams();
-                paddingLeft = measureChildView - (marginLayoutParams.leftMargin + marginLayoutParams.rightMargin);
-            }
-            ActionMenuView actionMenuView = this.mMenuView;
-            if (actionMenuView != null && actionMenuView.getParent() == this) {
-                paddingLeft = measureChildView(this.mMenuView, paddingLeft, makeMeasureSpec, 0);
-            }
-            LinearLayout linearLayout = this.mTitleLayout;
-            if (linearLayout != null && this.mCustomView == null) {
-                if (this.mTitleOptional) {
-                    this.mTitleLayout.measure(View.MeasureSpec.makeMeasureSpec(0, 0), makeMeasureSpec);
-                    int measuredWidth = this.mTitleLayout.getMeasuredWidth();
-                    boolean z = measuredWidth <= paddingLeft;
-                    if (z) {
-                        paddingLeft -= measuredWidth;
-                    }
-                    this.mTitleLayout.setVisibility(z ? 0 : 8);
-                } else {
-                    paddingLeft = measureChildView(linearLayout, paddingLeft, makeMeasureSpec, 0);
-                }
-            }
-            View view2 = this.mCustomView;
-            if (view2 != null) {
-                ViewGroup.LayoutParams layoutParams = view2.getLayoutParams();
-                int i5 = layoutParams.width;
-                int i6 = i5 != -2 ? 1073741824 : Integer.MIN_VALUE;
-                if (i5 >= 0) {
-                    paddingLeft = Math.min(i5, paddingLeft);
-                }
-                int i7 = layoutParams.height;
-                int i8 = i7 == -2 ? Integer.MIN_VALUE : 1073741824;
-                if (i7 >= 0) {
-                    i4 = Math.min(i7, i4);
-                }
-                this.mCustomView.measure(View.MeasureSpec.makeMeasureSpec(paddingLeft, i6), View.MeasureSpec.makeMeasureSpec(i4, i8));
-            }
-            if (this.mContentHeight > 0) {
-                setMeasuredDimension(size, i3);
-                return;
-            }
-            int childCount = getChildCount();
-            int i9 = 0;
-            for (int i10 = 0; i10 < childCount; i10++) {
-                int measuredHeight = getChildAt(i10).getMeasuredHeight() + paddingTop;
-                if (measuredHeight > i9) {
-                    i9 = measuredHeight;
-                }
-            }
-            setMeasuredDimension(size, i9);
         }
+        if (View.MeasureSpec.getMode(i2) == 0) {
+            throw new IllegalStateException(getClass().getSimpleName() + " can only be used with android:layout_height=\"wrap_content\"");
+        }
+        int size = View.MeasureSpec.getSize(i);
+        int i3 = this.mContentHeight;
+        if (i3 <= 0) {
+            i3 = View.MeasureSpec.getSize(i2);
+        }
+        int paddingTop = getPaddingTop() + getPaddingBottom();
+        int paddingLeft = (size - getPaddingLeft()) - getPaddingRight();
+        int i4 = i3 - paddingTop;
+        int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(i4, Integer.MIN_VALUE);
+        View view = this.mClose;
+        if (view != null) {
+            int measureChildView = measureChildView(view, paddingLeft, makeMeasureSpec, 0);
+            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) this.mClose.getLayoutParams();
+            paddingLeft = measureChildView - (marginLayoutParams.leftMargin + marginLayoutParams.rightMargin);
+        }
+        ActionMenuView actionMenuView = this.mMenuView;
+        if (actionMenuView != null && actionMenuView.getParent() == this) {
+            paddingLeft = measureChildView(this.mMenuView, paddingLeft, makeMeasureSpec, 0);
+        }
+        LinearLayout linearLayout = this.mTitleLayout;
+        if (linearLayout != null && this.mCustomView == null) {
+            if (this.mTitleOptional) {
+                this.mTitleLayout.measure(View.MeasureSpec.makeMeasureSpec(0, 0), makeMeasureSpec);
+                int measuredWidth = this.mTitleLayout.getMeasuredWidth();
+                boolean z = measuredWidth <= paddingLeft;
+                if (z) {
+                    paddingLeft -= measuredWidth;
+                }
+                this.mTitleLayout.setVisibility(z ? 0 : 8);
+            } else {
+                paddingLeft = measureChildView(linearLayout, paddingLeft, makeMeasureSpec, 0);
+            }
+        }
+        View view2 = this.mCustomView;
+        if (view2 != null) {
+            ViewGroup.LayoutParams layoutParams = view2.getLayoutParams();
+            int i5 = layoutParams.width;
+            int i6 = i5 != -2 ? 1073741824 : Integer.MIN_VALUE;
+            if (i5 >= 0) {
+                paddingLeft = Math.min(i5, paddingLeft);
+            }
+            int i7 = layoutParams.height;
+            int i8 = i7 == -2 ? Integer.MIN_VALUE : 1073741824;
+            if (i7 >= 0) {
+                i4 = Math.min(i7, i4);
+            }
+            this.mCustomView.measure(View.MeasureSpec.makeMeasureSpec(paddingLeft, i6), View.MeasureSpec.makeMeasureSpec(i4, i8));
+        }
+        if (this.mContentHeight > 0) {
+            setMeasuredDimension(size, i3);
+            return;
+        }
+        int childCount = getChildCount();
+        int i9 = 0;
+        for (int i10 = 0; i10 < childCount; i10++) {
+            int measuredHeight = getChildAt(i10).getMeasuredHeight() + paddingTop;
+            if (measuredHeight > i9) {
+                i9 = measuredHeight;
+            }
+        }
+        setMeasuredDimension(size, i9);
     }
 
     @Override // androidx.appcompat.widget.AbsActionBarView, android.view.View

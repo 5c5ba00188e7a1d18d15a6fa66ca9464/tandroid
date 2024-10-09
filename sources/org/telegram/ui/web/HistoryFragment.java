@@ -33,6 +33,7 @@ import org.telegram.ui.web.AddressBarList;
 import org.telegram.ui.web.BrowserHistory;
 import org.telegram.ui.web.HistoryFragment;
 import org.telegram.ui.web.WebMetadataCache;
+
 /* loaded from: classes.dex */
 public class HistoryFragment extends UniversalFragment {
     private final Runnable closeToTabs;
@@ -67,7 +68,7 @@ public class HistoryFragment extends UniversalFragment {
         public void onItemClick(int i) {
             if (i == -1) {
                 if (!((BaseFragment) HistoryFragment.this).actionBar.isActionModeShowed()) {
-                    HistoryFragment.this.finishFragment();
+                    HistoryFragment.this.lambda$onBackPressed$300();
                     return;
                 }
                 ((BaseFragment) HistoryFragment.this).actionBar.hideActionMode();
@@ -341,10 +342,10 @@ public class HistoryFragment extends UniversalFragment {
         if (uItem.instanceOf(AddressBarList.BookmarkView.Factory.class)) {
             if (this.actionBar.isActionModeShowed()) {
                 clickSelect(uItem, view);
-                return;
+            } else {
+                lambda$onBackPressed$300();
+                this.whenClicked.run((BrowserHistory.Entry) uItem.object2);
             }
-            finishFragment();
-            this.whenClicked.run((BrowserHistory.Entry) uItem.object2);
         }
     }
 

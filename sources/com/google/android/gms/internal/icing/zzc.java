@@ -3,6 +3,7 @@ package com.google.android.gms.internal.icing;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* loaded from: classes.dex */
 public abstract class zzc {
     private static final ClassLoader zza = zzc.class.getClassLoader();

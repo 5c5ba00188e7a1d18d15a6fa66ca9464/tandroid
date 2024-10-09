@@ -36,6 +36,7 @@ import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.EditTextCaption;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SuggestEmojiView;
+
 /* loaded from: classes4.dex */
 public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.AnchorViewDelegate {
     private boolean alwaysShowText2;
@@ -87,13 +88,13 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
 
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
-                if (isEnabled()) {
-                    if (motionEvent.getAction() == 1) {
-                        PollEditTextCell.this.onFieldTouchUp(this);
-                    }
-                    return super.onTouchEvent(motionEvent);
+                if (!isEnabled()) {
+                    return false;
                 }
-                return false;
+                if (motionEvent.getAction() == 1) {
+                    PollEditTextCell.this.onFieldTouchUp(this);
+                }
+                return super.onTouchEvent(motionEvent);
             }
 
             @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, android.view.View
@@ -350,7 +351,7 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* renamed from: onEmojiButtonClicked */
+    /* renamed from: onEmojiButtonClicked, reason: merged with bridge method [inline-methods] */
     public void lambda$new$1(PollEditTextCell pollEditTextCell) {
     }
 
@@ -465,7 +466,7 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
         this.checkBoxAnimation = animatorSet2;
         CheckBox2 checkBox2 = this.checkBox;
         Property property = View.ALPHA;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(checkBox2, property, z ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.moveImageView, property, z ? 0.0f : 1.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(checkBox2, (Property<CheckBox2, Float>) property, z ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.moveImageView, (Property<ImageView, Float>) property, z ? 0.0f : 1.0f));
         this.checkBoxAnimation.setDuration(180L);
         this.checkBoxAnimation.start();
     }

@@ -3,6 +3,7 @@ package com.google.common.collect;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class ForwardingMap extends ForwardingObject implements Map {
     @Override // java.util.Map

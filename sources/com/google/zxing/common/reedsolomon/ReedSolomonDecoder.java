@@ -1,4 +1,5 @@
 package com.google.zxing.common.reedsolomon;
+
 /* loaded from: classes.dex */
 public final class ReedSolomonDecoder {
     private final GenericGF field;
@@ -76,11 +77,11 @@ public final class ReedSolomonDecoder {
             one = addOrSubtract;
         }
         int coefficient = one.getCoefficient(0);
-        if (coefficient != 0) {
-            int inverse2 = this.field.inverse(coefficient);
-            return new GenericGFPoly[]{one.multiply(inverse2), genericGFPoly.multiply(inverse2)};
+        if (coefficient == 0) {
+            throw new ReedSolomonException("sigmaTilde(0) was zero");
         }
-        throw new ReedSolomonException("sigmaTilde(0) was zero");
+        int inverse2 = this.field.inverse(coefficient);
+        return new GenericGFPoly[]{one.multiply(inverse2), genericGFPoly.multiply(inverse2)};
     }
 
     public void decode(int[] iArr, int i) {

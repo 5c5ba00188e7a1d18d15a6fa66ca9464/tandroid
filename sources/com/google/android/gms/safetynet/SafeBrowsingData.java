@@ -11,6 +11,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public class SafeBrowsingData extends AbstractSafeParcelable {
     public static final Parcelable.Creator<SafeBrowsingData> CREATOR = new zzj();
@@ -57,7 +58,7 @@ public class SafeBrowsingData extends AbstractSafeParcelable {
         return this.zzf;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0043  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0043  */
     @Override // android.os.Parcelable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

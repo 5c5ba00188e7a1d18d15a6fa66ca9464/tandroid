@@ -1,4 +1,5 @@
 package com.google.android.play.core.integrity;
+
 /* loaded from: classes.dex */
 public final class ab implements com.google.android.play.integrity.internal.ak {
     private final com.google.android.play.integrity.internal.an a;

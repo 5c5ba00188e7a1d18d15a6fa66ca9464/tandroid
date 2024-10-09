@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor.flv;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+
 /* loaded from: classes.dex */
 abstract class TagPayloadReader {
     protected final TrackOutput output;

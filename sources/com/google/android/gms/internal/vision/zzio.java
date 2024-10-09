@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCC
 import com.google.android.gms.internal.vision.zzjb;
 import java.util.Collections;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class zzio {
     private static volatile zzio zzc;
@@ -22,11 +23,11 @@ public class zzio {
         }
 
         public final boolean equals(Object obj) {
-            if (obj instanceof zza) {
-                zza zzaVar = (zza) obj;
-                return this.zza == zzaVar.zza && this.zzb == zzaVar.zzb;
+            if (!(obj instanceof zza)) {
+                return false;
             }
-            return false;
+            zza zzaVar = (zza) obj;
+            return this.zza == zzaVar.zza && this.zzb == zzaVar.zzb;
         }
 
         public final int hashCode() {

@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public class JsonWriter implements Closeable, Flushable {
     private static final String[] HTML_SAFE_REPLACEMENT_CHARS;
@@ -75,23 +76,24 @@ public class JsonWriter implements Closeable, Flushable {
         int peek = peek();
         if (peek == 1) {
             replaceTop(2);
-        } else if (peek != 2) {
-            if (peek == 4) {
-                this.out.append((CharSequence) this.formattedColon);
-                replaceTop(5);
+        } else {
+            if (peek != 2) {
+                if (peek == 4) {
+                    this.out.append((CharSequence) this.formattedColon);
+                    replaceTop(5);
+                    return;
+                }
+                if (peek != 6) {
+                    if (peek != 7) {
+                        throw new IllegalStateException("Nesting problem.");
+                    }
+                    if (this.strictness != Strictness.LENIENT) {
+                        throw new IllegalStateException("JSON must have only one top-level value.");
+                    }
+                }
+                replaceTop(7);
                 return;
             }
-            if (peek != 6) {
-                if (peek != 7) {
-                    throw new IllegalStateException("Nesting problem.");
-                }
-                if (this.strictness != Strictness.LENIENT) {
-                    throw new IllegalStateException("JSON must have only one top-level value.");
-                }
-            }
-            replaceTop(7);
-            return;
-        } else {
             this.out.append((CharSequence) this.formattedComma);
         }
         newline();
@@ -99,18 +101,18 @@ public class JsonWriter implements Closeable, Flushable {
 
     private JsonWriter closeScope(int i, int i2, char c) {
         int peek = peek();
-        if (peek == i2 || peek == i) {
-            if (this.deferredName != null) {
-                throw new IllegalStateException("Dangling name: " + this.deferredName);
-            }
-            this.stackSize--;
-            if (peek == i2) {
-                newline();
-            }
-            this.out.write(c);
-            return this;
+        if (peek != i2 && peek != i) {
+            throw new IllegalStateException("Nesting problem.");
         }
-        throw new IllegalStateException("Nesting problem.");
+        if (this.deferredName != null) {
+            throw new IllegalStateException("Dangling name: " + this.deferredName);
+        }
+        this.stackSize--;
+        if (peek == i2) {
+            newline();
+        }
+        this.out.write(c);
+        return this;
     }
 
     private static boolean isTrustedNumberType(Class cls) {
@@ -159,7 +161,7 @@ public class JsonWriter implements Closeable, Flushable {
         this.stack[this.stackSize - 1] = i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0034  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -259,15 +261,15 @@ public class JsonWriter implements Closeable, Flushable {
 
     public JsonWriter name(String str) {
         Objects.requireNonNull(str, "name == null");
-        if (this.deferredName == null) {
-            int peek = peek();
-            if (peek == 3 || peek == 5) {
-                this.deferredName = str;
-                return this;
-            }
+        if (this.deferredName != null) {
+            throw new IllegalStateException("Already wrote a name, expecting a value.");
+        }
+        int peek = peek();
+        if (peek != 3 && peek != 5) {
             throw new IllegalStateException("Please begin an object before writing a name.");
         }
-        throw new IllegalStateException("Already wrote a name, expecting a value.");
+        this.deferredName = str;
+        return this;
     }
 
     public JsonWriter nullValue() {

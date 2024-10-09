@@ -48,6 +48,7 @@ import org.telegram.ui.Components.Paint.ColorPickerBottomSheet;
 import org.telegram.ui.Components.Paint.Views.PaintColorsListView;
 import org.telegram.ui.Components.Paint.Views.PipettePickerView;
 import org.telegram.ui.Components.ViewPagerFixed;
+
 /* loaded from: classes3.dex */
 public class ColorPickerBottomSheet extends BottomSheet {
     private AlphaPickerView alphaPickerView;
@@ -119,8 +120,9 @@ public class ColorPickerBottomSheet extends BottomSheet {
             invalidateShader();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:9:0x000e, code lost:
-            if (r0 != 3) goto L10;
+        /* JADX WARN: Code restructure failed: missing block: B:8:0x000e, code lost:
+        
+            if (r0 != 3) goto L15;
          */
         @Override // android.view.View
         /*
@@ -232,14 +234,14 @@ public class ColorPickerBottomSheet extends BottomSheet {
             int argb2;
             int i = this.mode;
             if (i == 1) {
-                argb = Color.argb((int) NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), 0, Color.blue(ColorPickerBottomSheet.this.mColor));
-                argb2 = Color.argb((int) NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), (int) NotificationCenter.closeSearchByActiveAction, Color.blue(ColorPickerBottomSheet.this.mColor));
+                argb = Color.argb(NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), 0, Color.blue(ColorPickerBottomSheet.this.mColor));
+                argb2 = Color.argb(NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), NotificationCenter.closeSearchByActiveAction, Color.blue(ColorPickerBottomSheet.this.mColor));
             } else if (i != 2) {
-                argb = Color.argb((int) NotificationCenter.closeSearchByActiveAction, 0, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor));
-                argb2 = Color.argb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.closeSearchByActiveAction, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor));
+                argb = Color.argb(NotificationCenter.closeSearchByActiveAction, 0, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor));
+                argb2 = Color.argb(NotificationCenter.closeSearchByActiveAction, NotificationCenter.closeSearchByActiveAction, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor));
             } else {
-                argb = Color.argb((int) NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), 0);
-                argb2 = Color.argb((int) NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), (int) NotificationCenter.closeSearchByActiveAction);
+                argb = Color.argb(NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), 0);
+                argb2 = Color.argb(NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), NotificationCenter.closeSearchByActiveAction);
             }
             this.colorPaint.setShader(new LinearGradient(0.0f, 0.0f, getWidth(), 0.0f, new int[]{argb, argb2}, (float[]) null, Shader.TileMode.CLAMP));
         }
@@ -248,7 +250,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
             float dp = AndroidUtilities.dp(6.0f);
             float clamp = MathUtils.clamp(((f - dp) + (AndroidUtilities.dp(13.0f) - (this.outlinePaint.getStrokeWidth() / 2.0f))) / (getWidth() - (dp * 2.0f)), 0.0f, 1.0f);
             int i = this.mode;
-            int argb = i != 1 ? i != 2 ? Color.argb((int) NotificationCenter.closeSearchByActiveAction, (int) (clamp * 255.0f), Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor)) : Color.argb((int) NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), (int) (clamp * 255.0f)) : Color.argb((int) NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), (int) (clamp * 255.0f), Color.blue(ColorPickerBottomSheet.this.mColor));
+            int argb = i != 1 ? i != 2 ? Color.argb(NotificationCenter.closeSearchByActiveAction, (int) (clamp * 255.0f), Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor)) : Color.argb(NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), (int) (clamp * 255.0f)) : Color.argb(NotificationCenter.closeSearchByActiveAction, Color.red(ColorPickerBottomSheet.this.mColor), (int) (clamp * 255.0f), Color.blue(ColorPickerBottomSheet.this.mColor));
             ColorPickerBottomSheet colorPickerBottomSheet = ColorPickerBottomSheet.this;
             colorPickerBottomSheet.onSetColor(ColorUtils.setAlphaComponent(argb, Color.alpha(colorPickerBottomSheet.mColor)), 4);
             invalidate();
@@ -283,8 +285,9 @@ public class ColorPickerBottomSheet extends BottomSheet {
             invalidateShader();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:9:0x000e, code lost:
-            if (r0 != 3) goto L10;
+        /* JADX WARN: Code restructure failed: missing block: B:8:0x000e, code lost:
+        
+            if (r0 != 3) goto L15;
          */
         @Override // android.view.View
         /*
@@ -364,6 +367,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
             canvas.drawRoundRect(rectF, AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), this.gradientPaint);
             canvas.drawRoundRect(rectF, AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), this.whiteBlackPaint);
             float dp = AndroidUtilities.dp(13.0f);
+            float strokeWidth = dp - (this.outlinePaint.getStrokeWidth() / 2.0f);
             float dp2 = AndroidUtilities.dp(16.0f);
             int width = (getWidth() - getPaddingLeft()) - getPaddingRight();
             int height = (getHeight() - getPaddingTop()) - getPaddingBottom();
@@ -374,11 +378,14 @@ public class ColorPickerBottomSheet extends BottomSheet {
             Drawable drawable = this.shadowDrawable;
             Rect rect = AndroidUtilities.rectTmp2;
             drawable.getPadding(rect);
+            Drawable drawable2 = this.shadowDrawable;
+            int i = (int) ((paddingLeft - dp) - rect.left);
+            int i2 = (int) ((paddingTop - dp) - rect.top);
             float f3 = rect.bottom;
-            this.shadowDrawable.setBounds((int) ((paddingLeft - dp) - rect.left), (int) ((paddingTop - dp) - rect.top), (int) (paddingLeft + dp + f3), (int) (paddingTop + dp + f3));
+            drawable2.setBounds(i, i2, (int) (paddingLeft + dp + f3), (int) (paddingTop + dp + f3));
             this.shadowDrawable.draw(canvas);
             canvas.drawCircle(paddingLeft, paddingTop, dp, this.outlinePaint);
-            PaintColorsListView.drawColorCircle(canvas, paddingLeft, paddingTop, dp - (this.outlinePaint.getStrokeWidth() / 2.0f), ColorUtils.setAlphaComponent(ColorPickerBottomSheet.this.mColor, NotificationCenter.closeSearchByActiveAction));
+            PaintColorsListView.drawColorCircle(canvas, paddingLeft, paddingTop, strokeWidth, ColorUtils.setAlphaComponent(ColorPickerBottomSheet.this.mColor, NotificationCenter.closeSearchByActiveAction));
         }
 
         @Override // android.view.View
@@ -468,8 +475,10 @@ public class ColorPickerBottomSheet extends BottomSheet {
         }
 
         private void updatePosition(MotionEvent motionEvent) {
-            int x = (int) ((motionEvent.getX() - getPaddingLeft()) / (((getWidth() - getPaddingLeft()) - getPaddingRight()) / 12));
-            int y = (int) (motionEvent.getY() / (((getHeight() - getPaddingTop()) - getPaddingBottom()) / 10));
+            int width = ((getWidth() - getPaddingLeft()) - getPaddingRight()) / 12;
+            int height = ((getHeight() - getPaddingTop()) - getPaddingBottom()) / 10;
+            int x = (int) ((motionEvent.getX() - getPaddingLeft()) / width);
+            int y = (int) (motionEvent.getY() / height);
             Integer num = (Integer) this.colorMap.get(Long.valueOf((x << 16) + y));
             if (num != null) {
                 ColorPickerBottomSheet.this.onSetColor(num.intValue(), 3);
@@ -547,8 +556,9 @@ public class ColorPickerBottomSheet extends BottomSheet {
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:8:0x000d, code lost:
-            if (r0 != 3) goto L9;
+        /* JADX WARN: Code restructure failed: missing block: B:7:0x000d, code lost:
+        
+            if (r0 != 3) goto L14;
          */
         @Override // android.view.View
         /*
@@ -574,8 +584,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
             for (Map.Entry entry : this.colorMap.entrySet()) {
                 if (((Integer) entry.getValue()).intValue() == i) {
                     long longValue = ((Long) entry.getKey()).longValue();
-                    int i2 = (int) (longValue >> 16);
-                    setCurrentColor(i2, (int) (longValue - (i2 << 16)));
+                    setCurrentColor((int) (longValue >> 16), (int) (longValue - (r5 << 16)));
                     return;
                 }
             }
@@ -652,7 +661,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
                     if (SliderCell.this.isInvalidatingColor || this.previous == null || editable == null || TextUtils.isEmpty(editable) || Objects.equals(this.previous.toString(), editable.toString())) {
                         return;
                     }
-                    int clamp = MathUtils.clamp(Integer.parseInt(editable.toString()), 0, (int) NotificationCenter.closeSearchByActiveAction);
+                    int clamp = MathUtils.clamp(Integer.parseInt(editable.toString()), 0, NotificationCenter.closeSearchByActiveAction);
                     int i = SliderCell.this.mode;
                     ColorPickerBottomSheet.this.onSetColor(i != 1 ? i != 2 ? Color.argb(Color.alpha(ColorPickerBottomSheet.this.mColor), clamp, Color.green(ColorPickerBottomSheet.this.mColor), Color.blue(ColorPickerBottomSheet.this.mColor)) : Color.argb(Color.alpha(ColorPickerBottomSheet.this.mColor), Color.red(ColorPickerBottomSheet.this.mColor), Color.green(ColorPickerBottomSheet.this.mColor), clamp) : Color.argb(Color.alpha(ColorPickerBottomSheet.this.mColor), Color.red(ColorPickerBottomSheet.this.mColor), clamp, Color.blue(ColorPickerBottomSheet.this.mColor)), 5);
                 }
@@ -693,11 +702,11 @@ public class ColorPickerBottomSheet extends BottomSheet {
 
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
-            if (i == 6) {
-                textView.clearFocus();
-                AndroidUtilities.hideKeyboard(textView);
+            if (i != 6) {
                 return false;
             }
+            textView.clearFocus();
+            AndroidUtilities.hideKeyboard(textView);
             return false;
         }
 
@@ -709,13 +718,14 @@ public class ColorPickerBottomSheet extends BottomSheet {
             if (i == 0) {
                 textView = this.titleView;
                 i2 = R.string.PaintPaletteSlidersRed;
-            } else if (i != 1) {
-                if (i == 2) {
-                    textView = this.titleView;
-                    i2 = R.string.PaintPaletteSlidersBlue;
-                }
-                invalidateColor();
             } else {
+                if (i != 1) {
+                    if (i == 2) {
+                        textView = this.titleView;
+                        i2 = R.string.PaintPaletteSlidersBlue;
+                    }
+                    invalidateColor();
+                }
                 textView = this.titleView;
                 i2 = R.string.PaintPaletteSlidersGreen;
             }
@@ -734,14 +744,15 @@ public class ColorPickerBottomSheet extends BottomSheet {
             if (i == 0) {
                 editText = this.valueView;
                 red = Color.red(ColorPickerBottomSheet.this.mColor);
-            } else if (i != 1) {
-                if (i == 2) {
-                    editText = this.valueView;
-                    red = Color.blue(ColorPickerBottomSheet.this.mColor);
-                }
-                this.valueView.setSelection(selectionStart, selectionEnd);
-                this.isInvalidatingColor = false;
             } else {
+                if (i != 1) {
+                    if (i == 2) {
+                        editText = this.valueView;
+                        red = Color.blue(ColorPickerBottomSheet.this.mColor);
+                    }
+                    this.valueView.setSelection(selectionStart, selectionEnd);
+                    this.isInvalidatingColor = false;
+                }
                 editText = this.valueView;
                 red = Color.green(ColorPickerBottomSheet.this.mColor);
             }
@@ -806,8 +817,8 @@ public class ColorPickerBottomSheet extends BottomSheet {
                 private Pattern pattern = Pattern.compile("^[0-9a-fA-F]*$");
                 private CharSequence previous;
 
-                /* JADX WARN: Removed duplicated region for block: B:31:0x00c9 A[RETURN] */
-                /* JADX WARN: Removed duplicated region for block: B:32:0x00ca  */
+                /* JADX WARN: Removed duplicated region for block: B:27:0x00c9 A[RETURN] */
+                /* JADX WARN: Removed duplicated region for block: B:28:0x00ca  */
                 @Override // android.text.TextWatcher
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -822,27 +833,29 @@ public class ColorPickerBottomSheet extends BottomSheet {
                     if (obj.length() > 8) {
                         SlidersPickerView.this.hexEdit.setText(obj.substring(2, 8).toUpperCase());
                         SlidersPickerView.this.hexEdit.setSelection(8);
-                    } else if (!this.pattern.matcher(editable).find()) {
-                    } else {
-                        int length = obj.length();
-                        if (length != 3) {
-                            if (length == 6) {
-                                i = ((int) Long.parseLong(obj, 16)) - 16777216;
-                            } else if (length != 8) {
-                                i = ColorPickerBottomSheet.this.mColor;
-                            } else {
-                                parseLong = Long.parseLong(obj, 16);
-                            }
-                            if (i != ColorPickerBottomSheet.this.mColor) {
-                                return;
-                            }
-                            ColorPickerBottomSheet.this.onSetColor(i, 5);
+                        return;
+                    }
+                    if (!this.pattern.matcher(editable).find()) {
+                        return;
+                    }
+                    int length = obj.length();
+                    if (length != 3) {
+                        if (length == 6) {
+                            i = ((int) Long.parseLong(obj, 16)) - 16777216;
+                        } else if (length != 8) {
+                            i = ColorPickerBottomSheet.this.mColor;
+                        } else {
+                            parseLong = Long.parseLong(obj, 16);
+                        }
+                        if (i != ColorPickerBottomSheet.this.mColor) {
                             return;
                         }
-                        parseLong = Long.parseLong("FF" + obj.charAt(0) + obj.charAt(0) + obj.charAt(1) + obj.charAt(1) + obj.charAt(2) + obj.charAt(2), 16);
-                        i = (int) parseLong;
-                        if (i != ColorPickerBottomSheet.this.mColor) {
-                        }
+                        ColorPickerBottomSheet.this.onSetColor(i, 5);
+                        return;
+                    }
+                    parseLong = Long.parseLong("FF" + obj.charAt(0) + obj.charAt(0) + obj.charAt(1) + obj.charAt(1) + obj.charAt(2) + obj.charAt(2), 16);
+                    i = (int) parseLong;
+                    if (i != ColorPickerBottomSheet.this.mColor) {
                     }
                 }
 
@@ -882,11 +895,11 @@ public class ColorPickerBottomSheet extends BottomSheet {
 
         /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ boolean lambda$new$1(TextView textView, int i, KeyEvent keyEvent) {
-            if (i == 6) {
-                textView.clearFocus();
-                AndroidUtilities.hideKeyboard(textView);
+            if (i != 6) {
                 return false;
             }
+            textView.clearFocus();
+            AndroidUtilities.hideKeyboard(textView);
             return false;
         }
 
@@ -1022,8 +1035,9 @@ public class ColorPickerBottomSheet extends BottomSheet {
         if (!this.initialized) {
             if (i2 != 2) {
                 return;
+            } else {
+                this.initialized = true;
             }
-            this.initialized = true;
         }
         if (i2 != 5 && (findFocus = this.pickerView.findFocus()) != null) {
             findFocus.clearFocus();

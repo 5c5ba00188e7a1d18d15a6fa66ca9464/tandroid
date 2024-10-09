@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.concurrent.CountedCompleter;
+
 /* loaded from: classes2.dex */
 abstract class q1 extends CountedCompleter implements e2 {
     protected final j$.util.Q a;

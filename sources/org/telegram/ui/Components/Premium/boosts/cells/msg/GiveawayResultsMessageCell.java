@@ -1,5 +1,6 @@
 package org.telegram.ui.Components.Premium.boosts.cells.msg;
 
+import android.R;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -29,7 +30,6 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC;
@@ -43,6 +43,7 @@ import org.telegram.ui.Components.Premium.boosts.BoostDialogs;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class GiveawayResultsMessageCell {
     private AvatarDrawable[] avatarDrawables;
@@ -183,7 +184,7 @@ public class GiveawayResultsMessageCell {
         this.chatRect = new RectF();
         this.counterTextBounds = new Rect();
         this.containerRect = new Rect();
-        this.pressedState = new int[]{16842910, 16842919};
+        this.pressedState = new int[]{R.attr.state_enabled, R.attr.state_pressed};
         this.userTitles = new CharSequence[10];
         this.users = new TLRPC.User[10];
         this.userTitleWidths = new float[10];
@@ -238,7 +239,7 @@ public class GiveawayResultsMessageCell {
     private void setGiftImage() {
         this.giftReceiver.setAllowStartLottieAnimation(false);
         if (this.giftDrawable == null) {
-            int i = R.raw.giveaway_results;
+            int i = org.telegram.messenger.R.raw.giveaway_results;
             this.giftDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(120.0f), AndroidUtilities.dp(120.0f));
         }
         this.giftReceiver.setImageBitmap(this.giftDrawable);
@@ -444,8 +445,9 @@ public class GiveawayResultsMessageCell {
                     boolean[] zArr3 = this.avatarVisible;
                     if (i10 >= zArr3.length || this.needNewRow[i10] || !zArr3[i10]) {
                         break;
+                    } else {
+                        i8 = i4;
                     }
-                    i8 = i4;
                 }
                 canvas.restore();
                 canvas.translate(0.0f, AndroidUtilities.dp(30.0f));
@@ -555,9 +557,6 @@ public class GiveawayResultsMessageCell {
     }
 
     public void setMessageContent(final MessageObject messageObject, int i, int i2) {
-        StaticLayout staticLayout;
-        StaticLayout staticLayout2;
-        StaticLayout staticLayout3;
         String str;
         this.messageObject = null;
         this.titleLayout = null;
@@ -576,7 +575,7 @@ public class GiveawayResultsMessageCell {
             checkArraysLimits(tL_messageMediaGiveawayResults.winners.size());
             int dp = AndroidUtilities.dp(90.0f);
             int dp2 = AndroidUtilities.dp(230.0f);
-            SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString("BoostingGiveawayResultsMsgWinnersSelected", R.string.BoostingGiveawayResultsMsgWinnersSelected));
+            SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString("BoostingGiveawayResultsMsgWinnersSelected", org.telegram.messenger.R.string.BoostingGiveawayResultsMsgWinnersSelected));
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replaceTags);
             spannableStringBuilder.setSpan(new RelativeSizeSpan(1.05f), 0, replaceTags.length(), 33);
             this.topStringBuilder = new SpannableStringBuilder();
@@ -600,11 +599,12 @@ public class GiveawayResultsMessageCell {
             }
             boolean z = (tL_messageMediaGiveawayResults.flags & 32) != 0;
             this.isStars = z;
-            spannableStringBuilder2.append((CharSequence) (z ? LocaleController.formatPluralStringSpaced("BoostingStarsGiveawayResultsMsgAllWinnersReceivedLinks", (int) tL_messageMediaGiveawayResults.stars) : LocaleController.getString(R.string.BoostingGiveawayResultsMsgAllWinnersReceivedLinks)));
+            spannableStringBuilder2.append((CharSequence) (z ? LocaleController.formatPluralStringSpaced("BoostingStarsGiveawayResultsMsgAllWinnersReceivedLinks", (int) tL_messageMediaGiveawayResults.stars) : LocaleController.getString(org.telegram.messenger.R.string.BoostingGiveawayResultsMsgAllWinnersReceivedLinks)));
             TextPaint textPaint = this.textPaint;
             Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
+            float dp3 = AndroidUtilities.dp(2.0f);
             TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
-            this.titleLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder, textPaint, dp2, alignment, 1.0f, AndroidUtilities.dp(2.0f), false, truncateAt, dp2, 10);
+            this.titleLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder, textPaint, dp2, alignment, 1.0f, dp3, false, truncateAt, dp2, 10);
             this.topLayout = StaticLayoutEx.createStaticLayout(this.topStringBuilder, this.textPaint, dp2, alignment, 1.0f, AndroidUtilities.dp(2.0f), false, truncateAt, dp2, 10);
             this.bottomLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder2, this.textPaint, dp2, alignment, 1.0f, AndroidUtilities.dp(3.0f), false, truncateAt, dp2, 10);
             int max = Math.max(i2, dp2);
@@ -613,12 +613,12 @@ public class GiveawayResultsMessageCell {
             float f2 = dp;
             float f3 = f2 / 2.0f;
             this.giftReceiver.setImageCoords((f / 2.0f) - f3, AndroidUtilities.dp(70.0f) - f3, f2, f2);
-            int lineBottom = this.titleLayout.getLineBottom(staticLayout.getLineCount() - 1) + AndroidUtilities.dp(5.0f);
+            int lineBottom = this.titleLayout.getLineBottom(r5.getLineCount() - 1) + AndroidUtilities.dp(5.0f);
             this.titleHeight = lineBottom;
-            this.topHeight = lineBottom + this.topLayout.getLineBottom(staticLayout2.getLineCount() - 1);
-            this.bottomHeight = this.bottomLayout.getLineBottom(staticLayout3.getLineCount() - 1);
-            StaticLayout staticLayout4 = this.countriesLayout;
-            int lineBottom2 = staticLayout4 != null ? staticLayout4.getLineBottom(staticLayout4.getLineCount() - 1) + AndroidUtilities.dp(12.0f) : 0;
+            this.topHeight = lineBottom + this.topLayout.getLineBottom(r6.getLineCount() - 1);
+            this.bottomHeight = this.bottomLayout.getLineBottom(r5.getLineCount() - 1);
+            StaticLayout staticLayout = this.countriesLayout;
+            int lineBottom2 = staticLayout != null ? staticLayout.getLineBottom(staticLayout.getLineCount() - 1) + AndroidUtilities.dp(12.0f) : 0;
             this.countriesHeight = lineBottom2;
             int i3 = this.measuredHeight + this.topHeight + lineBottom2 + this.bottomHeight;
             this.measuredHeight = i3;
@@ -626,7 +626,7 @@ public class GiveawayResultsMessageCell {
             this.measuredWidth = max;
             if (this.isStars) {
                 if (this.counterIcon == null) {
-                    this.counterIcon = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.filled_giveaway_stars).mutate();
+                    this.counterIcon = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.filled_giveaway_stars).mutate();
                 }
                 str = LocaleController.formatNumber((int) tL_messageMediaGiveawayResults.stars, ',');
             } else {
@@ -663,15 +663,15 @@ public class GiveawayResultsMessageCell {
                     TextPaint textPaint3 = this.chatTextPaint;
                     CharSequence charSequence = this.userTitles[i4];
                     fArr[i4] = textPaint3.measureText(charSequence, 0, charSequence.length());
-                    float dp3 = this.userTitleWidths[i4] + AndroidUtilities.dp(40.0f);
-                    f4 += dp3;
+                    float dp4 = this.userTitleWidths[i4] + AndroidUtilities.dp(40.0f);
+                    f4 += dp4;
                     if (i4 > 0) {
                         boolean[] zArr = this.needNewRow;
                         boolean z2 = f4 > 0.9f * f;
                         zArr[i4] = z2;
                         if (z2) {
                             this.measuredHeight += AndroidUtilities.dp(30.0f);
-                            f4 = dp3;
+                            f4 = dp4;
                         }
                     } else {
                         this.needNewRow[i4] = false;

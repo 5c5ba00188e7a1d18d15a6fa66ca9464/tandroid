@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class zzb extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzb> CREATOR = new zzy();
@@ -34,7 +35,6 @@ public final class zzb extends AbstractSafeParcelable {
     }
 
     public final String toString() {
-        byte[] bArr;
         StringBuilder sb = new StringBuilder();
         sb.append("MetadataImpl { { eventStatus: '");
         sb.append(this.zza);

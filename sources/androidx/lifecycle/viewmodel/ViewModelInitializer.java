@@ -2,6 +2,7 @@ package androidx.lifecycle.viewmodel;
 
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class ViewModelInitializer {
     private final Class clazz;

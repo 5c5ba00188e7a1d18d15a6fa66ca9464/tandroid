@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.source.dash.manifest;
 
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public final class UrlTemplate {
     private final int identifierCount;
@@ -22,6 +23,7 @@ public final class UrlTemplate {
         return new UrlTemplate(strArr, iArr, strArr2, parseTemplate(str, strArr, iArr, strArr2));
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:29:0x00c4. Please report as an issue. */
     private static int parseTemplate(String str, String[] strArr, int[] iArr, String[] strArr2) {
         String str2;
         strArr[0] = "";

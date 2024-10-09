@@ -1,5 +1,6 @@
 package org.telegram.ui.bots;
 
+import android.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -19,6 +20,7 @@ import org.telegram.ui.Components.ButtonBounce;
 import org.telegram.ui.Components.CircularProgressDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
+
 /* loaded from: classes4.dex */
 public class BotButtons extends FrameLayout {
     public final AnimatedColor background;
@@ -214,46 +216,48 @@ public class BotButtons extends FrameLayout {
             } else {
                 f5 = button.w.get();
             }
-            float lerp = AndroidUtilities.lerp((getWidth() - AndroidUtilities.dp(26.0f)) / 2.0f, getWidth() - AndroidUtilities.dp(16.0f), f5) / 2.0f;
-            float lerp2 = AndroidUtilities.lerp(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(18.0f) + ((getWidth() - AndroidUtilities.dp(26.0f)) / 2.0f), f2) + lerp;
-            float dp = AndroidUtilities.dp(44.0f) / 2.0f;
-            float lerp3 = AndroidUtilities.lerp(AndroidUtilities.dp(7.0f), AndroidUtilities.dp(58.0f), f4) + dp + height;
-            button.bounds.set(lerp2 - lerp, lerp3 - dp, lerp + lerp2, dp + lerp3);
-            float f7 = button.progressAlpha.set(buttonState.progressVisible);
-            float f8 = button.flickerAlpha.set(buttonState.shineEffect);
+            float lerp = AndroidUtilities.lerp((getWidth() - AndroidUtilities.dp(26.0f)) / 2.0f, getWidth() - AndroidUtilities.dp(16.0f), f5);
+            float dp = AndroidUtilities.dp(44.0f);
+            float f7 = lerp / 2.0f;
+            float lerp2 = AndroidUtilities.lerp(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(18.0f) + ((getWidth() - AndroidUtilities.dp(26.0f)) / 2.0f), f2) + f7;
+            float f8 = dp / 2.0f;
+            float lerp3 = AndroidUtilities.lerp(AndroidUtilities.dp(7.0f), AndroidUtilities.dp(58.0f), f4) + f8 + height;
+            button.bounds.set(lerp2 - f7, lerp3 - f8, f7 + lerp2, f8 + lerp3);
+            float f9 = button.progressAlpha.set(buttonState.progressVisible);
+            float f10 = button.flickerAlpha.set(buttonState.shineEffect);
             canvas.save();
             float scale = button.bounce.getScale(0.02f) * AndroidUtilities.lerp(0.7f, 1.0f, f6);
             canvas.scale(scale, scale, lerp2, lerp3);
             button.backgroundPaint.setColor(Theme.multAlpha(button.backgroundColor.set(buttonState.color), f6));
             String str2 = str;
             canvas.drawRoundRect(button.bounds, AndroidUtilities.dp(9.0f), AndroidUtilities.dp(9.0f), button.backgroundPaint);
-            if (f7 < 1.0f) {
+            if (f9 < 1.0f) {
                 canvas.save();
-                float f9 = 1.0f - f7;
-                float lerp4 = AndroidUtilities.lerp(0.75f, 1.0f, f9);
+                float f11 = 1.0f - f9;
+                float lerp4 = AndroidUtilities.lerp(0.75f, 1.0f, f11);
                 canvas.scale(lerp4, lerp4, lerp2, lerp3);
-                canvas.translate(0.0f, AndroidUtilities.dp(-10.0f) * f7);
-                button.textDrawable.setTextColor(Theme.multAlpha(button.textColor.set(buttonState.textColor), f9 * f6));
+                canvas.translate(0.0f, AndroidUtilities.dp(-10.0f) * f9);
+                button.textDrawable.setTextColor(Theme.multAlpha(button.textColor.set(buttonState.textColor), f11 * f6));
                 button.textDrawable.setBounds(button.bounds);
                 button.textDrawable.draw(canvas);
                 canvas.restore();
             }
-            float f10 = 0.0f;
-            if (f7 > 0.0f) {
+            float f12 = 0.0f;
+            if (f9 > 0.0f) {
                 canvas.save();
-                float lerp5 = AndroidUtilities.lerp(0.75f, 1.0f, f7);
+                float lerp5 = AndroidUtilities.lerp(0.75f, 1.0f, f9);
                 canvas.scale(lerp5, lerp5, lerp2, lerp3);
-                canvas.translate(0.0f, AndroidUtilities.dp(10.0f) * (1.0f - f7));
-                button.progress.setColor(Theme.multAlpha(button.textColor.set(buttonState.textColor), f7 * f6));
+                canvas.translate(0.0f, AndroidUtilities.dp(10.0f) * (1.0f - f9));
+                button.progress.setColor(Theme.multAlpha(button.textColor.set(buttonState.textColor), f9 * f6));
                 CircularProgressDrawable circularProgressDrawable = button.progress;
                 RectF rectF = button.bounds;
                 circularProgressDrawable.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
                 button.progress.draw(canvas);
                 canvas.restore();
-                f10 = 0.0f;
+                f12 = 0.0f;
             }
-            if (f8 > f10) {
-                button.flicker.setColors(Theme.multAlpha(button.textColor.set(buttonState.textColor), f6 * f8));
+            if (f10 > f12) {
+                button.flicker.setColors(Theme.multAlpha(button.textColor.set(buttonState.textColor), f6 * f10));
                 button.flicker.draw(canvas, button.bounds, AndroidUtilities.dp(8.0f), this);
             }
             if (button.rippleColor != Theme.multAlpha(buttonState.textColor, 0.15f)) {
@@ -309,7 +313,7 @@ public class BotButtons extends FrameLayout {
                 if (Build.VERSION.SDK_INT >= 21) {
                     this.pressedButton.ripple.setHotspot(motionEvent.getX(), motionEvent.getY());
                 }
-                this.pressedButton.ripple.setState(new int[]{16842919, 16842910});
+                this.pressedButton.ripple.setState(new int[]{R.attr.state_pressed, R.attr.state_enabled});
             }
         } else if ((motionEvent.getAction() == 1 || motionEvent.getAction() == 3) && this.pressedButton != null) {
             if (motionEvent.getAction() == 1) {

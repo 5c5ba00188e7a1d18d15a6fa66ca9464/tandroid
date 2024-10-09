@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 abstract class zzh {
     public static final /* synthetic */ int $r8$clinit = 0;

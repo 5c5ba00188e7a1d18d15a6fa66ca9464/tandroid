@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 final class FlacReader extends StreamReader {
     private FlacOggSeeker flacOggSeeker;
@@ -37,12 +38,12 @@ final class FlacReader extends StreamReader {
         @Override // com.google.android.exoplayer2.extractor.ogg.OggSeeker
         public long read(ExtractorInput extractorInput) {
             long j = this.pendingSeekGranule;
-            if (j >= 0) {
-                long j2 = -(j + 2);
-                this.pendingSeekGranule = -1L;
-                return j2;
+            if (j < 0) {
+                return -1L;
             }
-            return -1L;
+            long j2 = -(j + 2);
+            this.pendingSeekGranule = -1L;
+            return j2;
         }
 
         public void setFirstFrameOffset(long j) {
@@ -92,23 +93,24 @@ final class FlacReader extends StreamReader {
             this.streamMetadata = flacStreamMetadata2;
             setupData.format = flacStreamMetadata2.getFormat(Arrays.copyOfRange(data, 9, parsableByteArray.limit()), null);
             return true;
-        } else if ((data[0] & Byte.MAX_VALUE) == 3) {
+        }
+        if ((data[0] & Byte.MAX_VALUE) == 3) {
             FlacStreamMetadata.SeekTable readSeekTableMetadataBlock = FlacMetadataReader.readSeekTableMetadataBlock(parsableByteArray);
             FlacStreamMetadata copyWithSeekTable = flacStreamMetadata.copyWithSeekTable(readSeekTableMetadataBlock);
             this.streamMetadata = copyWithSeekTable;
             this.flacOggSeeker = new FlacOggSeeker(copyWithSeekTable, readSeekTableMetadataBlock);
             return true;
-        } else if (isAudioPacket(data)) {
-            FlacOggSeeker flacOggSeeker = this.flacOggSeeker;
-            if (flacOggSeeker != null) {
-                flacOggSeeker.setFirstFrameOffset(j);
-                setupData.oggSeeker = this.flacOggSeeker;
-            }
-            Assertions.checkNotNull(setupData.format);
-            return false;
-        } else {
+        }
+        if (!isAudioPacket(data)) {
             return true;
         }
+        FlacOggSeeker flacOggSeeker = this.flacOggSeeker;
+        if (flacOggSeeker != null) {
+            flacOggSeeker.setFirstFrameOffset(j);
+            setupData.oggSeeker = this.flacOggSeeker;
+        }
+        Assertions.checkNotNull(setupData.format);
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

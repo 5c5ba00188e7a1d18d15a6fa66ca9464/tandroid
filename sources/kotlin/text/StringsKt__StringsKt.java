@@ -3,6 +3,7 @@ package kotlin.text;
 import kotlin.collections.ArraysKt;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.ranges.RangesKt___RangesKt;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class StringsKt__StringsKt extends StringsKt__StringsJVMKt {

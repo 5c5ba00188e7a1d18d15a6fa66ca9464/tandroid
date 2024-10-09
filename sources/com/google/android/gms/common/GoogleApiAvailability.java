@@ -1,5 +1,6 @@
 package com.google.android.gms.common;
 
+import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,6 +30,7 @@ import com.google.android.gms.common.util.PlatformVersion;
 import com.google.android.gms.common.wrappers.InstantApps;
 import com.google.android.gms.internal.base.zao;
 import com.google.android.gms.internal.base.zap;
+
 /* loaded from: classes.dex */
 public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
     private String zac;
@@ -96,7 +98,7 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
             return null;
         }
         TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(16843529, typedValue, true);
+        context.getTheme().resolveAttribute(R.attr.alertDialogTheme, typedValue, true);
         AlertDialog.Builder builder = "Theme.Dialog.Alert".equals(context.getResources().getResourceEntryName(typedValue.resourceId)) ? new AlertDialog.Builder(context, 5) : null;
         if (builder == null) {
             builder = new AlertDialog.Builder(context);
@@ -118,7 +120,7 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
     }
 
     public final Dialog zab(Activity activity, DialogInterface.OnCancelListener onCancelListener) {
-        ProgressBar progressBar = new ProgressBar(activity, null, 16842874);
+        ProgressBar progressBar = new ProgressBar(activity, null, R.attr.progressBarStyleLarge);
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(0);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -163,57 +165,60 @@ public class GoogleApiAvailability extends GoogleApiAvailabilityLight {
         Log.w("GoogleApiAvailability", String.format("GMS core API Availability. ConnectionResult=%s, tag=%s", Integer.valueOf(i), null), new IllegalArgumentException());
         if (i == 18) {
             zaf(context);
-        } else if (pendingIntent == null) {
+            return;
+        }
+        if (pendingIntent == null) {
             if (i == 6) {
                 Log.w("GoogleApiAvailability", "Missing resolution for ConnectionResult.RESOLUTION_REQUIRED. Call GoogleApiAvailability#showErrorNotification(Context, ConnectionResult) instead.");
+                return;
+            }
+            return;
+        }
+        String zaf = com.google.android.gms.common.internal.zac.zaf(context, i);
+        String zae = com.google.android.gms.common.internal.zac.zae(context, i);
+        Resources resources = context.getResources();
+        NotificationManager notificationManager = (NotificationManager) Preconditions.checkNotNull(context.getSystemService("notification"));
+        NotificationCompat.Builder style = new NotificationCompat.Builder(context).setLocalOnly(true).setAutoCancel(true).setContentTitle(zaf).setStyle(new NotificationCompat.BigTextStyle().bigText(zae));
+        if (DeviceProperties.isWearable(context)) {
+            Preconditions.checkState(PlatformVersion.isAtLeastKitKatWatch());
+            style.setSmallIcon(context.getApplicationInfo().icon).setPriority(2);
+            if (DeviceProperties.isWearableWithoutPlayStore(context)) {
+                style.addAction(R$drawable.common_full_open_on_phone, resources.getString(com.google.android.gms.base.R$string.common_open_on_phone), pendingIntent);
+            } else {
+                style.setContentIntent(pendingIntent);
             }
         } else {
-            String zaf = com.google.android.gms.common.internal.zac.zaf(context, i);
-            String zae = com.google.android.gms.common.internal.zac.zae(context, i);
-            Resources resources = context.getResources();
-            NotificationManager notificationManager = (NotificationManager) Preconditions.checkNotNull(context.getSystemService("notification"));
-            NotificationCompat.Builder style = new NotificationCompat.Builder(context).setLocalOnly(true).setAutoCancel(true).setContentTitle(zaf).setStyle(new NotificationCompat.BigTextStyle().bigText(zae));
-            if (DeviceProperties.isWearable(context)) {
-                Preconditions.checkState(PlatformVersion.isAtLeastKitKatWatch());
-                style.setSmallIcon(context.getApplicationInfo().icon).setPriority(2);
-                if (DeviceProperties.isWearableWithoutPlayStore(context)) {
-                    style.addAction(R$drawable.common_full_open_on_phone, resources.getString(com.google.android.gms.base.R$string.common_open_on_phone), pendingIntent);
-                } else {
-                    style.setContentIntent(pendingIntent);
-                }
-            } else {
-                style.setSmallIcon(17301642).setTicker(resources.getString(com.google.android.gms.base.R$string.common_google_play_services_notification_ticker)).setWhen(System.currentTimeMillis()).setContentIntent(pendingIntent).setContentText(zae);
-            }
-            if (PlatformVersion.isAtLeastO()) {
-                Preconditions.checkState(PlatformVersion.isAtLeastO());
-                synchronized (zaa) {
-                    str2 = this.zac;
-                }
-                if (str2 == null) {
-                    str2 = "com.google.android.gms.availability";
-                    notificationChannel = notificationManager.getNotificationChannel("com.google.android.gms.availability");
-                    String zab2 = com.google.android.gms.common.internal.zac.zab(context);
-                    if (notificationChannel == null) {
-                        notificationChannel = new NotificationChannel("com.google.android.gms.availability", zab2, 4);
-                    } else {
-                        name = notificationChannel.getName();
-                        if (!zab2.contentEquals(name)) {
-                            notificationChannel.setName(zab2);
-                        }
-                    }
-                    notificationManager.createNotificationChannel(notificationChannel);
-                }
-                style.setChannelId(str2);
-            }
-            Notification build = style.build();
-            if (i == 1 || i == 2 || i == 3) {
-                GooglePlayServicesUtilLight.sCanceledAvailabilityNotification.set(false);
-                i2 = 10436;
-            } else {
-                i2 = 39789;
-            }
-            notificationManager.notify(i2, build);
+            style.setSmallIcon(R.drawable.stat_sys_warning).setTicker(resources.getString(com.google.android.gms.base.R$string.common_google_play_services_notification_ticker)).setWhen(System.currentTimeMillis()).setContentIntent(pendingIntent).setContentText(zae);
         }
+        if (PlatformVersion.isAtLeastO()) {
+            Preconditions.checkState(PlatformVersion.isAtLeastO());
+            synchronized (zaa) {
+                str2 = this.zac;
+            }
+            if (str2 == null) {
+                str2 = "com.google.android.gms.availability";
+                notificationChannel = notificationManager.getNotificationChannel("com.google.android.gms.availability");
+                String zab2 = com.google.android.gms.common.internal.zac.zab(context);
+                if (notificationChannel == null) {
+                    notificationChannel = new NotificationChannel("com.google.android.gms.availability", zab2, 4);
+                } else {
+                    name = notificationChannel.getName();
+                    if (!zab2.contentEquals(name)) {
+                        notificationChannel.setName(zab2);
+                    }
+                }
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+            style.setChannelId(str2);
+        }
+        Notification build = style.build();
+        if (i == 1 || i == 2 || i == 3) {
+            GooglePlayServicesUtilLight.sCanceledAvailabilityNotification.set(false);
+            i2 = 10436;
+        } else {
+            i2 = 39789;
+        }
+        notificationManager.notify(i2, build);
     }
 
     final void zaf(Context context) {

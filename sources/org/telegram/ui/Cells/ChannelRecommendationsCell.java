@@ -42,6 +42,7 @@ import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Components.Scroller;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Components.Text;
+
 /* loaded from: classes4.dex */
 public class ChannelRecommendationsCell {
     private ChatMessageCell cell;
@@ -286,8 +287,8 @@ public class ChannelRecommendationsCell {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:69:0x0214  */
-        /* JADX WARN: Removed duplicated region for block: B:70:0x026c  */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x0214  */
+        /* JADX WARN: Removed duplicated region for block: B:26:0x026c  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -390,7 +391,6 @@ public class ChannelRecommendationsCell {
             TextPaint textPaint;
             ChatMessageCell chatMessageCell;
             int i2;
-            TextPaint textPaint2;
             canvas.save();
             float scale = this.bounce.getScale(0.075f);
             float f2 = i;
@@ -409,7 +409,7 @@ public class ChannelRecommendationsCell {
                     i2 = Theme.key_windowBackgroundWhiteGrayText;
                 }
                 textPaint.setColor(chatMessageCell.getThemedColor(i2));
-                this.nameTextPaint.setAlpha((int) (textPaint2.getAlpha() * f));
+                this.nameTextPaint.setAlpha((int) (r0.getAlpha() * f));
                 this.nameText.draw(canvas);
                 canvas.restore();
             }
@@ -502,11 +502,11 @@ public class ChannelRecommendationsCell {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00c2  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00cf  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00df  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00e8  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00c2  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00df  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00e8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -682,7 +682,6 @@ public class ChannelRecommendationsCell {
 
     public void draw(Canvas canvas) {
         float f;
-        int dp;
         if (this.msg == null || this.cell == null) {
             return;
         }
@@ -704,7 +703,7 @@ public class ChannelRecommendationsCell {
         if (clamp > 0.0f) {
             int width2 = this.cell.getWidth() - AndroidUtilities.dp(18.0f);
             this.blockWidth = (int) (width2 > AndroidUtilities.dp(441.0f) ? AndroidUtilities.dp(66.0f) : Math.max((width2 / 4.5f) - AndroidUtilities.dp(9.0f), AndroidUtilities.dp(66.0f)));
-            this.channelsScrollWidth = (dp * this.channels.size()) + (AndroidUtilities.dp(9.0f) * (this.channels.size() - 1));
+            this.channelsScrollWidth = (r4 * this.channels.size()) + (AndroidUtilities.dp(9.0f) * (this.channels.size() - 1));
             int min = (int) Math.min(width2, this.blockWidth * 6.5f);
             this.backgroundBounds.set((this.cell.getWidth() - min) / 2.0f, AndroidUtilities.dp(10.0f) + f, (this.cell.getWidth() + min) / 2.0f, f + AndroidUtilities.dp(138.0f));
             this.scrollX = Utilities.clamp(this.scrollX, this.channelsScrollWidth - (this.backgroundBounds.width() - AndroidUtilities.dp(14.0f)), 0.0f);
@@ -721,15 +720,15 @@ public class ChannelRecommendationsCell {
                 text.draw(canvas, AndroidUtilities.dp(17.0f) + this.backgroundBounds.left, AndroidUtilities.dp(20.0f) + this.backgroundBounds.top, this.cell.getThemedColor(Theme.key_windowBackgroundWhiteBlackText), clamp);
             }
             float f3 = this.loadingAlpha.set(this.loading);
-            float dp2 = (this.backgroundBounds.left + AndroidUtilities.dp(7.0f)) - this.scrollX;
-            float dp3 = this.blockWidth + AndroidUtilities.dp(9.0f);
-            int floor = (int) Math.floor(((this.backgroundBounds.left - min) - dp2) / dp3);
-            int ceil = (int) Math.ceil((this.backgroundBounds.right - dp2) / dp3);
+            float dp = (this.backgroundBounds.left + AndroidUtilities.dp(7.0f)) - this.scrollX;
+            float dp2 = this.blockWidth + AndroidUtilities.dp(9.0f);
+            int floor = (int) Math.floor(((this.backgroundBounds.left - min) - dp) / dp2);
+            int ceil = (int) Math.ceil((this.backgroundBounds.right - dp) / dp2);
             if (f3 < 1.0f) {
                 for (int max = Math.max(0, floor); max < Math.min(ceil + 1, this.channels.size()); max++) {
                     ChannelBlock channelBlock = (ChannelBlock) this.channels.get(max);
                     canvas.save();
-                    canvas.translate((max * dp3) + dp2, this.backgroundBounds.bottom - ChannelBlock.height());
+                    canvas.translate((max * dp2) + dp, this.backgroundBounds.bottom - ChannelBlock.height());
                     float f4 = (1.0f - f3) * clamp;
                     channelBlock.draw(canvas, this.blockWidth, f4);
                     channelBlock.drawText(canvas, this.blockWidth, f4);
@@ -739,7 +738,7 @@ public class ChannelRecommendationsCell {
             if (f3 > 0.0f) {
                 this.loadingPath.rewind();
                 for (int max2 = Math.max(0, floor); max2 < ceil; max2++) {
-                    ChannelBlock.fillPath(this.loadingPath, this.blockWidth, (max2 * dp3) + dp2);
+                    ChannelBlock.fillPath(this.loadingPath, this.blockWidth, (max2 * dp2) + dp);
                 }
                 if (this.loadingDrawable == null) {
                     LoadingDrawable loadingDrawable = new LoadingDrawable();
@@ -757,14 +756,14 @@ public class ChannelRecommendationsCell {
                 canvas.restore();
             }
             float scale = this.closeBounce.getScale(0.02f);
-            float dp4 = this.backgroundBounds.right - AndroidUtilities.dp(20.0f);
-            float dp5 = this.backgroundBounds.top + AndroidUtilities.dp(20.0f);
+            float dp3 = this.backgroundBounds.right - AndroidUtilities.dp(20.0f);
+            float dp4 = this.backgroundBounds.top + AndroidUtilities.dp(20.0f);
             canvas.save();
-            canvas.scale(scale, scale, dp4, dp5);
+            canvas.scale(scale, scale, dp3, dp4);
             this.closePaint.setStrokeWidth(AndroidUtilities.dp(1.33f));
-            canvas.drawLine(dp4 - AndroidUtilities.dp(4.0f), dp5 - AndroidUtilities.dp(4.0f), dp4 + AndroidUtilities.dp(4.0f), dp5 + AndroidUtilities.dp(4.0f), this.closePaint);
-            canvas.drawLine(dp4 - AndroidUtilities.dp(4.0f), dp5 + AndroidUtilities.dp(4.0f), dp4 + AndroidUtilities.dp(4.0f), dp5 - AndroidUtilities.dp(4.0f), this.closePaint);
-            this.closeBounds.set(dp4 - AndroidUtilities.dp(12.0f), dp5 - AndroidUtilities.dp(12.0f), dp4 + AndroidUtilities.dp(12.0f), dp5 + AndroidUtilities.dp(12.0f));
+            canvas.drawLine(dp3 - AndroidUtilities.dp(4.0f), dp4 - AndroidUtilities.dp(4.0f), dp3 + AndroidUtilities.dp(4.0f), dp4 + AndroidUtilities.dp(4.0f), this.closePaint);
+            canvas.drawLine(dp3 - AndroidUtilities.dp(4.0f), dp4 + AndroidUtilities.dp(4.0f), dp3 + AndroidUtilities.dp(4.0f), dp4 - AndroidUtilities.dp(4.0f), this.closePaint);
+            this.closeBounds.set(dp3 - AndroidUtilities.dp(12.0f), dp4 - AndroidUtilities.dp(12.0f), dp3 + AndroidUtilities.dp(12.0f), dp4 + AndroidUtilities.dp(12.0f));
             canvas.restore();
             canvas.restore();
         }
@@ -787,7 +786,6 @@ public class ChannelRecommendationsCell {
     }
 
     public void setMessageObject(MessageObject messageObject) {
-        StaticLayout staticLayout;
         int i;
         int i2;
         this.currentAccount = messageObject.currentAccount;
@@ -799,7 +797,7 @@ public class ChannelRecommendationsCell {
         this.serviceTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
         this.serviceTextPaint.setColor(this.cell.getThemedColor(Theme.key_chat_serviceText));
         this.serviceText = new StaticLayout(LocaleController.getString(R.string.ChannelJoined), this.serviceTextPaint, this.msg.getMaxMessageTextWidth(), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-        this.serviceTextLeft = staticLayout.getWidth();
+        this.serviceTextLeft = r13.getWidth();
         this.serviceTextRight = 0.0f;
         for (int i3 = 0; i3 < this.serviceText.getLineCount(); i3++) {
             this.serviceTextLeft = Math.min(this.serviceTextLeft, this.serviceText.getLineLeft(i3));

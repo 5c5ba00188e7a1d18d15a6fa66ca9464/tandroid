@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 abstract class zzhi {
     private static final Class zza = zza("libcore.io.Memory");

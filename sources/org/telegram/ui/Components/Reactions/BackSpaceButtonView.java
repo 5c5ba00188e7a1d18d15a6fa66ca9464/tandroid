@@ -17,6 +17,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Stories.RoundRectOutlineProvider;
+
 /* loaded from: classes3.dex */
 public class BackSpaceButtonView extends FrameLayout {
     private final ImageView backspaceButton;

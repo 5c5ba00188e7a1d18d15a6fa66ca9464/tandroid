@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.flags;
 
 import android.os.Parcel;
+
 /* loaded from: classes.dex */
 public abstract class zzc {
     private static final ClassLoader zzd = zzc.class.getClassLoader();

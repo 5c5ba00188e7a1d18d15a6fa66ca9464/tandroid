@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.text.ssa;
 import android.text.TextUtils;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.common.base.Ascii;
+
 /* loaded from: classes.dex */
 final class SsaDialogueFormat {
     public final int endTimeIndex;
@@ -19,7 +20,6 @@ final class SsaDialogueFormat {
         this.length = i5;
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     public static SsaDialogueFormat fromFormatLine(String str) {
         char c;
         Assertions.checkArgument(str.startsWith("Format:"));
@@ -37,33 +37,27 @@ final class SsaDialogueFormat {
                         c = 0;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 3556653:
                     if (lowerCase.equals("text")) {
                         c = 1;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 109757538:
                     if (lowerCase.equals("start")) {
                         c = 2;
                         break;
                     }
-                    c = 65535;
                     break;
                 case 109780401:
                     if (lowerCase.equals("style")) {
                         c = 3;
                         break;
                     }
-                    c = 65535;
-                    break;
-                default:
-                    c = 65535;
                     break;
             }
+            c = 65535;
             switch (c) {
                 case 0:
                     i2 = i5;

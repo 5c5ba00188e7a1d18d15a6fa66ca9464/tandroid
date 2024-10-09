@@ -8,8 +8,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class RemoteInput {
     private final boolean mAllowFreeFormTextInput;
@@ -40,11 +42,12 @@ public final class RemoteInput {
         }
 
         public static android.app.RemoteInput fromCompat(RemoteInput remoteInput) {
-            Set<String> allowedDataTypes;
+            Set allowedDataTypes;
             RemoteInput.Builder addExtras = new RemoteInput.Builder(remoteInput.getResultKey()).setLabel(remoteInput.getLabel()).setChoices(remoteInput.getChoices()).setAllowFreeFormInput(remoteInput.getAllowFreeFormInput()).addExtras(remoteInput.getExtras());
             if (Build.VERSION.SDK_INT >= 26 && (allowedDataTypes = remoteInput.getAllowedDataTypes()) != null) {
-                for (String str : allowedDataTypes) {
-                    Api26Impl.setAllowDataType(addExtras, str, true);
+                Iterator it = allowedDataTypes.iterator();
+                while (it.hasNext()) {
+                    Api26Impl.setAllowDataType(addExtras, (String) it.next(), true);
                 }
             }
             if (Build.VERSION.SDK_INT >= 29) {

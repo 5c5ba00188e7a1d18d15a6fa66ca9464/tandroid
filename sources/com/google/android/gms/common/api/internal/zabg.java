@@ -1,6 +1,7 @@
 package com.google.android.gms.common.api.internal;
 
 import java.util.concurrent.locks.Lock;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zabg {

@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.Loader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public class DefaultLoadErrorHandlingPolicy implements LoadErrorHandlingPolicy {
     private final int minimumLoadableRetryCount;
@@ -20,14 +21,14 @@ public class DefaultLoadErrorHandlingPolicy implements LoadErrorHandlingPolicy {
 
     @Override // com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy
     public LoadErrorHandlingPolicy.FallbackSelection getFallbackSelectionFor(LoadErrorHandlingPolicy.FallbackOptions fallbackOptions, LoadErrorHandlingPolicy.LoadErrorInfo loadErrorInfo) {
-        if (isEligibleForFallback(loadErrorInfo.exception)) {
-            if (fallbackOptions.isFallbackAvailable(1)) {
-                return new LoadErrorHandlingPolicy.FallbackSelection(1, 300000L);
-            }
-            if (fallbackOptions.isFallbackAvailable(2)) {
-                return new LoadErrorHandlingPolicy.FallbackSelection(2, 60000L);
-            }
+        if (!isEligibleForFallback(loadErrorInfo.exception)) {
             return null;
+        }
+        if (fallbackOptions.isFallbackAvailable(1)) {
+            return new LoadErrorHandlingPolicy.FallbackSelection(1, 300000L);
+        }
+        if (fallbackOptions.isFallbackAvailable(2)) {
+            return new LoadErrorHandlingPolicy.FallbackSelection(2, 60000L);
         }
         return null;
     }
@@ -48,11 +49,11 @@ public class DefaultLoadErrorHandlingPolicy implements LoadErrorHandlingPolicy {
     }
 
     protected boolean isEligibleForFallback(IOException iOException) {
-        if (iOException instanceof HttpDataSource.InvalidResponseCodeException) {
-            int i = ((HttpDataSource.InvalidResponseCodeException) iOException).responseCode;
-            return i == 403 || i == 404 || i == 410 || i == 416 || i == 500 || i == 503;
+        if (!(iOException instanceof HttpDataSource.InvalidResponseCodeException)) {
+            return false;
         }
-        return false;
+        int i = ((HttpDataSource.InvalidResponseCodeException) iOException).responseCode;
+        return i == 403 || i == 404 || i == 410 || i == 416 || i == 500 || i == 503;
     }
 
     @Override // com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy

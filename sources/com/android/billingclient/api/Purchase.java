@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public class Purchase {
     private final String zza;
@@ -36,11 +37,11 @@ public class Purchase {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof Purchase) {
-            Purchase purchase = (Purchase) obj;
-            return TextUtils.equals(this.zza, purchase.getOriginalJson()) && TextUtils.equals(this.zzb, purchase.getSignature());
+        if (!(obj instanceof Purchase)) {
+            return false;
         }
-        return false;
+        Purchase purchase = (Purchase) obj;
+        return TextUtils.equals(this.zza, purchase.getOriginalJson()) && TextUtils.equals(this.zzb, purchase.getSignature());
     }
 
     public AccountIdentifiers getAccountIdentifiers() {

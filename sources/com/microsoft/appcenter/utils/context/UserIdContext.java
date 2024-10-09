@@ -7,6 +7,7 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public class UserIdContext {
     private static UserIdContext sInstance;
@@ -35,7 +36,8 @@ public class UserIdContext {
             if (!substring.equals("c")) {
                 AppCenterLog.error("AppCenter", String.format("userId prefix must be '%s%s', '%s%s' is not supported.", "c", ":", substring, ":"));
                 return false;
-            } else if (indexOf == str.length() - 1) {
+            }
+            if (indexOf == str.length() - 1) {
                 AppCenterLog.error("AppCenter", "userId must not be empty.");
                 return false;
             }

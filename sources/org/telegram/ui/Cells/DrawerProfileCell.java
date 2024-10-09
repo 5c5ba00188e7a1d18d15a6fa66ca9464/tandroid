@@ -55,6 +55,7 @@ import org.telegram.ui.Components.Reactions.HwEmojis;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.SnowflakesEffect;
 import org.telegram.ui.ThemeActivity;
+
 /* loaded from: classes4.dex */
 public abstract class DrawerProfileCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static RLottieDrawable sunDrawable;
@@ -154,8 +155,7 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
                 int i = this.animationUniq;
                 this.animationUniq = i + 1;
                 imageReceiver.setUniqKeyPrefix(Integer.toString(i));
-                ImageLocation forDocument = ImageLocation.getForDocument(tL_availableReaction.around_animation);
-                imageReceiver.setImage(forDocument, this.effectsSize + "_" + this.effectsSize + "_nolimit", null, "tgs", tL_availableReaction, 1);
+                imageReceiver.setImage(ImageLocation.getForDocument(tL_availableReaction.around_animation), this.effectsSize + "_" + this.effectsSize + "_nolimit", null, "tgs", tL_availableReaction, 1);
                 imageReceiver.setAutoRepeat(0);
                 imageReceiver.onAttachedToWindow();
                 animatedEmojiEffect = imageReceiver;
@@ -285,10 +285,8 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
                 super.onDraw(canvas);
                 if (DrawerProfileCell.this.updateRightDrawable) {
                     DrawerProfileCell.this.updateRightDrawable = false;
-                    DrawerProfileCell drawerProfileCell = DrawerProfileCell.this;
-                    Rect rect = AndroidUtilities.rectTmp2;
-                    drawerProfileCell.getEmojiStatusLocation(rect);
-                    DrawerProfileCell.this.animatedStatus.translate(rect.centerX(), rect.centerY());
+                    DrawerProfileCell.this.getEmojiStatusLocation(AndroidUtilities.rectTmp2);
+                    DrawerProfileCell.this.animatedStatus.translate(r0.centerX(), r0.centerY());
                 }
             }
         };
@@ -409,10 +407,10 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0091  */
-    /* JADX WARN: Removed duplicated region for block: B:39:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x007e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -426,10 +424,14 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
         String str = "Blue";
         String string = sharedPreferences.getString("lastDayTheme", "Blue");
-        string = (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) ? "Blue" : "Blue";
+        if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
+            string = "Blue";
+        }
         String str2 = "Dark Blue";
         String string2 = sharedPreferences.getString("lastDarkTheme", "Dark Blue");
-        string2 = (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) ? "Dark Blue" : "Dark Blue";
+        if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
+            string2 = "Dark Blue";
+        }
         Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
         if (!string.equals(string2)) {
             str2 = string2;
@@ -468,11 +470,11 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$new$3(DrawerLayoutContainer drawerLayoutContainer, View view) {
-        if (drawerLayoutContainer != null) {
-            drawerLayoutContainer.presentFragment(new ThemeActivity(0));
-            return true;
+        if (drawerLayoutContainer == null) {
+            return false;
         }
-        return false;
+        drawerLayoutContainer.presentFragment(new ThemeActivity(0));
+        return true;
     }
 
     private void setArrowState(boolean z) {
@@ -593,13 +595,13 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00d0  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x016b  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0195  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x01a1  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01b6  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x021d  */
-    /* JADX WARN: Removed duplicated region for block: B:85:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0195  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x01b6  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x021d  */
+    /* JADX WARN: Removed duplicated region for block: B:62:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01a1  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x016b  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -867,9 +869,7 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
         }
         this.animatedStatus.setColor(Theme.getColor(Theme.isCurrentThemeDark() ? Theme.key_chats_verifiedBackground : Theme.key_chats_menuPhoneCats));
         this.status.setColor(Integer.valueOf(Theme.getColor(Theme.isCurrentThemeDark() ? Theme.key_chats_verifiedBackground : Theme.key_chats_menuPhoneCats)));
-        TextView textView = this.phoneTextView;
-        PhoneFormat phoneFormat = PhoneFormat.getInstance();
-        textView.setText(phoneFormat.format("+" + user.phone));
+        this.phoneTextView.setText(PhoneFormat.getInstance().format("+" + user.phone));
         AvatarDrawable avatarDrawable = new AvatarDrawable(user);
         avatarDrawable.setColor(Theme.getColor(Theme.key_avatar_backgroundInProfileBlue));
         this.avatarImageView.setForUserOrChat(user, avatarDrawable);

@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Charsets;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class PictureFrame implements Metadata.Entry {
     public static final Parcelable.Creator<PictureFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.flac.PictureFrame.1

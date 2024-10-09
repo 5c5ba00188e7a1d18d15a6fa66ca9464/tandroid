@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
+
 /* loaded from: classes.dex */
 final class zzfo implements ObjectEncoder {
     static final zzfo zza = new zzfo();

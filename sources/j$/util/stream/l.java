@@ -8,6 +8,7 @@ import j$.util.function.ToDoubleFunction;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class l implements Function, j$.util.function.i0, BiConsumer, Supplier, LongFunction, j$.util.function.I, j$.util.function.j, j$.util.function.q, j$.util.function.v, ToDoubleFunction {
     public final /* synthetic */ int a;

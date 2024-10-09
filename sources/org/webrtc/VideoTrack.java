@@ -1,6 +1,8 @@
 package org.webrtc;
 
 import java.util.IdentityHashMap;
+import java.util.Iterator;
+
 /* loaded from: classes.dex */
 public class VideoTrack extends MediaStreamTrack {
     private final IdentityHashMap<VideoSink, Long> sinks;
@@ -32,8 +34,9 @@ public class VideoTrack extends MediaStreamTrack {
 
     @Override // org.webrtc.MediaStreamTrack
     public void dispose() {
-        for (Long l : this.sinks.values()) {
-            long longValue = l.longValue();
+        Iterator<Long> it = this.sinks.values().iterator();
+        while (it.hasNext()) {
+            long longValue = it.next().longValue();
             nativeRemoveSink(getNativeMediaStreamTrack(), longValue);
             nativeFreeSink(longValue);
         }

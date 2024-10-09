@@ -13,6 +13,7 @@ import com.google.android.gms.common.wrappers.Wrappers;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class ConnectionTracker {
     private static final Object zzb = new Object();
@@ -58,22 +59,22 @@ public class ConnectionTracker {
             } catch (PackageManager.NameNotFoundException unused) {
             }
         }
-        if (zzd(serviceConnection)) {
-            ServiceConnection serviceConnection2 = (ServiceConnection) this.zza.putIfAbsent(serviceConnection, serviceConnection);
-            if (serviceConnection2 != null && serviceConnection != serviceConnection2) {
-                Log.w("ConnectionTracker", String.format("Duplicate binding with the same ServiceConnection: %s, %s, %s.", serviceConnection, str, intent.getAction()));
-            }
-            try {
-                boolean zze = zze(context, intent, serviceConnection, i, executor);
-                if (zze) {
-                    return zze;
-                }
-                return false;
-            } finally {
-                this.zza.remove(serviceConnection, serviceConnection);
-            }
+        if (!zzd(serviceConnection)) {
+            return zze(context, intent, serviceConnection, i, executor);
         }
-        return zze(context, intent, serviceConnection, i, executor);
+        ServiceConnection serviceConnection2 = (ServiceConnection) this.zza.putIfAbsent(serviceConnection, serviceConnection);
+        if (serviceConnection2 != null && serviceConnection != serviceConnection2) {
+            Log.w("ConnectionTracker", String.format("Duplicate binding with the same ServiceConnection: %s, %s, %s.", serviceConnection, str, intent.getAction()));
+        }
+        try {
+            boolean zze = zze(context, intent, serviceConnection, i, executor);
+            if (zze) {
+                return zze;
+            }
+            return false;
+        } finally {
+            this.zza.remove(serviceConnection, serviceConnection);
+        }
     }
 
     private static boolean zzd(ServiceConnection serviceConnection) {

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 final class zzlw extends zzlu {
     private static void zza(Object obj, zzlx zzlxVar) {

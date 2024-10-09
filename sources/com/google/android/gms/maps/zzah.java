@@ -11,7 +11,9 @@ import com.google.android.gms.maps.internal.IMapViewDelegate;
 import com.google.android.gms.maps.internal.zzcb;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzah extends DeferredLifecycleHelper {
@@ -53,8 +55,9 @@ public final class zzah extends DeferredLifecycleHelper {
                 return;
             }
             this.zza.onDelegateCreated(new zzag(this.zzb, zzg));
-            for (OnMapReadyCallback onMapReadyCallback : this.zze) {
-                ((zzag) getDelegate()).getMapAsync(onMapReadyCallback);
+            Iterator it = this.zze.iterator();
+            while (it.hasNext()) {
+                ((zzag) getDelegate()).getMapAsync((OnMapReadyCallback) it.next());
             }
             this.zze.clear();
         } catch (RemoteException e) {

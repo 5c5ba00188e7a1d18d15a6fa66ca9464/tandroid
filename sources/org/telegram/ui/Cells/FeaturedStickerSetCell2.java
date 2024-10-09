@@ -38,6 +38,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.PremiumButtonView;
 import org.telegram.ui.Components.ProgressButton;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public class FeaturedStickerSetCell2 extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final ProgressButton addButton;
@@ -217,18 +218,18 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
         this.addButton.setDrawProgress(z, z2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x0200  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0222  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x022f  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x02d7  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x02d9  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x02e9  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x02eb  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x02fb  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x02fd  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x0340  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x014d  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x01ef  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x02d7  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x02e9  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x02fb  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x02d9  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0340  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x01ef  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x014d  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0200  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0222  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x022f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -416,13 +417,13 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
                             AnimatorSet animatorSet3 = this.currentAnimation;
                             TextView textView3 = this.delButton;
                             Property property = View.ALPHA;
-                            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView3, property, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
+                            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView3, (Property<TextView, Float>) property, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
                             TextView textView4 = this.delButton;
                             Property property2 = View.SCALE_X;
-                            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(textView4, property2, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
+                            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(textView4, (Property<TextView, Float>) property2, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
                             TextView textView5 = this.delButton;
                             Property property3 = View.SCALE_Y;
-                            animatorSet3.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(textView5, property3, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property2, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property3, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property2, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property3, this.isLocked ? 0.0f : 1.0f));
+                            animatorSet3.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(textView5, (Property<TextView, Float>) property3, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, (Property<ProgressButton, Float>) property, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, (Property<ProgressButton, Float>) property2, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, (Property<PremiumButtonView, Float>) property3, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, (Property<PremiumButtonView, Float>) property2, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, (Property<PremiumButtonView, Float>) property3, this.isLocked ? 0.0f : 1.0f));
                             this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.2
                                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                                 public void onAnimationEnd(Animator animator) {
@@ -454,13 +455,13 @@ public class FeaturedStickerSetCell2 extends FrameLayout implements Notification
                     AnimatorSet animatorSet32 = this.currentAnimation;
                     TextView textView32 = this.delButton;
                     Property property4 = View.ALPHA;
-                    ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(textView32, property4, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
+                    ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(textView32, (Property<TextView, Float>) property4, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
                     TextView textView42 = this.delButton;
                     Property property22 = View.SCALE_X;
-                    ObjectAnimator ofFloat22 = ObjectAnimator.ofFloat(textView42, property22, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
+                    ObjectAnimator ofFloat22 = ObjectAnimator.ofFloat(textView42, (Property<TextView, Float>) property22, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f);
                     TextView textView52 = this.delButton;
                     Property property32 = View.SCALE_Y;
-                    animatorSet32.playTogether(ofFloat3, ofFloat22, ObjectAnimator.ofFloat(textView52, property32, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property4, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, property22, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property32, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property22, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, property32, this.isLocked ? 0.0f : 1.0f));
+                    animatorSet32.playTogether(ofFloat3, ofFloat22, ObjectAnimator.ofFloat(textView52, (Property<TextView, Float>) property32, (this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, (Property<ProgressButton, Float>) property4, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.addButton, (Property<ProgressButton, Float>) property22, (!this.isInstalled || this.isLocked) ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, (Property<PremiumButtonView, Float>) property32, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, (Property<PremiumButtonView, Float>) property22, this.isLocked ? 0.0f : 1.0f), ObjectAnimator.ofFloat(this.unlockButton, (Property<PremiumButtonView, Float>) property32, this.isLocked ? 0.0f : 1.0f));
                     this.currentAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.FeaturedStickerSetCell2.2
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {

@@ -1,6 +1,7 @@
 package com.google.gson.internal;
 
 import java.math.BigDecimal;
+
 /* loaded from: classes.dex */
 public final class LazilyParsedNumber extends Number {
     private final String value;

@@ -1,6 +1,7 @@
 package com.google.firebase.messaging;
 
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 final /* synthetic */ class WithinAppServiceBinder$$Lambda$0 implements Executor {
     static final Executor $instance = new WithinAppServiceBinder$$Lambda$0();

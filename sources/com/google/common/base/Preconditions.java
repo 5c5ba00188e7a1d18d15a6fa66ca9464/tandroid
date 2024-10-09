@@ -1,4 +1,5 @@
 package com.google.common.base;
+
 /* loaded from: classes.dex */
 public abstract class Preconditions {
     private static String badElementIndex(int i, int i2, String str) {

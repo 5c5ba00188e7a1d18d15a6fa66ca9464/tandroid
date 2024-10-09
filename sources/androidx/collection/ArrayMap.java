@@ -7,6 +7,7 @@ import j$.util.function.Function;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public class ArrayMap extends SimpleArrayMap implements Map, j$.util.Map {
     MapCollections mCollections;

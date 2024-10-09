@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class AbstractMultimap implements Multimap {
@@ -61,12 +62,12 @@ public abstract class AbstractMultimap implements Multimap {
     @Override // com.google.common.collect.Multimap
     public Map asMap() {
         Map map = this.asMap;
-        if (map == null) {
-            Map createAsMap = createAsMap();
-            this.asMap = createAsMap;
-            return createAsMap;
+        if (map != null) {
+            return map;
         }
-        return map;
+        Map createAsMap = createAsMap();
+        this.asMap = createAsMap;
+        return createAsMap;
     }
 
     @Override // com.google.common.collect.Multimap
@@ -76,8 +77,9 @@ public abstract class AbstractMultimap implements Multimap {
     }
 
     public boolean containsValue(Object obj) {
-        for (Collection collection : asMap().values()) {
-            if (collection.contains(obj)) {
+        Iterator it = asMap().values().iterator();
+        while (it.hasNext()) {
+            if (((Collection) it.next()).contains(obj)) {
                 return true;
             }
         }
@@ -95,12 +97,12 @@ public abstract class AbstractMultimap implements Multimap {
     @Override // com.google.common.collect.Multimap
     public Collection entries() {
         Collection collection = this.entries;
-        if (collection == null) {
-            Collection createEntries = createEntries();
-            this.entries = createEntries;
-            return createEntries;
+        if (collection != null) {
+            return collection;
         }
-        return collection;
+        Collection createEntries = createEntries();
+        this.entries = createEntries;
+        return createEntries;
     }
 
     abstract Iterator entryIterator();
@@ -115,12 +117,12 @@ public abstract class AbstractMultimap implements Multimap {
 
     public Set keySet() {
         Set set = this.keySet;
-        if (set == null) {
-            Set createKeySet = createKeySet();
-            this.keySet = createKeySet;
-            return createKeySet;
+        if (set != null) {
+            return set;
         }
-        return set;
+        Set createKeySet = createKeySet();
+        this.keySet = createKeySet;
+        return createKeySet;
     }
 
     @Override // com.google.common.collect.Multimap
@@ -138,11 +140,11 @@ public abstract class AbstractMultimap implements Multimap {
     @Override // com.google.common.collect.Multimap
     public Collection values() {
         Collection collection = this.values;
-        if (collection == null) {
-            Collection createValues = createValues();
-            this.values = createValues;
-            return createValues;
+        if (collection != null) {
+            return collection;
         }
-        return collection;
+        Collection createValues = createValues();
+        this.values = createValues;
+        return createValues;
     }
 }

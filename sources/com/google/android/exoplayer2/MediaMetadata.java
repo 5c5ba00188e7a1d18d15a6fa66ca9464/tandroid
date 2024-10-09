@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
 import java.util.Arrays;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class MediaMetadata implements Bundleable {
     public final CharSequence albumArtist;

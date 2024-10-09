@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.extractor;
 
 import com.google.android.exoplayer2.util.Assertions;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class VorbisBitArray {
     private int bitOffset;

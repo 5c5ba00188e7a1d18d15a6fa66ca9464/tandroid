@@ -7,6 +7,7 @@ import com.google.common.primitives.Ints;
 import java.math.RoundingMode;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.OneUIUtilities;
+
 /* loaded from: classes.dex */
 public class DefaultAudioTrackBufferSizeProvider implements DefaultAudioSink.AudioTrackBufferSizeProvider {
     public final int ac3BufferMultiplicationFactor;
@@ -80,23 +81,22 @@ public class DefaultAudioTrackBufferSizeProvider implements DefaultAudioSink.Aud
     }
 
     protected int get1xBufferSizeInBytes(int i, int i2, int i3, int i4, int i5, int i6) {
-        if (i3 != 0) {
-            if (i3 != 1) {
-                if (i3 == 2) {
-                    return getPassthroughBufferSizeInBytes(i2, i6);
-                }
-                throw new IllegalArgumentException();
-            }
+        if (i3 == 0) {
+            return getPcmBufferSizeInBytes(i, i5, i4);
+        }
+        if (i3 == 1) {
             return getOffloadBufferSizeInBytes(i2);
         }
-        return getPcmBufferSizeInBytes(i, i5, i4);
+        if (i3 == 2) {
+            return getPassthroughBufferSizeInBytes(i2, i6);
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override // com.google.android.exoplayer2.audio.DefaultAudioSink.AudioTrackBufferSizeProvider
     public int getBufferSizeInBytes(int i, int i2, int i3, int i4, int i5, int i6, double d) {
-        double d2;
         Double.isNaN(get1xBufferSizeInBytes(i, i2, i3, i4, i5, i6));
-        return (((Math.max(i, (int) (d2 * d)) + i4) - 1) / i4) * i4;
+        return (((Math.max(i, (int) (r2 * d)) + i4) - 1) / i4) * i4;
     }
 
     protected int getOffloadBufferSizeInBytes(int i) {

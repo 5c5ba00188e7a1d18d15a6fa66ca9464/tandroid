@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public abstract class zzy {
     private static HashMap zzcu;
@@ -48,14 +49,14 @@ public abstract class zzy {
     private static Object zza(HashMap hashMap, String str, Object obj) {
         synchronized (zzy.class) {
             try {
-                if (hashMap.containsKey(str)) {
-                    Object obj2 = hashMap.get(str);
-                    if (obj2 != null) {
-                        obj = obj2;
-                    }
-                    return obj;
+                if (!hashMap.containsKey(str)) {
+                    return null;
                 }
-                return null;
+                Object obj2 = hashMap.get(str);
+                if (obj2 != null) {
+                    obj = obj2;
+                }
+                return obj;
             } catch (Throwable th) {
                 throw th;
             }
@@ -136,7 +137,9 @@ public abstract class zzy {
             zzcz = new Object();
             zzda = false;
             contentResolver.registerContentObserver(CONTENT_URI, true, new zzz(null));
-        } else if (zzct.getAndSet(false)) {
+            return;
+        }
+        if (zzct.getAndSet(false)) {
             zzcu.clear();
             zzcv.clear();
             zzcw.clear();

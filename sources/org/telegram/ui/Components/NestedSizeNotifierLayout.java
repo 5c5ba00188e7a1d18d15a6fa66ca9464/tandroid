@@ -7,6 +7,7 @@ import androidx.core.view.NestedScrollingParentHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.ui.ActionBar.BottomSheet;
+
 /* loaded from: classes3.dex */
 public abstract class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements NestedScrollingParent3, View.OnLayoutChangeListener {
     boolean attached;
@@ -101,25 +102,28 @@ public abstract class NestedSizeNotifierLayout extends SizeNotifierFrameLayout i
                 BottomSheet.ContainerView containerView = this.bottomSheetContainerView;
                 if (containerView != null) {
                     containerView.onNestedPreScroll(view, i, i2, iArr);
+                    return;
                 }
-            } else if (top > this.maxTop) {
+                return;
+            }
+            if (top > this.maxTop) {
                 if (this.bottomSheetContainerView == null || this.targetListView.canScrollVertically(i2)) {
                     return;
                 }
                 this.bottomSheetContainerView.onNestedScroll(view, 0, 0, i, i2);
-            } else {
-                RecyclerListView listView = this.childLayout.getListView();
-                int findFirstVisibleItemPosition = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
-                if (findFirstVisibleItemPosition != -1) {
-                    RecyclerView.ViewHolder findViewHolderForAdapterPosition = listView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
-                    int top2 = findViewHolderForAdapterPosition != null ? findViewHolderForAdapterPosition.itemView.getTop() : -1;
-                    int paddingTop = listView.getPaddingTop();
-                    if (top2 == paddingTop && findFirstVisibleItemPosition == 0) {
-                        return;
-                    }
-                    iArr[1] = findFirstVisibleItemPosition != 0 ? i2 : Math.max(i2, top2 - paddingTop);
-                    listView.scrollBy(0, i2);
+                return;
+            }
+            RecyclerListView listView = this.childLayout.getListView();
+            int findFirstVisibleItemPosition = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
+            if (findFirstVisibleItemPosition != -1) {
+                RecyclerView.ViewHolder findViewHolderForAdapterPosition = listView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
+                int top2 = findViewHolderForAdapterPosition != null ? findViewHolderForAdapterPosition.itemView.getTop() : -1;
+                int paddingTop = listView.getPaddingTop();
+                if (top2 == paddingTop && findFirstVisibleItemPosition == 0) {
+                    return;
                 }
+                iArr[1] = findFirstVisibleItemPosition != 0 ? i2 : Math.max(i2, top2 - paddingTop);
+                listView.scrollBy(0, i2);
             }
         }
     }

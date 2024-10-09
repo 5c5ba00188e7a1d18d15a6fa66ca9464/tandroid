@@ -2,6 +2,7 @@ package com.google.android.gms.internal.firebase_messaging;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+
 /* loaded from: classes.dex */
 final class zzo extends WeakReference {
     private final int zza;

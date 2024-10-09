@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class HeartBeatInfoStorage {
@@ -50,11 +51,11 @@ public class HeartBeatInfoStorage {
         if (!this.sharedPreferences.contains(str)) {
             this.sharedPreferences.edit().putLong(str, j).apply();
             return true;
-        } else if (isSameDateUtc(this.sharedPreferences.getLong(str, -1L), j)) {
-            this.sharedPreferences.edit().putLong(str, j).apply();
-            return true;
-        } else {
+        }
+        if (!isSameDateUtc(this.sharedPreferences.getLong(str, -1L), j)) {
             return false;
         }
+        this.sharedPreferences.edit().putLong(str, j).apply();
+        return true;
     }
 }

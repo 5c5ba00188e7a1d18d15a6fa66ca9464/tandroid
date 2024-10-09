@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
+
 /* loaded from: classes.dex */
 public final class StarRating extends Rating {
     private final int maxStars;
@@ -46,11 +47,11 @@ public final class StarRating extends Rating {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof StarRating) {
-            StarRating starRating = (StarRating) obj;
-            return this.maxStars == starRating.maxStars && this.starRating == starRating.starRating;
+        if (!(obj instanceof StarRating)) {
+            return false;
         }
-        return false;
+        StarRating starRating = (StarRating) obj;
+        return this.maxStars == starRating.maxStars && this.starRating == starRating.starRating;
     }
 
     public int hashCode() {

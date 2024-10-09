@@ -1,4 +1,5 @@
 package org.aspectj.runtime.internal;
+
 /* loaded from: classes.dex */
 public abstract class Conversions {
     public static Object booleanObject(boolean z) {

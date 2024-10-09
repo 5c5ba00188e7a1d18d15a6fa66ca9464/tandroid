@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import androidx.collection.SimpleArrayMap;
 import androidx.core.internal.view.SupportMenuItem;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class BaseMenuWrapper {
@@ -19,20 +20,20 @@ public abstract class BaseMenuWrapper {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final MenuItem getMenuItemWrapper(MenuItem menuItem) {
-        if (menuItem instanceof SupportMenuItem) {
-            SupportMenuItem supportMenuItem = (SupportMenuItem) menuItem;
-            if (this.mMenuItems == null) {
-                this.mMenuItems = new SimpleArrayMap();
-            }
-            MenuItem menuItem2 = (MenuItem) this.mMenuItems.get(supportMenuItem);
-            if (menuItem2 == null) {
-                MenuItemWrapperICS menuItemWrapperICS = new MenuItemWrapperICS(this.mContext, supportMenuItem);
-                this.mMenuItems.put(supportMenuItem, menuItemWrapperICS);
-                return menuItemWrapperICS;
-            }
+        if (!(menuItem instanceof SupportMenuItem)) {
+            return menuItem;
+        }
+        SupportMenuItem supportMenuItem = (SupportMenuItem) menuItem;
+        if (this.mMenuItems == null) {
+            this.mMenuItems = new SimpleArrayMap();
+        }
+        MenuItem menuItem2 = (MenuItem) this.mMenuItems.get(supportMenuItem);
+        if (menuItem2 != null) {
             return menuItem2;
         }
-        return menuItem;
+        MenuItemWrapperICS menuItemWrapperICS = new MenuItemWrapperICS(this.mContext, supportMenuItem);
+        this.mMenuItems.put(supportMenuItem, menuItemWrapperICS);
+        return menuItemWrapperICS;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -15,6 +15,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public abstract class PermissionRequest {
     private static int lastId = 1500;
@@ -25,11 +26,11 @@ public abstract class PermissionRequest {
         if (activity == null) {
             activity = AndroidUtilities.findActivity(ApplicationLoader.applicationContext);
         }
-        if (activity != null && Build.VERSION.SDK_INT >= 23) {
-            shouldShowRequestPermissionRationale = activity.shouldShowRequestPermissionRationale(str);
-            return shouldShowRequestPermissionRationale;
+        if (activity == null || Build.VERSION.SDK_INT < 23) {
+            return false;
         }
-        return false;
+        shouldShowRequestPermissionRationale = activity.shouldShowRequestPermissionRationale(str);
+        return shouldShowRequestPermissionRationale;
     }
 
     public static void ensureEitherPermission(int i, int i2, String[] strArr, final String[] strArr2, final Utilities.Callback callback) {
@@ -96,11 +97,11 @@ public abstract class PermissionRequest {
         if (activity == null) {
             return false;
         }
-        if (Build.VERSION.SDK_INT >= 23) {
-            checkSelfPermission = activity.checkSelfPermission(str);
-            return checkSelfPermission == 0;
+        if (Build.VERSION.SDK_INT < 23) {
+            return true;
         }
-        return true;
+        checkSelfPermission = activity.checkSelfPermission(str);
+        return checkSelfPermission == 0;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -171,7 +172,6 @@ public abstract class PermissionRequest {
                     int i4 = NotificationCenter.activityPermissionsGranted;
                     if (i2 == i4) {
                         int intValue = ((Integer) objArr[0]).intValue();
-                        String[] strArr2 = (String[]) objArr[1];
                         int[] iArr = (int[]) objArr[2];
                         if (intValue == i) {
                             Utilities.Callback callback2 = callback;
@@ -185,7 +185,9 @@ public abstract class PermissionRequest {
             }};
             NotificationCenter.getGlobalInstance().addObserver(notificationCenterDelegateArr[0], NotificationCenter.activityPermissionsGranted);
             activity.requestPermissions(strArr, i);
-        } else if (callback != null) {
+            return;
+        }
+        if (callback != null) {
             int[] iArr = new int[strArr.length];
             for (int i2 = 0; i2 < strArr.length; i2++) {
                 iArr[i2] = hasPermission(strArr[i2]) ? 0 : -1;

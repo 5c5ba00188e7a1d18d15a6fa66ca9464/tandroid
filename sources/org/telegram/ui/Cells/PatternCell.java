@@ -30,6 +30,7 @@ import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.RadialProgress2;
+
 /* loaded from: classes4.dex */
 public class PatternCell extends BackupImageView implements DownloadController.FileDownloadProgressListener {
     private final int SIZE;
@@ -104,8 +105,9 @@ public class PatternCell extends BackupImageView implements DownloadController.F
                 name = FileLoader.getAttachFileName(tL_wallPaper.document);
                 if (TextUtils.isEmpty(name)) {
                     return;
+                } else {
+                    httpFilePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(tL_wallPaper.document, true);
                 }
-                httpFilePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(tL_wallPaper.document, true);
             } else {
                 MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
                 TLRPC.Photo photo = searchImage.photo;
@@ -158,10 +160,10 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00f4  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0106  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0142  */
-    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00f4  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0142  */
+    /* JADX WARN: Removed duplicated region for block: B:23:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0106  */
     @Override // org.telegram.ui.Components.BackupImageView, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.

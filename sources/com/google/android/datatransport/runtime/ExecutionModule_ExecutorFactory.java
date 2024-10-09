@@ -3,6 +3,7 @@ package com.google.android.datatransport.runtime;
 import com.google.android.datatransport.runtime.dagger.internal.Factory;
 import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public final class ExecutionModule_ExecutorFactory implements Factory {
 

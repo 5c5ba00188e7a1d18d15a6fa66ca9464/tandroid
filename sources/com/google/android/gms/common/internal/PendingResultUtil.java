@@ -5,6 +5,7 @@ import com.google.android.gms.common.api.Response;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 public abstract class PendingResultUtil {
     private static final zas zaa = new zao();

@@ -3,6 +3,7 @@ package j$.time;
 import j$.time.format.TextStyle;
 import j$.time.temporal.q;
 import java.util.Locale;
+
 /* loaded from: classes2.dex */
 public enum DayOfWeek implements j$.time.temporal.k {
     MONDAY,
@@ -12,14 +13,14 @@ public enum DayOfWeek implements j$.time.temporal.k {
     FRIDAY,
     SATURDAY,
     SUNDAY;
-    
+
     private static final DayOfWeek[] a = values();
 
     public static DayOfWeek f(int i) {
-        if (i < 1 || i > 7) {
-            throw new c("Invalid value for DayOfWeek: " + i);
+        if (i >= 1 && i <= 7) {
+            return a[i - 1];
         }
-        return a[i - 1];
+        throw new c("Invalid value for DayOfWeek: " + i);
     }
 
     @Override // j$.time.temporal.k
@@ -32,10 +33,10 @@ public enum DayOfWeek implements j$.time.temporal.k {
         if (lVar == j$.time.temporal.a.DAY_OF_WEEK) {
             return ordinal() + 1;
         }
-        if (lVar instanceof j$.time.temporal.a) {
-            throw new j$.time.temporal.p("Unsupported field: " + lVar);
+        if (!(lVar instanceof j$.time.temporal.a)) {
+            return lVar.b(this);
         }
-        return lVar.b(this);
+        throw new j$.time.temporal.p("Unsupported field: " + lVar);
     }
 
     @Override // j$.time.temporal.k

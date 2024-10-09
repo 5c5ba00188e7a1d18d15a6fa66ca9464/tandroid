@@ -6,6 +6,7 @@ import j$.util.function.ToDoubleFunction;
 import j$.util.function.ToIntFunction;
 import j$.util.function.ToLongFunction;
 import java.util.HashSet;
+
 /* loaded from: classes2.dex */
 final class o extends a2 {
     public final /* synthetic */ int b;
@@ -25,27 +26,28 @@ final class o extends a2 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         switch (this.b) {
             case 0:
                 if (((HashSet) this.c).contains(obj)) {
                     return;
                 }
                 ((HashSet) this.c).add(obj);
-                this.a.accept((e2) obj);
+                this.a.r((e2) obj);
                 return;
             case 1:
-                ((Consumer) ((u) this.c).n).accept(obj);
-                this.a.accept((e2) obj);
+                ((Consumer) ((u) this.c).n).r(obj);
+                this.a.r((e2) obj);
                 return;
             case 2:
                 if (((Predicate) ((u) this.c).n).test(obj)) {
-                    this.a.accept((e2) obj);
+                    this.a.r((e2) obj);
                     return;
                 }
                 return;
             case 3:
-                this.a.accept((e2) ((T1) this.c).n.apply(obj));
+                this.a.r((e2) ((T1) this.c).n.apply(obj));
                 return;
             case 4:
                 this.a.accept(((ToIntFunction) ((v) this.c).n).applyAsInt(obj));

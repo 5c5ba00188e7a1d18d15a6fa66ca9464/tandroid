@@ -16,6 +16,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
+import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -46,6 +47,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew;
 import org.webrtc.RendererCommon;
+
 /* loaded from: classes3.dex */
 public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implements VoIPService.StateListener {
     private ActionBar actionBar;
@@ -439,8 +441,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$dismiss$7(ValueAnimator valueAnimator) {
         this.openProgress2 = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        int dp = (AndroidUtilities.displaySize.x - AndroidUtilities.dp(36.0f)) - AndroidUtilities.dp(52.0f);
-        this.positiveButton.getLayoutParams().width = AndroidUtilities.dp(52.0f) + ((int) (dp * this.openProgress2));
+        this.positiveButton.getLayoutParams().width = AndroidUtilities.dp(52.0f) + ((int) (((AndroidUtilities.displaySize.x - AndroidUtilities.dp(36.0f)) - AndroidUtilities.dp(52.0f)) * this.openProgress2));
         this.positiveButton.requestLayout();
     }
 
@@ -454,8 +455,10 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             dismiss(false, true);
             return;
         }
-        createScreenCaptureIntent = PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0.m(getContext().getSystemService("media_projection")).createScreenCaptureIntent();
-        ((Activity) getContext()).startActivityForResult(createScreenCaptureIntent, 520);
+        MediaProjectionManager m = PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0.m(getContext().getSystemService("media_projection"));
+        Activity activity = (Activity) getContext();
+        createScreenCaptureIntent = m.createScreenCaptureIntent();
+        activity.startActivityForResult(createScreenCaptureIntent, 520);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -480,8 +483,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(ValueAnimator valueAnimator) {
         this.openProgress2 = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        int dp = (AndroidUtilities.displaySize.x - AndroidUtilities.dp(36.0f)) - AndroidUtilities.dp(52.0f);
-        this.positiveButton.getLayoutParams().width = AndroidUtilities.dp(52.0f) + ((int) (dp * this.openProgress2));
+        this.positiveButton.getLayoutParams().width = AndroidUtilities.dp(52.0f) + ((int) (((AndroidUtilities.displaySize.x - AndroidUtilities.dp(36.0f)) - AndroidUtilities.dp(52.0f)) * this.openProgress2));
         this.positiveButton.requestLayout();
     }
 
@@ -504,8 +506,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
                             createBitmap.recycle();
                         }
                         Utilities.blurBitmap(createScaledBitmap, 7, 1, createScaledBitmap.getWidth(), createScaledBitmap.getHeight(), createScaledBitmap.getRowBytes());
-                        File filesDirFixed = ApplicationLoader.getFilesDirFixed();
-                        FileOutputStream fileOutputStream = new FileOutputStream(new File(filesDirFixed, "cthumb" + this.visibleCameraPage + ".jpg"));
+                        FileOutputStream fileOutputStream = new FileOutputStream(new File(ApplicationLoader.getFilesDirFixed(), "cthumb" + this.visibleCameraPage + ".jpg"));
                         createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 87, fileOutputStream);
                         fileOutputStream.close();
                         View findViewWithTag = this.viewPager.findViewWithTag("image_stab");
@@ -520,14 +521,17 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0025, code lost:
-        if (org.telegram.messenger.voip.VoIPService.getSharedInstance() != null) goto L21;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0025, code lost:
+    
+        if (org.telegram.messenger.voip.VoIPService.getSharedInstance() != null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x007a, code lost:
-        if (org.telegram.messenger.voip.VoIPService.getSharedInstance() != null) goto L21;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x007c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x007c, code lost:
+    
         org.telegram.messenger.voip.VoIPService.getSharedInstance().switchCamera();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x007a, code lost:
+    
+        if (org.telegram.messenger.voip.VoIPService.getSharedInstance() != null) goto L22;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -613,8 +617,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             return;
         }
         try {
-            File filesDirFixed = ApplicationLoader.getFilesDirFixed();
-            bitmap = BitmapFactory.decodeFile(new File(filesDirFixed, "cthumb" + this.visibleCameraPage + ".jpg").getAbsolutePath());
+            bitmap = BitmapFactory.decodeFile(new File(ApplicationLoader.getFilesDirFixed(), "cthumb" + this.visibleCameraPage + ".jpg").getAbsolutePath());
         } catch (Throwable unused) {
             bitmap = null;
         }
@@ -626,11 +629,11 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
         if (!z2) {
             imageView.setAlpha(1.0f);
             imageView.setVisibility(0);
-            return;
+        } else {
+            imageView.setVisibility(0);
+            imageView.setAlpha(0.0f);
+            imageView.animate().alpha(1.0f).setDuration(250L).start();
         }
-        imageView.setVisibility(0);
-        imageView.setAlpha(0.0f);
-        imageView.animate().alpha(1.0f).setDuration(250L).start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -729,18 +732,19 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             this.positiveButton.animate().setStartDelay(60L).alpha(0.0f).setDuration(100L).start();
             this.actionBar.animate().setStartDelay(60L).alpha(0.0f).setDuration(100L).start();
             startDelay = this.titlesLayout.animate().setStartDelay(60L).alpha(0.0f).setDuration(100L);
-        } else if (z2) {
-            animate().setStartDelay(60L).alpha(0.0f).setDuration(350L).setInterpolator(CubicBezierInterpolator.DEFAULT).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew.10
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    super.onAnimationEnd(animator);
-                    if (PrivateVideoPreviewDialogNew.this.getParent() != null) {
-                        ((ViewGroup) PrivateVideoPreviewDialogNew.this.getParent()).removeView(PrivateVideoPreviewDialogNew.this);
-                    }
-                }
-            });
-            invalidate();
         } else {
+            if (z2) {
+                animate().setStartDelay(60L).alpha(0.0f).setDuration(350L).setInterpolator(CubicBezierInterpolator.DEFAULT).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew.10
+                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                    public void onAnimationEnd(Animator animator) {
+                        super.onAnimationEnd(animator);
+                        if (PrivateVideoPreviewDialogNew.this.getParent() != null) {
+                            ((ViewGroup) PrivateVideoPreviewDialogNew.this.getParent()).removeView(PrivateVideoPreviewDialogNew.this);
+                        }
+                    }
+                });
+                invalidate();
+            }
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(1.0f, 0.0f);
             ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialogNew$$ExternalSyntheticLambda5
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -791,26 +795,31 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             int i2 = point.y + AndroidUtilities.statusBarHeight + AndroidUtilities.navigationBarHeight;
             float dp = AndroidUtilities.dp(28.0f) - (AndroidUtilities.dp(28.0f) * this.openProgress1);
             this.clipPath.reset();
+            Path path = this.clipPath;
+            float dp2 = this.startLocationX + AndroidUtilities.dp(33.5f);
+            float dp3 = this.startLocationY + AndroidUtilities.dp(26.6f);
+            float dp4 = AndroidUtilities.dp(26.0f);
             Path.Direction direction = Path.Direction.CW;
-            this.clipPath.addCircle(this.startLocationX + AndroidUtilities.dp(33.5f), this.startLocationY + AndroidUtilities.dp(26.6f), AndroidUtilities.dp(26.0f), direction);
-            int dp2 = AndroidUtilities.dp(52.0f);
-            int dp3 = AndroidUtilities.dp(52.0f);
-            int lerp = AndroidUtilities.lerp(dp2, i, this.openProgress1);
-            int lerp2 = AndroidUtilities.lerp(dp3, i2, this.openProgress1);
-            float dp4 = this.openTranslationX - ((1.0f - this.openProgress1) * AndroidUtilities.dp(20.0f));
-            float dp5 = this.openTranslationY - ((1.0f - this.openProgress1) * AndroidUtilities.dp(51.0f));
-            this.clipPath.addRoundRect(dp4, dp5, dp4 + lerp, dp5 + lerp2, dp, dp, direction);
+            path.addCircle(dp2, dp3, dp4, direction);
+            int dp5 = AndroidUtilities.dp(52.0f);
+            int dp6 = AndroidUtilities.dp(52.0f);
+            int lerp = AndroidUtilities.lerp(dp5, i, this.openProgress1);
+            int lerp2 = AndroidUtilities.lerp(dp6, i2, this.openProgress1);
+            float dp7 = this.openTranslationX - ((1.0f - this.openProgress1) * AndroidUtilities.dp(20.0f));
+            float dp8 = this.openTranslationY - ((1.0f - this.openProgress1) * AndroidUtilities.dp(51.0f));
+            this.clipPath.addRoundRect(dp7, dp8, dp7 + lerp, dp8 + lerp2, dp, dp, direction);
             canvas.clipPath(this.clipPath);
         }
         if (this.closeProgress > 0.0f) {
             int[] floatingViewLocation = getFloatingViewLocation();
             float f = this.closeProgress;
-            int i3 = floatingViewLocation[2];
-            int i4 = AndroidUtilities.displaySize.x;
-            float f2 = (i3 + ((i4 - i3) * (1.0f - f))) / i4;
+            int i3 = (int) (floatingViewLocation[0] * f);
+            int i4 = (int) (floatingViewLocation[1] * f);
+            int i5 = floatingViewLocation[2];
+            float f2 = (i5 + ((r7 - i5) * (1.0f - f))) / AndroidUtilities.displaySize.x;
             this.clipPath.reset();
             this.clipPath.addRoundRect(0.0f, 0.0f, getWidth() * f2, getHeight() * f2, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), Path.Direction.CW);
-            canvas.translate((int) (floatingViewLocation[0] * f), (int) (floatingViewLocation[1] * f));
+            canvas.translate(i3, i4);
             canvas.clipPath(this.clipPath);
             canvas.scale(f2, f2);
         }

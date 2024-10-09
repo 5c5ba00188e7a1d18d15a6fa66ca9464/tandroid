@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 public abstract class zzk extends zzl implements List, RandomAccess {
     private static final zzr zza = new zzn(zzp.zza, 0);
@@ -148,7 +149,7 @@ public abstract class zzk extends zzl implements List, RandomAccess {
     }
 
     @Override // java.util.List
-    /* renamed from: zza */
+    /* renamed from: zza, reason: merged with bridge method [inline-methods] */
     public zzk subList(int i, int i2) {
         zzg.zza(i, i2, size());
         int i3 = i2 - i;

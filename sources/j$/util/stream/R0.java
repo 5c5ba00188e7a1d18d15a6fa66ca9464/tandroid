@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Arrays;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class R0 implements z0 {
@@ -54,7 +55,7 @@ public class R0 implements z0 {
     }
 
     @Override // j$.util.stream.F0
-    /* renamed from: f */
+    /* renamed from: f, reason: merged with bridge method [inline-methods] */
     public final /* synthetic */ void i(Double[] dArr, int i) {
         t0.n(this, dArr, i);
     }

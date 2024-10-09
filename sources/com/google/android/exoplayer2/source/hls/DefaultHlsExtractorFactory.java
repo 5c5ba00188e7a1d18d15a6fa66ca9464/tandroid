@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
     private static final int[] DEFAULT_EXTRACTOR_ORDER = {8, 13, 11, 2, 0, 1, 7};
@@ -50,28 +51,28 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
     }
 
     private Extractor createExtractorByFileType(int i, Format format, List list, TimestampAdjuster timestampAdjuster) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 7) {
-                        if (i != 8) {
-                            if (i != 11) {
-                                if (i != 13) {
-                                    return null;
-                                }
-                                return new WebvttExtractor(format.language, timestampAdjuster);
-                            }
-                            return createTsExtractor(this.payloadReaderFactoryFlags, this.exposeCea608WhenMissingDeclarations, format, list, timestampAdjuster, this.parseSubtitlesDuringExtraction);
-                        }
-                        return createFragmentedMp4Extractor(this.parseSubtitlesDuringExtraction, timestampAdjuster, format, list);
-                    }
-                    return new Mp3Extractor(0, 0L);
-                }
-                return new AdtsExtractor();
-            }
+        if (i == 0) {
+            return new Ac3Extractor();
+        }
+        if (i == 1) {
             return new Ac4Extractor();
         }
-        return new Ac3Extractor();
+        if (i == 2) {
+            return new AdtsExtractor();
+        }
+        if (i == 7) {
+            return new Mp3Extractor(0, 0L);
+        }
+        if (i == 8) {
+            return createFragmentedMp4Extractor(this.parseSubtitlesDuringExtraction, timestampAdjuster, format, list);
+        }
+        if (i == 11) {
+            return createTsExtractor(this.payloadReaderFactoryFlags, this.exposeCea608WhenMissingDeclarations, format, list, timestampAdjuster, this.parseSubtitlesDuringExtraction);
+        }
+        if (i != 13) {
+            return null;
+        }
+        return new WebvttExtractor(format.language, timestampAdjuster);
     }
 
     private static FragmentedMp4Extractor createFragmentedMp4Extractor(boolean z, TimestampAdjuster timestampAdjuster, Format format, List list) {
@@ -107,9 +108,8 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
             return false;
         }
         for (int i = 0; i < metadata.length(); i++) {
-            Metadata.Entry entry = metadata.get(i);
-            if (entry instanceof HlsTrackMetadataEntry) {
-                return !((HlsTrackMetadataEntry) entry).variantInfos.isEmpty();
+            if (metadata.get(i) instanceof HlsTrackMetadataEntry) {
+                return !((HlsTrackMetadataEntry) r2).variantInfos.isEmpty();
             }
         }
         return false;

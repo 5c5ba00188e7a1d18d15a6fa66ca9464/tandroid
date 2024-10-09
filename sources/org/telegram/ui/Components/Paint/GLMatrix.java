@@ -1,6 +1,7 @@
 package org.telegram.ui.Components.Paint;
 
 import android.graphics.Matrix;
+
 /* loaded from: classes3.dex */
 public abstract class GLMatrix {
     public static float[] LoadGraphicsMatrix(Matrix matrix) {
@@ -53,13 +54,16 @@ public abstract class GLMatrix {
         float f34 = fArr2[9];
         float f35 = fArr2[10];
         float f36 = fArr2[11];
-        float f37 = (f10 * f33) + (f11 * f34) + (f12 * f35) + (f13 * f36);
-        float f38 = fArr2[12];
-        float f39 = fArr2[13];
-        float f40 = (f * f38) + (f3 * f39);
-        float f41 = fArr2[14];
-        float f42 = f40 + (f5 * f41);
-        float f43 = fArr2[15];
-        return new float[]{f9, f14, f19, f24, f29, f30, f31, f32, (f * f33) + (f3 * f34) + (f5 * f35) + (f7 * f36), f37, (f15 * f33) + (f16 * f34) + (f17 * f35) + (f18 * f36), (f33 * f20) + (f34 * f21) + (f35 * f22) + (f36 * f23), f42 + (f7 * f43), (f10 * f38) + (f11 * f39) + (f12 * f41) + (f13 * f43), (f15 * f38) + (f16 * f39) + (f17 * f41) + (f18 * f43), (f20 * f38) + (f21 * f39) + (f22 * f41) + (f23 * f43)};
+        float f37 = (f * f33) + (f3 * f34) + (f5 * f35) + (f7 * f36);
+        float f38 = (f10 * f33) + (f11 * f34) + (f12 * f35) + (f13 * f36);
+        float f39 = (f15 * f33) + (f16 * f34) + (f17 * f35) + (f18 * f36);
+        float f40 = (f33 * f20) + (f34 * f21) + (f35 * f22) + (f36 * f23);
+        float f41 = fArr2[12];
+        float f42 = fArr2[13];
+        float f43 = (f * f41) + (f3 * f42);
+        float f44 = fArr2[14];
+        float f45 = f43 + (f5 * f44);
+        float f46 = fArr2[15];
+        return new float[]{f9, f14, f19, f24, f29, f30, f31, f32, f37, f38, f39, f40, f45 + (f7 * f46), (f10 * f41) + (f11 * f42) + (f12 * f44) + (f13 * f46), (f15 * f41) + (f16 * f42) + (f17 * f44) + (f18 * f46), (f20 * f41) + (f21 * f42) + (f22 * f44) + (f23 * f46)};
     }
 }

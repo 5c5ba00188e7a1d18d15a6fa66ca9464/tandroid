@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.extractor.ts.AdtsExtractor;
 import com.google.android.exoplayer2.extractor.ts.TsExtractor;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
+
 /* loaded from: classes.dex */
 public final class BundledHlsMediaChunkExtractor implements HlsMediaChunkExtractor {
     private static final PositionHolder POSITION_HOLDER = new PositionHolder();
@@ -69,9 +70,10 @@ public final class BundledHlsMediaChunkExtractor implements HlsMediaChunkExtract
             mp3Extractor = new Ac3Extractor();
         } else if (extractor instanceof Ac4Extractor) {
             mp3Extractor = new Ac4Extractor();
-        } else if (!(extractor instanceof Mp3Extractor)) {
-            throw new IllegalStateException("Unexpected extractor type for recreation: " + this.extractor.getClass().getSimpleName());
         } else {
+            if (!(extractor instanceof Mp3Extractor)) {
+                throw new IllegalStateException("Unexpected extractor type for recreation: " + this.extractor.getClass().getSimpleName());
+            }
             mp3Extractor = new Mp3Extractor();
         }
         return new BundledHlsMediaChunkExtractor(mp3Extractor, this.multivariantPlaylistFormat, this.timestampAdjuster, this.parseSubtitlesDuringExtraction);

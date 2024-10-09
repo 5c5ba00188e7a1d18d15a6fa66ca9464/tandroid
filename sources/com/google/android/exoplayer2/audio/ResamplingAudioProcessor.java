@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.audio.AudioProcessor;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 final class ResamplingAudioProcessor extends BaseAudioProcessor {
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
@@ -15,9 +16,9 @@ final class ResamplingAudioProcessor extends BaseAudioProcessor {
         throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0038  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00af A[LOOP:4: B:30:0x00af->B:31:0x00b1, LOOP_START, PHI: r0 
-      PHI: (r0v1 int) = (r0v0 int), (r0v2 int) binds: [B:15:0x0036, B:31:0x00b1] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0038  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00af A[ADDED_TO_REGION, LOOP:4: B:33:0x00af->B:34:0x00b1, LOOP_START, PHI: r0
+      0x00af: PHI (r0v1 int) = (r0v0 int), (r0v2 int) binds: [B:12:0x0036, B:34:0x00b1] A[DONT_GENERATE, DONT_INLINE]] */
     @Override // com.google.android.exoplayer2.audio.AudioProcessor
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -64,9 +65,10 @@ final class ResamplingAudioProcessor extends BaseAudioProcessor {
                         replaceOutputBuffer.put(byteBuffer.get(position + 2));
                         position += 3;
                     }
-                } else if (i != 805306368) {
-                    throw new IllegalStateException();
                 } else {
+                    if (i != 805306368) {
+                        throw new IllegalStateException();
+                    }
                     while (position < limit) {
                         replaceOutputBuffer.put(byteBuffer.get(position + 2));
                         replaceOutputBuffer.put(byteBuffer.get(position + 3));

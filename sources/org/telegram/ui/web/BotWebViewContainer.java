@@ -128,6 +128,7 @@ import org.telegram.ui.bots.WebViewRequestProps;
 import org.telegram.ui.web.BotWebViewContainer;
 import org.telegram.ui.web.BrowserHistory;
 import org.telegram.ui.web.WebMetadataCache;
+
 /* loaded from: classes.dex */
 public abstract class BotWebViewContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     public static boolean firstWebView = true;
@@ -193,6 +194,226 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     private Consumer webViewProgressListener;
     private WebViewProxy webViewProxy;
     private WebViewScrollListener webViewScrollListener;
+
+    /* loaded from: classes.dex */
+    public class 1 extends BackupImageView {
+
+        /* loaded from: classes.dex */
+        public class 1 extends ImageReceiver {
+            1(View view) {
+                super(view);
+            }
+
+            public /* synthetic */ void lambda$setImageBitmapByKey$0(ValueAnimator valueAnimator) {
+                ((BackupImageView) 1.this).imageReceiver.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
+                invalidate();
+            }
+
+            @Override // org.telegram.messenger.ImageReceiver
+            public boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
+                boolean imageBitmapByKey = super.setImageBitmapByKey(drawable, str, i, z, i2);
+                ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(300L);
+                duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.web.BotWebViewContainer$1$1$$ExternalSyntheticLambda0
+                    @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                    public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        BotWebViewContainer.1.1.this.lambda$setImageBitmapByKey$0(valueAnimator);
+                    }
+                });
+                duration.start();
+                return imageBitmapByKey;
+            }
+        }
+
+        1(Context context) {
+            super(context);
+            this.imageReceiver = new 1(this);
+        }
+
+        @Override // org.telegram.ui.Components.BackupImageView, android.view.View
+        public void onDraw(Canvas canvas) {
+            if (BotWebViewContainer.this.isFlickeringCenter) {
+                super.onDraw(canvas);
+                return;
+            }
+            if (this.imageReceiver.getDrawable() != null) {
+                this.imageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), r0.getIntrinsicHeight() * (getWidth() / r0.getIntrinsicWidth()));
+                this.imageReceiver.draw(canvas);
+            }
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public class 2 extends AnimatorListenerAdapter {
+        2() {
+        }
+
+        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+        public void onAnimationEnd(Animator animator) {
+            BotWebViewContainer.this.flickerView.setVisibility(8);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    class 3 implements Bulletin.Delegate {
+        3() {
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ boolean allowLayoutChanges() {
+            return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ boolean bottomOffsetAnimated() {
+            return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ boolean clipWithGradient(int i) {
+            return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public int getBottomOffset(int i) {
+            if (!(BotWebViewContainer.this.getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer)) {
+                return 0;
+            }
+            ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = (ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) BotWebViewContainer.this.getParent();
+            return (int) ((webViewSwipeContainer.getOffsetY() + webViewSwipeContainer.getSwipeOffsetY()) - webViewSwipeContainer.getTopActionBarOffsetY());
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ int getTopOffset(int i) {
+            return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ void onBottomOffsetChange(float f) {
+            Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ void onHide(Bulletin bulletin) {
+            Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Delegate
+        public /* synthetic */ void onShow(Bulletin bulletin) {
+            Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public class 4 implements NotificationCenter.NotificationCenterDelegate {
+        4() {
+        }
+
+        @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+        public void didReceivedNotification(int i, int i2, Object... objArr) {
+            int i3 = NotificationCenter.onRequestPermissionResultReceived;
+            if (i == i3) {
+                int intValue = ((Integer) objArr[0]).intValue();
+                int[] iArr = (int[]) objArr[2];
+                if (intValue == 5000) {
+                    NotificationCenter.getGlobalInstance().removeObserver(this, i3);
+                    if (iArr[0] == 0) {
+                        BotWebViewContainer.this.openQrScanActivity();
+                    } else {
+                        BotWebViewContainer.this.notifyEvent("scan_qr_popup_closed", new JSONObject());
+                    }
+                }
+            }
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public class 5 extends BaseFragment {
+
+        /* loaded from: classes.dex */
+        class 1 extends WrappedResourceProvider {
+            1(Theme.ResourcesProvider resourcesProvider) {
+                super(resourcesProvider);
+            }
+
+            @Override // org.telegram.ui.WrappedResourceProvider
+            public void appendColors() {
+                this.sparseIntArray.append(Theme.key_dialogBackground, -14803426);
+                this.sparseIntArray.append(Theme.key_windowBackgroundGray, -16777216);
+            }
+        }
+
+        5() {
+            this.currentAccount = BotWebViewContainer.this.currentAccount;
+        }
+
+        @Override // org.telegram.ui.ActionBar.BaseFragment
+        public Activity getParentActivity() {
+            return BotWebViewContainer.this.parentActivity;
+        }
+
+        @Override // org.telegram.ui.ActionBar.BaseFragment
+        public Theme.ResourcesProvider getResourceProvider() {
+            return new WrappedResourceProvider(BotWebViewContainer.this.resourcesProvider) { // from class: org.telegram.ui.web.BotWebViewContainer.5.1
+                1(Theme.ResourcesProvider resourcesProvider) {
+                    super(resourcesProvider);
+                }
+
+                @Override // org.telegram.ui.WrappedResourceProvider
+                public void appendColors() {
+                    this.sparseIntArray.append(Theme.key_dialogBackground, -14803426);
+                    this.sparseIntArray.append(Theme.key_windowBackgroundGray, -16777216);
+                }
+            };
+        }
+
+        @Override // org.telegram.ui.ActionBar.BaseFragment
+        public boolean isLightStatusBar() {
+            return false;
+        }
+
+        @Override // org.telegram.ui.ActionBar.BaseFragment
+        public Dialog showDialog(Dialog dialog) {
+            dialog.show();
+            return dialog;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    public class 6 implements CameraScanActivity.CameraScanActivityDelegate {
+        6() {
+        }
+
+        @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+        public /* synthetic */ void didFindMrzInfo(MrzRecognizer.Result result) {
+            CameraScanActivity.CameraScanActivityDelegate.-CC.$default$didFindMrzInfo(this, result);
+        }
+
+        @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+        public void didFindQr(String str) {
+            try {
+                BotWebViewContainer.this.lastClickMs = System.currentTimeMillis();
+                BotWebViewContainer.this.notifyEvent("qr_text_received", new JSONObject().put("data", str));
+            } catch (JSONException e) {
+                FileLog.e(e);
+            }
+        }
+
+        @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+        public String getSubtitleText() {
+            return BotWebViewContainer.this.lastQrText;
+        }
+
+        @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+        public void onDismiss() {
+            BotWebViewContainer.this.notifyEvent("scan_qr_popup_closed", null);
+            BotWebViewContainer.this.hasQRPending = false;
+        }
+
+        @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
+        public /* synthetic */ boolean processQr(String str, Runnable runnable) {
+            return CameraScanActivity.CameraScanActivityDelegate.-CC.$default$processQr(this, str, runnable);
+        }
+    }
 
     /* loaded from: classes.dex */
     public static class BotWebViewProxy {
@@ -334,7 +555,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         /* loaded from: classes.dex */
         public class 1 implements View.OnLongClickListener {
             1() {
-                MyWebView.this = r1;
             }
 
             public /* synthetic */ void lambda$onLongClick$0(String str, DialogInterface dialogInterface, int i) {
@@ -421,38 +641,43 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         intent.putExtra("create_new_tab", true);
                         intent.putExtra("com.android.browser.application_id", MyWebView.this.getContext().getPackageName());
                         MyWebView.this.getContext().startActivity(intent);
+                        return;
                     } catch (Exception e) {
                         FileLog.e(e);
                         MyWebView.this.loadUrl(str);
+                        return;
                     }
-                } else if (i != 1) {
+                }
+                if (i != 1) {
                     if (i == 2) {
                         AndroidUtilities.addToClipboard(str);
                         if (MyWebView.this.botWebViewContainer != null) {
                             MyWebView.this.botWebViewContainer.showLinkCopiedBulletin();
+                            return;
                         }
+                        return;
                     }
-                } else {
-                    try {
-                        String guessFileName = URLUtil.guessFileName(str, null, "image/*");
-                        if (guessFileName == null) {
-                            guessFileName = "image.png";
-                        }
-                        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(str));
-                        request.setMimeType("image/*");
-                        request.setDescription(LocaleController.getString(R.string.WebDownloading));
-                        request.setNotificationVisibility(1);
-                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, guessFileName);
-                        DownloadManager downloadManager = (DownloadManager) MyWebView.this.getContext().getSystemService("download");
-                        if (downloadManager != null) {
-                            downloadManager.enqueue(request);
-                        }
-                        if (MyWebView.this.botWebViewContainer != null) {
-                            BulletinFactory.of(MyWebView.this.botWebViewContainer, MyWebView.this.botWebViewContainer.resourcesProvider).createSimpleBulletin(R.raw.ic_download, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.WebDownloadingFile, guessFileName))).show(true);
-                        }
-                    } catch (Exception e2) {
-                        FileLog.e(e2);
+                    return;
+                }
+                try {
+                    String guessFileName = URLUtil.guessFileName(str, null, "image/*");
+                    if (guessFileName == null) {
+                        guessFileName = "image.png";
                     }
+                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(str));
+                    request.setMimeType("image/*");
+                    request.setDescription(LocaleController.getString(R.string.WebDownloading));
+                    request.setNotificationVisibility(1);
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, guessFileName);
+                    DownloadManager downloadManager = (DownloadManager) MyWebView.this.getContext().getSystemService("download");
+                    if (downloadManager != null) {
+                        downloadManager.enqueue(request);
+                    }
+                    if (MyWebView.this.botWebViewContainer != null) {
+                        BulletinFactory.of(MyWebView.this.botWebViewContainer, MyWebView.this.botWebViewContainer.resourcesProvider).createSimpleBulletin(R.raw.ic_download, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.WebDownloadingFile, guessFileName))).show(true);
+                    }
+                } catch (Exception e2) {
+                    FileLog.e(e2);
                 }
             }
 
@@ -519,9 +744,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                             BotWebViewContainer.MyWebView.1.this.lambda$onLongClick$1(extra);
                         }
                     };
-                } else if (hitTestResult.getType() != 5) {
-                    return false;
                 } else {
+                    if (hitTestResult.getType() != 5) {
+                        return false;
+                    }
                     final String extra2 = hitTestResult.getExtra();
                     runnable = new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$1$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
@@ -548,7 +774,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             final /* synthetic */ Context val$context;
 
             2(boolean z, Context context) {
-                MyWebView.this = r1;
                 this.val$bot = z;
                 this.val$context = context;
             }
@@ -574,9 +799,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
             public /* synthetic */ void lambda$shouldInterceptRequest$0() {
                 if (MyWebView.this.botWebViewContainer != null) {
-                    BotWebViewContainer botWebViewContainer = MyWebView.this.botWebViewContainer;
-                    MyWebView myWebView = MyWebView.this;
-                    botWebViewContainer.onURLChanged(myWebView.urlFallback, !myWebView.canGoBack(), !MyWebView.this.canGoForward());
+                    MyWebView.this.botWebViewContainer.onURLChanged(MyWebView.this.urlFallback, !r1.canGoBack(), !MyWebView.this.canGoForward());
                 }
             }
 
@@ -590,12 +813,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     MyWebView.this.currentHistoryEntry.meta = WebMetadataCache.WebMetadata.from(MyWebView.this);
                     BrowserHistory.pushHistory(MyWebView.this.currentHistoryEntry);
                 }
-                MyWebView myWebView = MyWebView.this;
-                myWebView.d("doUpdateVisitedHistory " + str + " " + z);
+                MyWebView.this.d("doUpdateVisitedHistory " + str + " " + z);
                 if (MyWebView.this.botWebViewContainer != null) {
                     BotWebViewContainer botWebViewContainer = MyWebView.this.botWebViewContainer;
-                    MyWebView myWebView2 = MyWebView.this;
-                    botWebViewContainer.onURLChanged(myWebView2.dangerousUrl ? myWebView2.urlFallback : str, !myWebView2.canGoBack(), !MyWebView.this.canGoForward());
+                    MyWebView myWebView = MyWebView.this;
+                    botWebViewContainer.onURLChanged(myWebView.dangerousUrl ? myWebView.urlFallback : str, !myWebView.canGoBack(), !MyWebView.this.canGoForward());
                 }
                 super.doUpdateVisitedHistory(webView, str, z);
             }
@@ -609,18 +831,15 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     MyWebView.this.whenPageLoaded = null;
                     runnable.run();
                 }
-                MyWebView myWebView2 = MyWebView.this;
-                myWebView2.d("onPageCommitVisible " + str);
+                MyWebView.this.d("onPageCommitVisible " + str);
                 if (this.val$bot) {
                     myWebView = MyWebView.this;
                     myWebView.injectedJS = true;
-                    String readRes = AndroidUtilities.readRes(R.raw.webview_app_ext);
-                    replace = readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION);
+                    replace = AndroidUtilities.readRes(R.raw.webview_app_ext).replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION);
                 } else {
-                    MyWebView myWebView3 = MyWebView.this;
-                    myWebView3.injectedJS = true;
-                    String readRes2 = AndroidUtilities.readRes(R.raw.webview_ext);
-                    myWebView3.evaluateJS(readRes2.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION));
+                    MyWebView myWebView2 = MyWebView.this;
+                    myWebView2.injectedJS = true;
+                    myWebView2.evaluateJS(AndroidUtilities.readRes(R.raw.webview_ext).replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION));
                     myWebView = MyWebView.this;
                     replace = AndroidUtilities.readRes(R.raw.webview_share);
                 }
@@ -651,13 +870,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 if (this.val$bot) {
                     myWebView = MyWebView.this;
                     myWebView.injectedJS = true;
-                    String readRes = AndroidUtilities.readRes(R.raw.webview_app_ext);
-                    replace = readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION);
+                    replace = AndroidUtilities.readRes(R.raw.webview_app_ext).replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION);
                 } else {
                     MyWebView myWebView2 = MyWebView.this;
                     myWebView2.injectedJS = true;
-                    String readRes2 = AndroidUtilities.readRes(R.raw.webview_ext);
-                    myWebView2.evaluateJS(readRes2.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION));
+                    myWebView2.evaluateJS(AndroidUtilities.readRes(R.raw.webview_ext).replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION));
                     myWebView = MyWebView.this;
                     replace = AndroidUtilities.readRes(R.raw.webview_share);
                 }
@@ -698,17 +915,16 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
             @Override // android.webkit.WebViewClient
             public void onReceivedError(WebView webView, int i, String str, String str2) {
-                MyWebView myWebView = MyWebView.this;
-                myWebView.d("onReceivedError: " + i + " " + str + " url=" + str2);
+                MyWebView.this.d("onReceivedError: " + i + " " + str + " url=" + str2);
                 if (Build.VERSION.SDK_INT < 23 && MyWebView.this.botWebViewContainer != null) {
                     AndroidUtilities.cancelRunOnUIThread(this.resetErrorRunnable);
-                    MyWebView myWebView2 = MyWebView.this;
-                    myWebView2.lastSiteName = null;
-                    myWebView2.lastActionBarColorGot = false;
-                    myWebView2.lastBackgroundColorGot = false;
-                    myWebView2.lastFaviconGot = false;
-                    myWebView2.lastTitleGot = false;
-                    myWebView2.errorShownAt = myWebView2.getUrl();
+                    MyWebView myWebView = MyWebView.this;
+                    myWebView.lastSiteName = null;
+                    myWebView.lastActionBarColorGot = false;
+                    myWebView.lastBackgroundColorGot = false;
+                    myWebView.lastFaviconGot = false;
+                    myWebView.lastTitleGot = false;
+                    myWebView.errorShownAt = myWebView.getUrl();
                     BotWebViewContainer botWebViewContainer = MyWebView.this.botWebViewContainer;
                     MyWebView.this.lastTitle = null;
                     botWebViewContainer.onTitleChanged(null);
@@ -722,10 +938,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 super.onReceivedError(webView, i, str, str2);
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:31:0x003a, code lost:
-                if (r0 != false) goto L8;
+            /* JADX WARN: Code restructure failed: missing block: B:7:0x003a, code lost:
+            
+                if (r0 != false) goto L32;
              */
-            /* JADX WARN: Removed duplicated region for block: B:42:0x0099  */
+            /* JADX WARN: Removed duplicated region for block: B:15:0x0099  */
             @Override // android.webkit.WebViewClient
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -929,20 +1146,20 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     str = "onRenderProcessGone";
                 }
                 myWebView.d(str);
-                if (AndroidUtilities.isSafeToShow(MyWebView.this.getContext())) {
-                    new AlertDialog.Builder(MyWebView.this.getContext(), MyWebView.this.botWebViewContainer == null ? null : MyWebView.this.botWebViewContainer.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$2$$ExternalSyntheticLambda9
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            BotWebViewContainer.MyWebView.2.this.lambda$onRenderProcessGone$1();
-                        }
-                    })).setPositiveButton(LocaleController.getString(R.string.OK), null).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$2$$ExternalSyntheticLambda10
-                        @Override // android.content.DialogInterface.OnDismissListener
-                        public final void onDismiss(DialogInterface dialogInterface) {
-                            BotWebViewContainer.MyWebView.2.this.lambda$onRenderProcessGone$2(dialogInterface);
-                        }
-                    }).show();
+                if (!AndroidUtilities.isSafeToShow(MyWebView.this.getContext())) {
                     return true;
                 }
+                new AlertDialog.Builder(MyWebView.this.getContext(), MyWebView.this.botWebViewContainer == null ? null : MyWebView.this.botWebViewContainer.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$2$$ExternalSyntheticLambda9
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        BotWebViewContainer.MyWebView.2.this.lambda$onRenderProcessGone$1();
+                    }
+                })).setPositiveButton(LocaleController.getString(R.string.OK), null).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$2$$ExternalSyntheticLambda10
+                    @Override // android.content.DialogInterface.OnDismissListener
+                    public final void onDismiss(DialogInterface dialogInterface) {
+                        BotWebViewContainer.MyWebView.2.this.lambda$onRenderProcessGone$2(dialogInterface);
+                    }
+                }).show();
                 return true;
             }
 
@@ -1066,13 +1283,12 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
             @Override // android.webkit.WebViewClient
             public WebResourceResponse shouldInterceptRequest(WebView webView, String str) {
-                MyWebView myWebView = MyWebView.this;
-                myWebView.d("shouldInterceptRequest " + str);
-                if (BotWebViewContainer.isTonsite(str)) {
-                    MyWebView.this.d("proxying ton");
-                    return BotWebViewContainer.proxyTON("GET", str, null);
+                MyWebView.this.d("shouldInterceptRequest " + str);
+                if (!BotWebViewContainer.isTonsite(str)) {
+                    return super.shouldInterceptRequest(webView, str);
                 }
-                return super.shouldInterceptRequest(webView, str);
+                MyWebView.this.d("proxying ton");
+                return BotWebViewContainer.proxyTON("GET", str, null);
             }
 
             @Override // android.webkit.WebViewClient
@@ -1096,8 +1312,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 Uri parse = Uri.parse(str);
                 if (!this.val$bot) {
                     if (Browser.openInExternalApp(this.val$context, str, true)) {
-                        MyWebView myWebView2 = MyWebView.this;
-                        myWebView2.d("shouldOverrideUrlLoading(" + str + ") = true (openInExternalBrowser)");
+                        MyWebView.this.d("shouldOverrideUrlLoading(" + str + ") = true (openInExternalBrowser)");
                         if (!MyWebView.this.isPageLoaded && !MyWebView.this.canGoBack()) {
                             if (MyWebView.this.botWebViewContainer.delegate != null) {
                                 MyWebView.this.botWebViewContainer.delegate.onInstantClose();
@@ -1120,8 +1335,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         }
                     }
                     if (parse != null && parse.getScheme() != null && !"https".equals(parse.getScheme()) && !"http".equals(parse.getScheme()) && !"tonsite".equals(parse.getScheme())) {
-                        MyWebView myWebView3 = MyWebView.this;
-                        myWebView3.d("shouldOverrideUrlLoading(" + str + ") = true (browser open)");
+                        MyWebView.this.d("shouldOverrideUrlLoading(" + str + ") = true (browser open)");
                         Browser.openUrl(MyWebView.this.getContext(), parse);
                         return true;
                     }
@@ -1130,31 +1344,29 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     if (parse != null) {
                         MyWebView.this.currentUrl = parse.toString();
                     }
-                    MyWebView myWebView4 = MyWebView.this;
-                    myWebView4.d("shouldOverrideUrlLoading(" + str + ") = false");
+                    MyWebView.this.d("shouldOverrideUrlLoading(" + str + ") = false");
                     return false;
-                } else if (!this.val$bot && "1".equals(parse.getQueryParameter("embed")) && "t.me".equals(parse.getAuthority())) {
-                    return false;
-                } else {
-                    if (MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols != null && MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols.contains(parse.getScheme())) {
-                        MyWebView myWebView5 = MyWebView.this;
-                        if (myWebView5.opener != null) {
-                            if (myWebView5.botWebViewContainer.delegate != null) {
-                                MyWebView.this.botWebViewContainer.delegate.onInstantClose();
-                            } else if (MyWebView.this.onCloseListener != null) {
-                                MyWebView.this.onCloseListener.run();
-                                MyWebView.this.onCloseListener = null;
-                            }
-                            if (MyWebView.this.opener.botWebViewContainer != null && MyWebView.this.opener.botWebViewContainer.delegate != null) {
-                                MyWebView.this.opener.botWebViewContainer.delegate.onCloseToTabs();
-                            }
-                        }
-                        MyWebView.this.botWebViewContainer.onOpenUri(parse);
-                    }
-                    MyWebView myWebView6 = MyWebView.this;
-                    myWebView6.d("shouldOverrideUrlLoading(" + str + ") = true");
-                    return true;
                 }
+                if (!this.val$bot && "1".equals(parse.getQueryParameter("embed")) && "t.me".equals(parse.getAuthority())) {
+                    return false;
+                }
+                if (MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols != null && MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols.contains(parse.getScheme())) {
+                    MyWebView myWebView2 = MyWebView.this;
+                    if (myWebView2.opener != null) {
+                        if (myWebView2.botWebViewContainer.delegate != null) {
+                            MyWebView.this.botWebViewContainer.delegate.onInstantClose();
+                        } else if (MyWebView.this.onCloseListener != null) {
+                            MyWebView.this.onCloseListener.run();
+                            MyWebView.this.onCloseListener = null;
+                        }
+                        if (MyWebView.this.opener.botWebViewContainer != null && MyWebView.this.opener.botWebViewContainer.delegate != null) {
+                            MyWebView.this.opener.botWebViewContainer.delegate.onCloseToTabs();
+                        }
+                    }
+                    MyWebView.this.botWebViewContainer.onOpenUri(parse);
+                }
+                MyWebView.this.d("shouldOverrideUrlLoading(" + str + ") = true");
+                return true;
             }
         }
 
@@ -1168,7 +1380,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 final /* synthetic */ WebView val$newWebView;
 
                 1(WebView webView) {
-                    3.this = r1;
                     this.val$newWebView = webView;
                 }
 
@@ -1215,36 +1426,35 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         str = "newWebView.onRenderProcessGone";
                     }
                     myWebView.d(str);
-                    if (AndroidUtilities.isSafeToShow(MyWebView.this.getContext())) {
-                        new AlertDialog.Builder(MyWebView.this.getContext(), MyWebView.this.botWebViewContainer == null ? null : MyWebView.this.botWebViewContainer.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$3$1$$ExternalSyntheticLambda0
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                BotWebViewContainer.MyWebView.3.1.this.lambda$onRenderProcessGone$0();
-                            }
-                        })).setPositiveButton(LocaleController.getString(R.string.OK), null).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$3$1$$ExternalSyntheticLambda1
-                            @Override // android.content.DialogInterface.OnDismissListener
-                            public final void onDismiss(DialogInterface dialogInterface) {
-                                BotWebViewContainer.MyWebView.3.1.this.lambda$onRenderProcessGone$1(dialogInterface);
-                            }
-                        }).show();
+                    if (!AndroidUtilities.isSafeToShow(MyWebView.this.getContext())) {
                         return true;
                     }
+                    new AlertDialog.Builder(MyWebView.this.getContext(), MyWebView.this.botWebViewContainer == null ? null : MyWebView.this.botWebViewContainer.resourcesProvider).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$3$1$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            BotWebViewContainer.MyWebView.3.1.this.lambda$onRenderProcessGone$0();
+                        }
+                    })).setPositiveButton(LocaleController.getString(R.string.OK), null).setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$3$1$$ExternalSyntheticLambda1
+                        @Override // android.content.DialogInterface.OnDismissListener
+                        public final void onDismiss(DialogInterface dialogInterface) {
+                            BotWebViewContainer.MyWebView.3.1.this.lambda$onRenderProcessGone$1(dialogInterface);
+                        }
+                    }).show();
                     return true;
                 }
 
                 @Override // android.webkit.WebViewClient
                 public boolean shouldOverrideUrlLoading(WebView webView, String str) {
-                    if (MyWebView.this.botWebViewContainer != null) {
-                        MyWebView.this.botWebViewContainer.onOpenUri(Uri.parse(str));
-                        this.val$newWebView.destroy();
+                    if (MyWebView.this.botWebViewContainer == null) {
                         return true;
                     }
+                    MyWebView.this.botWebViewContainer.onOpenUri(Uri.parse(str));
+                    this.val$newWebView.destroy();
                     return true;
                 }
             }
 
             3(boolean z) {
-                MyWebView.this = r1;
                 this.val$bot = z;
             }
 
@@ -1274,10 +1484,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             public /* synthetic */ void lambda$onPermissionRequest$2(PermissionRequest permissionRequest, String str, Boolean bool) {
                 if (!bool.booleanValue()) {
                     permissionRequest.deny();
-                    return;
+                } else {
+                    permissionRequest.grant(new String[]{str});
+                    MyWebView.this.botWebViewContainer.hasUserPermissions = true;
                 }
-                permissionRequest.grant(new String[]{str});
-                MyWebView.this.botWebViewContainer.hasUserPermissions = true;
             }
 
             public /* synthetic */ void lambda$onPermissionRequest$3(final PermissionRequest permissionRequest, final String str, Boolean bool) {
@@ -1299,10 +1509,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             public /* synthetic */ void lambda$onPermissionRequest$4(PermissionRequest permissionRequest, String str, Boolean bool) {
                 if (!bool.booleanValue()) {
                     permissionRequest.deny();
-                    return;
+                } else {
+                    permissionRequest.grant(new String[]{str});
+                    MyWebView.this.botWebViewContainer.hasUserPermissions = true;
                 }
-                permissionRequest.grant(new String[]{str});
-                MyWebView.this.botWebViewContainer.hasUserPermissions = true;
             }
 
             public /* synthetic */ void lambda$onPermissionRequest$5(final PermissionRequest permissionRequest, final String str, Boolean bool) {
@@ -1324,10 +1534,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             public /* synthetic */ void lambda$onPermissionRequest$6(PermissionRequest permissionRequest, String[] strArr, Boolean bool) {
                 if (!bool.booleanValue()) {
                     permissionRequest.deny();
-                    return;
+                } else {
+                    permissionRequest.grant(new String[]{strArr[0], strArr[1]});
+                    MyWebView.this.botWebViewContainer.hasUserPermissions = true;
                 }
-                permissionRequest.grant(new String[]{strArr[0], strArr[1]});
-                MyWebView.this.botWebViewContainer.hasUserPermissions = true;
             }
 
             public /* synthetic */ void lambda$onPermissionRequest$7(final PermissionRequest permissionRequest, final String[] strArr, Boolean bool) {
@@ -1353,8 +1563,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
             @Override // android.webkit.WebChromeClient
             public void onCloseWindow(WebView webView) {
-                MyWebView myWebView = MyWebView.this;
-                myWebView.d("onCloseWindow " + webView);
+                MyWebView.this.d("onCloseWindow " + webView);
                 if (MyWebView.this.botWebViewContainer != null && MyWebView.this.botWebViewContainer.delegate != null) {
                     MyWebView.this.botWebViewContainer.delegate.onCloseRequested(null);
                 } else if (MyWebView.this.onCloseListener != null) {
@@ -1367,16 +1576,16 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             @Override // android.webkit.WebChromeClient
             public boolean onCreateWindow(WebView webView, boolean z, boolean z2, Message message) {
                 BaseFragment safeLastFragment;
-                MyWebView myWebView = MyWebView.this;
-                myWebView.d("onCreateWindow isDialog=" + z + " isUserGesture=" + z2 + " resultMsg=" + message);
+                MyWebView.this.d("onCreateWindow isDialog=" + z + " isUserGesture=" + z2 + " resultMsg=" + message);
                 String url = MyWebView.this.getUrl();
                 if (!SharedConfig.inappBrowser) {
                     WebView webView2 = new WebView(webView.getContext());
                     webView2.setWebViewClient(new 1(webView2));
                     ((WebView.WebViewTransport) message.obj).setWebView(webView2);
-                } else if (MyWebView.this.botWebViewContainer == null || (safeLastFragment = LaunchActivity.getSafeLastFragment()) == null) {
-                    return false;
                 } else {
+                    if (MyWebView.this.botWebViewContainer == null || (safeLastFragment = LaunchActivity.getSafeLastFragment()) == null) {
+                        return false;
+                    }
                     if (safeLastFragment.getParentLayout() instanceof ActionBarLayout) {
                         safeLastFragment = ((ActionBarLayout) safeLastFragment.getParentLayout()).getSheetFragment();
                     }
@@ -1387,8 +1596,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     if (!TextUtils.isEmpty(url)) {
                         lastWebView.urlFallback = url;
                     }
-                    MyWebView myWebView2 = MyWebView.this;
-                    myWebView2.d("onCreateWindow: newWebView=" + lastWebView);
+                    MyWebView.this.d("onCreateWindow: newWebView=" + lastWebView);
                     if (lastWebView == null) {
                         createArticleViewer.close(true, true);
                         return false;
@@ -1417,8 +1625,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     callback.invoke(str, false, false);
                     return;
                 }
-                MyWebView myWebView = MyWebView.this;
-                myWebView.d("onGeolocationPermissionsShowPrompt " + str);
+                MyWebView.this.d("onGeolocationPermissionsShowPrompt " + str);
                 String userName = this.val$bot ? UserObject.getUserName(MyWebView.this.botWebViewContainer.botUser) : AndroidUtilities.getHostAuthority(MyWebView.this.getUrl());
                 Dialog createWebViewPermissionsRequestDialog = AlertsCreator.createWebViewPermissionsRequestDialog(MyWebView.this.botWebViewContainer.parentActivity, MyWebView.this.botWebViewContainer.resourcesProvider, new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}, R.raw.permission_request_location, LocaleController.formatString(this.val$bot ? R.string.BotWebViewRequestGeolocationPermission : R.string.WebViewRequestGeolocationPermission, userName), LocaleController.formatString(this.val$bot ? R.string.BotWebViewRequestGeolocationPermissionWithHint : R.string.WebViewRequestGeolocationPermissionWithHint, userName), new Consumer() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$3$$ExternalSyntheticLambda7
                     @Override // androidx.core.util.Consumer
@@ -1444,8 +1651,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     permissionRequest.deny();
                     return;
                 }
-                MyWebView myWebView = MyWebView.this;
-                myWebView.d("onPermissionRequest " + permissionRequest);
+                MyWebView.this.d("onPermissionRequest " + permissionRequest);
                 String userName = this.val$bot ? UserObject.getUserName(MyWebView.this.botWebViewContainer.botUser) : AndroidUtilities.getHostAuthority(MyWebView.this.getUrl());
                 resources = permissionRequest.getResources();
                 if (resources.length == 1) {
@@ -1472,21 +1678,23 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                             }
                         });
                     }
-                } else if (resources.length != 2) {
-                    return;
                 } else {
+                    if (resources.length != 2) {
+                        return;
+                    }
                     if (!"android.webkit.resource.AUDIO_CAPTURE".equals(resources[0]) && !"android.webkit.resource.VIDEO_CAPTURE".equals(resources[0])) {
                         return;
                     }
                     if (!"android.webkit.resource.AUDIO_CAPTURE".equals(resources[1]) && !"android.webkit.resource.VIDEO_CAPTURE".equals(resources[1])) {
                         return;
+                    } else {
+                        createWebViewPermissionsRequestDialog = AlertsCreator.createWebViewPermissionsRequestDialog(MyWebView.this.botWebViewContainer.parentActivity, MyWebView.this.botWebViewContainer.resourcesProvider, new String[]{"android.permission.CAMERA", "android.permission.RECORD_AUDIO"}, R.raw.permission_request_camera, LocaleController.formatString(this.val$bot ? R.string.BotWebViewRequestCameraMicPermission : R.string.WebViewRequestCameraMicPermission, userName), LocaleController.formatString(this.val$bot ? R.string.BotWebViewRequestCameraMicPermissionWithHint : R.string.WebViewRequestCameraMicPermissionWithHint, userName), new Consumer() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$3$$ExternalSyntheticLambda6
+                            @Override // androidx.core.util.Consumer
+                            public final void accept(Object obj) {
+                                BotWebViewContainer.MyWebView.3.this.lambda$onPermissionRequest$7(permissionRequest, resources, (Boolean) obj);
+                            }
+                        });
                     }
-                    createWebViewPermissionsRequestDialog = AlertsCreator.createWebViewPermissionsRequestDialog(MyWebView.this.botWebViewContainer.parentActivity, MyWebView.this.botWebViewContainer.resourcesProvider, new String[]{"android.permission.CAMERA", "android.permission.RECORD_AUDIO"}, R.raw.permission_request_camera, LocaleController.formatString(this.val$bot ? R.string.BotWebViewRequestCameraMicPermission : R.string.WebViewRequestCameraMicPermission, userName), LocaleController.formatString(this.val$bot ? R.string.BotWebViewRequestCameraMicPermissionWithHint : R.string.WebViewRequestCameraMicPermissionWithHint, userName), new Consumer() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$3$$ExternalSyntheticLambda6
-                        @Override // androidx.core.util.Consumer
-                        public final void accept(Object obj) {
-                            BotWebViewContainer.MyWebView.3.this.lambda$onPermissionRequest$7(permissionRequest, resources, (Boolean) obj);
-                        }
-                    });
                 }
                 this.lastPermissionsDialog = createWebViewPermissionsRequestDialog;
                 createWebViewPermissionsRequestDialog.show();
@@ -1506,12 +1714,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             @Override // android.webkit.WebChromeClient
             public void onProgressChanged(WebView webView, int i) {
                 if (MyWebView.this.botWebViewContainer == null || MyWebView.this.botWebViewContainer.webViewProgressListener == null) {
-                    MyWebView myWebView = MyWebView.this;
-                    myWebView.d("onProgressChanged " + i + "%: no container");
+                    MyWebView.this.d("onProgressChanged " + i + "%: no container");
                     return;
                 }
-                MyWebView myWebView2 = MyWebView.this;
-                myWebView2.d("onProgressChanged " + i + "%");
+                MyWebView.this.d("onProgressChanged " + i + "%");
                 MyWebView.this.botWebViewContainer.webViewProgressListener.accept(Float.valueOf(((float) i) / 100.0f));
             }
 
@@ -1548,14 +1754,13 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
             @Override // android.webkit.WebChromeClient
             public void onReceivedTitle(WebView webView, String str) {
+                MyWebView.this.d("onReceivedTitle title=" + str);
                 MyWebView myWebView = MyWebView.this;
-                myWebView.d("onReceivedTitle title=" + str);
-                MyWebView myWebView2 = MyWebView.this;
-                if (!myWebView2.errorShown) {
-                    myWebView2.lastTitleGot = true;
-                    myWebView2.lastTitle = str;
+                if (!myWebView.errorShown) {
+                    myWebView.lastTitleGot = true;
+                    myWebView.lastTitle = str;
                 }
-                if (myWebView2.botWebViewContainer != null) {
+                if (myWebView.botWebViewContainer != null) {
                     MyWebView.this.botWebViewContainer.onTitleChanged(str);
                 }
                 super.onReceivedTitle(webView, str);
@@ -1563,8 +1768,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
             @Override // android.webkit.WebChromeClient
             public void onReceivedTouchIconUrl(WebView webView, String str, boolean z) {
-                MyWebView myWebView = MyWebView.this;
-                myWebView.d("onReceivedTouchIconUrl url=" + str + " precomposed=" + z);
+                MyWebView.this.d("onReceivedTouchIconUrl url=" + str + " precomposed=" + z);
                 super.onReceivedTouchIconUrl(webView, str, z);
             }
 
@@ -1577,23 +1781,24 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 if (findActivity == null) {
                     myWebView = MyWebView.this;
                     str = "onShowFileChooser: no activity, false";
-                } else if (MyWebView.this.botWebViewContainer != null) {
-                    if (MyWebView.this.botWebViewContainer.mFilePathCallback != null) {
-                        MyWebView.this.botWebViewContainer.mFilePathCallback.onReceiveValue(null);
-                    }
-                    MyWebView.this.botWebViewContainer.mFilePathCallback = valueCallback;
-                    if (Build.VERSION.SDK_INT >= 21) {
-                        createChooser = fileChooserParams.createIntent();
-                    } else {
-                        Intent intent = new Intent("android.intent.action.GET_CONTENT");
-                        intent.addCategory("android.intent.category.OPENABLE");
-                        intent.setType("*/*");
-                        createChooser = Intent.createChooser(intent, LocaleController.getString(R.string.BotWebViewFileChooserTitle));
-                    }
-                    findActivity.startActivityForResult(createChooser, 3000);
-                    MyWebView.this.d("onShowFileChooser: true");
-                    return true;
                 } else {
+                    if (MyWebView.this.botWebViewContainer != null) {
+                        if (MyWebView.this.botWebViewContainer.mFilePathCallback != null) {
+                            MyWebView.this.botWebViewContainer.mFilePathCallback.onReceiveValue(null);
+                        }
+                        MyWebView.this.botWebViewContainer.mFilePathCallback = valueCallback;
+                        if (Build.VERSION.SDK_INT >= 21) {
+                            createChooser = fileChooserParams.createIntent();
+                        } else {
+                            Intent intent = new Intent("android.intent.action.GET_CONTENT");
+                            intent.addCategory("android.intent.category.OPENABLE");
+                            intent.setType("*/*");
+                            createChooser = Intent.createChooser(intent, LocaleController.getString(R.string.BotWebViewFileChooserTitle));
+                        }
+                        findActivity.startActivityForResult(createChooser, 3000);
+                        MyWebView.this.d("onShowFileChooser: true");
+                        return true;
+                    }
                     myWebView = MyWebView.this;
                     str = "onShowFileChooser: no container, false";
                 }
@@ -1602,16 +1807,31 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
+        /* loaded from: classes.dex */
+        public class 4 implements WebView.FindListener {
+            4() {
+            }
+
+            @Override // android.webkit.WebView.FindListener
+            public void onFindResultReceived(int i, int i2, boolean z) {
+                MyWebView.this.searchIndex = i;
+                MyWebView.this.searchCount = i2;
+                MyWebView.this.searchLoading = !z;
+                if (MyWebView.this.searchListener != null) {
+                    MyWebView.this.searchListener.run();
+                }
+            }
+        }
+
         /* loaded from: classes.dex */
         public class 5 implements DownloadListener {
             5() {
-                MyWebView.this = r1;
             }
 
             private String getFilename(String str, String str2, String str3) {
                 try {
-                    List<String> pathSegments = Uri.parse(str).getPathSegments();
-                    String str4 = pathSegments.get(pathSegments.size() - 1);
+                    String str4 = Uri.parse(str).getPathSegments().get(r0.size() - 1);
                     int lastIndexOf = str4.lastIndexOf(".");
                     if (lastIndexOf > 0) {
                         if (!TextUtils.isEmpty(str4.substring(lastIndexOf + 1))) {
@@ -1646,8 +1866,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
             @Override // android.webkit.DownloadListener
             public void onDownloadStart(final String str, final String str2, String str3, final String str4, long j) {
-                MyWebView myWebView = MyWebView.this;
-                myWebView.d("onDownloadStart " + str + " " + str2 + " " + str3 + " " + str4 + " " + j);
+                MyWebView.this.d("onDownloadStart " + str + " " + str2 + " " + str3 + " " + str4 + " " + j);
                 try {
                     if (str.startsWith("blob:")) {
                         return;
@@ -1694,8 +1913,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             setWebViewClient(new 2(z, context));
             setWebChromeClient(new 3(z));
             setFindListener(new WebView.FindListener() { // from class: org.telegram.ui.web.BotWebViewContainer.MyWebView.4
-                {
-                    MyWebView.this = this;
+                4() {
                 }
 
                 @Override // android.webkit.WebView.FindListener
@@ -1935,7 +2153,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             String str2 = BotWebViewContainer.tonsite2magic(str);
             this.currentUrl = str2;
             d("loadUrl " + str2 + " " + map);
-            super.loadUrl(str2, map);
+            super.loadUrl(str2, (Map<String, String>) map);
             BotWebViewContainer botWebViewContainer = this.botWebViewContainer;
             if (botWebViewContainer != null) {
                 if (this.dangerousUrl) {
@@ -2181,13 +2399,14 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 i = R.string.OK;
             } else if (c == 3) {
                 i = R.string.Close;
-            } else if (c != 4) {
-                if (c == 5) {
-                    this.textColorKey = Theme.key_text_RedBold;
-                }
-                string = jSONObject.getString("text");
-                this.text = string;
             } else {
+                if (c != 4) {
+                    if (c == 5) {
+                        this.textColorKey = Theme.key_text_RedBold;
+                    }
+                    string = jSONObject.getString("text");
+                    this.text = string;
+                }
                 i = R.string.Cancel;
             }
             string = LocaleController.getString(i);
@@ -2222,11 +2441,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             myWebView.evaluateJS(sb.toString());
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:141:0x007c  */
-        /* JADX WARN: Removed duplicated region for block: B:144:0x0083  */
-        /* JADX WARN: Removed duplicated region for block: B:149:0x0091  */
-        /* JADX WARN: Removed duplicated region for block: B:155:0x00b1  */
-        /* JADX WARN: Removed duplicated region for block: B:188:0x0154  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x007c  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0083  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x0091  */
+        /* JADX WARN: Removed duplicated region for block: B:47:0x00b1  */
+        /* JADX WARN: Removed duplicated region for block: B:87:0x0154  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2430,14 +2649,12 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         }
         cellFlickerDrawable.drawFrame = false;
         cellFlickerDrawable.setColors(i, NotificationCenter.recordStopped, NotificationCenter.groupPackUpdated);
-        BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.web.BotWebViewContainer.1
+        1 r7 = new BackupImageView(context) { // from class: org.telegram.ui.web.BotWebViewContainer.1
 
             /* loaded from: classes.dex */
             public class 1 extends ImageReceiver {
-                /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
                 1(View view) {
                     super(view);
-                    1.this = r1;
                 }
 
                 public /* synthetic */ void lambda$setImageBitmapByKey$0(ValueAnimator valueAnimator) {
@@ -2460,8 +2677,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 }
             }
 
-            {
-                BotWebViewContainer.this = this;
+            1(Context context2) {
+                super(context2);
                 this.imageReceiver = new 1(this);
             }
 
@@ -2471,18 +2688,17 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     super.onDraw(canvas);
                     return;
                 }
-                Drawable drawable = this.imageReceiver.getDrawable();
-                if (drawable != null) {
-                    this.imageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), drawable.getIntrinsicHeight() * (getWidth() / drawable.getIntrinsicWidth()));
+                if (this.imageReceiver.getDrawable() != null) {
+                    this.imageReceiver.setImageCoords(0.0f, 0.0f, getWidth(), r0.getIntrinsicHeight() * (getWidth() / r0.getIntrinsicWidth()));
                     this.imageReceiver.draw(canvas);
                 }
             }
         };
-        this.flickerView = backupImageView;
-        backupImageView.setColorFilter(new PorterDuffColorFilter(getColor(Theme.key_dialogSearchHint), PorterDuff.Mode.SRC_IN));
+        this.flickerView = r7;
+        r7.setColorFilter(new PorterDuffColorFilter(getColor(Theme.key_dialogSearchHint), PorterDuff.Mode.SRC_IN));
         this.flickerView.getImageReceiver().setAspectFit(true);
         addView(this.flickerView, LayoutHelper.createFrame(-1, -2, 48));
-        TextView textView = new TextView(context);
+        TextView textView = new TextView(context2);
         this.webViewNotAvailableText = textView;
         textView.setText(LocaleController.getString(R.string.BotWebViewNotAvailablePlaceholder));
         this.webViewNotAvailableText.setTextColor(getColor(Theme.key_windowBackgroundWhiteGrayText));
@@ -2567,14 +2783,14 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         if (this.currentDialog != null) {
             return true;
         }
-        if (this.blockedDialogsUntil <= 0 || System.currentTimeMillis() >= this.blockedDialogsUntil) {
-            if (this.lastDialogType != i || this.shownDialogsCount <= 3) {
-                return false;
-            }
-            this.blockedDialogsUntil = System.currentTimeMillis() + 3000;
-            this.shownDialogsCount = 0;
+        if (this.blockedDialogsUntil > 0 && System.currentTimeMillis() < this.blockedDialogsUntil) {
             return true;
         }
+        if (this.lastDialogType != i || this.shownDialogsCount <= 3) {
+            return false;
+        }
+        this.blockedDialogsUntil = System.currentTimeMillis() + 3000;
+        this.shownDialogsCount = 0;
         return true;
     }
 
@@ -2724,25 +2940,26 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             if (tL_error != null) {
                 unknownError(tL_error.text);
                 return;
+            } else {
+                final String[] strArr = {"cancelled"};
+                showDialog(3, new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(R.string.BotWebViewRequestWriteTitle)).setMessage(LocaleController.getString(R.string.BotWebViewRequestWriteMessage)).setPositiveButton(LocaleController.getString(R.string.BotWebViewRequestAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda33
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i2) {
+                        BotWebViewContainer.this.lambda$onEventReceived$15(strArr, dialogInterface, i2);
+                    }
+                }).setNegativeButton(LocaleController.getString(R.string.BotWebViewRequestDontAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda34
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i2) {
+                        dialogInterface.dismiss();
+                    }
+                }).create(), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda35
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        BotWebViewContainer.lambda$onEventReceived$17(strArr, i, myWebView);
+                    }
+                });
+                return;
             }
-            final String[] strArr = {"cancelled"};
-            showDialog(3, new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(R.string.BotWebViewRequestWriteTitle)).setMessage(LocaleController.getString(R.string.BotWebViewRequestWriteMessage)).setPositiveButton(LocaleController.getString(R.string.BotWebViewRequestAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda33
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    BotWebViewContainer.this.lambda$onEventReceived$15(strArr, dialogInterface, i2);
-                }
-            }).setNegativeButton(LocaleController.getString(R.string.BotWebViewRequestDontAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda34
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    dialogInterface.dismiss();
-                }
-            }).create(), new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda35
-                @Override // java.lang.Runnable
-                public final void run() {
-                    BotWebViewContainer.lambda$onEventReceived$17(strArr, i, myWebView);
-                }
-            });
-            return;
         }
         try {
             JSONObject jSONObject = new JSONObject();
@@ -3115,20 +3332,20 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:1029:0x046b  */
-    /* JADX WARN: Removed duplicated region for block: B:1054:0x04b3  */
-    /* JADX WARN: Removed duplicated region for block: B:1061:0x04c1 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:919:0x028e, B:923:0x02ad, B:925:0x02bc, B:927:0x02c2, B:928:0x02cb, B:948:0x0305, B:944:0x02fc, B:946:0x0300, B:933:0x02e0, B:936:0x02ea, B:949:0x0313, B:951:0x0322, B:953:0x032f, B:955:0x0333, B:952:0x032b, B:985:0x03ad, B:987:0x03c7, B:991:0x03d2, B:993:0x03d8, B:995:0x03e3, B:997:0x03e9, B:1000:0x03f6, B:1005:0x0405, B:1010:0x0412, B:999:0x03f3, B:994:0x03e1, B:1011:0x042b, B:1097:0x052a, B:1034:0x0473, B:1036:0x0478, B:1059:0x04bb, B:1060:0x04be, B:1061:0x04c1, B:1043:0x0492, B:1046:0x049c, B:1049:0x04a6, B:1062:0x04c4, B:1063:0x04ce, B:1091:0x0514, B:1092:0x0518, B:1093:0x051c, B:1094:0x0520, B:1095:0x0524, B:1065:0x04d2, B:1068:0x04dc, B:1071:0x04e6, B:1074:0x04f0, B:1077:0x04fa, B:1018:0x044a, B:1021:0x0454, B:1024:0x045e, B:1290:0x09da, B:1292:0x09f4, B:1296:0x09ff, B:1298:0x0a05, B:1300:0x0a10, B:1302:0x0a16, B:1305:0x0a23, B:1310:0x0a2e, B:1315:0x0a3f, B:1317:0x0a45, B:1321:0x0a50, B:1318:0x0a4a, B:1304:0x0a20, B:1299:0x0a0e, B:1377:0x0bf5, B:1379:0x0c12, B:1381:0x0c24), top: B:1417:0x022d }] */
-    /* JADX WARN: Removed duplicated region for block: B:1062:0x04c4 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:919:0x028e, B:923:0x02ad, B:925:0x02bc, B:927:0x02c2, B:928:0x02cb, B:948:0x0305, B:944:0x02fc, B:946:0x0300, B:933:0x02e0, B:936:0x02ea, B:949:0x0313, B:951:0x0322, B:953:0x032f, B:955:0x0333, B:952:0x032b, B:985:0x03ad, B:987:0x03c7, B:991:0x03d2, B:993:0x03d8, B:995:0x03e3, B:997:0x03e9, B:1000:0x03f6, B:1005:0x0405, B:1010:0x0412, B:999:0x03f3, B:994:0x03e1, B:1011:0x042b, B:1097:0x052a, B:1034:0x0473, B:1036:0x0478, B:1059:0x04bb, B:1060:0x04be, B:1061:0x04c1, B:1043:0x0492, B:1046:0x049c, B:1049:0x04a6, B:1062:0x04c4, B:1063:0x04ce, B:1091:0x0514, B:1092:0x0518, B:1093:0x051c, B:1094:0x0520, B:1095:0x0524, B:1065:0x04d2, B:1068:0x04dc, B:1071:0x04e6, B:1074:0x04f0, B:1077:0x04fa, B:1018:0x044a, B:1021:0x0454, B:1024:0x045e, B:1290:0x09da, B:1292:0x09f4, B:1296:0x09ff, B:1298:0x0a05, B:1300:0x0a10, B:1302:0x0a16, B:1305:0x0a23, B:1310:0x0a2e, B:1315:0x0a3f, B:1317:0x0a45, B:1321:0x0a50, B:1318:0x0a4a, B:1304:0x0a20, B:1299:0x0a0e, B:1377:0x0bf5, B:1379:0x0c12, B:1381:0x0c24), top: B:1417:0x022d }] */
-    /* JADX WARN: Removed duplicated region for block: B:1097:0x052a A[Catch: Exception -> 0x02a7, TRY_LEAVE, TryCatch #10 {Exception -> 0x02a7, blocks: (B:919:0x028e, B:923:0x02ad, B:925:0x02bc, B:927:0x02c2, B:928:0x02cb, B:948:0x0305, B:944:0x02fc, B:946:0x0300, B:933:0x02e0, B:936:0x02ea, B:949:0x0313, B:951:0x0322, B:953:0x032f, B:955:0x0333, B:952:0x032b, B:985:0x03ad, B:987:0x03c7, B:991:0x03d2, B:993:0x03d8, B:995:0x03e3, B:997:0x03e9, B:1000:0x03f6, B:1005:0x0405, B:1010:0x0412, B:999:0x03f3, B:994:0x03e1, B:1011:0x042b, B:1097:0x052a, B:1034:0x0473, B:1036:0x0478, B:1059:0x04bb, B:1060:0x04be, B:1061:0x04c1, B:1043:0x0492, B:1046:0x049c, B:1049:0x04a6, B:1062:0x04c4, B:1063:0x04ce, B:1091:0x0514, B:1092:0x0518, B:1093:0x051c, B:1094:0x0520, B:1095:0x0524, B:1065:0x04d2, B:1068:0x04dc, B:1071:0x04e6, B:1074:0x04f0, B:1077:0x04fa, B:1018:0x044a, B:1021:0x0454, B:1024:0x045e, B:1290:0x09da, B:1292:0x09f4, B:1296:0x09ff, B:1298:0x0a05, B:1300:0x0a10, B:1302:0x0a16, B:1305:0x0a23, B:1310:0x0a2e, B:1315:0x0a3f, B:1317:0x0a45, B:1321:0x0a50, B:1318:0x0a4a, B:1304:0x0a20, B:1299:0x0a0e, B:1377:0x0bf5, B:1379:0x0c12, B:1381:0x0c24), top: B:1417:0x022d }] */
-    /* JADX WARN: Removed duplicated region for block: B:1203:0x077f A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:1204:0x0780  */
-    /* JADX WARN: Removed duplicated region for block: B:1223:0x082f  */
-    /* JADX WARN: Removed duplicated region for block: B:1456:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1463:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1480:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:941:0x02f7  */
-    /* JADX WARN: Removed duplicated region for block: B:946:0x0300 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:919:0x028e, B:923:0x02ad, B:925:0x02bc, B:927:0x02c2, B:928:0x02cb, B:948:0x0305, B:944:0x02fc, B:946:0x0300, B:933:0x02e0, B:936:0x02ea, B:949:0x0313, B:951:0x0322, B:953:0x032f, B:955:0x0333, B:952:0x032b, B:985:0x03ad, B:987:0x03c7, B:991:0x03d2, B:993:0x03d8, B:995:0x03e3, B:997:0x03e9, B:1000:0x03f6, B:1005:0x0405, B:1010:0x0412, B:999:0x03f3, B:994:0x03e1, B:1011:0x042b, B:1097:0x052a, B:1034:0x0473, B:1036:0x0478, B:1059:0x04bb, B:1060:0x04be, B:1061:0x04c1, B:1043:0x0492, B:1046:0x049c, B:1049:0x04a6, B:1062:0x04c4, B:1063:0x04ce, B:1091:0x0514, B:1092:0x0518, B:1093:0x051c, B:1094:0x0520, B:1095:0x0524, B:1065:0x04d2, B:1068:0x04dc, B:1071:0x04e6, B:1074:0x04f0, B:1077:0x04fa, B:1018:0x044a, B:1021:0x0454, B:1024:0x045e, B:1290:0x09da, B:1292:0x09f4, B:1296:0x09ff, B:1298:0x0a05, B:1300:0x0a10, B:1302:0x0a16, B:1305:0x0a23, B:1310:0x0a2e, B:1315:0x0a3f, B:1317:0x0a45, B:1321:0x0a50, B:1318:0x0a4a, B:1304:0x0a20, B:1299:0x0a0e, B:1377:0x0bf5, B:1379:0x0c12, B:1381:0x0c24), top: B:1417:0x022d }] */
-    /* JADX WARN: Removed duplicated region for block: B:948:0x0305 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:919:0x028e, B:923:0x02ad, B:925:0x02bc, B:927:0x02c2, B:928:0x02cb, B:948:0x0305, B:944:0x02fc, B:946:0x0300, B:933:0x02e0, B:936:0x02ea, B:949:0x0313, B:951:0x0322, B:953:0x032f, B:955:0x0333, B:952:0x032b, B:985:0x03ad, B:987:0x03c7, B:991:0x03d2, B:993:0x03d8, B:995:0x03e3, B:997:0x03e9, B:1000:0x03f6, B:1005:0x0405, B:1010:0x0412, B:999:0x03f3, B:994:0x03e1, B:1011:0x042b, B:1097:0x052a, B:1034:0x0473, B:1036:0x0478, B:1059:0x04bb, B:1060:0x04be, B:1061:0x04c1, B:1043:0x0492, B:1046:0x049c, B:1049:0x04a6, B:1062:0x04c4, B:1063:0x04ce, B:1091:0x0514, B:1092:0x0518, B:1093:0x051c, B:1094:0x0520, B:1095:0x0524, B:1065:0x04d2, B:1068:0x04dc, B:1071:0x04e6, B:1074:0x04f0, B:1077:0x04fa, B:1018:0x044a, B:1021:0x0454, B:1024:0x045e, B:1290:0x09da, B:1292:0x09f4, B:1296:0x09ff, B:1298:0x0a05, B:1300:0x0a10, B:1302:0x0a16, B:1305:0x0a23, B:1310:0x0a2e, B:1315:0x0a3f, B:1317:0x0a45, B:1321:0x0a50, B:1318:0x0a4a, B:1304:0x0a20, B:1299:0x0a0e, B:1377:0x0bf5, B:1379:0x0c12, B:1381:0x0c24), top: B:1417:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x046b  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x052a A[Catch: Exception -> 0x02a7, TRY_LEAVE, TryCatch #10 {Exception -> 0x02a7, blocks: (B:30:0x028e, B:32:0x02ad, B:34:0x02bc, B:36:0x02c2, B:39:0x02cb, B:50:0x0305, B:53:0x02fc, B:55:0x0300, B:56:0x02e0, B:59:0x02ea, B:62:0x0313, B:64:0x0322, B:65:0x032f, B:67:0x0333, B:70:0x032b, B:78:0x03ad, B:80:0x03c7, B:83:0x03d2, B:85:0x03d8, B:86:0x03e3, B:88:0x03e9, B:90:0x03f6, B:94:0x0405, B:98:0x0412, B:102:0x03f3, B:103:0x03e1, B:105:0x042b, B:120:0x052a, B:123:0x0473, B:125:0x0478, B:139:0x04bb, B:140:0x04be, B:141:0x04c1, B:142:0x0492, B:145:0x049c, B:148:0x04a6, B:151:0x04c4, B:152:0x04ce, B:165:0x0514, B:166:0x0518, B:167:0x051c, B:168:0x0520, B:169:0x0524, B:170:0x04d2, B:173:0x04dc, B:176:0x04e6, B:179:0x04f0, B:182:0x04fa, B:185:0x044a, B:188:0x0454, B:191:0x045e, B:333:0x09da, B:335:0x09f4, B:338:0x09ff, B:340:0x0a05, B:341:0x0a10, B:343:0x0a16, B:345:0x0a23, B:349:0x0a2e, B:353:0x0a3f, B:355:0x0a45, B:358:0x0a50, B:360:0x0a4a, B:363:0x0a20, B:364:0x0a0e, B:430:0x0bf5, B:432:0x0c12, B:434:0x0c24), top: B:13:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:122:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x04b3  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x04c1 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:30:0x028e, B:32:0x02ad, B:34:0x02bc, B:36:0x02c2, B:39:0x02cb, B:50:0x0305, B:53:0x02fc, B:55:0x0300, B:56:0x02e0, B:59:0x02ea, B:62:0x0313, B:64:0x0322, B:65:0x032f, B:67:0x0333, B:70:0x032b, B:78:0x03ad, B:80:0x03c7, B:83:0x03d2, B:85:0x03d8, B:86:0x03e3, B:88:0x03e9, B:90:0x03f6, B:94:0x0405, B:98:0x0412, B:102:0x03f3, B:103:0x03e1, B:105:0x042b, B:120:0x052a, B:123:0x0473, B:125:0x0478, B:139:0x04bb, B:140:0x04be, B:141:0x04c1, B:142:0x0492, B:145:0x049c, B:148:0x04a6, B:151:0x04c4, B:152:0x04ce, B:165:0x0514, B:166:0x0518, B:167:0x051c, B:168:0x0520, B:169:0x0524, B:170:0x04d2, B:173:0x04dc, B:176:0x04e6, B:179:0x04f0, B:182:0x04fa, B:185:0x044a, B:188:0x0454, B:191:0x045e, B:333:0x09da, B:335:0x09f4, B:338:0x09ff, B:340:0x0a05, B:341:0x0a10, B:343:0x0a16, B:345:0x0a23, B:349:0x0a2e, B:353:0x0a3f, B:355:0x0a45, B:358:0x0a50, B:360:0x0a4a, B:363:0x0a20, B:364:0x0a0e, B:430:0x0bf5, B:432:0x0c12, B:434:0x0c24), top: B:13:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x04c4 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:30:0x028e, B:32:0x02ad, B:34:0x02bc, B:36:0x02c2, B:39:0x02cb, B:50:0x0305, B:53:0x02fc, B:55:0x0300, B:56:0x02e0, B:59:0x02ea, B:62:0x0313, B:64:0x0322, B:65:0x032f, B:67:0x0333, B:70:0x032b, B:78:0x03ad, B:80:0x03c7, B:83:0x03d2, B:85:0x03d8, B:86:0x03e3, B:88:0x03e9, B:90:0x03f6, B:94:0x0405, B:98:0x0412, B:102:0x03f3, B:103:0x03e1, B:105:0x042b, B:120:0x052a, B:123:0x0473, B:125:0x0478, B:139:0x04bb, B:140:0x04be, B:141:0x04c1, B:142:0x0492, B:145:0x049c, B:148:0x04a6, B:151:0x04c4, B:152:0x04ce, B:165:0x0514, B:166:0x0518, B:167:0x051c, B:168:0x0520, B:169:0x0524, B:170:0x04d2, B:173:0x04dc, B:176:0x04e6, B:179:0x04f0, B:182:0x04fa, B:185:0x044a, B:188:0x0454, B:191:0x045e, B:333:0x09da, B:335:0x09f4, B:338:0x09ff, B:340:0x0a05, B:341:0x0a10, B:343:0x0a16, B:345:0x0a23, B:349:0x0a2e, B:353:0x0a3f, B:355:0x0a45, B:358:0x0a50, B:360:0x0a4a, B:363:0x0a20, B:364:0x0a0e, B:430:0x0bf5, B:432:0x0c12, B:434:0x0c24), top: B:13:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x077f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:246:0x0780  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x02f7  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0305 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:30:0x028e, B:32:0x02ad, B:34:0x02bc, B:36:0x02c2, B:39:0x02cb, B:50:0x0305, B:53:0x02fc, B:55:0x0300, B:56:0x02e0, B:59:0x02ea, B:62:0x0313, B:64:0x0322, B:65:0x032f, B:67:0x0333, B:70:0x032b, B:78:0x03ad, B:80:0x03c7, B:83:0x03d2, B:85:0x03d8, B:86:0x03e3, B:88:0x03e9, B:90:0x03f6, B:94:0x0405, B:98:0x0412, B:102:0x03f3, B:103:0x03e1, B:105:0x042b, B:120:0x052a, B:123:0x0473, B:125:0x0478, B:139:0x04bb, B:140:0x04be, B:141:0x04c1, B:142:0x0492, B:145:0x049c, B:148:0x04a6, B:151:0x04c4, B:152:0x04ce, B:165:0x0514, B:166:0x0518, B:167:0x051c, B:168:0x0520, B:169:0x0524, B:170:0x04d2, B:173:0x04dc, B:176:0x04e6, B:179:0x04f0, B:182:0x04fa, B:185:0x044a, B:188:0x0454, B:191:0x045e, B:333:0x09da, B:335:0x09f4, B:338:0x09ff, B:340:0x0a05, B:341:0x0a10, B:343:0x0a16, B:345:0x0a23, B:349:0x0a2e, B:353:0x0a3f, B:355:0x0a45, B:358:0x0a50, B:360:0x0a4a, B:363:0x0a20, B:364:0x0a0e, B:430:0x0bf5, B:432:0x0c12, B:434:0x0c24), top: B:13:0x022d }] */
+    /* JADX WARN: Removed duplicated region for block: B:519:0x082f  */
+    /* JADX WARN: Removed duplicated region for block: B:521:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0300 A[Catch: Exception -> 0x02a7, TryCatch #10 {Exception -> 0x02a7, blocks: (B:30:0x028e, B:32:0x02ad, B:34:0x02bc, B:36:0x02c2, B:39:0x02cb, B:50:0x0305, B:53:0x02fc, B:55:0x0300, B:56:0x02e0, B:59:0x02ea, B:62:0x0313, B:64:0x0322, B:65:0x032f, B:67:0x0333, B:70:0x032b, B:78:0x03ad, B:80:0x03c7, B:83:0x03d2, B:85:0x03d8, B:86:0x03e3, B:88:0x03e9, B:90:0x03f6, B:94:0x0405, B:98:0x0412, B:102:0x03f3, B:103:0x03e1, B:105:0x042b, B:120:0x052a, B:123:0x0473, B:125:0x0478, B:139:0x04bb, B:140:0x04be, B:141:0x04c1, B:142:0x0492, B:145:0x049c, B:148:0x04a6, B:151:0x04c4, B:152:0x04ce, B:165:0x0514, B:166:0x0518, B:167:0x051c, B:168:0x0520, B:169:0x0524, B:170:0x04d2, B:173:0x04dc, B:176:0x04e6, B:179:0x04f0, B:182:0x04fa, B:185:0x044a, B:188:0x0454, B:191:0x045e, B:333:0x09da, B:335:0x09f4, B:338:0x09ff, B:340:0x0a05, B:341:0x0a10, B:343:0x0a16, B:345:0x0a23, B:349:0x0a2e, B:353:0x0a3f, B:355:0x0a45, B:358:0x0a50, B:360:0x0a4a, B:363:0x0a20, B:364:0x0a0e, B:430:0x0bf5, B:432:0x0c12, B:434:0x0c24), top: B:13:0x022d }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3615,18 +3832,17 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                     checkSelfPermission = this.parentActivity.checkSelfPermission("android.permission.CAMERA");
                                     if (checkSelfPermission != 0) {
                                         NotificationCenter.getGlobalInstance().addObserver(new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer.4
-                                            {
-                                                BotWebViewContainer.this = this;
+                                            4() {
                                             }
 
                                             @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
-                                            public void didReceivedNotification(int i6, int i7, Object... objArr) {
-                                                int i8 = NotificationCenter.onRequestPermissionResultReceived;
-                                                if (i6 == i8) {
+                                            public void didReceivedNotification(int i6, int i22, Object... objArr) {
+                                                int i32 = NotificationCenter.onRequestPermissionResultReceived;
+                                                if (i6 == i32) {
                                                     int intValue = ((Integer) objArr[0]).intValue();
                                                     int[] iArr = (int[]) objArr[2];
                                                     if (intValue == 5000) {
-                                                        NotificationCenter.getGlobalInstance().removeObserver(this, i8);
+                                                        NotificationCenter.getGlobalInstance().removeObserver(this, i32);
                                                         if (iArr[0] == 0) {
                                                             BotWebViewContainer.this.openQrScanActivity();
                                                         } else {
@@ -3834,9 +4050,22 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                             }
                             if (!MessagesController.getInstance(this.currentAccount).storiesEnabled()) {
                                 new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.web.BotWebViewContainer.5
-                                    {
-                                        BotWebViewContainer.this = this;
-                                        this.currentAccount = this.currentAccount;
+
+                                    /* loaded from: classes.dex */
+                                    class 1 extends WrappedResourceProvider {
+                                        1(Theme.ResourcesProvider resourcesProvider) {
+                                            super(resourcesProvider);
+                                        }
+
+                                        @Override // org.telegram.ui.WrappedResourceProvider
+                                        public void appendColors() {
+                                            this.sparseIntArray.append(Theme.key_dialogBackground, -14803426);
+                                            this.sparseIntArray.append(Theme.key_windowBackgroundGray, -16777216);
+                                        }
+                                    }
+
+                                    5() {
+                                        this.currentAccount = BotWebViewContainer.this.currentAccount;
                                     }
 
                                     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -3847,8 +4076,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                     @Override // org.telegram.ui.ActionBar.BaseFragment
                                     public Theme.ResourcesProvider getResourceProvider() {
                                         return new WrappedResourceProvider(BotWebViewContainer.this.resourcesProvider) { // from class: org.telegram.ui.web.BotWebViewContainer.5.1
-                                            {
-                                                5.this = this;
+                                            1(Theme.ResourcesProvider resourcesProvider) {
+                                                super(resourcesProvider);
                                             }
 
                                             @Override // org.telegram.ui.WrappedResourceProvider
@@ -3900,28 +4129,28 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                     }
                                     findActivity.moveTaskToBack(true);
                                     return;
-                                } else if (this.wasOpenedByBot == null || (launchActivity = LaunchActivity.instance) == null || launchActivity.getBottomSheetTabs() == null) {
-                                    return;
-                                } else {
-                                    BottomSheetTabs bottomSheetTabs = LaunchActivity.instance.getBottomSheetTabs();
-                                    ArrayList<BottomSheetTabs.WebTabData> tabs = bottomSheetTabs.getTabs();
-                                    int i7 = 0;
-                                    while (true) {
-                                        if (i7 < tabs.size()) {
-                                            BottomSheetTabs.WebTabData webTabData2 = tabs.get(i7);
-                                            if (!this.wasOpenedByBot.equals(webTabData2.props) || webTabData2.webView == this.webView) {
-                                                i7++;
-                                            } else {
-                                                webTabData = webTabData2;
-                                            }
-                                        }
-                                    }
-                                    if (webTabData != null) {
-                                        bottomSheetTabs.openTab(webTabData);
-                                        return;
-                                    }
+                                }
+                                if (this.wasOpenedByBot == null || (launchActivity = LaunchActivity.instance) == null || launchActivity.getBottomSheetTabs() == null) {
                                     return;
                                 }
+                                BottomSheetTabs bottomSheetTabs = LaunchActivity.instance.getBottomSheetTabs();
+                                ArrayList<BottomSheetTabs.WebTabData> tabs = bottomSheetTabs.getTabs();
+                                int i7 = 0;
+                                while (true) {
+                                    if (i7 < tabs.size()) {
+                                        BottomSheetTabs.WebTabData webTabData2 = tabs.get(i7);
+                                        if (!this.wasOpenedByBot.equals(webTabData2.props) || webTabData2.webView == this.webView) {
+                                            i7++;
+                                        } else {
+                                            webTabData = webTabData2;
+                                        }
+                                    }
+                                }
+                                if (webTabData != null) {
+                                    bottomSheetTabs.openTab(webTabData);
+                                    return;
+                                }
+                                return;
                             }
                             return;
                         case 18:
@@ -3972,13 +4201,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                             if (z11) {
                                 notifyBiometryReceived();
                                 return;
-                            } else if (botBiometry2.access_granted) {
-                                if (!z11) {
-                                    botBiometry2.access_requested = true;
-                                    botBiometry2.save();
-                                    break;
-                                }
-                            } else {
+                            }
+                            if (!botBiometry2.access_granted) {
                                 final Runnable[] runnableArr = {new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda16
                                     @Override // java.lang.Runnable
                                     public final void run() {
@@ -4013,6 +4237,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                 });
                                 builder2.show();
                                 return;
+                            }
+                            if (!z11) {
+                                botBiometry2.access_requested = true;
+                                botBiometry2.save();
+                                break;
                             }
                             break;
                         case 24:
@@ -4261,14 +4490,15 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                     c5 = 1;
                                     if (c5 != 0) {
                                         i = Theme.key_windowBackgroundWhite;
-                                    } else if (c5 != 1) {
-                                        i2 = -1;
-                                        if (i2 >= 0) {
-                                            this.delegate.onWebAppSetActionBarColor(i2, Theme.getColor(i2, this.resourcesProvider), false);
+                                    } else {
+                                        if (c5 != 1) {
+                                            i2 = -1;
+                                            if (i2 >= 0) {
+                                                this.delegate.onWebAppSetActionBarColor(i2, Theme.getColor(i2, this.resourcesProvider), false);
+                                                return;
+                                            }
                                             return;
                                         }
-                                        return;
-                                    } else {
                                         i = Theme.key_windowBackgroundGray;
                                     }
                                     i2 = i;
@@ -4455,9 +4685,8 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         if (activity == null) {
             return;
         }
-        this.cameraBottomSheet = CameraScanActivity.showAsSheet(activity, false, 3, new CameraScanActivity.CameraScanActivityDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer.6
-            {
-                BotWebViewContainer.this = this;
+        this.cameraBottomSheet = CameraScanActivity.showAsSheet(activity, false, 3, (CameraScanActivity.CameraScanActivityDelegate) new CameraScanActivity.CameraScanActivityDelegate() { // from class: org.telegram.ui.web.BotWebViewContainer.6
+            6() {
             }
 
             @Override // org.telegram.ui.CameraScanActivity.CameraScanActivityDelegate
@@ -4497,14 +4726,14 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         String method;
         Uri url;
         Map requestHeaders;
-        if (Build.VERSION.SDK_INT >= 21) {
-            method = webResourceRequest.getMethod();
-            url = webResourceRequest.getUrl();
-            String uri = url.toString();
-            requestHeaders = webResourceRequest.getRequestHeaders();
-            return proxyTON(method, uri, requestHeaders);
+        if (Build.VERSION.SDK_INT < 21) {
+            return null;
         }
-        return null;
+        method = webResourceRequest.getMethod();
+        url = webResourceRequest.getUrl();
+        String uri = url.toString();
+        requestHeaders = webResourceRequest.getRequestHeaders();
+        return proxyTON(method, uri, requestHeaders);
     }
 
     public static WebResourceResponse proxyTON(String str, String str2, Map map) {
@@ -4712,20 +4941,20 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     public static String tonsite2magic(String str) {
-        if (str != null && isTonsite(Uri.parse(str))) {
-            String hostAuthority = AndroidUtilities.getHostAuthority(str);
-            try {
-                hostAuthority = IDN.toASCII(hostAuthority, 1);
-            } catch (Exception unused) {
-            }
-            String rotateTONHost = rotateTONHost(hostAuthority);
-            if (rotatedTONHosts == null) {
-                rotatedTONHosts = new HashMap();
-            }
-            rotatedTONHosts.put(rotateTONHost, hostAuthority);
-            return Browser.replaceHostname(Uri.parse(str), rotateTONHost, "https");
+        if (str == null || !isTonsite(Uri.parse(str))) {
+            return str;
         }
-        return str;
+        String hostAuthority = AndroidUtilities.getHostAuthority(str);
+        try {
+            hostAuthority = IDN.toASCII(hostAuthority, 1);
+        } catch (Exception unused) {
+        }
+        String rotateTONHost = rotateTONHost(hostAuthority);
+        if (rotatedTONHosts == null) {
+            rotatedTONHosts = new HashMap();
+        }
+        rotatedTONHosts.put(rotateTONHost, hostAuthority);
+        return Browser.replaceHostname(Uri.parse(str), rotateTONHost, "https");
     }
 
     private void unknownError() {
@@ -4804,7 +5033,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             }
             this.flickerView.setColorFilter(new PorterDuffColorFilter(getColor(Theme.key_dialogSearchHint), PorterDuff.Mode.SRC_IN));
             notifyThemeChanged();
-        } else if (i == NotificationCenter.onActivityResultReceived) {
+            return;
+        }
+        if (i == NotificationCenter.onActivityResultReceived) {
             onActivityResult(((Integer) objArr[0]).intValue(), ((Integer) objArr[1]).intValue(), (Intent) objArr[2]);
         } else if (i == NotificationCenter.onRequestPermissionResultReceived) {
             onRequestPermissionsResult(((Integer) objArr[0]).intValue(), (String[]) objArr[1], (int[]) objArr[2]);
@@ -4827,23 +5058,23 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             this.flickerDrawable.draw(canvas, rectF, 0.0f, this);
             invalidate();
             return drawChild;
-        } else if (view == this.webViewNotAvailableText) {
+        }
+        if (view == this.webViewNotAvailableText) {
             canvas.save();
             canvas.translate(0.0f, (ActionBar.getCurrentActionBarHeight() - ((View) getParent()).getTranslationY()) / 2.0f);
             boolean drawChild2 = super.drawChild(canvas, view, j);
             canvas.restore();
             return drawChild2;
-        } else {
-            if (view == this.webView) {
-                if (AndroidUtilities.makingGlobalBlurBitmap) {
-                    return true;
-                }
-                if (getLayerType() == 2 && !canvas.isHardwareAccelerated()) {
-                    return true;
-                }
-            }
-            return super.drawChild(canvas, view, j);
         }
+        if (view == this.webView) {
+            if (AndroidUtilities.makingGlobalBlurBitmap) {
+                return true;
+            }
+            if (getLayerType() == 2 && !canvas.isHardwareAccelerated()) {
+                return true;
+            }
+        }
+        return super.drawChild(canvas, view, j);
     }
 
     public void evaluateJs(final String str, final boolean z) {
@@ -4932,10 +5163,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             if (!it.hasNext()) {
                 tL_attachMenuBot = null;
                 break;
-            }
-            tL_attachMenuBot = it.next();
-            if (tL_attachMenuBot.bot_id == j) {
-                break;
+            } else {
+                tL_attachMenuBot = it.next();
+                if (tL_attachMenuBot.bot_id == j) {
+                    break;
+                }
             }
         }
         if (tL_attachMenuBot == null) {
@@ -4994,8 +5226,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.onActivityResultReceived);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.onRequestPermissionResultReceived);
         Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.web.BotWebViewContainer.3
-            {
-                BotWebViewContainer.this = this;
+            3() {
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -5015,11 +5246,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public int getBottomOffset(int i) {
-                if (BotWebViewContainer.this.getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) {
-                    ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = (ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) BotWebViewContainer.this.getParent();
-                    return (int) ((webViewSwipeContainer.getOffsetY() + webViewSwipeContainer.getSwipeOffsetY()) - webViewSwipeContainer.getTopActionBarOffsetY());
+                if (!(BotWebViewContainer.this.getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer)) {
+                    return 0;
                 }
-                return 0;
+                ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = (ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) BotWebViewContainer.this.getParent();
+                return (int) ((webViewSwipeContainer.getOffsetY() + webViewSwipeContainer.getSwipeOffsetY()) - webViewSwipeContainer.getTopActionBarOffsetY());
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -5045,11 +5276,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     public boolean onBackPressed() {
-        if (this.webView != null && this.isBackButtonVisible) {
-            notifyEvent("back_button_pressed", null);
-            return true;
+        if (this.webView == null || !this.isBackButtonVisible) {
+            return false;
         }
-        return false;
+        notifyEvent("back_button_pressed", null);
+        return true;
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -5232,10 +5463,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             AnimatorSet animatorSet = new AnimatorSet();
             MyWebView myWebView5 = this.webView;
             Property property = View.ALPHA;
-            animatorSet.playTogether(ObjectAnimator.ofFloat(myWebView5, property, 1.0f), ObjectAnimator.ofFloat(this.flickerView, property, 0.0f));
+            animatorSet.playTogether(ObjectAnimator.ofFloat(myWebView5, (Property<MyWebView, Float>) property, 1.0f), ObjectAnimator.ofFloat(this.flickerView, (Property<BackupImageView, Float>) property, 0.0f));
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.web.BotWebViewContainer.2
-                {
-                    BotWebViewContainer.this = this;
+                2() {
                 }
 
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

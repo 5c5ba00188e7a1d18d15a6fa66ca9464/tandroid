@@ -19,6 +19,7 @@ import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.CaptionContainerView;
 import org.telegram.ui.Stories.recorder.HintView2;
+
 /* loaded from: classes3.dex */
 public abstract class CaptionPhotoViewer extends CaptionContainerView {
     private final int SHOW_ONCE;
@@ -75,9 +76,9 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00be  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00c1  */
-    /* renamed from: changeTimer */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00be  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00c1  */
+    /* renamed from: changeTimer, reason: merged with bridge method [inline-methods] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -94,25 +95,26 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
         }
         if (i == 0) {
             i2 = this.isVideo ? R.string.TimerPeriodVideoKeep : R.string.TimerPeriodPhotoKeep;
-        } else if (i != Integer.MAX_VALUE) {
-            if (i > 0) {
-                replaceTags = AndroidUtilities.replaceTags(LocaleController.formatPluralString(this.isVideo ? "TimerPeriodVideoSetSeconds" : "TimerPeriodPhotoSetSeconds", i, new Object[0]));
-                this.hint.setMultilineText(true);
-                HintView2 hintView2 = this.hint;
-                hintView2.setMaxWidthPx(HintView2.cutInFancyHalf(replaceTags, hintView2.getTextPaint()));
-                this.hint.setInnerPadding(12, 7, 11, 7);
-                this.hint.setIconMargin(2);
-                this.hint.setIconTranslate(0.0f, 0.0f);
-                this.hint.setTranslationY((-Math.min(AndroidUtilities.dp(34.0f), getEditTextHeight())) - AndroidUtilities.dp(14.0f));
-                this.hint.setText(replaceTags);
-                int i3 = i <= 0 ? R.raw.fire_on : R.raw.fire_off;
-                RLottieDrawable rLottieDrawable = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(34.0f));
-                rLottieDrawable.start();
-                this.hint.setIcon(rLottieDrawable);
-                this.hint.show();
-            }
-            return;
         } else {
+            if (i != Integer.MAX_VALUE) {
+                if (i > 0) {
+                    replaceTags = AndroidUtilities.replaceTags(LocaleController.formatPluralString(this.isVideo ? "TimerPeriodVideoSetSeconds" : "TimerPeriodPhotoSetSeconds", i, new Object[0]));
+                    this.hint.setMultilineText(true);
+                    HintView2 hintView2 = this.hint;
+                    hintView2.setMaxWidthPx(HintView2.cutInFancyHalf(replaceTags, hintView2.getTextPaint()));
+                    this.hint.setInnerPadding(12, 7, 11, 7);
+                    this.hint.setIconMargin(2);
+                    this.hint.setIconTranslate(0.0f, 0.0f);
+                    this.hint.setTranslationY((-Math.min(AndroidUtilities.dp(34.0f), getEditTextHeight())) - AndroidUtilities.dp(14.0f));
+                    this.hint.setText(replaceTags);
+                    int i3 = i <= 0 ? R.raw.fire_on : R.raw.fire_off;
+                    RLottieDrawable rLottieDrawable = new RLottieDrawable(i3, "" + i3, AndroidUtilities.dp(34.0f), AndroidUtilities.dp(34.0f));
+                    rLottieDrawable.start();
+                    this.hint.setIcon(rLottieDrawable);
+                    this.hint.show();
+                }
+                return;
+            }
             i2 = this.isVideo ? R.string.TimerPeriodVideoSetOnce : R.string.TimerPeriodPhotoSetOnce;
         }
         replaceTags = LocaleController.getString(i2);
@@ -132,13 +134,12 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0070  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0075 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0070  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0075 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$new$1(FrameLayout frameLayout, View view) {
-        int[] iArr;
         String formatPluralString;
         int i;
         ItemOptions itemOptions = this.timerPopup;
@@ -206,9 +207,8 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
 
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
     protected void afterUpdateShownKeyboard(boolean z) {
-        int i = 0;
         this.timerButton.setVisibility((z || !this.timerVisible) ? 8 : 0);
-        this.addPhotoButton.setVisibility((z || !this.addPhotoVisible) ? 8 : 8);
+        this.addPhotoButton.setVisibility((z || !this.addPhotoVisible) ? 8 : 0);
         if (z) {
             this.timerButton.setVisibility(8);
             this.addPhotoButton.setVisibility(8);
@@ -271,7 +271,8 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
 
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
-    public void onTextChange() {
+    /* renamed from: onTextChange */
+    public void lambda$new$1() {
         Runnable runnable = this.applyCaption;
         if (runnable != null) {
             runnable.run();

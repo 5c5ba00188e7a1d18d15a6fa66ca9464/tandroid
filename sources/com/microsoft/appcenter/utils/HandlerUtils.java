@@ -2,6 +2,7 @@ package com.microsoft.appcenter.utils;
 
 import android.os.Handler;
 import android.os.Looper;
+
 /* loaded from: classes.dex */
 public abstract class HandlerUtils {
     static final Handler sMainHandler = new Handler(Looper.getMainLooper());

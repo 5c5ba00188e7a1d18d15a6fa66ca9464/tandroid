@@ -150,6 +150,7 @@ import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Stories.recorder.SliderView;
 import org.telegram.ui.ThemePreviewActivity;
 import org.telegram.ui.WallpapersListActivity;
+
 /* loaded from: classes4.dex */
 public class ThemePreviewActivity extends BaseFragment implements DownloadController.FileDownloadProgressListener, NotificationCenter.NotificationCenterDelegate {
     private int TAG;
@@ -320,7 +321,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             Theme.applyPreviousTheme();
             Theme.refreshThemeColors();
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, ThemePreviewActivity.this.applyingTheme, Boolean.valueOf(ThemePreviewActivity.this.nightTheme), null, -1);
-            ThemePreviewActivity.this.finishFragment();
+            ThemePreviewActivity.this.lambda$onBackPressed$300();
         }
 
         @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
@@ -359,14 +360,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         public void openThemeCreate(boolean z) {
             if (!z) {
                 AlertsCreator.createThemeCreateDialog(ThemePreviewActivity.this, 1, null, null);
-            } else if (ThemePreviewActivity.this.accent.info == null) {
-                ThemePreviewActivity.this.finishFragment();
+                return;
+            }
+            if (ThemePreviewActivity.this.accent.info == null) {
+                ThemePreviewActivity.this.lambda$onBackPressed$300();
                 MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).saveThemeToServer(ThemePreviewActivity.this.accent.parentTheme, ThemePreviewActivity.this.accent);
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needShareTheme, ThemePreviewActivity.this.accent.parentTheme, ThemePreviewActivity.this.accent);
-            } else {
-                String str = "https://" + MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).linkPrefix + "/addtheme/" + ThemePreviewActivity.this.accent.info.slug;
-                ThemePreviewActivity.this.showDialog(new ShareAlert(ThemePreviewActivity.this.getParentActivity(), null, str, false, str, false));
+                return;
             }
+            String str = "https://" + MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).linkPrefix + "/addtheme/" + ThemePreviewActivity.this.accent.info.slug;
+            ThemePreviewActivity.this.showDialog(new ShareAlert(ThemePreviewActivity.this.getParentActivity(), null, str, false, str, false));
         }
 
         @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
@@ -405,10 +408,15 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (i == -1) {
                 if (ThemePreviewActivity.this.checkDiscard()) {
                     ThemePreviewActivity.this.cancelThemeApply(false);
+                    return;
                 }
-            } else if (i >= 1 && i <= 3) {
+                return;
+            }
+            if (i >= 1 && i <= 3) {
                 ThemePreviewActivity.this.selectColorType(i);
-            } else if (i == 4) {
+                return;
+            }
+            if (i == 4) {
                 if (ThemePreviewActivity.this.removeBackgroundOverride) {
                     Theme.resetCustomWallpaper(false);
                 }
@@ -436,8 +444,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 Theme.saveThemeAccents(ThemePreviewActivity.this.applyingTheme, true, false, false, true);
                 Theme.applyPreviousTheme();
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, ThemePreviewActivity.this.applyingTheme, Boolean.valueOf(ThemePreviewActivity.this.nightTheme), null, -1);
-                ThemePreviewActivity.this.finishFragment();
-            } else if (i == 5) {
+                ThemePreviewActivity.this.lambda$onBackPressed$300();
+                return;
+            }
+            if (i == 5) {
                 if (ThemePreviewActivity.this.getParentActivity() == null) {
                     return;
                 }
@@ -466,15 +476,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 }
                             }
                         });
+                        return;
+                    } else {
+                        url = str2 + "?mode=" + sb.toString();
                     }
-                    url = str2 + "?mode=" + sb.toString();
                 } else if (ThemePreviewActivity.this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) {
                     WallpapersListActivity.ColorWallpaper colorWallpaper = new WallpapersListActivity.ColorWallpaper(ThemePreviewActivity.this.selectedPattern != null ? ThemePreviewActivity.this.selectedPattern.slug : "c", ThemePreviewActivity.this.backgroundColor, ThemePreviewActivity.this.backgroundGradientColor1, ThemePreviewActivity.this.backgroundGradientColor2, ThemePreviewActivity.this.backgroundGradientColor3, ThemePreviewActivity.this.backgroundRotation, ThemePreviewActivity.this.currentIntensity, ThemePreviewActivity.this.isMotion, null);
                     colorWallpaper.pattern = ThemePreviewActivity.this.selectedPattern;
                     url = colorWallpaper.getUrl();
-                } else if (!BuildVars.DEBUG_PRIVATE_VERSION || (accent = Theme.getActiveTheme().getAccent(false)) == null) {
-                    return;
                 } else {
+                    if (!BuildVars.DEBUG_PRIVATE_VERSION || (accent = Theme.getActiveTheme().getAccent(false)) == null) {
+                        return;
+                    }
                     WallpapersListActivity.ColorWallpaper colorWallpaper2 = new WallpapersListActivity.ColorWallpaper(accent.patternSlug, (int) accent.backgroundOverrideColor, (int) accent.backgroundGradientOverrideColor1, (int) accent.backgroundGradientOverrideColor2, (int) accent.backgroundGradientOverrideColor3, accent.backgroundRotation, accent.patternIntensity, accent.patternMotion, null);
                     int size = ThemePreviewActivity.this.patterns.size();
                     while (true) {
@@ -502,7 +515,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         }
                     }
                 });
-            } else if (i != 6) {
+                return;
+            }
+            if (i != 6) {
                 if (i == 7 && (ThemePreviewActivity.this.currentWallpaper instanceof WallpapersListActivity.FileWallpaper) && (file = ((WallpapersListActivity.FileWallpaper) ThemePreviewActivity.this.currentWallpaper).originalPath) != null) {
                     final MediaController.PhotoEntry photoEntry = new MediaController.PhotoEntry(0, 0, 0L, file.getAbsolutePath(), 0, false, 0, 0, 0L);
                     photoEntry.isVideo = false;
@@ -519,8 +534,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
                         public void sendButtonPressed(int i3, VideoEditedInfo videoEditedInfo, boolean z, int i4, boolean z2) {
                             if (photoEntry.imagePath != null) {
-                                File directory = FileLoader.getDirectory(4);
-                                File file2 = new File(directory, Utilities.random.nextInt() + ".jpg");
+                                File file2 = new File(FileLoader.getDirectory(4), Utilities.random.nextInt() + ".jpg");
                                 Point realScreenSize = AndroidUtilities.getRealScreenSize();
                                 Bitmap loadBitmap = ImageLoader.loadBitmap(photoEntry.imagePath, null, (float) realScreenSize.x, (float) realScreenSize.y, true);
                                 try {
@@ -539,60 +553,61 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                         }
                     }, null);
+                    return;
                 }
-            } else {
-                if (SharedConfig.dayNightWallpaperSwitchHint <= 3) {
-                    SharedConfig.dayNightWallpaperSwitchHint = 10;
-                    SharedConfig.increaseDayNightWallpaperSiwtchHint();
+                return;
+            }
+            if (SharedConfig.dayNightWallpaperSwitchHint <= 3) {
+                SharedConfig.dayNightWallpaperSwitchHint = 10;
+                SharedConfig.increaseDayNightWallpaperSiwtchHint();
+            }
+            boolean isDark = ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark();
+            DayNightSwitchDelegate dayNightSwitchDelegate = ThemePreviewActivity.this.onSwitchDayNightDelegate;
+            if (dayNightSwitchDelegate != null) {
+                if (!dayNightSwitchDelegate.supportsAnimation()) {
+                    ThemePreviewActivity.this.toggleTheme();
+                    return;
                 }
-                boolean isDark = ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark();
-                DayNightSwitchDelegate dayNightSwitchDelegate = ThemePreviewActivity.this.onSwitchDayNightDelegate;
-                if (dayNightSwitchDelegate != null) {
-                    if (!dayNightSwitchDelegate.supportsAnimation()) {
-                        ThemePreviewActivity.this.toggleTheme();
-                        return;
-                    }
-                    ThemePreviewActivity.this.onSwitchDayNightDelegate.switchDayNight(true);
-                    ThemePreviewActivity.this.sunDrawable.setPlayInDirectionOfCustomEndFrame(true);
-                    if (isDark) {
-                        ThemePreviewActivity.this.sunDrawable.setCustomEndFrame(0);
+                ThemePreviewActivity.this.onSwitchDayNightDelegate.switchDayNight(true);
+                ThemePreviewActivity.this.sunDrawable.setPlayInDirectionOfCustomEndFrame(true);
+                if (isDark) {
+                    ThemePreviewActivity.this.sunDrawable.setCustomEndFrame(0);
+                } else {
+                    ThemePreviewActivity.this.sunDrawable.setCustomEndFrame(36);
+                }
+                ThemePreviewActivity.this.sunDrawable.start();
+                if (ThemePreviewActivity.this.shouldShowBrightnessControll) {
+                    DayNightSwitchDelegate dayNightSwitchDelegate2 = ThemePreviewActivity.this.onSwitchDayNightDelegate;
+                    if (dayNightSwitchDelegate2 == null || !dayNightSwitchDelegate2.isDark()) {
+                        ThemePreviewActivity.this.dimmingSlider.animateValueTo(0.0f);
                     } else {
-                        ThemePreviewActivity.this.sunDrawable.setCustomEndFrame(36);
+                        ThemePreviewActivity.this.dimmingSlider.setVisibility(0);
+                        ThemePreviewActivity.this.dimmingSlider.animateValueTo(ThemePreviewActivity.this.dimAmount);
                     }
-                    ThemePreviewActivity.this.sunDrawable.start();
-                    if (ThemePreviewActivity.this.shouldShowBrightnessControll) {
-                        DayNightSwitchDelegate dayNightSwitchDelegate2 = ThemePreviewActivity.this.onSwitchDayNightDelegate;
-                        if (dayNightSwitchDelegate2 == null || !dayNightSwitchDelegate2.isDark()) {
-                            ThemePreviewActivity.this.dimmingSlider.animateValueTo(0.0f);
-                        } else {
-                            ThemePreviewActivity.this.dimmingSlider.setVisibility(0);
-                            ThemePreviewActivity.this.dimmingSlider.animateValueTo(ThemePreviewActivity.this.dimAmount);
-                        }
-                        if (ThemePreviewActivity.this.changeDayNightViewAnimator2 != null) {
-                            ThemePreviewActivity.this.changeDayNightViewAnimator2.removeAllListeners();
-                            ThemePreviewActivity.this.changeDayNightViewAnimator2.cancel();
-                        }
-                        ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
-                        themePreviewActivity.changeDayNightViewAnimator2 = ValueAnimator.ofFloat(themePreviewActivity.progressToDarkTheme, ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark() ? 1.0f : 0.0f);
-                        ThemePreviewActivity.this.changeDayNightViewAnimator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ThemePreviewActivity$9$$ExternalSyntheticLambda0
-                            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                            public final void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                ThemePreviewActivity.9.this.lambda$onItemClick$0(valueAnimator);
-                            }
-                        });
-                        ThemePreviewActivity.this.changeDayNightViewAnimator2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.9.2
-                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                            public void onAnimationEnd(Animator animator) {
-                                if (ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark()) {
-                                    return;
-                                }
-                                ThemePreviewActivity.this.dimmingSlider.setVisibility(8);
-                            }
-                        });
-                        ThemePreviewActivity.this.changeDayNightViewAnimator2.setDuration(250L);
-                        ThemePreviewActivity.this.changeDayNightViewAnimator2.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                        ThemePreviewActivity.this.changeDayNightViewAnimator2.start();
+                    if (ThemePreviewActivity.this.changeDayNightViewAnimator2 != null) {
+                        ThemePreviewActivity.this.changeDayNightViewAnimator2.removeAllListeners();
+                        ThemePreviewActivity.this.changeDayNightViewAnimator2.cancel();
                     }
+                    ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
+                    themePreviewActivity.changeDayNightViewAnimator2 = ValueAnimator.ofFloat(themePreviewActivity.progressToDarkTheme, ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark() ? 1.0f : 0.0f);
+                    ThemePreviewActivity.this.changeDayNightViewAnimator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ThemePreviewActivity$9$$ExternalSyntheticLambda0
+                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                        public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            ThemePreviewActivity.9.this.lambda$onItemClick$0(valueAnimator);
+                        }
+                    });
+                    ThemePreviewActivity.this.changeDayNightViewAnimator2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.9.2
+                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                        public void onAnimationEnd(Animator animator) {
+                            if (ThemePreviewActivity.this.onSwitchDayNightDelegate.isDark()) {
+                                return;
+                            }
+                            ThemePreviewActivity.this.dimmingSlider.setVisibility(8);
+                        }
+                    });
+                    ThemePreviewActivity.this.changeDayNightViewAnimator2.setDuration(250L);
+                    ThemePreviewActivity.this.changeDayNightViewAnimator2.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                    ThemePreviewActivity.this.changeDayNightViewAnimator2.start();
                 }
             }
         }
@@ -647,10 +662,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
             if (ThemePreviewActivity.this.hasScrollingBackground) {
                 if (!ThemePreviewActivity.this.scroller.isFinished() && ThemePreviewActivity.this.scroller.computeScrollOffset()) {
+                    float startX = ThemePreviewActivity.this.scroller.getStartX();
                     ThemePreviewActivity themePreviewActivity = ThemePreviewActivity.this;
-                    if (ThemePreviewActivity.this.scroller.getStartX() < themePreviewActivity.maxScrollOffset && themePreviewActivity.scroller.getStartX() > 0) {
-                        ThemePreviewActivity themePreviewActivity2 = ThemePreviewActivity.this;
-                        themePreviewActivity2.currentScrollOffset = themePreviewActivity2.scroller.getCurrX();
+                    if (startX < themePreviewActivity.maxScrollOffset && themePreviewActivity.scroller.getStartX() > 0) {
+                        ThemePreviewActivity.this.currentScrollOffset = r1.scroller.getCurrX();
                     }
                     ThemePreviewActivity.this.invalidateBlur();
                     invalidate();
@@ -808,7 +823,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (Build.VERSION.SDK_INT >= 21) {
                     this.rippleDrawable.setHotspot(motionEvent.getX(), motionEvent.getY());
                 }
-                this.rippleDrawable.setState(new int[]{16842910, 16842919});
+                this.rippleDrawable.setState(new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed});
                 z = true;
             } else {
                 if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
@@ -1132,199 +1147,201 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 messageObject.eventId = 1L;
                 messageObject.resetLayout();
                 messageObject.contentType = 1;
-            } else if (ThemePreviewActivity.this.screenType == 1) {
-                TLRPC.TL_message tL_message6 = new TLRPC.TL_message();
-                TLRPC.TL_messageMediaDocument tL_messageMediaDocument = new TLRPC.TL_messageMediaDocument();
-                tL_message6.media = tL_messageMediaDocument;
-                tL_messageMediaDocument.document = new TLRPC.TL_document();
-                TLRPC.Document document = tL_message6.media.document;
-                document.mime_type = "audio/mp3";
-                document.file_reference = new byte[0];
-                document.id = -2147483648L;
-                document.size = 2621440L;
-                document.dc_id = Integer.MIN_VALUE;
-                TLRPC.TL_documentAttributeFilename tL_documentAttributeFilename = new TLRPC.TL_documentAttributeFilename();
-                tL_documentAttributeFilename.file_name = LocaleController.getString(R.string.NewThemePreviewReply2) + ".mp3";
-                tL_message6.media.document.attributes.add(tL_documentAttributeFilename);
-                int i3 = currentTimeMillis + (-3540);
-                tL_message6.date = i3;
-                tL_message6.dialog_id = 1L;
-                tL_message6.flags = NotificationCenter.voipServiceCreated;
-                TLRPC.TL_peerUser tL_peerUser5 = new TLRPC.TL_peerUser();
-                tL_message6.from_id = tL_peerUser5;
-                tL_peerUser5.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-                tL_message6.id = 1;
-                tL_message6.out = true;
-                TLRPC.TL_peerUser tL_peerUser6 = new TLRPC.TL_peerUser();
-                tL_message6.peer_id = tL_peerUser6;
-                tL_peerUser6.user_id = 0L;
-                MessageObject messageObject6 = new MessageObject(UserConfig.selectedAccount, tL_message6, true, false);
-                if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                    TLRPC.TL_message tL_message7 = new TLRPC.TL_message();
-                    tL_message7.message = "this is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text";
-                    tL_message7.date = currentTimeMillis - 2640;
-                    tL_message7.dialog_id = 1L;
-                    tL_message7.flags = NotificationCenter.voipServiceCreated;
-                    TLRPC.TL_peerUser tL_peerUser7 = new TLRPC.TL_peerUser();
-                    tL_message7.from_id = tL_peerUser7;
-                    tL_peerUser7.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-                    tL_message7.id = 1;
-                    tL_message7.media = new TLRPC.TL_messageMediaEmpty();
-                    tL_message7.out = true;
-                    TLRPC.TL_peerUser tL_peerUser8 = new TLRPC.TL_peerUser();
-                    tL_message7.peer_id = tL_peerUser8;
-                    tL_peerUser8.user_id = 0L;
-                    MessageObject messageObject7 = new MessageObject(UserConfig.selectedAccount, tL_message7, true, false);
-                    messageObject7.resetLayout();
-                    messageObject7.eventId = 1L;
-                    this.messages.add(messageObject7);
-                }
-                TLRPC.TL_message tL_message8 = new TLRPC.TL_message();
-                String string = LocaleController.getString(R.string.NewThemePreviewLine3);
-                StringBuilder sb = new StringBuilder(string);
-                int indexOf = string.indexOf(42);
-                int lastIndexOf = string.lastIndexOf(42);
-                if (indexOf != -1 && lastIndexOf != -1) {
-                    sb.replace(lastIndexOf, lastIndexOf + 1, "");
-                    sb.replace(indexOf, indexOf + 1, "");
-                    TLRPC.TL_messageEntityTextUrl tL_messageEntityTextUrl = new TLRPC.TL_messageEntityTextUrl();
-                    tL_messageEntityTextUrl.offset = indexOf;
-                    tL_messageEntityTextUrl.length = (lastIndexOf - indexOf) - 1;
-                    tL_messageEntityTextUrl.url = "https://telegram.org";
-                    tL_message8.entities.add(tL_messageEntityTextUrl);
-                }
-                tL_message8.message = sb.toString();
-                tL_message8.date = currentTimeMillis - 2640;
-                tL_message8.dialog_id = 1L;
-                tL_message8.flags = NotificationCenter.voipServiceCreated;
-                TLRPC.TL_peerUser tL_peerUser9 = new TLRPC.TL_peerUser();
-                tL_message8.from_id = tL_peerUser9;
-                tL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-                tL_message8.id = 1;
-                tL_message8.media = new TLRPC.TL_messageMediaEmpty();
-                tL_message8.out = true;
-                TLRPC.TL_peerUser tL_peerUser10 = new TLRPC.TL_peerUser();
-                tL_message8.peer_id = tL_peerUser10;
-                tL_peerUser10.user_id = 0L;
-                MessageObject messageObject8 = new MessageObject(UserConfig.selectedAccount, tL_message8, true, false);
-                messageObject8.resetLayout();
-                messageObject8.eventId = 1L;
-                this.messages.add(messageObject8);
-                TLRPC.TL_message tL_message9 = new TLRPC.TL_message();
-                tL_message9.message = LocaleController.getString(R.string.NewThemePreviewLine1);
-                tL_message9.date = i3;
-                tL_message9.dialog_id = 1L;
-                tL_message9.flags = NotificationCenter.onEmojiInteractionsReceived;
-                tL_message9.from_id = new TLRPC.TL_peerUser();
-                tL_message9.id = 1;
-                TLRPC.TL_messageReplyHeader tL_messageReplyHeader = new TLRPC.TL_messageReplyHeader();
-                tL_message9.reply_to = tL_messageReplyHeader;
-                tL_messageReplyHeader.flags |= 16;
-                tL_messageReplyHeader.reply_to_msg_id = 5;
-                tL_message9.media = new TLRPC.TL_messageMediaEmpty();
-                tL_message9.out = false;
-                TLRPC.TL_peerUser tL_peerUser11 = new TLRPC.TL_peerUser();
-                tL_message9.peer_id = tL_peerUser11;
-                tL_peerUser11.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-                MessageObject messageObject9 = new MessageObject(UserConfig.selectedAccount, tL_message9, true, false);
-                messageObject9.customReplyName = LocaleController.getString(R.string.NewThemePreviewName);
-                messageObject8.customReplyName = "Test User";
-                messageObject9.eventId = 1L;
-                messageObject9.resetLayout();
-                messageObject9.replyMessageObject = messageObject6;
-                messageObject8.replyMessageObject = messageObject9;
-                this.messages.add(messageObject9);
-                this.messages.add(messageObject6);
-                TLRPC.TL_message tL_message10 = new TLRPC.TL_message();
-                tL_message10.date = currentTimeMillis - 3480;
-                tL_message10.dialog_id = 1L;
-                tL_message10.flags = NotificationCenter.voipServiceCreated;
-                tL_message10.out = false;
-                tL_message10.from_id = new TLRPC.TL_peerUser();
-                tL_message10.id = 1;
-                TLRPC.TL_messageMediaDocument tL_messageMediaDocument2 = new TLRPC.TL_messageMediaDocument();
-                tL_message10.media = tL_messageMediaDocument2;
-                tL_messageMediaDocument2.flags |= 3;
-                tL_messageMediaDocument2.document = new TLRPC.TL_document();
-                TLRPC.Document document2 = tL_message10.media.document;
-                document2.mime_type = "audio/ogg";
-                document2.file_reference = new byte[0];
-                TLRPC.TL_documentAttributeAudio tL_documentAttributeAudio = new TLRPC.TL_documentAttributeAudio();
-                tL_documentAttributeAudio.flags = 1028;
-                tL_documentAttributeAudio.duration = 3.0d;
-                tL_documentAttributeAudio.voice = true;
-                tL_documentAttributeAudio.waveform = new byte[]{0, 4, 17, -50, -93, 86, -103, -45, -12, -26, 63, -25, -3, 109, -114, -54, -4, -1, -1, -1, -1, -29, -1, -1, -25, -1, -1, -97, -43, 57, -57, -108, 1, -91, -4, -47, 21, 99, 10, 97, 43, 45, 115, -112, -77, 51, -63, 66, 40, 34, -122, -116, 48, -124, 16, 66, -120, 16, 68, 16, 33, 4, 1};
-                tL_message10.media.document.attributes.add(tL_documentAttributeAudio);
-                tL_message10.out = true;
-                TLRPC.TL_peerUser tL_peerUser12 = new TLRPC.TL_peerUser();
-                tL_message10.peer_id = tL_peerUser12;
-                tL_peerUser12.user_id = 0L;
-                MessageObject messageObject10 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message10, true, false);
-                messageObject10.audioProgressSec = 1;
-                messageObject10.audioProgress = 0.3f;
-                messageObject10.useCustomPhoto = true;
-                this.messages.add(messageObject10);
-                return;
-            } else if (this.showSecretMessages) {
-                TLRPC.TL_user tL_user = new TLRPC.TL_user();
-                tL_user.id = 2147483647L;
-                tL_user.first_name = "Me";
-                TLRPC.TL_user tL_user2 = new TLRPC.TL_user();
-                tL_user2.id = 2147483646L;
-                tL_user2.first_name = "Serj";
-                ArrayList<TLRPC.User> arrayList2 = new ArrayList<>();
-                arrayList2.add(tL_user);
-                arrayList2.add(tL_user2);
-                MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).putUsers(arrayList2, true);
-                TLRPC.TL_message tL_message11 = new TLRPC.TL_message();
-                tL_message11.message = "Guess why Half-Life 3 was never released.";
-                int i4 = currentTimeMillis - 2640;
-                tL_message11.date = i4;
-                tL_message11.dialog_id = -1L;
-                tL_message11.flags = NotificationCenter.voipServiceCreated;
-                tL_message11.id = 2147483646;
-                tL_message11.media = new TLRPC.TL_messageMediaEmpty();
-                tL_message11.out = false;
-                TLRPC.TL_peerChat tL_peerChat = new TLRPC.TL_peerChat();
-                tL_message11.peer_id = tL_peerChat;
-                tL_peerChat.chat_id = 1L;
-                TLRPC.TL_peerUser tL_peerUser13 = new TLRPC.TL_peerUser();
-                tL_message11.from_id = tL_peerUser13;
-                tL_peerUser13.user_id = tL_user2.id;
-                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message11, true, false));
-                TLRPC.TL_message tL_message12 = new TLRPC.TL_message();
-                tL_message12.message = "No.\nAnd every unnecessary ping of the dev delays the release for 10 days.\nEvery request for ETA delays the release for 2 weeks.";
-                tL_message12.date = i4;
-                tL_message12.dialog_id = -1L;
-                tL_message12.flags = NotificationCenter.voipServiceCreated;
-                tL_message12.id = 1;
-                tL_message12.media = new TLRPC.TL_messageMediaEmpty();
-                tL_message12.out = false;
-                TLRPC.TL_peerChat tL_peerChat2 = new TLRPC.TL_peerChat();
-                tL_message12.peer_id = tL_peerChat2;
-                tL_peerChat2.chat_id = 1L;
-                TLRPC.TL_peerUser tL_peerUser14 = new TLRPC.TL_peerUser();
-                tL_message12.from_id = tL_peerUser14;
-                tL_peerUser14.user_id = tL_user2.id;
-                this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message12, true, false));
-                TLRPC.TL_message tL_message13 = new TLRPC.TL_message();
-                tL_message13.message = "Is source code for Android coming anytime soon?";
-                tL_message13.date = currentTimeMillis - 3000;
-                tL_message13.dialog_id = -1L;
-                tL_message13.flags = NotificationCenter.voipServiceCreated;
-                tL_message13.id = 1;
-                tL_message13.media = new TLRPC.TL_messageMediaEmpty();
-                tL_message13.out = false;
-                TLRPC.TL_peerChat tL_peerChat3 = new TLRPC.TL_peerChat();
-                tL_message13.peer_id = tL_peerChat3;
-                tL_peerChat3.chat_id = 1L;
-                TLRPC.TL_peerUser tL_peerUser15 = new TLRPC.TL_peerUser();
-                tL_message13.from_id = tL_peerUser15;
-                tL_peerUser15.user_id = tL_user.id;
-                arrayList = this.messages;
-                messageObject = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message13, true, false);
-                arrayList.add(messageObject);
             } else {
+                if (ThemePreviewActivity.this.screenType == 1) {
+                    TLRPC.TL_message tL_message6 = new TLRPC.TL_message();
+                    TLRPC.TL_messageMediaDocument tL_messageMediaDocument = new TLRPC.TL_messageMediaDocument();
+                    tL_message6.media = tL_messageMediaDocument;
+                    tL_messageMediaDocument.document = new TLRPC.TL_document();
+                    TLRPC.Document document = tL_message6.media.document;
+                    document.mime_type = "audio/mp3";
+                    document.file_reference = new byte[0];
+                    document.id = -2147483648L;
+                    document.size = 2621440L;
+                    document.dc_id = Integer.MIN_VALUE;
+                    TLRPC.TL_documentAttributeFilename tL_documentAttributeFilename = new TLRPC.TL_documentAttributeFilename();
+                    tL_documentAttributeFilename.file_name = LocaleController.getString(R.string.NewThemePreviewReply2) + ".mp3";
+                    tL_message6.media.document.attributes.add(tL_documentAttributeFilename);
+                    int i3 = currentTimeMillis + (-3540);
+                    tL_message6.date = i3;
+                    tL_message6.dialog_id = 1L;
+                    tL_message6.flags = NotificationCenter.voipServiceCreated;
+                    TLRPC.TL_peerUser tL_peerUser5 = new TLRPC.TL_peerUser();
+                    tL_message6.from_id = tL_peerUser5;
+                    tL_peerUser5.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                    tL_message6.id = 1;
+                    tL_message6.out = true;
+                    TLRPC.TL_peerUser tL_peerUser6 = new TLRPC.TL_peerUser();
+                    tL_message6.peer_id = tL_peerUser6;
+                    tL_peerUser6.user_id = 0L;
+                    MessageObject messageObject6 = new MessageObject(UserConfig.selectedAccount, tL_message6, true, false);
+                    if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                        TLRPC.TL_message tL_message7 = new TLRPC.TL_message();
+                        tL_message7.message = "this is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text\nthis is very very long text";
+                        tL_message7.date = currentTimeMillis - 2640;
+                        tL_message7.dialog_id = 1L;
+                        tL_message7.flags = NotificationCenter.voipServiceCreated;
+                        TLRPC.TL_peerUser tL_peerUser7 = new TLRPC.TL_peerUser();
+                        tL_message7.from_id = tL_peerUser7;
+                        tL_peerUser7.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                        tL_message7.id = 1;
+                        tL_message7.media = new TLRPC.TL_messageMediaEmpty();
+                        tL_message7.out = true;
+                        TLRPC.TL_peerUser tL_peerUser8 = new TLRPC.TL_peerUser();
+                        tL_message7.peer_id = tL_peerUser8;
+                        tL_peerUser8.user_id = 0L;
+                        MessageObject messageObject7 = new MessageObject(UserConfig.selectedAccount, tL_message7, true, false);
+                        messageObject7.resetLayout();
+                        messageObject7.eventId = 1L;
+                        this.messages.add(messageObject7);
+                    }
+                    TLRPC.TL_message tL_message8 = new TLRPC.TL_message();
+                    String string = LocaleController.getString(R.string.NewThemePreviewLine3);
+                    StringBuilder sb = new StringBuilder(string);
+                    int indexOf = string.indexOf(42);
+                    int lastIndexOf = string.lastIndexOf(42);
+                    if (indexOf != -1 && lastIndexOf != -1) {
+                        sb.replace(lastIndexOf, lastIndexOf + 1, "");
+                        sb.replace(indexOf, indexOf + 1, "");
+                        TLRPC.TL_messageEntityTextUrl tL_messageEntityTextUrl = new TLRPC.TL_messageEntityTextUrl();
+                        tL_messageEntityTextUrl.offset = indexOf;
+                        tL_messageEntityTextUrl.length = (lastIndexOf - indexOf) - 1;
+                        tL_messageEntityTextUrl.url = "https://telegram.org";
+                        tL_message8.entities.add(tL_messageEntityTextUrl);
+                    }
+                    tL_message8.message = sb.toString();
+                    tL_message8.date = currentTimeMillis - 2640;
+                    tL_message8.dialog_id = 1L;
+                    tL_message8.flags = NotificationCenter.voipServiceCreated;
+                    TLRPC.TL_peerUser tL_peerUser9 = new TLRPC.TL_peerUser();
+                    tL_message8.from_id = tL_peerUser9;
+                    tL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                    tL_message8.id = 1;
+                    tL_message8.media = new TLRPC.TL_messageMediaEmpty();
+                    tL_message8.out = true;
+                    TLRPC.TL_peerUser tL_peerUser10 = new TLRPC.TL_peerUser();
+                    tL_message8.peer_id = tL_peerUser10;
+                    tL_peerUser10.user_id = 0L;
+                    MessageObject messageObject8 = new MessageObject(UserConfig.selectedAccount, tL_message8, true, false);
+                    messageObject8.resetLayout();
+                    messageObject8.eventId = 1L;
+                    this.messages.add(messageObject8);
+                    TLRPC.TL_message tL_message9 = new TLRPC.TL_message();
+                    tL_message9.message = LocaleController.getString(R.string.NewThemePreviewLine1);
+                    tL_message9.date = i3;
+                    tL_message9.dialog_id = 1L;
+                    tL_message9.flags = NotificationCenter.onEmojiInteractionsReceived;
+                    tL_message9.from_id = new TLRPC.TL_peerUser();
+                    tL_message9.id = 1;
+                    TLRPC.TL_messageReplyHeader tL_messageReplyHeader = new TLRPC.TL_messageReplyHeader();
+                    tL_message9.reply_to = tL_messageReplyHeader;
+                    tL_messageReplyHeader.flags |= 16;
+                    tL_messageReplyHeader.reply_to_msg_id = 5;
+                    tL_message9.media = new TLRPC.TL_messageMediaEmpty();
+                    tL_message9.out = false;
+                    TLRPC.TL_peerUser tL_peerUser11 = new TLRPC.TL_peerUser();
+                    tL_message9.peer_id = tL_peerUser11;
+                    tL_peerUser11.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+                    MessageObject messageObject9 = new MessageObject(UserConfig.selectedAccount, tL_message9, true, false);
+                    messageObject9.customReplyName = LocaleController.getString(R.string.NewThemePreviewName);
+                    messageObject8.customReplyName = "Test User";
+                    messageObject9.eventId = 1L;
+                    messageObject9.resetLayout();
+                    messageObject9.replyMessageObject = messageObject6;
+                    messageObject8.replyMessageObject = messageObject9;
+                    this.messages.add(messageObject9);
+                    this.messages.add(messageObject6);
+                    TLRPC.TL_message tL_message10 = new TLRPC.TL_message();
+                    tL_message10.date = currentTimeMillis - 3480;
+                    tL_message10.dialog_id = 1L;
+                    tL_message10.flags = NotificationCenter.voipServiceCreated;
+                    tL_message10.out = false;
+                    tL_message10.from_id = new TLRPC.TL_peerUser();
+                    tL_message10.id = 1;
+                    TLRPC.TL_messageMediaDocument tL_messageMediaDocument2 = new TLRPC.TL_messageMediaDocument();
+                    tL_message10.media = tL_messageMediaDocument2;
+                    tL_messageMediaDocument2.flags |= 3;
+                    tL_messageMediaDocument2.document = new TLRPC.TL_document();
+                    TLRPC.Document document2 = tL_message10.media.document;
+                    document2.mime_type = "audio/ogg";
+                    document2.file_reference = new byte[0];
+                    TLRPC.TL_documentAttributeAudio tL_documentAttributeAudio = new TLRPC.TL_documentAttributeAudio();
+                    tL_documentAttributeAudio.flags = 1028;
+                    tL_documentAttributeAudio.duration = 3.0d;
+                    tL_documentAttributeAudio.voice = true;
+                    tL_documentAttributeAudio.waveform = new byte[]{0, 4, 17, -50, -93, 86, -103, -45, -12, -26, 63, -25, -3, 109, -114, -54, -4, -1, -1, -1, -1, -29, -1, -1, -25, -1, -1, -97, -43, 57, -57, -108, 1, -91, -4, -47, 21, 99, 10, 97, 43, 45, 115, -112, -77, 51, -63, 66, 40, 34, -122, -116, 48, -124, 16, 66, -120, 16, 68, 16, 33, 4, 1};
+                    tL_message10.media.document.attributes.add(tL_documentAttributeAudio);
+                    tL_message10.out = true;
+                    TLRPC.TL_peerUser tL_peerUser12 = new TLRPC.TL_peerUser();
+                    tL_message10.peer_id = tL_peerUser12;
+                    tL_peerUser12.user_id = 0L;
+                    MessageObject messageObject10 = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message10, true, false);
+                    messageObject10.audioProgressSec = 1;
+                    messageObject10.audioProgress = 0.3f;
+                    messageObject10.useCustomPhoto = true;
+                    this.messages.add(messageObject10);
+                    return;
+                }
+                if (this.showSecretMessages) {
+                    TLRPC.TL_user tL_user = new TLRPC.TL_user();
+                    tL_user.id = 2147483647L;
+                    tL_user.first_name = "Me";
+                    TLRPC.TL_user tL_user2 = new TLRPC.TL_user();
+                    tL_user2.id = 2147483646L;
+                    tL_user2.first_name = "Serj";
+                    ArrayList<TLRPC.User> arrayList2 = new ArrayList<>();
+                    arrayList2.add(tL_user);
+                    arrayList2.add(tL_user2);
+                    MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).putUsers(arrayList2, true);
+                    TLRPC.TL_message tL_message11 = new TLRPC.TL_message();
+                    tL_message11.message = "Guess why Half-Life 3 was never released.";
+                    int i4 = currentTimeMillis - 2640;
+                    tL_message11.date = i4;
+                    tL_message11.dialog_id = -1L;
+                    tL_message11.flags = NotificationCenter.voipServiceCreated;
+                    tL_message11.id = 2147483646;
+                    tL_message11.media = new TLRPC.TL_messageMediaEmpty();
+                    tL_message11.out = false;
+                    TLRPC.TL_peerChat tL_peerChat = new TLRPC.TL_peerChat();
+                    tL_message11.peer_id = tL_peerChat;
+                    tL_peerChat.chat_id = 1L;
+                    TLRPC.TL_peerUser tL_peerUser13 = new TLRPC.TL_peerUser();
+                    tL_message11.from_id = tL_peerUser13;
+                    tL_peerUser13.user_id = tL_user2.id;
+                    this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message11, true, false));
+                    TLRPC.TL_message tL_message12 = new TLRPC.TL_message();
+                    tL_message12.message = "No.\nAnd every unnecessary ping of the dev delays the release for 10 days.\nEvery request for ETA delays the release for 2 weeks.";
+                    tL_message12.date = i4;
+                    tL_message12.dialog_id = -1L;
+                    tL_message12.flags = NotificationCenter.voipServiceCreated;
+                    tL_message12.id = 1;
+                    tL_message12.media = new TLRPC.TL_messageMediaEmpty();
+                    tL_message12.out = false;
+                    TLRPC.TL_peerChat tL_peerChat2 = new TLRPC.TL_peerChat();
+                    tL_message12.peer_id = tL_peerChat2;
+                    tL_peerChat2.chat_id = 1L;
+                    TLRPC.TL_peerUser tL_peerUser14 = new TLRPC.TL_peerUser();
+                    tL_message12.from_id = tL_peerUser14;
+                    tL_peerUser14.user_id = tL_user2.id;
+                    this.messages.add(new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message12, true, false));
+                    TLRPC.TL_message tL_message13 = new TLRPC.TL_message();
+                    tL_message13.message = "Is source code for Android coming anytime soon?";
+                    tL_message13.date = currentTimeMillis - 3000;
+                    tL_message13.dialog_id = -1L;
+                    tL_message13.flags = NotificationCenter.voipServiceCreated;
+                    tL_message13.id = 1;
+                    tL_message13.media = new TLRPC.TL_messageMediaEmpty();
+                    tL_message13.out = false;
+                    TLRPC.TL_peerChat tL_peerChat3 = new TLRPC.TL_peerChat();
+                    tL_message13.peer_id = tL_peerChat3;
+                    tL_peerChat3.chat_id = 1L;
+                    TLRPC.TL_peerUser tL_peerUser15 = new TLRPC.TL_peerUser();
+                    tL_message13.from_id = tL_peerUser15;
+                    tL_peerUser15.user_id = tL_user.id;
+                    arrayList = this.messages;
+                    messageObject = new MessageObject(((BaseFragment) ThemePreviewActivity.this).currentAccount, tL_message13, true, false);
+                    arrayList.add(messageObject);
+                }
                 TLRPC.TL_message tL_message14 = new TLRPC.TL_message();
                 tL_message14.message = LocaleController.getString(R.string.ThemePreviewLine1);
                 int i5 = currentTimeMillis - 3540;
@@ -1466,18 +1483,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
 
         private boolean hasButtons() {
-            if (ThemePreviewActivity.this.messagesButtonsContainer == null || ThemePreviewActivity.this.screenType != 1 || ThemePreviewActivity.this.colorType != 3 || ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2 == 0) {
-                if (ThemePreviewActivity.this.backgroundButtonsContainer != null) {
-                    if (ThemePreviewActivity.this.screenType == 2) {
-                        return true;
-                    }
-                    if (ThemePreviewActivity.this.screenType == 1 && ThemePreviewActivity.this.colorType == 2) {
-                        return true;
-                    }
-                }
-                return false;
+            if (ThemePreviewActivity.this.messagesButtonsContainer != null && ThemePreviewActivity.this.screenType == 1 && ThemePreviewActivity.this.colorType == 3 && ThemePreviewActivity.this.accent.myMessagesGradientAccentColor2 != 0) {
+                return true;
             }
-            return true;
+            if (ThemePreviewActivity.this.backgroundButtonsContainer != null) {
+                if (ThemePreviewActivity.this.screenType == 2) {
+                    return true;
+                }
+                if (ThemePreviewActivity.this.screenType == 1 && ThemePreviewActivity.this.colorType == 2) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1505,7 +1522,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             return false;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:35:0x00a3  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x00a3  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1534,7 +1551,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 return;
             }
             ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-            boolean z3 = false;
             chatMessageCell.isChat = false;
             int i2 = i - 1;
             int itemViewType2 = getItemViewType(i2);
@@ -1548,13 +1564,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         messageObject = (MessageObject) this.messages.get(i3);
                         if (!(messageObject.messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup) && messageObject.isOutOwner() == messageObject2.isOutOwner() && Math.abs(messageObject.messageOwner.date - messageObject2.messageOwner.date) <= 300) {
                             z2 = true;
-                            chatMessageCell.isChat = (!this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0) ? true : true;
+                            chatMessageCell.isChat = !this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0;
                             chatMessageCell.setFullyDraw(true);
                             chatMessageCell.setMessageObject(messageObject2, null, z, z2);
                         }
                     }
                     z2 = false;
-                    chatMessageCell.isChat = (!this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0) ? true : true;
+                    chatMessageCell.isChat = !this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0;
                     chatMessageCell.setFullyDraw(true);
                     chatMessageCell.setMessageObject(messageObject2, null, z, z2);
                 }
@@ -1564,13 +1580,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 messageObject = (MessageObject) this.messages.get(i3);
                 if (!(messageObject.messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup)) {
                     z2 = true;
-                    chatMessageCell.isChat = (!this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0) ? true : true;
+                    chatMessageCell.isChat = !this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0;
                     chatMessageCell.setFullyDraw(true);
                     chatMessageCell.setMessageObject(messageObject2, null, z, z2);
                 }
             }
             z2 = false;
-            chatMessageCell.isChat = (!this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0) ? true : true;
+            chatMessageCell.isChat = !this.showSecretMessages || ThemePreviewActivity.this.dialogId < 0;
             chatMessageCell.setFullyDraw(true);
             chatMessageCell.setMessageObject(messageObject2, null, z, z2);
         }
@@ -2560,21 +2576,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.gestureDetector2 = new GestureDetector2(getContext(), new GestureDetector2.OnGestureListener() { // from class: org.telegram.ui.ThemePreviewActivity.2
             @Override // org.telegram.ui.Components.GestureDetector2.OnGestureListener
             public boolean onDown(MotionEvent motionEvent) {
-                if (ThemePreviewActivity.this.scroller != null) {
-                    ThemePreviewActivity.this.scroller.abortAnimation();
+                if (ThemePreviewActivity.this.scroller == null) {
                     return true;
                 }
+                ThemePreviewActivity.this.scroller.abortAnimation();
                 return true;
             }
 
             @Override // org.telegram.ui.Components.GestureDetector2.OnGestureListener
             public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-                if (ThemePreviewActivity.this.scroller != null) {
-                    ThemePreviewActivity.this.scroller.abortAnimation();
-                    ThemePreviewActivity.this.scroller.fling((int) ThemePreviewActivity.this.currentScrollOffset, 0, Math.round(-f), Math.round(f2), 0, (int) ThemePreviewActivity.this.maxScrollOffset, 0, ConnectionsManager.DEFAULT_DATACENTER_ID);
-                    ThemePreviewActivity.this.backgroundImage.postInvalidate();
+                if (ThemePreviewActivity.this.scroller == null) {
                     return true;
                 }
+                ThemePreviewActivity.this.scroller.abortAnimation();
+                ThemePreviewActivity.this.scroller.fling((int) ThemePreviewActivity.this.currentScrollOffset, 0, Math.round(-f), Math.round(f2), 0, (int) ThemePreviewActivity.this.maxScrollOffset, 0, ConnectionsManager.DEFAULT_DATACENTER_ID);
+                ThemePreviewActivity.this.backgroundImage.postInvalidate();
                 return true;
             }
 
@@ -2677,21 +2693,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.gestureDetector2 = new GestureDetector2(getContext(), new GestureDetector2.OnGestureListener() { // from class: org.telegram.ui.ThemePreviewActivity.2
             @Override // org.telegram.ui.Components.GestureDetector2.OnGestureListener
             public boolean onDown(MotionEvent motionEvent) {
-                if (ThemePreviewActivity.this.scroller != null) {
-                    ThemePreviewActivity.this.scroller.abortAnimation();
+                if (ThemePreviewActivity.this.scroller == null) {
                     return true;
                 }
+                ThemePreviewActivity.this.scroller.abortAnimation();
                 return true;
             }
 
             @Override // org.telegram.ui.Components.GestureDetector2.OnGestureListener
             public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-                if (ThemePreviewActivity.this.scroller != null) {
-                    ThemePreviewActivity.this.scroller.abortAnimation();
-                    ThemePreviewActivity.this.scroller.fling((int) ThemePreviewActivity.this.currentScrollOffset, 0, Math.round(-f), Math.round(f2), 0, (int) ThemePreviewActivity.this.maxScrollOffset, 0, ConnectionsManager.DEFAULT_DATACENTER_ID);
-                    ThemePreviewActivity.this.backgroundImage.postInvalidate();
+                if (ThemePreviewActivity.this.scroller == null) {
                     return true;
                 }
+                ThemePreviewActivity.this.scroller.abortAnimation();
+                ThemePreviewActivity.this.scroller.fling((int) ThemePreviewActivity.this.currentScrollOffset, 0, Math.round(-f), Math.round(f2), 0, (int) ThemePreviewActivity.this.maxScrollOffset, 0, ConnectionsManager.DEFAULT_DATACENTER_ID);
+                ThemePreviewActivity.this.backgroundImage.postInvalidate();
                 return true;
             }
 
@@ -2784,9 +2800,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.motionAnimation = animatorSet2;
         if (this.isMotion) {
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.backgroundImage, View.SCALE_X, this.parallaxScale), ObjectAnimator.ofFloat(this.backgroundImage, View.SCALE_Y, this.parallaxScale));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.backgroundImage, (Property<BackgroundView, Float>) View.SCALE_X, this.parallaxScale), ObjectAnimator.ofFloat(this.backgroundImage, (Property<BackgroundView, Float>) View.SCALE_Y, this.parallaxScale));
         } else {
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.backgroundImage, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.backgroundImage, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.backgroundImage, View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this.backgroundImage, View.TRANSLATION_Y, 0.0f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.backgroundImage, (Property<BackgroundView, Float>) View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.backgroundImage, (Property<BackgroundView, Float>) View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.backgroundImage, (Property<BackgroundView, Float>) View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this.backgroundImage, (Property<BackgroundView, Float>) View.TRANSLATION_Y, 0.0f));
         }
         this.motionAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         this.motionAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.37
@@ -2798,9 +2814,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         this.motionAnimation.start();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:55:0x00d5 A[LOOP:0: B:54:0x00d3->B:55:0x00d5, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00f9  */
-    /* JADX WARN: Removed duplicated region for block: B:61:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x00f9  */
+    /* JADX WARN: Removed duplicated region for block: B:14:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x00d5 A[LOOP:0: B:6:0x00d3->B:7:0x00d5, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2831,7 +2847,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 return;
             }
             return;
-        } else if (i4 == 2) {
+        }
+        if (i4 == 2) {
             if (this.lastPickedColorNum == 0) {
                 this.accent.backgroundOverrideColor = i;
             } else if (i2 == 1) {
@@ -2905,55 +2922,63 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:146:0x033b, code lost:
-        if (r7 >= 0.0f) goto L48;
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x033b, code lost:
+    
+        if (r7 >= 0.0f) goto L147;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0287  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0298  */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x0336  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x0349  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x03bb  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x03d5  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x03ed  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x0573  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x0579  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x0216 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x025a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:251:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00b7  */
-    /* JADX WARN: Type inference failed for: r10v13 */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0579  */
+    /* JADX WARN: Removed duplicated region for block: B:120:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x0573  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x0298  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x025a A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x0216 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0287  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0336  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0349  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x03bb  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x03d5  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x03ed  */
+    /* JADX WARN: Type inference failed for: r10v23 */
+    /* JADX WARN: Type inference failed for: r10v24, types: [java.io.File] */
+    /* JADX WARN: Type inference failed for: r10v40 */
+    /* JADX WARN: Type inference failed for: r10v41 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void applyWallpaperBackground(boolean z) {
-        File file;
+        TLRPC.TL_wallPaper tL_wallPaper;
         boolean copyFile;
-        File file2;
+        TLRPC.TL_wallPaper tL_wallPaper2;
         boolean z2;
-        File file3;
-        File file4;
-        File file5;
-        File file6;
-        File file7;
+        TLRPC.TL_wallPaper tL_wallPaper3;
+        File file;
+        TLRPC.TL_wallPaper tL_wallPaper4;
+        TLRPC.TL_wallPaper tL_wallPaper5;
+        TLRPC.TL_wallPaper tL_wallPaper6;
         Object obj;
         boolean z3;
-        File file8;
+        File file2;
         String str;
         int i;
         int i2;
+        File file3;
         File pathToAttach;
         int i3;
         int i4;
-        File file9;
+        TLRPC.TL_wallPaper tL_wallPaper7;
+        File file4;
         Theme.OverrideWallpaperInfo overrideWallpaperInfo;
         float f;
         Object obj2;
         long j;
-        TLRPC.WallPaper wallPaper;
+        TLRPC.TL_wallPaper tL_wallPaper8;
         boolean z4;
         float f2;
         TLRPC.UserFull userFull;
+        TLRPC.TL_wallPaper tL_wallPaper9;
+        TLRPC.TL_wallPaper tL_wallPaper10;
         int i5 = 0;
         if (this.dialogId < 0) {
             TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus = this.boostsStatus;
@@ -2976,7 +3001,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
         String generateWallpaperName = activeTheme.generateWallpaperName(null, this.isBlurred);
         String generateWallpaperName2 = this.isBlurred ? activeTheme.generateWallpaperName(null, false) : generateWallpaperName;
-        File file10 = new File(ApplicationLoader.getFilesDirFixed(), generateWallpaperName);
+        File file5 = new File(ApplicationLoader.getFilesDirFixed(), generateWallpaperName);
         Object obj3 = this.currentWallpaper;
         if (obj3 instanceof TLRPC.TL_wallPaper) {
             try {
@@ -2984,28 +3009,30 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 FileLog.e(e);
             }
             if (this.originalBitmap != null) {
-                FileOutputStream fileOutputStream = new FileOutputStream(file10);
+                FileOutputStream fileOutputStream = new FileOutputStream(file5);
                 this.originalBitmap.compress(Bitmap.CompressFormat.JPEG, 87, fileOutputStream);
                 fileOutputStream.close();
             } else {
                 ImageReceiver imageReceiver = this.backgroundImage.getImageReceiver();
                 if (imageReceiver.hasNotThumb() || imageReceiver.hasStaticThumb()) {
                     Bitmap bitmap = imageReceiver.getBitmap();
-                    FileOutputStream fileOutputStream2 = new FileOutputStream(file10);
+                    FileOutputStream fileOutputStream2 = new FileOutputStream(file5);
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 87, fileOutputStream2);
                     fileOutputStream2.close();
                 }
                 copyFile = false;
                 if (!copyFile) {
                     try {
-                        copyFile = AndroidUtilities.copyFile(FileLoader.getInstance(this.currentAccount).getPathToAttach(((TLRPC.TL_wallPaper) this.currentWallpaper).document, true), file10);
+                        copyFile = AndroidUtilities.copyFile(FileLoader.getInstance(this.currentAccount).getPathToAttach(((TLRPC.TL_wallPaper) this.currentWallpaper).document, true), file5);
                     } catch (Exception e2) {
                         e = e2;
-                        file = null;
+                        tL_wallPaper10 = null;
                         FileLog.e(e);
+                        tL_wallPaper = tL_wallPaper10;
                         copyFile = false;
+                        tL_wallPaper9 = tL_wallPaper;
                         z2 = false;
-                        file7 = file;
+                        tL_wallPaper6 = tL_wallPaper9;
                         if (this.isBlurred) {
                         }
                         obj = this.currentWallpaper;
@@ -3015,6 +3042,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         i2 = 45;
                         i3 = 0;
                         i4 = 0;
+                        file4 = tL_wallPaper6;
                         overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
                         overrideWallpaperInfo.fileName = generateWallpaperName2;
                         overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3038,21 +3066,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (j != 0) {
                         }
                         overrideWallpaperInfo.forBoth = z;
-                        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+                        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                         if (copyFile) {
                         }
-                        wallPaper = file9;
+                        tL_wallPaper8 = tL_wallPaper7;
                         z4 = true;
                         if (z4) {
                         }
                     }
                 }
-                file = null;
+                tL_wallPaper9 = null;
             }
             copyFile = true;
             if (!copyFile) {
             }
-            file = null;
+            tL_wallPaper9 = null;
         } else {
             if (obj3 instanceof WallpapersListActivity.ColorWallpaper) {
                 if (this.selectedPattern != null) {
@@ -3073,7 +3101,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         paint.setColorFilter(new PorterDuffColorFilter(this.patternColor, this.blendMode));
                         paint.setAlpha((int) (Math.abs(this.currentIntensity) * 255.0f));
                         canvas.drawBitmap(bitmap2, 0.0f, 0.0f, paint);
-                        FileOutputStream fileOutputStream3 = new FileOutputStream(file10);
+                        FileOutputStream fileOutputStream3 = new FileOutputStream(file5);
                         if (this.backgroundGradientColor2 != 0) {
                             createBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream3);
                         } else {
@@ -3084,14 +3112,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         FileLog.e(th);
                         copyFile = false;
                         z2 = false;
-                        file7 = 0;
+                        tL_wallPaper6 = null;
                     }
                 } else {
-                    file5 = null;
+                    tL_wallPaper4 = null;
                     z2 = false;
-                    file6 = file5;
+                    tL_wallPaper5 = tL_wallPaper4;
                     copyFile = true;
-                    file7 = file6;
+                    tL_wallPaper6 = tL_wallPaper5;
                     if (this.isBlurred) {
                         try {
                             FileOutputStream fileOutputStream4 = new FileOutputStream(new File(ApplicationLoader.getFilesDirFixed(), generateWallpaperName2));
@@ -3117,44 +3145,46 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 str = "";
                             } else {
                                 z3 = z2;
-                                file8 = file10;
+                                file2 = file5;
                                 str = "d";
                                 i = 0;
                                 i2 = 45;
                                 i5 = 0;
-                                file7 = null;
+                                file3 = null;
                                 i3 = 0;
                                 i4 = 0;
-                                file9 = null;
+                                tL_wallPaper7 = null;
+                                file4 = file3;
                             }
-                            file7 = pathToAttach;
+                            file3 = pathToAttach;
                             z3 = z2;
-                            file8 = file10;
+                            file2 = file5;
                             i = 0;
                             i2 = 45;
                             i5 = 0;
                             i3 = 0;
                             i4 = 0;
-                            file9 = null;
+                            tL_wallPaper7 = null;
+                            file4 = file3;
                         } else if ("d".equals(((WallpapersListActivity.ColorWallpaper) obj).slug)) {
                             z3 = z2;
-                            file9 = file7;
-                            file8 = file10;
+                            tL_wallPaper7 = tL_wallPaper6;
+                            file2 = file5;
                             str = "d";
                         } else {
-                            TLRPC.TL_wallPaper tL_wallPaper = this.selectedPattern;
-                            str = tL_wallPaper != null ? tL_wallPaper.slug : "c";
+                            TLRPC.TL_wallPaper tL_wallPaper11 = this.selectedPattern;
+                            str = tL_wallPaper11 != null ? tL_wallPaper11.slug : "c";
                             i = this.backgroundColor;
                             i4 = this.backgroundGradientColor1;
                             int i6 = this.backgroundGradientColor2;
                             int i7 = this.backgroundGradientColor3;
                             i2 = this.backgroundRotation;
                             z3 = z2;
-                            file8 = file10;
-                            file9 = null;
+                            file2 = file5;
+                            tL_wallPaper7 = null;
                             i3 = i7;
                             i5 = i6;
-                            file7 = null;
+                            file4 = 0;
                         }
                         overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
                         overrideWallpaperInfo.fileName = generateWallpaperName2;
@@ -3181,9 +3211,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 f3 *= -1.0f;
                             }
                             if (colorWallpaper.parentWallpaper != null && colorWallpaper.color == i && colorWallpaper.gradientColor1 == i4 && colorWallpaper.gradientColor2 == i5 && colorWallpaper.gradientColor3 == i3 && TextUtils.equals(colorWallpaper.slug, str2) && colorWallpaper.gradientRotation == i2 && (this.selectedPattern == null || Math.abs(f3 - this.currentIntensity) < 0.001f)) {
-                                TLRPC.WallPaper wallPaper2 = colorWallpaper.parentWallpaper;
-                                overrideWallpaperInfo.wallpaperId = wallPaper2.id;
-                                overrideWallpaperInfo.accessHash = wallPaper2.access_hash;
+                                TLRPC.WallPaper wallPaper = colorWallpaper.parentWallpaper;
+                                overrideWallpaperInfo.wallpaperId = wallPaper.id;
+                                overrideWallpaperInfo.accessHash = wallPaper.access_hash;
                             }
                         }
                         j = this.dialogId;
@@ -3192,10 +3222,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             overrideWallpaperInfo.prevUserWallpaper = userFull.wallpaper;
                         }
                         overrideWallpaperInfo.forBoth = z;
-                        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+                        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                         if (copyFile) {
                             if (this.dialogId != 0) {
-                                if (file7 == null || getMessagesController().uploadingWallpaperInfo != overrideWallpaperInfo) {
+                                if (file4 == 0 || getMessagesController().uploadingWallpaperInfo != overrideWallpaperInfo) {
                                     z4 = false;
                                     ChatThemeController.getInstance(this.currentAccount).setWallpaperToPeer(this.dialogId, null, overrideWallpaperInfo, this.serverWallpaper, new Runnable() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda28
                                         @Override // java.lang.Runnable
@@ -3203,15 +3233,15 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                             ThemePreviewActivity.lambda$applyWallpaperBackground$21();
                                         }
                                     });
-                                    wallPaper = file9;
+                                    tL_wallPaper8 = tL_wallPaper7;
                                 } else {
-                                    wallPaper = new TLRPC.TL_wallPaper();
+                                    tL_wallPaper8 = new TLRPC.TL_wallPaper();
                                     TLRPC.TL_wallPaperSettings tL_wallPaperSettings = new TLRPC.TL_wallPaperSettings();
-                                    wallPaper.settings = tL_wallPaperSettings;
+                                    tL_wallPaper8.settings = tL_wallPaperSettings;
                                     tL_wallPaperSettings.intensity = (int) (overrideWallpaperInfo.intensity * 100.0f);
                                     tL_wallPaperSettings.blur = overrideWallpaperInfo.isBlurred;
                                     tL_wallPaperSettings.motion = overrideWallpaperInfo.isMotion;
-                                    wallPaper.uploadingImage = file7.getAbsolutePath();
+                                    tL_wallPaper8.uploadingImage = file4.getAbsolutePath();
                                     Bitmap createBitmap2 = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
                                     Canvas canvas2 = new Canvas(createBitmap2);
                                     float max = Math.max(50.0f / this.backgroundImage.getMeasuredWidth(), 50.0f / this.backgroundImage.getMeasuredHeight());
@@ -3228,18 +3258,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     this.backgroundImage.draw(canvas2);
                                     this.dimAmount = f4;
                                     Utilities.blurBitmap(createBitmap2, 3, 1, createBitmap2.getWidth(), createBitmap2.getHeight(), createBitmap2.getRowBytes());
-                                    wallPaper.stripedThumb = createBitmap2;
-                                    createServiceMessageLocal(wallPaper, z);
+                                    tL_wallPaper8.stripedThumb = createBitmap2;
+                                    createServiceMessageLocal(tL_wallPaper8, z);
                                     if (this.dialogId >= 0) {
                                         TLRPC.UserFull userFull2 = getMessagesController().getUserFull(this.dialogId);
                                         if (userFull2 != null) {
-                                            userFull2.wallpaper = wallPaper;
+                                            userFull2.wallpaper = tL_wallPaper8;
                                             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(this.dialogId), userFull2);
                                         }
                                     } else {
                                         TLRPC.ChatFull chatFull = getMessagesController().getChatFull(-this.dialogId);
                                         if (chatFull != null) {
-                                            chatFull.wallpaper = wallPaper;
+                                            chatFull.wallpaper = tL_wallPaper8;
                                             NotificationCenter notificationCenter = NotificationCenter.getInstance(this.currentAccount);
                                             int i8 = NotificationCenter.chatInfoDidLoad;
                                             z4 = false;
@@ -3252,41 +3282,42 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 this.setupFinished = true;
                                 WallpaperActivityDelegate wallpaperActivityDelegate = this.delegate;
                                 if (wallpaperActivityDelegate != null) {
-                                    wallpaperActivityDelegate.didSetNewBackground(wallPaper);
+                                    wallpaperActivityDelegate.didSetNewBackground(tL_wallPaper8);
                                 }
-                                finishFragment();
+                                lambda$onBackPressed$300();
                                 if (z4) {
                                     return;
                                 }
                                 WallpaperActivityDelegate wallpaperActivityDelegate2 = this.delegate;
                                 if (wallpaperActivityDelegate2 != null) {
-                                    wallpaperActivityDelegate2.didSetNewBackground(wallPaper);
+                                    wallpaperActivityDelegate2.didSetNewBackground(tL_wallPaper8);
                                 }
-                                finishFragment();
+                                lambda$onBackPressed$300();
                                 return;
                             }
                             Theme.serviceMessageColorBackup = getThemedColor(Theme.key_chat_serviceBackground);
                             Theme.getActiveTheme().setOverrideWallpaper("t".equals(overrideWallpaperInfo.slug) ? null : overrideWallpaperInfo);
                             Theme.reloadWallpaper(true);
                             if (!z3) {
-                                ImageLoader.getInstance().removeImage(ImageLoader.getHttpFileName(file8.getAbsolutePath()) + "@100_100");
+                                ImageLoader.getInstance().removeImage(ImageLoader.getHttpFileName(file2.getAbsolutePath()) + "@100_100");
                             }
                         }
-                        wallPaper = file9;
+                        tL_wallPaper8 = tL_wallPaper7;
                         z4 = true;
                         if (z4) {
                         }
                     } else {
-                        TLRPC.TL_wallPaper tL_wallPaper2 = (TLRPC.TL_wallPaper) obj;
-                        str = tL_wallPaper2.slug;
-                        file9 = tL_wallPaper2;
+                        TLRPC.TL_wallPaper tL_wallPaper12 = (TLRPC.TL_wallPaper) obj;
+                        str = tL_wallPaper12.slug;
+                        tL_wallPaper7 = tL_wallPaper12;
                         z3 = z2;
-                        file8 = file10;
+                        file2 = file5;
                     }
                     i = 0;
                     i2 = 45;
                     i3 = 0;
                     i4 = 0;
+                    file4 = tL_wallPaper6;
                     overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
                     overrideWallpaperInfo.fileName = generateWallpaperName2;
                     overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3311,10 +3342,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         overrideWallpaperInfo.prevUserWallpaper = userFull.wallpaper;
                     }
                     overrideWallpaperInfo.forBoth = z;
-                    MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+                    MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                     if (copyFile) {
                     }
-                    wallPaper = file9;
+                    tL_wallPaper8 = tL_wallPaper7;
                     z4 = true;
                     if (z4) {
                     }
@@ -3325,7 +3356,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     try {
                     } catch (Exception e3) {
                         e = e3;
-                        file2 = null;
+                        tL_wallPaper2 = null;
                     }
                     try {
                     } catch (Exception e4) {
@@ -3333,7 +3364,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         z2 = false;
                         FileLog.e(e);
                         copyFile = false;
-                        file7 = file2;
+                        tL_wallPaper6 = tL_wallPaper2;
                         if (this.isBlurred) {
                         }
                         obj = this.currentWallpaper;
@@ -3343,6 +3374,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         i2 = 45;
                         i3 = 0;
                         i4 = 0;
+                        file4 = tL_wallPaper6;
                         overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
                         overrideWallpaperInfo.fileName = generateWallpaperName2;
                         overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3366,30 +3398,30 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (j != 0) {
                         }
                         overrideWallpaperInfo.forBoth = z;
-                        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+                        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                         if (copyFile) {
                         }
-                        wallPaper = file9;
+                        tL_wallPaper8 = tL_wallPaper7;
                         z4 = true;
                         if (z4) {
                         }
                     }
                     if (!this.hasScrollingBackground || this.currentScrollOffset == this.defaultScrollOffset) {
-                        file3 = null;
-                        file2 = null;
-                        file4 = fileWallpaper2.originalPath;
-                        if (file4 != null) {
-                            z2 = file4.equals(file10);
-                            file6 = file2;
+                        tL_wallPaper3 = null;
+                        tL_wallPaper2 = null;
+                        file = fileWallpaper2.originalPath;
+                        if (file != null) {
+                            z2 = file.equals(file5);
+                            tL_wallPaper5 = tL_wallPaper2;
                             if (!z2) {
                                 try {
-                                    copyFile = AndroidUtilities.copyFile(file4, file10);
-                                    file7 = file2;
+                                    copyFile = AndroidUtilities.copyFile(file, file5);
+                                    tL_wallPaper6 = tL_wallPaper2;
                                 } catch (Exception e5) {
                                     e = e5;
                                     FileLog.e(e);
                                     copyFile = false;
-                                    file7 = file2;
+                                    tL_wallPaper6 = tL_wallPaper2;
                                     if (this.isBlurred) {
                                     }
                                     obj = this.currentWallpaper;
@@ -3399,6 +3431,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     i2 = 45;
                                     i3 = 0;
                                     i4 = 0;
+                                    file4 = tL_wallPaper6;
                                     overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
                                     overrideWallpaperInfo.fileName = generateWallpaperName2;
                                     overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3422,10 +3455,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     if (j != 0) {
                                     }
                                     overrideWallpaperInfo.forBoth = z;
-                                    MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+                                    MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                                     if (copyFile) {
                                     }
-                                    wallPaper = file9;
+                                    tL_wallPaper8 = tL_wallPaper7;
                                     z4 = true;
                                     if (z4) {
                                     }
@@ -3439,6 +3472,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 i2 = 45;
                                 i3 = 0;
                                 i4 = 0;
+                                file4 = tL_wallPaper6;
                                 overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
                                 overrideWallpaperInfo.fileName = generateWallpaperName2;
                                 overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3462,16 +3496,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 if (j != 0) {
                                 }
                                 overrideWallpaperInfo.forBoth = z;
-                                MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+                                MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                                 if (copyFile) {
                                 }
-                                wallPaper = file9;
+                                tL_wallPaper8 = tL_wallPaper7;
                                 z4 = true;
                                 if (z4) {
                                 }
                             }
                             copyFile = true;
-                            file7 = file6;
+                            tL_wallPaper6 = tL_wallPaper5;
                             if (this.isBlurred) {
                             }
                             obj = this.currentWallpaper;
@@ -3481,6 +3515,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             i2 = 45;
                             i3 = 0;
                             i4 = 0;
+                            file4 = tL_wallPaper6;
                             overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
                             overrideWallpaperInfo.fileName = generateWallpaperName2;
                             overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3504,10 +3539,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             if (j != 0) {
                             }
                             overrideWallpaperInfo.forBoth = z;
-                            MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+                            MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                             if (copyFile) {
                             }
-                            wallPaper = file9;
+                            tL_wallPaper8 = tL_wallPaper7;
                             z4 = true;
                             if (z4) {
                             }
@@ -3516,7 +3551,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         Bitmap createBitmap3 = Bitmap.createBitmap((int) this.croppedWidth, this.currentWallpaperBitmap.getHeight(), Bitmap.Config.ARGB_8888);
                         Canvas canvas3 = new Canvas(createBitmap3);
                         canvas3.translate(-((this.currentScrollOffset / this.maxScrollOffset) * (this.currentWallpaperBitmap.getWidth() - createBitmap3.getWidth())), 0.0f);
-                        file3 = null;
+                        tL_wallPaper3 = null;
                         canvas3.drawBitmap(this.currentWallpaperBitmap, 0.0f, 0.0f, (Paint) null);
                         fileWallpaper2.path = new File(FileLoader.getDirectory(4), Utilities.random.nextInt() + ".jpg");
                         FileOutputStream fileOutputStream5 = new FileOutputStream(fileWallpaper2.path);
@@ -3524,14 +3559,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         fileOutputStream5.close();
                         createBitmap3.recycle();
                     }
-                    file4 = fileWallpaper2.path;
-                    file2 = file3;
-                    z2 = file4.equals(file10);
-                    file6 = file2;
+                    file = fileWallpaper2.path;
+                    tL_wallPaper2 = tL_wallPaper3;
+                    z2 = file.equals(file5);
+                    tL_wallPaper5 = tL_wallPaper2;
                     if (!z2) {
                     }
                     copyFile = true;
-                    file7 = file6;
+                    tL_wallPaper6 = tL_wallPaper5;
                     if (this.isBlurred) {
                     }
                     obj = this.currentWallpaper;
@@ -3541,6 +3576,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     i2 = 45;
                     i3 = 0;
                     i4 = 0;
+                    file4 = tL_wallPaper6;
                     overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
                     overrideWallpaperInfo.fileName = generateWallpaperName2;
                     overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3564,27 +3600,31 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     if (j != 0) {
                     }
                     overrideWallpaperInfo.forBoth = z;
-                    MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+                    MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                     if (copyFile) {
                     }
-                    wallPaper = file9;
+                    tL_wallPaper8 = tL_wallPaper7;
                     z4 = true;
                     if (z4) {
                     }
                 }
             } else {
-                file = null;
+                tL_wallPaper = null;
+                tL_wallPaper9 = null;
+                tL_wallPaper10 = null;
                 if (obj3 instanceof MediaController.SearchImage) {
                     MediaController.SearchImage searchImage2 = (MediaController.SearchImage) obj3;
                     TLRPC.Photo photo2 = searchImage2.photo;
                     try {
-                        copyFile = AndroidUtilities.copyFile(photo2 != null ? FileLoader.getInstance(this.currentAccount).getPathToAttach(FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, this.maxWallpaperSize, true), true) : ImageLoader.getHttpFilePath(searchImage2.imageUrl, "jpg"), file10);
+                        copyFile = AndroidUtilities.copyFile(photo2 != null ? FileLoader.getInstance(this.currentAccount).getPathToAttach(FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, this.maxWallpaperSize, true), true) : ImageLoader.getHttpFilePath(searchImage2.imageUrl, "jpg"), file5);
                     } catch (Exception e6) {
                         e = e6;
                         FileLog.e(e);
+                        tL_wallPaper = tL_wallPaper10;
                         copyFile = false;
+                        tL_wallPaper9 = tL_wallPaper;
                         z2 = false;
-                        file7 = file;
+                        tL_wallPaper6 = tL_wallPaper9;
                         if (this.isBlurred) {
                         }
                         obj = this.currentWallpaper;
@@ -3594,6 +3634,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         i2 = 45;
                         i3 = 0;
                         i4 = 0;
+                        file4 = tL_wallPaper6;
                         overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
                         overrideWallpaperInfo.fileName = generateWallpaperName2;
                         overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3617,22 +3658,23 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (j != 0) {
                         }
                         overrideWallpaperInfo.forBoth = z;
-                        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+                        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
                         if (copyFile) {
                         }
-                        wallPaper = file9;
+                        tL_wallPaper8 = tL_wallPaper7;
                         z4 = true;
                         if (z4) {
                         }
                     }
                 }
                 copyFile = false;
+                tL_wallPaper9 = tL_wallPaper;
             }
-            file5 = null;
+            tL_wallPaper4 = null;
             z2 = false;
-            file6 = file5;
+            tL_wallPaper5 = tL_wallPaper4;
             copyFile = true;
-            file7 = file6;
+            tL_wallPaper6 = tL_wallPaper5;
             if (this.isBlurred) {
             }
             obj = this.currentWallpaper;
@@ -3642,6 +3684,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             i2 = 45;
             i3 = 0;
             i4 = 0;
+            file4 = tL_wallPaper6;
             overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
             overrideWallpaperInfo.fileName = generateWallpaperName2;
             overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3665,16 +3708,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (j != 0) {
             }
             overrideWallpaperInfo.forBoth = z;
-            MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+            MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
             if (copyFile) {
             }
-            wallPaper = file9;
+            tL_wallPaper8 = tL_wallPaper7;
             z4 = true;
             if (z4) {
             }
         }
         z2 = false;
-        file7 = file;
+        tL_wallPaper6 = tL_wallPaper9;
         if (this.isBlurred) {
         }
         obj = this.currentWallpaper;
@@ -3684,6 +3727,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         i2 = 45;
         i3 = 0;
         i4 = 0;
+        file4 = tL_wallPaper6;
         overrideWallpaperInfo = new Theme.OverrideWallpaperInfo();
         overrideWallpaperInfo.fileName = generateWallpaperName2;
         overrideWallpaperInfo.originalFileName = generateWallpaperName;
@@ -3707,10 +3751,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (j != 0) {
         }
         overrideWallpaperInfo.forBoth = z;
-        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file7, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
+        MessagesController.getInstance(this.currentAccount).saveWallpaperToServer(file4, overrideWallpaperInfo, str == null && this.dialogId == 0, 0L);
         if (copyFile) {
         }
-        wallPaper = file9;
+        tL_wallPaper8 = tL_wallPaper7;
         z4 = true;
         if (z4) {
         }
@@ -3722,7 +3766,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (z) {
                 return;
             }
-            finishFragment();
+            lambda$onBackPressed$300();
             return;
         }
         Theme.applyPreviousTheme();
@@ -3761,43 +3805,43 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (z) {
             return;
         }
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     private BitmapDrawable checkBlur(Drawable drawable) {
         ColorFilter colorFilter;
         WeakReference weakReference = this.lastDrawableToBlur;
-        if (weakReference == null || weakReference.get() != drawable) {
-            WeakReference weakReference2 = this.lastDrawableToBlur;
-            if (weakReference2 != null) {
-                weakReference2.clear();
-            }
-            this.lastDrawableToBlur = null;
-            if (drawable == null || drawable.getIntrinsicWidth() == 0 || drawable.getIntrinsicHeight() == 0) {
-                this.blurredDrawable = null;
-                return null;
-            }
-            this.lastDrawableToBlur = new WeakReference(drawable);
-            int intrinsicWidth = (int) ((drawable.getIntrinsicWidth() / drawable.getIntrinsicHeight()) * 24.0f);
-            Bitmap createBitmap = Bitmap.createBitmap(intrinsicWidth, 24, Bitmap.Config.ARGB_8888);
-            drawable.setBounds(0, 0, intrinsicWidth, 24);
-            if (Build.VERSION.SDK_INT >= 21) {
-                colorFilter = drawable.getColorFilter();
-                ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.setSaturation(1.3f);
-                AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix, 0.94f);
-                drawable.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-                drawable.draw(new Canvas(createBitmap));
-                drawable.setColorFilter(colorFilter);
-            } else {
-                drawable.draw(new Canvas(createBitmap));
-            }
-            Utilities.blurBitmap(createBitmap, 3, 1, createBitmap.getWidth(), createBitmap.getHeight(), createBitmap.getRowBytes());
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getContext().getResources(), createBitmap);
-            this.blurredDrawable = bitmapDrawable;
-            bitmapDrawable.setFilterBitmap(true);
+        if (weakReference != null && weakReference.get() == drawable) {
             return this.blurredDrawable;
         }
+        WeakReference weakReference2 = this.lastDrawableToBlur;
+        if (weakReference2 != null) {
+            weakReference2.clear();
+        }
+        this.lastDrawableToBlur = null;
+        if (drawable == null || drawable.getIntrinsicWidth() == 0 || drawable.getIntrinsicHeight() == 0) {
+            this.blurredDrawable = null;
+            return null;
+        }
+        this.lastDrawableToBlur = new WeakReference(drawable);
+        int intrinsicWidth = (int) ((drawable.getIntrinsicWidth() / drawable.getIntrinsicHeight()) * 24.0f);
+        Bitmap createBitmap = Bitmap.createBitmap(intrinsicWidth, 24, Bitmap.Config.ARGB_8888);
+        drawable.setBounds(0, 0, intrinsicWidth, 24);
+        if (Build.VERSION.SDK_INT >= 21) {
+            colorFilter = drawable.getColorFilter();
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(1.3f);
+            AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix, 0.94f);
+            drawable.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+            drawable.draw(new Canvas(createBitmap));
+            drawable.setColorFilter(colorFilter);
+        } else {
+            drawable.draw(new Canvas(createBitmap));
+        }
+        Utilities.blurBitmap(createBitmap, 3, 1, createBitmap.getWidth(), createBitmap.getHeight(), createBitmap.getRowBytes());
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(getContext().getResources(), createBitmap);
+        this.blurredDrawable = bitmapDrawable;
+        bitmapDrawable.setFilterBitmap(true);
         return this.blurredDrawable;
     }
 
@@ -3815,10 +3859,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x0084, code lost:
-        if (r7.accent.patternMotion == r7.isMotion) goto L38;
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0084, code lost:
+    
+        if (r7.accent.patternMotion == r7.isMotion) goto L40;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x0090, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0090, code lost:
+    
         if (r7.accent.patternIntensity == r7.currentIntensity) goto L45;
      */
     /*
@@ -4129,19 +4175,23 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x007b, code lost:
-        if (r3.patternLayout[r4].getVisibility() != 0) goto L25;
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x007b, code lost:
+    
+        if (r3.patternLayout[r4].getVisibility() != 0) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0098, code lost:
-        if (r3.patternLayout[r4].getVisibility() != 0) goto L25;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x009a, code lost:
-        r5 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x009c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x009c, code lost:
+    
         r5 = false;
      */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00a8  */
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x009a, code lost:
+    
+        r5 = true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x0098, code lost:
+    
+        if (r3.patternLayout[r4].getVisibility() != 0) goto L39;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00a8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4186,22 +4236,23 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     this.patternsListView.invalidateViews();
                     updateMotionButton();
                     return;
-                } else if (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) {
+                }
+                if (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) {
                     showPatternsView(i, this.patternLayout[i].getVisibility() != 0, true);
                     return;
-                } else if (i2 == 1) {
+                }
+                if (i2 == 1) {
                     return;
-                } else {
-                    wallpaperCheckBoxView.setChecked(!wallpaperCheckBoxView.isChecked(), true);
-                    if (i == 0) {
-                        boolean isChecked = wallpaperCheckBoxView.isChecked();
-                        this.isBlurred = isChecked;
-                        if (isChecked) {
-                            this.backgroundImage.getImageReceiver().setForceCrossfade(true);
-                        }
-                        updateBlurred();
-                        return;
+                }
+                wallpaperCheckBoxView.setChecked(!wallpaperCheckBoxView.isChecked(), true);
+                if (i == 0) {
+                    boolean isChecked = wallpaperCheckBoxView.isChecked();
+                    this.isBlurred = isChecked;
+                    if (isChecked) {
+                        this.backgroundImage.getImageReceiver().setForceCrossfade(true);
                     }
+                    updateBlurred();
+                    return;
                 }
             }
             boolean isChecked2 = wallpaperCheckBoxView.isChecked();
@@ -4341,7 +4392,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             edit.commit();
         }
         BaseFragment baseFragment = (BaseFragment) getParentLayout().getFragmentStack().get(Math.max(0, getParentLayout().getFragmentStack().size() - 2));
-        finishFragment();
+        lambda$onBackPressed$300();
         if (this.screenType == 0) {
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didApplyNewTheme, previousTheme, accent, Boolean.valueOf(this.deleteOnCancel));
         }
@@ -4835,9 +4886,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (z) {
                 this.applyColorAction.run();
                 return;
-            } else if (this.applyColorScheduled) {
-                return;
             } else {
+                if (this.applyColorScheduled) {
+                    return;
+                }
                 this.applyColorScheduled = true;
                 this.fragmentView.postDelayed(this.applyColorAction, 16L);
                 return;
@@ -5284,10 +5336,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x02a7  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0320  */
-    /* JADX WARN: Removed duplicated region for block: B:150:0x0347  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x035b  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x02a7  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0320  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0347  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x035b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5296,8 +5348,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         BackgroundView backgroundView;
         ImageView imageView;
         ImageView imageView2;
+        ColorDrawable colorDrawable;
         MotionBackgroundDrawable motionBackgroundDrawable;
-        MotionBackgroundDrawable motionBackgroundDrawable2;
         int i = this.screenType;
         if (i != 0 || this.accent != null) {
             if (i == 2) {
@@ -5408,18 +5460,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     if (defaultAccentColor3 != 0) {
                         Drawable background = this.backgroundImage.getBackground();
                         if (background instanceof MotionBackgroundDrawable) {
-                            motionBackgroundDrawable2 = (MotionBackgroundDrawable) background;
+                            motionBackgroundDrawable = (MotionBackgroundDrawable) background;
                         } else {
-                            MotionBackgroundDrawable motionBackgroundDrawable3 = new MotionBackgroundDrawable();
-                            motionBackgroundDrawable3.setParentView(this.backgroundImage);
-                            motionBackgroundDrawable2 = motionBackgroundDrawable3;
+                            MotionBackgroundDrawable motionBackgroundDrawable2 = new MotionBackgroundDrawable();
+                            motionBackgroundDrawable2.setParentView(this.backgroundImage);
+                            motionBackgroundDrawable = motionBackgroundDrawable2;
                             if (this.rotatePreview) {
-                                motionBackgroundDrawable3.rotatePreview(false);
-                                motionBackgroundDrawable2 = motionBackgroundDrawable3;
+                                motionBackgroundDrawable2.rotatePreview(false);
+                                motionBackgroundDrawable = motionBackgroundDrawable2;
                             }
                         }
-                        motionBackgroundDrawable2.setColors(defaultAccentColor, defaultAccentColor2, defaultAccentColor3, defaultAccentColor4);
-                        motionBackgroundDrawable = motionBackgroundDrawable2;
+                        motionBackgroundDrawable.setColors(defaultAccentColor, defaultAccentColor2, defaultAccentColor3, defaultAccentColor4);
+                        colorDrawable = motionBackgroundDrawable;
                     } else if (defaultAccentColor2 != 0) {
                         BackgroundGradientDrawable backgroundGradientDrawable = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(this.accent.backgroundRotation), new int[]{defaultAccentColor, defaultAccentColor2});
                         this.backgroundGradientDisposable = backgroundGradientDrawable.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.40
@@ -5431,11 +5483,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 }
                             }
                         }, 100L);
-                        motionBackgroundDrawable = backgroundGradientDrawable;
+                        colorDrawable = backgroundGradientDrawable;
                     } else {
-                        motionBackgroundDrawable = new ColorDrawable(defaultAccentColor);
+                        colorDrawable = new ColorDrawable(defaultAccentColor);
                     }
-                    this.backgroundImage.setBackground(motionBackgroundDrawable);
+                    this.backgroundImage.setBackground(colorDrawable);
                     TLRPC.TL_wallPaper tL_wallPaper4 = this.selectedPattern;
                     if (tL_wallPaper4 != null) {
                         BackgroundView backgroundView4 = this.backgroundImage;
@@ -5575,13 +5627,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (wallPaper2.pattern || wallPaper2.document == null) {
                 String str = wallPaper2.slug;
                 TLRPC.WallPaperSettings wallPaperSettings = wallPaper2.settings;
-                int i = wallPaperSettings.background_color;
-                int i2 = wallPaperSettings.second_background_color;
-                int i3 = wallPaperSettings.third_background_color;
-                int i4 = wallPaperSettings.fourth_background_color;
-                int wallpaperRotation = AndroidUtilities.getWallpaperRotation(wallPaperSettings.rotation, false);
-                TLRPC.WallPaperSettings wallPaperSettings2 = wallPaper2.settings;
-                WallpapersListActivity.ColorWallpaper colorWallpaper = new WallpapersListActivity.ColorWallpaper(str, i, i2, i3, i4, wallpaperRotation, wallPaperSettings2.intensity / 100.0f, wallPaperSettings2.motion, null);
+                WallpapersListActivity.ColorWallpaper colorWallpaper = new WallpapersListActivity.ColorWallpaper(str, wallPaperSettings.background_color, wallPaperSettings.second_background_color, wallPaperSettings.third_background_color, wallPaperSettings.fourth_background_color, AndroidUtilities.getWallpaperRotation(wallPaperSettings.rotation, false), r3.intensity / 100.0f, wallPaper2.settings.motion, null);
                 if (wallPaper2 instanceof TLRPC.TL_wallPaper) {
                     colorWallpaper.pattern = (TLRPC.TL_wallPaper) wallPaper2;
                 }
@@ -5598,9 +5644,9 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     themeDelegate.setCurrentTheme(themeDelegate.getCurrentTheme(), chatActivity.themeDelegate.getCurrentWallpaper(), false, Boolean.valueOf(isDark));
                 }
             };
-            TLRPC.WallPaperSettings wallPaperSettings3 = wallPaper2.settings;
-            if (wallPaperSettings3 != null) {
-                themePreviewActivity.setInitialModes(wallPaperSettings3.blur, wallPaperSettings3.motion, wallPaperSettings3.intensity / 100.0f);
+            TLRPC.WallPaperSettings wallPaperSettings2 = wallPaper2.settings;
+            if (wallPaperSettings2 != null) {
+                themePreviewActivity.setInitialModes(wallPaperSettings2.blur, wallPaperSettings2.motion, wallPaperSettings2.intensity / 100.0f);
             }
             themePreviewActivity.setCurrentServerWallpaper(messageObject);
             themePreviewActivity.setDialogId(messageObject.getDialogId());
@@ -5638,7 +5684,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x03e6  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x03e6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5740,8 +5786,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 this.colorPicker.hideKeyboard();
             } else {
                 this.listView2.setTranslationY(0.0f);
-                FrameLayout frameLayout5 = this.patternLayout[i];
-                frameLayout5.setTranslationY(frameLayout5.getMeasuredHeight());
+                this.patternLayout[i].setTranslationY(r8.getMeasuredHeight());
                 this.backgroundCheckBoxView[0].setAlpha(1.0f);
                 this.backgroundCheckBoxView[2].setAlpha(1.0f);
                 this.backgroundImage.setAlpha(1.0f);
@@ -5754,10 +5799,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (i2 != 1 || i2 == 2) {
                     this.backgroundCheckBoxView[z3 ? (char) 0 : (char) 2].setVisibility(4);
                     return;
-                } else if (i == 1) {
-                    this.patternLayout[c].setAlpha(0.0f);
-                    return;
                 } else {
+                    if (i == 1) {
+                        this.patternLayout[c].setAlpha(0.0f);
+                        return;
+                    }
                     return;
                 }
             }
@@ -5777,56 +5823,57 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             this.patternLayout[i].setVisibility(0);
             int i10 = this.screenType;
             if (i10 == 1) {
-                arrayList2.add(ObjectAnimator.ofFloat(this.listView2, View.TRANSLATION_Y, i == 1 ? -AndroidUtilities.dp(21.0f) : 0.0f));
+                arrayList2.add(ObjectAnimator.ofFloat(this.listView2, (Property<RecyclerListView, Float>) View.TRANSLATION_Y, i == 1 ? -AndroidUtilities.dp(21.0f) : 0.0f));
                 WallpaperCheckBoxView wallpaperCheckBoxView = this.backgroundCheckBoxView[2];
                 Property property = View.ALPHA;
-                arrayList2.add(ObjectAnimator.ofFloat(wallpaperCheckBoxView, property, z3 ? 1.0f : 0.0f));
-                arrayList2.add(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[0], property, z3 ? 0.0f : 1.0f));
+                arrayList2.add(ObjectAnimator.ofFloat(wallpaperCheckBoxView, (Property<WallpaperCheckBoxView, Float>) property, z3 ? 1.0f : 0.0f));
+                arrayList2.add(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[0], (Property<WallpaperCheckBoxView, Float>) property, z3 ? 0.0f : 1.0f));
                 if (i == 1) {
-                    ofFloat2 = ObjectAnimator.ofFloat(this.patternLayout[i], property, 0.0f, 1.0f);
+                    ofFloat2 = ObjectAnimator.ofFloat(this.patternLayout[i], (Property<FrameLayout, Float>) property, 0.0f, 1.0f);
                 } else {
                     this.patternLayout[i].setAlpha(1.0f);
-                    ofFloat2 = ObjectAnimator.ofFloat(this.patternLayout[i9], property, 0.0f);
+                    ofFloat2 = ObjectAnimator.ofFloat(this.patternLayout[i9], (Property<FrameLayout, Float>) property, 0.0f);
                 }
             } else if (i10 == 2) {
                 RecyclerListView recyclerListView = this.listView2;
                 Property property2 = View.TRANSLATION_Y;
-                arrayList2.add(ObjectAnimator.ofFloat(recyclerListView, property2, (-this.patternLayout[i].getMeasuredHeight()) + AndroidUtilities.dp((this.applyButton2 == null ? 0 : 58) + 72) + (insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0)));
+                arrayList2.add(ObjectAnimator.ofFloat(recyclerListView, (Property<RecyclerListView, Float>) property2, (-this.patternLayout[i].getMeasuredHeight()) + AndroidUtilities.dp((this.applyButton2 == null ? 0 : 58) + 72) + (insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0)));
                 WallpaperCheckBoxView wallpaperCheckBoxView2 = this.backgroundCheckBoxView[2];
                 Property property3 = View.ALPHA;
-                arrayList2.add(ObjectAnimator.ofFloat(wallpaperCheckBoxView2, property3, z3 ? 1.0f : 0.0f));
-                arrayList2.add(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[0], property3, z3 ? 0.0f : 1.0f));
+                arrayList2.add(ObjectAnimator.ofFloat(wallpaperCheckBoxView2, (Property<WallpaperCheckBoxView, Float>) property3, z3 ? 1.0f : 0.0f));
+                arrayList2.add(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[0], (Property<WallpaperCheckBoxView, Float>) property3, z3 ? 0.0f : 1.0f));
                 if (this.patternLayout[i9].getVisibility() == 0) {
-                    arrayList2.add(ObjectAnimator.ofFloat(this.patternLayout[i9], property3, 0.0f));
-                    arrayList2.add(ObjectAnimator.ofFloat(this.patternLayout[i], property3, 0.0f, 1.0f));
+                    arrayList2.add(ObjectAnimator.ofFloat(this.patternLayout[i9], (Property<FrameLayout, Float>) property3, 0.0f));
+                    arrayList2.add(ObjectAnimator.ofFloat(this.patternLayout[i], (Property<FrameLayout, Float>) property3, 0.0f, 1.0f));
                     this.patternLayout[i].setTranslationY(0.0f);
                     this.patternViewAnimation.playTogether(arrayList2);
                     final int i11 = i9;
                     this.patternViewAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.36
-                        /* JADX WARN: Removed duplicated region for block: B:21:0x0077  */
+                        /* JADX WARN: Removed duplicated region for block: B:19:0x0077  */
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         /*
                             Code decompiled incorrectly, please refer to instructions dump.
                         */
                         public void onAnimationEnd(Animator animator) {
-                            FrameLayout frameLayout6;
+                            FrameLayout frameLayout5;
                             ThemePreviewActivity.this.patternViewAnimation = null;
                             if (!z || ThemePreviewActivity.this.patternLayout[i11].getVisibility() != 0) {
                                 if (!z) {
-                                    frameLayout6 = ThemePreviewActivity.this.patternLayout[i];
+                                    frameLayout5 = ThemePreviewActivity.this.patternLayout[i];
                                 }
                                 if (ThemePreviewActivity.this.screenType != 1 || ThemePreviewActivity.this.screenType == 2) {
                                     ThemePreviewActivity.this.backgroundCheckBoxView[z3 ? (char) 0 : (char) 2].setVisibility(4);
-                                } else if (i == 1) {
-                                    ThemePreviewActivity.this.patternLayout[i11].setAlpha(0.0f);
-                                    return;
                                 } else {
+                                    if (i == 1) {
+                                        ThemePreviewActivity.this.patternLayout[i11].setAlpha(0.0f);
+                                        return;
+                                    }
                                     return;
                                 }
                             }
                             ThemePreviewActivity.this.patternLayout[i11].setAlpha(1.0f);
-                            frameLayout6 = ThemePreviewActivity.this.patternLayout[i11];
-                            frameLayout6.setVisibility(4);
+                            frameLayout5 = ThemePreviewActivity.this.patternLayout[i11];
+                            frameLayout5.setVisibility(4);
                             if (ThemePreviewActivity.this.screenType != 1) {
                             }
                             ThemePreviewActivity.this.backgroundCheckBoxView[z3 ? (char) 0 : (char) 2].setVisibility(4);
@@ -5836,43 +5883,43 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     this.patternViewAnimation.setDuration(200L);
                     this.patternViewAnimation.start();
                 }
-                FrameLayout frameLayout6 = this.patternLayout[i];
-                ofFloat = ObjectAnimator.ofFloat(frameLayout6, property2, frameLayout6.getMeasuredHeight(), 0.0f);
+                ofFloat = ObjectAnimator.ofFloat(this.patternLayout[i], (Property<FrameLayout, Float>) property2, r8.getMeasuredHeight(), 0.0f);
             } else if (i == 1) {
-                ofFloat2 = ObjectAnimator.ofFloat(this.patternLayout[i], View.ALPHA, 0.0f, 1.0f);
+                ofFloat2 = ObjectAnimator.ofFloat(this.patternLayout[i], (Property<FrameLayout, Float>) View.ALPHA, 0.0f, 1.0f);
             } else {
                 this.patternLayout[i].setAlpha(1.0f);
-                ofFloat2 = ObjectAnimator.ofFloat(this.patternLayout[i9], View.ALPHA, 0.0f);
+                ofFloat2 = ObjectAnimator.ofFloat(this.patternLayout[i9], (Property<FrameLayout, Float>) View.ALPHA, 0.0f);
             }
             arrayList2.add(ofFloat2);
             this.colorPicker.hideKeyboard();
             this.patternViewAnimation.playTogether(arrayList2);
             final int i112 = i9;
             this.patternViewAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.36
-                /* JADX WARN: Removed duplicated region for block: B:21:0x0077  */
+                /* JADX WARN: Removed duplicated region for block: B:19:0x0077  */
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */
                 public void onAnimationEnd(Animator animator) {
-                    FrameLayout frameLayout62;
+                    FrameLayout frameLayout5;
                     ThemePreviewActivity.this.patternViewAnimation = null;
                     if (!z || ThemePreviewActivity.this.patternLayout[i112].getVisibility() != 0) {
                         if (!z) {
-                            frameLayout62 = ThemePreviewActivity.this.patternLayout[i];
+                            frameLayout5 = ThemePreviewActivity.this.patternLayout[i];
                         }
                         if (ThemePreviewActivity.this.screenType != 1 || ThemePreviewActivity.this.screenType == 2) {
                             ThemePreviewActivity.this.backgroundCheckBoxView[z3 ? (char) 0 : (char) 2].setVisibility(4);
-                        } else if (i == 1) {
-                            ThemePreviewActivity.this.patternLayout[i112].setAlpha(0.0f);
-                            return;
                         } else {
+                            if (i == 1) {
+                                ThemePreviewActivity.this.patternLayout[i112].setAlpha(0.0f);
+                                return;
+                            }
                             return;
                         }
                     }
                     ThemePreviewActivity.this.patternLayout[i112].setAlpha(1.0f);
-                    frameLayout62 = ThemePreviewActivity.this.patternLayout[i112];
-                    frameLayout62.setVisibility(4);
+                    frameLayout5 = ThemePreviewActivity.this.patternLayout[i112];
+                    frameLayout5.setVisibility(4);
                     if (ThemePreviewActivity.this.screenType != 1) {
                     }
                     ThemePreviewActivity.this.backgroundCheckBoxView[z3 ? (char) 0 : (char) 2].setVisibility(4);
@@ -5884,42 +5931,42 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
         RecyclerListView recyclerListView2 = this.listView2;
         Property property4 = View.TRANSLATION_Y;
-        arrayList2.add(ObjectAnimator.ofFloat(recyclerListView2, property4, 0.0f));
-        FrameLayout frameLayout7 = this.patternLayout[i];
-        arrayList2.add(ObjectAnimator.ofFloat(frameLayout7, property4, frameLayout7.getMeasuredHeight()));
+        arrayList2.add(ObjectAnimator.ofFloat(recyclerListView2, (Property<RecyclerListView, Float>) property4, 0.0f));
+        arrayList2.add(ObjectAnimator.ofFloat(this.patternLayout[i], (Property<FrameLayout, Float>) property4, r8.getMeasuredHeight()));
         WallpaperCheckBoxView wallpaperCheckBoxView3 = this.backgroundCheckBoxView[0];
         Property property5 = View.ALPHA;
-        arrayList2.add(ObjectAnimator.ofFloat(wallpaperCheckBoxView3, property5, 1.0f));
-        arrayList2.add(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[2], property5, 0.0f));
-        ofFloat = ObjectAnimator.ofFloat(this.backgroundImage, property5, 1.0f);
+        arrayList2.add(ObjectAnimator.ofFloat(wallpaperCheckBoxView3, (Property<WallpaperCheckBoxView, Float>) property5, 1.0f));
+        arrayList2.add(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[2], (Property<WallpaperCheckBoxView, Float>) property5, 0.0f));
+        ofFloat = ObjectAnimator.ofFloat(this.backgroundImage, (Property<BackgroundView, Float>) property5, 1.0f);
         arrayList2.add(ofFloat);
         this.patternViewAnimation.playTogether(arrayList2);
         final int i1122 = i9;
         this.patternViewAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.36
-            /* JADX WARN: Removed duplicated region for block: B:21:0x0077  */
+            /* JADX WARN: Removed duplicated region for block: B:19:0x0077  */
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             public void onAnimationEnd(Animator animator) {
-                FrameLayout frameLayout62;
+                FrameLayout frameLayout5;
                 ThemePreviewActivity.this.patternViewAnimation = null;
                 if (!z || ThemePreviewActivity.this.patternLayout[i1122].getVisibility() != 0) {
                     if (!z) {
-                        frameLayout62 = ThemePreviewActivity.this.patternLayout[i];
+                        frameLayout5 = ThemePreviewActivity.this.patternLayout[i];
                     }
                     if (ThemePreviewActivity.this.screenType != 1 || ThemePreviewActivity.this.screenType == 2) {
                         ThemePreviewActivity.this.backgroundCheckBoxView[z3 ? (char) 0 : (char) 2].setVisibility(4);
-                    } else if (i == 1) {
-                        ThemePreviewActivity.this.patternLayout[i1122].setAlpha(0.0f);
-                        return;
                     } else {
+                        if (i == 1) {
+                            ThemePreviewActivity.this.patternLayout[i1122].setAlpha(0.0f);
+                            return;
+                        }
                         return;
                     }
                 }
                 ThemePreviewActivity.this.patternLayout[i1122].setAlpha(1.0f);
-                frameLayout62 = ThemePreviewActivity.this.patternLayout[i1122];
-                frameLayout62.setVisibility(4);
+                frameLayout5 = ThemePreviewActivity.this.patternLayout[i1122];
+                frameLayout5.setVisibility(4);
                 if (ThemePreviewActivity.this.screenType != 1) {
                 }
                 ThemePreviewActivity.this.backgroundCheckBoxView[z3 ? (char) 0 : (char) 2].setVisibility(4);
@@ -5938,35 +5985,36 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (j > 0) {
             blurButton = this.applyButton1;
             i = R.string.ApplyWallpaperForMe;
-        } else if (j < 0) {
-            TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
-            if (chat == null) {
-                blurButton = this.applyButton1;
-                formatString = LocaleController.formatString(R.string.ApplyWallpaperForChannel, LocaleController.getString(R.string.AccDescrChannel).toLowerCase());
-                blurButton.setText(formatString);
-            }
-            this.applyButton1.setText(LocaleController.formatString(R.string.ApplyWallpaperForChannel, chat.title));
-            TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus = this.boostsStatus;
-            if (tL_premium_boostsStatus == null || tL_premium_boostsStatus.level >= getCustomWallpaperLevelMin()) {
-                if (this.boostsStatus == null) {
-                    checkBoostsLevel();
-                    return;
-                } else {
-                    this.applyButton1.setSubText(null, z);
-                    return;
-                }
-            }
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("l");
-            if (this.lockSpan == null) {
-                ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.mini_switch_lock);
-                this.lockSpan = coloredImageSpan;
-                coloredImageSpan.setTopOffset(1);
-            }
-            spannableStringBuilder.setSpan(this.lockSpan, 0, 1, 33);
-            spannableStringBuilder.append((CharSequence) " ").append((CharSequence) LocaleController.formatPluralString("ReactionLevelRequiredBtn", getCustomWallpaperLevelMin(), new Object[0]));
-            this.applyButton1.setSubText(spannableStringBuilder, z);
-            return;
         } else {
+            if (j < 0) {
+                TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(-this.dialogId));
+                if (chat == null) {
+                    blurButton = this.applyButton1;
+                    formatString = LocaleController.formatString(R.string.ApplyWallpaperForChannel, LocaleController.getString(R.string.AccDescrChannel).toLowerCase());
+                    blurButton.setText(formatString);
+                }
+                this.applyButton1.setText(LocaleController.formatString(R.string.ApplyWallpaperForChannel, chat.title));
+                TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus = this.boostsStatus;
+                if (tL_premium_boostsStatus == null || tL_premium_boostsStatus.level >= getCustomWallpaperLevelMin()) {
+                    if (this.boostsStatus == null) {
+                        checkBoostsLevel();
+                        return;
+                    } else {
+                        this.applyButton1.setSubText(null, z);
+                        return;
+                    }
+                }
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("l");
+                if (this.lockSpan == null) {
+                    ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.mini_switch_lock);
+                    this.lockSpan = coloredImageSpan;
+                    coloredImageSpan.setTopOffset(1);
+                }
+                spannableStringBuilder.setSpan(this.lockSpan, 0, 1, 33);
+                spannableStringBuilder.append((CharSequence) " ").append((CharSequence) LocaleController.formatPluralString("ReactionLevelRequiredBtn", getCustomWallpaperLevelMin(), new Object[0]));
+                this.applyButton1.setSubText(spannableStringBuilder, z);
+                return;
+            }
             blurButton = this.applyButton1;
             i = R.string.ApplyWallpaper;
         }
@@ -5999,23 +6047,29 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x00e2, code lost:
-        if (r10 != false) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00e2, code lost:
+    
+        if (r10 != false) goto L53;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00e4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x00e4, code lost:
+    
         r0 = 1.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x00e6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00e6, code lost:
+    
         r11.setAlpha(r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x0103, code lost:
-        if (r10 != false) goto L39;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x010d, code lost:
-        if (r10 != false) goto L39;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:70:?, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:?, code lost:
+    
         return;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0103, code lost:
+    
+        if (r10 != false) goto L53;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x010d, code lost:
+    
+        if (r10 != false) goto L53;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -6142,7 +6196,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             AnimatorSet animatorSet = new AnimatorSet();
             WallpaperCheckBoxView wallpaperCheckBoxView = this.backgroundCheckBoxView[2];
             Property property = View.ALPHA;
-            animatorSet.playTogether(ObjectAnimator.ofFloat(wallpaperCheckBoxView, property, this.selectedPattern != null ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.backgroundCheckBoxView[0], property, this.selectedPattern != null ? 0.0f : 1.0f));
+            animatorSet.playTogether(ObjectAnimator.ofFloat(wallpaperCheckBoxView, (Property<WallpaperCheckBoxView, Float>) property, this.selectedPattern != null ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.backgroundCheckBoxView[0], (Property<WallpaperCheckBoxView, Float>) property, this.selectedPattern != null ? 0.0f : 1.0f));
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.34
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
@@ -6166,13 +6220,14 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (this.selectedPattern != null) {
             this.backgroundCheckBoxView[0].setVisibility(0);
         }
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.backgroundCheckBoxView[1].getLayoutParams();
         AnimatorSet animatorSet2 = new AnimatorSet();
-        int dp = (((FrameLayout.LayoutParams) this.backgroundCheckBoxView[1].getLayoutParams()).width + AndroidUtilities.dp(9.0f)) / 2;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[0], View.ALPHA, this.selectedPattern == null ? 0.0f : 1.0f));
+        int dp = (layoutParams.width + AndroidUtilities.dp(9.0f)) / 2;
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[0], (Property<WallpaperCheckBoxView, Float>) View.ALPHA, this.selectedPattern == null ? 0.0f : 1.0f));
         WallpaperCheckBoxView wallpaperCheckBoxView2 = this.backgroundCheckBoxView[0];
         Property property2 = View.TRANSLATION_X;
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(wallpaperCheckBoxView2, property2, this.selectedPattern != null ? 0.0f : dp));
-        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[1], property2, this.selectedPattern == null ? -dp : 0.0f));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(wallpaperCheckBoxView2, (Property<WallpaperCheckBoxView, Float>) property2, this.selectedPattern != null ? 0.0f : dp));
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.backgroundCheckBoxView[1], (Property<WallpaperCheckBoxView, Float>) property2, this.selectedPattern == null ? -dp : 0.0f));
         animatorSet2.setInterpolator(CubicBezierInterpolator.EASE_OUT);
         animatorSet2.setDuration(200L);
         animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.35
@@ -6186,13 +6241,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         animatorSet2.start();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0072, code lost:
-        if (r19.backgroundGradientColor1 != 0) goto L98;
+    /* JADX WARN: Code restructure failed: missing block: B:105:0x008d, code lost:
+    
+        if (r5 != 0) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x008d, code lost:
-        if (r5 != 0) goto L98;
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x0072, code lost:
+    
+        if (r19.backgroundGradientColor1 != 0) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x008f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:98:0x008f, code lost:
+    
         r5 = true;
      */
     /*
@@ -6259,12 +6317,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 if (z) {
                     AnimatorSet animatorSet2 = new AnimatorSet();
                     this.backgroundPlayViewAnimator = animatorSet2;
-                    ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this.backgroundPlayAnimationView, View.ALPHA, z2 ? 1.0f : 0.0f);
-                    ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(this.backgroundPlayAnimationView, View.SCALE_X, z2 ? 1.0f : 0.0f);
-                    ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.backgroundPlayAnimationView, View.SCALE_Y, z2 ? 1.0f : 0.0f);
+                    ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this.backgroundPlayAnimationView, (Property<FrameLayout, Float>) View.ALPHA, z2 ? 1.0f : 0.0f);
+                    ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(this.backgroundPlayAnimationView, (Property<FrameLayout, Float>) View.SCALE_X, z2 ? 1.0f : 0.0f);
+                    ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.backgroundPlayAnimationView, (Property<FrameLayout, Float>) View.SCALE_Y, z2 ? 1.0f : 0.0f);
                     WallpaperCheckBoxView wallpaperCheckBoxView = this.backgroundCheckBoxView[0];
                     Property property = View.TRANSLATION_X;
-                    animatorSet2.playTogether(ofFloat, ofFloat2, ofFloat3, ObjectAnimator.ofFloat(wallpaperCheckBoxView, property, z2 ? AndroidUtilities.dp(34.0f) : 0.0f), ObjectAnimator.ofFloat(this.backgroundCheckBoxView[1], property, z2 ? -AndroidUtilities.dp(34.0f) : 0.0f), ObjectAnimator.ofFloat(this.backgroundCheckBoxView[2], property, z2 ? AndroidUtilities.dp(34.0f) : 0.0f));
+                    animatorSet2.playTogether(ofFloat, ofFloat2, ofFloat3, ObjectAnimator.ofFloat(wallpaperCheckBoxView, (Property<WallpaperCheckBoxView, Float>) property, z2 ? AndroidUtilities.dp(34.0f) : 0.0f), ObjectAnimator.ofFloat(this.backgroundCheckBoxView[1], (Property<WallpaperCheckBoxView, Float>) property, z2 ? -AndroidUtilities.dp(34.0f) : 0.0f), ObjectAnimator.ofFloat(this.backgroundCheckBoxView[2], (Property<WallpaperCheckBoxView, Float>) property, z2 ? AndroidUtilities.dp(34.0f) : 0.0f));
                     this.backgroundPlayViewAnimator.setDuration(180L);
                     this.backgroundPlayViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.38
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -6307,12 +6365,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
                 AnimatorSet animatorSet4 = new AnimatorSet();
                 this.messagesPlayViewAnimator = animatorSet4;
-                ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.ALPHA, 1.0f);
-                ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.SCALE_X, 1.0f);
-                ObjectAnimator ofFloat6 = ObjectAnimator.ofFloat(this.messagesPlayAnimationView, View.SCALE_Y, 1.0f);
+                ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this.messagesPlayAnimationView, (Property<FrameLayout, Float>) View.ALPHA, 1.0f);
+                ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(this.messagesPlayAnimationView, (Property<FrameLayout, Float>) View.SCALE_X, 1.0f);
+                ObjectAnimator ofFloat6 = ObjectAnimator.ofFloat(this.messagesPlayAnimationView, (Property<FrameLayout, Float>) View.SCALE_Y, 1.0f);
                 WallpaperCheckBoxView wallpaperCheckBoxView2 = this.messagesCheckBoxView[0];
                 Property property2 = View.TRANSLATION_X;
-                animatorSet4.playTogether(ofFloat4, ofFloat5, ofFloat6, ObjectAnimator.ofFloat(wallpaperCheckBoxView2, property2, -AndroidUtilities.dp(34.0f)), ObjectAnimator.ofFloat(this.messagesCheckBoxView[1], property2, AndroidUtilities.dp(34.0f)));
+                animatorSet4.playTogether(ofFloat4, ofFloat5, ofFloat6, ObjectAnimator.ofFloat(wallpaperCheckBoxView2, (Property<WallpaperCheckBoxView, Float>) property2, -AndroidUtilities.dp(34.0f)), ObjectAnimator.ofFloat(this.messagesCheckBoxView[1], (Property<WallpaperCheckBoxView, Float>) property2, AndroidUtilities.dp(34.0f)));
                 this.messagesPlayViewAnimator.setDuration(180L);
                 this.messagesPlayViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ThemePreviewActivity.39
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -6339,81 +6397,87 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:105:0x0374, code lost:
-        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r2).slug) == false) goto L407;
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0061, code lost:
+    
+        if (r1.pattern == false) goto L18;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:107:0x037a, code lost:
-        if ((r38.currentWallpaper instanceof org.telegram.tgnet.TLRPC.TL_wallPaper) != false) goto L407;
+    /* JADX WARN: Code restructure failed: missing block: B:220:0x0a11, code lost:
+    
+        if (r4 != 2) goto L296;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0061, code lost:
-        if (r1.pattern == false) goto L16;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:294:0x0a11, code lost:
-        if (r4 != 2) goto L221;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:298:0x0a19, code lost:
-        if (r4 == 1) goto L229;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:300:0x0a27, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:222:0x0a27, code lost:
+    
         r14.rightMargin = (r13 / r9) + org.telegram.messenger.AndroidUtilities.dp(10.0f);
      */
+    /* JADX WARN: Code restructure failed: missing block: B:231:0x0a19, code lost:
+    
+        if (r4 == 1) goto L299;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:411:0x0374, code lost:
+    
+        if ("d".equals(((org.telegram.ui.WallpapersListActivity.ColorWallpaper) r2).slug) == false) goto L108;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:413:0x037a, code lost:
+    
+        if ((r38.currentWallpaper instanceof org.telegram.tgnet.TLRPC.TL_wallPaper) != false) goto L108;
+     */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x05ac  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x05d9  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0609  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x060b  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x0613  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0639  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0677 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:171:0x067b  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x086d  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x0889  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x08a0  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x006c  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x0982  */
-    /* JADX WARN: Removed duplicated region for block: B:260:0x098a  */
-    /* JADX WARN: Removed duplicated region for block: B:292:0x0a0e  */
-    /* JADX WARN: Removed duplicated region for block: B:297:0x0a17  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x007e  */
-    /* JADX WARN: Removed duplicated region for block: B:303:0x0a48  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x0a5a  */
-    /* JADX WARN: Removed duplicated region for block: B:309:0x0a6a  */
-    /* JADX WARN: Removed duplicated region for block: B:347:0x0b97  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x0ba3  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x011f  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0121  */
-    /* JADX WARN: Removed duplicated region for block: B:417:0x0f48  */
-    /* JADX WARN: Removed duplicated region for block: B:420:0x0f54  */
-    /* JADX WARN: Removed duplicated region for block: B:425:0x0fb2  */
-    /* JADX WARN: Removed duplicated region for block: B:426:0x0fb7  */
-    /* JADX WARN: Removed duplicated region for block: B:429:0x0ff3  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x012d  */
-    /* JADX WARN: Removed duplicated region for block: B:432:0x111a  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x0130  */
-    /* JADX WARN: Removed duplicated region for block: B:441:0x1144  */
-    /* JADX WARN: Removed duplicated region for block: B:444:0x1156  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0177  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x01c2  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x022b  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0230  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0239  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0241  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0245  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x024d  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0250  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0257  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x028a  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x02a7 A[LOOP:0: B:73:0x02a4->B:75:0x02a7, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x02ea  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0303  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0320  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x111a  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x1144  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x1156  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x0fb7  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x067b  */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x086d  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x08a0  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x098a  */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x0a0e  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x0a48  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0a5a  */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x0a17  */
+    /* JADX WARN: Removed duplicated region for block: B:251:0x0a6a  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:293:0x0b97  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x0f48  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x0f54  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0ba3  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x0982  */
+    /* JADX WARN: Removed duplicated region for block: B:378:0x0889  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x012d  */
+    /* JADX WARN: Removed duplicated region for block: B:381:0x0639  */
+    /* JADX WARN: Removed duplicated region for block: B:382:0x060b  */
+    /* JADX WARN: Removed duplicated region for block: B:385:0x05d9  */
+    /* JADX WARN: Removed duplicated region for block: B:390:0x0320  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0177  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x01c2  */
+    /* JADX WARN: Removed duplicated region for block: B:447:0x0257  */
+    /* JADX WARN: Removed duplicated region for block: B:448:0x0250  */
+    /* JADX WARN: Removed duplicated region for block: B:449:0x0245  */
+    /* JADX WARN: Removed duplicated region for block: B:450:0x0239  */
+    /* JADX WARN: Removed duplicated region for block: B:451:0x0230  */
+    /* JADX WARN: Removed duplicated region for block: B:452:0x0130  */
+    /* JADX WARN: Removed duplicated region for block: B:453:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x022b  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x024d  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x028a  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x02a7 A[LOOP:0: B:62:0x02a4->B:64:0x02a7, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0303  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x05ac  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0609  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0613  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0677 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0fb2  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0ff3  */
     /* JADX WARN: Type inference failed for: r1v103 */
-    /* JADX WARN: Type inference failed for: r1v104, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v104, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v110 */
     /* JADX WARN: Type inference failed for: r8v0 */
-    /* JADX WARN: Type inference failed for: r8v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r8v4 */
     /* JADX WARN: Type inference failed for: r8v8 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -6589,10 +6653,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             this.floatingButton.setImageResource(R.drawable.floating_pencil);
             if (i >= 21) {
                 StateListAnimator stateListAnimator = new StateListAnimator();
+                int[] iArr = {android.R.attr.state_pressed};
                 ImageView imageView2 = this.floatingButton;
                 property = View.TRANSLATION_Z;
-                stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(imageView2, property, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
-                stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButton, property, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
+                stateListAnimator.addState(iArr, ObjectAnimator.ofFloat(imageView2, (Property<ImageView, Float>) property, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
+                stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButton, (Property<ImageView, Float>) property, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
                 this.floatingButton.setStateListAnimator(stateListAnimator);
                 this.floatingButton.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.ThemePreviewActivity.7
                     @Override // android.view.ViewOutlineProvider
@@ -6654,7 +6719,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                     FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.listView2.getLayoutParams();
                     layoutParams2.topMargin = measuredHeight;
-                    int i24 = 58;
                     if (ThemePreviewActivity.this.screenType == 2) {
                         RecyclerListView recyclerListView2 = ThemePreviewActivity.this.listView2;
                         int dp3 = AndroidUtilities.dp(4.0f);
@@ -6672,17 +6736,17 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         ThemePreviewActivity.this.bottomOverlayChat.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f) + (ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0));
                         FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.bottomOverlayChat.getLayoutParams();
                         ThemePreviewActivity themePreviewActivity2 = ThemePreviewActivity.this;
-                        layoutParams3.height = AndroidUtilities.dp(72 + ((themePreviewActivity2.self || themePreviewActivity2.dialogId <= 0) ? 0 : 0)) + (ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
+                        layoutParams3.height = AndroidUtilities.dp(72 + ((themePreviewActivity2.self || themePreviewActivity2.dialogId <= 0) ? 0 : 58)) + (ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
                         measureChildWithMargins(ThemePreviewActivity.this.bottomOverlayChat, i22, 0, i23, 0);
                     }
                     if (ThemePreviewActivity.this.sheetDrawable != null) {
                         ThemePreviewActivity.this.sheetDrawable.getPadding(AndroidUtilities.rectTmp2);
                     }
-                    int i25 = 0;
-                    while (i25 < ThemePreviewActivity.this.patternLayout.length) {
-                        if (ThemePreviewActivity.this.patternLayout[i25] != null) {
-                            FrameLayout.LayoutParams layoutParams4 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.patternLayout[i25].getLayoutParams();
-                            if (i25 == 0) {
+                    int i24 = 0;
+                    while (i24 < ThemePreviewActivity.this.patternLayout.length) {
+                        if (ThemePreviewActivity.this.patternLayout[i24] != null) {
+                            FrameLayout.LayoutParams layoutParams4 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.patternLayout[i24].getLayoutParams();
+                            if (i24 == 0) {
                                 f13 = ThemePreviewActivity.this.screenType == 2 ? 321 : NotificationCenter.onActivityResultReceived;
                             } else {
                                 f13 = 316.0f;
@@ -6691,13 +6755,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             if (ThemePreviewActivity.this.insideBottomSheet()) {
                                 layoutParams4.height += AndroidUtilities.navigationBarHeight;
                             }
-                            if (i25 == 0) {
+                            if (i24 == 0) {
                                 layoutParams4.height += AndroidUtilities.dp(12.0f) + AndroidUtilities.rectTmp2.top;
                             }
-                            ThemePreviewActivity.this.patternLayout[i25].setPadding(0, i25 == 0 ? AndroidUtilities.dp(12.0f) + AndroidUtilities.rectTmp2.top : 0, 0, ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
-                            measureChildWithMargins(ThemePreviewActivity.this.patternLayout[i25], i22, 0, i23, 0);
+                            ThemePreviewActivity.this.patternLayout[i24].setPadding(0, i24 == 0 ? AndroidUtilities.dp(12.0f) + AndroidUtilities.rectTmp2.top : 0, 0, ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
+                            measureChildWithMargins(ThemePreviewActivity.this.patternLayout[i24], i22, 0, i23, 0);
                         }
-                        i25++;
+                        i24++;
                     }
                 }
 
@@ -6870,9 +6934,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                         translationX = Math.min(childViewHolder2.itemView.getTranslationX(), translationX);
                                                     }
                                                     View view3 = childViewHolder2.itemView;
-                                                    if (!(view3 instanceof ChatMessageCell)) {
-                                                        break;
-                                                    } else if (!((ChatMessageCell) view3).isPinnedTop()) {
+                                                    if (!(view3 instanceof ChatMessageCell) || !((ChatMessageCell) view3).isPinnedTop()) {
                                                         break;
                                                     }
                                                 }
@@ -6910,17 +6972,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     ThemePreviewActivity.this.invalidateBlur();
                                 }
 
-                                /* JADX WARN: Code restructure failed: missing block: B:16:0x004a, code lost:
-                                    if (getParent() != null) goto L9;
+                                /* JADX WARN: Code restructure failed: missing block: B:17:0x004a, code lost:
+                                
+                                    if (getParent() != null) goto L17;
                                  */
-                                /* JADX WARN: Code restructure failed: missing block: B:17:0x004c, code lost:
-                                    getParent().requestDisallowInterceptTouchEvent(true);
+                                /* JADX WARN: Code restructure failed: missing block: B:6:0x0027, code lost:
+                                
+                                    if (getParent() != null) goto L17;
                                  */
-                                /* JADX WARN: Code restructure failed: missing block: B:18:0x0053, code lost:
+                                /* JADX WARN: Code restructure failed: missing block: B:7:0x0053, code lost:
+                                
                                     r4.scrollingBackground = true;
                                  */
-                                /* JADX WARN: Code restructure failed: missing block: B:7:0x0027, code lost:
-                                    if (getParent() != null) goto L9;
+                                /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
+                                
+                                    getParent().requestDisallowInterceptTouchEvent(true);
                                  */
                                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
                                 /*
@@ -7035,7 +7101,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                             i7 = 3;
                             String[] strArr = new String[i7];
-                            int[] iArr = new int[i7];
+                            int[] iArr2 = new int[i7];
                             this.backgroundCheckBoxView = new WallpaperCheckBoxView[i7];
                             if (i7 == 0) {
                             }
@@ -7075,8 +7141,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     }
                                     getLocationInWindow(this.loc);
                                     if (Build.VERSION.SDK_INT < 21 && !AndroidUtilities.isTablet()) {
-                                        int[] iArr2 = this.loc;
-                                        iArr2[1] = iArr2[1] - AndroidUtilities.statusBarHeight;
+                                        int[] iArr3 = this.loc;
+                                        iArr3[1] = iArr3[1] - AndroidUtilities.statusBarHeight;
                                     }
                                     if (ThemePreviewActivity.this.actionBar2.getTranslationY() != this.loc[1]) {
                                         ThemePreviewActivity.this.actionBar2.setTranslationY(-this.loc[1]);
@@ -7235,9 +7301,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                 translationX = Math.min(childViewHolder2.itemView.getTranslationX(), translationX);
                                             }
                                             View view3 = childViewHolder2.itemView;
-                                            if (!(view3 instanceof ChatMessageCell)) {
-                                                break;
-                                            } else if (!((ChatMessageCell) view3).isPinnedTop()) {
+                                            if (!(view3 instanceof ChatMessageCell) || !((ChatMessageCell) view3).isPinnedTop()) {
                                                 break;
                                             }
                                         }
@@ -7275,17 +7339,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             ThemePreviewActivity.this.invalidateBlur();
                         }
 
-                        /* JADX WARN: Code restructure failed: missing block: B:16:0x004a, code lost:
-                            if (getParent() != null) goto L9;
+                        /* JADX WARN: Code restructure failed: missing block: B:17:0x004a, code lost:
+                        
+                            if (getParent() != null) goto L17;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:17:0x004c, code lost:
-                            getParent().requestDisallowInterceptTouchEvent(true);
+                        /* JADX WARN: Code restructure failed: missing block: B:6:0x0027, code lost:
+                        
+                            if (getParent() != null) goto L17;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:18:0x0053, code lost:
+                        /* JADX WARN: Code restructure failed: missing block: B:7:0x0053, code lost:
+                        
                             r4.scrollingBackground = true;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:7:0x0027, code lost:
-                            if (getParent() != null) goto L9;
+                        /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
+                        
+                            getParent().requestDisallowInterceptTouchEvent(true);
                          */
                         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
                         /*
@@ -7400,7 +7468,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                     i7 = 3;
                     String[] strArr2 = new String[i7];
-                    int[] iArr2 = new int[i7];
+                    int[] iArr22 = new int[i7];
                     this.backgroundCheckBoxView = new WallpaperCheckBoxView[i7];
                     if (i7 == 0) {
                     }
@@ -7440,8 +7508,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                             getLocationInWindow(this.loc);
                             if (Build.VERSION.SDK_INT < 21 && !AndroidUtilities.isTablet()) {
-                                int[] iArr22 = this.loc;
-                                iArr22[1] = iArr22[1] - AndroidUtilities.statusBarHeight;
+                                int[] iArr3 = this.loc;
+                                iArr3[1] = iArr3[1] - AndroidUtilities.statusBarHeight;
                             }
                             if (ThemePreviewActivity.this.actionBar2.getTranslationY() != this.loc[1]) {
                                 ThemePreviewActivity.this.actionBar2.setTranslationY(-this.loc[1]);
@@ -7633,9 +7701,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                                 translationX = Math.min(childViewHolder2.itemView.getTranslationX(), translationX);
                                             }
                                             View view3 = childViewHolder2.itemView;
-                                            if (!(view3 instanceof ChatMessageCell)) {
-                                                break;
-                                            } else if (!((ChatMessageCell) view3).isPinnedTop()) {
+                                            if (!(view3 instanceof ChatMessageCell) || !((ChatMessageCell) view3).isPinnedTop()) {
                                                 break;
                                             }
                                         }
@@ -7673,17 +7739,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             ThemePreviewActivity.this.invalidateBlur();
                         }
 
-                        /* JADX WARN: Code restructure failed: missing block: B:16:0x004a, code lost:
-                            if (getParent() != null) goto L9;
+                        /* JADX WARN: Code restructure failed: missing block: B:17:0x004a, code lost:
+                        
+                            if (getParent() != null) goto L17;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:17:0x004c, code lost:
-                            getParent().requestDisallowInterceptTouchEvent(true);
+                        /* JADX WARN: Code restructure failed: missing block: B:6:0x0027, code lost:
+                        
+                            if (getParent() != null) goto L17;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:18:0x0053, code lost:
+                        /* JADX WARN: Code restructure failed: missing block: B:7:0x0053, code lost:
+                        
                             r4.scrollingBackground = true;
                          */
-                        /* JADX WARN: Code restructure failed: missing block: B:7:0x0027, code lost:
-                            if (getParent() != null) goto L9;
+                        /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
+                        
+                            getParent().requestDisallowInterceptTouchEvent(true);
                          */
                         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
                         /*
@@ -7975,7 +8045,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 };
                                 this.dimmingSliderContainer = frameLayout8;
                                 frameLayout8.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));
-                                this.page2.addView(this.dimmingSliderContainer, LayoutHelper.createFrame((int) NotificationCenter.starUserGiftsLoaded, 76, 49));
+                                this.page2.addView(this.dimmingSliderContainer, LayoutHelper.createFrame(NotificationCenter.starUserGiftsLoaded, 76, 49));
                                 SliderView sliderView = new SliderView(getContext(), 3) { // from class: org.telegram.ui.ThemePreviewActivity.16
                                     @Override // org.telegram.ui.Stories.recorder.SliderView, android.view.View
                                     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
@@ -8016,7 +8086,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             if ((obj instanceof WallpapersListActivity.ColorWallpaper) || !"d".equals(((WallpapersListActivity.ColorWallpaper) obj).slug)) {
                                 i7 = 3;
                                 String[] strArr22 = new String[i7];
-                                int[] iArr22 = new int[i7];
+                                int[] iArr222 = new int[i7];
                                 this.backgroundCheckBoxView = new WallpaperCheckBoxView[i7];
                                 if (i7 == 0) {
                                     this.backgroundButtonsContainer = new FrameLayout(context);
@@ -8032,7 +8102,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     int i27 = 0;
                                     while (i27 < i7) {
                                         int ceil = (int) Math.ceil(textPaint22.measureText(strArr22[i27]));
-                                        iArr22[i27] = ceil;
+                                        iArr222[i27] = ceil;
                                         i9 = Math.max(i9, ceil);
                                         i27++;
                                         i7 = i7;
@@ -8097,7 +8167,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 while (i11 < i10) {
                                     this.backgroundCheckBoxView[i11] = new WallpaperCheckBoxView(context, ((this.screenType == 1 || (this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) && i11 == 0) ? false : true, this.backgroundImage, this.themeDelegate);
                                     this.backgroundCheckBoxView[i11].setBackgroundColor(this.backgroundColor);
-                                    this.backgroundCheckBoxView[i11].setText(strArr22[i11], iArr22[i11], i9);
+                                    this.backgroundCheckBoxView[i11].setText(strArr22[i11], iArr222[i11], i9);
                                     if (this.screenType != 1 && !(this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper)) {
                                         WallpaperCheckBoxView wallpaperCheckBoxView2 = this.backgroundCheckBoxView[i11];
                                         if (i11 == 0) {
@@ -8517,7 +8587,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                             i7 = 0;
                             String[] strArr222 = new String[i7];
-                            int[] iArr222 = new int[i7];
+                            int[] iArr2222 = new int[i7];
                             this.backgroundCheckBoxView = new WallpaperCheckBoxView[i7];
                             if (i7 == 0) {
                             }
@@ -8543,7 +8613,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             if (!(obj instanceof WallpapersListActivity.FileWallpaper) || !"t".equals(((WallpapersListActivity.FileWallpaper) obj).slug)) {
                                 i7 = 2;
                                 String[] strArr2222 = new String[i7];
-                                int[] iArr2222 = new int[i7];
+                                int[] iArr22222 = new int[i7];
                                 this.backgroundCheckBoxView = new WallpaperCheckBoxView[i7];
                                 if (i7 == 0) {
                                 }
@@ -8567,7 +8637,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                             i7 = 0;
                             String[] strArr22222 = new String[i7];
-                            int[] iArr22222 = new int[i7];
+                            int[] iArr222222 = new int[i7];
                             this.backgroundCheckBoxView = new WallpaperCheckBoxView[i7];
                             if (i7 == 0) {
                             }
@@ -8609,8 +8679,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                             getLocationInWindow(this.loc);
                             if (Build.VERSION.SDK_INT < 21 && !AndroidUtilities.isTablet()) {
-                                int[] iArr223 = this.loc;
-                                iArr223[1] = iArr223[1] - AndroidUtilities.statusBarHeight;
+                                int[] iArr32 = this.loc;
+                                iArr32[1] = iArr32[1] - AndroidUtilities.statusBarHeight;
                             }
                             if (ThemePreviewActivity.this.actionBar2.getTranslationY() != this.loc[1]) {
                                 ThemePreviewActivity.this.actionBar2.setTranslationY(-this.loc[1]);
@@ -8834,9 +8904,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                         translationX = Math.min(childViewHolder2.itemView.getTranslationX(), translationX);
                                     }
                                     View view32 = childViewHolder2.itemView;
-                                    if (!(view32 instanceof ChatMessageCell)) {
-                                        break;
-                                    } else if (!((ChatMessageCell) view32).isPinnedTop()) {
+                                    if (!(view32 instanceof ChatMessageCell) || !((ChatMessageCell) view32).isPinnedTop()) {
                                         break;
                                     }
                                 }
@@ -8874,17 +8942,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     ThemePreviewActivity.this.invalidateBlur();
                 }
 
-                /* JADX WARN: Code restructure failed: missing block: B:16:0x004a, code lost:
-                    if (getParent() != null) goto L9;
+                /* JADX WARN: Code restructure failed: missing block: B:17:0x004a, code lost:
+                
+                    if (getParent() != null) goto L17;
                  */
-                /* JADX WARN: Code restructure failed: missing block: B:17:0x004c, code lost:
-                    getParent().requestDisallowInterceptTouchEvent(true);
+                /* JADX WARN: Code restructure failed: missing block: B:6:0x0027, code lost:
+                
+                    if (getParent() != null) goto L17;
                  */
-                /* JADX WARN: Code restructure failed: missing block: B:18:0x0053, code lost:
+                /* JADX WARN: Code restructure failed: missing block: B:7:0x0053, code lost:
+                
                     r4.scrollingBackground = true;
                  */
-                /* JADX WARN: Code restructure failed: missing block: B:7:0x0027, code lost:
-                    if (getParent() != null) goto L9;
+                /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
+                
+                    getParent().requestDisallowInterceptTouchEvent(true);
                  */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
                 /*
@@ -8999,7 +9071,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
             i7 = 3;
             String[] strArr222222 = new String[i7];
-            int[] iArr222222 = new int[i7];
+            int[] iArr2222222 = new int[i7];
             this.backgroundCheckBoxView = new WallpaperCheckBoxView[i7];
             if (i7 == 0) {
             }
@@ -9039,8 +9111,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                     getLocationInWindow(this.loc);
                     if (Build.VERSION.SDK_INT < 21 && !AndroidUtilities.isTablet()) {
-                        int[] iArr223 = this.loc;
-                        iArr223[1] = iArr223[1] - AndroidUtilities.statusBarHeight;
+                        int[] iArr32 = this.loc;
+                        iArr32[1] = iArr32[1] - AndroidUtilities.statusBarHeight;
                     }
                     if (ThemePreviewActivity.this.actionBar2.getTranslationY() != this.loc[1]) {
                         ThemePreviewActivity.this.actionBar2.setTranslationY(-this.loc[1]);
@@ -9270,7 +9342,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
                 FrameLayout.LayoutParams layoutParams22 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.listView2.getLayoutParams();
                 layoutParams22.topMargin = measuredHeight;
-                int i242 = 58;
                 if (ThemePreviewActivity.this.screenType == 2) {
                     RecyclerListView recyclerListView22 = ThemePreviewActivity.this.listView2;
                     int dp33 = AndroidUtilities.dp(4.0f);
@@ -9288,17 +9359,17 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     ThemePreviewActivity.this.bottomOverlayChat.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f) + (ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0));
                     FrameLayout.LayoutParams layoutParams32 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.bottomOverlayChat.getLayoutParams();
                     ThemePreviewActivity themePreviewActivity2 = ThemePreviewActivity.this;
-                    layoutParams32.height = AndroidUtilities.dp(72 + ((themePreviewActivity2.self || themePreviewActivity2.dialogId <= 0) ? 0 : 0)) + (ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
+                    layoutParams32.height = AndroidUtilities.dp(72 + ((themePreviewActivity2.self || themePreviewActivity2.dialogId <= 0) ? 0 : 58)) + (ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
                     measureChildWithMargins(ThemePreviewActivity.this.bottomOverlayChat, i222, 0, i232, 0);
                 }
                 if (ThemePreviewActivity.this.sheetDrawable != null) {
                     ThemePreviewActivity.this.sheetDrawable.getPadding(AndroidUtilities.rectTmp2);
                 }
-                int i252 = 0;
-                while (i252 < ThemePreviewActivity.this.patternLayout.length) {
-                    if (ThemePreviewActivity.this.patternLayout[i252] != null) {
-                        FrameLayout.LayoutParams layoutParams42 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.patternLayout[i252].getLayoutParams();
-                        if (i252 == 0) {
+                int i242 = 0;
+                while (i242 < ThemePreviewActivity.this.patternLayout.length) {
+                    if (ThemePreviewActivity.this.patternLayout[i242] != null) {
+                        FrameLayout.LayoutParams layoutParams42 = (FrameLayout.LayoutParams) ThemePreviewActivity.this.patternLayout[i242].getLayoutParams();
+                        if (i242 == 0) {
                             f13 = ThemePreviewActivity.this.screenType == 2 ? 321 : NotificationCenter.onActivityResultReceived;
                         } else {
                             f13 = 316.0f;
@@ -9307,13 +9378,13 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         if (ThemePreviewActivity.this.insideBottomSheet()) {
                             layoutParams42.height += AndroidUtilities.navigationBarHeight;
                         }
-                        if (i252 == 0) {
+                        if (i242 == 0) {
                             layoutParams42.height += AndroidUtilities.dp(12.0f) + AndroidUtilities.rectTmp2.top;
                         }
-                        ThemePreviewActivity.this.patternLayout[i252].setPadding(0, i252 == 0 ? AndroidUtilities.dp(12.0f) + AndroidUtilities.rectTmp2.top : 0, 0, ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
-                        measureChildWithMargins(ThemePreviewActivity.this.patternLayout[i252], i222, 0, i232, 0);
+                        ThemePreviewActivity.this.patternLayout[i242].setPadding(0, i242 == 0 ? AndroidUtilities.dp(12.0f) + AndroidUtilities.rectTmp2.top : 0, 0, ThemePreviewActivity.this.insideBottomSheet() ? AndroidUtilities.navigationBarHeight : 0);
+                        measureChildWithMargins(ThemePreviewActivity.this.patternLayout[i242], i222, 0, i232, 0);
                     }
-                    i252++;
+                    i242++;
                 }
             }
 
@@ -9406,9 +9477,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     translationX = Math.min(childViewHolder2.itemView.getTranslationX(), translationX);
                                 }
                                 View view32 = childViewHolder2.itemView;
-                                if (!(view32 instanceof ChatMessageCell)) {
-                                    break;
-                                } else if (!((ChatMessageCell) view32).isPinnedTop()) {
+                                if (!(view32 instanceof ChatMessageCell) || !((ChatMessageCell) view32).isPinnedTop()) {
                                     break;
                                 }
                             }
@@ -9446,17 +9515,21 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 ThemePreviewActivity.this.invalidateBlur();
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:16:0x004a, code lost:
-                if (getParent() != null) goto L9;
+            /* JADX WARN: Code restructure failed: missing block: B:17:0x004a, code lost:
+            
+                if (getParent() != null) goto L17;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:17:0x004c, code lost:
-                getParent().requestDisallowInterceptTouchEvent(true);
+            /* JADX WARN: Code restructure failed: missing block: B:6:0x0027, code lost:
+            
+                if (getParent() != null) goto L17;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:18:0x0053, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:7:0x0053, code lost:
+            
                 r4.scrollingBackground = true;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:7:0x0027, code lost:
-                if (getParent() != null) goto L9;
+            /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
+            
+                getParent().requestDisallowInterceptTouchEvent(true);
              */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
             /*
@@ -9571,7 +9644,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
         i7 = 3;
         String[] strArr2222222 = new String[i7];
-        int[] iArr2222222 = new int[i7];
+        int[] iArr22222222 = new int[i7];
         this.backgroundCheckBoxView = new WallpaperCheckBoxView[i7];
         if (i7 == 0) {
         }
@@ -9611,8 +9684,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
                 getLocationInWindow(this.loc);
                 if (Build.VERSION.SDK_INT < 21 && !AndroidUtilities.isTablet()) {
-                    int[] iArr223 = this.loc;
-                    iArr223[1] = iArr223[1] - AndroidUtilities.statusBarHeight;
+                    int[] iArr32 = this.loc;
+                    iArr32[1] = iArr32[1] - AndroidUtilities.statusBarHeight;
                 }
                 if (ThemePreviewActivity.this.actionBar2.getTranslationY() != this.loc[1]) {
                     ThemePreviewActivity.this.actionBar2.setTranslationY(-this.loc[1]);
@@ -9710,8 +9783,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (this.dialogId == ((Long) objArr[2]).longValue()) {
                 this.boostsStatus = (TL_stories.TL_premium_boostsStatus) objArr[0];
                 updateApplyButton1(true);
+                return;
             }
-        } else if (i == NotificationCenter.emojiLoaded) {
+            return;
+        }
+        if (i == NotificationCenter.emojiLoaded) {
             RecyclerListView recyclerListView = this.listView;
             if (recyclerListView == null) {
                 return;
@@ -9723,86 +9799,96 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     ((DialogCell) childAt).update(0);
                 }
             }
-        } else if (i == NotificationCenter.invalidateMotionBackground) {
+            return;
+        }
+        if (i == NotificationCenter.invalidateMotionBackground) {
             RecyclerListView recyclerListView2 = this.listView2;
             if (recyclerListView2 != null) {
                 recyclerListView2.invalidateViews();
+                return;
             }
-        } else if (i == NotificationCenter.didSetNewWallpapper) {
+            return;
+        }
+        if (i == NotificationCenter.didSetNewWallpapper) {
             if (this.page2 != null) {
                 setCurrentImage(true);
+                return;
             }
-        } else if (i == NotificationCenter.wallpapersNeedReload) {
+            return;
+        }
+        if (i == NotificationCenter.wallpapersNeedReload) {
             Object obj = this.currentWallpaper;
             if (obj instanceof WallpapersListActivity.FileWallpaper) {
                 WallpapersListActivity.FileWallpaper fileWallpaper = (WallpapersListActivity.FileWallpaper) obj;
                 if (fileWallpaper.slug == null) {
                     fileWallpaper.slug = (String) objArr[0];
-                }
-            }
-        } else {
-            long j = 0;
-            if (i != NotificationCenter.wallpapersDidLoad) {
-                if (i != NotificationCenter.wallpaperSettedToUser || this.dialogId == 0) {
                     return;
                 }
-                finishFragment();
                 return;
             }
-            ArrayList arrayList = (ArrayList) objArr[0];
-            this.patterns.clear();
-            this.patternsDict.clear();
-            int size = arrayList.size();
-            boolean z = false;
-            for (int i4 = 0; i4 < size; i4++) {
-                TLRPC.WallPaper wallPaper = (TLRPC.WallPaper) arrayList.get(i4);
-                if ((wallPaper instanceof TLRPC.TL_wallPaper) && wallPaper.pattern) {
-                    TLRPC.Document document = wallPaper.document;
-                    if (document != null && !this.patternsDict.containsKey(Long.valueOf(document.id))) {
-                        this.patterns.add(wallPaper);
-                        this.patternsDict.put(Long.valueOf(wallPaper.document.id), wallPaper);
-                    }
-                    Theme.ThemeAccent themeAccent = this.accent;
-                    if (themeAccent != null && (str = themeAccent.patternSlug) != null && str.equals(wallPaper.slug)) {
-                        this.selectedPattern = (TLRPC.TL_wallPaper) wallPaper;
-                        setCurrentImage(false);
-                        updateButtonState(false, false);
-                    } else if (this.accent == null) {
-                        TLRPC.TL_wallPaper tL_wallPaper2 = this.selectedPattern;
-                        if (tL_wallPaper2 != null) {
-                            String str2 = tL_wallPaper2.slug;
-                            if (str2 != null) {
-                                if (!str2.equals(wallPaper.slug)) {
-                                }
+            return;
+        }
+        long j = 0;
+        if (i != NotificationCenter.wallpapersDidLoad) {
+            if (i != NotificationCenter.wallpaperSettedToUser || this.dialogId == 0) {
+                return;
+            }
+            lambda$onBackPressed$300();
+            return;
+        }
+        ArrayList arrayList = (ArrayList) objArr[0];
+        this.patterns.clear();
+        this.patternsDict.clear();
+        int size = arrayList.size();
+        boolean z = false;
+        for (int i4 = 0; i4 < size; i4++) {
+            TLRPC.WallPaper wallPaper = (TLRPC.WallPaper) arrayList.get(i4);
+            if ((wallPaper instanceof TLRPC.TL_wallPaper) && wallPaper.pattern) {
+                TLRPC.Document document = wallPaper.document;
+                if (document != null && !this.patternsDict.containsKey(Long.valueOf(document.id))) {
+                    this.patterns.add(wallPaper);
+                    this.patternsDict.put(Long.valueOf(wallPaper.document.id), wallPaper);
+                }
+                Theme.ThemeAccent themeAccent = this.accent;
+                if (themeAccent != null && (str = themeAccent.patternSlug) != null && str.equals(wallPaper.slug)) {
+                    this.selectedPattern = (TLRPC.TL_wallPaper) wallPaper;
+                    setCurrentImage(false);
+                    updateButtonState(false, false);
+                } else if (this.accent == null) {
+                    TLRPC.TL_wallPaper tL_wallPaper2 = this.selectedPattern;
+                    if (tL_wallPaper2 != null) {
+                        String str2 = tL_wallPaper2.slug;
+                        if (str2 != null) {
+                            if (!str2.equals(wallPaper.slug)) {
                             }
                         }
                     }
-                    z = true;
                 }
+                z = true;
             }
-            if (!z && (tL_wallPaper = this.selectedPattern) != null) {
-                this.patterns.add(0, tL_wallPaper);
-            }
-            PatternsAdapter patternsAdapter = this.patternsAdapter;
-            if (patternsAdapter != null) {
-                patternsAdapter.notifyDataSetChanged();
-            }
-            int size2 = arrayList.size();
-            for (int i5 = 0; i5 < size2; i5++) {
-                TLRPC.WallPaper wallPaper2 = (TLRPC.WallPaper) arrayList.get(i5);
-                if (wallPaper2 instanceof TLRPC.TL_wallPaper) {
-                    j = MediaDataController.calcHash(j, wallPaper2.id);
-                }
-            }
-            TLRPC.TL_account_getWallPapers tL_account_getWallPapers = new TLRPC.TL_account_getWallPapers();
-            tL_account_getWallPapers.hash = j;
-            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_getWallPapers, new RequestDelegate() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda2
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    ThemePreviewActivity.this.lambda$didReceivedNotification$31(tLObject, tL_error);
-                }
-            }), this.classGuid);
         }
+        if (!z && (tL_wallPaper = this.selectedPattern) != null) {
+            this.patterns.add(0, tL_wallPaper);
+        }
+        PatternsAdapter patternsAdapter = this.patternsAdapter;
+        if (patternsAdapter != null) {
+            patternsAdapter.notifyDataSetChanged();
+        }
+        int size2 = arrayList.size();
+        for (int i5 = 0; i5 < size2; i5++) {
+            TLRPC.WallPaper wallPaper2 = (TLRPC.WallPaper) arrayList.get(i5);
+            if (wallPaper2 instanceof TLRPC.TL_wallPaper) {
+                j = MediaDataController.calcHash(j, wallPaper2.id);
+            }
+        }
+        TLRPC.TL_account_getWallPapers tL_account_getWallPapers = new TLRPC.TL_account_getWallPapers();
+        tL_account_getWallPapers.hash = j;
+        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_getWallPapers, new RequestDelegate() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda2
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                ThemePreviewActivity.this.lambda$didReceivedNotification$31(tLObject, tL_error);
+            }
+        }), this.classGuid);
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
@@ -9955,11 +10041,11 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onBackPressed() {
-        if (checkDiscard()) {
-            cancelThemeApply(true);
-            return true;
+        if (!checkDiscard()) {
+            return false;
         }
-        return false;
+        cancelThemeApply(true);
+        return true;
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -10001,8 +10087,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             Point point = AndroidUtilities.displaySize;
             int min = Math.min(point.x, point.y);
             Point point2 = AndroidUtilities.displaySize;
-            int max = Math.max(point2.x, point2.y);
-            this.imageFilter = ((int) (min / AndroidUtilities.density)) + "_" + ((int) (max / AndroidUtilities.density)) + "_f";
+            this.imageFilter = ((int) (min / AndroidUtilities.density)) + "_" + ((int) (Math.max(point2.x, point2.y) / AndroidUtilities.density)) + "_f";
             Point point3 = AndroidUtilities.displaySize;
             this.maxWallpaperSize = Math.max(point3.x, point3.y);
             NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.wallpapersNeedReload);

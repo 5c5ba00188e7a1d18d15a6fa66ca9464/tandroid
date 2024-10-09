@@ -12,6 +12,7 @@ import androidx.appcompat.R$layout;
 import androidx.appcompat.view.menu.MenuPresenter;
 import androidx.appcompat.view.menu.MenuView;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public class ListMenuPresenter implements MenuPresenter, AdapterView.OnItemClickListener {
     MenuAdapter mAdapter;
@@ -131,8 +132,8 @@ public class ListMenuPresenter implements MenuPresenter, AdapterView.OnItemClick
         return this.mMenuView;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0029  */
-    /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0029  */
     @Override // androidx.appcompat.view.menu.MenuPresenter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -180,16 +181,16 @@ public class ListMenuPresenter implements MenuPresenter, AdapterView.OnItemClick
 
     @Override // androidx.appcompat.view.menu.MenuPresenter
     public boolean onSubMenuSelected(SubMenuBuilder subMenuBuilder) {
-        if (subMenuBuilder.hasVisibleItems()) {
-            new MenuDialogHelper(subMenuBuilder).show(null);
-            MenuPresenter.Callback callback = this.mCallback;
-            if (callback != null) {
-                callback.onOpenSubMenu(subMenuBuilder);
-                return true;
-            }
+        if (!subMenuBuilder.hasVisibleItems()) {
+            return false;
+        }
+        new MenuDialogHelper(subMenuBuilder).show(null);
+        MenuPresenter.Callback callback = this.mCallback;
+        if (callback == null) {
             return true;
         }
-        return false;
+        callback.onOpenSubMenu(subMenuBuilder);
+        return true;
     }
 
     @Override // androidx.appcompat.view.menu.MenuPresenter

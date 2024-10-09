@@ -2,6 +2,7 @@ package org.telegram.ui.Charts.data;
 
 import org.json.JSONObject;
 import org.telegram.ui.Charts.data.ChartData;
+
 /* loaded from: classes4.dex */
 public class DoubleLinearChartData extends ChartData {
     public float[] linesK;

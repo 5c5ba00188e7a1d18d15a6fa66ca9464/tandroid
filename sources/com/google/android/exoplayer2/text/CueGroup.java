@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class CueGroup implements Bundleable {
     public final ImmutableList cues;
@@ -33,7 +34,7 @@ public final class CueGroup implements Bundleable {
         ImmutableList.Builder builder = ImmutableList.builder();
         for (int i = 0; i < list.size(); i++) {
             if (((Cue) list.get(i)).bitmap == null) {
-                builder.add((Object) ((Cue) list.get(i)));
+                builder.add(list.get(i));
             }
         }
         return builder.build();

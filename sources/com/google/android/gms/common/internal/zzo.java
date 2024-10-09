@@ -10,8 +10,10 @@ import android.os.StrictMode;
 import com.google.android.gms.common.stats.ConnectionTracker;
 import com.google.android.gms.common.util.PlatformVersion;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 final class zzo implements ServiceConnection, zzs {
     final /* synthetic */ zzr zza;
@@ -38,8 +40,9 @@ final class zzo implements ServiceConnection, zzs {
                 handler.removeMessages(1, this.zzf);
                 this.zze = iBinder;
                 this.zzg = componentName;
-                for (ServiceConnection serviceConnection : this.zzb.values()) {
-                    serviceConnection.onServiceConnected(componentName, iBinder);
+                Iterator it = this.zzb.values().iterator();
+                while (it.hasNext()) {
+                    ((ServiceConnection) it.next()).onServiceConnected(componentName, iBinder);
                 }
                 this.zzc = 1;
             } catch (Throwable th) {
@@ -59,8 +62,9 @@ final class zzo implements ServiceConnection, zzs {
                 handler.removeMessages(1, this.zzf);
                 this.zze = null;
                 this.zzg = componentName;
-                for (ServiceConnection serviceConnection : this.zzb.values()) {
-                    serviceConnection.onServiceDisconnected(componentName);
+                Iterator it = this.zzb.values().iterator();
+                while (it.hasNext()) {
+                    ((ServiceConnection) it.next()).onServiceDisconnected(componentName);
                 }
                 this.zzc = 2;
             } catch (Throwable th) {

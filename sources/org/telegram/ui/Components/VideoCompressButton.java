@@ -13,6 +13,7 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.AnimatedTextView;
+
 /* loaded from: classes3.dex */
 public class VideoCompressButton extends View {
     private final Paint clearPaint;
@@ -121,11 +122,12 @@ public class VideoCompressButton extends View {
                     animatedTextDrawable = this.sizeTextDrawable;
                     isEmpty = TextUtils.isEmpty(animatedTextDrawable.getText());
                     str = "2K";
-                } else if (length != 7) {
-                    this.sizeTextDrawable.setText("" + this.sizes[length], TextUtils.isEmpty(this.sizeTextDrawable.getText()));
-                    setClickable(!this.disabled);
-                    invalidate();
                 } else {
+                    if (length != 7) {
+                        this.sizeTextDrawable.setText("" + this.sizes[length], TextUtils.isEmpty(this.sizeTextDrawable.getText()));
+                        setClickable(!this.disabled);
+                        invalidate();
+                    }
                     animatedTextDrawable = this.sizeTextDrawable;
                     isEmpty = TextUtils.isEmpty(animatedTextDrawable.getText());
                     str = "4K";

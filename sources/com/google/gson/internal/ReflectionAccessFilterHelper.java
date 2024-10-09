@@ -6,6 +6,7 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class ReflectionAccessFilterHelper {
 
@@ -13,7 +14,7 @@ public abstract class ReflectionAccessFilterHelper {
     private static abstract class AccessChecker {
         public static final AccessChecker INSTANCE;
 
-        /* JADX WARN: Removed duplicated region for block: B:8:0x001f  */
+        /* JADX WARN: Removed duplicated region for block: B:5:0x001f  */
         static {
             AccessChecker accessChecker;
             if (JavaVersion.isJava9OrLater()) {
@@ -64,10 +65,10 @@ public abstract class ReflectionAccessFilterHelper {
 
     public static ReflectionAccessFilter$FilterResult getFilterResult(List list, Class cls) {
         Iterator it = list.iterator();
-        if (it.hasNext()) {
-            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
-            throw null;
+        if (!it.hasNext()) {
+            return ReflectionAccessFilter$FilterResult.ALLOW;
         }
-        return ReflectionAccessFilter$FilterResult.ALLOW;
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+        throw null;
     }
 }

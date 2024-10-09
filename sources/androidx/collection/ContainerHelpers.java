@@ -1,4 +1,5 @@
 package androidx.collection;
+
 /* loaded from: classes.dex */
 abstract class ContainerHelpers {
     static final int[] EMPTY_INTS = new int[0];
@@ -14,9 +15,10 @@ abstract class ContainerHelpers {
             int i6 = iArr[i5];
             if (i6 < i2) {
                 i4 = i5 + 1;
-            } else if (i6 <= i2) {
-                return i5;
             } else {
+                if (i6 <= i2) {
+                    return i5;
+                }
                 i3 = i5 - 1;
             }
         }
@@ -32,9 +34,10 @@ abstract class ContainerHelpers {
             long j2 = jArr[i4];
             if (j2 < j) {
                 i3 = i4 + 1;
-            } else if (j2 <= j) {
-                return i4;
             } else {
+                if (j2 <= j) {
+                    return i4;
+                }
                 i2 = i4 - 1;
             }
         }

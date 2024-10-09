@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public final class FrameworkMediaDrm implements ExoMediaDrm {
     public static final ExoMediaDrm.Provider DEFAULT_PROVIDER = new ExoMediaDrm.Provider() { // from class: com.google.android.exoplayer2.drm.FrameworkMediaDrm$$ExternalSyntheticLambda1
@@ -73,7 +74,6 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
     }
 
     private static byte[] addLaUrlAttributeIfMissing(byte[] bArr) {
-        int indexOf;
         ParsableByteArray parsableByteArray = new ParsableByteArray(bArr);
         int readLittleEndianInt = parsableByteArray.readLittleEndianInt();
         short readLittleEndianShort = parsableByteArray.readLittleEndianShort();
@@ -88,7 +88,8 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
         if (readString.contains("<LA_URL>")) {
             return bArr;
         }
-        if (readString.indexOf("</DATA>") == -1) {
+        int indexOf = readString.indexOf("</DATA>");
+        if (indexOf == -1) {
             Log.w("FrameworkMediaDrm", "Could not find the </DATA> tag. Skipping LA_URL workaround.");
         }
         String str = readString.substring(0, indexOf) + "<LA_URL>https://x</LA_URL>" + readString.substring(indexOf);
@@ -111,8 +112,9 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
         return C.CLEARKEY_UUID.equals(uuid) ? ClearKeyUtil.adjustRequestData(bArr) : bArr;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x0056, code lost:
-        if ("AFTT".equals(r0) == false) goto L15;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0056, code lost:
+    
+        if ("AFTT".equals(r0) == false) goto L28;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -3,6 +3,7 @@ package j$.time;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.regex.Pattern;
+
 /* loaded from: classes2.dex */
 public final class d implements Comparable, Serializable {
     public static final d c = new d(0, 0);
@@ -38,11 +39,11 @@ public final class d implements Comparable, Serializable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof d) {
-            d dVar = (d) obj;
-            return this.a == dVar.a && this.b == dVar.b;
+        if (!(obj instanceof d)) {
+            return false;
         }
-        return false;
+        d dVar = (d) obj;
+        return this.a == dVar.a && this.b == dVar.b;
     }
 
     public final int hashCode() {

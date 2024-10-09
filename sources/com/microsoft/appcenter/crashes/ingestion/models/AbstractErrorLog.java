@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.UUID;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public abstract class AbstractErrorLog extends AbstractLog {
     private Date appLaunchTimestamp;
@@ -25,49 +26,49 @@ public abstract class AbstractErrorLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            AbstractErrorLog abstractErrorLog = (AbstractErrorLog) obj;
-            UUID uuid = this.id;
-            if (uuid == null ? abstractErrorLog.id == null : uuid.equals(abstractErrorLog.id)) {
-                Integer num = this.processId;
-                if (num == null ? abstractErrorLog.processId == null : num.equals(abstractErrorLog.processId)) {
-                    String str = this.processName;
-                    if (str == null ? abstractErrorLog.processName == null : str.equals(abstractErrorLog.processName)) {
-                        Integer num2 = this.parentProcessId;
-                        if (num2 == null ? abstractErrorLog.parentProcessId == null : num2.equals(abstractErrorLog.parentProcessId)) {
-                            String str2 = this.parentProcessName;
-                            if (str2 == null ? abstractErrorLog.parentProcessName == null : str2.equals(abstractErrorLog.parentProcessName)) {
-                                Long l = this.errorThreadId;
-                                if (l == null ? abstractErrorLog.errorThreadId == null : l.equals(abstractErrorLog.errorThreadId)) {
-                                    String str3 = this.errorThreadName;
-                                    if (str3 == null ? abstractErrorLog.errorThreadName == null : str3.equals(abstractErrorLog.errorThreadName)) {
-                                        Boolean bool = this.fatal;
-                                        if (bool == null ? abstractErrorLog.fatal == null : bool.equals(abstractErrorLog.fatal)) {
-                                            Date date = this.appLaunchTimestamp;
-                                            if (date == null ? abstractErrorLog.appLaunchTimestamp == null : date.equals(abstractErrorLog.appLaunchTimestamp)) {
-                                                String str4 = this.architecture;
-                                                String str5 = abstractErrorLog.architecture;
-                                                return str4 != null ? str4.equals(str5) : str5 == null;
-                                            }
-                                            return false;
-                                        }
-                                        return false;
-                                    }
-                                    return false;
-                                }
-                                return false;
-                            }
-                            return false;
-                        }
-                        return false;
-                    }
-                    return false;
-                }
-                return false;
-            }
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
             return false;
         }
-        return false;
+        AbstractErrorLog abstractErrorLog = (AbstractErrorLog) obj;
+        UUID uuid = this.id;
+        if (uuid == null ? abstractErrorLog.id != null : !uuid.equals(abstractErrorLog.id)) {
+            return false;
+        }
+        Integer num = this.processId;
+        if (num == null ? abstractErrorLog.processId != null : !num.equals(abstractErrorLog.processId)) {
+            return false;
+        }
+        String str = this.processName;
+        if (str == null ? abstractErrorLog.processName != null : !str.equals(abstractErrorLog.processName)) {
+            return false;
+        }
+        Integer num2 = this.parentProcessId;
+        if (num2 == null ? abstractErrorLog.parentProcessId != null : !num2.equals(abstractErrorLog.parentProcessId)) {
+            return false;
+        }
+        String str2 = this.parentProcessName;
+        if (str2 == null ? abstractErrorLog.parentProcessName != null : !str2.equals(abstractErrorLog.parentProcessName)) {
+            return false;
+        }
+        Long l = this.errorThreadId;
+        if (l == null ? abstractErrorLog.errorThreadId != null : !l.equals(abstractErrorLog.errorThreadId)) {
+            return false;
+        }
+        String str3 = this.errorThreadName;
+        if (str3 == null ? abstractErrorLog.errorThreadName != null : !str3.equals(abstractErrorLog.errorThreadName)) {
+            return false;
+        }
+        Boolean bool = this.fatal;
+        if (bool == null ? abstractErrorLog.fatal != null : !bool.equals(abstractErrorLog.fatal)) {
+            return false;
+        }
+        Date date = this.appLaunchTimestamp;
+        if (date == null ? abstractErrorLog.appLaunchTimestamp != null : !date.equals(abstractErrorLog.appLaunchTimestamp)) {
+            return false;
+        }
+        String str4 = this.architecture;
+        String str5 = abstractErrorLog.architecture;
+        return str4 != null ? str4.equals(str5) : str5 == null;
     }
 
     public Date getAppLaunchTimestamp() {

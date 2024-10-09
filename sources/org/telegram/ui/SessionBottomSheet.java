@@ -35,6 +35,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.Switch;
 import org.telegram.ui.SessionBottomSheet;
+
 /* loaded from: classes4.dex */
 public class SessionBottomSheet extends BottomSheet {
     RLottieImageView imageView;
@@ -281,8 +282,7 @@ public class SessionBottomSheet extends BottomSheet {
             itemView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.6
                 @Override // android.view.View.OnClickListener
                 public void onClick(View view) {
-                    Switch r3 = itemView4.switchView;
-                    r3.setChecked(!r3.isChecked(), true);
+                    itemView4.switchView.setChecked(!r3.isChecked(), true);
                     tL_authorization.encrypted_requests_disabled = !itemView4.switchView.isChecked();
                     SessionBottomSheet.this.uploadSessionSettings();
                 }
@@ -302,8 +302,7 @@ public class SessionBottomSheet extends BottomSheet {
         itemView5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet.7
             @Override // android.view.View.OnClickListener
             public void onClick(View view) {
-                Switch r3 = itemView5.switchView;
-                r3.setChecked(!r3.isChecked(), true);
+                itemView5.switchView.setChecked(!r3.isChecked(), true);
                 tL_authorization.call_requests_disabled = !itemView5.switchView.isChecked();
                 SessionBottomSheet.this.uploadSessionSettings();
             }
@@ -355,11 +354,12 @@ public class SessionBottomSheet extends BottomSheet {
         return (i == 2040 || i == 2496) ? false : true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x00c1, code lost:
-        if (r8.app_name.toLowerCase().contains("desktop") != false) goto L53;
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x00c1, code lost:
+    
+        if (r8.app_name.toLowerCase().contains("desktop") != false) goto L50;
      */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x00f4  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x00f4  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0102  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

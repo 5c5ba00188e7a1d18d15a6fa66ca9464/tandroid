@@ -32,6 +32,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
+
 /* loaded from: classes3.dex */
 public class SvgHelper {
     private static final double[] pow10 = new double[128];
@@ -137,25 +138,25 @@ public class SvgHelper {
             }
             if (i2 >= 128) {
                 return i > 0 ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
-            } else if (i2 == 0) {
-                return i;
-            } else {
-                if (i >= 67108864) {
-                    i++;
-                }
-                double d2 = i;
-                double[] dArr = SvgHelper.pow10;
-                if (i2 > 0) {
-                    double d3 = dArr[i2];
-                    Double.isNaN(d2);
-                    d = d2 * d3;
-                } else {
-                    double d4 = dArr[-i2];
-                    Double.isNaN(d2);
-                    d = d2 / d4;
-                }
-                return (float) d;
             }
+            if (i2 == 0) {
+                return i;
+            }
+            if (i >= 67108864) {
+                i++;
+            }
+            double d2 = i;
+            double[] dArr = SvgHelper.pow10;
+            if (i2 > 0) {
+                double d3 = dArr[i2];
+                Double.isNaN(d2);
+                d = d2 * d3;
+            } else {
+                double d4 = dArr[-i2];
+                Double.isNaN(d2);
+                d = d2 / d4;
+            }
+            return (float) d;
         }
 
         public float nextFloat() {
@@ -165,18 +166,59 @@ public class SvgHelper {
             return parseFloat;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:11:0x0025 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0028 A[LOOP:0: B:13:0x0028->B:17:0x0034, LOOP_START] */
-        /* JADX WARN: Removed duplicated region for block: B:19:0x0038  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0058  */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x0060  */
-        /* JADX WARN: Removed duplicated region for block: B:46:0x0099 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x00a4  */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x00b7  */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x00c1 A[LOOP:3: B:62:0x00c1->B:63:0x00c7, LOOP_START] */
-        /* JADX WARN: Removed duplicated region for block: B:65:0x00cb  */
-        /* JADX WARN: Removed duplicated region for block: B:73:0x00e4  */
-        /* JADX WARN: Removed duplicated region for block: B:76:0x00e8  */
+        /* JADX WARN: Code restructure failed: missing block: B:28:0x006f, code lost:
+        
+            if (r5 == 0) goto L36;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:29:0x0071, code lost:
+        
+            r9 = read();
+            r15.current = r9;
+            r11 = r11 - 1;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x0079, code lost:
+        
+            switch(r9) {
+                case 48: goto L87;
+                case 49: goto L86;
+                case 50: goto L86;
+                case 51: goto L86;
+                case 52: goto L86;
+                case 53: goto L86;
+                case 54: goto L86;
+                case 55: goto L86;
+                case 56: goto L86;
+                case 57: goto L86;
+                default: goto L85;
+            };
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x007c, code lost:
+        
+            if (r13 != false) goto L44;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x007e, code lost:
+        
+            return 0.0f;
+         */
+        /* JADX WARN: Failed to find 'out' block for switch in B:13:0x0034. Please report as an issue. */
+        /* JADX WARN: Failed to find 'out' block for switch in B:24:0x0066. Please report as an issue. */
+        /* JADX WARN: Failed to find 'out' block for switch in B:40:0x0092. Please report as an issue. */
+        /* JADX WARN: Failed to find 'out' block for switch in B:62:0x00c7. Please report as an issue. */
+        /* JADX WARN: Failed to find 'out' block for switch in B:6:0x0022. Please report as an issue. */
+        /* JADX WARN: Failed to find 'out' block for switch in B:71:0x00de. Please report as an issue. */
+        /* JADX WARN: Failed to find 'out' block for switch in B:86:0x004f. Please report as an issue. */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0060  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0099 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:47:0x00e4  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x00e8  */
+        /* JADX WARN: Removed duplicated region for block: B:55:0x00a4  */
+        /* JADX WARN: Removed duplicated region for block: B:59:0x00bb A[PHI: r3
+          0x00bb: PHI (r3v2 boolean) = (r3v1 boolean), (r3v0 boolean) binds: [B:77:0x00b4, B:56:0x00a6] A[DONT_GENERATE, DONT_INLINE]] */
+        /* JADX WARN: Removed duplicated region for block: B:78:0x00b7  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x0025 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:82:0x0038  */
+        /* JADX WARN: Removed duplicated region for block: B:90:0x0058  */
+        /* JADX WARN: Removed duplicated region for block: B:9:0x0028 A[LOOP:0: B:9:0x0028->B:17:?, LOOP_START] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -207,31 +249,6 @@ public class SvgHelper {
                             this.current = read3;
                             switch (read3) {
                                 case '0':
-                                    if (i == 0) {
-                                        while (true) {
-                                            char read4 = read();
-                                            this.current = read4;
-                                            i2--;
-                                            switch (read4) {
-                                                case '0':
-                                                    break;
-                                                case '1':
-                                                case '2':
-                                                case '3':
-                                                case '4':
-                                                case '5':
-                                                case '6':
-                                                case '7':
-                                                case '8':
-                                                case '9':
-                                                default:
-                                                    if (!z2) {
-                                                        return 0.0f;
-                                                    }
-                                                    break;
-                                            }
-                                        }
-                                    }
                                     break;
                                 case '1':
                                 case '2':
@@ -248,12 +265,12 @@ public class SvgHelper {
                                             i3 = (i3 * 10) + (this.current - '0');
                                             i2--;
                                         }
-                                        char read5 = read();
-                                        this.current = read5;
-                                        switch (read5) {
+                                        char read4 = read();
+                                        this.current = read4;
+                                        switch (read4) {
                                         }
+                                        break;
                                     }
-                                    break;
                                 default:
                                     if (!z2) {
                                         reportUnexpectedCharacterError(read3);
@@ -279,53 +296,41 @@ public class SvgHelper {
                                         case '7':
                                         case '8':
                                         case '9':
-                                            break;
+                                            switch (this.current) {
+                                                case '0':
+                                                    while (true) {
+                                                        char read5 = read();
+                                                        this.current = read5;
+                                                        switch (read5) {
+                                                        }
+                                                    }
+                                                    break;
+                                                case '1':
+                                                case '2':
+                                                case '3':
+                                                case '4':
+                                                case '5':
+                                                case '6':
+                                                case '7':
+                                                case '8':
+                                                case '9':
+                                                    int i5 = 0;
+                                                    while (true) {
+                                                        if (i4 < 3) {
+                                                            i4++;
+                                                            i5 = (i5 * 10) + (this.current - '0');
+                                                        }
+                                                        char read6 = read();
+                                                        this.current = read6;
+                                                        switch (read6) {
+                                                        }
+                                                        i4 = i5;
+                                                        break;
+                                                    }
+                                            }
                                         default:
                                             reportUnexpectedCharacterError(read);
                                             return 0.0f;
-                                    }
-                                    switch (this.current) {
-                                        case '0':
-                                            while (true) {
-                                                char read6 = read();
-                                                this.current = read6;
-                                                switch (read6) {
-                                                }
-                                            }
-                                        case '1':
-                                        case '2':
-                                        case '3':
-                                        case '4':
-                                        case '5':
-                                        case '6':
-                                        case '7':
-                                        case '8':
-                                        case '9':
-                                            int i5 = 0;
-                                            while (true) {
-                                                if (i4 < 3) {
-                                                    i4++;
-                                                    i5 = (i5 * 10) + (this.current - '0');
-                                                }
-                                                char read7 = read();
-                                                this.current = read7;
-                                                switch (read7) {
-                                                    case '0':
-                                                    case '1':
-                                                    case '2':
-                                                    case '3':
-                                                    case '4':
-                                                    case '5':
-                                                    case '6':
-                                                    case '7':
-                                                    case '8':
-                                                    case '9':
-                                                        break;
-                                                    default:
-                                                        i4 = i5;
-                                                        break;
-                                                }
-                                            }
                                     }
                                 } else {
                                     z3 = false;
@@ -349,8 +354,6 @@ public class SvgHelper {
                                     reportUnexpectedCharacterError(read2);
                                     return 0.0f;
                             }
-                            switch (this.current) {
-                            }
                         }
                         if (!z3) {
                             i4 = -i4;
@@ -365,12 +368,11 @@ public class SvgHelper {
                         return Float.NaN;
                     case '0':
                         while (true) {
-                            char read8 = read();
-                            this.current = read8;
-                            if (read8 != '.' && read8 != 'E' && read8 != 'e') {
-                                switch (read8) {
+                            char read7 = read();
+                            this.current = read7;
+                            if (read7 != '.' && read7 != 'E' && read7 != 'e') {
+                                switch (read7) {
                                     case '0':
-                                        break;
                                     case '1':
                                     case '2':
                                     case '3':
@@ -403,8 +405,6 @@ public class SvgHelper {
                         this.current = read2;
                         switch (read2) {
                         }
-                        switch (this.current) {
-                        }
                         if (!z3) {
                         }
                         int i62 = i4 + i2;
@@ -430,45 +430,33 @@ public class SvgHelper {
                             } else {
                                 i2++;
                             }
-                            char read9 = read();
-                            this.current = read9;
-                            switch (read9) {
-                                case '0':
-                                case '1':
-                                case '2':
-                                case '3':
-                                case '4':
-                                case '5':
-                                case '6':
-                                case '7':
-                                case '8':
-                                case '9':
-                                    break;
-                                default:
-                                    z2 = true;
-                                    if (this.current == '.') {
-                                    }
-                                    c = this.current;
-                                    if (c != 'E') {
-                                    }
-                                    read = read();
-                                    this.current = read;
-                                    if (read != '+') {
-                                    }
-                                    read2 = read();
-                                    this.current = read2;
-                                    switch (read2) {
-                                    }
-                                    switch (this.current) {
-                                    }
-                                    if (!z3) {
-                                    }
-                                    int i622 = i4 + i2;
-                                    if (!z) {
-                                    }
-                                    return buildFloat(i3, i622);
+                            char read8 = read();
+                            this.current = read8;
+                            switch (read8) {
                             }
+                            z2 = true;
+                            if (this.current == '.') {
+                            }
+                            c = this.current;
+                            if (c != 'E') {
+                            }
+                            read = read();
+                            this.current = read;
+                            if (read != '+') {
+                            }
+                            read2 = read();
+                            this.current = read2;
+                            switch (read2) {
+                            }
+                            if (!z3) {
+                            }
+                            int i622 = i4 + i2;
+                            if (!z) {
+                            }
+                            return buildFloat(i3, i622);
+                            break;
                         }
+                        break;
                 }
             } else {
                 z = false;
@@ -487,8 +475,9 @@ public class SvgHelper {
                 char charAt = this.s.charAt(i);
                 if (charAt != '\t' && charAt != '\n' && charAt != ' ' && charAt != ',') {
                     return;
+                } else {
+                    advance();
                 }
-                advance();
             }
         }
 
@@ -497,8 +486,9 @@ public class SvgHelper {
                 int i = this.pos;
                 if (i >= this.n || !Character.isWhitespace(this.s.charAt(i))) {
                     return;
+                } else {
+                    advance();
                 }
-                advance();
             }
         }
     }
@@ -656,22 +646,22 @@ public class SvgHelper {
                 doColor(properties, hex, true);
                 this.paint.setStyle(Paint.Style.FILL);
                 return true;
-            } else if (properties.getString("fill") == null && properties.getString("stroke") == null) {
-                this.paint.setStyle(Paint.Style.FILL);
-                Integer num = this.paintColor;
-                if (num != null) {
-                    this.paint.setColor(num.intValue());
-                } else {
-                    this.paint.setColor(-16777216);
-                }
-                return true;
-            } else {
+            }
+            if (properties.getString("fill") != null || properties.getString("stroke") != null) {
                 return false;
             }
+            this.paint.setStyle(Paint.Style.FILL);
+            Integer num = this.paintColor;
+            if (num != null) {
+                this.paint.setColor(num.intValue());
+            } else {
+                this.paint.setColor(-16777216);
+            }
+            return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:22:0x006f  */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x0077  */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x006f  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x0077  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -694,30 +684,32 @@ public class SvgHelper {
             if ("round".equals(string2)) {
                 paint = this.paint;
                 cap = Paint.Cap.ROUND;
-            } else if (!"square".equals(string2)) {
-                if ("butt".equals(string2)) {
-                    paint = this.paint;
-                    cap = Paint.Cap.BUTT;
-                }
-                string = properties.getString("stroke-linejoin");
-                if (!"miter".equals(string)) {
-                    paint2 = this.paint;
-                    join = Paint.Join.MITER;
-                } else if (!"round".equals(string)) {
-                    if ("bevel".equals(string)) {
-                        paint2 = this.paint;
-                        join = Paint.Join.BEVEL;
+            } else {
+                if (!"square".equals(string2)) {
+                    if ("butt".equals(string2)) {
+                        paint = this.paint;
+                        cap = Paint.Cap.BUTT;
                     }
+                    string = properties.getString("stroke-linejoin");
+                    if (!"miter".equals(string)) {
+                        paint2 = this.paint;
+                        join = Paint.Join.MITER;
+                    } else {
+                        if (!"round".equals(string)) {
+                            if ("bevel".equals(string)) {
+                                paint2 = this.paint;
+                                join = Paint.Join.BEVEL;
+                            }
+                            this.paint.setStyle(Paint.Style.STROKE);
+                            return true;
+                        }
+                        paint2 = this.paint;
+                        join = Paint.Join.ROUND;
+                    }
+                    paint2.setStrokeJoin(join);
                     this.paint.setStyle(Paint.Style.STROKE);
                     return true;
-                } else {
-                    paint2 = this.paint;
-                    join = Paint.Join.ROUND;
                 }
-                paint2.setStrokeJoin(join);
-                this.paint.setStyle(Paint.Style.STROKE);
-                return true;
-            } else {
                 paint = this.paint;
                 cap = Paint.Cap.SQUARE;
             }
@@ -750,10 +742,10 @@ public class SvgHelper {
                 SvgDrawable svgDrawable = this.drawable;
                 if (svgDrawable != null) {
                     svgDrawable.addCommand(parseTransform);
-                    return;
+                } else {
+                    this.canvas.save();
+                    this.canvas.concat(parseTransform);
                 }
-                this.canvas.save();
-                this.canvas.concat(parseTransform);
             }
         }
 
@@ -808,19 +800,24 @@ public class SvgHelper {
                     return;
                 case 2:
                     StringBuilder sb = this.styles;
-                    if (sb != null) {
-                        String[] split = sb.toString().split("\\}");
-                        for (int i = 0; i < split.length; i++) {
-                            String replace = split[i].trim().replace("\t", "").replace("\n", "");
-                            split[i] = replace;
-                            if (replace.length() != 0 && split[i].charAt(0) == '.' && (indexOf = split[i].indexOf(123)) >= 0) {
-                                this.globalStyles.put(split[i].substring(1, indexOf).trim(), new StyleSet(split[i].substring(indexOf + 1)));
-                            }
-                        }
-                        this.styles = null;
+                    if (sb == null) {
                         return;
                     }
-                    return;
+                    String[] split = sb.toString().split("\\}");
+                    int i = 0;
+                    while (true) {
+                        if (i >= split.length) {
+                            this.styles = null;
+                            return;
+                        }
+                        String replace = split[i].trim().replace("\t", "").replace("\n", "");
+                        split[i] = replace;
+                        if (replace.length() != 0 && split[i].charAt(0) == '.' && (indexOf = split[i].indexOf(123)) >= 0) {
+                            this.globalStyles.put(split[i].substring(1, indexOf).trim(), new StyleSet(split[i].substring(indexOf + 1)));
+                        }
+                        i++;
+                    }
+                    break;
                 default:
                     return;
             }
@@ -838,18 +835,24 @@ public class SvgHelper {
         public void startDocument() {
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:159:0x0444, code lost:
-            if (r2 != null) goto L90;
+        /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+        /* JADX WARN: Code restructure failed: missing block: B:155:0x0444, code lost:
+        
+            if (r2 != null) goto L160;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:160:0x0446, code lost:
-            r2.addCommand(r1, r18.paint);
+        /* JADX WARN: Code restructure failed: missing block: B:88:0x029d, code lost:
+        
+            if (r2 != null) goto L160;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:161:0x044d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:89:0x044d, code lost:
+        
             r18.canvas.drawPath(r1, r18.paint);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:99:0x029d, code lost:
-            if (r2 != null) goto L90;
+        /* JADX WARN: Code restructure failed: missing block: B:90:0x0446, code lost:
+        
+            r2.addCommand(r1, r18.paint);
          */
+        /* JADX WARN: Failed to find 'out' block for switch in B:46:0x00bf. Please report as an issue. */
         @Override // org.xml.sax.helpers.DefaultHandler, org.xml.sax.ContentHandler
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1099,11 +1102,12 @@ public class SvgHelper {
                                 this.canvas.drawLine(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue(), this.paint);
                                 popTransform();
                                 return;
+                            } else {
+                                line = new Line(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue());
+                                svgDrawable2.addCommand(line, this.paint);
+                                popTransform();
+                                return;
                             }
-                            line = new Line(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue());
-                            svgDrawable2.addCommand(line, this.paint);
-                            popTransform();
-                            return;
                         }
                         return;
                     case 7:
@@ -1300,8 +1304,9 @@ public class SvgHelper {
                                 float f7 = gradientWidth * 2.0f;
                                 if (f6 < f7) {
                                     break;
+                                } else {
+                                    totalTranslation = f6 - f7;
                                 }
-                                totalTranslation = f6 - f7;
                             }
                         }
                     } else if (shiftRunnable == null || shiftDrawable.get() == this) {
@@ -1316,8 +1321,9 @@ public class SvgHelper {
                             float f10 = gradientWidth;
                             if (f9 < f10 / 2.0f) {
                                 break;
+                            } else {
+                                f8 = f9 - f10;
                             }
-                            f8 = f9 - f10;
                         }
                         shiftDrawable = new WeakReference<>(this);
                         Runnable runnable = shiftRunnable;
@@ -1590,24 +1596,27 @@ public class SvgHelper {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:34:0x0064, code lost:
-        if (r4 != 'V') goto L9;
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x0064, code lost:
+    
+        if (r4 != 'V') goto L36;
      */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0079 A[PHI: r5 r6 r12 r13 
-      PHI: (r5v18 float) = (r5v1 float), (r5v5 float), (r5v6 float), (r5v7 float), (r5v8 float), (r5v10 float), (r5v1 float), (r5v1 float) binds: [B:40:0x0076, B:64:0x011a, B:63:0x0114, B:60:0x0106, B:59:0x00ff, B:55:0x00e5, B:48:0x009e, B:47:0x0098] A[DONT_GENERATE, DONT_INLINE]
-      PHI: (r6v18 float) = (r6v1 float), (r6v1 float), (r6v1 float), (r6v5 float), (r6v6 float), (r6v8 float), (r6v12 float), (r6v13 float) binds: [B:40:0x0076, B:64:0x011a, B:63:0x0114, B:60:0x0106, B:59:0x00ff, B:55:0x00e5, B:48:0x009e, B:47:0x0098] A[DONT_GENERATE, DONT_INLINE]
-      PHI: (r12v11 float) = (r12v1 float), (r12v1 float), (r12v1 float), (r12v1 float), (r12v1 float), (r12v5 float), (r12v1 float), (r12v1 float) binds: [B:40:0x0076, B:64:0x011a, B:63:0x0114, B:60:0x0106, B:59:0x00ff, B:55:0x00e5, B:48:0x009e, B:47:0x0098] A[DONT_GENERATE, DONT_INLINE]
-      PHI: (r13v11 float) = (r13v1 float), (r13v1 float), (r13v1 float), (r13v1 float), (r13v1 float), (r13v5 float), (r13v1 float), (r13v1 float) binds: [B:40:0x0076, B:64:0x011a, B:63:0x0114, B:60:0x0106, B:59:0x00ff, B:55:0x00e5, B:48:0x009e, B:47:0x0098] A[DONT_GENERATE, DONT_INLINE]] */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0085  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0090  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00a3  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x00db  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00f5  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x010d  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0160  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x019d  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01a2  */
+    /* JADX WARN: Failed to find 'out' block for switch in B:12:0x0076. Please report as an issue. */
+    /* JADX WARN: Failed to find 'out' block for switch in B:8:0x0037. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0079 A[PHI: r5 r6 r12 r13
+      0x0079: PHI (r5v18 float) = (r5v1 float), (r5v5 float), (r5v6 float), (r5v7 float), (r5v8 float), (r5v10 float), (r5v1 float), (r5v1 float) binds: [B:12:0x0076, B:42:0x011a, B:41:0x0114, B:38:0x0106, B:37:0x00ff, B:33:0x00e5, B:26:0x009e, B:25:0x0098] A[DONT_GENERATE, DONT_INLINE]
+      0x0079: PHI (r6v18 float) = (r6v1 float), (r6v1 float), (r6v1 float), (r6v5 float), (r6v6 float), (r6v8 float), (r6v12 float), (r6v13 float) binds: [B:12:0x0076, B:42:0x011a, B:41:0x0114, B:38:0x0106, B:37:0x00ff, B:33:0x00e5, B:26:0x009e, B:25:0x0098] A[DONT_GENERATE, DONT_INLINE]
+      0x0079: PHI (r12v11 float) = (r12v1 float), (r12v1 float), (r12v1 float), (r12v1 float), (r12v1 float), (r12v5 float), (r12v1 float), (r12v1 float) binds: [B:12:0x0076, B:42:0x011a, B:41:0x0114, B:38:0x0106, B:37:0x00ff, B:33:0x00e5, B:26:0x009e, B:25:0x0098] A[DONT_GENERATE, DONT_INLINE]
+      0x0079: PHI (r13v11 float) = (r13v1 float), (r13v1 float), (r13v1 float), (r13v1 float), (r13v1 float), (r13v5 float), (r13v1 float), (r13v1 float) binds: [B:12:0x0076, B:42:0x011a, B:41:0x0114, B:38:0x0106, B:37:0x00ff, B:33:0x00e5, B:26:0x009e, B:25:0x0098] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x019d  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x01a2  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0090  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00db  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00f5  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0120  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0160  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1658,51 +1667,56 @@ public class SvgHelper {
                     case 'a':
                         float nextFloat = parserHelper.nextFloat();
                         float nextFloat2 = parserHelper.nextFloat();
+                        float nextFloat3 = parserHelper.nextFloat();
+                        int nextFloat4 = (int) parserHelper.nextFloat();
+                        int nextFloat5 = (int) parserHelper.nextFloat();
+                        float nextFloat6 = parserHelper.nextFloat();
+                        float nextFloat7 = parserHelper.nextFloat();
                         f = f5;
                         f2 = f6;
-                        drawArc(path, f3, f4, nextFloat, nextFloat2, parserHelper.nextFloat(), parserHelper.nextFloat(), parserHelper.nextFloat(), (int) parserHelper.nextFloat(), (int) parserHelper.nextFloat());
+                        drawArc(path, f3, f4, nextFloat6, nextFloat7, nextFloat, nextFloat2, nextFloat3, nextFloat4, nextFloat5);
                         f6 = f7;
                         f5 = f8;
-                        f3 = nextFloat;
-                        f4 = nextFloat2;
+                        f3 = nextFloat6;
+                        f4 = nextFloat7;
                         z = false;
                         break;
                     case 'C':
                     case 'c':
-                        float nextFloat3 = parserHelper.nextFloat();
-                        float nextFloat4 = parserHelper.nextFloat();
-                        float nextFloat5 = parserHelper.nextFloat();
-                        float nextFloat6 = parserHelper.nextFloat();
-                        float nextFloat7 = parserHelper.nextFloat();
                         float nextFloat8 = parserHelper.nextFloat();
+                        float nextFloat9 = parserHelper.nextFloat();
+                        float nextFloat10 = parserHelper.nextFloat();
+                        float nextFloat11 = parserHelper.nextFloat();
+                        float nextFloat12 = parserHelper.nextFloat();
+                        float nextFloat13 = parserHelper.nextFloat();
                         if (c2 == 'c') {
-                            nextFloat3 += f3;
-                            nextFloat5 += f3;
-                            nextFloat7 += f3;
-                            nextFloat4 += f4;
-                            nextFloat6 += f4;
-                            nextFloat8 += f4;
+                            nextFloat8 += f3;
+                            nextFloat10 += f3;
+                            nextFloat12 += f3;
+                            nextFloat9 += f4;
+                            nextFloat11 += f4;
+                            nextFloat13 += f4;
                         }
-                        float f9 = nextFloat5;
-                        float f10 = nextFloat6;
-                        float f11 = nextFloat7;
-                        path.cubicTo(nextFloat3, nextFloat4, f9, f10, f11, nextFloat8);
+                        float f9 = nextFloat10;
+                        float f10 = nextFloat11;
+                        float f11 = nextFloat12;
+                        path.cubicTo(nextFloat8, nextFloat9, f9, f10, f11, nextFloat13);
                         f3 = f11;
                         f = f5;
-                        f4 = nextFloat8;
+                        f4 = nextFloat13;
                         f5 = f10;
                         f2 = f6;
                         f6 = f9;
                         break;
                     case 'H':
                     case 'h':
-                        float nextFloat9 = parserHelper.nextFloat();
+                        float nextFloat14 = parserHelper.nextFloat();
                         if (c2 == 'h') {
-                            path.rLineTo(nextFloat9, 0.0f);
-                            f3 += nextFloat9;
+                            path.rLineTo(nextFloat14, 0.0f);
+                            f3 += nextFloat14;
                         } else {
-                            path.lineTo(nextFloat9, f4);
-                            f3 = nextFloat9;
+                            path.lineTo(nextFloat14, f4);
+                            f3 = nextFloat14;
                         }
                         f = f5;
                         f2 = f6;
@@ -1712,16 +1726,16 @@ public class SvgHelper {
                         break;
                     case 'L':
                     case 'l':
-                        float nextFloat10 = parserHelper.nextFloat();
-                        float nextFloat11 = parserHelper.nextFloat();
+                        float nextFloat15 = parserHelper.nextFloat();
+                        float nextFloat16 = parserHelper.nextFloat();
                         if (c2 == 'l') {
-                            path.rLineTo(nextFloat10, nextFloat11);
-                            f3 += nextFloat10;
-                            f4 += nextFloat11;
+                            path.rLineTo(nextFloat15, nextFloat16);
+                            f3 += nextFloat15;
+                            f4 += nextFloat16;
                         } else {
-                            path.lineTo(nextFloat10, nextFloat11);
-                            f3 = nextFloat10;
-                            f4 = nextFloat11;
+                            path.lineTo(nextFloat15, nextFloat16);
+                            f3 = nextFloat15;
+                            f4 = nextFloat16;
                         }
                         f = f5;
                         f2 = f6;
@@ -1731,14 +1745,14 @@ public class SvgHelper {
                         break;
                     case 'M':
                     case 'm':
-                        float nextFloat12 = parserHelper.nextFloat();
-                        float nextFloat13 = parserHelper.nextFloat();
+                        float nextFloat17 = parserHelper.nextFloat();
+                        float nextFloat18 = parserHelper.nextFloat();
                         if (c2 == 'm') {
-                            f6 += nextFloat12;
-                            f5 += nextFloat13;
-                            path.rMoveTo(nextFloat12, nextFloat13);
-                            f3 += nextFloat12;
-                            f4 += nextFloat13;
+                            f6 += nextFloat17;
+                            f5 += nextFloat18;
+                            path.rMoveTo(nextFloat17, nextFloat18);
+                            f3 += nextFloat17;
+                            f4 += nextFloat18;
                             f = f5;
                             f2 = f6;
                             f6 = f7;
@@ -1746,10 +1760,10 @@ public class SvgHelper {
                             z = false;
                             break;
                         } else {
-                            path.moveTo(nextFloat12, nextFloat13);
-                            f3 = nextFloat12;
+                            path.moveTo(nextFloat17, nextFloat18);
+                            f3 = nextFloat17;
                             f2 = f3;
-                            f = nextFloat13;
+                            f = nextFloat18;
                             f4 = f;
                             f6 = f7;
                             f5 = f8;
@@ -1757,36 +1771,36 @@ public class SvgHelper {
                         }
                     case 'S':
                     case 's':
-                        float nextFloat14 = parserHelper.nextFloat();
-                        float nextFloat15 = parserHelper.nextFloat();
-                        float nextFloat16 = parserHelper.nextFloat();
-                        float nextFloat17 = parserHelper.nextFloat();
+                        float nextFloat19 = parserHelper.nextFloat();
+                        float nextFloat20 = parserHelper.nextFloat();
+                        float nextFloat21 = parserHelper.nextFloat();
+                        float nextFloat22 = parserHelper.nextFloat();
                         if (c2 == 's') {
-                            nextFloat14 += f3;
-                            nextFloat16 += f3;
-                            nextFloat15 += f4;
-                            nextFloat17 += f4;
+                            nextFloat19 += f3;
+                            nextFloat21 += f3;
+                            nextFloat20 += f4;
+                            nextFloat22 += f4;
                         }
-                        float f12 = nextFloat15;
-                        float f13 = nextFloat16;
-                        float f14 = nextFloat17;
-                        path.cubicTo((f3 * 2.0f) - f7, (f4 * 2.0f) - f8, nextFloat14, f12, f13, f14);
+                        float f12 = nextFloat20;
+                        float f13 = nextFloat21;
+                        float f14 = nextFloat22;
+                        path.cubicTo((f3 * 2.0f) - f7, (f4 * 2.0f) - f8, nextFloat19, f12, f13, f14);
                         f3 = f13;
                         f4 = f14;
                         f2 = f6;
-                        f6 = nextFloat14;
+                        f6 = nextFloat19;
                         f = f5;
                         f5 = f12;
                         break;
                     case 'V':
                     case 'v':
-                        float nextFloat18 = parserHelper.nextFloat();
+                        float nextFloat23 = parserHelper.nextFloat();
                         if (c2 == 'v') {
-                            path.rLineTo(0.0f, nextFloat18);
-                            f4 += nextFloat18;
+                            path.rLineTo(0.0f, nextFloat23);
+                            f4 += nextFloat23;
                         } else {
-                            path.lineTo(f3, nextFloat18);
-                            f4 = nextFloat18;
+                            path.lineTo(f3, nextFloat23);
+                            f4 = nextFloat23;
                         }
                         f = f5;
                         f2 = f6;
@@ -1926,15 +1940,18 @@ public class SvgHelper {
     public static Bitmap getBitmap(int i, int i2, int i3, int i4, float f) {
         try {
             InputStream openRawResource = ApplicationLoader.applicationContext.getResources().openRawResource(i);
-            XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-            SVGHandler sVGHandler = new SVGHandler(i2, i3, Integer.valueOf(i4), false, f);
-            xMLReader.setContentHandler(sVGHandler);
-            xMLReader.parse(new InputSource(openRawResource));
-            Bitmap bitmap = sVGHandler.getBitmap();
-            if (openRawResource != null) {
-                openRawResource.close();
+            try {
+                XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+                SVGHandler sVGHandler = new SVGHandler(i2, i3, Integer.valueOf(i4), false, f);
+                xMLReader.setContentHandler(sVGHandler);
+                xMLReader.parse(new InputSource(openRawResource));
+                Bitmap bitmap = sVGHandler.getBitmap();
+                if (openRawResource != null) {
+                    openRawResource.close();
+                }
+                return bitmap;
+            } finally {
             }
-            return bitmap;
         } catch (Exception e) {
             FileLog.e(e);
             return null;
@@ -1944,16 +1961,19 @@ public class SvgHelper {
     public static Bitmap getBitmap(File file, int i, int i2, boolean z) {
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
-            XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-            SVGHandler sVGHandler = new SVGHandler(i, i2, z ? -1 : null, false, 1.0f);
-            if (!z) {
-                sVGHandler.alphaOnly = true;
+            try {
+                XMLReader xMLReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+                SVGHandler sVGHandler = new SVGHandler(i, i2, z ? -1 : null, false, 1.0f);
+                if (!z) {
+                    sVGHandler.alphaOnly = true;
+                }
+                xMLReader.setContentHandler(sVGHandler);
+                xMLReader.parse(new InputSource(fileInputStream));
+                Bitmap bitmap = sVGHandler.getBitmap();
+                fileInputStream.close();
+                return bitmap;
+            } finally {
             }
-            xMLReader.setContentHandler(sVGHandler);
-            xMLReader.parse(new InputSource(fileInputStream));
-            Bitmap bitmap = sVGHandler.getBitmap();
-            fileInputStream.close();
-            return bitmap;
         } catch (Exception e) {
             FileLog.e(e);
             return null;
@@ -2004,6 +2024,7 @@ public class SvgHelper {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Failed to find 'out' block for switch in B:4:0x0078. Please report as an issue. */
     public static Integer getColorByName(String str) {
         char c;
         int i;
@@ -2080,34 +2101,33 @@ public class SvgHelper {
         switch (c) {
             case 0:
                 i = -256;
-                break;
+                return Integer.valueOf(i);
             case 1:
                 i = -65536;
-                break;
+                return Integer.valueOf(i);
             case 2:
                 i = -16776961;
-                break;
+                return Integer.valueOf(i);
             case 3:
                 i = -16711681;
-                break;
+                return Integer.valueOf(i);
             case 4:
                 i = -7829368;
-                break;
+                return Integer.valueOf(i);
             case 5:
                 i = -16777216;
-                break;
+                return Integer.valueOf(i);
             case 6:
                 i = -16711936;
-                break;
+                return Integer.valueOf(i);
             case 7:
                 return -1;
             case '\b':
                 i = -65281;
-                break;
+                return Integer.valueOf(i);
             default:
                 return null;
         }
-        return Integer.valueOf(i);
     }
 
     public static SvgDrawable getDrawable(int i, Integer num) {
@@ -2234,9 +2254,7 @@ public class SvgHelper {
                     case ' ':
                     case ',':
                     case '-':
-                        if (charAt == '-' && str.charAt(i2 - 1) == 'e') {
-                            break;
-                        } else {
+                        if (charAt != '-' || str.charAt(i2 - 1) != 'e') {
                             String substring = str.substring(i, i2);
                             if (substring.trim().length() > 0) {
                                 arrayList.add(Float.valueOf(Float.parseFloat(substring)));
@@ -2250,8 +2268,10 @@ public class SvgHelper {
                                 }
                             } else {
                                 i++;
-                                continue;
+                                break;
                             }
+                        } else {
+                            break;
                         }
                     case ')':
                     case 'A':
@@ -2298,70 +2318,74 @@ public class SvgHelper {
         float f;
         if (str.startsWith("matrix(")) {
             NumberParse parseNumbers = parseNumbers(str.substring(7));
-            if (parseNumbers.numbers.size() == 6) {
-                Matrix matrix = new Matrix();
-                matrix.setValues(new float[]{((Float) parseNumbers.numbers.get(0)).floatValue(), ((Float) parseNumbers.numbers.get(2)).floatValue(), ((Float) parseNumbers.numbers.get(4)).floatValue(), ((Float) parseNumbers.numbers.get(1)).floatValue(), ((Float) parseNumbers.numbers.get(3)).floatValue(), ((Float) parseNumbers.numbers.get(5)).floatValue(), 0.0f, 0.0f, 1.0f});
-                return matrix;
+            if (parseNumbers.numbers.size() != 6) {
+                return null;
             }
-            return null;
-        } else if (str.startsWith("translate(")) {
+            Matrix matrix = new Matrix();
+            matrix.setValues(new float[]{((Float) parseNumbers.numbers.get(0)).floatValue(), ((Float) parseNumbers.numbers.get(2)).floatValue(), ((Float) parseNumbers.numbers.get(4)).floatValue(), ((Float) parseNumbers.numbers.get(1)).floatValue(), ((Float) parseNumbers.numbers.get(3)).floatValue(), ((Float) parseNumbers.numbers.get(5)).floatValue(), 0.0f, 0.0f, 1.0f});
+            return matrix;
+        }
+        if (str.startsWith("translate(")) {
             NumberParse parseNumbers2 = parseNumbers(str.substring(10));
-            if (parseNumbers2.numbers.size() > 0) {
-                float floatValue = ((Float) parseNumbers2.numbers.get(0)).floatValue();
-                r4 = parseNumbers2.numbers.size() > 1 ? ((Float) parseNumbers2.numbers.get(1)).floatValue() : 0.0f;
-                Matrix matrix2 = new Matrix();
-                matrix2.postTranslate(floatValue, r4);
-                return matrix2;
+            if (parseNumbers2.numbers.size() <= 0) {
+                return null;
             }
-            return null;
-        } else if (str.startsWith("scale(")) {
+            float floatValue = ((Float) parseNumbers2.numbers.get(0)).floatValue();
+            r4 = parseNumbers2.numbers.size() > 1 ? ((Float) parseNumbers2.numbers.get(1)).floatValue() : 0.0f;
+            Matrix matrix2 = new Matrix();
+            matrix2.postTranslate(floatValue, r4);
+            return matrix2;
+        }
+        if (str.startsWith("scale(")) {
             NumberParse parseNumbers3 = parseNumbers(str.substring(6));
-            if (parseNumbers3.numbers.size() > 0) {
-                float floatValue2 = ((Float) parseNumbers3.numbers.get(0)).floatValue();
-                r4 = parseNumbers3.numbers.size() > 1 ? ((Float) parseNumbers3.numbers.get(1)).floatValue() : 0.0f;
-                Matrix matrix3 = new Matrix();
-                matrix3.postScale(floatValue2, r4);
-                return matrix3;
+            if (parseNumbers3.numbers.size() <= 0) {
+                return null;
             }
-            return null;
-        } else if (str.startsWith("skewX(")) {
+            float floatValue2 = ((Float) parseNumbers3.numbers.get(0)).floatValue();
+            r4 = parseNumbers3.numbers.size() > 1 ? ((Float) parseNumbers3.numbers.get(1)).floatValue() : 0.0f;
+            Matrix matrix3 = new Matrix();
+            matrix3.postScale(floatValue2, r4);
+            return matrix3;
+        }
+        if (str.startsWith("skewX(")) {
             NumberParse parseNumbers4 = parseNumbers(str.substring(6));
-            if (parseNumbers4.numbers.size() > 0) {
-                float floatValue3 = ((Float) parseNumbers4.numbers.get(0)).floatValue();
-                Matrix matrix4 = new Matrix();
-                matrix4.postSkew((float) Math.tan(floatValue3), 0.0f);
-                return matrix4;
+            if (parseNumbers4.numbers.size() <= 0) {
+                return null;
             }
-            return null;
-        } else if (str.startsWith("skewY(")) {
+            float floatValue3 = ((Float) parseNumbers4.numbers.get(0)).floatValue();
+            Matrix matrix4 = new Matrix();
+            matrix4.postSkew((float) Math.tan(floatValue3), 0.0f);
+            return matrix4;
+        }
+        if (str.startsWith("skewY(")) {
             NumberParse parseNumbers5 = parseNumbers(str.substring(6));
-            if (parseNumbers5.numbers.size() > 0) {
-                float floatValue4 = ((Float) parseNumbers5.numbers.get(0)).floatValue();
-                Matrix matrix5 = new Matrix();
-                matrix5.postSkew(0.0f, (float) Math.tan(floatValue4));
-                return matrix5;
+            if (parseNumbers5.numbers.size() <= 0) {
+                return null;
             }
-            return null;
-        } else if (str.startsWith("rotate(")) {
-            NumberParse parseNumbers6 = parseNumbers(str.substring(7));
-            if (parseNumbers6.numbers.size() > 0) {
-                float floatValue5 = ((Float) parseNumbers6.numbers.get(0)).floatValue();
-                if (parseNumbers6.numbers.size() > 2) {
-                    float floatValue6 = ((Float) parseNumbers6.numbers.get(1)).floatValue();
-                    r4 = ((Float) parseNumbers6.numbers.get(2)).floatValue();
-                    f = floatValue6;
-                } else {
-                    f = 0.0f;
-                }
-                Matrix matrix6 = new Matrix();
-                matrix6.postTranslate(f, r4);
-                matrix6.postRotate(floatValue5);
-                matrix6.postTranslate(-f, -r4);
-                return matrix6;
-            }
-            return null;
-        } else {
+            float floatValue4 = ((Float) parseNumbers5.numbers.get(0)).floatValue();
+            Matrix matrix5 = new Matrix();
+            matrix5.postSkew(0.0f, (float) Math.tan(floatValue4));
+            return matrix5;
+        }
+        if (!str.startsWith("rotate(")) {
             return null;
         }
+        NumberParse parseNumbers6 = parseNumbers(str.substring(7));
+        if (parseNumbers6.numbers.size() <= 0) {
+            return null;
+        }
+        float floatValue5 = ((Float) parseNumbers6.numbers.get(0)).floatValue();
+        if (parseNumbers6.numbers.size() > 2) {
+            float floatValue6 = ((Float) parseNumbers6.numbers.get(1)).floatValue();
+            r4 = ((Float) parseNumbers6.numbers.get(2)).floatValue();
+            f = floatValue6;
+        } else {
+            f = 0.0f;
+        }
+        Matrix matrix6 = new Matrix();
+        matrix6.postTranslate(f, r4);
+        matrix6.postRotate(floatValue5);
+        matrix6.postTranslate(-f, -r4);
+        return matrix6;
     }
 }

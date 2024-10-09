@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.core.view.ContentInfoCompat;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 abstract class AppCompatReceiveContentHelper {
 
@@ -49,12 +50,12 @@ abstract class AppCompatReceiveContentHelper {
             if (tryGetActivity == null) {
                 Log.i("ReceiveContent", "Can't handle drop: no activity: view=" + view);
                 return false;
-            } else if (dragEvent.getAction() == 1) {
+            }
+            if (dragEvent.getAction() == 1) {
                 return !(view instanceof TextView);
-            } else {
-                if (dragEvent.getAction() == 3) {
-                    return view instanceof TextView ? OnDropApi24Impl.onDropForTextView(dragEvent, (TextView) view, tryGetActivity) : OnDropApi24Impl.onDropForView(dragEvent, view, tryGetActivity);
-                }
+            }
+            if (dragEvent.getAction() == 3) {
+                return view instanceof TextView ? OnDropApi24Impl.onDropForTextView(dragEvent, (TextView) view, tryGetActivity) : OnDropApi24Impl.onDropForView(dragEvent, view, tryGetActivity);
             }
         }
         return false;

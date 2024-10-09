@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+
 /* loaded from: classes.dex */
 public abstract class ShortcutManagerCompat {
     private static volatile List sShortcutInfoChangeListeners;
@@ -53,29 +54,30 @@ public abstract class ShortcutManagerCompat {
     public static boolean addDynamicShortcuts(Context context, List list) {
         Object systemService;
         boolean addDynamicShortcuts;
-        List<ShortcutInfoCompat> removeShortcutsExcludedFromSurface = removeShortcutsExcludedFromSurface(list, 1);
+        List removeShortcutsExcludedFromSurface = removeShortcutsExcludedFromSurface(list, 1);
         int i = Build.VERSION.SDK_INT;
         if (i <= 29) {
             convertUriIconsToBitmapIcons(context, removeShortcutsExcludedFromSurface);
         }
         if (i >= 25) {
             ArrayList arrayList = new ArrayList();
-            for (ShortcutInfoCompat shortcutInfoCompat : removeShortcutsExcludedFromSurface) {
-                arrayList.add(shortcutInfoCompat.toShortcutInfo());
+            Iterator it = removeShortcutsExcludedFromSurface.iterator();
+            while (it.hasNext()) {
+                arrayList.add(((ShortcutInfoCompat) it.next()).toShortcutInfo());
             }
-            systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
             addDynamicShortcuts = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).addDynamicShortcuts(arrayList);
             if (!addDynamicShortcuts) {
                 return false;
             }
         }
         getShortcutInfoSaverInstance(context).addShortcuts(removeShortcutsExcludedFromSurface);
-        Iterator it = getShortcutInfoListeners(context).iterator();
-        if (it.hasNext()) {
-            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
-            throw null;
+        Iterator it2 = getShortcutInfoListeners(context).iterator();
+        if (!it2.hasNext()) {
+            return true;
         }
-        return true;
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it2.next());
+        throw null;
     }
 
     static boolean convertUriIconToBitmapIcon(Context context, ShortcutInfoCompat shortcutInfoCompat) {
@@ -85,14 +87,14 @@ public abstract class ShortcutManagerCompat {
             return false;
         }
         int i = iconCompat.mType;
-        if (i == 6 || i == 4) {
-            InputStream uriInputStream = iconCompat.getUriInputStream(context);
-            if (uriInputStream == null || (decodeStream = BitmapFactory.decodeStream(uriInputStream)) == null) {
-                return false;
-            }
-            shortcutInfoCompat.mIcon = i == 6 ? IconCompat.createWithAdaptiveBitmap(decodeStream) : IconCompat.createWithBitmap(decodeStream);
+        if (i != 6 && i != 4) {
             return true;
         }
+        InputStream uriInputStream = iconCompat.getUriInputStream(context);
+        if (uriInputStream == null || (decodeStream = BitmapFactory.decodeStream(uriInputStream)) == null) {
+            return false;
+        }
+        shortcutInfoCompat.mIcon = i == 6 ? IconCompat.createWithAdaptiveBitmap(decodeStream) : IconCompat.createWithBitmap(decodeStream);
         return true;
     }
 
@@ -106,7 +108,7 @@ public abstract class ShortcutManagerCompat {
 
     public static List getDynamicShortcuts(Context context) {
         Object systemService;
-        List<Object> dynamicShortcuts;
+        List dynamicShortcuts;
         if (Build.VERSION.SDK_INT < 25) {
             try {
                 return getShortcutInfoSaverInstance(context).getShortcuts();
@@ -114,11 +116,12 @@ public abstract class ShortcutManagerCompat {
                 return new ArrayList();
             }
         }
-        systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+        systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
         dynamicShortcuts = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).getDynamicShortcuts();
         ArrayList arrayList = new ArrayList(dynamicShortcuts.size());
-        for (Object obj : dynamicShortcuts) {
-            arrayList.add(new ShortcutInfoCompat.Builder(context, ShortcutInfoCompat$$ExternalSyntheticApiModelOutline13.m(obj)).build());
+        Iterator it = dynamicShortcuts.iterator();
+        while (it.hasNext()) {
+            arrayList.add(new ShortcutInfoCompat.Builder(context, ShortcutInfoCompat$$ExternalSyntheticApiModelOutline13.m(it.next())).build());
         }
         return arrayList;
     }
@@ -127,12 +130,12 @@ public abstract class ShortcutManagerCompat {
         Object systemService;
         int maxShortcutCountPerActivity;
         Preconditions.checkNotNull(context);
-        if (Build.VERSION.SDK_INT >= 25) {
-            systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
-            maxShortcutCountPerActivity = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).getMaxShortcutCountPerActivity();
-            return maxShortcutCountPerActivity;
+        if (Build.VERSION.SDK_INT < 25) {
+            return 5;
         }
-        return 5;
+        systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+        maxShortcutCountPerActivity = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).getMaxShortcutCountPerActivity();
+        return maxShortcutCountPerActivity;
     }
 
     private static String getShortcutInfoCompatWithLowestRank(List list) {
@@ -158,8 +161,9 @@ public abstract class ShortcutManagerCompat {
                 PackageManager packageManager = context.getPackageManager();
                 Intent intent = new Intent("androidx.core.content.pm.SHORTCUT_LISTENER");
                 intent.setPackage(context.getPackageName());
-                for (ResolveInfo resolveInfo : packageManager.queryIntentActivities(intent, 128)) {
-                    ActivityInfo activityInfo = resolveInfo.activityInfo;
+                Iterator<ResolveInfo> it = packageManager.queryIntentActivities(intent, 128).iterator();
+                while (it.hasNext()) {
+                    ActivityInfo activityInfo = it.next().activityInfo;
                     if (activityInfo != null && (bundle = activityInfo.metaData) != null && (string = bundle.getString("androidx.core.content.pm.shortcut_listener_impl")) != null) {
                         try {
                             ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(Class.forName(string, false, ShortcutManagerCompat.class.getClassLoader()).getMethod("getInstance", Context.class).invoke(null, context));
@@ -200,10 +204,11 @@ public abstract class ShortcutManagerCompat {
         List shortcuts;
         int i2 = Build.VERSION.SDK_INT;
         if (i2 >= 30) {
-            systemService2 = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            systemService2 = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
             shortcuts = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService2).getShortcuts(i);
             return ShortcutInfoCompat.fromShortcuts(context, shortcuts);
-        } else if (i2 < 25) {
+        }
+        if (i2 < 25) {
             if ((i & 2) != 0) {
                 try {
                     return getShortcutInfoSaverInstance(context).getShortcuts();
@@ -211,50 +216,44 @@ public abstract class ShortcutManagerCompat {
                 }
             }
             return Collections.emptyList();
-        } else {
-            systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
-            ShortcutManager m = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService);
-            ArrayList arrayList = new ArrayList();
-            if ((i & 1) != 0) {
-                manifestShortcuts = m.getManifestShortcuts();
-                arrayList.addAll(manifestShortcuts);
-            }
-            if ((i & 2) != 0) {
-                dynamicShortcuts = m.getDynamicShortcuts();
-                arrayList.addAll(dynamicShortcuts);
-            }
-            if ((i & 4) != 0) {
-                pinnedShortcuts = m.getPinnedShortcuts();
-                arrayList.addAll(pinnedShortcuts);
-            }
-            return ShortcutInfoCompat.fromShortcuts(context, arrayList);
         }
+        systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+        ShortcutManager m = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService);
+        ArrayList arrayList = new ArrayList();
+        if ((i & 1) != 0) {
+            manifestShortcuts = m.getManifestShortcuts();
+            arrayList.addAll(manifestShortcuts);
+        }
+        if ((i & 2) != 0) {
+            dynamicShortcuts = m.getDynamicShortcuts();
+            arrayList.addAll(dynamicShortcuts);
+        }
+        if ((i & 4) != 0) {
+            pinnedShortcuts = m.getPinnedShortcuts();
+            arrayList.addAll(pinnedShortcuts);
+        }
+        return ShortcutInfoCompat.fromShortcuts(context, arrayList);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x003a  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public static boolean isRequestPinShortcutSupported(Context context) {
         Object systemService;
         boolean isRequestPinShortcutSupported;
         if (Build.VERSION.SDK_INT >= 26) {
-            systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
             isRequestPinShortcutSupported = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).isRequestPinShortcutSupported();
             return isRequestPinShortcutSupported;
-        } else if (ContextCompat.checkSelfPermission(context, "com.android.launcher.permission.INSTALL_SHORTCUT") != 0) {
-            return false;
-        } else {
-            for (ResolveInfo resolveInfo : context.getPackageManager().queryBroadcastReceivers(new Intent("com.android.launcher.action.INSTALL_SHORTCUT"), 0)) {
-                String str = resolveInfo.activityInfo.permission;
-                if (TextUtils.isEmpty(str) || "com.android.launcher.permission.INSTALL_SHORTCUT".equals(str)) {
-                    return true;
-                }
-                while (r4.hasNext()) {
-                }
-            }
+        }
+        if (ContextCompat.checkSelfPermission(context, "com.android.launcher.permission.INSTALL_SHORTCUT") != 0) {
             return false;
         }
+        Iterator<ResolveInfo> it = context.getPackageManager().queryBroadcastReceivers(new Intent("com.android.launcher.action.INSTALL_SHORTCUT"), 0).iterator();
+        while (it.hasNext()) {
+            String str = it.next().activityInfo.permission;
+            if (TextUtils.isEmpty(str) || "com.android.launcher.permission.INSTALL_SHORTCUT".equals(str)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean pushDynamicShortcut(Context context, ShortcutInfoCompat shortcutInfoCompat) {
@@ -267,12 +266,12 @@ public abstract class ShortcutManagerCompat {
         int i = Build.VERSION.SDK_INT;
         if (i <= 32 && shortcutInfoCompat.isExcludedFromSurfaces(1)) {
             Iterator it = getShortcutInfoListeners(context).iterator();
-            if (it.hasNext()) {
-                ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
-                Collections.singletonList(shortcutInfoCompat);
-                throw null;
+            if (!it.hasNext()) {
+                return true;
             }
-            return true;
+            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+            Collections.singletonList(shortcutInfoCompat);
+            throw null;
         }
         int maxShortcutCountPerActivity = getMaxShortcutCountPerActivity(context);
         if (maxShortcutCountPerActivity == 0) {
@@ -282,10 +281,10 @@ public abstract class ShortcutManagerCompat {
             convertUriIconToBitmapIcon(context, shortcutInfoCompat);
         }
         if (i >= 30) {
-            systemService2 = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            systemService2 = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
             ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService2).pushDynamicShortcut(shortcutInfoCompat.toShortcutInfo());
         } else if (i >= 25) {
-            systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
             ShortcutManager m = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService);
             isRateLimitingActive = m.isRateLimitingActive();
             if (isRateLimitingActive) {
@@ -336,7 +335,7 @@ public abstract class ShortcutManagerCompat {
     public static void removeAllDynamicShortcuts(Context context) {
         Object systemService;
         if (Build.VERSION.SDK_INT >= 25) {
-            systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
             ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).removeAllDynamicShortcuts();
         }
         getShortcutInfoSaverInstance(context).removeAllShortcuts();
@@ -350,7 +349,7 @@ public abstract class ShortcutManagerCompat {
     public static void removeDynamicShortcuts(Context context, List list) {
         Object systemService;
         if (Build.VERSION.SDK_INT >= 25) {
-            systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
             ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).removeDynamicShortcuts(list);
         }
         getShortcutInfoSaverInstance(context).removeShortcuts(list);
@@ -382,7 +381,7 @@ public abstract class ShortcutManagerCompat {
         Preconditions.checkNotNull(context);
         Preconditions.checkNotNull(str);
         if (Build.VERSION.SDK_INT >= 25) {
-            systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
             ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).reportShortcutUsed(str);
         }
         Iterator it = getShortcutInfoListeners(context).iterator();
@@ -397,59 +396,60 @@ public abstract class ShortcutManagerCompat {
         Object systemService;
         boolean requestPinShortcut;
         int i = Build.VERSION.SDK_INT;
-        if (i > 32 || !shortcutInfoCompat.isExcludedFromSurfaces(1)) {
-            if (i >= 26) {
-                systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
-                requestPinShortcut = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).requestPinShortcut(shortcutInfoCompat.toShortcutInfo(), intentSender);
-                return requestPinShortcut;
-            } else if (isRequestPinShortcutSupported(context)) {
-                Intent addToIntent = shortcutInfoCompat.addToIntent(new Intent("com.android.launcher.action.INSTALL_SHORTCUT"));
-                if (intentSender == null) {
-                    context.sendBroadcast(addToIntent);
-                    return true;
-                }
-                context.sendOrderedBroadcast(addToIntent, null, new BroadcastReceiver() { // from class: androidx.core.content.pm.ShortcutManagerCompat.1
-                    @Override // android.content.BroadcastReceiver
-                    public void onReceive(Context context2, Intent intent) {
-                        try {
-                            intentSender.sendIntent(context2, 0, null, null, null);
-                        } catch (IntentSender.SendIntentException unused) {
-                        }
-                    }
-                }, null, -1, null, null);
-                return true;
-            } else {
-                return false;
-            }
+        if (i <= 32 && shortcutInfoCompat.isExcludedFromSurfaces(1)) {
+            return false;
         }
-        return false;
+        if (i >= 26) {
+            systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            requestPinShortcut = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).requestPinShortcut(shortcutInfoCompat.toShortcutInfo(), intentSender);
+            return requestPinShortcut;
+        }
+        if (!isRequestPinShortcutSupported(context)) {
+            return false;
+        }
+        Intent addToIntent = shortcutInfoCompat.addToIntent(new Intent("com.android.launcher.action.INSTALL_SHORTCUT"));
+        if (intentSender == null) {
+            context.sendBroadcast(addToIntent);
+            return true;
+        }
+        context.sendOrderedBroadcast(addToIntent, null, new BroadcastReceiver() { // from class: androidx.core.content.pm.ShortcutManagerCompat.1
+            @Override // android.content.BroadcastReceiver
+            public void onReceive(Context context2, Intent intent) {
+                try {
+                    intentSender.sendIntent(context2, 0, null, null, null);
+                } catch (IntentSender.SendIntentException unused) {
+                }
+            }
+        }, null, -1, null, null);
+        return true;
     }
 
     public static boolean updateShortcuts(Context context, List list) {
         Object systemService;
         boolean updateShortcuts;
-        List<ShortcutInfoCompat> removeShortcutsExcludedFromSurface = removeShortcutsExcludedFromSurface(list, 1);
+        List removeShortcutsExcludedFromSurface = removeShortcutsExcludedFromSurface(list, 1);
         int i = Build.VERSION.SDK_INT;
         if (i <= 29) {
             convertUriIconsToBitmapIcons(context, removeShortcutsExcludedFromSurface);
         }
         if (i >= 25) {
             ArrayList arrayList = new ArrayList();
-            for (ShortcutInfoCompat shortcutInfoCompat : removeShortcutsExcludedFromSurface) {
-                arrayList.add(shortcutInfoCompat.toShortcutInfo());
+            Iterator it = removeShortcutsExcludedFromSurface.iterator();
+            while (it.hasNext()) {
+                arrayList.add(((ShortcutInfoCompat) it.next()).toShortcutInfo());
             }
-            systemService = context.getSystemService(ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
+            systemService = context.getSystemService((Class<Object>) ShortcutManagerCompat$$ExternalSyntheticApiModelOutline0.m());
             updateShortcuts = ShortcutManagerCompat$$ExternalSyntheticApiModelOutline2.m(systemService).updateShortcuts(arrayList);
             if (!updateShortcuts) {
                 return false;
             }
         }
         getShortcutInfoSaverInstance(context).addShortcuts(removeShortcutsExcludedFromSurface);
-        Iterator it = getShortcutInfoListeners(context).iterator();
-        if (it.hasNext()) {
-            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
-            throw null;
+        Iterator it2 = getShortcutInfoListeners(context).iterator();
+        if (!it2.hasNext()) {
+            return true;
         }
-        return true;
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it2.next());
+        throw null;
     }
 }

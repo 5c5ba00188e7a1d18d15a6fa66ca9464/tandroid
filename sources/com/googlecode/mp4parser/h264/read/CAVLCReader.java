@@ -2,6 +2,7 @@ package com.googlecode.mp4parser.h264.read;
 
 import com.googlecode.mp4parser.h264.Debug;
 import java.io.InputStream;
+
 /* loaded from: classes.dex */
 public class CAVLCReader extends BitstreamReader {
     public CAVLCReader(InputStream inputStream) {
@@ -13,10 +14,10 @@ public class CAVLCReader extends BitstreamReader {
         while (read1Bit() == 0) {
             i++;
         }
-        if (i > 0) {
-            return (int) (((1 << i) - 1) + readNBit(i));
+        if (i <= 0) {
+            return 0;
         }
-        return 0;
+        return (int) (((1 << i) - 1) + readNBit(i));
     }
 
     private void trace(String str, String str2) {

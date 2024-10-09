@@ -6,6 +6,7 @@ import com.google.firebase.appindexing.FirebaseAppIndexingException;
 import com.google.firebase.appindexing.FirebaseAppIndexingInvalidArgumentException;
 import com.google.firebase.appindexing.FirebaseAppIndexingTooManyArgumentsException;
 import com.google.firebase.appindexing.zza;
+
 /* loaded from: classes.dex */
 public abstract class zzaf {
     public static FirebaseAppIndexingException zza(Status status, String str) {

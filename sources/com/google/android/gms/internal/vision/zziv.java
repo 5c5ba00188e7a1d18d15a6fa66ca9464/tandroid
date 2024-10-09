@@ -1,12 +1,13 @@
 package com.google.android.gms.internal.vision;
 
 import java.lang.reflect.Type;
+
 /* JADX WARN: Enum visitor error
-jadx.core.utils.exceptions.JadxRuntimeException: Init of enum zzc uses external variables
-	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
-	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:391)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:320)
-	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
+jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'zzc' uses external variables
+	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
+	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByRegister(EnumVisitor.java:395)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:324)
+	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:262)
 	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */
@@ -203,9 +204,8 @@ public final class zziv {
         this.zzbb = zzixVar;
         this.zzaz = zzjmVar;
         int i4 = zziy.zza[zzixVar.ordinal()];
-        boolean z = true;
         this.zzbc = (i4 == 1 || i4 == 2) ? zzjmVar.zza() : null;
-        this.zzbd = (zzixVar != zzix.zza || (i3 = zziy.zzb[zzjmVar.ordinal()]) == 1 || i3 == 2 || i3 == 3) ? false : false;
+        this.zzbd = (zzixVar != zzix.zza || (i3 = zziy.zzb[zzjmVar.ordinal()]) == 1 || i3 == 2 || i3 == 3) ? false : true;
     }
 
     public static zziv[] values() {

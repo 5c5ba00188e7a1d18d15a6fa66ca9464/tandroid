@@ -29,6 +29,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+
 /* loaded from: classes.dex */
 public final class ConstructorConstructor {
     private final Map instanceCreators;
@@ -50,9 +51,10 @@ public final class ConstructorConstructor {
             sb = new StringBuilder();
             sb.append("Interfaces can't be instantiated! Register an InstanceCreator or a TypeAdapter for this type. Interface name: ");
             createUrl = cls.getName();
-        } else if (!Modifier.isAbstract(modifiers)) {
-            return null;
         } else {
+            if (!Modifier.isAbstract(modifiers)) {
+                return null;
+            }
             sb = new StringBuilder();
             sb.append("Abstract classes can't be instantiated! Adjust the R8 configuration or register an InstanceCreator or a TypeAdapter for this type. Class name: ");
             sb.append(cls.getName());
@@ -127,7 +129,8 @@ public final class ConstructorConstructor {
                     return new ArrayList();
                 }
             };
-        } else if (Map.class.isAssignableFrom(cls)) {
+        }
+        if (Map.class.isAssignableFrom(cls)) {
             return ConcurrentNavigableMap.class.isAssignableFrom(cls) ? new ObjectConstructor() { // from class: com.google.gson.internal.ConstructorConstructor.14
                 @Override // com.google.gson.internal.ObjectConstructor
                 public Object construct() {
@@ -154,9 +157,8 @@ public final class ConstructorConstructor {
                     return new LinkedHashMap();
                 }
             };
-        } else {
-            return null;
         }
+        return null;
     }
 
     private static ObjectConstructor newSpecialCollectionConstructor(final Type type, Class cls) {

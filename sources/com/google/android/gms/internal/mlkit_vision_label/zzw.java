@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 final class zzw extends zzbm {
     final /* synthetic */ zzy zza;
@@ -30,13 +31,13 @@ final class zzw extends zzbm {
 
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
     public final boolean remove(Object obj) {
-        if (contains(obj)) {
-            Map.Entry entry = (Map.Entry) obj;
-            entry.getClass();
-            zzag.zzm(this.zza.zzb, entry.getKey());
-            return true;
+        if (!contains(obj)) {
+            return false;
         }
-        return false;
+        Map.Entry entry = (Map.Entry) obj;
+        entry.getClass();
+        zzag.zzm(this.zza.zzb, entry.getKey());
+        return true;
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzbm

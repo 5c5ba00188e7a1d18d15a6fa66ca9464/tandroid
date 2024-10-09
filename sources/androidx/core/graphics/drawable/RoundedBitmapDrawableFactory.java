@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Build;
 import androidx.core.view.GravityCompat;
+
 /* loaded from: classes.dex */
 public abstract class RoundedBitmapDrawableFactory {
 

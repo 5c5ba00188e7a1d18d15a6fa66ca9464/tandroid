@@ -52,6 +52,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScamDrawable;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.Components.TypefaceSpan;
+
 /* loaded from: classes4.dex */
 public class ThemeDescription {
     public static int FLAG_AB_AM_BACKGROUND = 1048576;
@@ -455,7 +456,7 @@ public class ThemeDescription {
                                                     }
                                                     i7++;
                                                 }
-                                            } else if ((FLAG_TEXTCOLOR & i6) != 0 && ((i6 & FLAG_CHECKTAG) == 0 || checkTag(this.currentKey, obj))) {
+                                            } else if ((FLAG_TEXTCOLOR & i6) != 0 && ((i6 & FLAG_CHECKTAG) == 0 || checkTag(this.currentKey, (View) obj))) {
                                                 int i8 = 0;
                                                 while (i8 < 2) {
                                                     TextView textView4 = i8 == 0 ? ((AudioPlayerAlert.ClippingTextViewSwitcher) obj).getTextView() : ((AudioPlayerAlert.ClippingTextViewSwitcher) obj).getNextTextView();

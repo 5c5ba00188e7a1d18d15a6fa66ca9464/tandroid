@@ -1,4 +1,5 @@
 package androidx.collection;
+
 /* loaded from: classes.dex */
 public class SparseArrayCompat implements Cloneable {
     private static final Object DELETED = new Object();
@@ -16,11 +17,11 @@ public class SparseArrayCompat implements Cloneable {
         if (i == 0) {
             this.mKeys = ContainerHelpers.EMPTY_INTS;
             this.mValues = ContainerHelpers.EMPTY_OBJECTS;
-            return;
+        } else {
+            int idealIntArraySize = ContainerHelpers.idealIntArraySize(i);
+            this.mKeys = new int[idealIntArraySize];
+            this.mValues = new Object[idealIntArraySize];
         }
-        int idealIntArraySize = ContainerHelpers.idealIntArraySize(i);
-        this.mKeys = new int[idealIntArraySize];
-        this.mValues = new Object[idealIntArraySize];
     }
 
     private void gc() {

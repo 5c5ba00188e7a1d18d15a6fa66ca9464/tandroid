@@ -14,6 +14,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LinkSpanDrawable;
+
 /* loaded from: classes3.dex */
 public class ContactsEmptyView extends LinearLayout {
     private LinkSpanDrawable.LinksTextView buttonTextView;
@@ -37,7 +38,7 @@ public class ContactsEmptyView extends LinearLayout {
         this.drawable = loadingStickerDrawable;
         this.stickerView.setImageDrawable(loadingStickerDrawable);
         if (!AndroidUtilities.isTablet()) {
-            addView(this.stickerView, LayoutHelper.createLinear((int) NotificationCenter.walletSyncProgressChanged, (int) NotificationCenter.walletSyncProgressChanged, 49, 0, 2, 0, 0));
+            addView(this.stickerView, LayoutHelper.createLinear(NotificationCenter.walletSyncProgressChanged, NotificationCenter.walletSyncProgressChanged, 49, 0, 2, 0, 0));
         }
         TextView textView = new TextView(context);
         this.titleTextView = textView;
@@ -86,7 +87,7 @@ public class ContactsEmptyView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* renamed from: onInviteClick */
+    /* renamed from: onInviteClick, reason: merged with bridge method [inline-methods] */
     public void lambda$new$0() {
         Activity findActivity = AndroidUtilities.findActivity(getContext());
         if (findActivity == null || findActivity.isFinishing()) {

@@ -12,6 +12,7 @@ import org.webrtc.ContextUtils;
 import org.webrtc.Logging;
 import org.webrtc.MediaStreamTrack;
 import org.webrtc.ThreadUtils;
+
 /* loaded from: classes.dex */
 public class WebRtcAudioTrack {
     private static final long AUDIO_TRACK_THREAD_JOIN_TIMEOUT_MS = 2000;
@@ -58,11 +59,11 @@ public class WebRtcAudioTrack {
 
         private int writeBytes(AudioTrack audioTrack, ByteBuffer byteBuffer, int i) {
             int write;
-            if (Build.VERSION.SDK_INT >= 21) {
-                write = audioTrack.write(byteBuffer, i, 0);
-                return write;
+            if (Build.VERSION.SDK_INT < 21) {
+                return audioTrack.write(byteBuffer.array(), byteBuffer.arrayOffset(), i);
             }
-            return audioTrack.write(byteBuffer.array(), byteBuffer.arrayOffset(), i);
+            write = audioTrack.write(byteBuffer, i, 0);
+            return write;
         }
 
         @Override // java.lang.Thread, java.lang.Runnable
@@ -208,11 +209,11 @@ public class WebRtcAudioTrack {
 
     private int getBufferSizeInFrames() {
         int bufferSizeInFrames;
-        if (Build.VERSION.SDK_INT >= 23) {
-            bufferSizeInFrames = this.audioTrack.getBufferSizeInFrames();
-            return bufferSizeInFrames;
+        if (Build.VERSION.SDK_INT < 23) {
+            return -1;
         }
-        return -1;
+        bufferSizeInFrames = this.audioTrack.getBufferSizeInFrames();
+        return bufferSizeInFrames;
     }
 
     private static int getDefaultUsageAttribute() {
@@ -251,26 +252,26 @@ public class WebRtcAudioTrack {
         if (i3 < this.byteBuffer.capacity()) {
             reportWebRtcAudioTrackInitError("AudioTrack.getMinBufferSize returns an invalid value.");
             return -1;
-        } else if (this.audioTrack != null) {
+        }
+        if (this.audioTrack != null) {
             reportWebRtcAudioTrackInitError("Conflict with existing AudioTrack.");
             return -1;
-        } else {
-            try {
-                AudioTrack createAudioTrackOnLollipopOrHigher = Build.VERSION.SDK_INT >= 21 ? createAudioTrackOnLollipopOrHigher(i, channelCountToConfiguration, i3) : createAudioTrackOnLowerThanLollipop(i, channelCountToConfiguration, i3);
-                this.audioTrack = createAudioTrackOnLollipopOrHigher;
-                if (createAudioTrackOnLollipopOrHigher == null || createAudioTrackOnLollipopOrHigher.getState() != 1) {
-                    reportWebRtcAudioTrackInitError("Initialization of audio track failed.");
-                    releaseAudioResources();
-                    return -1;
-                }
-                logMainParameters();
-                logMainParametersExtended();
-                return i3;
-            } catch (IllegalArgumentException e) {
-                reportWebRtcAudioTrackInitError(e.getMessage());
+        }
+        try {
+            AudioTrack createAudioTrackOnLollipopOrHigher = Build.VERSION.SDK_INT >= 21 ? createAudioTrackOnLollipopOrHigher(i, channelCountToConfiguration, i3) : createAudioTrackOnLowerThanLollipop(i, channelCountToConfiguration, i3);
+            this.audioTrack = createAudioTrackOnLollipopOrHigher;
+            if (createAudioTrackOnLollipopOrHigher == null || createAudioTrackOnLollipopOrHigher.getState() != 1) {
+                reportWebRtcAudioTrackInitError("Initialization of audio track failed.");
                 releaseAudioResources();
                 return -1;
             }
+            logMainParameters();
+            logMainParametersExtended();
+            return i3;
+        } catch (IllegalArgumentException e) {
+            reportWebRtcAudioTrackInitError(e.getMessage());
+            releaseAudioResources();
+            return -1;
         }
     }
 
@@ -436,8 +437,7 @@ public class WebRtcAudioTrack {
         try {
             this.audioTrack.play();
         } catch (IllegalStateException e) {
-            AudioTrackStartErrorCode audioTrackStartErrorCode = AudioTrackStartErrorCode.AUDIO_TRACK_START_EXCEPTION;
-            reportWebRtcAudioTrackStartError(audioTrackStartErrorCode, "AudioTrack.play failed: " + e.getMessage());
+            reportWebRtcAudioTrackStartError(AudioTrackStartErrorCode.AUDIO_TRACK_START_EXCEPTION, "AudioTrack.play failed: " + e.getMessage());
         }
         if (this.audioTrack.getPlayState() == 3) {
             AudioTrackThread audioTrackThread = new AudioTrackThread("AudioTrackJavaThread");
@@ -445,8 +445,7 @@ public class WebRtcAudioTrack {
             audioTrackThread.start();
             return true;
         }
-        AudioTrackStartErrorCode audioTrackStartErrorCode2 = AudioTrackStartErrorCode.AUDIO_TRACK_START_STATE_MISMATCH;
-        reportWebRtcAudioTrackStartError(audioTrackStartErrorCode2, "AudioTrack.play failed - incorrect state :" + this.audioTrack.getPlayState());
+        reportWebRtcAudioTrackStartError(AudioTrackStartErrorCode.AUDIO_TRACK_START_STATE_MISMATCH, "AudioTrack.play failed - incorrect state :" + this.audioTrack.getPlayState());
         releaseAudioResources();
         return false;
     }

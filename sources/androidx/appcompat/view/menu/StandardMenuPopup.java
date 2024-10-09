@@ -1,5 +1,6 @@
 package androidx.appcompat.view.menu;
 
+import android.R;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.Gravity;
@@ -18,6 +19,7 @@ import androidx.appcompat.R$layout;
 import androidx.appcompat.view.menu.MenuPresenter;
 import androidx.appcompat.widget.MenuPopupWindow;
 import androidx.core.view.ViewCompat;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class StandardMenuPopup extends MenuPopup implements PopupWindow.OnDismissListener, AdapterView.OnItemClickListener, MenuPresenter, View.OnKeyListener {
@@ -121,7 +123,7 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
         listView.setOnKeyListener(this);
         if (this.mShowTitle && this.mMenu.getHeaderTitle() != null) {
             FrameLayout frameLayout = (FrameLayout) LayoutInflater.from(this.mContext).inflate(R$layout.abc_popup_menu_header_item_layout, (ViewGroup) listView, false);
-            TextView textView = (TextView) frameLayout.findViewById(16908310);
+            TextView textView = (TextView) frameLayout.findViewById(R.id.title);
             if (textView != null) {
                 textView.setText(this.mMenu.getHeaderTitle());
             }
@@ -192,11 +194,11 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
 
     @Override // android.view.View.OnKeyListener
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
-        if (keyEvent.getAction() == 1 && i == 82) {
-            dismiss();
-            return true;
+        if (keyEvent.getAction() != 1 || i != 82) {
+            return false;
         }
-        return false;
+        dismiss();
+        return true;
     }
 
     @Override // androidx.appcompat.view.menu.MenuPresenter
@@ -215,10 +217,10 @@ public final class StandardMenuPopup extends MenuPopup implements PopupWindow.On
             }
             if (menuPopupHelper.tryShow(horizontalOffset, verticalOffset)) {
                 MenuPresenter.Callback callback = this.mPresenterCallback;
-                if (callback != null) {
-                    callback.onOpenSubMenu(subMenuBuilder);
+                if (callback == null) {
                     return true;
                 }
+                callback.onOpenSubMenu(subMenuBuilder);
                 return true;
             }
         }

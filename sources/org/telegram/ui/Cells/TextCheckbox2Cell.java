@@ -17,6 +17,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class TextCheckbox2Cell extends FrameLayout {
     public static final Property ANIMATION_PROGRESS = new AnimationProperties.FloatProperty("animationProgress") { // from class: org.telegram.ui.Cells.TextCheckbox2Cell.1

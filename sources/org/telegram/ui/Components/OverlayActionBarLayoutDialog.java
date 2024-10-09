@@ -19,6 +19,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public class OverlayActionBarLayoutDialog extends Dialog implements INavigationLayout.INavigationLayoutDelegate {
     private INavigationLayout actionBarLayout;
@@ -124,21 +125,20 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
         if (this.passcodeView.getVisibility() == 0) {
             if (getOwnerActivity() != null) {
                 getOwnerActivity().finish();
-                return;
             }
-            return;
-        }
-        this.actionBarLayout.onBackPressed();
-        if (this.actionBarLayout.getFragmentStack().size() <= 1) {
-            dismiss();
+        } else {
+            this.actionBarLayout.onBackPressed();
+            if (this.actionBarLayout.getFragmentStack().size() <= 1) {
+                dismiss();
+            }
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0040  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0057  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:25:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0057  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:22:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0040  */
     @Override // android.app.Dialog
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -149,7 +149,7 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
         Window window = getWindow();
         int i2 = Build.VERSION.SDK_INT;
         if (i2 < 30) {
-            i = i2 >= 21 ? -2147417856 : -2147417856;
+            i = i2 >= 21 ? -2147417856 : -2147483392;
             window.setWindowAnimations(R.style.DialogNoAnimation);
             WindowManager.LayoutParams attributes = window.getAttributes();
             attributes.width = -1;
@@ -182,7 +182,6 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
             }
             return;
         }
-        i = -2147483392;
         window.addFlags(i);
         window.setWindowAnimations(R.style.DialogNoAnimation);
         WindowManager.LayoutParams attributes2 = window.getAttributes();

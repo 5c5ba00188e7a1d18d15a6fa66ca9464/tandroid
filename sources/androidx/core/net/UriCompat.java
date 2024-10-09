@@ -1,6 +1,7 @@
 package androidx.core.net;
 
 import android.net.Uri;
+
 /* loaded from: classes.dex */
 public abstract class UriCompat {
     public static String toSafeString(Uri uri) {
@@ -21,7 +22,8 @@ public abstract class UriCompat {
                     }
                 }
                 return sb.toString();
-            } else if (scheme.equalsIgnoreCase("http") || scheme.equalsIgnoreCase("https") || scheme.equalsIgnoreCase("ftp") || scheme.equalsIgnoreCase("rtsp")) {
+            }
+            if (scheme.equalsIgnoreCase("http") || scheme.equalsIgnoreCase("https") || scheme.equalsIgnoreCase("ftp") || scheme.equalsIgnoreCase("rtsp")) {
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append("//");
                 sb2.append(uri.getHost() != null ? uri.getHost() : "");

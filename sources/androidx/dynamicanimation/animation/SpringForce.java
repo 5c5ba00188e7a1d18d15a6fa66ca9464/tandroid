@@ -1,6 +1,7 @@
 package androidx.dynamicanimation.animation;
 
 import androidx.dynamicanimation.animation.DynamicAnimation;
+
 /* loaded from: classes.dex */
 public final class SpringForce {
     private double mDampedFreq;
@@ -60,12 +61,12 @@ public final class SpringForce {
     }
 
     public SpringForce setDampingRatio(float f) {
-        if (f >= 0.0f) {
-            this.mDampingRatio = f;
-            this.mInitialized = false;
-            return this;
+        if (f < 0.0f) {
+            throw new IllegalArgumentException("Damping ratio must be non-negative");
         }
-        throw new IllegalArgumentException("Damping ratio must be non-negative");
+        this.mDampingRatio = f;
+        this.mInitialized = false;
+        return this;
     }
 
     public SpringForce setFinalPosition(float f) {
@@ -74,12 +75,12 @@ public final class SpringForce {
     }
 
     public SpringForce setStiffness(float f) {
-        if (f > 0.0f) {
-            this.mNaturalFreq = Math.sqrt(f);
-            this.mInitialized = false;
-            return this;
+        if (f <= 0.0f) {
+            throw new IllegalArgumentException("Spring stiffness constant must be positive.");
         }
-        throw new IllegalArgumentException("Spring stiffness constant must be positive.");
+        this.mNaturalFreq = Math.sqrt(f);
+        this.mInitialized = false;
+        return this;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

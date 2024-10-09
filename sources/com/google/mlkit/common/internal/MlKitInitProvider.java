@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.util.Log;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.mlkit.common.sdkinternal.MlKitContext;
+
 /* loaded from: classes.dex */
 public class MlKitInitProvider extends ContentProvider {
     @Override // android.content.ContentProvider

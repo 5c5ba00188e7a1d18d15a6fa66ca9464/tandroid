@@ -1,5 +1,6 @@
 package androidx.appcompat.view.menu;
 
+import android.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -7,14 +8,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.TintTypedArray;
+
 /* loaded from: classes.dex */
 public final class ExpandedMenuView extends ListView implements MenuBuilder.ItemInvoker, MenuView, AdapterView.OnItemClickListener {
-    private static final int[] TINT_ATTRS = {16842964, 16843049};
+    private static final int[] TINT_ATTRS = {R.attr.background, R.attr.divider};
     private int mAnimations;
     private MenuBuilder mMenu;
 
     public ExpandedMenuView(Context context, AttributeSet attributeSet) {
-        this(context, attributeSet, 16842868);
+        this(context, attributeSet, R.attr.listViewStyle);
     }
 
     public ExpandedMenuView(Context context, AttributeSet attributeSet, int i) {

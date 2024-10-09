@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.R$styleable;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class FragmentContainerView extends FrameLayout {
     private View.OnApplyWindowInsetsListener mApplyWindowInsetsListener;

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class UserAddress extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<UserAddress> CREATOR = new zzb();

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class DiffUtil {
     private static final Comparator SNAKE_COMPARATOR = new Comparator() { // from class: androidx.recyclerview.widget.DiffUtil.1
@@ -91,9 +92,10 @@ public abstract class DiffUtil {
                     if (i7 == 4) {
                         listUpdateCallback.onChanged(i, 1, this.mCallback.getChangePayload(i8, i5));
                     }
-                } else if (i7 != 16) {
-                    throw new IllegalStateException("unknown flag for pos " + i5 + " " + Long.toBinaryString(i7));
                 } else {
+                    if (i7 != 16) {
+                        throw new IllegalStateException("unknown flag for pos " + i5 + " " + Long.toBinaryString(i7));
+                    }
                     list.add(new PostponedUpdate(i5, i, false));
                 }
             }
@@ -121,9 +123,10 @@ public abstract class DiffUtil {
                     if (i7 == 4) {
                         listUpdateCallback.onChanged(removePostponedUpdate.currentPos - 1, 1, this.mCallback.getChangePayload(i5, i8));
                     }
-                } else if (i7 != 16) {
-                    throw new IllegalStateException("unknown flag for pos " + i5 + " " + Long.toBinaryString(i7));
                 } else {
+                    if (i7 != 16) {
+                        throw new IllegalStateException("unknown flag for pos " + i5 + " " + Long.toBinaryString(i7));
+                    }
                     list.add(new PostponedUpdate(i5, i + i4, true));
                 }
             }
@@ -163,7 +166,6 @@ public abstract class DiffUtil {
                             return true;
                         }
                     }
-                    continue;
                 } else {
                     for (int i12 = i2 - 1; i12 >= i10; i12--) {
                         if (this.mCallback.areItemsTheSame(i4, i12)) {
@@ -174,7 +176,6 @@ public abstract class DiffUtil {
                             return true;
                         }
                     }
-                    continue;
                 }
                 i5 = snake.x;
                 i2 = snake.y;
@@ -322,8 +323,8 @@ public abstract class DiffUtil {
         return calculateDiff(callback, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00ae  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00ce  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00ae  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00ce  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -403,14 +404,16 @@ public abstract class DiffUtil {
         return new DiffResult(callback, arrayList, iArr, iArr2, z);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0042, code lost:
-        if (r24[r13 - 1] < r24[r13 + r5]) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0042, code lost:
+    
+        if (r24[r13 - 1] < r24[r13 + r5]) goto L20;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x00b5, code lost:
-        if (r25[r12 - 1] < r25[r12 + 1]) goto L77;
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x00b5, code lost:
+    
+        if (r25[r12 - 1] < r25[r12 + 1]) goto L50;
      */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00de A[LOOP:4: B:52:0x00ca->B:56:0x00de, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x00e9 A[EDGE_INSN: B:89:0x00e9->B:58:0x00e9 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00de A[LOOP:4: B:54:0x00ca->B:58:0x00de, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00e9 A[EDGE_INSN: B:59:0x00e9->B:60:0x00e9 BREAK  A[LOOP:4: B:54:0x00ca->B:58:0x00de], SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

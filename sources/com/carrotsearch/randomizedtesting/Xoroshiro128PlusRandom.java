@@ -1,6 +1,7 @@
 package com.carrotsearch.randomizedtesting;
 
 import java.util.Random;
+
 /* loaded from: classes.dex */
 public class Xoroshiro128PlusRandom extends Random {
     private long s0;

@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class WorkQueue {
     private static final /* synthetic */ AtomicReferenceFieldUpdater lastScheduledTask$FU = AtomicReferenceFieldUpdater.newUpdater(WorkQueue.class, Object.class, "lastScheduledTask");
@@ -144,10 +145,10 @@ public final class WorkQueue {
 
     public final long tryStealFrom(WorkQueue workQueue) {
         Task pollBuffer = workQueue.pollBuffer();
-        if (pollBuffer != null) {
-            add$default(this, pollBuffer, false, 2, null);
-            return -1L;
+        if (pollBuffer == null) {
+            return tryStealLastScheduled(workQueue, false);
         }
-        return tryStealLastScheduled(workQueue, false);
+        add$default(this, pollBuffer, false, 2, null);
+        return -1L;
     }
 }

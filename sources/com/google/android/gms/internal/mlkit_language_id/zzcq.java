@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import android.content.Context;
 import com.google.firebase.components.ComponentContainer;
 import com.google.firebase.components.ComponentFactory;
+
 /* loaded from: classes.dex */
 final /* synthetic */ class zzcq implements ComponentFactory {
     static final ComponentFactory zza = new zzcq();

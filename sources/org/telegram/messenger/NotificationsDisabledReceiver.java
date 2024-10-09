@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes3.dex */
 public class NotificationsDisabledReceiver extends BroadcastReceiver {
     @Override // android.content.BroadcastReceiver
@@ -77,9 +78,10 @@ public class NotificationsDisabledReceiver extends BroadcastReceiver {
                     }
                     edit.commit();
                     AccountInstance.getInstance(intValue).getNotificationsController().updateServerNotificationsSettings(longValue, 0L, true);
-                } else if (!stringExtra.equals(notificationsSettings.getString("stories", null))) {
-                    return;
                 } else {
+                    if (!stringExtra.equals(notificationsSettings.getString("stories", null))) {
+                        return;
+                    }
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("apply channel{stories} " + stringExtra + " state");
                     }
@@ -87,9 +89,10 @@ public class NotificationsDisabledReceiver extends BroadcastReceiver {
                 }
                 putBoolean.commit();
                 AccountInstance.getInstance(intValue).getNotificationsController().updateServerNotificationsSettings(1);
-            } else if (!stringExtra.equals(notificationsSettings.getString("groups", null))) {
-                return;
             } else {
+                if (!stringExtra.equals(notificationsSettings.getString("groups", null))) {
+                    return;
+                }
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("apply channel{groups} " + stringExtra + " state");
                 }

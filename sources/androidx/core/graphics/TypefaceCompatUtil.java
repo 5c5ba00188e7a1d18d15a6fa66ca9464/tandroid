@@ -22,6 +22,7 @@ import java.nio.channels.FileChannel;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class TypefaceCompatUtil {
 
@@ -140,12 +141,24 @@ public abstract class TypefaceCompatUtil {
                 }
                 return null;
             }
-            FileInputStream fileInputStream = new FileInputStream(openFileDescriptor.getFileDescriptor());
-            FileChannel channel = fileInputStream.getChannel();
-            MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_ONLY, 0L, channel.size());
-            fileInputStream.close();
-            openFileDescriptor.close();
-            return map;
+            try {
+                FileInputStream fileInputStream = new FileInputStream(openFileDescriptor.getFileDescriptor());
+                try {
+                    FileChannel channel = fileInputStream.getChannel();
+                    MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_ONLY, 0L, channel.size());
+                    fileInputStream.close();
+                    openFileDescriptor.close();
+                    return map;
+                } finally {
+                }
+            } catch (Throwable th) {
+                try {
+                    openFileDescriptor.close();
+                } catch (Throwable th2) {
+                    th.addSuppressed(th2);
+                }
+                throw th;
+            }
         } catch (IOException unused) {
             return null;
         }
@@ -154,10 +167,13 @@ public abstract class TypefaceCompatUtil {
     private static ByteBuffer mmap(File file) {
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
-            FileChannel channel = fileInputStream.getChannel();
-            MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_ONLY, 0L, channel.size());
-            fileInputStream.close();
-            return map;
+            try {
+                FileChannel channel = fileInputStream.getChannel();
+                MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_ONLY, 0L, channel.size());
+                fileInputStream.close();
+                return map;
+            } finally {
+            }
         } catch (IOException unused) {
             return null;
         }

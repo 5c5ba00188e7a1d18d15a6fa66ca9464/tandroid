@@ -58,6 +58,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.FilterCreateActivity;
 import org.telegram.ui.FiltersSetupActivity;
+
 /* loaded from: classes3.dex */
 public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     private int alreadyHeaderRow;
@@ -288,8 +289,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
             }
             this.lastCount = i;
             this.countAlpha = i != 0 ? 1.0f : 0.0f;
-            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.countText;
-            animatedTextDrawable.setText("" + i, z);
+            this.countText.setText("" + i, z);
             invalidate();
         }
 
@@ -779,12 +779,12 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
             while (true) {
                 if (i2 >= arrayList2.size()) {
                     break;
-                } else if (arrayList2.get(i2).id == i) {
+                }
+                if (arrayList2.get(i2).id == i) {
                     this.title = arrayList2.get(i2).name;
                     break;
-                } else {
-                    i2++;
                 }
+                i2++;
             }
         }
         init();
@@ -819,12 +819,12 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                 while (true) {
                     if (i >= arrayList2.size()) {
                         break;
-                    } else if (arrayList2.get(i).id == this.filterId) {
+                    }
+                    if (arrayList2.get(i).id == this.filterId) {
                         this.title = arrayList2.get(i).name;
                         break;
-                    } else {
-                        i++;
                     }
+                    i++;
                 }
             }
         }
@@ -877,7 +877,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0062  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1047,7 +1047,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                 break;
             }
             if (z) {
-                baseFragment.finishFragment();
+                baseFragment.lambda$onBackPressed$300();
                 z = false;
             } else {
                 baseFragment.removeSelfFromStack();
@@ -1075,8 +1075,9 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0044, code lost:
-        if ((r4 instanceof org.telegram.tgnet.TLRPC.TL_updateDialogFilter) != false) goto L15;
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0044, code lost:
+    
+        if ((r4 instanceof org.telegram.tgnet.TLRPC.TL_updateDialogFilter) != false) goto L14;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1177,29 +1178,30 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         if (!this.selectedPeers.contains(Long.valueOf(peerDialogId))) {
             this.selectedPeers.add(Long.valueOf(peerDialogId));
             ((GroupCreateUserCell) view).setChecked(true, true);
-        } else if (this.alreadyJoined.contains(Long.valueOf(peerDialogId))) {
-            int i3 = -this.shiftDp;
-            this.shiftDp = i3;
-            AndroidUtilities.shakeViewSpring(view, i3);
-            BotWebViewVibrationEffect.APP_ERROR.vibrate();
-            ArrayList arrayList = new ArrayList();
-            if (peerDialogId >= 0) {
-                arrayList.add(getBaseFragment().getMessagesController().getUser(Long.valueOf(peerDialogId)));
-                str = "beep boop.";
-            } else {
-                TLRPC.Chat chat = getBaseFragment().getMessagesController().getChat(Long.valueOf(-peerDialogId));
-                String string = LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(chat) ? R.string.FolderLinkAlreadySubscribed : R.string.FolderLinkAlreadyJoined);
-                arrayList.add(chat);
-                str = string;
-            }
-            if (this.lastClickedDialogId != peerDialogId || System.currentTimeMillis() - this.lastClicked > 1500) {
-                this.lastClickedDialogId = peerDialogId;
-                this.lastClicked = System.currentTimeMillis();
-                BulletinFactory.of(this.bulletinContainer, null).createChatsBulletin(arrayList, str, null).setDuration(1500).show();
+        } else {
+            if (this.alreadyJoined.contains(Long.valueOf(peerDialogId))) {
+                int i3 = -this.shiftDp;
+                this.shiftDp = i3;
+                AndroidUtilities.shakeViewSpring(view, i3);
+                BotWebViewVibrationEffect.APP_ERROR.vibrate();
+                ArrayList arrayList = new ArrayList();
+                if (peerDialogId >= 0) {
+                    arrayList.add(getBaseFragment().getMessagesController().getUser(Long.valueOf(peerDialogId)));
+                    str = "beep boop.";
+                } else {
+                    TLRPC.Chat chat = getBaseFragment().getMessagesController().getChat(Long.valueOf(-peerDialogId));
+                    String string = LocaleController.getString(ChatObject.isChannelAndNotMegaGroup(chat) ? R.string.FolderLinkAlreadySubscribed : R.string.FolderLinkAlreadyJoined);
+                    arrayList.add(chat);
+                    str = string;
+                }
+                if (this.lastClickedDialogId != peerDialogId || System.currentTimeMillis() - this.lastClicked > 1500) {
+                    this.lastClickedDialogId = peerDialogId;
+                    this.lastClicked = System.currentTimeMillis();
+                    BulletinFactory.of(this.bulletinContainer, null).createChatsBulletin(arrayList, str, null).setDuration(1500).show();
+                    return;
+                }
                 return;
             }
-            return;
-        } else {
             this.selectedPeers.remove(Long.valueOf(peerDialogId));
             ((GroupCreateUserCell) view).setChecked(false, true);
         }
@@ -1276,144 +1278,152 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
             ArrayList arrayList2 = this.peers;
             if (arrayList2 == null) {
                 dismiss();
-            } else if (arrayList2.isEmpty() && !this.deleting) {
+                return;
+            }
+            if (arrayList2.isEmpty() && !this.deleting) {
                 dismiss();
-            } else if (this.selectedPeers.isEmpty() && (this.invite instanceof TL_chatlists.TL_chatlists_chatlistInvite)) {
+                return;
+            }
+            if (this.selectedPeers.isEmpty() && (this.invite instanceof TL_chatlists.TL_chatlists_chatlistInvite)) {
                 Button button2 = this.button;
                 int i = -this.shiftDp;
                 this.shiftDp = i;
                 AndroidUtilities.shakeViewSpring(button2, i);
                 BotWebViewVibrationEffect.APP_ERROR.vibrate();
-            } else {
-                final ArrayList arrayList3 = new ArrayList();
-                for (int i2 = 0; i2 < this.peers.size(); i2++) {
-                    long peerDialogId = DialogObject.getPeerDialogId((TLRPC.Peer) this.peers.get(i2));
-                    if (this.selectedPeers.contains(Long.valueOf(peerDialogId))) {
-                        arrayList3.add(getBaseFragment().getMessagesController().getInputPeer(peerDialogId));
-                    }
+                return;
+            }
+            final ArrayList arrayList3 = new ArrayList();
+            for (int i2 = 0; i2 < this.peers.size(); i2++) {
+                long peerDialogId = DialogObject.getPeerDialogId((TLRPC.Peer) this.peers.get(i2));
+                if (this.selectedPeers.contains(Long.valueOf(peerDialogId))) {
+                    arrayList3.add(getBaseFragment().getMessagesController().getInputPeer(peerDialogId));
                 }
-                UndoView undoView = null;
-                if (this.deleting) {
-                    TL_chatlists.TL_chatlists_leaveChatlist tL_chatlists_leaveChatlist = new TL_chatlists.TL_chatlists_leaveChatlist();
-                    TL_chatlists.TL_inputChatlistDialogFilter tL_inputChatlistDialogFilter = new TL_chatlists.TL_inputChatlistDialogFilter();
-                    tL_chatlists_leaveChatlist.chatlist = tL_inputChatlistDialogFilter;
-                    tL_inputChatlistDialogFilter.filter_id = this.filterId;
-                    arrayList = tL_chatlists_leaveChatlist.peers;
-                    tL_chatlists_joinChatlistInvite = tL_chatlists_leaveChatlist;
-                } else if (this.updates != null) {
-                    if (arrayList3.isEmpty()) {
-                        TL_chatlists.TL_chatlists_hideChatlistUpdates tL_chatlists_hideChatlistUpdates = new TL_chatlists.TL_chatlists_hideChatlistUpdates();
-                        TL_chatlists.TL_inputChatlistDialogFilter tL_inputChatlistDialogFilter2 = new TL_chatlists.TL_inputChatlistDialogFilter();
-                        tL_chatlists_hideChatlistUpdates.chatlist = tL_inputChatlistDialogFilter2;
-                        tL_inputChatlistDialogFilter2.filter_id = this.filterId;
-                        getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists_hideChatlistUpdates, null);
-                        getBaseFragment().getMessagesController().invalidateChatlistFolderUpdate(this.filterId);
-                        dismiss();
-                        return;
-                    }
-                    TL_chatlists.TL_chatlists_joinChatlistUpdates tL_chatlists_joinChatlistUpdates = new TL_chatlists.TL_chatlists_joinChatlistUpdates();
-                    TL_chatlists.TL_inputChatlistDialogFilter tL_inputChatlistDialogFilter3 = new TL_chatlists.TL_inputChatlistDialogFilter();
-                    tL_chatlists_joinChatlistUpdates.chatlist = tL_inputChatlistDialogFilter3;
-                    tL_inputChatlistDialogFilter3.filter_id = this.filterId;
-                    arrayList = tL_chatlists_joinChatlistUpdates.peers;
-                    tL_chatlists_joinChatlistInvite = tL_chatlists_joinChatlistUpdates;
-                } else if ((this.invite instanceof TL_chatlists.TL_chatlists_chatlistInviteAlready) && arrayList3.isEmpty()) {
+            }
+            UndoView undoView = null;
+            if (this.deleting) {
+                TL_chatlists.TL_chatlists_leaveChatlist tL_chatlists_leaveChatlist = new TL_chatlists.TL_chatlists_leaveChatlist();
+                TL_chatlists.TL_inputChatlistDialogFilter tL_inputChatlistDialogFilter = new TL_chatlists.TL_inputChatlistDialogFilter();
+                tL_chatlists_leaveChatlist.chatlist = tL_inputChatlistDialogFilter;
+                tL_inputChatlistDialogFilter.filter_id = this.filterId;
+                arrayList = tL_chatlists_leaveChatlist.peers;
+                tL_chatlists_joinChatlistInvite = tL_chatlists_leaveChatlist;
+            } else if (this.updates != null) {
+                if (arrayList3.isEmpty()) {
+                    TL_chatlists.TL_chatlists_hideChatlistUpdates tL_chatlists_hideChatlistUpdates = new TL_chatlists.TL_chatlists_hideChatlistUpdates();
+                    TL_chatlists.TL_inputChatlistDialogFilter tL_inputChatlistDialogFilter2 = new TL_chatlists.TL_inputChatlistDialogFilter();
+                    tL_chatlists_hideChatlistUpdates.chatlist = tL_inputChatlistDialogFilter2;
+                    tL_inputChatlistDialogFilter2.filter_id = this.filterId;
+                    getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists_hideChatlistUpdates, null);
+                    getBaseFragment().getMessagesController().invalidateChatlistFolderUpdate(this.filterId);
                     dismiss();
                     return;
-                } else {
-                    TL_chatlists.TL_chatlists_joinChatlistInvite tL_chatlists_joinChatlistInvite2 = new TL_chatlists.TL_chatlists_joinChatlistInvite();
-                    tL_chatlists_joinChatlistInvite2.slug = this.slug;
-                    arrayList = tL_chatlists_joinChatlistInvite2.peers;
-                    tL_chatlists_joinChatlistInvite = tL_chatlists_joinChatlistInvite2;
                 }
-                arrayList.addAll(arrayList3);
-                final INavigationLayout parentLayout = getBaseFragment().getParentLayout();
-                if (!this.deleting) {
-                    if (parentLayout != null) {
-                        final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda5
-                            @Override // org.telegram.messenger.Utilities.Callback
-                            public final void run(Object obj) {
-                                FolderBottomSheet.this.lambda$onJoinButtonClicked$11(arrayList3, (BaseFragment) obj);
-                            }
-                        };
-                        final Utilities.Callback callback2 = this.updates != null ? new Utilities.Callback() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda6
-                            @Override // org.telegram.messenger.Utilities.Callback
-                            public final void run(Object obj) {
-                                FolderBottomSheet.lambda$onJoinButtonClicked$12(Utilities.Callback.this, parentLayout, (Integer) obj);
-                            }
-                        } : new Utilities.Callback() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda7
-                            @Override // org.telegram.messenger.Utilities.Callback
-                            public final void run(Object obj) {
-                                FolderBottomSheet.lambda$onJoinButtonClicked$15(INavigationLayout.this, callback, (Integer) obj);
-                            }
-                        };
-                        int i3 = 0;
-                        while (true) {
-                            if (i3 >= arrayList3.size()) {
-                                break;
-                            }
-                            if (this.alreadyJoined.contains(Long.valueOf(DialogObject.getPeerDialogId((TLRPC.InputPeer) arrayList3.get(i3))))) {
-                                i3++;
-                            } else {
-                                boolean[] zArr = new boolean[1];
-                                getBaseFragment().getMessagesController().ensureFolderDialogExists(1, zArr);
-                                if (zArr[0]) {
-                                    getBaseFragment().getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
-                                }
-                            }
-                        }
-                        this.button.setLoading(true);
-                        this.reqId = getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists_joinChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda8
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                                FolderBottomSheet.this.lambda$onJoinButtonClicked$18(callback2, tLObject, tL_error);
-                            }
-                        });
-                    }
-                } else if (parentLayout != null) {
-                    final BaseFragment lastFragment = parentLayout.getLastFragment();
-                    if (lastFragment instanceof ChatActivity) {
-                        undoView = ((ChatActivity) lastFragment).getUndoView();
-                    } else if (lastFragment instanceof DialogsActivity) {
-                        undoView = ((DialogsActivity) lastFragment).getUndoView();
-                    } else {
-                        if (lastFragment instanceof FiltersSetupActivity) {
-                            filtersSetupActivity = (FiltersSetupActivity) lastFragment;
-                        } else if (lastFragment instanceof FilterCreateActivity) {
-                            List fragmentStack = parentLayout.getFragmentStack();
-                            if (fragmentStack.size() >= 2 && (fragmentStack.get(fragmentStack.size() - 2) instanceof FiltersSetupActivity)) {
-                                filtersSetupActivity = (FiltersSetupActivity) fragmentStack.get(fragmentStack.size() - 2);
-                                lastFragment.finishFragment();
-                            }
-                        }
-                        undoView = filtersSetupActivity.getUndoView();
-                    }
-                    UndoView undoView2 = undoView;
-                    if (undoView2 == null) {
-                        this.button.setLoading(true);
-                        this.reqId = getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists_joinChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda3
-                            @Override // org.telegram.tgnet.RequestDelegate
-                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                                FolderBottomSheet.this.lambda$onJoinButtonClicked$7(lastFragment, arrayList3, tLObject, tL_error);
-                            }
-                        });
-                        return;
-                    }
-                    ArrayList<Long> arrayList4 = new ArrayList<>();
-                    for (int i4 = 0; i4 < arrayList3.size(); i4++) {
-                        arrayList4.add(Long.valueOf(DialogObject.getPeerDialogId((TLRPC.InputPeer) arrayList3.get(i4))));
-                    }
-                    final Pair<Runnable, Runnable> removeFolderTemporarily = getBaseFragment().getMessagesController().removeFolderTemporarily(this.filterId, arrayList4);
-                    undoView2.showWithAction(0L, 88, this.title, Integer.valueOf(arrayList3.size()), new Runnable() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda4
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            FolderBottomSheet.this.lambda$onJoinButtonClicked$10(tL_chatlists_joinChatlistInvite, removeFolderTemporarily);
-                        }
-                    }, (Runnable) removeFolderTemporarily.second);
-                    this.success = true;
+                TL_chatlists.TL_chatlists_joinChatlistUpdates tL_chatlists_joinChatlistUpdates = new TL_chatlists.TL_chatlists_joinChatlistUpdates();
+                TL_chatlists.TL_inputChatlistDialogFilter tL_inputChatlistDialogFilter3 = new TL_chatlists.TL_inputChatlistDialogFilter();
+                tL_chatlists_joinChatlistUpdates.chatlist = tL_inputChatlistDialogFilter3;
+                tL_inputChatlistDialogFilter3.filter_id = this.filterId;
+                arrayList = tL_chatlists_joinChatlistUpdates.peers;
+                tL_chatlists_joinChatlistInvite = tL_chatlists_joinChatlistUpdates;
+            } else {
+                if ((this.invite instanceof TL_chatlists.TL_chatlists_chatlistInviteAlready) && arrayList3.isEmpty()) {
                     dismiss();
-                    getBaseFragment().getMessagesController().invalidateChatlistFolderUpdate(this.filterId);
+                    return;
                 }
+                TL_chatlists.TL_chatlists_joinChatlistInvite tL_chatlists_joinChatlistInvite2 = new TL_chatlists.TL_chatlists_joinChatlistInvite();
+                tL_chatlists_joinChatlistInvite2.slug = this.slug;
+                arrayList = tL_chatlists_joinChatlistInvite2.peers;
+                tL_chatlists_joinChatlistInvite = tL_chatlists_joinChatlistInvite2;
+            }
+            arrayList.addAll(arrayList3);
+            final INavigationLayout parentLayout = getBaseFragment().getParentLayout();
+            if (!this.deleting) {
+                if (parentLayout != null) {
+                    final Utilities.Callback callback = new Utilities.Callback() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda5
+                        @Override // org.telegram.messenger.Utilities.Callback
+                        public final void run(Object obj) {
+                            FolderBottomSheet.this.lambda$onJoinButtonClicked$11(arrayList3, (BaseFragment) obj);
+                        }
+                    };
+                    final Utilities.Callback callback2 = this.updates != null ? new Utilities.Callback() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda6
+                        @Override // org.telegram.messenger.Utilities.Callback
+                        public final void run(Object obj) {
+                            FolderBottomSheet.lambda$onJoinButtonClicked$12(Utilities.Callback.this, parentLayout, (Integer) obj);
+                        }
+                    } : new Utilities.Callback() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda7
+                        @Override // org.telegram.messenger.Utilities.Callback
+                        public final void run(Object obj) {
+                            FolderBottomSheet.lambda$onJoinButtonClicked$15(INavigationLayout.this, callback, (Integer) obj);
+                        }
+                    };
+                    int i3 = 0;
+                    while (true) {
+                        if (i3 >= arrayList3.size()) {
+                            break;
+                        }
+                        if (this.alreadyJoined.contains(Long.valueOf(DialogObject.getPeerDialogId((TLRPC.InputPeer) arrayList3.get(i3))))) {
+                            i3++;
+                        } else {
+                            boolean[] zArr = new boolean[1];
+                            getBaseFragment().getMessagesController().ensureFolderDialogExists(1, zArr);
+                            if (zArr[0]) {
+                                getBaseFragment().getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
+                            }
+                        }
+                    }
+                    this.button.setLoading(true);
+                    this.reqId = getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists_joinChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda8
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                            FolderBottomSheet.this.lambda$onJoinButtonClicked$18(callback2, tLObject, tL_error);
+                        }
+                    });
+                    return;
+                }
+                return;
+            }
+            if (parentLayout != null) {
+                final BaseFragment lastFragment = parentLayout.getLastFragment();
+                if (lastFragment instanceof ChatActivity) {
+                    undoView = ((ChatActivity) lastFragment).getUndoView();
+                } else if (lastFragment instanceof DialogsActivity) {
+                    undoView = ((DialogsActivity) lastFragment).getUndoView();
+                } else {
+                    if (lastFragment instanceof FiltersSetupActivity) {
+                        filtersSetupActivity = (FiltersSetupActivity) lastFragment;
+                    } else if (lastFragment instanceof FilterCreateActivity) {
+                        List fragmentStack = parentLayout.getFragmentStack();
+                        if (fragmentStack.size() >= 2 && (fragmentStack.get(fragmentStack.size() - 2) instanceof FiltersSetupActivity)) {
+                            filtersSetupActivity = (FiltersSetupActivity) fragmentStack.get(fragmentStack.size() - 2);
+                            lastFragment.lambda$onBackPressed$300();
+                        }
+                    }
+                    undoView = filtersSetupActivity.getUndoView();
+                }
+                UndoView undoView2 = undoView;
+                if (undoView2 == null) {
+                    this.button.setLoading(true);
+                    this.reqId = getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists_joinChatlistInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda3
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                            FolderBottomSheet.this.lambda$onJoinButtonClicked$7(lastFragment, arrayList3, tLObject, tL_error);
+                        }
+                    });
+                    return;
+                }
+                ArrayList<Long> arrayList4 = new ArrayList<>();
+                for (int i4 = 0; i4 < arrayList3.size(); i4++) {
+                    arrayList4.add(Long.valueOf(DialogObject.getPeerDialogId((TLRPC.InputPeer) arrayList3.get(i4))));
+                }
+                final Pair<Runnable, Runnable> removeFolderTemporarily = getBaseFragment().getMessagesController().removeFolderTemporarily(this.filterId, arrayList4);
+                undoView2.showWithAction(0L, 88, this.title, Integer.valueOf(arrayList3.size()), new Runnable() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda4
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        FolderBottomSheet.this.lambda$onJoinButtonClicked$10(tL_chatlists_joinChatlistInvite, removeFolderTemporarily);
+                    }
+                }, (Runnable) removeFolderTemporarily.second);
+                this.success = true;
+                dismiss();
+                getBaseFragment().getMessagesController().invalidateChatlistFolderUpdate(this.filterId);
             }
         }
     }
@@ -1468,15 +1478,15 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         ArrayList arrayList = this.peers;
         if (arrayList == null || arrayList.size() - this.alreadyJoined.size() <= 1) {
             this.headerCell.setAction("", null);
-            return;
+        } else {
+            final boolean z2 = this.selectedPeers.size() >= this.peers.size() - this.alreadyJoined.size();
+            this.headerCell.setAction(LocaleController.getString(z2 ? R.string.DeselectAll : R.string.SelectAll), new Runnable() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    FolderBottomSheet.this.lambda$updateHeaderCell$20(z2);
+                }
+            });
         }
-        final boolean z2 = this.selectedPeers.size() >= this.peers.size() - this.alreadyJoined.size();
-        this.headerCell.setAction(LocaleController.getString(z2 ? R.string.DeselectAll : R.string.SelectAll), new Runnable() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                FolderBottomSheet.this.lambda$updateHeaderCell$20(z2);
-            }
-        });
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
@@ -1503,9 +1513,11 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                 return viewHolder.getItemViewType() == 2 && viewHolder.getAdapterPosition() >= FolderBottomSheet.this.usersStartRow && viewHolder.getAdapterPosition() <= FolderBottomSheet.this.usersEndRow;
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:40:0x00ca  */
-            /* JADX WARN: Removed duplicated region for block: B:55:0x0117  */
-            /* JADX WARN: Removed duplicated region for block: B:56:0x011a  */
+            /* JADX WARN: Multi-variable type inference failed */
+            /* JADX WARN: Removed duplicated region for block: B:22:0x00ca  */
+            /* JADX WARN: Removed duplicated region for block: B:37:0x0117  */
+            /* JADX WARN: Removed duplicated region for block: B:41:0x011a  */
+            /* JADX WARN: Type inference failed for: r11v34, types: [org.telegram.tgnet.TLRPC$Chat] */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -1529,25 +1541,27 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                             headerCell.setText(LocaleController.getString(R.string.FolderLinkHeaderAlready), false);
                             headerCell.setAction("", null);
                             return;
+                        } else {
+                            FolderBottomSheet.this.headerCell = headerCell;
+                            FolderBottomSheet.this.updateHeaderCell(false);
+                            return;
                         }
-                        FolderBottomSheet.this.headerCell = headerCell;
-                        FolderBottomSheet.this.updateHeaderCell(false);
-                        return;
-                    } else if (itemViewType != 1) {
+                    }
+                    if (itemViewType != 1) {
                         if (itemViewType == 0) {
                             FolderBottomSheet.this.titleCell = (TitleCell) viewHolder.itemView;
                             FolderBottomSheet.this.updateCount(false);
                             return;
                         }
                         return;
+                    }
+                    TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
+                    textInfoPrivacyCell.setForeground(Theme.getThemedDrawableByKey(FolderBottomSheet.this.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                    if (i == FolderBottomSheet.this.alreadySectionRow || i == FolderBottomSheet.this.sectionRow || FolderBottomSheet.this.peers == null || FolderBottomSheet.this.peers.isEmpty()) {
+                        textInfoPrivacyCell.setFixedSize(12);
+                        textInfoPrivacyCell.setText("");
+                        return;
                     } else {
-                        TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                        textInfoPrivacyCell.setForeground(Theme.getThemedDrawableByKey(FolderBottomSheet.this.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                        if (i == FolderBottomSheet.this.alreadySectionRow || i == FolderBottomSheet.this.sectionRow || FolderBottomSheet.this.peers == null || FolderBottomSheet.this.peers.isEmpty()) {
-                            textInfoPrivacyCell.setFixedSize(12);
-                            textInfoPrivacyCell.setText("");
-                            return;
-                        }
                         textInfoPrivacyCell.setFixedSize(0);
                         textInfoPrivacyCell.setText(LocaleController.getString(FolderBottomSheet.this.deleting ? R.string.FolderLinkHintRemove : R.string.FolderLinkHint));
                         return;
@@ -1585,7 +1599,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                             messagesController = FolderBottomSheet.this.getBaseFragment().getMessagesController();
                             j2 = peer.channel_id;
                         }
-                        TLRPC.Chat chat = messagesController.getChat(Long.valueOf(j2));
+                        ?? chat = messagesController.getChat(Long.valueOf(j2));
                         str2 = null;
                         user = chat;
                         str = null;
@@ -1695,7 +1709,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         this.onDone = callback;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0067  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

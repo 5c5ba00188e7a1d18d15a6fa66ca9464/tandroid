@@ -2,6 +2,7 @@ package com.google.firebase.components;
 
 import com.google.firebase.inject.Provider;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 abstract class AbstractComponentContainer implements ComponentContainer {
     @Override // com.google.firebase.components.ComponentContainer

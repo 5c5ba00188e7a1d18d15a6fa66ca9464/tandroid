@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 final class s3 extends u3 implements j$.util.Q, Consumer {
     Object e;
@@ -47,13 +48,14 @@ final class s3 extends u3 implements j$.util.Q, Consumer {
             }
             long t = t(j);
             for (int i = 0; i < t; i++) {
-                consumer.accept(z2.b[i]);
+                consumer.r(z2.b[i]);
             }
         }
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         this.e = obj;
     }
 
@@ -82,7 +84,7 @@ final class s3 extends u3 implements j$.util.Q, Consumer {
         consumer.getClass();
         while (v() != t3.NO_MORE && this.a.s(this)) {
             if (t(1L) == 1) {
-                consumer.accept(this.e);
+                consumer.r(this.e);
                 this.e = null;
                 return true;
             }

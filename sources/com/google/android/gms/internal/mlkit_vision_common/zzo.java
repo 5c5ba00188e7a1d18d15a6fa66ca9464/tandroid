@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzo extends zzp {
@@ -49,7 +50,8 @@ public final class zzo extends zzp {
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_common.zzp
-    public final zzp zzf(int i, int i2) {
+    /* renamed from: zzf */
+    public final zzp subList(int i, int i2) {
         zzf.zzc(i, i2, this.zzb);
         zzp zzpVar = this.zzc;
         int i3 = this.zza;

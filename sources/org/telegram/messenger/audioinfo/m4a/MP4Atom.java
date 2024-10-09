@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import org.telegram.messenger.audioinfo.util.RangeInputStream;
+
 /* loaded from: classes3.dex */
 public class MP4Atom extends MP4Box {
     public MP4Atom(RangeInputStream rangeInputStream, MP4Box mP4Box, String str) {
@@ -72,9 +73,7 @@ public class MP4Atom extends MP4Box {
     }
 
     public BigDecimal readIntegerFixedPoint() {
-        short readShort = this.data.readShort();
-        int readUnsignedShort = this.data.readUnsignedShort();
-        return new BigDecimal(String.valueOf((int) readShort) + "" + String.valueOf(readUnsignedShort));
+        return new BigDecimal(String.valueOf((int) this.data.readShort()) + "" + String.valueOf(this.data.readUnsignedShort()));
     }
 
     public long readLong() {
@@ -86,9 +85,7 @@ public class MP4Atom extends MP4Box {
     }
 
     public BigDecimal readShortFixedPoint() {
-        byte readByte = this.data.readByte();
-        int readUnsignedByte = this.data.readUnsignedByte();
-        return new BigDecimal(String.valueOf((int) readByte) + "" + String.valueOf(readUnsignedByte));
+        return new BigDecimal(String.valueOf((int) this.data.readByte()) + "" + String.valueOf(this.data.readUnsignedByte()));
     }
 
     public String readString(int i, String str) {

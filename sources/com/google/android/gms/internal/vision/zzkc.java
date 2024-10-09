@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 public abstract class zzkc {
     /* JADX INFO: Access modifiers changed from: package-private */

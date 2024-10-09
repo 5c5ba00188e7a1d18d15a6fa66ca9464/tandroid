@@ -49,6 +49,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.DataUsage2Activity;
+
 /* loaded from: classes4.dex */
 public class DataUsage2Activity extends BaseFragment {
     private boolean changeStatusBar;
@@ -174,10 +175,10 @@ public class DataUsage2Activity extends BaseFragment {
         public void setArrow(Boolean bool) {
             if (bool == null) {
                 this.arrowView.setVisibility(8);
-                return;
+            } else {
+                this.arrowView.setVisibility(0);
+                this.arrowView.animate().rotation(bool.booleanValue() ? 0.0f : 180.0f).setDuration(360L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
             }
-            this.arrowView.setVisibility(0);
-            this.arrowView.animate().rotation(bool.booleanValue() ? 0.0f : 180.0f).setDuration(360L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
         }
     }
 
@@ -258,16 +259,16 @@ public class DataUsage2Activity extends BaseFragment {
         }
 
         public boolean equals(Object obj) {
-            if (obj instanceof ItemInner) {
-                ItemInner itemInner = (ItemInner) obj;
-                int i = itemInner.viewType;
-                int i2 = this.viewType;
-                if (i != i2) {
-                    return false;
-                }
-                return (i2 == 1 || i2 == 4 || i2 == 3 || i2 == 5) ? TextUtils.equals(this.text, itemInner.text) : i2 == 2 ? itemInner.index == this.index && TextUtils.equals(this.text, itemInner.text) && itemInner.imageColor == this.imageColor && itemInner.imageResId == this.imageResId : itemInner.key == this.key;
+            if (!(obj instanceof ItemInner)) {
+                return false;
             }
-            return false;
+            ItemInner itemInner = (ItemInner) obj;
+            int i = itemInner.viewType;
+            int i2 = this.viewType;
+            if (i != i2) {
+                return false;
+            }
+            return (i2 == 1 || i2 == 4 || i2 == 3 || i2 == 5) ? TextUtils.equals(this.text, itemInner.text) : i2 == 2 ? itemInner.index == this.index && TextUtils.equals(this.text, itemInner.text) && itemInner.imageColor == this.imageColor && itemInner.imageResId == this.imageResId : itemInner.key == this.key;
         }
     }
 
@@ -317,46 +318,48 @@ public class DataUsage2Activity extends BaseFragment {
                     final int i2;
                     if (!z) {
                         ListView.this.removeHighlightRow();
-                    } else if (i < 0 || i >= ListView.this.segments.length) {
-                    } else {
-                        int i3 = 0;
-                        while (true) {
-                            i2 = -1;
-                            if (i3 >= ListView.this.segments.length) {
-                                i3 = -1;
-                                break;
-                            } else if (ListView.this.segments[i3].index == i) {
-                                break;
-                            } else {
-                                i3++;
-                            }
-                        }
-                        int i4 = 0;
-                        while (true) {
-                            if (i4 < ListView.this.itemInners.size()) {
-                                ItemInner itemInner = (ItemInner) ListView.this.itemInners.get(i4);
-                                if (itemInner != null && itemInner.viewType == 2 && itemInner.index == i3) {
-                                    i2 = i4;
-                                    break;
-                                }
-                                i4++;
-                            } else {
-                                break;
-                            }
-                        }
-                        ListView listView = ListView.this;
-                        if (i2 >= 0) {
-                            listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.DataUsage2Activity$ListView$Adapter$1$$ExternalSyntheticLambda0
-                                @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
-                                public final int run() {
-                                    int lambda$onSectionDown$0;
-                                    lambda$onSectionDown$0 = DataUsage2Activity.ListView.Adapter.1.lambda$onSectionDown$0(i2);
-                                    return lambda$onSectionDown$0;
-                                }
-                            }, 0);
+                        return;
+                    }
+                    if (i < 0 || i >= ListView.this.segments.length) {
+                        return;
+                    }
+                    int i3 = 0;
+                    while (true) {
+                        i2 = -1;
+                        if (i3 >= ListView.this.segments.length) {
+                            i3 = -1;
+                            break;
+                        } else if (ListView.this.segments[i3].index == i) {
+                            break;
                         } else {
-                            listView.removeHighlightRow();
+                            i3++;
                         }
+                    }
+                    int i4 = 0;
+                    while (true) {
+                        if (i4 < ListView.this.itemInners.size()) {
+                            ItemInner itemInner = (ItemInner) ListView.this.itemInners.get(i4);
+                            if (itemInner != null && itemInner.viewType == 2 && itemInner.index == i3) {
+                                i2 = i4;
+                                break;
+                            }
+                            i4++;
+                        } else {
+                            break;
+                        }
+                    }
+                    ListView listView = ListView.this;
+                    if (i2 >= 0) {
+                        listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.DataUsage2Activity$ListView$Adapter$1$$ExternalSyntheticLambda0
+                            @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
+                            public final int run() {
+                                int lambda$onSectionDown$0;
+                                lambda$onSectionDown$0 = DataUsage2Activity.ListView.Adapter.1.lambda$onSectionDown$0(i2);
+                                return lambda$onSectionDown$0;
+                            }
+                        }, 0);
+                    } else {
+                        listView.removeHighlightRow();
                     }
                 }
 
@@ -410,10 +413,13 @@ public class DataUsage2Activity extends BaseFragment {
                     int i5 = i + 1;
                     if (i5 >= ListView.this.itemInners.size() || (i4 = ((ItemInner) ListView.this.itemInners.get(i5)).viewType) == itemInner.viewType || i4 == 3 || i4 == 6) {
                         subtitleCell.setBackground(null);
+                        return;
                     } else {
                         subtitleCell.setBackground(Theme.getThemedDrawableByKey(ListView.this.getContext(), R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
+                        return;
                     }
-                } else if (itemViewType == 2) {
+                }
+                if (itemViewType == 2) {
                     Cell cell = (Cell) viewHolder.itemView;
                     int i6 = i + 1;
                     cell.set(itemInner.imageColor, itemInner.imageResId, itemInner.text, itemInner.valueText, i6 < getItemCount() && ((ItemInner) ListView.this.itemInners.get(i6)).viewType == itemViewType);
@@ -421,44 +427,51 @@ public class DataUsage2Activity extends BaseFragment {
                         bool = Boolean.valueOf(ListView.this.collapsed[itemInner.index]);
                     }
                     cell.setArrow(bool);
-                } else if (itemViewType != 3) {
+                    return;
+                }
+                if (itemViewType != 3) {
                     if (itemViewType == 4) {
                         ((HeaderCell) viewHolder.itemView).setText(itemInner.text);
+                        return;
                     } else if (itemViewType == 5) {
                         ((TextCell) viewHolder.itemView).setText(itemInner.text.toString(), false);
-                    } else if (itemViewType == 6) {
-                        ((RoundingCell) viewHolder.itemView).setTop(true);
-                    }
-                } else {
-                    TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                    boolean z2 = i > 0 && itemInner.viewType != ((ItemInner) ListView.this.itemInners.get(i + (-1))).viewType;
-                    int i7 = i + 1;
-                    if (i7 < ListView.this.itemInners.size() && ((ItemInner) ListView.this.itemInners.get(i7)).viewType != itemInner.viewType) {
-                        z = true;
-                    }
-                    if (z2 && z) {
-                        context = ListView.this.getContext();
-                        i2 = R.drawable.greydivider;
-                    } else if (z2) {
-                        context = ListView.this.getContext();
-                        i2 = R.drawable.greydivider_bottom;
-                    } else if (!z) {
-                        textInfoPrivacyCell.setBackground(null);
-                        textInfoPrivacyCell.setText(itemInner.text);
+                        return;
                     } else {
-                        context = ListView.this.getContext();
-                        i2 = R.drawable.greydivider_top;
+                        if (itemViewType == 6) {
+                            ((RoundingCell) viewHolder.itemView).setTop(true);
+                            return;
+                        }
+                        return;
                     }
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
-                    textInfoPrivacyCell.setText(itemInner.text);
                 }
+                TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
+                boolean z2 = i > 0 && itemInner.viewType != ((ItemInner) ListView.this.itemInners.get(i + (-1))).viewType;
+                int i7 = i + 1;
+                if (i7 < ListView.this.itemInners.size() && ((ItemInner) ListView.this.itemInners.get(i7)).viewType != itemInner.viewType) {
+                    z = true;
+                }
+                if (z2 && z) {
+                    context = ListView.this.getContext();
+                    i2 = R.drawable.greydivider;
+                } else if (z2) {
+                    context = ListView.this.getContext();
+                    i2 = R.drawable.greydivider_bottom;
+                } else if (!z) {
+                    textInfoPrivacyCell.setBackground(null);
+                    textInfoPrivacyCell.setText(itemInner.text);
+                } else {
+                    context = ListView.this.getContext();
+                    i2 = R.drawable.greydivider_top;
+                }
+                textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
+                textInfoPrivacyCell.setText(itemInner.text);
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 View view;
                 int themedColor;
-                TextCell textCell;
+                View view2;
                 if (i == 0) {
                     ListView.this.chart = new 1(ListView.this.getContext(), DataUsage2Activity.colors.length, DataUsage2Activity.colors, 1, DataUsage2Activity.particles);
                     ListView.this.chart.setInterceptTouch(false);
@@ -470,12 +483,12 @@ public class DataUsage2Activity extends BaseFragment {
                     if (i == 4) {
                         View headerCell = new HeaderCell(ListView.this.getContext());
                         themedColor = ListView.this.getThemedColor(Theme.key_windowBackgroundWhite);
-                        textCell = headerCell;
+                        view2 = headerCell;
                     } else if (i == 5) {
-                        TextCell textCell2 = new TextCell(ListView.this.getContext());
-                        textCell2.setTextColor(ListView.this.getThemedColor(Theme.key_text_RedRegular));
+                        TextCell textCell = new TextCell(ListView.this.getContext());
+                        textCell.setTextColor(ListView.this.getThemedColor(Theme.key_text_RedRegular));
                         themedColor = ListView.this.getThemedColor(Theme.key_windowBackgroundWhite);
-                        textCell = textCell2;
+                        view2 = textCell;
                     } else if (i == 6) {
                         view = new RoundingCell(ListView.this.getContext());
                     } else if (i != 7) {
@@ -493,8 +506,8 @@ public class DataUsage2Activity extends BaseFragment {
                             }
                         };
                     }
-                    textCell.setBackgroundColor(themedColor);
-                    view = textCell;
+                    view2.setBackgroundColor(themedColor);
+                    view = view2;
                 } else {
                     view = new TextInfoPrivacyCell(ListView.this.getContext());
                 }
@@ -615,14 +628,20 @@ public class DataUsage2Activity extends BaseFragment {
                 if (itemInner != null) {
                     int i2 = itemInner.index;
                     if (i2 >= 0) {
-                        boolean[] zArr = this.collapsed;
-                        zArr[i2] = !zArr[i2];
+                        this.collapsed[i2] = !r0[i2];
                         updateRows(true);
-                    } else if (i2 == -2) {
-                        DataUsage2Activity.this.presentFragment(new DataAutoDownloadActivity(this.currentType - 1));
+                        return;
+                    } else {
+                        if (i2 == -2) {
+                            DataUsage2Activity.this.presentFragment(new DataAutoDownloadActivity(this.currentType - 1));
+                            return;
+                        }
+                        return;
                     }
                 }
-            } else if (view instanceof TextCell) {
+                return;
+            }
+            if (view instanceof TextCell) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DataUsage2Activity.this.getParentActivity());
                 builder.setTitle(LocaleController.getString(R.string.ResetStatisticsAlertTitle));
                 builder.setMessage(LocaleController.getString(R.string.ResetStatisticsAlert));
@@ -872,9 +891,10 @@ public class DataUsage2Activity extends BaseFragment {
                 i2 = R.string.NetworkUsageMobileTab;
             } else if (i == 2) {
                 i2 = R.string.NetworkUsageWiFiTab;
-            } else if (i != 3) {
-                return "";
             } else {
+                if (i != 3) {
+                    return "";
+                }
                 i2 = R.string.NetworkUsageRoamingTab;
             }
             return LocaleController.getString(i2);
@@ -990,7 +1010,7 @@ public class DataUsage2Activity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    DataUsage2Activity.this.finishFragment();
+                    DataUsage2Activity.this.lambda$onBackPressed$300();
                 }
             }
         });

@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public abstract class AbstractLog implements Log {
     private Device device;
@@ -33,32 +34,32 @@ public abstract class AbstractLog implements Log {
             return false;
         }
         AbstractLog abstractLog = (AbstractLog) obj;
-        if (this.transmissionTargetTokens.equals(abstractLog.transmissionTargetTokens)) {
-            Date date = this.timestamp;
-            if (date == null ? abstractLog.timestamp == null : date.equals(abstractLog.timestamp)) {
-                UUID uuid = this.sid;
-                if (uuid == null ? abstractLog.sid == null : uuid.equals(abstractLog.sid)) {
-                    String str = this.distributionGroupId;
-                    if (str == null ? abstractLog.distributionGroupId == null : str.equals(abstractLog.distributionGroupId)) {
-                        String str2 = this.userId;
-                        if (str2 == null ? abstractLog.userId == null : str2.equals(abstractLog.userId)) {
-                            Device device = this.device;
-                            if (device == null ? abstractLog.device == null : device.equals(abstractLog.device)) {
-                                Object obj2 = this.tag;
-                                Object obj3 = abstractLog.tag;
-                                return obj2 != null ? obj2.equals(obj3) : obj3 == null;
-                            }
-                            return false;
-                        }
-                        return false;
-                    }
-                    return false;
-                }
-                return false;
-            }
+        if (!this.transmissionTargetTokens.equals(abstractLog.transmissionTargetTokens)) {
             return false;
         }
-        return false;
+        Date date = this.timestamp;
+        if (date == null ? abstractLog.timestamp != null : !date.equals(abstractLog.timestamp)) {
+            return false;
+        }
+        UUID uuid = this.sid;
+        if (uuid == null ? abstractLog.sid != null : !uuid.equals(abstractLog.sid)) {
+            return false;
+        }
+        String str = this.distributionGroupId;
+        if (str == null ? abstractLog.distributionGroupId != null : !str.equals(abstractLog.distributionGroupId)) {
+            return false;
+        }
+        String str2 = this.userId;
+        if (str2 == null ? abstractLog.userId != null : !str2.equals(abstractLog.userId)) {
+            return false;
+        }
+        Device device = this.device;
+        if (device == null ? abstractLog.device != null : !device.equals(abstractLog.device)) {
+            return false;
+        }
+        Object obj2 = this.tag;
+        Object obj3 = abstractLog.tag;
+        return obj2 != null ? obj2.equals(obj3) : obj3 == null;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.Log

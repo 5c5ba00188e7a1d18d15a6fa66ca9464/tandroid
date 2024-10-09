@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.metadata.vorbis;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* loaded from: classes.dex */
 public final class VorbisComment extends com.google.android.exoplayer2.metadata.flac.VorbisComment {
     public static final Parcelable.Creator<VorbisComment> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.vorbis.VorbisComment.1

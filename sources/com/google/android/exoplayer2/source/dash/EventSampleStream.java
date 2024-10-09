@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.metadata.emsg.EventMessageEncoder;
 import com.google.android.exoplayer2.source.SampleStream;
 import com.google.android.exoplayer2.source.dash.manifest.EventStream;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 final class EventSampleStream implements SampleStream {
     private int currentIndex;
@@ -45,31 +46,35 @@ final class EventSampleStream implements SampleStream {
         if (z && !this.eventStreamAppendable) {
             decoderInputBuffer.setFlags(4);
             return -4;
-        } else if ((i & 2) != 0 || !this.isFormatSentDownstream) {
+        }
+        if ((i & 2) != 0 || !this.isFormatSentDownstream) {
             formatHolder.format = this.upstreamFormat;
             this.isFormatSentDownstream = true;
             return -5;
-        } else if (z) {
-            return -3;
-        } else {
-            if ((i & 1) == 0) {
-                this.currentIndex = i2 + 1;
-            }
-            if ((i & 4) == 0) {
-                byte[] encode = this.eventMessageEncoder.encode(this.eventStream.events[i2]);
-                decoderInputBuffer.ensureSpaceForWrite(encode.length);
-                decoderInputBuffer.data.put(encode);
-            }
-            decoderInputBuffer.timeUs = this.eventTimesUs[i2];
-            decoderInputBuffer.setFlags(1);
-            return -4;
         }
+        if (z) {
+            return -3;
+        }
+        if ((i & 1) == 0) {
+            this.currentIndex = i2 + 1;
+        }
+        if ((i & 4) == 0) {
+            byte[] encode = this.eventMessageEncoder.encode(this.eventStream.events[i2]);
+            decoderInputBuffer.ensureSpaceForWrite(encode.length);
+            decoderInputBuffer.data.put(encode);
+        }
+        decoderInputBuffer.timeUs = this.eventTimesUs[i2];
+        decoderInputBuffer.setFlags(1);
+        return -4;
     }
 
     public void seekToUs(long j) {
         int binarySearchCeil = Util.binarySearchCeil(this.eventTimesUs, j, true, false);
         this.currentIndex = binarySearchCeil;
-        this.pendingSeekPositionUs = (this.eventStreamAppendable && binarySearchCeil == this.eventTimesUs.length) ? -9223372036854775807L : -9223372036854775807L;
+        if (!this.eventStreamAppendable || binarySearchCeil != this.eventTimesUs.length) {
+            j = -9223372036854775807L;
+        }
+        this.pendingSeekPositionUs = j;
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream

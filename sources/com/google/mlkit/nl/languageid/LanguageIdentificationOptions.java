@@ -4,6 +4,7 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.internal.mlkit_language_id.zzeo;
 import com.google.android.gms.internal.mlkit_language_id.zzy$zzai;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class LanguageIdentificationOptions {
     static final LanguageIdentificationOptions zza = new Builder().build();

@@ -3,6 +3,7 @@ package com.google.android.play.core.integrity;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public class IntegrityServiceException extends ApiException {
     private final Throwable a;

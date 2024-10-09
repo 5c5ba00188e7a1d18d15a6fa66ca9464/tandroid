@@ -34,6 +34,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.json.JSONException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class BillingClientImpl extends BillingClient {
@@ -239,13 +240,17 @@ public class BillingClientImpl extends BillingClient {
             BillingResult billingResult = zzat.zzm;
             zzarVar.zza(zzaq.zza(2, 9, billingResult));
             purchasesResponseListener.onQueryPurchasesResponse(billingResult, com.google.android.gms.internal.play_billing.zzu.zzk());
-        } else if (TextUtils.isEmpty(str)) {
+            return;
+        }
+        if (TextUtils.isEmpty(str)) {
             zzb.zzj("BillingClient", "Please provide a valid product type.");
             zzar zzarVar2 = this.zzf;
             BillingResult billingResult2 = zzat.zzg;
             zzarVar2.zza(zzaq.zza(50, 9, billingResult2));
             purchasesResponseListener.onQueryPurchasesResponse(billingResult2, com.google.android.gms.internal.play_billing.zzu.zzk());
-        } else if (zzS(new zzy(this, str, purchasesResponseListener), 30000L, new Runnable() { // from class: com.android.billingclient.api.zzu
+            return;
+        }
+        if (zzS(new zzy(this, str, purchasesResponseListener), 30000L, new Runnable() { // from class: com.android.billingclient.api.zzu
             @Override // java.lang.Runnable
             public final void run() {
                 BillingClientImpl.this.zzL(purchasesResponseListener);
@@ -264,7 +269,9 @@ public class BillingClientImpl extends BillingClient {
             BillingResult billingResult = zzat.zzm;
             zzarVar.zza(zzaq.zza(2, 4, billingResult));
             consumeResponseListener.onConsumeResponse(billingResult, consumeParams.getPurchaseToken());
-        } else if (zzS(new Callable() { // from class: com.android.billingclient.api.zzm
+            return;
+        }
+        if (zzS(new Callable() { // from class: com.android.billingclient.api.zzm
             @Override // java.util.concurrent.Callable
             public final Object call() {
                 BillingClientImpl.this.zzk(consumeParams, consumeResponseListener);
@@ -287,28 +294,28 @@ public class BillingClientImpl extends BillingClient {
         return (this.zza != 2 || this.zzg == null || this.zzh == null) ? false : true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:123:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x02fa  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0302  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0337  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0346 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x0351  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x0354  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x039e A[Catch: Exception -> 0x03cf, CancellationException -> 0x03d1, TimeoutException -> 0x03d3, TryCatch #4 {CancellationException -> 0x03d1, TimeoutException -> 0x03d3, Exception -> 0x03cf, blocks: (B:152:0x038a, B:154:0x039e, B:162:0x03d5), top: B:172:0x038a }] */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x03d5 A[Catch: Exception -> 0x03cf, CancellationException -> 0x03d1, TimeoutException -> 0x03d3, TRY_LEAVE, TryCatch #4 {CancellationException -> 0x03d1, TimeoutException -> 0x03d3, Exception -> 0x03cf, blocks: (B:152:0x038a, B:154:0x039e, B:162:0x03d5), top: B:172:0x038a }] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00e6  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x00f9  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0108  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0114  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0130  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0140  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x014f  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x015e  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0165  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x016c  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x016f  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0184  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x01f6  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x039e A[Catch: Exception -> 0x03cf, CancellationException -> 0x03d1, TimeoutException -> 0x03d3, TryCatch #4 {CancellationException -> 0x03d1, TimeoutException -> 0x03d3, Exception -> 0x03cf, blocks: (B:101:0x038a, B:103:0x039e, B:105:0x03d5), top: B:100:0x038a }] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x03d5 A[Catch: Exception -> 0x03cf, CancellationException -> 0x03d1, TimeoutException -> 0x03d3, TRY_LEAVE, TryCatch #4 {CancellationException -> 0x03d1, TimeoutException -> 0x03d3, Exception -> 0x03cf, blocks: (B:101:0x038a, B:103:0x039e, B:105:0x03d5), top: B:100:0x038a }] */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0346 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0351  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x0354  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x0302  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x01f6  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x016c  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00f9  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0108  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0114  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0130  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0140  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x014f  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x015e  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0165  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x016f  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0184  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x02ef  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x02fa  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0337  */
     @Override // com.android.billingclient.api.BillingClient
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -618,7 +625,7 @@ public class BillingClientImpl extends BillingClient {
                         zzb = zzb.zzb(bundle22, str2);
                         String zzf2 = zzb.zzf(bundle22, str2);
                         if (zzb != 0) {
-                            Intent intent2 = new Intent(activity, ProxyBillingActivity.class);
+                            Intent intent2 = new Intent(activity, (Class<?>) ProxyBillingActivity.class);
                             String str14 = str;
                             intent2.putExtra(str14, (PendingIntent) bundle22.getParcelable(str14));
                             activity.startActivity(intent2);
@@ -688,7 +695,9 @@ public class BillingClientImpl extends BillingClient {
             BillingResult billingResult = zzat.zzm;
             zzarVar.zza(zzaq.zza(2, 7, billingResult));
             productDetailsResponseListener.onProductDetailsResponse(billingResult, new ArrayList());
-        } else if (this.zzt) {
+            return;
+        }
+        if (this.zzt) {
             if (zzS(new Callable() { // from class: com.android.billingclient.api.zzk
                 @Override // java.util.concurrent.Callable
                 public final Object call() {
@@ -704,14 +713,15 @@ public class BillingClientImpl extends BillingClient {
                 BillingResult zzQ = zzQ();
                 this.zzf.zza(zzaq.zza(25, 7, zzQ));
                 productDetailsResponseListener.onProductDetailsResponse(zzQ, new ArrayList());
+                return;
             }
-        } else {
-            zzb.zzj("BillingClient", "Querying product details is not supported.");
-            zzar zzarVar2 = this.zzf;
-            BillingResult billingResult2 = zzat.zzv;
-            zzarVar2.zza(zzaq.zza(20, 7, billingResult2));
-            productDetailsResponseListener.onProductDetailsResponse(billingResult2, new ArrayList());
+            return;
         }
+        zzb.zzj("BillingClient", "Querying product details is not supported.");
+        zzar zzarVar2 = this.zzf;
+        BillingResult billingResult2 = zzat.zzv;
+        zzarVar2.zza(zzaq.zza(20, 7, billingResult2));
+        productDetailsResponseListener.onProductDetailsResponse(billingResult2, new ArrayList());
     }
 
     @Override // com.android.billingclient.api.BillingClient
@@ -734,62 +744,64 @@ public class BillingClientImpl extends BillingClient {
             BillingResult billingResult = zzat.zzd;
             zzarVar.zza(zzaq.zza(37, 6, billingResult));
             billingClientStateListener.onBillingSetupFinished(billingResult);
-        } else if (this.zza == 3) {
+            return;
+        }
+        if (this.zza == 3) {
             zzb.zzj("BillingClient", "Client was already closed and can't be reused. Please create another instance.");
             zzar zzarVar2 = this.zzf;
             BillingResult billingResult2 = zzat.zzm;
             zzarVar2.zza(zzaq.zza(38, 6, billingResult2));
             billingClientStateListener.onBillingSetupFinished(billingResult2);
+            return;
+        }
+        this.zza = 1;
+        this.zzd.zze();
+        zzb.zzi("BillingClient", "Starting in-app billing setup.");
+        this.zzh = new zzaf(this, billingClientStateListener, null);
+        Intent intent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        intent.setPackage("com.android.vending");
+        List<ResolveInfo> queryIntentServices = this.zze.getPackageManager().queryIntentServices(intent, 0);
+        if (queryIntentServices == null || queryIntentServices.isEmpty()) {
+            i = 41;
         } else {
-            this.zza = 1;
-            this.zzd.zze();
-            zzb.zzi("BillingClient", "Starting in-app billing setup.");
-            this.zzh = new zzaf(this, billingClientStateListener, null);
-            Intent intent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
-            intent.setPackage("com.android.vending");
-            List<ResolveInfo> queryIntentServices = this.zze.getPackageManager().queryIntentServices(intent, 0);
-            if (queryIntentServices == null || queryIntentServices.isEmpty()) {
-                i = 41;
-            } else {
-                ServiceInfo serviceInfo = queryIntentServices.get(0).serviceInfo;
-                if (serviceInfo != null) {
-                    String str = serviceInfo.packageName;
-                    String str2 = serviceInfo.name;
-                    if (!"com.android.vending".equals(str) || str2 == null) {
-                        zzb.zzj("BillingClient", "The device doesn't have valid Play Store.");
-                        i = 40;
+            ServiceInfo serviceInfo = queryIntentServices.get(0).serviceInfo;
+            if (serviceInfo != null) {
+                String str = serviceInfo.packageName;
+                String str2 = serviceInfo.name;
+                if (!"com.android.vending".equals(str) || str2 == null) {
+                    zzb.zzj("BillingClient", "The device doesn't have valid Play Store.");
+                    i = 40;
+                } else {
+                    ComponentName componentName = new ComponentName(str, str2);
+                    Intent intent2 = new Intent(intent);
+                    intent2.setComponent(componentName);
+                    intent2.putExtra("playBillingLibraryVersion", this.zzb);
+                    if (this.zze.bindService(intent2, this.zzh, 1)) {
+                        zzb.zzi("BillingClient", "Service was bonded successfully.");
+                        return;
                     } else {
-                        ComponentName componentName = new ComponentName(str, str2);
-                        Intent intent2 = new Intent(intent);
-                        intent2.setComponent(componentName);
-                        intent2.putExtra("playBillingLibraryVersion", this.zzb);
-                        if (this.zze.bindService(intent2, this.zzh, 1)) {
-                            zzb.zzi("BillingClient", "Service was bonded successfully.");
-                            return;
-                        } else {
-                            zzb.zzj("BillingClient", "Connection to Billing service is blocked.");
-                            i = 39;
-                        }
+                        zzb.zzj("BillingClient", "Connection to Billing service is blocked.");
+                        i = 39;
                     }
                 }
             }
-            this.zza = 0;
-            zzb.zzi("BillingClient", "Billing service unavailable on device.");
-            zzar zzarVar3 = this.zzf;
-            BillingResult billingResult3 = zzat.zzc;
-            zzarVar3.zza(zzaq.zza(i, 6, billingResult3));
-            billingClientStateListener.onBillingSetupFinished(billingResult3);
         }
+        this.zza = 0;
+        zzb.zzi("BillingClient", "Billing service unavailable on device.");
+        zzar zzarVar3 = this.zzf;
+        BillingResult billingResult3 = zzat.zzc;
+        zzarVar3.zza(zzaq.zza(i, 6, billingResult3));
+        billingClientStateListener.onBillingSetupFinished(billingResult3);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final /* synthetic */ void zzH(BillingResult billingResult) {
         if (this.zzd.zzc() != null) {
             this.zzd.zzc().onPurchasesUpdated(billingResult, null);
-            return;
+        } else {
+            this.zzd.zzb();
+            zzb.zzj("BillingClient", "No valid listener is set in BroadcastManager");
         }
-        this.zzd.zzb();
-        zzb.zzj("BillingClient", "No valid listener is set in BroadcastManager");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -872,7 +884,8 @@ public class BillingClientImpl extends BillingClient {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:42:0x0124, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x0124, code lost:
+    
         r0.zza(r2);
         r12 = 4;
      */
@@ -933,11 +946,13 @@ public class BillingClientImpl extends BillingClient {
                 boolean z = false;
                 boolean z2 = false;
                 while (i7 < size3) {
+                    QueryProductDetailsParams.Product product = (QueryProductDetailsParams.Product) arrayList2.get(i7);
                     ArrayList arrayList6 = arrayList2;
                     arrayList4.add(null);
                     z |= !TextUtils.isEmpty(null);
+                    String zzb2 = product.zzb();
                     int i8 = size3;
-                    if (((QueryProductDetailsParams.Product) arrayList2.get(i7)).zzb().equals("first_party")) {
+                    if (zzb2.equals("first_party")) {
                         com.google.android.gms.internal.play_billing.zzm.zzc(null, "Serialized DocId is required for constructing ExtraParams to query ProductDetails for all first party products.");
                         arrayList5.add(null);
                         z2 = true;
@@ -971,7 +986,8 @@ public class BillingClientImpl extends BillingClient {
                     newBuilder.setDebugMessage("Item is unavailable for purchase.");
                     zza = zzaq.zza(44, 7, newBuilder.build());
                     break;
-                } else if (zzl.containsKey("DETAILS_LIST")) {
+                }
+                if (zzl.containsKey("DETAILS_LIST")) {
                     ArrayList<String> stringArrayList = zzl.getStringArrayList("DETAILS_LIST");
                     if (stringArrayList == null) {
                         zzb.zzj("BillingClient", "queryProductDetailsAsync got null response list");

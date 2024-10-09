@@ -4,6 +4,7 @@ import com.stripe.android.model.Card;
 import com.stripe.android.util.StripeJsonUtils;
 import com.stripe.android.util.StripeTextUtils;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 public abstract class CardParser {
     public static Card parseCard(JSONObject jSONObject) {

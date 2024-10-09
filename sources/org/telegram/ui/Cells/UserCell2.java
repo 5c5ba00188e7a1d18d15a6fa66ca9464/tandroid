@@ -26,6 +26,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox;
 import org.telegram.ui.Components.CheckBoxSquare;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public class UserCell2 extends FrameLayout {
     private AvatarDrawable avatarDrawable;
@@ -113,7 +114,9 @@ public class UserCell2 extends FrameLayout {
             this.checkBoxBig = checkBoxSquare;
             boolean z5 = LocaleController.isRTL;
             addView(checkBoxSquare, LayoutHelper.createFrame(18, 18.0f, (z5 ? 3 : 5) | 16, z5 ? 19.0f : 0.0f, 0.0f, z5 ? 0.0f : 19.0f, 0.0f));
-        } else if (i2 == 1) {
+            return;
+        }
+        if (i2 == 1) {
             CheckBox checkBox = new CheckBox(context, R.drawable.round_check2);
             this.checkBox = checkBox;
             checkBox.setVisibility(4);
@@ -175,23 +178,29 @@ public class UserCell2 extends FrameLayout {
         this.nameTextView.setTypeface(typeface);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0088, code lost:
-        if (r13.equals(r12.lastName) == false) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0088, code lost:
+    
+        if (r13.equals(r12.lastName) == false) goto L59;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x0103, code lost:
-        if (r13 != null) goto L52;
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x0103, code lost:
+    
+        if (r13 != null) goto L87;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x01fb  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x01fb  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0216  */
+    /* JADX WARN: Type inference failed for: r3v0 */
+    /* JADX WARN: Type inference failed for: r3v1 */
+    /* JADX WARN: Type inference failed for: r3v14 */
     /* JADX WARN: Type inference failed for: r3v2 */
+    /* JADX WARN: Type inference failed for: r3v3, types: [org.telegram.tgnet.TLRPC$FileLocation] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void update(int i) {
         TLRPC.User user;
         TLRPC.Chat chat;
-        TLRPC.FileLocation fileLocation;
+        ?? r3;
         String str;
         SimpleTextView simpleTextView;
         int i2;
@@ -202,38 +211,38 @@ public class UserCell2 extends FrameLayout {
         TLRPC.UserStatus userStatus;
         String formatUserStatus;
         BackupImageView backupImageView;
-        TLRPC.FileLocation fileLocation2;
+        TLRPC.FileLocation fileLocation;
         TLObject tLObject = this.currentObject;
         if (tLObject instanceof TLRPC.User) {
             user = (TLRPC.User) tLObject;
             TLRPC.UserProfilePhoto userProfilePhoto = user.photo;
             if (userProfilePhoto != null) {
-                fileLocation = userProfilePhoto.photo_small;
+                r3 = userProfilePhoto.photo_small;
                 chat = null;
             } else {
                 chat = null;
-                fileLocation = chat;
+                r3 = chat;
             }
         } else if (tLObject instanceof TLRPC.Chat) {
             TLRPC.Chat chat2 = (TLRPC.Chat) tLObject;
             TLRPC.ChatPhoto chatPhoto = chat2.photo;
             if (chatPhoto != null) {
-                fileLocation = chatPhoto.photo_small;
+                r3 = chatPhoto.photo_small;
                 chat = chat2;
                 user = null;
             } else {
                 chat = chat2;
                 user = null;
-                fileLocation = null;
+                r3 = 0;
             }
         } else {
             user = null;
             chat = null;
-            fileLocation = chat;
+            r3 = chat;
         }
         if (i != 0) {
             boolean z = true;
-            boolean z2 = (MessagesController.UPDATE_MASK_AVATAR & i) != 0 && (((fileLocation2 = this.lastAvatar) != null && fileLocation == null) || ((fileLocation2 == null && fileLocation != null) || !(fileLocation2 == null || fileLocation == null || (fileLocation2.volume_id == fileLocation.volume_id && fileLocation2.local_id == fileLocation.local_id))));
+            boolean z2 = (MessagesController.UPDATE_MASK_AVATAR & i) != 0 && (((fileLocation = this.lastAvatar) != null && r3 == 0) || ((fileLocation == null && r3 != 0) || !(fileLocation == null || r3 == 0 || (fileLocation.volume_id == r3.volume_id && fileLocation.local_id == r3.local_id))));
             if (user != null && !z2 && (MessagesController.UPDATE_MASK_STATUS & i) != 0) {
                 TLRPC.UserStatus userStatus2 = user.status;
                 if ((userStatus2 != null ? userStatus2.expires : 0) != this.lastStatus) {
@@ -252,7 +261,7 @@ public class UserCell2 extends FrameLayout {
         } else {
             str = null;
         }
-        this.lastAvatar = fileLocation;
+        this.lastAvatar = r3;
         if (user != null) {
             this.avatarDrawable.setInfo(this.currentAccount, user);
             TLRPC.UserStatus userStatus3 = user.status;
@@ -344,21 +353,22 @@ public class UserCell2 extends FrameLayout {
                     simpleTextView3 = this.statusTextView;
                     i3 = R.string.BotStatusCantRead;
                 }
-            } else if (user.id != UserConfig.getInstance(this.currentAccount).getClientUserId() && (((userStatus = user.status) == null || userStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(user.id)))) {
-                this.statusTextView.setTextColor(this.statusColor);
-                simpleTextView3 = this.statusTextView;
-                formatUserStatus = LocaleController.formatUserStatus(this.currentAccount, user);
-                simpleTextView3.setText(formatUserStatus);
-                backupImageView = this.avatarImageView;
-                backupImageView.setForUserOrChat(user, this.avatarDrawable);
-                this.avatarImageView.setRoundRadius(AndroidUtilities.dp((chat == null && chat.forum) ? 14.0f : 24.0f));
-                if ((this.imageView.getVisibility() == 0 || this.currentDrawable != 0) && (this.imageView.getVisibility() != 8 || this.currentDrawable == 0)) {
+            } else {
+                if (user.id != UserConfig.getInstance(this.currentAccount).getClientUserId() && (((userStatus = user.status) == null || userStatus.expires <= ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) && !MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(user.id)))) {
+                    this.statusTextView.setTextColor(this.statusColor);
+                    simpleTextView3 = this.statusTextView;
+                    formatUserStatus = LocaleController.formatUserStatus(this.currentAccount, user);
+                    simpleTextView3.setText(formatUserStatus);
+                    backupImageView = this.avatarImageView;
+                    backupImageView.setForUserOrChat(user, this.avatarDrawable);
+                    this.avatarImageView.setRoundRadius(AndroidUtilities.dp((chat == null && chat.forum) ? 14.0f : 24.0f));
+                    if ((this.imageView.getVisibility() == 0 || this.currentDrawable != 0) && (this.imageView.getVisibility() != 8 || this.currentDrawable == 0)) {
+                        return;
+                    }
+                    this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
+                    this.imageView.setImageResource(this.currentDrawable);
                     return;
                 }
-                this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
-                this.imageView.setImageResource(this.currentDrawable);
-                return;
-            } else {
                 this.statusTextView.setTextColor(this.statusOnlineColor);
                 simpleTextView3 = this.statusTextView;
                 i3 = R.string.Online;

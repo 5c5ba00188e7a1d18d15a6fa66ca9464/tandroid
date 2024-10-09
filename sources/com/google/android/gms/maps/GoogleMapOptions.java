@@ -10,10 +10,11 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLngBounds;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class GoogleMapOptions extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<GoogleMapOptions> CREATOR = new zzab();
-    private static final Integer zza = Integer.valueOf(Color.argb((int) NotificationCenter.closeSearchByActiveAction, (int) NotificationCenter.didApplyNewTheme, (int) NotificationCenter.didReplacedPhotoInMemCache, (int) NotificationCenter.wallpapersDidLoad));
+    private static final Integer zza = Integer.valueOf(Color.argb(NotificationCenter.closeSearchByActiveAction, NotificationCenter.didApplyNewTheme, NotificationCenter.didReplacedPhotoInMemCache, NotificationCenter.wallpapersDidLoad));
     private Boolean zzb;
     private Boolean zzc;
     private int zzd;

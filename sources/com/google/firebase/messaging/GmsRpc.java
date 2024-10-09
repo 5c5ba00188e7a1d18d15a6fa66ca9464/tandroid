@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class GmsRpc {
@@ -72,29 +73,29 @@ public class GmsRpc {
     }
 
     private String handleResponse(Bundle bundle) {
-        if (bundle != null) {
-            String string = bundle.getString("registration_id");
-            if (string != null) {
-                return string;
-            }
-            String string2 = bundle.getString("unregistered");
-            if (string2 != null) {
-                return string2;
-            }
-            String string3 = bundle.getString("error");
-            if ("RST".equals(string3)) {
-                throw new IOException("INSTANCE_ID_RESET");
-            }
-            if (string3 != null) {
-                throw new IOException(string3);
-            }
-            String valueOf = String.valueOf(bundle);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 21);
-            sb.append("Unexpected response: ");
-            sb.append(valueOf);
-            Log.w("FirebaseMessaging", sb.toString(), new Throwable());
+        if (bundle == null) {
             throw new IOException("SERVICE_NOT_AVAILABLE");
         }
+        String string = bundle.getString("registration_id");
+        if (string != null) {
+            return string;
+        }
+        String string2 = bundle.getString("unregistered");
+        if (string2 != null) {
+            return string2;
+        }
+        String string3 = bundle.getString("error");
+        if ("RST".equals(string3)) {
+            throw new IOException("INSTANCE_ID_RESET");
+        }
+        if (string3 != null) {
+            throw new IOException(string3);
+        }
+        String valueOf = String.valueOf(bundle);
+        StringBuilder sb = new StringBuilder(valueOf.length() + 21);
+        sb.append("Unexpected response: ");
+        sb.append(valueOf);
+        Log.w("FirebaseMessaging", sb.toString(), new Throwable());
         throw new IOException("SERVICE_NOT_AVAILABLE");
     }
 
@@ -103,7 +104,7 @@ public class GmsRpc {
         return "SERVICE_NOT_AVAILABLE".equals(str) || "INTERNAL_SERVER_ERROR".equals(str) || "InternalServerError".equals(str);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00a3 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x00a3 A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

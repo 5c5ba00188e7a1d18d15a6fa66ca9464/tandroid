@@ -5,6 +5,7 @@ import android.graphics.Matrix;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.FrameLayout;
+
 /* loaded from: classes.dex */
 public class AspectRatioFrameLayout extends FrameLayout {
     private final AspectRatioUpdateDispatcher aspectRatioUpdateDispatcher;
@@ -75,14 +76,17 @@ public class AspectRatioFrameLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0044, code lost:
-        if (r4 > 0.0f) goto L36;
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0044, code lost:
+    
+        if (r4 > 0.0f) goto L27;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0049, code lost:
-        if (r4 <= 0.0f) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0049, code lost:
+    
+        if (r4 <= 0.0f) goto L26;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x004e, code lost:
-        if (r4 > 0.0f) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x004e, code lost:
+    
+        if (r4 > 0.0f) goto L26;
      */
     @Override // android.widget.FrameLayout, android.view.View
     /*

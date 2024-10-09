@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class Id3Decoder extends SimpleMetadataDecoder {
     public static final FramePredicate NO_FRAMES_PREDICATE = new FramePredicate() { // from class: com.google.android.exoplayer2.metadata.id3.Id3Decoder$$ExternalSyntheticLambda0
@@ -82,9 +83,10 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
                 str = lowerCase;
             }
         }
-        int i4 = indexOfZeroByte + 2;
-        int indexOfTerminator = indexOfTerminator(bArr, i4, readUnsignedByte);
-        return new ApicFrame(str, new String(bArr, i4, indexOfTerminator - i4, charset), bArr[indexOfZeroByte + 1] & 255, copyOfRangeIfValid(bArr, indexOfTerminator + delimiterLength(readUnsignedByte), i3));
+        int i4 = bArr[indexOfZeroByte + 1] & 255;
+        int i5 = indexOfZeroByte + 2;
+        int indexOfTerminator = indexOfTerminator(bArr, i5, readUnsignedByte);
+        return new ApicFrame(str, new String(bArr, i5, indexOfTerminator - i5, charset), i4, copyOfRangeIfValid(bArr, indexOfTerminator + delimiterLength(readUnsignedByte), i3));
     }
 
     private static BinaryFrame decodeBinaryFrame(ParsableByteArray parsableByteArray, int i, String str) {
@@ -160,8 +162,9 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
         return new CommentFrame(str, str2, decodeStringIfValid(bArr2, delimiterLength, indexOfTerminator(bArr2, delimiterLength, readUnsignedByte), charset));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:130:0x018d, code lost:
-        if (r13 == 67) goto L98;
+    /* JADX WARN: Code restructure failed: missing block: B:127:0x018d, code lost:
+    
+        if (r13 == 67) goto L131;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -510,11 +513,13 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x0079, code lost:
-        if ((r10 & 1) != 0) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x0079, code lost:
+    
+        if ((r10 & 1) != 0) goto L45;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x0087, code lost:
-        if ((r10 & 128) != 0) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x0087, code lost:
+    
+        if ((r10 & 128) != 0) goto L45;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -567,12 +572,12 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
                     if (readUnsignedInt242 < i4) {
                         parsableByteArray.setPosition(position);
                         return false;
-                    } else if (parsableByteArray.bytesLeft() < readUnsignedInt242) {
+                    }
+                    if (parsableByteArray.bytesLeft() < readUnsignedInt242) {
                         parsableByteArray.setPosition(position);
                         return false;
-                    } else {
-                        parsableByteArray.skipBytes((int) readUnsignedInt242);
                     }
+                    parsableByteArray.skipBytes((int) readUnsignedInt242);
                 }
             } catch (Throwable th) {
                 parsableByteArray.setPosition(position);

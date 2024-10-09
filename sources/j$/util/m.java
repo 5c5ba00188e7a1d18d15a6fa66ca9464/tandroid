@@ -1,6 +1,7 @@
 package j$.util;
 
 import java.util.NoSuchElementException;
+
 /* loaded from: classes2.dex */
 public final class m {
     private static final m c = new m();
@@ -40,17 +41,17 @@ public final class m {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof m) {
-            m mVar = (m) obj;
-            boolean z = this.a;
-            if (z && mVar.a) {
-                if (this.b == mVar.b) {
-                    return true;
-                }
-            } else if (z == mVar.a) {
+        if (!(obj instanceof m)) {
+            return false;
+        }
+        m mVar = (m) obj;
+        boolean z = this.a;
+        if (z && mVar.a) {
+            if (this.b == mVar.b) {
                 return true;
             }
-            return false;
+        } else if (z == mVar.a) {
+            return true;
         }
         return false;
     }
@@ -63,9 +64,9 @@ public final class m {
     }
 
     public final String toString() {
-        if (this.a) {
-            return "OptionalInt[" + this.b + "]";
+        if (!this.a) {
+            return "OptionalInt.empty";
         }
-        return "OptionalInt.empty";
+        return "OptionalInt[" + this.b + "]";
     }
 }

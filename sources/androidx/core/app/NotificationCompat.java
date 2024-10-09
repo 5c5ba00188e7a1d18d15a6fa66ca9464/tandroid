@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class NotificationCompat {
 
@@ -737,24 +738,25 @@ public abstract class NotificationCompat {
             Resources resources = this.mContext.getResources();
             int dimensionPixelSize = resources.getDimensionPixelSize(R$dimen.compat_notification_large_icon_max_width);
             int dimensionPixelSize2 = resources.getDimensionPixelSize(R$dimen.compat_notification_large_icon_max_height);
-            if (bitmap.getWidth() > dimensionPixelSize || bitmap.getHeight() > dimensionPixelSize2) {
-                double d = dimensionPixelSize;
-                double max = Math.max(1, bitmap.getWidth());
-                Double.isNaN(d);
-                Double.isNaN(max);
-                double d2 = d / max;
-                double d3 = dimensionPixelSize2;
-                double max2 = Math.max(1, bitmap.getHeight());
-                Double.isNaN(d3);
-                Double.isNaN(max2);
-                double min = Math.min(d2, d3 / max2);
-                double width = bitmap.getWidth();
-                Double.isNaN(width);
-                double height = bitmap.getHeight();
-                Double.isNaN(height);
-                return Bitmap.createScaledBitmap(bitmap, (int) Math.ceil(width * min), (int) Math.ceil(height * min), true);
+            if (bitmap.getWidth() <= dimensionPixelSize && bitmap.getHeight() <= dimensionPixelSize2) {
+                return bitmap;
             }
-            return bitmap;
+            double d = dimensionPixelSize;
+            double max = Math.max(1, bitmap.getWidth());
+            Double.isNaN(d);
+            Double.isNaN(max);
+            double d2 = d / max;
+            double d3 = dimensionPixelSize2;
+            double max2 = Math.max(1, bitmap.getHeight());
+            Double.isNaN(d3);
+            Double.isNaN(max2);
+            double min = Math.min(d2, d3 / max2);
+            double width = bitmap.getWidth();
+            Double.isNaN(width);
+            int ceil = (int) Math.ceil(width * min);
+            double height = bitmap.getHeight();
+            Double.isNaN(height);
+            return Bitmap.createScaledBitmap(bitmap, ceil, (int) Math.ceil(height * min), true);
         }
 
         private void setFlag(int i, boolean z) {
@@ -1259,7 +1261,6 @@ public abstract class NotificationCompat {
         }
 
         private Message findLatestIncomingMessage() {
-            List list;
             for (int size = this.mMessages.size() - 1; size >= 0; size--) {
                 Message message = (Message) this.mMessages.get(size);
                 if (message.getPerson() != null && !TextUtils.isEmpty(message.getPerson().getName())) {
@@ -1269,7 +1270,7 @@ public abstract class NotificationCompat {
             if (this.mMessages.isEmpty()) {
                 return null;
             }
-            return (Message) this.mMessages.get(list.size() - 1);
+            return (Message) this.mMessages.get(r0.size() - 1);
         }
 
         private boolean hasMessagesWithoutSender() {
@@ -1291,7 +1292,7 @@ public abstract class NotificationCompat {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             boolean z = Build.VERSION.SDK_INT >= 21;
             int i = z ? -16777216 : -1;
-            String name = message.getPerson() == null ? "" : message.getPerson().getName();
+            CharSequence name = message.getPerson() == null ? "" : message.getPerson().getName();
             if (TextUtils.isEmpty(name)) {
                 name = this.mUser.getName();
                 if (z && this.mBuilder.getColor() != 0) {
@@ -1341,8 +1342,8 @@ public abstract class NotificationCompat {
             return this;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:38:0x00d1  */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x0103  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x00d1  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x0103  */
         @Override // androidx.core.app.NotificationCompat.Style
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1355,12 +1356,14 @@ public abstract class NotificationCompat {
             int i = Build.VERSION.SDK_INT;
             if (i >= 24) {
                 Notification.MessagingStyle createMessagingStyle = i >= 28 ? Api28Impl.createMessagingStyle(this.mUser.toAndroidPerson()) : Api24Impl.createMessagingStyle(this.mUser.getName());
-                for (Message message : this.mMessages) {
-                    Api24Impl.addMessage(NotificationCompat$MessagingStyle$$ExternalSyntheticApiModelOutline0.m(createMessagingStyle), message.toAndroidMessage());
+                Iterator it = this.mMessages.iterator();
+                while (it.hasNext()) {
+                    Api24Impl.addMessage(NotificationCompat$MessagingStyle$$ExternalSyntheticApiModelOutline0.m(createMessagingStyle), ((Message) it.next()).toAndroidMessage());
                 }
                 if (Build.VERSION.SDK_INT >= 26) {
-                    for (Message message2 : this.mHistoricMessages) {
-                        Api26Impl.addHistoricMessage(NotificationCompat$MessagingStyle$$ExternalSyntheticApiModelOutline0.m(createMessagingStyle), message2.toAndroidMessage());
+                    Iterator it2 = this.mHistoricMessages.iterator();
+                    while (it2.hasNext()) {
+                        Api26Impl.addHistoricMessage(NotificationCompat$MessagingStyle$$ExternalSyntheticApiModelOutline0.m(createMessagingStyle), ((Message) it2.next()).toAndroidMessage());
                     }
                 }
                 if (this.mIsGroupConversation.booleanValue() || Build.VERSION.SDK_INT >= 28) {
@@ -1387,8 +1390,8 @@ public abstract class NotificationCompat {
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
                 boolean z = this.mConversationTitle == null || hasMessagesWithoutSender();
                 for (size = this.mMessages.size() - 1; size >= 0; size--) {
-                    Message message3 = (Message) this.mMessages.get(size);
-                    CharSequence makeMessageLine = z ? makeMessageLine(message3) : message3.getText();
+                    Message message = (Message) this.mMessages.get(size);
+                    CharSequence makeMessageLine = z ? makeMessageLine(message) : message.getText();
                     if (size != this.mMessages.size() - 1) {
                         spannableStringBuilder.insert(0, (CharSequence) "\n");
                     }
@@ -1704,13 +1707,13 @@ public abstract class NotificationCompat {
         int semanticAction = i3 >= 28 ? Api28Impl.getSemanticAction(action) : Api20Impl.getExtras(action).getInt("android.support.action.semanticAction", 0);
         boolean isContextual = i3 >= 29 ? Api29Impl.isContextual(action) : false;
         boolean isAuthenticationRequired = i3 >= 31 ? Api31Impl.isAuthenticationRequired(action) : false;
-        if (i3 >= 23) {
-            if (Api23Impl.getIcon(action) != null || (i = action.icon) == 0) {
-                return new Action(Api23Impl.getIcon(action) != null ? IconCompat.createFromIconOrNullIfZeroResId(Api23Impl.getIcon(action)) : null, action.title, action.actionIntent, Api20Impl.getExtras(action), remoteInputArr, (RemoteInput[]) null, z, semanticAction, z2, isContextual, isAuthenticationRequired);
-            }
-            return new Action(i, action.title, action.actionIntent, Api20Impl.getExtras(action), remoteInputArr, (RemoteInput[]) null, z, semanticAction, z2, isContextual, isAuthenticationRequired);
+        if (i3 < 23) {
+            return new Action(action.icon, action.title, action.actionIntent, Api20Impl.getExtras(action), remoteInputArr, (RemoteInput[]) null, z, semanticAction, z2, isContextual, isAuthenticationRequired);
         }
-        return new Action(action.icon, action.title, action.actionIntent, Api20Impl.getExtras(action), remoteInputArr, (RemoteInput[]) null, z, semanticAction, z2, isContextual, isAuthenticationRequired);
+        if (Api23Impl.getIcon(action) != null || (i = action.icon) == 0) {
+            return new Action(Api23Impl.getIcon(action) != null ? IconCompat.createFromIconOrNullIfZeroResId(Api23Impl.getIcon(action)) : null, action.title, action.actionIntent, Api20Impl.getExtras(action), remoteInputArr, (RemoteInput[]) null, z, semanticAction, z2, isContextual, isAuthenticationRequired);
+        }
+        return new Action(i, action.title, action.actionIntent, Api20Impl.getExtras(action), remoteInputArr, (RemoteInput[]) null, z, semanticAction, z2, isContextual, isAuthenticationRequired);
     }
 
     public static Bundle getExtras(Notification notification) {

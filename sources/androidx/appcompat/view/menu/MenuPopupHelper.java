@@ -11,6 +11,7 @@ import androidx.appcompat.R$dimen;
 import androidx.appcompat.view.menu.MenuPresenter;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 public class MenuPopupHelper {
     private View mAnchorView;

@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSourceUtil;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.StatsDataSource;
+
 /* loaded from: classes.dex */
 public class ContainerMediaChunk extends BaseMediaChunk {
     private final int chunkCount;
@@ -58,9 +59,15 @@ public class ContainerMediaChunk extends BaseMediaChunk {
             DataSpec subrange = this.dataSpec.subrange(this.nextLoadPosition);
             StatsDataSource statsDataSource = this.dataSource;
             DefaultExtractorInput defaultExtractorInput = new DefaultExtractorInput(statsDataSource, subrange.position, statsDataSource.open(subrange));
-            while (!this.loadCanceled && this.chunkExtractor.read(defaultExtractorInput)) {
-            }
-            this.nextLoadPosition = defaultExtractorInput.getPosition() - this.dataSpec.position;
+            do {
+                try {
+                    if (this.loadCanceled) {
+                        break;
+                    }
+                } finally {
+                    this.nextLoadPosition = defaultExtractorInput.getPosition() - this.dataSpec.position;
+                }
+            } while (this.chunkExtractor.read(defaultExtractorInput));
             DataSourceUtil.closeQuietly(this.dataSource);
             this.loadCompleted = !this.loadCanceled;
         } catch (Throwable th) {

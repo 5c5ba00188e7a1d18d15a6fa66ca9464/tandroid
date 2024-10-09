@@ -1,6 +1,7 @@
 package androidx.core.widget;
 
 import android.widget.ListView;
+
 /* loaded from: classes.dex */
 public class ListViewAutoScrollHelper extends AutoScrollHelper {
     private final ListView mTarget;
@@ -29,9 +30,10 @@ public class ListViewAutoScrollHelper extends AutoScrollHelper {
             if (i2 >= count && listView.getChildAt(childCount - 1).getBottom() <= listView.getHeight()) {
                 return false;
             }
-        } else if (i >= 0) {
-            return false;
         } else {
+            if (i >= 0) {
+                return false;
+            }
             if (firstVisiblePosition <= 0 && listView.getChildAt(0).getTop() >= 0) {
                 return false;
             }

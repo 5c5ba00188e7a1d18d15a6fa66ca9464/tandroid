@@ -2,6 +2,7 @@ package com.google.android.gms.signin;
 
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.Objects;
+
 /* loaded from: classes.dex */
 public final class SignInOptions implements Api.ApiOptions {
     public static final SignInOptions zaa = new SignInOptions(false, false, null, false, null, null, false, null, null, null);
@@ -22,11 +23,11 @@ public final class SignInOptions implements Api.ApiOptions {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof SignInOptions) {
-            boolean z = ((SignInOptions) obj).zab;
-            return Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null);
+        if (!(obj instanceof SignInOptions)) {
+            return false;
         }
-        return false;
+        boolean z = ((SignInOptions) obj).zab;
+        return Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null) && Objects.equal(null, null);
     }
 
     public final int hashCode() {

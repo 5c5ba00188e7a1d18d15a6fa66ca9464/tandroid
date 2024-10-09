@@ -8,6 +8,7 @@ import java.io.EOFException;
 import java.io.InterruptedIOException;
 import java.util.Arrays;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public final class DefaultExtractorInput implements ExtractorInput {
     private final DataReader dataReader;
@@ -58,13 +59,13 @@ public final class DefaultExtractorInput implements ExtractorInput {
             throw new InterruptedIOException();
         }
         int read = this.dataReader.read(bArr, i + i3, i2 - i3);
-        if (read == -1) {
-            if (i3 == 0 && z) {
-                return -1;
-            }
-            throw new EOFException();
+        if (read != -1) {
+            return i3 + read;
         }
-        return i3 + read;
+        if (i3 == 0 && z) {
+            return -1;
+        }
+        throw new EOFException();
     }
 
     private int skipFromPeekBuffer(int i) {
@@ -146,11 +147,11 @@ public final class DefaultExtractorInput implements ExtractorInput {
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput
     public boolean peekFully(byte[] bArr, int i, int i2, boolean z) {
-        if (advancePeekPosition(i2, z)) {
-            System.arraycopy(this.peekBuffer, this.peekBufferPosition - i2, bArr, i, i2);
-            return true;
+        if (!advancePeekPosition(i2, z)) {
+            return false;
         }
-        return false;
+        System.arraycopy(this.peekBuffer, this.peekBufferPosition - i2, bArr, i, i2);
+        return true;
     }
 
     @Override // com.google.android.exoplayer2.extractor.ExtractorInput, com.google.android.exoplayer2.upstream.DataReader

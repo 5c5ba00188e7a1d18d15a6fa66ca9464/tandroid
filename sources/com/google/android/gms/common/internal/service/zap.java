@@ -13,12 +13,13 @@ import com.google.android.gms.common.internal.GmsClient;
 import com.google.android.gms.common.internal.TelemetryLoggingOptions;
 import com.google.android.gms.internal.base.zaf;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class zap extends GmsClient {
     private final TelemetryLoggingOptions zaa;
 
     public zap(Context context, Looper looper, ClientSettings clientSettings, TelemetryLoggingOptions telemetryLoggingOptions, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
-        super(context, looper, (int) NotificationCenter.dialogsUnreadReactionsCounterChanged, clientSettings, connectionCallbacks, onConnectionFailedListener);
+        super(context, looper, NotificationCenter.dialogsUnreadReactionsCounterChanged, clientSettings, connectionCallbacks, onConnectionFailedListener);
         this.zaa = telemetryLoggingOptions;
     }
 

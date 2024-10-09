@@ -9,6 +9,7 @@ import java.io.StringReader;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
+
 /* loaded from: classes.dex */
 abstract class XmpMotionPhotoDescriptionParser {
     private static final String[] MOTION_PHOTO_ATTRIBUTE_NAMES = {"Camera:MotionPhoto", "GCamera:MotionPhoto", "Camera:MicroVideo", "GCamera:MicroVideo"};
@@ -30,33 +31,34 @@ abstract class XmpMotionPhotoDescriptionParser {
         XmlPullParser newPullParser = XmlPullParserFactory.newInstance().newPullParser();
         newPullParser.setInput(new StringReader(str));
         newPullParser.next();
-        if (XmlPullParserUtil.isStartTag(newPullParser, "x:xmpmeta")) {
-            ImmutableList of = ImmutableList.of();
-            long j = -9223372036854775807L;
-            do {
-                newPullParser.next();
-                if (!XmlPullParserUtil.isStartTag(newPullParser, "rdf:Description")) {
-                    if (XmlPullParserUtil.isStartTag(newPullParser, "Container:Directory")) {
-                        str2 = "Container";
-                        str3 = "Item";
-                    } else if (XmlPullParserUtil.isStartTag(newPullParser, "GContainer:Directory")) {
-                        str2 = "GContainer";
-                        str3 = "GContainerItem";
-                    }
-                    of = parseMotionPhotoV1Directory(newPullParser, str2, str3);
-                } else if (!parseMotionPhotoFlagFromDescription(newPullParser)) {
-                    return null;
-                } else {
-                    j = parseMotionPhotoPresentationTimestampUsFromDescription(newPullParser);
-                    of = parseMicroVideoOffsetFromDescription(newPullParser);
-                }
-            } while (!XmlPullParserUtil.isEndTag(newPullParser, "x:xmpmeta"));
-            if (of.isEmpty()) {
-                return null;
-            }
-            return new MotionPhotoDescription(j, of);
+        if (!XmlPullParserUtil.isStartTag(newPullParser, "x:xmpmeta")) {
+            throw ParserException.createForMalformedContainer("Couldn't find xmp metadata", null);
         }
-        throw ParserException.createForMalformedContainer("Couldn't find xmp metadata", null);
+        ImmutableList of = ImmutableList.of();
+        long j = -9223372036854775807L;
+        do {
+            newPullParser.next();
+            if (!XmlPullParserUtil.isStartTag(newPullParser, "rdf:Description")) {
+                if (XmlPullParserUtil.isStartTag(newPullParser, "Container:Directory")) {
+                    str2 = "Container";
+                    str3 = "Item";
+                } else if (XmlPullParserUtil.isStartTag(newPullParser, "GContainer:Directory")) {
+                    str2 = "GContainer";
+                    str3 = "GContainerItem";
+                }
+                of = parseMotionPhotoV1Directory(newPullParser, str2, str3);
+            } else {
+                if (!parseMotionPhotoFlagFromDescription(newPullParser)) {
+                    return null;
+                }
+                j = parseMotionPhotoPresentationTimestampUsFromDescription(newPullParser);
+                of = parseMicroVideoOffsetFromDescription(newPullParser);
+            }
+        } while (!XmlPullParserUtil.isEndTag(newPullParser, "x:xmpmeta"));
+        if (of.isEmpty()) {
+            return null;
+        }
+        return new MotionPhotoDescription(j, of);
     }
 
     private static ImmutableList parseMicroVideoOffsetFromDescription(XmlPullParser xmlPullParser) {

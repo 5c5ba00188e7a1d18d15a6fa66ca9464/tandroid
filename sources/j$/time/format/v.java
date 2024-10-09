@@ -6,6 +6,7 @@ import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
+
 /* loaded from: classes2.dex */
 class v {
     private static final ConcurrentHashMap a = new ConcurrentHashMap(16, 0.75f, 2);

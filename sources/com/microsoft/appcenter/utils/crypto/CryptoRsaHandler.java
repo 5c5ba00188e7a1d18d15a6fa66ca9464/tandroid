@@ -12,6 +12,7 @@ import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.Date;
 import javax.security.auth.x500.X500Principal;
+
 /* loaded from: classes.dex */
 class CryptoRsaHandler implements CryptoHandler {
     private CryptoUtils.ICipher getCipher(CryptoUtils.ICryptoFactory iCryptoFactory, int i) {
@@ -43,8 +44,7 @@ class CryptoRsaHandler implements CryptoHandler {
         Calendar calendar = Calendar.getInstance();
         calendar.add(1, 1);
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
-        KeyPairGeneratorSpec.Builder alias = new KeyPairGeneratorSpec.Builder(context).setAlias(str);
-        keyPairGenerator.initialize(alias.setSubject(new X500Principal("CN=" + str)).setStartDate(new Date()).setEndDate(calendar.getTime()).setSerialNumber(BigInteger.TEN).setKeySize(2048).build());
+        keyPairGenerator.initialize(new KeyPairGeneratorSpec.Builder(context).setAlias(str).setSubject(new X500Principal("CN=" + str)).setStartDate(new Date()).setEndDate(calendar.getTime()).setSerialNumber(BigInteger.TEN).setKeySize(2048).build());
         keyPairGenerator.generateKeyPair();
     }
 

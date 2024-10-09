@@ -1,6 +1,7 @@
 package kotlin.random;
 
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class FallbackThreadLocalRandom extends AbstractPlatformRandom {
     private final FallbackThreadLocalRandom$implStorage$1 implStorage = new ThreadLocal() { // from class: kotlin.random.FallbackThreadLocalRandom$implStorage$1

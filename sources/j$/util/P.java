@@ -3,6 +3,7 @@ package j$.util;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class P implements Spliterator {
     public final /* synthetic */ Q a;

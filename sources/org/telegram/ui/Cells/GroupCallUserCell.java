@@ -49,6 +49,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RadialProgressView;
+
 /* loaded from: classes4.dex */
 public class GroupCallUserCell extends FrameLayout {
     private AccountInstance accountInstance;
@@ -123,7 +124,7 @@ public class GroupCallUserCell extends FrameLayout {
             this.blobDrawable2.paint.setColor(ColorUtils.setAlphaComponent(Theme.getColor(i3), 38));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0064  */
+        /* JADX WARN: Removed duplicated region for block: B:26:0x0064  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -178,8 +179,9 @@ public class GroupCallUserCell extends FrameLayout {
         }
 
         public float getAvatarScale() {
+            float f = (this.amplitude * 0.2f) + 0.9f;
             float interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(this.wavesEnter);
-            return (((this.amplitude * 0.2f) + 0.9f) * interpolation) + ((1.0f - interpolation) * 1.0f);
+            return (f * interpolation) + ((1.0f - interpolation) * 1.0f);
         }
 
         public void setAmplitude(double d) {
@@ -315,28 +317,32 @@ public class GroupCallUserCell extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x01b7, code lost:
-        if (r11 != false) goto L47;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x01b7, code lost:
+    
+        if (r11 != false) goto L78;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:77:0x0244, code lost:
-        if (r11 == false) goto L44;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:78:0x0246, code lost:
-        r20 = r12;
-        r21 = r13;
-        r19 = r14;
-        r23 = 67.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x024f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x024f, code lost:
+    
         r20 = r12;
         r21 = r13;
         r19 = r14;
         r23 = 54.0f;
      */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x023d  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0240  */
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x0246, code lost:
+    
+        r20 = r12;
+        r21 = r13;
+        r19 = r14;
+        r23 = 67.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x0244, code lost:
+    
+        if (r11 == false) goto L79;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0236  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0240  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0238  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -563,34 +569,39 @@ public class GroupCallUserCell extends FrameLayout {
         setFocusable(true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x00f1, code lost:
-        if (r7 != false) goto L223;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x0130, code lost:
-        if (r7 != false) goto L223;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x013f, code lost:
-        if (r7 != false) goto L223;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:95:0x0141, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:223:0x0141, code lost:
+    
         r11 = r2;
         r2 = 4;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x0144, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:238:0x0130, code lost:
+    
+        if (r7 != false) goto L95;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:243:0x013f, code lost:
+    
+        if (r7 != false) goto L95;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:56:0x00f1, code lost:
+    
+        if (r7 != false) goto L95;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0144, code lost:
+    
         r11 = r2;
         r2 = 0;
      */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x01f6  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x020f  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x02aa  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x02f4  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x02f9  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x038e  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x03c5  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x03df  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0407  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x0432  */
-    /* JADX WARN: Removed duplicated region for block: B:258:0x0449  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x02f4  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x038e  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0449  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x03c5  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0407  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0432  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x03df  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02f9  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x020f  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x01f6  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x02aa  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -804,8 +815,8 @@ public class GroupCallUserCell extends FrameLayout {
                                 } else {
                                     dp = AndroidUtilities.dp(i10 == 0 ? 2.0f : -2.0f);
                                 }
-                                arrayList.add(ObjectAnimator.ofFloat(simpleTextView6, property, dp));
-                                arrayList.add(ObjectAnimator.ofFloat(this.statusTextView[i10], View.ALPHA, i10 == i ? 1.0f : 0.0f));
+                                arrayList.add(ObjectAnimator.ofFloat(simpleTextView6, (Property<SimpleTextView, Float>) property, dp));
+                                arrayList.add(ObjectAnimator.ofFloat(this.statusTextView[i10], (Property<SimpleTextView, Float>) View.ALPHA, i10 == i ? 1.0f : 0.0f));
                                 i10++;
                             }
                         } else {
@@ -814,8 +825,8 @@ public class GroupCallUserCell extends FrameLayout {
                                 if (i10 >= simpleTextViewArr2.length) {
                                     break;
                                 }
-                                arrayList.add(ObjectAnimator.ofFloat(simpleTextViewArr2[i10], View.TRANSLATION_Y, i10 == i ? 0.0f : AndroidUtilities.dp(-2.0f)));
-                                arrayList.add(ObjectAnimator.ofFloat(this.statusTextView[i10], View.ALPHA, i10 == i ? 1.0f : 0.0f));
+                                arrayList.add(ObjectAnimator.ofFloat(simpleTextViewArr2[i10], (Property<SimpleTextView, Float>) View.TRANSLATION_Y, i10 == i ? 0.0f : AndroidUtilities.dp(-2.0f)));
+                                arrayList.add(ObjectAnimator.ofFloat(this.statusTextView[i10], (Property<SimpleTextView, Float>) View.ALPHA, i10 == i ? 1.0f : 0.0f));
                                 i10++;
                             }
                         }
@@ -1031,11 +1042,11 @@ public class GroupCallUserCell extends FrameLayout {
     }
 
     public boolean clickMuteButton() {
-        if (this.muteButton.isEnabled()) {
-            this.muteButton.callOnClick();
-            return true;
+        if (!this.muteButton.isEnabled()) {
+            return false;
         }
-        return false;
+        this.muteButton.callOnClick();
+        return true;
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -1165,7 +1176,7 @@ public class GroupCallUserCell extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* renamed from: onMuteClick */
+    /* renamed from: onMuteClick, reason: merged with bridge method [inline-methods] */
     public void lambda$new$5(GroupCallUserCell groupCallUserCell) {
     }
 
@@ -1204,7 +1215,7 @@ public class GroupCallUserCell extends FrameLayout {
         this.updateRunnableScheduled = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00de  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00de  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1296,9 +1307,9 @@ public class GroupCallUserCell extends FrameLayout {
                     this.verifiedDrawable = drawable2;
                     swapAnimatedEmojiDrawable2.set(drawable2, z);
                 } else {
-                    int i = (DialogObject.getEmojiStatusDocumentId(chat2.emoji_status) > 0L ? 1 : (DialogObject.getEmojiStatusDocumentId(chat2.emoji_status) == 0L ? 0 : -1));
+                    long emojiStatusDocumentId = DialogObject.getEmojiStatusDocumentId(chat2.emoji_status);
                     AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable3 = this.rightDrawable;
-                    if (i != 0) {
+                    if (emojiStatusDocumentId != 0) {
                         swapAnimatedEmojiDrawable3.set(DialogObject.getEmojiStatusDocumentId(this.currentChat.emoji_status), z);
                     } else {
                         swapAnimatedEmojiDrawable3.set((Drawable) null, z);
@@ -1347,7 +1358,6 @@ public class GroupCallUserCell extends FrameLayout {
     public void setProgressToAvatarPreview(float f) {
         this.progressToAvatarPreview = f;
         this.nameTextView.setTranslationX((LocaleController.isRTL ? AndroidUtilities.dp(53.0f) : -AndroidUtilities.dp(53.0f)) * f);
-        boolean z = true;
         if (!isSelfUser() || f <= 0.0f) {
             this.fullAboutTextView.setVisibility(8);
             int i = 0;
@@ -1374,15 +1384,15 @@ public class GroupCallUserCell extends FrameLayout {
             this.fullAboutTextView.setAlpha(f);
             this.statusTextView[4].setAlpha(f2);
             SimpleTextView simpleTextView = this.statusTextView[4];
-            boolean z2 = LocaleController.isRTL;
+            boolean z = LocaleController.isRTL;
             int dp = AndroidUtilities.dp(53.0f);
-            if (!z2) {
+            if (!z) {
                 dp = -dp;
             }
             simpleTextView.setTranslationX(dp * f);
         }
         this.avatarImageView.setAlpha(f == 0.0f ? 1.0f : 0.0f);
-        this.avatarWavesDrawable.setShowWaves((this.isSpeaking && f == 0.0f) ? false : false, this);
+        this.avatarWavesDrawable.setShowWaves(this.isSpeaking && f == 0.0f, this);
         float f3 = 1.0f - f;
         this.muteButton.setAlpha(f3);
         float f4 = (f3 * 0.4f) + 0.6f;

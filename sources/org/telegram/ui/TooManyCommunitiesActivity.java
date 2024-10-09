@@ -45,6 +45,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.TooManyCommunitiesActivity;
+
 /* loaded from: classes4.dex */
 public class TooManyCommunitiesActivity extends BaseFragment {
     private Adapter adapter;
@@ -155,32 +156,32 @@ public class TooManyCommunitiesActivity extends BaseFragment {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            HeaderCell headerCell;
+            View view;
             if (i == 1) {
                 TooManyCommunitiesActivity.this.hintCell = new TooManyCommunitiesHintCell(viewGroup.getContext());
-                View view = TooManyCommunitiesActivity.this.hintCell;
+                View view2 = TooManyCommunitiesActivity.this.hintCell;
                 int i2 = TooManyCommunitiesActivity.this.type;
                 TooManyCommunitiesActivity.this.hintCell.setMessageText(LocaleController.getString(i2 == 0 ? R.string.TooManyCommunitiesHintJoin : i2 == 1 ? R.string.TooManyCommunitiesHintEdit : R.string.TooManyCommunitiesHintCreate));
                 RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-1, -2);
                 ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin = AndroidUtilities.dp(16.0f);
                 ((ViewGroup.MarginLayoutParams) layoutParams).topMargin = AndroidUtilities.dp(23.0f);
                 TooManyCommunitiesActivity.this.hintCell.setLayoutParams(layoutParams);
-                headerCell = view;
+                view = view2;
             } else if (i == 2) {
                 View shadowSectionCell = new ShadowSectionCell(viewGroup.getContext());
                 CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawableByKey(viewGroup.getContext(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                 combinedDrawable.setFullsize(true);
                 shadowSectionCell.setBackground(combinedDrawable);
-                headerCell = shadowSectionCell;
+                view = shadowSectionCell;
             } else if (i != 3) {
-                headerCell = i != 5 ? new GroupCreateUserCell(viewGroup.getContext(), 1, 0, false) : new EmptyCell(viewGroup.getContext(), AndroidUtilities.dp(12.0f));
+                view = i != 5 ? new GroupCreateUserCell(viewGroup.getContext(), 1, 0, false) : new EmptyCell(viewGroup.getContext(), AndroidUtilities.dp(12.0f));
             } else {
-                HeaderCell headerCell2 = new HeaderCell(viewGroup.getContext(), Theme.key_windowBackgroundWhiteBlueHeader, 21, 8, false);
-                headerCell2.setHeight(54);
-                headerCell2.setText(LocaleController.getString(R.string.InactiveChats));
-                headerCell = headerCell2;
+                HeaderCell headerCell = new HeaderCell(viewGroup.getContext(), Theme.key_windowBackgroundWhiteBlueHeader, 21, 8, false);
+                headerCell.setHeight(54);
+                headerCell.setText(LocaleController.getString(R.string.InactiveChats));
+                view = headerCell;
             }
-            return new RecyclerListView.Holder(headerCell);
+            return new RecyclerListView.Holder(view);
         }
 
         public void updateRows() {
@@ -327,7 +328,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             return new RecyclerListView.Holder(new GroupCreateUserCell(viewGroup.getContext(), 1, 0, false));
         }
 
-        /* renamed from: processSearch */
+        /* renamed from: processSearch, reason: merged with bridge method [inline-methods] */
         public void lambda$search$0(final String str, final int i) {
             Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.TooManyCommunitiesActivity$SearchAdapter$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
@@ -386,7 +387,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             getMessagesController().putChat(chat, false);
             getMessagesController().deleteParticipantFromChat(chat.id, user);
         }
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -589,7 +590,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    TooManyCommunitiesActivity.this.finishFragment();
+                    TooManyCommunitiesActivity.this.lambda$onBackPressed$300();
                 }
             }
         });

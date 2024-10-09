@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class CompactHashMap extends AbstractMap implements Serializable {
@@ -46,12 +47,12 @@ public class CompactHashMap extends AbstractMap implements Serializable {
             if (delegateOrNull != null) {
                 return delegateOrNull.entrySet().contains(obj);
             }
-            if (obj instanceof Map.Entry) {
-                Map.Entry entry = (Map.Entry) obj;
-                int indexOf = CompactHashMap.this.indexOf(entry.getKey());
-                return indexOf != -1 && Objects.equal(CompactHashMap.this.value(indexOf), entry.getValue());
+            if (!(obj instanceof Map.Entry)) {
+                return false;
             }
-            return false;
+            Map.Entry entry = (Map.Entry) obj;
+            int indexOf = CompactHashMap.this.indexOf(entry.getKey());
+            return indexOf != -1 && Objects.equal(CompactHashMap.this.value(indexOf), entry.getValue());
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
@@ -65,22 +66,22 @@ public class CompactHashMap extends AbstractMap implements Serializable {
             if (delegateOrNull != null) {
                 return delegateOrNull.entrySet().remove(obj);
             }
-            if (obj instanceof Map.Entry) {
-                Map.Entry entry = (Map.Entry) obj;
-                if (CompactHashMap.this.needsAllocArrays()) {
-                    return false;
-                }
-                int hashTableMask = CompactHashMap.this.hashTableMask();
-                int remove = CompactHashing.remove(entry.getKey(), entry.getValue(), hashTableMask, CompactHashMap.this.requireTable(), CompactHashMap.this.requireEntries(), CompactHashMap.this.requireKeys(), CompactHashMap.this.requireValues());
-                if (remove == -1) {
-                    return false;
-                }
-                CompactHashMap.this.moveLastEntry(remove, hashTableMask);
-                CompactHashMap.access$1210(CompactHashMap.this);
-                CompactHashMap.this.incrementModCount();
-                return true;
+            if (!(obj instanceof Map.Entry)) {
+                return false;
             }
-            return false;
+            Map.Entry entry = (Map.Entry) obj;
+            if (CompactHashMap.this.needsAllocArrays()) {
+                return false;
+            }
+            int hashTableMask = CompactHashMap.this.hashTableMask();
+            int remove = CompactHashing.remove(entry.getKey(), entry.getValue(), hashTableMask, CompactHashMap.this.requireTable(), CompactHashMap.this.requireEntries(), CompactHashMap.this.requireKeys(), CompactHashMap.this.requireValues());
+            if (remove == -1) {
+                return false;
+            }
+            CompactHashMap.this.moveLastEntry(remove, hashTableMask);
+            CompactHashMap.access$1210(CompactHashMap.this);
+            CompactHashMap.this.incrementModCount();
+            return true;
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
@@ -121,14 +122,14 @@ public class CompactHashMap extends AbstractMap implements Serializable {
         @Override // java.util.Iterator
         public Object next() {
             checkForConcurrentModification();
-            if (hasNext()) {
-                int i = this.currentIndex;
-                this.indexToRemove = i;
-                Object output = getOutput(i);
-                this.currentIndex = CompactHashMap.this.getSuccessor(this.currentIndex);
-                return output;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
             }
-            throw new NoSuchElementException();
+            int i = this.currentIndex;
+            this.indexToRemove = i;
+            Object output = getOutput(i);
+            this.currentIndex = CompactHashMap.this.getSuccessor(this.currentIndex);
+            return output;
         }
 
         @Override // java.util.Iterator
@@ -504,12 +505,12 @@ public class CompactHashMap extends AbstractMap implements Serializable {
     @Override // java.util.AbstractMap, java.util.Map
     public Set entrySet() {
         Set set = this.entrySetView;
-        if (set == null) {
-            Set createEntrySet = createEntrySet();
-            this.entrySetView = createEntrySet;
-            return createEntrySet;
+        if (set != null) {
+            return set;
         }
-        return set;
+        Set createEntrySet = createEntrySet();
+        this.entrySetView = createEntrySet;
+        return createEntrySet;
     }
 
     Iterator entrySetIterator() {
@@ -572,12 +573,12 @@ public class CompactHashMap extends AbstractMap implements Serializable {
     @Override // java.util.AbstractMap, java.util.Map
     public Set keySet() {
         Set set = this.keySetView;
-        if (set == null) {
-            Set createKeySet = createKeySet();
-            this.keySetView = createKeySet;
-            return createKeySet;
+        if (set != null) {
+            return set;
         }
-        return set;
+        Set createKeySet = createKeySet();
+        this.keySetView = createKeySet;
+        return createKeySet;
     }
 
     Iterator keySetIterator() {
@@ -673,9 +674,10 @@ public class CompactHashMap extends AbstractMap implements Serializable {
                 i5++;
                 if (next != 0) {
                     tableGet = next;
-                } else if (i5 >= 9) {
-                    return convertToHashFloodingResistantImplementation().put(obj, obj2);
                 } else {
+                    if (i5 >= 9) {
+                        return convertToHashFloodingResistantImplementation().put(obj, obj2);
+                    }
                     if (i3 <= hashTableMask) {
                         requireEntries[i6] = CompactHashing.maskCombine(i7, i3, hashTableMask);
                     }
@@ -717,12 +719,12 @@ public class CompactHashMap extends AbstractMap implements Serializable {
     @Override // java.util.AbstractMap, java.util.Map
     public Collection values() {
         Collection collection = this.valuesView;
-        if (collection == null) {
-            Collection createValues = createValues();
-            this.valuesView = createValues;
-            return createValues;
+        if (collection != null) {
+            return collection;
         }
-        return collection;
+        Collection createValues = createValues();
+        this.valuesView = createValues;
+        return createValues;
     }
 
     Iterator valuesIterator() {

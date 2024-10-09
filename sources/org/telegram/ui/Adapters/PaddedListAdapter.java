@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
     private int lastPadding;
@@ -93,29 +94,29 @@ public class PaddedListAdapter extends RecyclerListView.SelectionAdapter {
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        if (i == -983904) {
-            View view = new View(viewGroup.getContext()) { // from class: org.telegram.ui.Adapters.PaddedListAdapter.1
-                @Override // android.view.View
-                protected void onAttachedToWindow() {
-                    super.onAttachedToWindow();
-                    PaddedListAdapter.this.paddingViewAttached = true;
-                }
-
-                @Override // android.view.View
-                protected void onDetachedFromWindow() {
-                    super.onDetachedFromWindow();
-                    PaddedListAdapter.this.paddingViewAttached = false;
-                }
-
-                @Override // android.view.View
-                protected void onMeasure(int i2, int i3) {
-                    super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(PaddedListAdapter.this.getPadding(((View) getParent()).getMeasuredHeight()), 1073741824));
-                }
-            };
-            this.paddingView = view;
-            return new RecyclerListView.Holder(view);
+        if (i != -983904) {
+            return this.wrappedAdapter.onCreateViewHolder(viewGroup, i);
         }
-        return this.wrappedAdapter.onCreateViewHolder(viewGroup, i);
+        View view = new View(viewGroup.getContext()) { // from class: org.telegram.ui.Adapters.PaddedListAdapter.1
+            @Override // android.view.View
+            protected void onAttachedToWindow() {
+                super.onAttachedToWindow();
+                PaddedListAdapter.this.paddingViewAttached = true;
+            }
+
+            @Override // android.view.View
+            protected void onDetachedFromWindow() {
+                super.onDetachedFromWindow();
+                PaddedListAdapter.this.paddingViewAttached = false;
+            }
+
+            @Override // android.view.View
+            protected void onMeasure(int i2, int i3) {
+                super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(PaddedListAdapter.this.getPadding(((View) getParent()).getMeasuredHeight()), 1073741824));
+            }
+        };
+        this.paddingView = view;
+        return new RecyclerListView.Holder(view);
     }
 
     public void setPadding(int i) {

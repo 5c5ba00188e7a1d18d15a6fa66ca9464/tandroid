@@ -16,6 +16,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+
 /* loaded from: classes.dex */
 public class VectorEnabledTintResources extends ResourcesWrapper {
     private static boolean sCompatVectorFromResourcesEnabled = false;

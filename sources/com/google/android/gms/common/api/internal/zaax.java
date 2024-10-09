@@ -4,6 +4,8 @@ import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Api;
 import java.util.Collections;
+import java.util.Iterator;
+
 /* loaded from: classes.dex */
 public final class zaax implements zabf {
     private final zabi zaa;
@@ -25,8 +27,9 @@ public final class zaax implements zabf {
 
     @Override // com.google.android.gms.common.api.internal.zabf
     public final void zad() {
-        for (Api.Client client : this.zaa.zaa.values()) {
-            client.disconnect();
+        Iterator it = this.zaa.zaa.values().iterator();
+        while (it.hasNext()) {
+            ((Api.Client) it.next()).disconnect();
         }
         this.zaa.zag.zad = Collections.emptySet();
     }

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class zzab {
     private static final ConcurrentHashMap zzde = new ConcurrentHashMap();
@@ -34,16 +35,16 @@ public final class zzab {
     public static zzab zza(ContentResolver contentResolver, Uri uri) {
         ConcurrentHashMap concurrentHashMap = zzde;
         zzab zzabVar = (zzab) concurrentHashMap.get(uri);
-        if (zzabVar == null) {
-            zzab zzabVar2 = new zzab(contentResolver, uri);
-            zzab zzabVar3 = (zzab) concurrentHashMap.putIfAbsent(uri, zzabVar2);
-            if (zzabVar3 == null) {
-                zzabVar2.zzdf.registerContentObserver(zzabVar2.uri, false, zzabVar2.zzdg);
-                return zzabVar2;
-            }
+        if (zzabVar != null) {
+            return zzabVar;
+        }
+        zzab zzabVar2 = new zzab(contentResolver, uri);
+        zzab zzabVar3 = (zzab) concurrentHashMap.putIfAbsent(uri, zzabVar2);
+        if (zzabVar3 != null) {
             return zzabVar3;
         }
-        return zzabVar;
+        zzabVar2.zzdf.registerContentObserver(zzabVar2.uri, false, zzabVar2.zzdg);
+        return zzabVar2;
     }
 
     private final Map zzi() {
@@ -52,7 +53,12 @@ public final class zzab {
             Cursor query = this.zzdf.query(this.uri, zzdl, null, null, null);
             if (query != null) {
                 while (query.moveToNext()) {
-                    hashMap.put(query.getString(0), query.getString(1));
+                    try {
+                        hashMap.put(query.getString(0), query.getString(1));
+                    } catch (Throwable th) {
+                        query.close();
+                        throw th;
+                    }
                 }
                 query.close();
             }

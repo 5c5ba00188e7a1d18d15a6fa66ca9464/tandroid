@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 class HlsChunkSource {
     private final DataSource encryptionDataSource;
@@ -216,41 +217,41 @@ class HlsChunkSource {
 
     private Pair getNextMediaSequenceAndPartIndex(HlsMediaChunk hlsMediaChunk, boolean z, HlsMediaPlaylist hlsMediaPlaylist, long j, long j2) {
         if (hlsMediaChunk != null && !z) {
-            if (hlsMediaChunk.isLoadCompleted()) {
-                Long valueOf = Long.valueOf(hlsMediaChunk.partIndex == -1 ? hlsMediaChunk.getNextChunkIndex() : hlsMediaChunk.chunkIndex);
-                int i = hlsMediaChunk.partIndex;
-                return new Pair(valueOf, Integer.valueOf(i != -1 ? i + 1 : -1));
+            if (!hlsMediaChunk.isLoadCompleted()) {
+                return new Pair(Long.valueOf(hlsMediaChunk.chunkIndex), Integer.valueOf(hlsMediaChunk.partIndex));
             }
-            return new Pair(Long.valueOf(hlsMediaChunk.chunkIndex), Integer.valueOf(hlsMediaChunk.partIndex));
+            Long valueOf = Long.valueOf(hlsMediaChunk.partIndex == -1 ? hlsMediaChunk.getNextChunkIndex() : hlsMediaChunk.chunkIndex);
+            int i = hlsMediaChunk.partIndex;
+            return new Pair(valueOf, Integer.valueOf(i != -1 ? i + 1 : -1));
         }
         long j3 = hlsMediaPlaylist.durationUs + j;
         if (hlsMediaChunk != null && !this.independentSegments) {
             j2 = hlsMediaChunk.startTimeUs;
         }
-        if (hlsMediaPlaylist.hasEndTag || j2 < j3) {
-            long j4 = j2 - j;
-            int i2 = 0;
-            int binarySearchFloor = Util.binarySearchFloor(hlsMediaPlaylist.segments, (Comparable) Long.valueOf(j4), true, !this.playlistTracker.isLive() || hlsMediaChunk == null);
-            long j5 = binarySearchFloor + hlsMediaPlaylist.mediaSequence;
-            if (binarySearchFloor >= 0) {
-                HlsMediaPlaylist.Segment segment = (HlsMediaPlaylist.Segment) hlsMediaPlaylist.segments.get(binarySearchFloor);
-                List list = j4 < segment.relativeStartTimeUs + segment.durationUs ? segment.parts : hlsMediaPlaylist.trailingParts;
-                while (true) {
-                    if (i2 >= list.size()) {
-                        break;
-                    }
-                    HlsMediaPlaylist.Part part = (HlsMediaPlaylist.Part) list.get(i2);
-                    if (j4 >= part.relativeStartTimeUs + part.durationUs) {
-                        i2++;
-                    } else if (part.isIndependent) {
-                        j5 += list == hlsMediaPlaylist.trailingParts ? 1L : 0L;
-                        r1 = i2;
-                    }
+        if (!hlsMediaPlaylist.hasEndTag && j2 >= j3) {
+            return new Pair(Long.valueOf(hlsMediaPlaylist.mediaSequence + hlsMediaPlaylist.segments.size()), -1);
+        }
+        long j4 = j2 - j;
+        int i2 = 0;
+        int binarySearchFloor = Util.binarySearchFloor(hlsMediaPlaylist.segments, (Comparable) Long.valueOf(j4), true, !this.playlistTracker.isLive() || hlsMediaChunk == null);
+        long j5 = binarySearchFloor + hlsMediaPlaylist.mediaSequence;
+        if (binarySearchFloor >= 0) {
+            HlsMediaPlaylist.Segment segment = (HlsMediaPlaylist.Segment) hlsMediaPlaylist.segments.get(binarySearchFloor);
+            List list = j4 < segment.relativeStartTimeUs + segment.durationUs ? segment.parts : hlsMediaPlaylist.trailingParts;
+            while (true) {
+                if (i2 >= list.size()) {
+                    break;
+                }
+                HlsMediaPlaylist.Part part = (HlsMediaPlaylist.Part) list.get(i2);
+                if (j4 >= part.relativeStartTimeUs + part.durationUs) {
+                    i2++;
+                } else if (part.isIndependent) {
+                    j5 += list == hlsMediaPlaylist.trailingParts ? 1L : 0L;
+                    r1 = i2;
                 }
             }
-            return new Pair(Long.valueOf(j5), Integer.valueOf(r1));
         }
-        return new Pair(Long.valueOf(hlsMediaPlaylist.mediaSequence + hlsMediaPlaylist.segments.size()), -1);
+        return new Pair(Long.valueOf(j5), Integer.valueOf(r1));
     }
 
     private static SegmentBaseHolder getNextSegmentHolder(HlsMediaPlaylist hlsMediaPlaylist, long j, int i) {
@@ -464,10 +465,11 @@ class HlsChunkSource {
                 this.seenExpectedPlaylistError &= uri2.equals(this.expectedPlaylistUrl);
                 this.expectedPlaylistUrl = uri2;
                 return;
-            } else if (z || hlsMediaPlaylist.segments.isEmpty()) {
-                hlsChunkHolder.endOfStream = true;
-                return;
             } else {
+                if (z || hlsMediaPlaylist.segments.isEmpty()) {
+                    hlsChunkHolder.endOfStream = true;
+                    return;
+                }
                 nextSegmentHolder = new SegmentBaseHolder((HlsMediaPlaylist.SegmentBase) Iterables.getLast(hlsMediaPlaylist.segments), (hlsMediaPlaylist.mediaSequence + hlsMediaPlaylist.segments.size()) - 1, -1);
             }
         }
@@ -546,11 +548,11 @@ class HlsChunkSource {
             if (i >= uriArr.length) {
                 i = -1;
                 break;
-            } else if (uriArr[i].equals(uri)) {
-                break;
-            } else {
-                i++;
             }
+            if (uriArr[i].equals(uri)) {
+                break;
+            }
+            i++;
         }
         if (i == -1 || (indexOf = this.trackSelection.indexOf(i)) == -1) {
             return true;

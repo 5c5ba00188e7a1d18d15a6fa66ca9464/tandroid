@@ -64,6 +64,7 @@ import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.PollVotesAlert;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ProfileActivity;
+
 /* loaded from: classes3.dex */
 public class PollVotesAlert extends BottomSheet {
     public static final Property USER_CELL_PROPERTY = new AnimationProperties.FloatProperty("placeholderAlpha") { // from class: org.telegram.ui.Components.PollVotesAlert.1
@@ -232,13 +233,13 @@ public class PollVotesAlert extends BottomSheet {
                 if (itemViewType != 3) {
                     return;
                 }
+                TextCell textCell = (TextCell) viewHolder.itemView;
                 VotesList votesList = (VotesList) PollVotesAlert.this.voters.get(i - 1);
-                ((TextCell) viewHolder.itemView).setTextAndIcon((CharSequence) LocaleController.formatPluralString("ShowVotes", votesList.count - votesList.getCount(), new Object[0]), R.drawable.arrow_more, false);
+                textCell.setTextAndIcon((CharSequence) LocaleController.formatPluralString("ShowVotes", votesList.count - votesList.getCount(), new Object[0]), R.drawable.arrow_more, false);
                 return;
             }
             SectionCell sectionCell = (SectionCell) viewHolder.itemView;
             VotesList votesList2 = (VotesList) PollVotesAlert.this.voters.get(i - 1);
-            TLRPC.MessagePeerVote messagePeerVote = (TLRPC.MessagePeerVote) votesList2.votes.get(0);
             int size = PollVotesAlert.this.poll.answers.size();
             for (int i3 = 0; i3 < size; i3++) {
                 TLRPC.PollAnswer pollAnswer = PollVotesAlert.this.poll.answers.get(i3);
@@ -253,24 +254,24 @@ public class PollVotesAlert extends BottomSheet {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            TextCell textCell;
+            View view;
             if (i == 0) {
-                textCell = new UserCell(this.mContext);
+                view = new UserCell(this.mContext);
             } else if (i == 1) {
                 if (PollVotesAlert.this.titleTextView.getParent() != null) {
                     ((ViewGroup) PollVotesAlert.this.titleTextView.getParent()).removeView(PollVotesAlert.this.titleTextView);
                 }
-                textCell = PollVotesAlert.this.titleTextView;
+                view = PollVotesAlert.this.titleTextView;
             } else if (i != 2) {
-                TextCell textCell2 = new TextCell(this.mContext, 23, true);
-                textCell2.setOffsetFromImage(65);
-                textCell2.setBackgroundColor(PollVotesAlert.this.getThemedColor(Theme.key_dialogBackground));
-                textCell2.setColors(Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhiteBlueText4);
-                textCell = textCell2;
+                TextCell textCell = new TextCell(this.mContext, 23, true);
+                textCell.setOffsetFromImage(65);
+                textCell.setBackgroundColor(PollVotesAlert.this.getThemedColor(Theme.key_dialogBackground));
+                textCell.setColors(Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhiteBlueText4);
+                view = textCell;
             } else {
-                textCell = createSectionCell();
+                view = createSectionCell();
             }
-            return new RecyclerListView.Holder(textCell);
+            return new RecyclerListView.Holder(view);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -407,7 +408,7 @@ public class PollVotesAlert extends BottomSheet {
             if (arrayList != null) {
                 NotificationCenter.listenEmojiLoading(this.textView);
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
-                MediaDataController.addTextStyleRuns(arrayList, charSequence, spannableStringBuilder);
+                MediaDataController.addTextStyleRuns((ArrayList<TLRPC.MessageEntity>) arrayList, charSequence, spannableStringBuilder);
                 replaceEmoji = Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false);
                 MessageObject.replaceAnimatedEmoji(replaceEmoji, arrayList, this.textView.getPaint().getFontMetricsInt());
                 textViewEmojis = this.textView;
@@ -504,9 +505,7 @@ public class PollVotesAlert extends BottomSheet {
             int dp3;
             if (this.drawPlaceholder || this.placeholderAlpha != 0.0f) {
                 PollVotesAlert.this.placeholderPaint.setAlpha((int) (this.placeholderAlpha * 255.0f));
-                int left = this.avatarImageView.getLeft() + (this.avatarImageView.getMeasuredWidth() / 2);
-                int top = this.avatarImageView.getTop() + (this.avatarImageView.getMeasuredHeight() / 2);
-                canvas.drawCircle(left, top, this.avatarImageView.getMeasuredWidth() / 2, PollVotesAlert.this.placeholderPaint);
+                canvas.drawCircle(this.avatarImageView.getLeft() + (this.avatarImageView.getMeasuredWidth() / 2), this.avatarImageView.getTop() + (this.avatarImageView.getMeasuredHeight() / 2), this.avatarImageView.getMeasuredWidth() / 2, PollVotesAlert.this.placeholderPaint);
                 float f = 60.0f;
                 if (this.placeholderNum % 2 == 0) {
                     dp = AndroidUtilities.dp(65.0f);
@@ -518,7 +517,7 @@ public class PollVotesAlert extends BottomSheet {
                 if (LocaleController.isRTL) {
                     dp = (getMeasuredWidth() - dp) - dp2;
                 }
-                PollVotesAlert.this.rect.set(dp, top - AndroidUtilities.dp(4.0f), dp + dp2, AndroidUtilities.dp(4.0f) + top);
+                PollVotesAlert.this.rect.set(dp, r2 - AndroidUtilities.dp(4.0f), dp + dp2, AndroidUtilities.dp(4.0f) + r2);
                 canvas.drawRoundRect(PollVotesAlert.this.rect, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), PollVotesAlert.this.placeholderPaint);
                 if (this.placeholderNum % 2 == 0) {
                     dp3 = AndroidUtilities.dp(119.0f);
@@ -530,7 +529,7 @@ public class PollVotesAlert extends BottomSheet {
                 if (LocaleController.isRTL) {
                     dp3 = (getMeasuredWidth() - dp3) - dp4;
                 }
-                PollVotesAlert.this.rect.set(dp3, top - AndroidUtilities.dp(4.0f), dp3 + dp4, top + AndroidUtilities.dp(4.0f));
+                PollVotesAlert.this.rect.set(dp3, r2 - AndroidUtilities.dp(4.0f), dp3 + dp4, r2 + AndroidUtilities.dp(4.0f));
                 canvas.drawRoundRect(PollVotesAlert.this.rect, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), PollVotesAlert.this.placeholderPaint);
             }
             if (this.needDivider) {
@@ -543,12 +542,12 @@ public class PollVotesAlert extends BottomSheet {
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f) + (this.needDivider ? 1 : 0), 1073741824));
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:12:0x0022  */
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0024  */
-        /* JADX WARN: Removed duplicated region for block: B:16:0x002b  */
-        /* JADX WARN: Removed duplicated region for block: B:17:0x0038  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0040  */
-        /* JADX WARN: Removed duplicated region for block: B:21:0x0071  */
+        /* JADX WARN: Removed duplicated region for block: B:10:0x002b  */
+        /* JADX WARN: Removed duplicated region for block: B:13:0x0040  */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0071  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x0038  */
+        /* JADX WARN: Removed duplicated region for block: B:22:0x0024  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x0022  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -556,33 +555,35 @@ public class PollVotesAlert extends BottomSheet {
             ArrayList arrayList;
             if (tLObject instanceof TLRPC.User) {
                 this.currentUser = (TLRPC.User) tLObject;
-            } else if (tLObject instanceof TLRPC.Chat) {
-                this.currentChat = (TLRPC.Chat) tLObject;
-                this.currentUser = null;
-                this.needDivider = z;
-                this.drawPlaceholder = tLObject != null;
-                this.placeholderNum = i;
-                if (tLObject != null) {
-                    this.nameTextView.setText("");
-                    this.avatarImageView.setImageDrawable(null);
-                } else {
-                    update(0);
-                }
-                arrayList = this.animators;
-                if (arrayList != null) {
-                    if (this.drawPlaceholder) {
+            } else {
+                if (tLObject instanceof TLRPC.Chat) {
+                    this.currentChat = (TLRPC.Chat) tLObject;
+                    this.currentUser = null;
+                    this.needDivider = z;
+                    this.drawPlaceholder = tLObject != null;
+                    this.placeholderNum = i;
+                    if (tLObject != null) {
+                        this.nameTextView.setText("");
+                        this.avatarImageView.setImageDrawable(null);
+                    } else {
+                        update(0);
+                    }
+                    arrayList = this.animators;
+                    if (arrayList != null) {
+                        if (this.drawPlaceholder) {
+                            return;
+                        }
+                        this.placeholderAlpha = 0.0f;
+                        return;
+                    } else {
+                        BackupImageView backupImageView = this.avatarImageView;
+                        Property property = View.ALPHA;
+                        arrayList.add(ObjectAnimator.ofFloat(backupImageView, (Property<BackupImageView, Float>) property, 0.0f, 1.0f));
+                        this.animators.add(ObjectAnimator.ofFloat(this.nameTextView, (Property<SimpleTextView, Float>) property, 0.0f, 1.0f));
+                        this.animators.add(ObjectAnimator.ofFloat(this, (Property<UserCell, Float>) PollVotesAlert.USER_CELL_PROPERTY, 1.0f, 0.0f));
                         return;
                     }
-                    this.placeholderAlpha = 0.0f;
-                    return;
                 }
-                BackupImageView backupImageView = this.avatarImageView;
-                Property property = View.ALPHA;
-                arrayList.add(ObjectAnimator.ofFloat(backupImageView, property, 0.0f, 1.0f));
-                this.animators.add(ObjectAnimator.ofFloat(this.nameTextView, property, 0.0f, 1.0f));
-                this.animators.add(ObjectAnimator.ofFloat(this, PollVotesAlert.USER_CELL_PROPERTY, 1.0f, 0.0f));
-                return;
-            } else {
                 this.currentUser = null;
             }
             this.currentChat = null;
@@ -601,8 +602,9 @@ public class PollVotesAlert extends BottomSheet {
             invalidate();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:52:0x0074, code lost:
-            if (android.text.TextUtils.equals(r1, r11.lastName) == false) goto L34;
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x0074, code lost:
+        
+            if (android.text.TextUtils.equals(r1, r11.lastName) == false) goto L55;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1115,7 +1117,9 @@ public class PollVotesAlert extends BottomSheet {
                         VotesList votesList2 = (VotesList) this.voters.get(i3);
                         if (Arrays.equals(votesList.option, votesList2.option)) {
                             votesList2.next_offset = votesList.next_offset;
-                            z = (votesList2.count == votesList.count && votesList2.votes.size() == votesList.votes.size()) ? true : true;
+                            if (votesList2.count != votesList.count || votesList2.votes.size() != votesList.votes.size()) {
+                                z = true;
+                            }
                             votesList2.count = votesList.count;
                             votesList2.users = votesList.users;
                             votesList2.votes = votesList.votes;
@@ -1370,7 +1374,7 @@ public class PollVotesAlert extends BottomSheet {
             AnimatorSet animatorSet3 = this.actionBarAnimation;
             ActionBar actionBar = this.actionBar;
             Property property = View.ALPHA;
-            animatorSet3.playTogether(ObjectAnimator.ofFloat(actionBar, property, z2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.actionBarShadow, property, z2 ? 1.0f : 0.0f));
+            animatorSet3.playTogether(ObjectAnimator.ofFloat(actionBar, (Property<ActionBar, Float>) property, z2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.actionBarShadow, (Property<View, Float>) property, z2 ? 1.0f : 0.0f));
             this.actionBarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PollVotesAlert.9
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationCancel(Animator animator) {

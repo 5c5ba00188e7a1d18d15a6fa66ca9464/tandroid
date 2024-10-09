@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.messaging.WithinAppServiceBinder;
 import java.util.concurrent.ExecutorService;
+
 /* loaded from: classes.dex */
 public abstract class EnhancedIntentService extends Service {
     private Binder binder;

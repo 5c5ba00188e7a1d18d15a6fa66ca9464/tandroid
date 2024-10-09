@@ -15,6 +15,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class SlideChooseView extends View {
     private final SeekBarAccessibilityDelegate accessibilityDelegate;
@@ -123,8 +124,8 @@ public class SlideChooseView extends View {
         return this.selectedIndex;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0249  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x024c A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0249  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x024c A[SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -137,8 +138,6 @@ public class SlideChooseView extends View {
         float measuredWidth;
         float measuredWidth2;
         float dp;
-        int dp2;
-        int dp3;
         float f2;
         int i4;
         int i5 = 2;
@@ -173,18 +172,18 @@ public class SlideChooseView extends View {
                     i2 = i6;
                     float f11 = f8 - 1.0f;
                     float clamp = MathUtils.clamp(1.0f - Math.abs(f11), 0.0f, 1.0f);
-                    float clamp2 = MathUtils.clamp(1.0f - Math.min(Math.abs(f8), Math.abs(f11)), 0.0f, 1.0f);
                     f10 = 3.0f;
+                    int dp2 = (int) (i12 - (AndroidUtilities.dp(3.0f) * MathUtils.clamp(1.0f - Math.min(Math.abs(f8), Math.abs(f11)), 0.0f, 1.0f)));
                     f5 = 1.0f;
-                    canvas.drawRect((int) (i13 + (AndroidUtilities.dp(3.0f) * clamp)), measuredHeight - AndroidUtilities.dp(1.0f), dp2 + ((int) (i12 - (AndroidUtilities.dp(3.0f) * clamp2))), AndroidUtilities.dp(1.0f) + measuredHeight, this.paint);
+                    canvas.drawRect((int) (i13 + (AndroidUtilities.dp(3.0f) * clamp)), measuredHeight - AndroidUtilities.dp(1.0f), r1 + dp2, AndroidUtilities.dp(1.0f) + measuredHeight, this.paint);
                 } else {
-                    int dp4 = i13 + AndroidUtilities.dp(3.0f);
-                    int dp5 = (i12 - AndroidUtilities.dp(3.0f)) / AndroidUtilities.dp(13.0f);
-                    if (this.lastDash != dp5) {
+                    int dp3 = i13 + AndroidUtilities.dp(3.0f);
+                    int dp4 = (i12 - AndroidUtilities.dp(3.0f)) / AndroidUtilities.dp(13.0f);
+                    if (this.lastDash != dp4) {
                         f2 = max;
                         i4 = i10;
-                        this.linePaint.setPathEffect(new DashPathEffect(new float[]{AndroidUtilities.dp(6.0f), (dp3 - (AndroidUtilities.dp(8.0f) * dp5)) / (dp5 - 1)}, 0.0f));
-                        this.lastDash = dp5;
+                        this.linePaint.setPathEffect(new DashPathEffect(new float[]{AndroidUtilities.dp(6.0f), (r13 - (AndroidUtilities.dp(8.0f) * dp4)) / (dp4 - 1)}, 0.0f));
+                        this.lastDash = dp4;
                     } else {
                         f2 = max;
                         i4 = i10;
@@ -192,7 +191,7 @@ public class SlideChooseView extends View {
                     f = f2;
                     i = i4;
                     i2 = i6;
-                    canvas.drawLine(AndroidUtilities.dp(1.0f) + dp4, f9, (dp4 + dp3) - AndroidUtilities.dp(1.0f), f9, this.linePaint);
+                    canvas.drawLine(AndroidUtilities.dp(1.0f) + dp3, f9, (dp3 + r13) - AndroidUtilities.dp(1.0f), f9, this.linePaint);
                     f10 = 3.0f;
                     f5 = 1.0f;
                 }
@@ -247,16 +246,17 @@ public class SlideChooseView extends View {
             i5 = 2;
             f4 = 0.0f;
         }
+        float f12 = this.sideSide;
         int i16 = this.lineSize + (this.gapSize * 2);
         int i17 = this.circleSize;
-        float f12 = this.sideSide + ((i16 + i17) * f3) + (i17 / 2);
+        float f13 = f12 + ((i16 + i17) * f3) + (i17 / 2);
         Paint paint = this.paint;
         int i18 = Theme.key_switchTrackChecked;
         paint.setColor(ColorUtils.setAlphaComponent(getThemedColor(i18), 80));
-        float f13 = measuredHeight;
-        canvas.drawCircle(f12, f13, AndroidUtilities.dp(f6 * 12.0f), this.paint);
+        float f14 = measuredHeight;
+        canvas.drawCircle(f13, f14, AndroidUtilities.dp(f6 * 12.0f), this.paint);
         this.paint.setColor(getThemedColor(i18));
-        canvas.drawCircle(f12, f13, AndroidUtilities.dp(6.0f), this.paint);
+        canvas.drawCircle(f13, f14, AndroidUtilities.dp(6.0f), this.paint);
     }
 
     @Override // android.view.View
@@ -277,7 +277,8 @@ public class SlideChooseView extends View {
         this.lineSize = (((measuredWidth - (i3 * strArr.length)) - ((this.gapSize * 2) * (strArr.length - 1))) - (this.sideSide * 2)) / Math.max(1, strArr.length - 1);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00e6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x00e6, code lost:
+    
         if (r9 != r8.startMovingPreset) goto L41;
      */
     @Override // android.view.View
@@ -286,10 +287,9 @@ public class SlideChooseView extends View {
     */
     public boolean onTouchEvent(MotionEvent motionEvent) {
         int i;
-        int i2;
         float x = motionEvent.getX();
         float y = motionEvent.getY();
-        float clamp = MathUtils.clamp(((x - this.sideSide) + (this.circleSize / 2.0f)) / ((this.lineSize + (this.gapSize * 2)) + i), 0.0f, this.optionsStr.length - 1);
+        float clamp = MathUtils.clamp(((x - this.sideSide) + (this.circleSize / 2.0f)) / ((this.lineSize + (this.gapSize * 2)) + r3), 0.0f, this.optionsStr.length - 1);
         boolean z = Math.abs(clamp - ((float) Math.round(clamp))) < 0.35f;
         if (z) {
             clamp = Math.round(clamp);
@@ -300,28 +300,29 @@ public class SlideChooseView extends View {
             this.selectedIndexTouch = clamp;
             this.startMovingPreset = this.selectedIndex;
             this.startMoving = true;
-        } else if (motionEvent.getAction() != 2) {
-            if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-                if (this.moving) {
-                    i2 = this.selectedIndex;
-                } else {
-                    this.selectedIndexTouch = clamp;
-                    if (motionEvent.getAction() == 1 && Math.round(this.selectedIndexTouch) != this.selectedIndex) {
-                        i2 = Math.round(this.selectedIndexTouch);
-                        setOption(i2);
-                    }
-                    Callback callback = this.callback;
-                    if (callback != null) {
-                        callback.onTouchEnd();
-                    }
-                    this.startMoving = false;
-                    this.moving = false;
-                    invalidate();
-                    getParent().requestDisallowInterceptTouchEvent(false);
-                }
-            }
-            return true;
         } else {
+            if (motionEvent.getAction() != 2) {
+                if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
+                    if (this.moving) {
+                        i = this.selectedIndex;
+                    } else {
+                        this.selectedIndexTouch = clamp;
+                        if (motionEvent.getAction() == 1 && Math.round(this.selectedIndexTouch) != this.selectedIndex) {
+                            i = Math.round(this.selectedIndexTouch);
+                            setOption(i);
+                        }
+                        Callback callback = this.callback;
+                        if (callback != null) {
+                            callback.onTouchEnd();
+                        }
+                        this.startMoving = false;
+                        this.moving = false;
+                        invalidate();
+                        getParent().requestDisallowInterceptTouchEvent(false);
+                    }
+                }
+                return true;
+            }
             if (!this.moving && Math.abs(this.xTouchDown - x) > Math.abs(this.yTouchDown - y)) {
                 getParent().requestDisallowInterceptTouchEvent(true);
             }
@@ -355,7 +356,6 @@ public class SlideChooseView extends View {
     }
 
     public void setOptions(int i, Drawable[] drawableArr, String... strArr) {
-        String[] strArr2;
         this.optionsStr = strArr;
         this.leftDrawables = drawableArr;
         this.selectedIndex = i;
@@ -365,7 +365,7 @@ public class SlideChooseView extends View {
             if (i2 >= this.optionsStr.length) {
                 break;
             }
-            this.optionsSizes[i2] = (int) Math.ceil(this.textPaint.measureText(strArr2[i2]));
+            this.optionsSizes[i2] = (int) Math.ceil(this.textPaint.measureText(r7[i2]));
             i2++;
         }
         Drawable[] drawableArr2 = this.leftDrawables;

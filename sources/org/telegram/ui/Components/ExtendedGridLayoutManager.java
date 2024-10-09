@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes3.dex */
 public class ExtendedGridLayoutManager extends GridLayoutManager {
     private int calculatedWidth;

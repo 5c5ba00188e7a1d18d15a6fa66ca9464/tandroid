@@ -1,5 +1,6 @@
 package androidx.appcompat.widget;
 
+import android.R;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -22,6 +23,7 @@ import androidx.appcompat.view.menu.MenuPresenter;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorCompat;
 import androidx.core.view.ViewPropertyAnimatorListenerAdapter;
+
 /* loaded from: classes.dex */
 public class ToolbarWidgetWrapper implements DecorToolbar {
     private ActionMenuPresenter mActionMenuPresenter;
@@ -118,7 +120,7 @@ public class ToolbarWidgetWrapper implements DecorToolbar {
             final ActionMenuItem mNavItem;
 
             {
-                this.mNavItem = new ActionMenuItem(ToolbarWidgetWrapper.this.mToolbar.getContext(), 0, 16908332, 0, 0, ToolbarWidgetWrapper.this.mTitle);
+                this.mNavItem = new ActionMenuItem(ToolbarWidgetWrapper.this.mToolbar.getContext(), 0, R.id.home, 0, 0, ToolbarWidgetWrapper.this.mTitle);
             }
 
             @Override // android.view.View.OnClickListener
@@ -134,11 +136,11 @@ public class ToolbarWidgetWrapper implements DecorToolbar {
     }
 
     private int detectDisplayOptions() {
-        if (this.mToolbar.getNavigationIcon() != null) {
-            this.mDefaultNavigationIcon = this.mToolbar.getNavigationIcon();
-            return 15;
+        if (this.mToolbar.getNavigationIcon() == null) {
+            return 11;
         }
-        return 11;
+        this.mDefaultNavigationIcon = this.mToolbar.getNavigationIcon();
+        return 15;
     }
 
     private void setTitleInt(CharSequence charSequence) {

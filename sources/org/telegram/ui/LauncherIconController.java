@@ -5,18 +5,19 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.R;
+
 /* loaded from: classes.dex */
 public abstract class LauncherIconController {
 
     /* JADX WARN: Enum visitor error
-    jadx.core.utils.exceptions.JadxRuntimeException: Init of enum DEFAULT uses external variables
-    	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:444)
-    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByField(EnumVisitor.java:368)
-    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByWrappedInsn(EnumVisitor.java:333)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:318)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:258)
-    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInvoke(EnumVisitor.java:289)
+    jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'DEFAULT' uses external variables
+    	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByField(EnumVisitor.java:372)
+    	at jadx.core.dex.visitors.EnumVisitor.processEnumFieldByWrappedInsn(EnumVisitor.java:337)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromFilledArray(EnumVisitor.java:322)
     	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:262)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInvoke(EnumVisitor.java:293)
+    	at jadx.core.dex.visitors.EnumVisitor.extractEnumFieldsFromInsn(EnumVisitor.java:266)
     	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:151)
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
@@ -75,8 +76,7 @@ public abstract class LauncherIconController {
 
         public ComponentName getComponentName(Context context) {
             if (this.componentName == null) {
-                String packageName = context.getPackageName();
-                this.componentName = new ComponentName(packageName, "org.telegram.messenger." + this.key);
+                this.componentName = new ComponentName(context.getPackageName(), "org.telegram.messenger." + this.key);
             }
             return this.componentName;
         }

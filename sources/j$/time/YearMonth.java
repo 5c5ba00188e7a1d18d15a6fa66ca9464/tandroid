@@ -4,6 +4,7 @@ import j$.time.format.q;
 import j$.time.format.y;
 import java.io.Serializable;
 import java.util.Locale;
+
 /* loaded from: classes2.dex */
 public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth>, Serializable {
     private final int a;
@@ -38,31 +39,31 @@ public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth
 
     @Override // j$.time.temporal.k
     public final long b(j$.time.temporal.l lVar) {
-        if (lVar instanceof j$.time.temporal.a) {
-            int i = l.a[((j$.time.temporal.a) lVar).ordinal()];
-            int i2 = this.b;
-            if (i != 1) {
-                int i3 = this.a;
-                if (i != 2) {
-                    if (i == 3) {
-                        if (i3 < 1) {
-                            i3 = 1 - i3;
-                        }
-                        return i3;
-                    } else if (i != 4) {
-                        if (i == 5) {
-                            return i3 < 1 ? 0 : 1;
-                        }
-                        throw new j$.time.temporal.p("Unsupported field: " + lVar);
-                    } else {
-                        return i3;
-                    }
-                }
-                return ((i3 * 12) + i2) - 1;
-            }
+        if (!(lVar instanceof j$.time.temporal.a)) {
+            return lVar.b(this);
+        }
+        int i = l.a[((j$.time.temporal.a) lVar).ordinal()];
+        int i2 = this.b;
+        if (i == 1) {
             return i2;
         }
-        return lVar.b(this);
+        int i3 = this.a;
+        if (i == 2) {
+            return ((i3 * 12) + i2) - 1;
+        }
+        if (i == 3) {
+            if (i3 < 1) {
+                i3 = 1 - i3;
+            }
+            return i3;
+        }
+        if (i == 4) {
+            return i3;
+        }
+        if (i == 5) {
+            return i3 < 1 ? 0 : 1;
+        }
+        throw new j$.time.temporal.p("Unsupported field: " + lVar);
     }
 
     @Override // j$.time.temporal.k
@@ -91,11 +92,11 @@ public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth
         if (this == obj) {
             return true;
         }
-        if (obj instanceof YearMonth) {
-            YearMonth yearMonth = (YearMonth) obj;
-            return this.a == yearMonth.a && this.b == yearMonth.b;
+        if (!(obj instanceof YearMonth)) {
+            return false;
         }
-        return false;
+        YearMonth yearMonth = (YearMonth) obj;
+        return this.a == yearMonth.a && this.b == yearMonth.b;
     }
 
     public final int hashCode() {
@@ -104,8 +105,10 @@ public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth
 
     public int lengthOfMonth() {
         k h = k.h(this.b);
-        j$.time.chrono.g.a.getClass();
-        return h.g(j$.time.chrono.g.a(this.a));
+        j$.time.chrono.g gVar = j$.time.chrono.g.a;
+        long j = this.a;
+        gVar.getClass();
+        return h.g(j$.time.chrono.g.a(j));
     }
 
     public final String toString() {

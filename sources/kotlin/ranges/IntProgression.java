@@ -3,6 +3,7 @@ package kotlin.ranges;
 import kotlin.collections.IntIterator;
 import kotlin.internal.ProgressionUtilKt;
 import kotlin.jvm.internal.DefaultConstructorMarker;
+
 /* loaded from: classes.dex */
 public abstract class IntProgression implements Iterable {
     public static final Companion Companion = new Companion(null);

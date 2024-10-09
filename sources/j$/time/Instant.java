@@ -3,6 +3,7 @@ package j$.time;
 import j$.time.temporal.q;
 import java.io.Serializable;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes2.dex */
 public final class Instant implements j$.time.temporal.k, Comparable<Instant>, Serializable {
     public static final Instant c = new Instant(0, 0);
@@ -62,25 +63,26 @@ public final class Instant implements j$.time.temporal.k, Comparable<Instant>, S
     @Override // j$.time.temporal.k
     public final long b(j$.time.temporal.l lVar) {
         int i;
-        if (lVar instanceof j$.time.temporal.a) {
-            int i2 = e.a[((j$.time.temporal.a) lVar).ordinal()];
-            int i3 = this.b;
-            if (i2 != 1) {
-                if (i2 == 2) {
-                    i = i3 / 1000;
-                } else if (i2 != 3) {
-                    if (i2 == 4) {
-                        return this.a;
-                    }
-                    throw new j$.time.temporal.p("Unsupported field: " + lVar);
-                } else {
-                    i = i3 / MediaController.VIDEO_BITRATE_480;
-                }
-                return i;
-            }
+        if (!(lVar instanceof j$.time.temporal.a)) {
+            return lVar.b(this);
+        }
+        int i2 = e.a[((j$.time.temporal.a) lVar).ordinal()];
+        int i3 = this.b;
+        if (i2 == 1) {
             return i3;
         }
-        return lVar.b(this);
+        if (i2 == 2) {
+            i = i3 / 1000;
+        } else {
+            if (i2 != 3) {
+                if (i2 == 4) {
+                    return this.a;
+                }
+                throw new j$.time.temporal.p("Unsupported field: " + lVar);
+            }
+            i = i3 / MediaController.VIDEO_BITRATE_480;
+        }
+        return i;
     }
 
     @Override // j$.time.temporal.k
@@ -103,19 +105,19 @@ public final class Instant implements j$.time.temporal.k, Comparable<Instant>, S
         }
         int i = e.a[aVar.ordinal()];
         int i2 = this.b;
-        if (i != 1) {
-            if (i != 2) {
-                if (i != 3) {
-                    if (i == 4) {
-                        j$.time.temporal.a.INSTANT_SECONDS.f(this.a);
-                    }
-                    throw new j$.time.temporal.p("Unsupported field: " + aVar);
-                }
-                return i2 / MediaController.VIDEO_BITRATE_480;
-            }
+        if (i == 1) {
+            return i2;
+        }
+        if (i == 2) {
             return i2 / 1000;
         }
-        return i2;
+        if (i == 3) {
+            return i2 / MediaController.VIDEO_BITRATE_480;
+        }
+        if (i == 4) {
+            j$.time.temporal.a.INSTANT_SECONDS.f(this.a);
+        }
+        throw new j$.time.temporal.p("Unsupported field: " + aVar);
     }
 
     @Override // j$.time.temporal.k
@@ -127,15 +129,15 @@ public final class Instant implements j$.time.temporal.k, Comparable<Instant>, S
         if (this == obj) {
             return true;
         }
-        if (obj instanceof Instant) {
-            Instant instant = (Instant) obj;
-            return this.a == instant.a && this.b == instant.b;
+        if (!(obj instanceof Instant)) {
+            return false;
         }
-        return false;
+        Instant instant = (Instant) obj;
+        return this.a == instant.a && this.b == instant.b;
     }
 
     @Override // java.lang.Comparable
-    /* renamed from: f */
+    /* renamed from: f, reason: merged with bridge method [inline-methods] */
     public final int compareTo(Instant instant) {
         int compare = Long.compare(this.a, instant.a);
         return compare != 0 ? compare : this.b - instant.b;

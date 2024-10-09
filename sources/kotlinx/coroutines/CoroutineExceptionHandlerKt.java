@@ -2,6 +2,7 @@ package kotlinx.coroutines;
 
 import kotlin.ExceptionsKt__ExceptionsKt;
 import kotlin.coroutines.CoroutineContext;
+
 /* loaded from: classes.dex */
 public abstract class CoroutineExceptionHandlerKt {
     public static final void handleCoroutineException(CoroutineContext coroutineContext, Throwable th) {

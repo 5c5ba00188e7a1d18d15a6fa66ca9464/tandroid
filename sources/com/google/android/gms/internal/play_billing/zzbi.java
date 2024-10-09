@@ -2,6 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public abstract class zzbi extends zzaq {
     public static final /* synthetic */ int $r8$clinit = 0;

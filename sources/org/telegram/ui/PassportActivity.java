@@ -134,6 +134,7 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.CountrySelectActivity;
 import org.telegram.ui.PassportActivity;
 import org.telegram.ui.PhotoViewer;
+
 /* loaded from: classes4.dex */
 public class PassportActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private TextView acceptTextView;
@@ -321,17 +322,17 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$4() {
-            PassportActivity.this.finishFragment();
+            PassportActivity.this.lambda$onBackPressed$300();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$5(TLRPC.TL_error tL_error, Runnable runnable, ErrorRunnable errorRunnable, TLRPC.TL_account_verifyEmail tL_account_verifyEmail) {
             if (tL_error == null) {
                 PassportActivity.this.delegate.saveValue(PassportActivity.this.currentType, (String) PassportActivity.this.currentValues.get("email"), null, null, null, null, null, null, null, null, runnable, errorRunnable);
-                return;
+            } else {
+                AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tL_error, PassportActivity.this, tL_account_verifyEmail, new Object[0]);
+                errorRunnable.onError(null, null);
             }
-            AlertsCreator.processError(((BaseFragment) PassportActivity.this).currentAccount, tL_error, PassportActivity.this, tL_account_verifyEmail, new Object[0]);
-            errorRunnable.onError(null, null);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -344,12 +345,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             });
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:84:0x035c  */
-        /* JADX WARN: Removed duplicated region for block: B:87:0x036d  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x0384  */
-        /* JADX WARN: Removed duplicated region for block: B:91:0x038a  */
-        /* JADX WARN: Removed duplicated region for block: B:94:0x0393  */
-        /* JADX WARN: Removed duplicated region for block: B:95:0x039a  */
+        /* JADX WARN: Removed duplicated region for block: B:74:0x035c  */
+        /* JADX WARN: Removed duplicated region for block: B:77:0x036d  */
+        /* JADX WARN: Removed duplicated region for block: B:80:0x0384  */
+        /* JADX WARN: Removed duplicated region for block: B:83:0x0393  */
+        /* JADX WARN: Removed duplicated region for block: B:91:0x039a  */
+        /* JADX WARN: Removed duplicated region for block: B:92:0x038a  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -430,7 +431,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
             }
             if (PassportActivity.this.isHasNotAnyChanges()) {
-                PassportActivity.this.finishFragment();
+                PassportActivity.this.lambda$onBackPressed$300();
                 return false;
             }
             SecureDocument secureDocument = null;
@@ -544,9 +545,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:74:0x027e  */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x028f  */
-        /* JADX WARN: Removed duplicated region for block: B:80:0x02a6  */
+        /* JADX WARN: Removed duplicated region for block: B:77:0x027e  */
+        /* JADX WARN: Removed duplicated region for block: B:80:0x028f  */
+        /* JADX WARN: Removed duplicated region for block: B:83:0x02a6  */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -572,7 +573,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (PassportActivity.this.currentActivityType == 0 || PassportActivity.this.currentActivityType == 5) {
                     PassportActivity.this.callCallback(false);
                 }
-                PassportActivity.this.finishFragment();
+                PassportActivity.this.lambda$onBackPressed$300();
                 return;
             }
             if (i == 1) {
@@ -607,38 +608,44 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 builder.setTitle(LocaleController.getString(R.string.PassportInfoTitle));
                 builder.setNegativeButton(LocaleController.getString(R.string.Close), null);
                 PassportActivity.this.showDialog(builder.create());
-            } else if (i == 2) {
+                return;
+            }
+            if (i == 2) {
                 if (PassportActivity.this.currentActivityType == 5) {
                     PassportActivity.this.onPasswordDone(false);
-                } else if (PassportActivity.this.currentActivityType == 7) {
-                    PassportActivity.this.views[PassportActivity.this.currentViewNum].onNextPressed(null);
-                } else {
-                    final Runnable runnable = new Runnable() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda0
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            PassportActivity.3.this.lambda$onItemClick$4();
-                        }
-                    };
-                    final ErrorRunnable errorRunnable = new ErrorRunnable() { // from class: org.telegram.ui.PassportActivity.3.2
-                        @Override // org.telegram.ui.PassportActivity.ErrorRunnable
-                        public void onError(String str4, String str5) {
-                            if (!"PHONE_VERIFICATION_NEEDED".equals(str4)) {
-                                PassportActivity.this.showEditDoneProgress(true, false);
-                                return;
-                            }
+                    return;
+                }
+                if (PassportActivity.this.currentActivityType == 7) {
+                    PassportActivity.this.views[PassportActivity.this.currentViewNum].lambda$onNextPressed$14(null);
+                    return;
+                }
+                final Runnable runnable = new Runnable() { // from class: org.telegram.ui.PassportActivity$3$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        PassportActivity.3.this.lambda$onItemClick$4();
+                    }
+                };
+                final ErrorRunnable errorRunnable = new ErrorRunnable() { // from class: org.telegram.ui.PassportActivity.3.2
+                    @Override // org.telegram.ui.PassportActivity.ErrorRunnable
+                    public void onError(String str4, String str5) {
+                        if (!"PHONE_VERIFICATION_NEEDED".equals(str4)) {
+                            PassportActivity.this.showEditDoneProgress(true, false);
+                        } else {
                             PassportActivity passportActivity = PassportActivity.this;
                             passportActivity.startPhoneVerification(true, str5, runnable, this, passportActivity.delegate);
                         }
-                    };
-                    if (PassportActivity.this.currentActivityType == 4) {
-                        if (PassportActivity.this.useCurrentValue) {
-                            str3 = PassportActivity.this.currentEmail;
-                        } else if (PassportActivity.this.checkFieldsForError()) {
-                            return;
-                        } else {
-                            str3 = PassportActivity.this.inputFields[0].getText().toString();
-                        }
-                    } else if (PassportActivity.this.currentActivityType != 3) {
+                    }
+                };
+                if (PassportActivity.this.currentActivityType == 4) {
+                    if (PassportActivity.this.useCurrentValue) {
+                        str3 = PassportActivity.this.currentEmail;
+                    } else if (PassportActivity.this.checkFieldsForError()) {
+                        return;
+                    } else {
+                        str3 = PassportActivity.this.inputFields[0].getText().toString();
+                    }
+                } else {
+                    if (PassportActivity.this.currentActivityType != 3) {
                         if (PassportActivity.this.currentActivityType != 2) {
                             if (PassportActivity.this.currentActivityType == 1) {
                                 if (!onIdentityDone(runnable, errorRunnable)) {
@@ -658,51 +665,32 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 }), ((BaseFragment) PassportActivity.this).classGuid);
                             }
                             PassportActivity.this.showEditDoneProgress(true, true);
-                        } else if (!PassportActivity.this.uploadingDocuments.isEmpty() || PassportActivity.this.checkFieldsForError()) {
+                        }
+                        if (!PassportActivity.this.uploadingDocuments.isEmpty() || PassportActivity.this.checkFieldsForError()) {
                             return;
-                        } else {
-                            if (PassportActivity.this.isHasNotAnyChanges()) {
-                                PassportActivity.this.finishFragment();
-                                return;
+                        }
+                        if (PassportActivity.this.isHasNotAnyChanges()) {
+                            PassportActivity.this.lambda$onBackPressed$300();
+                            return;
+                        }
+                        if (!PassportActivity.this.documentOnly) {
+                            jSONObject = new JSONObject();
+                            try {
+                                jSONObject.put("street_line1", PassportActivity.this.inputFields[0].getText().toString());
+                                jSONObject.put("street_line2", PassportActivity.this.inputFields[1].getText().toString());
+                                jSONObject.put("post_code", PassportActivity.this.inputFields[2].getText().toString());
+                                jSONObject.put("city", PassportActivity.this.inputFields[3].getText().toString());
+                                jSONObject.put("state", PassportActivity.this.inputFields[4].getText().toString());
+                                jSONObject.put("country_code", PassportActivity.this.currentCitizeship);
+                            } catch (Exception unused) {
                             }
-                            if (!PassportActivity.this.documentOnly) {
-                                jSONObject = new JSONObject();
-                                try {
-                                    jSONObject.put("street_line1", PassportActivity.this.inputFields[0].getText().toString());
-                                    jSONObject.put("street_line2", PassportActivity.this.inputFields[1].getText().toString());
-                                    jSONObject.put("post_code", PassportActivity.this.inputFields[2].getText().toString());
-                                    jSONObject.put("city", PassportActivity.this.inputFields[3].getText().toString());
-                                    jSONObject.put("state", PassportActivity.this.inputFields[4].getText().toString());
-                                    jSONObject.put("country_code", PassportActivity.this.currentCitizeship);
-                                } catch (Exception unused) {
-                                }
-                                if (PassportActivity.this.fieldsErrors != null) {
-                                    PassportActivity.this.fieldsErrors.clear();
-                                }
-                                if (PassportActivity.this.documentsErrors != null) {
-                                    PassportActivity.this.documentsErrors.clear();
-                                }
-                                PassportActivityDelegate passportActivityDelegate2 = PassportActivity.this.delegate;
-                                tL_secureRequiredType = PassportActivity.this.currentType;
-                                jSONObject2 = jSONObject != null ? jSONObject.toString() : null;
-                                tL_secureRequiredType2 = PassportActivity.this.currentDocumentsType;
-                                arrayList = PassportActivity.this.documents;
-                                secureDocument = PassportActivity.this.selfieDocument;
-                                arrayList2 = PassportActivity.this.translationDocuments;
-                                secureDocument2 = null;
-                                secureDocument3 = null;
-                                str = null;
-                                str2 = null;
-                                passportActivityDelegate = passportActivityDelegate2;
-                                passportActivityDelegate.saveValue(tL_secureRequiredType, str, jSONObject2, tL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
-                                PassportActivity.this.showEditDoneProgress(true, true);
-                            }
-                            jSONObject = null;
                             if (PassportActivity.this.fieldsErrors != null) {
+                                PassportActivity.this.fieldsErrors.clear();
                             }
                             if (PassportActivity.this.documentsErrors != null) {
+                                PassportActivity.this.documentsErrors.clear();
                             }
-                            PassportActivityDelegate passportActivityDelegate22 = PassportActivity.this.delegate;
+                            PassportActivityDelegate passportActivityDelegate2 = PassportActivity.this.delegate;
                             tL_secureRequiredType = PassportActivity.this.currentType;
                             jSONObject2 = jSONObject != null ? jSONObject.toString() : null;
                             tL_secureRequiredType2 = PassportActivity.this.currentDocumentsType;
@@ -713,31 +701,52 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             secureDocument3 = null;
                             str = null;
                             str2 = null;
-                            passportActivityDelegate = passportActivityDelegate22;
+                            passportActivityDelegate = passportActivityDelegate2;
                             passportActivityDelegate.saveValue(tL_secureRequiredType, str, jSONObject2, tL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
                             PassportActivity.this.showEditDoneProgress(true, true);
                         }
-                    } else if (PassportActivity.this.useCurrentValue) {
+                        jSONObject = null;
+                        if (PassportActivity.this.fieldsErrors != null) {
+                        }
+                        if (PassportActivity.this.documentsErrors != null) {
+                        }
+                        PassportActivityDelegate passportActivityDelegate22 = PassportActivity.this.delegate;
+                        tL_secureRequiredType = PassportActivity.this.currentType;
+                        jSONObject2 = jSONObject != null ? jSONObject.toString() : null;
+                        tL_secureRequiredType2 = PassportActivity.this.currentDocumentsType;
+                        arrayList = PassportActivity.this.documents;
+                        secureDocument = PassportActivity.this.selfieDocument;
+                        arrayList2 = PassportActivity.this.translationDocuments;
+                        secureDocument2 = null;
+                        secureDocument3 = null;
+                        str = null;
+                        str2 = null;
+                        passportActivityDelegate = passportActivityDelegate22;
+                        passportActivityDelegate.saveValue(tL_secureRequiredType, str, jSONObject2, tL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
+                        PassportActivity.this.showEditDoneProgress(true, true);
+                    }
+                    if (PassportActivity.this.useCurrentValue) {
                         str3 = UserConfig.getInstance(((BaseFragment) PassportActivity.this).currentAccount).getCurrentUser().phone;
-                    } else if (PassportActivity.this.checkFieldsForError()) {
-                        return;
                     } else {
+                        if (PassportActivity.this.checkFieldsForError()) {
+                            return;
+                        }
                         str3 = PassportActivity.this.inputFields[1].getText().toString() + PassportActivity.this.inputFields[2].getText().toString();
                     }
-                    str = str3;
-                    passportActivityDelegate = PassportActivity.this.delegate;
-                    tL_secureRequiredType = PassportActivity.this.currentType;
-                    secureDocument2 = null;
-                    secureDocument3 = null;
-                    jSONObject2 = null;
-                    tL_secureRequiredType2 = null;
-                    str2 = null;
-                    arrayList = null;
-                    secureDocument = null;
-                    arrayList2 = null;
-                    passportActivityDelegate.saveValue(tL_secureRequiredType, str, jSONObject2, tL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
-                    PassportActivity.this.showEditDoneProgress(true, true);
                 }
+                str = str3;
+                passportActivityDelegate = PassportActivity.this.delegate;
+                tL_secureRequiredType = PassportActivity.this.currentType;
+                secureDocument2 = null;
+                secureDocument3 = null;
+                jSONObject2 = null;
+                tL_secureRequiredType2 = null;
+                str2 = null;
+                arrayList = null;
+                secureDocument = null;
+                arrayList2 = null;
+                passportActivityDelegate.saveValue(tL_secureRequiredType, str, jSONObject2, tL_secureRequiredType2, str2, arrayList, secureDocument, arrayList2, secureDocument2, secureDocument3, runnable, errorRunnable);
+                PassportActivity.this.showEditDoneProgress(true, true);
             }
         }
     }
@@ -797,12 +806,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         PassportActivity.8.this.lambda$generateNewSecret$5(tLObject, tL_error2);
                     }
                 }, 8);
-                return;
+            } else {
+                if (PassportActivity.this.currentForm == null) {
+                    PassportActivity.this.currentForm = new TLRPC.TL_account_authorizationForm();
+                }
+                openRequestInterface();
             }
-            if (PassportActivity.this.currentForm == null) {
-                PassportActivity.this.currentForm = new TLRPC.TL_account_authorizationForm();
-            }
-            openRequestInterface();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -873,14 +882,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         public /* synthetic */ void lambda$resetSecret$2(TLRPC.TL_error tL_error) {
             if (tL_error == null || !"SRP_ID_INVALID".equals(tL_error.text)) {
                 generateNewSecret();
-                return;
+            } else {
+                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda3
+                    @Override // org.telegram.tgnet.RequestDelegate
+                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error2) {
+                        PassportActivity.8.this.lambda$resetSecret$1(tLObject, tL_error2);
+                    }
+                }, 8);
             }
-            ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda3
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error2) {
-                    PassportActivity.8.this.lambda$resetSecret$1(tLObject, tL_error2);
-                }
-            }, 8);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -950,14 +959,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (PassportActivity.this.currentBotId != 0) {
                     openRequestInterface();
                     return;
+                } else {
+                    ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getAllSecureValues(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda13
+                        @Override // org.telegram.tgnet.RequestDelegate
+                        public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                            PassportActivity.8.this.lambda$run$13(tLObject, tL_error);
+                        }
+                    });
+                    return;
                 }
-                ConnectionsManager.getInstance(((BaseFragment) PassportActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getAllSecureValues(), new RequestDelegate() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda13
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                        PassportActivity.8.this.lambda$run$13(tLObject, tL_error);
-                    }
-                });
-                return;
             }
             PassportActivity passportActivity3 = PassportActivity.this;
             if (z) {
@@ -994,15 +1004,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     byte[] bArr2 = tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000.salt;
                     PassportActivity.this.saltedPassword = Utilities.computePBKDF2(AndroidUtilities.getStringBytes(str), tL_securePasswordKdfAlgoPBKDF2HMACSHA512iter100000.salt);
                     bArr = bArr2;
-                } else if (securePasswordKdfAlgo instanceof TLRPC.TL_securePasswordKdfAlgoUnknown) {
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda10
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            PassportActivity.8.this.lambda$run$11();
-                        }
-                    });
-                    return;
                 } else {
+                    if (securePasswordKdfAlgo instanceof TLRPC.TL_securePasswordKdfAlgoUnknown) {
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda10
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                PassportActivity.8.this.lambda$run$11();
+                            }
+                        });
+                        return;
+                    }
                     bArr = new byte[0];
                 }
             } else {
@@ -1115,7 +1126,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         PassportActivity.8.this.lambda$run$10(z, tLObject2, tL_error2);
                     }
                 }, 8);
-            } else if (tL_error != null) {
+                return;
+            }
+            if (tL_error != null) {
                 final boolean z2 = this.val$saved;
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$8$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
@@ -1276,8 +1289,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* JADX WARN: Removed duplicated region for block: B:16:0x0082  */
-            /* JADX WARN: Removed duplicated region for block: B:43:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x0082  */
+            /* JADX WARN: Removed duplicated region for block: B:16:? A[RETURN, SYNTHETIC] */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -1299,9 +1312,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         globalInstance = NotificationCenter.getGlobalInstance();
                         phoneConfirmationView = PhoneConfirmationView.this;
                         i2 = NotificationCenter.didReceiveCall;
-                    } else if (PhoneConfirmationView.this.verificationType != 2 && PhoneConfirmationView.this.verificationType != 4) {
-                        return;
                     } else {
+                        if (PhoneConfirmationView.this.verificationType != 2 && PhoneConfirmationView.this.verificationType != 4) {
+                            return;
+                        }
                         if (PhoneConfirmationView.this.nextType == 4 || PhoneConfirmationView.this.nextType == 2) {
                             if (PhoneConfirmationView.this.nextType == 4) {
                                 textView = PhoneConfirmationView.this.timeText;
@@ -1322,14 +1336,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 }
                             }, 2);
                             return;
-                        } else if (PhoneConfirmationView.this.nextType != 3) {
-                            return;
-                        } else {
-                            AndroidUtilities.setWaitingForSms(false);
-                            globalInstance = NotificationCenter.getGlobalInstance();
-                            phoneConfirmationView = PhoneConfirmationView.this;
-                            i2 = NotificationCenter.didReceiveSmsCode;
                         }
+                        if (PhoneConfirmationView.this.nextType != 3) {
+                            return;
+                        }
+                        AndroidUtilities.setWaitingForSms(false);
+                        globalInstance = NotificationCenter.getGlobalInstance();
+                        phoneConfirmationView = PhoneConfirmationView.this;
+                        i2 = NotificationCenter.didReceiveSmsCode;
                     }
                     globalInstance.removeObserver(phoneConfirmationView, i2);
                     PhoneConfirmationView.this.waitingForEvent = false;
@@ -1559,10 +1573,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         public void destroyCodeTimer() {
             try {
                 synchronized (this.timerSync) {
-                    Timer timer = this.codeTimer;
-                    if (timer != null) {
-                        timer.cancel();
-                        this.codeTimer = null;
+                    try {
+                        Timer timer = this.codeTimer;
+                        if (timer != null) {
+                            timer.cancel();
+                            this.codeTimer = null;
+                        }
+                    } finally {
                     }
                 }
             } catch (Exception e) {
@@ -1574,10 +1591,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         public void destroyTimer() {
             try {
                 synchronized (this.timerSync) {
-                    Timer timer = this.timeTimer;
-                    if (timer != null) {
-                        timer.cancel();
-                        this.timeTimer = null;
+                    try {
+                        Timer timer = this.timeTimer;
+                        if (timer != null) {
+                            timer.cancel();
+                            this.timeTimer = null;
+                        }
+                    } finally {
                     }
                 }
             } catch (Exception e) {
@@ -1637,9 +1657,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x0086  */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x00c7 A[LOOP:0: B:36:0x00c2->B:38:0x00c7, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x00d1 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:18:0x0086  */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x00c7 A[LOOP:0: B:29:0x00c2->B:31:0x00c7, LOOP_END] */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x00d1 A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1662,7 +1682,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 passportActivityDelegate.saveValue(tL_secureRequiredType, str, null, null, null, null, null, null, null, null, new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.this.finishFragment();
+                        PassportActivity.this.lambda$onBackPressed$300();
                     }
                 }, null);
                 return;
@@ -1738,7 +1758,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$resendCode$1(DialogInterface dialogInterface, int i) {
             onBackPressed(true);
-            PassportActivity.this.finishFragment();
+            PassportActivity.this.lambda$onBackPressed$300();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1772,24 +1792,24 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$setParams$4(int i, View view, int i2, KeyEvent keyEvent) {
-            if (i2 == 67 && this.codeField[i].length() == 0 && i > 0) {
-                int i3 = i - 1;
-                EditTextBoldCursor editTextBoldCursor = this.codeField[i3];
-                editTextBoldCursor.setSelection(editTextBoldCursor.length());
-                this.codeField[i3].requestFocus();
-                this.codeField[i3].dispatchKeyEvent(keyEvent);
-                return true;
+            if (i2 != 67 || this.codeField[i].length() != 0 || i <= 0) {
+                return false;
             }
-            return false;
+            int i3 = i - 1;
+            EditTextBoldCursor editTextBoldCursor = this.codeField[i3];
+            editTextBoldCursor.setSelection(editTextBoldCursor.length());
+            this.codeField[i3].requestFocus();
+            this.codeField[i3].dispatchKeyEvent(keyEvent);
+            return true;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ boolean lambda$setParams$5(TextView textView, int i, KeyEvent keyEvent) {
-            if (i == 5) {
-                onNextPressed(null);
-                return true;
+            if (i != 5) {
+                return false;
             }
-            return false;
+            lambda$onNextPressed$14(null);
+            return true;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1817,9 +1837,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
             if (i == NotificationCenter.didReceiveSmsCode) {
                 editTextBoldCursorArr[0].setText("" + objArr[0]);
-            } else if (i != NotificationCenter.didReceiveCall) {
-                return;
             } else {
+                if (i != NotificationCenter.didReceiveCall) {
+                    return;
+                }
                 String str = "" + objArr[0];
                 if (!AndroidUtilities.checkPhonePattern(this.pattern, str)) {
                     return;
@@ -1828,7 +1849,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 this.codeField[0].setText(str);
                 this.ignoreOnTextChange = false;
             }
-            onNextPressed(null);
+            lambda$onNextPressed$14(null);
         }
 
         @Override // org.telegram.ui.Components.SlideView
@@ -1933,13 +1954,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 textView = this.problemText;
                 left = textView.getLeft();
                 textView2 = this.problemText;
-            } else if (this.timeText.getVisibility() != 0) {
-                i5 = measuredHeight2 + bottom;
-                int measuredHeight3 = this.codeFieldContainer.getMeasuredHeight();
-                int i6 = (((i5 - bottom) - measuredHeight3) / 2) + bottom;
-                LinearLayout linearLayout = this.codeFieldContainer;
-                linearLayout.layout(linearLayout.getLeft(), i6, this.codeFieldContainer.getRight(), measuredHeight3 + i6);
             } else {
+                if (this.timeText.getVisibility() != 0) {
+                    i5 = measuredHeight2 + bottom;
+                    int measuredHeight3 = this.codeFieldContainer.getMeasuredHeight();
+                    int i6 = (((i5 - bottom) - measuredHeight3) / 2) + bottom;
+                    LinearLayout linearLayout = this.codeFieldContainer;
+                    linearLayout.layout(linearLayout.getLeft(), i6, this.codeFieldContainer.getRight(), measuredHeight3 + i6);
+                }
                 measuredHeight = this.timeText.getMeasuredHeight();
                 i5 = (measuredHeight2 + bottom) - measuredHeight;
                 textView = this.timeText;
@@ -1971,7 +1993,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
 
         @Override // org.telegram.ui.Components.SlideView
-        public void onNextPressed(String str) {
+        /* renamed from: onNextPressed */
+        public void lambda$onNextPressed$14(String str) {
             NotificationCenter globalInstance;
             int i;
             if (this.nextPressed) {
@@ -2045,25 +2068,29 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:79:0x02a8, code lost:
-            if (r18.time < 1000) goto L62;
+        /* JADX WARN: Code restructure failed: missing block: B:60:0x02a8, code lost:
+        
+            if (r18.time < 1000) goto L90;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:89:0x02db, code lost:
-            if (r18.time < 1000) goto L62;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:90:0x02dd, code lost:
-            r3 = 8;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:91:0x02df, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:61:0x02df, code lost:
+        
             r1.setVisibility(r3);
          */
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0060  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x0089  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x0189  */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x0198 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x0199  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x01fd  */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x020c  */
+        /* JADX WARN: Code restructure failed: missing block: B:62:0x02dd, code lost:
+        
+            r3 = 8;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:71:0x02db, code lost:
+        
+            if (r18.time < 1000) goto L90;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:11:0x0060  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0189  */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x0198 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x0199  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x01fd  */
+        /* JADX WARN: Removed duplicated region for block: B:75:0x020c  */
+        /* JADX WARN: Removed duplicated region for block: B:83:0x0089  */
         @Override // org.telegram.ui.Components.SlideView
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2169,7 +2196,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                         PhoneConfirmationView.this.codeField[i3 + 1].requestFocus();
                                     }
                                     if ((i3 == PhoneConfirmationView.this.length - 1 || (i3 == PhoneConfirmationView.this.length - 2 && length >= 2)) && PhoneConfirmationView.this.getCode().length() == PhoneConfirmationView.this.length) {
-                                        PhoneConfirmationView.this.onNextPressed(null);
+                                        PhoneConfirmationView.this.lambda$onNextPressed$14(null);
                                     }
                                 }
                             }
@@ -2208,55 +2235,55 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (this.phone != null) {
                     return;
                 }
-                PhoneFormat phoneFormat = PhoneFormat.getInstance();
-                String format = phoneFormat.format("+" + this.phone);
+                String format = PhoneFormat.getInstance().format("+" + this.phone);
                 int i12 = this.verificationType;
                 if (i12 == 2) {
                     formatString = LocaleController.formatString("SentSmsCode", R.string.SentSmsCode, LocaleController.addNbsp(format));
-                } else if (i12 != 3) {
-                    if (i12 == 4) {
-                        formatString = LocaleController.formatString("SentCallOnly", R.string.SentCallOnly, LocaleController.addNbsp(format));
-                    }
-                    this.confirmTextView.setText(charSequence);
-                    if (this.verificationType == 3) {
-                        AndroidUtilities.showKeyboard(this.codeField[0]);
-                        this.codeField[0].requestFocus();
-                    } else {
-                        AndroidUtilities.hideKeyboard(this.codeField[0]);
-                    }
-                    destroyTimer();
-                    destroyCodeTimer();
-                    this.lastCurrentTime = System.currentTimeMillis();
-                    i4 = this.verificationType;
-                    if (i4 != 3 && ((i6 = this.nextType) == 4 || i6 == 2)) {
-                        this.problemText.setVisibility(8);
-                        this.timeText.setVisibility(0);
-                        int i13 = this.nextType;
-                        if (i13 == 4) {
-                            textView2 = this.timeText;
-                            formatString2 = LocaleController.formatString("CallText", R.string.CallText, 1, 0);
-                        } else if (i13 == 2) {
-                            textView2 = this.timeText;
-                            formatString2 = LocaleController.formatString("SmsText", R.string.SmsText, 1, 0);
-                        }
-                        textView2.setText(formatString2);
-                    } else if (i4 != 2 && ((i5 = this.nextType) == 4 || i5 == 3)) {
-                        this.timeText.setText(LocaleController.formatString("CallText", R.string.CallText, 2, 0));
-                        this.problemText.setVisibility(this.time < 1000 ? 0 : 8);
-                        textView = this.timeText;
-                    } else if (i4 == 4 || this.nextType != 2) {
-                        this.timeText.setVisibility(8);
-                        this.problemText.setVisibility(8);
-                        createCodeTimer();
-                        return;
-                    } else {
-                        this.timeText.setText(LocaleController.formatString("SmsText", R.string.SmsText, 2, 0));
-                        this.problemText.setVisibility(this.time < 1000 ? 0 : 8);
-                        textView = this.timeText;
-                    }
-                    createTimer();
-                    return;
                 } else {
+                    if (i12 != 3) {
+                        if (i12 == 4) {
+                            formatString = LocaleController.formatString("SentCallOnly", R.string.SentCallOnly, LocaleController.addNbsp(format));
+                        }
+                        this.confirmTextView.setText(charSequence);
+                        if (this.verificationType == 3) {
+                            AndroidUtilities.showKeyboard(this.codeField[0]);
+                            this.codeField[0].requestFocus();
+                        } else {
+                            AndroidUtilities.hideKeyboard(this.codeField[0]);
+                        }
+                        destroyTimer();
+                        destroyCodeTimer();
+                        this.lastCurrentTime = System.currentTimeMillis();
+                        i4 = this.verificationType;
+                        if (i4 != 3 && ((i6 = this.nextType) == 4 || i6 == 2)) {
+                            this.problemText.setVisibility(8);
+                            this.timeText.setVisibility(0);
+                            int i13 = this.nextType;
+                            if (i13 == 4) {
+                                textView2 = this.timeText;
+                                formatString2 = LocaleController.formatString("CallText", R.string.CallText, 1, 0);
+                            } else if (i13 == 2) {
+                                textView2 = this.timeText;
+                                formatString2 = LocaleController.formatString("SmsText", R.string.SmsText, 1, 0);
+                            }
+                            textView2.setText(formatString2);
+                        } else if (i4 != 2 && ((i5 = this.nextType) == 4 || i5 == 3)) {
+                            this.timeText.setText(LocaleController.formatString("CallText", R.string.CallText, 2, 0));
+                            this.problemText.setVisibility(this.time < 1000 ? 0 : 8);
+                            textView = this.timeText;
+                        } else if (i4 == 4 || this.nextType != 2) {
+                            this.timeText.setVisibility(8);
+                            this.problemText.setVisibility(8);
+                            createCodeTimer();
+                            return;
+                        } else {
+                            this.timeText.setText(LocaleController.formatString("SmsText", R.string.SmsText, 2, 0));
+                            this.problemText.setVisibility(this.time < 1000 ? 0 : 8);
+                            textView = this.timeText;
+                        }
+                        createTimer();
+                        return;
+                    }
                     formatString = LocaleController.formatString("SentCallCode", R.string.SentCallCode, LocaleController.addNbsp(format));
                 }
                 charSequence = AndroidUtilities.replaceTags(formatString);
@@ -2470,12 +2497,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     this.radialProgress.setBackground(null, false, z);
                     this.buttonState = -1;
                     return;
+                } else {
+                    DownloadController.getInstance(((BaseFragment) PassportActivity.this).currentAccount).addLoadingFileObserver(this.currentSecureDocument.path, this);
+                    this.buttonState = 1;
+                    Float fileProgress = ImageLoader.getInstance().getFileProgress(this.currentSecureDocument.path);
+                    this.radialProgress.setBackground(getResources().getDrawable(R.drawable.circle), true, z);
+                    this.radialProgress.setProgress(fileProgress != null ? fileProgress.floatValue() : 0.0f, false);
                 }
-                DownloadController.getInstance(((BaseFragment) PassportActivity.this).currentAccount).addLoadingFileObserver(this.currentSecureDocument.path, this);
-                this.buttonState = 1;
-                Float fileProgress = ImageLoader.getInstance().getFileProgress(this.currentSecureDocument.path);
-                this.radialProgress.setBackground(getResources().getDrawable(R.drawable.circle), true, z);
-                this.radialProgress.setProgress(fileProgress != null ? fileProgress.floatValue() : 0.0f, false);
             } else if (exists) {
                 DownloadController.getInstance(((BaseFragment) PassportActivity.this).currentAccount).removeLoadingFileObserver(this);
                 this.buttonState = -1;
@@ -2570,27 +2598,28 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0148 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x015a  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x015f A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0164  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x016d  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x016e A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0178 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0182 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x018c A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0196 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01a0 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x01a9 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01b8 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01c8 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01d1  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x01df A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x01e8  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01f5 A[Catch: Exception -> 0x020f, PHI: r7 
-      PHI: (r7v2 java.lang.String) = (r7v1 java.lang.String), (r7v3 java.lang.String), (r7v4 java.lang.String), (r7v5 java.lang.String) binds: [B:79:0x01b4, B:90:0x01f3, B:86:0x01dc, B:82:0x01c0] A[DONT_GENERATE, DONT_INLINE], TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:46:0x013e, B:48:0x0148, B:52:0x015f, B:54:0x0166, B:55:0x016a, B:79:0x01b4, B:81:0x01b8, B:82:0x01c0, B:83:0x01c8, B:85:0x01d3, B:87:0x01df, B:89:0x01ea, B:91:0x01f5, B:93:0x01fb, B:57:0x016e, B:60:0x0178, B:63:0x0182, B:66:0x018c, B:69:0x0196, B:72:0x01a0, B:75:0x01a9, B:13:0x007b, B:15:0x007f, B:16:0x008f, B:18:0x0093, B:19:0x00a3, B:21:0x00a7, B:22:0x00b7, B:24:0x00bb, B:25:0x00c7, B:27:0x00cb, B:28:0x00db, B:30:0x00df, B:32:0x00ee, B:34:0x00f2, B:35:0x0103, B:37:0x0107, B:38:0x010a, B:40:0x0112, B:42:0x011e, B:44:0x0128), top: B:100:0x0037 }] */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x01f9  */
+    /* JADX WARN: Failed to find 'out' block for switch in B:24:0x01b4. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0148 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x015f A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x016d  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x01b8 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x01c8 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x01d1  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x01df A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x01e8  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x01f5 A[Catch: Exception -> 0x020f, PHI: r7
+      0x01f5: PHI (r7v2 java.lang.String) = (r7v1 java.lang.String), (r7v3 java.lang.String), (r7v4 java.lang.String), (r7v5 java.lang.String) binds: [B:24:0x01b4, B:37:0x01f3, B:33:0x01dc, B:29:0x01c0] A[DONT_GENERATE, DONT_INLINE], TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x01f9  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x016e A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0178 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0182 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x018c A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0196 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x01a0 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x01a9 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x015a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2767,53 +2796,44 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 c = 3;
                                 break;
                             }
-                            c = 65535;
                             break;
                         case -906020504:
                             if (str10.equals("selfie")) {
                                 break;
                             }
-                            c = 65535;
                             break;
                         case 3076010:
                             if (str10.equals("data")) {
                                 c = 0;
                                 break;
                             }
-                            c = 65535;
                             break;
                         case 97434231:
                             if (str10.equals("files")) {
                                 c = 1;
                                 break;
                             }
-                            c = 65535;
                             break;
                         case 97705513:
                             if (str10.equals("front")) {
                                 c = 4;
                                 break;
                             }
-                            c = 65535;
                             break;
                         case 329856746:
                             if (str10.equals("error_all")) {
                                 c = 6;
                                 break;
                             }
-                            c = 65535;
                             break;
                         case 1099846370:
                             if (str10.equals("reverse")) {
                                 c = 5;
                                 break;
                             }
-                            c = 65535;
-                            break;
-                        default:
-                            c = 65535;
                             break;
                     }
+                    c = 65535;
                     switch (c) {
                         case 0:
                             if (str11 == null) {
@@ -2901,6 +2921,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     case 1099846370:
                         break;
                 }
+                c = 65535;
                 switch (c) {
                 }
                 i3++;
@@ -2932,7 +2953,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         this.mainErrorsMap = new HashMap();
         this.errorsValues = new HashMap();
         this.provider = new PhotoViewer.EmptyPhotoViewerProvider() { // from class: org.telegram.ui.PassportActivity.1
-            /* JADX WARN: Removed duplicated region for block: B:36:0x00ce  */
+            /* JADX WARN: Removed duplicated region for block: B:13:0x00ce  */
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -2973,23 +2994,24 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     PassportActivity.this.frontDocument = null;
                     sb = new StringBuilder();
                     str = "front";
-                } else if (PassportActivity.this.uploadingFileType != 3) {
-                    if (PassportActivity.this.uploadingFileType == 0) {
-                        sb = new StringBuilder();
-                        str = "files";
-                    }
-                    if (str2 != null) {
-                        if (PassportActivity.this.documentsErrors != null) {
-                            PassportActivity.this.documentsErrors.remove(str2);
-                        }
-                        if (PassportActivity.this.errorsValues != null) {
-                            PassportActivity.this.errorsValues.remove(str2);
-                        }
-                    }
-                    PassportActivity passportActivity = PassportActivity.this;
-                    passportActivity.updateUploadText(passportActivity.uploadingFileType);
-                    PassportActivity.this.currentPhotoViewerLayout.removeView(secureDocumentCell);
                 } else {
+                    if (PassportActivity.this.uploadingFileType != 3) {
+                        if (PassportActivity.this.uploadingFileType == 0) {
+                            sb = new StringBuilder();
+                            str = "files";
+                        }
+                        if (str2 != null) {
+                            if (PassportActivity.this.documentsErrors != null) {
+                                PassportActivity.this.documentsErrors.remove(str2);
+                            }
+                            if (PassportActivity.this.errorsValues != null) {
+                                PassportActivity.this.errorsValues.remove(str2);
+                            }
+                        }
+                        PassportActivity passportActivity = PassportActivity.this;
+                        passportActivity.updateUploadText(passportActivity.uploadingFileType);
+                        PassportActivity.this.currentPhotoViewerLayout.removeView(secureDocumentCell);
+                    }
                     PassportActivity.this.reverseDocument = null;
                     sb = new StringBuilder();
                     str = "reverse";
@@ -3187,7 +3209,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:64:0x014f  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x014f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3199,7 +3221,6 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         TLRPC.TL_secureRequiredType tL_secureRequiredType2;
         int i2;
         TLRPC.TL_secureValue valueByType;
-        LinearLayout linearLayout;
         int size = arrayList != null ? arrayList.size() : 0;
         TextDetailSecureCell textDetailSecureCell = new TextDetailSecureCell(context);
         textDetailSecureCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
@@ -3246,7 +3267,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             textDetailSecureCell.setTextAndValue(formatString, "", !z2);
         }
         if (this.currentActivityType == 8) {
-            this.linearLayout2.addView(textDetailSecureCell, linearLayout.getChildCount() - 5, LayoutHelper.createLinear(-1, -2));
+            this.linearLayout2.addView(textDetailSecureCell, r2.getChildCount() - 5, LayoutHelper.createLinear(-1, -2));
         } else {
             this.linearLayout2.addView(textDetailSecureCell, LayoutHelper.createLinear(-1, -2));
         }
@@ -3353,9 +3374,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
             sb.append(str);
             Browser.openUrl(parentActivity, Uri.parse(sb.toString()));
-        } else if (!this.needActivityResult) {
-            return;
         } else {
+            if (!this.needActivityResult) {
+                return;
+            }
             if (z || (!this.ignoreOnFailure && ((i = this.currentActivityType) == 5 || i == 0))) {
                 getParentActivity().setResult(z ? -1 : 0);
             }
@@ -3383,11 +3405,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002c, code lost:
-        if (r3 != null) goto L28;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x002c, code lost:
+    
+        if (r3 != null) goto L17;
      */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0036  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0036  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0039  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3425,31 +3448,36 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:121:0x01e8, code lost:
-        if (r6 != 5) goto L107;
+    /* JADX WARN: Code restructure failed: missing block: B:122:0x01e8, code lost:
+    
+        if (r6 != 5) goto L129;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:167:0x0263, code lost:
-        if (r8 > 24) goto L164;
+    /* JADX WARN: Code restructure failed: missing block: B:163:0x0263, code lost:
+    
+        if (r8 > 24) goto L184;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:173:0x026d, code lost:
-        if (r8 < 2) goto L164;
+    /* JADX WARN: Code restructure failed: missing block: B:169:0x026d, code lost:
+    
+        if (r8 < 2) goto L184;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:178:0x027c, code lost:
-        if (r8 < 2) goto L164;
+    /* JADX WARN: Code restructure failed: missing block: B:173:0x027c, code lost:
+    
+        if (r8 < 2) goto L184;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:183:0x0285, code lost:
-        if (r8 > 10) goto L164;
+    /* JADX WARN: Code restructure failed: missing block: B:178:0x0285, code lost:
+    
+        if (r8 > 10) goto L184;
      */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0200  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x028b A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x028b A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0200  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean checkFieldsForError() {
-        TextSettingsCell[] textSettingsCellArr;
+        EditTextBoldCursor[] editTextBoldCursorArr;
         boolean z;
         String str;
-        TextSettingsCell textSettingsCell;
+        View view;
         TextDetailSettingsCell textDetailSettingsCell;
         HashMap hashMap;
         SecureDocument secureDocument;
@@ -3457,7 +3485,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         Object obj;
         if (this.currentDocumentsType != null) {
             if (this.errorsValues.containsKey("error_all") || this.errorsValues.containsKey("error_document_all")) {
-                textSettingsCell = this.topErrorCell;
+                view = this.topErrorCell;
             } else {
                 if (this.uploadDocumentCell != null) {
                     if (!this.documents.isEmpty()) {
@@ -3470,61 +3498,61 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             }
                         }
                     } else {
-                        textSettingsCell = this.uploadDocumentCell;
+                        view = this.uploadDocumentCell;
                     }
                 }
                 if (this.errorsValues.containsKey("files_all") || this.errorsValues.containsKey("translation_all")) {
-                    textSettingsCell = this.bottomCell;
+                    view = this.bottomCell;
                 } else {
                     TextDetailSettingsCell textDetailSettingsCell2 = this.uploadFrontCell;
                     if (textDetailSettingsCell2 != null) {
-                        textSettingsCell = textDetailSettingsCell2;
+                        view = textDetailSettingsCell2;
                         if (this.frontDocument != null) {
                             if (this.errorsValues.containsKey("front" + getDocumentHash(this.frontDocument))) {
                                 hashMap = this.documentsCells;
                                 secureDocument = this.frontDocument;
                                 obj = hashMap.get(secureDocument);
-                                textSettingsCell = (View) obj;
+                                view = (View) obj;
                                 break;
                             }
                         }
                     }
                     TLRPC.SecureValueType secureValueType = this.currentDocumentsType.type;
                     if (((secureValueType instanceof TLRPC.TL_secureValueTypeIdentityCard) || (secureValueType instanceof TLRPC.TL_secureValueTypeDriverLicense)) && (textDetailSettingsCell = this.uploadReverseCell) != null) {
-                        textSettingsCell = textDetailSettingsCell;
+                        view = textDetailSettingsCell;
                         if (this.reverseDocument != null) {
                             if (this.errorsValues.containsKey("reverse" + getDocumentHash(this.reverseDocument))) {
                                 hashMap = this.documentsCells;
                                 secureDocument = this.reverseDocument;
                                 obj = hashMap.get(secureDocument);
-                                textSettingsCell = (View) obj;
+                                view = (View) obj;
                                 break;
                             }
                         }
                     }
                     TextDetailSettingsCell textDetailSettingsCell3 = this.uploadSelfieCell;
                     if (textDetailSettingsCell3 != null && this.currentBotId != 0) {
-                        textSettingsCell = textDetailSettingsCell3;
+                        view = textDetailSettingsCell3;
                         if (this.selfieDocument != null) {
                             if (this.errorsValues.containsKey("selfie" + getDocumentHash(this.selfieDocument))) {
                                 hashMap = this.documentsCells;
                                 secureDocument = this.selfieDocument;
                                 obj = hashMap.get(secureDocument);
-                                textSettingsCell = (View) obj;
+                                view = (View) obj;
                                 break;
                             }
                         }
                     }
                     if (this.uploadTranslationCell != null && this.currentBotId != 0) {
                         if (this.translationDocuments.isEmpty()) {
-                            textSettingsCell = this.uploadTranslationCell;
+                            view = this.uploadTranslationCell;
                         } else {
                             int size2 = this.translationDocuments.size();
                             for (int i2 = 0; i2 < size2; i2++) {
                                 secureDocument2 = (SecureDocument) this.translationDocuments.get(i2);
                                 if (this.errorsValues.containsKey("translation" + getDocumentHash(secureDocument2))) {
                                     obj = this.documentsCells.get(secureDocument2);
-                                    textSettingsCell = (View) obj;
+                                    view = (View) obj;
                                     break;
                                 }
                             }
@@ -3532,20 +3560,20 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
                 }
             }
-            onFieldError(textSettingsCell);
+            onFieldError(view);
             return true;
         }
         for (int i3 = 0; i3 < 2; i3++) {
             if (i3 == 0) {
-                textSettingsCellArr = this.inputFields;
+                editTextBoldCursorArr = this.inputFields;
             } else {
                 TextInfoPrivacyCell textInfoPrivacyCell = this.nativeInfoCell;
-                textSettingsCellArr = (textInfoPrivacyCell == null || textInfoPrivacyCell.getVisibility() != 0) ? null : this.inputExtraFields;
+                editTextBoldCursorArr = (textInfoPrivacyCell == null || textInfoPrivacyCell.getVisibility() != 0) ? null : this.inputExtraFields;
             }
-            if (textSettingsCellArr != null) {
+            if (editTextBoldCursorArr != null) {
                 int i4 = 0;
-                while (i4 < textSettingsCellArr.length) {
-                    boolean hasErrorText = textSettingsCellArr[i4].hasErrorText();
+                while (i4 < editTextBoldCursorArr.length) {
+                    boolean hasErrorText = editTextBoldCursorArr[i4].hasErrorText();
                     if (!this.errorsValues.isEmpty()) {
                         TLRPC.SecureValueType secureValueType2 = this.currentType.type;
                         if (!(secureValueType2 instanceof TLRPC.TL_secureValueTypePersonalDetails)) {
@@ -3602,7 +3630,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             }
                             if (str != null) {
                                 String str3 = (String) this.errorsValues.get(str);
-                                if (!TextUtils.isEmpty(str3) && str3.equals(textSettingsCellArr[i4].getText().toString())) {
+                                if (!TextUtils.isEmpty(str3) && str3.equals(editTextBoldCursorArr[i4].getText().toString())) {
                                     hasErrorText = true;
                                 }
                             }
@@ -3620,12 +3648,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             if (str != null) {
                             }
                         }
-                        onFieldError(textSettingsCell);
+                        onFieldError(view);
                         return true;
                     }
                     if (!this.documentOnly || this.currentDocumentsType == null || i4 >= 7) {
                         if (!hasErrorText) {
-                            int length = textSettingsCellArr[i4].length();
+                            int length = editTextBoldCursorArr[i4].length();
                             int i5 = this.currentActivityType;
                             if (i5 != 1) {
                                 if (i5 == 2) {
@@ -3668,14 +3696,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             }
                         }
                         if (hasErrorText) {
-                            textSettingsCell = textSettingsCellArr[i4];
-                            onFieldError(textSettingsCell);
+                            view = editTextBoldCursorArr[i4];
+                            onFieldError(view);
                             return true;
                         }
                     }
                     i4++;
                 }
-                continue;
             }
         }
         return false;
@@ -3742,14 +3769,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     boolean[] zArr = this.nonLatinNames;
                     if (i5 >= zArr.length) {
                         break;
-                    } else if (zArr[i5]) {
+                    }
+                    if (zArr[i5]) {
                         this.inputExtraFields[0].setText(this.inputFields[0].getText());
                         this.inputExtraFields[1].setText(this.inputFields[1].getText());
                         this.inputExtraFields[2].setText(this.inputFields[2].getText());
                         break;
-                    } else {
-                        i5++;
                     }
+                    i5++;
                 }
             }
             this.sectionCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(getParentActivity(), R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
@@ -3854,11 +3881,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0124  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x012d  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0160  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x01a4  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x012d  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0124  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0160  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x01a4  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x024f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3957,20 +3984,20 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         this.noAllDocumentsErrorText = "";
                         CharSequence charSequence = this.noAllDocumentsErrorText;
                         hashMap = this.documentsErrors;
-                        SpannableStringBuilder spannableStringBuilder = charSequence;
+                        CharSequence charSequence2 = charSequence;
                         if (hashMap != null) {
                             String str2 = (String) hashMap.get("files_all");
-                            spannableStringBuilder = charSequence;
+                            charSequence2 = charSequence;
                             if (str2 != null) {
-                                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(str2);
-                                spannableStringBuilder2.append((CharSequence) "\n\n");
-                                spannableStringBuilder2.append(this.noAllDocumentsErrorText);
-                                spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, str2.length(), 33);
+                                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str2);
+                                spannableStringBuilder.append((CharSequence) "\n\n");
+                                spannableStringBuilder.append(this.noAllDocumentsErrorText);
+                                spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, str2.length(), 33);
                                 this.errorsValues.put("files_all", "");
-                                spannableStringBuilder = spannableStringBuilder2;
+                                charSequence2 = spannableStringBuilder;
                             }
                         }
-                        this.bottomCell.setText(spannableStringBuilder);
+                        this.bottomCell.setText(charSequence2);
                         this.linearLayout2.addView(this.bottomCell, LayoutHelper.createLinear(-1, -2));
                         if (this.currentDocumentsType.translation_required) {
                             HeaderCell headerCell3 = new HeaderCell(context);
@@ -4011,43 +4038,43 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     i4 = R.string.PassportAddTranslationBankInfo;
                                 } else {
                                     this.noAllTranslationErrorText = "";
-                                    CharSequence charSequence2 = this.noAllTranslationErrorText;
+                                    CharSequence charSequence3 = this.noAllTranslationErrorText;
                                     hashMap2 = this.documentsErrors;
-                                    SpannableStringBuilder spannableStringBuilder3 = charSequence2;
+                                    CharSequence charSequence4 = charSequence3;
                                     if (hashMap2 != null) {
                                         String str3 = (String) hashMap2.get("translation_all");
-                                        spannableStringBuilder3 = charSequence2;
+                                        charSequence4 = charSequence3;
                                         if (str3 != null) {
-                                            SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder(str3);
-                                            spannableStringBuilder4.append((CharSequence) "\n\n");
-                                            spannableStringBuilder4.append(this.noAllTranslationErrorText);
-                                            spannableStringBuilder4.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, str3.length(), 33);
+                                            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(str3);
+                                            spannableStringBuilder2.append((CharSequence) "\n\n");
+                                            spannableStringBuilder2.append(this.noAllTranslationErrorText);
+                                            spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, str3.length(), 33);
                                             this.errorsValues.put("translation_all", "");
-                                            spannableStringBuilder3 = spannableStringBuilder4;
+                                            charSequence4 = spannableStringBuilder2;
                                         }
                                     }
-                                    this.bottomCellTranslation.setText(spannableStringBuilder3);
+                                    this.bottomCellTranslation.setText(charSequence4);
                                     this.linearLayout2.addView(this.bottomCellTranslation, LayoutHelper.createLinear(-1, -2));
                                 }
                             }
                             this.noAllTranslationErrorText = LocaleController.getString(i4);
-                            CharSequence charSequence22 = this.noAllTranslationErrorText;
+                            CharSequence charSequence32 = this.noAllTranslationErrorText;
                             hashMap2 = this.documentsErrors;
-                            SpannableStringBuilder spannableStringBuilder32 = charSequence22;
+                            CharSequence charSequence42 = charSequence32;
                             if (hashMap2 != null) {
                             }
-                            this.bottomCellTranslation.setText(spannableStringBuilder32);
+                            this.bottomCellTranslation.setText(charSequence42);
                             this.linearLayout2.addView(this.bottomCellTranslation, LayoutHelper.createLinear(-1, -2));
                         }
                     }
                 }
                 this.noAllDocumentsErrorText = LocaleController.getString(i3);
-                CharSequence charSequence3 = this.noAllDocumentsErrorText;
+                CharSequence charSequence5 = this.noAllDocumentsErrorText;
                 hashMap = this.documentsErrors;
-                SpannableStringBuilder spannableStringBuilder5 = charSequence3;
+                CharSequence charSequence22 = charSequence5;
                 if (hashMap != null) {
                 }
-                this.bottomCell.setText(spannableStringBuilder5);
+                this.bottomCell.setText(charSequence22);
                 this.linearLayout2.addView(this.bottomCell, LayoutHelper.createLinear(-1, -2));
                 if (this.currentDocumentsType.translation_required) {
                 }
@@ -4081,12 +4108,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             if (this.currentBotId == 0) {
             }
             this.noAllDocumentsErrorText = LocaleController.getString(i3);
-            CharSequence charSequence32 = this.noAllDocumentsErrorText;
+            CharSequence charSequence52 = this.noAllDocumentsErrorText;
             hashMap = this.documentsErrors;
-            SpannableStringBuilder spannableStringBuilder52 = charSequence32;
+            CharSequence charSequence222 = charSequence52;
             if (hashMap != null) {
             }
-            this.bottomCell.setText(spannableStringBuilder52);
+            this.bottomCell.setText(charSequence222);
             this.linearLayout2.addView(this.bottomCell, LayoutHelper.createLinear(-1, -2));
             if (this.currentDocumentsType.translation_required) {
             }
@@ -4133,16 +4160,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             while (true) {
                                 if (i12 >= lineCount) {
                                     break;
-                                } else if (this.errorLayout.getLineLeft(i12) != 0.0f) {
+                                }
+                                if (this.errorLayout.getLineLeft(i12) != 0.0f) {
                                     this.offsetX = 0.0f;
                                     break;
-                                } else {
-                                    f = Math.max(f, this.errorLayout.getLineWidth(i12));
-                                    if (i12 == lineCount - 1) {
-                                        this.offsetX = size - f;
-                                    }
-                                    i12++;
                                 }
+                                f = Math.max(f, this.errorLayout.getLineWidth(i12));
+                                if (i12 == lineCount - 1) {
+                                    this.offsetX = size - f;
+                                }
+                                i12++;
                             }
                         }
                     }
@@ -4240,8 +4267,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             char charAt = editable.charAt(i12);
                             if ((charAt < 'a' || charAt > 'z') && ((charAt < 'A' || charAt > 'Z') && !((charAt >= '0' && charAt <= '9') || charAt == '-' || charAt == ' '))) {
                                 break;
+                            } else {
+                                i12++;
                             }
-                            i12++;
                         }
                         this.ignore = false;
                         if (z) {
@@ -4252,11 +4280,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
 
                     @Override // android.text.TextWatcher
-                    public void beforeTextChanged(CharSequence charSequence4, int i12, int i13, int i14) {
+                    public void beforeTextChanged(CharSequence charSequence6, int i12, int i13, int i14) {
                     }
 
                     @Override // android.text.TextWatcher
-                    public void onTextChanged(CharSequence charSequence4, int i12, int i13, int i14) {
+                    public void onTextChanged(CharSequence charSequence6, int i12, int i13, int i14) {
                     }
                 });
                 this.inputFields[i9].setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
@@ -4268,11 +4296,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
 
                     @Override // android.text.TextWatcher
-                    public void beforeTextChanged(CharSequence charSequence4, int i12, int i13, int i14) {
+                    public void beforeTextChanged(CharSequence charSequence6, int i12, int i13, int i14) {
                     }
 
                     @Override // android.text.TextWatcher
-                    public void onTextChanged(CharSequence charSequence4, int i12, int i13, int i14) {
+                    public void onTextChanged(CharSequence charSequence6, int i12, int i13, int i14) {
                     }
                 });
             }
@@ -4420,10 +4448,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00a7  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00af  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00a2  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00af  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00a7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4601,13 +4629,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         this.linearLayout2.addView(this.bottomCell, LayoutHelper.createLinear(-1, -2));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:187:0x05b9 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x024d  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x02e9  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x02f3  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0311  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0314  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0324  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x05b9 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x0314  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x02f3  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x024d  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x02e9  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0311  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0324  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4756,31 +4784,31 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         this.noAllTranslationErrorText = "";
                         CharSequence charSequence = this.noAllTranslationErrorText;
                         hashMap3 = this.documentsErrors;
-                        SpannableStringBuilder spannableStringBuilder = charSequence;
+                        CharSequence charSequence2 = charSequence;
                         if (hashMap3 != null) {
                             String str3 = (String) hashMap3.get("translation_all");
-                            spannableStringBuilder = charSequence;
+                            charSequence2 = charSequence;
                             if (str3 != null) {
-                                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(str3);
-                                spannableStringBuilder2.append((CharSequence) "\n\n");
-                                spannableStringBuilder2.append(this.noAllTranslationErrorText);
-                                spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, str3.length(), 33);
+                                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str3);
+                                spannableStringBuilder.append((CharSequence) "\n\n");
+                                spannableStringBuilder.append(this.noAllTranslationErrorText);
+                                spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, str3.length(), 33);
                                 this.errorsValues.put("translation_all", "");
-                                spannableStringBuilder = spannableStringBuilder2;
+                                charSequence2 = spannableStringBuilder;
                             }
                         }
-                        this.bottomCellTranslation.setText(spannableStringBuilder);
+                        this.bottomCellTranslation.setText(charSequence2);
                         linearLayout = this.linearLayout2;
                         textInfoPrivacyCell = this.bottomCellTranslation;
                     }
                 }
                 this.noAllTranslationErrorText = LocaleController.getString(i6);
-                CharSequence charSequence2 = this.noAllTranslationErrorText;
+                CharSequence charSequence3 = this.noAllTranslationErrorText;
                 hashMap3 = this.documentsErrors;
-                SpannableStringBuilder spannableStringBuilder3 = charSequence2;
+                CharSequence charSequence22 = charSequence3;
                 if (hashMap3 != null) {
                 }
-                this.bottomCellTranslation.setText(spannableStringBuilder3);
+                this.bottomCellTranslation.setText(charSequence22);
                 linearLayout = this.linearLayout2;
                 textInfoPrivacyCell = this.bottomCellTranslation;
             }
@@ -4838,16 +4866,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                         while (true) {
                                             if (i16 >= lineCount) {
                                                 break;
-                                            } else if (this.errorLayout.getLineLeft(i16) != 0.0f) {
+                                            }
+                                            if (this.errorLayout.getLineLeft(i16) != 0.0f) {
                                                 this.offsetX = 0.0f;
                                                 break;
-                                            } else {
-                                                f = Math.max(f, this.errorLayout.getLineWidth(i16));
-                                                if (i16 == lineCount - 1) {
-                                                    this.offsetX = size - f;
-                                                }
-                                                i16++;
                                             }
+                                            f = Math.max(f, this.errorLayout.getLineWidth(i16));
+                                            if (i16 == lineCount - 1) {
+                                                this.offsetX = size - f;
+                                            }
+                                            i16++;
                                         }
                                     }
                                 }
@@ -4910,11 +4938,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 }
 
                                 @Override // android.text.TextWatcher
-                                public void beforeTextChanged(CharSequence charSequence3, int i16, int i17, int i18) {
+                                public void beforeTextChanged(CharSequence charSequence4, int i16, int i17, int i18) {
                                 }
 
                                 @Override // android.text.TextWatcher
-                                public void onTextChanged(CharSequence charSequence3, int i16, int i17, int i18) {
+                                public void onTextChanged(CharSequence charSequence4, int i16, int i17, int i18) {
                                 }
                             });
                         }
@@ -5019,16 +5047,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 while (true) {
                                     if (i20 >= lineCount) {
                                         break;
-                                    } else if (this.errorLayout.getLineLeft(i20) != 0.0f) {
+                                    }
+                                    if (this.errorLayout.getLineLeft(i20) != 0.0f) {
                                         this.offsetX = 0.0f;
                                         break;
-                                    } else {
-                                        f = Math.max(f, this.errorLayout.getLineWidth(i20));
-                                        if (i20 == lineCount - 1) {
-                                            this.offsetX = size - f;
-                                        }
-                                        i20++;
                                     }
+                                    f = Math.max(f, this.errorLayout.getLineWidth(i20));
+                                    if (i20 == lineCount - 1) {
+                                        this.offsetX = size - f;
+                                    }
+                                    i20++;
                                 }
                             }
                         }
@@ -5174,9 +5202,6 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         hashMap2 = this.currentDocumentValues;
                         str2 = "expiry_date";
                         break;
-                    default:
-                        i2++;
-                        z3 = false;
                 }
                 setFieldValues(hashMap2, this.inputFields[i2], str2);
                 EditTextBoldCursor editTextBoldCursor10 = this.inputFields[i2];
@@ -5207,18 +5232,18 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             }
                             if (z5 && !PassportActivity.this.allowNonLatinName) {
                                 editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
-                                return;
+                            } else {
+                                PassportActivity.this.nonLatinNames[intValue] = z5;
+                                PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
                             }
-                            PassportActivity.this.nonLatinNames[intValue] = z5;
-                            PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
                         }
 
                         @Override // android.text.TextWatcher
-                        public void beforeTextChanged(CharSequence charSequence3, int i20, int i21, int i22) {
+                        public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
                         }
 
                         @Override // android.text.TextWatcher
-                        public void onTextChanged(CharSequence charSequence3, int i20, int i21, int i22) {
+                        public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
                         }
                     });
                 } else {
@@ -5235,11 +5260,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         }
 
                         @Override // android.text.TextWatcher
-                        public void beforeTextChanged(CharSequence charSequence3, int i20, int i21, int i22) {
+                        public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
                         }
 
                         @Override // android.text.TextWatcher
-                        public void onTextChanged(CharSequence charSequence3, int i20, int i21, int i22) {
+                        public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
                         }
                     });
                 }
@@ -5295,8 +5320,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x02db  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x02dd  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x02db  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x02dd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5310,7 +5335,6 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         ArrayList arrayList2;
         TLRPC.TL_secureRequiredType tL_secureRequiredType2;
         TLRPC.SecureValueType tL_secureValueTypeAddress;
-        FrameLayout frameLayout = (FrameLayout) this.fragmentView;
         this.actionBar.setTitle(LocaleController.getString(R.string.TelegramPassport));
         this.actionBar.createMenu().addItem(1, R.drawable.msg_info);
         HeaderCell headerCell = new HeaderCell(context);
@@ -5463,20 +5487,22 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 currentUser = this.currentForm.users.get(i);
                 if (currentUser.id == this.currentBotId) {
                     break;
+                } else {
+                    i++;
                 }
-                i++;
             }
         } else {
             currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
         }
+        FrameLayout frameLayout = (FrameLayout) this.fragmentView;
         this.actionBar.setTitle(LocaleController.getString(R.string.TelegramPassport));
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         emptyTextProgressView.showProgress();
-        ((FrameLayout) this.fragmentView).addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
-        FrameLayout frameLayout = new FrameLayout(context);
-        this.passwordAvatarContainer = frameLayout;
-        this.linearLayout2.addView(frameLayout, LayoutHelper.createLinear(-1, 100));
+        frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
+        FrameLayout frameLayout2 = new FrameLayout(context);
+        this.passwordAvatarContainer = frameLayout2;
+        this.linearLayout2.addView(frameLayout2, LayoutHelper.createLinear(-1, 100));
         BackupImageView backupImageView = new BackupImageView(context);
         backupImageView.setRoundRadius(AndroidUtilities.dp(32.0f));
         this.passwordAvatarContainer.addView(backupImageView, LayoutHelper.createFrame(64, 64.0f, 17, 0.0f, 8.0f, 0.0f, 0.0f));
@@ -5597,13 +5623,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x01d3  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x01f9  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0221  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0294  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0316  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0324  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x0341 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x01d3  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0221  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0324  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0341 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0294  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x01f9  */
     /* JADX WARN: Type inference failed for: r12v3, types: [android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r12v6, types: [android.widget.LinearLayout] */
     /*
@@ -5645,9 +5671,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         TextSettingsCell textSettingsCell = new TextSettingsCell(context);
         textSettingsCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
         textSettingsCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
-        int i2 = R.string.PassportPhoneUseSame;
-        PhoneFormat phoneFormat = PhoneFormat.getInstance();
-        textSettingsCell.setText(LocaleController.formatString("PassportPhoneUseSame", i2, phoneFormat.format("+" + str3)), false);
+        textSettingsCell.setText(LocaleController.formatString("PassportPhoneUseSame", R.string.PassportPhoneUseSame, PhoneFormat.getInstance().format("+" + str3)), false);
         this.linearLayout2.addView(textSettingsCell, LayoutHelper.createLinear(-1, -2));
         textSettingsCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
@@ -5666,35 +5690,35 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         this.headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         this.linearLayout2.addView(this.headerCell, LayoutHelper.createLinear(-1, -2));
         this.inputFields = new EditTextBoldCursor[3];
-        int i3 = 0;
+        int i2 = 0;
         while (true) {
             str = null;
-            if (i3 < 3) {
+            if (i2 < 3) {
                 EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
-                if (i3 == 2) {
-                    editTextBoldCursorArr[i3] = new HintEditText(context);
+                if (i2 == 2) {
+                    editTextBoldCursorArr[i2] = new HintEditText(context);
                 } else {
-                    editTextBoldCursorArr[i3] = new EditTextBoldCursor(context);
+                    editTextBoldCursorArr[i2] = new EditTextBoldCursor(context);
                 }
-                if (i3 == 1) {
+                if (i2 == 1) {
                     ?? linearLayout = new LinearLayout(context);
                     linearLayout.setOrientation(0);
                     frameLayout2 = linearLayout;
-                } else if (i3 == 2) {
+                } else if (i2 == 2) {
                     frameLayout = (ViewGroup) this.inputFields[1].getParent();
-                    this.inputFields[i3].setTag(Integer.valueOf(i3));
-                    this.inputFields[i3].setTextSize(1, 16.0f);
-                    this.inputFields[i3].setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
-                    EditTextBoldCursor editTextBoldCursor3 = this.inputFields[i3];
-                    int i4 = Theme.key_windowBackgroundWhiteBlackText;
-                    editTextBoldCursor3.setTextColor(Theme.getColor(i4));
-                    this.inputFields[i3].setBackgroundDrawable(null);
-                    this.inputFields[i3].setCursorColor(Theme.getColor(i4));
-                    this.inputFields[i3].setCursorSize(AndroidUtilities.dp(20.0f));
-                    this.inputFields[i3].setCursorWidth(1.5f);
+                    this.inputFields[i2].setTag(Integer.valueOf(i2));
+                    this.inputFields[i2].setTextSize(1, 16.0f);
+                    this.inputFields[i2].setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
+                    EditTextBoldCursor editTextBoldCursor3 = this.inputFields[i2];
+                    int i3 = Theme.key_windowBackgroundWhiteBlackText;
+                    editTextBoldCursor3.setTextColor(Theme.getColor(i3));
+                    this.inputFields[i2].setBackgroundDrawable(null);
+                    this.inputFields[i2].setCursorColor(Theme.getColor(i3));
+                    this.inputFields[i2].setCursorSize(AndroidUtilities.dp(20.0f));
+                    this.inputFields[i2].setCursorWidth(1.5f);
                     EditTextBoldCursor[] editTextBoldCursorArr2 = this.inputFields;
-                    if (i3 != 0) {
-                        editTextBoldCursorArr2[i3].setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda9
+                    if (i2 != 0) {
+                        editTextBoldCursorArr2[i2].setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda9
                             @Override // android.view.View.OnTouchListener
                             public final boolean onTouch(View view, MotionEvent motionEvent) {
                                 boolean lambda$createPhoneInterface$29;
@@ -5702,35 +5726,35 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 return lambda$createPhoneInterface$29;
                             }
                         });
-                        this.inputFields[i3].setText(LocaleController.getString(R.string.ChooseCountry));
-                        this.inputFields[i3].setInputType(0);
-                        this.inputFields[i3].setFocusable(false);
+                        this.inputFields[i2].setText(LocaleController.getString(R.string.ChooseCountry));
+                        this.inputFields[i2].setInputType(0);
+                        this.inputFields[i2].setFocusable(false);
                     } else {
-                        editTextBoldCursorArr2[i3].setInputType(3);
+                        editTextBoldCursorArr2[i2].setInputType(3);
                         EditTextBoldCursor[] editTextBoldCursorArr3 = this.inputFields;
-                        if (i3 == 2) {
-                            editTextBoldCursor = editTextBoldCursorArr3[i3];
+                        if (i2 == 2) {
+                            editTextBoldCursor = editTextBoldCursorArr3[i2];
                             i = 268435462;
                         } else {
-                            editTextBoldCursor = editTextBoldCursorArr3[i3];
+                            editTextBoldCursor = editTextBoldCursorArr3[i2];
                             i = 268435461;
                         }
                         editTextBoldCursor.setImeOptions(i);
                     }
-                    EditTextBoldCursor editTextBoldCursor4 = this.inputFields[i3];
+                    EditTextBoldCursor editTextBoldCursor4 = this.inputFields[i2];
                     editTextBoldCursor4.setSelection(editTextBoldCursor4.length());
-                    if (i3 != 1) {
+                    if (i2 != 1) {
                         TextView textView = new TextView(context);
                         this.plusTextView = textView;
                         textView.setText("+");
-                        this.plusTextView.setTextColor(Theme.getColor(i4));
+                        this.plusTextView.setTextColor(Theme.getColor(i3));
                         this.plusTextView.setTextSize(1, 16.0f);
                         frameLayout.addView(this.plusTextView, LayoutHelper.createLinear(-2, -2, 21.0f, 12.0f, 0.0f, 6.0f));
-                        this.inputFields[i3].setPadding(AndroidUtilities.dp(10.0f), 0, 0, 0);
-                        this.inputFields[i3].setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
-                        this.inputFields[i3].setGravity(19);
-                        frameLayout.addView(this.inputFields[i3], LayoutHelper.createLinear(55, -2, 0.0f, 12.0f, 16.0f, 6.0f));
-                        editTextBoldCursor2 = this.inputFields[i3];
+                        this.inputFields[i2].setPadding(AndroidUtilities.dp(10.0f), 0, 0, 0);
+                        this.inputFields[i2].setFilters(new InputFilter[]{new InputFilter.LengthFilter(5)});
+                        this.inputFields[i2].setGravity(19);
+                        frameLayout.addView(this.inputFields[i2], LayoutHelper.createLinear(55, -2, 0.0f, 12.0f, 16.0f, 6.0f));
+                        editTextBoldCursor2 = this.inputFields[i2];
                         textWatcher = new TextWatcher() { // from class: org.telegram.ui.PassportActivity.9
                             @Override // android.text.TextWatcher
                             public void afterTextChanged(Editable editable) {
@@ -5749,24 +5773,24 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     hintEditText.setHint(LocaleController.getString(R.string.PaymentShippingPhoneNumber));
                                     PassportActivity.this.inputFields[0].setText(LocaleController.getString(R.string.ChooseCountry));
                                 } else {
-                                    int i5 = 4;
+                                    int i4 = 4;
                                     if (stripExceptNumbers.length() > 4) {
                                         while (true) {
-                                            if (i5 < 1) {
+                                            if (i4 < 1) {
                                                 str4 = null;
                                                 z = false;
                                                 break;
                                             }
-                                            String substring = stripExceptNumbers.substring(0, i5);
+                                            String substring = stripExceptNumbers.substring(0, i4);
                                             if (((String) PassportActivity.this.codesMap.get(substring)) != null) {
-                                                String str5 = stripExceptNumbers.substring(i5) + PassportActivity.this.inputFields[2].getText().toString();
+                                                String str5 = stripExceptNumbers.substring(i4) + PassportActivity.this.inputFields[2].getText().toString();
                                                 PassportActivity.this.inputFields[1].setText(substring);
                                                 z = true;
                                                 str4 = str5;
                                                 stripExceptNumbers = substring;
                                                 break;
                                             }
-                                            i5--;
+                                            i4--;
                                         }
                                         if (!z) {
                                             str4 = stripExceptNumbers.substring(1) + PassportActivity.this.inputFields[2].getText().toString();
@@ -5804,28 +5828,28 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             }
 
                             @Override // android.text.TextWatcher
-                            public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+                            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                             }
 
                             @Override // android.text.TextWatcher
-                            public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+                            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                             }
                         };
-                    } else if (i3 == 2) {
-                        this.inputFields[i3].setPadding(0, 0, 0, 0);
-                        this.inputFields[i3].setGravity(19);
-                        this.inputFields[i3].setHintText(null);
-                        this.inputFields[i3].setHint(LocaleController.getString(R.string.PaymentShippingPhoneNumber));
-                        frameLayout.addView(this.inputFields[i3], LayoutHelper.createLinear(-1, -2, 0.0f, 12.0f, 21.0f, 6.0f));
-                        editTextBoldCursor2 = this.inputFields[i3];
+                    } else if (i2 == 2) {
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity(19);
+                        this.inputFields[i2].setHintText(null);
+                        this.inputFields[i2].setHint(LocaleController.getString(R.string.PaymentShippingPhoneNumber));
+                        frameLayout.addView(this.inputFields[i2], LayoutHelper.createLinear(-1, -2, 0.0f, 12.0f, 21.0f, 6.0f));
+                        editTextBoldCursor2 = this.inputFields[i2];
                         textWatcher = new TextWatcher() { // from class: org.telegram.ui.PassportActivity.10
                             private int actionPosition;
                             private int characterAction = -1;
 
                             @Override // android.text.TextWatcher
                             public void afterTextChanged(Editable editable) {
+                                int i4;
                                 int i5;
-                                int i6;
                                 if (PassportActivity.this.ignoreOnPhoneChange) {
                                     return;
                                 }
@@ -5837,34 +5861,35 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     selectionStart--;
                                 }
                                 StringBuilder sb = new StringBuilder(obj.length());
-                                int i7 = 0;
-                                while (i7 < obj.length()) {
-                                    int i8 = i7 + 1;
-                                    String substring = obj.substring(i7, i8);
+                                int i6 = 0;
+                                while (i6 < obj.length()) {
+                                    int i7 = i6 + 1;
+                                    String substring = obj.substring(i6, i7);
                                     if ("0123456789".contains(substring)) {
                                         sb.append(substring);
                                     }
-                                    i7 = i8;
+                                    i6 = i7;
                                 }
                                 PassportActivity.this.ignoreOnPhoneChange = true;
                                 String hintText = hintEditText.getHintText();
                                 if (hintText != null) {
-                                    int i9 = 0;
+                                    int i8 = 0;
                                     while (true) {
-                                        if (i9 >= sb.length()) {
+                                        if (i8 >= sb.length()) {
                                             break;
-                                        } else if (i9 < hintText.length()) {
-                                            if (hintText.charAt(i9) == ' ') {
-                                                sb.insert(i9, ' ');
-                                                i9++;
-                                                if (selectionStart == i9 && (i6 = this.characterAction) != 2 && i6 != 3) {
+                                        }
+                                        if (i8 < hintText.length()) {
+                                            if (hintText.charAt(i8) == ' ') {
+                                                sb.insert(i8, ' ');
+                                                i8++;
+                                                if (selectionStart == i8 && (i5 = this.characterAction) != 2 && i5 != 3) {
                                                     selectionStart++;
                                                 }
                                             }
-                                            i9++;
+                                            i8++;
                                         } else {
-                                            sb.insert(i9, ' ');
-                                            if (selectionStart == i9 + 1 && (i5 = this.characterAction) != 2 && i5 != 3) {
+                                            sb.insert(i8, ' ');
+                                            if (selectionStart == i8 + 1 && (i4 = this.characterAction) != 2 && i4 != 3) {
                                                 selectionStart++;
                                             }
                                         }
@@ -5879,109 +5904,110 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             }
 
                             @Override // android.text.TextWatcher
-                            public void beforeTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
-                                int i8;
-                                if (i6 == 0 && i7 == 1) {
+                            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
+                                int i7;
+                                if (i5 == 0 && i6 == 1) {
                                     this.characterAction = 1;
                                     return;
                                 }
-                                if (i6 != 1 || i7 != 0) {
-                                    i8 = -1;
-                                } else if (charSequence.charAt(i5) == ' ' && i5 > 0) {
-                                    this.characterAction = 3;
-                                    this.actionPosition = i5 - 1;
-                                    return;
+                                if (i5 != 1 || i6 != 0) {
+                                    i7 = -1;
                                 } else {
-                                    i8 = 2;
+                                    if (charSequence.charAt(i4) == ' ' && i4 > 0) {
+                                        this.characterAction = 3;
+                                        this.actionPosition = i4 - 1;
+                                        return;
+                                    }
+                                    i7 = 2;
                                 }
-                                this.characterAction = i8;
+                                this.characterAction = i7;
                             }
 
                             @Override // android.text.TextWatcher
-                            public void onTextChanged(CharSequence charSequence, int i5, int i6, int i7) {
+                            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
                             }
                         };
                     } else {
-                        this.inputFields[i3].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
-                        this.inputFields[i3].setGravity(LocaleController.isRTL ? 5 : 3);
-                        frameLayout.addView(this.inputFields[i3], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
-                        this.inputFields[i3].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda10
+                        this.inputFields[i2].setPadding(0, 0, 0, AndroidUtilities.dp(6.0f));
+                        this.inputFields[i2].setGravity(LocaleController.isRTL ? 5 : 3);
+                        frameLayout.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -2.0f, 51, 21.0f, 12.0f, 21.0f, 6.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda10
                             @Override // android.widget.TextView.OnEditorActionListener
-                            public final boolean onEditorAction(TextView textView2, int i5, KeyEvent keyEvent) {
+                            public final boolean onEditorAction(TextView textView2, int i4, KeyEvent keyEvent) {
                                 boolean lambda$createPhoneInterface$30;
-                                lambda$createPhoneInterface$30 = PassportActivity.this.lambda$createPhoneInterface$30(textView2, i5, keyEvent);
+                                lambda$createPhoneInterface$30 = PassportActivity.this.lambda$createPhoneInterface$30(textView2, i4, keyEvent);
                                 return lambda$createPhoneInterface$30;
                             }
                         });
-                        if (i3 == 2) {
-                            this.inputFields[i3].setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda11
+                        if (i2 == 2) {
+                            this.inputFields[i2].setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda11
                                 @Override // android.view.View.OnKeyListener
-                                public final boolean onKey(View view, int i5, KeyEvent keyEvent) {
+                                public final boolean onKey(View view, int i4, KeyEvent keyEvent) {
                                     boolean lambda$createPhoneInterface$31;
-                                    lambda$createPhoneInterface$31 = PassportActivity.this.lambda$createPhoneInterface$31(view, i5, keyEvent);
+                                    lambda$createPhoneInterface$31 = PassportActivity.this.lambda$createPhoneInterface$31(view, i4, keyEvent);
                                     return lambda$createPhoneInterface$31;
                                 }
                             });
                         }
-                        if (i3 == 0) {
+                        if (i2 == 0) {
                             View view = new View(context);
                             this.dividers.add(view);
                             view.setBackgroundColor(Theme.getColor(Theme.key_divider));
                             frameLayout.addView(view, new FrameLayout.LayoutParams(-1, 1, 83));
                         }
-                        i3++;
+                        i2++;
                     }
                     editTextBoldCursor2.addTextChangedListener(textWatcher);
-                    this.inputFields[i3].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda10
+                    this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda10
                         @Override // android.widget.TextView.OnEditorActionListener
-                        public final boolean onEditorAction(TextView textView2, int i5, KeyEvent keyEvent) {
+                        public final boolean onEditorAction(TextView textView2, int i4, KeyEvent keyEvent) {
                             boolean lambda$createPhoneInterface$30;
-                            lambda$createPhoneInterface$30 = PassportActivity.this.lambda$createPhoneInterface$30(textView2, i5, keyEvent);
+                            lambda$createPhoneInterface$30 = PassportActivity.this.lambda$createPhoneInterface$30(textView2, i4, keyEvent);
                             return lambda$createPhoneInterface$30;
                         }
                     });
-                    if (i3 == 2) {
+                    if (i2 == 2) {
                     }
-                    if (i3 == 0) {
+                    if (i2 == 0) {
                     }
-                    i3++;
+                    i2++;
                 } else {
                     frameLayout2 = new FrameLayout(context);
                 }
                 this.linearLayout2.addView(frameLayout2, LayoutHelper.createLinear(-1, 50));
                 frameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                 frameLayout = frameLayout2;
-                this.inputFields[i3].setTag(Integer.valueOf(i3));
-                this.inputFields[i3].setTextSize(1, 16.0f);
-                this.inputFields[i3].setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
-                EditTextBoldCursor editTextBoldCursor32 = this.inputFields[i3];
-                int i42 = Theme.key_windowBackgroundWhiteBlackText;
-                editTextBoldCursor32.setTextColor(Theme.getColor(i42));
-                this.inputFields[i3].setBackgroundDrawable(null);
-                this.inputFields[i3].setCursorColor(Theme.getColor(i42));
-                this.inputFields[i3].setCursorSize(AndroidUtilities.dp(20.0f));
-                this.inputFields[i3].setCursorWidth(1.5f);
+                this.inputFields[i2].setTag(Integer.valueOf(i2));
+                this.inputFields[i2].setTextSize(1, 16.0f);
+                this.inputFields[i2].setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
+                EditTextBoldCursor editTextBoldCursor32 = this.inputFields[i2];
+                int i32 = Theme.key_windowBackgroundWhiteBlackText;
+                editTextBoldCursor32.setTextColor(Theme.getColor(i32));
+                this.inputFields[i2].setBackgroundDrawable(null);
+                this.inputFields[i2].setCursorColor(Theme.getColor(i32));
+                this.inputFields[i2].setCursorSize(AndroidUtilities.dp(20.0f));
+                this.inputFields[i2].setCursorWidth(1.5f);
                 EditTextBoldCursor[] editTextBoldCursorArr22 = this.inputFields;
-                if (i3 != 0) {
+                if (i2 != 0) {
                 }
-                EditTextBoldCursor editTextBoldCursor42 = this.inputFields[i3];
+                EditTextBoldCursor editTextBoldCursor42 = this.inputFields[i2];
                 editTextBoldCursor42.setSelection(editTextBoldCursor42.length());
-                if (i3 != 1) {
+                if (i2 != 1) {
                 }
                 editTextBoldCursor2.addTextChangedListener(textWatcher);
-                this.inputFields[i3].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda10
+                this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda10
                     @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView2, int i5, KeyEvent keyEvent) {
+                    public final boolean onEditorAction(TextView textView2, int i4, KeyEvent keyEvent) {
                         boolean lambda$createPhoneInterface$30;
-                        lambda$createPhoneInterface$30 = PassportActivity.this.lambda$createPhoneInterface$30(textView2, i5, keyEvent);
+                        lambda$createPhoneInterface$30 = PassportActivity.this.lambda$createPhoneInterface$30(textView2, i4, keyEvent);
                         return lambda$createPhoneInterface$30;
                     }
                 });
-                if (i3 == 2) {
+                if (i2 == 2) {
                 }
-                if (i3 == 0) {
+                if (i2 == 0) {
                 }
-                i3++;
+                i2++;
             } else {
                 try {
                     break;
@@ -6018,8 +6044,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         fillNextCodeParams(bundle, this.currentPhoneVerification, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:137:0x02dd  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x02df  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x02dd  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x02df  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6367,11 +6393,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         byte[] bArr6 = new byte[length];
         System.arraycopy(bArr, 0, bArr6, 0, bArr.length);
         Utilities.aesCbcEncryptionByteArraySafe(bArr6, bArr4, bArr5, 0, length, 0, 0);
-        if (Arrays.equals(Utilities.computeSHA256(bArr6), bArr3)) {
-            int i = bArr6[0] & 255;
-            return new String(bArr6, i, length - i);
+        if (!Arrays.equals(Utilities.computeSHA256(bArr6), bArr3)) {
+            return null;
         }
-        return null;
+        int i = bArr6[0] & 255;
+        return new String(bArr6, i, length - i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -6400,23 +6426,24 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         byte[] bArr5 = new byte[32];
         System.arraycopy(this.secureSecret, 0, bArr5, 0, 32);
         Utilities.aesCbcEncryptionByteArraySafe(bArr5, bArr3, bArr4, 0, 32, 0, 0);
-        if (checkSecret(bArr5, null)) {
-            byte[] computeSHA512 = Utilities.computeSHA512(bArr5, bArr2);
-            byte[] bArr6 = new byte[32];
-            System.arraycopy(computeSHA512, 0, bArr6, 0, 32);
-            byte[] bArr7 = new byte[16];
-            System.arraycopy(computeSHA512, 32, bArr7, 0, 16);
-            byte[] bArr8 = new byte[32];
-            System.arraycopy(bArr, 0, bArr8, 0, 32);
-            Utilities.aesCbcEncryptionByteArraySafe(bArr8, bArr6, bArr7, 0, 32, 0, 0);
-            return bArr8;
+        if (!checkSecret(bArr5, null)) {
+            return null;
         }
-        return null;
+        byte[] computeSHA512 = Utilities.computeSHA512(bArr5, bArr2);
+        byte[] bArr6 = new byte[32];
+        System.arraycopy(computeSHA512, 0, bArr6, 0, 32);
+        byte[] bArr7 = new byte[16];
+        System.arraycopy(computeSHA512, 32, bArr7, 0, 16);
+        byte[] bArr8 = new byte[32];
+        System.arraycopy(bArr, 0, bArr8, 0, 32);
+        Utilities.aesCbcEncryptionByteArraySafe(bArr8, bArr6, bArr7, 0, 32, 0, 0);
+        return bArr8;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0018, code lost:
-        if (r15 != null) goto L8;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0018, code lost:
+    
+        if (r15 != null) goto L12;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -6513,9 +6540,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             bundle.putInt("type", 3);
             bundle.putString("pattern", tL_auth_sentCode.type.pattern);
             i = 1;
-        } else if (!(auth_sentcodetype instanceof TLRPC.TL_auth_sentCodeTypeSms)) {
-            return;
         } else {
+            if (!(auth_sentcodetype instanceof TLRPC.TL_auth_sentCodeTypeSms)) {
+                return;
+            }
             bundle.putInt("type", 2);
             bundle.putInt("length", tL_auth_sentCode.type.length);
             i = 0;
@@ -6573,15 +6601,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public String getDocumentHash(SecureDocument secureDocument) {
         byte[] bArr;
-        if (secureDocument != null) {
-            TLRPC.TL_secureFile tL_secureFile = secureDocument.secureFile;
-            if (tL_secureFile == null || (bArr = tL_secureFile.file_hash) == null) {
-                byte[] bArr2 = secureDocument.fileHash;
-                return bArr2 != null ? Base64.encodeToString(bArr2, 2) : "";
-            }
+        if (secureDocument == null) {
+            return "";
+        }
+        TLRPC.TL_secureFile tL_secureFile = secureDocument.secureFile;
+        if (tL_secureFile != null && (bArr = tL_secureFile.file_hash) != null) {
             return Base64.encodeToString(bArr, 2);
         }
-        return "";
+        byte[] bArr2 = secureDocument.fileHash;
+        return bArr2 != null ? Base64.encodeToString(bArr2, 2) : "";
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -6734,9 +6762,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         int i = this.uploadingFileType;
         if (i == 0) {
             arrayList = this.documents;
-        } else if (i != 4) {
-            return 1;
         } else {
+            if (i != 4) {
+                return 1;
+            }
             arrayList = this.translationDocuments;
         }
         return 20 - arrayList.size();
@@ -6798,9 +6827,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             i = R.string.ActionBotDocumentTemporaryRegistration;
         } else if (secureValueType instanceof TLRPC.TL_secureValueTypePhone) {
             i = R.string.ActionBotDocumentPhone;
-        } else if (!(secureValueType instanceof TLRPC.TL_secureValueTypeEmail)) {
-            return "";
         } else {
+            if (!(secureValueType instanceof TLRPC.TL_secureValueTypeEmail)) {
+                return "";
+            }
             i = R.string.ActionBotDocumentEmail;
         }
         return LocaleController.getString(i);
@@ -6908,17 +6938,18 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         } else if (i == 2) {
             arrayList2 = new ArrayList();
             secureDocument = this.frontDocument;
-        } else if (i != 3) {
-            if (i == 0) {
-                photoViewer = PhotoViewer.getInstance();
-                arrayList = this.documents;
-            } else {
-                photoViewer = PhotoViewer.getInstance();
-                arrayList = this.translationDocuments;
-            }
-            photoViewer.openPhoto(arrayList, arrayList.indexOf(secureDocument2), this.provider);
-            return;
         } else {
+            if (i != 3) {
+                if (i == 0) {
+                    photoViewer = PhotoViewer.getInstance();
+                    arrayList = this.documents;
+                } else {
+                    photoViewer = PhotoViewer.getInstance();
+                    arrayList = this.translationDocuments;
+                }
+                photoViewer.openPhoto(arrayList, arrayList.indexOf(secureDocument2), this.provider);
+                return;
+            }
             arrayList2 = new ArrayList();
             secureDocument = this.reverseDocument;
         }
@@ -7012,7 +7043,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00b7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7117,7 +7148,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$69(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7166,21 +7197,21 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createAddressInterface$36(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5) {
-            int intValue = ((Integer) textView.getTag()).intValue() + 1;
-            EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
-            if (intValue < editTextBoldCursorArr.length) {
-                if (editTextBoldCursorArr[intValue].isFocusable()) {
-                    this.inputFields[intValue].requestFocus();
-                } else {
-                    this.inputFields[intValue].dispatchTouchEvent(MotionEvent.obtain(0L, 0L, 1, 0.0f, 0.0f, 0));
-                    textView.clearFocus();
-                    AndroidUtilities.hideKeyboard(textView);
-                }
-            }
-            return true;
+        if (i != 5) {
+            return false;
         }
-        return false;
+        int intValue = ((Integer) textView.getTag()).intValue() + 1;
+        EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
+        if (intValue < editTextBoldCursorArr.length) {
+            if (editTextBoldCursorArr[intValue].isFocusable()) {
+                this.inputFields[intValue].requestFocus();
+            } else {
+                this.inputFields[intValue].dispatchTouchEvent(MotionEvent.obtain(0L, 0L, 1, 0.0f, 0.0f, 0));
+                textView.clearFocus();
+                AndroidUtilities.hideKeyboard(textView);
+            }
+        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7195,7 +7226,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
         this.currentDocumentValues.clear();
         this.delegate.deleteValue(this.currentType, this.currentDocumentsType, this.availableDocumentTypes, zArr[0], null, null);
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7216,20 +7247,20 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createEmailInterface$25(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 6 || i == 5) {
-            this.doneItem.callOnClick();
-            return true;
+        if (i != 6 && i != 5) {
+            return false;
         }
-        return false;
+        this.doneItem.callOnClick();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createEmailVerificationInterface$5(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 6 || i == 5) {
-            this.doneItem.callOnClick();
-            return true;
+        if (i != 6 && i != 5) {
+            return false;
         }
-        return false;
+        this.doneItem.callOnClick();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7460,9 +7491,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             this.currentGender = "male";
             editTextBoldCursor = this.inputFields[4];
             i2 = R.string.PassportMale;
-        } else if (i != 1) {
-            return;
         } else {
+            if (i != 1) {
+                return;
+            }
             this.currentGender = "female";
             editTextBoldCursor = this.inputFields[4];
             i2 = R.string.PassportFemale;
@@ -7492,40 +7524,40 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createIdentityInterface$52(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5) {
-            int intValue = ((Integer) textView.getTag()).intValue() + 1;
-            EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
-            if (intValue < editTextBoldCursorArr.length) {
-                if (editTextBoldCursorArr[intValue].isFocusable()) {
-                    this.inputFields[intValue].requestFocus();
-                } else {
-                    this.inputFields[intValue].dispatchTouchEvent(MotionEvent.obtain(0L, 0L, 1, 0.0f, 0.0f, 0));
-                    textView.clearFocus();
-                    AndroidUtilities.hideKeyboard(textView);
-                }
-            }
-            return true;
+        if (i != 5) {
+            return false;
         }
-        return false;
+        int intValue = ((Integer) textView.getTag()).intValue() + 1;
+        EditTextBoldCursor[] editTextBoldCursorArr = this.inputFields;
+        if (intValue < editTextBoldCursorArr.length) {
+            if (editTextBoldCursorArr[intValue].isFocusable()) {
+                this.inputFields[intValue].requestFocus();
+            } else {
+                this.inputFields[intValue].dispatchTouchEvent(MotionEvent.obtain(0L, 0L, 1, 0.0f, 0.0f, 0));
+                textView.clearFocus();
+                AndroidUtilities.hideKeyboard(textView);
+            }
+        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createIdentityInterface$53(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5) {
-            int intValue = ((Integer) textView.getTag()).intValue() + 1;
-            EditTextBoldCursor[] editTextBoldCursorArr = this.inputExtraFields;
-            if (intValue < editTextBoldCursorArr.length) {
-                if (editTextBoldCursorArr[intValue].isFocusable()) {
-                    this.inputExtraFields[intValue].requestFocus();
-                } else {
-                    this.inputExtraFields[intValue].dispatchTouchEvent(MotionEvent.obtain(0L, 0L, 1, 0.0f, 0.0f, 0));
-                    textView.clearFocus();
-                    AndroidUtilities.hideKeyboard(textView);
-                }
-            }
-            return true;
+        if (i != 5) {
+            return false;
         }
-        return false;
+        int intValue = ((Integer) textView.getTag()).intValue() + 1;
+        EditTextBoldCursor[] editTextBoldCursorArr = this.inputExtraFields;
+        if (intValue < editTextBoldCursorArr.length) {
+            if (editTextBoldCursorArr[intValue].isFocusable()) {
+                this.inputExtraFields[intValue].requestFocus();
+            } else {
+                this.inputExtraFields[intValue].dispatchTouchEvent(MotionEvent.obtain(0L, 0L, 1, 0.0f, 0.0f, 0));
+                textView.clearFocus();
+                AndroidUtilities.hideKeyboard(textView);
+            }
+        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7618,8 +7650,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createPasswordInterface$11(DialogInterface dialogInterface, int i) {
-        Activity parentActivity = getParentActivity();
-        Browser.openUrl(parentActivity, "https://telegram.org/deactivate?phone=" + UserConfig.getInstance(this.currentAccount).getClientPhone());
+        Browser.openUrl(getParentActivity(), "https://telegram.org/deactivate?phone=" + UserConfig.getInstance(this.currentAccount).getClientPhone());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7632,20 +7663,22 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     PassportActivity.this.lambda$createPasswordInterface$10(tLObject, tL_error);
                 }
             }, 10), this.classGuid);
-        } else if (getParentActivity() == null) {
-        } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
-            builder.setNegativeButton(LocaleController.getString(R.string.RestorePasswordResetAccount), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda42
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    PassportActivity.this.lambda$createPasswordInterface$11(dialogInterface, i);
-                }
-            });
-            builder.setTitle(LocaleController.getString(R.string.RestorePasswordNoEmailTitle));
-            builder.setMessage(LocaleController.getString(R.string.RestorePasswordNoEmailText));
-            showDialog(builder.create());
+            return;
         }
+        if (getParentActivity() == null) {
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.RestorePasswordResetAccount), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda42
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                PassportActivity.this.lambda$createPasswordInterface$11(dialogInterface, i);
+            }
+        });
+        builder.setTitle(LocaleController.getString(R.string.RestorePasswordNoEmailTitle));
+        builder.setMessage(LocaleController.getString(R.string.RestorePasswordNoEmailText));
+        showDialog(builder.create());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7657,11 +7690,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createPasswordInterface$7(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5 || i == 6) {
-            this.doneItem.callOnClick();
-            return true;
+        if (i != 5 && i != 6) {
+            return false;
         }
-        return false;
+        this.doneItem.callOnClick();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7763,24 +7796,24 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (i == 5) {
             this.inputFields[2].requestFocus();
             return true;
-        } else if (i == 6) {
-            this.doneItem.callOnClick();
-            return true;
-        } else {
+        }
+        if (i != 6) {
             return false;
         }
+        this.doneItem.callOnClick();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createPhoneInterface$31(View view, int i, KeyEvent keyEvent) {
-        if (i == 67 && this.inputFields[2].length() == 0) {
-            this.inputFields[1].requestFocus();
-            EditTextBoldCursor editTextBoldCursor = this.inputFields[1];
-            editTextBoldCursor.setSelection(editTextBoldCursor.length());
-            this.inputFields[1].dispatchKeyEvent(keyEvent);
-            return true;
+        if (i != 67 || this.inputFields[2].length() != 0) {
+            return false;
         }
-        return false;
+        this.inputFields[1].requestFocus();
+        EditTextBoldCursor editTextBoldCursor = this.inputFields[1];
+        editTextBoldCursor.setSelection(editTextBoldCursor.length());
+        this.inputFields[1].dispatchKeyEvent(keyEvent);
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7788,14 +7821,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (tL_error == null) {
             this.ignoreOnFailure = true;
             callCallback(true);
-            finishFragment();
-            return;
-        }
-        showEditDoneProgress(false, false);
-        if ("APP_VERSION_OUTDATED".equals(tL_error.text)) {
-            AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString(R.string.UpdateAppAlert), true);
+            lambda$onBackPressed$300();
         } else {
-            showAlertWithText(LocaleController.getString(R.string.AppName), tL_error.text);
+            showEditDoneProgress(false, false);
+            if ("APP_VERSION_OUTDATED".equals(tL_error.text)) {
+                AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString(R.string.UpdateAppAlert), true);
+            } else {
+                showAlertWithText(LocaleController.getString(R.string.AppName), tL_error.text);
+            }
         }
     }
 
@@ -7979,9 +8012,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 arrayList2 = arrayList;
                 size3 = i;
             } else if (securePlainData instanceof TLRPC.TL_securePlainEmail) {
-                TLRPC.TL_securePlainEmail tL_securePlainEmail = (TLRPC.TL_securePlainEmail) securePlainData;
             } else if (securePlainData instanceof TLRPC.TL_securePlainPhone) {
-                TLRPC.TL_securePlainPhone tL_securePlainPhone = (TLRPC.TL_securePlainPhone) securePlainData;
             }
             arrayList = arrayList2;
             i = size3;
@@ -8018,9 +8049,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         tL_secureCredentialsEncrypted.hash = encryptData.fileHash;
         tL_secureCredentialsEncrypted.data = encryptData.encryptedData;
         try {
-            String replace = this.currentPublicKey.replaceAll("\\n", "").replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
+            RSAPublicKey rSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decode(this.currentPublicKey.replaceAll("\\n", "").replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", ""), 0)));
             Cipher cipher = Cipher.getInstance("RSA/NONE/OAEPWithSHA1AndMGF1Padding");
-            cipher.init(1, (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decode(replace, 0))));
+            cipher.init(1, rSAPublicKey);
             tL_account_acceptAuthorization.credentials.secret = cipher.doFinal(encryptData.decrypyedFileSecret);
         } catch (Exception e) {
             FileLog.e(e);
@@ -8034,10 +8065,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0037  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0060  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00f0  */
-    /* JADX WARN: Removed duplicated region for block: B:61:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0037  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:22:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0060  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8051,7 +8082,6 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         String str3;
         TLRPC.TL_secureData tL_secureData;
         String str4;
-        LinearLayout linearLayout;
         String str5 = null;
         if (tL_error != null) {
             if (errorRunnable != null) {
@@ -8067,7 +8097,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     TextDetailSecureCell textDetailSecureCell = (TextDetailSecureCell) this.typesViews.remove(tL_secureRequiredType2);
                     if (textDetailSecureCell != null) {
                         this.linearLayout2.removeView(textDetailSecureCell);
-                        View childAt = this.linearLayout2.getChildAt(linearLayout.getChildCount() - 6);
+                        View childAt = this.linearLayout2.getChildAt(r0.getChildCount() - 6);
                         if (childAt instanceof TextDetailSecureCell) {
                             ((TextDetailSecureCell) childAt).setNeedDivider(false);
                         }
@@ -8184,10 +8214,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     public static /* synthetic */ void lambda$new$0(TLObject tLObject) {
         if (!(tLObject instanceof TLRPC.TL_help_passportConfig)) {
             SharedConfig.getCountryLangs();
-            return;
+        } else {
+            TLRPC.TL_help_passportConfig tL_help_passportConfig = (TLRPC.TL_help_passportConfig) tLObject;
+            SharedConfig.setPassportConfig(tL_help_passportConfig.countries_langs.data, tL_help_passportConfig.hash);
         }
-        TLRPC.TL_help_passportConfig tL_help_passportConfig = (TLRPC.TL_help_passportConfig) tLObject;
-        SharedConfig.setPassportConfig(tL_help_passportConfig.countries_langs.data, tL_help_passportConfig.hash);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -8201,8 +8231,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0037  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x006a  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x006a  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0037  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8213,28 +8243,30 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         TLRPC.TL_account_getPasswordSettings tL_account_getPasswordSettings = new TLRPC.TL_account_getPasswordSettings();
         if (z) {
             x = this.savedPasswordHash;
-        } else if (!(this.currentPassword.current_algo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
-            bArr = null;
-            8 r9 = new 8(z, bArr, tL_account_getPasswordSettings, str);
-            TLRPC.account_Password account_password = this.currentPassword;
-            passwordKdfAlgo = account_password.current_algo;
-            if (passwordKdfAlgo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
-                TLRPC.TL_error tL_error = new TLRPC.TL_error();
-                tL_error.text = "PASSWORD_HASH_INVALID";
-                r9.run(null, tL_error);
-                return;
-            }
-            TLRPC.TL_inputCheckPasswordSRP startCheck = SRPHelper.startCheck(bArr, account_password.srp_id, account_password.srp_B, (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) passwordKdfAlgo);
-            tL_account_getPasswordSettings.password = startCheck;
-            if (startCheck != null) {
-                ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_getPasswordSettings, r9, 10), this.classGuid);
-                return;
-            }
-            TLRPC.TL_error tL_error2 = new TLRPC.TL_error();
-            tL_error2.text = "ALGO_INVALID";
-            r9.run(null, tL_error2);
-            return;
         } else {
+            if (!(this.currentPassword.current_algo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
+                bArr = null;
+                8 r9 = new 8(z, bArr, tL_account_getPasswordSettings, str);
+                TLRPC.account_Password account_password = this.currentPassword;
+                passwordKdfAlgo = account_password.current_algo;
+                if (passwordKdfAlgo instanceof TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) {
+                    TLRPC.TL_error tL_error = new TLRPC.TL_error();
+                    tL_error.text = "PASSWORD_HASH_INVALID";
+                    r9.run(null, tL_error);
+                    return;
+                }
+                TLRPC.TL_inputCheckPasswordSRP startCheck = SRPHelper.startCheck(bArr, account_password.srp_id, account_password.srp_B, (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) passwordKdfAlgo);
+                tL_account_getPasswordSettings.password = startCheck;
+                if (startCheck != null) {
+                    ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_getPasswordSettings, r9, 10), this.classGuid);
+                    return;
+                } else {
+                    TLRPC.TL_error tL_error2 = new TLRPC.TL_error();
+                    tL_error2.text = "ALGO_INVALID";
+                    r9.run(null, tL_error2);
+                    return;
+                }
+            }
             x = SRPHelper.getX(AndroidUtilities.getStringBytes(str), (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) this.currentPassword.current_algo);
         }
         bArr = x;
@@ -8274,7 +8306,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0050  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -8481,9 +8513,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             Bitmap loadBitmap = ImageLoader.loadBitmap(sendingMediaInfo.path, sendingMediaInfo.uri, 2048.0f, 2048.0f, false);
             if (loadBitmap != null && (scaleAndSaveImage = ImageLoader.scaleAndSaveImage(loadBitmap, 2048.0f, 2048.0f, 89, false, 320, 320)) != null) {
                 TLRPC.TL_secureFile tL_secureFile = new TLRPC.TL_secureFile();
-                TLRPC.FileLocation fileLocation = scaleAndSaveImage.location;
-                tL_secureFile.dc_id = (int) fileLocation.volume_id;
-                tL_secureFile.id = fileLocation.local_id;
+                tL_secureFile.dc_id = (int) scaleAndSaveImage.location.volume_id;
+                tL_secureFile.id = r9.local_id;
                 tL_secureFile.date = (int) (System.currentTimeMillis() / 1000);
                 final SecureDocument saveFile = this.delegate.saveFile(tL_secureFile);
                 saveFile.type = i;
@@ -8758,15 +8789,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
 
                     /* JADX INFO: Access modifiers changed from: private */
-                    /* JADX WARN: Removed duplicated region for block: B:14:0x0056  */
-                    /* JADX WARN: Removed duplicated region for block: B:16:0x0065  */
-                    /* JADX WARN: Removed duplicated region for block: B:22:0x0081  */
-                    /* JADX WARN: Removed duplicated region for block: B:40:0x00d9  */
-                    /* JADX WARN: Removed duplicated region for block: B:48:0x00f7  */
-                    /* JADX WARN: Removed duplicated region for block: B:56:0x0115  */
-                    /* JADX WARN: Removed duplicated region for block: B:64:0x0136  */
-                    /* JADX WARN: Removed duplicated region for block: B:80:0x018a  */
-                    /* JADX WARN: Removed duplicated region for block: B:93:? A[RETURN, SYNTHETIC] */
+                    /* JADX WARN: Removed duplicated region for block: B:13:0x0056  */
+                    /* JADX WARN: Removed duplicated region for block: B:15:0x0065  */
+                    /* JADX WARN: Removed duplicated region for block: B:21:0x0081  */
+                    /* JADX WARN: Removed duplicated region for block: B:44:0x00d9  */
+                    /* JADX WARN: Removed duplicated region for block: B:52:0x00f7  */
+                    /* JADX WARN: Removed duplicated region for block: B:60:0x0115  */
+                    /* JADX WARN: Removed duplicated region for block: B:68:0x0136  */
+                    /* JADX WARN: Removed duplicated region for block: B:89:0x018a  */
+                    /* JADX WARN: Removed duplicated region for block: B:91:? A[RETURN, SYNTHETIC] */
                     /*
                         Code decompiled incorrectly, please refer to instructions dump.
                     */
@@ -8959,7 +8990,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
 
                     /* JADX INFO: Access modifiers changed from: private */
-                    /* renamed from: onResult */
+                    /* renamed from: onResult, reason: merged with bridge method [inline-methods] */
                     public void lambda$run$4(final TLRPC.TL_error tL_error, final TLRPC.TL_secureValue tL_secureValue, final TLRPC.TL_secureValue tL_secureValue2) {
                         final ErrorRunnable errorRunnable = this.val$errorRunnable;
                         final String str = this.val$text;
@@ -9004,7 +9035,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     }
                                 });
                                 return;
-                            } else if (tL_error.text.equals("PHONE_VERIFICATION_NEEDED")) {
+                            }
+                            if (tL_error.text.equals("PHONE_VERIFICATION_NEEDED")) {
                                 final ErrorRunnable errorRunnable2 = this.val$errorRunnable;
                                 final String str2 = this.val$text;
                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PassportActivity$20$1$$ExternalSyntheticLambda1
@@ -9054,9 +9086,11 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 /* JADX INFO: Access modifiers changed from: private */
                 public void renameFile(SecureDocument secureDocument, TLRPC.TL_secureFile tL_secureFile) {
                     File pathToAttach = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(secureDocument);
+                    String str = secureDocument.secureFile.dc_id + "_" + secureDocument.secureFile.id;
                     File pathToAttach2 = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tL_secureFile);
+                    String str2 = tL_secureFile.dc_id + "_" + tL_secureFile.id;
                     pathToAttach.renameTo(pathToAttach2);
-                    ImageLoader.getInstance().replaceImageInCache(secureDocument.secureFile.dc_id + "_" + secureDocument.secureFile.id, tL_secureFile.dc_id + "_" + tL_secureFile.id, null, false);
+                    ImageLoader.getInstance().replaceImageInCache(str, str2, null, false);
                 }
 
                 @Override // org.telegram.ui.PassportActivity.PassportActivityDelegate
@@ -9095,9 +9129,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             TLRPC.TL_securePlainEmail tL_securePlainEmail = new TLRPC.TL_securePlainEmail();
                             tL_securePlainEmail.email = str;
                             tL_securePlainPhone = tL_securePlainEmail;
-                        } else if (!(secureValueType3 instanceof TLRPC.TL_secureValueTypePhone)) {
-                            return;
                         } else {
+                            if (!(secureValueType3 instanceof TLRPC.TL_secureValueTypePhone)) {
+                                return;
+                            }
                             TLRPC.TL_securePlainPhone tL_securePlainPhone2 = new TLRPC.TL_securePlainPhone();
                             tL_securePlainPhone2.phone = str;
                             tL_securePlainPhone = tL_securePlainPhone2;
@@ -9201,8 +9236,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 File generatePicturePath = AndroidUtilities.generatePicturePath();
                 if (generatePicturePath != null) {
                     if (i2 >= 24) {
-                        Activity parentActivity = getParentActivity();
-                        intent.putExtra("output", FileProvider.getUriForFile(parentActivity, ApplicationLoader.getApplicationId() + ".provider", generatePicturePath));
+                        intent.putExtra("output", FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", generatePicturePath));
                         intent.addFlags(2);
                         intent.addFlags(1);
                     } else {
@@ -9271,11 +9305,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0052, code lost:
-        if (r7 != null) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0052, code lost:
+    
+        if (r7 != null) goto L33;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00c6, code lost:
-        if (r7 != null) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x00c6, code lost:
+    
+        if (r7 != null) goto L33;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9366,13 +9402,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:194:0x035c, code lost:
-        if (r12 == null) goto L239;
+    /* JADX WARN: Code restructure failed: missing block: B:252:0x035c, code lost:
+    
+        if (r12 == null) goto L198;
      */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x023a A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x0248 A[Catch: all -> 0x025d, TryCatch #2 {Exception -> 0x0288, blocks: (B:103:0x020d, B:126:0x0275, B:128:0x0278, B:131:0x0282, B:107:0x0226, B:113:0x023e, B:114:0x0242, B:116:0x0248, B:118:0x0254, B:122:0x0267, B:121:0x025f), top: B:312:0x020d }] */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0278 A[Catch: Exception -> 0x0288, TryCatch #2 {Exception -> 0x0288, blocks: (B:103:0x020d, B:126:0x0275, B:128:0x0278, B:131:0x0282, B:107:0x0226, B:113:0x023e, B:114:0x0242, B:116:0x0248, B:118:0x0254, B:122:0x0267, B:121:0x025f), top: B:312:0x020d }] */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x032d  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x023a A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x0248 A[Catch: all -> 0x025d, TryCatch #4 {all -> 0x025d, blocks: (B:183:0x023e, B:184:0x0242, B:186:0x0248, B:188:0x0254, B:189:0x0267, B:191:0x025f), top: B:182:0x023e, outer: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0278 A[Catch: Exception -> 0x0288, TryCatch #2 {Exception -> 0x0288, blocks: (B:282:0x020d, B:194:0x0275, B:196:0x0278, B:199:0x0282, B:275:0x0271, B:288:0x0226, B:183:0x023e, B:184:0x0242, B:186:0x0248, B:188:0x0254, B:189:0x0267, B:191:0x025f), top: B:281:0x020d, inners: #4 }] */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x032d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -9393,7 +9430,6 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         String str4;
         String[] strArr4;
         Object obj2;
-        Iterator<String> keys;
         int i3;
         String str5;
         String[] strArr5;
@@ -9402,6 +9438,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         char c;
         int i4;
         String str6;
+        Iterator<String> keys;
         HashMap hashMap2;
         String string;
         int i5;
@@ -9418,9 +9455,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         TextDetailSecureCell textDetailSecureCell3 = (TextDetailSecureCell) this.typesViews.get(tL_secureRequiredType);
         if (textDetailSecureCell3 != null) {
             z2 = true;
-        } else if (this.currentActivityType != 8) {
-            return;
         } else {
+            if (this.currentActivityType != 8) {
+                return;
+            }
             ArrayList arrayList = new ArrayList();
             if (tL_secureRequiredType2 != null) {
                 arrayList.add(tL_secureRequiredType2);
@@ -9475,8 +9513,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (str != null) {
             TLRPC.SecureValueType secureValueType = tL_secureRequiredType.type;
             if (secureValueType instanceof TLRPC.TL_secureValueTypePhone) {
-                PhoneFormat phoneFormat = PhoneFormat.getInstance();
-                sb3 = phoneFormat.format("+" + str);
+                sb3 = PhoneFormat.getInstance().format("+" + str);
                 textDetailSecureCell = textDetailSecureCell4;
                 tL_secureValue2 = valueByType2;
             } else {
@@ -9503,9 +9540,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             if (str7 == null && str8 == null) {
                 textDetailSecureCell = textDetailSecureCell4;
                 tL_secureValue2 = valueByType2;
-            } else if (hashMap4 == null) {
-                return;
             } else {
+                if (hashMap4 == null) {
+                    return;
+                }
                 hashMap4.clear();
                 TLRPC.SecureValueType secureValueType2 = tL_secureRequiredType.type;
                 String str9 = "last_name";
@@ -9548,19 +9586,23 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     hashMap = hashMap5;
                                     strArr3 = strArr2;
                                     if (strArr3 != null && jSONObject != null) {
-                                        keys = jSONObject.keys();
-                                        while (keys.hasNext()) {
-                                            Iterator<String> it = keys;
-                                            String next = keys.next();
-                                            if (i8 == 0) {
-                                                string = jSONObject.getString(next);
-                                                hashMap2 = hashMap4;
-                                            } else {
-                                                hashMap2 = hashMap;
-                                                string = jSONObject.getString(next);
+                                        try {
+                                            keys = jSONObject.keys();
+                                            while (keys.hasNext()) {
+                                                Iterator<String> it = keys;
+                                                String next = keys.next();
+                                                if (i8 == 0) {
+                                                    string = jSONObject.getString(next);
+                                                    hashMap2 = hashMap4;
+                                                } else {
+                                                    hashMap2 = hashMap;
+                                                    string = jSONObject.getString(next);
+                                                }
+                                                hashMap2.put(next, string);
+                                                keys = it;
                                             }
-                                            hashMap2.put(next, string);
-                                            keys = it;
+                                        } catch (Throwable th) {
+                                            FileLog.e(th);
                                         }
                                         i3 = 0;
                                         while (i3 < strArr3.length) {
@@ -9663,6 +9705,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                     i9 = 2;
                                     obj2 = obj;
                                     jSONObject3 = jSONObject4;
+                                    i8++;
+                                    str7 = str2;
+                                    str8 = str3;
+                                    obj = obj2;
+                                    hashMap5 = hashMap;
+                                    str9 = str4;
+                                    strArr7 = strArr4;
                                 } catch (Exception unused2) {
                                 }
                             }
@@ -9684,12 +9733,26 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             i9 = 2;
                             obj2 = obj;
                             jSONObject3 = jSONObject42;
+                            i8++;
+                            str7 = str2;
+                            str8 = str3;
+                            obj = obj2;
+                            hashMap5 = hashMap;
+                            str9 = str4;
+                            strArr7 = strArr4;
                         } else if (hashMap5 == null) {
                             str4 = str9;
                             strArr4 = strArr7;
                             i9 = 2;
                             obj2 = obj;
                             hashMap = hashMap5;
+                            i8++;
+                            str7 = str2;
+                            str8 = str3;
+                            obj = obj2;
+                            hashMap5 = hashMap;
+                            str9 = str4;
+                            strArr7 = strArr4;
                         } else {
                             if (str8 != null) {
                                 jSONObject = new JSONObject(str8);
@@ -9703,6 +9766,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 i9 = 2;
                                 obj2 = obj;
                                 jSONObject3 = jSONObject422;
+                                i8++;
+                                str7 = str2;
+                                str8 = str3;
+                                obj = obj2;
+                                hashMap5 = hashMap;
+                                str9 = str4;
+                                strArr7 = strArr4;
                             }
                             jSONObject = jSONObject3;
                             String[] strArr82 = strArr7;
@@ -9716,14 +9786,14 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             i9 = 2;
                             obj2 = obj;
                             jSONObject3 = jSONObject4222;
+                            i8++;
+                            str7 = str2;
+                            str8 = str3;
+                            obj = obj2;
+                            hashMap5 = hashMap;
+                            str9 = str4;
+                            strArr7 = strArr4;
                         }
-                        i8++;
-                        str7 = str2;
-                        str8 = str3;
-                        obj = obj2;
-                        hashMap5 = hashMap;
-                        str9 = str4;
-                        strArr7 = strArr4;
                     }
                     sb2 = sb4;
                 }
@@ -9874,26 +9944,26 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 AnimatorSet animatorSet3 = this.doneItemAnimation;
                 View contentView = this.doneItem.getContentView();
                 Property property = View.SCALE_X;
-                ObjectAnimator ofFloat = ObjectAnimator.ofFloat(contentView, property, 0.1f);
+                ObjectAnimator ofFloat = ObjectAnimator.ofFloat(contentView, (Property<View, Float>) property, 0.1f);
                 View contentView2 = this.doneItem.getContentView();
                 Property property2 = View.SCALE_Y;
-                ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(contentView2, property2, 0.1f);
+                ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(contentView2, (Property<View, Float>) property2, 0.1f);
                 View contentView3 = this.doneItem.getContentView();
                 Property property3 = View.ALPHA;
-                animatorSet3.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(contentView3, property3, 0.0f), ObjectAnimator.ofFloat(this.progressView, property, 1.0f), ObjectAnimator.ofFloat(this.progressView, property2, 1.0f), ObjectAnimator.ofFloat(this.progressView, property3, 1.0f));
+                animatorSet3.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(contentView3, (Property<View, Float>) property3, 0.0f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) property, 1.0f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) property2, 1.0f), ObjectAnimator.ofFloat(this.progressView, (Property<ContextProgressView, Float>) property3, 1.0f));
             } else {
                 this.doneItem.getContentView().setVisibility(0);
                 this.doneItem.setEnabled(true);
                 AnimatorSet animatorSet4 = this.doneItemAnimation;
                 ContextProgressView contextProgressView = this.progressView;
                 Property property4 = View.SCALE_X;
-                ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(contextProgressView, property4, 0.1f);
+                ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(contextProgressView, (Property<ContextProgressView, Float>) property4, 0.1f);
                 ContextProgressView contextProgressView2 = this.progressView;
                 Property property5 = View.SCALE_Y;
-                ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(contextProgressView2, property5, 0.1f);
+                ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(contextProgressView2, (Property<ContextProgressView, Float>) property5, 0.1f);
                 ContextProgressView contextProgressView3 = this.progressView;
                 Property property6 = View.ALPHA;
-                animatorSet4.playTogether(ofFloat3, ofFloat4, ObjectAnimator.ofFloat(contextProgressView3, property6, 0.0f), ObjectAnimator.ofFloat(this.doneItem.getContentView(), property4, 1.0f), ObjectAnimator.ofFloat(this.doneItem.getContentView(), property5, 1.0f), ObjectAnimator.ofFloat(this.doneItem.getContentView(), property6, 1.0f));
+                animatorSet4.playTogether(ofFloat3, ofFloat4, ObjectAnimator.ofFloat(contextProgressView3, (Property<ContextProgressView, Float>) property6, 0.0f), ObjectAnimator.ofFloat(this.doneItem.getContentView(), (Property<View, Float>) property4, 1.0f), ObjectAnimator.ofFloat(this.doneItem.getContentView(), (Property<View, Float>) property5, 1.0f), ObjectAnimator.ofFloat(this.doneItem.getContentView(), (Property<View, Float>) property6, 1.0f));
             }
             animatorSet = this.doneItemAnimation;
             animatorListenerAdapter = new AnimatorListenerAdapter() { // from class: org.telegram.ui.PassportActivity.21
@@ -9917,9 +9987,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     }
                 }
             };
-        } else if (this.acceptTextView == null) {
-            return;
         } else {
+            if (this.acceptTextView == null) {
+                return;
+            }
             this.doneItemAnimation = new AnimatorSet();
             if (z2) {
                 this.progressViewButton.setVisibility(0);
@@ -9927,26 +9998,26 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 AnimatorSet animatorSet5 = this.doneItemAnimation;
                 TextView textView = this.acceptTextView;
                 Property property7 = View.SCALE_X;
-                ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(textView, property7, 0.1f);
+                ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(textView, (Property<TextView, Float>) property7, 0.1f);
                 TextView textView2 = this.acceptTextView;
                 Property property8 = View.SCALE_Y;
-                ObjectAnimator ofFloat6 = ObjectAnimator.ofFloat(textView2, property8, 0.1f);
+                ObjectAnimator ofFloat6 = ObjectAnimator.ofFloat(textView2, (Property<TextView, Float>) property8, 0.1f);
                 TextView textView3 = this.acceptTextView;
                 Property property9 = View.ALPHA;
-                animatorSet5.playTogether(ofFloat5, ofFloat6, ObjectAnimator.ofFloat(textView3, property9, 0.0f), ObjectAnimator.ofFloat(this.progressViewButton, property7, 1.0f), ObjectAnimator.ofFloat(this.progressViewButton, property8, 1.0f), ObjectAnimator.ofFloat(this.progressViewButton, property9, 1.0f));
+                animatorSet5.playTogether(ofFloat5, ofFloat6, ObjectAnimator.ofFloat(textView3, (Property<TextView, Float>) property9, 0.0f), ObjectAnimator.ofFloat(this.progressViewButton, (Property<ContextProgressView, Float>) property7, 1.0f), ObjectAnimator.ofFloat(this.progressViewButton, (Property<ContextProgressView, Float>) property8, 1.0f), ObjectAnimator.ofFloat(this.progressViewButton, (Property<ContextProgressView, Float>) property9, 1.0f));
             } else {
                 this.acceptTextView.setVisibility(0);
                 this.bottomLayout.setEnabled(true);
                 AnimatorSet animatorSet6 = this.doneItemAnimation;
                 ContextProgressView contextProgressView4 = this.progressViewButton;
                 Property property10 = View.SCALE_X;
-                ObjectAnimator ofFloat7 = ObjectAnimator.ofFloat(contextProgressView4, property10, 0.1f);
+                ObjectAnimator ofFloat7 = ObjectAnimator.ofFloat(contextProgressView4, (Property<ContextProgressView, Float>) property10, 0.1f);
                 ContextProgressView contextProgressView5 = this.progressViewButton;
                 Property property11 = View.SCALE_Y;
-                ObjectAnimator ofFloat8 = ObjectAnimator.ofFloat(contextProgressView5, property11, 0.1f);
+                ObjectAnimator ofFloat8 = ObjectAnimator.ofFloat(contextProgressView5, (Property<ContextProgressView, Float>) property11, 0.1f);
                 ContextProgressView contextProgressView6 = this.progressViewButton;
                 Property property12 = View.ALPHA;
-                animatorSet6.playTogether(ofFloat7, ofFloat8, ObjectAnimator.ofFloat(contextProgressView6, property12, 0.0f), ObjectAnimator.ofFloat(this.acceptTextView, property10, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, property11, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, property12, 1.0f));
+                animatorSet6.playTogether(ofFloat7, ofFloat8, ObjectAnimator.ofFloat(contextProgressView6, (Property<ContextProgressView, Float>) property12, 0.0f), ObjectAnimator.ofFloat(this.acceptTextView, (Property<TextView, Float>) property10, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, (Property<TextView, Float>) property11, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, (Property<TextView, Float>) property12, 1.0f));
             }
             animatorSet = this.doneItemAnimation;
             animatorListenerAdapter = new AnimatorListenerAdapter() { // from class: org.telegram.ui.PassportActivity.22
@@ -10106,7 +10177,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             this.passwordInfoRequestTextView.setVisibility(8);
             this.passwordRequestTextView.setVisibility(8);
             this.emptyView.setVisibility(0);
-        } else if (!account_password.has_password) {
+            return;
+        }
+        if (!account_password.has_password) {
             this.passwordRequestTextView.setVisibility(0);
             this.noPasswordImageView.setVisibility(0);
             this.noPasswordTextView.setVisibility(0);
@@ -10118,47 +10191,52 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             this.passwordInfoRequestTextView.setVisibility(8);
             this.passwordRequestTextView.setLayoutParams(LayoutHelper.createLinear(-1, -2, 0.0f, 25.0f, 0.0f, 0.0f));
             this.emptyView.setVisibility(8);
-        } else {
-            this.passwordRequestTextView.setVisibility(0);
-            this.noPasswordImageView.setVisibility(8);
-            this.noPasswordTextView.setVisibility(8);
-            this.noPasswordSetTextView.setVisibility(8);
-            this.emptyView.setVisibility(8);
-            this.passwordAvatarContainer.setVisibility(0);
-            this.inputFieldContainers[0].setVisibility(0);
-            this.doneItem.setVisibility(0);
-            this.passwordForgotButton.setVisibility(0);
-            this.passwordInfoRequestTextView.setVisibility(0);
-            this.passwordRequestTextView.setLayoutParams(LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 0.0f));
-            if (this.inputFields != null) {
-                TLRPC.account_Password account_password2 = this.currentPassword;
-                if (account_password2 == null || TextUtils.isEmpty(account_password2.hint)) {
-                    editTextBoldCursor = this.inputFields[0];
-                    string = LocaleController.getString(R.string.LoginPassword);
-                } else {
-                    editTextBoldCursor = this.inputFields[0];
-                    string = this.currentPassword.hint;
-                }
-                editTextBoldCursor.setHint(string);
+            return;
+        }
+        this.passwordRequestTextView.setVisibility(0);
+        this.noPasswordImageView.setVisibility(8);
+        this.noPasswordTextView.setVisibility(8);
+        this.noPasswordSetTextView.setVisibility(8);
+        this.emptyView.setVisibility(8);
+        this.passwordAvatarContainer.setVisibility(0);
+        this.inputFieldContainers[0].setVisibility(0);
+        this.doneItem.setVisibility(0);
+        this.passwordForgotButton.setVisibility(0);
+        this.passwordInfoRequestTextView.setVisibility(0);
+        this.passwordRequestTextView.setLayoutParams(LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 0.0f));
+        if (this.inputFields != null) {
+            TLRPC.account_Password account_password2 = this.currentPassword;
+            if (account_password2 == null || TextUtils.isEmpty(account_password2.hint)) {
+                editTextBoldCursor = this.inputFields[0];
+                string = LocaleController.getString(R.string.LoginPassword);
+            } else {
+                editTextBoldCursor = this.inputFields[0];
+                string = this.currentPassword.hint;
             }
+            editTextBoldCursor.setHint(string);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x002e, code lost:
-        if (r6.selfieDocument != null) goto L24;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x002e, code lost:
+    
+        if (r6.selfieDocument != null) goto L70;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x0060, code lost:
-        if ((r4 instanceof org.telegram.tgnet.TLRPC.TL_secureValueTypeDriverLicense) == false) goto L56;
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x00ba, code lost:
+    
+        r1 = 8;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x008c, code lost:
-        if (r6.frontDocument == null) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x0060, code lost:
+    
+        if ((r4 instanceof org.telegram.tgnet.TLRPC.TL_secureValueTypeDriverLicense) == false) goto L45;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x008c, code lost:
+    
+        if (r6.frontDocument == null) goto L71;
      */
     /* JADX WARN: Code restructure failed: missing block: B:69:0x00b8, code lost:
-        if (r6.reverseDocument != null) goto L24;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x00ba, code lost:
-        r1 = 8;
+    
+        if (r6.reverseDocument != null) goto L70;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10220,30 +10298,32 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 i2 = R.string.PassportMainPageInfo;
                 textDetailSettingsCell2.setTextAndValue(string, LocaleController.getString(i2), z);
                 textDetailSettingsCell = this.uploadFrontCell;
-            } else if (i != 3 || this.uploadReverseCell == null) {
-                return;
             } else {
+                if (i != 3 || this.uploadReverseCell == null) {
+                    return;
+                }
                 TLRPC.SecureValueType secureValueType3 = this.currentDocumentsType.type;
                 if (!(secureValueType3 instanceof TLRPC.TL_secureValueTypeIdentityCard) && !(secureValueType3 instanceof TLRPC.TL_secureValueTypeDriverLicense)) {
                     this.reverseLayout.setVisibility(8);
                     this.uploadReverseCell.setVisibility(8);
                     return;
+                } else {
+                    this.reverseLayout.setVisibility(0);
+                    textDetailSettingsCell = this.uploadReverseCell;
                 }
-                this.reverseLayout.setVisibility(0);
-                textDetailSettingsCell = this.uploadReverseCell;
             }
             textDetailSettingsCell.setVisibility(i4);
             return;
-        } else if (this.uploadDocumentCell == null) {
+        }
+        if (this.uploadDocumentCell == null) {
             return;
+        }
+        if (this.documents.size() >= 1) {
+            textSettingsCell = this.uploadDocumentCell;
+            i3 = R.string.PassportUploadAdditinalDocument;
         } else {
-            if (this.documents.size() >= 1) {
-                textSettingsCell = this.uploadDocumentCell;
-                i3 = R.string.PassportUploadAdditinalDocument;
-            } else {
-                textSettingsCell = this.uploadDocumentCell;
-                i3 = R.string.PassportUploadDocument;
-            }
+            textSettingsCell = this.uploadDocumentCell;
+            i3 = R.string.PassportUploadDocument;
         }
         textSettingsCell.setText(LocaleController.getString(i3), false);
     }
@@ -10420,9 +10500,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
                 hashMap = this.errorsValues;
                 str = "files_all";
-            } else if (i3 != 4) {
-                return;
             } else {
+                if (i3 != 4) {
+                    return;
+                }
                 if (this.bottomCellTranslation != null && !TextUtils.isEmpty(this.noAllTranslationErrorText)) {
                     this.bottomCellTranslation.setText(this.noAllTranslationErrorText);
                 }
@@ -10490,8 +10571,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         for (int i5 = 0; i5 < this.dividers.size(); i5++) {
             arrayList.add(new ThemeDescription((View) this.dividers.get(i5), ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_divider));
         }
-        for (Map.Entry entry : this.documentsCells.entrySet()) {
-            SecureDocumentCell secureDocumentCell = (SecureDocumentCell) entry.getValue();
+        Iterator it = this.documentsCells.entrySet().iterator();
+        while (it.hasNext()) {
+            SecureDocumentCell secureDocumentCell = (SecureDocumentCell) ((Map.Entry) it.next()).getValue();
             arrayList.add(new ThemeDescription(secureDocumentCell, ThemeDescription.FLAG_SELECTORWHITE, new Class[]{SecureDocumentCell.class}, null, null, null, Theme.key_windowBackgroundWhite));
             arrayList.add(new ThemeDescription(secureDocumentCell, 0, new Class[]{SecureDocumentCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteBlackText));
             arrayList.add(new ThemeDescription(secureDocumentCell, 0, new Class[]{SecureDocumentCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteGrayText2));
@@ -10609,7 +10691,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     chatAttachAlert.onActivityResultFragment(i, intent, this.currentPicturePath);
                 }
                 this.currentPicturePath = null;
-            } else if (i == 1) {
+                return;
+            }
+            if (i == 1) {
                 if (intent == null || intent.getData() == null) {
                     showAttachmentError();
                     return;
@@ -10721,10 +10805,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if ((i2 != 1 && i2 != 2) || (chatAttachAlert = this.chatAttachAlert) == null) {
             if (i2 == 3 && i == 6) {
                 startPhoneVerification(false, this.pendingPhone, this.pendingFinishRunnable, this.pendingErrorRunnable, this.pendingDelegate);
+                return;
             }
-        } else if (i == 17) {
+            return;
+        }
+        if (i == 17) {
             chatAttachAlert.getPhotoLayout().checkCamera(false);
-        } else if (i == 21) {
+            return;
+        }
+        if (i == 21) {
             if (getParentActivity() == null || iArr == null || iArr.length == 0 || iArr[0] == 0) {
                 return;
             }
@@ -10739,12 +10828,16 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             });
             builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
             builder.show();
-        } else if (i == 19 && iArr != null && iArr.length > 0 && iArr[0] == 0) {
-            processSelectedAttach(0);
-        } else if (i != 22 || iArr == null || iArr.length <= 0 || iArr[0] != 0 || (textSettingsCell = this.scanDocumentCell) == null) {
-        } else {
-            textSettingsCell.callOnClick();
+            return;
         }
+        if (i == 19 && iArr != null && iArr.length > 0 && iArr[0] == 0) {
+            processSelectedAttach(0);
+            return;
+        }
+        if (i != 22 || iArr == null || iArr.length <= 0 || iArr[0] != 0 || (textSettingsCell = this.scanDocumentCell) == null) {
+            return;
+        }
+        textSettingsCell.callOnClick();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -10789,33 +10882,40 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
                 if (this.usingSavedPassword == 2) {
                     onPasswordDone(false);
-                }
-            }
-        } else if (i == 7) {
-            if (z) {
-                this.views[this.currentViewNum].onShow();
-            }
-        } else {
-            if (i == 4) {
-                if (!z) {
                     return;
                 }
-                this.inputFields[0].requestFocus();
-                editTextBoldCursor = this.inputFields[0];
-            } else if (i != 6) {
+                return;
+            }
+            return;
+        }
+        if (i == 7) {
+            if (z) {
+                this.views[this.currentViewNum].onShow();
+                return;
+            }
+            return;
+        }
+        if (i == 4) {
+            if (!z) {
+                return;
+            }
+            this.inputFields[0].requestFocus();
+            editTextBoldCursor = this.inputFields[0];
+        } else {
+            if (i != 6) {
                 if ((i == 2 || i == 1) && Build.VERSION.SDK_INT >= 21) {
                     createChatAttachView();
                     return;
                 }
                 return;
-            } else if (!z) {
-                return;
-            } else {
-                this.inputFields[0].requestFocus();
-                editTextBoldCursor = this.inputFields[0];
             }
-            AndroidUtilities.showKeyboard(editTextBoldCursor);
+            if (!z) {
+                return;
+            }
+            this.inputFields[0].requestFocus();
+            editTextBoldCursor = this.inputFields[0];
         }
+        AndroidUtilities.showKeyboard(editTextBoldCursor);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

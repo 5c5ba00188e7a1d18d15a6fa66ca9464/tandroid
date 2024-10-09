@@ -3,6 +3,7 @@ package kotlin.coroutines;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public abstract class AbstractCoroutineContextKey implements CoroutineContext.Key {
     private final Function1 safeCast;

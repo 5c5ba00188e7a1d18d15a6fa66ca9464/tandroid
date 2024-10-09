@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
 import com.google.android.gms.common.internal.zav;
+
 /* loaded from: classes.dex */
 public final class zal implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

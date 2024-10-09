@@ -3,6 +3,7 @@ package org.telegram.messenger.audioinfo.mp3;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import org.telegram.messenger.audioinfo.util.PositionInputStream;
+
 /* loaded from: classes3.dex */
 public class ID3v2TagHeader {
     private boolean compression;

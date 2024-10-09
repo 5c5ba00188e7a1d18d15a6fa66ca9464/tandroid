@@ -1,5 +1,6 @@
 package com.google.firebase.messaging;
 
+import android.R;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -22,6 +23,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public abstract class CommonNotificationBuilder {
     private static final AtomicInteger requestCodeProvider = new AtomicInteger((int) SystemClock.elapsedRealtime());
@@ -188,7 +190,7 @@ public abstract class CommonNotificationBuilder {
         boolean z = notificationParams.getBoolean("gcm.n.default_sound");
         ?? r0 = z;
         if (notificationParams.getBoolean("gcm.n.default_vibrate_timings")) {
-            r0 = (z ? 1 : 0) | true;
+            r0 = (z ? 1 : 0) | 2;
         }
         return notificationParams.getBoolean("gcm.n.default_light_settings") ? r0 | 4 : r0;
     }
@@ -224,7 +226,7 @@ public abstract class CommonNotificationBuilder {
         }
         try {
             if (context.getPackageManager().getApplicationInfo(context.getPackageName(), 0).targetSdkVersion >= 26) {
-                systemService = context.getSystemService(NotificationManager.class);
+                systemService = context.getSystemService((Class<Object>) NotificationManager.class);
                 NotificationManager notificationManager = (NotificationManager) systemService;
                 if (!TextUtils.isEmpty(str)) {
                     notificationChannel3 = notificationManager.getNotificationChannel(str);
@@ -298,10 +300,7 @@ public abstract class CommonNotificationBuilder {
                 Log.w("FirebaseMessaging", sb2.toString());
             }
         }
-        if (i == 0 || !isValidIcon(resources, i)) {
-            return 17301651;
-        }
-        return i;
+        return (i == 0 || !isValidIcon(resources, i)) ? R.drawable.sym_def_app_icon : i;
     }
 
     private static Uri getSound(String str, NotificationParams notificationParams, Resources resources) {
@@ -322,14 +321,14 @@ public abstract class CommonNotificationBuilder {
 
     private static String getTag(NotificationParams notificationParams) {
         String string = notificationParams.getString("gcm.n.tag");
-        if (TextUtils.isEmpty(string)) {
-            long uptimeMillis = SystemClock.uptimeMillis();
-            StringBuilder sb = new StringBuilder(37);
-            sb.append("FCM-Notification:");
-            sb.append(uptimeMillis);
-            return sb.toString();
+        if (!TextUtils.isEmpty(string)) {
+            return string;
         }
-        return string;
+        long uptimeMillis = SystemClock.uptimeMillis();
+        StringBuilder sb = new StringBuilder(37);
+        sb.append("FCM-Notification:");
+        sb.append(uptimeMillis);
+        return sb.toString();
     }
 
     private static boolean isValidIcon(Resources resources, int i) {
@@ -339,14 +338,14 @@ public abstract class CommonNotificationBuilder {
         }
         try {
             drawable = resources.getDrawable(i, null);
-            if (CommonNotificationBuilder$$ExternalSyntheticApiModelOutline1.m(drawable)) {
-                StringBuilder sb = new StringBuilder(77);
-                sb.append("Adaptive icons cannot be used in notifications. Ignoring icon id: ");
-                sb.append(i);
-                Log.e("FirebaseMessaging", sb.toString());
-                return false;
+            if (!CommonNotificationBuilder$$ExternalSyntheticApiModelOutline1.m(drawable)) {
+                return true;
             }
-            return true;
+            StringBuilder sb = new StringBuilder(77);
+            sb.append("Adaptive icons cannot be used in notifications. Ignoring icon id: ");
+            sb.append(i);
+            Log.e("FirebaseMessaging", sb.toString());
+            return false;
         } catch (Resources.NotFoundException unused) {
             StringBuilder sb2 = new StringBuilder(66);
             sb2.append("Couldn't find resource ");

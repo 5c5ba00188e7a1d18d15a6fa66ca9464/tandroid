@@ -2,15 +2,16 @@ package com.google.common.collect;
 
 import com.google.common.base.Objects;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 abstract class AbstractMapEntry implements Map.Entry {
     @Override // java.util.Map.Entry
     public boolean equals(Object obj) {
-        if (obj instanceof Map.Entry) {
-            Map.Entry entry = (Map.Entry) obj;
-            return Objects.equal(getKey(), entry.getKey()) && Objects.equal(getValue(), entry.getValue());
+        if (!(obj instanceof Map.Entry)) {
+            return false;
         }
-        return false;
+        Map.Entry entry = (Map.Entry) obj;
+        return Objects.equal(getKey(), entry.getKey()) && Objects.equal(getValue(), entry.getValue());
     }
 
     @Override // java.util.Map.Entry

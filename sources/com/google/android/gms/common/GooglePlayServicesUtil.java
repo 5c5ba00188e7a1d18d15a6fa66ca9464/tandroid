@@ -2,6 +2,7 @@ package com.google.android.gms.common;
 
 import android.content.Context;
 import android.content.res.Resources;
+
 /* loaded from: classes.dex */
 public abstract class GooglePlayServicesUtil extends GooglePlayServicesUtilLight {
     public static final int GOOGLE_PLAY_SERVICES_VERSION_CODE = GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;

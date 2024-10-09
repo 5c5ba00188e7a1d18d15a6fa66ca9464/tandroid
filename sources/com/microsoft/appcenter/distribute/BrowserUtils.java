@@ -9,6 +9,7 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 abstract class BrowserUtils {
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
 /* loaded from: classes.dex */
 public abstract class zzk {
     private static int zza(byte[] bArr, int i) {
@@ -30,20 +31,23 @@ public abstract class zzk {
                 long zzb2 = zzb(bArr, 8);
                 long zzb3 = zzb(bArr, length - 8) * j;
                 return zza(Long.rotateRight(zzb + zzb2, 43) + Long.rotateRight(zzb3, 30) + (zzb(bArr, length - 16) * (-7286425919675154353L)), zzb + Long.rotateRight(zzb2 - 7286425919675154353L, 18) + zzb3, j);
-            } else if (length >= 8) {
+            }
+            if (length >= 8) {
                 long j2 = (length << 1) - 7286425919675154353L;
                 long zzb4 = zzb(bArr, 0) - 7286425919675154353L;
                 long zzb5 = zzb(bArr, length - 8);
                 return zza((Long.rotateRight(zzb5, 37) * j2) + zzb4, (Long.rotateRight(zzb4, 25) + zzb5) * j2, j2);
-            } else if (length >= 4) {
+            }
+            if (length >= 4) {
                 return zza(((zza(bArr, 0) & 4294967295L) << 3) + length, zza(bArr, length - 4) & 4294967295L, (length << 1) - 7286425919675154353L);
-            } else if (length > 0) {
-                long j3 = (((bArr[0] & 255) + ((bArr[length >> 1] & 255) << 8)) * (-7286425919675154353L)) ^ ((length + ((bArr[length - 1] & 255) << 2)) * (-4348849565147123417L));
-                return (j3 ^ (j3 >>> 47)) * (-7286425919675154353L);
-            } else {
+            }
+            if (length <= 0) {
                 return -7286425919675154353L;
             }
-        } else if (length <= 64) {
+            long j3 = (((bArr[0] & 255) + ((bArr[length >> 1] & 255) << 8)) * (-7286425919675154353L)) ^ ((length + ((bArr[length - 1] & 255) << 2)) * (-4348849565147123417L));
+            return (j3 ^ (j3 >>> 47)) * (-7286425919675154353L);
+        }
+        if (length <= 64) {
             long j4 = (length << 1) - 7286425919675154353L;
             long zzb6 = zzb(bArr, 0) * (-7286425919675154353L);
             long zzb7 = zzb(bArr, 8);
@@ -54,49 +58,52 @@ public abstract class zzk {
             long zzb10 = zzb(bArr, 24);
             long zzb11 = (rotateRight + zzb(bArr, length - 32)) * j4;
             return zza(Long.rotateRight(zzb9 + zzb10, 43) + Long.rotateRight(zzb11, 30) + ((zza + zzb(bArr, length - 24)) * j4), zzb9 + Long.rotateRight(zzb10 + zzb6, 18) + zzb11, j4);
-        } else {
-            long[] jArr = new long[2];
-            long[] jArr2 = new long[2];
-            long zzb12 = zzb(bArr, 0) + 95310865018149119L;
-            int i = length - 1;
-            int i2 = (i / 64) << 6;
-            int i3 = i & 63;
-            int i4 = i2 + i3;
-            int i5 = i4 - 63;
-            long j5 = 2480279821605975764L;
-            long j6 = 1390051526045402406L;
-            int i6 = 0;
-            while (true) {
-                int i7 = i2;
-                long rotateRight2 = (Long.rotateRight(((zzb12 + j5) + jArr[c]) + zzb(bArr, i6 + 8), 37) * (-5435081209227447693L)) ^ jArr2[1];
-                long rotateRight3 = (Long.rotateRight(j5 + jArr[1] + zzb(bArr, i6 + 48), 42) * (-5435081209227447693L)) + jArr[c] + zzb(bArr, i6 + 40);
-                long rotateRight4 = Long.rotateRight(j6 + jArr2[c], 33) * (-5435081209227447693L);
-                int i8 = i3;
-                zza(bArr, i6, jArr[1] * (-5435081209227447693L), rotateRight2 + jArr2[c], jArr);
-                zza(bArr, i6 + 32, rotateRight4 + jArr2[1], rotateRight3 + zzb(bArr, i6 + 16), jArr2);
-                int i9 = i6 + 64;
-                if (i9 == i7) {
-                    long j7 = (-5435081209227447693L) + ((rotateRight2 & 255) << 1);
-                    long j8 = jArr2[0] + i8;
-                    jArr2[0] = j8;
-                    long j9 = jArr[0] + j8;
-                    jArr[0] = j9;
-                    jArr2[0] = jArr2[0] + j9;
-                    long rotateRight5 = (Long.rotateRight(((rotateRight4 + rotateRight3) + jArr[0]) + zzb(bArr, i4 - 55), 37) * j7) ^ (jArr2[1] * 9);
-                    long rotateRight6 = (Long.rotateRight(rotateRight3 + jArr[1] + zzb(bArr, i4 - 15), 42) * j7) + (jArr[0] * 9) + zzb(bArr, i4 - 23);
-                    long rotateRight7 = Long.rotateRight(rotateRight2 + jArr2[0], 33) * j7;
-                    zza(bArr, i5, jArr[1] * j7, rotateRight5 + jArr2[0], jArr);
-                    zza(bArr, i4 - 31, rotateRight7 + jArr2[1], zzb(bArr, i4 - 47) + rotateRight6, jArr2);
-                    return zza(zza(jArr[0], jArr2[0], j7) + (((rotateRight6 >>> 47) ^ rotateRight6) * (-4348849565147123417L)) + rotateRight5, zza(jArr[1], jArr2[1], j7) + rotateRight7, j7);
-                }
-                i6 = i9;
-                i3 = i8;
-                i2 = i7;
-                j5 = rotateRight3;
-                c = 0;
-                zzb12 = rotateRight4;
-                j6 = rotateRight2;
+        }
+        long[] jArr = new long[2];
+        long[] jArr2 = new long[2];
+        long zzb12 = zzb(bArr, 0) + 95310865018149119L;
+        int i = length - 1;
+        int i2 = (i / 64) << 6;
+        int i3 = i & 63;
+        int i4 = i2 + i3;
+        int i5 = i4 - 63;
+        long j5 = 2480279821605975764L;
+        long j6 = 1390051526045402406L;
+        int i6 = 0;
+        while (true) {
+            int i7 = i2;
+            long rotateRight2 = Long.rotateRight(zzb12 + j5 + jArr[c] + zzb(bArr, i6 + 8), 37) * (-5435081209227447693L);
+            long rotateRight3 = Long.rotateRight(j5 + jArr[1] + zzb(bArr, i6 + 48), 42) * (-5435081209227447693L);
+            long j7 = rotateRight2 ^ jArr2[1];
+            long zzb13 = rotateRight3 + jArr[c] + zzb(bArr, i6 + 40);
+            long rotateRight4 = Long.rotateRight(j6 + jArr2[c], 33) * (-5435081209227447693L);
+            int i8 = i3;
+            zza(bArr, i6, jArr[1] * (-5435081209227447693L), j7 + jArr2[c], jArr);
+            zza(bArr, i6 + 32, rotateRight4 + jArr2[1], zzb13 + zzb(bArr, i6 + 16), jArr2);
+            int i9 = i6 + 64;
+            if (i9 == i7) {
+                long j8 = (-5435081209227447693L) + ((j7 & 255) << 1);
+                long j9 = jArr2[0] + i8;
+                jArr2[0] = j9;
+                long j10 = jArr[0] + j9;
+                jArr[0] = j10;
+                jArr2[0] = jArr2[0] + j10;
+                long rotateRight5 = Long.rotateRight(rotateRight4 + zzb13 + jArr[0] + zzb(bArr, i4 - 55), 37) * j8;
+                long rotateRight6 = Long.rotateRight(zzb13 + jArr[1] + zzb(bArr, i4 - 15), 42) * j8;
+                long j11 = rotateRight5 ^ (jArr2[1] * 9);
+                long zzb14 = rotateRight6 + (jArr[0] * 9) + zzb(bArr, i4 - 23);
+                long rotateRight7 = Long.rotateRight(j7 + jArr2[0], 33) * j8;
+                zza(bArr, i5, jArr[1] * j8, j11 + jArr2[0], jArr);
+                zza(bArr, i4 - 31, rotateRight7 + jArr2[1], zzb(bArr, i4 - 47) + zzb14, jArr2);
+                return zza(zza(jArr[0], jArr2[0], j8) + (((zzb14 >>> 47) ^ zzb14) * (-4348849565147123417L)) + j11, zza(jArr[1], jArr2[1], j8) + rotateRight7, j8);
             }
+            i6 = i9;
+            i3 = i8;
+            i2 = i7;
+            j5 = zzb13;
+            c = 0;
+            zzb12 = rotateRight4;
+            j6 = j7;
         }
     }
 
@@ -107,8 +114,9 @@ public abstract class zzk {
         long zzb4 = zzb(bArr, i + 24);
         long j3 = j + zzb;
         long j4 = zzb2 + j3 + zzb3;
+        long rotateRight = Long.rotateRight(j2 + j3 + zzb4, 21) + Long.rotateRight(j4, 44);
         jArr[0] = j4 + zzb4;
-        jArr[1] = Long.rotateRight(j2 + j3 + zzb4, 21) + Long.rotateRight(j4, 44) + j3;
+        jArr[1] = rotateRight + j3;
     }
 
     private static long zzb(byte[] bArr, int i) {

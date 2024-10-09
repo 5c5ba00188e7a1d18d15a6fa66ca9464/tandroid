@@ -43,6 +43,7 @@ import org.telegram.ui.Components.Premium.StarParticlesView;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.Stories.recorder.HintView2;
+
 /* loaded from: classes3.dex */
 public abstract class ChatGreetingsView extends LinearLayout {
     private int backgroundHeight;
@@ -352,16 +353,16 @@ public abstract class ChatGreetingsView extends LinearLayout {
         AnimatorSet animatorSet3 = this.togglingStickersAnimator;
         BackupImageView backupImageView = this.nextStickerToSendView;
         Property property = View.ALPHA;
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(backupImageView, property, 0.0f, 1.0f);
+        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(backupImageView, (Property<BackupImageView, Float>) property, 0.0f, 1.0f);
         BackupImageView backupImageView2 = this.nextStickerToSendView;
         Property property2 = View.SCALE_X;
-        ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(backupImageView2, property2, 0.7f, 1.0f);
+        ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(backupImageView2, (Property<BackupImageView, Float>) property2, 0.7f, 1.0f);
         BackupImageView backupImageView3 = this.nextStickerToSendView;
         Property property3 = View.SCALE_Y;
-        ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(backupImageView3, property3, 0.7f, 1.0f);
+        ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(backupImageView3, (Property<BackupImageView, Float>) property3, 0.7f, 1.0f);
         BackupImageView backupImageView4 = this.nextStickerToSendView;
         Property property4 = View.TRANSLATION_Y;
-        animatorSet3.playTogether(ofFloat, ofFloat2, ofFloat3, ObjectAnimator.ofFloat(backupImageView4, property4, -AndroidUtilities.dp(24.0f), 0.0f), ObjectAnimator.ofFloat(this.stickerToSendView, property, 1.0f, 0.0f), ObjectAnimator.ofFloat(this.stickerToSendView, property2, 1.0f, 0.7f), ObjectAnimator.ofFloat(this.stickerToSendView, property3, 1.0f, 0.7f), ObjectAnimator.ofFloat(this.stickerToSendView, property4, 0.0f, AndroidUtilities.dp(24.0f)));
+        animatorSet3.playTogether(ofFloat, ofFloat2, ofFloat3, ObjectAnimator.ofFloat(backupImageView4, (Property<BackupImageView, Float>) property4, -AndroidUtilities.dp(24.0f), 0.0f), ObjectAnimator.ofFloat(this.stickerToSendView, (Property<BackupImageView, Float>) property, 1.0f, 0.0f), ObjectAnimator.ofFloat(this.stickerToSendView, (Property<BackupImageView, Float>) property2, 1.0f, 0.7f), ObjectAnimator.ofFloat(this.stickerToSendView, (Property<BackupImageView, Float>) property3, 1.0f, 0.7f), ObjectAnimator.ofFloat(this.stickerToSendView, (Property<BackupImageView, Float>) property4, 0.0f, AndroidUtilities.dp(24.0f)));
         this.togglingStickersAnimator.start();
     }
 

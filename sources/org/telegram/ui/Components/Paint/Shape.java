@@ -2,6 +2,7 @@ package org.telegram.ui.Components.Paint;
 
 import android.graphics.RectF;
 import org.telegram.ui.Components.Paint.Brush;
+
 /* loaded from: classes3.dex */
 public class Shape {
     public float arrowTriangleLength;
@@ -21,8 +22,9 @@ public class Shape {
         this.brush = shape;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x004c, code lost:
-        if (getType() == 3) goto L4;
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x004c, code lost:
+    
+        if (getType() == 3) goto L5;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

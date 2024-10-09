@@ -4,6 +4,7 @@ import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.config.EncoderConfig;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class zzad implements EncoderConfig {
     public static final /* synthetic */ int $r8$clinit = 0;

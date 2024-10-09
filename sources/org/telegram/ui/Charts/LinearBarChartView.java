@@ -7,6 +7,7 @@ import android.graphics.Path;
 import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
+
 /* loaded from: classes4.dex */
 public class LinearBarChartView extends BaseChartView {
     public LinearBarChartView(Context context) {
@@ -18,10 +19,10 @@ public class LinearBarChartView extends BaseChartView {
         return new LineViewData(line, true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x01be  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x01c6  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x01cf  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x01d8  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x01be  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x01cf  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x01d8  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x01c6  */
     @Override // org.telegram.ui.Charts.BaseChartView
     /*
         Code decompiled incorrectly, please refer to instructions dump.

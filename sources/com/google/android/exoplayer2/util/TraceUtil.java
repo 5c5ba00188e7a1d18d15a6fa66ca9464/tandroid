@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.util;
 
 import android.os.Trace;
+
 /* loaded from: classes.dex */
 public abstract class TraceUtil {
     public static void beginSection(String str) {

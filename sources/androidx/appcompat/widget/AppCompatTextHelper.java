@@ -20,6 +20,7 @@ import androidx.core.view.inputmethod.EditorInfoCompat;
 import androidx.core.widget.TextViewCompat;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 class AppCompatTextHelper {
     private boolean mAsyncFontPending;
@@ -112,13 +113,13 @@ class AppCompatTextHelper {
 
     private static TintInfo createTintInfo(Context context, AppCompatDrawableManager appCompatDrawableManager, int i) {
         ColorStateList tintList = appCompatDrawableManager.getTintList(context, i);
-        if (tintList != null) {
-            TintInfo tintInfo = new TintInfo();
-            tintInfo.mHasTintList = true;
-            tintInfo.mTintList = tintList;
-            return tintInfo;
+        if (tintList == null) {
+            return null;
         }
-        return null;
+        TintInfo tintInfo = new TintInfo();
+        tintInfo.mHasTintList = true;
+        tintInfo.mTintList = tintList;
+        return tintInfo;
     }
 
     private void setCompoundDrawables(Drawable drawable, Drawable drawable2, Drawable drawable3, Drawable drawable4, Drawable drawable5, Drawable drawable6) {
@@ -138,38 +139,40 @@ class AppCompatTextHelper {
                 drawable4 = compoundDrawablesRelative[3];
             }
             Api17Impl.setCompoundDrawablesRelativeWithIntrinsicBounds(textView, drawable5, drawable2, drawable6, drawable4);
-        } else if (drawable == null && drawable2 == null && drawable3 == null && drawable4 == null) {
-        } else {
-            Drawable[] compoundDrawablesRelative2 = Api17Impl.getCompoundDrawablesRelative(this.mView);
-            Drawable drawable7 = compoundDrawablesRelative2[0];
-            if (drawable7 != null || compoundDrawablesRelative2[2] != null) {
-                TextView textView2 = this.mView;
-                if (drawable2 == null) {
-                    drawable2 = compoundDrawablesRelative2[1];
-                }
-                Drawable drawable8 = compoundDrawablesRelative2[2];
-                if (drawable4 == null) {
-                    drawable4 = compoundDrawablesRelative2[3];
-                }
-                Api17Impl.setCompoundDrawablesRelativeWithIntrinsicBounds(textView2, drawable7, drawable2, drawable8, drawable4);
-                return;
-            }
-            Drawable[] compoundDrawables = this.mView.getCompoundDrawables();
-            TextView textView3 = this.mView;
-            if (drawable == null) {
-                drawable = compoundDrawables[0];
-            }
-            if (drawable2 == null) {
-                drawable2 = compoundDrawables[1];
-            }
-            if (drawable3 == null) {
-                drawable3 = compoundDrawables[2];
-            }
-            if (drawable4 == null) {
-                drawable4 = compoundDrawables[3];
-            }
-            textView3.setCompoundDrawablesWithIntrinsicBounds(drawable, drawable2, drawable3, drawable4);
+            return;
         }
+        if (drawable == null && drawable2 == null && drawable3 == null && drawable4 == null) {
+            return;
+        }
+        Drawable[] compoundDrawablesRelative2 = Api17Impl.getCompoundDrawablesRelative(this.mView);
+        Drawable drawable7 = compoundDrawablesRelative2[0];
+        if (drawable7 != null || compoundDrawablesRelative2[2] != null) {
+            TextView textView2 = this.mView;
+            if (drawable2 == null) {
+                drawable2 = compoundDrawablesRelative2[1];
+            }
+            Drawable drawable8 = compoundDrawablesRelative2[2];
+            if (drawable4 == null) {
+                drawable4 = compoundDrawablesRelative2[3];
+            }
+            Api17Impl.setCompoundDrawablesRelativeWithIntrinsicBounds(textView2, drawable7, drawable2, drawable8, drawable4);
+            return;
+        }
+        Drawable[] compoundDrawables = this.mView.getCompoundDrawables();
+        TextView textView3 = this.mView;
+        if (drawable == null) {
+            drawable = compoundDrawables[0];
+        }
+        if (drawable2 == null) {
+            drawable2 = compoundDrawables[1];
+        }
+        if (drawable3 == null) {
+            drawable3 = compoundDrawables[2];
+        }
+        if (drawable4 == null) {
+            drawable4 = compoundDrawables[3];
+        }
+        textView3.setCompoundDrawablesWithIntrinsicBounds(drawable, drawable2, drawable3, drawable4);
     }
 
     private void setCompoundTints() {
@@ -231,11 +234,13 @@ class AppCompatTextHelper {
             try {
                 Typeface font = tintTypedArray.getFont(i3, this.mStyle, new ResourcesCompat.FontCallback() { // from class: androidx.appcompat.widget.AppCompatTextHelper.1
                     @Override // androidx.core.content.res.ResourcesCompat.FontCallback
-                    public void onFontRetrievalFailed(int i9) {
+                    /* renamed from: onFontRetrievalFailed */
+                    public void lambda$callbackFailAsync$1(int i9) {
                     }
 
                     @Override // androidx.core.content.res.ResourcesCompat.FontCallback
-                    public void onFontRetrieved(Typeface typeface2) {
+                    /* renamed from: onFontRetrieved */
+                    public void lambda$callbackSuccessAsync$0(Typeface typeface2) {
                         int i9;
                         if (Build.VERSION.SDK_INT >= 28 && (i9 = i7) != -1) {
                             typeface2 = Api28Impl.create(typeface2, i9, (i8 & 2) != 0);
@@ -335,43 +340,43 @@ class AppCompatTextHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x01e0  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x01e7  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0227  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x0264  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x026a  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0273  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0279  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0282  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x0288  */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x0291  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x0297  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x02a0  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x02a6  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x02af  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0227  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x0264  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x0273  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0282  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0291  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x02a0  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x02af  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x02c9  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x02da  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0302  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x0309  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x0310  */
+    /* JADX WARN: Removed duplicated region for block: B:143:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x02ea  */
     /* JADX WARN: Removed duplicated region for block: B:145:0x02b5  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x02c9  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x02da  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x02ea  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x0302  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0309  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0310  */
-    /* JADX WARN: Removed duplicated region for block: B:161:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00cc  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00f7  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0102  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0107  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x010a  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0144  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0170  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x018b  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x01ae  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01b5  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x01bc  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x01c3 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x02a6  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x0297  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x0288  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x0279  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x026a  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x00f7  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00cc  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0144  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0170  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x018b  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x01ae  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x01bc  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01c3 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x01e0  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x01e7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -817,15 +822,15 @@ class AppCompatTextHelper {
             if (textView != null) {
                 if (!ViewCompat.isAttachedToWindow(textView)) {
                     textView.setTypeface(typeface, this.mStyle);
-                    return;
+                } else {
+                    final int i = this.mStyle;
+                    textView.post(new Runnable() { // from class: androidx.appcompat.widget.AppCompatTextHelper.2
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            textView.setTypeface(typeface, i);
+                        }
+                    });
                 }
-                final int i = this.mStyle;
-                textView.post(new Runnable() { // from class: androidx.appcompat.widget.AppCompatTextHelper.2
-                    @Override // java.lang.Runnable
-                    public void run() {
-                        textView.setTypeface(typeface, i);
-                    }
-                });
             }
         }
     }

@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class SectionReader implements TsPayloadReader {
     private int bytesRead;
@@ -70,10 +71,11 @@ public final class SectionReader implements TsPayloadReader {
                 } else {
                     if (!this.sectionSyntaxIndicator) {
                         this.sectionData.setLimit(i6);
-                    } else if (Util.crc32(this.sectionData.getData(), 0, this.totalSectionLength, -1) != 0) {
-                        this.waitingForPayloadStart = true;
-                        return;
                     } else {
+                        if (Util.crc32(this.sectionData.getData(), 0, this.totalSectionLength, -1) != 0) {
+                            this.waitingForPayloadStart = true;
+                            return;
+                        }
                         this.sectionData.setLimit(this.totalSectionLength - 4);
                     }
                     this.sectionData.setPosition(0);

@@ -19,6 +19,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public abstract class DialogsChannelsAdapter extends UniversalAdapter {
     private int allCount;
@@ -365,8 +366,9 @@ public abstract class DialogsChannelsAdapter extends UniversalAdapter {
             }
             if (!this.hasMore) {
                 return;
+            } else {
+                asFlicker = UItem.asFlicker(1);
             }
-            asFlicker = UItem.asFlicker(1);
         }
         arrayList.add(asFlicker);
     }

@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public final class MediaItem implements Bundleable {
     public final ClippingConfiguration clippingConfiguration;
@@ -241,17 +242,18 @@ public final class MediaItem implements Bundleable {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof ClippingConfiguration) {
-                ClippingConfiguration clippingConfiguration = (ClippingConfiguration) obj;
-                return this.startPositionMs == clippingConfiguration.startPositionMs && this.endPositionMs == clippingConfiguration.endPositionMs && this.relativeToLiveWindow == clippingConfiguration.relativeToLiveWindow && this.relativeToDefaultPosition == clippingConfiguration.relativeToDefaultPosition && this.startsAtKeyFrame == clippingConfiguration.startsAtKeyFrame;
+            if (!(obj instanceof ClippingConfiguration)) {
+                return false;
             }
-            return false;
+            ClippingConfiguration clippingConfiguration = (ClippingConfiguration) obj;
+            return this.startPositionMs == clippingConfiguration.startPositionMs && this.endPositionMs == clippingConfiguration.endPositionMs && this.relativeToLiveWindow == clippingConfiguration.relativeToLiveWindow && this.relativeToDefaultPosition == clippingConfiguration.relativeToDefaultPosition && this.startsAtKeyFrame == clippingConfiguration.startsAtKeyFrame;
         }
 
         public int hashCode() {
             long j = this.startPositionMs;
+            int i = ((int) (j ^ (j >>> 32))) * 31;
             long j2 = this.endPositionMs;
-            return (((((((((int) (j ^ (j >>> 32))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.relativeToLiveWindow ? 1 : 0)) * 31) + (this.relativeToDefaultPosition ? 1 : 0)) * 31) + (this.startsAtKeyFrame ? 1 : 0);
+            return ((((((i + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.relativeToLiveWindow ? 1 : 0)) * 31) + (this.relativeToDefaultPosition ? 1 : 0)) * 31) + (this.startsAtKeyFrame ? 1 : 0);
         }
 
         @Override // com.google.android.exoplayer2.Bundleable
@@ -361,11 +363,11 @@ public final class MediaItem implements Bundleable {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof DrmConfiguration) {
-                DrmConfiguration drmConfiguration = (DrmConfiguration) obj;
-                return this.scheme.equals(drmConfiguration.scheme) && Util.areEqual(this.licenseUri, drmConfiguration.licenseUri) && Util.areEqual(this.licenseRequestHeaders, drmConfiguration.licenseRequestHeaders) && this.multiSession == drmConfiguration.multiSession && this.forceDefaultLicenseUri == drmConfiguration.forceDefaultLicenseUri && this.playClearContentWithoutKey == drmConfiguration.playClearContentWithoutKey && this.forcedSessionTrackTypes.equals(drmConfiguration.forcedSessionTrackTypes) && Arrays.equals(this.keySetId, drmConfiguration.keySetId);
+            if (!(obj instanceof DrmConfiguration)) {
+                return false;
             }
-            return false;
+            DrmConfiguration drmConfiguration = (DrmConfiguration) obj;
+            return this.scheme.equals(drmConfiguration.scheme) && Util.areEqual(this.licenseUri, drmConfiguration.licenseUri) && Util.areEqual(this.licenseRequestHeaders, drmConfiguration.licenseRequestHeaders) && this.multiSession == drmConfiguration.multiSession && this.forceDefaultLicenseUri == drmConfiguration.forceDefaultLicenseUri && this.playClearContentWithoutKey == drmConfiguration.playClearContentWithoutKey && this.forcedSessionTrackTypes.equals(drmConfiguration.forcedSessionTrackTypes) && Arrays.equals(this.keySetId, drmConfiguration.keySetId);
         }
 
         public byte[] getKeySetId() {
@@ -486,20 +488,21 @@ public final class MediaItem implements Bundleable {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof LiveConfiguration) {
-                LiveConfiguration liveConfiguration = (LiveConfiguration) obj;
-                return this.targetOffsetMs == liveConfiguration.targetOffsetMs && this.minOffsetMs == liveConfiguration.minOffsetMs && this.maxOffsetMs == liveConfiguration.maxOffsetMs && this.minPlaybackSpeed == liveConfiguration.minPlaybackSpeed && this.maxPlaybackSpeed == liveConfiguration.maxPlaybackSpeed;
+            if (!(obj instanceof LiveConfiguration)) {
+                return false;
             }
-            return false;
+            LiveConfiguration liveConfiguration = (LiveConfiguration) obj;
+            return this.targetOffsetMs == liveConfiguration.targetOffsetMs && this.minOffsetMs == liveConfiguration.minOffsetMs && this.maxOffsetMs == liveConfiguration.maxOffsetMs && this.minPlaybackSpeed == liveConfiguration.minPlaybackSpeed && this.maxPlaybackSpeed == liveConfiguration.maxPlaybackSpeed;
         }
 
         public int hashCode() {
             long j = this.targetOffsetMs;
             long j2 = this.minOffsetMs;
+            int i = ((((int) (j ^ (j >>> 32))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31;
             long j3 = this.maxOffsetMs;
-            int i = ((((((int) (j ^ (j >>> 32))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + ((int) (j3 ^ (j3 >>> 32)))) * 31;
+            int i2 = (i + ((int) (j3 ^ (j3 >>> 32)))) * 31;
             float f = this.minPlaybackSpeed;
-            int floatToIntBits = (i + (f != 0.0f ? Float.floatToIntBits(f) : 0)) * 31;
+            int floatToIntBits = (i2 + (f != 0.0f ? Float.floatToIntBits(f) : 0)) * 31;
             float f2 = this.maxPlaybackSpeed;
             return floatToIntBits + (f2 != 0.0f ? Float.floatToIntBits(f2) : 0);
         }
@@ -564,11 +567,11 @@ public final class MediaItem implements Bundleable {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof LocalConfiguration) {
-                LocalConfiguration localConfiguration = (LocalConfiguration) obj;
-                return this.uri.equals(localConfiguration.uri) && Util.areEqual(this.mimeType, localConfiguration.mimeType) && Util.areEqual(this.drmConfiguration, localConfiguration.drmConfiguration) && Util.areEqual(null, null) && this.streamKeys.equals(localConfiguration.streamKeys) && Util.areEqual(this.customCacheKey, localConfiguration.customCacheKey) && this.subtitleConfigurations.equals(localConfiguration.subtitleConfigurations) && Util.areEqual(this.tag, localConfiguration.tag);
+            if (!(obj instanceof LocalConfiguration)) {
+                return false;
             }
-            return false;
+            LocalConfiguration localConfiguration = (LocalConfiguration) obj;
+            return this.uri.equals(localConfiguration.uri) && Util.areEqual(this.mimeType, localConfiguration.mimeType) && Util.areEqual(this.drmConfiguration, localConfiguration.drmConfiguration) && Util.areEqual(null, null) && this.streamKeys.equals(localConfiguration.streamKeys) && Util.areEqual(this.customCacheKey, localConfiguration.customCacheKey) && this.subtitleConfigurations.equals(localConfiguration.subtitleConfigurations) && Util.areEqual(this.tag, localConfiguration.tag);
         }
 
         public int hashCode() {
@@ -650,11 +653,11 @@ public final class MediaItem implements Bundleable {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof RequestMetadata) {
-                RequestMetadata requestMetadata = (RequestMetadata) obj;
-                return Util.areEqual(this.mediaUri, requestMetadata.mediaUri) && Util.areEqual(this.searchQuery, requestMetadata.searchQuery);
+            if (!(obj instanceof RequestMetadata)) {
+                return false;
             }
-            return false;
+            RequestMetadata requestMetadata = (RequestMetadata) obj;
+            return Util.areEqual(this.mediaUri, requestMetadata.mediaUri) && Util.areEqual(this.searchQuery, requestMetadata.searchQuery);
         }
 
         public int hashCode() {
@@ -744,11 +747,11 @@ public final class MediaItem implements Bundleable {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof SubtitleConfiguration) {
-                SubtitleConfiguration subtitleConfiguration = (SubtitleConfiguration) obj;
-                return this.uri.equals(subtitleConfiguration.uri) && Util.areEqual(this.mimeType, subtitleConfiguration.mimeType) && Util.areEqual(this.language, subtitleConfiguration.language) && this.selectionFlags == subtitleConfiguration.selectionFlags && this.roleFlags == subtitleConfiguration.roleFlags && Util.areEqual(this.label, subtitleConfiguration.label) && Util.areEqual(this.id, subtitleConfiguration.id);
+            if (!(obj instanceof SubtitleConfiguration)) {
+                return false;
             }
-            return false;
+            SubtitleConfiguration subtitleConfiguration = (SubtitleConfiguration) obj;
+            return this.uri.equals(subtitleConfiguration.uri) && Util.areEqual(this.mimeType, subtitleConfiguration.mimeType) && Util.areEqual(this.language, subtitleConfiguration.language) && this.selectionFlags == subtitleConfiguration.selectionFlags && this.roleFlags == subtitleConfiguration.roleFlags && Util.areEqual(this.label, subtitleConfiguration.label) && Util.areEqual(this.id, subtitleConfiguration.id);
         }
 
         public int hashCode() {
@@ -800,11 +803,11 @@ public final class MediaItem implements Bundleable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof MediaItem) {
-            MediaItem mediaItem = (MediaItem) obj;
-            return Util.areEqual(this.mediaId, mediaItem.mediaId) && this.clippingConfiguration.equals(mediaItem.clippingConfiguration) && Util.areEqual(this.localConfiguration, mediaItem.localConfiguration) && Util.areEqual(this.liveConfiguration, mediaItem.liveConfiguration) && Util.areEqual(this.mediaMetadata, mediaItem.mediaMetadata) && Util.areEqual(this.requestMetadata, mediaItem.requestMetadata);
+        if (!(obj instanceof MediaItem)) {
+            return false;
         }
-        return false;
+        MediaItem mediaItem = (MediaItem) obj;
+        return Util.areEqual(this.mediaId, mediaItem.mediaId) && this.clippingConfiguration.equals(mediaItem.clippingConfiguration) && Util.areEqual(this.localConfiguration, mediaItem.localConfiguration) && Util.areEqual(this.liveConfiguration, mediaItem.liveConfiguration) && Util.areEqual(this.mediaMetadata, mediaItem.mediaMetadata) && Util.areEqual(this.requestMetadata, mediaItem.requestMetadata);
     }
 
     public int hashCode() {

@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.extractor.SeekPoint;
 import com.google.android.exoplayer2.util.LongArray;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 final class IndexSeeker implements Seeker {
     private final long dataEndPosition;

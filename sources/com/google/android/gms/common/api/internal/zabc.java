@@ -3,6 +3,7 @@ package com.google.android.gms.common.api.internal;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zabc extends com.google.android.gms.internal.base.zau {
@@ -20,10 +21,12 @@ public final class zabc extends com.google.android.gms.internal.base.zau {
         int i = message.what;
         if (i == 1) {
             zabe.zaj(this.zaa);
-        } else if (i == 2) {
-            zabe.zai(this.zaa);
-        } else {
-            Log.w("GoogleApiClientImpl", "Unknown message id: " + i);
+            return;
         }
+        if (i == 2) {
+            zabe.zai(this.zaa);
+            return;
+        }
+        Log.w("GoogleApiClientImpl", "Unknown message id: " + i);
     }
 }

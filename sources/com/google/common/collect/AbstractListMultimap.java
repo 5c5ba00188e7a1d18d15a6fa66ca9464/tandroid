@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 abstract class AbstractListMultimap extends AbstractMapBasedMultimap implements ListMultimap {
     /* JADX INFO: Access modifiers changed from: protected */

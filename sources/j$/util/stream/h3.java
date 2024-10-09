@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 import j$.util.function.Supplier;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class h3 extends U2 implements j$.util.K {
@@ -21,10 +22,10 @@ public final class h3 extends U2 implements j$.util.K {
 
     @Override // j$.util.N
     /* renamed from: d */
-    public final void forEachRemaining(j$.util.function.W w) {
+    public final void e(j$.util.function.W w) {
         if (this.h != null || this.i) {
             do {
-            } while (tryAdvance(w));
+            } while (p(w));
             return;
         }
         w.getClass();
@@ -36,7 +37,7 @@ public final class h3 extends U2 implements j$.util.K {
 
     @Override // j$.util.N
     /* renamed from: i */
-    public final boolean tryAdvance(j$.util.function.W w) {
+    public final boolean p(j$.util.function.W w) {
         w.getClass();
         boolean b = b();
         if (b) {

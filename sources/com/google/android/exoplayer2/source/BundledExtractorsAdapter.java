@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor {
     private Extractor extractor;
@@ -40,14 +41,17 @@ public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor
         return -1L;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0043, code lost:
-        if (r6.getPosition() != r11) goto L28;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0043, code lost:
+    
+        if (r6.getPosition() != r11) goto L23;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0046, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0046, code lost:
+    
         r1 = false;
      */
     /* JADX WARN: Code restructure failed: missing block: B:36:0x006e, code lost:
-        if (r6.getPosition() != r11) goto L28;
+    
+        if (r6.getPosition() != r11) goto L23;
      */
     @Override // com.google.android.exoplayer2.source.ProgressiveMediaExtractor
     /*
@@ -60,7 +64,6 @@ public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor
             return;
         }
         Extractor[] createExtractors = this.extractorsFactory.createExtractors(uri, map);
-        boolean z = false;
         if (createExtractors.length == 1) {
             this.extractor = createExtractors[0];
         } else {
@@ -76,7 +79,7 @@ public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor
                     if (this.extractor == null) {
                     }
                 } catch (Throwable th) {
-                    Assertions.checkState((this.extractor != null || defaultExtractorInput.getPosition() == j) ? true : true);
+                    Assertions.checkState(this.extractor != null || defaultExtractorInput.getPosition() == j);
                     defaultExtractorInput.resetPeekPosition();
                     throw th;
                 }
@@ -85,13 +88,14 @@ public final class BundledExtractorsAdapter implements ProgressiveMediaExtractor
                     Assertions.checkState(true);
                     defaultExtractorInput.resetPeekPosition();
                     break;
+                } else {
+                    if (this.extractor == null) {
+                    }
+                    boolean z = true;
+                    Assertions.checkState(z);
+                    defaultExtractorInput.resetPeekPosition();
+                    i++;
                 }
-                if (this.extractor == null) {
-                }
-                boolean z2 = true;
-                Assertions.checkState(z2);
-                defaultExtractorInput.resetPeekPosition();
-                i++;
             }
             if (this.extractor == null) {
                 throw new UnrecognizedInputFormatException("None of the available extractors (" + Util.getCommaDelimitedSimpleClassNames(createExtractors) + ") could read the stream.", (Uri) Assertions.checkNotNull(uri));

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.play_billing;
+
 /* loaded from: classes.dex */
 final class zzau extends zzax {
     private final int zzc;
@@ -13,13 +14,13 @@ final class zzau extends zzax {
     @Override // com.google.android.gms.internal.play_billing.zzax, com.google.android.gms.internal.play_billing.zzba
     public final byte zza(int i) {
         int i2 = this.zzc;
-        if (((i2 - (i + 1)) | i) < 0) {
-            if (i < 0) {
-                throw new ArrayIndexOutOfBoundsException("Index < 0: " + i);
-            }
-            throw new ArrayIndexOutOfBoundsException("Index > length: " + i + ", " + i2);
+        if (((i2 - (i + 1)) | i) >= 0) {
+            return this.zza[i];
         }
-        return this.zza[i];
+        if (i < 0) {
+            throw new ArrayIndexOutOfBoundsException("Index < 0: " + i);
+        }
+        throw new ArrayIndexOutOfBoundsException("Index > length: " + i + ", " + i2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

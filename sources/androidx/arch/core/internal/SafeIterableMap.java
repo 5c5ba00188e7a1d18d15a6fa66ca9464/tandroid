@@ -3,6 +3,7 @@ package androidx.arch.core.internal;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
+
 /* loaded from: classes.dex */
 public class SafeIterableMap implements Iterable {
     private Entry mEnd;
@@ -63,11 +64,11 @@ public class SafeIterableMap implements Iterable {
             if (obj == this) {
                 return true;
             }
-            if (obj instanceof Entry) {
-                Entry entry = (Entry) obj;
-                return this.mKey.equals(entry.mKey) && this.mValue.equals(entry.mValue);
+            if (!(obj instanceof Entry)) {
+                return false;
             }
-            return false;
+            Entry entry = (Entry) obj;
+            return this.mKey.equals(entry.mKey) && this.mValue.equals(entry.mValue);
         }
 
         @Override // java.util.Map.Entry
@@ -208,23 +209,23 @@ public class SafeIterableMap implements Iterable {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof SafeIterableMap) {
-            SafeIterableMap safeIterableMap = (SafeIterableMap) obj;
-            if (size() != safeIterableMap.size()) {
+        if (!(obj instanceof SafeIterableMap)) {
+            return false;
+        }
+        SafeIterableMap safeIterableMap = (SafeIterableMap) obj;
+        if (size() != safeIterableMap.size()) {
+            return false;
+        }
+        Iterator it = iterator();
+        Iterator it2 = safeIterableMap.iterator();
+        while (it.hasNext() && it2.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            Object next = it2.next();
+            if ((entry == null && next != null) || (entry != null && !entry.equals(next))) {
                 return false;
             }
-            Iterator it = iterator();
-            Iterator it2 = safeIterableMap.iterator();
-            while (it.hasNext() && it2.hasNext()) {
-                Map.Entry entry = (Map.Entry) it.next();
-                Object next = it2.next();
-                if ((entry == null && next != null) || (entry != null && !entry.equals(next))) {
-                    return false;
-                }
-            }
-            return (it.hasNext() || it2.hasNext()) ? false : true;
         }
-        return false;
+        return (it.hasNext() || it2.hasNext()) ? false : true;
     }
 
     protected Entry get(Object obj) {
@@ -292,8 +293,9 @@ public class SafeIterableMap implements Iterable {
         }
         this.mSize--;
         if (!this.mIterators.isEmpty()) {
-            for (SupportRemove supportRemove : this.mIterators.keySet()) {
-                supportRemove.supportRemove(entry);
+            Iterator it = this.mIterators.keySet().iterator();
+            while (it.hasNext()) {
+                ((SupportRemove) it.next()).supportRemove(entry);
             }
         }
         Entry entry2 = entry.mPrevious;

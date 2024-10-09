@@ -26,6 +26,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.GroupColorActivity;
+
 /* loaded from: classes4.dex */
 public class GroupColorActivity extends ChannelColorActivity {
     private boolean isLoading;
@@ -125,7 +126,9 @@ public class GroupColorActivity extends ChannelColorActivity {
                             return;
                         }
                         GroupColorActivity.this.listView.smoothScrollBy(0, findViewByPosition.getBottom() - bottom);
-                    } else if (GroupColorActivity.this.profilePreviewPercent < 0.5f) {
+                        return;
+                    }
+                    if (GroupColorActivity.this.profilePreviewPercent < 0.5f) {
                         View findViewByPosition2 = GroupColorActivity.this.listView.getLayoutManager() != null ? GroupColorActivity.this.listView.getLayoutManager().findViewByPosition(0) : null;
                         if (findViewByPosition2 == null || findViewByPosition2.getTop() >= 0) {
                             return;

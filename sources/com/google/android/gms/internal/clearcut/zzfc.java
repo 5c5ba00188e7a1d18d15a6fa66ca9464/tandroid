@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 final class zzfc implements Iterator {
     private final /* synthetic */ zzfa zzpe;

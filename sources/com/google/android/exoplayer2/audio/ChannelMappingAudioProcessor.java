@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.audio;
 import com.google.android.exoplayer2.audio.AudioProcessor;
 import com.google.android.exoplayer2.util.Assertions;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 final class ChannelMappingAudioProcessor extends BaseAudioProcessor {
     private int[] outputChannels;
@@ -14,20 +15,20 @@ final class ChannelMappingAudioProcessor extends BaseAudioProcessor {
         if (iArr == null) {
             return AudioProcessor.AudioFormat.NOT_SET;
         }
-        if (audioFormat.encoding == 2) {
-            boolean z = audioFormat.channelCount != iArr.length;
-            int i = 0;
-            while (i < iArr.length) {
-                int i2 = iArr[i];
-                if (i2 >= audioFormat.channelCount) {
-                    throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
-                }
-                z |= i2 != i;
-                i++;
-            }
-            return z ? new AudioProcessor.AudioFormat(audioFormat.sampleRate, iArr.length, 2) : AudioProcessor.AudioFormat.NOT_SET;
+        if (audioFormat.encoding != 2) {
+            throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
         }
-        throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
+        boolean z = audioFormat.channelCount != iArr.length;
+        int i = 0;
+        while (i < iArr.length) {
+            int i2 = iArr[i];
+            if (i2 >= audioFormat.channelCount) {
+                throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
+            }
+            z |= i2 != i;
+            i++;
+        }
+        return z ? new AudioProcessor.AudioFormat(audioFormat.sampleRate, iArr.length, 2) : AudioProcessor.AudioFormat.NOT_SET;
     }
 
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor

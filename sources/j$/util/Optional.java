@@ -1,6 +1,7 @@
 package j$.util;
 
 import java.util.NoSuchElementException;
+
 /* loaded from: classes2.dex */
 public final class Optional<T> {
     private static final Optional b = new Optional();

@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.scheduling.jobscheduling;
 
 import com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.ConfigValue {
     private final long delta;
@@ -41,11 +42,11 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
 
         @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue.Builder
         public SchedulerConfig.ConfigValue.Builder setFlags(Set set) {
-            if (set != null) {
-                this.flags = set;
-                return this;
+            if (set == null) {
+                throw new NullPointerException("Null flags");
             }
-            throw new NullPointerException("Null flags");
+            this.flags = set;
+            return this;
         }
 
         @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue.Builder
@@ -65,11 +66,11 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
         if (obj == this) {
             return true;
         }
-        if (obj instanceof SchedulerConfig.ConfigValue) {
-            SchedulerConfig.ConfigValue configValue = (SchedulerConfig.ConfigValue) obj;
-            return this.delta == configValue.getDelta() && this.maxAllowedDelay == configValue.getMaxAllowedDelay() && this.flags.equals(configValue.getFlags());
+        if (!(obj instanceof SchedulerConfig.ConfigValue)) {
+            return false;
         }
-        return false;
+        SchedulerConfig.ConfigValue configValue = (SchedulerConfig.ConfigValue) obj;
+        return this.delta == configValue.getDelta() && this.maxAllowedDelay == configValue.getMaxAllowedDelay() && this.flags.equals(configValue.getFlags());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -92,8 +93,9 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
 
     public int hashCode() {
         long j = this.delta;
+        int i = (((int) (j ^ (j >>> 32))) ^ 1000003) * 1000003;
         long j2 = this.maxAllowedDelay;
-        return this.flags.hashCode() ^ ((((((int) (j ^ (j >>> 32))) ^ 1000003) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003);
+        return this.flags.hashCode() ^ ((i ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003);
     }
 
     public String toString() {

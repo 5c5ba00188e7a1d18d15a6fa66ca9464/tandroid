@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ObjectEncoder;
 import com.google.firebase.encoders.ObjectEncoderContext;
+
 /* loaded from: classes.dex */
 final class zzha implements ObjectEncoder {
     static final zzha zza = new zzha();

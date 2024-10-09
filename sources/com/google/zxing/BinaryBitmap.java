@@ -1,6 +1,7 @@
 package com.google.zxing;
 
 import com.google.zxing.common.BitMatrix;
+
 /* loaded from: classes.dex */
 public final class BinaryBitmap {
     private final Binarizer binarizer;

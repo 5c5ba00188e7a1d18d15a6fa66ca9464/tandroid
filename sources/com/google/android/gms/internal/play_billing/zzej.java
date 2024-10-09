@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.ListIterator;
+
 /* loaded from: classes.dex */
 final class zzej implements ListIterator {
     final ListIterator zza;
@@ -18,7 +19,6 @@ final class zzej implements ListIterator {
 
     @Override // java.util.ListIterator
     public final /* synthetic */ void add(Object obj) {
-        String str = (String) obj;
         throw new UnsupportedOperationException();
     }
 
@@ -59,7 +59,6 @@ final class zzej implements ListIterator {
 
     @Override // java.util.ListIterator
     public final /* synthetic */ void set(Object obj) {
-        String str = (String) obj;
         throw new UnsupportedOperationException();
     }
 }

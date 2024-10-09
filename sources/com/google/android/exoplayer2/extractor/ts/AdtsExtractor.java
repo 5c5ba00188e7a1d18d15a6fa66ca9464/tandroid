@@ -15,6 +15,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.EOFException;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class AdtsExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.AdtsExtractor$$ExternalSyntheticLambda0
@@ -61,7 +62,6 @@ public final class AdtsExtractor implements Extractor {
     }
 
     private void calculateAverageFrameSize(ExtractorInput extractorInput) {
-        int readBits;
         if (this.hasCalculatedAverageFrameSize) {
             return;
         }
@@ -73,32 +73,29 @@ public final class AdtsExtractor implements Extractor {
         }
         int i = 0;
         int i2 = 0;
-        do {
+        while (extractorInput.peekFully(this.scratch.getData(), 0, 2, true)) {
             try {
-                if (!extractorInput.peekFully(this.scratch.getData(), 0, 2, true)) {
-                    break;
-                }
                 this.scratch.setPosition(0);
                 if (!AdtsReader.isAdtsSyncWord(this.scratch.readUnsignedShort())) {
                     break;
-                } else if (!extractorInput.peekFully(this.scratch.getData(), 0, 4, true)) {
+                }
+                if (!extractorInput.peekFully(this.scratch.getData(), 0, 4, true)) {
                     break;
-                } else {
-                    this.scratchBits.setPosition(14);
-                    readBits = this.scratchBits.readBits(13);
-                    if (readBits <= 6) {
-                        this.hasCalculatedAverageFrameSize = true;
-                        throw ParserException.createForMalformedContainer("Malformed ADTS stream", null);
-                    }
-                    j += readBits;
-                    i2++;
-                    if (i2 == 1000) {
-                        break;
-                    }
+                }
+                this.scratchBits.setPosition(14);
+                int readBits = this.scratchBits.readBits(13);
+                if (readBits <= 6) {
+                    this.hasCalculatedAverageFrameSize = true;
+                    throw ParserException.createForMalformedContainer("Malformed ADTS stream", null);
+                }
+                j += readBits;
+                i2++;
+                if (i2 == 1000 || !extractorInput.advancePeekPosition(readBits - 6, true)) {
+                    break;
                 }
             } catch (EOFException unused) {
             }
-        } while (extractorInput.advancePeekPosition(readBits - 6, true));
+        }
         i = i2;
         extractorInput.resetPeekPosition();
         if (i > 0) {

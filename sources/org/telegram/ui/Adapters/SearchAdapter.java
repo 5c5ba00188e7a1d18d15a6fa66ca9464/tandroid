@@ -33,6 +33,7 @@ import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.ForegroundColorSpanThemable;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public abstract class SearchAdapter extends RecyclerListView.SelectionAdapter {
     private ArrayList allUnregistredContacts;
@@ -127,7 +128,9 @@ public abstract class SearchAdapter extends RecyclerListView.SelectionAdapter {
             return;
         }
         String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
-        translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
+        if (lowerCase.equals(translitString) || translitString.length() == 0) {
+            translitString = null;
+        }
         int i4 = (translitString != null ? 1 : 0) + 1;
         String[] strArr3 = new String[i4];
         strArr3[0] = lowerCase;
@@ -359,22 +362,17 @@ public abstract class SearchAdapter extends RecyclerListView.SelectionAdapter {
         int size2 = this.unregistredContacts.size();
         int size3 = this.searchAdapterHelper.getGlobalSearch().size();
         int size4 = this.searchAdapterHelper.getPhoneSearch().size();
-        if (i < 0 || i >= size) {
-            if (i <= size || i >= size + size2 + 1) {
-                return (i <= (size + size2) + 1 || i >= ((size + size4) + size2) + 1) && i > ((size + size4) + size2) + 1 && i <= (((size3 + size4) + size) + size2) + 1;
-            }
+        if (i >= 0 && i < size) {
             return false;
+        }
+        if (i <= size || i >= size + size2 + 1) {
+            return (i <= (size + size2) + 1 || i >= ((size + size4) + size2) + 1) && i > ((size + size4) + size2) + 1 && i <= (((size3 + size4) + size) + size2) + 1;
         }
         return false;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01b2  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x01c5  */
-    /* JADX WARN: Type inference failed for: r2v10 */
-    /* JADX WARN: Type inference failed for: r2v20 */
-    /* JADX WARN: Type inference failed for: r2v31, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r8v1, types: [android.text.SpannableStringBuilder] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x01c5  */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -384,34 +382,36 @@ public abstract class SearchAdapter extends RecyclerListView.SelectionAdapter {
         String str;
         long j2;
         boolean z;
-        ?? r2;
-        String str2;
+        CharSequence charSequence;
+        CharSequence charSequence2;
         boolean z2;
         int itemViewType = viewHolder.getItemViewType();
         if (itemViewType != 0) {
             if (itemViewType == 1) {
                 ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString(i == this.unregistredContactsHeaderRow ? R.string.InviteToTelegramShort : getItem(i) == null ? R.string.GlobalSearch : R.string.PhoneNumberSearch));
                 return;
-            } else if (itemViewType == 2) {
+            }
+            if (itemViewType == 2) {
+                String str2 = (String) getItem(i);
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(-1, Theme.key_windowBackgroundWhiteBlueText2);
-                textCell.setText(LocaleController.formatString("AddContactByPhone", R.string.AddContactByPhone, PhoneFormat.getInstance().format("+" + ((String) getItem(i)))), false);
-                return;
-            } else if (itemViewType != 3) {
-                return;
-            } else {
-                ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
-                ContactsController.Contact contact = (ContactsController.Contact) getItem(i);
-                profileSearchCell.useSeparator = getItem(i + 1) instanceof ContactsController.Contact;
-                profileSearchCell.setData(contact, null, ContactsController.formatName(contact.first_name, contact.last_name), PhoneFormat.getInstance().format("+" + contact.shortPhones.get(0)), false, false);
+                textCell.setText(LocaleController.formatString("AddContactByPhone", R.string.AddContactByPhone, PhoneFormat.getInstance().format("+" + str2)), false);
                 return;
             }
+            if (itemViewType != 3) {
+                return;
+            }
+            ProfileSearchCell profileSearchCell = (ProfileSearchCell) viewHolder.itemView;
+            ContactsController.Contact contact = (ContactsController.Contact) getItem(i);
+            profileSearchCell.useSeparator = getItem(i + 1) instanceof ContactsController.Contact;
+            profileSearchCell.setData(contact, null, ContactsController.formatName(contact.first_name, contact.last_name), PhoneFormat.getInstance().format("+" + contact.shortPhones.get(0)), false, false);
+            return;
         }
         TLObject tLObject = (TLObject) getItem(i);
         if (tLObject == null) {
             return;
         }
-        String str3 = null;
+        CharSequence charSequence3 = null;
         if (tLObject instanceof TLRPC.User) {
             TLRPC.User user = (TLRPC.User) tLObject;
             str = UserObject.getPublicUsername(user);
@@ -439,40 +439,41 @@ public abstract class SearchAdapter extends RecyclerListView.SelectionAdapter {
             z = false;
         }
         if (i < this.searchResult.size()) {
-            r2 = (CharSequence) this.searchResultNames.get(i);
-            if (r2 != null && str != null && str.length() > 0) {
-                if (r2.toString().startsWith("@" + str)) {
-                    str2 = r2;
+            charSequence = (CharSequence) this.searchResultNames.get(i);
+            if (charSequence != null && str != null && str.length() > 0) {
+                if (charSequence.toString().startsWith("@" + str)) {
+                    charSequence2 = charSequence;
                     z2 = this.useUserCell;
                     View view = viewHolder.itemView;
                     if (z2) {
                         UserCell userCell = (UserCell) view;
-                        userCell.setData(tLObject, str3, str2, 0);
+                        userCell.setData(tLObject, charSequence3, charSequence2, 0);
                         userCell.setChecked(this.selectedUsers.indexOfKey(j2) >= 0, false);
                         return;
+                    } else {
+                        ProfileSearchCell profileSearchCell2 = (ProfileSearchCell) view;
+                        profileSearchCell2.setData(tLObject, null, z ? LocaleController.getString(R.string.SavedMessages) : charSequence3, charSequence2, false, z);
+                        profileSearchCell2.useSeparator = (i == getItemCount() - 1 || i == this.searchResult.size() - 1) ? false : true;
+                        profileSearchCell2.setChecked(this.selectedUsers.indexOfKey(j2) >= 0, false);
+                        return;
                     }
-                    ProfileSearchCell profileSearchCell2 = (ProfileSearchCell) view;
-                    profileSearchCell2.setData(tLObject, null, z ? LocaleController.getString(R.string.SavedMessages) : str3, str2, false, z);
-                    profileSearchCell2.useSeparator = (i == getItemCount() - 1 || i == this.searchResult.size() - 1) ? false : true;
-                    profileSearchCell2.setChecked(this.selectedUsers.indexOfKey(j2) >= 0, false);
-                    return;
                 }
             }
         } else if (i <= this.searchResult.size() || str == null) {
-            r2 = null;
+            charSequence = null;
         } else {
             String lastFoundUsername = this.searchAdapterHelper.getLastFoundUsername();
             if (lastFoundUsername != null && lastFoundUsername.startsWith("@")) {
                 lastFoundUsername = lastFoundUsername.substring(1);
             }
             try {
-                ?? spannableStringBuilder = new SpannableStringBuilder();
-                spannableStringBuilder.append("@");
-                spannableStringBuilder.append(str);
-                str2 = spannableStringBuilder;
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                spannableStringBuilder.append((CharSequence) "@");
+                spannableStringBuilder.append((CharSequence) str);
+                charSequence2 = spannableStringBuilder;
                 if (lastFoundUsername != null) {
                     int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str, lastFoundUsername);
-                    str2 = spannableStringBuilder;
+                    charSequence2 = spannableStringBuilder;
                     if (indexOfIgnoreCase != -1) {
                         int length = lastFoundUsername.length();
                         if (indexOfIgnoreCase == 0) {
@@ -481,20 +482,20 @@ public abstract class SearchAdapter extends RecyclerListView.SelectionAdapter {
                             indexOfIgnoreCase++;
                         }
                         spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_windowBackgroundWhiteBlueText4), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
-                        str2 = spannableStringBuilder;
+                        charSequence2 = spannableStringBuilder;
                     }
                 }
             } catch (Exception e) {
                 FileLog.e(e);
-                str2 = str;
+                charSequence2 = str;
             }
             z2 = this.useUserCell;
             View view2 = viewHolder.itemView;
             if (z2) {
             }
         }
-        str2 = null;
-        str3 = r2;
+        charSequence2 = null;
+        charSequence3 = charSequence;
         z2 = this.useUserCell;
         View view22 = viewHolder.itemView;
         if (z2) {

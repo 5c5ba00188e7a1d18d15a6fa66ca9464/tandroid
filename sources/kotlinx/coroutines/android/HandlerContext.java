@@ -9,6 +9,7 @@ import kotlin.jvm.internal.Intrinsics;
 import kotlinx.coroutines.Delay;
 import kotlinx.coroutines.Dispatchers;
 import kotlinx.coroutines.JobKt;
+
 /* loaded from: classes.dex */
 public final class HandlerContext extends HandlerDispatcher implements Delay {
     private volatile HandlerContext _immediate;
@@ -73,13 +74,13 @@ public final class HandlerContext extends HandlerDispatcher implements Delay {
     @Override // kotlinx.coroutines.CoroutineDispatcher
     public String toString() {
         String stringInternalImpl = toStringInternalImpl();
-        if (stringInternalImpl == null) {
-            String str = this.name;
-            if (str == null) {
-                str = this.handler.toString();
-            }
-            return this.invokeImmediately ? Intrinsics.stringPlus(str, ".immediate") : str;
+        if (stringInternalImpl != null) {
+            return stringInternalImpl;
         }
-        return stringInternalImpl;
+        String str = this.name;
+        if (str == null) {
+            str = this.handler.toString();
+        }
+        return this.invokeImmediately ? Intrinsics.stringPlus(str, ".immediate") : str;
     }
 }

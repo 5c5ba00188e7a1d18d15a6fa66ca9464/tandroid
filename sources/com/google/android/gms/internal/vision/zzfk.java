@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import com.google.android.gms.internal.vision.zzjb;
+
 /* loaded from: classes.dex */
 abstract /* synthetic */ class zzfk {
     static final /* synthetic */ int[] zza;

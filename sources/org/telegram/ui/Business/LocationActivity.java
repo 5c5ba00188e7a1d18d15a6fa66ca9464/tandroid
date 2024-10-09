@@ -53,6 +53,7 @@ import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.LocationActivity;
+
 /* loaded from: classes4.dex */
 public class LocationActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private String address;
@@ -128,7 +129,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBackPressed$3(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -139,7 +140,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         } else if (tLObject instanceof TLRPC.TL_boolFalse) {
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
         } else {
-            finishFragment();
+            lambda$onBackPressed$300();
         }
     }
 
@@ -176,7 +177,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.showError(tL_error);
         } else if (!(tLObject instanceof TLRPC.TL_boolFalse)) {
-            finishFragment();
+            lambda$onBackPressed$300();
         } else {
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
@@ -255,10 +256,13 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             if (this.geo == null || uItem.view == this.mapPreviewContainer) {
                 showLocationAlert();
                 return;
+            } else {
+                this.geo = null;
+                this.listView.adapter.update(true);
+                return;
             }
-            this.geo = null;
-            this.listView.adapter.update(true);
-        } else if (i2 == 2) {
+        }
+        if (i2 == 2) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.BusinessLocationClearTitle));
             builder.setMessage(LocaleController.getString(R.string.BusinessLocationClearMessage));
@@ -281,7 +285,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         boolean z = this.geo == null && TextUtils.isEmpty(this.address);
         if (!z) {
             if (!hasChanges()) {
-                finishFragment();
+                lambda$onBackPressed$300();
                 return;
             }
             String str = this.address;
@@ -420,8 +424,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         int min = Math.min(2, (int) Math.ceil(f));
         BackupImageView backupImageView2 = this.mapPreview;
         TLRPC.GeoPoint geoPoint = this.geo;
-        ImageLocation forWebFile = ImageLocation.getForWebFile(WebFile.createWithGeoPoint(geoPoint.lat, geoPoint._long, 0L, min * i, min * NotificationCenter.needSetDayNightTheme, 15, min));
-        backupImageView2.setImage(forWebFile, i + "_" + NotificationCenter.needSetDayNightTheme, this.mapLoadingDrawable, 0, (Object) null);
+        backupImageView2.setImage(ImageLocation.getForWebFile(WebFile.createWithGeoPoint(geoPoint.lat, geoPoint._long, 0L, min * i, min * NotificationCenter.needSetDayNightTheme, 15, min)), i + "_" + NotificationCenter.needSetDayNightTheme, this.mapLoadingDrawable, 0, (Object) null);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -434,7 +437,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             public void onItemClick(int i) {
                 if (i == -1) {
                     if (LocationActivity.this.onBackPressed()) {
-                        LocationActivity.this.finishFragment();
+                        LocationActivity.this.lambda$onBackPressed$300();
                     }
                 } else if (i == 1) {
                     LocationActivity.this.processDone();
@@ -531,12 +534,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         this.editText.setFilters(new InputFilter[]{new InputFilter() { // from class: org.telegram.ui.Business.LocationActivity.4
             @Override // android.text.InputFilter
             public CharSequence filter(CharSequence charSequence, int i3, int i4, Spanned spanned, int i5, int i6) {
-                if (charSequence != null) {
-                    String charSequence2 = charSequence.toString();
-                    if (charSequence2.contains("\n")) {
-                        return charSequence2.replaceAll("\n", "");
-                    }
+                if (charSequence == null) {
                     return null;
+                }
+                String charSequence2 = charSequence.toString();
+                if (charSequence2.contains("\n")) {
+                    return charSequence2.replaceAll("\n", "");
                 }
                 return null;
             }
@@ -656,16 +659,16 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         if (z != ((tL_businessLocation == null || (tL_businessLocation.geo_point instanceof TLRPC.TL_geoPointEmpty)) ? false : true)) {
             return true;
         }
-        if (TextUtils.equals(this.address, tL_businessLocation != null ? tL_businessLocation.address : "")) {
-            TLRPC.GeoPoint geoPoint2 = this.geo;
-            boolean z2 = geoPoint2 != null;
-            TLRPC.TL_businessLocation tL_businessLocation2 = this.currentLocation;
-            if (z2 != ((tL_businessLocation2 == null || tL_businessLocation2.geo_point == null) ? false : true)) {
-                return true;
-            }
-            return geoPoint2 != null && (tL_businessLocation2 == null || (geoPoint = tL_businessLocation2.geo_point) == null || !((geoPoint instanceof TLRPC.TL_geoPointEmpty) || (geoPoint2.lat == geoPoint.lat && geoPoint2._long == geoPoint._long)));
+        if (!TextUtils.equals(this.address, tL_businessLocation != null ? tL_businessLocation.address : "")) {
+            return true;
         }
-        return true;
+        TLRPC.GeoPoint geoPoint2 = this.geo;
+        boolean z2 = geoPoint2 != null;
+        TLRPC.TL_businessLocation tL_businessLocation2 = this.currentLocation;
+        if (z2 != ((tL_businessLocation2 == null || tL_businessLocation2.geo_point == null) ? false : true)) {
+            return true;
+        }
+        return geoPoint2 != null && (tL_businessLocation2 == null || (geoPoint = tL_businessLocation2.geo_point) == null || !((geoPoint instanceof TLRPC.TL_geoPointEmpty) || (geoPoint2.lat == geoPoint.lat && geoPoint2._long == geoPoint._long)));
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

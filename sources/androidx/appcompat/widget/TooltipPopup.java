@@ -16,6 +16,7 @@ import androidx.appcompat.R$dimen;
 import androidx.appcompat.R$id;
 import androidx.appcompat.R$layout;
 import androidx.appcompat.R$style;
+
 /* loaded from: classes.dex */
 class TooltipPopup {
     private final View mContentView;

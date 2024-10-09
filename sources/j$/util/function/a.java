@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import j$.util.function.BiConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class a implements java.util.function.BiConsumer {
     public final /* synthetic */ BiConsumer a;

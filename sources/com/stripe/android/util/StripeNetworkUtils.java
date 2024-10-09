@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class StripeNetworkUtils {
     public static Map hashMapFromCard(Card card) {

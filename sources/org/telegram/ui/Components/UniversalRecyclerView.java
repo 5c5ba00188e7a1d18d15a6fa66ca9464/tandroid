@@ -14,6 +14,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class UniversalRecyclerView extends RecyclerListView {
     public final UniversalAdapter adapter;
@@ -45,11 +46,11 @@ public class UniversalRecyclerView extends RecyclerListView {
 
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2) {
-            if (UniversalRecyclerView.this.adapter.isReorderItem(viewHolder.getAdapterPosition()) && UniversalRecyclerView.this.adapter.getReorderSectionId(viewHolder.getAdapterPosition()) == UniversalRecyclerView.this.adapter.getReorderSectionId(viewHolder2.getAdapterPosition())) {
-                UniversalRecyclerView.this.adapter.swapElements(viewHolder.getAdapterPosition(), viewHolder2.getAdapterPosition());
-                return true;
+            if (!UniversalRecyclerView.this.adapter.isReorderItem(viewHolder.getAdapterPosition()) || UniversalRecyclerView.this.adapter.getReorderSectionId(viewHolder.getAdapterPosition()) != UniversalRecyclerView.this.adapter.getReorderSectionId(viewHolder2.getAdapterPosition())) {
+                return false;
             }
-            return false;
+            UniversalRecyclerView.this.adapter.swapElements(viewHolder.getAdapterPosition(), viewHolder2.getAdapterPosition());
+            return true;
         }
 
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
@@ -83,8 +84,9 @@ public class UniversalRecyclerView extends RecyclerListView {
 
     public UniversalRecyclerView(Context context, int i, int i2, boolean z, Utilities.Callback2 callback2, final Utilities.Callback5 callback5, final Utilities.Callback5Return callback5Return, Theme.ResourcesProvider resourcesProvider, int i3) {
         super(context, resourcesProvider);
+        boolean z2 = false;
         if (i3 == -1) {
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false) { // from class: org.telegram.ui.Components.UniversalRecyclerView.1
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, z2) { // from class: org.telegram.ui.Components.UniversalRecyclerView.1
                 /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.LinearLayoutManager
                 public int getExtraLayoutSpace(RecyclerView.State state) {
@@ -273,26 +275,28 @@ public class UniversalRecyclerView extends RecyclerListView {
         LinearLayoutManager linearLayoutManager = this.layoutManager;
         if (linearLayoutManager instanceof ExtendedGridLayoutManager) {
             ((ExtendedGridLayoutManager) linearLayoutManager).setSpanCount(i);
-        } else if (!(linearLayoutManager instanceof LinearLayoutManager) || i == -1) {
-        } else {
-            final ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(getContext(), i) { // from class: org.telegram.ui.Components.UniversalRecyclerView.5
-                /* JADX INFO: Access modifiers changed from: protected */
-                @Override // androidx.recyclerview.widget.LinearLayoutManager
-                public int getExtraLayoutSpace(RecyclerView.State state) {
-                    return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
-                }
-            };
-            extendedGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.UniversalRecyclerView.6
-                @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-                public int getSpanSize(int i2) {
-                    UItem item;
-                    int i3;
-                    UniversalAdapter universalAdapter = UniversalRecyclerView.this.adapter;
-                    return (universalAdapter == null || (item = universalAdapter.getItem(i2)) == null || (i3 = item.spanCount) == -1) ? extendedGridLayoutManager.getSpanCount() : i3;
-                }
-            });
-            this.layoutManager = extendedGridLayoutManager;
-            setLayoutManager(extendedGridLayoutManager);
+            return;
         }
+        if (!(linearLayoutManager instanceof LinearLayoutManager) || i == -1) {
+            return;
+        }
+        final ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(getContext(), i) { // from class: org.telegram.ui.Components.UniversalRecyclerView.5
+            /* JADX INFO: Access modifiers changed from: protected */
+            @Override // androidx.recyclerview.widget.LinearLayoutManager
+            public int getExtraLayoutSpace(RecyclerView.State state) {
+                return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
+            }
+        };
+        extendedGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.UniversalRecyclerView.6
+            @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+            public int getSpanSize(int i2) {
+                UItem item;
+                int i3;
+                UniversalAdapter universalAdapter = UniversalRecyclerView.this.adapter;
+                return (universalAdapter == null || (item = universalAdapter.getItem(i2)) == null || (i3 = item.spanCount) == -1) ? extendedGridLayoutManager.getSpanCount() : i3;
+            }
+        });
+        this.layoutManager = extendedGridLayoutManager;
+        setLayoutManager(extendedGridLayoutManager);
     }
 }

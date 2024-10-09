@@ -37,6 +37,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconRenderer;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView;
 import org.telegram.ui.Components.Premium.StarParticlesView;
+
 /* loaded from: classes3.dex */
 public class HeaderCell extends FrameLayout {
     private ValueAnimator goldenAnimator;
@@ -80,7 +81,7 @@ public class HeaderCell extends FrameLayout {
         gLIconRenderer.colorKey1 = i;
         gLIconRenderer.colorKey2 = Theme.key_premiumGradient1;
         gLIconRenderer.updateColors();
-        linearLayout.addView(gLIconTextureView, LayoutHelper.createLinear((int) NotificationCenter.audioRouteChanged, (int) NotificationCenter.audioRouteChanged, 1));
+        linearLayout.addView(gLIconTextureView, LayoutHelper.createLinear(NotificationCenter.audioRouteChanged, NotificationCenter.audioRouteChanged, 1));
         StarParticlesView starParticlesView = new StarParticlesView(context) { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell.2
             @Override // android.view.View
             protected void onAttachedToWindow() {
@@ -139,7 +140,7 @@ public class HeaderCell extends FrameLayout {
         linksTextView.setImportantForAccessibility(2);
         linearLayout.addView(linksTextView, LayoutHelper.createFrame(-1, -2.0f, 17, 24.0f, 8.0f, 24.0f, 18.0f));
         setClipChildren(false);
-        addView(starParticlesView, LayoutHelper.createFrame(-1, (int) NotificationCenter.didSetNewTheme, 48));
+        addView(starParticlesView, LayoutHelper.createFrame(-1, NotificationCenter.didSetNewTheme, 48));
         addView(linearLayout);
         setWillNotDraw(false);
     }
@@ -152,10 +153,11 @@ public class HeaderCell extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setStars$2(float[] fArr, float f, float f2, boolean z, ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        float f3 = floatValue - fArr[0];
         fArr[0] = floatValue;
         this.iconTextureView.mRenderer.golden = AndroidUtilities.lerp(f, f2, floatValue);
         GLIconRenderer gLIconRenderer = this.iconTextureView.mRenderer;
-        gLIconRenderer.angleX3 += (floatValue - fArr[0]) * 360.0f * (z ? 1 : -1);
+        gLIconRenderer.angleX3 += f3 * 360.0f * (z ? 1 : -1);
         gLIconRenderer.updateColors();
         updatePaints(this.iconTextureView.mRenderer.golden);
     }
@@ -194,9 +196,8 @@ public class HeaderCell extends FrameLayout {
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
-        float top = this.iconTextureView.getTop() + (this.iconTextureView.getMeasuredHeight() / 2.0f);
         StarParticlesView starParticlesView = this.starParticlesView;
-        starParticlesView.setTranslationY(top - (starParticlesView.getMeasuredHeight() / 2.0f));
+        starParticlesView.setTranslationY((this.iconTextureView.getTop() + (this.iconTextureView.getMeasuredHeight() / 2.0f)) - (starParticlesView.getMeasuredHeight() / 2.0f));
     }
 
     public void setBoostViaGifsText(TLRPC.Chat chat) {
@@ -264,9 +265,10 @@ public class HeaderCell extends FrameLayout {
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 float[] fArr2 = fArr;
+                float f4 = 1.0f - fArr2[0];
                 fArr2[0] = 1.0f;
                 HeaderCell.this.iconTextureView.mRenderer.golden = AndroidUtilities.lerp(f, f3, 1.0f);
-                HeaderCell.this.iconTextureView.mRenderer.angleX3 += (1.0f - fArr2[0]) * 360.0f * (z ? 1 : -1);
+                HeaderCell.this.iconTextureView.mRenderer.angleX3 += f4 * 360.0f * (z ? 1 : -1);
                 HeaderCell.this.iconTextureView.mRenderer.updateColors();
                 HeaderCell headerCell = HeaderCell.this;
                 headerCell.updatePaints(headerCell.iconTextureView.mRenderer.golden);

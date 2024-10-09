@@ -3,6 +3,7 @@ package com.google.android.gms.common.api.internal;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zabh extends com.google.android.gms.internal.base.zau {
@@ -20,9 +21,10 @@ public final class zabh extends com.google.android.gms.internal.base.zau {
         int i = message.what;
         if (i == 1) {
             ((zabg) message.obj).zab(this.zaa);
-        } else if (i == 2) {
-            throw ((RuntimeException) message.obj);
         } else {
+            if (i == 2) {
+                throw ((RuntimeException) message.obj);
+            }
             Log.w("GACStateManager", "Unknown message id: " + i);
         }
     }

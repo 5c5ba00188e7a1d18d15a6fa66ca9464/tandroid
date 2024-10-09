@@ -6,6 +6,7 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.util.ArrayUtils;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public class CommonWalletObject extends AbstractSafeParcelable {
     public static final Parcelable.Creator<CommonWalletObject> CREATOR = new zzc();

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 final class zzhq extends IllegalArgumentException {
     /* JADX INFO: Access modifiers changed from: package-private */

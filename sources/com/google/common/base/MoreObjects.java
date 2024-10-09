@@ -1,4 +1,5 @@
 package com.google.common.base;
+
 /* loaded from: classes.dex */
 public abstract class MoreObjects {
     public static Object firstNonNull(Object obj, Object obj2) {

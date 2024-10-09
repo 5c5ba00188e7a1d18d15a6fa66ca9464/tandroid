@@ -6,6 +6,7 @@ import java.util.AbstractCollection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class Multimaps {
 
@@ -44,22 +45,22 @@ public abstract class Multimaps {
 
         @Override // java.util.AbstractCollection, java.util.Collection
         public boolean contains(Object obj) {
-            if (obj instanceof Map.Entry) {
-                Map.Entry entry = (Map.Entry) obj;
-                return multimap().containsEntry(entry.getKey(), entry.getValue());
+            if (!(obj instanceof Map.Entry)) {
+                return false;
             }
-            return false;
+            Map.Entry entry = (Map.Entry) obj;
+            return multimap().containsEntry(entry.getKey(), entry.getValue());
         }
 
         abstract Multimap multimap();
 
         @Override // java.util.AbstractCollection, java.util.Collection
         public boolean remove(Object obj) {
-            if (obj instanceof Map.Entry) {
-                Map.Entry entry = (Map.Entry) obj;
-                return multimap().remove(entry.getKey(), entry.getValue());
+            if (!(obj instanceof Map.Entry)) {
+                return false;
             }
-            return false;
+            Map.Entry entry = (Map.Entry) obj;
+            return multimap().remove(entry.getKey(), entry.getValue());
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection

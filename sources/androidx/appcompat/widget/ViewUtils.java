@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.core.view.ViewCompat;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public abstract class ViewUtils {
     static final boolean SDK_LEVEL_SUPPORTS_AUTOSIZE;

@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public final class ExoPlaybackException extends PlaybackException {
     final boolean isRecoverable;
@@ -56,9 +57,8 @@ public final class ExoPlaybackException extends PlaybackException {
 
     private ExoPlaybackException(String str, Throwable th, int i, int i2, String str2, int i3, Format format, int i4, MediaSource.MediaPeriodId mediaPeriodId, long j, boolean z) {
         super(str, th, i, j);
-        boolean z2 = false;
         Assertions.checkArgument(!z || i2 == 1);
-        Assertions.checkArgument((th != null || i2 == 3) ? true : true);
+        Assertions.checkArgument(th != null || i2 == 3);
         this.type = i2;
         this.rendererName = str2;
         this.rendererIndex = i3;

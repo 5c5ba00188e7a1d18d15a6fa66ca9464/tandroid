@@ -5,6 +5,7 @@ import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class ManagedErrorLog extends AbstractErrorLog {
     private Exception exception;
@@ -15,17 +16,17 @@ public class ManagedErrorLog extends AbstractErrorLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            ManagedErrorLog managedErrorLog = (ManagedErrorLog) obj;
-            Exception exception = this.exception;
-            if (exception == null ? managedErrorLog.exception == null : exception.equals(managedErrorLog.exception)) {
-                List list = this.threads;
-                List list2 = managedErrorLog.threads;
-                return list != null ? list.equals(list2) : list2 == null;
-            }
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
             return false;
         }
-        return false;
+        ManagedErrorLog managedErrorLog = (ManagedErrorLog) obj;
+        Exception exception = this.exception;
+        if (exception == null ? managedErrorLog.exception != null : !exception.equals(managedErrorLog.exception)) {
+            return false;
+        }
+        List list = this.threads;
+        List list2 = managedErrorLog.threads;
+        return list != null ? list.equals(list2) : list2 == null;
     }
 
     public Exception getException() {

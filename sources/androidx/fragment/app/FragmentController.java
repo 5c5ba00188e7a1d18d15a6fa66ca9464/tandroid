@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import androidx.core.util.Preconditions;
 import androidx.lifecycle.ViewModelStoreOwner;
+
 /* loaded from: classes.dex */
 public class FragmentController {
     private final FragmentHostCallback mHost;

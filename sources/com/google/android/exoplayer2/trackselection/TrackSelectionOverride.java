@@ -10,6 +10,7 @@ import com.google.common.primitives.Ints;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class TrackSelectionOverride implements Bundleable {
     public final TrackGroup mediaTrackGroup;

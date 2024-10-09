@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 interface zzfr {
     void zza(int i, double d);

@@ -28,6 +28,7 @@ import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.GroupCreateUserCell;
+
 /* loaded from: classes3.dex */
 public class GroupCreateSpan extends View {
     private AvatarDrawable avatarDrawable;
@@ -65,14 +66,14 @@ public class GroupCreateSpan extends View {
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x033f  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x02ad  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x02af  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x02bc  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x02bf  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x02c8  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x02da  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x02ad  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x02bc  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x02c8  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x02da  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x033f  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x02bf  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x02af  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -80,7 +81,7 @@ public class GroupCreateSpan extends View {
         super(context);
         String str;
         ImageLocation forUserOrChat;
-        TLRPC.User user;
+        TLRPC.Chat chat;
         int min;
         StaticLayout staticLayout;
         char c;
@@ -100,33 +101,33 @@ public class GroupCreateSpan extends View {
         boolean z2 = obj instanceof String;
         if (!z2) {
             if (obj instanceof TLRPC.User) {
-                TLRPC.User user2 = (TLRPC.User) obj;
-                this.uid = user2.id;
-                if (UserObject.isReplyUser(user2)) {
+                TLRPC.User user = (TLRPC.User) obj;
+                this.uid = user.id;
+                if (UserObject.isReplyUser(user)) {
                     str = LocaleController.getString(R.string.RepliesTitle);
                     this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(12);
-                } else if (UserObject.isUserSelf(user2)) {
+                } else if (UserObject.isUserSelf(user)) {
                     str = LocaleController.getString(R.string.SavedMessages);
                     this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(1);
                 } else {
-                    this.avatarDrawable.setInfo(user2);
-                    String firstName = UserObject.getFirstName(user2);
+                    this.avatarDrawable.setInfo(user);
+                    String firstName = UserObject.getFirstName(user);
                     int indexOf = firstName.indexOf(32);
                     firstName = indexOf >= 0 ? firstName.substring(0, indexOf) : firstName;
-                    ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(user2, 1);
-                    user = user2;
+                    ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(user, 1);
+                    chat = user;
                     str = firstName;
                     forUserOrChat = forUserOrChat2;
                 }
             } else if (obj instanceof TLRPC.Chat) {
-                TLRPC.Chat chat = (TLRPC.Chat) obj;
-                this.avatarDrawable.setInfo(chat);
-                this.uid = -chat.id;
-                str = chat.title;
-                forUserOrChat = ImageLocation.getForUserOrChat(chat, 1);
-                user = chat;
+                TLRPC.Chat chat2 = (TLRPC.Chat) obj;
+                this.avatarDrawable.setInfo(chat2);
+                this.uid = -chat2.id;
+                str = chat2.title;
+                forUserOrChat = ImageLocation.getForUserOrChat(chat2, 1);
+                chat = chat2;
             } else if (obj instanceof TLRPC.TL_help_country) {
                 TLRPC.TL_help_country tL_help_country = (TLRPC.TL_help_country) obj;
                 String languageFlag = LocaleController.getLanguageFlag(tL_help_country.iso2);
@@ -164,7 +165,7 @@ public class GroupCreateSpan extends View {
                 this.textX = -this.nameLayout.getLineLeft(0);
             }
             if (z2 || !"premium".equals((String) obj)) {
-                this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, user, 1);
+                this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, chat, 1);
             } else {
                 this.imageReceiver.setImageBitmap(GroupCreateUserCell.makePremiumUsersDrawable(getContext(), true));
             }
@@ -314,7 +315,7 @@ public class GroupCreateSpan extends View {
         }
         str = LocaleController.getString(i);
         forUserOrChat = null;
-        user = null;
+        chat = null;
         ImageReceiver imageReceiver2 = new ImageReceiver();
         this.imageReceiver = imageReceiver2;
         imageReceiver2.setRoundRadius(AndroidUtilities.dp(16.0f));
@@ -328,7 +329,7 @@ public class GroupCreateSpan extends View {
         }
         if (z2) {
         }
-        this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, user, 1);
+        this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, chat, 1);
         updateColors();
         NotificationCenter.listenEmojiLoading(this);
     }
@@ -363,10 +364,6 @@ public class GroupCreateSpan extends View {
 
     @Override // android.view.View
     protected void onDraw(Canvas canvas) {
-        int i;
-        int i2;
-        int i3;
-        int color;
         boolean z = this.deleting;
         if ((z && this.progress != 1.0f) || (!z && this.progress != 0.0f)) {
             long currentTimeMillis = System.currentTimeMillis() - this.lastUpdateTime;
@@ -392,16 +389,17 @@ public class GroupCreateSpan extends View {
         this.rect.set(0.0f, 0.0f, getMeasuredWidth(), AndroidUtilities.dp(this.small ? 28.0f : 32.0f));
         Paint paint = backPaint;
         int[] iArr = this.colors;
-        int i4 = iArr[6];
-        float f3 = this.progress;
-        paint.setColor(Color.argb(i4 + ((int) ((iArr[7] - i4) * f3)), iArr[0] + ((int) ((iArr[1] - i) * f3)), iArr[2] + ((int) ((iArr[3] - i2) * f3)), iArr[4] + ((int) ((iArr[5] - i3) * f3))));
+        int i = iArr[6];
+        float f3 = iArr[7] - i;
+        float f4 = this.progress;
+        paint.setColor(Color.argb(i + ((int) (f3 * f4)), iArr[0] + ((int) ((iArr[1] - r5) * f4)), iArr[2] + ((int) ((iArr[3] - r7) * f4)), iArr[4] + ((int) ((iArr[5] - r8) * f4))));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(this.small ? 14.0f : 16.0f), AndroidUtilities.dp(this.small ? 14.0f : 16.0f), backPaint);
         if (this.progress != 1.0f) {
             this.imageReceiver.draw(canvas);
         }
         if (this.progress != 0.0f) {
             backPaint.setColor(this.avatarDrawable.getColor());
-            backPaint.setAlpha((int) (this.progress * 255.0f * (Color.alpha(color) / 255.0f)));
+            backPaint.setAlpha((int) (this.progress * 255.0f * (Color.alpha(r0) / 255.0f)));
             canvas.drawCircle(AndroidUtilities.dp(this.small ? 14.0f : 16.0f), AndroidUtilities.dp(this.small ? 14.0f : 16.0f), AndroidUtilities.dp(this.small ? 14.0f : 16.0f), backPaint);
             canvas.save();
             canvas.rotate((1.0f - this.progress) * 45.0f, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f));

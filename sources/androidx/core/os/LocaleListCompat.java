@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.LocaleList;
 import androidx.core.text.ICUCompat;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public final class LocaleListCompat {
     private static final LocaleListCompat sEmptyLocaleList = create(new Locale[0]);
@@ -34,11 +35,11 @@ public final class LocaleListCompat {
                 return false;
             }
             String maximizeAndGetScript = ICUCompat.maximizeAndGetScript(locale);
-            if (maximizeAndGetScript.isEmpty()) {
-                String country = locale.getCountry();
-                return country.isEmpty() || country.equals(locale2.getCountry());
+            if (!maximizeAndGetScript.isEmpty()) {
+                return maximizeAndGetScript.equals(ICUCompat.maximizeAndGetScript(locale2));
             }
-            return maximizeAndGetScript.equals(ICUCompat.maximizeAndGetScript(locale2));
+            String country = locale.getCountry();
+            return country.isEmpty() || country.equals(locale2.getCountry());
         }
     }
 
@@ -79,9 +80,10 @@ public final class LocaleListCompat {
             if (split.length == 1) {
                 return new Locale(split[0]);
             }
-        } else if (!str.contains("_")) {
-            return new Locale(str);
         } else {
+            if (!str.contains("_")) {
+                return new Locale(str);
+            }
             String[] split2 = str.split("_", -1);
             if (split2.length > 2) {
                 return new Locale(split2[0], split2[1], split2[2]);

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzbd extends zzbe {
@@ -49,7 +50,8 @@ public final class zzbd extends zzbe {
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzbe
-    public final zzbe zzf(int i, int i2) {
+    /* renamed from: zzf */
+    public final zzbe subList(int i, int i2) {
         zzs.zzc(i, i2, this.zzb);
         zzbe zzbeVar = this.zzc;
         int i3 = this.zza;

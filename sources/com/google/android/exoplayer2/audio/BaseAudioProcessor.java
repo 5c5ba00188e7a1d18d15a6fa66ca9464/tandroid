@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.audio;
 import com.google.android.exoplayer2.audio.AudioProcessor;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
 /* loaded from: classes.dex */
 public abstract class BaseAudioProcessor implements AudioProcessor {
     private ByteBuffer buffer;

@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.DoubleConsumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class l implements n {
     public final /* synthetic */ DoubleConsumer a;

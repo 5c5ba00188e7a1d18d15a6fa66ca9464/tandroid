@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class Logging {
     private static final Logger fallbackLogger = createFallbackLogger();
@@ -64,7 +65,7 @@ public class Logging {
         TRACE_INFO(LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM),
         TRACE_TERSEINFO(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM),
         TRACE_ALL(65535);
-        
+
         public final int level;
 
         TraceLevel(int i) {
@@ -146,13 +147,14 @@ public class Logging {
                 return;
             }
             loggable.onLogMessage(str2, severity, str);
-        } else if (loggingEnabled) {
-            nativeLog(severity.ordinal(), str, str2);
         } else {
+            if (loggingEnabled) {
+                nativeLog(severity.ordinal(), str, str2);
+                return;
+            }
             int i = 1.$SwitchMap$org$webrtc$Logging$Severity[severity.ordinal()];
             Level level = i != 1 ? i != 2 ? i != 3 ? Level.FINE : Level.INFO : Level.WARNING : Level.SEVERE;
-            Logger logger = fallbackLogger;
-            logger.log(level, str + ": " + str2);
+            fallbackLogger.log(level, str + ": " + str2);
         }
     }
 

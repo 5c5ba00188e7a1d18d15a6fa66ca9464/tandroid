@@ -14,6 +14,7 @@ import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public abstract class JoinCallByUrlAlert extends BottomSheet {
     private boolean joinAfterDismiss;
@@ -52,8 +53,8 @@ public abstract class JoinCallByUrlAlert extends BottomSheet {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x00e6  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00f0  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x00f0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

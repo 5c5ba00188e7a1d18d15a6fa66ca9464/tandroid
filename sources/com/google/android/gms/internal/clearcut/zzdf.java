@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.clearcut;
+
 /* loaded from: classes.dex */
 final class zzdf implements zzdn {
     private zzdn[] zzma;
@@ -20,7 +21,6 @@ final class zzdf implements zzdn {
 
     @Override // com.google.android.gms.internal.clearcut.zzdn
     public final zzdm zzb(Class cls) {
-        zzdn[] zzdnVarArr;
         for (zzdn zzdnVar : this.zzma) {
             if (zzdnVar.zza(cls)) {
                 return zzdnVar.zzb(cls);

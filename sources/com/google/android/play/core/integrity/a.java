@@ -1,4 +1,5 @@
 package com.google.android.play.core.integrity;
+
 /* loaded from: classes.dex */
 final class a extends ap {
     private String a;
@@ -23,16 +24,16 @@ final class a extends ap {
     public final aq c() {
         y yVar;
         String str = this.a;
-        if (str == null || (yVar = this.b) == null) {
-            StringBuilder sb = new StringBuilder();
-            if (this.a == null) {
-                sb.append(" token");
-            }
-            if (this.b == null) {
-                sb.append(" integrityDialogWrapper");
-            }
-            throw new IllegalStateException("Missing required properties:".concat(sb.toString()));
+        if (str != null && (yVar = this.b) != null) {
+            return new aq(str, yVar);
         }
-        return new aq(str, yVar);
+        StringBuilder sb = new StringBuilder();
+        if (this.a == null) {
+            sb.append(" token");
+        }
+        if (this.b == null) {
+            sb.append(" integrityDialogWrapper");
+        }
+        throw new IllegalStateException("Missing required properties:".concat(sb.toString()));
     }
 }

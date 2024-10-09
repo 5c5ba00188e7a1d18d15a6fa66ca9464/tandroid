@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzla implements zzki {
@@ -26,10 +27,11 @@ public final class zzla implements zzki {
             if (charAt2 < 55296) {
                 this.zzd = i | (charAt2 << i2);
                 return;
+            } else {
+                i |= (charAt2 & 8191) << i2;
+                i2 += 13;
+                i3 = i4;
             }
-            i |= (charAt2 & 8191) << i2;
-            i2 += 13;
-            i3 = i4;
         }
     }
 

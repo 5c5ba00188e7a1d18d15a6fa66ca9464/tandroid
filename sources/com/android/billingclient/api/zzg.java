@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.google.android.gms.internal.play_billing.zzb;
 import com.google.android.gms.internal.play_billing.zzfb;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class zzg extends BroadcastReceiver {
     final /* synthetic */ zzh zza;
@@ -75,7 +76,9 @@ public final class zzg extends BroadcastReceiver {
                 zze(extras, zzd, i);
             }
             this.zzb.onPurchasesUpdated(zzd, zzh);
-        } else if (action.equals("com.android.vending.billing.ALTERNATIVE_BILLING")) {
+            return;
+        }
+        if (action.equals("com.android.vending.billing.ALTERNATIVE_BILLING")) {
             if (zzd.getResponseCode() != 0) {
                 zze(extras, zzd, i);
                 this.zzb.onPurchasesUpdated(zzd, com.google.android.gms.internal.play_billing.zzu.zzk());

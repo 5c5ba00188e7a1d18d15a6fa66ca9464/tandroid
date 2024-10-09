@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class JsonTreeReader extends JsonReader {
     private int[] pathIndices;
@@ -336,39 +337,39 @@ public final class JsonTreeReader extends JsonReader {
             Iterator it = (Iterator) peekStack;
             if (!it.hasNext()) {
                 return z ? JsonToken.END_OBJECT : JsonToken.END_ARRAY;
-            } else if (z) {
+            }
+            if (z) {
                 return JsonToken.NAME;
-            } else {
-                push(it.next());
-                return peek();
             }
-        } else if (peekStack instanceof JsonObject) {
-            return JsonToken.BEGIN_OBJECT;
-        } else {
-            if (peekStack instanceof JsonArray) {
-                return JsonToken.BEGIN_ARRAY;
-            }
-            if (peekStack instanceof JsonPrimitive) {
-                JsonPrimitive jsonPrimitive = (JsonPrimitive) peekStack;
-                if (jsonPrimitive.isString()) {
-                    return JsonToken.STRING;
-                }
-                if (jsonPrimitive.isBoolean()) {
-                    return JsonToken.BOOLEAN;
-                }
-                if (jsonPrimitive.isNumber()) {
-                    return JsonToken.NUMBER;
-                }
-                throw new AssertionError();
-            } else if (peekStack instanceof JsonNull) {
-                return JsonToken.NULL;
-            } else {
-                if (peekStack == SENTINEL_CLOSED) {
-                    throw new IllegalStateException("JsonReader is closed");
-                }
-                throw new MalformedJsonException("Custom JsonElement subclass " + peekStack.getClass().getName() + " is not supported");
-            }
+            push(it.next());
+            return peek();
         }
+        if (peekStack instanceof JsonObject) {
+            return JsonToken.BEGIN_OBJECT;
+        }
+        if (peekStack instanceof JsonArray) {
+            return JsonToken.BEGIN_ARRAY;
+        }
+        if (peekStack instanceof JsonPrimitive) {
+            JsonPrimitive jsonPrimitive = (JsonPrimitive) peekStack;
+            if (jsonPrimitive.isString()) {
+                return JsonToken.STRING;
+            }
+            if (jsonPrimitive.isBoolean()) {
+                return JsonToken.BOOLEAN;
+            }
+            if (jsonPrimitive.isNumber()) {
+                return JsonToken.NUMBER;
+            }
+            throw new AssertionError();
+        }
+        if (peekStack instanceof JsonNull) {
+            return JsonToken.NULL;
+        }
+        if (peekStack == SENTINEL_CLOSED) {
+            throw new IllegalStateException("JsonReader is closed");
+        }
+        throw new MalformedJsonException("Custom JsonElement subclass " + peekStack.getClass().getName() + " is not supported");
     }
 
     public void promoteNameToValue() {
@@ -383,11 +384,17 @@ public final class JsonTreeReader extends JsonReader {
         int i = 2.$SwitchMap$com$google$gson$stream$JsonToken[peek().ordinal()];
         if (i == 1) {
             nextName(true);
-        } else if (i == 2) {
+            return;
+        }
+        if (i == 2) {
             endArray();
-        } else if (i == 3) {
+            return;
+        }
+        if (i == 3) {
             endObject();
-        } else if (i != 4) {
+            return;
+        }
+        if (i != 4) {
             popStack();
             int i2 = this.stackSize;
             if (i2 > 0) {

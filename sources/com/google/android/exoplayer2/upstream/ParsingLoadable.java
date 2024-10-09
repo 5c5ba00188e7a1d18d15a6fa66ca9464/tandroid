@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.InputStream;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class ParsingLoadable implements Loader.Loadable {
     private final StatsDataSource dataSource;

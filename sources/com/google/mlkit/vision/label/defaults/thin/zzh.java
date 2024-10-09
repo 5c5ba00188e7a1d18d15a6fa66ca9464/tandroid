@@ -28,6 +28,7 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.common.internal.ImageUtils;
 import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class zzh extends MLTask {
     private static final ImageUtils zzc = ImageUtils.getInstance();
@@ -59,7 +60,8 @@ public final class zzh extends MLTask {
         final zzg zzgVar = zzg.zza;
         final zznp zznpVar = this.zze;
         final zzkf zzkfVar = zzkf.zzbg;
-        MLTaskExecutor.workerThreadExecutor().execute(new Runnable(zzkfVar, zzd, elapsedRealtime, zzgVar, null) { // from class: com.google.android.gms.internal.mlkit_vision_label.zznm
+        final byte[] bArr = null;
+        MLTaskExecutor.workerThreadExecutor().execute(new Runnable(zzkfVar, zzd, elapsedRealtime, zzgVar, bArr) { // from class: com.google.android.gms.internal.mlkit_vision_label.zznm
             public final /* synthetic */ zzkf zzb;
             public final /* synthetic */ Object zzc;
             public final /* synthetic */ long zzd;
@@ -123,7 +125,7 @@ public final class zzh extends MLTask {
     }
 
     @Override // com.google.mlkit.common.sdkinternal.MLTask
-    /* renamed from: zzd */
+    /* renamed from: zzd, reason: merged with bridge method [inline-methods] */
     public final synchronized List run(InputImage inputImage) {
         List zza;
         Preconditions.checkNotNull(inputImage, "Mobile vision input can not be null");

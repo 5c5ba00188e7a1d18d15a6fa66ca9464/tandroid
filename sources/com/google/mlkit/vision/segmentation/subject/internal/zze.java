@@ -6,6 +6,7 @@ import com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztw;
 import com.google.mlkit.common.sdkinternal.LazyInstanceMap;
 import com.google.mlkit.common.sdkinternal.MlKitContext;
 import com.google.mlkit.vision.segmentation.subject.SubjectSegmenterOptions;
+
 /* loaded from: classes.dex */
 public final class zze extends LazyInstanceMap {
     private final MlKitContext zza;

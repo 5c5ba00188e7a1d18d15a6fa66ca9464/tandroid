@@ -38,6 +38,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public final class HlsPlaylistParser implements ParsingLoadable.Parser {
     private final HlsMultivariantPlaylist multivariantPlaylist;
@@ -133,12 +134,12 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
         }
 
         public String next() {
-            if (hasNext()) {
-                String str = this.next;
-                this.next = null;
-                return str;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
             }
-            throw new NoSuchElementException();
+            String str = this.next;
+            this.next = null;
+            return str;
         }
     }
 
@@ -227,17 +228,17 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
         if ("urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed".equals(str2)) {
             String parseStringAttr = parseStringAttr(str, REGEX_URI, map);
             return new DrmInitData.SchemeData(C.WIDEVINE_UUID, "video/mp4", Base64.decode(parseStringAttr.substring(parseStringAttr.indexOf(44)), 0));
-        } else if ("com.widevine".equals(str2)) {
+        }
+        if ("com.widevine".equals(str2)) {
             return new DrmInitData.SchemeData(C.WIDEVINE_UUID, "hls", Util.getUtf8Bytes(str));
-        } else {
-            if ("com.microsoft.playready".equals(str2) && "1".equals(parseOptionalStringAttr)) {
-                String parseStringAttr2 = parseStringAttr(str, REGEX_URI, map);
-                byte[] decode = Base64.decode(parseStringAttr2.substring(parseStringAttr2.indexOf(44)), 0);
-                UUID uuid = C.PLAYREADY_UUID;
-                return new DrmInitData.SchemeData(uuid, "video/mp4", PsshAtomUtil.buildPsshAtom(uuid, decode));
-            }
+        }
+        if (!"com.microsoft.playready".equals(str2) || !"1".equals(parseOptionalStringAttr)) {
             return null;
         }
+        String parseStringAttr2 = parseStringAttr(str, REGEX_URI, map);
+        byte[] decode = Base64.decode(parseStringAttr2.substring(parseStringAttr2.indexOf(44)), 0);
+        UUID uuid = C.PLAYREADY_UUID;
+        return new DrmInitData.SchemeData(uuid, "video/mp4", PsshAtomUtil.buildPsshAtom(uuid, decode));
     }
 
     private static String parseEncryptionScheme(String str) {
@@ -252,8 +253,9 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
         return Long.parseLong(parseStringAttr(str, pattern, Collections.emptyMap()));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x01dc, code lost:
-        if (r12 != null) goto L269;
+    /* JADX WARN: Code restructure failed: missing block: B:268:0x01dc, code lost:
+    
+        if (r12 != null) goto L68;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -736,13 +738,13 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
         return new HlsMediaPlaylist(i10, str, arrayList12, j6, z4, j7, z5, i4, j8, i5, j9, j10, z3, z6, j7 != 0, drmInitData2, arrayList3, arrayList11, serverControl2, hashMap3);
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Failed to find 'out' block for switch in B:94:0x032a. Please report as an issue. */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0122  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0129  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x014c  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0157  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0122  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x014c  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0157  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0129  */
     /* JADX WARN: Type inference failed for: r0v3, types: [java.util.List] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -826,33 +828,27 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
                                 c = 0;
                                 break;
                             }
-                            c = 65535;
                             break;
                         case -333210994:
                             if (parseStringAttr3.equals("CLOSED-CAPTIONS")) {
                                 c = 1;
                                 break;
                             }
-                            c = 65535;
                             break;
                         case 62628790:
                             if (parseStringAttr3.equals("AUDIO")) {
                                 c = 2;
                                 break;
                             }
-                            c = 65535;
                             break;
                         case 81665115:
                             if (parseStringAttr3.equals("VIDEO")) {
                                 c = 3;
                                 break;
                             }
-                            c = 65535;
-                            break;
-                        default:
-                            c = 65535;
                             break;
                     }
+                    c = 65535;
                     switch (c) {
                         case 0:
                             format = format2;
@@ -1013,9 +1009,10 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
                                 String parseOptionalStringAttr9 = parseOptionalStringAttr(next, REGEX_CLOSED_CAPTIONS, hashMap2);
                                 if (!startsWith) {
                                     replaceVariableReferences = parseStringAttr(next, REGEX_URI, hashMap2);
-                                } else if (!lineIterator.hasNext()) {
-                                    throw ParserException.createForMalformedManifest("#EXT-X-STREAM-INF must be followed by another line", null);
                                 } else {
+                                    if (!lineIterator.hasNext()) {
+                                        throw ParserException.createForMalformedManifest("#EXT-X-STREAM-INF must be followed by another line", null);
+                                    }
                                     replaceVariableReferences = replaceVariableReferences(lineIterator.next(), hashMap2);
                                 }
                                 Uri resolveToUri2 = UriUtil.resolveToUri(str5, replaceVariableReferences);
@@ -1138,7 +1135,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
         boolean parseOptionalBooleanAttribute = parseOptionalBooleanAttribute(str, REGEX_DEFAULT, false);
         ?? r0 = parseOptionalBooleanAttribute;
         if (parseOptionalBooleanAttribute(str, REGEX_FORCED, false)) {
-            r0 = (parseOptionalBooleanAttribute ? 1 : 0) | true;
+            r0 = (parseOptionalBooleanAttribute ? 1 : 0) | 2;
         }
         return parseOptionalBooleanAttribute(str, REGEX_AUTOSELECT, false) ? r0 | 4 : r0;
     }
@@ -1191,30 +1188,30 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         ArrayDeque arrayDeque = new ArrayDeque();
         try {
-            if (checkPlaylistHeader(bufferedReader)) {
-                while (true) {
-                    String readLine = bufferedReader.readLine();
-                    if (readLine == null) {
-                        Util.closeQuietly(bufferedReader);
-                        throw ParserException.createForMalformedManifest("Failed to parse the playlist, could not identify any tags.", null);
-                    }
-                    trim = readLine.trim();
-                    if (!trim.isEmpty()) {
-                        if (!trim.startsWith("#EXT-X-STREAM-INF")) {
-                            if (trim.startsWith("#EXT-X-TARGETDURATION") || trim.startsWith("#EXT-X-MEDIA-SEQUENCE") || trim.startsWith("#EXTINF") || trim.startsWith("#EXT-X-KEY") || trim.startsWith("#EXT-X-BYTERANGE") || trim.equals("#EXT-X-DISCONTINUITY") || trim.equals("#EXT-X-DISCONTINUITY-SEQUENCE") || trim.equals("#EXT-X-ENDLIST")) {
-                                break;
-                            }
-                            arrayDeque.add(trim);
-                        } else {
-                            arrayDeque.add(trim);
-                            return parseMultivariantPlaylist(new LineIterator(arrayDeque, bufferedReader), uri.toString());
+            if (!checkPlaylistHeader(bufferedReader)) {
+                throw ParserException.createForMalformedManifest("Input does not start with the #EXTM3U header.", null);
+            }
+            while (true) {
+                String readLine = bufferedReader.readLine();
+                if (readLine == null) {
+                    Util.closeQuietly(bufferedReader);
+                    throw ParserException.createForMalformedManifest("Failed to parse the playlist, could not identify any tags.", null);
+                }
+                trim = readLine.trim();
+                if (!trim.isEmpty()) {
+                    if (!trim.startsWith("#EXT-X-STREAM-INF")) {
+                        if (trim.startsWith("#EXT-X-TARGETDURATION") || trim.startsWith("#EXT-X-MEDIA-SEQUENCE") || trim.startsWith("#EXTINF") || trim.startsWith("#EXT-X-KEY") || trim.startsWith("#EXT-X-BYTERANGE") || trim.equals("#EXT-X-DISCONTINUITY") || trim.equals("#EXT-X-DISCONTINUITY-SEQUENCE") || trim.equals("#EXT-X-ENDLIST")) {
+                            break;
                         }
+                        arrayDeque.add(trim);
+                    } else {
+                        arrayDeque.add(trim);
+                        return parseMultivariantPlaylist(new LineIterator(arrayDeque, bufferedReader), uri.toString());
                     }
                 }
-                arrayDeque.add(trim);
-                return parseMediaPlaylist(this.multivariantPlaylist, this.previousMediaPlaylist, new LineIterator(arrayDeque, bufferedReader), uri.toString());
             }
-            throw ParserException.createForMalformedManifest("Input does not start with the #EXTM3U header.", null);
+            arrayDeque.add(trim);
+            return parseMediaPlaylist(this.multivariantPlaylist, this.previousMediaPlaylist, new LineIterator(arrayDeque, bufferedReader), uri.toString());
         } finally {
             Util.closeQuietly(bufferedReader);
         }

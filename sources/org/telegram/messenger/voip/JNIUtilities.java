@@ -14,9 +14,11 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
+
 /* loaded from: classes3.dex */
 public class JNIUtilities {
     public static String[] getCarrierInfo() {
@@ -43,6 +45,7 @@ public class JNIUtilities {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:5:0x0012, code lost:
+    
         r0 = r0.getLinkProperties(r1);
      */
     /*
@@ -62,6 +65,7 @@ public class JNIUtilities {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:7:0x001b, code lost:
+    
         r0 = r0.getLinkProperties(r1);
      */
     /*
@@ -70,7 +74,7 @@ public class JNIUtilities {
     public static String[] getLocalNetworkAddressesAndInterfaceName() {
         Network activeNetwork;
         LinkProperties linkProperties;
-        List<Object> linkAddresses;
+        List linkAddresses;
         String interfaceName;
         InetAddress address;
         ConnectivityManager connectivityManager = (ConnectivityManager) ApplicationLoader.applicationContext.getSystemService("connectivity");
@@ -81,9 +85,10 @@ public class JNIUtilities {
                 return null;
             }
             linkAddresses = linkProperties.getLinkAddresses();
+            Iterator it = linkAddresses.iterator();
             String str2 = null;
-            for (Object obj : linkAddresses) {
-                address = JNIUtilities$$ExternalSyntheticApiModelOutline3.m(obj).getAddress();
+            while (it.hasNext()) {
+                address = JNIUtilities$$ExternalSyntheticApiModelOutline3.m(it.next()).getAddress();
                 if (address instanceof Inet4Address) {
                     if (!address.isLinkLocalAddress()) {
                         str = address.getHostAddress();

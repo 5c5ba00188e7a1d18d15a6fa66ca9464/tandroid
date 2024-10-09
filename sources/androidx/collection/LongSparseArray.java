@@ -1,4 +1,5 @@
 package androidx.collection;
+
 /* loaded from: classes.dex */
 public class LongSparseArray implements Cloneable {
     private static final Object DELETED = new Object();
@@ -16,11 +17,11 @@ public class LongSparseArray implements Cloneable {
         if (i == 0) {
             this.mKeys = ContainerHelpers.EMPTY_LONGS;
             this.mValues = ContainerHelpers.EMPTY_OBJECTS;
-            return;
+        } else {
+            int idealLongArraySize = ContainerHelpers.idealLongArraySize(i);
+            this.mKeys = new long[idealLongArraySize];
+            this.mValues = new Object[idealLongArraySize];
         }
-        int idealLongArraySize = ContainerHelpers.idealLongArraySize(i);
-        this.mKeys = new long[idealLongArraySize];
-        this.mValues = new Object[idealLongArraySize];
     }
 
     private void gc() {

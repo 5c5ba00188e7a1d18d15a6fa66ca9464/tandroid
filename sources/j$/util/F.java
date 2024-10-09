@@ -3,6 +3,7 @@ package j$.util;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 import java.util.Spliterator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class F implements H {
     public final /* synthetic */ Spliterator.OfInt a;
@@ -24,7 +25,8 @@ public final /* synthetic */ class F implements H {
     }
 
     @Override // j$.util.H
-    public final /* synthetic */ void c(j$.util.function.F f) {
+    /* renamed from: c */
+    public final /* synthetic */ void e(j$.util.function.F f) {
         this.a.forEachRemaining(j$.util.function.E.a(f));
     }
 
@@ -47,12 +49,14 @@ public final /* synthetic */ class F implements H {
     }
 
     @Override // j$.util.N
-    public final /* synthetic */ void forEachRemaining(Object obj) {
+    /* renamed from: forEachRemaining */
+    public final /* synthetic */ void e(Object obj) {
         this.a.forEachRemaining((Spliterator.OfInt) obj);
     }
 
     @Override // j$.util.H
-    public final /* synthetic */ boolean g(j$.util.function.F f) {
+    /* renamed from: g */
+    public final /* synthetic */ boolean p(j$.util.function.F f) {
         return this.a.tryAdvance(j$.util.function.E.a(f));
     }
 
@@ -81,7 +85,8 @@ public final /* synthetic */ class F implements H {
     }
 
     @Override // j$.util.N
-    public final /* synthetic */ boolean tryAdvance(Object obj) {
+    /* renamed from: tryAdvance */
+    public final /* synthetic */ boolean p(Object obj) {
         return this.a.tryAdvance((Spliterator.OfInt) obj);
     }
 

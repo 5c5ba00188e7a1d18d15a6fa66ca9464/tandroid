@@ -3,6 +3,7 @@ package com.google.android.gms.internal.safetynet;
 import android.os.Parcel;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.safetynet.SafeBrowsingData;
+
 /* loaded from: classes.dex */
 public abstract class zzf extends zzb implements zzg {
     public zzf() {
@@ -29,9 +30,10 @@ public abstract class zzf extends zzb implements zzg {
             zzc((Status) zzc.zza(parcel, Status.CREATOR));
         } else if (i == 15) {
             zzi((Status) zzc.zza(parcel, Status.CREATOR), (com.google.android.gms.safetynet.zzh) zzc.zza(parcel, com.google.android.gms.safetynet.zzh.CREATOR));
-        } else if (i != 16) {
-            return false;
         } else {
+            if (i != 16) {
+                return false;
+            }
             zzk((Status) zzc.zza(parcel, Status.CREATOR), parcel.readString(), parcel.readInt());
         }
         return true;

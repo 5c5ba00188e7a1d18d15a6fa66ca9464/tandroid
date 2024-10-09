@@ -29,6 +29,7 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylistTracker.PrimaryPlaylistListener {
     private final boolean allowChunklessPreparation;
@@ -83,7 +84,7 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
             Assertions.checkNotNull(mediaItem.localConfiguration);
             HlsPlaylistParserFactory hlsPlaylistParserFactory = this.playlistParserFactory;
             List list = mediaItem.localConfiguration.streamKeys;
-            FilteringHlsPlaylistParserFactory filteringHlsPlaylistParserFactory = !list.isEmpty() ? new FilteringHlsPlaylistParserFactory(hlsPlaylistParserFactory, list) : hlsPlaylistParserFactory;
+            HlsPlaylistParserFactory filteringHlsPlaylistParserFactory = !list.isEmpty() ? new FilteringHlsPlaylistParserFactory(hlsPlaylistParserFactory, list) : hlsPlaylistParserFactory;
             HlsDataSourceFactory hlsDataSourceFactory = this.hlsDataSourceFactory;
             HlsExtractorFactory hlsExtractorFactory = this.extractorFactory;
             CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory = this.compositeSequenceableLoaderFactory;
@@ -157,10 +158,12 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
         for (int i = 0; i < list.size(); i++) {
             HlsMediaPlaylist.Part part2 = (HlsMediaPlaylist.Part) list.get(i);
             long j2 = part2.relativeStartTimeUs;
-            if (j2 <= j && part2.isIndependent) {
+            if (j2 > j || !part2.isIndependent) {
+                if (j2 > j) {
+                    break;
+                }
+            } else {
                 part = part2;
-            } else if (j2 > j) {
-                break;
             }
         }
         return part;
@@ -215,9 +218,9 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
         return j2 + j;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x003c  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x003f  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x004a  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x003c  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x004a  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x003f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

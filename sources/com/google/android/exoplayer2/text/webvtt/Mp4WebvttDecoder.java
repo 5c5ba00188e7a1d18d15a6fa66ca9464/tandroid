@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
+
 /* loaded from: classes.dex */
 public final class Mp4WebvttDecoder extends SimpleSubtitleDecoder {
     private final ParsableByteArray sampleData;

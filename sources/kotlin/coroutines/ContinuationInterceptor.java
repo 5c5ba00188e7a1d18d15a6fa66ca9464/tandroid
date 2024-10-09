@@ -2,6 +2,7 @@ package kotlin.coroutines;
 
 import kotlin.coroutines.CoroutineContext;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public interface ContinuationInterceptor extends CoroutineContext.Element {
     public static final Key Key = Key.$$INSTANCE;
@@ -11,19 +12,19 @@ public interface ContinuationInterceptor extends CoroutineContext.Element {
         public static CoroutineContext.Element get(ContinuationInterceptor continuationInterceptor, CoroutineContext.Key key) {
             Intrinsics.checkNotNullParameter(key, "key");
             if (!(key instanceof AbstractCoroutineContextKey)) {
-                if (ContinuationInterceptor.Key == key) {
-                    Intrinsics.checkNotNull(continuationInterceptor, "null cannot be cast to non-null type E of kotlin.coroutines.ContinuationInterceptor.get");
-                    return continuationInterceptor;
+                if (ContinuationInterceptor.Key != key) {
+                    return null;
                 }
-                return null;
+                Intrinsics.checkNotNull(continuationInterceptor, "null cannot be cast to non-null type E of kotlin.coroutines.ContinuationInterceptor.get");
+                return continuationInterceptor;
             }
             AbstractCoroutineContextKey abstractCoroutineContextKey = (AbstractCoroutineContextKey) key;
-            if (abstractCoroutineContextKey.isSubKey$kotlin_stdlib(continuationInterceptor.getKey())) {
-                CoroutineContext.Element tryCast$kotlin_stdlib = abstractCoroutineContextKey.tryCast$kotlin_stdlib(continuationInterceptor);
-                if (tryCast$kotlin_stdlib instanceof CoroutineContext.Element) {
-                    return tryCast$kotlin_stdlib;
-                }
+            if (!abstractCoroutineContextKey.isSubKey$kotlin_stdlib(continuationInterceptor.getKey())) {
                 return null;
+            }
+            CoroutineContext.Element tryCast$kotlin_stdlib = abstractCoroutineContextKey.tryCast$kotlin_stdlib(continuationInterceptor);
+            if (tryCast$kotlin_stdlib instanceof CoroutineContext.Element) {
+                return tryCast$kotlin_stdlib;
             }
             return null;
         }

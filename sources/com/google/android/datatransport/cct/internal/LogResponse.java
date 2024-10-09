@@ -4,6 +4,7 @@ import android.util.JsonReader;
 import android.util.JsonToken;
 import java.io.IOException;
 import java.io.Reader;
+
 /* loaded from: classes.dex */
 public abstract class LogResponse {
     static LogResponse create(long j) {

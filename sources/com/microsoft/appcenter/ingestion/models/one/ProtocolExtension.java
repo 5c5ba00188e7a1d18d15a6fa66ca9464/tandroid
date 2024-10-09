@@ -5,6 +5,7 @@ import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class ProtocolExtension implements Model {
     private String devMake;
@@ -20,16 +21,16 @@ public class ProtocolExtension implements Model {
         }
         ProtocolExtension protocolExtension = (ProtocolExtension) obj;
         List list = this.ticketKeys;
-        if (list == null ? protocolExtension.ticketKeys == null : list.equals(protocolExtension.ticketKeys)) {
-            String str = this.devMake;
-            if (str == null ? protocolExtension.devMake == null : str.equals(protocolExtension.devMake)) {
-                String str2 = this.devModel;
-                String str3 = protocolExtension.devModel;
-                return str2 != null ? str2.equals(str3) : str3 == null;
-            }
+        if (list == null ? protocolExtension.ticketKeys != null : !list.equals(protocolExtension.ticketKeys)) {
             return false;
         }
-        return false;
+        String str = this.devMake;
+        if (str == null ? protocolExtension.devMake != null : !str.equals(protocolExtension.devMake)) {
+            return false;
+        }
+        String str2 = this.devModel;
+        String str3 = protocolExtension.devModel;
+        return str2 != null ? str2.equals(str3) : str3 == null;
     }
 
     public String getDevMake() {

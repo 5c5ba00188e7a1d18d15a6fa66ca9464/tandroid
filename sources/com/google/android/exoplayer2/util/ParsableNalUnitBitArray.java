@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.util;
+
 /* loaded from: classes.dex */
 public final class ParsableNalUnitBitArray {
     private int bitOffset;
@@ -47,7 +48,8 @@ public final class ParsableNalUnitBitArray {
             int i6 = i2 + 1;
             if (i6 > i4 || i4 >= this.byteLimit) {
                 break;
-            } else if (shouldSkipByte(i6)) {
+            }
+            if (shouldSkipByte(i6)) {
                 i4++;
                 i2 += 3;
             } else {

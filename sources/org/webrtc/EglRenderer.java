@@ -21,6 +21,7 @@ import org.webrtc.GlGenericDrawer;
 import org.webrtc.GlUtil;
 import org.webrtc.RendererCommon;
 import org.webrtc.VideoSink;
+
 /* loaded from: classes.dex */
 public class EglRenderer implements VideoSink {
     private static final long LOG_INTERVAL_SEC = 4;
@@ -65,8 +66,9 @@ public class EglRenderer implements VideoSink {
             this.background = z;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x002b, code lost:
-            if (r3.this$0.eglBase.hasSurface() == false) goto L12;
+        /* JADX WARN: Code restructure failed: missing block: B:31:0x002b, code lost:
+        
+            if (r3.this$0.eglBase.hasSurface() == false) goto L16;
          */
         @Override // java.lang.Runnable
         /*
@@ -80,12 +82,15 @@ public class EglRenderer implements VideoSink {
                             Object obj = this.surface;
                             if (obj instanceof Surface) {
                                 EglRenderer.this.eglBase.createSurface((Surface) this.surface);
-                            } else if (!(obj instanceof SurfaceTexture)) {
-                                throw new IllegalStateException("Invalid surface: " + this.surface);
-                            } else if (this.background) {
-                                EglRenderer.this.eglBase.createBackgroundSurface((SurfaceTexture) this.surface);
                             } else {
-                                EglRenderer.this.eglBase.createSurface((SurfaceTexture) this.surface);
+                                if (!(obj instanceof SurfaceTexture)) {
+                                    throw new IllegalStateException("Invalid surface: " + this.surface);
+                                }
+                                if (this.background) {
+                                    EglRenderer.this.eglBase.createBackgroundSurface((SurfaceTexture) this.surface);
+                                } else {
+                                    EglRenderer.this.eglBase.createSurface((SurfaceTexture) this.surface);
+                                }
                             }
                             if (this.background) {
                                 EglRenderer.this.eglBase.makeBackgroundCurrent();
@@ -177,7 +182,7 @@ public class EglRenderer implements VideoSink {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: clearSurfaceOnRenderThread */
+    /* renamed from: clearSurfaceOnRenderThread, reason: merged with bridge method [inline-methods] */
     public void lambda$clearImage$6(float f, float f2, float f3, float f4) {
         EglBase eglBase = this.eglBase;
         if (eglBase == null || !eglBase.hasSurface()) {
@@ -582,18 +587,21 @@ public class EglRenderer implements VideoSink {
                     return;
                 }
                 synchronized (this.frameLock) {
-                    VideoFrame videoFrame2 = this.pendingFrame;
-                    if (videoFrame2 != null) {
-                        videoFrame2.release();
-                    }
-                    this.pendingFrame = videoFrame;
-                    videoFrame.retain();
-                    this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda5
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            EglRenderer.this.renderFrameOnRenderThread();
+                    try {
+                        VideoFrame videoFrame2 = this.pendingFrame;
+                        if (videoFrame2 != null) {
+                            videoFrame2.release();
                         }
-                    });
+                        this.pendingFrame = videoFrame;
+                        videoFrame.retain();
+                        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.EglRenderer$$ExternalSyntheticLambda5
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                EglRenderer.this.renderFrameOnRenderThread();
+                            }
+                        });
+                    } finally {
+                    }
                 }
             } catch (Throwable th) {
                 throw th;

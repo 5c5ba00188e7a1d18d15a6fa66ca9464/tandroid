@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.clearcut;
+
 /* loaded from: classes.dex */
 public abstract class zzfu extends zzfz {
     @Override // com.google.android.gms.internal.clearcut.zzfz

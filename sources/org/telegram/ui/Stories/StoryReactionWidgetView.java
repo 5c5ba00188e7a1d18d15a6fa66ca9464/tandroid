@@ -19,6 +19,7 @@ import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.Reactions.ReactionsUtils;
 import org.telegram.ui.EmojiAnimationsOverlay;
 import org.telegram.ui.Stories.StoryMediaAreasView;
+
 /* loaded from: classes4.dex */
 public class StoryReactionWidgetView extends StoryMediaAreasView.AreaView {
     AnimatedTextView.AnimatedTextDrawable animatedTextDrawable;

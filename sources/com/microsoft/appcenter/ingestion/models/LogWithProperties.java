@@ -4,6 +4,7 @@ import com.microsoft.appcenter.ingestion.models.json.JSONUtils;
 import java.util.Map;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public abstract class LogWithProperties extends AbstractLog {
     private Map properties;
@@ -13,12 +14,12 @@ public abstract class LogWithProperties extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            Map map = this.properties;
-            Map map2 = ((LogWithProperties) obj).properties;
-            return map != null ? map.equals(map2) : map2 == null;
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
+            return false;
         }
-        return false;
+        Map map = this.properties;
+        Map map2 = ((LogWithProperties) obj).properties;
+        return map != null ? map.equals(map2) : map2 == null;
     }
 
     public Map getProperties() {

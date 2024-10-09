@@ -3,6 +3,7 @@ package com.microsoft.appcenter.utils;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 /* loaded from: classes.dex */
 public abstract class HashUtils {
     private static final char[] HEXADECIMAL_OUTPUT = "0123456789abcdef".toCharArray();

@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class ErrorAttachmentLog extends AbstractLog {
     static final Charset CHARSET = Charset.forName("UTF-8");
@@ -31,25 +32,25 @@ public class ErrorAttachmentLog extends AbstractLog {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            ErrorAttachmentLog errorAttachmentLog = (ErrorAttachmentLog) obj;
-            UUID uuid = this.id;
-            if (uuid == null ? errorAttachmentLog.id == null : uuid.equals(errorAttachmentLog.id)) {
-                UUID uuid2 = this.errorId;
-                if (uuid2 == null ? errorAttachmentLog.errorId == null : uuid2.equals(errorAttachmentLog.errorId)) {
-                    String str = this.contentType;
-                    if (str == null ? errorAttachmentLog.contentType == null : str.equals(errorAttachmentLog.contentType)) {
-                        String str2 = this.fileName;
-                        if (str2 == null ? errorAttachmentLog.fileName == null : str2.equals(errorAttachmentLog.fileName)) {
-                            return Arrays.equals(this.data, errorAttachmentLog.data);
-                        }
-                        return false;
-                    }
-                    return false;
-                }
-                return false;
-            }
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
             return false;
+        }
+        ErrorAttachmentLog errorAttachmentLog = (ErrorAttachmentLog) obj;
+        UUID uuid = this.id;
+        if (uuid == null ? errorAttachmentLog.id != null : !uuid.equals(errorAttachmentLog.id)) {
+            return false;
+        }
+        UUID uuid2 = this.errorId;
+        if (uuid2 == null ? errorAttachmentLog.errorId != null : !uuid2.equals(errorAttachmentLog.errorId)) {
+            return false;
+        }
+        String str = this.contentType;
+        if (str == null ? errorAttachmentLog.contentType != null : !str.equals(errorAttachmentLog.contentType)) {
+            return false;
+        }
+        String str2 = this.fileName;
+        if (str2 == null ? errorAttachmentLog.fileName == null : str2.equals(errorAttachmentLog.fileName)) {
+            return Arrays.equals(this.data, errorAttachmentLog.data);
         }
         return false;
     }

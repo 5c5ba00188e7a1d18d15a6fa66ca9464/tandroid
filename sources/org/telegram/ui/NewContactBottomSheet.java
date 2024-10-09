@@ -57,6 +57,7 @@ import org.telegram.ui.Components.OutlineTextContainerView;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.CountrySelectActivity;
 import org.telegram.ui.NewContactBottomSheet;
+
 /* loaded from: classes4.dex */
 public class NewContactBottomSheet extends BottomSheet implements AdapterView.OnItemSelectedListener {
     int classGuid;
@@ -171,34 +172,38 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                 vibrator.vibrate(200L);
             }
             AndroidUtilities.shakeView(this.firstNameField);
-        } else if (this.codeField.length() == 0) {
+            return;
+        }
+        if (this.codeField.length() == 0) {
             Vibrator vibrator2 = (Vibrator) this.parentFragment.getParentActivity().getSystemService("vibrator");
             if (vibrator2 != null) {
                 vibrator2.vibrate(200L);
             }
             AndroidUtilities.shakeView(this.codeField);
-        } else if (this.phoneField.length() == 0) {
+            return;
+        }
+        if (this.phoneField.length() == 0) {
             Vibrator vibrator3 = (Vibrator) this.parentFragment.getParentActivity().getSystemService("vibrator");
             if (vibrator3 != null) {
                 vibrator3.vibrate(200L);
             }
             AndroidUtilities.shakeView(this.phoneField);
-        } else {
-            this.donePressed = true;
-            showEditDoneProgress(true, true);
-            final TLRPC.TL_contacts_importContacts tL_contacts_importContacts = new TLRPC.TL_contacts_importContacts();
-            final TLRPC.TL_inputPhoneContact tL_inputPhoneContact = new TLRPC.TL_inputPhoneContact();
-            tL_inputPhoneContact.first_name = this.firstNameField.getEditText().getText().toString();
-            tL_inputPhoneContact.last_name = this.lastNameField.getEditText().getText().toString();
-            tL_inputPhoneContact.phone = "+" + this.codeField.getText().toString() + this.phoneField.getText().toString();
-            tL_contacts_importContacts.contacts.add(tL_inputPhoneContact);
-            ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_contacts_importContacts, new RequestDelegate() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda10
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    NewContactBottomSheet.this.lambda$doOnDone$9(tL_inputPhoneContact, tL_contacts_importContacts, tLObject, tL_error);
-                }
-            }, 2), this.classGuid);
+            return;
         }
+        this.donePressed = true;
+        showEditDoneProgress(true, true);
+        final TLRPC.TL_contacts_importContacts tL_contacts_importContacts = new TLRPC.TL_contacts_importContacts();
+        final TLRPC.TL_inputPhoneContact tL_inputPhoneContact = new TLRPC.TL_inputPhoneContact();
+        tL_inputPhoneContact.first_name = this.firstNameField.getEditText().getText().toString();
+        tL_inputPhoneContact.last_name = this.lastNameField.getEditText().getText().toString();
+        tL_inputPhoneContact.phone = "+" + this.codeField.getText().toString() + this.phoneField.getText().toString();
+        tL_contacts_importContacts.contacts.add(tL_inputPhoneContact);
+        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_contacts_importContacts, new RequestDelegate() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda10
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                NewContactBottomSheet.this.lambda$doOnDone$9(tL_inputPhoneContact, tL_contacts_importContacts, tLObject, tL_error);
+            }
+        }, 2), this.classGuid);
     }
 
     public static String getPhoneNumber(Context context, TLRPC.User user, String str, boolean z) {
@@ -239,8 +244,9 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         return sb.toString();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x008d, code lost:
-        if (r7 == (-1)) goto L29;
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x008d, code lost:
+    
+        if (r7 == (-1)) goto L34;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -267,8 +273,9 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             while (i < list.size()) {
                 if (replace.startsWith(((String) list.get(i)).replace(" ", "").replace("X", "").replace("0", ""))) {
                     break;
+                } else {
+                    i++;
                 }
-                i++;
             }
         }
         i = -1;
@@ -299,23 +306,23 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$1(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5) {
-            this.lastNameField.requestFocus();
-            this.lastNameField.getEditText().setSelection(this.lastNameField.getEditText().length());
-            return true;
+        if (i != 5) {
+            return false;
         }
-        return false;
+        this.lastNameField.requestFocus();
+        this.lastNameField.getEditText().setSelection(this.lastNameField.getEditText().length());
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5) {
-            this.codeField.requestFocus();
-            AnimatedPhoneNumberEditText animatedPhoneNumberEditText = this.codeField;
-            animatedPhoneNumberEditText.setSelection(animatedPhoneNumberEditText.length());
-            return true;
+        if (i != 5) {
+            return false;
         }
-        return false;
+        this.codeField.requestFocus();
+        AnimatedPhoneNumberEditText animatedPhoneNumberEditText = this.codeField;
+        animatedPhoneNumberEditText.setSelection(animatedPhoneNumberEditText.length());
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -327,22 +334,22 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$4(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5) {
-            this.phoneField.requestFocus();
-            AnimatedPhoneNumberEditText animatedPhoneNumberEditText = this.phoneField;
-            animatedPhoneNumberEditText.setSelection(animatedPhoneNumberEditText.length());
-            return true;
+        if (i != 5) {
+            return false;
         }
-        return false;
+        this.phoneField.requestFocus();
+        AnimatedPhoneNumberEditText animatedPhoneNumberEditText = this.phoneField;
+        animatedPhoneNumberEditText.setSelection(animatedPhoneNumberEditText.length());
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$5(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5) {
-            this.doneButtonContainer.callOnClick();
-            return true;
+        if (i != 5) {
+            return false;
         }
-        return false;
+        this.doneButtonContainer.callOnClick();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -365,8 +372,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             MessagesController.getInstance(this.currentAccount).putUsers(tL_contacts_importedContacts.users, false);
             MessagesController.getInstance(this.currentAccount).openChatOrProfileWith(tL_contacts_importedContacts.users.get(0), null, this.parentFragment, 1, false);
             dismiss();
-        } else if (this.parentFragment.getParentActivity() == null) {
         } else {
+            if (this.parentFragment.getParentActivity() == null) {
+                return;
+            }
             showEditDoneProgress(false, true);
             AlertsCreator.createContactInviteDialog(this.parentFragment, tL_inputPhoneContact.first_name, tL_inputPhoneContact.last_name, tL_inputPhoneContact.phone);
         }
@@ -426,8 +435,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
 
     /* JADX WARN: Removed duplicated region for block: B:59:0x03f1  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x041f  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x040d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x040d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x041f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -760,7 +769,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                     while (true) {
                         if (i8 >= sb.length()) {
                             break;
-                        } else if (i8 < hintText.length()) {
+                        }
+                        if (i8 < hintText.length()) {
                             if (hintText.charAt(i8) == ' ') {
                                 sb.insert(i8, ' ');
                                 i8++;
@@ -794,11 +804,12 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                 }
                 if (i5 != 1 || i6 != 0) {
                     i7 = -1;
-                } else if (charSequence.charAt(i4) == ' ' && i4 > 0) {
-                    this.characterAction = 3;
-                    this.actionPosition = i4 - 1;
-                    return;
                 } else {
+                    if (charSequence.charAt(i4) == ' ' && i4 > 0) {
+                        this.characterAction = 3;
+                        this.actionPosition = i4 - 1;
+                        return;
+                    }
                     i7 = 2;
                 }
                 this.characterAction = i7;
@@ -880,12 +891,12 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                         if (i < this.countriesArray.size()) {
                             country = null;
                             break;
-                        } else if (Objects.equals(((CountrySelectActivity.Country) this.countriesArray.get(i)).name, str2)) {
+                        }
+                        if (Objects.equals(((CountrySelectActivity.Country) this.countriesArray.get(i)).name, str2)) {
                             country = (CountrySelectActivity.Country) this.countriesArray.get(i);
                             break;
-                        } else {
-                            i++;
                         }
+                        i++;
                     }
                     if (country != null) {
                         this.codeField.setText(country.code);
@@ -998,19 +1009,21 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         int i5 = ThemeDescription.FLAG_BACKGROUNDFILTER;
         int i6 = Theme.key_windowBackgroundWhiteInputField;
         arrayList.add(new ThemeDescription(outlineEditText3, i5, null, null, null, null, i6));
-        int i7 = Theme.key_windowBackgroundWhiteInputFieldActivated;
-        arrayList.add(new ThemeDescription(this.firstNameField, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, i7));
+        OutlineEditText outlineEditText4 = this.firstNameField;
+        int i7 = ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE;
+        int i8 = Theme.key_windowBackgroundWhiteInputFieldActivated;
+        arrayList.add(new ThemeDescription(outlineEditText4, i7, null, null, null, null, i8));
         arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i2));
         arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, i4));
         arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i6));
-        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i7));
+        arrayList.add(new ThemeDescription(this.lastNameField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i8));
         arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i2));
         arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i6));
-        arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i7));
+        arrayList.add(new ThemeDescription(this.codeField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i8));
         arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i2));
         arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, i4));
         arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i6));
-        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i7));
+        arrayList.add(new ThemeDescription(this.phoneField, ThemeDescription.FLAG_DRAWABLESELECTEDSTATE | ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, i8));
         arrayList.add(new ThemeDescription(this.editDoneItemProgress, 0, null, null, null, null, Theme.key_contextProgressInner2));
         arrayList.add(new ThemeDescription(this.editDoneItemProgress, 0, null, null, null, null, Theme.key_contextProgressOuter2));
         return arrayList;
@@ -1055,13 +1068,16 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:24:0x0071, code lost:
-        if (r5.initialPhoneNumber.startsWith("0") != false) goto L25;
+    
+        if (r5.initialPhoneNumber.startsWith("0") != false) goto L37;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00ad, code lost:
-        if (r5.initialPhoneNumber.startsWith("0") != false) goto L25;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x00af, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x00af, code lost:
+    
         r5.initialPhoneNumber = r5.initialPhoneNumber.substring(1);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x00ad, code lost:
+    
+        if (r5.initialPhoneNumber.startsWith("0") != false) goto L37;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1098,7 +1114,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                         } else if (Build.VERSION.SDK_INT >= 23) {
                             Context context = ApplicationLoader.applicationContext;
                             if (context != null) {
-                                systemService = context.getSystemService(TelephonyManager.class);
+                                systemService = context.getSystemService((Class<Object>) TelephonyManager.class);
                                 country = ((TelephonyManager) systemService).getSimCountryIso().toUpperCase(Locale.US);
                             } else {
                                 country = Locale.getDefault().getCountry();

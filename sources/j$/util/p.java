@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.PrimitiveIterator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class p implements r, j {
     public final /* synthetic */ PrimitiveIterator.OfDouble a;

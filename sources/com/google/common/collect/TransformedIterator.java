@@ -2,6 +2,7 @@ package com.google.common.collect;
 
 import com.google.common.base.Preconditions;
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 abstract class TransformedIterator implements Iterator {
     final Iterator backingIterator;

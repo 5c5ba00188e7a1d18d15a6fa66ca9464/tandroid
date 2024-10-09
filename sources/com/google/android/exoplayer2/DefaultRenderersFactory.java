@@ -23,6 +23,7 @@ import com.google.android.exoplayer2.video.MediaCodecVideoRenderer;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
 import com.google.android.exoplayer2.video.spherical.CameraMotionRenderer;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public class DefaultRenderersFactory implements RenderersFactory {
     private final Context context;

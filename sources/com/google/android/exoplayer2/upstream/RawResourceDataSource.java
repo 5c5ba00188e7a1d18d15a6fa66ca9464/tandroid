@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
+
 /* loaded from: classes.dex */
 public final class RawResourceDataSource extends BaseDataSource {
     private AssetFileDescriptor assetFileDescriptor;
@@ -112,9 +113,10 @@ public final class RawResourceDataSource extends BaseDataSource {
             } catch (NumberFormatException unused) {
                 throw new RawResourceDataSourceException("Resource identifier must be an integer.", null, 1004);
             }
-        } else if (!TextUtils.equals("android.resource", uri.getScheme())) {
-            throw new RawResourceDataSourceException("URI must either use scheme rawresource or android.resource", null, 1004);
         } else {
+            if (!TextUtils.equals("android.resource", uri.getScheme())) {
+                throw new RawResourceDataSourceException("URI must either use scheme rawresource or android.resource", null, 1004);
+            }
             String str2 = (String) Assertions.checkNotNull(uri.getPath());
             if (str2.startsWith("/")) {
                 str2 = str2.substring(1);
@@ -156,39 +158,39 @@ public final class RawResourceDataSource extends BaseDataSource {
             }
             long startOffset = openRawResourceFd.getStartOffset();
             long skip = fileInputStream.skip(dataSpec.position + startOffset) - startOffset;
-            if (skip == dataSpec.position) {
-                if (length == -1) {
-                    FileChannel channel = fileInputStream.getChannel();
-                    if (channel.size() == 0) {
-                        this.bytesRemaining = -1L;
-                    } else {
-                        long size = channel.size() - channel.position();
-                        this.bytesRemaining = size;
-                        if (size < 0) {
-                            throw new RawResourceDataSourceException(null, null, 2008);
-                        }
-                    }
-                } else {
-                    long j = length - skip;
-                    this.bytesRemaining = j;
-                    if (j < 0) {
-                        throw new DataSourceException(2008);
-                    }
-                }
-                long j2 = dataSpec.length;
-                if (j2 != -1) {
-                    long j3 = this.bytesRemaining;
-                    if (j3 != -1) {
-                        j2 = Math.min(j3, j2);
-                    }
-                    this.bytesRemaining = j2;
-                }
-                this.opened = true;
-                transferStarted(dataSpec);
-                long j4 = dataSpec.length;
-                return j4 != -1 ? j4 : this.bytesRemaining;
+            if (skip != dataSpec.position) {
+                throw new RawResourceDataSourceException(null, null, 2008);
             }
-            throw new RawResourceDataSourceException(null, null, 2008);
+            if (length == -1) {
+                FileChannel channel = fileInputStream.getChannel();
+                if (channel.size() == 0) {
+                    this.bytesRemaining = -1L;
+                } else {
+                    long size = channel.size() - channel.position();
+                    this.bytesRemaining = size;
+                    if (size < 0) {
+                        throw new RawResourceDataSourceException(null, null, 2008);
+                    }
+                }
+            } else {
+                long j = length - skip;
+                this.bytesRemaining = j;
+                if (j < 0) {
+                    throw new DataSourceException(2008);
+                }
+            }
+            long j2 = dataSpec.length;
+            if (j2 != -1) {
+                long j3 = this.bytesRemaining;
+                if (j3 != -1) {
+                    j2 = Math.min(j3, j2);
+                }
+                this.bytesRemaining = j2;
+            }
+            this.opened = true;
+            transferStarted(dataSpec);
+            long j4 = dataSpec.length;
+            return j4 != -1 ? j4 : this.bytesRemaining;
         } catch (Resources.NotFoundException e3) {
             throw new RawResourceDataSourceException(null, e3, 2005);
         }

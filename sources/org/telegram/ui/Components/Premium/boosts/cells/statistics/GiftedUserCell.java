@@ -17,6 +17,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes3.dex */
 public class GiftedUserCell extends UserCell {
     private FrameLayout badgeLayout;
@@ -78,10 +79,10 @@ public class GiftedUserCell extends UserCell {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x00a3  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00c7  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x011d  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00c7  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x011d  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00b1  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -158,10 +159,10 @@ public class GiftedUserCell extends UserCell {
         if (this.badgeLayout.getVisibility() != 0) {
             SimpleTextView simpleTextView = this.nameTextView;
             simpleTextView.setPadding(0, simpleTextView.getPaddingTop(), 0, this.nameTextView.getPaddingBottom());
-            return;
+        } else {
+            int measureText = ((int) this.badgeTextView.getPaint().measureText(this.badgeTextView.getText().toString())) + AndroidUtilities.dp(22.0f);
+            SimpleTextView simpleTextView2 = this.nameTextView;
+            simpleTextView2.setPadding(LocaleController.isRTL ? measureText : 0, simpleTextView2.getPaddingTop(), LocaleController.isRTL ? 0 : measureText, this.nameTextView.getPaddingBottom());
         }
-        int measureText = ((int) this.badgeTextView.getPaint().measureText(this.badgeTextView.getText().toString())) + AndroidUtilities.dp(22.0f);
-        SimpleTextView simpleTextView2 = this.nameTextView;
-        simpleTextView2.setPadding(LocaleController.isRTL ? measureText : 0, simpleTextView2.getPaddingTop(), LocaleController.isRTL ? 0 : measureText, this.nameTextView.getPaddingBottom());
     }
 }

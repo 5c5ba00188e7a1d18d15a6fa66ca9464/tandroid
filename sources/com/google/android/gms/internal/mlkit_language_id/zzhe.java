@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class zzhe extends RuntimeException {
     private final List zza;

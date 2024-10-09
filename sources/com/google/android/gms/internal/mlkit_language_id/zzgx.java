@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 final class zzgx implements Iterator {
     @Override // java.util.Iterator

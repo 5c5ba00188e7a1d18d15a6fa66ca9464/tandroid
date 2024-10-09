@@ -2,6 +2,7 @@ package org.telegram.messenger;
 
 import android.app.IntentService;
 import android.content.Intent;
+
 /* loaded from: classes3.dex */
 public class NotificationRepeat extends IntentService {
     public NotificationRepeat() {

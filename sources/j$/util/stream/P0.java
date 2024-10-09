@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class P0 extends H0 implements E0 {
@@ -17,12 +18,12 @@ public abstract class P0 extends H0 implements E0 {
     @Override // j$.util.stream.E0
     public final Object e() {
         long count = count();
-        if (count < 2147483639) {
-            Object c = c((int) count);
-            d(c, 0);
-            return c;
+        if (count >= 2147483639) {
+            throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+        Object c = c((int) count);
+        d(c, 0);
+        return c;
     }
 
     @Override // j$.util.stream.E0
@@ -37,8 +38,8 @@ public abstract class P0 extends H0 implements E0 {
     }
 
     public final String toString() {
-        int i = (count() > 32L ? 1 : (count() == 32L ? 0 : -1));
+        long count = count();
         String name = getClass().getName();
-        return i < 0 ? String.format("%s[%s.%s]", name, this.a, this.b) : String.format("%s[size=%d]", name, Long.valueOf(count()));
+        return count < 32 ? String.format("%s[%s.%s]", name, this.a, this.b) : String.format("%s[size=%d]", name, Long.valueOf(count()));
     }
 }

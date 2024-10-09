@@ -1,6 +1,7 @@
 package org.telegram.tgnet;
 
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public interface ResultCallback<T> {
 

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class zzbh extends zzaz implements Set {
     private transient zzbe zza;
@@ -31,12 +32,12 @@ public abstract class zzbh extends zzaz implements Set {
 
     public final zzbe zzf() {
         zzbe zzbeVar = this.zza;
-        if (zzbeVar == null) {
-            zzbe zzg = zzg();
-            this.zza = zzg;
-            return zzg;
+        if (zzbeVar != null) {
+            return zzbeVar;
         }
-        return zzbeVar;
+        zzbe zzg = zzg();
+        this.zza = zzg;
+        return zzg;
     }
 
     zzbe zzg() {

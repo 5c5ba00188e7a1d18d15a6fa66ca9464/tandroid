@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import androidx.core.provider.FontRequestWorker;
 import androidx.core.provider.FontsContractCompat;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class CallbackWithHandler {

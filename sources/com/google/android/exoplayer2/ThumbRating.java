@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
+
 /* loaded from: classes.dex */
 public final class ThumbRating extends Rating {
     private final boolean isThumbsUp;
@@ -37,11 +38,11 @@ public final class ThumbRating extends Rating {
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof ThumbRating) {
-            ThumbRating thumbRating = (ThumbRating) obj;
-            return this.isThumbsUp == thumbRating.isThumbsUp && this.rated == thumbRating.rated;
+        if (!(obj instanceof ThumbRating)) {
+            return false;
         }
-        return false;
+        ThumbRating thumbRating = (ThumbRating) obj;
+        return this.isThumbsUp == thumbRating.isThumbsUp && this.rated == thumbRating.rated;
     }
 
     public int hashCode() {

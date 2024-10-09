@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* loaded from: classes.dex */
 public enum zzha implements zzje {
     zza(0),
@@ -15,7 +16,7 @@ public enum zzha implements zzje {
     zzl(11),
     zzm(12),
     zzn(13);
-    
+
     private static final zzjh zzo = new zzjh() { // from class: com.google.android.gms.internal.vision.zzhd
     };
     private final int zzp;

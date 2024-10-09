@@ -2,6 +2,7 @@ package com.google.android.gms.phenotype;
 
 import android.net.Uri;
 import com.google.android.gms.common.api.Api;
+
 /* loaded from: classes.dex */
 public abstract class Phenotype {
     private static final Api API;

@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.extractor.ts;
 
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class TsUtil {
     public static int findSyncBytePosition(byte[] bArr, int i, int i2) {
@@ -33,12 +34,12 @@ public abstract class TsUtil {
             return -9223372036854775807L;
         }
         int readInt = parsableByteArray.readInt();
-        if ((8388608 & readInt) == 0 && ((2096896 & readInt) >> 8) == i2 && (readInt & 32) != 0 && parsableByteArray.readUnsignedByte() >= 7 && parsableByteArray.bytesLeft() >= 7 && (parsableByteArray.readUnsignedByte() & 16) == 16) {
-            byte[] bArr = new byte[6];
-            parsableByteArray.readBytes(bArr, 0, 6);
-            return readPcrValueFromPcrBytes(bArr);
+        if ((8388608 & readInt) != 0 || ((2096896 & readInt) >> 8) != i2 || (readInt & 32) == 0 || parsableByteArray.readUnsignedByte() < 7 || parsableByteArray.bytesLeft() < 7 || (parsableByteArray.readUnsignedByte() & 16) != 16) {
+            return -9223372036854775807L;
         }
-        return -9223372036854775807L;
+        byte[] bArr = new byte[6];
+        parsableByteArray.readBytes(bArr, 0, 6);
+        return readPcrValueFromPcrBytes(bArr);
     }
 
     private static long readPcrValueFromPcrBytes(byte[] bArr) {

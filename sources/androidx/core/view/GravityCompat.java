@@ -2,6 +2,7 @@ package androidx.core.view;
 
 import android.graphics.Rect;
 import android.view.Gravity;
+
 /* loaded from: classes.dex */
 public abstract class GravityCompat {
 

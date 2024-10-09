@@ -11,6 +11,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+
 /* loaded from: classes3.dex */
 public class ScamDrawable extends Drawable {
     int alpha;

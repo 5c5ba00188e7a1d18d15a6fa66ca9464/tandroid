@@ -2,6 +2,7 @@ package com.microsoft.appcenter.utils;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+
 /* loaded from: classes.dex */
 public abstract class AppNameHelper {
     public static String getAppName(Context context) {

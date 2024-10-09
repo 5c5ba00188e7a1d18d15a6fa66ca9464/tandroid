@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class G extends K implements b2 {
     @Override // j$.util.stream.K, j$.util.stream.e2, j$.util.function.n

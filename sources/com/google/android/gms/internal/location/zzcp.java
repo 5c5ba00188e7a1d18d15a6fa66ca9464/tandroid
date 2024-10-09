@@ -2,6 +2,7 @@ package com.google.android.gms.internal.location;
 
 import com.google.android.gms.common.api.internal.TaskUtil;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 final class zzcp extends zzj {
     final /* synthetic */ TaskCompletionSource zza;

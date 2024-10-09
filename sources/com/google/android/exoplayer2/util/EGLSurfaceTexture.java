@@ -8,6 +8,7 @@ import android.opengl.EGLDisplay;
 import android.opengl.EGLSurface;
 import android.opengl.GLES20;
 import android.os.Handler;
+
 /* loaded from: classes.dex */
 public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableListener, Runnable {
     private static final int[] EGL_CONFIG_ATTRIBUTES = {12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 0, 12327, 12344, 12339, 4, 12344};
@@ -95,7 +96,7 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
         this.handler.post(this);
     }
 
-    /* JADX WARN: Type inference failed for: r1v0, types: [android.opengl.EGLContext, android.graphics.SurfaceTexture, android.opengl.EGLSurface, android.opengl.EGLDisplay] */
+    /* JADX WARN: Multi-variable type inference failed */
     public void release() {
         this.handler.removeCallbacks(this);
         try {

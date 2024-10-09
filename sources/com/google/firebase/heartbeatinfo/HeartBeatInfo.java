@@ -1,4 +1,5 @@
 package com.google.firebase.heartbeatinfo;
+
 /* loaded from: classes.dex */
 public interface HeartBeatInfo {
 
@@ -8,7 +9,7 @@ public interface HeartBeatInfo {
         SDK(1),
         GLOBAL(2),
         COMBINED(3);
-        
+
         private final int code;
 
         HeartBeat(int i) {

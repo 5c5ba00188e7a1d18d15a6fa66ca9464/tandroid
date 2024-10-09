@@ -2,6 +2,7 @@ package com.google.android.gms.internal.vision;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+
 /* loaded from: classes.dex */
 public abstract class zzjf {
     public static final byte[] zzb;

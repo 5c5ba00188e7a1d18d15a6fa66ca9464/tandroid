@@ -3,6 +3,7 @@ package org.telegram.messenger.support.fingerprint;
 import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager;
 import org.telegram.messenger.FileLog;
+
 /* loaded from: classes3.dex */
 public abstract class FingerprintManagerCompatApi23 {
     private static FingerprintManager getFingerprintManager(Context context) {

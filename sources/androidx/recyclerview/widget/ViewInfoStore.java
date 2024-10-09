@@ -6,6 +6,7 @@ import androidx.core.util.Pools$Pool;
 import androidx.core.util.Pools$SimplePool;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.FileLog;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class ViewInfoStore {
@@ -64,9 +65,10 @@ public class ViewInfoStore {
                 infoRecord.flags = i3;
                 if (i == 4) {
                     itemHolderInfo = infoRecord.preInfo;
-                } else if (i != 8) {
-                    throw new IllegalArgumentException("Must provide flag PRE or POST");
                 } else {
+                    if (i != 8) {
+                        throw new IllegalArgumentException("Must provide flag PRE or POST");
+                    }
                     itemHolderInfo = infoRecord.postInfo;
                 }
                 if ((i3 & 12) == 0) {
@@ -170,8 +172,9 @@ public class ViewInfoStore {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x005f, code lost:
-        if ((r4 & 8) != 0) goto L27;
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x005f, code lost:
+    
+        if ((r4 & 8) != 0) goto L31;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -227,12 +230,12 @@ public class ViewInfoStore {
         while (true) {
             if (size < 0) {
                 break;
-            } else if (viewHolder == this.mOldChangedHolders.valueAt(size)) {
+            }
+            if (viewHolder == this.mOldChangedHolders.valueAt(size)) {
                 this.mOldChangedHolders.removeAt(size);
                 break;
-            } else {
-                size--;
             }
+            size--;
         }
         InfoRecord infoRecord = (InfoRecord) this.mLayoutHolderMap.get(viewHolder);
         if (infoRecord != null) {

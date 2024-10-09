@@ -18,6 +18,7 @@ import org.telegram.messenger.CompoundEmoji;
 import org.telegram.messenger.Emoji;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes3.dex */
 public class CompoundEmoji {
     public static List<String> skinTones = Arrays.asList("🏻", "🏼", "🏽", "🏾", "🏿");
@@ -320,14 +321,14 @@ public class CompoundEmoji {
                     i = getSkinTone(str);
                     r3 = i >= 0 ? i : -1;
                     split = str.split("\u200d");
-                    if (split.length != 2 && split[0].startsWith("\u1faf1") && split[1].startsWith("\u1faf2")) {
-                        if (split[0].length() == 2 || (split[0].length() == 4 && (i = getSkinTone(split[0])) >= 0)) {
-                            if (split[1].length() == 2 || (split[1].length() == 4 && (r3 = getSkinTone(split[1])) >= 0)) {
-                                return new Pair<>(Integer.valueOf(i), Integer.valueOf(r3));
-                            }
-                            return null;
-                        }
+                    if (split.length == 2 || !split[0].startsWith("\u1faf1") || !split[1].startsWith("\u1faf2")) {
                         return null;
+                    }
+                    if (split[0].length() != 2 && (split[0].length() != 4 || (i = getSkinTone(split[0])) < 0)) {
+                        return null;
+                    }
+                    if (split[1].length() == 2 || (split[1].length() == 4 && (r3 = getSkinTone(split[1])) >= 0)) {
+                        return new Pair<>(Integer.valueOf(i), Integer.valueOf(r3));
                     }
                     return null;
                 }
@@ -336,7 +337,7 @@ public class CompoundEmoji {
         }
         i = -1;
         split = str.split("\u200d");
-        return split.length != 2 ? null : null;
+        return split.length == 2 ? null : null;
     }
 
     public static void setPlaceholderColor(int i) {

@@ -28,6 +28,7 @@ import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* loaded from: classes.dex */
 public final class ResourceManagerInternal {
     private static ResourceManagerInternal INSTANCE;
@@ -167,16 +168,16 @@ public final class ResourceManagerInternal {
     private synchronized boolean addDrawableToCache(Context context, long j, Drawable drawable) {
         try {
             Drawable.ConstantState constantState = drawable.getConstantState();
-            if (constantState != null) {
-                LongSparseArray longSparseArray = (LongSparseArray) this.mDrawableCaches.get(context);
-                if (longSparseArray == null) {
-                    longSparseArray = new LongSparseArray();
-                    this.mDrawableCaches.put(context, longSparseArray);
-                }
-                longSparseArray.put(j, new WeakReference(constantState));
-                return true;
+            if (constantState == null) {
+                return false;
             }
-            return false;
+            LongSparseArray longSparseArray = (LongSparseArray) this.mDrawableCaches.get(context);
+            if (longSparseArray == null) {
+                longSparseArray = new LongSparseArray();
+                this.mDrawableCaches.put(context, longSparseArray);
+            }
+            longSparseArray.put(j, new WeakReference(constantState));
+            return true;
         } catch (Throwable th) {
             throw th;
         }
@@ -336,12 +337,12 @@ public final class ResourceManagerInternal {
             try {
                 XmlResourceParser xml = resources.getXml(i);
                 AttributeSet asAttributeSet = Xml.asAttributeSet(xml);
-                while (true) {
+                do {
                     next = xml.next();
-                    if (next == 2 || next == 1) {
+                    if (next == 2) {
                         break;
                     }
-                }
+                } while (next != 1);
                 if (next != 2) {
                     throw new XmlPullParserException("No start tag found");
                 }
@@ -380,10 +381,10 @@ public final class ResourceManagerInternal {
         Drawable wrap = DrawableCompat.wrap(drawable);
         DrawableCompat.setTintList(wrap, tintList);
         PorterDuff.Mode tintMode = getTintMode(i);
-        if (tintMode != null) {
-            DrawableCompat.setTintMode(wrap, tintMode);
+        if (tintMode == null) {
             return wrap;
         }
+        DrawableCompat.setTintMode(wrap, tintMode);
         return wrap;
     }
 
@@ -466,10 +467,10 @@ public final class ResourceManagerInternal {
             if (loadDrawableFromDelegates == null) {
                 loadDrawableFromDelegates = vectorEnabledTintResources.getDrawableCanonical(i);
             }
-            if (loadDrawableFromDelegates != null) {
-                return tintDrawable(context, i, false, loadDrawableFromDelegates);
+            if (loadDrawableFromDelegates == null) {
+                return null;
             }
-            return null;
+            return tintDrawable(context, i, false, loadDrawableFromDelegates);
         } catch (Throwable th) {
             throw th;
         }

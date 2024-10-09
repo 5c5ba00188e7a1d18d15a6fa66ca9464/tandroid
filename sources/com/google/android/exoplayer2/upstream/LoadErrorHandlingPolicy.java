@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.source.LoadEventInfo;
 import com.google.android.exoplayer2.source.MediaLoadData;
 import com.google.android.exoplayer2.util.Assertions;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public interface LoadErrorHandlingPolicy {
 

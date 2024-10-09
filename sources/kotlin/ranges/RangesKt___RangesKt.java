@@ -1,4 +1,5 @@
 package kotlin.ranges;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class RangesKt___RangesKt extends RangesKt__RangesKt {

@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Objects;
+
 /* loaded from: classes.dex */
 public class TypeToken<T> {
     private final int hashCode;
@@ -62,38 +63,41 @@ public class TypeToken<T> {
         if (type instanceof TypeVariable) {
             TypeVariable typeVariable = (TypeVariable) type;
             throw new IllegalArgumentException("TypeToken type argument must not contain a type variable; captured type variable " + typeVariable.getName() + " declared by " + typeVariable.getGenericDeclaration() + "\nSee " + TroubleshootingGuide.createUrl("typetoken-type-variable"));
-        } else if (type instanceof GenericArrayType) {
+        }
+        if (type instanceof GenericArrayType) {
             verifyNoTypeVariable(((GenericArrayType) type).getGenericComponentType());
-        } else {
-            int i = 0;
-            if (type instanceof ParameterizedType) {
-                ParameterizedType parameterizedType = (ParameterizedType) type;
-                Type ownerType = parameterizedType.getOwnerType();
-                if (ownerType != null) {
-                    verifyNoTypeVariable(ownerType);
-                }
-                Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-                int length = actualTypeArguments.length;
-                while (i < length) {
-                    verifyNoTypeVariable(actualTypeArguments[i]);
-                    i++;
-                }
-            } else if (!(type instanceof WildcardType)) {
-                if (type == null) {
-                    throw new IllegalArgumentException("TypeToken captured `null` as type argument; probably a compiler / runtime bug");
-                }
-            } else {
-                WildcardType wildcardType = (WildcardType) type;
-                for (Type type2 : wildcardType.getLowerBounds()) {
-                    verifyNoTypeVariable(type2);
-                }
-                Type[] upperBounds = wildcardType.getUpperBounds();
-                int length2 = upperBounds.length;
-                while (i < length2) {
-                    verifyNoTypeVariable(upperBounds[i]);
-                    i++;
-                }
+            return;
+        }
+        int i = 0;
+        if (type instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            Type ownerType = parameterizedType.getOwnerType();
+            if (ownerType != null) {
+                verifyNoTypeVariable(ownerType);
             }
+            Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+            int length = actualTypeArguments.length;
+            while (i < length) {
+                verifyNoTypeVariable(actualTypeArguments[i]);
+                i++;
+            }
+            return;
+        }
+        if (!(type instanceof WildcardType)) {
+            if (type == null) {
+                throw new IllegalArgumentException("TypeToken captured `null` as type argument; probably a compiler / runtime bug");
+            }
+            return;
+        }
+        WildcardType wildcardType = (WildcardType) type;
+        for (Type type2 : wildcardType.getLowerBounds()) {
+            verifyNoTypeVariable(type2);
+        }
+        Type[] upperBounds = wildcardType.getUpperBounds();
+        int length2 = upperBounds.length;
+        while (i < length2) {
+            verifyNoTypeVariable(upperBounds[i]);
+            i++;
         }
     }
 

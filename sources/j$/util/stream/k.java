@@ -4,6 +4,7 @@ import j$.util.function.BiFunction;
 import j$.util.function.Function;
 import java.util.Collection;
 import java.util.Set;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class k implements j$.util.function.f {
     public final /* synthetic */ int a;

@@ -1,6 +1,7 @@
 package androidx.recyclerview.widget;
 
 import android.view.View;
+
 /* loaded from: classes.dex */
 class ViewBoundsCheck {
     BoundFlags mBoundFlags = new BoundFlags();
@@ -23,19 +24,19 @@ class ViewBoundsCheck {
 
         boolean boundsMatch() {
             int i = this.mBoundFlags;
-            if ((i & 7) == 0 || (i & compare(this.mChildStart, this.mRvStart)) != 0) {
-                int i2 = this.mBoundFlags;
-                if ((i2 & 112) == 0 || (i2 & (compare(this.mChildStart, this.mRvEnd) << 4)) != 0) {
-                    int i3 = this.mBoundFlags;
-                    if ((i3 & 1792) == 0 || (i3 & (compare(this.mChildEnd, this.mRvStart) << 8)) != 0) {
-                        int i4 = this.mBoundFlags;
-                        return (i4 & 28672) == 0 || (i4 & (compare(this.mChildEnd, this.mRvEnd) << 12)) != 0;
-                    }
-                    return false;
-                }
+            if ((i & 7) != 0 && (i & compare(this.mChildStart, this.mRvStart)) == 0) {
                 return false;
             }
-            return false;
+            int i2 = this.mBoundFlags;
+            if ((i2 & 112) != 0 && (i2 & (compare(this.mChildStart, this.mRvEnd) << 4)) == 0) {
+                return false;
+            }
+            int i3 = this.mBoundFlags;
+            if ((i3 & 1792) != 0 && (i3 & (compare(this.mChildEnd, this.mRvStart) << 8)) == 0) {
+                return false;
+            }
+            int i4 = this.mBoundFlags;
+            return (i4 & 28672) == 0 || (i4 & (compare(this.mChildEnd, this.mRvEnd) << 12)) != 0;
         }
 
         int compare(int i, int i2) {
@@ -106,11 +107,11 @@ class ViewBoundsCheck {
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isViewWithinBoundFlags(View view, int i) {
         this.mBoundFlags.setBounds(this.mCallback.getParentStart(), this.mCallback.getParentEnd(), this.mCallback.getChildStart(view), this.mCallback.getChildEnd(view));
-        if (i != 0) {
-            this.mBoundFlags.resetFlags();
-            this.mBoundFlags.addFlags(i);
-            return this.mBoundFlags.boundsMatch();
+        if (i == 0) {
+            return false;
         }
-        return false;
+        this.mBoundFlags.resetFlags();
+        this.mBoundFlags.addFlags(i);
+        return this.mBoundFlags.boundsMatch();
     }
 }

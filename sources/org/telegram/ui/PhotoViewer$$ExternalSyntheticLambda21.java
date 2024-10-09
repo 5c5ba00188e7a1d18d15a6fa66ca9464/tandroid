@@ -1,4 +1,5 @@
 package org.telegram.ui;
+
 /* loaded from: classes4.dex */
 public final /* synthetic */ class PhotoViewer$$ExternalSyntheticLambda21 implements Runnable {
     public final /* synthetic */ PhotoViewer f$0;

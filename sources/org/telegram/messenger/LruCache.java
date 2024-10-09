@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes3.dex */
 public class LruCache<T> {
     private final LinkedHashMap<String, T> map;
@@ -72,20 +73,20 @@ public class LruCache<T> {
     }
 
     public final T get(String str) {
-        if (str != null) {
-            synchronized (this) {
-                try {
-                    T t = this.map.get(str);
-                    if (t != null) {
-                        return t;
-                    }
-                    return null;
-                } catch (Throwable th) {
-                    throw th;
+        if (str == null) {
+            throw new NullPointerException("key == null");
+        }
+        synchronized (this) {
+            try {
+                T t = this.map.get(str);
+                if (t != null) {
+                    return t;
                 }
+                return null;
+            } catch (Throwable th) {
+                throw th;
             }
         }
-        throw new NullPointerException("key == null");
     }
 
     public ArrayList<String> getFilterKeys(String str) {
@@ -144,30 +145,30 @@ public class LruCache<T> {
     public final T remove(String str) {
         T remove;
         ArrayList<String> arrayList;
-        if (str != null) {
-            synchronized (this) {
-                try {
-                    remove = this.map.remove(str);
-                    if (remove != null) {
-                        this.size -= safeSizeOf(str, remove);
-                    }
-                } catch (Throwable th) {
-                    throw th;
-                }
-            }
-            if (remove != null) {
-                String[] split = str.split("@");
-                if (split.length > 1 && (arrayList = this.mapFilters.get(split[0])) != null) {
-                    arrayList.remove(split[1]);
-                    if (arrayList.isEmpty()) {
-                        this.mapFilters.remove(split[0]);
-                    }
-                }
-                entryRemoved(false, str, remove, null);
-            }
-            return remove;
+        if (str == null) {
+            throw new NullPointerException("key == null");
         }
-        throw new NullPointerException("key == null");
+        synchronized (this) {
+            try {
+                remove = this.map.remove(str);
+                if (remove != null) {
+                    this.size -= safeSizeOf(str, remove);
+                }
+            } catch (Throwable th) {
+                throw th;
+            }
+        }
+        if (remove != null) {
+            String[] split = str.split("@");
+            if (split.length > 1 && (arrayList = this.mapFilters.get(split[0])) != null) {
+                arrayList.remove(split[1]);
+                if (arrayList.isEmpty()) {
+                    this.mapFilters.remove(split[0]);
+                }
+            }
+            entryRemoved(false, str, remove, null);
+        }
+        return remove;
     }
 
     public final synchronized int size() {

@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Callback {
@@ -107,7 +108,6 @@ public final class SsMediaPeriod implements MediaPeriod, SequenceableLoader.Call
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public long getAdjustedSeekPositionUs(long j, SeekParameters seekParameters) {
-        ChunkSampleStream[] chunkSampleStreamArr;
         for (ChunkSampleStream chunkSampleStream : this.sampleStreams) {
             if (chunkSampleStream.primaryTrackType == 2) {
                 return chunkSampleStream.getAdjustedSeekPositionUs(j, seekParameters);

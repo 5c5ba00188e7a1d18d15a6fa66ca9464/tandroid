@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
+
 /* loaded from: classes2.dex */
 public final class Collectors {
     static final Set a;

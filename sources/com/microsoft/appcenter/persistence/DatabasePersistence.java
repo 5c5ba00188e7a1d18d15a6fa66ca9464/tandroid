@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.json.JSONException;
+
 /* loaded from: classes.dex */
 public class DatabasePersistence extends Persistence {
     static final ContentValues SCHEMA = getContentValues("", "", "", "", "", 0);
@@ -85,7 +86,12 @@ public class DatabasePersistence extends Persistence {
         try {
             Cursor cursor = this.mDatabaseManager.getCursor(sQLiteQueryBuilder, DatabaseManager.SELECT_PRIMARY_KEY, strArr, null);
             while (cursor.moveToNext()) {
-                arrayList.add(this.mDatabaseManager.buildValues(cursor).getAsLong("oid"));
+                try {
+                    arrayList.add(this.mDatabaseManager.buildValues(cursor).getAsLong("oid"));
+                } catch (Throwable th) {
+                    cursor.close();
+                    throw th;
+                }
             }
             cursor.close();
         } catch (RuntimeException e) {
@@ -113,9 +119,14 @@ public class DatabasePersistence extends Persistence {
         int i = 0;
         try {
             Cursor cursor = this.mDatabaseManager.getCursor(newSQLiteQueryBuilder, new String[]{"COUNT(*)"}, new String[]{str}, null);
-            cursor.moveToNext();
-            i = cursor.getInt(0);
-            cursor.close();
+            try {
+                cursor.moveToNext();
+                i = cursor.getInt(0);
+                cursor.close();
+            } catch (Throwable th) {
+                cursor.close();
+                throw th;
+            }
         } catch (RuntimeException e) {
             AppCenterLog.error("AppCenter", "Failed to get logs count: ", e);
         }
@@ -146,8 +157,7 @@ public class DatabasePersistence extends Persistence {
     public void deleteLogs(String str, String str2) {
         AppCenterLog.debug("AppCenter", "Deleting logs from the Persistence database for " + str + " with " + str2);
         AppCenterLog.debug("AppCenter", "The IDs for deleting log(s) is/are:");
-        Map map = this.mPendingDbIdentifiersGroups;
-        List<Long> list = (List) map.remove(str + str2);
+        List<Long> list = (List) this.mPendingDbIdentifiersGroups.remove(str + str2);
         File largePayloadGroupDirectory = getLargePayloadGroupDirectory(str);
         if (list != null) {
             for (Long l : list) {
@@ -185,7 +195,7 @@ public class DatabasePersistence extends Persistence {
             arrayList.addAll(collection);
         }
         LinkedHashMap linkedHashMap = new LinkedHashMap();
-        ArrayList<Long> arrayList2 = new ArrayList();
+        ArrayList arrayList2 = new ArrayList();
         File largePayloadGroupDirectory = getLargePayloadGroupDirectory(str);
         String[] strArr = (String[]) arrayList.toArray(new String[0]);
         try {
@@ -246,8 +256,9 @@ public class DatabasePersistence extends Persistence {
             }
         }
         if (arrayList2.size() > 0) {
-            for (Long l2 : arrayList2) {
-                deleteLog(largePayloadGroupDirectory, l2.longValue());
+            Iterator it2 = arrayList2.iterator();
+            while (it2.hasNext()) {
+                deleteLog(largePayloadGroupDirectory, ((Long) it2.next()).longValue());
             }
             AppCenterLog.warn("AppCenter", "Deleted logs that cannot be deserialized");
         }
@@ -260,17 +271,18 @@ public class DatabasePersistence extends Persistence {
         AppCenterLog.debug("AppCenter", "The SID/ID pairs for returning log(s) is/are:");
         ArrayList arrayList3 = new ArrayList();
         for (Map.Entry entry : linkedHashMap.entrySet()) {
-            Long l3 = (Long) entry.getKey();
-            this.mPendingDbIdentifiers.add(l3);
-            arrayList3.add(l3);
+            Long l2 = (Long) entry.getKey();
+            this.mPendingDbIdentifiers.add(l2);
+            arrayList3.add(l2);
             list.add(entry.getValue());
-            AppCenterLog.debug("AppCenter", "\t" + ((Log) entry.getValue()).getSid() + " / " + l3);
+            AppCenterLog.debug("AppCenter", "\t" + ((Log) entry.getValue()).getSid() + " / " + l2);
         }
         this.mPendingDbIdentifiersGroups.put(str + uuid, arrayList3);
         return uuid;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x00b0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x00b0, code lost:
+    
         r8 = null;
      */
     @Override // com.microsoft.appcenter.persistence.Persistence
@@ -289,40 +301,41 @@ public class DatabasePersistence extends Persistence {
                 if (!(log instanceof CommonSchemaLog)) {
                     str2 = null;
                     str3 = null;
-                } else if (z) {
-                    throw new Persistence.PersistenceException("Log is larger than 1992294 bytes, cannot send to OneCollector.");
                 } else {
+                    if (z) {
+                        throw new Persistence.PersistenceException("Log is larger than 1992294 bytes, cannot send to OneCollector.");
+                    }
                     String str4 = (String) log.getTransmissionTargetTokens().iterator().next();
                     str3 = PartAUtils.getTargetKey(str4);
                     str2 = CryptoUtils.getInstance(this.mContext).encrypt(str4);
                 }
                 long maxSize = this.mDatabaseManager.getMaxSize();
-                if (maxSize != -1) {
-                    if (!z && maxSize <= length) {
-                        throw new Persistence.PersistenceException("Log is too large (" + length + " bytes) to store in database. Current maximum database size is " + maxSize + " bytes.");
-                    }
-                    String str5 = serializeLog;
-                    long put = this.mDatabaseManager.put(getContentValues(str, str5, str2, log.getType(), str3, Flags.getPersistenceFlag(i, false)), "priority");
-                    if (put == -1) {
-                        throw new Persistence.PersistenceException("Failed to store a log to the Persistence database for log type " + log.getType() + ".");
-                    }
-                    AppCenterLog.debug("AppCenter", "Stored a log to the Persistence database for log type " + log.getType() + " with databaseId=" + put);
-                    if (z) {
-                        AppCenterLog.debug("AppCenter", "Payload is larger than what SQLite supports, storing payload in a separate file.");
-                        File largePayloadGroupDirectory = getLargePayloadGroupDirectory(str);
-                        largePayloadGroupDirectory.mkdir();
-                        File largePayloadFile = getLargePayloadFile(largePayloadGroupDirectory, put);
-                        try {
-                            FileManager.write(largePayloadFile, serializeLog);
-                            AppCenterLog.debug("AppCenter", "Payload written to " + largePayloadFile);
-                        } catch (IOException e) {
-                            this.mDatabaseManager.delete(put);
-                            throw e;
-                        }
-                    }
-                    return put;
+                if (maxSize == -1) {
+                    throw new Persistence.PersistenceException("Failed to store a log to the Persistence database.");
                 }
-                throw new Persistence.PersistenceException("Failed to store a log to the Persistence database.");
+                if (!z && maxSize <= length) {
+                    throw new Persistence.PersistenceException("Log is too large (" + length + " bytes) to store in database. Current maximum database size is " + maxSize + " bytes.");
+                }
+                String str5 = serializeLog;
+                long put = this.mDatabaseManager.put(getContentValues(str, str5, str2, log.getType(), str3, Flags.getPersistenceFlag(i, false)), "priority");
+                if (put == -1) {
+                    throw new Persistence.PersistenceException("Failed to store a log to the Persistence database for log type " + log.getType() + ".");
+                }
+                AppCenterLog.debug("AppCenter", "Stored a log to the Persistence database for log type " + log.getType() + " with databaseId=" + put);
+                if (z) {
+                    AppCenterLog.debug("AppCenter", "Payload is larger than what SQLite supports, storing payload in a separate file.");
+                    File largePayloadGroupDirectory = getLargePayloadGroupDirectory(str);
+                    largePayloadGroupDirectory.mkdir();
+                    File largePayloadFile = getLargePayloadFile(largePayloadGroupDirectory, put);
+                    try {
+                        FileManager.write(largePayloadFile, serializeLog);
+                        AppCenterLog.debug("AppCenter", "Payload written to " + largePayloadFile);
+                    } catch (IOException e) {
+                        this.mDatabaseManager.delete(put);
+                        throw e;
+                    }
+                }
+                return put;
             } catch (IOException e2) {
                 throw new Persistence.PersistenceException("Cannot save large payload in a file.", e2);
             }

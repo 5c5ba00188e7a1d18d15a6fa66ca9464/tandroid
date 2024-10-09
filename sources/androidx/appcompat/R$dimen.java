@@ -1,4 +1,5 @@
 package androidx.appcompat;
+
 /* loaded from: classes.dex */
 public abstract class R$dimen {
     public static final int abc_cascading_menus_min_smallest_width = 2131165206;

@@ -3,6 +3,7 @@ package com.google.firebase.encoders.proto;
 import com.google.firebase.encoders.EncodingException;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ValueEncoderContext;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class ProtobufValueEncoderContext implements ValueEncoderContext {

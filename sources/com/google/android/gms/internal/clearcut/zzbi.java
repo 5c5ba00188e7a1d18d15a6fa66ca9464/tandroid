@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.nio.charset.Charset;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class zzbi extends zzbh {
@@ -16,20 +17,20 @@ public class zzbi extends zzbh {
         if (obj == this) {
             return true;
         }
-        if ((obj instanceof zzbb) && size() == ((zzbb) obj).size()) {
-            if (size() == 0) {
-                return true;
-            }
-            if (obj instanceof zzbi) {
-                zzbi zzbiVar = (zzbi) obj;
-                int zzab = zzab();
-                int zzab2 = zzbiVar.zzab();
-                if (zzab == 0 || zzab2 == 0 || zzab == zzab2) {
-                    return zza(zzbiVar, 0, size());
-                }
-                return false;
-            }
+        if (!(obj instanceof zzbb) || size() != ((zzbb) obj).size()) {
+            return false;
+        }
+        if (size() == 0) {
+            return true;
+        }
+        if (!(obj instanceof zzbi)) {
             return obj.equals(this);
+        }
+        zzbi zzbiVar = (zzbi) obj;
+        int zzab = zzab();
+        int zzab2 = zzbiVar.zzab();
+        if (zzab == 0 || zzab2 == 0 || zzab == zzab2) {
+            return zza(zzbiVar, 0, size());
         }
         return false;
     }
@@ -70,7 +71,8 @@ public class zzbi extends zzbh {
             sb.append(i2);
             sb.append(size);
             throw new IllegalArgumentException(sb.toString());
-        } else if (i2 > zzbbVar.size()) {
+        }
+        if (i2 > zzbbVar.size()) {
             int size2 = zzbbVar.size();
             StringBuilder sb2 = new StringBuilder(59);
             sb2.append("Ran off end of other: 0, ");
@@ -78,24 +80,24 @@ public class zzbi extends zzbh {
             sb2.append(", ");
             sb2.append(size2);
             throw new IllegalArgumentException(sb2.toString());
-        } else if (zzbbVar instanceof zzbi) {
-            zzbi zzbiVar = (zzbi) zzbbVar;
-            byte[] bArr = this.zzfp;
-            byte[] bArr2 = zzbiVar.zzfp;
-            int zzac = zzac() + i2;
-            int zzac2 = zzac();
-            int zzac3 = zzbiVar.zzac();
-            while (zzac2 < zzac) {
-                if (bArr[zzac2] != bArr2[zzac3]) {
-                    return false;
-                }
-                zzac2++;
-                zzac3++;
-            }
-            return true;
-        } else {
+        }
+        if (!(zzbbVar instanceof zzbi)) {
             return zzbbVar.zza(0, i2).equals(zza(0, i2));
         }
+        zzbi zzbiVar = (zzbi) zzbbVar;
+        byte[] bArr = this.zzfp;
+        byte[] bArr2 = zzbiVar.zzfp;
+        int zzac = zzac() + i2;
+        int zzac2 = zzac();
+        int zzac3 = zzbiVar.zzac();
+        while (zzac2 < zzac) {
+            if (bArr[zzac2] != bArr2[zzac3]) {
+                return false;
+            }
+            zzac2++;
+            zzac3++;
+        }
+        return true;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzbb

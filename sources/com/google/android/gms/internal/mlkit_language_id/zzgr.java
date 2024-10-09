@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.List;
+
 /* loaded from: classes.dex */
 abstract class zzgr {
     private static final Class zza = zzd();
@@ -66,7 +67,6 @@ abstract class zzgr {
             return 0;
         }
         if (list instanceof zzfn) {
-            zzfn zzfnVar = (zzfn) list;
             if (size <= 0) {
                 return 0;
             }
@@ -192,7 +192,6 @@ abstract class zzgr {
             return 0;
         }
         if (list instanceof zzfn) {
-            zzfn zzfnVar = (zzfn) list;
             if (size <= 0) {
                 return 0;
             }
@@ -246,7 +245,6 @@ abstract class zzgr {
             return 0;
         }
         if (list instanceof zzfn) {
-            zzfn zzfnVar = (zzfn) list;
             if (size <= 0) {
                 return 0;
             }

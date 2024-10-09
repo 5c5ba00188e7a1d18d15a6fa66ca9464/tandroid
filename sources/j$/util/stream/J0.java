@@ -3,6 +3,8 @@ package j$.util.stream;
 import j$.util.Collection$-EL;
 import j$.util.function.Consumer;
 import java.util.Collection;
+import java.util.Iterator;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class J0 implements F0 {
@@ -30,8 +32,9 @@ public final class J0 implements F0 {
 
     @Override // j$.util.stream.F0
     public final void i(Object[] objArr, int i) {
-        for (Object obj : this.a) {
-            objArr[i] = obj;
+        Iterator it = this.a.iterator();
+        while (it.hasNext()) {
+            objArr[i] = it.next();
             i++;
         }
     }

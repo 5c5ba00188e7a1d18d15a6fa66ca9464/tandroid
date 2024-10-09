@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantLock;
+
 /* loaded from: classes.dex */
 public abstract class GoogleApiClient {
     private static final Set zaa = Collections.newSetFromMap(new WeakHashMap());

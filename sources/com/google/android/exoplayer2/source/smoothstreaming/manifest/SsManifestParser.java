@@ -26,6 +26,7 @@ import org.webrtc.MediaStreamTrack;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
+
 /* loaded from: classes.dex */
 public class SsManifestParser implements ParsingLoadable.Parser {
     private final XmlPullParserFactory xmlParserFactory;
@@ -136,50 +137,50 @@ public class SsManifestParser implements ParsingLoadable.Parser {
 
         protected final int parseInt(XmlPullParser xmlPullParser, String str, int i) {
             String attributeValue = xmlPullParser.getAttributeValue(null, str);
-            if (attributeValue != null) {
-                try {
-                    return Integer.parseInt(attributeValue);
-                } catch (NumberFormatException e) {
-                    throw ParserException.createForMalformedManifest(null, e);
-                }
+            if (attributeValue == null) {
+                return i;
             }
-            return i;
+            try {
+                return Integer.parseInt(attributeValue);
+            } catch (NumberFormatException e) {
+                throw ParserException.createForMalformedManifest(null, e);
+            }
         }
 
         protected final long parseLong(XmlPullParser xmlPullParser, String str, long j) {
             String attributeValue = xmlPullParser.getAttributeValue(null, str);
-            if (attributeValue != null) {
-                try {
-                    return Long.parseLong(attributeValue);
-                } catch (NumberFormatException e) {
-                    throw ParserException.createForMalformedManifest(null, e);
-                }
+            if (attributeValue == null) {
+                return j;
             }
-            return j;
+            try {
+                return Long.parseLong(attributeValue);
+            } catch (NumberFormatException e) {
+                throw ParserException.createForMalformedManifest(null, e);
+            }
         }
 
         protected final int parseRequiredInt(XmlPullParser xmlPullParser, String str) {
             String attributeValue = xmlPullParser.getAttributeValue(null, str);
-            if (attributeValue != null) {
-                try {
-                    return Integer.parseInt(attributeValue);
-                } catch (NumberFormatException e) {
-                    throw ParserException.createForMalformedManifest(null, e);
-                }
+            if (attributeValue == null) {
+                throw new MissingFieldException(str);
             }
-            throw new MissingFieldException(str);
+            try {
+                return Integer.parseInt(attributeValue);
+            } catch (NumberFormatException e) {
+                throw ParserException.createForMalformedManifest(null, e);
+            }
         }
 
         protected final long parseRequiredLong(XmlPullParser xmlPullParser, String str) {
             String attributeValue = xmlPullParser.getAttributeValue(null, str);
-            if (attributeValue != null) {
-                try {
-                    return Long.parseLong(attributeValue);
-                } catch (NumberFormatException e) {
-                    throw ParserException.createForMalformedManifest(null, e);
-                }
+            if (attributeValue == null) {
+                throw new MissingFieldException(str);
             }
-            throw new MissingFieldException(str);
+            try {
+                return Long.parseLong(attributeValue);
+            } catch (NumberFormatException e) {
+                throw ParserException.createForMalformedManifest(null, e);
+            }
         }
 
         protected final String parseRequiredString(XmlPullParser xmlPullParser, String str) {
@@ -498,9 +499,10 @@ public class SsManifestParser implements ParsingLoadable.Parser {
             if (parseLong == -9223372036854775807L) {
                 if (size == 0) {
                     parseLong = 0;
-                } else if (this.lastChunkDuration == -1) {
-                    throw ParserException.createForMalformedManifest("Unable to infer start time", null);
                 } else {
+                    if (this.lastChunkDuration == -1) {
+                        throw ParserException.createForMalformedManifest("Unable to infer start time", null);
+                    }
                     parseLong = ((Long) this.startTimes.get(size - 1)).longValue() + this.lastChunkDuration;
                 }
             }
@@ -522,19 +524,19 @@ public class SsManifestParser implements ParsingLoadable.Parser {
 
         private int parseType(XmlPullParser xmlPullParser) {
             String attributeValue = xmlPullParser.getAttributeValue(null, "Type");
-            if (attributeValue != null) {
-                if (MediaStreamTrack.AUDIO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
-                    return 1;
-                }
-                if (MediaStreamTrack.VIDEO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
-                    return 2;
-                }
-                if ("text".equalsIgnoreCase(attributeValue)) {
-                    return 3;
-                }
-                throw ParserException.createForMalformedManifest("Invalid key value[" + attributeValue + "]", null);
+            if (attributeValue == null) {
+                throw new MissingFieldException("Type");
             }
-            throw new MissingFieldException("Type");
+            if (MediaStreamTrack.AUDIO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
+                return 1;
+            }
+            if (MediaStreamTrack.VIDEO_TRACK_KIND.equalsIgnoreCase(attributeValue)) {
+                return 2;
+            }
+            if ("text".equalsIgnoreCase(attributeValue)) {
+                return 3;
+            }
+            throw ParserException.createForMalformedManifest("Invalid key value[" + attributeValue + "]", null);
         }
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser.ElementParser

@@ -1,6 +1,7 @@
 package com.google.zxing.common;
 
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class DecoderResult {
     private final List byteSegments;

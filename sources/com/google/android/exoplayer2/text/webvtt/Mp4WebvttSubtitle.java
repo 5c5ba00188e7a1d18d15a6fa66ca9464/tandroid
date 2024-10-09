@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.text.Subtitle;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class Mp4WebvttSubtitle implements Subtitle {
     private final List cues;

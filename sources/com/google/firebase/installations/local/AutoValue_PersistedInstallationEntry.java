@@ -2,6 +2,7 @@ package com.google.firebase.installations.local;
 
 import com.google.firebase.installations.local.PersistedInstallation;
 import com.google.firebase.installations.local.PersistedInstallationEntry;
+
 /* loaded from: classes.dex */
 final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEntry {
     private final String authToken;
@@ -86,11 +87,11 @@ final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEn
 
         @Override // com.google.firebase.installations.local.PersistedInstallationEntry.Builder
         public PersistedInstallationEntry.Builder setRegistrationStatus(PersistedInstallation.RegistrationStatus registrationStatus) {
-            if (registrationStatus != null) {
-                this.registrationStatus = registrationStatus;
-                return this;
+            if (registrationStatus == null) {
+                throw new NullPointerException("Null registrationStatus");
             }
-            throw new NullPointerException("Null registrationStatus");
+            this.registrationStatus = registrationStatus;
+            return this;
         }
 
         @Override // com.google.firebase.installations.local.PersistedInstallationEntry.Builder
@@ -116,23 +117,23 @@ final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEn
         if (obj == this) {
             return true;
         }
-        if (obj instanceof PersistedInstallationEntry) {
-            PersistedInstallationEntry persistedInstallationEntry = (PersistedInstallationEntry) obj;
-            String str3 = this.firebaseInstallationId;
-            if (str3 != null ? str3.equals(persistedInstallationEntry.getFirebaseInstallationId()) : persistedInstallationEntry.getFirebaseInstallationId() == null) {
-                if (this.registrationStatus.equals(persistedInstallationEntry.getRegistrationStatus()) && ((str = this.authToken) != null ? str.equals(persistedInstallationEntry.getAuthToken()) : persistedInstallationEntry.getAuthToken() == null) && ((str2 = this.refreshToken) != null ? str2.equals(persistedInstallationEntry.getRefreshToken()) : persistedInstallationEntry.getRefreshToken() == null) && this.expiresInSecs == persistedInstallationEntry.getExpiresInSecs() && this.tokenCreationEpochInSecs == persistedInstallationEntry.getTokenCreationEpochInSecs()) {
-                    String str4 = this.fisError;
-                    String fisError = persistedInstallationEntry.getFisError();
-                    if (str4 == null) {
-                        if (fisError == null) {
-                            return true;
-                        }
-                    } else if (str4.equals(fisError)) {
+        if (!(obj instanceof PersistedInstallationEntry)) {
+            return false;
+        }
+        PersistedInstallationEntry persistedInstallationEntry = (PersistedInstallationEntry) obj;
+        String str3 = this.firebaseInstallationId;
+        if (str3 != null ? str3.equals(persistedInstallationEntry.getFirebaseInstallationId()) : persistedInstallationEntry.getFirebaseInstallationId() == null) {
+            if (this.registrationStatus.equals(persistedInstallationEntry.getRegistrationStatus()) && ((str = this.authToken) != null ? str.equals(persistedInstallationEntry.getAuthToken()) : persistedInstallationEntry.getAuthToken() == null) && ((str2 = this.refreshToken) != null ? str2.equals(persistedInstallationEntry.getRefreshToken()) : persistedInstallationEntry.getRefreshToken() == null) && this.expiresInSecs == persistedInstallationEntry.getExpiresInSecs() && this.tokenCreationEpochInSecs == persistedInstallationEntry.getTokenCreationEpochInSecs()) {
+                String str4 = this.fisError;
+                String fisError = persistedInstallationEntry.getFisError();
+                if (str4 == null) {
+                    if (fisError == null) {
                         return true;
                     }
+                } else if (str4.equals(fisError)) {
+                    return true;
                 }
             }
-            return false;
         }
         return false;
     }
@@ -178,12 +179,13 @@ final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEn
         String str2 = this.authToken;
         int hashCode2 = (hashCode ^ (str2 == null ? 0 : str2.hashCode())) * 1000003;
         String str3 = this.refreshToken;
-        int hashCode3 = str3 == null ? 0 : str3.hashCode();
+        int hashCode3 = (hashCode2 ^ (str3 == null ? 0 : str3.hashCode())) * 1000003;
         long j = this.expiresInSecs;
+        int i = (hashCode3 ^ ((int) (j ^ (j >>> 32)))) * 1000003;
         long j2 = this.tokenCreationEpochInSecs;
-        int i = (((((hashCode2 ^ hashCode3) * 1000003) ^ ((int) (j ^ (j >>> 32)))) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003;
+        int i2 = (i ^ ((int) (j2 ^ (j2 >>> 32)))) * 1000003;
         String str4 = this.fisError;
-        return i ^ (str4 != null ? str4.hashCode() : 0);
+        return i2 ^ (str4 != null ? str4.hashCode() : 0);
     }
 
     @Override // com.google.firebase.installations.local.PersistedInstallationEntry

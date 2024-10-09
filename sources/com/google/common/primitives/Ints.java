@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public abstract class Ints extends IntsMethodsForWeb {
 
@@ -38,20 +39,20 @@ public abstract class Ints extends IntsMethodsForWeb {
             if (obj == this) {
                 return true;
             }
-            if (obj instanceof IntArrayAsList) {
-                IntArrayAsList intArrayAsList = (IntArrayAsList) obj;
-                int size = size();
-                if (intArrayAsList.size() != size) {
+            if (!(obj instanceof IntArrayAsList)) {
+                return super.equals(obj);
+            }
+            IntArrayAsList intArrayAsList = (IntArrayAsList) obj;
+            int size = size();
+            if (intArrayAsList.size() != size) {
+                return false;
+            }
+            for (int i = 0; i < size; i++) {
+                if (this.array[this.start + i] != intArrayAsList.array[intArrayAsList.start + i]) {
                     return false;
                 }
-                for (int i = 0; i < size; i++) {
-                    if (this.array[this.start + i] != intArrayAsList.array[intArrayAsList.start + i]) {
-                        return false;
-                    }
-                }
-                return true;
             }
-            return super.equals(obj);
+            return true;
         }
 
         @Override // java.util.AbstractList, java.util.List

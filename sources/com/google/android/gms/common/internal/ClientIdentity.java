@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public class ClientIdentity extends AbstractSafeParcelable {
     public static final Parcelable.Creator<ClientIdentity> CREATOR = new zaa();
@@ -19,11 +20,11 @@ public class ClientIdentity extends AbstractSafeParcelable {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof ClientIdentity) {
-            ClientIdentity clientIdentity = (ClientIdentity) obj;
-            return clientIdentity.uid == this.uid && Objects.equal(clientIdentity.packageName, this.packageName);
+        if (!(obj instanceof ClientIdentity)) {
+            return false;
         }
-        return false;
+        ClientIdentity clientIdentity = (ClientIdentity) obj;
+        return clientIdentity.uid == this.uid && Objects.equal(clientIdentity.packageName, this.packageName);
     }
 
     public final int hashCode() {
@@ -31,9 +32,7 @@ public class ClientIdentity extends AbstractSafeParcelable {
     }
 
     public final String toString() {
-        int i = this.uid;
-        String str = this.packageName;
-        return i + ":" + str;
+        return this.uid + ":" + this.packageName;
     }
 
     @Override // android.os.Parcelable

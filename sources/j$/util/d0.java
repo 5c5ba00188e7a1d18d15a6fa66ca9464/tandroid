@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class d0 implements Q {
@@ -24,18 +25,17 @@ public class d0 implements Q {
         consumer.getClass();
         Iterator it = this.b;
         if (it == null) {
-            Collection collection = this.a;
-            Iterator it2 = collection.iterator();
+            Iterator it2 = this.a.iterator();
             this.b = it2;
-            this.d = collection.size();
+            this.d = r0.size();
             it = it2;
         }
         if (it instanceof j) {
             ((j) it).a(consumer);
-            return;
-        }
-        while (it.hasNext()) {
-            consumer.accept(it.next());
+        } else {
+            while (it.hasNext()) {
+                consumer.accept(it.next());
+            }
         }
     }
 
@@ -46,14 +46,14 @@ public class d0 implements Q {
 
     @Override // j$.util.Q
     public final long estimateSize() {
-        if (this.b == null) {
-            Collection collection = this.a;
-            this.b = collection.iterator();
-            long size = collection.size();
-            this.d = size;
-            return size;
+        if (this.b != null) {
+            return this.d;
         }
-        return this.d;
+        Collection collection = this.a;
+        this.b = collection.iterator();
+        long size = collection.size();
+        this.d = size;
+        return size;
     }
 
     @Override // j$.util.Q
@@ -78,15 +78,14 @@ public class d0 implements Q {
     public final boolean s(Consumer consumer) {
         consumer.getClass();
         if (this.b == null) {
-            Collection collection = this.a;
-            this.b = collection.iterator();
-            this.d = collection.size();
+            this.b = this.a.iterator();
+            this.d = r0.size();
         }
-        if (this.b.hasNext()) {
-            consumer.accept(this.b.next());
-            return true;
+        if (!this.b.hasNext()) {
+            return false;
         }
-        return false;
+        consumer.accept(this.b.next());
+        return true;
     }
 
     @Override // j$.util.Q

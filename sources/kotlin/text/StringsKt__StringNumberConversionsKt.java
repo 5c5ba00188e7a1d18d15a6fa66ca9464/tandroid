@@ -1,6 +1,7 @@
 package kotlin.text;
 
 import kotlin.jvm.internal.Intrinsics;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class StringsKt__StringNumberConversionsKt extends StringsKt__StringNumberConversionsJVMKt {
@@ -9,9 +10,9 @@ public abstract class StringsKt__StringNumberConversionsKt extends StringsKt__St
         return toLongOrNull(str, 10);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0044  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0044  */
     /* JADX WARN: Removed duplicated region for block: B:35:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x007a  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x007a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -60,11 +61,11 @@ public abstract class StringsKt__StringNumberConversionsKt extends StringsKt__St
                     j2 = -256204778801521550L;
                 }
                 return !z ? Long.valueOf(j3) : Long.valueOf(-j3);
-            } else if (charAt != '+') {
-                return null;
-            } else {
-                i2 = 1;
             }
+            if (charAt != '+') {
+                return null;
+            }
+            i2 = 1;
         }
         z = false;
         long j22 = -256204778801521550L;

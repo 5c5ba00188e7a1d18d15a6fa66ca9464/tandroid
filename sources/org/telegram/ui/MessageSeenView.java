@@ -43,6 +43,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MessageSeenCheckDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StatusBadgeComponent;
+
 /* loaded from: classes4.dex */
 public class MessageSeenView extends FrameLayout {
     AvatarsImageView avatarsImageView;
@@ -331,9 +332,9 @@ public class MessageSeenView extends FrameLayout {
                     if (obj instanceof Long) {
                         l = (Long) obj;
                         if (j != l.longValue()) {
-                            int i4 = (l.longValue() > 0L ? 1 : (l.longValue() == 0L ? 0 : -1));
+                            long longValue = l.longValue();
                             MessagesController messagesController = MessagesController.getInstance(i);
-                            if (i4 > 0) {
+                            if (longValue > 0) {
                                 messagesController.getUser(l);
                                 arrayList3.add(new Pair(l, 0));
                                 arrayList.add(l);
@@ -378,8 +379,8 @@ public class MessageSeenView extends FrameLayout {
                 connectionsManager.sendRequest(tL_messages_getFullChat, requestDelegate);
                 return;
             }
-            for (int i5 = 0; i5 < arrayList3.size(); i5++) {
-                Pair pair = (Pair) arrayList3.get(i5);
+            for (int i4 = 0; i4 < arrayList3.size(); i4++) {
+                Pair pair = (Pair) arrayList3.get(i4);
                 this.peerIds.add((Long) pair.first);
                 this.dates.add((Integer) pair.second);
                 this.users.add((TLObject) hashMap.get(pair.first));
@@ -398,10 +399,10 @@ public class MessageSeenView extends FrameLayout {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00a6  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00af  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x010d  */
-    /* JADX WARN: Removed duplicated region for block: B:42:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:29:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00a6  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00af  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -430,31 +431,32 @@ public class MessageSeenView extends FrameLayout {
         if (this.users.size() == 1) {
             avatarsImageView = this.avatarsImageView;
             f = 24.0f;
-        } else if (this.users.size() != 2) {
-            this.avatarsImageView.setTranslationX(0.0f);
-            this.titleView.setRightPadding(AndroidUtilities.dp((Math.min(2, this.users.size() - 1) * 12) + 38));
-            this.avatarsImageView.commitTransition(false);
-            if (this.peerIds.size() != 1 && this.users.get(0) != null) {
-                simpleTextView = this.titleView;
-                formatPluralString = ContactsController.formatName((TLObject) this.users.get(0));
-            } else if (this.peerIds.size() != 0) {
-                simpleTextView = this.titleView;
-                formatPluralString = LocaleController.getString(R.string.NobodyViewed);
-            } else {
-                simpleTextView = this.titleView;
-                formatPluralString = LocaleController.formatPluralString(this.isVoice ? "MessagePlayed" : "MessageSeen", this.peerIds.size(), new Object[0]);
-            }
-            simpleTextView.setText(formatPluralString);
-            this.titleView.animate().alpha(1.0f).setDuration(220L).start();
-            this.avatarsImageView.animate().alpha(1.0f).setDuration(220L).start();
-            this.flickerLoadingView.animate().alpha(0.0f).setDuration(220L).setListener(new HideViewAfterAnimation(this.flickerLoadingView)).start();
-            recyclerListView = this.listView;
-            if (recyclerListView == null) {
-                recyclerListView.getAdapter();
+        } else {
+            if (this.users.size() != 2) {
+                this.avatarsImageView.setTranslationX(0.0f);
+                this.titleView.setRightPadding(AndroidUtilities.dp((Math.min(2, this.users.size() - 1) * 12) + 38));
+                this.avatarsImageView.commitTransition(false);
+                if (this.peerIds.size() != 1 && this.users.get(0) != null) {
+                    simpleTextView = this.titleView;
+                    formatPluralString = ContactsController.formatName((TLObject) this.users.get(0));
+                } else if (this.peerIds.size() != 0) {
+                    simpleTextView = this.titleView;
+                    formatPluralString = LocaleController.getString(R.string.NobodyViewed);
+                } else {
+                    simpleTextView = this.titleView;
+                    formatPluralString = LocaleController.formatPluralString(this.isVoice ? "MessagePlayed" : "MessageSeen", this.peerIds.size(), new Object[0]);
+                }
+                simpleTextView.setText(formatPluralString);
+                this.titleView.animate().alpha(1.0f).setDuration(220L).start();
+                this.avatarsImageView.animate().alpha(1.0f).setDuration(220L).start();
+                this.flickerLoadingView.animate().alpha(0.0f).setDuration(220L).setListener(new HideViewAfterAnimation(this.flickerLoadingView)).start();
+                recyclerListView = this.listView;
+                if (recyclerListView == null) {
+                    recyclerListView.getAdapter();
+                    return;
+                }
                 return;
             }
-            return;
-        } else {
             avatarsImageView = this.avatarsImageView;
             f = 12.0f;
         }

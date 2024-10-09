@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import org.webrtc.MediaStreamTrack;
 import org.webrtc.RtpParameters;
+
 /* loaded from: classes.dex */
 public class RtpTransceiver {
     private RtpReceiver cachedReceiver;
@@ -17,7 +18,7 @@ public class RtpTransceiver {
         SEND_ONLY(1),
         RECV_ONLY(2),
         INACTIVE(3);
-        
+
         private final int nativeIndex;
 
         RtpTransceiverDirection(int i) {
@@ -25,7 +26,6 @@ public class RtpTransceiver {
         }
 
         static RtpTransceiverDirection fromNativeIndex(int i) {
-            RtpTransceiverDirection[] values;
             for (RtpTransceiverDirection rtpTransceiverDirection : values()) {
                 if (rtpTransceiverDirection.getNativeIndex() == i) {
                     return rtpTransceiverDirection;

@@ -2,6 +2,7 @@ package com.google.firebase.installations.remote;
 
 import com.google.firebase.installations.Utils;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 class RequestLimiter {
     private static final long MAXIMUM_BACKOFF_DURATION_FOR_CONFIGURATION_ERRORS = TimeUnit.HOURS.toMillis(24);

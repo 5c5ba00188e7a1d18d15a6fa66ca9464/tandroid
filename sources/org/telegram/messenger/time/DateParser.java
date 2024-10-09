@@ -4,6 +4,7 @@ import java.text.ParsePosition;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
 /* loaded from: classes3.dex */
 public interface DateParser {
     Locale getLocale();

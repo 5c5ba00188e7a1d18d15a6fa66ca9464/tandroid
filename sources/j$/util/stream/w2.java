@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Arrays;
+
 /* loaded from: classes2.dex */
 final class w2 extends z {
     /* JADX INFO: Access modifiers changed from: package-private */

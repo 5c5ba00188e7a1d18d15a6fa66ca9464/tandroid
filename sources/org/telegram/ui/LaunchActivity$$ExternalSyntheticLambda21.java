@@ -1,6 +1,7 @@
 package org.telegram.ui;
 
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes4.dex */
 public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda21 implements Utilities.Callback {
     public final /* synthetic */ LaunchActivity f$0;

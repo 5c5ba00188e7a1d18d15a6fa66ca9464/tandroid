@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCe
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes4.dex */
 public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerListView {
     private static MultiContactsSelectorBottomSheet instance;
@@ -311,16 +313,16 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
             if (this.selectedIds.size() == i + 1) {
                 this.selectedIds.remove(Long.valueOf(j));
                 showMaximumUsersToast();
-                return;
+            } else {
+                this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda7
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        MultiContactsSelectorBottomSheet.this.lambda$new$2();
+                    }
+                }, null);
+                updateList(true, false);
+                clearSearchAfterSelect();
             }
-            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda7
-                @Override // java.lang.Runnable
-                public final void run() {
-                    MultiContactsSelectorBottomSheet.this.lambda$new$2();
-                }
-            }, null);
-            updateList(true, false);
-            clearSearchAfterSelect();
         }
     }
 
@@ -530,9 +532,10 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
                 i = 0;
             } else {
                 ArrayList arrayList = new ArrayList();
+                Iterator it = this.hints.iterator();
                 i = 0;
-                for (TLRPC.TL_topPeer tL_topPeer : this.hints) {
-                    TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tL_topPeer.peer.user_id));
+                while (it.hasNext()) {
+                    TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC.TL_topPeer) it.next()).peer.user_id));
                     if (!user2.self && !user2.bot && !UserObject.isService(user2.id) && !UserObject.isDeleted(user2)) {
                         i += AndroidUtilities.dp(56.0f);
                         arrayList.add(SelectorAdapter.Item.asUser(user2, this.selectedIds.contains(Long.valueOf(user2.id))));

@@ -47,6 +47,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
+
 /* loaded from: classes4.dex */
 public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     private UniversalAdapter adapter;
@@ -233,6 +234,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         });
         this.urlEditText.editText.setHandlesColor(-12476440);
         this.urlEditText.editText.setCursorColor(-11230757);
+        final String str = "https://";
         this.urlEditText.editText.setText("https://");
         this.urlEditText.editText.setSelection(8);
         final TextView textView = new TextView(getContext());
@@ -249,7 +251,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                StoryLinkSheet.this.lambda$new$0(r2, textView);
+                StoryLinkSheet.this.lambda$new$0(str, textView);
             }
         };
         textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet$$ExternalSyntheticLambda5
@@ -270,7 +272,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
                     StoryLinkSheet.this.checkEditURL(editable == null ? null : editable.toString());
                     return;
                 }
-                String substring = editable.toString().substring(r2.length());
+                String substring = editable.toString().substring(str.length());
                 StoryLinkSheet.this.ignoreUrlEdit = true;
                 StoryLinkSheet.this.urlEditText.editText.setText(substring);
                 StoryLinkSheet.this.urlEditText.editText.setSelection(0, StoryLinkSheet.this.urlEditText.editText.getText().length());
@@ -291,7 +293,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
                 }
                 StoryLinkSheet storyLinkSheet = StoryLinkSheet.this;
                 boolean z = false;
-                if (charSequence != null && i == r2.length() && charSequence.subSequence(0, i).toString().equals(r2) && charSequence.length() >= (i4 = i3 + i) && charSequence.subSequence(i, i4).toString().startsWith(r2)) {
+                if (charSequence != null && i == str.length() && charSequence.subSequence(0, i).toString().equals(str) && charSequence.length() >= (i4 = i3 + i) && charSequence.subSequence(i, i4).toString().startsWith(str)) {
                     z = true;
                 }
                 storyLinkSheet.needRemoveDefPrefix = z;
@@ -444,10 +446,10 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     public /* synthetic */ void lambda$new$3(LinkPreview.WebPagePreview webPagePreview) {
         if (webPagePreview == null) {
             closePreview(null);
-            return;
+        } else {
+            this.photoLarge = webPagePreview.largePhoto;
+            this.captionAbove = webPagePreview.captionAbove;
         }
-        this.photoLarge = webPagePreview.largePhoto;
-        this.captionAbove = webPagePreview.captionAbove;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -486,10 +488,10 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x002d  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x002f  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0036  */
-    /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x002d  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0036  */
+    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x002f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

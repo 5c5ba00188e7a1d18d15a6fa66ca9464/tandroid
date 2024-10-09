@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.clearcut;
+
 /* loaded from: classes.dex */
 public enum zzge$zzv$zzb implements zzcj {
     zzbhk(0),
@@ -6,7 +7,7 @@ public enum zzge$zzv$zzb implements zzcj {
     zzbhm(2),
     zzbhn(3),
     zzbho(4);
-    
+
     private static final zzck zzbq = new zzck() { // from class: com.google.android.gms.internal.clearcut.zzgr
         @Override // com.google.android.gms.internal.clearcut.zzck
         public final /* synthetic */ zzcj zzb(int i) {
@@ -20,22 +21,22 @@ public enum zzge$zzv$zzb implements zzcj {
     }
 
     public static zzge$zzv$zzb zzbc(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 3) {
-                        if (i != 4) {
-                            return null;
-                        }
-                        return zzbho;
-                    }
-                    return zzbhn;
-                }
-                return zzbhm;
-            }
+        if (i == 0) {
+            return zzbhk;
+        }
+        if (i == 1) {
             return zzbhl;
         }
-        return zzbhk;
+        if (i == 2) {
+            return zzbhm;
+        }
+        if (i == 3) {
+            return zzbhn;
+        }
+        if (i != 4) {
+            return null;
+        }
+        return zzbho;
     }
 
     public final int zzc() {

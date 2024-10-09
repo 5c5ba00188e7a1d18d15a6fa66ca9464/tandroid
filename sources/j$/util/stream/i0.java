@@ -6,6 +6,7 @@ import j$.util.function.Supplier;
 import j$.util.stream.IntStream;
 import j$.util.stream.Stream;
 import java.util.Iterator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class i0 implements LongStream {
     public final /* synthetic */ java.util.stream.LongStream a;
@@ -118,6 +119,7 @@ public final /* synthetic */ class i0 implements LongStream {
         return this.a.isParallel();
     }
 
+    /* JADX WARN: Type inference failed for: r0v1, types: [java.util.PrimitiveIterator$OfLong] */
     @Override // j$.util.stream.LongStream, j$.util.stream.BaseStream, j$.util.stream.D
     public final /* synthetic */ j$.util.z iterator() {
         return j$.util.x.b(this.a.iterator());
@@ -198,6 +200,7 @@ public final /* synthetic */ class i0 implements LongStream {
         return i0(this.a.sorted());
     }
 
+    /* JADX WARN: Type inference failed for: r0v1, types: [java.util.Spliterator$OfLong] */
     @Override // j$.util.stream.LongStream, j$.util.stream.BaseStream, j$.util.stream.D
     public final /* synthetic */ j$.util.K spliterator() {
         return j$.util.I.b(this.a.spliterator());

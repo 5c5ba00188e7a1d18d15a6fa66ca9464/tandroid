@@ -6,6 +6,7 @@ import j$.util.function.ToIntFunction;
 import j$.util.function.ToLongFunction;
 import java.io.Serializable;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class c implements Comparator, Serializable {
     public final /* synthetic */ int a;

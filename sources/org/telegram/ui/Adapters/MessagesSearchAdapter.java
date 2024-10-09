@@ -30,6 +30,7 @@ import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.StoriesController;
+
 /* loaded from: classes4.dex */
 public class MessagesSearchAdapter extends RecyclerListView.SelectionAdapter implements NotificationCenter.NotificationCenterDelegate {
     public boolean containsStories;
@@ -106,9 +107,8 @@ public class MessagesSearchAdapter extends RecyclerListView.SelectionAdapter imp
             int i2 = 0;
             while (i < searchStoriesList.messageObjects.size() && i2 < 3) {
                 long j = ((MessageObject) searchStoriesList.messageObjects.get(i)).storyItem.dialogId;
-                int i3 = (j > 0L ? 1 : (j == 0L ? 0 : -1));
                 MessagesController messagesController = MessagesController.getInstance(searchStoriesList.currentAccount);
-                if (i3 >= 0) {
+                if (j >= 0) {
                     chat = messagesController.getUser(Long.valueOf(j));
                     i = chat == null ? i + 1 : 0;
                     this.avatarsDrawable.setObject(i2, searchStoriesList.currentAccount, chat);
@@ -220,10 +220,10 @@ public class MessagesSearchAdapter extends RecyclerListView.SelectionAdapter imp
         int itemCount2 = getItemCount();
         if (itemCount >= itemCount2) {
             super.notifyDataSetChanged();
-            return;
+        } else {
+            notifyItemRangeChanged(itemCount - i3, i3);
+            notifyItemRangeInserted(itemCount, itemCount2 - itemCount);
         }
-        notifyItemRangeChanged(itemCount - i3, i3);
-        notifyItemRangeInserted(itemCount, itemCount2 - itemCount);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter

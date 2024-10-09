@@ -2,6 +2,7 @@ package com.google.android.gms.auth.api.signin;
 
 import com.google.android.gms.common.api.Scope;
 import java.util.Comparator;
+
 /* loaded from: classes.dex */
 final class zac implements Comparator {
     @Override // java.util.Comparator

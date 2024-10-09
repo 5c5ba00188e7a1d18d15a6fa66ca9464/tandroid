@@ -3,7 +3,9 @@ package com.google.android.datatransport.runtime.scheduling.jobscheduling;
 import com.google.android.datatransport.runtime.TransportContext;
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStore;
 import com.google.android.datatransport.runtime.synchronization.SynchronizationGuard;
+import java.util.Iterator;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class WorkInitializer {
     private final Executor executor;
@@ -21,8 +23,9 @@ public class WorkInitializer {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Object lambda$ensureContextsScheduled$0() {
-        for (TransportContext transportContext : this.store.loadActiveContexts()) {
-            this.scheduler.schedule(transportContext, 1);
+        Iterator it = this.store.loadActiveContexts().iterator();
+        while (it.hasNext()) {
+            this.scheduler.schedule((TransportContext) it.next(), 1);
         }
         return null;
     }

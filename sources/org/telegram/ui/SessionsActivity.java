@@ -69,6 +69,7 @@ import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import org.telegram.ui.SessionBottomSheet;
 import org.telegram.ui.SessionsActivity;
+
 /* loaded from: classes4.dex */
 public class SessionsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private TLRPC.TL_authorization currentSession;
@@ -413,19 +414,19 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             if (i == SessionsActivity.this.currentSessionSectionRow || i == SessionsActivity.this.otherSessionsSectionRow || i == SessionsActivity.this.passwordSessionsSectionRow || i == SessionsActivity.this.ttlHeaderRow) {
                 return 2;
             }
-            if (i != SessionsActivity.this.currentSessionRow) {
-                if (i < SessionsActivity.this.otherSessionsStartRow || i >= SessionsActivity.this.otherSessionsEndRow) {
-                    if (i < SessionsActivity.this.passwordSessionsStartRow || i >= SessionsActivity.this.passwordSessionsEndRow) {
-                        if (i == SessionsActivity.this.qrCodeRow) {
-                            return 5;
-                        }
-                        return i == SessionsActivity.this.ttlRow ? 6 : 0;
-                    }
-                    return 4;
-                }
+            if (i == SessionsActivity.this.currentSessionRow) {
                 return 4;
             }
-            return 4;
+            if (i >= SessionsActivity.this.otherSessionsStartRow && i < SessionsActivity.this.otherSessionsEndRow) {
+                return 4;
+            }
+            if (i >= SessionsActivity.this.passwordSessionsStartRow && i < SessionsActivity.this.passwordSessionsEndRow) {
+                return 4;
+            }
+            if (i == SessionsActivity.this.qrCodeRow) {
+                return 5;
+            }
+            return i == SessionsActivity.this.ttlRow ? 6 : 0;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -434,20 +435,25 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             return adapterPosition == SessionsActivity.this.terminateAllSessionsRow || (adapterPosition >= SessionsActivity.this.otherSessionsStartRow && adapterPosition < SessionsActivity.this.otherSessionsEndRow) || ((adapterPosition >= SessionsActivity.this.passwordSessionsStartRow && adapterPosition < SessionsActivity.this.passwordSessionsEndRow) || adapterPosition == SessionsActivity.this.currentSessionRow || adapterPosition == SessionsActivity.this.ttlRow);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:114:?, code lost:
-            return;
+        /* JADX WARN: Code restructure failed: missing block: B:32:0x008b, code lost:
+        
+            if (r7 != (r5.this$0.otherSessionsEndRow - 1)) goto L41;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:31:0x008b, code lost:
-            if (r7 != (r5.this$0.otherSessionsEndRow - 1)) goto L34;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:38:0x00b9, code lost:
-            if (r7 != (r5.this$0.passwordSessionsEndRow - 1)) goto L34;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:40:0x00bc, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x00bc, code lost:
+        
             r1 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:41:0x00bd, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x00bd, code lost:
+        
             r6.setSession(r0, r1);
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:35:?, code lost:
+        
+            return;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:41:0x00b9, code lost:
+        
+            if (r7 != (r5.this$0.passwordSessionsEndRow - 1)) goto L41;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
@@ -468,13 +474,18 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                     textCell.setColors(i5, i5);
                     textCell.setTag(Integer.valueOf(i5));
                     textCell.setTextAndIcon((CharSequence) LocaleController.getString(SessionsActivity.this.currentType == 0 ? R.string.TerminateAllSessions : R.string.TerminateAllWebSessions), R.drawable.msg_block2, false);
-                } else if (i == SessionsActivity.this.qrCodeRow) {
+                    return;
+                }
+                if (i == SessionsActivity.this.qrCodeRow) {
                     int i6 = Theme.key_windowBackgroundWhiteBlueText4;
                     textCell.setColors(i6, i6);
                     textCell.setTag(Integer.valueOf(i6));
                     textCell.setTextAndIcon(LocaleController.getString(R.string.AuthAnotherClient), R.drawable.msg_qrcode, true ^ SessionsActivity.this.sessions.isEmpty());
+                    return;
                 }
-            } else if (itemViewType == 1) {
+                return;
+            }
+            if (itemViewType == 1) {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 textInfoPrivacyCell.setFixedSize(0);
                 if (i != SessionsActivity.this.terminateAllSessionsDetailRow) {
@@ -486,32 +497,37 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                         } else {
                             i3 = R.string.SessionsListInfo;
                         }
-                    } else if (i != SessionsActivity.this.passwordSessionsDetailRow) {
-                        if (i == SessionsActivity.this.qrCodeDividerRow || i == SessionsActivity.this.ttlDivideRow || i == SessionsActivity.this.noOtherSessionsRow) {
-                            textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                            textInfoPrivacyCell.setText("");
-                            textInfoPrivacyCell.setFixedSize(12);
+                    } else {
+                        if (i != SessionsActivity.this.passwordSessionsDetailRow) {
+                            if (i == SessionsActivity.this.qrCodeDividerRow || i == SessionsActivity.this.ttlDivideRow || i == SessionsActivity.this.noOtherSessionsRow) {
+                                textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                                textInfoPrivacyCell.setText("");
+                                textInfoPrivacyCell.setFixedSize(12);
+                                return;
+                            }
                             return;
                         }
-                        return;
-                    } else {
                         textInfoPrivacyCell.setText(LocaleController.getString(R.string.LoginAttemptsInfo));
                         if (SessionsActivity.this.otherSessionsTerminateDetail == -1) {
                             context = this.mContext;
                             i2 = R.drawable.greydivider_bottom;
                             textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
+                            return;
                         }
                     }
                     context = this.mContext;
                     i2 = R.drawable.greydivider;
                     textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
+                    return;
                 }
                 i3 = SessionsActivity.this.currentType == 0 ? R.string.ClearOtherSessionsHelp : R.string.ClearOtherWebSessionsHelp;
                 textInfoPrivacyCell.setText(LocaleController.getString(i3));
                 context = this.mContext;
                 i2 = R.drawable.greydivider;
                 textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i2, Theme.key_windowBackgroundGrayShadow));
-            } else if (itemViewType == 2) {
+                return;
+            }
+            if (itemViewType == 2) {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i == SessionsActivity.this.currentSessionSectionRow) {
                     i4 = R.string.CurrentSession;
@@ -525,30 +541,34 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                     i4 = R.string.TerminateOldSessionHeader;
                 }
                 headerCell.setText(LocaleController.getString(i4));
-            } else if (itemViewType == 5) {
-            } else {
-                View view = viewHolder.itemView;
-                if (itemViewType == 6) {
-                    ((TextSettingsCell) view).setTextAndValue(LocaleController.getString(R.string.IfInactiveFor), (SessionsActivity.this.ttlDays <= 30 || SessionsActivity.this.ttlDays > 183) ? SessionsActivity.this.ttlDays == 365 ? LocaleController.formatPluralString("Years", SessionsActivity.this.ttlDays / 365, new Object[0]) : LocaleController.formatPluralString("Weeks", SessionsActivity.this.ttlDays / 7, new Object[0]) : LocaleController.formatPluralString("Months", SessionsActivity.this.ttlDays / 30, new Object[0]), true, false);
+                return;
+            }
+            if (itemViewType == 5) {
+                return;
+            }
+            View view = viewHolder.itemView;
+            if (itemViewType == 6) {
+                ((TextSettingsCell) view).setTextAndValue(LocaleController.getString(R.string.IfInactiveFor), (SessionsActivity.this.ttlDays <= 30 || SessionsActivity.this.ttlDays > 183) ? SessionsActivity.this.ttlDays == 365 ? LocaleController.formatPluralString("Years", SessionsActivity.this.ttlDays / 365, new Object[0]) : LocaleController.formatPluralString("Weeks", SessionsActivity.this.ttlDays / 7, new Object[0]) : LocaleController.formatPluralString("Months", SessionsActivity.this.ttlDays / 30, new Object[0]), true, false);
+                return;
+            }
+            SessionCell sessionCell = (SessionCell) view;
+            if (i == SessionsActivity.this.currentSessionRow) {
+                if (SessionsActivity.this.currentSession == null) {
+                    sessionCell.showStub(SessionsActivity.this.globalFlickerLoadingView);
                     return;
                 }
-                SessionCell sessionCell = (SessionCell) view;
-                if (i == SessionsActivity.this.currentSessionRow) {
-                    if (SessionsActivity.this.currentSession == null) {
-                        sessionCell.showStub(SessionsActivity.this.globalFlickerLoadingView);
-                        return;
-                    }
-                    TLRPC.TL_authorization tL_authorization = SessionsActivity.this.currentSession;
-                    if (SessionsActivity.this.sessions.isEmpty() && SessionsActivity.this.passwordSessions.isEmpty() && SessionsActivity.this.qrCodeRow == -1) {
-                        z = false;
-                    }
-                    sessionCell.setSession(tL_authorization, z);
-                } else if (i >= SessionsActivity.this.otherSessionsStartRow && i < SessionsActivity.this.otherSessionsEndRow) {
-                    tLObject = (TLObject) SessionsActivity.this.sessions.get(i - SessionsActivity.this.otherSessionsStartRow);
-                } else if (i < SessionsActivity.this.passwordSessionsStartRow || i >= SessionsActivity.this.passwordSessionsEndRow) {
-                } else {
-                    tLObject = (TLObject) SessionsActivity.this.passwordSessions.get(i - SessionsActivity.this.passwordSessionsStartRow);
+                TLRPC.TL_authorization tL_authorization = SessionsActivity.this.currentSession;
+                if (SessionsActivity.this.sessions.isEmpty() && SessionsActivity.this.passwordSessions.isEmpty() && SessionsActivity.this.qrCodeRow == -1) {
+                    z = false;
                 }
+                sessionCell.setSession(tL_authorization, z);
+                return;
+            }
+            if (i >= SessionsActivity.this.otherSessionsStartRow && i < SessionsActivity.this.otherSessionsEndRow) {
+                tLObject = (TLObject) SessionsActivity.this.sessions.get(i - SessionsActivity.this.otherSessionsStartRow);
+            } else if (i < SessionsActivity.this.passwordSessionsStartRow || i >= SessionsActivity.this.passwordSessionsEndRow) {
+            } else {
+                tLObject = (TLObject) SessionsActivity.this.passwordSessions.get(i - SessionsActivity.this.passwordSessionsStartRow);
             }
         }
 
@@ -702,10 +722,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             }
             if (document == null) {
                 MediaDataController.getInstance(((BaseFragment) SessionsActivity.this).currentAccount).loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, tL_messages_stickerSet == null);
-                return;
+            } else {
+                this.imageView.setImage(ImageLocation.getForDocument(document), "130_130", "tgs", svgThumb, tL_messages_stickerSet);
+                this.imageView.getImageReceiver().setAutoRepeat(2);
             }
-            this.imageView.setImage(ImageLocation.getForDocument(document), "130_130", "tgs", svgThumb, tL_messages_stickerSet);
-            this.imageView.getImageReceiver().setAutoRepeat(2);
         }
 
         @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -891,9 +911,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             if (textView == null) {
                 return;
             }
-        } else if (((i < this.otherSessionsStartRow || i >= this.otherSessionsEndRow) && ((i < this.passwordSessionsStartRow || i >= this.passwordSessionsEndRow) && i != this.currentSessionRow)) || getParentActivity() == null) {
-            return;
         } else {
+            if (((i < this.otherSessionsStartRow || i >= this.otherSessionsEndRow) && ((i < this.passwordSessionsStartRow || i >= this.passwordSessionsEndRow) && i != this.currentSessionRow)) || getParentActivity() == null) {
+                return;
+            }
             if (this.currentType == 0) {
                 if (i == this.currentSessionRow) {
                     tL_authorization = this.currentSession;
@@ -1294,6 +1315,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         int i;
         FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
         this.globalFlickerLoadingView = flickerLoadingView;
+        int i2 = 1;
         flickerLoadingView.setIsSingleCell(true);
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
@@ -1307,9 +1329,9 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         actionBar.setTitle(LocaleController.getString(i));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.SessionsActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i2) {
-                if (i2 == -1) {
-                    SessionsActivity.this.finishFragment();
+            public void onItemClick(int i3) {
+                if (i3 == -1) {
+                    SessionsActivity.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -1323,12 +1345,12 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1, 17));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.SessionsActivity.2
             @Override // org.telegram.ui.Components.RecyclerListView
-            public Integer getSelectorColor(int i2) {
-                return Integer.valueOf(i2 == SessionsActivity.this.terminateAllSessionsRow ? Theme.multAlpha(getThemedColor(Theme.key_text_RedRegular), 0.1f) : getThemedColor(Theme.key_listSelector));
+            public Integer getSelectorColor(int i3) {
+                return Integer.valueOf(i3 == SessionsActivity.this.terminateAllSessionsRow ? Theme.multAlpha(getThemedColor(Theme.key_text_RedRegular), 0.1f) : getThemedColor(Theme.key_listSelector));
             }
         };
         this.listView = recyclerListView;
-        recyclerListView.setLayoutManager(new LinearLayoutManager(context, 1, false) { // from class: org.telegram.ui.SessionsActivity.3
+        recyclerListView.setLayoutManager(new LinearLayoutManager(context, i2, false) { // from class: org.telegram.ui.SessionsActivity.3
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public boolean supportsPredictiveItemAnimations() {
                 return true;
@@ -1347,8 +1369,8 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         this.listView.setItemAnimator(defaultItemAnimator);
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                SessionsActivity.this.lambda$createView$13(view, i2);
+            public final void onItemClick(View view, int i3) {
+                SessionsActivity.this.lambda$createView$13(view, i3);
             }
         });
         if (this.currentType == 0) {
@@ -1414,7 +1436,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         return arrayList;
     }
 
-    /* renamed from: loadSessions */
+    /* renamed from: loadSessions, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public void lambda$loadSessions$17(final boolean z) {
         TLObject tL_account_getWebAuthorizations;
         ConnectionsManager connectionsManager;

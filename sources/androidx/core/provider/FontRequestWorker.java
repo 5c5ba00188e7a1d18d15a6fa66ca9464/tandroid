@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class FontRequestWorker {
@@ -80,11 +81,11 @@ public abstract class FontRequestWorker {
                 return new TypefaceResult(fontFamilyResultStatus);
             }
             Typeface createFromFontInfo = TypefaceCompat.createFromFontInfo(context, null, fontFamilyResult.getFonts(), i);
-            if (createFromFontInfo != null) {
-                lruCache.put(str, createFromFontInfo);
-                return new TypefaceResult(createFromFontInfo);
+            if (createFromFontInfo == null) {
+                return new TypefaceResult(-3);
             }
-            return new TypefaceResult(-3);
+            lruCache.put(str, createFromFontInfo);
+            return new TypefaceResult(createFromFontInfo);
         } catch (PackageManager.NameNotFoundException unused) {
             return new TypefaceResult(-1);
         }
@@ -165,24 +166,24 @@ public abstract class FontRequestWorker {
         if (typeface != null) {
             callbackWithHandler.onTypefaceResult(new TypefaceResult(typeface));
             return typeface;
-        } else if (i2 == -1) {
+        }
+        if (i2 == -1) {
             TypefaceResult fontSync = getFontSync(createCacheId, context, fontRequest, i);
             callbackWithHandler.onTypefaceResult(fontSync);
             return fontSync.mTypeface;
-        } else {
-            try {
-                TypefaceResult typefaceResult = (TypefaceResult) RequestExecutor.submit(DEFAULT_EXECUTOR_SERVICE, new Callable() { // from class: androidx.core.provider.FontRequestWorker.1
-                    @Override // java.util.concurrent.Callable
-                    public TypefaceResult call() {
-                        return FontRequestWorker.getFontSync(createCacheId, context, fontRequest, i);
-                    }
-                }, i2);
-                callbackWithHandler.onTypefaceResult(typefaceResult);
-                return typefaceResult.mTypeface;
-            } catch (InterruptedException unused) {
-                callbackWithHandler.onTypefaceResult(new TypefaceResult(-3));
-                return null;
-            }
+        }
+        try {
+            TypefaceResult typefaceResult = (TypefaceResult) RequestExecutor.submit(DEFAULT_EXECUTOR_SERVICE, new Callable() { // from class: androidx.core.provider.FontRequestWorker.1
+                @Override // java.util.concurrent.Callable
+                public TypefaceResult call() {
+                    return FontRequestWorker.getFontSync(createCacheId, context, fontRequest, i);
+                }
+            }, i2);
+            callbackWithHandler.onTypefaceResult(typefaceResult);
+            return typefaceResult.mTypeface;
+        } catch (InterruptedException unused) {
+            callbackWithHandler.onTypefaceResult(new TypefaceResult(-3));
+            return null;
         }
     }
 }

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
+
 /* loaded from: classes.dex */
 public enum zznh implements zzcb {
     zza(0),
@@ -11,7 +12,7 @@ public enum zznh implements zzcb {
     zzh(5),
     zzi(6),
     zzj(9);
-    
+
     private final int zzl;
 
     zznh(int i) {

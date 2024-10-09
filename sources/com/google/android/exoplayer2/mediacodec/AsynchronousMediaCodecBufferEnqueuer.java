@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
+
 /* loaded from: classes.dex */
 class AsynchronousMediaCodecBufferEnqueuer {
     private static final ArrayDeque MESSAGE_PARAMS_INSTANCE_POOL = new ArrayDeque();

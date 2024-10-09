@@ -4,6 +4,7 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.internal.mlkit_vision_label_common.zzd;
 import com.google.android.gms.internal.mlkit_vision_label_common.zze;
 import com.google.android.gms.internal.mlkit_vision_label_common.zzi;
+
 /* loaded from: classes.dex */
 public class ImageLabel {
     private final String zza;
@@ -22,11 +23,11 @@ public class ImageLabel {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof ImageLabel) {
-            ImageLabel imageLabel = (ImageLabel) obj;
-            return Objects.equal(this.zza, imageLabel.getText()) && Float.compare(this.zzb, imageLabel.getConfidence()) == 0 && this.zzc == imageLabel.getIndex() && Objects.equal(this.zzd, imageLabel.zzd);
+        if (!(obj instanceof ImageLabel)) {
+            return false;
         }
-        return false;
+        ImageLabel imageLabel = (ImageLabel) obj;
+        return Objects.equal(this.zza, imageLabel.getText()) && Float.compare(this.zzb, imageLabel.getConfidence()) == 0 && this.zzc == imageLabel.getIndex() && Objects.equal(this.zzd, imageLabel.zzd);
     }
 
     public float getConfidence() {

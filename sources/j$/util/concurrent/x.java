@@ -3,6 +3,7 @@ package j$.util.concurrent;
 import j$.util.E;
 import j$.util.function.Consumer;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 final class x implements E {
     long a;
@@ -24,7 +25,7 @@ final class x implements E {
     }
 
     @Override // j$.util.Q
-    /* renamed from: b */
+    /* renamed from: b, reason: merged with bridge method [inline-methods] */
     public final x trySplit() {
         long j = this.a;
         long j2 = (this.b + j) >>> 1;
@@ -41,8 +42,7 @@ final class x implements E {
     }
 
     @Override // j$.util.N
-    /* renamed from: e */
-    public final void forEachRemaining(j$.util.function.n nVar) {
+    public final void e(j$.util.function.n nVar) {
         nVar.getClass();
         long j = this.a;
         long j2 = this.b;
@@ -77,16 +77,15 @@ final class x implements E {
     }
 
     @Override // j$.util.N
-    /* renamed from: p */
-    public final boolean tryAdvance(j$.util.function.n nVar) {
+    public final boolean p(j$.util.function.n nVar) {
         nVar.getClass();
         long j = this.a;
-        if (j < this.b) {
-            nVar.accept(ThreadLocalRandom.current().c(this.c, this.d));
-            this.a = j + 1;
-            return true;
+        if (j >= this.b) {
+            return false;
         }
-        return false;
+        nVar.accept(ThreadLocalRandom.current().c(this.c, this.d));
+        this.a = j + 1;
+        return true;
     }
 
     @Override // j$.util.Q

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.dynamic.IObjectWrapper;
+
 /* loaded from: classes.dex */
 public final class MarkerOptions extends AbstractSafeParcelable {
     public static final Parcelable.Creator<MarkerOptions> CREATOR = new zzi();
@@ -130,11 +131,11 @@ public final class MarkerOptions extends AbstractSafeParcelable {
     }
 
     public MarkerOptions position(LatLng latLng) {
-        if (latLng != null) {
-            this.zza = latLng;
-            return this;
+        if (latLng == null) {
+            throw new IllegalArgumentException("latlng cannot be null - a position is required.");
         }
-        throw new IllegalArgumentException("latlng cannot be null - a position is required.");
+        this.zza = latLng;
+        return this;
     }
 
     public MarkerOptions snippet(String str) {

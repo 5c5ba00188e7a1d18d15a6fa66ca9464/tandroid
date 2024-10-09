@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.NotificationCenter;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
 /* loaded from: classes.dex */
 public class VectorDrawableCompat extends VectorDrawableCommon {
     static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
@@ -322,9 +323,10 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
                 } else {
                     if (obj instanceof VFullPath) {
                         vClipPath = new VFullPath((VFullPath) obj);
-                    } else if (!(obj instanceof VClipPath)) {
-                        throw new IllegalStateException("Unknown object in the tree!");
                     } else {
+                        if (!(obj instanceof VClipPath)) {
+                            throw new IllegalStateException("Unknown object in the tree!");
+                        }
                         vClipPath = new VClipPath((VClipPath) obj);
                     }
                     this.mChildren.add(vClipPath);
@@ -722,8 +724,10 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         private float getMatrixScale(Matrix matrix) {
             float[] fArr = {0.0f, 1.0f, 1.0f, 0.0f};
             matrix.mapVectors(fArr);
+            float hypot = (float) Math.hypot(fArr[0], fArr[1]);
+            float hypot2 = (float) Math.hypot(fArr[2], fArr[3]);
             float cross = cross(fArr[0], fArr[1], fArr[2], fArr[3]);
-            float max = Math.max((float) Math.hypot(fArr[0], fArr[1]), (float) Math.hypot(fArr[2], fArr[3]));
+            float max = Math.max(hypot, hypot2);
             if (max > 0.0f) {
                 return Math.abs(cross) / max;
             }
@@ -828,17 +832,17 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         }
 
         public Paint getPaint(ColorFilter colorFilter) {
-            if (hasTranslucentRoot() || colorFilter != null) {
-                if (this.mTempPaint == null) {
-                    Paint paint = new Paint();
-                    this.mTempPaint = paint;
-                    paint.setFilterBitmap(true);
-                }
-                this.mTempPaint.setAlpha(this.mVPathRenderer.getRootAlpha());
-                this.mTempPaint.setColorFilter(colorFilter);
-                return this.mTempPaint;
+            if (!hasTranslucentRoot() && colorFilter == null) {
+                return null;
             }
-            return null;
+            if (this.mTempPaint == null) {
+                Paint paint = new Paint();
+                this.mTempPaint = paint;
+                paint.setFilterBitmap(true);
+            }
+            this.mTempPaint.setAlpha(this.mVPathRenderer.getRootAlpha());
+            this.mTempPaint.setColorFilter(colorFilter);
+            return this.mTempPaint;
         }
 
         public boolean hasTranslucentRoot() {
@@ -956,12 +960,12 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         try {
             XmlResourceParser xml = resources.getXml(i);
             AttributeSet asAttributeSet = Xml.asAttributeSet(xml);
-            while (true) {
+            do {
                 next = xml.next();
-                if (next == 2 || next == 1) {
+                if (next == 2) {
                     break;
                 }
-            }
+            } while (next != 1);
             if (next == 2) {
                 return createFromXmlInner(resources, (XmlPullParser) xml, asAttributeSet, theme);
             }
@@ -1044,25 +1048,25 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
     }
 
     private static PorterDuff.Mode parseTintModeCompat(int i, PorterDuff.Mode mode) {
-        if (i != 3) {
-            if (i != 5) {
-                if (i != 9) {
-                    switch (i) {
-                        case 14:
-                            return PorterDuff.Mode.MULTIPLY;
-                        case 15:
-                            return PorterDuff.Mode.SCREEN;
-                        case 16:
-                            return PorterDuff.Mode.ADD;
-                        default:
-                            return mode;
-                    }
-                }
-                return PorterDuff.Mode.SRC_ATOP;
-            }
+        if (i == 3) {
+            return PorterDuff.Mode.SRC_OVER;
+        }
+        if (i == 5) {
             return PorterDuff.Mode.SRC_IN;
         }
-        return PorterDuff.Mode.SRC_OVER;
+        if (i == 9) {
+            return PorterDuff.Mode.SRC_ATOP;
+        }
+        switch (i) {
+            case 14:
+                return PorterDuff.Mode.MULTIPLY;
+            case 15:
+                return PorterDuff.Mode.SCREEN;
+            case 16:
+                return PorterDuff.Mode.ADD;
+            default:
+                return mode;
+        }
     }
 
     private void updateStateFromTypedArray(TypedArray typedArray, XmlPullParser xmlPullParser, Resources.Theme theme) {
@@ -1079,24 +1083,24 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         vPathRenderer.mViewportHeight = namedFloat;
         if (vPathRenderer.mViewportWidth <= 0.0f) {
             throw new XmlPullParserException(typedArray.getPositionDescription() + "<vector> tag requires viewportWidth > 0");
-        } else if (namedFloat <= 0.0f) {
+        }
+        if (namedFloat <= 0.0f) {
             throw new XmlPullParserException(typedArray.getPositionDescription() + "<vector> tag requires viewportHeight > 0");
-        } else {
-            vPathRenderer.mBaseWidth = typedArray.getDimension(3, vPathRenderer.mBaseWidth);
-            float dimension = typedArray.getDimension(2, vPathRenderer.mBaseHeight);
-            vPathRenderer.mBaseHeight = dimension;
-            if (vPathRenderer.mBaseWidth <= 0.0f) {
-                throw new XmlPullParserException(typedArray.getPositionDescription() + "<vector> tag requires width > 0");
-            } else if (dimension <= 0.0f) {
-                throw new XmlPullParserException(typedArray.getPositionDescription() + "<vector> tag requires height > 0");
-            } else {
-                vPathRenderer.setAlpha(TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "alpha", 4, vPathRenderer.getAlpha()));
-                String string = typedArray.getString(0);
-                if (string != null) {
-                    vPathRenderer.mRootName = string;
-                    vPathRenderer.mVGTargetsMap.put(string, vPathRenderer);
-                }
-            }
+        }
+        vPathRenderer.mBaseWidth = typedArray.getDimension(3, vPathRenderer.mBaseWidth);
+        float dimension = typedArray.getDimension(2, vPathRenderer.mBaseHeight);
+        vPathRenderer.mBaseHeight = dimension;
+        if (vPathRenderer.mBaseWidth <= 0.0f) {
+            throw new XmlPullParserException(typedArray.getPositionDescription() + "<vector> tag requires width > 0");
+        }
+        if (dimension <= 0.0f) {
+            throw new XmlPullParserException(typedArray.getPositionDescription() + "<vector> tag requires height > 0");
+        }
+        vPathRenderer.setAlpha(TypedArrayUtils.getNamedFloat(typedArray, xmlPullParser, "alpha", 4, vPathRenderer.getAlpha()));
+        String string = typedArray.getString(0);
+        if (string != null) {
+            vPathRenderer.mRootName = string;
+            vPathRenderer.mVGTargetsMap.put(string, vPathRenderer);
         }
     }
 
@@ -1108,10 +1112,10 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
     @Override // android.graphics.drawable.Drawable
     public boolean canApplyTheme() {
         Drawable drawable = this.mDelegateDrawable;
-        if (drawable != null) {
-            DrawableCompat.canApplyTheme(drawable);
+        if (drawable == null) {
             return false;
         }
+        DrawableCompat.canApplyTheme(drawable);
         return false;
     }
 
@@ -1189,11 +1193,11 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
 
     @Override // android.graphics.drawable.Drawable
     public Drawable.ConstantState getConstantState() {
-        if (this.mDelegateDrawable == null || Build.VERSION.SDK_INT < 24) {
-            this.mVectorState.mChangingConfigurations = getChangingConfigurations();
-            return this.mVectorState;
+        if (this.mDelegateDrawable != null && Build.VERSION.SDK_INT >= 24) {
+            return new VectorDrawableDelegateState(this.mDelegateDrawable.getConstantState());
         }
-        return new VectorDrawableDelegateState(this.mDelegateDrawable.getConstantState());
+        this.mVectorState.mChangingConfigurations = getChangingConfigurations();
+        return this.mVectorState;
     }
 
     @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable
@@ -1348,11 +1352,11 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
             invalidateSelf();
             z = true;
         }
-        if (vectorDrawableCompatState.isStateful() && vectorDrawableCompatState.onStateChanged(iArr)) {
-            invalidateSelf();
-            return true;
+        if (!vectorDrawableCompatState.isStateful() || !vectorDrawableCompatState.onStateChanged(iArr)) {
+            return z;
         }
-        return z;
+        invalidateSelf();
+        return true;
     }
 
     @Override // android.graphics.drawable.Drawable
@@ -1406,10 +1410,10 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         Drawable drawable = this.mDelegateDrawable;
         if (drawable != null) {
             drawable.setColorFilter(colorFilter);
-            return;
+        } else {
+            this.mColorFilter = colorFilter;
+            invalidateSelf();
         }
-        this.mColorFilter = colorFilter;
-        invalidateSelf();
     }
 
     @Override // androidx.vectordrawable.graphics.drawable.VectorDrawableCommon, android.graphics.drawable.Drawable

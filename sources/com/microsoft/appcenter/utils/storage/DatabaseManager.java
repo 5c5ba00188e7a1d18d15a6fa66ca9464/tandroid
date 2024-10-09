@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import com.microsoft.appcenter.utils.AppCenterLog;
 import java.io.Closeable;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public class DatabaseManager implements Closeable {
     public static final String[] SELECT_PRIMARY_KEY = {"oid"};
@@ -81,8 +82,7 @@ public class DatabaseManager implements Closeable {
     private int delete(String str, String str2, Object obj) {
         String[] strArr = {String.valueOf(obj)};
         try {
-            SQLiteDatabase database = getDatabase();
-            return database.delete(str, str2 + " = ?", strArr);
+            return getDatabase().delete(str, str2 + " = ?", strArr);
         } catch (RuntimeException e) {
             AppCenterLog.error("AppCenter", String.format("Failed to delete values that match condition=\"%s\" and values=\"%s\" from database %s.", str2 + " = ?", Arrays.toString(strArr), this.mDatabase), e);
             return 0;

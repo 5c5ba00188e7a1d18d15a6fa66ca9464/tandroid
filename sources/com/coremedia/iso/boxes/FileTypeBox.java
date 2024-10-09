@@ -7,10 +7,12 @@ import com.googlecode.mp4parser.AbstractBox;
 import com.googlecode.mp4parser.RequiresParseDetailAspect;
 import java.nio.ByteBuffer;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
+
 /* loaded from: classes.dex */
 public class FileTypeBox extends AbstractBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
@@ -60,8 +62,9 @@ public class FileTypeBox extends AbstractBox {
     protected void getContent(ByteBuffer byteBuffer) {
         byteBuffer.put(IsoFile.fourCCtoBytes(this.majorBrand));
         IsoTypeWriter.writeUInt32(byteBuffer, this.minorVersion);
-        for (String str : this.compatibleBrands) {
-            byteBuffer.put(IsoFile.fourCCtoBytes(str));
+        Iterator it = this.compatibleBrands.iterator();
+        while (it.hasNext()) {
+            byteBuffer.put(IsoFile.fourCCtoBytes((String) it.next()));
         }
     }
 

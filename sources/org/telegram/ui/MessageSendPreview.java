@@ -80,6 +80,7 @@ import org.telegram.ui.EmojiAnimationsOverlay;
 import org.telegram.ui.MessageSendPreview;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.recorder.KeyboardNotifier;
+
 /* loaded from: classes4.dex */
 public class MessageSendPreview extends Dialog implements NotificationCenter.NotificationCenterDelegate {
     private final RecyclerView.Adapter adapter;
@@ -367,8 +368,9 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:78:0x04f9, code lost:
-            if ((r29.destCellPos[1] - r29.pos2[1]) > r2) goto L72;
+        /* JADX WARN: Code restructure failed: missing block: B:70:0x04f9, code lost:
+        
+            if ((r29.destCellPos[1] - r29.pos2[1]) > r2) goto L82;
          */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
         /*
@@ -376,7 +378,6 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         */
         public void dispatchDraw(final Canvas canvas) {
             char c;
-            ChatMessageCell chatMessageCell;
             float f;
             float f2;
             float height;
@@ -391,20 +392,23 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                     MessageSendPreview.this.firstOpenFrame = false;
                 }
                 boolean z = MessageSendPreview.this.mainMessageCell.getMessageObject() != null && MessageSendPreview.this.mainMessageCell.getMessageObject().type == 15;
-                float imageX = z ? MessageSendPreview.this.mainMessageCell.getPhotoImage().getImageX() : chatMessageCell.getTextX();
+                float imageX = z ? MessageSendPreview.this.mainMessageCell.getPhotoImage().getImageX() : r2.getTextX();
                 float imageY = z ? MessageSendPreview.this.mainMessageCell.getPhotoImage().getImageY() : MessageSendPreview.this.mainMessageCell.getTextY();
                 float x = MessageSendPreview.this.chatListView.getX() + MessageSendPreview.this.mainMessageCell.getX() + imageX;
                 float y = MessageSendPreview.this.chatListView.getY() + MessageSendPreview.this.mainMessageCell.getY() + imageY;
                 float textSize = (MessageSendPreview.this.mainMessageCell.getMessageObject() != null ? MessageSendPreview.this.mainMessageCell.getMessageObject().getTextPaint() : Theme.chat_msgTextPaint).getTextSize();
                 if (MessageSendPreview.this.editText != null) {
                     MessageSendPreview.this.editText.getLocationOnScreen(this.pos);
+                    float paddingLeft = this.pos[0] + MessageSendPreview.this.editText.getPaddingLeft();
+                    float paddingTop = (this.pos[1] + MessageSendPreview.this.editText.getPaddingTop()) - MessageSendPreview.this.editText.getScrollY();
                     float textSize2 = MessageSendPreview.this.editText.getTextSize();
                     int i = this.pos[1];
                     float f6 = i;
-                    float lerp = AndroidUtilities.lerp(this.pos[0] + MessageSendPreview.this.editText.getPaddingLeft(), x, MessageSendPreview.this.openProgress);
-                    float lerp2 = AndroidUtilities.lerp((this.pos[1] + MessageSendPreview.this.editText.getPaddingTop()) - MessageSendPreview.this.editText.getScrollY(), y, MessageSendPreview.this.openProgress);
+                    float measuredHeight = i + MessageSendPreview.this.editText.getMeasuredHeight();
+                    float lerp = AndroidUtilities.lerp(paddingLeft, x, MessageSendPreview.this.openProgress);
+                    float lerp2 = AndroidUtilities.lerp(paddingTop, y, MessageSendPreview.this.openProgress);
                     f = lerp;
-                    height = i + MessageSendPreview.this.editText.getMeasuredHeight();
+                    height = measuredHeight;
                     f3 = AndroidUtilities.lerp(textSize2, textSize, MessageSendPreview.this.openProgress);
                     f2 = lerp2;
                     f4 = f6;
@@ -758,11 +762,11 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
 
             @Override // android.view.ViewGroup, android.view.View
             public boolean dispatchKeyEventPreIme(KeyEvent keyEvent) {
-                if (keyEvent != null && keyEvent.getKeyCode() == 4 && keyEvent.getAction() == 1) {
-                    MessageSendPreview.this.onBackPressed();
-                    return true;
+                if (keyEvent == null || keyEvent.getKeyCode() != 4 || keyEvent.getAction() != 1) {
+                    return super.dispatchKeyEventPreIme(keyEvent);
                 }
-                return super.dispatchKeyEventPreIme(keyEvent);
+                MessageSendPreview.this.onBackPressed();
+                return true;
             }
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
@@ -845,7 +849,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
             }
 
             /* JADX WARN: Type inference failed for: r3v0 */
-            /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+            /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
             /* JADX WARN: Type inference failed for: r3v9 */
             private void drawChatBackgroundElements(Canvas canvas) {
                 boolean z;
@@ -1094,41 +1098,41 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                 if (MessageSendPreview.this.openInProgress && ((view == MessageSendPreview.this.mainMessageCell && MessageSendPreview.this.mainMessageCell != null && MessageSendPreview.this.mainMessageCell.getCurrentPosition() == null) || view == MessageSendPreview.this.sendButton)) {
                     return false;
                 }
-                if (view instanceof ChatMessageCell) {
-                    ChatMessageCell chatMessageCell = (ChatMessageCell) view;
-                    chatMessageCell.setInvalidatesParent(true);
-                    chatMessageCell.drawCheckBox(canvas);
-                    canvas.save();
-                    canvas.translate(chatMessageCell.getX(), chatMessageCell.getY());
-                    canvas.scale(chatMessageCell.getScaleX(), chatMessageCell.getScaleY(), chatMessageCell.getPivotX(), chatMessageCell.getPivotY());
-                    if (chatMessageCell.drawBackgroundInParent() && chatMessageCell.getCurrentPosition() == null) {
-                        chatMessageCell.drawBackgroundInternal(canvas, true);
-                    }
-                    canvas.restore();
-                    boolean drawChild = super.drawChild(canvas, view, j);
-                    canvas.save();
-                    canvas.translate(chatMessageCell.getX(), chatMessageCell.getY());
-                    canvas.scale(chatMessageCell.getScaleX(), chatMessageCell.getScaleY(), chatMessageCell.getPivotX(), chatMessageCell.getPivotY());
-                    if (chatMessageCell.getCurrentPosition() != null && (((chatMessageCell.getCurrentPosition().flags & chatMessageCell.captionFlag()) != 0 && (chatMessageCell.getCurrentPosition().flags & 1) != 0) || (chatMessageCell.getCurrentMessagesGroup() != null && chatMessageCell.getCurrentMessagesGroup().isDocuments))) {
-                        chatMessageCell.drawCaptionLayout(canvas, false, chatMessageCell.getAlpha());
-                    }
-                    if (chatMessageCell.getCurrentPosition() != null && (((chatMessageCell.getCurrentPosition().flags & 8) != 0 && (chatMessageCell.getCurrentPosition().flags & 1) != 0) || (chatMessageCell.getCurrentMessagesGroup() != null && chatMessageCell.getCurrentMessagesGroup().isDocuments))) {
-                        chatMessageCell.drawReactionsLayout(canvas, chatMessageCell.getAlpha(), null);
-                        chatMessageCell.drawCommentLayout(canvas, chatMessageCell.getAlpha());
-                    }
-                    if (chatMessageCell.getCurrentPosition() != null) {
-                        chatMessageCell.drawNamesLayout(canvas, chatMessageCell.getAlpha());
-                    }
-                    if (chatMessageCell.getCurrentPosition() == null || chatMessageCell.getCurrentPosition().last) {
-                        chatMessageCell.drawTime(canvas, chatMessageCell.getAlpha(), true);
-                    }
-                    chatMessageCell.drawOutboundsContent(canvas);
-                    chatMessageCell.getTransitionParams().recordDrawingStatePreview();
-                    canvas.restore();
-                    chatMessageCell.setInvalidatesParent(false);
-                    return drawChild;
+                if (!(view instanceof ChatMessageCell)) {
+                    return true;
                 }
-                return true;
+                ChatMessageCell chatMessageCell = (ChatMessageCell) view;
+                chatMessageCell.setInvalidatesParent(true);
+                chatMessageCell.drawCheckBox(canvas);
+                canvas.save();
+                canvas.translate(chatMessageCell.getX(), chatMessageCell.getY());
+                canvas.scale(chatMessageCell.getScaleX(), chatMessageCell.getScaleY(), chatMessageCell.getPivotX(), chatMessageCell.getPivotY());
+                if (chatMessageCell.drawBackgroundInParent() && chatMessageCell.getCurrentPosition() == null) {
+                    chatMessageCell.drawBackgroundInternal(canvas, true);
+                }
+                canvas.restore();
+                boolean drawChild = super.drawChild(canvas, view, j);
+                canvas.save();
+                canvas.translate(chatMessageCell.getX(), chatMessageCell.getY());
+                canvas.scale(chatMessageCell.getScaleX(), chatMessageCell.getScaleY(), chatMessageCell.getPivotX(), chatMessageCell.getPivotY());
+                if (chatMessageCell.getCurrentPosition() != null && (((chatMessageCell.getCurrentPosition().flags & chatMessageCell.captionFlag()) != 0 && (chatMessageCell.getCurrentPosition().flags & 1) != 0) || (chatMessageCell.getCurrentMessagesGroup() != null && chatMessageCell.getCurrentMessagesGroup().isDocuments))) {
+                    chatMessageCell.drawCaptionLayout(canvas, false, chatMessageCell.getAlpha());
+                }
+                if (chatMessageCell.getCurrentPosition() != null && (((chatMessageCell.getCurrentPosition().flags & 8) != 0 && (chatMessageCell.getCurrentPosition().flags & 1) != 0) || (chatMessageCell.getCurrentMessagesGroup() != null && chatMessageCell.getCurrentMessagesGroup().isDocuments))) {
+                    chatMessageCell.drawReactionsLayout(canvas, chatMessageCell.getAlpha(), null);
+                    chatMessageCell.drawCommentLayout(canvas, chatMessageCell.getAlpha());
+                }
+                if (chatMessageCell.getCurrentPosition() != null) {
+                    chatMessageCell.drawNamesLayout(canvas, chatMessageCell.getAlpha());
+                }
+                if (chatMessageCell.getCurrentPosition() == null || chatMessageCell.getCurrentPosition().last) {
+                    chatMessageCell.drawTime(canvas, chatMessageCell.getAlpha(), true);
+                }
+                chatMessageCell.drawOutboundsContent(canvas);
+                chatMessageCell.getTransitionParams().recordDrawingStatePreview();
+                canvas.restore();
+                chatMessageCell.setInvalidatesParent(false);
+                return drawChild;
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
@@ -1271,11 +1275,10 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                 int extraInsetHeight = chatMessageCell.getExtraInsetHeight();
                 int i3 = 0;
                 while (true) {
-                    float[] fArr = currentPosition.siblingHeights;
-                    if (i3 >= fArr.length) {
+                    if (i3 >= currentPosition.siblingHeights.length) {
                         break;
                     }
-                    extraInsetHeight += (int) Math.ceil(fArr[i3] * max);
+                    extraInsetHeight += (int) Math.ceil(r3[i3] * max);
                     i3++;
                 }
                 int round = extraInsetHeight + ((currentPosition.maxY - currentPosition.minY) * Math.round(AndroidUtilities.density * 7.0f));
@@ -1713,18 +1716,20 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                     drawingObject.lastH = f;
                     drawingObject.lastX = Utilities.clamp(MessageSendPreview.this.cameraRect.right - (0.75f * filterWidth), AndroidUtilities.displaySize.x - filterWidth, 0.0f);
                     drawingObject.lastY = MessageSendPreview.this.cameraRect.bottom - (filterWidth / 2.0f);
-                } else if (MessageSendPreview.this.mainMessageCell == null || !MessageSendPreview.this.mainMessageCell.isAttachedToWindow() || MessageSendPreview.this.mainMessageCell.getMessageObject() == null || MessageSendPreview.this.mainMessageCell.getMessageObject().getId() != MessageSendPreview.this.mainMessageCellId) {
-                } else {
-                    MessageSendPreview.this.mainMessageCell.getLocationOnScreen(this.messagePos);
-                    drawingObject.viewFound = true;
-                    float filterWidth2 = (EmojiAnimationsOverlay.getFilterWidth() * AndroidUtilities.density) / 1.3f;
-                    float f2 = filterWidth2 / 3.0f;
-                    drawingObject.lastW = f2;
-                    drawingObject.lastH = f2;
-                    float f3 = filterWidth2 / 2.0f;
-                    drawingObject.lastX = Utilities.clamp((this.messagePos[0] + (MessageSendPreview.this.mainMessageCell.getTimeX() * MessageSendPreview.this.chatListView.getScaleX())) - f3, AndroidUtilities.displaySize.x - filterWidth2, 0.0f);
-                    drawingObject.lastY = (this.messagePos[1] + (MessageSendPreview.this.mainMessageCell.getTimeY() * MessageSendPreview.this.chatListView.getScaleY())) - f3;
+                    return;
                 }
+                if (MessageSendPreview.this.mainMessageCell == null || !MessageSendPreview.this.mainMessageCell.isAttachedToWindow() || MessageSendPreview.this.mainMessageCell.getMessageObject() == null || MessageSendPreview.this.mainMessageCell.getMessageObject().getId() != MessageSendPreview.this.mainMessageCellId) {
+                    return;
+                }
+                MessageSendPreview.this.mainMessageCell.getLocationOnScreen(this.messagePos);
+                drawingObject.viewFound = true;
+                float filterWidth2 = (EmojiAnimationsOverlay.getFilterWidth() * AndroidUtilities.density) / 1.3f;
+                float f2 = filterWidth2 / 3.0f;
+                drawingObject.lastW = f2;
+                drawingObject.lastH = f2;
+                float f3 = filterWidth2 / 2.0f;
+                drawingObject.lastX = Utilities.clamp((this.messagePos[0] + (MessageSendPreview.this.mainMessageCell.getTimeX() * MessageSendPreview.this.chatListView.getScaleX())) - f3, AndroidUtilities.displaySize.x - filterWidth2, 0.0f);
+                drawingObject.lastY = (this.messagePos[1] + (MessageSendPreview.this.mainMessageCell.getTimeY() * MessageSendPreview.this.chatListView.getScaleY())) - f3;
             }
         };
     }
@@ -1791,10 +1796,11 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                 if (runnable != null) {
                     if (!z && MessageSendPreview.this.destCell != null && MessageSendPreview.this.destCell.isAttachedToWindow()) {
                         view2 = MessageSendPreview.this.destCell;
-                    } else if (z || MessageSendPreview.this.editText == null || !MessageSendPreview.this.editText.isAttachedToWindow()) {
-                        AndroidUtilities.runOnUIThread(runnable);
-                        return;
                     } else {
+                        if (z || MessageSendPreview.this.editText == null || !MessageSendPreview.this.editText.isAttachedToWindow()) {
+                            AndroidUtilities.runOnUIThread(runnable);
+                            return;
+                        }
                         view2 = MessageSendPreview.this.editText;
                     }
                     view2.post(runnable);
@@ -1816,12 +1822,12 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public MessageObject.GroupedMessages getValidGroupedMessage(MessageObject messageObject) {
-        if (messageObject.getGroupId() != 0) {
-            MessageObject.GroupedMessages groupedMessages = (MessageObject.GroupedMessages) this.groupedMessagesMap.get(messageObject.getGroupId());
-            if (groupedMessages == null || (groupedMessages.messages.size() > 1 && groupedMessages.getPosition(messageObject) != null)) {
-                return groupedMessages;
-            }
+        if (messageObject.getGroupId() == 0) {
             return null;
+        }
+        MessageObject.GroupedMessages groupedMessages = (MessageObject.GroupedMessages) this.groupedMessagesMap.get(messageObject.getGroupId());
+        if (groupedMessages == null || (groupedMessages.messages.size() > 1 && groupedMessages.getPosition(messageObject) != null)) {
+            return groupedMessages;
         }
         return null;
     }
@@ -2215,13 +2221,14 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         float f5 = (f + f3) / 2.0f;
         float f6 = (f2 + f4) / 2.0f;
         float dp = AndroidUtilities.dp(28.0f) + this.buttonText.getCurrentWidth();
+        float dp2 = AndroidUtilities.dp(32.0f);
         RectF rectF = AndroidUtilities.rectTmp;
         float f7 = dp / 2.0f;
         float f8 = f5 - f7;
-        float dp2 = AndroidUtilities.dp(32.0f) / 2.0f;
-        rectF.set(f8, f6 - dp2, f5 + f7, f6 + dp2);
+        float f9 = dp2 / 2.0f;
+        rectF.set(f8, f6 - f9, f5 + f7, f6 + f9);
         canvas.save();
-        canvas.drawRoundRect(rectF, dp2, dp2, this.buttonBgPaint);
+        canvas.drawRoundRect(rectF, f9, f9, this.buttonBgPaint);
         this.buttonText.draw(canvas, f8 + AndroidUtilities.dp(14.0f), f6, -1, 1.0f);
         canvas.restore();
     }
@@ -2289,8 +2296,10 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         if (reactionsContainerLayout == null || reactionsContainerLayout.getReactionsWindow() == null) {
             this.sentEffect = true;
             super.onBackPressed();
-        } else if (this.effectSelector.getReactionsWindow().transition) {
         } else {
+            if (this.effectSelector.getReactionsWindow().transition) {
+                return;
+            }
             this.effectSelector.getReactionsWindow().dismiss();
         }
     }
@@ -2342,9 +2351,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         this.cameraRect = new RectF();
         int[] iArr = new int[2];
         textureView.getLocationOnScreen(iArr);
-        RectF rectF = this.cameraRect;
-        int i = iArr[0];
-        rectF.set(i, iArr[1], i + textureView.getWidth(), iArr[1] + textureView.getHeight());
+        this.cameraRect.set(iArr[0], iArr[1], r2 + textureView.getWidth(), iArr[1] + textureView.getHeight());
     }
 
     public void setEditText(EditTextCaption editTextCaption, Utilities.Callback2 callback2, Utilities.Callback callback) {

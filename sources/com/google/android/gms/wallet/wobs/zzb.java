@@ -1,4 +1,5 @@
 package com.google.android.gms.wallet.wobs;
+
 /* loaded from: classes.dex */
 public final class zzb {
     final /* synthetic */ CommonWalletObject zza;

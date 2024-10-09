@@ -33,6 +33,7 @@ import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Premium.LimitReachedBottomSheet;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes4.dex */
 public class LogoutActivity extends BaseFragment {
     private int addAccountRow;
@@ -91,48 +92,55 @@ public class LogoutActivity extends BaseFragment {
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 if (i == LogoutActivity.this.alternativeHeaderRow) {
                     headerCell.setText(LocaleController.getString(R.string.AlternativeOptions));
+                    return;
                 }
-            } else if (itemViewType != 1) {
+                return;
+            }
+            if (itemViewType != 1) {
                 if (itemViewType == 3) {
                     TextSettingsCell textSettingsCell = (TextSettingsCell) viewHolder.itemView;
                     if (i == LogoutActivity.this.logoutRow) {
                         textSettingsCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                         textSettingsCell.setText(LocaleController.getString(R.string.LogOutTitle), false);
-                    }
-                } else if (itemViewType != 4) {
-                } else {
-                    TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
-                    if (i == LogoutActivity.this.logoutSectionRow) {
-                        textInfoPrivacyCell.setText(LocaleController.getString(R.string.LogOutInfo));
-                    }
-                }
-            } else {
-                TextDetailSettingsCell textDetailSettingsCell = (TextDetailSettingsCell) viewHolder.itemView;
-                if (i == LogoutActivity.this.addAccountRow) {
-                    string = LocaleController.getString(R.string.AddAnotherAccount);
-                    string2 = LocaleController.getString(R.string.AddAnotherAccountInfo);
-                    i2 = R.drawable.msg_contact_add;
-                } else if (i == LogoutActivity.this.passcodeRow) {
-                    string = LocaleController.getString(R.string.SetPasscode);
-                    string2 = LocaleController.getString(R.string.SetPasscodeInfo);
-                    i2 = R.drawable.msg_permissions;
-                } else if (i == LogoutActivity.this.cacheRow) {
-                    string = LocaleController.getString(R.string.ClearCache);
-                    string2 = LocaleController.getString(R.string.ClearCacheInfo);
-                    i2 = R.drawable.msg_clearcache;
-                } else if (i != LogoutActivity.this.phoneRow) {
-                    if (i == LogoutActivity.this.supportRow) {
-                        textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString(R.string.ContactSupport), LocaleController.getString(R.string.ContactSupportInfo), R.drawable.msg_help, false);
                         return;
                     }
                     return;
-                } else {
-                    string = LocaleController.getString(R.string.ChangePhoneNumber);
-                    string2 = LocaleController.getString(R.string.ChangePhoneNumberInfo);
-                    i2 = R.drawable.msg_newphone;
                 }
-                textDetailSettingsCell.setTextAndValueAndIcon(string, string2, i2, true);
+                if (itemViewType != 4) {
+                    return;
+                }
+                TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
+                if (i == LogoutActivity.this.logoutSectionRow) {
+                    textInfoPrivacyCell.setText(LocaleController.getString(R.string.LogOutInfo));
+                    return;
+                }
+                return;
             }
+            TextDetailSettingsCell textDetailSettingsCell = (TextDetailSettingsCell) viewHolder.itemView;
+            if (i == LogoutActivity.this.addAccountRow) {
+                string = LocaleController.getString(R.string.AddAnotherAccount);
+                string2 = LocaleController.getString(R.string.AddAnotherAccountInfo);
+                i2 = R.drawable.msg_contact_add;
+            } else if (i == LogoutActivity.this.passcodeRow) {
+                string = LocaleController.getString(R.string.SetPasscode);
+                string2 = LocaleController.getString(R.string.SetPasscodeInfo);
+                i2 = R.drawable.msg_permissions;
+            } else if (i == LogoutActivity.this.cacheRow) {
+                string = LocaleController.getString(R.string.ClearCache);
+                string2 = LocaleController.getString(R.string.ClearCacheInfo);
+                i2 = R.drawable.msg_clearcache;
+            } else if (i != LogoutActivity.this.phoneRow) {
+                if (i == LogoutActivity.this.supportRow) {
+                    textDetailSettingsCell.setTextAndValueAndIcon(LocaleController.getString(R.string.ContactSupport), LocaleController.getString(R.string.ContactSupportInfo), R.drawable.msg_help, false);
+                    return;
+                }
+                return;
+            } else {
+                string = LocaleController.getString(R.string.ChangePhoneNumber);
+                string2 = LocaleController.getString(R.string.ChangePhoneNumberInfo);
+                i2 = R.drawable.msg_newphone;
+            }
+            textDetailSettingsCell.setTextAndValueAndIcon(string, string2, i2, true);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -172,16 +180,17 @@ public class LogoutActivity extends BaseFragment {
                 actionIntroActivity = PasscodeActivity.determineOpenFragment();
             } else if (i == this.cacheRow) {
                 actionIntroActivity = new CacheControlActivity();
-            } else if (i != this.phoneRow) {
-                if (i == this.supportRow) {
-                    makeLogOutDialog = AlertsCreator.createSupportAlert(this, null);
-                } else if (i != this.logoutRow || getParentActivity() == null) {
-                    return;
-                } else {
-                    makeLogOutDialog = makeLogOutDialog(getParentActivity(), this.currentAccount);
-                }
-                showDialog(makeLogOutDialog);
             } else {
+                if (i != this.phoneRow) {
+                    if (i == this.supportRow) {
+                        makeLogOutDialog = AlertsCreator.createSupportAlert(this, null);
+                    } else if (i != this.logoutRow || getParentActivity() == null) {
+                        return;
+                    } else {
+                        makeLogOutDialog = makeLogOutDialog(getParentActivity(), this.currentAccount);
+                    }
+                    showDialog(makeLogOutDialog);
+                }
                 actionIntroActivity = new ActionIntroActivity(3);
             }
             presentFragment(actionIntroActivity);
@@ -201,7 +210,10 @@ public class LogoutActivity extends BaseFragment {
         if (i2 > 0 && num != null) {
             actionIntroActivity = new LoginActivity(num.intValue());
             presentFragment(actionIntroActivity);
-        } else if (!UserConfig.hasPremiumOnAccounts()) {
+        } else {
+            if (UserConfig.hasPremiumOnAccounts()) {
+                return;
+            }
             makeLogOutDialog = new LimitReachedBottomSheet(this, getContext(), 7, this.currentAccount, null);
             showDialog(makeLogOutDialog);
         }
@@ -244,7 +256,7 @@ public class LogoutActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    LogoutActivity.this.finishFragment();
+                    LogoutActivity.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -252,11 +264,12 @@ public class LogoutActivity extends BaseFragment {
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         frameLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        FrameLayout frameLayout2 = (FrameLayout) this.fragmentView;
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
         recyclerListView.setVerticalScrollBarEnabled(false);
         this.listView.setLayoutManager(new LinearLayoutManager(context, 1, false));
-        ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
+        frameLayout2.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LogoutActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended

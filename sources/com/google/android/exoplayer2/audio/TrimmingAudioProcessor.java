@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.audio;
 import com.google.android.exoplayer2.audio.AudioProcessor;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 final class TrimmingAudioProcessor extends BaseAudioProcessor {
     private byte[] endBuffer = Util.EMPTY_BYTE_ARRAY;
@@ -34,11 +35,11 @@ final class TrimmingAudioProcessor extends BaseAudioProcessor {
 
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
     public AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) {
-        if (audioFormat.encoding == 2) {
-            this.reconfigurationPending = true;
-            return (this.trimStartFrames == 0 && this.trimEndFrames == 0) ? AudioProcessor.AudioFormat.NOT_SET : audioFormat;
+        if (audioFormat.encoding != 2) {
+            throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
         }
-        throw new AudioProcessor.UnhandledAudioFormatException(audioFormat);
+        this.reconfigurationPending = true;
+        return (this.trimStartFrames == 0 && this.trimEndFrames == 0) ? AudioProcessor.AudioFormat.NOT_SET : audioFormat;
     }
 
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
@@ -55,10 +56,9 @@ final class TrimmingAudioProcessor extends BaseAudioProcessor {
 
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
     protected void onQueueEndOfStream() {
-        int i;
         if (this.reconfigurationPending) {
             if (this.endBufferSize > 0) {
-                this.trimmedFrameCount += i / this.inputAudioFormat.bytesPerFrame;
+                this.trimmedFrameCount += r0 / this.inputAudioFormat.bytesPerFrame;
             }
             this.endBufferSize = 0;
         }

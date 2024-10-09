@@ -17,6 +17,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class TimerDrawable extends Drawable {
     Context context;
@@ -155,8 +156,8 @@ public class TimerDrawable extends Drawable {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0191  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x01b0  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0191  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x01b0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -198,7 +199,8 @@ public class TimerDrawable extends Drawable {
                 this.timeLayout = staticLayout;
                 this.timeHeight = staticLayout.getHeight();
                 invalidateSelf();
-            } else if (i3 >= 60 && i3 < 3600) {
+            }
+            if (i3 >= 60 && i3 < 3600) {
                 str = "" + (i / 60);
                 if (str.length() < 2) {
                     sb = new StringBuilder();
@@ -219,7 +221,8 @@ public class TimerDrawable extends Drawable {
                 this.timeLayout = staticLayout2;
                 this.timeHeight = staticLayout2.getHeight();
                 invalidateSelf();
-            } else if (i3 >= 3600 && i3 < 86400) {
+            }
+            if (i3 >= 3600 && i3 < 86400) {
                 str = "" + ((i / 60) / 60);
                 if (str.length() < 2) {
                     sb = new StringBuilder();
@@ -240,7 +243,8 @@ public class TimerDrawable extends Drawable {
                 this.timeLayout = staticLayout22;
                 this.timeHeight = staticLayout22.getHeight();
                 invalidateSelf();
-            } else if (i3 >= 86400 && i3 < 604800) {
+            }
+            if (i3 >= 86400 && i3 < 604800) {
                 str = "" + (((i / 60) / 60) / 24);
                 if (str.length() < 2) {
                     sb = new StringBuilder();
@@ -261,7 +265,8 @@ public class TimerDrawable extends Drawable {
                 this.timeLayout = staticLayout222;
                 this.timeHeight = staticLayout222.getHeight();
                 invalidateSelf();
-            } else if (i3 < 2678400) {
+            }
+            if (i3 < 2678400) {
                 str = "" + ((((i / 60) / 60) / 24) / 7);
                 if (str.length() >= 2) {
                     if (str.length() > 2) {
@@ -306,7 +311,8 @@ public class TimerDrawable extends Drawable {
                     FileLog.e(e);
                 }
                 invalidateSelf();
-            } else if (i3 < 31449600) {
+            }
+            if (i3 < 31449600) {
                 str = "" + ((((i / 60) / 60) / 24) / 30);
                 if (str.length() < 2) {
                     sb = new StringBuilder();
@@ -327,28 +333,27 @@ public class TimerDrawable extends Drawable {
                 this.timeLayout = staticLayout222222;
                 this.timeHeight = staticLayout222222.getHeight();
                 invalidateSelf();
-            } else {
-                str = "" + ((((i / 60) / 60) / 24) / 364);
-                if (str.length() < 2) {
-                    sb = new StringBuilder();
-                    sb.append(str);
-                    i2 = R.string.SecretChatTimerYears;
-                    sb.append(LocaleController.getString(i2));
-                    str = sb.toString();
-                }
-                str2 = str;
-                this.timePaint.setTextSize(AndroidUtilities.dp(11.0f));
-                measureText = this.timePaint.measureText(str2);
-                this.timeWidth = measureText;
-                if (measureText > AndroidUtilities.dp(13.0f)) {
-                }
-                if (this.timeWidth > AndroidUtilities.dp(13.0f)) {
-                }
-                StaticLayout staticLayout2222222 = new StaticLayout(str2, this.timePaint, (int) Math.ceil(this.timeWidth), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                this.timeLayout = staticLayout2222222;
-                this.timeHeight = staticLayout2222222.getHeight();
-                invalidateSelf();
             }
+            str = "" + ((((i / 60) / 60) / 24) / 364);
+            if (str.length() < 2) {
+                sb = new StringBuilder();
+                sb.append(str);
+                i2 = R.string.SecretChatTimerYears;
+                sb.append(LocaleController.getString(i2));
+                str = sb.toString();
+            }
+            str2 = str;
+            this.timePaint.setTextSize(AndroidUtilities.dp(11.0f));
+            measureText = this.timePaint.measureText(str2);
+            this.timeWidth = measureText;
+            if (measureText > AndroidUtilities.dp(13.0f)) {
+            }
+            if (this.timeWidth > AndroidUtilities.dp(13.0f)) {
+            }
+            StaticLayout staticLayout2222222 = new StaticLayout(str2, this.timePaint, (int) Math.ceil(this.timeWidth), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            this.timeLayout = staticLayout2222222;
+            this.timeHeight = staticLayout2222222.getHeight();
+            invalidateSelf();
         }
     }
 }

@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class SyncTask implements Runnable {
@@ -83,12 +84,12 @@ public class SyncTask implements Runnable {
             if (this.firebaseMessaging.blockingGetToken() == null) {
                 Log.e("FirebaseMessaging", "Token retrieval failed: null");
                 return false;
-            } else if (Log.isLoggable("FirebaseMessaging", 3)) {
-                Log.d("FirebaseMessaging", "Token successfully retrieved");
-                return true;
-            } else {
+            }
+            if (!Log.isLoggable("FirebaseMessaging", 3)) {
                 return true;
             }
+            Log.d("FirebaseMessaging", "Token successfully retrieved");
+            return true;
         } catch (IOException e) {
             if (GmsRpc.isErrorMessageForRetryableError(e.getMessage())) {
                 String message = e.getMessage();
@@ -97,9 +98,10 @@ public class SyncTask implements Runnable {
                 sb.append(message);
                 sb.append(". Will retry token retrieval");
                 str = sb.toString();
-            } else if (e.getMessage() != null) {
-                throw e;
             } else {
+                if (e.getMessage() != null) {
+                    throw e;
+                }
                 str = "Token retrieval failed without exception message. Will retry token retrieval";
             }
             Log.w("FirebaseMessaging", str);

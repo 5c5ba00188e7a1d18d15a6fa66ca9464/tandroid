@@ -3,6 +3,7 @@ package com.stripe.android.util;
 import com.stripe.android.time.Clock;
 import java.util.Calendar;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class DateUtils {
     public static boolean hasMonthPassed(int i, int i2) {

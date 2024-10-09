@@ -8,6 +8,7 @@ import com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkSch
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStore;
 import com.google.android.datatransport.runtime.time.Clock;
 import javax.inject.Provider;
+
 /* loaded from: classes.dex */
 public final class SchedulingModule_WorkSchedulerFactory implements Factory {
     private final Provider clockProvider;

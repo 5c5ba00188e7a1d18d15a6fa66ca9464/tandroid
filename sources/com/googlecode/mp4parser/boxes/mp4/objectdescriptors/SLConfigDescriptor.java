@@ -3,6 +3,7 @@ package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 import com.coremedia.iso.IsoTypeReader;
 import com.coremedia.iso.IsoTypeWriter;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public class SLConfigDescriptor extends BaseDescriptor {
     int predefined;

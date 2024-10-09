@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.view.Choreographer;
 import kotlin.Result;
 import kotlin.ResultKt;
+
 /* loaded from: classes.dex */
 public abstract class HandlerDispatcherKt {
     public static final HandlerDispatcher Main;
@@ -20,24 +21,24 @@ public abstract class HandlerDispatcherKt {
             Result.Companion companion2 = Result.Companion;
             obj = Result.constructor-impl(ResultKt.createFailure(th));
         }
-        Main = Result.isFailure-impl(obj) ? null : obj;
+        Main = (HandlerDispatcher) (Result.isFailure-impl(obj) ? null : obj);
     }
 
     public static final Handler asHandler(Looper looper, boolean z) {
-        if (z) {
-            if (Build.VERSION.SDK_INT < 28) {
-                try {
-                    return (Handler) Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, Boolean.TYPE).newInstance(looper, null, Boolean.TRUE);
-                } catch (NoSuchMethodException unused) {
-                    return new Handler(looper);
-                }
-            }
-            Object invoke = Handler.class.getDeclaredMethod("createAsync", Looper.class).invoke(null, looper);
-            if (invoke != null) {
-                return (Handler) invoke;
-            }
-            throw new NullPointerException("null cannot be cast to non-null type android.os.Handler");
+        if (!z) {
+            return new Handler(looper);
         }
-        return new Handler(looper);
+        if (Build.VERSION.SDK_INT < 28) {
+            try {
+                return (Handler) Handler.class.getDeclaredConstructor(Looper.class, Handler.Callback.class, Boolean.TYPE).newInstance(looper, null, Boolean.TRUE);
+            } catch (NoSuchMethodException unused) {
+                return new Handler(looper);
+            }
+        }
+        Object invoke = Handler.class.getDeclaredMethod("createAsync", Looper.class).invoke(null, looper);
+        if (invoke != null) {
+            return (Handler) invoke;
+        }
+        throw new NullPointerException("null cannot be cast to non-null type android.os.Handler");
     }
 }

@@ -4,6 +4,7 @@ import java.util.AbstractList;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
+
 /* loaded from: classes.dex */
 abstract class zzav extends AbstractList implements zzcn {
     private boolean zzfa = true;
@@ -37,23 +38,23 @@ abstract class zzav extends AbstractList implements zzcn {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof List) {
-            if (obj instanceof RandomAccess) {
-                List list = (List) obj;
-                int size = size();
-                if (size != list.size()) {
-                    return false;
-                }
-                for (int i = 0; i < size; i++) {
-                    if (!get(i).equals(list.get(i))) {
-                        return false;
-                    }
-                }
-                return true;
-            }
+        if (!(obj instanceof List)) {
+            return false;
+        }
+        if (!(obj instanceof RandomAccess)) {
             return super.equals(obj);
         }
-        return false;
+        List list = (List) obj;
+        int size = size();
+        if (size != list.size()) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (!get(i).equals(list.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override // java.util.AbstractList, java.util.Collection, java.util.List

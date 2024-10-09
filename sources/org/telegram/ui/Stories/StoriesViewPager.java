@@ -19,6 +19,7 @@ import org.telegram.ui.Stories.PeerStoriesView;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesViewPager;
 import org.telegram.ui.Stories.StoryViewer;
+
 /* loaded from: classes4.dex */
 public abstract class StoriesViewPager extends ViewPager {
     int currentAccount;
@@ -177,31 +178,39 @@ public abstract class StoriesViewPager extends ViewPager {
                 storiesViewPager.onStateChanged();
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:13:0x003b, code lost:
-                if (((java.lang.Long) r5.dialogs.get(r5.selectedPosition)).longValue() == r3) goto L12;
+            /* JADX WARN: Code restructure failed: missing block: B:11:0x003b, code lost:
+            
+                if (((java.lang.Long) r5.dialogs.get(r5.selectedPosition)).longValue() == r3) goto L17;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:16:0x0042, code lost:
-                if (r5.daysDialogId == r3) goto L12;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:17:0x0044, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:12:0x0044, code lost:
+            
                 r3 = r2.this$0;
                 r3.delegate.setHideEnterViewProgress(1.0f - r3.progress);
              */
-            /* JADX WARN: Code restructure failed: missing block: B:25:0x0075, code lost:
-                if (((java.lang.Long) r5.dialogs.get(r5.toPosition)).longValue() == r3) goto L25;
+            /* JADX WARN: Code restructure failed: missing block: B:13:?, code lost:
+            
+                return;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:28:0x007c, code lost:
-                if (r5.daysDialogId == r3) goto L25;
+            /* JADX WARN: Code restructure failed: missing block: B:16:0x0042, code lost:
+            
+                if (r5.daysDialogId == r3) goto L17;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:29:0x007e, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:24:0x0075, code lost:
+            
+                if (((java.lang.Long) r5.dialogs.get(r5.toPosition)).longValue() == r3) goto L29;
+             */
+            /* JADX WARN: Code restructure failed: missing block: B:25:0x007e, code lost:
+            
                 r3 = r2.this$0;
                 r3.delegate.setHideEnterViewProgress(r3.progress);
              */
-            /* JADX WARN: Code restructure failed: missing block: B:32:?, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:26:?, code lost:
+            
                 return;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:33:?, code lost:
-                return;
+            /* JADX WARN: Code restructure failed: missing block: B:28:0x007c, code lost:
+            
+                if (r5.daysDialogId == r3) goto L29;
              */
             @Override // androidx.viewpager.widget.ViewPager.OnPageChangeListener
             /*
@@ -349,8 +358,9 @@ public abstract class StoriesViewPager extends ViewPager {
             PageLayout pageLayout = (PageLayout) getChildAt(i);
             if (pageLayout.isVisible && !pageLayout.peerStoryView.currentStory.allowScreenshots()) {
                 break;
+            } else {
+                i++;
             }
-            i++;
         }
         this.storyViewer.allowScreenshots(z);
     }
@@ -443,13 +453,13 @@ public abstract class StoriesViewPager extends ViewPager {
 
     @Override // androidx.viewpager.widget.ViewPager, android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (!this.touchEnabled || this.touchLocked) {
-            if (this.touchLocked) {
-                return motionEvent.getAction() == 0 || motionEvent.getAction() == 2;
-            }
-            return false;
+        if (this.touchEnabled && !this.touchLocked) {
+            return super.onTouchEvent(motionEvent);
         }
-        return super.onTouchEvent(motionEvent);
+        if (this.touchLocked) {
+            return motionEvent.getAction() == 0 || motionEvent.getAction() == 2;
+        }
+        return false;
     }
 
     @Override // android.view.ViewGroup, android.view.ViewParent

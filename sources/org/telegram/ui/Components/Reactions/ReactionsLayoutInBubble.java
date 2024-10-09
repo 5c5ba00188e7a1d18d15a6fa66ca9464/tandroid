@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -55,6 +56,7 @@ import org.telegram.ui.Components.CounterView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Stars.StarsReactionsSheet;
+
 /* loaded from: classes3.dex */
 public class ReactionsLayoutInBubble {
     private static int animationUniq;
@@ -131,26 +133,28 @@ public class ReactionsLayoutInBubble {
         public int compare(ReactionButton reactionButton, ReactionButton reactionButton2) {
             int i;
             int i2;
-            int i3 = (this.dialogId > 0L ? 1 : (this.dialogId == 0L ? 0 : -1));
+            long j = this.dialogId;
             boolean z = reactionButton.paid;
             boolean z2 = reactionButton2.paid;
-            if (i3 >= 0) {
+            if (j >= 0) {
                 if (z != z2) {
                     return z ? -1 : 1;
                 }
                 boolean z3 = reactionButton.isSelected;
                 if (z3 != reactionButton2.isSelected) {
                     return z3 ? -1 : 1;
-                } else if (z3 && (i = reactionButton.choosenOrder) != (i2 = reactionButton2.choosenOrder)) {
+                }
+                if (z3 && (i = reactionButton.choosenOrder) != (i2 = reactionButton2.choosenOrder)) {
                     return i - i2;
                 }
-            } else if (z != z2) {
-                return z ? -1 : 1;
             } else {
-                int i4 = reactionButton.realCount;
-                int i5 = reactionButton2.realCount;
-                if (i4 != i5) {
-                    return i5 - i4;
+                if (z != z2) {
+                    return z ? -1 : 1;
+                }
+                int i3 = reactionButton.realCount;
+                int i4 = reactionButton2.realCount;
+                if (i3 != i4) {
+                    return i4 - i3;
                 }
             }
             return reactionButton.reactionCount.lastDrawnPosition - reactionButton2.reactionCount.lastDrawnPosition;
@@ -256,9 +260,10 @@ public class ReactionsLayoutInBubble {
                 l = "stars";
             } else if (reaction2 instanceof TLRPC.TL_reactionEmoji) {
                 l = ((TLRPC.TL_reactionEmoji) reaction2).emoticon;
-            } else if (!(reaction2 instanceof TLRPC.TL_reactionCustomEmoji)) {
-                throw new RuntimeException("unsupported");
             } else {
+                if (!(reaction2 instanceof TLRPC.TL_reactionCustomEmoji)) {
+                    throw new RuntimeException("unsupported");
+                }
                 l = Long.toString(((TLRPC.TL_reactionCustomEmoji) reaction2).document_id);
             }
             this.key = l;
@@ -292,9 +297,8 @@ public class ReactionsLayoutInBubble {
             this.counterDrawable.setSize(AndroidUtilities.dp(26.0f), AndroidUtilities.dp(100.0f));
             this.counterDrawable.textPaint = ReactionsLayoutInBubble.textPaint;
             if (z2) {
-                String savedTagName = MessagesController.getInstance(i).getSavedTagName(this.reaction);
-                this.name = savedTagName;
-                this.hasName = !TextUtils.isEmpty(savedTagName);
+                this.name = MessagesController.getInstance(i).getSavedTagName(this.reaction);
+                this.hasName = !TextUtils.isEmpty(r1);
             }
             if (this.hasName) {
                 AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.textDrawable;
@@ -319,6 +323,7 @@ public class ReactionsLayoutInBubble {
 
         /* JADX INFO: Access modifiers changed from: private */
         public void drawImage(Canvas canvas, Rect rect, float f) {
+            boolean z;
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             ImageReceiver imageReceiver = (animatedEmojiDrawable == null || animatedEmojiDrawable.getImageReceiver() == null) ? this.imageReceiver : this.animatedEmojiDrawable.getImageReceiver();
             if (imageReceiver != null && rect != null) {
@@ -330,7 +335,6 @@ public class ReactionsLayoutInBubble {
                 this.animatedEmojiDrawableColor = i;
                 animatedEmojiDrawable2.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN));
             }
-            boolean z = false;
             if (!this.drawImage || (!this.paid && this.realCount <= 1 && isPlaying() && this.isSelected)) {
                 imageReceiver.setAlpha(0.0f);
                 imageReceiver.draw(canvas);
@@ -339,7 +343,7 @@ public class ReactionsLayoutInBubble {
             }
             ImageReceiver imageReceiver2 = getImageReceiver();
             if (imageReceiver2 != null) {
-                z = (imageReceiver2.getLottieAnimation() == null || !imageReceiver2.getLottieAnimation().hasBitmap()) ? true : true;
+                z = imageReceiver2.getLottieAnimation() == null || !imageReceiver2.getLottieAnimation().hasBitmap();
                 if (f != 1.0f) {
                     imageReceiver2.setAlpha(f);
                     if (f <= 0.0f) {
@@ -466,11 +470,11 @@ public class ReactionsLayoutInBubble {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:149:0x0393  */
-        /* JADX WARN: Removed duplicated region for block: B:153:0x03af  */
-        /* JADX WARN: Removed duplicated region for block: B:154:0x03b7  */
-        /* JADX WARN: Removed duplicated region for block: B:162:0x03fb  */
-        /* JADX WARN: Removed duplicated region for block: B:164:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:108:0x03af  */
+        /* JADX WARN: Removed duplicated region for block: B:110:0x03b7  */
+        /* JADX WARN: Removed duplicated region for block: B:113:0x0393  */
+        /* JADX WARN: Removed duplicated region for block: B:121:0x03fb  */
+        /* JADX WARN: Removed duplicated region for block: B:123:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -907,9 +911,8 @@ public class ReactionsLayoutInBubble {
 
         public static VisibleReaction fromEmojicon(TLRPC.TL_availableReaction tL_availableReaction) {
             VisibleReaction visibleReaction = new VisibleReaction();
-            String str = tL_availableReaction.reaction;
-            visibleReaction.emojicon = str;
-            visibleReaction.hash = str.hashCode();
+            visibleReaction.emojicon = tL_availableReaction.reaction;
+            visibleReaction.hash = r3.hashCode();
             return visibleReaction;
         }
 
@@ -973,33 +976,33 @@ public class ReactionsLayoutInBubble {
         public CharSequence toCharSequence(int i) {
             TextPaint textPaint = new TextPaint();
             textPaint.setTextSize(AndroidUtilities.dp(i));
-            if (TextUtils.isEmpty(this.emojicon)) {
-                SpannableString spannableString = new SpannableString("😀");
-                spannableString.setSpan(new AnimatedEmojiSpan(this.documentId, textPaint.getFontMetricsInt()), 0, spannableString.length(), 17);
-                return spannableString;
+            if (!TextUtils.isEmpty(this.emojicon)) {
+                return Emoji.replaceEmoji(this.emojicon, textPaint.getFontMetricsInt(), false);
             }
-            return Emoji.replaceEmoji(this.emojicon, textPaint.getFontMetricsInt(), false);
+            SpannableString spannableString = new SpannableString("😀");
+            spannableString.setSpan(new AnimatedEmojiSpan(this.documentId, textPaint.getFontMetricsInt()), 0, spannableString.length(), 17);
+            return spannableString;
         }
 
         public CharSequence toCharSequence(Paint.FontMetricsInt fontMetricsInt) {
-            if (TextUtils.isEmpty(this.emojicon)) {
-                SpannableString spannableString = new SpannableString("😀");
-                spannableString.setSpan(new AnimatedEmojiSpan(this.documentId, fontMetricsInt), 0, spannableString.length(), 17);
-                return spannableString;
+            if (!TextUtils.isEmpty(this.emojicon)) {
+                return this.emojicon;
             }
-            return this.emojicon;
+            SpannableString spannableString = new SpannableString("😀");
+            spannableString.setSpan(new AnimatedEmojiSpan(this.documentId, fontMetricsInt), 0, spannableString.length(), 17);
+            return spannableString;
         }
 
         public String toString() {
             TLRPC.Document findDocument;
-            if (TextUtils.isEmpty(this.emojicon)) {
-                long j = this.documentId;
-                if (j == 0 || (findDocument = AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, j)) == null) {
-                    return "VisibleReaction{" + this.documentId + ", " + this.emojicon + "}";
-                }
+            if (!TextUtils.isEmpty(this.emojicon)) {
+                return this.emojicon;
+            }
+            long j = this.documentId;
+            if (j != 0 && (findDocument = AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, j)) != null) {
                 return MessageObject.findAnimatedEmojiEmoticon(findDocument, null);
             }
-            return this.emojicon;
+            return "VisibleReaction{" + this.documentId + ", " + this.emojicon + "}";
         }
 
         public TLRPC.Reaction toTLReaction() {
@@ -1115,11 +1118,11 @@ public class ReactionsLayoutInBubble {
     public static boolean reactionsEqual(TLRPC.Reaction reaction, TLRPC.Reaction reaction2) {
         if (!(reaction instanceof TLRPC.TL_reactionEmoji)) {
             return (reaction instanceof TLRPC.TL_reactionCustomEmoji) && (reaction2 instanceof TLRPC.TL_reactionCustomEmoji) && ((TLRPC.TL_reactionCustomEmoji) reaction).document_id == ((TLRPC.TL_reactionCustomEmoji) reaction2).document_id;
-        } else if (reaction2 instanceof TLRPC.TL_reactionEmoji) {
-            return TextUtils.equals(((TLRPC.TL_reactionEmoji) reaction).emoticon, ((TLRPC.TL_reactionEmoji) reaction2).emoticon);
-        } else {
-            return false;
         }
+        if (reaction2 instanceof TLRPC.TL_reactionEmoji) {
+            return TextUtils.equals(((TLRPC.TL_reactionEmoji) reaction).emoticon, ((TLRPC.TL_reactionEmoji) reaction2).emoticon);
+        }
+        return false;
     }
 
     public boolean animateChange() {
@@ -1203,12 +1206,12 @@ public class ReactionsLayoutInBubble {
             z = true;
         }
         int i9 = this.lastDrawTotalHeight;
-        if (i9 != this.totalHeight) {
-            this.animateHeight = true;
-            this.animateFromTotalHeight = i9;
-            return true;
+        if (i9 == this.totalHeight) {
+            return z;
         }
-        return z;
+        this.animateHeight = true;
+        this.animateFromTotalHeight = i9;
+        return true;
     }
 
     public void animateReaction(VisibleReaction visibleReaction) {
@@ -1252,7 +1255,8 @@ public class ReactionsLayoutInBubble {
             while (true) {
                 if (i >= size) {
                     break;
-                } else if (x <= ((ReactionButton) this.reactionButtons.get(i)).x || x >= ((ReactionButton) this.reactionButtons.get(i)).x + ((ReactionButton) this.reactionButtons.get(i)).width || y <= ((ReactionButton) this.reactionButtons.get(i)).y || y >= ((ReactionButton) this.reactionButtons.get(i)).y + ((ReactionButton) this.reactionButtons.get(i)).height) {
+                }
+                if (x <= ((ReactionButton) this.reactionButtons.get(i)).x || x >= ((ReactionButton) this.reactionButtons.get(i)).x + ((ReactionButton) this.reactionButtons.get(i)).width || y <= ((ReactionButton) this.reactionButtons.get(i)).y || y >= ((ReactionButton) this.reactionButtons.get(i)).y + ((ReactionButton) this.reactionButtons.get(i)).height) {
                     i++;
                 } else {
                     this.lastX = motionEvent.getX();
@@ -1363,7 +1367,6 @@ public class ReactionsLayoutInBubble {
     }
 
     public void drawOverlay(Canvas canvas, float f) {
-        ReactionButton reactionButton;
         float f2;
         if (this.isEmpty && this.outButtons.isEmpty()) {
             return;
@@ -1381,24 +1384,24 @@ public class ReactionsLayoutInBubble {
         float f6 = f3;
         float f7 = f4;
         for (int i = 0; i < this.reactionButtons.size(); i++) {
-            ReactionButton reactionButton2 = (ReactionButton) this.reactionButtons.get(i);
-            if (reactionButton2.paid) {
+            ReactionButton reactionButton = (ReactionButton) this.reactionButtons.get(i);
+            if (reactionButton.paid) {
                 canvas.save();
-                float f8 = reactionButton2.x;
-                float f9 = reactionButton2.y;
-                if (f != 1.0f && reactionButton2.animationType == 3) {
+                float f8 = reactionButton.x;
+                float f9 = reactionButton.y;
+                if (f != 1.0f && reactionButton.animationType == 3) {
                     float f10 = 1.0f - f;
-                    f8 = (f8 * f) + (reactionButton2.animateFromX * f10);
-                    f9 = (f9 * f) + (reactionButton2.animateFromY * f10);
+                    f8 = (f8 * f) + (reactionButton.animateFromX * f10);
+                    f9 = (f9 * f) + (reactionButton.animateFromY * f10);
                 }
-                if (f == 1.0f || reactionButton2.animationType != 1) {
+                if (f == 1.0f || reactionButton.animationType != 1) {
                     f2 = 1.0f;
                 } else {
                     float f11 = (f * 0.5f) + 0.5f;
-                    canvas.scale(f11, f11, f6 + f8 + (reactionButton2.width / 2.0f), f7 + f9 + (reactionButton2.height / 2.0f));
+                    canvas.scale(f11, f11, f6 + f8 + (reactionButton.width / 2.0f), f7 + f9 + (reactionButton.height / 2.0f));
                     f2 = f;
                 }
-                reactionButton2.drawOverlay(canvas, f6 + f8, f7 + f9, reactionButton2.animationType == 3 ? f : 1.0f, f2, false);
+                reactionButton.drawOverlay(canvas, f6 + f8, f7 + f9, reactionButton.animationType == 3 ? f : 1.0f, f2, false);
                 canvas.restore();
             }
         }
@@ -1407,15 +1410,14 @@ public class ReactionsLayoutInBubble {
                 float f12 = 1.0f - f;
                 float f13 = (f12 * 0.5f) + 0.5f;
                 canvas.save();
-                canvas.scale(f13, f13, reactionButton.x + f6 + (reactionButton.width / 2.0f), reactionButton.y + f7 + (reactionButton.height / 2.0f));
-                ((ReactionButton) this.outButtons.get(i2)).drawOverlay(canvas, reactionButton.x + f6, f7 + reactionButton.y, 1.0f, f12, false);
+                canvas.scale(f13, f13, r1.x + f6 + (r1.width / 2.0f), r1.y + f7 + (r1.height / 2.0f));
+                ((ReactionButton) this.outButtons.get(i2)).drawOverlay(canvas, r1.x + f6, f7 + r1.y, 1.0f, f12, false);
                 canvas.restore();
             }
         }
     }
 
     public void drawPreview(View view, Canvas canvas, int i, Integer num) {
-        ChatMessageCell chatMessageCell;
         if (this.isEmpty && this.outButtons.isEmpty()) {
             return;
         }
@@ -1426,7 +1428,7 @@ public class ReactionsLayoutInBubble {
                 rectF.set(reactionButton.drawingImageRect);
                 float dp = AndroidUtilities.dp(140.0f);
                 float dp2 = AndroidUtilities.dp(14.0f);
-                float clamp = Utilities.clamp(rectF.left - AndroidUtilities.dp(12.0f), ((this.parentView != null ? chatMessageCell.getParentWidth() : AndroidUtilities.displaySize.x) - dp) - AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
+                float clamp = Utilities.clamp(rectF.left - AndroidUtilities.dp(12.0f), ((this.parentView != null ? r5.getParentWidth() : AndroidUtilities.displaySize.x) - dp) - AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
                 RectF rectF2 = this.scrimRect;
                 float f = rectF.top - dp2;
                 float f2 = i;
@@ -1459,8 +1461,7 @@ public class ReactionsLayoutInBubble {
 
     public ReactionButton getReactionButton(String str) {
         if (this.isSmall) {
-            HashMap hashMap = this.lastDrawingReactionButtons;
-            ReactionButton reactionButton = (ReactionButton) hashMap.get(str + "_");
+            ReactionButton reactionButton = (ReactionButton) this.lastDrawingReactionButtons.get(str + "_");
             if (reactionButton != null) {
                 return reactionButton;
             }
@@ -1483,9 +1484,9 @@ public class ReactionsLayoutInBubble {
         return this.hasPaidReaction && !(this.isEmpty && this.outButtons.isEmpty()) && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0116  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x012d  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x012e A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0116  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x012d  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x012e A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1608,8 +1609,9 @@ public class ReactionsLayoutInBubble {
             ((ReactionButton) this.reactionButtons.get(i)).detach();
         }
         if (!this.animatedReactions.isEmpty()) {
-            for (ImageReceiver imageReceiver : this.animatedReactions.values()) {
-                imageReceiver.onDetachedFromWindow();
+            Iterator it = this.animatedReactions.values().iterator();
+            while (it.hasNext()) {
+                ((ImageReceiver) it.next()).onDetachedFromWindow();
             }
         }
         this.animatedReactions.clear();
@@ -1640,20 +1642,24 @@ public class ReactionsLayoutInBubble {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00fa, code lost:
-        if (r3 != null) goto L82;
+    /* JADX WARN: Code restructure failed: missing block: B:108:0x017f, code lost:
+    
+        if (r1.isEmpty() == false) goto L54;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x0107, code lost:
-        if (r3 != null) goto L82;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00fa, code lost:
+    
+        if (r3 != null) goto L50;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x0109, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:82:0x0109, code lost:
+    
         r1.add(r3);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x017f, code lost:
-        if (r1.isEmpty() == false) goto L45;
+    /* JADX WARN: Code restructure failed: missing block: B:87:0x0107, code lost:
+    
+        if (r3 != null) goto L50;
      */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x0205 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0202  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0202  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0205 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1744,17 +1750,17 @@ public class ReactionsLayoutInBubble {
                             ((ReactionButton) this.reactionButtons.get(1)).isSelected = true;
                             ((ReactionButton) this.reactionButtons.get(0)).realCount = 1;
                             ((ReactionButton) this.reactionButtons.get(1)).realCount = 1;
-                            ((ReactionButton) this.reactionButtons.get(1)).key += "_";
+                            ((ReactionButton) this.reactionButtons.get(1)).key = ((ReactionButton) this.reactionButtons.get(1)).key + "_";
                             break;
-                        } else if (!z && i4 == 2) {
-                            break;
-                        } else {
-                            if (!this.attached) {
-                                reactionLayoutButton.attach();
-                            }
-                            i4++;
-                            i2 = i;
                         }
+                        if (!z && i4 == 2) {
+                            break;
+                        }
+                        if (!this.attached) {
+                            reactionLayoutButton.attach();
+                        }
+                        i4++;
+                        i2 = i;
                     }
                     i = i2;
                     if (!z) {

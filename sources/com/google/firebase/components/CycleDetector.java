@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class CycleDetector {
@@ -62,11 +63,11 @@ public abstract class CycleDetector {
         }
 
         public boolean equals(Object obj) {
-            if (obj instanceof Dep) {
-                Dep dep = (Dep) obj;
-                return dep.anInterface.equals(this.anInterface) && dep.set == this.set;
+            if (!(obj instanceof Dep)) {
+                return false;
             }
-            return false;
+            Dep dep = (Dep) obj;
+            return dep.anInterface.equals(this.anInterface) && dep.set == this.set;
         }
 
         public int hashCode() {
@@ -118,9 +119,30 @@ public abstract class CycleDetector {
         Set<ComponentNode> set;
         HashMap hashMap = new HashMap(list.size());
         Iterator it = list.iterator();
-        while (it.hasNext()) {
+        while (true) {
+            if (!it.hasNext()) {
+                Iterator it2 = hashMap.values().iterator();
+                while (it2.hasNext()) {
+                    for (ComponentNode componentNode : (Set) it2.next()) {
+                        for (Dependency dependency : componentNode.getComponent().getDependencies()) {
+                            if (dependency.isDirectInjection() && (set = (Set) hashMap.get(new Dep(dependency.getInterface(), dependency.isSet()))) != null) {
+                                for (ComponentNode componentNode2 : set) {
+                                    componentNode.addDependency(componentNode2);
+                                    componentNode2.addDependent(componentNode);
+                                }
+                            }
+                        }
+                    }
+                }
+                HashSet hashSet = new HashSet();
+                Iterator it3 = hashMap.values().iterator();
+                while (it3.hasNext()) {
+                    hashSet.addAll((Set) it3.next());
+                }
+                return hashSet;
+            }
             Component component = (Component) it.next();
-            ComponentNode componentNode = new ComponentNode(component);
+            ComponentNode componentNode3 = new ComponentNode(component);
             for (Class cls : component.getProvidedInterfaces()) {
                 Dep dep = new Dep(cls, !component.isValue());
                 if (!hashMap.containsKey(dep)) {
@@ -130,25 +152,8 @@ public abstract class CycleDetector {
                 if (!set2.isEmpty() && !dep.set) {
                     throw new IllegalArgumentException(String.format("Multiple components provide %s.", cls));
                 }
-                set2.add(componentNode);
+                set2.add(componentNode3);
             }
         }
-        for (Set<ComponentNode> set3 : hashMap.values()) {
-            for (ComponentNode componentNode2 : set3) {
-                for (Dependency dependency : componentNode2.getComponent().getDependencies()) {
-                    if (dependency.isDirectInjection() && (set = (Set) hashMap.get(new Dep(dependency.getInterface(), dependency.isSet()))) != null) {
-                        for (ComponentNode componentNode3 : set) {
-                            componentNode2.addDependency(componentNode3);
-                            componentNode3.addDependent(componentNode2);
-                        }
-                    }
-                }
-            }
-        }
-        HashSet hashSet = new HashSet();
-        for (Set set4 : hashMap.values()) {
-            hashSet.addAll(set4);
-        }
-        return hashSet;
     }
 }

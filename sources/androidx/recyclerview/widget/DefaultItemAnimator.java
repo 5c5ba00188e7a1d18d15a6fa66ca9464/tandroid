@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.telegram.messenger.BuildVars;
+
 /* loaded from: classes.dex */
 public class DefaultItemAnimator extends SimpleItemAnimator {
     private static final boolean DEBUG = BuildVars.DEBUG_VERSION;
@@ -468,7 +469,8 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             size--;
             if (size < 0) {
                 break;
-            } else if (((MoveInfo) this.mPendingMoves.get(size)).holder == viewHolder) {
+            }
+            if (((MoveInfo) this.mPendingMoves.get(size)).holder == viewHolder) {
                 view.setTranslationY(0.0f);
                 view.setTranslationX(0.0f);
                 dispatchMoveFinished(viewHolder);
@@ -501,7 +503,8 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             while (true) {
                 if (size4 < 0) {
                     break;
-                } else if (((MoveInfo) arrayList2.get(size4)).holder == viewHolder) {
+                }
+                if (((MoveInfo) arrayList2.get(size4)).holder == viewHolder) {
                     view.setTranslationY(0.0f);
                     view.setTranslationX(0.0f);
                     dispatchMoveFinished(viewHolder);
@@ -646,9 +649,10 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         boolean z = false;
         if (changeInfo.newHolder == viewHolder) {
             changeInfo.newHolder = null;
-        } else if (changeInfo.oldHolder != viewHolder) {
-            return false;
         } else {
+            if (changeInfo.oldHolder != viewHolder) {
+                return false;
+            }
             changeInfo.oldHolder = null;
             z = true;
         }
@@ -772,11 +776,12 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
                     @Override // java.lang.Runnable
                     public void run() {
                         for (int size = arrayList3.size() - 1; size >= 0; size--) {
+                            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) arrayList3.get(size);
                             DefaultItemAnimator defaultItemAnimator = DefaultItemAnimator.this;
                             long[] jArr2 = jArr;
                             long j = jArr2[0] + defaultItemAnimator.delayIncrement;
                             jArr2[0] = j;
-                            defaultItemAnimator.animateAddImpl((RecyclerView.ViewHolder) arrayList3.get(size), j);
+                            defaultItemAnimator.animateAddImpl(viewHolder, j);
                         }
                         arrayList3.clear();
                         DefaultItemAnimator.this.mAdditionsList.remove(arrayList3);

@@ -1,4 +1,5 @@
 package androidx.sharetarget;
+
 /* loaded from: classes.dex */
 class ShareTargetCompat {
     final String[] mCategories;

@@ -2,6 +2,7 @@ package com.google.android.gms.internal.vision;
 
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 interface zzmr {
     int zza();

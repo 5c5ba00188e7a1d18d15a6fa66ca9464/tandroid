@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -14,6 +15,7 @@ import android.view.animation.DecelerateInterpolator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+
 /* loaded from: classes3.dex */
 public class ShutterButton extends View {
     private ShutterButtonDelegate delegate;
@@ -74,9 +76,9 @@ public class ShutterButton extends View {
     private void setHighlighted(boolean z) {
         AnimatorSet animatorSet = new AnimatorSet();
         if (z) {
-            animatorSet.playTogether(ObjectAnimator.ofFloat(this, View.SCALE_X, 1.06f), ObjectAnimator.ofFloat(this, View.SCALE_Y, 1.06f));
+            animatorSet.playTogether(ObjectAnimator.ofFloat(this, (Property<ShutterButton, Float>) View.SCALE_X, 1.06f), ObjectAnimator.ofFloat(this, (Property<ShutterButton, Float>) View.SCALE_Y, 1.06f));
         } else {
-            animatorSet.playTogether(ObjectAnimator.ofFloat(this, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this, View.SCALE_Y, 1.0f));
+            animatorSet.playTogether(ObjectAnimator.ofFloat(this, (Property<ShutterButton, Float>) View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this, (Property<ShutterButton, Float>) View.SCALE_Y, 1.0f));
             animatorSet.setStartDelay(40L);
         }
         animatorSet.setDuration(120L);
@@ -209,8 +211,9 @@ public class ShutterButton extends View {
         invalidate();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x0016, code lost:
-        if (r1.state != org.telegram.ui.Components.ShutterButton.State.RECORDING) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0016, code lost:
+    
+        if (r1.state != org.telegram.ui.Components.ShutterButton.State.RECORDING) goto L13;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

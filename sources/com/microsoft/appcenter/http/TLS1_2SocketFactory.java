@@ -8,6 +8,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+
 /* loaded from: classes.dex */
 class TLS1_2SocketFactory extends SSLSocketFactory {
     private static final String[] ENABLED_PROTOCOLS = {"TLSv1.2"};

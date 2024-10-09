@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spanned;
 import android.text.style.LeadingMarginSpan;
+
 /* loaded from: classes3.dex */
 public class BulletSpan implements LeadingMarginSpan {
     private final int mBulletRadius;
@@ -38,8 +39,7 @@ public class BulletSpan implements LeadingMarginSpan {
             if (layout != null) {
                 i5 -= layout.getLineForOffset(i6) != layout.getLineCount() + (-1) ? (int) layout.getSpacingAdd() : 0;
             }
-            int i9 = this.mBulletRadius;
-            canvas.drawCircle(i + (i2 * i9), (i3 + i5) / 2.0f, i9, paint);
+            canvas.drawCircle(i + (i2 * r7), (i3 + i5) / 2.0f, this.mBulletRadius, paint);
             if (this.mWantColor) {
                 paint.setColor(i8);
             }

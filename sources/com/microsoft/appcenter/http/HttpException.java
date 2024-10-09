@@ -2,6 +2,7 @@ package com.microsoft.appcenter.http;
 
 import android.text.TextUtils;
 import java.io.IOException;
+
 /* loaded from: classes.dex */
 public class HttpException extends IOException {
     private final HttpResponse mHttpResponse;

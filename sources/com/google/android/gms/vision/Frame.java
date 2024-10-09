@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.Image;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public class Frame {
     private final Metadata zza;
@@ -15,11 +16,11 @@ public class Frame {
         private final Frame zza = new Frame();
 
         public Frame build() {
-            if (this.zza.zzb == null && this.zza.zzd == null) {
-                Frame.zzc(this.zza);
-                throw new IllegalStateException("Missing image data.  Call either setBitmap or setImageData to specify the image");
+            if (this.zza.zzb != null || this.zza.zzd != null) {
+                return this.zza;
             }
-            return this.zza;
+            Frame.zzc(this.zza);
+            throw new IllegalStateException("Missing image data.  Call either setBitmap or setImageData to specify the image");
         }
 
         public Builder setBitmap(Bitmap bitmap) {
@@ -33,24 +34,24 @@ public class Frame {
         }
 
         public Builder setImageData(ByteBuffer byteBuffer, int i, int i2, int i3) {
-            if (byteBuffer != null) {
-                if (byteBuffer.capacity() >= i * i2) {
-                    if (i3 != 16 && i3 != 17 && i3 != 842094169) {
-                        StringBuilder sb = new StringBuilder(37);
-                        sb.append("Unsupported image format: ");
-                        sb.append(i3);
-                        throw new IllegalArgumentException(sb.toString());
-                    }
-                    this.zza.zzb = byteBuffer;
-                    Metadata metadata = this.zza.getMetadata();
-                    metadata.zza = i;
-                    metadata.zzb = i2;
-                    metadata.zzf = i3;
-                    return this;
-                }
+            if (byteBuffer == null) {
+                throw new IllegalArgumentException("Null image data supplied.");
+            }
+            if (byteBuffer.capacity() < i * i2) {
                 throw new IllegalArgumentException("Invalid image data size.");
             }
-            throw new IllegalArgumentException("Null image data supplied.");
+            if (i3 != 16 && i3 != 17 && i3 != 842094169) {
+                StringBuilder sb = new StringBuilder(37);
+                sb.append("Unsupported image format: ");
+                sb.append(i3);
+                throw new IllegalArgumentException(sb.toString());
+            }
+            this.zza.zzb = byteBuffer;
+            Metadata metadata = this.zza.getMetadata();
+            metadata.zza = i;
+            metadata.zzb = i2;
+            metadata.zzf = i3;
+            return this;
         }
 
         public Builder setRotation(int i) {
@@ -111,22 +112,21 @@ public class Frame {
 
     public ByteBuffer getGrayscaleImageData() {
         Bitmap bitmap = this.zzd;
-        if (bitmap != null) {
-            if (bitmap == null) {
-                return null;
-            }
-            int width = bitmap.getWidth();
-            int height = this.zzd.getHeight();
-            int i = width * height;
-            int[] iArr = new int[i];
-            this.zzd.getPixels(iArr, 0, width, 0, 0, width, height);
-            byte[] bArr = new byte[i];
-            for (int i2 = 0; i2 < i; i2++) {
-                bArr[i2] = (byte) ((Color.red(iArr[i2]) * 0.299f) + (Color.green(iArr[i2]) * 0.587f) + (Color.blue(iArr[i2]) * 0.114f));
-            }
-            return ByteBuffer.wrap(bArr);
+        if (bitmap == null) {
+            return this.zzb;
         }
-        return this.zzb;
+        if (bitmap == null) {
+            return null;
+        }
+        int width = bitmap.getWidth();
+        int height = this.zzd.getHeight();
+        int i = width * height;
+        this.zzd.getPixels(new int[i], 0, width, 0, 0, width, height);
+        byte[] bArr = new byte[i];
+        for (int i2 = 0; i2 < i; i2++) {
+            bArr[i2] = (byte) ((Color.red(r9[i2]) * 0.299f) + (Color.green(r9[i2]) * 0.587f) + (Color.blue(r9[i2]) * 0.114f));
+        }
+        return ByteBuffer.wrap(bArr);
     }
 
     public Metadata getMetadata() {

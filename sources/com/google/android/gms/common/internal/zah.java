@@ -3,6 +3,7 @@ package com.google.android.gms.common.internal;
 import android.os.Bundle;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.common.internal.BaseGmsClient;
+
 /* loaded from: classes.dex */
 final class zah implements BaseGmsClient.BaseConnectionCallbacks {
     final /* synthetic */ ConnectionCallbacks zaa;

@@ -8,6 +8,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
+
 /* loaded from: classes3.dex */
 public abstract class StaticLayoutEx {
     public static Layout.Alignment[] alignments = Layout.Alignment.values();
@@ -68,11 +69,10 @@ public abstract class StaticLayoutEx {
             if (i3 == 1) {
                 try {
                     int indexOf = TextUtils.indexOf(charSequence3, "\n") - 1;
-                    SpannableStringBuilder spannableStringBuilder = charSequence3;
                     if (indexOf > 0) {
-                        spannableStringBuilder = SpannableStringBuilder.valueOf(charSequence3.subSequence(0, indexOf)).append((CharSequence) "…");
+                        charSequence3 = SpannableStringBuilder.valueOf(charSequence3.subSequence(0, indexOf)).append((CharSequence) "…");
                     }
-                    ellipsize = TextUtils.ellipsize(spannableStringBuilder, textPaint, i2, TextUtils.TruncateAt.END);
+                    ellipsize = TextUtils.ellipsize(charSequence3, textPaint, i2, TextUtils.TruncateAt.END);
                     obj = null;
                 } catch (Exception e) {
                     e = e;
@@ -102,7 +102,8 @@ public abstract class StaticLayoutEx {
                 while (true) {
                     if (i5 >= staticLayout2.getLineCount()) {
                         break;
-                    } else if (staticLayout2.getLineRight(i5) > i) {
+                    }
+                    if (staticLayout2.getLineRight(i5) > i) {
                         obtain3 = StaticLayout.Builder.obtain(charSequence3, 0, charSequence.length(), textPaint, i);
                         alignment4 = obtain3.setAlignment(alignment);
                         lineSpacing3 = alignment4.setLineSpacing(f2, f);
@@ -114,9 +115,8 @@ public abstract class StaticLayoutEx {
                         hyphenationFrequency3 = breakStrategy3.setHyphenationFrequency(0);
                         staticLayout2 = hyphenationFrequency3.build();
                         break;
-                    } else {
-                        i5++;
                     }
+                    i5++;
                 }
                 truncateAt2 = null;
                 charSequence2 = "…";
@@ -143,22 +143,22 @@ public abstract class StaticLayoutEx {
             if (lineWidth < i2 - AndroidUtilities.dp(10.0f)) {
                 offsetForHorizontal += 3;
             }
-            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(charSequence3.subSequence(0, Math.max(0, offsetForHorizontal - 3)));
-            spannableStringBuilder2.append(charSequence2);
-            if (Build.VERSION.SDK_INT >= 23) {
-                obtain = StaticLayout.Builder.obtain(spannableStringBuilder2, 0, spannableStringBuilder2.length(), textPaint, i);
-                alignment2 = obtain.setAlignment(alignment);
-                lineSpacing = alignment2.setLineSpacing(f2, f);
-                includePad = lineSpacing.setIncludePad(z);
-                ellipsize2 = includePad.setEllipsize(((AnimatedEmojiSpan[]) spannableStringBuilder2.getSpans(0, spannableStringBuilder2.length(), AnimatedEmojiSpan.class)).length > 0 ? truncateAt2 : truncateAt);
-                ellipsizedWidth = ellipsize2.setEllipsizedWidth(i2);
-                maxLines = ellipsizedWidth.setMaxLines(i4);
-                breakStrategy = maxLines.setBreakStrategy(z2 ? 1 : 0);
-                hyphenationFrequency = breakStrategy.setHyphenationFrequency(0);
-                build = hyphenationFrequency.build();
-                return build;
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence3.subSequence(0, Math.max(0, offsetForHorizontal - 3)));
+            spannableStringBuilder.append(charSequence2);
+            if (Build.VERSION.SDK_INT < 23) {
+                return new StaticLayout(spannableStringBuilder, textPaint, i, alignment, f, f2, z);
             }
-            return new StaticLayout(spannableStringBuilder2, textPaint, i, alignment, f, f2, z);
+            obtain = StaticLayout.Builder.obtain(spannableStringBuilder, 0, spannableStringBuilder.length(), textPaint, i);
+            alignment2 = obtain.setAlignment(alignment);
+            lineSpacing = alignment2.setLineSpacing(f2, f);
+            includePad = lineSpacing.setIncludePad(z);
+            ellipsize2 = includePad.setEllipsize(((AnimatedEmojiSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), AnimatedEmojiSpan.class)).length > 0 ? truncateAt2 : truncateAt);
+            ellipsizedWidth = ellipsize2.setEllipsizedWidth(i2);
+            maxLines = ellipsizedWidth.setMaxLines(i4);
+            breakStrategy = maxLines.setBreakStrategy(z2 ? 1 : 0);
+            hyphenationFrequency = breakStrategy.setHyphenationFrequency(0);
+            build = hyphenationFrequency.build();
+            return build;
         } catch (Exception e4) {
             e = e4;
             staticLayout = 0;
@@ -178,19 +178,19 @@ public abstract class StaticLayoutEx {
         StaticLayout.Builder breakStrategy;
         StaticLayout.Builder hyphenationFrequency;
         StaticLayout build;
-        if (Build.VERSION.SDK_INT >= 23) {
-            obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i2);
-            alignment2 = obtain.setAlignment(alignment);
-            lineSpacing = alignment2.setLineSpacing(f2, f);
-            includePad = lineSpacing.setIncludePad(z);
-            ellipsize = includePad.setEllipsize(TextUtils.TruncateAt.END);
-            ellipsizedWidth = ellipsize.setEllipsizedWidth(i2);
-            maxLines = ellipsizedWidth.setMaxLines(i3);
-            breakStrategy = maxLines.setBreakStrategy(1);
-            hyphenationFrequency = breakStrategy.setHyphenationFrequency(0);
-            build = hyphenationFrequency.build();
-            return build;
+        if (Build.VERSION.SDK_INT < 23) {
+            return createStaticLayout(charSequence, textPaint, i, alignment, f, f2, z, truncateAt, i2, i3, true);
         }
-        return createStaticLayout(charSequence, textPaint, i, alignment, f, f2, z, truncateAt, i2, i3, true);
+        obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i2);
+        alignment2 = obtain.setAlignment(alignment);
+        lineSpacing = alignment2.setLineSpacing(f2, f);
+        includePad = lineSpacing.setIncludePad(z);
+        ellipsize = includePad.setEllipsize(TextUtils.TruncateAt.END);
+        ellipsizedWidth = ellipsize.setEllipsizedWidth(i2);
+        maxLines = ellipsizedWidth.setMaxLines(i3);
+        breakStrategy = maxLines.setBreakStrategy(1);
+        hyphenationFrequency = breakStrategy.setHyphenationFrequency(0);
+        build = hyphenationFrequency.build();
+        return build;
     }
 }

@@ -3,6 +3,7 @@ package j$.util.concurrent;
 import j$.util.Q;
 import j$.util.function.Consumer;
 import java.util.Comparator;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class i extends o implements Q {
@@ -25,8 +26,9 @@ public final class i extends o implements Q {
                     k b = b();
                     if (b == null) {
                         return;
+                    } else {
+                        consumer.r(b.b);
                     }
-                    consumer.accept(b.b);
                 }
             default:
                 consumer.getClass();
@@ -34,8 +36,9 @@ public final class i extends o implements Q {
                     k b2 = b();
                     if (b2 == null) {
                         return;
+                    } else {
+                        consumer.r(b2.c);
                     }
-                    consumer.accept(b2.c);
                 }
         }
     }
@@ -99,7 +102,7 @@ public final class i extends o implements Q {
                 if (b == null) {
                     return false;
                 }
-                consumer.accept(b.b);
+                consumer.r(b.b);
                 return true;
             default:
                 consumer.getClass();
@@ -107,7 +110,7 @@ public final class i extends o implements Q {
                 if (b2 == null) {
                     return false;
                 }
-                consumer.accept(b2.c);
+                consumer.r(b2.c);
                 return true;
         }
     }

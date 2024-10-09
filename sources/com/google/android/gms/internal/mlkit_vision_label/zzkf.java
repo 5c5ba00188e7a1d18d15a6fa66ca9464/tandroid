@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public enum zzkf implements zzck {
     zza(0),
@@ -185,7 +186,7 @@ public enum zzkf implements zzck {
     zzcx(522),
     zzcy(523),
     zzcz(524);
-    
+
     private final int zzcB;
 
     zzkf(int i) {

@@ -2,6 +2,7 @@ package com.google.android.gms.common.api;
 
 import com.google.android.gms.common.api.internal.StatusPendingResult;
 import com.google.android.gms.common.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public abstract class PendingResults {
     public static PendingResult immediateFailedResult(Result result, GoogleApiClient googleApiClient) {

@@ -9,6 +9,7 @@ import android.view.Surface;
 import org.telegram.messenger.FileLog;
 import org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0;
 import org.webrtc.VideoSink;
+
 /* loaded from: classes.dex */
 public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
     private static final int DISPLAY_FLAGS = 3;
@@ -135,15 +136,20 @@ public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
         if (this.mediaProjection != null || this.mediaProjectionManager == null) {
             return;
         }
-        checkNotDisposed();
-        this.width = i;
-        this.height = i2;
-        mediaProjection = this.mediaProjectionManager.getMediaProjection(-1, this.mediaProjectionPermissionResultData);
-        this.mediaProjection = mediaProjection;
-        mediaProjection.registerCallback(this.mediaProjectionCallback, this.surfaceTextureHelper.getHandler());
-        createVirtualDisplay();
-        this.capturerObserver.onCapturerStarted(true);
-        this.surfaceTextureHelper.startListening(this);
+        try {
+            checkNotDisposed();
+            this.width = i;
+            this.height = i2;
+            mediaProjection = this.mediaProjectionManager.getMediaProjection(-1, this.mediaProjectionPermissionResultData);
+            this.mediaProjection = mediaProjection;
+            mediaProjection.registerCallback(this.mediaProjectionCallback, this.surfaceTextureHelper.getHandler());
+            createVirtualDisplay();
+            this.capturerObserver.onCapturerStarted(true);
+            this.surfaceTextureHelper.startListening(this);
+        } catch (Throwable th) {
+            this.mediaProjectionCallback.onStop();
+            FileLog.e(th);
+        }
     }
 
     @Override // org.webrtc.VideoCapturer

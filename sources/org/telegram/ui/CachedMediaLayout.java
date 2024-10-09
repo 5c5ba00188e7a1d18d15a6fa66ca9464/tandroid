@@ -60,6 +60,7 @@ import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.Storage.CacheModel;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
+
 /* loaded from: classes4.dex */
 public abstract class CachedMediaLayout extends FrameLayout implements NestedSizeNotifierLayout.ChildLayout {
     private final LinearLayout actionModeLayout;
@@ -369,20 +370,20 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
             SharedPhotoVideoCell2 cellForIndex = CachedMediaLayout.this.getCellForIndex(i);
-            if (cellForIndex != null) {
-                int[] iArr = new int[2];
-                cellForIndex.getLocationInWindow(iArr);
-                PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
-                placeProviderObject.viewX = iArr[0];
-                placeProviderObject.viewY = iArr[1];
-                placeProviderObject.parentView = this.recyclerListView;
-                ImageReceiver imageReceiver = cellForIndex.imageReceiver;
-                placeProviderObject.imageReceiver = imageReceiver;
-                placeProviderObject.thumb = imageReceiver.getBitmapSafe();
-                placeProviderObject.scale = cellForIndex.getScaleX();
-                return placeProviderObject;
+            if (cellForIndex == null) {
+                return null;
             }
-            return null;
+            int[] iArr = new int[2];
+            cellForIndex.getLocationInWindow(iArr);
+            PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
+            placeProviderObject.viewX = iArr[0];
+            placeProviderObject.viewY = iArr[1];
+            placeProviderObject.parentView = this.recyclerListView;
+            ImageReceiver imageReceiver = cellForIndex.imageReceiver;
+            placeProviderObject.imageReceiver = imageReceiver;
+            placeProviderObject.thumb = imageReceiver.getBitmapSafe();
+            placeProviderObject.scale = cellForIndex.getScaleX();
+            return placeProviderObject;
         }
 
         public void setRecyclerListView(RecyclerListView recyclerListView) {
@@ -661,7 +662,8 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
                 if (i == itemInner.viewType) {
                     if (i == 1 && (dialogFileEntities = this.entities) != null && (dialogFileEntities2 = itemInner.entities) != null) {
                         return dialogFileEntities.dialogId == dialogFileEntities2.dialogId;
-                    } else if (i == 2 && (fileInfo = this.file) != null && (fileInfo2 = itemInner.file) != null) {
+                    }
+                    if (i == 2 && (fileInfo = this.file) != null && (fileInfo2 = itemInner.file) != null) {
                         return Objects.equals(fileInfo.file, fileInfo2.file);
                     }
                 }
@@ -711,26 +713,19 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
             int max = (int) Math.max(100.0f, AndroidUtilities.getRealScreenSize().x / AndroidUtilities.density);
             if (this.isStories) {
                 if (fileInfo.file.getAbsolutePath().endsWith(".mp4")) {
-                    ImageReceiver imageReceiver = sharedPhotoVideoCell2.imageReceiver;
-                    ImageLocation forPath = ImageLocation.getForPath(fileInfo.file.getAbsolutePath());
-                    imageReceiver.setImage(forPath, max + "_" + max + "_pframe", this.thumb, null, null, 0);
+                    sharedPhotoVideoCell2.imageReceiver.setImage(ImageLocation.getForPath(fileInfo.file.getAbsolutePath()), max + "_" + max + "_pframe", this.thumb, null, null, 0);
                 } else {
-                    ImageReceiver imageReceiver2 = sharedPhotoVideoCell2.imageReceiver;
-                    ImageLocation forPath2 = ImageLocation.getForPath(fileInfo.file.getAbsolutePath());
-                    imageReceiver2.setImage(forPath2, max + "_" + max, this.thumb, null, null, 0);
+                    sharedPhotoVideoCell2.imageReceiver.setImage(ImageLocation.getForPath(fileInfo.file.getAbsolutePath()), max + "_" + max, this.thumb, null, null, 0);
                 }
                 sharedPhotoVideoCell2.storyId = Objects.hash(fileInfo.file.getAbsolutePath());
                 sharedPhotoVideoCell2.isStory = true;
-            } else if (fileInfo.type != 1) {
-                ImageReceiver imageReceiver3 = sharedPhotoVideoCell2.imageReceiver;
-                ImageLocation forPath3 = ImageLocation.getForPath("thumb://0:" + fileInfo.file.getAbsolutePath());
-                imageReceiver3.setImage(forPath3, max + "_" + max, this.thumb, null, null, 0);
-                sharedPhotoVideoCell2.setVideoText(AndroidUtilities.formatFileSize(fileInfo.size), false);
-                sharedPhotoVideoCell2.setChecked(CachedMediaLayout.this.cacheModel.isSelected(fileInfo), z);
             } else {
-                ImageReceiver imageReceiver4 = sharedPhotoVideoCell2.imageReceiver;
-                ImageLocation forPath4 = ImageLocation.getForPath("vthumb://0:" + fileInfo.file.getAbsolutePath());
-                imageReceiver4.setImage(forPath4, max + "_" + max, this.thumb, null, null, 0);
+                if (fileInfo.type != 1) {
+                    sharedPhotoVideoCell2.imageReceiver.setImage(ImageLocation.getForPath("thumb://0:" + fileInfo.file.getAbsolutePath()), max + "_" + max, this.thumb, null, null, 0);
+                    sharedPhotoVideoCell2.setVideoText(AndroidUtilities.formatFileSize(fileInfo.size), false);
+                    sharedPhotoVideoCell2.setChecked(CachedMediaLayout.this.cacheModel.isSelected(fileInfo), z);
+                }
+                sharedPhotoVideoCell2.imageReceiver.setImage(ImageLocation.getForPath("vthumb://0:" + fileInfo.file.getAbsolutePath()), max + "_" + max, this.thumb, null, null, 0);
             }
             sharedPhotoVideoCell2.setVideoText(AndroidUtilities.formatFileSize(fileInfo.size), true);
             sharedPhotoVideoCell2.setChecked(CachedMediaLayout.this.cacheModel.isSelected(fileInfo), z);
@@ -743,7 +738,8 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
             }
             SharedPhotoVideoCell2 sharedPhotoVideoCell2 = new SharedPhotoVideoCell2(viewGroup.getContext(), this.sharedResources, CachedMediaLayout.this.parentFragment.getCurrentAccount()) { // from class: org.telegram.ui.CachedMediaLayout.MediaAdapter.1
                 @Override // org.telegram.ui.Cells.SharedPhotoVideoCell2
-                public void onCheckBoxPressed() {
+                /* renamed from: onCheckBoxPressed */
+                public void lambda$setStyle$1() {
                     CachedMediaLayout.this.delegate.onItemSelected(null, (CacheModel.FileInfo) getTag(), true);
                 }
             };
@@ -837,10 +833,12 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         Page[] pageArr = new Page[5];
         this.allPages = pageArr;
         this.parentFragment = baseFragment;
-        pageArr[0] = new Page(this, LocaleController.getString(R.string.FilterChats), 0, new DialogsAdapter(this, null), null);
-        this.allPages[1] = new Page(this, LocaleController.getString(R.string.MediaTab), 1, new MediaAdapter(this, false, null), null);
-        this.allPages[2] = new Page(this, LocaleController.getString(R.string.SharedFilesTab2), 2, new DocumentsAdapter(this, null), null);
-        this.allPages[3] = new Page(this, LocaleController.getString(R.string.Music), 3, new MusicAdapter(this, null), null);
+        1 r11 = null;
+        1 r5 = null;
+        pageArr[0] = new Page(this, LocaleController.getString(R.string.FilterChats), 0, new DialogsAdapter(this, r11), r5);
+        this.allPages[1] = new Page(this, LocaleController.getString(R.string.MediaTab), 1, new MediaAdapter(this, false, r11), r5);
+        this.allPages[2] = new Page(this, LocaleController.getString(R.string.SharedFilesTab2), 2, new DocumentsAdapter(this, r11), r5);
+        this.allPages[3] = new Page(this, LocaleController.getString(R.string.Music), 3, new MusicAdapter(this, r11), r5);
         int i = 0;
         while (true) {
             Page[] pageArr2 = this.allPages;
@@ -1095,7 +1093,6 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
             if (!(recyclerListView.getAdapter() instanceof DocumentsAdapter)) {
                 return;
             }
-            DocumentsAdapter documentsAdapter = (DocumentsAdapter) recyclerListView.getAdapter();
             PhotoViewer.getInstance().setParentActivity(this.parentFragment);
             if (this.placeProvider == null) {
                 this.placeProvider = new BasePlaceProvider(this, null);
@@ -1140,12 +1137,12 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
                 while (true) {
                     if (i3 >= baseAdapter.itemInners.size()) {
                         break;
-                    } else if (((ItemInner) baseAdapter.itemInners.get(i3)).file == fileInfo) {
+                    }
+                    if (((ItemInner) baseAdapter.itemInners.get(i3)).file == fileInfo) {
                         baseAdapter.notifyItemChanged(i3);
                         break;
-                    } else {
-                        i3++;
                     }
+                    i3++;
                 }
             }
         }
@@ -1193,7 +1190,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
     public void showActionMode(boolean z) {
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0121  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

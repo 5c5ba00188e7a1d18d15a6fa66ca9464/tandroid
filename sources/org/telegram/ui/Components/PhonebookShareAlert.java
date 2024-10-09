@@ -52,6 +52,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.ChatAttachAlertContactsLayout;
+
 /* loaded from: classes3.dex */
 public class PhonebookShareAlert extends BottomSheet {
     private ActionBar actionBar;
@@ -319,13 +320,13 @@ public class PhonebookShareAlert extends BottomSheet {
         this(baseFragment, contact, user, uri, file, str, str2, str3, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x014a  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x01c9  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x02f7  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0303  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0127  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x01c9  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0248  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x02f7  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0303  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x014a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -869,8 +870,8 @@ public class PhonebookShareAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0023 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0024  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0024  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0023 A[RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -893,12 +894,12 @@ public class PhonebookShareAlert extends BottomSheet {
                         while (true) {
                             if (i3 >= this.phones.size()) {
                                 break;
-                            } else if (((AndroidUtilities.VcardItem) this.phones.get(i3)).checked) {
+                            }
+                            if (((AndroidUtilities.VcardItem) this.phones.get(i3)).checked) {
                                 z = true;
                                 break;
-                            } else {
-                                i3++;
                             }
+                            i3++;
                         }
                         int themedColor = getThemedColor(Theme.key_featuredStickers_buttonText);
                         this.buttonTextView.setEnabled(z);
@@ -922,10 +923,12 @@ public class PhonebookShareAlert extends BottomSheet {
                         FileLog.e(e);
                         return;
                     }
-                } else if (i4 == 1) {
+                }
+                if (i4 == 1) {
                     Browser.openUrl(this.parentFragment.getParentActivity(), "mailto:" + vcardItem.getValue(false));
                     return;
-                } else if (i4 != 3) {
+                }
+                if (i4 != 3) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this.parentFragment.getParentActivity());
                     builder.setItems(new CharSequence[]{LocaleController.getString(R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.PhonebookShareAlert$$ExternalSyntheticLambda5
                         @Override // android.content.DialogInterface.OnClickListener
@@ -935,14 +938,13 @@ public class PhonebookShareAlert extends BottomSheet {
                     });
                     builder.show();
                     return;
-                } else {
-                    String value = vcardItem.getValue(false);
-                    if (!value.startsWith("http")) {
-                        value = "http://" + value;
-                    }
-                    Browser.openUrl(this.parentFragment.getParentActivity(), value);
-                    return;
                 }
+                String value = vcardItem.getValue(false);
+                if (!value.startsWith("http")) {
+                    value = "http://" + value;
+                }
+                Browser.openUrl(this.parentFragment.getParentActivity(), value);
+                return;
             }
             arrayList = this.other;
         } else {
@@ -954,8 +956,8 @@ public class PhonebookShareAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0021 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0022  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0022  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0021 A[RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1095,20 +1097,23 @@ public class PhonebookShareAlert extends BottomSheet {
                     contentValues.put("data3", str);
                 }
 
-                /* JADX WARN: Code restructure failed: missing block: B:100:0x0256, code lost:
-                    if ("OTHER".equalsIgnoreCase(r1) != false) goto L62;
+                /* JADX WARN: Code restructure failed: missing block: B:61:0x019d, code lost:
+                
+                    if ("OTHER".equalsIgnoreCase(r1) != false) goto L60;
                  */
-                /* JADX WARN: Code restructure failed: missing block: B:59:0x019d, code lost:
-                    if ("OTHER".equalsIgnoreCase(r1) != false) goto L62;
-                 */
-                /* JADX WARN: Code restructure failed: missing block: B:60:0x019f, code lost:
+                /* JADX WARN: Code restructure failed: missing block: B:62:0x019f, code lost:
+                
                     r0 = 3;
                  */
-                /* JADX WARN: Removed duplicated region for block: B:12:0x0057 A[LOOP:0: B:10:0x0047->B:12:0x0057, LOOP_END] */
-                /* JADX WARN: Removed duplicated region for block: B:136:0x02e7  */
-                /* JADX WARN: Removed duplicated region for block: B:138:0x02ec  */
-                /* JADX WARN: Removed duplicated region for block: B:16:0x0090  */
-                /* JADX WARN: Removed duplicated region for block: B:95:0x0242  */
+                /* JADX WARN: Code restructure failed: missing block: B:75:0x0256, code lost:
+                
+                    if ("OTHER".equalsIgnoreCase(r1) != false) goto L60;
+                 */
+                /* JADX WARN: Removed duplicated region for block: B:126:0x02e7  */
+                /* JADX WARN: Removed duplicated region for block: B:129:0x02ec  */
+                /* JADX WARN: Removed duplicated region for block: B:13:0x0090  */
+                /* JADX WARN: Removed duplicated region for block: B:72:0x0242  */
+                /* JADX WARN: Removed duplicated region for block: B:8:0x0057 A[LOOP:0: B:6:0x0047->B:8:0x0057, LOOP_END] */
                 @Override // android.content.DialogInterface.OnClickListener
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -1132,175 +1137,188 @@ public class PhonebookShareAlert extends BottomSheet {
                         if (i == 0) {
                             intent = new Intent("android.intent.action.INSERT");
                             str = "vnd.android.cursor.dir/raw_contact";
-                        } else if (i != 1) {
-                            intent = null;
-                            intent.putExtra("name", ContactsController.formatName(PhonebookShareAlert.this.currentUser.first_name, PhonebookShareAlert.this.currentUser.last_name));
-                            ArrayList<? extends Parcelable> arrayList = new ArrayList<>();
-                            boolean z2 = false;
-                            for (i2 = 0; i2 < PhonebookShareAlert.this.phones.size(); i2++) {
-                                AndroidUtilities.VcardItem vcardItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.phones.get(i2);
-                                ContentValues contentValues3 = new ContentValues();
-                                contentValues3.put("mimetype", "vnd.android.cursor.item/phone_v2");
-                                contentValues3.put("data1", vcardItem.getValue(false));
-                                r1.fillRowWithType(vcardItem.getRawType(false), contentValues3);
-                                arrayList.add(contentValues3);
-                            }
-                            i3 = 0;
-                            boolean z3 = false;
-                            while (i3 < PhonebookShareAlert.this.other.size()) {
-                                AndroidUtilities.VcardItem vcardItem2 = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i3);
-                                int i7 = vcardItem2.type;
-                                if (i7 == i6) {
-                                    contentValues2 = new ContentValues();
-                                    contentValues2.put("mimetype", "vnd.android.cursor.item/email_v2");
-                                    contentValues2.put("data1", vcardItem2.getValue(z2));
-                                    r1.fillRowWithType(vcardItem2.getRawType(z2), contentValues2);
-                                } else if (i7 == 3) {
-                                    contentValues2 = new ContentValues();
-                                    contentValues2.put("mimetype", "vnd.android.cursor.item/website");
-                                    contentValues2.put("data1", vcardItem2.getValue(z2));
-                                    r1.fillUrlRowWithType(vcardItem2.getRawType(z2), contentValues2);
-                                } else if (i7 == 4) {
-                                    contentValues2 = new ContentValues();
-                                    contentValues2.put("mimetype", "vnd.android.cursor.item/note");
-                                    contentValues2.put("data1", vcardItem2.getValue(z2));
-                                } else if (i7 == 5) {
-                                    contentValues2 = new ContentValues();
-                                    contentValues2.put("mimetype", "vnd.android.cursor.item/contact_event");
-                                    contentValues2.put("data1", vcardItem2.getValue(z2));
-                                    contentValues2.put("data2", (Integer) 3);
-                                } else {
-                                    intent2 = intent;
-                                    i4 = i3;
-                                    if (i7 == 2) {
-                                        contentValues = new ContentValues();
-                                        contentValues.put("mimetype", "vnd.android.cursor.item/postal-address_v2");
-                                        String[] rawValue = vcardItem2.getRawValue();
-                                        z = z3;
-                                        if (rawValue.length > 0) {
-                                            contentValues.put("data5", rawValue[0]);
-                                        }
-                                        if (rawValue.length > 1) {
-                                            contentValues.put("data6", rawValue[1]);
-                                        }
-                                        if (rawValue.length > 2) {
-                                            contentValues.put("data4", rawValue[2]);
-                                        }
-                                        if (rawValue.length > 3) {
-                                            contentValues.put("data7", rawValue[3]);
-                                        }
-                                        if (rawValue.length > 4) {
-                                            contentValues.put("data8", rawValue[4]);
-                                        }
-                                        if (rawValue.length > 5) {
-                                            contentValues.put("data9", rawValue[5]);
-                                        }
-                                        if (rawValue.length > 6) {
-                                            contentValues.put("data10", rawValue[6]);
-                                        }
-                                        String rawType2 = vcardItem2.getRawType(false);
-                                        if (!"HOME".equalsIgnoreCase(rawType2)) {
-                                            if (!"WORK".equalsIgnoreCase(rawType2)) {
-                                            }
-                                            int i8 = 2;
-                                            contentValues.put("data2", Integer.valueOf(i8));
-                                            arrayList.add(contentValues);
-                                            r6 = this;
-                                        }
-                                        contentValues.put("data2", (Integer) 1);
-                                        arrayList.add(contentValues);
-                                        r6 = this;
+                        } else {
+                            if (i != 1) {
+                                intent = null;
+                                intent.putExtra("name", ContactsController.formatName(PhonebookShareAlert.this.currentUser.first_name, PhonebookShareAlert.this.currentUser.last_name));
+                                ArrayList<? extends Parcelable> arrayList = new ArrayList<>();
+                                boolean z2 = false;
+                                for (i2 = 0; i2 < PhonebookShareAlert.this.phones.size(); i2++) {
+                                    AndroidUtilities.VcardItem vcardItem = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.phones.get(i2);
+                                    ContentValues contentValues3 = new ContentValues();
+                                    contentValues3.put("mimetype", "vnd.android.cursor.item/phone_v2");
+                                    contentValues3.put("data1", vcardItem.getValue(false));
+                                    r1.fillRowWithType(vcardItem.getRawType(false), contentValues3);
+                                    arrayList.add(contentValues3);
+                                }
+                                i3 = 0;
+                                boolean z3 = false;
+                                while (i3 < PhonebookShareAlert.this.other.size()) {
+                                    AndroidUtilities.VcardItem vcardItem2 = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i3);
+                                    int i7 = vcardItem2.type;
+                                    if (i7 == i6) {
+                                        contentValues2 = new ContentValues();
+                                        contentValues2.put("mimetype", "vnd.android.cursor.item/email_v2");
+                                        contentValues2.put("data1", vcardItem2.getValue(z2));
+                                        r1.fillRowWithType(vcardItem2.getRawType(z2), contentValues2);
+                                    } else if (i7 == 3) {
+                                        contentValues2 = new ContentValues();
+                                        contentValues2.put("mimetype", "vnd.android.cursor.item/website");
+                                        contentValues2.put("data1", vcardItem2.getValue(z2));
+                                        r1.fillUrlRowWithType(vcardItem2.getRawType(z2), contentValues2);
+                                    } else if (i7 == 4) {
+                                        contentValues2 = new ContentValues();
+                                        contentValues2.put("mimetype", "vnd.android.cursor.item/note");
+                                        contentValues2.put("data1", vcardItem2.getValue(z2));
+                                    } else if (i7 == 5) {
+                                        contentValues2 = new ContentValues();
+                                        contentValues2.put("mimetype", "vnd.android.cursor.item/contact_event");
+                                        contentValues2.put("data1", vcardItem2.getValue(z2));
+                                        contentValues2.put("data2", (Integer) 3);
                                     } else {
-                                        z = z3;
-                                        if (i7 == 20) {
+                                        intent2 = intent;
+                                        i4 = i3;
+                                        if (i7 == 2) {
                                             contentValues = new ContentValues();
-                                            contentValues.put("mimetype", "vnd.android.cursor.item/im");
-                                            String rawType3 = vcardItem2.getRawType(true);
-                                            String rawType4 = vcardItem2.getRawType(false);
-                                            contentValues.put("data1", vcardItem2.getValue(false));
-                                            if ("AIM".equalsIgnoreCase(rawType3)) {
-                                                i5 = 0;
-                                            } else if ("MSN".equalsIgnoreCase(rawType3)) {
-                                                i5 = 1;
-                                            } else if ("YAHOO".equalsIgnoreCase(rawType3)) {
-                                                i5 = 2;
-                                            } else if ("SKYPE".equalsIgnoreCase(rawType3)) {
-                                                i5 = 3;
-                                            } else if ("QQ".equalsIgnoreCase(rawType3)) {
-                                                i5 = 4;
-                                            } else if ("GOOGLE-TALK".equalsIgnoreCase(rawType3)) {
-                                                i5 = 5;
-                                            } else if ("ICQ".equalsIgnoreCase(rawType3)) {
-                                                i5 = 6;
-                                            } else if ("JABBER".equalsIgnoreCase(rawType3)) {
-                                                i5 = 7;
-                                            } else if ("NETMEETING".equalsIgnoreCase(rawType3)) {
-                                                i5 = 8;
-                                            } else {
-                                                contentValues.put("data5", (Integer) (-1));
-                                                contentValues.put("data6", vcardItem2.getRawType(true));
-                                                if (!"HOME".equalsIgnoreCase(rawType4)) {
-                                                    if (!"WORK".equalsIgnoreCase(rawType4)) {
-                                                    }
-                                                    int i82 = 2;
-                                                    contentValues.put("data2", Integer.valueOf(i82));
-                                                    arrayList.add(contentValues);
-                                                    r6 = this;
+                                            contentValues.put("mimetype", "vnd.android.cursor.item/postal-address_v2");
+                                            String[] rawValue = vcardItem2.getRawValue();
+                                            z = z3;
+                                            if (rawValue.length > 0) {
+                                                contentValues.put("data5", rawValue[0]);
+                                            }
+                                            if (rawValue.length > 1) {
+                                                contentValues.put("data6", rawValue[1]);
+                                            }
+                                            if (rawValue.length > 2) {
+                                                contentValues.put("data4", rawValue[2]);
+                                            }
+                                            if (rawValue.length > 3) {
+                                                contentValues.put("data7", rawValue[3]);
+                                            }
+                                            if (rawValue.length > 4) {
+                                                contentValues.put("data8", rawValue[4]);
+                                            }
+                                            if (rawValue.length > 5) {
+                                                contentValues.put("data9", rawValue[5]);
+                                            }
+                                            if (rawValue.length > 6) {
+                                                contentValues.put("data10", rawValue[6]);
+                                            }
+                                            String rawType2 = vcardItem2.getRawType(false);
+                                            if (!"HOME".equalsIgnoreCase(rawType2)) {
+                                                if (!"WORK".equalsIgnoreCase(rawType2)) {
                                                 }
-                                                contentValues.put("data2", (Integer) 1);
+                                                int i8 = 2;
+                                                contentValues.put("data2", Integer.valueOf(i8));
                                                 arrayList.add(contentValues);
                                                 r6 = this;
-                                            }
-                                            contentValues.put("data5", Integer.valueOf(i5));
-                                            if (!"HOME".equalsIgnoreCase(rawType4)) {
                                             }
                                             contentValues.put("data2", (Integer) 1);
                                             arrayList.add(contentValues);
                                             r6 = this;
                                         } else {
-                                            if (i7 == 6 && !z) {
-                                                ContentValues contentValues4 = new ContentValues();
-                                                contentValues4.put("mimetype", "vnd.android.cursor.item/organization");
+                                            z = z3;
+                                            if (i7 == 20) {
+                                                contentValues = new ContentValues();
+                                                contentValues.put("mimetype", "vnd.android.cursor.item/im");
+                                                String rawType3 = vcardItem2.getRawType(true);
+                                                String rawType4 = vcardItem2.getRawType(false);
+                                                contentValues.put("data1", vcardItem2.getValue(false));
+                                                if ("AIM".equalsIgnoreCase(rawType3)) {
+                                                    i5 = 0;
+                                                } else if ("MSN".equalsIgnoreCase(rawType3)) {
+                                                    i5 = 1;
+                                                } else if ("YAHOO".equalsIgnoreCase(rawType3)) {
+                                                    i5 = 2;
+                                                } else if ("SKYPE".equalsIgnoreCase(rawType3)) {
+                                                    i5 = 3;
+                                                } else if ("QQ".equalsIgnoreCase(rawType3)) {
+                                                    i5 = 4;
+                                                } else if ("GOOGLE-TALK".equalsIgnoreCase(rawType3)) {
+                                                    i5 = 5;
+                                                } else if ("ICQ".equalsIgnoreCase(rawType3)) {
+                                                    i5 = 6;
+                                                } else if ("JABBER".equalsIgnoreCase(rawType3)) {
+                                                    i5 = 7;
+                                                } else if ("NETMEETING".equalsIgnoreCase(rawType3)) {
+                                                    i5 = 8;
+                                                } else {
+                                                    contentValues.put("data5", (Integer) (-1));
+                                                    contentValues.put("data6", vcardItem2.getRawType(true));
+                                                    if (!"HOME".equalsIgnoreCase(rawType4)) {
+                                                        if (!"WORK".equalsIgnoreCase(rawType4)) {
+                                                        }
+                                                        int i82 = 2;
+                                                        contentValues.put("data2", Integer.valueOf(i82));
+                                                        arrayList.add(contentValues);
+                                                        r6 = this;
+                                                    }
+                                                    contentValues.put("data2", (Integer) 1);
+                                                    arrayList.add(contentValues);
+                                                    r6 = this;
+                                                }
+                                                contentValues.put("data5", Integer.valueOf(i5));
+                                                if (!"HOME".equalsIgnoreCase(rawType4)) {
+                                                }
+                                                contentValues.put("data2", (Integer) 1);
+                                                arrayList.add(contentValues);
                                                 r6 = this;
-                                                for (int i9 = i4; i9 < PhonebookShareAlert.this.other.size(); i9++) {
-                                                    AndroidUtilities.VcardItem vcardItem3 = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i9);
-                                                    if (vcardItem3.type == 6) {
-                                                        String rawType5 = vcardItem3.getRawType(true);
-                                                        if ("ORG".equalsIgnoreCase(rawType5)) {
-                                                            String[] rawValue2 = vcardItem3.getRawValue();
-                                                            if (rawValue2.length != 0) {
-                                                                if (rawValue2.length >= 1) {
-                                                                    contentValues4.put("data1", rawValue2[0]);
+                                            } else {
+                                                if (i7 == 6 && !z) {
+                                                    ContentValues contentValues4 = new ContentValues();
+                                                    contentValues4.put("mimetype", "vnd.android.cursor.item/organization");
+                                                    r6 = this;
+                                                    for (int i9 = i4; i9 < PhonebookShareAlert.this.other.size(); i9++) {
+                                                        AndroidUtilities.VcardItem vcardItem3 = (AndroidUtilities.VcardItem) PhonebookShareAlert.this.other.get(i9);
+                                                        if (vcardItem3.type == 6) {
+                                                            String rawType5 = vcardItem3.getRawType(true);
+                                                            if ("ORG".equalsIgnoreCase(rawType5)) {
+                                                                String[] rawValue2 = vcardItem3.getRawValue();
+                                                                if (rawValue2.length != 0) {
+                                                                    if (rawValue2.length >= 1) {
+                                                                        contentValues4.put("data1", rawValue2[0]);
+                                                                    }
+                                                                    if (rawValue2.length >= 2) {
+                                                                        contentValues4.put("data5", rawValue2[1]);
+                                                                    }
                                                                 }
-                                                                if (rawValue2.length >= 2) {
-                                                                    contentValues4.put("data5", rawValue2[1]);
+                                                            } else if ("TITLE".equalsIgnoreCase(rawType5) || "ROLE".equalsIgnoreCase(rawType5)) {
+                                                                contentValues4.put("data4", vcardItem3.getValue(false));
+                                                                rawType = vcardItem3.getRawType(true);
+                                                                if (!"WORK".equalsIgnoreCase(rawType)) {
+                                                                    contentValues4.put("data2", (Integer) 1);
+                                                                } else if ("OTHER".equalsIgnoreCase(rawType)) {
+                                                                    contentValues4.put("data2", (Integer) 2);
                                                                 }
                                                             }
-                                                        } else if ("TITLE".equalsIgnoreCase(rawType5) || "ROLE".equalsIgnoreCase(rawType5)) {
-                                                            contentValues4.put("data4", vcardItem3.getValue(false));
                                                             rawType = vcardItem3.getRawType(true);
                                                             if (!"WORK".equalsIgnoreCase(rawType)) {
-                                                                contentValues4.put("data2", (Integer) 1);
-                                                            } else if ("OTHER".equalsIgnoreCase(rawType)) {
-                                                                contentValues4.put("data2", (Integer) 2);
                                                             }
                                                         }
-                                                        rawType = vcardItem3.getRawType(true);
-                                                        if (!"WORK".equalsIgnoreCase(rawType)) {
-                                                        }
                                                     }
+                                                    arrayList.add(contentValues4);
+                                                    z3 = true;
+                                                    r1 = r6;
+                                                    i6 = 1;
+                                                    z2 = false;
+                                                    i3 = i4 + 1;
+                                                    intent = intent2;
                                                 }
-                                                arrayList.add(contentValues4);
-                                                z3 = true;
-                                                r1 = r6;
-                                                i6 = 1;
-                                                z2 = false;
-                                                i3 = i4 + 1;
-                                                intent = intent2;
+                                                r6 = this;
                                             }
-                                            r6 = this;
                                         }
+                                        z3 = z;
+                                        r1 = r6;
+                                        i6 = 1;
+                                        z2 = false;
+                                        i3 = i4 + 1;
+                                        intent = intent2;
                                     }
+                                    arrayList.add(contentValues2);
+                                    intent2 = intent;
+                                    i4 = i3;
+                                    z = z3;
+                                    r6 = r1;
                                     z3 = z;
                                     r1 = r6;
                                     i6 = 1;
@@ -1308,26 +1326,14 @@ public class PhonebookShareAlert extends BottomSheet {
                                     i3 = i4 + 1;
                                     intent = intent2;
                                 }
-                                arrayList.add(contentValues2);
-                                intent2 = intent;
-                                i4 = i3;
-                                z = z3;
-                                r6 = r1;
-                                z3 = z;
-                                r1 = r6;
-                                i6 = 1;
-                                z2 = false;
-                                i3 = i4 + 1;
-                                intent = intent2;
+                                Intent intent3 = intent;
+                                5 r62 = r1;
+                                intent3.putExtra("finishActivityOnSaveCompleted", true);
+                                intent3.putParcelableArrayListExtra("data", arrayList);
+                                PhonebookShareAlert.this.parentFragment.getParentActivity().startActivity(intent3);
+                                PhonebookShareAlert.this.dismiss();
+                                return;
                             }
-                            Intent intent3 = intent;
-                            5 r62 = r1;
-                            intent3.putExtra("finishActivityOnSaveCompleted", true);
-                            intent3.putParcelableArrayListExtra("data", arrayList);
-                            PhonebookShareAlert.this.parentFragment.getParentActivity().startActivity(intent3);
-                            PhonebookShareAlert.this.dismiss();
-                            return;
-                        } else {
                             intent = new Intent("android.intent.action.INSERT_OR_EDIT");
                             str = "vnd.android.cursor.item/contact";
                         }
@@ -1402,10 +1408,10 @@ public class PhonebookShareAlert extends BottomSheet {
                     PhonebookShareAlert.this.lambda$new$4(z, i2);
                 }
             }, resourcesProvider);
-            return;
+        } else {
+            this.delegate.didSelectContact(this.currentUser, true, 0, 0L, false);
+            dismiss();
         }
-        this.delegate.didSelectContact(this.currentUser, true, 0, 0L, false);
-        dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1430,7 +1436,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 AnimatorSet animatorSet3 = this.actionBarAnimation;
                 ActionBar actionBar = this.actionBar;
                 Property property = View.ALPHA;
-                animatorSet3.playTogether(ObjectAnimator.ofFloat(actionBar, property, z2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.actionBarShadow, property, z2 ? 1.0f : 0.0f));
+                animatorSet3.playTogether(ObjectAnimator.ofFloat(actionBar, (Property<ActionBar, Float>) property, z2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.actionBarShadow, (Property<View, Float>) property, z2 ? 1.0f : 0.0f));
                 this.actionBarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhonebookShareAlert.7
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
@@ -1466,7 +1472,7 @@ public class PhonebookShareAlert extends BottomSheet {
         AnimatorSet animatorSet5 = new AnimatorSet();
         this.shadowAnimation = animatorSet5;
         animatorSet5.setDuration(180L);
-        this.shadowAnimation.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z3 ? 1.0f : 0.0f));
+        this.shadowAnimation.playTogether(ObjectAnimator.ofFloat(this.shadow, (Property<View, Float>) View.ALPHA, z3 ? 1.0f : 0.0f));
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhonebookShareAlert.8
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {

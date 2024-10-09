@@ -2,6 +2,7 @@ package kotlin;
 
 import java.io.Serializable;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class Pair implements Serializable {
     private final Object first;
@@ -24,11 +25,11 @@ public final class Pair implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof Pair) {
-            Pair pair = (Pair) obj;
-            return Intrinsics.areEqual(this.first, pair.first) && Intrinsics.areEqual(this.second, pair.second);
+        if (!(obj instanceof Pair)) {
+            return false;
         }
-        return false;
+        Pair pair = (Pair) obj;
+        return Intrinsics.areEqual(this.first, pair.first) && Intrinsics.areEqual(this.second, pair.second);
     }
 
     public final Object getFirst() {

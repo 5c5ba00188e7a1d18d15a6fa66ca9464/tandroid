@@ -17,6 +17,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.BottomSheetTabsOverlay;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes4.dex */
 public class BottomSheetTabDialog extends Dialog {
     private boolean attached;
@@ -123,10 +124,10 @@ public class BottomSheetTabDialog extends Dialog {
         this.sheet.dismiss(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0040  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0061  */
-    /* JADX WARN: Removed duplicated region for block: B:18:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:16:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0040  */
     @Override // android.app.Dialog
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -137,7 +138,7 @@ public class BottomSheetTabDialog extends Dialog {
         Window window = getWindow();
         int i2 = Build.VERSION.SDK_INT;
         if (i2 < 30) {
-            i = i2 >= 21 ? -2147417856 : -2147417856;
+            i = i2 >= 21 ? -2147417856 : -2147483392;
             window.setWindowAnimations(R.style.DialogNoAnimation);
             WindowManager.LayoutParams attributes = window.getAttributes();
             attributes.width = -1;
@@ -169,7 +170,6 @@ public class BottomSheetTabDialog extends Dialog {
             }
             return;
         }
-        i = -2147483392;
         window.addFlags(i);
         window.setWindowAnimations(R.style.DialogNoAnimation);
         WindowManager.LayoutParams attributes2 = window.getAttributes();

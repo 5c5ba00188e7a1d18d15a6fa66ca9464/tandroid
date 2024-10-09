@@ -60,6 +60,7 @@ import org.telegram.ui.Components.ScrollSlidingTextTabStrip;
 import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.StatisticActivity;
+
 /* loaded from: classes4.dex */
 public class ChannelBoostLayout extends FrameLayout {
     AdapterWithDiffUtils adapter;
@@ -177,7 +178,6 @@ public class ChannelBoostLayout extends FrameLayout {
                 String str;
                 String str2;
                 GiveawayCell giveawayCell;
-                double d;
                 if (viewHolder.getItemViewType() == 4) {
                     return;
                 }
@@ -187,42 +187,53 @@ public class ChannelBoostLayout extends FrameLayout {
                     chartHeaderView.showDate(false);
                     if (viewHolder.getItemViewType() == 12) {
                         chartHeaderView.setPadding(AndroidUtilities.dp(3.0f), chartHeaderView.getPaddingTop(), chartHeaderView.getPaddingRight(), chartHeaderView.getPaddingBottom());
+                        return;
                     }
-                } else if (viewHolder.getItemViewType() == 0) {
+                    return;
+                }
+                if (viewHolder.getItemViewType() == 0) {
                     StatisticActivity.OverviewCell overviewCell = (StatisticActivity.OverviewCell) viewHolder.itemView;
                     overviewCell.setData(0, Integer.toString(ChannelBoostLayout.this.boostsStatus.level), null, LocaleController.getString(R.string.BoostsLevel2));
                     ChannelBoostLayout channelBoostLayout = ChannelBoostLayout.this;
                     TL_stats.TL_statsPercentValue tL_statsPercentValue = channelBoostLayout.boostsStatus.premium_audience;
                     if (tL_statsPercentValue != null) {
-                        if (tL_statsPercentValue.total != 0.0d) {
-                            overviewCell.setData(1, "≈" + ((int) ChannelBoostLayout.this.boostsStatus.premium_audience.part), String.format(Locale.US, "%.1f", Float.valueOf((((float) tL_statsPercentValue.part) / ((float) d)) * 100.0f)) + "%", LocaleController.getString(ChannelBoostLayout.this.isChannel() ? R.string.PremiumSubscribers : R.string.PremiumMembers));
+                        double d = tL_statsPercentValue.total;
+                        if (d != 0.0d) {
+                            float f = (((float) tL_statsPercentValue.part) / ((float) d)) * 100.0f;
+                            overviewCell.setData(1, "≈" + ((int) ChannelBoostLayout.this.boostsStatus.premium_audience.part), String.format(Locale.US, "%.1f", Float.valueOf(f)) + "%", LocaleController.getString(ChannelBoostLayout.this.isChannel() ? R.string.PremiumSubscribers : R.string.PremiumMembers));
                             overviewCell.setData(2, String.valueOf(ChannelBoostLayout.this.boostsStatus.boosts), null, LocaleController.getString(R.string.BoostsExisting));
                             TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus = ChannelBoostLayout.this.boostsStatus;
                             overviewCell.setData(3, String.valueOf(Math.max(0, tL_premium_boostsStatus.next_level_boosts - tL_premium_boostsStatus.boosts)), null, LocaleController.getString(R.string.BoostsToLevel));
+                            return;
                         }
                     }
                     overviewCell.setData(1, "≈0", "0%", LocaleController.getString(channelBoostLayout.isChannel() ? R.string.PremiumSubscribers : R.string.PremiumMembers));
                     overviewCell.setData(2, String.valueOf(ChannelBoostLayout.this.boostsStatus.boosts), null, LocaleController.getString(R.string.BoostsExisting));
                     TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus2 = ChannelBoostLayout.this.boostsStatus;
                     overviewCell.setData(3, String.valueOf(Math.max(0, tL_premium_boostsStatus2.next_level_boosts - tL_premium_boostsStatus2.boosts)), null, LocaleController.getString(R.string.BoostsToLevel));
+                    return;
+                }
+                if (viewHolder.getItemViewType() == 5) {
+                    TL_stories.Boost boost = ((ItemInternal) ChannelBoostLayout.this.items.get(i)).booster;
+                    TLRPC.User user = MessagesController.getInstance(ChannelBoostLayout.this.currentAccount).getUser(Long.valueOf(boost.user_id));
+                    GiftedUserCell giftedUserCell = (GiftedUserCell) viewHolder.itemView;
+                    giftedUserCell.setData(user, ContactsController.formatName(user), boost.multiplier > 1 ? LocaleController.formatString("BoostsExpireOn", R.string.BoostsExpireOn, LocaleController.formatDate(boost.expires)) : LocaleController.formatString("BoostExpireOn", R.string.BoostExpireOn, LocaleController.formatDate(boost.expires)), 0, !((ItemInternal) ChannelBoostLayout.this.items.get(i)).isLast);
+                    giftedUserCell.setStatus(boost);
+                    giveawayCell = giftedUserCell;
                 } else {
-                    if (viewHolder.getItemViewType() == 5) {
-                        TL_stories.Boost boost = ((ItemInternal) ChannelBoostLayout.this.items.get(i)).booster;
-                        TLRPC.User user = MessagesController.getInstance(ChannelBoostLayout.this.currentAccount).getUser(Long.valueOf(boost.user_id));
-                        GiftedUserCell giftedUserCell = (GiftedUserCell) viewHolder.itemView;
-                        giftedUserCell.setData(user, ContactsController.formatName(user), boost.multiplier > 1 ? LocaleController.formatString("BoostsExpireOn", R.string.BoostsExpireOn, LocaleController.formatDate(boost.expires)) : LocaleController.formatString("BoostExpireOn", R.string.BoostExpireOn, LocaleController.formatDate(boost.expires)), 0, !((ItemInternal) ChannelBoostLayout.this.items.get(i)).isLast);
-                        giftedUserCell.setStatus(boost);
-                        giveawayCell = giftedUserCell;
-                    } else if (viewHolder.getItemViewType() == 6) {
+                    if (viewHolder.getItemViewType() == 6) {
                         ((TextInfoPrivacyCell) viewHolder.itemView).setText(((ItemInternal) ChannelBoostLayout.this.items.get(i)).title);
                         return;
-                    } else if (viewHolder.getItemViewType() == 9) {
+                    }
+                    if (viewHolder.getItemViewType() == 9) {
                         ((ManageChatTextCell) viewHolder.itemView).setText(ChannelBoostLayout.this.selectedTab == 0 ? LocaleController.formatPluralString("BoostingShowMoreBoosts", ChannelBoostLayout.this.nextBoostRemaining, new Object[0]) : LocaleController.formatPluralString("BoostingShowMoreGifts", ChannelBoostLayout.this.nextGiftsRemaining, new Object[0]), null, R.drawable.arrow_more, false);
                         return;
-                    } else if (viewHolder.getItemViewType() == 3) {
+                    }
+                    if (viewHolder.getItemViewType() == 3) {
                         ((LinkActionView) viewHolder.itemView).setLink(((ItemInternal) ChannelBoostLayout.this.items.get(i)).title);
                         return;
-                    } else if (viewHolder.getItemViewType() != 11) {
+                    }
+                    if (viewHolder.getItemViewType() != 11) {
                         if (viewHolder.getItemViewType() == 13) {
                             if (this.remTotalBoosts == ChannelBoostLayout.this.totalBoosts && this.remTotalGifts == ChannelBoostLayout.this.totalGifts) {
                                 return;
@@ -239,62 +250,66 @@ public class ChannelBoostLayout extends FrameLayout {
                             return;
                         }
                         return;
+                    }
+                    ItemInternal itemInternal = (ItemInternal) ChannelBoostLayout.this.items.get(i);
+                    TL_stories.PrepaidGiveaway prepaidGiveaway = itemInternal.prepaidGiveaway;
+                    GiveawayCell giveawayCell2 = (GiveawayCell) viewHolder.itemView;
+                    if (prepaidGiveaway instanceof TL_stories.TL_prepaidGiveaway) {
+                        String formatPluralString = LocaleController.formatPluralString("BoostingTelegramPremiumCountPlural", prepaidGiveaway.quantity, new Object[0]);
+                        String formatPluralString2 = LocaleController.formatPluralString("BoostingSubscriptionsCountPlural", prepaidGiveaway.quantity, LocaleController.formatPluralString("PrepaidGiveawayMonths", ((TL_stories.TL_prepaidGiveaway) prepaidGiveaway).months, new Object[0]));
+                        z = itemInternal.isLast;
+                        str = formatPluralString2;
+                        str2 = formatPluralString;
                     } else {
-                        ItemInternal itemInternal = (ItemInternal) ChannelBoostLayout.this.items.get(i);
-                        TL_stories.PrepaidGiveaway prepaidGiveaway = itemInternal.prepaidGiveaway;
-                        GiveawayCell giveawayCell2 = (GiveawayCell) viewHolder.itemView;
-                        if (prepaidGiveaway instanceof TL_stories.TL_prepaidGiveaway) {
-                            String formatPluralString = LocaleController.formatPluralString("BoostingTelegramPremiumCountPlural", prepaidGiveaway.quantity, new Object[0]);
-                            String formatPluralString2 = LocaleController.formatPluralString("BoostingSubscriptionsCountPlural", prepaidGiveaway.quantity, LocaleController.formatPluralString("PrepaidGiveawayMonths", ((TL_stories.TL_prepaidGiveaway) prepaidGiveaway).months, new Object[0]));
+                        if (prepaidGiveaway instanceof TL_stories.TL_prepaidStarsGiveaway) {
+                            TL_stories.TL_prepaidStarsGiveaway tL_prepaidStarsGiveaway = (TL_stories.TL_prepaidStarsGiveaway) prepaidGiveaway;
+                            String formatPluralStringComma = LocaleController.formatPluralStringComma("BoostingStarsCountPlural", (int) tL_prepaidStarsGiveaway.stars);
+                            String formatPluralString3 = LocaleController.formatPluralString("AmongWinners", tL_prepaidStarsGiveaway.quantity, new Object[0]);
                             z = itemInternal.isLast;
-                            str = formatPluralString2;
-                            str2 = formatPluralString;
-                        } else {
-                            if (prepaidGiveaway instanceof TL_stories.TL_prepaidStarsGiveaway) {
-                                TL_stories.TL_prepaidStarsGiveaway tL_prepaidStarsGiveaway = (TL_stories.TL_prepaidStarsGiveaway) prepaidGiveaway;
-                                String formatPluralStringComma = LocaleController.formatPluralStringComma("BoostingStarsCountPlural", (int) tL_prepaidStarsGiveaway.stars);
-                                String formatPluralString3 = LocaleController.formatPluralString("AmongWinners", tL_prepaidStarsGiveaway.quantity, new Object[0]);
-                                z = itemInternal.isLast;
-                                str = formatPluralString3;
-                                str2 = formatPluralStringComma;
-                            }
-                            giveawayCell2.setImage(prepaidGiveaway);
-                            giveawayCell = giveawayCell2;
+                            str = formatPluralString3;
+                            str2 = formatPluralStringComma;
                         }
-                        giveawayCell2.setData(prepaidGiveaway, str2, str, 0, !z);
                         giveawayCell2.setImage(prepaidGiveaway);
                         giveawayCell = giveawayCell2;
                     }
-                    giveawayCell.setAvatarPadding(5);
+                    giveawayCell2.setData(prepaidGiveaway, str2, str, 0, !z);
+                    giveawayCell2.setImage(prepaidGiveaway);
+                    giveawayCell = giveawayCell2;
                 }
+                giveawayCell.setAvatarPadding(5);
             }
 
+            /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0005. Please report as an issue. */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 View shadowSectionCell;
-                TextCell textCell;
-                FrameLayout.LayoutParams createFrame;
-                ScrollSlidingTextTabStrip scrollSlidingTextTabStrip;
-                FrameLayout frameLayout;
+                View view;
+                ViewGroup.LayoutParams createFrame;
+                View view2;
+                ViewGroup viewGroup2;
                 switch (i) {
                     case 0:
-                        textCell = new StatisticActivity.OverviewCell(ChannelBoostLayout.this.getContext());
-                        break;
+                        view = new StatisticActivity.OverviewCell(ChannelBoostLayout.this.getContext());
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 1:
                         View chartHeaderView = new ChartHeaderView(ChannelBoostLayout.this.getContext());
                         chartHeaderView.setPadding(chartHeaderView.getPaddingLeft(), AndroidUtilities.dp(16.0f), chartHeaderView.getRight(), AndroidUtilities.dp(16.0f));
-                        textCell = chartHeaderView;
-                        break;
+                        view = chartHeaderView;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 2:
                         shadowSectionCell = new ShadowSectionCell(viewGroup.getContext(), 12, Theme.getColor(Theme.key_windowBackgroundGray));
-                        textCell = shadowSectionCell;
-                        break;
+                        view = shadowSectionCell;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 3:
                         LinkActionView linkActionView = new LinkActionView(ChannelBoostLayout.this.getContext(), ChannelBoostLayout.this.fragment, null, 0L, false, false);
                         linkActionView.hideOptions();
                         linkActionView.setPadding(AndroidUtilities.dp(11.0f), 0, AndroidUtilities.dp(11.0f), AndroidUtilities.dp(24.0f));
-                        textCell = linkActionView;
-                        break;
+                        view = linkActionView;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 4:
                         LimitPreviewView limitPreviewView = new LimitPreviewView(ChannelBoostLayout.this.getContext(), R.drawable.filled_limit_boost, 0, 0, ChannelBoostLayout.this.resourcesProvider);
                         limitPreviewView.isStatistic = true;
@@ -303,23 +318,27 @@ public class ChannelBoostLayout extends FrameLayout {
                         limitPreviewView.setPadding(0, AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f));
                         limitPreviewView.setBackground(combinedDrawable);
                         limitPreviewView.setBoosts(ChannelBoostLayout.this.boostsStatus, false);
-                        textCell = limitPreviewView;
-                        break;
+                        view = limitPreviewView;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 5:
-                        textCell = new GiftedUserCell(ChannelBoostLayout.this.getContext(), 0, 0, false);
-                        break;
+                        view = new GiftedUserCell(ChannelBoostLayout.this.getContext(), 0, 0, false);
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 6:
                         shadowSectionCell = new TextInfoPrivacyCell(viewGroup.getContext(), 20, ChannelBoostLayout.this.resourcesProvider);
                         CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawable(ChannelBoostLayout.this.getContext(), R.drawable.greydivider, Theme.getColor(Theme.key_windowBackgroundGrayShadow, ChannelBoostLayout.this.resourcesProvider)), 0, 0);
                         combinedDrawable2.setFullsize(true);
                         shadowSectionCell.setBackground(combinedDrawable2);
-                        textCell = shadowSectionCell;
-                        break;
+                        view = shadowSectionCell;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 7:
-                        textCell = new FixedHeightEmptyCell(ChannelBoostLayout.this.getContext(), 8);
-                        break;
+                        view = new FixedHeightEmptyCell(ChannelBoostLayout.this.getContext(), 8);
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 8:
-                        FrameLayout frameLayout2 = new FrameLayout(ChannelBoostLayout.this.getContext()) { // from class: org.telegram.ui.ChannelBoostLayout.1.3
+                        ViewGroup viewGroup3 = new FrameLayout(ChannelBoostLayout.this.getContext()) { // from class: org.telegram.ui.ChannelBoostLayout.1.3
                             @Override // android.widget.FrameLayout, android.view.View
                             protected void onMeasure(int i2, int i3) {
                                 super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50.0f), 1073741824));
@@ -331,11 +350,12 @@ public class ChannelBoostLayout extends FrameLayout {
                         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
                         textView.setGravity(17);
                         createFrame = LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 16.0f, 0.0f, 0.0f);
-                        frameLayout = frameLayout2;
-                        scrollSlidingTextTabStrip = textView;
-                        frameLayout.addView(scrollSlidingTextTabStrip, createFrame);
-                        textCell = frameLayout;
-                        break;
+                        viewGroup2 = viewGroup3;
+                        view2 = textView;
+                        viewGroup2.addView(view2, createFrame);
+                        view = viewGroup2;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 9:
                         ManageChatTextCell manageChatTextCell = new ManageChatTextCell(ChannelBoostLayout.this.getContext()) { // from class: org.telegram.ui.ChannelBoostLayout.1.4
                             @Override // org.telegram.ui.Cells.ManageChatTextCell
@@ -344,28 +364,32 @@ public class ChannelBoostLayout extends FrameLayout {
                             }
                         };
                         manageChatTextCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
-                        textCell = manageChatTextCell;
-                        break;
+                        view = manageChatTextCell;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 10:
-                        TextCell textCell2 = new TextCell(ChannelBoostLayout.this.getContext());
-                        textCell2.setTextAndIcon((CharSequence) LocaleController.formatString("BoostingGetBoostsViaGifts", R.string.BoostingGetBoostsViaGifts, new Object[0]), R.drawable.msg_gift_premium, false);
-                        textCell2.offsetFromImage = 64;
+                        TextCell textCell = new TextCell(ChannelBoostLayout.this.getContext());
+                        textCell.setTextAndIcon((CharSequence) LocaleController.formatString("BoostingGetBoostsViaGifts", R.string.BoostingGetBoostsViaGifts, new Object[0]), R.drawable.msg_gift_premium, false);
+                        textCell.offsetFromImage = 64;
                         int i2 = Theme.key_windowBackgroundWhiteBlueText4;
-                        textCell2.setColors(i2, i2);
-                        textCell = textCell2;
-                        break;
+                        textCell.setColors(i2, i2);
+                        view = textCell;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 11:
-                        textCell = new GiveawayCell(ChannelBoostLayout.this.getContext(), 0, 0, false);
-                        break;
+                        view = new GiveawayCell(ChannelBoostLayout.this.getContext(), 0, 0, false);
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 12:
                         View chartHeaderView2 = new ChartHeaderView(ChannelBoostLayout.this.getContext());
                         chartHeaderView2.setPadding(chartHeaderView2.getPaddingLeft(), AndroidUtilities.dp(16.0f), chartHeaderView2.getRight(), AndroidUtilities.dp(8.0f));
-                        textCell = chartHeaderView2;
-                        break;
+                        view = chartHeaderView2;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     case 13:
                         ChannelBoostLayout.this.boostsTabs = new ScrollSlidingTextTabStrip(ChannelBoostLayout.this.fragment.getContext(), ChannelBoostLayout.this.resourcesProvider);
                         ChannelBoostLayout.this.boostsTabs.setColors(Theme.key_profile_tabSelectedLine, Theme.key_profile_tabSelectedText, Theme.key_profile_tabText, Theme.key_profile_tabSelector);
-                        FrameLayout frameLayout3 = new FrameLayout(ChannelBoostLayout.this.fragment.getContext()) { // from class: org.telegram.ui.ChannelBoostLayout.1.1
+                        ViewGroup viewGroup4 = new FrameLayout(ChannelBoostLayout.this.fragment.getContext()) { // from class: org.telegram.ui.ChannelBoostLayout.1.1
                             private final Paint dividerPaint = new Paint(1);
 
                             @Override // android.view.ViewGroup, android.view.View
@@ -390,18 +414,17 @@ public class ChannelBoostLayout extends FrameLayout {
                             public void onSamePageSelected() {
                             }
                         });
-                        ScrollSlidingTextTabStrip scrollSlidingTextTabStrip2 = ChannelBoostLayout.this.boostsTabs;
+                        ScrollSlidingTextTabStrip scrollSlidingTextTabStrip = ChannelBoostLayout.this.boostsTabs;
                         createFrame = LayoutHelper.createFrame(-2, 48.0f);
-                        frameLayout = frameLayout3;
-                        scrollSlidingTextTabStrip = scrollSlidingTextTabStrip2;
-                        frameLayout.addView(scrollSlidingTextTabStrip, createFrame);
-                        textCell = frameLayout;
-                        break;
+                        viewGroup2 = viewGroup4;
+                        view2 = scrollSlidingTextTabStrip;
+                        viewGroup2.addView(view2, createFrame);
+                        view = viewGroup2;
+                        view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
+                        return new RecyclerListView.Holder(view);
                     default:
                         throw new UnsupportedOperationException();
                 }
-                textCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
-                return new RecyclerListView.Holder(textCell);
             }
         };
         this.lastBoostsOffset = "";
@@ -595,10 +618,10 @@ public class ChannelBoostLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00e6  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0107  */
-    /* JADX WARN: Removed duplicated region for block: B:44:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:32:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

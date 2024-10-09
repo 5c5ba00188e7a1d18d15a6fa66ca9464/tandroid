@@ -5,6 +5,7 @@ import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
 import j$.util.function.Function;
 import java.util.concurrent.ConcurrentMap;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class s implements BiConsumer, BiFunction, Consumer {
     public final /* synthetic */ int a;
@@ -24,9 +25,10 @@ public final /* synthetic */ class s implements BiConsumer, BiFunction, Consumer
     }
 
     @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
-        ((Consumer) this.b).accept(obj);
-        ((Consumer) this.c).accept(obj);
+    /* renamed from: accept */
+    public void r(Object obj) {
+        ((Consumer) this.b).r(obj);
+        ((Consumer) this.c).r(obj);
     }
 
     @Override // j$.util.function.BiConsumer
@@ -44,8 +46,9 @@ public final /* synthetic */ class s implements BiConsumer, BiFunction, Consumer
             ConcurrentMap concurrentMap = (ConcurrentMap) this.b;
             if (concurrentMap.replace(obj, obj2, apply)) {
                 return;
+            } else {
+                obj2 = concurrentMap.get(obj);
             }
-            obj2 = concurrentMap.get(obj);
         } while (obj2 != null);
     }
 

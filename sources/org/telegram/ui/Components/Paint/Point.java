@@ -1,6 +1,7 @@
 package org.telegram.ui.Components.Paint;
 
 import android.graphics.PointF;
+
 /* loaded from: classes3.dex */
 public class Point {
     public boolean edge;
@@ -33,11 +34,11 @@ public class Point {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Point) {
-            Point point = (Point) obj;
-            return this.x == point.x && this.y == point.y && this.z == point.z;
+        if (!(obj instanceof Point)) {
+            return false;
         }
-        return false;
+        Point point = (Point) obj;
+        return this.x == point.x && this.y == point.y && this.z == point.z;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

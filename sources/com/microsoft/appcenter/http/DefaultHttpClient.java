@@ -6,9 +6,11 @@ import com.microsoft.appcenter.http.HttpClient;
 import com.microsoft.appcenter.utils.AppCenterLog;
 import com.microsoft.appcenter.utils.HandlerUtils;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.RejectedExecutionException;
+
 /* loaded from: classes.dex */
 public class DefaultHttpClient implements HttpClient, DefaultHttpClientCallTask.Tracker {
     private final boolean mCompressionEnabled;
@@ -44,8 +46,9 @@ public class DefaultHttpClient implements HttpClient, DefaultHttpClientCallTask.
         try {
             if (this.mTasks.size() > 0) {
                 AppCenterLog.debug("AppCenter", "Cancelling " + this.mTasks.size() + " network call(s).");
-                for (DefaultHttpClientCallTask defaultHttpClientCallTask : this.mTasks) {
-                    defaultHttpClientCallTask.cancel(true);
+                Iterator it = this.mTasks.iterator();
+                while (it.hasNext()) {
+                    ((DefaultHttpClientCallTask) it.next()).cancel(true);
                 }
                 this.mTasks.clear();
             }

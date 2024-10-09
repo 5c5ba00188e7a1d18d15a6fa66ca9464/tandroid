@@ -1,6 +1,7 @@
 package com.google.android.datatransport.cct.internal;
 
 import com.google.android.datatransport.cct.internal.AndroidClientInfo;
+
 /* loaded from: classes.dex */
 final class AutoValue_AndroidClientInfo extends AndroidClientInfo {
     private final String applicationBuild;
@@ -129,39 +130,40 @@ final class AutoValue_AndroidClientInfo extends AndroidClientInfo {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof AndroidClientInfo) {
-            AndroidClientInfo androidClientInfo = (AndroidClientInfo) obj;
-            Integer num = this.sdkVersion;
-            if (num != null ? num.equals(androidClientInfo.getSdkVersion()) : androidClientInfo.getSdkVersion() == null) {
-                String str = this.model;
-                if (str != null ? str.equals(androidClientInfo.getModel()) : androidClientInfo.getModel() == null) {
-                    String str2 = this.hardware;
-                    if (str2 != null ? str2.equals(androidClientInfo.getHardware()) : androidClientInfo.getHardware() == null) {
-                        String str3 = this.device;
-                        if (str3 != null ? str3.equals(androidClientInfo.getDevice()) : androidClientInfo.getDevice() == null) {
-                            String str4 = this.product;
-                            if (str4 != null ? str4.equals(androidClientInfo.getProduct()) : androidClientInfo.getProduct() == null) {
-                                String str5 = this.osBuild;
-                                if (str5 != null ? str5.equals(androidClientInfo.getOsBuild()) : androidClientInfo.getOsBuild() == null) {
-                                    String str6 = this.manufacturer;
-                                    if (str6 != null ? str6.equals(androidClientInfo.getManufacturer()) : androidClientInfo.getManufacturer() == null) {
-                                        String str7 = this.fingerprint;
-                                        if (str7 != null ? str7.equals(androidClientInfo.getFingerprint()) : androidClientInfo.getFingerprint() == null) {
-                                            String str8 = this.locale;
-                                            if (str8 != null ? str8.equals(androidClientInfo.getLocale()) : androidClientInfo.getLocale() == null) {
-                                                String str9 = this.country;
-                                                if (str9 != null ? str9.equals(androidClientInfo.getCountry()) : androidClientInfo.getCountry() == null) {
-                                                    String str10 = this.mccMnc;
-                                                    if (str10 != null ? str10.equals(androidClientInfo.getMccMnc()) : androidClientInfo.getMccMnc() == null) {
-                                                        String str11 = this.applicationBuild;
-                                                        String applicationBuild = androidClientInfo.getApplicationBuild();
-                                                        if (str11 == null) {
-                                                            if (applicationBuild == null) {
-                                                                return true;
-                                                            }
-                                                        } else if (str11.equals(applicationBuild)) {
+        if (!(obj instanceof AndroidClientInfo)) {
+            return false;
+        }
+        AndroidClientInfo androidClientInfo = (AndroidClientInfo) obj;
+        Integer num = this.sdkVersion;
+        if (num != null ? num.equals(androidClientInfo.getSdkVersion()) : androidClientInfo.getSdkVersion() == null) {
+            String str = this.model;
+            if (str != null ? str.equals(androidClientInfo.getModel()) : androidClientInfo.getModel() == null) {
+                String str2 = this.hardware;
+                if (str2 != null ? str2.equals(androidClientInfo.getHardware()) : androidClientInfo.getHardware() == null) {
+                    String str3 = this.device;
+                    if (str3 != null ? str3.equals(androidClientInfo.getDevice()) : androidClientInfo.getDevice() == null) {
+                        String str4 = this.product;
+                        if (str4 != null ? str4.equals(androidClientInfo.getProduct()) : androidClientInfo.getProduct() == null) {
+                            String str5 = this.osBuild;
+                            if (str5 != null ? str5.equals(androidClientInfo.getOsBuild()) : androidClientInfo.getOsBuild() == null) {
+                                String str6 = this.manufacturer;
+                                if (str6 != null ? str6.equals(androidClientInfo.getManufacturer()) : androidClientInfo.getManufacturer() == null) {
+                                    String str7 = this.fingerprint;
+                                    if (str7 != null ? str7.equals(androidClientInfo.getFingerprint()) : androidClientInfo.getFingerprint() == null) {
+                                        String str8 = this.locale;
+                                        if (str8 != null ? str8.equals(androidClientInfo.getLocale()) : androidClientInfo.getLocale() == null) {
+                                            String str9 = this.country;
+                                            if (str9 != null ? str9.equals(androidClientInfo.getCountry()) : androidClientInfo.getCountry() == null) {
+                                                String str10 = this.mccMnc;
+                                                if (str10 != null ? str10.equals(androidClientInfo.getMccMnc()) : androidClientInfo.getMccMnc() == null) {
+                                                    String str11 = this.applicationBuild;
+                                                    String applicationBuild = androidClientInfo.getApplicationBuild();
+                                                    if (str11 == null) {
+                                                        if (applicationBuild == null) {
                                                             return true;
                                                         }
+                                                    } else if (str11.equals(applicationBuild)) {
+                                                        return true;
                                                     }
                                                 }
                                             }
@@ -173,7 +175,6 @@ final class AutoValue_AndroidClientInfo extends AndroidClientInfo {
                     }
                 }
             }
-            return false;
         }
         return false;
     }

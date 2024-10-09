@@ -4,6 +4,7 @@ import j$.util.K;
 import j$.util.function.Consumer;
 import j$.util.function.W;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 final class z implements K {
     long a;
@@ -25,7 +26,7 @@ final class z implements K {
     }
 
     @Override // j$.util.Q
-    /* renamed from: b */
+    /* renamed from: b, reason: merged with bridge method [inline-methods] */
     public final z trySplit() {
         long j = this.a;
         long j2 = (this.b + j) >>> 1;
@@ -42,8 +43,8 @@ final class z implements K {
     }
 
     @Override // j$.util.N
-    /* renamed from: d */
-    public final void forEachRemaining(W w) {
+    /* renamed from: d, reason: merged with bridge method [inline-methods] */
+    public final void e(W w) {
         w.getClass();
         long j = this.a;
         long j2 = this.b;
@@ -78,16 +79,16 @@ final class z implements K {
     }
 
     @Override // j$.util.N
-    /* renamed from: i */
-    public final boolean tryAdvance(W w) {
+    /* renamed from: i, reason: merged with bridge method [inline-methods] */
+    public final boolean p(W w) {
         w.getClass();
         long j = this.a;
-        if (j < this.b) {
-            w.accept(ThreadLocalRandom.current().e(this.c, this.d));
-            this.a = j + 1;
-            return true;
+        if (j >= this.b) {
+            return false;
         }
-        return false;
+        w.accept(ThreadLocalRandom.current().e(this.c, this.d));
+        this.a = j + 1;
+        return true;
     }
 
     @Override // j$.util.Q

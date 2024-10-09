@@ -5,6 +5,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.PendingResultUtil;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 final class zap implements PendingResult.StatusListener {
     final /* synthetic */ PendingResult zaa;
@@ -24,8 +25,8 @@ final class zap implements PendingResult.StatusListener {
     public final void onComplete(Status status) {
         if (!status.isSuccess()) {
             this.zab.setException(ApiExceptionUtil.fromStatus(status));
-            return;
+        } else {
+            this.zab.setResult(this.zac.convert(this.zaa.await(0L, TimeUnit.MILLISECONDS)));
         }
-        this.zab.setResult(this.zac.convert(this.zaa.await(0L, TimeUnit.MILLISECONDS)));
     }
 }

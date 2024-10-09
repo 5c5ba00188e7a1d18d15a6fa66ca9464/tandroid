@@ -27,6 +27,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
+
 /* loaded from: classes4.dex */
 public class ChatBackgroundDrawable extends Drawable {
     private boolean attached;
@@ -256,8 +257,10 @@ public class ChatBackgroundDrawable extends Drawable {
         if (isAttached() && !this.attached) {
             this.attached = true;
             this.imageReceiver.onAttachedToWindow();
-        } else if (isAttached() || !this.attached) {
         } else {
+            if (isAttached() || !this.attached) {
+                return;
+            }
             this.attached = false;
             this.imageReceiver.onDetachedFromWindow();
         }
@@ -270,8 +273,10 @@ public class ChatBackgroundDrawable extends Drawable {
         if (isAttached() && !this.attached) {
             this.attached = true;
             this.imageReceiver.onAttachedToWindow();
-        } else if (isAttached() || !this.attached) {
         } else {
+            if (isAttached() || !this.attached) {
+                return;
+            }
             this.attached = false;
             this.imageReceiver.onDetachedFromWindow();
         }

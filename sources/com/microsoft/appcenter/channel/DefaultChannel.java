@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public class DefaultChannel implements Channel {
     private final Handler mAppCenterHandler;
@@ -138,7 +139,7 @@ public class DefaultChannel implements Channel {
     /* JADX INFO: Access modifiers changed from: private */
     public void handleSendingFailure(GroupState groupState, String str, Exception exc) {
         String str2 = groupState.mName;
-        List<Log> list = (List) groupState.mSendingBatches.remove(str);
+        List list = (List) groupState.mSendingBatches.remove(str);
         if (list != null) {
             AppCenterLog.error("AppCenter", "Sending logs groupName=" + str2 + " id=" + str + " failed", exc);
             boolean isRecoverableError = HttpUtils.isRecoverableError(exc);
@@ -147,8 +148,9 @@ public class DefaultChannel implements Channel {
             } else {
                 Channel.GroupListener groupListener = groupState.mListener;
                 if (groupListener != null) {
-                    for (Log log : list) {
-                        groupListener.onFailure(log, exc);
+                    Iterator it = list.iterator();
+                    while (it.hasNext()) {
+                        groupListener.onFailure((Log) it.next(), exc);
                     }
                 }
             }
@@ -158,13 +160,14 @@ public class DefaultChannel implements Channel {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void handleSendingSuccess(GroupState groupState, String str) {
-        List<Log> list = (List) groupState.mSendingBatches.remove(str);
+        List list = (List) groupState.mSendingBatches.remove(str);
         if (list != null) {
             this.mPersistence.deleteLogs(groupState.mName, str);
             Channel.GroupListener groupListener = groupState.mListener;
             if (groupListener != null) {
-                for (Log log : list) {
-                    groupListener.onSuccess(log);
+                Iterator it = list.iterator();
+                while (it.hasNext()) {
+                    groupListener.onSuccess((Log) it.next());
                 }
             }
             checkPendingLogs(groupState);
@@ -176,11 +179,11 @@ public class DefaultChannel implements Channel {
         long currentTimeMillis = System.currentTimeMillis();
         long j2 = SharedPreferencesManager.getLong("startTimerPrefix." + groupState.mName);
         if (groupState.mPendingLogCount <= 0) {
-            if (j2 + groupState.mBatchTimeInterval < currentTimeMillis) {
-                SharedPreferencesManager.remove("startTimerPrefix." + groupState.mName);
-                AppCenterLog.debug("AppCenter", "The timer for " + groupState.mName + " channel finished.");
+            if (j2 + groupState.mBatchTimeInterval >= currentTimeMillis) {
                 return null;
             }
+            SharedPreferencesManager.remove("startTimerPrefix." + groupState.mName);
+            AppCenterLog.debug("AppCenter", "The timer for " + groupState.mName + " channel finished.");
             return null;
         }
         if (j2 == 0 || j2 > currentTimeMillis) {
@@ -254,8 +257,9 @@ public class DefaultChannel implements Channel {
                 Map.Entry entry = (Map.Entry) it.next();
                 it.remove();
                 if (z && (groupListener = groupState.mListener) != null) {
-                    for (Log log : (List) entry.getValue()) {
-                        groupListener.onFailure(log, exc);
+                    Iterator it2 = ((List) entry.getValue()).iterator();
+                    while (it2.hasNext()) {
+                        groupListener.onFailure((Log) it2.next(), exc);
                     }
                 }
             }
@@ -271,8 +275,9 @@ public class DefaultChannel implements Channel {
             this.mPersistence.clearPendingLogState();
             return;
         }
-        for (GroupState groupState2 : this.mGroupStates.values()) {
-            deleteLogsOnSuspended(groupState2);
+        Iterator it3 = this.mGroupStates.values().iterator();
+        while (it3.hasNext()) {
+            deleteLogsOnSuspended((GroupState) it3.next());
         }
     }
 
@@ -287,7 +292,7 @@ public class DefaultChannel implements Channel {
                 AppCenterLog.debug("AppCenter", "Already sending " + groupState.mMaxParallelBatches + " batches of analytics data to the server.");
                 return;
             }
-            ArrayList<Log> arrayList = new ArrayList(min);
+            ArrayList arrayList = new ArrayList(min);
             String logs = this.mPersistence.getLogs(groupState.mName, groupState.mPausedTargetKeys, min, arrayList);
             groupState.mPendingLogCount -= min;
             if (logs == null) {
@@ -295,8 +300,9 @@ public class DefaultChannel implements Channel {
             }
             AppCenterLog.debug("AppCenter", "ingestLogs(" + groupState.mName + "," + logs + ") pendingLogCount=" + groupState.mPendingLogCount);
             if (groupState.mListener != null) {
-                for (Log log : arrayList) {
-                    groupState.mListener.onBeforeSending(log);
+                Iterator it = arrayList.iterator();
+                while (it.hasNext()) {
+                    groupState.mListener.onBeforeSending((Log) it.next());
                 }
             }
             groupState.mSendingBatches.put(logs, arrayList);
@@ -315,8 +321,9 @@ public class DefaultChannel implements Channel {
         if (this.mAppSecret != null || this.mIngestion != ingestion2) {
             checkPendingLogs(groupState);
         }
-        for (Channel.Listener listener : this.mListeners) {
-            listener.onGroupAdded(str, groupListener, j);
+        Iterator it = this.mListeners.iterator();
+        while (it.hasNext()) {
+            ((Channel.Listener) it.next()).onGroupAdded(str, groupListener, j);
         }
     }
 
@@ -341,8 +348,10 @@ public class DefaultChannel implements Channel {
         }
         if (resolveTriggerInterval.longValue() == 0) {
             triggerIngestion(groupState);
-        } else if (groupState.mScheduled) {
         } else {
+            if (groupState.mScheduled) {
+                return;
+            }
             groupState.mScheduled = true;
             this.mAppCenterHandler.postDelayed(groupState.mRunnable, resolveTriggerInterval.longValue());
         }
@@ -353,8 +362,9 @@ public class DefaultChannel implements Channel {
         if (this.mGroupStates.containsKey(str)) {
             AppCenterLog.debug("AppCenter", "clear(" + str + ")");
             this.mPersistence.deleteLogs(str);
-            for (Channel.Listener listener : this.mListeners) {
-                listener.onClear(str);
+            Iterator it = this.mListeners.iterator();
+            while (it.hasNext()) {
+                ((Channel.Listener) it.next()).onClear(str);
             }
         }
     }
@@ -366,73 +376,80 @@ public class DefaultChannel implements Channel {
         GroupState groupState = (GroupState) this.mGroupStates.get(str);
         if (groupState == null) {
             AppCenterLog.error("AppCenter", "Invalid group name:" + str);
-        } else if (this.mDiscardLogs) {
+            return;
+        }
+        if (this.mDiscardLogs) {
             AppCenterLog.warn("AppCenter", "Channel is disabled, the log is discarded.");
             Channel.GroupListener groupListener = groupState.mListener;
             if (groupListener != null) {
                 groupListener.onBeforeSending(log);
                 groupState.mListener.onFailure(log, new CancellationException());
-            }
-        } else {
-            for (Channel.Listener listener : this.mListeners) {
-                listener.onPreparingLog(log, str);
-            }
-            if (log.getDevice() == null) {
-                if (this.mDevice == null) {
-                    try {
-                        this.mDevice = DeviceInfoHelper.getDeviceInfo(this.mContext);
-                    } catch (DeviceInfoHelper.DeviceInfoException e) {
-                        AppCenterLog.error("AppCenter", "Device log cannot be generated", e);
-                        return;
-                    }
-                }
-                log.setDevice(this.mDevice);
-            }
-            if (log.getTimestamp() == null) {
-                log.setTimestamp(new Date());
-            }
-            for (Channel.Listener listener2 : this.mListeners) {
-                listener2.onPreparedLog(log, str, i);
-            }
-            loop2: while (true) {
-                for (Channel.Listener listener3 : this.mListeners) {
-                    z = z || listener3.shouldFilter(log);
-                }
-            }
-            if (z) {
-                str2 = "Log of type '" + log.getType() + "' was filtered out by listener(s)";
-            } else if (this.mAppSecret == null && groupState.mIngestion == this.mIngestion) {
-                AppCenterLog.debug("AppCenter", "Log of type '" + log.getType() + "' was not filtered out by listener(s) but no app secret was provided. Not persisting/sending the log.");
                 return;
-            } else {
+            }
+            return;
+        }
+        Iterator it = this.mListeners.iterator();
+        while (it.hasNext()) {
+            ((Channel.Listener) it.next()).onPreparingLog(log, str);
+        }
+        if (log.getDevice() == null) {
+            if (this.mDevice == null) {
                 try {
-                    this.mPersistence.putLog(log, str, i);
-                    Iterator it = log.getTransmissionTargetTokens().iterator();
-                    String targetKey = it.hasNext() ? PartAUtils.getTargetKey((String) it.next()) : null;
-                    if (groupState.mPausedTargetKeys.contains(targetKey)) {
-                        AppCenterLog.debug("AppCenter", "Transmission target ikey=" + targetKey + " is paused.");
-                        return;
-                    }
-                    groupState.mPendingLogCount++;
-                    AppCenterLog.debug("AppCenter", "enqueue(" + groupState.mName + ") pendingLogCount=" + groupState.mPendingLogCount);
-                    if (this.mEnabled) {
-                        checkPendingLogs(groupState);
-                        return;
-                    }
-                    str2 = "Channel is temporarily disabled, log was saved to disk.";
-                } catch (Persistence.PersistenceException e2) {
-                    AppCenterLog.error("AppCenter", "Error persisting log", e2);
-                    Channel.GroupListener groupListener2 = groupState.mListener;
-                    if (groupListener2 != null) {
-                        groupListener2.onBeforeSending(log);
-                        groupState.mListener.onFailure(log, e2);
-                        return;
-                    }
+                    this.mDevice = DeviceInfoHelper.getDeviceInfo(this.mContext);
+                } catch (DeviceInfoHelper.DeviceInfoException e) {
+                    AppCenterLog.error("AppCenter", "Device log cannot be generated", e);
                     return;
                 }
             }
-            AppCenterLog.debug("AppCenter", str2);
+            log.setDevice(this.mDevice);
         }
+        if (log.getTimestamp() == null) {
+            log.setTimestamp(new Date());
+        }
+        Iterator it2 = this.mListeners.iterator();
+        while (it2.hasNext()) {
+            ((Channel.Listener) it2.next()).onPreparedLog(log, str, i);
+        }
+        Iterator it3 = this.mListeners.iterator();
+        loop2: while (true) {
+            while (it3.hasNext()) {
+                z = z || ((Channel.Listener) it3.next()).shouldFilter(log);
+            }
+        }
+        if (z) {
+            str2 = "Log of type '" + log.getType() + "' was filtered out by listener(s)";
+        } else {
+            if (this.mAppSecret == null && groupState.mIngestion == this.mIngestion) {
+                AppCenterLog.debug("AppCenter", "Log of type '" + log.getType() + "' was not filtered out by listener(s) but no app secret was provided. Not persisting/sending the log.");
+                return;
+            }
+            try {
+                this.mPersistence.putLog(log, str, i);
+                Iterator it4 = log.getTransmissionTargetTokens().iterator();
+                String targetKey = it4.hasNext() ? PartAUtils.getTargetKey((String) it4.next()) : null;
+                if (groupState.mPausedTargetKeys.contains(targetKey)) {
+                    AppCenterLog.debug("AppCenter", "Transmission target ikey=" + targetKey + " is paused.");
+                    return;
+                }
+                groupState.mPendingLogCount++;
+                AppCenterLog.debug("AppCenter", "enqueue(" + groupState.mName + ") pendingLogCount=" + groupState.mPendingLogCount);
+                if (this.mEnabled) {
+                    checkPendingLogs(groupState);
+                    return;
+                }
+                str2 = "Channel is temporarily disabled, log was saved to disk.";
+            } catch (Persistence.PersistenceException e2) {
+                AppCenterLog.error("AppCenter", "Error persisting log", e2);
+                Channel.GroupListener groupListener2 = groupState.mListener;
+                if (groupListener2 != null) {
+                    groupListener2.onBeforeSending(log);
+                    groupState.mListener.onFailure(log, e2);
+                    return;
+                }
+                return;
+            }
+        }
+        AppCenterLog.debug("AppCenter", str2);
     }
 
     @Override // com.microsoft.appcenter.channel.Channel
@@ -442,8 +459,9 @@ public class DefaultChannel implements Channel {
         if (groupState != null) {
             cancelTimer(groupState);
         }
-        for (Channel.Listener listener : this.mListeners) {
-            listener.onGroupRemoved(str);
+        Iterator it = this.mListeners.iterator();
+        while (it.hasNext()) {
+            ((Channel.Listener) it.next()).onGroupRemoved(str);
         }
     }
 
@@ -473,17 +491,20 @@ public class DefaultChannel implements Channel {
             this.mEnabled = true;
             this.mDiscardLogs = false;
             this.mCurrentState++;
-            for (Ingestion ingestion : this.mIngestions) {
-                ingestion.reopen();
+            Iterator it = this.mIngestions.iterator();
+            while (it.hasNext()) {
+                ((Ingestion) it.next()).reopen();
             }
-            for (GroupState groupState : this.mGroupStates.values()) {
-                checkPendingLogs(groupState);
+            Iterator it2 = this.mGroupStates.values().iterator();
+            while (it2.hasNext()) {
+                checkPendingLogs((GroupState) it2.next());
             }
         } else {
             suspend(true, new CancellationException());
         }
-        for (Channel.Listener listener : this.mListeners) {
-            listener.onGloballyEnabled(z);
+        Iterator it3 = this.mListeners.iterator();
+        while (it3.hasNext()) {
+            ((Channel.Listener) it3.next()).onGloballyEnabled(z);
         }
     }
 

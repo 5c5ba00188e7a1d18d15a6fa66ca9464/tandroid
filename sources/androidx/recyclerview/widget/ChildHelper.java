@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class ChildHelper {
     final Callback mCallback;
@@ -104,10 +105,10 @@ public class ChildHelper {
         void set(int i) {
             if (i < 64) {
                 this.mData |= 1 << i;
-                return;
+            } else {
+                ensureNext();
+                this.mNext.set(i - 64);
             }
-            ensureNext();
-            this.mNext.set(i - 64);
         }
 
         public String toString() {
@@ -249,9 +250,9 @@ public class ChildHelper {
         if (indexOfChild >= 0) {
             this.mBucket.set(indexOfChild);
             hideViewInternal(view);
-            return;
+        } else {
+            throw new IllegalArgumentException("view is not a child, cannot hide " + view);
         }
-        throw new IllegalArgumentException("view is not a child, cannot hide " + view);
     }
 
     public void hideViewInternal(View view) {
@@ -314,14 +315,14 @@ public class ChildHelper {
         if (indexOfChild == -1) {
             unhideViewInternal(view);
             return true;
-        } else if (this.mBucket.get(indexOfChild)) {
-            this.mBucket.remove(indexOfChild);
-            unhideViewInternal(view);
-            this.mCallback.removeViewAt(indexOfChild);
-            return true;
-        } else {
+        }
+        if (!this.mBucket.get(indexOfChild)) {
             return false;
         }
+        this.mBucket.remove(indexOfChild);
+        unhideViewInternal(view);
+        this.mCallback.removeViewAt(indexOfChild);
+        return true;
     }
 
     public String toString() {
@@ -333,7 +334,8 @@ public class ChildHelper {
         int indexOfChild = this.mCallback.indexOfChild(view);
         if (indexOfChild < 0) {
             throw new IllegalArgumentException("view is not a child, cannot hide " + view);
-        } else if (this.mBucket.get(indexOfChild)) {
+        }
+        if (this.mBucket.get(indexOfChild)) {
             this.mBucket.clear(indexOfChild);
             unhideViewInternal(view);
         } else {
@@ -342,10 +344,10 @@ public class ChildHelper {
     }
 
     public boolean unhideViewInternal(View view) {
-        if (this.mHiddenViews.remove(view)) {
-            this.mCallback.onLeftHiddenState(view);
-            return true;
+        if (!this.mHiddenViews.remove(view)) {
+            return false;
         }
-        return false;
+        this.mCallback.onLeftHiddenState(view);
+        return true;
     }
 }

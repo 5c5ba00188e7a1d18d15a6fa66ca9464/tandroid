@@ -18,6 +18,7 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.StickerImageView;
+
 /* loaded from: classes4.dex */
 public class SuggestClearDatabaseBottomSheet extends BottomSheet {
     private static SuggestClearDatabaseBottomSheet dialog;
@@ -32,7 +33,7 @@ public class SuggestClearDatabaseBottomSheet extends BottomSheet {
         StickerImageView stickerImageView = new StickerImageView(parentActivity, this.currentAccount);
         stickerImageView.setStickerNum(7);
         stickerImageView.getImageReceiver().setAutoRepeat(1);
-        linearLayout.addView(stickerImageView, LayoutHelper.createLinear((int) NotificationCenter.messagePlayingProgressDidChanged, (int) NotificationCenter.messagePlayingProgressDidChanged, 1, 0, 16, 0, 0));
+        linearLayout.addView(stickerImageView, LayoutHelper.createLinear(NotificationCenter.messagePlayingProgressDidChanged, NotificationCenter.messagePlayingProgressDidChanged, 1, 0, 16, 0, 0));
         TextView textView = new TextView(parentActivity);
         textView.setGravity(8388611);
         int i = Theme.key_dialogTextBlack;

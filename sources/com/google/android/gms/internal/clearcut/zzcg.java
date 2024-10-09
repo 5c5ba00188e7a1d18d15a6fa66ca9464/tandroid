@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class zzcg extends zzas {
     private static Map<Object, zzcg> zzjr = new ConcurrentHashMap();
@@ -56,7 +57,7 @@ public abstract class zzcg extends zzas {
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzdp
-        /* renamed from: zzbg */
+        /* renamed from: zzbg, reason: merged with bridge method [inline-methods] */
         public zzcg zzbi() {
             if (this.zzju) {
                 return this.zzjt;
@@ -201,11 +202,11 @@ public abstract class zzcg extends zzas {
                 throw new IllegalStateException("Class initialization cannot fail.", e);
             }
         }
-        if (zzcgVar == null) {
-            String name = cls.getName();
-            throw new IllegalStateException(name.length() != 0 ? "Unable to get default instance for: ".concat(name) : new String("Unable to get default instance for: "));
+        if (zzcgVar != null) {
+            return zzcgVar;
         }
-        return zzcgVar;
+        String name = cls.getName();
+        throw new IllegalStateException(name.length() != 0 ? "Unable to get default instance for: ".concat(name) : new String("Unable to get default instance for: "));
     }
 
     public boolean equals(Object obj) {

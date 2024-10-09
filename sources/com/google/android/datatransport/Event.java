@@ -1,4 +1,5 @@
 package com.google.android.datatransport;
+
 /* loaded from: classes.dex */
 public abstract class Event {
     public static Event ofData(Object obj) {

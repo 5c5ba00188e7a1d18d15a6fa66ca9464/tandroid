@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 final class a0 extends a implements K {
     @Override // j$.util.Q
@@ -10,7 +11,8 @@ final class a0 extends a implements K {
     }
 
     @Override // j$.util.K
-    public final void d(j$.util.function.W w) {
+    /* renamed from: d */
+    public final void e(j$.util.function.W w) {
         w.getClass();
     }
 
@@ -30,7 +32,8 @@ final class a0 extends a implements K {
     }
 
     @Override // j$.util.K
-    public final boolean i(j$.util.function.W w) {
+    /* renamed from: i */
+    public final boolean p(j$.util.function.W w) {
         w.getClass();
         return false;
     }

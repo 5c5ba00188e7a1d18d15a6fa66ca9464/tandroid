@@ -5,6 +5,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Charts.data.ChartData;
+
 /* loaded from: classes4.dex */
 public class StackBarViewData extends LineViewData {
     public int blendColor;

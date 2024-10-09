@@ -1,5 +1,6 @@
 package androidx.appcompat.widget;
 
+import android.R;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import androidx.appcompat.R$drawable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.ResourceManagerInternal;
 import androidx.core.graphics.ColorUtils;
+
 /* loaded from: classes.dex */
 public final class AppCompatDrawableManager {
     private static final PorterDuff.Mode DEFAULT_MODE = PorterDuff.Mode.SRC_IN;
@@ -139,9 +141,9 @@ public final class AppCompatDrawableManager {
                             bitmapDrawable3 = new BitmapDrawable(createBitmap2);
                         }
                         LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{bitmapDrawable, bitmapDrawable3, bitmapDrawable2});
-                        layerDrawable.setId(0, 16908288);
-                        layerDrawable.setId(1, 16908303);
-                        layerDrawable.setId(2, 16908301);
+                        layerDrawable.setId(0, R.id.background);
+                        layerDrawable.setId(1, R.id.secondaryProgress);
+                        layerDrawable.setId(2, R.id.progress);
                         return layerDrawable;
                     }
 
@@ -165,9 +167,10 @@ public final class AppCompatDrawableManager {
                             i2 = R$dimen.abc_star_big;
                         } else if (i == R$drawable.abc_ratingbar_indicator_material) {
                             i2 = R$dimen.abc_star_medium;
-                        } else if (i != R$drawable.abc_ratingbar_small_material) {
-                            return null;
                         } else {
+                            if (i != R$drawable.abc_ratingbar_small_material) {
+                                return null;
+                            }
                             i2 = R$dimen.abc_star_small;
                         }
                         return getRatingBarLayerDrawable(resourceManagerInternal, context, i2);
@@ -225,29 +228,30 @@ public final class AppCompatDrawableManager {
                         int themeAttrColor;
                         if (i == R$drawable.abc_seekbar_track_material) {
                             LayerDrawable layerDrawable = (LayerDrawable) drawable;
-                            Drawable findDrawableByLayerId2 = layerDrawable.findDrawableByLayerId(16908288);
+                            Drawable findDrawableByLayerId2 = layerDrawable.findDrawableByLayerId(R.id.background);
                             int i2 = R$attr.colorControlNormal;
                             setPorterDuffColorFilter(findDrawableByLayerId2, ThemeUtils.getThemeAttrColor(context, i2), AppCompatDrawableManager.DEFAULT_MODE);
-                            setPorterDuffColorFilter(layerDrawable.findDrawableByLayerId(16908303), ThemeUtils.getThemeAttrColor(context, i2), AppCompatDrawableManager.DEFAULT_MODE);
-                            findDrawableByLayerId = layerDrawable.findDrawableByLayerId(16908301);
+                            setPorterDuffColorFilter(layerDrawable.findDrawableByLayerId(R.id.secondaryProgress), ThemeUtils.getThemeAttrColor(context, i2), AppCompatDrawableManager.DEFAULT_MODE);
+                            findDrawableByLayerId = layerDrawable.findDrawableByLayerId(R.id.progress);
                             themeAttrColor = ThemeUtils.getThemeAttrColor(context, R$attr.colorControlActivated);
-                        } else if (i != R$drawable.abc_ratingbar_material && i != R$drawable.abc_ratingbar_indicator_material && i != R$drawable.abc_ratingbar_small_material) {
-                            return false;
                         } else {
+                            if (i != R$drawable.abc_ratingbar_material && i != R$drawable.abc_ratingbar_indicator_material && i != R$drawable.abc_ratingbar_small_material) {
+                                return false;
+                            }
                             LayerDrawable layerDrawable2 = (LayerDrawable) drawable;
-                            setPorterDuffColorFilter(layerDrawable2.findDrawableByLayerId(16908288), ThemeUtils.getDisabledThemeAttrColor(context, R$attr.colorControlNormal), AppCompatDrawableManager.DEFAULT_MODE);
-                            Drawable findDrawableByLayerId3 = layerDrawable2.findDrawableByLayerId(16908303);
+                            setPorterDuffColorFilter(layerDrawable2.findDrawableByLayerId(R.id.background), ThemeUtils.getDisabledThemeAttrColor(context, R$attr.colorControlNormal), AppCompatDrawableManager.DEFAULT_MODE);
+                            Drawable findDrawableByLayerId3 = layerDrawable2.findDrawableByLayerId(R.id.secondaryProgress);
                             int i3 = R$attr.colorControlActivated;
                             setPorterDuffColorFilter(findDrawableByLayerId3, ThemeUtils.getThemeAttrColor(context, i3), AppCompatDrawableManager.DEFAULT_MODE);
-                            findDrawableByLayerId = layerDrawable2.findDrawableByLayerId(16908301);
+                            findDrawableByLayerId = layerDrawable2.findDrawableByLayerId(R.id.progress);
                             themeAttrColor = ThemeUtils.getThemeAttrColor(context, i3);
                         }
                         setPorterDuffColorFilter(findDrawableByLayerId, themeAttrColor, AppCompatDrawableManager.DEFAULT_MODE);
                         return true;
                     }
 
-                    /* JADX WARN: Removed duplicated region for block: B:22:0x0052  */
-                    /* JADX WARN: Removed duplicated region for block: B:29:0x006d A[RETURN] */
+                    /* JADX WARN: Removed duplicated region for block: B:15:0x006d A[RETURN] */
+                    /* JADX WARN: Removed duplicated region for block: B:7:0x0052  */
                     @Override // androidx.appcompat.widget.ResourceManagerInternal.ResourceManagerHooks
                     /*
                         Code decompiled incorrectly, please refer to instructions dump.
@@ -268,37 +272,37 @@ public final class AppCompatDrawableManager {
                                     mode = mode2;
                                     z = true;
                                     i3 = Math.round(40.8f);
-                                    i2 = 16842800;
+                                    i2 = R.attr.colorForeground;
                                 } else if (i != R$drawable.abc_dialog_material_background) {
                                     mode = mode2;
                                     i2 = 0;
                                     i3 = -1;
                                     z = false;
                                 }
-                                if (z) {
-                                    if (DrawableUtils.canSafelyMutateDrawable(drawable)) {
-                                        drawable = drawable.mutate();
-                                    }
-                                    drawable.setColorFilter(AppCompatDrawableManager.getPorterDuffColorFilter(ThemeUtils.getThemeAttrColor(context, i2), mode));
-                                    if (i3 != -1) {
-                                        drawable.setAlpha(i3);
-                                    }
-                                    return true;
+                                if (!z) {
+                                    return false;
                                 }
-                                return false;
+                                if (DrawableUtils.canSafelyMutateDrawable(drawable)) {
+                                    drawable = drawable.mutate();
+                                }
+                                drawable.setColorFilter(AppCompatDrawableManager.getPorterDuffColorFilter(ThemeUtils.getThemeAttrColor(context, i2), mode));
+                                if (i3 != -1) {
+                                    drawable.setAlpha(i3);
+                                }
+                                return true;
                             }
                             mode2 = PorterDuff.Mode.MULTIPLY;
                             mode = mode2;
-                            i2 = 16842801;
+                            i2 = R.attr.colorBackground;
                             i3 = -1;
                             z = true;
-                            if (z) {
+                            if (!z) {
                             }
                         }
                         mode = mode2;
                         i3 = -1;
                         z = true;
-                        if (z) {
+                        if (!z) {
                         }
                     }
                 });

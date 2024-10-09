@@ -4,6 +4,7 @@ import android.content.Context;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.internal.safetynet.zzae;
 import com.google.android.gms.internal.safetynet.zzag;
+
 /* loaded from: classes.dex */
 public abstract class SafetyNet {
     public static final Api API;

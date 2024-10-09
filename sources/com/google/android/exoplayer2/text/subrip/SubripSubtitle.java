@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class SubripSubtitle implements Subtitle {
     private final long[] cueTimesUs;

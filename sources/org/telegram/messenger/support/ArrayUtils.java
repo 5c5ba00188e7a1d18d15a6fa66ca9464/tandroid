@@ -2,6 +2,7 @@ package org.telegram.messenger.support;
 
 import java.lang.reflect.Array;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes3.dex */
 public class ArrayUtils {
     private static final int CACHE_SIZE = 73;
@@ -131,13 +132,13 @@ public class ArrayUtils {
     }
 
     public static int indexOf(int[] iArr, int i) {
-        if (iArr != null) {
-            for (int i2 = 0; i2 < iArr.length; i2++) {
-                if (iArr[i2] == i) {
-                    return i2;
-                }
-            }
+        if (iArr == null) {
             return -1;
+        }
+        for (int i2 = 0; i2 < iArr.length; i2++) {
+            if (iArr[i2] == i) {
+                return i2;
+            }
         }
         return -1;
     }

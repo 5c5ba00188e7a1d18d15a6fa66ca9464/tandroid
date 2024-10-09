@@ -2,6 +2,7 @@ package com.google.android.gms.vision.face.internal.client;
 
 import android.os.IBinder;
 import android.os.IInterface;
+
 /* loaded from: classes.dex */
 public abstract class zzl extends com.google.android.gms.internal.vision.zza implements zzi {
     public static zzi asInterface(IBinder iBinder) {

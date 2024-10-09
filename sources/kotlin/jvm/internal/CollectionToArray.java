@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 public abstract class CollectionToArray {
     private static final Object[] EMPTY = new Object[0];
@@ -51,18 +52,18 @@ public abstract class CollectionToArray {
         int size = collection.size();
         int i = 0;
         if (size == 0) {
-            if (objArr.length > 0) {
-                objArr[0] = null;
+            if (objArr.length <= 0) {
                 return objArr;
             }
+            objArr[0] = null;
             return objArr;
         }
         Iterator it = collection.iterator();
         if (!it.hasNext()) {
-            if (objArr.length > 0) {
-                objArr[0] = null;
+            if (objArr.length <= 0) {
                 return objArr;
             }
+            objArr[0] = null;
             return objArr;
         }
         if (size <= objArr.length) {

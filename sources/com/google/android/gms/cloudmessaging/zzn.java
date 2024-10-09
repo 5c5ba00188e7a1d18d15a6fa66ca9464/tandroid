@@ -1,6 +1,7 @@
 package com.google.android.gms.cloudmessaging;
 
 import android.os.Bundle;
+
 /* loaded from: classes.dex */
 final class zzn extends zzq {
     /* JADX INFO: Access modifiers changed from: package-private */

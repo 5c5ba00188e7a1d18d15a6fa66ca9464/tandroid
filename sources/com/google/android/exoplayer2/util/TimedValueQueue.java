@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.util;
 
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class TimedValueQueue {
     private int first;
@@ -28,9 +29,8 @@ public final class TimedValueQueue {
     }
 
     private void clearBufferOnTimeDiscontinuity(long j) {
-        int i = this.size;
-        if (i > 0) {
-            if (j <= this.timestamps[((this.first + i) - 1) % this.values.length]) {
+        if (this.size > 0) {
+            if (j <= this.timestamps[((this.first + r0) - 1) % this.values.length]) {
                 clear();
             }
         }

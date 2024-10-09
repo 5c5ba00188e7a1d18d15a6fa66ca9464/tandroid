@@ -3,6 +3,7 @@ package com.google.android.gms.common.internal;
 import com.google.android.gms.common.api.Response;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.internal.PendingResultUtil;
+
 /* loaded from: classes.dex */
 final class zaq implements PendingResultUtil.ResultConverter {
     final /* synthetic */ Response zaa;

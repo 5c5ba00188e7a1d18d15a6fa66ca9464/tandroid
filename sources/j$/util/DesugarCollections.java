@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
 /* loaded from: classes2.dex */
 public class DesugarCollections {
     public static final Class a;
@@ -92,17 +93,17 @@ public class DesugarCollections {
         if (field == null) {
             try {
                 a.C((List) d.get(list), comparator);
-                return;
             } catch (IllegalAccessException e2) {
                 throw new Error("Runtime illegal access in synchronized collection sort fall-back.", e2);
             }
-        }
-        try {
-            synchronized (field.get(list)) {
-                a.C((List) d.get(list), comparator);
+        } else {
+            try {
+                synchronized (field.get(list)) {
+                    a.C((List) d.get(list), comparator);
+                }
+            } catch (IllegalAccessException e3) {
+                throw new Error("Runtime illegal access in synchronized list sort.", e3);
             }
-        } catch (IllegalAccessException e3) {
-            throw new Error("Runtime illegal access in synchronized list sort.", e3);
         }
     }
 

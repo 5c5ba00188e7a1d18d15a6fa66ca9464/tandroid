@@ -6,6 +6,7 @@ import j$.util.function.Consumer;
 import j$.util.function.Predicate;
 import j$.util.function.Supplier;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class k0 implements Supplier, Consumer {
     public final /* synthetic */ int a;
@@ -19,7 +20,8 @@ public final /* synthetic */ class k0 implements Supplier, Consumer {
     }
 
     @Override // j$.util.function.Consumer
-    public void accept(Object obj) {
+    /* renamed from: accept */
+    public void r(Object obj) {
         switch (this.a) {
             case 4:
                 ((b3) this.b).f((Consumer) this.c, obj);
@@ -28,9 +30,10 @@ public final /* synthetic */ class k0 implements Supplier, Consumer {
                 if (obj == null) {
                     ((AtomicBoolean) this.b).set(true);
                     return;
+                } else {
+                    ((ConcurrentHashMap) this.c).putIfAbsent(obj, Boolean.TRUE);
+                    return;
                 }
-                ((ConcurrentHashMap) this.c).putIfAbsent(obj, Boolean.TRUE);
-                return;
             default:
                 ((BiConsumer) this.b).accept(this.c, obj);
                 return;

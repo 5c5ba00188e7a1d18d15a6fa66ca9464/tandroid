@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_common;
+
 /* loaded from: classes.dex */
 public abstract class zzav {
     /* JADX INFO: Access modifiers changed from: package-private */

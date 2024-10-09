@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.BiConsumer;
 import j$.util.function.Supplier;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public abstract class A extends b implements D {
@@ -21,11 +22,11 @@ public abstract class A extends b implements D {
         if (q instanceof j$.util.E) {
             return (j$.util.E) q;
         }
-        if (A3.a) {
-            A3.a(b.class, "using DoubleStream.adapt(Spliterator<Double> s)");
-            throw null;
+        if (!A3.a) {
+            throw new UnsupportedOperationException("DoubleStream.adapt(Spliterator<Double> s)");
         }
-        throw new UnsupportedOperationException("DoubleStream.adapt(Spliterator<Double> s)");
+        A3.a(b.class, "using DoubleStream.adapt(Spliterator<Double> s)");
+        throw null;
     }
 
     @Override // j$.util.stream.D
@@ -74,16 +75,16 @@ public abstract class A extends b implements D {
     @Override // j$.util.stream.D
     public final j$.util.l average() {
         double[] dArr = (double[]) B(new l(21), new l(3), new l(4));
-        if (dArr[2] > 0.0d) {
-            Set set = Collectors.a;
-            double d = dArr[0] + dArr[1];
-            double d2 = dArr[dArr.length - 1];
-            if (Double.isNaN(d) && Double.isInfinite(d2)) {
-                d = d2;
-            }
-            return j$.util.l.d(d / dArr[2]);
+        if (dArr[2] <= 0.0d) {
+            return j$.util.l.a();
         }
-        return j$.util.l.a();
+        Set set = Collectors.a;
+        double d = dArr[0] + dArr[1];
+        double d2 = dArr[dArr.length - 1];
+        if (Double.isNaN(d) && Double.isInfinite(d2)) {
+            d = d2;
+        }
+        return j$.util.l.d(d / dArr[2]);
     }
 
     @Override // j$.util.stream.D
@@ -178,10 +179,11 @@ public abstract class A extends b implements D {
         j$.util.E H0 = H0(q);
         if (e2Var instanceof j$.util.function.n) {
             qVar = (j$.util.function.n) e2Var;
-        } else if (A3.a) {
-            A3.a(b.class, "using DoubleStream.adapt(Sink<Double> s)");
-            throw null;
         } else {
+            if (A3.a) {
+                A3.a(b.class, "using DoubleStream.adapt(Sink<Double> s)");
+                throw null;
+            }
             e2Var.getClass();
             qVar = new q(0, e2Var);
         }

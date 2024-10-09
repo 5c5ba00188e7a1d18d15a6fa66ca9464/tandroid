@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class TtmlSubtitle implements Subtitle {
     private final long[] eventTimesUs;

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes3.dex */
 public class SuperRippleFallback extends ISuperRipple {
     public final int MAX_COUNT;
@@ -131,8 +132,9 @@ public class SuperRippleFallback extends ISuperRipple {
             Effect effect = (Effect) it.next();
             double d = effect.t / effect.duration;
             Double.isNaN(d);
+            float sin = 1.0f - ((float) Math.sin(d * 3.141592653589793d));
             float f6 = effect.intensity * 0.04f;
-            f5 *= (1.0f - f6) + (f6 * (1.0f - ((float) Math.sin(d * 3.141592653589793d))));
+            f5 *= (1.0f - f6) + (f6 * sin);
             f4 += effect.cx * 1.0f;
             f3 += effect.cy * 1.0f;
             f2 += 1.0f;

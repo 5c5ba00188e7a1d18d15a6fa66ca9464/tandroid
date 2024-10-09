@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.util;
+
 /* loaded from: classes.dex */
 public final class Size {
     public static final Size UNKNOWN = new Size(-1, -1);
@@ -19,11 +20,11 @@ public final class Size {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof Size) {
-            Size size = (Size) obj;
-            return this.width == size.width && this.height == size.height;
+        if (!(obj instanceof Size)) {
+            return false;
         }
-        return false;
+        Size size = (Size) obj;
+        return this.width == size.width && this.height == size.height;
     }
 
     public int getHeight() {

@@ -13,6 +13,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
+
 /* loaded from: classes4.dex */
 public class AvatarSpan extends ReplacementSpan {
     private final AvatarDrawable avatarDrawable;
@@ -91,9 +92,8 @@ public class AvatarSpan extends ReplacementSpan {
     }
 
     public void setDialogId(long j) {
-        int i = (j > 0L ? 1 : (j == 0L ? 0 : -1));
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-        if (i >= 0) {
+        if (j >= 0) {
             setUser(messagesController.getUser(Long.valueOf(j)));
         } else {
             setChat(messagesController.getChat(Long.valueOf(-j)));

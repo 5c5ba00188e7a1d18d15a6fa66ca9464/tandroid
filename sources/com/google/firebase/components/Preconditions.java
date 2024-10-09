@@ -1,4 +1,5 @@
 package com.google.firebase.components;
+
 /* loaded from: classes.dex */
 public abstract class Preconditions {
     public static void checkArgument(boolean z, String str) {

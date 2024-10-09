@@ -14,6 +14,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes4.dex */
 public abstract class GroupCallTextCell extends FrameLayout {
     private Paint dividerPaint;
@@ -100,16 +101,16 @@ public abstract class GroupCallTextCell extends FrameLayout {
 
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        CharSequence text;
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-        CharSequence text2 = this.textView.getText();
-        if (TextUtils.isEmpty(text2)) {
+        CharSequence text = this.textView.getText();
+        if (TextUtils.isEmpty(text)) {
             return;
         }
-        if (!TextUtils.isEmpty(this.valueTextView.getText())) {
-            text2 = ((Object) text2) + ": " + ((Object) text);
+        CharSequence text2 = this.valueTextView.getText();
+        if (!TextUtils.isEmpty(text2)) {
+            text = ((Object) text) + ": " + ((Object) text2);
         }
-        accessibilityNodeInfo.setText(text2);
+        accessibilityNodeInfo.setText(text);
     }
 
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View

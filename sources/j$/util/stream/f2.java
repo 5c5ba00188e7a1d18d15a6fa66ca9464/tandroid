@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class f2 extends a2 {
     long b;
@@ -16,7 +17,8 @@ final class f2 extends a2 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         long j = this.b;
         if (j != 0) {
             this.b = j - 1;
@@ -25,7 +27,7 @@ final class f2 extends a2 {
         long j2 = this.c;
         if (j2 > 0) {
             this.c = j2 - 1;
-            this.a.accept((e2) obj);
+            this.a.r((e2) obj);
         }
     }
 

@@ -3,6 +3,7 @@ package com.google.android.gms.vision.face;
 import android.graphics.PointF;
 import java.util.Arrays;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class Face {
     private int zza;

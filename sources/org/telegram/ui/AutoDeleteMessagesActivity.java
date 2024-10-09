@@ -33,6 +33,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.StickerImageView;
 import org.telegram.ui.UsersSelectActivity;
+
 /* loaded from: classes4.dex */
 public class AutoDeleteMessagesActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     RadioCellInternal afterOneDay;
@@ -206,12 +207,12 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
         while (true) {
             if (i4 >= this.arrayList.size()) {
                 break;
-            } else if (i < ((RadioCellInternal) this.arrayList.get(i4)).time) {
+            }
+            if (i < ((RadioCellInternal) this.arrayList.get(i4)).time) {
                 size = i4 + 1;
                 break;
-            } else {
-                i4++;
             }
+            i4++;
         }
         RadioCellInternal radioCellInternal = new RadioCellInternal(getContext());
         radioCellInternal.custom = true;
@@ -259,7 +260,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    AutoDeleteMessagesActivity.this.finishFragment();
+                    AutoDeleteMessagesActivity.this.lambda$onBackPressed$300();
                 }
             }
         });
@@ -274,8 +275,8 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
         FrameLayout frameLayout2 = new FrameLayout(context);
         StickerImageView stickerImageView = new StickerImageView(context, this.currentAccount);
         stickerImageView.setStickerNum(10);
-        frameLayout2.addView(stickerImageView, LayoutHelper.createFrame((int) NotificationCenter.walletSyncProgressChanged, (int) NotificationCenter.walletSyncProgressChanged, 17));
-        linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, (int) NotificationCenter.groupCallVisibilityChanged));
+        frameLayout2.addView(stickerImageView, LayoutHelper.createFrame(NotificationCenter.walletSyncProgressChanged, NotificationCenter.walletSyncProgressChanged, 17));
+        linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, NotificationCenter.groupCallVisibilityChanged));
         LinearLayout linearLayout2 = new LinearLayout(getContext());
         this.checkBoxContainer = linearLayout2;
         linearLayout2.setOrientation(1);

@@ -1,6 +1,7 @@
 package kotlin.jvm.internal;
 
 import kotlin.reflect.KClass;
+
 /* loaded from: classes.dex */
 public abstract class Reflection {
     private static final KClass[] EMPTY_K_CLASS_ARRAY;

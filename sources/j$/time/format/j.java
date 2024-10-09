@@ -1,4 +1,5 @@
 package j$.time.format;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class j implements g {
@@ -89,10 +90,10 @@ public final class j implements g {
         int i2 = this.b;
         if (i2 == 1 && i == 19 && yVar == y.NORMAL) {
             return "Value(" + lVar + ")";
-        } else if (i2 == i && yVar == y.NOT_NEGATIVE) {
-            return "Value(" + lVar + "," + i2 + ")";
-        } else {
-            return "Value(" + lVar + "," + i2 + "," + i + "," + yVar + ")";
         }
+        if (i2 == i && yVar == y.NOT_NEGATIVE) {
+            return "Value(" + lVar + "," + i2 + ")";
+        }
+        return "Value(" + lVar + "," + i2 + "," + i + "," + yVar + ")";
     }
 }

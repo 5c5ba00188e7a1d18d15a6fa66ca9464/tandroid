@@ -52,6 +52,7 @@ import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class SearchView extends LinearLayoutCompat implements CollapsibleActionView {
     static final PreQAutoCompleteTextViewReflector PRE_API_29_HIDDEN_METHOD_INVOKER;
@@ -323,7 +324,8 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
                         keyDispatcherState.startTracking(keyEvent, this);
                     }
                     return true;
-                } else if (keyEvent.getAction() == 1) {
+                }
+                if (keyEvent.getAction() == 1) {
                     KeyEvent.DispatcherState keyDispatcherState2 = getKeyDispatcherState();
                     if (keyDispatcherState2 != null) {
                         keyDispatcherState2.handleUpEvent(keyEvent);
@@ -363,9 +365,11 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
                 this.mHasPendingShowSoftInputRequest = false;
                 removeCallbacks(this.mRunShowSoftInputIfNecessary);
                 inputMethodManager.hideSoftInputFromWindow(getWindowToken(), 0);
-            } else if (!inputMethodManager.isActive(this)) {
-                this.mHasPendingShowSoftInputRequest = true;
             } else {
+                if (!inputMethodManager.isActive(this)) {
+                    this.mHasPendingShowSoftInputRequest = true;
+                    return;
+                }
                 this.mHasPendingShowSoftInputRequest = false;
                 removeCallbacks(this.mRunShowSoftInputIfNecessary);
                 inputMethodManager.showSoftInput(this, 0);
@@ -444,19 +448,19 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
                 z = true;
                 z3 = false;
             }
-            if (z3) {
-                if (!z || this.mActualBounds.contains(x, y)) {
-                    Rect rect = this.mActualBounds;
-                    f = x - rect.left;
-                    i = y - rect.top;
-                } else {
-                    f = this.mDelegateView.getWidth() / 2;
-                    i = this.mDelegateView.getHeight() / 2;
-                }
-                motionEvent.setLocation(f, i);
-                return this.mDelegateView.dispatchTouchEvent(motionEvent);
+            if (!z3) {
+                return false;
             }
-            return false;
+            if (!z || this.mActualBounds.contains(x, y)) {
+                Rect rect = this.mActualBounds;
+                f = x - rect.left;
+                i = y - rect.top;
+            } else {
+                f = this.mDelegateView.getWidth() / 2;
+                i = this.mDelegateView.getHeight() / 2;
+            }
+            motionEvent.setLocation(f, i);
+            return this.mDelegateView.dispatchTouchEvent(motionEvent);
         }
 
         public void setBounds(Rect rect, Rect rect2) {
@@ -509,9 +513,13 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
                 SearchView searchView = SearchView.this;
                 if (view == searchView.mSearchButton) {
                     searchView.onSearchClicked();
-                } else if (view == searchView.mCloseButton) {
+                    return;
+                }
+                if (view == searchView.mCloseButton) {
                     searchView.onCloseClicked();
-                } else if (view == searchView.mGoButton) {
+                    return;
+                }
+                if (view == searchView.mGoButton) {
                     searchView.onSubmitQuery();
                 } else if (view == searchView.mVoiceButton) {
                     searchView.onVoiceClicked();
@@ -528,16 +536,16 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
                 if (searchView.mSearchable == null) {
                     return false;
                 }
-                if (!searchView.mSearchSrcTextView.isPopupShowing() || SearchView.this.mSearchSrcTextView.getListSelection() == -1) {
-                    if (!SearchView.this.mSearchSrcTextView.isEmpty() && keyEvent.hasNoModifiers() && keyEvent.getAction() == 1 && i2 == 66) {
-                        view.cancelLongPress();
-                        SearchView searchView2 = SearchView.this;
-                        searchView2.launchQuerySearch(0, null, searchView2.mSearchSrcTextView.getText().toString());
-                        return true;
-                    }
+                if (searchView.mSearchSrcTextView.isPopupShowing() && SearchView.this.mSearchSrcTextView.getListSelection() != -1) {
+                    return SearchView.this.onSuggestionsKey(view, i2, keyEvent);
+                }
+                if (SearchView.this.mSearchSrcTextView.isEmpty() || !keyEvent.hasNoModifiers() || keyEvent.getAction() != 1 || i2 != 66) {
                     return false;
                 }
-                return SearchView.this.onSuggestionsKey(view, i2, keyEvent);
+                view.cancelLongPress();
+                SearchView searchView2 = SearchView.this;
+                searchView2.launchQuerySearch(0, null, searchView2.mSearchSrcTextView.getText().toString());
+                return true;
             }
         };
         TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() { // from class: androidx.appcompat.widget.SearchView.7
@@ -1090,11 +1098,12 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x001f, code lost:
-        if (r0 <= 0) goto L13;
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x001f, code lost:
+    
+        if (r0 <= 0) goto L22;
      */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0044  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x004c  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0044  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x004c  */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1195,7 +1204,8 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
                 this.mSearchSrcTextView.clearListSelection();
                 this.mSearchSrcTextView.ensureImeVisible();
                 return true;
-            } else if (i == 19) {
+            }
+            if (i == 19) {
                 this.mSearchSrcTextView.getListSelection();
                 return false;
             }
@@ -1250,17 +1260,17 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
 
     @Override // android.view.ViewGroup, android.view.View
     public boolean requestFocus(int i, Rect rect) {
-        if (!this.mClearingFocus && isFocusable()) {
-            if (isIconified()) {
-                return super.requestFocus(i, rect);
-            }
-            boolean requestFocus = this.mSearchSrcTextView.requestFocus(i, rect);
-            if (requestFocus) {
-                updateViewsVisibility(false);
-            }
-            return requestFocus;
+        if (this.mClearingFocus || !isFocusable()) {
+            return false;
         }
-        return false;
+        if (isIconified()) {
+            return super.requestFocus(i, rect);
+        }
+        boolean requestFocus = this.mSearchSrcTextView.requestFocus(i, rect);
+        if (requestFocus) {
+            updateViewsVisibility(false);
+        }
+        return requestFocus;
     }
 
     public void setAppSearchData(Bundle bundle) {

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.identity.intents.model.UserAddress;
+
 /* loaded from: classes.dex */
 public final class CardInfo extends AbstractSafeParcelable {
     public static final Parcelable.Creator<CardInfo> CREATOR = new zze();

@@ -1,6 +1,7 @@
 package com.google.firebase.messaging.reporting;
 
 import com.google.android.gms.internal.firebase_messaging.zzx;
+
 /* loaded from: classes.dex */
 public final class MessagingClientEvent {
     private static final MessagingClientEvent DEFAULT_INSTANCE = new Builder().build();
@@ -111,7 +112,7 @@ public final class MessagingClientEvent {
         UNKNOWN_EVENT(0),
         MESSAGE_DELIVERED(1),
         MESSAGE_OPEN(2);
-        
+
         private final int number_;
 
         Event(int i) {
@@ -130,7 +131,7 @@ public final class MessagingClientEvent {
         DATA_MESSAGE(1),
         TOPIC(2),
         DISPLAY_NOTIFICATION(3);
-        
+
         private final int number_;
 
         MessageType(int i) {
@@ -149,7 +150,7 @@ public final class MessagingClientEvent {
         ANDROID(1),
         IOS(2),
         WEB(3);
-        
+
         private final int number_;
 
         SDKPlatform(int i) {

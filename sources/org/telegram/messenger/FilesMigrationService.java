@@ -28,6 +28,7 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.StickerImageView;
+
 /* loaded from: classes3.dex */
 public class FilesMigrationService extends Service {
     public static FilesMigrationBottomSheet filesMigrationBottomSheet = null;
@@ -77,7 +78,7 @@ public class FilesMigrationService extends Service {
             StickerImageView stickerImageView = new StickerImageView(parentActivity, this.currentAccount);
             stickerImageView.setStickerNum(7);
             stickerImageView.getImageReceiver().setAutoRepeat(1);
-            linearLayout.addView(stickerImageView, LayoutHelper.createLinear((int) NotificationCenter.messagePlayingProgressDidChanged, (int) NotificationCenter.messagePlayingProgressDidChanged, 1, 0, 16, 0, 0));
+            linearLayout.addView(stickerImageView, LayoutHelper.createLinear(NotificationCenter.messagePlayingProgressDidChanged, NotificationCenter.messagePlayingProgressDidChanged, 1, 0, 16, 0, 0));
             TextView textView = new TextView(parentActivity);
             textView.setGravity(8388611);
             int i = Theme.key_dialogTextBlack;
@@ -134,14 +135,17 @@ public class FilesMigrationService extends Service {
             FilesMigrationService.filesMigrationBottomSheet = null;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x0031, code lost:
-            if (r11 != 0) goto L27;
+        /* JADX WARN: Code restructure failed: missing block: B:11:0x0031, code lost:
+        
+            if (r11 != 0) goto L14;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:16:0x0039, code lost:
-            if (r11 == 0) goto L12;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:17:0x003b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:12:0x003b, code lost:
+        
             r3 = true;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:29:0x0039, code lost:
+        
+            if (r11 == 0) goto L17;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -238,14 +242,14 @@ public class FilesMigrationService extends Service {
 
     private int getFilesCount(File file) {
         File[] listFiles;
-        if (file.exists() && (listFiles = file.listFiles()) != null) {
-            int i = 0;
-            for (int i2 = 0; i2 < listFiles.length; i2++) {
-                i = listFiles[i2].isDirectory() ? i + getFilesCount(listFiles[i2]) : i + 1;
-            }
-            return i;
+        if (!file.exists() || (listFiles = file.listFiles()) == null) {
+            return 0;
         }
-        return 0;
+        int i = 0;
+        for (int i2 = 0; i2 < listFiles.length; i2++) {
+            i = listFiles[i2].isDirectory() ? i + getFilesCount(listFiles[i2]) : i + 1;
+        }
+        return i;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -294,18 +298,22 @@ public class FilesMigrationService extends Service {
                 try {
                     path = file.toPath();
                     convert = Stream.VivifiedWrapper.convert(Files.list(path));
-                    convert.forEach(new Consumer() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda8
-                        @Override // j$.util.function.Consumer
-                        public final void accept(Object obj) {
-                            FilesMigrationService.this.lambda$moveDirectory$0(file2, (Path) obj);
-                        }
+                    try {
+                        convert.forEach(new Consumer() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda8
+                            @Override // j$.util.function.Consumer
+                            /* renamed from: accept */
+                            public final void r(Object obj) {
+                                FilesMigrationService.this.lambda$moveDirectory$0(file2, (Path) obj);
+                            }
 
-                        @Override // j$.util.function.Consumer
-                        public /* synthetic */ Consumer andThen(Consumer consumer) {
-                            return Consumer.-CC.$default$andThen(this, consumer);
-                        }
-                    });
-                    convert.close();
+                            @Override // j$.util.function.Consumer
+                            public /* synthetic */ Consumer andThen(Consumer consumer) {
+                                return Consumer.-CC.$default$andThen(this, consumer);
+                            }
+                        });
+                        convert.close();
+                    } finally {
+                    }
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
@@ -319,7 +327,7 @@ public class FilesMigrationService extends Service {
     }
 
     public static void start() {
-        ApplicationLoader.applicationContext.startService(new Intent(ApplicationLoader.applicationContext, FilesMigrationService.class));
+        ApplicationLoader.applicationContext.startService(new Intent(ApplicationLoader.applicationContext, (Class<?>) FilesMigrationService.class));
     }
 
     private void updateProgress() {

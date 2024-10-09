@@ -3,6 +3,7 @@ package j$.util;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class M implements Spliterator.OfPrimitive {
     public final /* synthetic */ N a;
@@ -38,7 +39,7 @@ public final /* synthetic */ class M implements Spliterator.OfPrimitive {
 
     @Override // java.util.Spliterator.OfPrimitive
     public final /* synthetic */ void forEachRemaining(Object obj) {
-        this.a.forEachRemaining(obj);
+        this.a.e(obj);
     }
 
     @Override // java.util.Spliterator
@@ -67,7 +68,7 @@ public final /* synthetic */ class M implements Spliterator.OfPrimitive {
 
     @Override // java.util.Spliterator.OfPrimitive
     public final /* synthetic */ boolean tryAdvance(Object obj) {
-        return this.a.tryAdvance(obj);
+        return this.a.p(obj);
     }
 
     @Override // java.util.Spliterator

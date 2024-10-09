@@ -1,6 +1,7 @@
 package org.telegram.messenger.video.resample;
 
 import java.nio.ShortBuffer;
+
 /* loaded from: classes3.dex */
 public class UpsampleAudioResampler implements AudioResampler {
     private static short fakeSample(ShortBuffer shortBuffer, ShortBuffer shortBuffer2, int i, int i2) {

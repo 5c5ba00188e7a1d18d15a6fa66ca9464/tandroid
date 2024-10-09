@@ -2,6 +2,7 @@ package com.google.android.gms.tasks;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzab implements Continuation {

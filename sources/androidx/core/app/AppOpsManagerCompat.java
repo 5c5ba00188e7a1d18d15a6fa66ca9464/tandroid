@@ -4,6 +4,7 @@ import android.app.AppOpsManager;
 import android.content.Context;
 import android.os.Binder;
 import android.os.Build;
+
 /* loaded from: classes.dex */
 public abstract class AppOpsManagerCompat {
 
@@ -46,12 +47,12 @@ public abstract class AppOpsManagerCompat {
     }
 
     public static int checkOrNoteProxyOp(Context context, int i, String str, String str2) {
-        if (Build.VERSION.SDK_INT >= 29) {
-            AppOpsManager systemService = Api29Impl.getSystemService(context);
-            int checkOpNoThrow = Api29Impl.checkOpNoThrow(systemService, str, Binder.getCallingUid(), str2);
-            return checkOpNoThrow != 0 ? checkOpNoThrow : Api29Impl.checkOpNoThrow(systemService, str, i, Api29Impl.getOpPackageName(context));
+        if (Build.VERSION.SDK_INT < 29) {
+            return noteProxyOpNoThrow(context, str, str2);
         }
-        return noteProxyOpNoThrow(context, str, str2);
+        AppOpsManager systemService = Api29Impl.getSystemService(context);
+        int checkOpNoThrow = Api29Impl.checkOpNoThrow(systemService, str, Binder.getCallingUid(), str2);
+        return checkOpNoThrow != 0 ? checkOpNoThrow : Api29Impl.checkOpNoThrow(systemService, str, i, Api29Impl.getOpPackageName(context));
     }
 
     public static int noteProxyOpNoThrow(Context context, String str, String str2) {

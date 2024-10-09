@@ -3,6 +3,7 @@ package j$.util;
 import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes2.dex */
 final class S implements Iterator, Consumer {
     boolean a = false;
@@ -35,10 +36,10 @@ final class S implements Iterator, Consumer {
 
     @Override // java.util.Iterator
     public final Object next() {
-        if (this.a || hasNext()) {
-            this.a = false;
-            return this.b;
+        if (!this.a && !hasNext()) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        this.a = false;
+        return this.b;
     }
 }

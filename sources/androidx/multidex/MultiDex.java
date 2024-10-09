@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
+
 /* loaded from: classes.dex */
 public abstract class MultiDex {
     private static final Set installedApk = new HashSet();
@@ -98,29 +99,41 @@ public abstract class MultiDex {
                 if (dexClassloader == null) {
                     return;
                 }
-                clearOldDexDir(context);
+                try {
+                    clearOldDexDir(context);
+                } catch (Throwable th) {
+                    Log.w("MultiDex", "Something went wrong when trying to clear old MultiDex extraction, continuing without cleaning.", th);
+                }
                 File dexDir = getDexDir(context, file2, str);
                 MultiDexExtractor multiDexExtractor = new MultiDexExtractor(file, dexDir);
                 try {
-                    installSecondaryDexes(dexClassloader, dexDir, multiDexExtractor.load(context, str2, false));
-                } catch (IOException e) {
-                    if (!z) {
+                    try {
+                        installSecondaryDexes(dexClassloader, dexDir, multiDexExtractor.load(context, str2, false));
+                    } catch (IOException e) {
+                        if (!z) {
+                            throw e;
+                        }
+                        Log.w("MultiDex", "Failed to install extracted secondary dex files, retrying with forced extraction", e);
+                        installSecondaryDexes(dexClassloader, dexDir, multiDexExtractor.load(context, str2, true));
+                    }
+                    try {
+                        multiDexExtractor.close();
+                        e = null;
+                    } catch (IOException e2) {
+                        e = e2;
+                    }
+                    if (e != null) {
                         throw e;
                     }
-                    Log.w("MultiDex", "Failed to install extracted secondary dex files, retrying with forced extraction", e);
-                    installSecondaryDexes(dexClassloader, dexDir, multiDexExtractor.load(context, str2, true));
+                } catch (Throwable th2) {
+                    try {
+                        multiDexExtractor.close();
+                    } catch (IOException unused) {
+                    }
+                    throw th2;
                 }
-                try {
-                    multiDexExtractor.close();
-                    e = null;
-                } catch (IOException e2) {
-                    e = e2;
-                }
-                if (e != null) {
-                    throw e;
-                }
-            } catch (Throwable th) {
-                throw th;
+            } catch (Throwable th3) {
+                throw th3;
             }
         }
     }
@@ -257,13 +270,13 @@ public abstract class MultiDex {
     }
 
     private static void mkdirChecked(File file) {
-        File parentFile;
         String str;
         file.mkdir();
         if (file.isDirectory()) {
             return;
         }
-        if (file.getParentFile() == null) {
+        File parentFile = file.getParentFile();
+        if (parentFile == null) {
             str = "Failed to create dir " + file.getPath() + ". Parent file is null.";
         } else {
             str = "Failed to create dir " + file.getPath() + ". parent file is a dir " + parentFile.isDirectory() + ", a file " + parentFile.isFile() + ", exists " + parentFile.exists() + ", readable " + parentFile.canRead() + ", writable " + parentFile.canWrite();

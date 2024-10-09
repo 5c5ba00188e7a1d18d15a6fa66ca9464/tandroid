@@ -33,6 +33,7 @@ import org.telegram.ui.Cells.ReactedUserHolderView;
 import org.telegram.ui.Components.ReactedHeaderView;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
+
 /* loaded from: classes3.dex */
 public class ReactedUsersListView extends FrameLayout {
     private RecyclerView.Adapter adapter;
@@ -367,11 +368,14 @@ public class ReactedUsersListView extends FrameLayout {
             OnProfileSelectedListener onProfileSelectedListener = this.onProfileSelectedListener;
             if (onProfileSelectedListener != null) {
                 onProfileSelectedListener.onProfileSelected(this, MessageObject.getPeerId(((TLRPC.MessagePeerReaction) this.userReactions.get(i)).peer_id), (TLRPC.MessagePeerReaction) this.userReactions.get(i));
+                return;
             }
-        } else if (itemViewType != 1 || (onCustomEmojiSelectedListener = this.onCustomEmojiSelectedListener) == null) {
-        } else {
-            onCustomEmojiSelectedListener.showCustomEmojiAlert(this, this.customEmojiStickerSets);
+            return;
         }
+        if (itemViewType != 1 || (onCustomEmojiSelectedListener = this.onCustomEmojiSelectedListener) == null) {
+            return;
+        }
+        onCustomEmojiSelectedListener.showCustomEmojiAlert(this, this.customEmojiStickerSets);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

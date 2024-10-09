@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigInfo;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import java.util.Date;
+
 /* loaded from: classes.dex */
 public class ConfigMetadataClient {
     static final Date LAST_FETCH_TIME_NO_FETCH_YET = new Date(-1);

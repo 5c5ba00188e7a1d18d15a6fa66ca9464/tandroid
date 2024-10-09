@@ -16,6 +16,7 @@ import org.telegram.ui.Business.QuickRepliesController;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Stories.recorder.HintView2;
+
 /* loaded from: classes4.dex */
 public class QuickRepliesEmptyView extends LinearLayout {
     private TextView descriptionView;
@@ -39,9 +40,9 @@ public class QuickRepliesEmptyView extends LinearLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x018d  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0192  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x01a7  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x01a7  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0192  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x018d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -75,36 +76,37 @@ public class QuickRepliesEmptyView extends LinearLayout {
             this.titleView.setText(LocaleController.getString(R.string.BusinessGreetingIntroTitle));
             textView = this.descriptionView;
             i3 = R.string.BusinessGreetingIntro;
-        } else if (!"away".equalsIgnoreCase(str)) {
-            if (i == 5) {
-                this.imageView.setImageResource(R.drawable.large_quickreplies);
-                QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(UserConfig.selectedAccount).findReply(j2);
-                str = findReply != null ? findReply.name : str;
-                this.titleView.setText(LocaleController.getString(R.string.BusinessRepliesIntroTitle));
-                this.descriptionView.setMaxWidth(AndroidUtilities.dp(208.0f));
-                this.descriptionView.setTextAlignment(2);
-                this.descriptionView.setGravity(3);
-                this.descriptionView.setText(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BusinessRepliesIntro1, str)));
-                this.descriptionView.setPadding(AndroidUtilities.dp(28.0f), 0, 0, 0);
-                DotTextView dotTextView2 = new DotTextView(context);
-                this.descriptionView2 = dotTextView2;
-                dotTextView2.setMaxWidth(AndroidUtilities.dp(208.0f));
-                this.descriptionView2.setTextAlignment(2);
-                this.descriptionView2.setGravity(3);
-                this.descriptionView2.setTextSize(1, 13.0f);
-                this.descriptionView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.BusinessRepliesIntro2)));
-                this.descriptionView2.setPadding(AndroidUtilities.dp(28.0f), 0, 0, 0);
-            }
-            i2 = 12;
-            addView(this.imageView, LayoutHelper.createLinear(78, 78, 49, 20, 17, 20, 9));
-            addView(this.titleView, LayoutHelper.createLinear(-2, -2, 49, 20, 0, 20, 9));
-            addView(this.descriptionView, LayoutHelper.createLinear(-2, -2, 49, i2, 0, i2, this.descriptionView2 == null ? 9 : 19));
-            textView2 = this.descriptionView2;
-            if (textView2 != null) {
-                addView(textView2, LayoutHelper.createLinear(-2, -2, 49, 12, 0, 12, 19));
-            }
-            updateColors();
         } else {
+            if (!"away".equalsIgnoreCase(str)) {
+                if (i == 5) {
+                    this.imageView.setImageResource(R.drawable.large_quickreplies);
+                    QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(UserConfig.selectedAccount).findReply(j2);
+                    str = findReply != null ? findReply.name : str;
+                    this.titleView.setText(LocaleController.getString(R.string.BusinessRepliesIntroTitle));
+                    this.descriptionView.setMaxWidth(AndroidUtilities.dp(208.0f));
+                    this.descriptionView.setTextAlignment(2);
+                    this.descriptionView.setGravity(3);
+                    this.descriptionView.setText(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BusinessRepliesIntro1, str)));
+                    this.descriptionView.setPadding(AndroidUtilities.dp(28.0f), 0, 0, 0);
+                    DotTextView dotTextView2 = new DotTextView(context);
+                    this.descriptionView2 = dotTextView2;
+                    dotTextView2.setMaxWidth(AndroidUtilities.dp(208.0f));
+                    this.descriptionView2.setTextAlignment(2);
+                    this.descriptionView2.setGravity(3);
+                    this.descriptionView2.setTextSize(1, 13.0f);
+                    this.descriptionView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.BusinessRepliesIntro2)));
+                    this.descriptionView2.setPadding(AndroidUtilities.dp(28.0f), 0, 0, 0);
+                }
+                i2 = 12;
+                addView(this.imageView, LayoutHelper.createLinear(78, 78, 49, 20, 17, 20, 9));
+                addView(this.titleView, LayoutHelper.createLinear(-2, -2, 49, 20, 0, 20, 9));
+                addView(this.descriptionView, LayoutHelper.createLinear(-2, -2, 49, i2, 0, i2, this.descriptionView2 == null ? 9 : 19));
+                textView2 = this.descriptionView2;
+                if (textView2 != null) {
+                    addView(textView2, LayoutHelper.createLinear(-2, -2, 49, 12, 0, 12, 19));
+                }
+                updateColors();
+            }
             this.imageView.setImageResource(R.drawable.large_away);
             this.titleView.setText(LocaleController.getString(R.string.BusinessAwayIntroTitle));
             textView = this.descriptionView;

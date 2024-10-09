@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.extractor;
 
 import com.google.android.exoplayer2.upstream.DataReader;
+
 /* loaded from: classes.dex */
 public interface ExtractorInput extends DataReader {
     void advancePeekPosition(int i);

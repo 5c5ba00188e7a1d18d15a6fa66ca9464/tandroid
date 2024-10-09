@@ -6,6 +6,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.inputmethod.EditorInfo;
 import androidx.core.util.Preconditions;
+
 /* loaded from: classes.dex */
 public abstract class EditorInfoCompat {
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
@@ -36,13 +37,13 @@ public abstract class EditorInfoCompat {
     }
 
     private static boolean isCutOnSurrogate(CharSequence charSequence, int i, int i2) {
-        if (i2 != 0) {
-            if (i2 != 1) {
-                return false;
-            }
-            return Character.isHighSurrogate(charSequence.charAt(i));
+        if (i2 == 0) {
+            return Character.isLowSurrogate(charSequence.charAt(i));
         }
-        return Character.isLowSurrogate(charSequence.charAt(i));
+        if (i2 != 1) {
+            return false;
+        }
+        return Character.isHighSurrogate(charSequence.charAt(i));
     }
 
     private static boolean isPasswordInputType(int i) {
@@ -75,7 +76,9 @@ public abstract class EditorInfoCompat {
         int length = charSequence.length();
         if (i < 0 || i4 < 0 || i5 > length) {
             setSurroundingText(editorInfo, null, 0, 0);
-        } else if (isPasswordInputType(editorInfo.inputType)) {
+            return;
+        }
+        if (isPasswordInputType(editorInfo.inputType)) {
             setSurroundingText(editorInfo, null, 0, 0);
         } else if (length <= 2048) {
             setSurroundingText(editorInfo, charSequence, i4, i5);
@@ -104,10 +107,11 @@ public abstract class EditorInfoCompat {
     private static void trimLongSurroundingText(EditorInfo editorInfo, CharSequence charSequence, int i, int i2) {
         int i3 = i2 - i;
         int i4 = i3 > 1024 ? 0 : i3;
+        int length = charSequence.length() - i2;
         int i5 = 2048 - i4;
         double d = i5;
         Double.isNaN(d);
-        int min = Math.min(charSequence.length() - i2, i5 - Math.min(i, (int) (d * 0.8d)));
+        int min = Math.min(length, i5 - Math.min(i, (int) (d * 0.8d)));
         int min2 = Math.min(i, i5 - min);
         int i6 = i - min2;
         if (isCutOnSurrogate(charSequence, i6, 0)) {

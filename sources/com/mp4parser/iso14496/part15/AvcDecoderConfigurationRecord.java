@@ -7,6 +7,7 @@ import com.googlecode.mp4parser.boxes.mp4.objectdescriptors.BitWriterBuffer;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class AvcDecoderConfigurationRecord {
     public int avcLevelIndication;
@@ -140,17 +141,17 @@ public class AvcDecoderConfigurationRecord {
     public long getContentSize() {
         int i;
         long j = 6;
-        for (byte[] bArr : this.sequenceParameterSets) {
-            j = j + 2 + bArr.length;
+        while (this.sequenceParameterSets.iterator().hasNext()) {
+            j = j + 2 + ((byte[]) r0.next()).length;
         }
         long j2 = j + 1;
-        for (byte[] bArr2 : this.pictureParameterSets) {
-            j2 = j2 + 2 + bArr2.length;
+        while (this.pictureParameterSets.iterator().hasNext()) {
+            j2 = j2 + 2 + ((byte[]) r3.next()).length;
         }
         if (this.hasExts && ((i = this.avcProfileIndication) == 100 || i == 110 || i == 122 || i == 144)) {
             j2 += 4;
-            for (byte[] bArr3 : this.sequenceParameterSetExts) {
-                j2 = j2 + 2 + bArr3.length;
+            while (this.sequenceParameterSetExts.iterator().hasNext()) {
+                j2 = j2 + 2 + ((byte[]) r0.next()).length;
             }
         }
         return j2;

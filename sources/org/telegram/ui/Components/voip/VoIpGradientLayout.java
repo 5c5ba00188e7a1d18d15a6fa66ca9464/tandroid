@@ -16,6 +16,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
+
 /* loaded from: classes3.dex */
 public class VoIpGradientLayout extends FrameLayout {
     private boolean allowAnimations;
@@ -322,9 +323,12 @@ public class VoIpGradientLayout extends FrameLayout {
         canvas.restore();
         if (this.showClip) {
             this.clipPath.rewind();
-            float f = this.clipRadius;
+            Path path = this.clipPath;
+            float f = this.clipCx;
+            float f2 = this.clipCy;
+            float f3 = this.clipRadius;
             Path.Direction direction = Path.Direction.CW;
-            this.clipPath.addCircle(this.clipCx, this.clipCy, f, direction);
+            path.addCircle(f, f2, f3, direction);
             canvas.clipPath(this.clipPath);
             Objects.requireNonNull(this.backgroundProvider);
             Objects.requireNonNull(this.backgroundProvider);

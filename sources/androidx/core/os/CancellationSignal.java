@@ -1,4 +1,5 @@
 package androidx.core.os;
+
 /* loaded from: classes.dex */
 public final class CancellationSignal {
     private boolean mCancelInProgress;

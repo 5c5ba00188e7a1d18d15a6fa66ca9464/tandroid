@@ -16,6 +16,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 /* loaded from: classes.dex */
 public abstract class CloudMessagingReceiver extends BroadcastReceiver {
     private final ExecutorService zza = com.google.android.gms.internal.cloudmessaging.zza.zza().zza(new NamedThreadFactory("firebase-iid-executor"), com.google.android.gms.internal.cloudmessaging.zzf.zza);
@@ -38,13 +39,13 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
         if ("com.google.firebase.messaging.NOTIFICATION_OPEN".equals(intent.getAction())) {
             onNotificationOpen(context, extras);
             return -1;
-        } else if ("com.google.firebase.messaging.NOTIFICATION_DISMISS".equals(intent.getAction())) {
+        }
+        if ("com.google.firebase.messaging.NOTIFICATION_DISMISS".equals(intent.getAction())) {
             onNotificationDismissed(context, extras);
             return -1;
-        } else {
-            Log.e("CloudMessagingReceiver", "Unknown notification action");
-            return 500;
         }
+        Log.e("CloudMessagingReceiver", "Unknown notification action");
+        return 500;
     }
 
     private final int zzb(Context context, Intent intent) {

@@ -3,6 +3,7 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import j$.util.function.Predicate;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes2.dex */
 public abstract /* synthetic */ class t0 implements x3 {
     private static final X0 a = new X0();
@@ -27,13 +28,13 @@ public abstract /* synthetic */ class t0 implements x3 {
         if (o0 < 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             F0 f0 = (F0) new K0(q, i, bVar).invoke();
             return z ? N(f0, i) : f0;
-        } else if (o0 < 2147483639) {
-            Object[] objArr = (Object[]) i.apply((int) o0);
-            new p1(q, bVar, objArr).invoke();
-            return new I0(objArr);
-        } else {
+        }
+        if (o0 >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
+        Object[] objArr = (Object[]) i.apply((int) o0);
+        new p1(q, bVar, objArr).invoke();
+        return new I0(objArr);
     }
 
     public static z0 F(b bVar, j$.util.Q q, boolean z) {
@@ -41,13 +42,13 @@ public abstract /* synthetic */ class t0 implements x3 {
         if (o0 < 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             z0 z0Var = (z0) new K0(0, q, bVar).invoke();
             return z ? O(z0Var) : z0Var;
-        } else if (o0 < 2147483639) {
-            double[] dArr = new double[(int) o0];
-            new m1(q, bVar, dArr).invoke();
-            return new R0(dArr);
-        } else {
+        }
+        if (o0 >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
+        double[] dArr = new double[(int) o0];
+        new m1(q, bVar, dArr).invoke();
+        return new R0(dArr);
     }
 
     public static B0 G(b bVar, j$.util.Q q, boolean z) {
@@ -55,13 +56,13 @@ public abstract /* synthetic */ class t0 implements x3 {
         if (o0 < 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             B0 b0 = (B0) new K0(1, q, bVar).invoke();
             return z ? P(b0) : b0;
-        } else if (o0 < 2147483639) {
-            int[] iArr = new int[(int) o0];
-            new n1(q, bVar, iArr).invoke();
-            return new a1(iArr);
-        } else {
+        }
+        if (o0 >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
+        int[] iArr = new int[(int) o0];
+        new n1(q, bVar, iArr).invoke();
+        return new a1(iArr);
     }
 
     public static D0 H(b bVar, j$.util.Q q, boolean z) {
@@ -69,31 +70,31 @@ public abstract /* synthetic */ class t0 implements x3 {
         if (o0 < 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
             D0 d0 = (D0) new K0(2, q, bVar).invoke();
             return z ? Q(d0) : d0;
-        } else if (o0 < 2147483639) {
-            long[] jArr = new long[(int) o0];
-            new o1(q, bVar, jArr).invoke();
-            return new j1(jArr);
-        } else {
+        }
+        if (o0 >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
+        long[] jArr = new long[(int) o0];
+        new o1(q, bVar, jArr).invoke();
+        return new j1(jArr);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static H0 I(T2 t2, F0 f0, F0 f02) {
         int i = G0.a[t2.ordinal()];
-        if (i != 1) {
-            if (i != 2) {
-                if (i != 3) {
-                    if (i == 4) {
-                        return new M0((z0) f0, (z0) f02);
-                    }
-                    throw new IllegalStateException("Unknown shape " + t2);
-                }
-                return new O0((D0) f0, (D0) f02);
-            }
+        if (i == 1) {
+            return new Q0(f0, f02);
+        }
+        if (i == 2) {
             return new N0((B0) f0, (B0) f02);
         }
-        return new Q0(f0, f02);
+        if (i == 3) {
+            return new O0((D0) f0, (D0) f02);
+        }
+        if (i == 4) {
+            return new M0((z0) f0, (z0) f02);
+        }
+        throw new IllegalStateException("Unknown shape " + t2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -109,19 +110,20 @@ public abstract /* synthetic */ class t0 implements x3 {
     public static Y0 L(T2 t2) {
         Object obj;
         int i = G0.a[t2.ordinal()];
-        if (i != 1) {
-            if (i == 2) {
-                obj = b;
-            } else if (i == 3) {
-                obj = c;
-            } else if (i != 4) {
-                throw new IllegalStateException("Unknown shape " + t2);
-            } else {
-                obj = d;
-            }
-            return (Y0) obj;
+        if (i == 1) {
+            return a;
         }
-        return a;
+        if (i == 2) {
+            obj = b;
+        } else if (i == 3) {
+            obj = c;
+        } else {
+            if (i != 4) {
+                throw new IllegalStateException("Unknown shape " + t2);
+            }
+            obj = d;
+        }
+        return (Y0) obj;
     }
 
     private static int M(long j) {
@@ -129,55 +131,55 @@ public abstract /* synthetic */ class t0 implements x3 {
     }
 
     public static F0 N(F0 f0, j$.util.function.I i) {
-        if (f0.p() > 0) {
-            long count = f0.count();
-            if (count < 2147483639) {
-                Object[] objArr = (Object[]) i.apply((int) count);
-                new t1(f0, objArr, 1).invoke();
-                return new I0(objArr);
-            }
+        if (f0.p() <= 0) {
+            return f0;
+        }
+        long count = f0.count();
+        if (count >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        return f0;
+        Object[] objArr = (Object[]) i.apply((int) count);
+        new t1(f0, objArr, 1).invoke();
+        return new I0(objArr);
     }
 
     public static z0 O(z0 z0Var) {
-        if (z0Var.p() > 0) {
-            long count = z0Var.count();
-            if (count < 2147483639) {
-                double[] dArr = new double[(int) count];
-                new s1(z0Var, dArr).invoke();
-                return new R0(dArr);
-            }
+        if (z0Var.p() <= 0) {
+            return z0Var;
+        }
+        long count = z0Var.count();
+        if (count >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        return z0Var;
+        double[] dArr = new double[(int) count];
+        new s1(z0Var, dArr).invoke();
+        return new R0(dArr);
     }
 
     public static B0 P(B0 b0) {
-        if (b0.p() > 0) {
-            long count = b0.count();
-            if (count < 2147483639) {
-                int[] iArr = new int[(int) count];
-                new s1(b0, iArr).invoke();
-                return new a1(iArr);
-            }
+        if (b0.p() <= 0) {
+            return b0;
+        }
+        long count = b0.count();
+        if (count >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        return b0;
+        int[] iArr = new int[(int) count];
+        new s1(b0, iArr).invoke();
+        return new a1(iArr);
     }
 
     public static D0 Q(D0 d0) {
-        if (d0.p() > 0) {
-            long count = d0.count();
-            if (count < 2147483639) {
-                long[] jArr = new long[(int) count];
-                new s1(d0, jArr).invoke();
-                return new j1(jArr);
-            }
+        if (d0.p() <= 0) {
+            return d0;
+        }
+        long count = d0.count();
+        if (count >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        return d0;
+        long[] jArr = new long[(int) count];
+        new s1(d0, jArr).invoke();
+        return new j1(jArr);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -258,9 +260,8 @@ public abstract /* synthetic */ class t0 implements x3 {
         if (A3.a) {
             A3.a(b2Var.getClass(), "{0} calling Sink.OfDouble.accept(Double)");
             throw null;
-        } else {
-            b2Var.accept(d2.doubleValue());
         }
+        b2Var.accept(d2.doubleValue());
     }
 
     public static Stream e0(j$.util.Q q, boolean z) {
@@ -272,18 +273,16 @@ public abstract /* synthetic */ class t0 implements x3 {
         if (A3.a) {
             A3.a(c2Var.getClass(), "{0} calling Sink.OfInt.accept(Integer)");
             throw null;
-        } else {
-            c2Var.accept(num.intValue());
         }
+        c2Var.accept(num.intValue());
     }
 
     public static void i(d2 d2Var, Long l) {
         if (A3.a) {
             A3.a(d2Var.getClass(), "{0} calling Sink.OfLong.accept(Long)");
             throw null;
-        } else {
-            d2Var.accept(l.longValue());
         }
+        d2Var.accept(l.longValue());
     }
 
     public static void k() {
@@ -298,13 +297,13 @@ public abstract /* synthetic */ class t0 implements x3 {
         if (A3.a) {
             A3.a(e0.getClass(), "{0} calling Node.OfPrimitive.asArray");
             throw null;
-        } else if (e0.count() < 2147483639) {
-            Object[] objArr = (Object[]) i.apply((int) e0.count());
-            e0.i(objArr, 0);
-            return objArr;
-        } else {
+        }
+        if (e0.count() >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
+        Object[] objArr = (Object[]) i.apply((int) e0.count());
+        e0.i(objArr, 0);
+        return objArr;
     }
 
     public static void n(z0 z0Var, Double[] dArr, int i) {
@@ -343,10 +342,11 @@ public abstract /* synthetic */ class t0 implements x3 {
     public static void q(z0 z0Var, Consumer consumer) {
         if (consumer instanceof j$.util.function.n) {
             z0Var.g((j$.util.function.n) consumer);
-        } else if (A3.a) {
-            A3.a(z0Var.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
-            throw null;
         } else {
+            if (A3.a) {
+                A3.a(z0Var.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
+                throw null;
+            }
             ((j$.util.E) z0Var.spliterator()).a(consumer);
         }
     }
@@ -354,10 +354,11 @@ public abstract /* synthetic */ class t0 implements x3 {
     public static void r(B0 b0, Consumer consumer) {
         if (consumer instanceof j$.util.function.F) {
             b0.g((j$.util.function.F) consumer);
-        } else if (A3.a) {
-            A3.a(b0.getClass(), "{0} calling Node.OfInt.forEachRemaining(Consumer)");
-            throw null;
         } else {
+            if (A3.a) {
+                A3.a(b0.getClass(), "{0} calling Node.OfInt.forEachRemaining(Consumer)");
+                throw null;
+            }
             ((j$.util.H) b0.spliterator()).a(consumer);
         }
     }
@@ -365,10 +366,11 @@ public abstract /* synthetic */ class t0 implements x3 {
     public static void s(D0 d0, Consumer consumer) {
         if (consumer instanceof j$.util.function.W) {
             d0.g((j$.util.function.W) consumer);
-        } else if (A3.a) {
-            A3.a(d0.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
-            throw null;
         } else {
+            if (A3.a) {
+                A3.a(d0.getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
+                throw null;
+            }
             ((j$.util.K) d0.spliterator()).a(consumer);
         }
     }
@@ -397,9 +399,9 @@ public abstract /* synthetic */ class t0 implements x3 {
         j$.util.H h = (j$.util.H) b0.spliterator();
         v0 R = R(j3);
         R.n(j3);
-        for (int i = 0; i < j && h.g(new A0(0)); i++) {
+        for (int i = 0; i < j && h.p(new A0(0)); i++) {
         }
-        for (int i2 = 0; i2 < j3 && h.g(R); i2++) {
+        for (int i2 = 0; i2 < j3 && h.p(R); i2++) {
         }
         R.m();
         return R.b();
@@ -413,9 +415,9 @@ public abstract /* synthetic */ class t0 implements x3 {
         j$.util.K k = (j$.util.K) d0.spliterator();
         w0 T = T(j3);
         T.n(j3);
-        for (int i = 0; i < j && k.i(new C0(0)); i++) {
+        for (int i = 0; i < j && k.p(new C0(0)); i++) {
         }
-        for (int i2 = 0; i2 < j3 && k.i(T); i2++) {
+        for (int i2 = 0; i2 < j3 && k.p(T); i2++) {
         }
         T.m();
         return T.b();
@@ -451,19 +453,19 @@ public abstract /* synthetic */ class t0 implements x3 {
         long j3 = j2 >= 0 ? j + j2 : Long.MAX_VALUE;
         long j4 = j3 >= 0 ? j3 : Long.MAX_VALUE;
         int i = n2.a[t2.ordinal()];
-        if (i != 1) {
-            if (i != 2) {
-                if (i != 3) {
-                    if (i == 4) {
-                        return new i3((j$.util.E) q, j, j4);
-                    }
-                    throw new IllegalStateException("Unknown shape " + t2);
-                }
-                return new k3((j$.util.K) q, j, j4);
-            }
+        if (i == 1) {
+            return new m3(q, j, j4);
+        }
+        if (i == 2) {
             return new j3((j$.util.H) q, j, j4);
         }
-        return new m3(q, j, j4);
+        if (i == 3) {
+            return new k3((j$.util.K) q, j, j4);
+        }
+        if (i == 4) {
+            return new i3((j$.util.E) q, j, j4);
+        }
+        throw new IllegalStateException("Unknown shape " + t2);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

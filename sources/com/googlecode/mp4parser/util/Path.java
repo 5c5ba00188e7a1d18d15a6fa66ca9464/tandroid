@@ -3,6 +3,7 @@ package com.googlecode.mp4parser.util;
 import com.coremedia.iso.boxes.Box;
 import com.coremedia.iso.boxes.Container;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public abstract class Path {
     static Pattern component = Pattern.compile("(....|\\.\\.)(\\[(.*)\\])?");

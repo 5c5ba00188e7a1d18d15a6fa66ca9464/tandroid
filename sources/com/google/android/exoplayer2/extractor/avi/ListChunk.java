@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor.avi;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.UnmodifiableIterator;
+
 /* loaded from: classes.dex */
 final class ListChunk implements AviChunk {
     public final ImmutableList children;
@@ -14,19 +15,19 @@ final class ListChunk implements AviChunk {
     }
 
     private static AviChunk createBox(int i, int i2, ParsableByteArray parsableByteArray) {
-        if (i != 1718776947) {
-            if (i != 1751742049) {
-                if (i != 1752331379) {
-                    if (i != 1852994675) {
-                        return null;
-                    }
-                    return StreamNameChunk.parseFrom(parsableByteArray);
-                }
-                return AviStreamHeaderChunk.parseFrom(parsableByteArray);
-            }
+        if (i == 1718776947) {
+            return StreamFormatChunk.parseFrom(i2, parsableByteArray);
+        }
+        if (i == 1751742049) {
             return AviMainHeaderChunk.parseFrom(parsableByteArray);
         }
-        return StreamFormatChunk.parseFrom(i2, parsableByteArray);
+        if (i == 1752331379) {
+            return AviStreamHeaderChunk.parseFrom(parsableByteArray);
+        }
+        if (i != 1852994675) {
+            return null;
+        }
+        return StreamNameChunk.parseFrom(parsableByteArray);
     }
 
     public static ListChunk parseFrom(int i, ParsableByteArray parsableByteArray) {

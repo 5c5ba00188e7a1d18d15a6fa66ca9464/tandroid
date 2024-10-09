@@ -12,6 +12,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class DefaultBandwidthMeter implements BandwidthMeter, TransferListener {
     private static DefaultBandwidthMeter singletonInstance;
@@ -98,8 +99,9 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:954:0x0cf8, code lost:
-        if (r8.equals("AD") == false) goto L3;
+    /* JADX WARN: Code restructure failed: missing block: B:1053:0x0cf8, code lost:
+    
+        if (r8.equals("AD") == false) goto L4;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

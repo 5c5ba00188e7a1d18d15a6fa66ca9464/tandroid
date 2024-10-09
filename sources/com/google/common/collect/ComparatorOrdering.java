@@ -3,6 +3,7 @@ package com.google.common.collect;
 import com.google.common.base.Preconditions;
 import java.io.Serializable;
 import java.util.Comparator;
+
 /* loaded from: classes.dex */
 final class ComparatorOrdering extends Ordering implements Serializable {
     final Comparator comparator;

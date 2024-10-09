@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 final class Z2 extends a3 implements Consumer {
     final Object[] b = new Object[128];

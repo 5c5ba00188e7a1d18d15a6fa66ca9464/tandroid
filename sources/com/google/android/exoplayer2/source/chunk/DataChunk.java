@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 import org.telegram.messenger.LiteMode;
+
 /* loaded from: classes.dex */
 public abstract class DataChunk extends Chunk {
     private byte[] data;

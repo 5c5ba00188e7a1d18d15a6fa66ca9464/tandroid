@@ -1,6 +1,7 @@
 package org.webrtc;
 
 import org.webrtc.Logging;
+
 /* loaded from: classes.dex */
 public class CallSessionFileRotatingLogSink {
     private long nativeSink;

@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 public abstract class ViewCompat {
     private static Field sAccessibilityDelegateField;
@@ -152,12 +153,12 @@ public abstract class ViewCompat {
             if (frameworkAvailable()) {
                 return frameworkGet(view);
             }
-            if (extrasAvailable()) {
-                Object tag = view.getTag(this.mTagKey);
-                if (this.mType.isInstance(tag)) {
-                    return tag;
-                }
+            if (!extrasAvailable()) {
                 return null;
+            }
+            Object tag = view.getTag(this.mTagKey);
+            if (this.mType.isInstance(tag)) {
+                return tag;
             }
             return null;
         }
@@ -740,12 +741,12 @@ public abstract class ViewCompat {
         static UnhandledKeyEventManager at(View view) {
             int i = R$id.tag_unhandled_key_event_manager;
             UnhandledKeyEventManager unhandledKeyEventManager = (UnhandledKeyEventManager) view.getTag(i);
-            if (unhandledKeyEventManager == null) {
-                UnhandledKeyEventManager unhandledKeyEventManager2 = new UnhandledKeyEventManager();
-                view.setTag(i, unhandledKeyEventManager2);
-                return unhandledKeyEventManager2;
+            if (unhandledKeyEventManager != null) {
+                return unhandledKeyEventManager;
             }
-            return unhandledKeyEventManager;
+            UnhandledKeyEventManager unhandledKeyEventManager2 = new UnhandledKeyEventManager();
+            view.setTag(i, unhandledKeyEventManager2);
+            return unhandledKeyEventManager2;
         }
 
         private View dispatchInOrder(View view, KeyEvent keyEvent) {
@@ -834,28 +835,28 @@ public abstract class ViewCompat {
             WeakReference weakReference;
             int indexOfKey;
             WeakReference weakReference2 = this.mLastDispatchedPreViewKeyEvent;
-            if (weakReference2 == null || weakReference2.get() != keyEvent) {
-                this.mLastDispatchedPreViewKeyEvent = new WeakReference(keyEvent);
-                SparseArray capturedKeys = getCapturedKeys();
-                if (keyEvent.getAction() != 1 || (indexOfKey = capturedKeys.indexOfKey(keyEvent.getKeyCode())) < 0) {
-                    weakReference = null;
-                } else {
-                    weakReference = (WeakReference) capturedKeys.valueAt(indexOfKey);
-                    capturedKeys.removeAt(indexOfKey);
-                }
-                if (weakReference == null) {
-                    weakReference = (WeakReference) capturedKeys.get(keyEvent.getKeyCode());
-                }
-                if (weakReference != null) {
-                    View view = (View) weakReference.get();
-                    if (view != null && ViewCompat.isAttachedToWindow(view)) {
-                        onUnhandledKeyEvent(view, keyEvent);
-                    }
-                    return true;
-                }
+            if (weakReference2 != null && weakReference2.get() == keyEvent) {
                 return false;
             }
-            return false;
+            this.mLastDispatchedPreViewKeyEvent = new WeakReference(keyEvent);
+            SparseArray capturedKeys = getCapturedKeys();
+            if (keyEvent.getAction() != 1 || (indexOfKey = capturedKeys.indexOfKey(keyEvent.getKeyCode())) < 0) {
+                weakReference = null;
+            } else {
+                weakReference = (WeakReference) capturedKeys.valueAt(indexOfKey);
+                capturedKeys.removeAt(indexOfKey);
+            }
+            if (weakReference == null) {
+                weakReference = (WeakReference) capturedKeys.get(keyEvent.getKeyCode());
+            }
+            if (weakReference == null) {
+                return false;
+            }
+            View view = (View) weakReference.get();
+            if (view != null && ViewCompat.isAttachedToWindow(view)) {
+                onUnhandledKeyEvent(view, keyEvent);
+            }
+            return true;
         }
     }
 
@@ -886,12 +887,12 @@ public abstract class ViewCompat {
             sViewPropertyAnimatorMap = new WeakHashMap();
         }
         ViewPropertyAnimatorCompat viewPropertyAnimatorCompat = (ViewPropertyAnimatorCompat) sViewPropertyAnimatorMap.get(view);
-        if (viewPropertyAnimatorCompat == null) {
-            ViewPropertyAnimatorCompat viewPropertyAnimatorCompat2 = new ViewPropertyAnimatorCompat(view);
-            sViewPropertyAnimatorMap.put(view, viewPropertyAnimatorCompat2);
-            return viewPropertyAnimatorCompat2;
+        if (viewPropertyAnimatorCompat != null) {
+            return viewPropertyAnimatorCompat;
         }
-        return viewPropertyAnimatorCompat;
+        ViewPropertyAnimatorCompat viewPropertyAnimatorCompat2 = new ViewPropertyAnimatorCompat(view);
+        sViewPropertyAnimatorMap.put(view, viewPropertyAnimatorCompat2);
+        return viewPropertyAnimatorCompat2;
     }
 
     public static WindowInsetsCompat computeSystemWindowInsets(View view, WindowInsetsCompat windowInsetsCompat, Rect rect) {
@@ -981,6 +982,7 @@ public abstract class ViewCompat {
         return (CharSequence) paneTitleProperty().get(view);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static ColorStateList getBackgroundTintList(View view) {
         if (Build.VERSION.SDK_INT >= 21) {
             return Api21Impl.getBackgroundTintList(view);
@@ -991,6 +993,7 @@ public abstract class ViewCompat {
         return null;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static PorterDuff.Mode getBackgroundTintMode(View view) {
         if (Build.VERSION.SDK_INT >= 21) {
             return Api21Impl.getBackgroundTintMode(view);
@@ -1012,6 +1015,7 @@ public abstract class ViewCompat {
         return 0.0f;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     private static OnReceiveContentViewBehavior getFallback(View view) {
         return view instanceof OnReceiveContentViewBehavior ? (OnReceiveContentViewBehavior) view : NO_OP_ON_RECEIVE_CONTENT_VIEW_BEHAVIOR;
     }
@@ -1131,7 +1135,9 @@ public abstract class ViewCompat {
                     setViewImportanceForAccessibilityIfNeeded(view);
                 }
                 view.sendAccessibilityEventUnchecked(obtain);
-            } else if (i == 32) {
+                return;
+            }
+            if (i == 32) {
                 AccessibilityEvent obtain2 = AccessibilityEvent.obtain();
                 view.onInitializeAccessibilityEvent(obtain2);
                 obtain2.setEventType(32);
@@ -1140,7 +1146,9 @@ public abstract class ViewCompat {
                 view.onPopulateAccessibilityEvent(obtain2);
                 obtain2.getText().add(getAccessibilityPaneTitle(view));
                 accessibilityManager.sendAccessibilityEvent(obtain2);
-            } else if (view.getParent() != null) {
+                return;
+            }
+            if (view.getParent() != null) {
                 try {
                     Api19Impl.notifySubtreeAccessibilityStateChanged(view.getParent(), view, view, i);
                 } catch (AbstractMethodError e) {
@@ -1201,14 +1209,14 @@ public abstract class ViewCompat {
             return Api31Impl.performReceiveContent(view, contentInfoCompat);
         }
         OnReceiveContentListener onReceiveContentListener = (OnReceiveContentListener) view.getTag(R$id.tag_on_receive_content_listener);
-        if (onReceiveContentListener != null) {
-            ContentInfoCompat onReceiveContent = onReceiveContentListener.onReceiveContent(view, contentInfoCompat);
-            if (onReceiveContent == null) {
-                return null;
-            }
-            return getFallback(view).onReceiveContent(onReceiveContent);
+        if (onReceiveContentListener == null) {
+            return getFallback(view).onReceiveContent(contentInfoCompat);
         }
-        return getFallback(view).onReceiveContent(contentInfoCompat);
+        ContentInfoCompat onReceiveContent = onReceiveContentListener.onReceiveContent(view, contentInfoCompat);
+        if (onReceiveContent == null) {
+            return null;
+        }
+        return getFallback(view).onReceiveContent(onReceiveContent);
     }
 
     public static void postInvalidateOnAnimation(View view) {
@@ -1283,6 +1291,7 @@ public abstract class ViewCompat {
         Api16Impl.setBackground(view, drawable);
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setBackgroundTintList(View view, ColorStateList colorStateList) {
         int i = Build.VERSION.SDK_INT;
         if (i < 21) {
@@ -1306,6 +1315,7 @@ public abstract class ViewCompat {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setBackgroundTintMode(View view, PorterDuff.Mode mode) {
         int i = Build.VERSION.SDK_INT;
         if (i < 21) {
@@ -1418,6 +1428,7 @@ public abstract class ViewCompat {
         };
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void stopNestedScroll(View view) {
         if (Build.VERSION.SDK_INT >= 21) {
             Api21Impl.stopNestedScroll(view);

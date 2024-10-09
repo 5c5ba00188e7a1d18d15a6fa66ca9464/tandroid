@@ -15,6 +15,7 @@ import java.security.Signature;
 import java.util.concurrent.Executor;
 import javax.crypto.Cipher;
 import javax.crypto.Mac;
+
 /* loaded from: classes.dex */
 public class BiometricPrompt {
     private FragmentManager mClientFragmentManager;
@@ -132,13 +133,13 @@ public class BiometricPrompt {
                 }
                 int i = this.mAllowedAuthenticators;
                 boolean isDeviceCredentialAllowed = i != 0 ? AuthenticatorUtils.isDeviceCredentialAllowed(i) : this.mIsDeviceCredentialAllowed;
-                if (!TextUtils.isEmpty(this.mNegativeButtonText) || isDeviceCredentialAllowed) {
-                    if (TextUtils.isEmpty(this.mNegativeButtonText) || !isDeviceCredentialAllowed) {
-                        return new PromptInfo(this.mTitle, this.mSubtitle, this.mDescription, this.mNegativeButtonText, this.mIsConfirmationRequired, this.mIsDeviceCredentialAllowed, this.mAllowedAuthenticators);
-                    }
-                    throw new IllegalArgumentException("Negative text must not be set if device credential authentication is allowed.");
+                if (TextUtils.isEmpty(this.mNegativeButtonText) && !isDeviceCredentialAllowed) {
+                    throw new IllegalArgumentException("Negative text must be set and non-empty.");
                 }
-                throw new IllegalArgumentException("Negative text must be set and non-empty.");
+                if (TextUtils.isEmpty(this.mNegativeButtonText) || !isDeviceCredentialAllowed) {
+                    return new PromptInfo(this.mTitle, this.mSubtitle, this.mDescription, this.mNegativeButtonText, this.mIsConfirmationRequired, this.mIsDeviceCredentialAllowed, this.mAllowedAuthenticators);
+                }
+                throw new IllegalArgumentException("Negative text must not be set if device credential authentication is allowed.");
             }
 
             public Builder setAllowedAuthenticators(int i) {
@@ -244,13 +245,13 @@ public class BiometricPrompt {
 
     private static BiometricFragment findOrAddBiometricFragment(FragmentManager fragmentManager) {
         BiometricFragment findBiometricFragment = findBiometricFragment(fragmentManager);
-        if (findBiometricFragment == null) {
-            BiometricFragment newInstance = BiometricFragment.newInstance();
-            fragmentManager.beginTransaction().add(newInstance, "androidx.biometric.BiometricFragment").commitAllowingStateLoss();
-            fragmentManager.executePendingTransactions();
-            return newInstance;
+        if (findBiometricFragment != null) {
+            return findBiometricFragment;
         }
-        return findBiometricFragment;
+        BiometricFragment newInstance = BiometricFragment.newInstance();
+        fragmentManager.beginTransaction().add(newInstance, "androidx.biometric.BiometricFragment").commitAllowingStateLoss();
+        fragmentManager.executePendingTransactions();
+        return newInstance;
     }
 
     private static BiometricViewModel getViewModel(FragmentActivity fragmentActivity) {

@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.Objects;
+
 /* loaded from: classes.dex */
 public final class OnBackPressedDispatcher {
     private Consumer mEnabledConsumer;
@@ -63,7 +64,9 @@ public final class OnBackPressedDispatcher {
         public void onStateChanged(LifecycleOwner lifecycleOwner, Lifecycle.Event event) {
             if (event == Lifecycle.Event.ON_START) {
                 this.mCurrentCancellable = OnBackPressedDispatcher.this.addCancellableCallback(this.mOnBackPressedCallback);
-            } else if (event != Lifecycle.Event.ON_STOP) {
+                return;
+            }
+            if (event != Lifecycle.Event.ON_STOP) {
                 if (event == Lifecycle.Event.ON_DESTROY) {
                     cancel();
                 }
@@ -181,8 +184,10 @@ public final class OnBackPressedDispatcher {
             if (hasEnabledCallbacks && !this.mBackInvokedCallbackRegistered) {
                 Api33Impl.registerOnBackInvokedCallback(onBackInvokedDispatcher, 0, this.mOnBackInvokedCallback);
                 this.mBackInvokedCallbackRegistered = true;
-            } else if (hasEnabledCallbacks || !this.mBackInvokedCallbackRegistered) {
             } else {
+                if (hasEnabledCallbacks || !this.mBackInvokedCallbackRegistered) {
+                    return;
+                }
                 Api33Impl.unregisterOnBackInvokedCallback(onBackInvokedDispatcher, this.mOnBackInvokedCallback);
                 this.mBackInvokedCallbackRegistered = false;
             }

@@ -1,5 +1,6 @@
 package androidx.appcompat.widget;
 
+import android.R;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
@@ -22,6 +23,7 @@ import androidx.core.widget.TextViewCompat;
 import androidx.core.widget.TintableCompoundDrawablesView;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
 /* loaded from: classes.dex */
 public class AppCompatTextView extends TextView implements TintableBackgroundView, TintableCompoundDrawablesView {
     private final AppCompatBackgroundHelper mBackgroundTintHelper;
@@ -148,7 +150,7 @@ public class AppCompatTextView extends TextView implements TintableBackgroundVie
     }
 
     public AppCompatTextView(Context context, AttributeSet attributeSet) {
-        this(context, attributeSet, 16842884);
+        this(context, attributeSet, R.attr.textViewStyle);
     }
 
     public AppCompatTextView(Context context, AttributeSet attributeSet, int i) {

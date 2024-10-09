@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.R$id;
 import androidx.appcompat.R$styleable;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 public class ButtonBarLayout extends LinearLayout {
     private boolean mAllowStacking;

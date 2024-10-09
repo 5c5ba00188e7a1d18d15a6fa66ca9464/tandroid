@@ -25,6 +25,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public class Rpc {
     private static int zza;
@@ -195,10 +196,10 @@ public class Rpc {
                 TaskCompletionSource taskCompletionSource = (TaskCompletionSource) this.zzd.remove(str);
                 if (taskCompletionSource != null) {
                     taskCompletionSource.setResult(bundle);
-                    return;
+                } else {
+                    String valueOf = String.valueOf(str);
+                    Log.w("Rpc", valueOf.length() != 0 ? "Missing callback for ".concat(valueOf) : new String("Missing callback for "));
                 }
-                String valueOf = String.valueOf(str);
-                Log.w("Rpc", valueOf.length() != 0 ? "Missing callback for ".concat(valueOf) : new String("Missing callback for "));
             } catch (Throwable th) {
                 throw th;
             }

@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.metadata.id3;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class UrlLinkFrame extends Id3Frame {
     public static final Parcelable.Creator<UrlLinkFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.UrlLinkFrame.1

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.zip.InflaterInputStream;
 import org.telegram.messenger.audioinfo.util.RangeInputStream;
+
 /* loaded from: classes3.dex */
 public class ID3v2TagBody {
     private final ID3v2DataInput data;
@@ -20,9 +21,9 @@ public class ID3v2TagBody {
 
     public ID3v2FrameBody frameBody(ID3v2FrameHeader iD3v2FrameHeader) {
         int i;
-        InflaterInputStream inflaterInputStream;
+        InputStream inputStream;
         int bodySize = iD3v2FrameHeader.getBodySize();
-        InputStream inputStream = this.input;
+        InputStream inputStream2 = this.input;
         if (iD3v2FrameHeader.isUnsynchronization()) {
             byte[] readFully = this.data.readFully(iD3v2FrameHeader.getBodySize());
             int length = readFully.length;
@@ -36,7 +37,7 @@ public class ID3v2TagBody {
                 }
                 z = b == -1;
             }
-            inputStream = new ByteArrayInputStream(readFully, 0, i2);
+            inputStream2 = new ByteArrayInputStream(readFully, 0, i2);
             bodySize = i2;
         }
         if (iD3v2FrameHeader.isEncryption()) {
@@ -44,12 +45,12 @@ public class ID3v2TagBody {
         }
         if (iD3v2FrameHeader.isCompression()) {
             i = iD3v2FrameHeader.getDataLengthIndicator();
-            inflaterInputStream = new InflaterInputStream(inputStream);
+            inputStream = new InflaterInputStream(inputStream2);
         } else {
             i = bodySize;
-            inflaterInputStream = inputStream;
+            inputStream = inputStream2;
         }
-        return new ID3v2FrameBody(inflaterInputStream, iD3v2FrameHeader.getHeaderSize(), i, this.tagHeader, iD3v2FrameHeader);
+        return new ID3v2FrameBody(inputStream, iD3v2FrameHeader.getHeaderSize(), i, this.tagHeader, iD3v2FrameHeader);
     }
 
     public ID3v2DataInput getData() {

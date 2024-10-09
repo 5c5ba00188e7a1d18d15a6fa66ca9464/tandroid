@@ -13,6 +13,7 @@ import java.util.ListIterator;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+
 /* loaded from: classes2.dex */
 public abstract /* synthetic */ class a {
     public static boolean A(Object obj, Object obj2) {
@@ -42,10 +43,11 @@ public abstract /* synthetic */ class a {
     public static void b(E e, Consumer consumer) {
         if (consumer instanceof j$.util.function.n) {
             e.e((j$.util.function.n) consumer);
-        } else if (h0.a) {
-            h0.a(e.getClass(), "{0} calling Spliterator.OfDouble.forEachRemaining((DoubleConsumer) action::accept)");
-            throw null;
         } else {
+            if (h0.a) {
+                h0.a(e.getClass(), "{0} calling Spliterator.OfDouble.forEachRemaining((DoubleConsumer) action::accept)");
+                throw null;
+            }
             consumer.getClass();
             e.e(new o(consumer));
         }
@@ -53,25 +55,27 @@ public abstract /* synthetic */ class a {
 
     public static void f(H h, Consumer consumer) {
         if (consumer instanceof j$.util.function.F) {
-            h.c((j$.util.function.F) consumer);
-        } else if (h0.a) {
-            h0.a(h.getClass(), "{0} calling Spliterator.OfInt.forEachRemaining((IntConsumer) action::accept)");
-            throw null;
+            h.e((j$.util.function.F) consumer);
         } else {
+            if (h0.a) {
+                h0.a(h.getClass(), "{0} calling Spliterator.OfInt.forEachRemaining((IntConsumer) action::accept)");
+                throw null;
+            }
             consumer.getClass();
-            h.c(new s(consumer));
+            h.e(new s(consumer));
         }
     }
 
     public static void h(K k, Consumer consumer) {
         if (consumer instanceof j$.util.function.W) {
-            k.d((j$.util.function.W) consumer);
-        } else if (h0.a) {
-            h0.a(k.getClass(), "{0} calling Spliterator.OfLong.forEachRemaining((LongConsumer) action::accept)");
-            throw null;
+            k.e((j$.util.function.W) consumer);
         } else {
+            if (h0.a) {
+                h0.a(k.getClass(), "{0} calling Spliterator.OfLong.forEachRemaining((LongConsumer) action::accept)");
+                throw null;
+            }
             consumer.getClass();
-            k.d(new w(consumer));
+            k.e(new w(consumer));
         }
     }
 
@@ -120,26 +124,26 @@ public abstract /* synthetic */ class a {
 
     public static boolean o(H h, Consumer consumer) {
         if (consumer instanceof j$.util.function.F) {
-            return h.g((j$.util.function.F) consumer);
+            return h.p((j$.util.function.F) consumer);
         }
         if (h0.a) {
             h0.a(h.getClass(), "{0} calling Spliterator.OfInt.tryAdvance((IntConsumer) action::accept)");
             throw null;
         }
         consumer.getClass();
-        return h.g(new s(consumer));
+        return h.p(new s(consumer));
     }
 
     public static boolean q(K k, Consumer consumer) {
         if (consumer instanceof j$.util.function.W) {
-            return k.i((j$.util.function.W) consumer);
+            return k.p((j$.util.function.W) consumer);
         }
         if (h0.a) {
             h0.a(k.getClass(), "{0} calling Spliterator.OfLong.tryAdvance((LongConsumer) action::accept)");
             throw null;
         }
         consumer.getClass();
-        return k.i(new w(consumer));
+        return k.p(new w(consumer));
     }
 
     public static Optional r(java.util.Optional optional) {

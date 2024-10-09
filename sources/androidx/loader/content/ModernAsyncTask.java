@@ -18,6 +18,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 abstract class ModernAsyncTask {
     public static final Executor THREAD_POOL_EXECUTOR;
@@ -74,8 +75,10 @@ abstract class ModernAsyncTask {
             int i = message.what;
             if (i == 1) {
                 asyncTaskResult.mTask.finish(asyncTaskResult.mData[0]);
-            } else if (i != 2) {
             } else {
+                if (i != 2) {
+                    return;
+                }
                 asyncTaskResult.mTask.onProgressUpdate(asyncTaskResult.mData);
             }
         }
@@ -179,13 +182,13 @@ abstract class ModernAsyncTask {
             return this;
         }
         int i = 4.$SwitchMap$androidx$loader$content$ModernAsyncTask$Status[this.mStatus.ordinal()];
-        if (i != 1) {
-            if (i != 2) {
-                throw new IllegalStateException("We should never reach this state");
-            }
-            throw new IllegalStateException("Cannot execute task: the task has already been executed (a task can be executed only once)");
+        if (i == 1) {
+            throw new IllegalStateException("Cannot execute task: the task is already running.");
         }
-        throw new IllegalStateException("Cannot execute task: the task is already running.");
+        if (i != 2) {
+            throw new IllegalStateException("We should never reach this state");
+        }
+        throw new IllegalStateException("Cannot execute task: the task has already been executed (a task can be executed only once)");
     }
 
     void finish(Object obj) {

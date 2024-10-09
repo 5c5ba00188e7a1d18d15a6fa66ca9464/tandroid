@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.util.Assertions;
+
 /* loaded from: classes.dex */
 public final class AppInfoTable implements Metadata.Entry {
     public static final Parcelable.Creator<AppInfoTable> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.dvbsi.AppInfoTable.1

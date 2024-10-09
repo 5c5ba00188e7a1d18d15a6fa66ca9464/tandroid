@@ -21,6 +21,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public abstract class DialogsRequestedEmptyCell extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
     TextView buttonView;
@@ -72,7 +73,7 @@ public abstract class DialogsRequestedEmptyCell extends LinearLayout implements 
             }
         });
         updateSticker();
-        linearLayout.addView(this.stickerView, LayoutHelper.createLinear((int) NotificationCenter.walletSyncProgressChanged, (int) NotificationCenter.walletSyncProgressChanged, 49));
+        linearLayout.addView(this.stickerView, LayoutHelper.createLinear(NotificationCenter.walletSyncProgressChanged, NotificationCenter.walletSyncProgressChanged, 49));
         TextView textView = new TextView(context);
         this.titleView = textView;
         textView.setGravity(17);

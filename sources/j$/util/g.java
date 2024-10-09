@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class g implements java.util.Map, Serializable, Map {
@@ -95,27 +96,28 @@ public final class g implements java.util.Map, Serializable, Map {
             java.util.Map map = this.a;
             if (map instanceof Map) {
                 $default$computeIfPresent = ((Map) map).computeIfPresent(obj, biFunction);
-            } else if (map instanceof ConcurrentMap) {
-                ConcurrentMap concurrentMap = (ConcurrentMap) map;
-                biFunction.getClass();
-                while (true) {
-                    Object obj2 = concurrentMap.get(obj);
-                    if (obj2 == null) {
-                        $default$computeIfPresent = obj2;
-                        break;
-                    }
-                    Object apply = biFunction.apply(obj, obj2);
-                    if (apply != null) {
-                        if (concurrentMap.replace(obj, obj2, apply)) {
-                            $default$computeIfPresent = apply;
+            } else {
+                if (map instanceof ConcurrentMap) {
+                    ConcurrentMap concurrentMap = (ConcurrentMap) map;
+                    biFunction.getClass();
+                    while (true) {
+                        Object obj2 = concurrentMap.get(obj);
+                        if (obj2 == null) {
+                            $default$computeIfPresent = obj2;
                             break;
                         }
-                    } else if (concurrentMap.remove(obj, obj2)) {
-                        $default$computeIfPresent = null;
-                        break;
+                        Object apply = biFunction.apply(obj, obj2);
+                        if (apply != null) {
+                            if (concurrentMap.replace(obj, obj2, apply)) {
+                                $default$computeIfPresent = apply;
+                                break;
+                            }
+                        } else if (concurrentMap.remove(obj, obj2)) {
+                            $default$computeIfPresent = null;
+                            break;
+                        }
                     }
                 }
-            } else {
                 $default$computeIfPresent = Map.-CC.$default$computeIfPresent(map, obj, biFunction);
             }
         }
@@ -237,23 +239,29 @@ public final class g implements java.util.Map, Serializable, Map {
         return set;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0022, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0022, code lost:
+    
         r3 = r7.apply(r2, r6);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0026, code lost:
-        if (r3 == null) goto L23;
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0026, code lost:
+    
+        if (r3 == null) goto L33;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x002c, code lost:
-        if (r1.replace(r5, r2, r3) == false) goto L35;
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0034, code lost:
+    
+        if (r1.remove(r5, r2) == false) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002e, code lost:
-        r6 = r3;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0034, code lost:
-        if (r1.remove(r5, r2) == false) goto L28;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0036, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0036, code lost:
+    
         r6 = null;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x002c, code lost:
+    
+        if (r1.replace(r5, r2, r3) == false) goto L40;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x002e, code lost:
+    
+        r6 = r3;
      */
     @Override // j$.util.Map
     /*

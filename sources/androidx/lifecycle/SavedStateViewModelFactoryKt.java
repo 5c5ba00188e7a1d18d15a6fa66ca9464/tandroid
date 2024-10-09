@@ -9,6 +9,7 @@ import kotlin.collections.ArraysKt___ArraysKt;
 import kotlin.collections.CollectionsKt__CollectionsJVMKt;
 import kotlin.collections.CollectionsKt__CollectionsKt;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public abstract class SavedStateViewModelFactoryKt {
     private static final List ANDROID_VIEWMODEL_SIGNATURE;

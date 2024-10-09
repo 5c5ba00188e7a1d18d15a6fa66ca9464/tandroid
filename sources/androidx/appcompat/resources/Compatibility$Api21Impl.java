@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import org.xmlpull.v1.XmlPullParser;
+
 /* loaded from: classes.dex */
 public abstract class Compatibility$Api21Impl {
     public static Drawable createFromXmlInner(Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) {

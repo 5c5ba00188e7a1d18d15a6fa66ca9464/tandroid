@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class ProtobufEncoder {
     private final ObjectEncoder fallbackEncoder;

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.util.Map;
+
 /* loaded from: classes.dex */
 interface zzkh {
     int zza(int i, Object obj, Object obj2);

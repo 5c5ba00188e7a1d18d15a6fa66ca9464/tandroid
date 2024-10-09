@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 /* loaded from: classes.dex */
 abstract class LifecycleDispatcher {
     private static AtomicBoolean sInitialized = new AtomicBoolean(false);

@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class OpusUtil {
     public static List buildInitializationData(byte[] bArr) {
@@ -37,8 +38,7 @@ public abstract class OpusUtil {
             i = 1;
         }
         int i4 = i2 >> 3;
-        int i5 = i4 & 3;
-        return i * (i4 >= 16 ? 2500 << i5 : i4 >= 12 ? 10000 << (i4 & 1) : i5 == 3 ? 60000 : 10000 << i5);
+        return i * (i4 >= 16 ? 2500 << r6 : i4 >= 12 ? 10000 << (i4 & 1) : (i4 & 3) == 3 ? 60000 : 10000 << r6);
     }
 
     public static long getPacketDurationUs(byte[] bArr) {

@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 abstract class K implements y3 {
     boolean a;
@@ -25,7 +26,7 @@ abstract class K implements y3 {
     }
 
     @Override // j$.util.function.Consumer
-    /* renamed from: accept */
+    /* renamed from: accept, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public final void r(Object obj) {
         if (this.a) {
             return;

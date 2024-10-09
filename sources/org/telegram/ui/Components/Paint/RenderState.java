@@ -3,6 +3,7 @@ package org.telegram.ui.Components.Paint;
 import android.graphics.PointF;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
 /* loaded from: classes3.dex */
 public class RenderState {
     private int allocatedCount;

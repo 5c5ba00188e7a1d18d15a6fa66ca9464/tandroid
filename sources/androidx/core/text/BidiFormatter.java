@@ -2,6 +2,7 @@ package androidx.core.text;
 
 import android.text.SpannableStringBuilder;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public final class BidiFormatter {
     static final BidiFormatter DEFAULT_LTR_INSTANCE;
@@ -119,7 +120,8 @@ public final class BidiFormatter {
                 }
                 if (charAt2 == '>') {
                     break;
-                } else if (charAt2 == '\"' || charAt2 == '\'') {
+                }
+                if (charAt2 == '\"' || charAt2 == '\'') {
                     do {
                         int i4 = this.charIndex;
                         if (i4 > 0) {
@@ -178,11 +180,11 @@ public final class BidiFormatter {
             }
             this.charIndex--;
             byte cachedDirectionality = getCachedDirectionality(this.lastChar);
-            if (this.isHtml) {
-                char c = this.lastChar;
-                return c == '>' ? skipTagBackward() : c == ';' ? skipEntityBackward() : cachedDirectionality;
+            if (!this.isHtml) {
+                return cachedDirectionality;
             }
-            return cachedDirectionality;
+            char c = this.lastChar;
+            return c == '>' ? skipTagBackward() : c == ';' ? skipEntityBackward() : cachedDirectionality;
         }
 
         byte dirTypeForward() {
@@ -195,13 +197,14 @@ public final class BidiFormatter {
             }
             this.charIndex++;
             byte cachedDirectionality = getCachedDirectionality(this.lastChar);
-            if (this.isHtml) {
-                char c = this.lastChar;
-                return c == '<' ? skipTagForward() : c == '&' ? skipEntityForward() : cachedDirectionality;
+            if (!this.isHtml) {
+                return cachedDirectionality;
             }
-            return cachedDirectionality;
+            char c = this.lastChar;
+            return c == '<' ? skipTagForward() : c == '&' ? skipEntityForward() : cachedDirectionality;
         }
 
+        /* JADX WARN: Failed to find 'out' block for switch in B:46:0x0045. Please report as an issue. */
         int getEntryDir() {
             this.charIndex = 0;
             int i = 0;
@@ -220,16 +223,16 @@ public final class BidiFormatter {
                             case 15:
                                 i3++;
                                 i2 = -1;
-                                break;
+                                continue;
                             case 16:
                             case 17:
                                 i3++;
                                 i2 = 1;
-                                break;
+                                continue;
                             case 18:
                                 i3--;
                                 i2 = 0;
-                                break;
+                                continue;
                         }
                     }
                 } else if (i3 == 0) {
@@ -250,22 +253,21 @@ public final class BidiFormatter {
                         if (i == i3) {
                             return -1;
                         }
-                        break;
+                        i3--;
                     case 16:
                     case 17:
                         if (i == i3) {
                             return 1;
                         }
-                        break;
+                        i3--;
                     case 18:
                         i3++;
-                        continue;
                 }
-                i3--;
             }
             return 0;
         }
 
+        /* JADX WARN: Failed to find 'out' block for switch in B:33:0x001c. Please report as an issue. */
         int getExitDir() {
             this.charIndex = this.length;
             int i = 0;
@@ -310,9 +312,10 @@ public final class BidiFormatter {
                     } else {
                         continue;
                     }
-                } else if (i == 0) {
-                    return -1;
                 } else {
+                    if (i == 0) {
+                        return -1;
+                    }
                     if (i2 == 0) {
                         i2 = i;
                     }

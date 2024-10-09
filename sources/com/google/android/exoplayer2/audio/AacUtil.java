@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class AacUtil {
     private static final int[] AUDIO_SPECIFIC_CONFIG_SAMPLING_RATE_TABLE = {96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000, 7350};
@@ -47,10 +48,10 @@ public abstract class AacUtil {
             }
             i3++;
         }
-        if (i == -1 || i6 == -1) {
-            throw new IllegalArgumentException("Invalid sample rate or number of channels: " + i + ", " + i2);
+        if (i != -1 && i6 != -1) {
+            return buildAudioSpecificConfig(2, i5, i6);
         }
-        return buildAudioSpecificConfig(2, i5, i6);
+        throw new IllegalArgumentException("Invalid sample rate or number of channels: " + i + ", " + i2);
     }
 
     public static byte[] buildAudioSpecificConfig(int i, int i2, int i3) {
@@ -69,11 +70,11 @@ public abstract class AacUtil {
                 return parsableBitArray.readBits(24);
             }
             throw ParserException.createForMalformedContainer("AAC header insufficient data", null);
-        } else if (readBits < 13) {
-            return AUDIO_SPECIFIC_CONFIG_SAMPLING_RATE_TABLE[readBits];
-        } else {
-            throw ParserException.createForMalformedContainer("AAC header wrong Sampling Frequency Index", null);
         }
+        if (readBits < 13) {
+            return AUDIO_SPECIFIC_CONFIG_SAMPLING_RATE_TABLE[readBits];
+        }
+        throw ParserException.createForMalformedContainer("AAC header wrong Sampling Frequency Index", null);
     }
 
     public static Config parseAudioSpecificConfig(ParsableBitArray parsableBitArray, boolean z) {

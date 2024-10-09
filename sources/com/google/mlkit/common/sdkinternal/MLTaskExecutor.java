@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.mlkit.common.MlKitException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class MLTaskExecutor {
     private static final Object zza = new Object();

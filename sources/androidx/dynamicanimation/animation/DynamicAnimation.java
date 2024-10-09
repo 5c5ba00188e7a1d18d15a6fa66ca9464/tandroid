@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.core.view.ViewCompat;
 import androidx.dynamicanimation.animation.AnimationHandler;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public abstract class DynamicAnimation implements AnimationHandler.AnimationFrameCallback {
     private final ArrayList mEndListeners;
@@ -240,10 +241,11 @@ public abstract class DynamicAnimation implements AnimationHandler.AnimationFram
         this.mProperty = floatPropertyCompat;
         if (floatPropertyCompat == ROTATION || floatPropertyCompat == ROTATION_X || floatPropertyCompat == ROTATION_Y) {
             f = 0.1f;
-        } else if (floatPropertyCompat == ALPHA || floatPropertyCompat == SCALE_X || floatPropertyCompat == SCALE_Y) {
-            this.mMinVisibleChange = 0.00390625f;
-            return;
         } else {
+            if (floatPropertyCompat == ALPHA || floatPropertyCompat == SCALE_X || floatPropertyCompat == SCALE_Y) {
+                this.mMinVisibleChange = 0.00390625f;
+                return;
+            }
             f = 1.0f;
         }
         this.mMinVisibleChange = f;
@@ -367,12 +369,12 @@ public abstract class DynamicAnimation implements AnimationHandler.AnimationFram
     }
 
     public DynamicAnimation setMinimumVisibleChange(float f) {
-        if (f > 0.0f) {
-            this.mMinVisibleChange = f;
-            setValueThreshold(f * 0.75f);
-            return this;
+        if (f <= 0.0f) {
+            throw new IllegalArgumentException("Minimum visible change must be positive.");
         }
-        throw new IllegalArgumentException("Minimum visible change must be positive.");
+        this.mMinVisibleChange = f;
+        setValueThreshold(f * 0.75f);
+        return this;
     }
 
     void setPropertyValue(float f) {

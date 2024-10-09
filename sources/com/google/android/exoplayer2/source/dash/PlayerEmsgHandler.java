@@ -20,6 +20,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+
 /* loaded from: classes.dex */
 public final class PlayerEmsgHandler implements Handler.Callback {
     private final Allocator allocator;
@@ -65,11 +66,11 @@ public final class PlayerEmsgHandler implements Handler.Callback {
 
         private MetadataInputBuffer dequeueSample() {
             this.buffer.clear();
-            if (this.sampleQueue.read(this.formatHolder, this.buffer, 0, false) == -4) {
-                this.buffer.flip();
-                return this.buffer;
+            if (this.sampleQueue.read(this.formatHolder, this.buffer, 0, false) != -4) {
+                return null;
             }
-            return null;
+            this.buffer.flip();
+            return this.buffer;
         }
 
         private void onManifestExpiredMessageEncountered(long j, long j2) {
@@ -225,22 +226,22 @@ public final class PlayerEmsgHandler implements Handler.Callback {
     boolean maybeRefreshManifestBeforeLoadingNextChunk(long j) {
         DashManifest dashManifest = this.manifest;
         boolean z = false;
-        if (dashManifest.dynamic) {
-            if (this.isWaitingForManifestRefresh) {
-                return true;
-            }
-            Map.Entry ceilingExpiryEntryForPublishTime = ceilingExpiryEntryForPublishTime(dashManifest.publishTimeMs);
-            if (ceilingExpiryEntryForPublishTime != null && ((Long) ceilingExpiryEntryForPublishTime.getValue()).longValue() < j) {
-                this.expiredManifestPublishTimeUs = ((Long) ceilingExpiryEntryForPublishTime.getKey()).longValue();
-                notifyManifestPublishTimeExpired();
-                z = true;
-            }
-            if (z) {
-                maybeNotifyDashManifestRefreshNeeded();
-            }
-            return z;
+        if (!dashManifest.dynamic) {
+            return false;
         }
-        return false;
+        if (this.isWaitingForManifestRefresh) {
+            return true;
+        }
+        Map.Entry ceilingExpiryEntryForPublishTime = ceilingExpiryEntryForPublishTime(dashManifest.publishTimeMs);
+        if (ceilingExpiryEntryForPublishTime != null && ((Long) ceilingExpiryEntryForPublishTime.getValue()).longValue() < j) {
+            this.expiredManifestPublishTimeUs = ((Long) ceilingExpiryEntryForPublishTime.getKey()).longValue();
+            notifyManifestPublishTimeExpired();
+            z = true;
+        }
+        if (z) {
+            maybeNotifyDashManifestRefreshNeeded();
+        }
+        return z;
     }
 
     public PlayerTrackEmsgHandler newPlayerTrackEmsgHandler() {
@@ -252,17 +253,17 @@ public final class PlayerEmsgHandler implements Handler.Callback {
     }
 
     boolean onChunkLoadError(boolean z) {
-        if (this.manifest.dynamic) {
-            if (this.isWaitingForManifestRefresh) {
-                return true;
-            }
-            if (z) {
-                maybeNotifyDashManifestRefreshNeeded();
-                return true;
-            }
+        if (!this.manifest.dynamic) {
             return false;
         }
-        return false;
+        if (this.isWaitingForManifestRefresh) {
+            return true;
+        }
+        if (!z) {
+            return false;
+        }
+        maybeNotifyDashManifestRefreshNeeded();
+        return true;
     }
 
     public void release() {

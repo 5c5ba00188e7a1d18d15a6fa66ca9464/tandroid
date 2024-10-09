@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import java.util.ArrayList;
+
 /* loaded from: classes3.dex */
 public class DispatchQueueMainThreadSync extends Thread {
     private static int indexPointer;

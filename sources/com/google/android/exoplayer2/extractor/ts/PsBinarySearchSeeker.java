@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class PsBinarySearchSeeker extends BinarySearchSeeker {
@@ -33,12 +34,12 @@ public final class PsBinarySearchSeeker extends BinarySearchSeeker {
                         long adjustTsTimestamp = this.scrTimestampAdjuster.adjustTsTimestamp(readScrValueFromPack);
                         if (adjustTsTimestamp > j) {
                             return j3 == -9223372036854775807L ? BinarySearchSeeker.TimestampSearchResult.overestimatedResult(adjustTsTimestamp, j2) : BinarySearchSeeker.TimestampSearchResult.targetFoundResult(j2 + i2);
-                        } else if (100000 + adjustTsTimestamp > j) {
-                            return BinarySearchSeeker.TimestampSearchResult.targetFoundResult(j2 + parsableByteArray.getPosition());
-                        } else {
-                            i2 = parsableByteArray.getPosition();
-                            j3 = adjustTsTimestamp;
                         }
+                        if (100000 + adjustTsTimestamp > j) {
+                            return BinarySearchSeeker.TimestampSearchResult.targetFoundResult(j2 + parsableByteArray.getPosition());
+                        }
+                        i2 = parsableByteArray.getPosition();
+                        j3 = adjustTsTimestamp;
                     }
                     skipToEndOfCurrentPack(parsableByteArray);
                     i = parsableByteArray.getPosition();

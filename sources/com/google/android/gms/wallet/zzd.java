@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.gms.tasks.Task;
+
 /* loaded from: classes.dex */
 public final class zzd extends Fragment {
     boolean zza;

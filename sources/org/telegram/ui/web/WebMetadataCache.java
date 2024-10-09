@@ -39,6 +39,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.web.BotWebViewContainer;
 import org.telegram.ui.web.WebMetadataCache;
+
 /* loaded from: classes.dex */
 public class WebMetadataCache {
     private static WebMetadataCache instance;
@@ -285,8 +286,7 @@ public class WebMetadataCache {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$retrieveFaviconAndSitename$6(WebView webView) {
-        String readRes = AndroidUtilities.readRes(R.raw.webview_ext);
-        webView.evaluateJavascript(readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION), new ValueCallback() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda9
+        webView.evaluateJavascript(AndroidUtilities.readRes(R.raw.webview_ext).replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION), new ValueCallback() { // from class: org.telegram.ui.web.WebMetadataCache$$ExternalSyntheticLambda9
             @Override // android.webkit.ValueCallback
             public final void onReceiveValue(Object obj) {
                 WebMetadataCache.lambda$retrieveFaviconAndSitename$5((String) obj);
@@ -354,7 +354,7 @@ public class WebMetadataCache {
             callback2.run(null, null);
             return;
         }
-        View rootView = findActivity.findViewById(16908290).getRootView();
+        View rootView = findActivity.findViewById(android.R.id.content).getRootView();
         if (!(rootView instanceof ViewGroup)) {
             callback2.run(null, null);
             return;

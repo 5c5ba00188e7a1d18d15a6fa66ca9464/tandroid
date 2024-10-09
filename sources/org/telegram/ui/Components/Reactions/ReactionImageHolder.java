@@ -18,6 +18,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
+
 /* loaded from: classes3.dex */
 public class ReactionImageHolder {
     public AnimatedEmojiDrawable animatedEmojiDrawable;
@@ -75,11 +76,11 @@ public class ReactionImageHolder {
     public boolean isLoaded() {
         AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
         ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
-        if (imageReceiver != null && imageReceiver.hasImageSet() && imageReceiver.hasImageLoaded()) {
-            RLottieDrawable lottieAnimation = imageReceiver.getLottieAnimation();
-            return lottieAnimation == null || !lottieAnimation.isGeneratingCache();
+        if (imageReceiver == null || !imageReceiver.hasImageSet() || !imageReceiver.hasImageLoaded()) {
+            return false;
         }
-        return false;
+        RLottieDrawable lottieAnimation = imageReceiver.getLottieAnimation();
+        return lottieAnimation == null || !lottieAnimation.isGeneratingCache();
     }
 
     public void onAttachedToWindow(boolean z) {

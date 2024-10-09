@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.util.Assertions;
+
 /* loaded from: classes.dex */
 public abstract class BaseMediaChunk extends MediaChunk {
     public final long clippedEndTimeUs;

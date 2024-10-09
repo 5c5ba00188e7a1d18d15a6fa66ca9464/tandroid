@@ -36,6 +36,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.ContentPreviewViewer;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.EmojiBottomSheet;
+
 /* loaded from: classes3.dex */
 public abstract class StickersDialogs {
     private static int getThemedColor(int i, Theme.ResourcesProvider resourcesProvider) {
@@ -96,7 +97,9 @@ public abstract class StickersDialogs {
                     StickersDialogs.lambda$openStickerPickerDialog$8(TLObject.this, document);
                 }
             }, 250L);
-        } else if (tL_error != null) {
+            return;
+        }
+        if (tL_error != null) {
             if (FileRefController.isFileRefError(tL_error.text)) {
                 FileRefController.getInstance(i).requestReference(obj, tL_stickers_addStickerToSet);
             } else {
@@ -111,10 +114,10 @@ public abstract class StickersDialogs {
         actionBarPopupWindow.dismiss();
         if (((Integer) arrayList.get(intValue)).intValue() == 1) {
             openStickerPickerDialog(tL_messages_stickerSet, baseFragment, resourcesProvider);
-            return;
+        } else {
+            ((ChatActivity) baseFragment).openAttachMenuForCreatingSticker();
+            ContentPreviewViewer.getInstance().setStickerSetForCustomSticker(tL_messages_stickerSet);
         }
-        ((ChatActivity) baseFragment).openAttachMenuForCreatingSticker();
-        ContentPreviewViewer.getInstance().setStickerSetForCustomSticker(tL_messages_stickerSet);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -194,11 +197,11 @@ public abstract class StickersDialogs {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$showNameEditorDialog$4(AlertDialog alertDialog, TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 6) {
-            alertDialog.getButton(-1).callOnClick();
-            return true;
+        if (i != 6) {
+            return false;
         }
-        return false;
+        alertDialog.getButton(-1).callOnClick();
+        return true;
     }
 
     private static void openStickerPickerDialog(final TLRPC.TL_messages_stickerSet tL_messages_stickerSet, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {

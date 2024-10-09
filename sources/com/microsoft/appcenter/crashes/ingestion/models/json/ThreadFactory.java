@@ -4,6 +4,7 @@ import com.microsoft.appcenter.crashes.ingestion.models.Thread;
 import com.microsoft.appcenter.ingestion.models.json.ModelFactory;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class ThreadFactory implements ModelFactory {
     private static final ThreadFactory sInstance = new ThreadFactory();

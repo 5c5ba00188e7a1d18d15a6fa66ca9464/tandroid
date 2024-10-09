@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class zzm extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzm> CREATOR = new zzn();
@@ -19,36 +20,30 @@ public final class zzm extends AbstractSafeParcelable {
         this.zzb = bundle;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x003f  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zzm) {
-            zzm zzmVar = (zzm) obj;
-            if (this.zza != zzmVar.zza) {
-                return false;
-            }
-            Bundle bundle = this.zzb;
-            if (bundle == null) {
-                return zzmVar.zzb == null;
-            } else if (zzmVar.zzb != null && bundle.size() == zzmVar.zzb.size()) {
-                for (String str : this.zzb.keySet()) {
-                    if (!zzmVar.zzb.containsKey(str) || !Objects.equal(this.zzb.getString(str), zzmVar.zzb.getString(str))) {
-                        return false;
-                    }
-                    while (r1.hasNext()) {
-                    }
-                }
-                return true;
-            } else {
+        if (!(obj instanceof zzm)) {
+            return false;
+        }
+        zzm zzmVar = (zzm) obj;
+        if (this.zza != zzmVar.zza) {
+            return false;
+        }
+        Bundle bundle = this.zzb;
+        if (bundle == null) {
+            return zzmVar.zzb == null;
+        }
+        if (zzmVar.zzb == null || bundle.size() != zzmVar.zzb.size()) {
+            return false;
+        }
+        for (String str : this.zzb.keySet()) {
+            if (!zzmVar.zzb.containsKey(str) || !Objects.equal(this.zzb.getString(str), zzmVar.zzb.getString(str))) {
                 return false;
             }
         }
-        return false;
+        return true;
     }
 
     public final int hashCode() {

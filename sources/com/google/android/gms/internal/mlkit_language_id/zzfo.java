@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_language_id;
+
 /* loaded from: classes.dex */
 final class zzfo implements zzfw {
     private zzfw[] zza;
@@ -20,7 +21,6 @@ final class zzfo implements zzfw {
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfw
     public final zzfx zzb(Class cls) {
-        zzfw[] zzfwVarArr;
         for (zzfw zzfwVar : this.zza) {
             if (zzfwVar.zza(cls)) {
                 return zzfwVar.zzb(cls);

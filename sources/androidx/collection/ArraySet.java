@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class ArraySet implements Collection, Set {
     private static final int[] INT = new int[0];
@@ -86,7 +87,9 @@ public final class ArraySet implements Collection, Set {
                 } finally {
                 }
             }
-        } else if (iArr.length == 4) {
+            return;
+        }
+        if (iArr.length == 4) {
             synchronized (ArraySet.class) {
                 try {
                     if (sBaseCacheSize < 10) {
@@ -162,22 +165,22 @@ public final class ArraySet implements Collection, Set {
             return -1;
         }
         int binarySearch = ContainerHelpers.binarySearch(this.mHashes, i2, i);
-        if (binarySearch >= 0 && !obj.equals(this.mArray[binarySearch])) {
-            int i3 = binarySearch + 1;
-            while (i3 < i2 && this.mHashes[i3] == i) {
-                if (obj.equals(this.mArray[i3])) {
-                    return i3;
-                }
-                i3++;
-            }
-            for (int i4 = binarySearch - 1; i4 >= 0 && this.mHashes[i4] == i; i4--) {
-                if (obj.equals(this.mArray[i4])) {
-                    return i4;
-                }
-            }
-            return i3 ^ (-1);
+        if (binarySearch < 0 || obj.equals(this.mArray[binarySearch])) {
+            return binarySearch;
         }
-        return binarySearch;
+        int i3 = binarySearch + 1;
+        while (i3 < i2 && this.mHashes[i3] == i) {
+            if (obj.equals(this.mArray[i3])) {
+                return i3;
+            }
+            i3++;
+        }
+        for (int i4 = binarySearch - 1; i4 >= 0 && this.mHashes[i4] == i; i4--) {
+            if (obj.equals(this.mArray[i4])) {
+                return i4;
+            }
+        }
+        return i3 ^ (-1);
     }
 
     private int indexOfNull() {
@@ -186,22 +189,22 @@ public final class ArraySet implements Collection, Set {
             return -1;
         }
         int binarySearch = ContainerHelpers.binarySearch(this.mHashes, i, 0);
-        if (binarySearch >= 0 && this.mArray[binarySearch] != null) {
-            int i2 = binarySearch + 1;
-            while (i2 < i && this.mHashes[i2] == 0) {
-                if (this.mArray[i2] == null) {
-                    return i2;
-                }
-                i2++;
-            }
-            for (int i3 = binarySearch - 1; i3 >= 0 && this.mHashes[i3] == 0; i3--) {
-                if (this.mArray[i3] == null) {
-                    return i3;
-                }
-            }
-            return i2 ^ (-1);
+        if (binarySearch < 0 || this.mArray[binarySearch] == null) {
+            return binarySearch;
         }
-        return binarySearch;
+        int i2 = binarySearch + 1;
+        while (i2 < i && this.mHashes[i2] == 0) {
+            if (this.mArray[i2] == null) {
+                return i2;
+            }
+            i2++;
+        }
+        for (int i3 = binarySearch - 1; i3 >= 0 && this.mHashes[i3] == 0; i3--) {
+            if (this.mArray[i3] == null) {
+                return i3;
+            }
+        }
+        return i2 ^ (-1);
     }
 
     @Override // java.util.Collection, java.util.Set
@@ -255,9 +258,10 @@ public final class ArraySet implements Collection, Set {
     @Override // java.util.Collection, java.util.Set
     public boolean addAll(Collection collection) {
         ensureCapacity(this.mSize + collection.size());
+        Iterator it = collection.iterator();
         boolean z = false;
-        for (Object obj : collection) {
-            z |= add(obj);
+        while (it.hasNext()) {
+            z |= add(it.next());
         }
         return z;
     }
@@ -280,8 +284,9 @@ public final class ArraySet implements Collection, Set {
 
     @Override // java.util.Collection, java.util.Set
     public boolean containsAll(Collection collection) {
-        for (Object obj : collection) {
-            if (!contains(obj)) {
+        Iterator it = collection.iterator();
+        while (it.hasNext()) {
+            if (!contains(it.next())) {
                 return false;
             }
         }
@@ -353,18 +358,19 @@ public final class ArraySet implements Collection, Set {
     @Override // java.util.Collection, java.util.Set
     public boolean remove(Object obj) {
         int indexOf = indexOf(obj);
-        if (indexOf >= 0) {
-            removeAt(indexOf);
-            return true;
+        if (indexOf < 0) {
+            return false;
         }
-        return false;
+        removeAt(indexOf);
+        return true;
     }
 
     @Override // java.util.Collection, java.util.Set
     public boolean removeAll(Collection collection) {
+        Iterator it = collection.iterator();
         boolean z = false;
-        for (Object obj : collection) {
-            z |= remove(obj);
+        while (it.hasNext()) {
+            z |= remove(it.next());
         }
         return z;
     }

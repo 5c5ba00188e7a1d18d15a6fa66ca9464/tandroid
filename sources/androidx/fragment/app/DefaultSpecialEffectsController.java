@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 class DefaultSpecialEffectsController extends SpecialEffectsController {
 
@@ -142,14 +143,14 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                 return null;
             }
             FragmentTransitionImpl fragmentTransitionImpl = FragmentTransition.PLATFORM_IMPL;
-            if (fragmentTransitionImpl == null || !fragmentTransitionImpl.canHandle(obj)) {
-                FragmentTransitionImpl fragmentTransitionImpl2 = FragmentTransition.SUPPORT_IMPL;
-                if (fragmentTransitionImpl2 == null || !fragmentTransitionImpl2.canHandle(obj)) {
-                    throw new IllegalArgumentException("Transition " + obj + " for fragment " + getOperation().getFragment() + " is not a valid framework Transition or AndroidX Transition");
-                }
+            if (fragmentTransitionImpl != null && fragmentTransitionImpl.canHandle(obj)) {
+                return fragmentTransitionImpl;
+            }
+            FragmentTransitionImpl fragmentTransitionImpl2 = FragmentTransition.SUPPORT_IMPL;
+            if (fragmentTransitionImpl2 != null && fragmentTransitionImpl2.canHandle(obj)) {
                 return fragmentTransitionImpl2;
             }
-            return fragmentTransitionImpl;
+            throw new IllegalArgumentException("Transition " + obj + " for fragment " + getOperation().getFragment() + " is not a valid framework Transition or AndroidX Transition");
         }
 
         FragmentTransitionImpl getHandlingImpl() {
@@ -481,14 +482,14 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
         }
         View view8 = view6;
         ArrayMap arrayMap5 = arrayMap2;
-        Collection<?> collection = arrayList6;
+        ArrayList arrayList9 = arrayList6;
         SpecialEffectsController.Operation operation9 = operation7;
-        Collection<?> collection2 = arrayList5;
+        ArrayList arrayList10 = arrayList5;
         Rect rect3 = rect2;
         View view9 = view5;
         FragmentTransitionImpl fragmentTransitionImpl3 = fragmentTransitionImpl2;
         SpecialEffectsController.Operation operation10 = operation8;
-        ArrayList arrayList9 = new ArrayList();
+        ArrayList arrayList11 = new ArrayList();
         Iterator it4 = list.iterator();
         Object obj4 = null;
         Object obj5 = null;
@@ -506,51 +507,51 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                         hashMap.put(operation11, Boolean.FALSE);
                         transitionInfo4.completeSpecialEffect();
                     }
-                    arrayList2 = collection;
-                    arrayList = collection2;
+                    arrayList2 = arrayList9;
+                    arrayList = arrayList10;
                     view = view9;
                     mergeTransitionsTogether = obj4;
                     operation3 = operation10;
                     view2 = view8;
                 } else {
-                    final ArrayList arrayList10 = new ArrayList();
+                    final ArrayList arrayList12 = new ArrayList();
                     Object obj6 = obj4;
-                    captureTransitioningViews(arrayList10, operation11.getFragment().mView);
+                    captureTransitioningViews(arrayList12, operation11.getFragment().mView);
                     if (z4) {
                         if (operation11 == operation9) {
-                            arrayList10.removeAll(collection2);
+                            arrayList12.removeAll(arrayList10);
                         } else {
-                            arrayList10.removeAll(collection);
+                            arrayList12.removeAll(arrayList9);
                         }
                     }
-                    if (arrayList10.isEmpty()) {
+                    if (arrayList12.isEmpty()) {
                         fragmentTransitionImpl3.addTarget(cloneTransition, view9);
-                        arrayList2 = collection;
-                        arrayList = collection2;
+                        arrayList2 = arrayList9;
+                        arrayList = arrayList10;
                         view = view9;
                         operation4 = operation11;
                         obj2 = obj5;
                         operation3 = operation10;
                         obj = obj6;
                     } else {
-                        fragmentTransitionImpl3.addTargets(cloneTransition, arrayList10);
+                        fragmentTransitionImpl3.addTargets(cloneTransition, arrayList12);
                         view = view9;
                         obj = obj6;
-                        arrayList = collection2;
+                        arrayList = arrayList10;
                         obj2 = obj5;
-                        arrayList2 = collection;
+                        arrayList2 = arrayList9;
                         operation3 = operation10;
-                        fragmentTransitionImpl3.scheduleRemoveTargets(cloneTransition, cloneTransition, arrayList10, null, null, null, null);
+                        fragmentTransitionImpl3.scheduleRemoveTargets(cloneTransition, cloneTransition, arrayList12, null, null, null, null);
                         if (operation11.getFinalState() == SpecialEffectsController.Operation.State.GONE) {
                             operation4 = operation11;
                             list2.remove(operation4);
-                            ArrayList arrayList11 = new ArrayList(arrayList10);
-                            arrayList11.remove(operation4.getFragment().mView);
-                            fragmentTransitionImpl3.scheduleHideFragmentView(cloneTransition, operation4.getFragment().mView, arrayList11);
+                            ArrayList arrayList13 = new ArrayList(arrayList12);
+                            arrayList13.remove(operation4.getFragment().mView);
+                            fragmentTransitionImpl3.scheduleHideFragmentView(cloneTransition, operation4.getFragment().mView, arrayList13);
                             OneShotPreDrawListener.add(getContainer(), new Runnable() { // from class: androidx.fragment.app.DefaultSpecialEffectsController.8
                                 @Override // java.lang.Runnable
                                 public void run() {
-                                    FragmentTransition.setViewVisibility(arrayList10, 4);
+                                    FragmentTransition.setViewVisibility(arrayList12, 4);
                                 }
                             });
                         } else {
@@ -558,7 +559,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                         }
                     }
                     if (operation4.getFinalState() == SpecialEffectsController.Operation.State.VISIBLE) {
-                        arrayList9.addAll(arrayList10);
+                        arrayList11.addAll(arrayList12);
                         if (z3) {
                             fragmentTransitionImpl3.setEpicenter(cloneTransition, rect3);
                         }
@@ -580,12 +581,12 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                 obj4 = mergeTransitionsTogether;
                 view8 = view2;
                 view9 = view;
-                collection2 = arrayList;
-                collection = arrayList2;
+                arrayList10 = arrayList;
+                arrayList9 = arrayList2;
             }
         }
-        ArrayList arrayList12 = collection;
-        ArrayList arrayList13 = collection2;
+        ArrayList arrayList14 = arrayList9;
+        ArrayList arrayList15 = arrayList10;
         SpecialEffectsController.Operation operation12 = operation10;
         Object mergeTransitionsInSequence = fragmentTransitionImpl3.mergeTransitionsInSequence(obj5, obj4, obj3);
         Iterator it5 = list.iterator();
@@ -612,15 +613,15 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                 }
             }
         }
-        if (ViewCompat.isLaidOut(getContainer())) {
-            FragmentTransition.setViewVisibility(arrayList9, 4);
-            ArrayList prepareSetNameOverridesReordered = fragmentTransitionImpl3.prepareSetNameOverridesReordered(arrayList12);
-            fragmentTransitionImpl3.beginDelayedTransition(getContainer(), mergeTransitionsInSequence);
-            fragmentTransitionImpl3.setNameOverridesReordered(getContainer(), arrayList13, arrayList12, prepareSetNameOverridesReordered, arrayMap5);
-            FragmentTransition.setViewVisibility(arrayList9, 0);
-            fragmentTransitionImpl3.swapSharedElementTargets(obj3, arrayList13, arrayList12);
+        if (!ViewCompat.isLaidOut(getContainer())) {
             return hashMap;
         }
+        FragmentTransition.setViewVisibility(arrayList11, 4);
+        ArrayList prepareSetNameOverridesReordered = fragmentTransitionImpl3.prepareSetNameOverridesReordered(arrayList14);
+        fragmentTransitionImpl3.beginDelayedTransition(getContainer(), mergeTransitionsInSequence);
+        fragmentTransitionImpl3.setNameOverridesReordered(getContainer(), arrayList15, arrayList14, prepareSetNameOverridesReordered, arrayMap5);
+        FragmentTransition.setViewVisibility(arrayList11, 0);
+        fragmentTransitionImpl3.swapSharedElementTargets(obj3, arrayList15, arrayList14);
         return hashMap;
     }
 
@@ -672,7 +673,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
         }
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
-        final ArrayList<SpecialEffectsController.Operation> arrayList3 = new ArrayList(list);
+        final ArrayList arrayList3 = new ArrayList(list);
         Iterator it2 = list.iterator();
         while (it2.hasNext()) {
             final SpecialEffectsController.Operation operation4 = (SpecialEffectsController.Operation) it2.next();
@@ -734,8 +735,9 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
         }
         Map startTransitions = startTransitions(arrayList2, arrayList3, z, operation, operation2);
         startAnimations(arrayList, arrayList3, startTransitions.containsValue(Boolean.TRUE), startTransitions);
-        for (SpecialEffectsController.Operation operation5 : arrayList3) {
-            applyContainerChanges(operation5);
+        Iterator it3 = arrayList3.iterator();
+        while (it3.hasNext()) {
+            applyContainerChanges((SpecialEffectsController.Operation) it3.next());
         }
         arrayList3.clear();
     }

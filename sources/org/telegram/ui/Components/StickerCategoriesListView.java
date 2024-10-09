@@ -44,8 +44,11 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerCategoriesListView;
+
 /* loaded from: classes3.dex */
 public abstract class StickerCategoriesListView extends RecyclerListView {
+    private static EmojiGroupFetcher fetcher;
+    public static CacheFetcher search;
     private Adapter adapter;
     private Paint backgroundPaint;
     private EmojiCategory[] categories;
@@ -75,8 +78,6 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
     private AnimatedFloat selectedIndex;
     private Paint selectedPaint;
     private float shownButtonsAtStart;
-    private static EmojiGroupFetcher fetcher = new EmojiGroupFetcher();
-    public static CacheFetcher search = new EmojiSearch();
     private static Set loadedIconsType = new HashSet();
     static int loadedCategoryIcons = 0;
 
@@ -459,15 +460,14 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x006d  */
-        /* JADX WARN: Removed duplicated region for block: B:51:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x006d  */
+        /* JADX WARN: Removed duplicated region for block: B:29:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public static /* synthetic */ void lambda$getLocal$1(int i, Integer num, Utilities.Callback2 callback2) {
             SQLiteCursor sQLiteCursor;
             TLRPC.messages_EmojiGroups messages_emojigroups;
-            TLRPC.TL_messages_emojiGroups tL_messages_emojiGroups;
             NativeByteBuffer byteBufferValue;
             SQLiteCursor sQLiteCursor2 = null;
             try {
@@ -484,7 +484,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
                                     byteBufferValue.reuse();
                                 }
                                 if (messages_emojigroups instanceof TLRPC.TL_messages_emojiGroups) {
-                                    callback2.run(Long.valueOf(tL_messages_emojiGroups.hash), (TLRPC.TL_messages_emojiGroups) messages_emojigroups);
+                                    callback2.run(Long.valueOf(r0.hash), (TLRPC.TL_messages_emojiGroups) messages_emojigroups);
                                 } else {
                                     callback2.run(0L, null);
                                 }
@@ -537,8 +537,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
             } else if (!(tLObject instanceof TLRPC.TL_messages_emojiGroups)) {
                 callback4.run(Boolean.FALSE, null, 0L, Boolean.TRUE);
             } else {
-                TLRPC.TL_messages_emojiGroups tL_messages_emojiGroups = (TLRPC.TL_messages_emojiGroups) tLObject;
-                callback4.run(Boolean.FALSE, tL_messages_emojiGroups, Long.valueOf(tL_messages_emojiGroups.hash), Boolean.TRUE);
+                callback4.run(Boolean.FALSE, (TLRPC.TL_messages_emojiGroups) tLObject, Long.valueOf(r4.hash), Boolean.TRUE);
             }
         }
 
@@ -653,6 +652,11 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
         }
     }
 
+    static {
+        fetcher = new EmojiGroupFetcher();
+        search = new EmojiSearch();
+    }
+
     public StickerCategoriesListView(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         this(context, null, i, resourcesProvider);
     }
@@ -749,11 +753,11 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
     }
 
     private int getScrollToStartWidth() {
-        if (getChildCount() > 0) {
-            View childAt = getChildAt(0);
-            return childAt instanceof CategoryButton ? this.paddingWidth + Math.max(0, (getChildAdapterPosition(childAt) - 1) * getHeight()) + (-childAt.getLeft()) : -childAt.getLeft();
+        if (getChildCount() <= 0) {
+            return 0;
         }
-        return 0;
+        View childAt = getChildAt(0);
+        return childAt instanceof CategoryButton ? this.paddingWidth + Math.max(0, (getChildAdapterPosition(childAt) - 1) * getHeight()) + (-childAt.getLeft()) : -childAt.getLeft();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -810,7 +814,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: onItemClick */
+    /* renamed from: onItemClick, reason: merged with bridge method [inline-methods] */
     public void lambda$new$1(int i, View view) {
         EmojiCategory[] emojiCategoryArr;
         if (i >= 1 && (emojiCategoryArr = this.categories) != null) {
@@ -869,7 +873,6 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
     public void draw(Canvas canvas) {
         Drawable drawable;
-        float f = 1.0f;
         if (this.backgroundPaint != null) {
             int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
             int i2 = Integer.MIN_VALUE;
@@ -881,12 +884,13 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
                 }
             }
             if (i < i2) {
-                int width = (int) (i2 + ((getWidth() + AndroidUtilities.dp(32.0f)) * (1.0f - this.categoriesShownT)));
-                canvas.drawRect((int) (i + ((getWidth() + AndroidUtilities.dp(32.0f)) * (1.0f - this.categoriesShownT))), 0.0f, width, getHeight(), this.backgroundPaint);
-                if (width < getWidth() && (drawable = this.leftBoundDrawable) != null) {
+                int width = (int) (i + ((getWidth() + AndroidUtilities.dp(32.0f)) * (1.0f - this.categoriesShownT)));
+                int width2 = (int) (i2 + ((getWidth() + AndroidUtilities.dp(32.0f)) * (1.0f - this.categoriesShownT)));
+                canvas.drawRect(width, 0.0f, width2, getHeight(), this.backgroundPaint);
+                if (width2 < getWidth() && (drawable = this.leftBoundDrawable) != null) {
                     drawable.setAlpha(NotificationCenter.closeSearchByActiveAction);
                     Drawable drawable2 = this.leftBoundDrawable;
-                    drawable2.setBounds(width, 0, drawable2.getIntrinsicWidth() + width, getHeight());
+                    drawable2.setBounds(width2, 0, drawable2.getIntrinsicWidth() + width2, getHeight());
                     this.leftBoundDrawable.draw(canvas);
                 }
             }
@@ -895,7 +899,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
         super.draw(canvas);
         Drawable drawable3 = this.leftBoundDrawable;
         if (drawable3 != null) {
-            drawable3.setAlpha((int) (255.0f * this.leftBoundAlpha.set((canScrollHorizontally(-1) && this.scrolledFully) ? 0.0f : 0.0f) * this.categoriesShownT));
+            drawable3.setAlpha((int) (255.0f * this.leftBoundAlpha.set((canScrollHorizontally(-1) && this.scrolledFully) ? 1.0f : 0.0f) * this.categoriesShownT));
             if (this.leftBoundDrawable.getAlpha() > 0) {
                 Drawable drawable4 = this.leftBoundDrawable;
                 drawable4.setBounds(0, 0, drawable4.getIntrinsicWidth(), getHeight());
@@ -943,10 +947,10 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0025  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0046  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:30:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:22:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0046  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0025  */
     @Override // androidx.recyclerview.widget.RecyclerView
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1123,9 +1127,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
             }
         });
         this.categoriesShownAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-        ValueAnimator valueAnimator2 = this.categoriesShownAnimator;
-        EmojiCategory[] emojiCategoryArr = this.categories;
-        valueAnimator2.setDuration((emojiCategoryArr == null ? 5 : emojiCategoryArr.length) * 120);
+        this.categoriesShownAnimator.setDuration((this.categories == null ? 5 : r6.length) * 120);
         this.categoriesShownAnimator.start();
     }
 }

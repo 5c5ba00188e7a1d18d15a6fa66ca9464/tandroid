@@ -1,4 +1,5 @@
 package com.google.firebase.platforminfo;
+
 /* loaded from: classes.dex */
 final class AutoValue_LibraryVersion extends LibraryVersion {
     private final String libraryName;
@@ -20,11 +21,11 @@ final class AutoValue_LibraryVersion extends LibraryVersion {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof LibraryVersion) {
-            LibraryVersion libraryVersion = (LibraryVersion) obj;
-            return this.libraryName.equals(libraryVersion.getLibraryName()) && this.version.equals(libraryVersion.getVersion());
+        if (!(obj instanceof LibraryVersion)) {
+            return false;
         }
-        return false;
+        LibraryVersion libraryVersion = (LibraryVersion) obj;
+        return this.libraryName.equals(libraryVersion.getLibraryName()) && this.version.equals(libraryVersion.getVersion());
     }
 
     @Override // com.google.firebase.platforminfo.LibraryVersion

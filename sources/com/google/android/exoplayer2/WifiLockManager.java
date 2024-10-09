@@ -3,6 +3,7 @@ package com.google.android.exoplayer2;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import com.google.android.exoplayer2.util.Log;
+
 /* loaded from: classes.dex */
 final class WifiLockManager {
     private boolean enabled;
@@ -32,10 +33,11 @@ final class WifiLockManager {
             if (wifiManager == null) {
                 Log.w("WifiLockManager", "WifiManager is null, therefore not creating the WifiLock.");
                 return;
+            } else {
+                WifiManager.WifiLock createWifiLock = wifiManager.createWifiLock(3, "ExoPlayer:WifiLockManager");
+                this.wifiLock = createWifiLock;
+                createWifiLock.setReferenceCounted(false);
             }
-            WifiManager.WifiLock createWifiLock = wifiManager.createWifiLock(3, "ExoPlayer:WifiLockManager");
-            this.wifiLock = createWifiLock;
-            createWifiLock.setReferenceCounted(false);
         }
         this.enabled = z;
         updateWifiLock();

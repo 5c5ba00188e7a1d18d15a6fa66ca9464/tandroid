@@ -16,6 +16,7 @@ import com.google.common.base.Charsets;
 import java.nio.charset.Charset;
 import java.util.List;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class Tx3gDecoder extends SimpleSubtitleDecoder {
     private final int calculatedVideoTrackHeight;
@@ -86,8 +87,8 @@ public final class Tx3gDecoder extends SimpleSubtitleDecoder {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0034  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0037  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0037  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

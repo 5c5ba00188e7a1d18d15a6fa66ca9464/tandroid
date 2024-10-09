@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2.video;
 
 import com.google.android.exoplayer2.util.ParsableByteArray;
+
 /* loaded from: classes.dex */
 public final class DolbyVisionConfig {
     public final String codecs;
@@ -23,9 +24,10 @@ public final class DolbyVisionConfig {
             str = "dvhe";
         } else if (i == 8) {
             str = "hev1";
-        } else if (i != 9) {
-            return null;
         } else {
+            if (i != 9) {
+                return null;
+            }
             str = "avc3";
         }
         StringBuilder sb = new StringBuilder();

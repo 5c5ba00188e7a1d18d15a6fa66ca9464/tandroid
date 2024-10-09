@@ -47,6 +47,7 @@ import org.telegram.ui.Components.LineProgressView;
 import org.telegram.ui.GradientClip;
 import org.telegram.ui.web.WebActionBar;
 import org.telegram.ui.web.WebInstantView;
+
 /* loaded from: classes.dex */
 public abstract class WebActionBar extends FrameLayout {
     private ValueAnimator addressAnimator;
@@ -610,13 +611,13 @@ public abstract class WebActionBar extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$5(TextView textView, int i, KeyEvent keyEvent) {
-        if (keyEvent != null) {
-            if ((keyEvent.getAction() == 1 && keyEvent.getKeyCode() == 84) || (keyEvent.getAction() == 0 && keyEvent.getKeyCode() == 66)) {
-                AndroidUtilities.hideKeyboard(this.searchEditText);
-                return false;
-            }
+        if (keyEvent == null) {
             return false;
         }
+        if ((keyEvent.getAction() != 1 || keyEvent.getKeyCode() != 84) && (keyEvent.getAction() != 0 || keyEvent.getKeyCode() != 66)) {
+            return false;
+        }
+        AndroidUtilities.hideKeyboard(this.searchEditText);
         return false;
     }
 
@@ -667,10 +668,10 @@ public abstract class WebActionBar extends FrameLayout {
         if (this.addressing) {
             this.addressEditText.requestFocus();
             AndroidUtilities.showKeyboard(this.addressEditText);
-            return;
+        } else {
+            this.addressEditText.clearFocus();
+            AndroidUtilities.hideKeyboard(this.addressEditText);
         }
-        this.addressEditText.clearFocus();
-        AndroidUtilities.hideKeyboard(this.addressEditText);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -689,8 +690,9 @@ public abstract class WebActionBar extends FrameLayout {
             canvas.restore();
         }
         if (this.titleProgress > 0.0f) {
+            float width2 = getWidth() * this.titleProgress;
             canvas.save();
-            canvas.clipRect(0.0f, 0.0f, getWidth() * this.titleProgress, getHeight());
+            canvas.clipRect(0.0f, 0.0f, width2, getHeight());
             canvas.translate(right, f);
             canvas.translate(AndroidUtilities.dp(-12.0f) * (1.0f - this.titleProgress), 0.0f);
             float lerp = AndroidUtilities.lerp(1.0f, 0.5f, 1.0f - this.titleProgress);
@@ -1172,10 +1174,10 @@ public abstract class WebActionBar extends FrameLayout {
                     if (z4) {
                         editTextBoldCursor2.requestFocus();
                         AndroidUtilities.showKeyboard(WebActionBar.this.searchEditText);
-                        return;
+                    } else {
+                        editTextBoldCursor2.clearFocus();
+                        AndroidUtilities.hideKeyboard(WebActionBar.this.searchEditText);
                     }
-                    editTextBoldCursor2.clearFocus();
-                    AndroidUtilities.hideKeyboard(WebActionBar.this.searchEditText);
                 }
             });
             this.searchAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);

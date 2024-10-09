@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_label;
+
 /* loaded from: classes.dex */
 public enum zzjr implements zzck {
     zza(0),
@@ -11,7 +12,7 @@ public enum zzjr implements zzck {
     zzh(5),
     zzi(6),
     zzj(9);
-    
+
     private final int zzl;
 
     zzjr(int i) {

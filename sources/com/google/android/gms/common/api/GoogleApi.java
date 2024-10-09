@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
+
 /* loaded from: classes.dex */
 public abstract class GoogleApi {
     protected final GoogleApiManager zaa;
@@ -53,6 +54,7 @@ public abstract class GoogleApi {
             private StatusExceptionMapper zaa;
             private Looper zab;
 
+            /* JADX WARN: Multi-variable type inference failed */
             public Settings build() {
                 if (this.zaa == null) {
                     this.zaa = new ApiExceptionMapper();
@@ -208,6 +210,7 @@ public abstract class GoogleApi {
         return this.zah;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public final Api.Client zab(Looper looper, zabq zabqVar) {
         Api.Client buildClient = ((Api.AbstractClientBuilder) Preconditions.checkNotNull(this.zad.zaa())).buildClient(this.zab, looper, createClientSettingsBuilder().build(), (Object) this.zae, (GoogleApiClient.ConnectionCallbacks) zabqVar, (GoogleApiClient.OnConnectionFailedListener) zabqVar);
         String contextAttributionTag = getContextAttributionTag();

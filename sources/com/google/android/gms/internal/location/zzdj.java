@@ -2,6 +2,7 @@ package com.google.android.gms.internal.location;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class zzdj {
     private static final SimpleDateFormat zza;

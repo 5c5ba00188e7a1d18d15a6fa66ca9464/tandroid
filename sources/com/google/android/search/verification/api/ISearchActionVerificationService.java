@@ -8,6 +8,7 @@ import android.os.Parcel;
 import com.google.android.aidl.BaseProxy;
 import com.google.android.aidl.BaseStub;
 import com.google.android.aidl.Codecs;
+
 /* loaded from: classes.dex */
 public interface ISearchActionVerificationService extends IInterface {
 

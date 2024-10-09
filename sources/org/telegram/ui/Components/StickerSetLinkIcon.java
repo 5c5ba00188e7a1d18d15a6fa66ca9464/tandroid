@@ -11,6 +11,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class StickerSetLinkIcon extends Drawable {
     private final int N;
@@ -91,21 +92,21 @@ public class StickerSetLinkIcon extends Drawable {
     public boolean equals(ArrayList arrayList) {
         if (arrayList == null) {
             return this.drawables.length == 0;
-        } else if (this.drawables.length != arrayList.size()) {
+        }
+        if (this.drawables.length != arrayList.size()) {
             return false;
-        } else {
-            int i = 0;
-            while (true) {
-                AnimatedEmojiDrawable[] animatedEmojiDrawableArr = this.drawables;
-                if (i >= animatedEmojiDrawableArr.length) {
-                    return true;
-                }
-                TLRPC.Document document = animatedEmojiDrawableArr[i].getDocument();
-                if ((document == null ? 0L : document.id) != ((TLRPC.Document) arrayList.get(i)).id) {
-                    return false;
-                }
-                i++;
+        }
+        int i = 0;
+        while (true) {
+            AnimatedEmojiDrawable[] animatedEmojiDrawableArr = this.drawables;
+            if (i >= animatedEmojiDrawableArr.length) {
+                return true;
             }
+            TLRPC.Document document = animatedEmojiDrawableArr[i].getDocument();
+            if ((document == null ? 0L : document.id) != ((TLRPC.Document) arrayList.get(i)).id) {
+                return false;
+            }
+            i++;
         }
     }
 

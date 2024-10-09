@@ -1,4 +1,5 @@
 package org.telegram.messenger;
+
 /* loaded from: classes3.dex */
 public final class BuildConfig {
     public static final String APP_CENTER_HASH = "f9726602-67c9-48d2-b5d0-4761f1c1a8f3";

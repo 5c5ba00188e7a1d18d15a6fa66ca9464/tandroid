@@ -4,6 +4,7 @@ import android.media.MediaFormat;
 import com.google.android.exoplayer2.video.ColorInfo;
 import java.nio.ByteBuffer;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class MediaFormatUtil {
     public static void maybeSetByteBuffer(MediaFormat mediaFormat, String str, byte[] bArr) {

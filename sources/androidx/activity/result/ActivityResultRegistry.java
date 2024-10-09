@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
 /* loaded from: classes.dex */
 public abstract class ActivityResultRegistry {
     private Random mRandom = new Random();
@@ -36,10 +37,11 @@ public abstract class ActivityResultRegistry {
                 if (Lifecycle.Event.ON_STOP.equals(event)) {
                     this.this$0.mKeyToCallback.remove(this.val$key);
                     return;
-                } else if (Lifecycle.Event.ON_DESTROY.equals(event)) {
-                    this.this$0.unregister(this.val$key);
-                    return;
                 } else {
+                    if (Lifecycle.Event.ON_DESTROY.equals(event)) {
+                        this.this$0.unregister(this.val$key);
+                        return;
+                    }
                     return;
                 }
             }
@@ -78,10 +80,10 @@ public abstract class ActivityResultRegistry {
         if (callbackAndContract == null || callbackAndContract.mCallback == null || !this.mLaunchedKeys.contains(str)) {
             this.mParsedPendingResults.remove(str);
             this.mPendingResults.putParcelable(str, new ActivityResult(i, intent));
-            return;
+        } else {
+            callbackAndContract.mCallback.onActivityResult(callbackAndContract.mContract.parseResult(i, intent));
+            this.mLaunchedKeys.remove(str);
         }
-        callbackAndContract.mCallback.onActivityResult(callbackAndContract.mContract.parseResult(i, intent));
-        this.mLaunchedKeys.remove(str);
     }
 
     private int generateRandomNumber() {
@@ -122,12 +124,12 @@ public abstract class ActivityResultRegistry {
             this.mPendingResults.remove(str);
             this.mParsedPendingResults.put(str, obj);
             return true;
-        } else if (this.mLaunchedKeys.remove(str)) {
-            activityResultCallback.onActivityResult(obj);
-            return true;
-        } else {
+        }
+        if (!this.mLaunchedKeys.remove(str)) {
             return true;
         }
+        activityResultCallback.onActivityResult(obj);
+        return true;
     }
 
     public abstract void onLaunch(int i, ActivityResultContract activityResultContract, Object obj, ActivityOptionsCompat activityOptionsCompat);

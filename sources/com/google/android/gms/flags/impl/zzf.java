@@ -2,6 +2,7 @@ package com.google.android.gms.flags.impl;
 
 import android.content.SharedPreferences;
 import android.util.Log;
+
 /* loaded from: classes.dex */
 public abstract class zzf extends zza {
     public static Long zza(SharedPreferences sharedPreferences, String str, Long l) {

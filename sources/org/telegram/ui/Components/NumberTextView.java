@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public class NumberTextView extends View {
     private boolean addNumber;
@@ -52,8 +53,9 @@ public class NumberTextView extends View {
         return this.textWidth;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00f6, code lost:
-        if (r7 != null) goto L40;
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x00f6, code lost:
+    
+        if (r7 != null) goto L39;
      */
     @Override // android.view.View
     /*
@@ -140,16 +142,20 @@ public class NumberTextView extends View {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:12:0x004c, code lost:
-        if (r22 < r21.currentNumber) goto L55;
+    
+        if (r22 < r21.currentNumber) goto L16;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x006f, code lost:
-        if (r22 > r21.currentNumber) goto L55;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0073, code lost:
+    
+        r6 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0071, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0071, code lost:
+    
         r6 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0073, code lost:
-        r6 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x006f, code lost:
+    
+        if (r22 > r21.currentNumber) goto L16;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -193,8 +199,7 @@ public class NumberTextView extends View {
                 if (z3 && substring2 == null) {
                     this.oldLetters.add(new StaticLayout("", this.textPaint, 0, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false));
                 }
-                TextPaint textPaint = this.textPaint;
-                this.letters.add(new StaticLayout(substring, textPaint, (int) Math.ceil(textPaint.measureText(substring)), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false));
+                this.letters.add(new StaticLayout(substring, this.textPaint, (int) Math.ceil(r13.measureText(substring)), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false));
             } else {
                 this.letters.add((StaticLayout) this.oldLetters.get(i2));
                 this.oldLetters.set(i2, null);

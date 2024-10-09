@@ -24,6 +24,7 @@ import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public abstract class MediaCodecUtil {
     private static final Pattern PROFILE_PATTERN = Pattern.compile("^\\D?(\\d+)$");
@@ -344,25 +345,25 @@ public abstract class MediaCodecUtil {
     }
 
     private static int avcProfileNumberToConst(int i) {
-        if (i != 66) {
-            if (i != 77) {
-                if (i != 88) {
-                    if (i != 100) {
-                        if (i != 110) {
-                            if (i != 122) {
-                                return i != 244 ? -1 : 64;
-                            }
-                            return 32;
-                        }
-                        return 16;
-                    }
-                    return 8;
-                }
-                return 4;
-            }
+        if (i == 66) {
+            return 1;
+        }
+        if (i == 77) {
             return 2;
         }
-        return 1;
+        if (i == 88) {
+            return 4;
+        }
+        if (i == 100) {
+            return 8;
+        }
+        if (i == 110) {
+            return 16;
+        }
+        if (i != 122) {
+            return i != 244 ? -1 : 64;
+        }
+        return 32;
     }
 
     private static Integer dolbyVisionStringToLevel(String str) {
@@ -648,14 +649,15 @@ public abstract class MediaCodecUtil {
                 sb2 = new StringBuilder();
                 sb2.append("Unknown AV1 profile: ");
                 sb2.append(parseInt);
-            } else if (parseInt3 != 8 && parseInt3 != 10) {
-                sb = new StringBuilder();
-                sb.append("Unknown AV1 bit depth: ");
-                sb.append(parseInt3);
-                sb3 = sb.toString();
-                Log.w("MediaCodecUtil", sb3);
-                return null;
             } else {
+                if (parseInt3 != 8 && parseInt3 != 10) {
+                    sb = new StringBuilder();
+                    sb.append("Unknown AV1 bit depth: ");
+                    sb.append(parseInt3);
+                    sb3 = sb.toString();
+                    Log.w("MediaCodecUtil", sb3);
+                    return null;
+                }
                 int i2 = parseInt3 != 8 ? (colorInfo == null || !(colorInfo.hdrStaticInfo != null || (i = colorInfo.colorTransfer) == 7 || i == 6)) ? 2 : LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : 1;
                 int av1LevelNumberToConst = av1LevelNumberToConst(parseInt2);
                 if (av1LevelNumberToConst != -1) {
@@ -688,10 +690,11 @@ public abstract class MediaCodecUtil {
                 if (strArr[1].length() == 6) {
                     i = Integer.parseInt(strArr[1].substring(0, 2), 16);
                     parseInt = Integer.parseInt(strArr[1].substring(4), 16);
-                } else if (strArr.length < 3) {
-                    Log.w("MediaCodecUtil", "Ignoring malformed AVC codec string: " + str);
-                    return null;
                 } else {
+                    if (strArr.length < 3) {
+                        Log.w("MediaCodecUtil", "Ignoring malformed AVC codec string: " + str);
+                        return null;
+                    }
                     int parseInt2 = Integer.parseInt(strArr[1]);
                     parseInt = Integer.parseInt(strArr[2]);
                     i = parseInt2;
@@ -706,15 +709,15 @@ public abstract class MediaCodecUtil {
                 return null;
             }
             int avcLevelNumberToConst = avcLevelNumberToConst(parseInt);
-            if (avcLevelNumberToConst == -1) {
-                sb = new StringBuilder();
-                sb.append("Unknown AVC level: ");
-                sb.append(parseInt);
-                str2 = sb.toString();
-                Log.w("MediaCodecUtil", str2);
-                return null;
+            if (avcLevelNumberToConst != -1) {
+                return new Pair(Integer.valueOf(avcProfileNumberToConst), Integer.valueOf(avcLevelNumberToConst));
             }
-            return new Pair(Integer.valueOf(avcProfileNumberToConst), Integer.valueOf(avcLevelNumberToConst));
+            sb = new StringBuilder();
+            sb.append("Unknown AVC level: ");
+            sb.append(parseInt);
+            str2 = sb.toString();
+            Log.w("MediaCodecUtil", str2);
+            return null;
         }
         sb = new StringBuilder();
         sb.append("Ignoring malformed AVC codec string: ");
@@ -725,7 +728,6 @@ public abstract class MediaCodecUtil {
     }
 
     private static String getCodecMimeType(android.media.MediaCodecInfo mediaCodecInfo, String str, String str2) {
-        String[] supportedTypes;
         for (String str3 : mediaCodecInfo.getSupportedTypes()) {
             if (str3.equalsIgnoreCase(str2)) {
                 return str3;
@@ -739,21 +741,22 @@ public abstract class MediaCodecUtil {
                 return "video/dv_hevc";
             }
             return null;
-        } else if (str2.equals("audio/alac") && "OMX.lge.alac.decoder".equals(str)) {
-            return "audio/x-lg-alac";
-        } else {
-            if (str2.equals("audio/flac") && "OMX.lge.flac.decoder".equals(str)) {
-                return "audio/x-lg-flac";
-            }
-            if (str2.equals("audio/ac3") && "OMX.lge.ac3.decoder".equals(str)) {
-                return "audio/lg-ac3";
-            }
-            return null;
         }
+        if (str2.equals("audio/alac") && "OMX.lge.alac.decoder".equals(str)) {
+            return "audio/x-lg-alac";
+        }
+        if (str2.equals("audio/flac") && "OMX.lge.flac.decoder".equals(str)) {
+            return "audio/x-lg-flac";
+        }
+        if (str2.equals("audio/ac3") && "OMX.lge.ac3.decoder".equals(str)) {
+            return "audio/lg-ac3";
+        }
+        return null;
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0075, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0075, code lost:
+    
         if (r3.equals("av01") == false) goto L11;
      */
     /*
@@ -874,14 +877,16 @@ public abstract class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(7:28|(4:(2:72|73)|53|(9:56|57|58|59|60|61|62|64|65)|9)|32|33|34|36|9) */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x008c, code lost:
-        if (r1.secure == false) goto L32;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00b1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00b1, code lost:
+    
         r0 = e;
      */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0105 A[Catch: Exception -> 0x012e, TRY_ENTER, TryCatch #1 {Exception -> 0x012e, blocks: (B:3:0x0008, B:5:0x001b, B:61:0x0124, B:8:0x002d, B:11:0x0038, B:55:0x00fd, B:58:0x0105, B:60:0x010b, B:64:0x0130, B:65:0x0153), top: B:72:0x0008 }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0130 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x008c, code lost:
+    
+        if (r1.secure == false) goto L36;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0105 A[Catch: Exception -> 0x012e, TRY_ENTER, TryCatch #1 {Exception -> 0x012e, blocks: (B:3:0x0008, B:5:0x001b, B:9:0x0124, B:10:0x002d, B:13:0x0038, B:39:0x00fd, B:42:0x0105, B:44:0x010b, B:47:0x0130, B:48:0x0153), top: B:2:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0130 A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1085,15 +1090,15 @@ public abstract class MediaCodecUtil {
                 }
                 str = strArr[3];
                 Integer hevcCodecStringToProfileLevel = hevcCodecStringToProfileLevel(str);
-                if (hevcCodecStringToProfileLevel == null) {
-                    sb = new StringBuilder();
-                    str2 = "Unknown HEVC level string: ";
-                    sb.append(str2);
-                    sb.append(str);
-                    Log.w("MediaCodecUtil", sb.toString());
-                    return null;
+                if (hevcCodecStringToProfileLevel != null) {
+                    return new Pair(Integer.valueOf(i), hevcCodecStringToProfileLevel);
                 }
-                return new Pair(Integer.valueOf(i), hevcCodecStringToProfileLevel);
+                sb = new StringBuilder();
+                str2 = "Unknown HEVC level string: ";
+                sb.append(str2);
+                sb.append(str);
+                Log.w("MediaCodecUtil", sb.toString());
+                return null;
             }
             sb = new StringBuilder();
         }
@@ -1123,15 +1128,15 @@ public abstract class MediaCodecUtil {
                 return null;
             }
             int vp9LevelNumberToConst = vp9LevelNumberToConst(parseInt2);
-            if (vp9LevelNumberToConst == -1) {
-                sb = new StringBuilder();
-                sb.append("Unknown VP9 level: ");
-                sb.append(parseInt2);
-                str2 = sb.toString();
-                Log.w("MediaCodecUtil", str2);
-                return null;
+            if (vp9LevelNumberToConst != -1) {
+                return new Pair(Integer.valueOf(vp9ProfileNumberToConst), Integer.valueOf(vp9LevelNumberToConst));
             }
-            return new Pair(Integer.valueOf(vp9ProfileNumberToConst), Integer.valueOf(vp9LevelNumberToConst));
+            sb = new StringBuilder();
+            sb.append("Unknown VP9 level: ");
+            sb.append(parseInt2);
+            str2 = sb.toString();
+            Log.w("MediaCodecUtil", str2);
+            return null;
         }
         sb = new StringBuilder();
         sb.append("Ignoring malformed VP9 codec string: ");
@@ -1404,43 +1409,43 @@ public abstract class MediaCodecUtil {
             return false;
         }
         int i = Util.SDK_INT;
-        if (i >= 21 || !("CIPAACDecoder".equals(str) || "CIPMP3Decoder".equals(str) || "CIPVorbisDecoder".equals(str) || "CIPAMRNBDecoder".equals(str) || "AACDecoder".equals(str) || "MP3Decoder".equals(str))) {
-            if (i < 18 && "OMX.MTK.AUDIO.DECODER.AAC".equals(str)) {
-                String str3 = Util.DEVICE;
-                if ("a70".equals(str3) || ("Xiaomi".equals(Util.MANUFACTURER) && str3.startsWith("HM"))) {
-                    return false;
-                }
-            }
-            if (i == 16 && "OMX.qcom.audio.decoder.mp3".equals(str)) {
-                String str4 = Util.DEVICE;
-                if ("dlxu".equals(str4) || "protou".equals(str4) || "ville".equals(str4) || "villeplus".equals(str4) || "villec2".equals(str4) || str4.startsWith("gee") || "C6602".equals(str4) || "C6603".equals(str4) || "C6606".equals(str4) || "C6616".equals(str4) || "L36h".equals(str4) || "SO-02E".equals(str4)) {
-                    return false;
-                }
-            }
-            if (i == 16 && "OMX.qcom.audio.decoder.aac".equals(str)) {
-                String str5 = Util.DEVICE;
-                if ("C1504".equals(str5) || "C1505".equals(str5) || "C1604".equals(str5) || "C1605".equals(str5)) {
-                    return false;
-                }
-            }
-            if (i < 24 && (("OMX.SEC.aac.dec".equals(str) || "OMX.Exynos.AAC.Decoder".equals(str)) && "samsung".equals(Util.MANUFACTURER))) {
-                String str6 = Util.DEVICE;
-                if (str6.startsWith("zeroflte") || str6.startsWith("zerolte") || str6.startsWith("zenlte") || "SC-05G".equals(str6) || "marinelteatt".equals(str6) || "404SC".equals(str6) || "SC-04G".equals(str6) || "SCV31".equals(str6)) {
-                    return false;
-                }
-            }
-            if (i <= 19 && "OMX.SEC.vp8.dec".equals(str) && "samsung".equals(Util.MANUFACTURER)) {
-                String str7 = Util.DEVICE;
-                if (str7.startsWith("d2") || str7.startsWith("serrano") || str7.startsWith("jflte") || str7.startsWith("santos") || str7.startsWith("t0")) {
-                    return false;
-                }
-            }
-            if (i <= 19 && Util.DEVICE.startsWith("jflte") && "OMX.qcom.video.decoder.vp8".equals(str)) {
+        if (i < 21 && ("CIPAACDecoder".equals(str) || "CIPMP3Decoder".equals(str) || "CIPVorbisDecoder".equals(str) || "CIPAMRNBDecoder".equals(str) || "AACDecoder".equals(str) || "MP3Decoder".equals(str))) {
+            return false;
+        }
+        if (i < 18 && "OMX.MTK.AUDIO.DECODER.AAC".equals(str)) {
+            String str3 = Util.DEVICE;
+            if ("a70".equals(str3) || ("Xiaomi".equals(Util.MANUFACTURER) && str3.startsWith("HM"))) {
                 return false;
             }
-            return (i <= 23 && "audio/eac3-joc".equals(str2) && "OMX.MTK.AUDIO.DECODER.DSPAC3".equals(str)) ? false : true;
         }
-        return false;
+        if (i == 16 && "OMX.qcom.audio.decoder.mp3".equals(str)) {
+            String str4 = Util.DEVICE;
+            if ("dlxu".equals(str4) || "protou".equals(str4) || "ville".equals(str4) || "villeplus".equals(str4) || "villec2".equals(str4) || str4.startsWith("gee") || "C6602".equals(str4) || "C6603".equals(str4) || "C6606".equals(str4) || "C6616".equals(str4) || "L36h".equals(str4) || "SO-02E".equals(str4)) {
+                return false;
+            }
+        }
+        if (i == 16 && "OMX.qcom.audio.decoder.aac".equals(str)) {
+            String str5 = Util.DEVICE;
+            if ("C1504".equals(str5) || "C1505".equals(str5) || "C1604".equals(str5) || "C1605".equals(str5)) {
+                return false;
+            }
+        }
+        if (i < 24 && (("OMX.SEC.aac.dec".equals(str) || "OMX.Exynos.AAC.Decoder".equals(str)) && "samsung".equals(Util.MANUFACTURER))) {
+            String str6 = Util.DEVICE;
+            if (str6.startsWith("zeroflte") || str6.startsWith("zerolte") || str6.startsWith("zenlte") || "SC-05G".equals(str6) || "marinelteatt".equals(str6) || "404SC".equals(str6) || "SC-04G".equals(str6) || "SCV31".equals(str6)) {
+                return false;
+            }
+        }
+        if (i <= 19 && "OMX.SEC.vp8.dec".equals(str) && "samsung".equals(Util.MANUFACTURER)) {
+            String str7 = Util.DEVICE;
+            if (str7.startsWith("d2") || str7.startsWith("serrano") || str7.startsWith("jflte") || str7.startsWith("santos") || str7.startsWith("t0")) {
+                return false;
+            }
+        }
+        if (i <= 19 && Util.DEVICE.startsWith("jflte") && "OMX.qcom.video.decoder.vp8".equals(str)) {
+            return false;
+        }
+        return (i <= 23 && "audio/eac3-joc".equals(str2) && "OMX.MTK.AUDIO.DECODER.DSPAC3".equals(str)) ? false : true;
     }
 
     public static boolean isHardwareAccelerated(android.media.MediaCodecInfo mediaCodecInfo, String str) {
@@ -1586,58 +1591,58 @@ public abstract class MediaCodecUtil {
     }
 
     private static int vp9LevelNumberToConst(int i) {
-        if (i != 10) {
-            if (i != 11) {
-                if (i != 20) {
-                    if (i != 21) {
-                        if (i != 30) {
-                            if (i != 31) {
-                                if (i != 40) {
-                                    if (i != 41) {
-                                        if (i != 50) {
-                                            if (i != 51) {
-                                                switch (i) {
-                                                    case 60:
-                                                        return 2048;
-                                                    case 61:
-                                                        return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
-                                                    case 62:
-                                                        return LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
-                                                    default:
-                                                        return -1;
-                                                }
-                                            }
-                                            return 512;
-                                        }
-                                        return 256;
-                                    }
-                                    return 128;
-                                }
-                                return 64;
-                            }
-                            return 32;
-                        }
-                        return 16;
-                    }
-                    return 8;
-                }
-                return 4;
-            }
+        if (i == 10) {
+            return 1;
+        }
+        if (i == 11) {
             return 2;
         }
-        return 1;
+        if (i == 20) {
+            return 4;
+        }
+        if (i == 21) {
+            return 8;
+        }
+        if (i == 30) {
+            return 16;
+        }
+        if (i == 31) {
+            return 32;
+        }
+        if (i == 40) {
+            return 64;
+        }
+        if (i == 41) {
+            return 128;
+        }
+        if (i == 50) {
+            return 256;
+        }
+        if (i == 51) {
+            return 512;
+        }
+        switch (i) {
+            case 60:
+                return 2048;
+            case 61:
+                return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
+            case 62:
+                return LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
+            default:
+                return -1;
+        }
     }
 
     private static int vp9ProfileNumberToConst(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i != 2) {
-                    return i != 3 ? -1 : 8;
-                }
-                return 4;
-            }
+        if (i == 0) {
+            return 1;
+        }
+        if (i == 1) {
             return 2;
         }
-        return 1;
+        if (i != 2) {
+            return i != 3 ? -1 : 8;
+        }
+        return 4;
     }
 }

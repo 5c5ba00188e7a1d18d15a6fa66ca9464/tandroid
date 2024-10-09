@@ -2,6 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.Arrays;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public final class zzw {
     Object[] zza = new Object[8];
@@ -36,14 +37,14 @@ public final class zzw {
 
     public final zzx zzb() {
         zzv zzvVar = this.zzc;
-        if (zzvVar == null) {
-            zzaf zzf = zzaf.zzf(this.zzb, this.zza, this);
-            zzv zzvVar2 = this.zzc;
-            if (zzvVar2 == null) {
-                return zzf;
-            }
-            throw zzvVar2.zza();
+        if (zzvVar != null) {
+            throw zzvVar.zza();
         }
-        throw zzvVar.zza();
+        zzaf zzf = zzaf.zzf(this.zzb, this.zza, this);
+        zzv zzvVar2 = this.zzc;
+        if (zzvVar2 == null) {
+            return zzf;
+        }
+        throw zzvVar2.zza();
     }
 }

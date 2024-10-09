@@ -30,6 +30,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.ColoredImageSpan;
+
 /* loaded from: classes3.dex */
 public class Emoji {
     private static final String[] DEFAULT_RECENT;
@@ -455,26 +456,25 @@ public class Emoji {
             int i = drawImgSize;
             simpleEmojiDrawable.setBounds(0, 0, i, i);
             return simpleEmojiDrawable;
-        } else if (charSequence == null || (compoundEmojiDrawable = CompoundEmoji.getCompoundEmojiDrawable(charSequence.toString())) == null) {
-            return null;
-        } else {
-            int i2 = drawImgSize;
-            compoundEmojiDrawable.setBounds(0, 0, i2, i2);
-            return compoundEmojiDrawable;
         }
+        if (charSequence == null || (compoundEmojiDrawable = CompoundEmoji.getCompoundEmojiDrawable(charSequence.toString())) == null) {
+            return null;
+        }
+        int i2 = drawImgSize;
+        compoundEmojiDrawable.setBounds(0, 0, i2, i2);
+        return compoundEmojiDrawable;
     }
 
     public static void invalidateAll(View view) {
         if (!(view instanceof ViewGroup)) {
             if (view instanceof TextView) {
                 view.invalidate();
-                return;
             }
-            return;
-        }
-        ViewGroup viewGroup = (ViewGroup) view;
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            invalidateAll(viewGroup.getChildAt(i));
+        } else {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                invalidateAll(viewGroup.getChildAt(i));
+            }
         }
     }
 
@@ -645,14 +645,51 @@ public class Emoji {
         return parseEmojis(charSequence, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:122:0x01a3 A[Catch: Exception -> 0x0078, TryCatch #0 {Exception -> 0x0078, blocks: (B:9:0x0029, B:30:0x006c, B:90:0x0121, B:92:0x0125, B:94:0x0132, B:98:0x0140, B:122:0x01a3, B:124:0x01a7, B:128:0x01b4, B:130:0x01ba, B:164:0x0215, B:146:0x01ea, B:148:0x01ee, B:157:0x0204, B:159:0x0208, B:167:0x021c, B:169:0x0223, B:171:0x0227, B:173:0x0232, B:177:0x0240, B:180:0x0250, B:182:0x0259, B:184:0x025c, B:185:0x026d, B:99:0x014d, B:101:0x0154, B:103:0x015e, B:107:0x016d, B:109:0x0173, B:110:0x017a, B:112:0x0182, B:113:0x0189, B:115:0x0193, B:17:0x0041, B:19:0x004c, B:34:0x007b, B:46:0x009d, B:44:0x0093, B:51:0x00af, B:59:0x00c3, B:79:0x0102, B:70:0x00e4, B:77:0x00fa), top: B:195:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x021a A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0223 A[Catch: Exception -> 0x0078, TryCatch #0 {Exception -> 0x0078, blocks: (B:9:0x0029, B:30:0x006c, B:90:0x0121, B:92:0x0125, B:94:0x0132, B:98:0x0140, B:122:0x01a3, B:124:0x01a7, B:128:0x01b4, B:130:0x01ba, B:164:0x0215, B:146:0x01ea, B:148:0x01ee, B:157:0x0204, B:159:0x0208, B:167:0x021c, B:169:0x0223, B:171:0x0227, B:173:0x0232, B:177:0x0240, B:180:0x0250, B:182:0x0259, B:184:0x025c, B:185:0x026d, B:99:0x014d, B:101:0x0154, B:103:0x015e, B:107:0x016d, B:109:0x0173, B:110:0x017a, B:112:0x0182, B:113:0x0189, B:115:0x0193, B:17:0x0041, B:19:0x004c, B:34:0x007b, B:46:0x009d, B:44:0x0093, B:51:0x00af, B:59:0x00c3, B:79:0x0102, B:70:0x00e4, B:77:0x00fa), top: B:195:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x024e  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x0278  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0102 A[Catch: Exception -> 0x0078, TryCatch #0 {Exception -> 0x0078, blocks: (B:9:0x0029, B:30:0x006c, B:90:0x0121, B:92:0x0125, B:94:0x0132, B:98:0x0140, B:122:0x01a3, B:124:0x01a7, B:128:0x01b4, B:130:0x01ba, B:164:0x0215, B:146:0x01ea, B:148:0x01ee, B:157:0x0204, B:159:0x0208, B:167:0x021c, B:169:0x0223, B:171:0x0227, B:173:0x0232, B:177:0x0240, B:180:0x0250, B:182:0x0259, B:184:0x025c, B:185:0x026d, B:99:0x014d, B:101:0x0154, B:103:0x015e, B:107:0x016d, B:109:0x0173, B:110:0x017a, B:112:0x0182, B:113:0x0189, B:115:0x0193, B:17:0x0041, B:19:0x004c, B:34:0x007b, B:46:0x009d, B:44:0x0093, B:51:0x00af, B:59:0x00c3, B:79:0x0102, B:70:0x00e4, B:77:0x00fa), top: B:195:0x0029 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x010d  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0121 A[Catch: Exception -> 0x0078, TryCatch #0 {Exception -> 0x0078, blocks: (B:9:0x0029, B:30:0x006c, B:90:0x0121, B:92:0x0125, B:94:0x0132, B:98:0x0140, B:122:0x01a3, B:124:0x01a7, B:128:0x01b4, B:130:0x01ba, B:164:0x0215, B:146:0x01ea, B:148:0x01ee, B:157:0x0204, B:159:0x0208, B:167:0x021c, B:169:0x0223, B:171:0x0227, B:173:0x0232, B:177:0x0240, B:180:0x0250, B:182:0x0259, B:184:0x025c, B:185:0x026d, B:99:0x014d, B:101:0x0154, B:103:0x015e, B:107:0x016d, B:109:0x0173, B:110:0x017a, B:112:0x0182, B:113:0x0189, B:115:0x0193, B:17:0x0041, B:19:0x004c, B:34:0x007b, B:46:0x009d, B:44:0x0093, B:51:0x00af, B:59:0x00c3, B:79:0x0102, B:70:0x00e4, B:77:0x00fa), top: B:195:0x0029 }] */
+    /* JADX WARN: Code restructure failed: missing block: B:113:0x016b, code lost:
+    
+        if (r8 == 56128) goto L107;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x0171, code lost:
+    
+        if (r7 >= r25.length()) goto L110;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:116:0x0173, code lost:
+    
+        r2.append(r25.charAt(r7));
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x017a, code lost:
+    
+        r10 = r7 + 1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x0180, code lost:
+    
+        if (r10 >= r25.length()) goto L113;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:119:0x0182, code lost:
+    
+        r2.append(r25.charAt(r10));
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:120:0x0189, code lost:
+    
+        r14 = r14 + 2;
+        r7 = r7 + 2;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:121:0x0191, code lost:
+    
+        if (r7 >= r25.length()) goto L206;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:123:0x0197, code lost:
+    
+        if (r25.charAt(r7) == 56128) goto L208;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x0278  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x0102 A[Catch: Exception -> 0x0078, TryCatch #0 {Exception -> 0x0078, blocks: (B:8:0x0029, B:15:0x006c, B:18:0x0121, B:20:0x0125, B:22:0x0132, B:26:0x0140, B:30:0x01a3, B:32:0x01a7, B:36:0x01b4, B:38:0x01ba, B:40:0x0215, B:55:0x01ea, B:57:0x01ee, B:67:0x0204, B:69:0x0208, B:81:0x021c, B:83:0x0223, B:85:0x0227, B:87:0x0232, B:91:0x0240, B:94:0x0250, B:96:0x0259, B:98:0x025c, B:99:0x026d, B:106:0x014d, B:108:0x0154, B:110:0x015e, B:114:0x016d, B:116:0x0173, B:117:0x017a, B:119:0x0182, B:120:0x0189, B:122:0x0193, B:133:0x0041, B:135:0x004c, B:142:0x007b, B:150:0x009d, B:154:0x0093, B:159:0x00af, B:163:0x00c3, B:179:0x0102, B:189:0x00e4, B:194:0x00fa), top: B:7:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0121 A[Catch: Exception -> 0x0078, TryCatch #0 {Exception -> 0x0078, blocks: (B:8:0x0029, B:15:0x006c, B:18:0x0121, B:20:0x0125, B:22:0x0132, B:26:0x0140, B:30:0x01a3, B:32:0x01a7, B:36:0x01b4, B:38:0x01ba, B:40:0x0215, B:55:0x01ea, B:57:0x01ee, B:67:0x0204, B:69:0x0208, B:81:0x021c, B:83:0x0223, B:85:0x0227, B:87:0x0232, B:91:0x0240, B:94:0x0250, B:96:0x0259, B:98:0x025c, B:99:0x026d, B:106:0x014d, B:108:0x0154, B:110:0x015e, B:114:0x016d, B:116:0x0173, B:117:0x017a, B:119:0x0182, B:120:0x0189, B:122:0x0193, B:133:0x0041, B:135:0x004c, B:142:0x007b, B:150:0x009d, B:154:0x0093, B:159:0x00af, B:163:0x00c3, B:179:0x0102, B:189:0x00e4, B:194:0x00fa), top: B:7:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x01a3 A[Catch: Exception -> 0x0078, TryCatch #0 {Exception -> 0x0078, blocks: (B:8:0x0029, B:15:0x006c, B:18:0x0121, B:20:0x0125, B:22:0x0132, B:26:0x0140, B:30:0x01a3, B:32:0x01a7, B:36:0x01b4, B:38:0x01ba, B:40:0x0215, B:55:0x01ea, B:57:0x01ee, B:67:0x0204, B:69:0x0208, B:81:0x021c, B:83:0x0223, B:85:0x0227, B:87:0x0232, B:91:0x0240, B:94:0x0250, B:96:0x0259, B:98:0x025c, B:99:0x026d, B:106:0x014d, B:108:0x0154, B:110:0x015e, B:114:0x016d, B:116:0x0173, B:117:0x017a, B:119:0x0182, B:120:0x0189, B:122:0x0193, B:133:0x0041, B:135:0x004c, B:142:0x007b, B:150:0x009d, B:154:0x0093, B:159:0x00af, B:163:0x00c3, B:179:0x0102, B:189:0x00e4, B:194:0x00fa), top: B:7:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x021a A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0223 A[Catch: Exception -> 0x0078, TryCatch #0 {Exception -> 0x0078, blocks: (B:8:0x0029, B:15:0x006c, B:18:0x0121, B:20:0x0125, B:22:0x0132, B:26:0x0140, B:30:0x01a3, B:32:0x01a7, B:36:0x01b4, B:38:0x01ba, B:40:0x0215, B:55:0x01ea, B:57:0x01ee, B:67:0x0204, B:69:0x0208, B:81:0x021c, B:83:0x0223, B:85:0x0227, B:87:0x0232, B:91:0x0240, B:94:0x0250, B:96:0x0259, B:98:0x025c, B:99:0x026d, B:106:0x014d, B:108:0x0154, B:110:0x015e, B:114:0x016d, B:116:0x0173, B:117:0x017a, B:119:0x0182, B:120:0x0189, B:122:0x0193, B:133:0x0041, B:135:0x004c, B:142:0x007b, B:150:0x009d, B:154:0x0093, B:159:0x00af, B:163:0x00c3, B:179:0x0102, B:189:0x00e4, B:194:0x00fa), top: B:7:0x0029 }] */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x024e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -804,21 +841,11 @@ public class Emoji {
                                         }
                                         i8 = i + 1;
                                     }
-                                } else if (sb.length() >= 2 && sb.charAt(0) == 55356 && sb.charAt(1) == 57332 && charAt4 == 56128) {
-                                    do {
-                                        if (i11 < charSequence.length()) {
-                                            sb.append(charSequence.charAt(i11));
+                                } else if (sb.length() >= 2) {
+                                    if (sb.charAt(0) == 55356) {
+                                        if (sb.charAt(1) == 57332) {
                                         }
-                                        i8 = i11 + 1;
-                                        if (i8 < charSequence.length()) {
-                                            sb.append(charSequence.charAt(i8));
-                                        }
-                                        i10 += 2;
-                                        i11 += 2;
-                                        if (i11 >= charSequence.length()) {
-                                            break;
-                                        }
-                                    } while (charSequence.charAt(i11) == 56128);
+                                    }
                                 }
                             }
                             i7 = i8;
@@ -986,7 +1013,6 @@ public class Emoji {
         TLRPC.TL_messages_stickerSet stickerSet = MediaDataController.getInstance(i2).getStickerSet(tL_inputStickerSetShortName, 0, false, true, runnable == null ? null : new Utilities.Callback() { // from class: org.telegram.messenger.Emoji$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                TLRPC.TL_messages_stickerSet tL_messages_stickerSet = (TLRPC.TL_messages_stickerSet) obj;
                 runnable.run();
             }
         });
@@ -1065,8 +1091,9 @@ public class Emoji {
 
     public static void sortEmoji() {
         recentEmoji.clear();
-        for (Map.Entry<String, Integer> entry : emojiUseHistory.entrySet()) {
-            recentEmoji.add(entry.getKey());
+        Iterator<Map.Entry<String, Integer>> it = emojiUseHistory.entrySet().iterator();
+        while (it.hasNext()) {
+            recentEmoji.add(it.next().getKey());
         }
         Collections.sort(recentEmoji, new Comparator() { // from class: org.telegram.messenger.Emoji$$ExternalSyntheticLambda0
             @Override // java.util.Comparator
@@ -1080,8 +1107,9 @@ public class Emoji {
             ArrayList<String> arrayList = recentEmoji;
             if (arrayList.size() <= 48) {
                 return;
+            } else {
+                arrayList.remove(arrayList.size() - 1);
             }
-            arrayList.remove(arrayList.size() - 1);
         }
     }
 }

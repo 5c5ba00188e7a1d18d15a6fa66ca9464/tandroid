@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import org.telegram.messenger.AndroidUtilities;
+
 /* loaded from: classes3.dex */
 public class CheckBox extends View {
     private static Paint backgroundPaint;
@@ -120,17 +121,16 @@ public class CheckBox extends View {
         this.attachedToWindow = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00ca  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x010d  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x013b  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void onDraw(Canvas canvas) {
         float dp;
-        String str;
         if (getVisibility() != 0 || this.drawBitmap == null || this.checkBitmap == null) {
             return;
         }
@@ -162,7 +162,7 @@ public class CheckBox extends View {
                 canvas.drawBitmap(this.drawBitmap, 0.0f, 0.0f, (Paint) null);
                 this.checkBitmap.eraseColor(0);
                 if (this.checkedText == null) {
-                    this.checkCanvas.drawText(this.checkedText, (getMeasuredWidth() - ((int) Math.ceil(this.textPaint.measureText(str)))) / 2, AndroidUtilities.dp(this.size == 40 ? 28.0f : 21.0f), this.textPaint);
+                    this.checkCanvas.drawText(this.checkedText, (getMeasuredWidth() - ((int) Math.ceil(this.textPaint.measureText(r0)))) / 2, AndroidUtilities.dp(this.size == 40 ? 28.0f : 21.0f), this.textPaint);
                 } else {
                     int intrinsicWidth = this.checkDrawable.getIntrinsicWidth();
                     int intrinsicHeight = this.checkDrawable.getIntrinsicHeight();
@@ -234,10 +234,10 @@ public class CheckBox extends View {
         this.isChecked = z;
         if (this.attachedToWindow && z2) {
             animateToCheckedState(z);
-            return;
+        } else {
+            cancelCheckAnimator();
+            setProgress(z ? 1.0f : 0.0f);
         }
-        cancelCheckAnimator();
-        setProgress(z ? 1.0f : 0.0f);
     }
 
     public void setChecked(boolean z, boolean z2) {
@@ -262,10 +262,13 @@ public class CheckBox extends View {
     public void setNum(int i) {
         String str;
         if (i < 0) {
-            str = this.checkAnimator == null ? null : null;
+            if (this.checkAnimator == null) {
+                str = null;
+            }
             invalidate();
+        } else {
+            str = "" + (i + 1);
         }
-        str = "" + (i + 1);
         this.checkedText = str;
         invalidate();
     }

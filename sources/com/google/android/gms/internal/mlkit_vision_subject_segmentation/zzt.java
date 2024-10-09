@@ -4,6 +4,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+
 /* loaded from: classes.dex */
 abstract class zzt extends AbstractCollection {
     final Object zza;
@@ -44,17 +45,17 @@ abstract class zzt extends AbstractCollection {
         }
         int size = size();
         boolean addAll = this.zzb.addAll(collection);
-        if (addAll) {
-            int size2 = this.zzb.size();
-            zzw zzwVar = this.zze;
-            zzw.zzj(zzwVar, zzw.zzd(zzwVar) + (size2 - size));
-            if (size == 0) {
-                zza();
-                return true;
-            }
+        if (!addAll) {
             return addAll;
         }
-        return addAll;
+        int size2 = this.zzb.size();
+        zzw zzwVar = this.zze;
+        zzw.zzj(zzwVar, zzw.zzd(zzwVar) + (size2 - size));
+        if (size != 0) {
+            return addAll;
+        }
+        zza();
+        return true;
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
@@ -107,8 +108,7 @@ abstract class zzt extends AbstractCollection {
         zzb();
         boolean remove = this.zzb.remove(obj);
         if (remove) {
-            zzw zzwVar = this.zze;
-            zzw.zzj(zzwVar, zzw.zzd(zzwVar) - 1);
+            zzw.zzj(this.zze, zzw.zzd(r0) - 1);
             zzc();
         }
         return remove;
@@ -176,7 +176,9 @@ abstract class zzt extends AbstractCollection {
             if (zztVar2.zzb != this.zzd) {
                 throw new ConcurrentModificationException();
             }
-        } else if (this.zzb.isEmpty()) {
+            return;
+        }
+        if (this.zzb.isEmpty()) {
             zzw zzwVar = this.zze;
             Collection collection = (Collection) zzw.zzg(zzwVar).get(this.zza);
             if (collection != null) {

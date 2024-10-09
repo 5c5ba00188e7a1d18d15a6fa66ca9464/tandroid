@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import java.util.Iterator;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzdk implements zzdj {
     @Override // com.google.android.gms.internal.clearcut.zzdj
@@ -11,13 +12,13 @@ final class zzdk implements zzdj {
             return 0;
         }
         Iterator it = zzdiVar.entrySet().iterator();
-        if (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            entry.getKey();
-            entry.getValue();
-            throw new NoSuchMethodError();
+        if (!it.hasNext()) {
+            return 0;
         }
-        return 0;
+        Map.Entry entry = (Map.Entry) it.next();
+        entry.getKey();
+        entry.getValue();
+        throw new NoSuchMethodError();
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdj

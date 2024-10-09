@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
+
 /* loaded from: classes.dex */
 public class SampleToChunkBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;
@@ -57,8 +58,9 @@ public class SampleToChunkBox extends AbstractFullBox {
         public int hashCode() {
             long j = this.firstChunk;
             long j2 = this.samplesPerChunk;
+            int i = ((((int) (j ^ (j >>> 32))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31;
             long j3 = this.sampleDescriptionIndex;
-            return (((((int) (j ^ (j >>> 32))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + ((int) (j3 ^ (j3 >>> 32)));
+            return i + ((int) (j3 ^ (j3 >>> 32)));
         }
 
         public String toString() {

@@ -4,6 +4,7 @@ import com.microsoft.appcenter.ingestion.models.Model;
 import java.util.Iterator;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class MetadataExtension implements Model {
     private JSONObject mMetadata = new JSONObject();

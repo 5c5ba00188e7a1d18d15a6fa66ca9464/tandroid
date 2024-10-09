@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.FrameLayout;
 import org.telegram.messenger.SharedConfig;
+
 /* loaded from: classes3.dex */
 public class BlurredFrameLayout extends FrameLayout {
     public int backgroundColor;
@@ -45,7 +45,7 @@ public class BlurredFrameLayout extends FrameLayout {
                     break;
                 }
                 f += view.getY();
-                ViewParent parent = view.getParent();
+                Object parent = view.getParent();
                 if (!(parent instanceof View)) {
                     super.dispatchDraw(canvas);
                     return;

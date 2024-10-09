@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 final class W0 extends Y0 implements D0 {
     @Override // j$.util.stream.Y0, j$.util.stream.F0
@@ -15,7 +16,7 @@ final class W0 extends Y0 implements D0 {
     }
 
     @Override // j$.util.stream.F0
-    /* renamed from: b */
+    /* renamed from: b, reason: merged with bridge method [inline-methods] */
     public final /* synthetic */ void i(Long[] lArr, int i) {
         t0.p(this, lArr, i);
     }

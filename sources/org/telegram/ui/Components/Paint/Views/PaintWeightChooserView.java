@@ -15,6 +15,7 @@ import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.RenderView;
 import org.telegram.ui.Components.Paint.Swatch;
+
 /* loaded from: classes3.dex */
 public class PaintWeightChooserView extends View {
     private AnimatedFloat animatedMax;
@@ -118,12 +119,12 @@ public class PaintWeightChooserView extends View {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x006d  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0136  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x01d1  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x021b  */
-    /* JADX WARN: Removed duplicated region for block: B:42:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x006d  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x01d1  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0082  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -178,17 +179,18 @@ public class PaintWeightChooserView extends View {
                             canvas.saveLayerAlpha(rectF, (int) ((1.0f - this.hideProgress) * 255.0f), 31);
                         }
                         canvas.save();
+                        float dp4 = AndroidUtilities.dp(32.0f);
                         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
-                        canvas.translate(AndroidUtilities.dp(32.0f) * cubicBezierInterpolator.getInterpolation(this.showProgress), this.touchRect.top);
+                        canvas.translate(dp4 * cubicBezierInterpolator.getInterpolation(this.showProgress), this.touchRect.top);
                         canvas.drawPath(this.path, this.backgroundPaint);
                         canvas.restore();
-                        float dp4 = AndroidUtilities.dp(32.0f) * cubicBezierInterpolator.getInterpolation(this.showProgress);
+                        float dp5 = AndroidUtilities.dp(32.0f) * cubicBezierInterpolator.getInterpolation(this.showProgress);
                         RectF rectF2 = this.touchRect;
                         float f7 = (f - f2) / (f3 - f2);
                         float height2 = rectF2.top + (rectF2.height() * (1.0f - f7));
                         RectF rectF3 = this.touchRect;
                         float f8 = dp2 * 1.5f;
-                        drawCircleWithShadow(canvas, dp4, MathUtils.clamp(height2, rectF3.top + f6, rectF3.bottom - Math.min(f8, f6)), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.lerp(Math.min(f8, f6), f6, f7), this.showProgress), false);
+                        drawCircleWithShadow(canvas, dp5, MathUtils.clamp(height2, rectF3.top + f6, rectF3.bottom - Math.min(f8, f6)), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.lerp(Math.min(f8, f6), f6, f7), this.showProgress), false);
                         if (this.drawCenter && this.showProgress != 0.0f && this.showPreview && this.renderView != null) {
                             drawCircleWithShadow(canvas, getWidth() / 2.0f, getHeight() / 2.0f, this.renderView.brushWeightForSize(f) * this.renderView.getCurrentBrush().getScale() * this.renderView.getCurrentBrush().getPreviewScale(), true);
                         }
@@ -208,38 +210,39 @@ public class PaintWeightChooserView extends View {
                     }
                 }
                 float height3 = this.touchRect.height();
-                int dp5 = AndroidUtilities.dp(16.0f);
+                int dp6 = AndroidUtilities.dp(16.0f);
                 int dp22 = AndroidUtilities.dp(3.0f);
                 int dp32 = AndroidUtilities.dp(3.0f);
                 this.path.rewind();
                 this.path.moveTo(0.0f, 0.0f);
                 RectF rectF4 = AndroidUtilities.rectTmp;
                 int i3 = -dp32;
-                int i22 = -dp5;
-                rectF4.set(AndroidUtilities.lerp(i3, i22, this.showProgress), 0.0f, AndroidUtilities.lerp(dp32, dp5, this.showProgress), AndroidUtilities.lerp(dp32, dp5, this.showProgress) * 2);
+                int i22 = -dp6;
+                rectF4.set(AndroidUtilities.lerp(i3, i22, this.showProgress), 0.0f, AndroidUtilities.lerp(dp32, dp6, this.showProgress), AndroidUtilities.lerp(dp32, dp6, this.showProgress) * 2);
                 this.path.arcTo(rectF4, -90.0f, 90.0f);
                 this.path.lineTo(AndroidUtilities.lerp(dp32, dp22, this.showProgress), height3);
                 rectF4.set(AndroidUtilities.lerp(i3, -dp22, this.showProgress), height3 - (dp22 * 2), AndroidUtilities.lerp(dp32, dp22, this.showProgress), height3);
                 this.path.arcTo(rectF4, 0.0f, 180.0f);
-                float f62 = dp5;
+                float f62 = dp6;
                 this.path.lineTo(AndroidUtilities.lerp(i3, i22, this.showProgress), f62);
-                rectF4.set(AndroidUtilities.lerp(i3, i22, this.showProgress), 0.0f, AndroidUtilities.lerp(dp32, dp5, this.showProgress), dp5 * 2);
+                rectF4.set(AndroidUtilities.lerp(i3, i22, this.showProgress), 0.0f, AndroidUtilities.lerp(dp32, dp6, this.showProgress), dp6 * 2);
                 this.path.arcTo(rectF4, -180.0f, 90.0f);
                 this.path.close();
                 if (this.hideProgress != 0.0f) {
                 }
                 canvas.save();
+                float dp42 = AndroidUtilities.dp(32.0f);
                 CubicBezierInterpolator cubicBezierInterpolator2 = CubicBezierInterpolator.DEFAULT;
-                canvas.translate(AndroidUtilities.dp(32.0f) * cubicBezierInterpolator2.getInterpolation(this.showProgress), this.touchRect.top);
+                canvas.translate(dp42 * cubicBezierInterpolator2.getInterpolation(this.showProgress), this.touchRect.top);
                 canvas.drawPath(this.path, this.backgroundPaint);
                 canvas.restore();
-                float dp42 = AndroidUtilities.dp(32.0f) * cubicBezierInterpolator2.getInterpolation(this.showProgress);
+                float dp52 = AndroidUtilities.dp(32.0f) * cubicBezierInterpolator2.getInterpolation(this.showProgress);
                 RectF rectF22 = this.touchRect;
                 float f72 = (f - f2) / (f3 - f2);
                 float height22 = rectF22.top + (rectF22.height() * (1.0f - f72));
                 RectF rectF32 = this.touchRect;
                 float f82 = dp22 * 1.5f;
-                drawCircleWithShadow(canvas, dp42, MathUtils.clamp(height22, rectF32.top + f62, rectF32.bottom - Math.min(f82, f62)), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.lerp(Math.min(f82, f62), f62, f72), this.showProgress), false);
+                drawCircleWithShadow(canvas, dp52, MathUtils.clamp(height22, rectF32.top + f62, rectF32.bottom - Math.min(f82, f62)), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.lerp(Math.min(f82, f62), f62, f72), this.showProgress), false);
                 if (this.drawCenter) {
                     drawCircleWithShadow(canvas, getWidth() / 2.0f, getHeight() / 2.0f, this.renderView.brushWeightForSize(f) * this.renderView.getCurrentBrush().getScale() * this.renderView.getCurrentBrush().getPreviewScale(), true);
                 }
@@ -261,38 +264,39 @@ public class PaintWeightChooserView extends View {
         if (!z) {
         }
         float height32 = this.touchRect.height();
-        int dp52 = AndroidUtilities.dp(16.0f);
+        int dp62 = AndroidUtilities.dp(16.0f);
         int dp222 = AndroidUtilities.dp(3.0f);
         int dp322 = AndroidUtilities.dp(3.0f);
         this.path.rewind();
         this.path.moveTo(0.0f, 0.0f);
         RectF rectF42 = AndroidUtilities.rectTmp;
         int i32 = -dp322;
-        int i222 = -dp52;
-        rectF42.set(AndroidUtilities.lerp(i32, i222, this.showProgress), 0.0f, AndroidUtilities.lerp(dp322, dp52, this.showProgress), AndroidUtilities.lerp(dp322, dp52, this.showProgress) * 2);
+        int i222 = -dp62;
+        rectF42.set(AndroidUtilities.lerp(i32, i222, this.showProgress), 0.0f, AndroidUtilities.lerp(dp322, dp62, this.showProgress), AndroidUtilities.lerp(dp322, dp62, this.showProgress) * 2);
         this.path.arcTo(rectF42, -90.0f, 90.0f);
         this.path.lineTo(AndroidUtilities.lerp(dp322, dp222, this.showProgress), height32);
         rectF42.set(AndroidUtilities.lerp(i32, -dp222, this.showProgress), height32 - (dp222 * 2), AndroidUtilities.lerp(dp322, dp222, this.showProgress), height32);
         this.path.arcTo(rectF42, 0.0f, 180.0f);
-        float f622 = dp52;
+        float f622 = dp62;
         this.path.lineTo(AndroidUtilities.lerp(i32, i222, this.showProgress), f622);
-        rectF42.set(AndroidUtilities.lerp(i32, i222, this.showProgress), 0.0f, AndroidUtilities.lerp(dp322, dp52, this.showProgress), dp52 * 2);
+        rectF42.set(AndroidUtilities.lerp(i32, i222, this.showProgress), 0.0f, AndroidUtilities.lerp(dp322, dp62, this.showProgress), dp62 * 2);
         this.path.arcTo(rectF42, -180.0f, 90.0f);
         this.path.close();
         if (this.hideProgress != 0.0f) {
         }
         canvas.save();
+        float dp422 = AndroidUtilities.dp(32.0f);
         CubicBezierInterpolator cubicBezierInterpolator22 = CubicBezierInterpolator.DEFAULT;
-        canvas.translate(AndroidUtilities.dp(32.0f) * cubicBezierInterpolator22.getInterpolation(this.showProgress), this.touchRect.top);
+        canvas.translate(dp422 * cubicBezierInterpolator22.getInterpolation(this.showProgress), this.touchRect.top);
         canvas.drawPath(this.path, this.backgroundPaint);
         canvas.restore();
-        float dp422 = AndroidUtilities.dp(32.0f) * cubicBezierInterpolator22.getInterpolation(this.showProgress);
+        float dp522 = AndroidUtilities.dp(32.0f) * cubicBezierInterpolator22.getInterpolation(this.showProgress);
         RectF rectF222 = this.touchRect;
         float f722 = (f - f2) / (f3 - f2);
         float height222 = rectF222.top + (rectF222.height() * (1.0f - f722));
         RectF rectF322 = this.touchRect;
         float f822 = dp222 * 1.5f;
-        drawCircleWithShadow(canvas, dp422, MathUtils.clamp(height222, rectF322.top + f622, rectF322.bottom - Math.min(f822, f622)), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.lerp(Math.min(f822, f622), f622, f722), this.showProgress), false);
+        drawCircleWithShadow(canvas, dp522, MathUtils.clamp(height222, rectF322.top + f622, rectF322.bottom - Math.min(f822, f622)), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.lerp(Math.min(f822, f622), f622, f722), this.showProgress), false);
         if (this.drawCenter) {
         }
         if (this.hideProgress != 0.0f) {

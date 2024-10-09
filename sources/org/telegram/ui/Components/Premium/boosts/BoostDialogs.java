@@ -47,6 +47,7 @@ import org.telegram.ui.Components.EffectsTextView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.NumberPicker;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes3.dex */
 public abstract class BoostDialogs {
     public static void applyDialogStyle(AlertDialog alertDialog, boolean z) {
@@ -59,72 +60,72 @@ public abstract class BoostDialogs {
     }
 
     public static boolean checkReduceQuantity(List list, Context context, Theme.ResourcesProvider resourcesProvider, List list2, TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption, final Utilities.Callback callback) {
-        if (tL_premiumGiftCodeOption.store_product == null) {
-            ArrayList<TLRPC.TL_premiumGiftCodeOption> arrayList = new ArrayList();
-            Iterator it = list2.iterator();
-            while (it.hasNext()) {
-                TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption2 = (TLRPC.TL_premiumGiftCodeOption) it.next();
-                if (tL_premiumGiftCodeOption2.months == tL_premiumGiftCodeOption.months && tL_premiumGiftCodeOption2.store_product != null && list.contains(Integer.valueOf(tL_premiumGiftCodeOption2.users))) {
-                    arrayList.add(tL_premiumGiftCodeOption2);
-                }
-            }
-            final TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption3 = (TLRPC.TL_premiumGiftCodeOption) arrayList.get(0);
-            for (TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption4 : arrayList) {
-                int i = tL_premiumGiftCodeOption.users;
-                int i2 = tL_premiumGiftCodeOption4.users;
-                if (i > i2 && i2 > tL_premiumGiftCodeOption3.users) {
-                    tL_premiumGiftCodeOption3 = tL_premiumGiftCodeOption4;
-                }
-            }
-            String formatPluralString = LocaleController.formatPluralString("GiftMonths", tL_premiumGiftCodeOption3.months, new Object[0]);
-            int i3 = tL_premiumGiftCodeOption.users;
-            int i4 = tL_premiumGiftCodeOption3.users;
-            AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
-            builder.setTitle(LocaleController.getString("BoostingReduceQuantity", R.string.BoostingReduceQuantity));
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingReduceQuantityTextPlural", i3, formatPluralString, Integer.valueOf(i4))));
-            builder.setPositiveButton(LocaleController.getString("Reduce", R.string.Reduce), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda21
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    Utilities.Callback.this.run(tL_premiumGiftCodeOption3);
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda22
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    BoostDialogs.lambda$checkReduceQuantity$13(dialogInterface, i5);
-                }
-            });
-            builder.show();
-            return true;
+        if (tL_premiumGiftCodeOption.store_product != null) {
+            return false;
         }
-        return false;
+        ArrayList<TLRPC.TL_premiumGiftCodeOption> arrayList = new ArrayList();
+        Iterator it = list2.iterator();
+        while (it.hasNext()) {
+            TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption2 = (TLRPC.TL_premiumGiftCodeOption) it.next();
+            if (tL_premiumGiftCodeOption2.months == tL_premiumGiftCodeOption.months && tL_premiumGiftCodeOption2.store_product != null && list.contains(Integer.valueOf(tL_premiumGiftCodeOption2.users))) {
+                arrayList.add(tL_premiumGiftCodeOption2);
+            }
+        }
+        final TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption3 = (TLRPC.TL_premiumGiftCodeOption) arrayList.get(0);
+        for (TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption4 : arrayList) {
+            int i = tL_premiumGiftCodeOption.users;
+            int i2 = tL_premiumGiftCodeOption4.users;
+            if (i > i2 && i2 > tL_premiumGiftCodeOption3.users) {
+                tL_premiumGiftCodeOption3 = tL_premiumGiftCodeOption4;
+            }
+        }
+        String formatPluralString = LocaleController.formatPluralString("GiftMonths", tL_premiumGiftCodeOption3.months, new Object[0]);
+        int i3 = tL_premiumGiftCodeOption.users;
+        int i4 = tL_premiumGiftCodeOption3.users;
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
+        builder.setTitle(LocaleController.getString("BoostingReduceQuantity", R.string.BoostingReduceQuantity));
+        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingReduceQuantityTextPlural", i3, formatPluralString, Integer.valueOf(i4))));
+        builder.setPositiveButton(LocaleController.getString("Reduce", R.string.Reduce), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda21
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i5) {
+                Utilities.Callback.this.run(tL_premiumGiftCodeOption3);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda22
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i5) {
+                BoostDialogs.lambda$checkReduceQuantity$13(dialogInterface, i5);
+            }
+        });
+        builder.show();
+        return true;
     }
 
     public static boolean checkReduceUsers(Context context, Theme.ResourcesProvider resourcesProvider, List list, TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption) {
-        if (tL_premiumGiftCodeOption.store_product == null) {
-            ArrayList arrayList = new ArrayList();
-            Iterator it = list.iterator();
-            while (it.hasNext()) {
-                TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption2 = (TLRPC.TL_premiumGiftCodeOption) it.next();
-                if (tL_premiumGiftCodeOption2.months == tL_premiumGiftCodeOption.months && tL_premiumGiftCodeOption2.store_product != null) {
-                    arrayList.add(Integer.valueOf(tL_premiumGiftCodeOption2.users));
-                }
-            }
-            String join = TextUtils.join(", ", arrayList);
-            int i = tL_premiumGiftCodeOption.users;
-            AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
-            builder.setTitle(LocaleController.getString("BoostingReduceQuantity", R.string.BoostingReduceQuantity));
-            builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingReduceUsersTextPlural", i, join)));
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda17
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    BoostDialogs.lambda$checkReduceUsers$11(dialogInterface, i2);
-                }
-            });
-            builder.show();
-            return true;
+        if (tL_premiumGiftCodeOption.store_product != null) {
+            return false;
         }
-        return false;
+        ArrayList arrayList = new ArrayList();
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            TLRPC.TL_premiumGiftCodeOption tL_premiumGiftCodeOption2 = (TLRPC.TL_premiumGiftCodeOption) it.next();
+            if (tL_premiumGiftCodeOption2.months == tL_premiumGiftCodeOption.months && tL_premiumGiftCodeOption2.store_product != null) {
+                arrayList.add(Integer.valueOf(tL_premiumGiftCodeOption2.users));
+            }
+        }
+        String join = TextUtils.join(", ", arrayList);
+        int i = tL_premiumGiftCodeOption.users;
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
+        builder.setTitle(LocaleController.getString("BoostingReduceQuantity", R.string.BoostingReduceQuantity));
+        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingReduceUsersTextPlural", i, join)));
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda17
+            @Override // android.content.DialogInterface.OnClickListener
+            public final void onClick(DialogInterface dialogInterface, int i2) {
+                BoostDialogs.lambda$checkReduceUsers$11(dialogInterface, i2);
+            }
+        });
+        builder.show();
+        return true;
     }
 
     private static String getGiveawayCreatorName(MessageObject messageObject) {
@@ -132,11 +133,11 @@ public abstract class BoostDialogs {
             return "";
         }
         String forwardedName = messageObject.getForwardedName();
-        if (forwardedName == null) {
-            TLRPC.Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-MessageObject.getPeerId(messageObject.messageOwner.peer_id)));
-            return chat != null ? chat.title : "";
+        if (forwardedName != null) {
+            return forwardedName;
         }
-        return forwardedName;
+        TLRPC.Chat chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(-MessageObject.getPeerId(messageObject.messageOwner.peer_id)));
+        return chat != null ? chat.title : "";
     }
 
     public static long getThreeDaysAfterToday() {
@@ -482,10 +483,7 @@ public abstract class BoostDialogs {
         }
         String format = LocaleController.getInstance().getFormatterBoostExpired().format(new Date(Long.parseLong(tL_error.text.replace("PREMIUM_SUB_ACTIVE_UNTIL_", "")) * 1000));
         SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("GiftPremiumActivateErrorText", R.string.GiftPremiumActivateErrorText), Theme.key_undo_cancelColor, 0, runnable);
-        BulletinFactory of = BulletinFactory.of(frameLayout, resourcesProvider);
-        int i = R.raw.chats_infotip;
-        String string = LocaleController.getString(R.string.GiftPremiumActivateErrorTitle);
-        of.createSimpleBulletin(i, string, AndroidUtilities.replaceCharSequence("%1$s", replaceSingleTag, AndroidUtilities.replaceTags("**" + format + "**"))).show();
+        BulletinFactory.of(frameLayout, resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.GiftPremiumActivateErrorTitle), AndroidUtilities.replaceCharSequence("%1$s", replaceSingleTag, AndroidUtilities.replaceTags("**" + format + "**"))).show();
         try {
             frameLayout.performHapticFeedback(3, 2);
         } catch (Exception unused) {
@@ -806,7 +804,7 @@ public abstract class BoostDialogs {
         calendar2.add(14, (int) giveawayPeriodMax);
         final int i3 = calendar2.get(11);
         final int i4 = calendar.get(12);
-        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.5f));
+        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.5f));
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(i2 - 1);
         numberPicker.setWrapSelectorWheel(false);
@@ -828,7 +826,7 @@ public abstract class BoostDialogs {
         numberPicker.setOnValueChangedListener(onValueChangeListener);
         numberPicker2.setMinValue(0);
         numberPicker2.setMaxValue(23);
-        linearLayout2.addView(numberPicker2, LayoutHelper.createLinear(0, (int) NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.2f));
+        linearLayout2.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.2f));
         numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda12
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i5) {
@@ -849,7 +847,7 @@ public abstract class BoostDialogs {
                 return lambda$showDatePicker$7;
             }
         });
-        linearLayout2.addView(numberPicker3, LayoutHelper.createLinear(0, (int) NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.3f));
+        linearLayout2.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.dialogsUnreadReactionsCounterChanged, 0.3f));
         numberPicker3.setOnValueChangedListener(onValueChangeListener);
         if (j > 0) {
             calendar.setTimeInMillis(System.currentTimeMillis());
@@ -857,10 +855,11 @@ public abstract class BoostDialogs {
             calendar.set(13, 0);
             calendar.set(14, 0);
             calendar.set(11, 0);
+            int timeInMillis = (int) ((j - calendar.getTimeInMillis()) / 86400000);
             calendar.setTimeInMillis(j);
             numberPicker3.setValue(calendar.get(12) / 5);
             numberPicker2.setValue(calendar.get(11));
-            numberPicker.setValue((int) ((j - calendar.getTimeInMillis()) / 86400000));
+            numberPicker.setValue(timeInMillis);
             onValueChangeListener.onValueChange(numberPicker, numberPicker.getValue(), numberPicker.getValue());
             onValueChangeListener.onValueChange(numberPicker2, numberPicker2.getValue(), numberPicker2.getValue());
         }
@@ -1027,23 +1026,24 @@ public abstract class BoostDialogs {
         } else if (i == 2) {
             i2 = R.string.BoostingApplyChangesChannels;
             str = "BoostingApplyChangesChannels";
-        } else if (i != 3) {
-            string = "";
-            builder.setMessage(string);
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda3
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i3) {
-                    runnable.run();
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString("Discard", R.string.Discard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda4
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i3) {
-                    runnable2.run();
-                }
-            });
-            builder.show();
         } else {
+            if (i != 3) {
+                string = "";
+                builder.setMessage(string);
+                builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda3
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i3) {
+                        runnable.run();
+                    }
+                });
+                builder.setNegativeButton(LocaleController.getString("Discard", R.string.Discard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda4
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public final void onClick(DialogInterface dialogInterface, int i3) {
+                        runnable2.run();
+                    }
+                });
+                builder.show();
+            }
             i2 = R.string.BoostingApplyChangesCountries;
             str = "BoostingApplyChangesCountries";
         }

@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+
 /* loaded from: classes.dex */
 public final class zzi implements Parcelable.Creator {
     @Override // android.os.Parcelable.Creator

@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.logging;
 
 import android.os.Build;
 import android.util.Log;
+
 /* loaded from: classes.dex */
 public abstract class Logging {
     private static String concatTag(String str, String str2) {

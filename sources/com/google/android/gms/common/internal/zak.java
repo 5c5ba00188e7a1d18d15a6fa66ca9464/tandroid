@@ -10,6 +10,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 public final class zak implements Handler.Callback {
     private final zaj zab;
@@ -135,8 +136,7 @@ public final class zak implements Handler.Callback {
         synchronized (this.zai) {
             try {
                 if (this.zac.contains(connectionCallbacks)) {
-                    String valueOf = String.valueOf(connectionCallbacks);
-                    Log.w("GmsClientEvents", "registerConnectionCallbacks(): listener " + valueOf + " is already registered");
+                    Log.w("GmsClientEvents", "registerConnectionCallbacks(): listener " + String.valueOf(connectionCallbacks) + " is already registered");
                 } else {
                     this.zac.add(connectionCallbacks);
                 }
@@ -155,8 +155,7 @@ public final class zak implements Handler.Callback {
         synchronized (this.zai) {
             try {
                 if (this.zad.contains(onConnectionFailedListener)) {
-                    String valueOf = String.valueOf(onConnectionFailedListener);
-                    Log.w("GmsClientEvents", "registerConnectionFailedListener(): listener " + valueOf + " is already registered");
+                    Log.w("GmsClientEvents", "registerConnectionFailedListener(): listener " + String.valueOf(onConnectionFailedListener) + " is already registered");
                 } else {
                     this.zad.add(onConnectionFailedListener);
                 }
@@ -171,8 +170,7 @@ public final class zak implements Handler.Callback {
         synchronized (this.zai) {
             try {
                 if (!this.zad.remove(onConnectionFailedListener)) {
-                    String valueOf = String.valueOf(onConnectionFailedListener);
-                    Log.w("GmsClientEvents", "unregisterConnectionFailedListener(): listener " + valueOf + " not found");
+                    Log.w("GmsClientEvents", "unregisterConnectionFailedListener(): listener " + String.valueOf(onConnectionFailedListener) + " not found");
                 }
             } catch (Throwable th) {
                 throw th;

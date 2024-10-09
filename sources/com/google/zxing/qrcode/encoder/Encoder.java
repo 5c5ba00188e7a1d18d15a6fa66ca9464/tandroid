@@ -11,9 +11,11 @@ import com.google.zxing.qrcode.decoder.Mode;
 import com.google.zxing.qrcode.decoder.Version;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public abstract class Encoder {
     private static final int[] ALPHANUMERIC_TABLE = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36, -1, -1, -1, 37, 38, -1, -1, -1, -1, 39, 40, -1, 41, 42, 43, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 44, -1, -1, -1, -1, -1, -1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, -1, -1};
@@ -82,13 +84,19 @@ public abstract class Encoder {
         int i = 1.$SwitchMap$com$google$zxing$qrcode$decoder$Mode[mode.ordinal()];
         if (i == 1) {
             appendNumericBytes(str, bitArray);
-        } else if (i == 2) {
+            return;
+        }
+        if (i == 2) {
             appendAlphanumericBytes(str, bitArray);
-        } else if (i == 3) {
+            return;
+        }
+        if (i == 3) {
             append8BitBytes(str, bitArray, str2);
-        } else if (i == 4) {
-            appendKanjiBytes(str, bitArray);
         } else {
+            if (i == 4) {
+                appendKanjiBytes(str, bitArray);
+                return;
+            }
             throw new WriterException("Invalid mode: " + mode);
         }
     }
@@ -98,8 +106,8 @@ public abstract class Encoder {
         bitArray.appendBits(characterSetECI.getValue(), 8);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x003c A[LOOP:0: B:6:0x000f->B:19:0x003c, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x004b A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x003c A[LOOP:0: B:6:0x000f->B:13:0x003c, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x004b A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -201,9 +209,10 @@ public abstract class Encoder {
             char charAt = str.charAt(i);
             if (charAt >= '0' && charAt <= '9') {
                 z2 = true;
-            } else if (getAlphanumericCode(charAt) == -1) {
-                return Mode.BYTE;
             } else {
+                if (getAlphanumericCode(charAt) == -1) {
+                    return Mode.BYTE;
+                }
                 z = true;
             }
         }
@@ -220,13 +229,14 @@ public abstract class Encoder {
         throw new WriterException("Data too big");
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00f4, code lost:
-        if (com.google.zxing.qrcode.encoder.QRCode.isValidMaskPattern(r8) != false) goto L37;
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00f4, code lost:
+    
+        if (com.google.zxing.qrcode.encoder.QRCode.isValidMaskPattern(r8) != false) goto L44;
      */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0097  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x009c  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00dc  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00fa  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0097  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00dc  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00fa  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x009c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -360,57 +370,59 @@ public abstract class Encoder {
         if (i4 < i6) {
             iArr[0] = i9;
             iArr2[0] = i11;
-            return;
+        } else {
+            iArr[0] = i10;
+            iArr2[0] = i12;
         }
-        iArr[0] = i10;
-        iArr2[0] = i12;
     }
 
     static BitArray interleaveWithECBytes(BitArray bitArray, int i, int i2, int i3) {
-        if (bitArray.getSizeInBytes() == i2) {
-            ArrayList<BlockPair> arrayList = new ArrayList(i3);
-            int i4 = 0;
-            int i5 = 0;
-            int i6 = 0;
-            for (int i7 = 0; i7 < i3; i7++) {
-                int[] iArr = new int[1];
-                int[] iArr2 = new int[1];
-                getNumDataBytesAndNumECBytesForBlockID(i, i2, i3, i7, iArr, iArr2);
-                int i8 = iArr[0];
-                byte[] bArr = new byte[i8];
-                bitArray.toBytes(i4 * 8, bArr, 0, i8);
-                byte[] generateECBytes = generateECBytes(bArr, iArr2[0]);
-                arrayList.add(new BlockPair(bArr, generateECBytes));
-                i6 = Math.max(i6, i8);
-                i5 = Math.max(i5, generateECBytes.length);
-                i4 += iArr[0];
-            }
-            if (i2 == i4) {
-                BitArray bitArray2 = new BitArray();
-                for (int i9 = 0; i9 < i6; i9++) {
-                    for (BlockPair blockPair : arrayList) {
-                        byte[] dataBytes = blockPair.getDataBytes();
-                        if (i9 < dataBytes.length) {
-                            bitArray2.appendBits(dataBytes[i9], 8);
-                        }
-                    }
-                }
-                for (int i10 = 0; i10 < i5; i10++) {
-                    for (BlockPair blockPair2 : arrayList) {
-                        byte[] errorCorrectionBytes = blockPair2.getErrorCorrectionBytes();
-                        if (i10 < errorCorrectionBytes.length) {
-                            bitArray2.appendBits(errorCorrectionBytes[i10], 8);
-                        }
-                    }
-                }
-                if (i == bitArray2.getSizeInBytes()) {
-                    return bitArray2;
-                }
-                throw new WriterException("Interleaving error: " + i + " and " + bitArray2.getSizeInBytes() + " differ.");
-            }
+        if (bitArray.getSizeInBytes() != i2) {
+            throw new WriterException("Number of bits and data bytes does not match");
+        }
+        ArrayList arrayList = new ArrayList(i3);
+        int i4 = 0;
+        int i5 = 0;
+        int i6 = 0;
+        for (int i7 = 0; i7 < i3; i7++) {
+            int[] iArr = new int[1];
+            int[] iArr2 = new int[1];
+            getNumDataBytesAndNumECBytesForBlockID(i, i2, i3, i7, iArr, iArr2);
+            int i8 = iArr[0];
+            byte[] bArr = new byte[i8];
+            bitArray.toBytes(i4 * 8, bArr, 0, i8);
+            byte[] generateECBytes = generateECBytes(bArr, iArr2[0]);
+            arrayList.add(new BlockPair(bArr, generateECBytes));
+            i6 = Math.max(i6, i8);
+            i5 = Math.max(i5, generateECBytes.length);
+            i4 += iArr[0];
+        }
+        if (i2 != i4) {
             throw new WriterException("Data bytes does not match offset");
         }
-        throw new WriterException("Number of bits and data bytes does not match");
+        BitArray bitArray2 = new BitArray();
+        for (int i9 = 0; i9 < i6; i9++) {
+            Iterator it = arrayList.iterator();
+            while (it.hasNext()) {
+                byte[] dataBytes = ((BlockPair) it.next()).getDataBytes();
+                if (i9 < dataBytes.length) {
+                    bitArray2.appendBits(dataBytes[i9], 8);
+                }
+            }
+        }
+        for (int i10 = 0; i10 < i5; i10++) {
+            Iterator it2 = arrayList.iterator();
+            while (it2.hasNext()) {
+                byte[] errorCorrectionBytes = ((BlockPair) it2.next()).getErrorCorrectionBytes();
+                if (i10 < errorCorrectionBytes.length) {
+                    bitArray2.appendBits(errorCorrectionBytes[i10], 8);
+                }
+            }
+        }
+        if (i == bitArray2.getSizeInBytes()) {
+            return bitArray2;
+        }
+        throw new WriterException("Interleaving error: " + i + " and " + bitArray2.getSizeInBytes() + " differ.");
     }
 
     private static boolean isOnlyDoubleByteKanji(String str) {

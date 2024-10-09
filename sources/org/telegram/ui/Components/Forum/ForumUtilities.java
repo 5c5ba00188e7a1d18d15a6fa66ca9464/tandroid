@@ -36,6 +36,7 @@ import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LetterDrawable;
 import org.telegram.ui.TopicsFragment;
+
 /* loaded from: classes3.dex */
 public abstract class ForumUtilities {
     static SparseArray dialogForumDrawables = new SparseArray();
@@ -143,25 +144,25 @@ public abstract class ForumUtilities {
             int i = tL_messageActionTopicEdit.flags;
             if ((i & 8) != 0) {
                 return AndroidUtilities.replaceCharSequence("%s", LocaleController.getString(tL_messageActionTopicEdit.hidden ? R.string.TopicHidden2 : R.string.TopicShown2), formatName);
-            } else if ((i & 4) != 0) {
+            }
+            if ((i & 4) != 0) {
                 return AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceCharSequence("%2$s", LocaleController.getString(tL_messageActionTopicEdit.closed ? R.string.TopicWasClosedAction : R.string.TopicWasReopenedAction), getTopicSpannedName(tL_forumTopic, null, false)), formatName);
-            } else {
-                int i2 = i & 1;
-                if (i2 != 0 && (i & 2) != 0) {
-                    TLRPC.TL_forumTopic tL_forumTopic2 = new TLRPC.TL_forumTopic();
-                    tL_forumTopic2.icon_emoji_id = tL_messageActionTopicEdit.icon_emoji_id;
-                    tL_forumTopic2.title = tL_messageActionTopicEdit.title;
-                    return AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceCharSequence("%2$s", LocaleController.getString(R.string.TopicWasRenamedToAction2), getTopicSpannedName(tL_forumTopic2, null, false)), formatName);
-                } else if (i2 != 0) {
-                    return AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceCharSequence("%2$s", LocaleController.getString(R.string.TopicWasRenamedToAction), tL_messageActionTopicEdit.title), formatName);
-                } else {
-                    if ((i & 2) != 0) {
-                        TLRPC.TL_forumTopic tL_forumTopic3 = new TLRPC.TL_forumTopic();
-                        tL_forumTopic3.icon_emoji_id = tL_messageActionTopicEdit.icon_emoji_id;
-                        tL_forumTopic3.title = "";
-                        return AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceCharSequence("%2$s", LocaleController.getString(R.string.TopicWasIconChangedToAction), getTopicSpannedName(tL_forumTopic3, null, false)), formatName);
-                    }
-                }
+            }
+            int i2 = i & 1;
+            if (i2 != 0 && (i & 2) != 0) {
+                TLRPC.TL_forumTopic tL_forumTopic2 = new TLRPC.TL_forumTopic();
+                tL_forumTopic2.icon_emoji_id = tL_messageActionTopicEdit.icon_emoji_id;
+                tL_forumTopic2.title = tL_messageActionTopicEdit.title;
+                return AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceCharSequence("%2$s", LocaleController.getString(R.string.TopicWasRenamedToAction2), getTopicSpannedName(tL_forumTopic2, null, false)), formatName);
+            }
+            if (i2 != 0) {
+                return AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceCharSequence("%2$s", LocaleController.getString(R.string.TopicWasRenamedToAction), tL_messageActionTopicEdit.title), formatName);
+            }
+            if ((i & 2) != 0) {
+                TLRPC.TL_forumTopic tL_forumTopic3 = new TLRPC.TL_forumTopic();
+                tL_forumTopic3.icon_emoji_id = tL_messageActionTopicEdit.icon_emoji_id;
+                tL_forumTopic3.title = "";
+                return AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceCharSequence("%2$s", LocaleController.getString(R.string.TopicWasIconChangedToAction), getTopicSpannedName(tL_forumTopic3, null, false)), formatName);
             }
         }
         return null;
@@ -272,55 +273,55 @@ public abstract class ForumUtilities {
 
     public static CharSequence getTopicSpannedName(TLRPC.ForumTopic forumTopic, Paint paint, Drawable[] drawableArr, boolean z) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        if (forumTopic instanceof TLRPC.TL_forumTopic) {
-            TLRPC.TL_forumTopic tL_forumTopic = (TLRPC.TL_forumTopic) forumTopic;
-            if (tL_forumTopic.id == 1) {
-                try {
-                    GeneralTopicDrawable createGeneralTopicDrawable = createGeneralTopicDrawable(ApplicationLoader.applicationContext, 1.0f, paint == null ? Theme.getColor(Theme.key_chat_inMenu) : paint.getColor(), z);
-                    createGeneralTopicDrawable.setBounds(0, 0, paint == null ? AndroidUtilities.dp(14.0f) : (int) paint.getTextSize(), paint == null ? AndroidUtilities.dp(14.0f) : (int) paint.getTextSize());
-                    spannableStringBuilder.append((CharSequence) " ");
-                    if (drawableArr != null) {
-                        drawableArr[0] = createGeneralTopicDrawable;
-                    }
-                    spannableStringBuilder.setSpan(new ImageSpan(createGeneralTopicDrawable, 2), 0, 1, 33);
-                } catch (Exception unused) {
-                }
-            } else {
-                int i = (tL_forumTopic.icon_emoji_id > 0L ? 1 : (tL_forumTopic.icon_emoji_id == 0L ? 0 : -1));
-                spannableStringBuilder.append((CharSequence) " ");
-                if (i != 0) {
-                    AnimatedEmojiSpan animatedEmojiSpan = new AnimatedEmojiSpan(tL_forumTopic.icon_emoji_id, 0.95f, paint == null ? null : paint.getFontMetricsInt());
-                    spannableStringBuilder.setSpan(animatedEmojiSpan, 0, 1, 33);
-                    animatedEmojiSpan.top = true;
-                    animatedEmojiSpan.cacheType = 13;
-                } else {
-                    Drawable createTopicDrawable = createTopicDrawable(tL_forumTopic, z);
-                    if (drawableArr != null) {
-                        drawableArr[0] = ((CombinedDrawable) createTopicDrawable).getBackgroundDrawable();
-                    }
-                    createTopicDrawable.setBounds(0, 0, (int) (createTopicDrawable.getIntrinsicWidth() * 0.65f), (int) (createTopicDrawable.getIntrinsicHeight() * 0.65f));
-                    if (createTopicDrawable instanceof CombinedDrawable) {
-                        CombinedDrawable combinedDrawable = (CombinedDrawable) createTopicDrawable;
-                        if (combinedDrawable.getIcon() instanceof LetterDrawable) {
-                            ((LetterDrawable) combinedDrawable.getIcon()).scale = 0.7f;
-                        }
-                    }
-                    if (paint != null) {
-                        ColoredImageSpan coloredImageSpan = new ColoredImageSpan(createTopicDrawable);
-                        coloredImageSpan.setSize((int) (Math.abs(paint.getFontMetrics().descent) + Math.abs(paint.getFontMetrics().ascent)));
-                        spannableStringBuilder.setSpan(coloredImageSpan, 0, 1, 33);
-                    } else {
-                        spannableStringBuilder.setSpan(new ImageSpan(createTopicDrawable), 0, 1, 33);
-                    }
-                }
-            }
-            if (!TextUtils.isEmpty(tL_forumTopic.title)) {
-                spannableStringBuilder.append((CharSequence) " ");
-                spannableStringBuilder.append((CharSequence) tL_forumTopic.title);
-            }
-            return spannableStringBuilder;
+        if (!(forumTopic instanceof TLRPC.TL_forumTopic)) {
+            return "DELETED";
         }
-        return "DELETED";
+        TLRPC.TL_forumTopic tL_forumTopic = (TLRPC.TL_forumTopic) forumTopic;
+        if (tL_forumTopic.id == 1) {
+            try {
+                GeneralTopicDrawable createGeneralTopicDrawable = createGeneralTopicDrawable(ApplicationLoader.applicationContext, 1.0f, paint == null ? Theme.getColor(Theme.key_chat_inMenu) : paint.getColor(), z);
+                createGeneralTopicDrawable.setBounds(0, 0, paint == null ? AndroidUtilities.dp(14.0f) : (int) paint.getTextSize(), paint == null ? AndroidUtilities.dp(14.0f) : (int) paint.getTextSize());
+                spannableStringBuilder.append((CharSequence) " ");
+                if (drawableArr != null) {
+                    drawableArr[0] = createGeneralTopicDrawable;
+                }
+                spannableStringBuilder.setSpan(new ImageSpan(createGeneralTopicDrawable, 2), 0, 1, 33);
+            } catch (Exception unused) {
+            }
+        } else {
+            long j = tL_forumTopic.icon_emoji_id;
+            spannableStringBuilder.append((CharSequence) " ");
+            if (j != 0) {
+                AnimatedEmojiSpan animatedEmojiSpan = new AnimatedEmojiSpan(tL_forumTopic.icon_emoji_id, 0.95f, paint == null ? null : paint.getFontMetricsInt());
+                spannableStringBuilder.setSpan(animatedEmojiSpan, 0, 1, 33);
+                animatedEmojiSpan.top = true;
+                animatedEmojiSpan.cacheType = 13;
+            } else {
+                Drawable createTopicDrawable = createTopicDrawable(tL_forumTopic, z);
+                if (drawableArr != null) {
+                    drawableArr[0] = ((CombinedDrawable) createTopicDrawable).getBackgroundDrawable();
+                }
+                createTopicDrawable.setBounds(0, 0, (int) (createTopicDrawable.getIntrinsicWidth() * 0.65f), (int) (createTopicDrawable.getIntrinsicHeight() * 0.65f));
+                if (createTopicDrawable instanceof CombinedDrawable) {
+                    CombinedDrawable combinedDrawable = (CombinedDrawable) createTopicDrawable;
+                    if (combinedDrawable.getIcon() instanceof LetterDrawable) {
+                        ((LetterDrawable) combinedDrawable.getIcon()).scale = 0.7f;
+                    }
+                }
+                if (paint != null) {
+                    ColoredImageSpan coloredImageSpan = new ColoredImageSpan(createTopicDrawable);
+                    coloredImageSpan.setSize((int) (Math.abs(paint.getFontMetrics().descent) + Math.abs(paint.getFontMetrics().ascent)));
+                    spannableStringBuilder.setSpan(coloredImageSpan, 0, 1, 33);
+                } else {
+                    spannableStringBuilder.setSpan(new ImageSpan(createTopicDrawable), 0, 1, 33);
+                }
+            }
+        }
+        if (!TextUtils.isEmpty(tL_forumTopic.title)) {
+            spannableStringBuilder.append((CharSequence) " ");
+            spannableStringBuilder.append((CharSequence) tL_forumTopic.title);
+        }
+        return spannableStringBuilder;
     }
 
     public static boolean isTopicCreateMessage(MessageObject messageObject) {
@@ -360,17 +361,18 @@ public abstract class ForumUtilities {
         if (tL_forumTopic.id == 1) {
             backupImageView.setAnimatedEmojiDrawable(null);
             createTopicDrawable = createGeneralTopicDrawable(backupImageView.getContext(), 0.75f, Theme.getColor(Theme.key_actionBarDefaultIcon, resourcesProvider), false, z2);
-        } else if (tL_forumTopic.icon_emoji_id != 0) {
-            backupImageView.setImageDrawable(null);
-            AnimatedEmojiDrawable animatedEmojiDrawable = backupImageView.animatedEmojiDrawable;
-            if (animatedEmojiDrawable == null || tL_forumTopic.icon_emoji_id != animatedEmojiDrawable.getDocumentId()) {
-                AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(z2 ? 11 : 10, UserConfig.selectedAccount, tL_forumTopic.icon_emoji_id);
-                animatedEmojiDrawable2.setColorFilter(z ? new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarDefaultTitle), PorterDuff.Mode.SRC_IN) : Theme.getAnimatedEmojiColorFilter(resourcesProvider));
-                backupImageView.setAnimatedEmojiDrawable(animatedEmojiDrawable2);
+        } else {
+            if (tL_forumTopic.icon_emoji_id != 0) {
+                backupImageView.setImageDrawable(null);
+                AnimatedEmojiDrawable animatedEmojiDrawable = backupImageView.animatedEmojiDrawable;
+                if (animatedEmojiDrawable == null || tL_forumTopic.icon_emoji_id != animatedEmojiDrawable.getDocumentId()) {
+                    AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(z2 ? 11 : 10, UserConfig.selectedAccount, tL_forumTopic.icon_emoji_id);
+                    animatedEmojiDrawable2.setColorFilter(z ? new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarDefaultTitle), PorterDuff.Mode.SRC_IN) : Theme.getAnimatedEmojiColorFilter(resourcesProvider));
+                    backupImageView.setAnimatedEmojiDrawable(animatedEmojiDrawable2);
+                    return;
+                }
                 return;
             }
-            return;
-        } else {
             backupImageView.setAnimatedEmojiDrawable(null);
             createTopicDrawable = createTopicDrawable(tL_forumTopic, false);
         }

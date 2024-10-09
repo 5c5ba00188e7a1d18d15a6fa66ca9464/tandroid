@@ -9,6 +9,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class RoundVideoPlayingDrawable extends Drawable {
     public float colorProgress;
@@ -78,8 +79,7 @@ public class RoundVideoPlayingDrawable extends Drawable {
         this.paint.setColor(ColorUtils.blendARGB(getThemedColor(Theme.key_chat_serviceText), this.timeColor, this.colorProgress));
         int i = this.alpha;
         if (i != 255) {
-            Paint paint = this.paint;
-            paint.setAlpha((int) (i * (paint.getAlpha() / 255.0f)));
+            this.paint.setAlpha((int) (i * (r2.getAlpha() / 255.0f)));
         }
         int i2 = getBounds().left;
         int i3 = getBounds().top;

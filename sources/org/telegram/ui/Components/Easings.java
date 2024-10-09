@@ -1,6 +1,7 @@
 package org.telegram.ui.Components;
 
 import android.view.animation.Interpolator;
+
 /* loaded from: classes3.dex */
 public abstract class Easings {
     public static final Interpolator easeOutSine = new CubicBezierInterpolator(0.39d, 0.575d, 0.565d, 1.0d);

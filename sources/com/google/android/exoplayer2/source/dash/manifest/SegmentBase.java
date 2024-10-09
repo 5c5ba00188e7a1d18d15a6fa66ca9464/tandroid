@@ -6,6 +6,7 @@ import com.google.common.math.BigIntegerMath;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class SegmentBase {
     final RangedUri initialization;
@@ -86,9 +87,10 @@ public abstract class SegmentBase {
                 long segmentTimeUs = getSegmentTimeUs(j6);
                 if (segmentTimeUs < j) {
                     j5 = j6 + 1;
-                } else if (segmentTimeUs <= j) {
-                    return j6;
                 } else {
+                    if (segmentTimeUs <= j) {
+                        return j6;
+                    }
                     j4 = j6 - 1;
                 }
             }
@@ -148,18 +150,17 @@ public abstract class SegmentBase {
         @Override // com.google.android.exoplayer2.source.dash.manifest.SegmentBase
         public RangedUri getInitialization(Representation representation) {
             UrlTemplate urlTemplate = this.initializationTemplate;
-            if (urlTemplate != null) {
-                Format format = representation.format;
-                return new RangedUri(urlTemplate.buildUri(format.id, 0L, format.bitrate, 0L), 0L, -1L);
+            if (urlTemplate == null) {
+                return super.getInitialization(representation);
             }
-            return super.getInitialization(representation);
+            Format format = representation.format;
+            return new RangedUri(urlTemplate.buildUri(format.id, 0L, format.bitrate, 0L), 0L, -1L);
         }
 
         @Override // com.google.android.exoplayer2.source.dash.manifest.SegmentBase.MultiSegmentBase
         public long getSegmentCount(long j) {
-            List list = this.segmentTimeline;
-            if (list != null) {
-                return list.size();
+            if (this.segmentTimeline != null) {
+                return r0.size();
             }
             long j2 = this.endNumber;
             if (j2 != -1) {

@@ -16,6 +16,7 @@ import com.microsoft.appcenter.utils.NetworkStateHelper;
 import com.microsoft.appcenter.utils.storage.SharedPreferencesManager;
 import java.io.File;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
     private HttpConnectionCheckTask mCheckTask;
@@ -137,8 +138,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         }
         String absolutePath = file.getAbsolutePath();
         setDownloadedReleaseFilePath(absolutePath);
-        ReleaseDownloader.Listener listener = this.mListener;
-        listener.onComplete(Uri.parse("file://" + absolutePath));
+        this.mListener.onComplete(Uri.parse("file://" + absolutePath));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class ColorInfo implements Bundleable {
     public final int colorRange;
@@ -33,26 +34,26 @@ public final class ColorInfo implements Bundleable {
     }
 
     public static int isoColorPrimariesToColorSpace(int i) {
-        if (i != 1) {
-            if (i != 9) {
-                return (i == 4 || i == 5 || i == 6 || i == 7) ? 2 : -1;
-            }
-            return 6;
+        if (i == 1) {
+            return 1;
         }
-        return 1;
+        if (i != 9) {
+            return (i == 4 || i == 5 || i == 6 || i == 7) ? 2 : -1;
+        }
+        return 6;
     }
 
     public static int isoTransferCharacteristicsToColorTransfer(int i) {
-        if (i != 1) {
-            if (i != 16) {
-                if (i != 18) {
-                    return (i == 6 || i == 7) ? 3 : -1;
-                }
-                return 7;
-            }
+        if (i == 1) {
+            return 3;
+        }
+        if (i == 16) {
             return 6;
         }
-        return 3;
+        if (i != 18) {
+            return (i == 6 || i == 7) ? 3 : -1;
+        }
+        return 7;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

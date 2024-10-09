@@ -4,6 +4,7 @@ import android.os.Looper;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.util.concurrent.HandlerExecutor;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public final class ListenerHolder {
     private final Executor zaa;
@@ -25,11 +26,11 @@ public final class ListenerHolder {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof ListenerKey) {
-                ListenerKey listenerKey = (ListenerKey) obj;
-                return this.zaa == listenerKey.zaa && this.zab.equals(listenerKey.zab);
+            if (!(obj instanceof ListenerKey)) {
+                return false;
             }
-            return false;
+            ListenerKey listenerKey = (ListenerKey) obj;
+            return this.zaa == listenerKey.zaa && this.zab.equals(listenerKey.zab);
         }
 
         public int hashCode() {
@@ -37,9 +38,7 @@ public final class ListenerHolder {
         }
 
         public String toIdString() {
-            String str = this.zab;
-            int identityHashCode = System.identityHashCode(this.zaa);
-            return str + "@" + identityHashCode;
+            return this.zab + "@" + System.identityHashCode(this.zaa);
         }
     }
 

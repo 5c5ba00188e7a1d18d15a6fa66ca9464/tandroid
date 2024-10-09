@@ -14,7 +14,9 @@ import androidx.core.util.Preconditions;
 import androidx.emoji2.text.EmojiCompat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class DefaultEmojiCompatConfig {
 
@@ -57,8 +59,9 @@ public abstract class DefaultEmojiCompatConfig {
         }
 
         private ProviderInfo queryDefaultInstalledContentProvider(PackageManager packageManager) {
-            for (ResolveInfo resolveInfo : this.mHelper.queryIntentContentProviders(packageManager, new Intent("androidx.content.action.LOAD_EMOJI_FONT"), 0)) {
-                ProviderInfo providerInfo = this.mHelper.getProviderInfo(resolveInfo);
+            Iterator it = this.mHelper.queryIntentContentProviders(packageManager, new Intent("androidx.content.action.LOAD_EMOJI_FONT"), 0).iterator();
+            while (it.hasNext()) {
+                ProviderInfo providerInfo = this.mHelper.getProviderInfo((ResolveInfo) it.next());
                 if (hasFlagSystem(providerInfo)) {
                     return providerInfo;
                 }

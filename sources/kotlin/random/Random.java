@@ -3,6 +3,7 @@ package kotlin.random;
 import java.io.Serializable;
 import kotlin.internal.PlatformImplementationsKt;
 import kotlin.jvm.internal.DefaultConstructorMarker;
+
 /* loaded from: classes.dex */
 public abstract class Random {
     public static final Default Default = new Default(null);

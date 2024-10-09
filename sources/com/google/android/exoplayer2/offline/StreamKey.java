@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.offline;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 /* loaded from: classes.dex */
 public final class StreamKey implements Comparable, Parcelable {
     public static final Parcelable.Creator<StreamKey> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.offline.StreamKey.1
@@ -38,11 +39,11 @@ public final class StreamKey implements Comparable, Parcelable {
     @Override // java.lang.Comparable
     public int compareTo(StreamKey streamKey) {
         int i = this.periodIndex - streamKey.periodIndex;
-        if (i == 0) {
-            int i2 = this.groupIndex - streamKey.groupIndex;
-            return i2 == 0 ? this.streamIndex - streamKey.streamIndex : i2;
+        if (i != 0) {
+            return i;
         }
-        return i;
+        int i2 = this.groupIndex - streamKey.groupIndex;
+        return i2 == 0 ? this.streamIndex - streamKey.streamIndex : i2;
     }
 
     @Override // android.os.Parcelable

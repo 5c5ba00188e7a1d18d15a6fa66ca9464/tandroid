@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 final class zzar extends zzat {
     final /* synthetic */ zzba zza;
@@ -21,10 +22,10 @@ final class zzar extends zzat {
     @Override // com.google.android.gms.internal.play_billing.zzav
     public final byte zza() {
         int i = this.zzb;
-        if (i < this.zzc) {
-            this.zzb = i + 1;
-            return this.zza.zzb(i);
+        if (i >= this.zzc) {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
+        this.zzb = i + 1;
+        return this.zza.zzb(i);
     }
 }

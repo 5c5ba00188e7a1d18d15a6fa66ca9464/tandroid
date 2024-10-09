@@ -10,6 +10,7 @@ import com.google.firebase.platforminfo.KotlinDetector;
 import com.google.firebase.platforminfo.LibraryVersionComponent;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class FirebaseCommonRegistrar implements ComponentRegistrar {
     /* JADX INFO: Access modifiers changed from: private */

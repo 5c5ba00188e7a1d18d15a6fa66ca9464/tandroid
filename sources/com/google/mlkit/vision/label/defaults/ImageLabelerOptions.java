@@ -1,6 +1,7 @@
 package com.google.mlkit.vision.label.defaults;
 
 import com.google.mlkit.vision.label.ImageLabelerOptionsBase;
+
 /* loaded from: classes.dex */
 public class ImageLabelerOptions extends ImageLabelerOptionsBase {
     public static final ImageLabelerOptions DEFAULT_OPTIONS = new Builder().build();

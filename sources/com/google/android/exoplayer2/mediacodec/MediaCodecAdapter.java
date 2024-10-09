@@ -9,6 +9,7 @@ import android.view.Surface;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.decoder.CryptoInfo;
 import java.nio.ByteBuffer;
+
 /* loaded from: classes.dex */
 public interface MediaCodecAdapter {
 

@@ -1,6 +1,7 @@
 package com.google.android.gms.location;
 
 import com.google.android.gms.common.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public abstract class zzo {
     public static int zza(int i) {
@@ -19,15 +20,15 @@ public abstract class zzo {
     }
 
     public static String zzb(int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i == 2) {
-                    return "GRANULARITY_FINE";
-                }
-                throw new IllegalArgumentException();
-            }
+        if (i == 0) {
+            return "GRANULARITY_PERMISSION_LEVEL";
+        }
+        if (i == 1) {
             return "GRANULARITY_COARSE";
         }
-        return "GRANULARITY_PERMISSION_LEVEL";
+        if (i == 2) {
+            return "GRANULARITY_FINE";
+        }
+        throw new IllegalArgumentException();
     }
 }

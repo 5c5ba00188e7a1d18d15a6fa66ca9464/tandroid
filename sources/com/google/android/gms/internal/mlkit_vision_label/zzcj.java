@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.io.OutputStream;
+
 /* loaded from: classes.dex */
 final class zzcj extends OutputStream {
     private long zza = 0;

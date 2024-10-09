@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class FlacFrameReader {
 
@@ -51,17 +52,18 @@ public abstract class FlacFrameReader {
         }
         if (i <= 11) {
             return i == flacStreamMetadata.sampleRateLookupKey;
-        } else if (i == 12) {
+        }
+        if (i == 12) {
             return parsableByteArray.readUnsignedByte() * 1000 == i2;
-        } else if (i <= 14) {
-            int readUnsignedShort = parsableByteArray.readUnsignedShort();
-            if (i == 14) {
-                readUnsignedShort *= 10;
-            }
-            return readUnsignedShort == i2;
-        } else {
+        }
+        if (i > 14) {
             return false;
         }
+        int readUnsignedShort = parsableByteArray.readUnsignedShort();
+        if (i == 14) {
+            readUnsignedShort *= 10;
+        }
+        return readUnsignedShort == i2;
     }
 
     private static boolean checkBitsPerSample(int i, FlacStreamMetadata flacStreamMetadata) {

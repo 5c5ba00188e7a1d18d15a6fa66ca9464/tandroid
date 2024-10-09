@@ -2,6 +2,7 @@ package com.google.android.gms.internal.safetynet;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.safetynet.SafeBrowsingData;
+
 /* loaded from: classes.dex */
 public abstract class zzd extends zzf {
     @Override // com.google.android.gms.internal.safetynet.zzg

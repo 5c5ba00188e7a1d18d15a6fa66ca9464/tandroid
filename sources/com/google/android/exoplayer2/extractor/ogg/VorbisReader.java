@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 final class VorbisReader extends StreamReader {
     private VorbisUtil.CommentHeader commentHeader;
@@ -119,8 +120,7 @@ final class VorbisReader extends StreamReader {
         }
         byte[] bArr = new byte[parsableByteArray.limit()];
         System.arraycopy(parsableByteArray.getData(), 0, bArr, 0, parsableByteArray.limit());
-        VorbisUtil.Mode[] readVorbisModes = VorbisUtil.readVorbisModes(parsableByteArray, vorbisIdHeader.channels);
-        return new VorbisSetup(vorbisIdHeader, commentHeader, bArr, readVorbisModes, VorbisUtil.iLog(readVorbisModes.length - 1));
+        return new VorbisSetup(vorbisIdHeader, commentHeader, bArr, VorbisUtil.readVorbisModes(parsableByteArray, vorbisIdHeader.channels), VorbisUtil.iLog(r4.length - 1));
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

@@ -36,6 +36,7 @@ import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgress2;
 import org.telegram.ui.FilteredSearchView;
+
 /* loaded from: classes4.dex */
 public abstract class SharedAudioCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, NotificationCenter.NotificationCenterDelegate {
     private int TAG;
@@ -159,7 +160,8 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
             z = true;
             this.radialProgress.setPressed(this.miniButtonPressed, true);
             return z || this.buttonPressed;
-        } else if (motionEvent.getAction() == 1) {
+        }
+        if (motionEvent.getAction() == 1) {
             if (this.miniButtonPressed) {
                 this.miniButtonPressed = false;
                 playSoundEffect(0);
@@ -197,9 +199,10 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
             this.miniButtonState = 1;
             this.radialProgress.setProgress(0.0f, false);
             FileLoader.getInstance(this.currentAccount).loadFile(this.currentMessageObject.getDocument(), this.currentMessageObject, 1, 0);
-        } else if (i != 1) {
-            return;
         } else {
+            if (i != 1) {
+                return;
+            }
             if (MediaController.getInstance().isPlayingMessage(this.currentMessageObject)) {
                 MediaController.getInstance().cleanupPlayer(true, true);
             }
@@ -377,8 +380,9 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
         } else if (i == 1) {
             if (!MediaController.getInstance().lambda$startAudioAgain$7(this.currentMessageObject)) {
                 return;
+            } else {
+                i2 = 0;
             }
-            i2 = 0;
         } else if (i == 2) {
             this.radialProgress.setProgress(0.0f, false);
             this.currentMessageObject.putInDownloadsStore = true;
@@ -490,8 +494,8 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
         updateButtonState(true, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0060  */
-    /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0060  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -523,33 +527,33 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(42:1|(1:3)(1:101)|4|(2:5|6)|(33:97|14|(1:16)|17|(1:96)|19|20|(1:22)(1:95)|23|(1:25)(1:94)|26|27|(3:29|(5:31|(1:33)(1:39)|34|(1:36)(1:38)|37)|40)|41|42|(21:78|(1:80)|81|(1:83)|84|(1:86)(1:89)|87|88|54|(1:56)(1:76)|57|(1:59)|60|61|(1:63)|64|(1:66)(1:74)|67|(1:69)(1:73)|70|71)|49|(1:51)(1:77)|52|53|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71)|13|14|(0)|17|(0)|19|20|(0)(0)|23|(0)(0)|26|27|(0)|41|42|(2:44|46)|78|(0)|81|(0)|84|(0)(0)|87|88|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71) */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x01ad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x01ad, code lost:
+    
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x0271, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x0271, code lost:
+    
         org.telegram.messenger.FileLog.e(r0);
      */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x009d  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00a4 A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:7:0x0068, B:9:0x006c, B:11:0x0074, B:16:0x0080, B:18:0x0091, B:21:0x009e, B:25:0x00a7, B:27:0x00cd, B:29:0x00d5, B:31:0x00df, B:33:0x00e7, B:24:0x00a4, B:17:0x0087), top: B:103:0x0068 }] */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00cd A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:7:0x0068, B:9:0x006c, B:11:0x0074, B:16:0x0080, B:18:0x0091, B:21:0x009e, B:25:0x00a7, B:27:0x00cd, B:29:0x00d5, B:31:0x00df, B:33:0x00e7, B:24:0x00a4, B:17:0x0087), top: B:103:0x0068 }] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00d4  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00df A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:7:0x0068, B:9:0x006c, B:11:0x0074, B:16:0x0080, B:18:0x0091, B:21:0x009e, B:25:0x00a7, B:27:0x00cd, B:29:0x00d5, B:31:0x00df, B:33:0x00e7, B:24:0x00a4, B:17:0x0087), top: B:103:0x0068 }] */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00e6  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0103  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x01f8  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x01fd A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0240, B:79:0x0248, B:81:0x0250, B:83:0x025a, B:84:0x0260, B:63:0x01c3, B:65:0x01e2, B:68:0x01f9, B:70:0x01fd, B:71:0x021a, B:73:0x021e, B:76:0x0225, B:75:0x0222), top: B:101:0x0198 }] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x021e A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0240, B:79:0x0248, B:81:0x0250, B:83:0x025a, B:84:0x0260, B:63:0x01c3, B:65:0x01e2, B:68:0x01f9, B:70:0x01fd, B:71:0x021a, B:73:0x021e, B:76:0x0225, B:75:0x0222), top: B:101:0x0198 }] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0222 A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0240, B:79:0x0248, B:81:0x0250, B:83:0x025a, B:84:0x0260, B:63:0x01c3, B:65:0x01e2, B:68:0x01f9, B:70:0x01fd, B:71:0x021a, B:73:0x021e, B:76:0x0225, B:75:0x0222), top: B:101:0x0198 }] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0248 A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0240, B:79:0x0248, B:81:0x0250, B:83:0x025a, B:84:0x0260, B:63:0x01c3, B:65:0x01e2, B:68:0x01f9, B:70:0x01fd, B:71:0x021a, B:73:0x021e, B:76:0x0225, B:75:0x0222), top: B:101:0x0198 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x025a A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0240, B:79:0x0248, B:81:0x0250, B:83:0x025a, B:84:0x0260, B:63:0x01c3, B:65:0x01e2, B:68:0x01f9, B:70:0x01fd, B:71:0x021a, B:73:0x021e, B:76:0x0225, B:75:0x0222), top: B:101:0x0198 }] */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0285  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x029a  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x02a5  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x02dd  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x02ef  */
-    /* JADX WARN: Type inference failed for: r2v9, types: [java.lang.CharSequence] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00cd A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:6:0x0068, B:8:0x006c, B:10:0x0074, B:13:0x0080, B:14:0x0091, B:17:0x009e, B:20:0x00a7, B:22:0x00cd, B:23:0x00d5, B:25:0x00df, B:26:0x00e7, B:96:0x00a4, B:97:0x0087), top: B:5:0x0068 }] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00df A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:6:0x0068, B:8:0x006c, B:10:0x0074, B:13:0x0080, B:14:0x0091, B:17:0x009e, B:20:0x00a7, B:22:0x00cd, B:23:0x00d5, B:25:0x00df, B:26:0x00e7, B:96:0x00a4, B:97:0x0087), top: B:5:0x0068 }] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0103  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0248 A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x025a A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0285  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x029a  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x02dd  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02ef  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x02a5  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01f8  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01fd A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x021e A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0222 A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x00d4  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x00a4 A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:6:0x0068, B:8:0x006c, B:10:0x0074, B:13:0x0080, B:14:0x0091, B:17:0x009e, B:20:0x00a7, B:22:0x00cd, B:23:0x00d5, B:25:0x00df, B:26:0x00e7, B:96:0x00a4, B:97:0x0087), top: B:5:0x0068 }] */
     @Override // android.widget.FrameLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -557,7 +561,7 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
     protected void onMeasure(int i, int i2) {
         int i3;
         int dp;
-        ?? highlightText;
+        CharSequence highlightText;
         StaticLayout staticLayout;
         CharSequence replace;
         CharSequence highlightText2;
@@ -606,18 +610,16 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
                 this.captionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.captionLayoutEmojis, this.captionLayout);
             }
             if (this.viewType == 1 || (!this.currentMessageObject.isVoice() && !this.currentMessageObject.isRoundVideo())) {
-                String replace2 = this.currentMessageObject.getMusicAuthor().replace('\n', ' ');
+                CharSequence replace2 = this.currentMessageObject.getMusicAuthor().replace('\n', ' ');
                 highlightText = AndroidUtilities.highlightText(replace2, this.currentMessageObject.highlightedWords, this.resourcesProvider);
-                String str = replace2;
                 if (highlightText != null) {
-                    str = highlightText;
+                    replace2 = highlightText;
                 }
-                SpannableStringBuilder spannableStringBuilder = str;
                 if (this.viewType == 1) {
-                    spannableStringBuilder = new SpannableStringBuilder(str).append(' ').append((CharSequence) this.dotSpan).append(' ').append(FilteredSearchView.createFromInfoString(this.currentMessageObject, 1));
+                    replace2 = new SpannableStringBuilder(replace2).append(' ').append((CharSequence) this.dotSpan).append(' ').append(FilteredSearchView.createFromInfoString(this.currentMessageObject, 1));
                 }
                 TextPaint textPaint3 = this.viewType != 1 ? this.description2TextPaint : Theme.chat_contextResult_descriptionTextPaint;
-                staticLayout = new StaticLayout(TextUtils.ellipsize(spannableStringBuilder, textPaint3, size, TextUtils.TruncateAt.END), textPaint3, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                staticLayout = new StaticLayout(TextUtils.ellipsize(replace2, textPaint3, size, TextUtils.TruncateAt.END), textPaint3, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.descriptionLayout = staticLayout;
                 this.descriptionLayoutLeft = staticLayout.getLineCount() > 0 ? this.descriptionLayout.getLineLeft(0) : 0.0f;
                 this.descriptionLayoutWidth = this.descriptionLayout.getLineCount() > 0 ? this.descriptionLayout.getLineWidth(0) : 0.0f;
@@ -677,16 +679,14 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
         }
         if (this.viewType == 1) {
         }
-        String replace22 = this.currentMessageObject.getMusicAuthor().replace('\n', ' ');
+        CharSequence replace22 = this.currentMessageObject.getMusicAuthor().replace('\n', ' ');
         highlightText = AndroidUtilities.highlightText(replace22, this.currentMessageObject.highlightedWords, this.resourcesProvider);
-        String str2 = replace22;
         if (highlightText != null) {
         }
-        SpannableStringBuilder spannableStringBuilder2 = str2;
         if (this.viewType == 1) {
         }
         TextPaint textPaint32 = this.viewType != 1 ? this.description2TextPaint : Theme.chat_contextResult_descriptionTextPaint;
-        staticLayout = new StaticLayout(TextUtils.ellipsize(spannableStringBuilder2, textPaint32, size, TextUtils.TruncateAt.END), textPaint32, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        staticLayout = new StaticLayout(TextUtils.ellipsize(replace22, textPaint32, size, TextUtils.TruncateAt.END), textPaint32, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.descriptionLayout = staticLayout;
         this.descriptionLayoutLeft = staticLayout.getLineCount() > 0 ? this.descriptionLayout.getLineLeft(0) : 0.0f;
         this.descriptionLayoutWidth = this.descriptionLayout.getLineCount() > 0 ? this.descriptionLayout.getLineWidth(0) : 0.0f;
@@ -735,14 +735,14 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
             return super.onTouchEvent(motionEvent);
         }
         boolean checkAudioMotionEvent = checkAudioMotionEvent(motionEvent);
-        if (motionEvent.getAction() == 3) {
-            this.miniButtonPressed = false;
-            this.buttonPressed = false;
-            this.radialProgress.setPressed(false, false);
-            this.radialProgress.setPressed(this.miniButtonPressed, true);
-            return false;
+        if (motionEvent.getAction() != 3) {
+            return checkAudioMotionEvent;
         }
-        return checkAudioMotionEvent;
+        this.miniButtonPressed = false;
+        this.buttonPressed = false;
+        this.radialProgress.setPressed(false, false);
+        this.radialProgress.setPressed(this.miniButtonPressed, true);
+        return false;
     }
 
     public void setCheckForButtonPress(boolean z) {

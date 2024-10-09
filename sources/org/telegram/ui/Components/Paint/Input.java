@@ -15,6 +15,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.Brush;
 import org.telegram.ui.Components.Size;
+
 /* loaded from: classes3.dex */
 public class Input {
     private static final CubicBezierInterpolator PRESSURE_INTERPOLATOR = new CubicBezierInterpolator(0.0d, 0.5d, 0.0d, 1.0d);
@@ -272,8 +273,9 @@ public class Input {
             double d = this.thicknessSum;
             if (d > 0.0d) {
                 double d2 = currentWeight;
+                double d3 = d / this.thicknessCount;
                 Double.isNaN(d2);
-                shape.thickness = (float) (d2 * (d / this.thicknessCount));
+                shape.thickness = (float) (d2 * d3);
             }
             if (shape.getType() == 4) {
                 shape.arrowTriangleLength *= shape.thickness;
@@ -291,27 +293,32 @@ public class Input {
         double d4 = point.x;
         double d5 = f3 * f3;
         Double.isNaN(d5);
-        double d6 = f;
-        Double.isNaN(d6);
+        double d6 = point3.x * 2.0d;
+        double d7 = f;
+        Double.isNaN(d7);
         Double.isNaN(d);
-        double d7 = (d4 * d5) + (point3.x * 2.0d * d6 * d);
-        double d8 = point2.x;
+        double d8 = (d4 * d5) + (d6 * d7 * d);
+        double d9 = point2.x;
         Double.isNaN(d3);
-        double d9 = d7 + (d8 * d3);
-        double d10 = point.y;
+        double d10 = d8 + (d9 * d3);
+        double d11 = point.y;
         Double.isNaN(d5);
-        Double.isNaN(d6);
+        double d12 = point3.y * 2.0d;
+        Double.isNaN(d7);
         Double.isNaN(d);
-        double d11 = (d10 * d5) + (point3.y * 2.0d * d6 * d);
-        double d12 = point2.y;
+        double d13 = (d11 * d5) + (d12 * d7 * d);
+        double d14 = point2.y;
         Double.isNaN(d3);
-        double d13 = point3.z;
+        double d15 = d13 + (d14 * d3);
+        double d16 = point.z * pow;
+        double d17 = point3.z;
         Double.isNaN(d2);
-        double d14 = point2.z;
+        double d18 = point2.z;
         Double.isNaN(d3);
+        double d19 = ((d16 + (d17 * d2)) + (d18 * d3)) - 1.0d;
         double lerp = AndroidUtilities.lerp(f2, 1.0f, androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f));
         Double.isNaN(lerp);
-        return new Point(d9, d11 + (d12 * d3), (((((point.z * pow) + (d13 * d2)) + (d14 * d3)) - 1.0d) * lerp) + 1.0d);
+        return new Point(d10, d15, (d19 * lerp) + 1.0d);
     }
 
     private void smoothenAndPaintPoints(boolean z, float f) {
@@ -375,13 +382,13 @@ public class Input {
         this.ignore = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:105:0x0301  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x034f  */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x035e  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00d2  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0200 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0201  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x035e  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x034f  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00d2  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0200 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0201  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0301  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -482,7 +489,8 @@ public class Input {
                         this.thicknessCount = 0.0d;
                         this.renderView.onFinishedDrawing(this.hasMoved);
                         return;
-                    } else if (actionMasked != 2) {
+                    }
+                    if (actionMasked != 2) {
                         if (actionMasked != 3) {
                             return;
                         }

@@ -2,6 +2,7 @@ package com.google.android.gms.tasks;
 
 import android.app.Activity;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public abstract class Task {
     public abstract Task addOnCanceledListener(Executor executor, OnCanceledListener onCanceledListener);

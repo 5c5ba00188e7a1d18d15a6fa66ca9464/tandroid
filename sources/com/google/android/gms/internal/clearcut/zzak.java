@@ -2,6 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 import android.content.SharedPreferences;
 import android.util.Log;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzak extends zzae {
@@ -12,7 +13,7 @@ public final class zzak extends zzae {
 
     /* JADX INFO: Access modifiers changed from: private */
     @Override // com.google.android.gms.internal.clearcut.zzae
-    /* renamed from: zzc */
+    /* renamed from: zzc, reason: merged with bridge method [inline-methods] */
     public final String zza(SharedPreferences sharedPreferences) {
         try {
             return sharedPreferences.getString(this.zzds, null);

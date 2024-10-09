@@ -19,6 +19,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class LanguageIdentifierImpl implements LanguageIdentifier {
     private final LanguageIdentificationOptions zza;
@@ -140,7 +141,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
         Float zzb = this.zza.zzb();
         long elapsedRealtime = SystemClock.elapsedRealtime();
         try {
-            String zza = languageIdentificationJni.zza(str.substring(0, Math.min(str.length(), (int) NotificationCenter.storyQualityUpdate)), zzb != null ? zzb.floatValue() : 0.5f);
+            String zza = languageIdentificationJni.zza(str.substring(0, Math.min(str.length(), NotificationCenter.storyQualityUpdate)), zzb != null ? zzb.floatValue() : 0.5f);
             zza(elapsedRealtime, z, (zzy$zzau.zzd) null, zza == null ? zzy$zzau.zzc.zzb() : (zzy$zzau.zzc) ((zzeo) zzy$zzau.zzc.zza().zza(zzy$zzau.zzb.zza().zza(zza)).zzg()), zzai.zza);
             return zza;
         } catch (RuntimeException e) {

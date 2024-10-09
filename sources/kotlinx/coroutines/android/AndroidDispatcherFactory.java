@@ -4,6 +4,7 @@ import android.os.Looper;
 import java.util.List;
 import kotlinx.coroutines.MainCoroutineDispatcher;
 import kotlinx.coroutines.internal.MainDispatcherFactory;
+
 /* loaded from: classes.dex */
 public final class AndroidDispatcherFactory implements MainDispatcherFactory {
     @Override // kotlinx.coroutines.internal.MainDispatcherFactory

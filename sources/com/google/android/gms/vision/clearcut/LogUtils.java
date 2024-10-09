@@ -14,6 +14,7 @@ import com.google.android.gms.internal.vision.zzs;
 import com.google.android.gms.vision.L;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class LogUtils {
     public static zzfi$zza zza(Context context) {

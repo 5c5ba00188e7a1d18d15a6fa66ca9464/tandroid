@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.decoder;
+
 /* loaded from: classes.dex */
 public abstract class DecoderException extends Exception {
     public DecoderException(String str) {

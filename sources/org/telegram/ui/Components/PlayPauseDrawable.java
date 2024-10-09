@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class PlayPauseDrawable extends Drawable {
     private int alpha = NotificationCenter.closeSearchByActiveAction;
@@ -27,23 +28,27 @@ public class PlayPauseDrawable extends Drawable {
         paint.setColor(-1);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x002e, code lost:
-        if (r0 != null) goto L31;
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x002e, code lost:
+    
+        if (r0 != null) goto L23;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x004a, code lost:
-        if (r0 != null) goto L31;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x004c, code lost:
-        r0.invalidate();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x004f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x004f, code lost:
+    
         invalidateSelf();
      */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x005c  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0060  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0099  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00a4  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00e4  */
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x004c, code lost:
+    
+        r0.invalidate();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x004a, code lost:
+    
+        if (r0 != null) goto L23;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x005c  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0099  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00e4  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0060  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

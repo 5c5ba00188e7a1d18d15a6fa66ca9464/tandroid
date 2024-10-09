@@ -39,6 +39,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.LetterDrawable;
 import org.telegram.ui.Components.StaticLayoutEx;
+
 /* loaded from: classes4.dex */
 public class ChatPullingDownDrawable implements NotificationCenter.NotificationCenterDelegate {
     boolean animateCheck;
@@ -516,15 +517,16 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         float f11 = dp / 2.0f;
         float max = Math.max(0.0f, Math.min(this.circleRadius, (f11 - (AndroidUtilities.dp(16.0f) * f)) - AndroidUtilities.dp(4.0f)));
         float max2 = ((Math.max(0.0f, Math.min(this.circleRadius * f, f11 - (AndroidUtilities.dp(8.0f) * f))) * 2.0f) - AndroidUtilities.dp2(16.0f)) * (1.0f - this.swipeToReleaseProgress);
+        float dp2 = AndroidUtilities.dp(56.0f);
         float f12 = this.swipeToReleaseProgress;
-        float dp2 = max2 + (AndroidUtilities.dp(56.0f) * f12);
+        float f13 = max2 + (dp2 * f12);
         if (f12 < 1.0f || this.emptyStub) {
-            float f13 = -dp;
+            float f14 = -dp;
             i3 = alpha2;
             f3 = f7;
-            float dp3 = ((-AndroidUtilities.dp(8.0f)) * (1.0f - this.swipeToReleaseProgress)) + ((AndroidUtilities.dp(56.0f) + f13) * this.swipeToReleaseProgress);
+            float dp3 = ((-AndroidUtilities.dp(8.0f)) * (1.0f - this.swipeToReleaseProgress)) + ((AndroidUtilities.dp(56.0f) + f14) * this.swipeToReleaseProgress);
             RectF rectF = AndroidUtilities.rectTmp;
-            rectF.set(f9 - max, f13, max + f9, dp3);
+            rectF.set(f9 - max, f14, max + f9, dp3);
             if (this.swipeToReleaseProgress <= 0.0f || this.emptyStub) {
                 f4 = 1.0f;
             } else {
@@ -533,18 +535,18 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
                 f4 = 1.0f - this.swipeToReleaseProgress;
             }
             drawBackground(canvas, rectF, f4);
-            float dp5 = ((AndroidUtilities.dp(24.0f) + f13) + (AndroidUtilities.dp(8.0f) * (1.0f - f))) - (AndroidUtilities.dp(36.0f) * this.swipeToReleaseProgress);
+            float dp5 = ((AndroidUtilities.dp(24.0f) + f14) + (AndroidUtilities.dp(8.0f) * (1.0f - f))) - (AndroidUtilities.dp(36.0f) * this.swipeToReleaseProgress);
             canvas.save();
             f5 = dp;
             rectF.inset(AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f));
             canvas.clipRect(rectF);
-            float f14 = this.swipeToReleaseProgress;
-            if (f14 > 0.0f) {
-                this.arrowPaint.setAlpha((int) ((1.0f - f14) * 255.0f));
+            float f15 = this.swipeToReleaseProgress;
+            if (f15 > 0.0f) {
+                this.arrowPaint.setAlpha((int) ((1.0f - f15) * 255.0f));
             }
             drawArrow(canvas, f9, dp5, AndroidUtilities.dp(24.0f) * f);
             if (this.emptyStub) {
-                float dp22 = ((((-AndroidUtilities.dp(8.0f)) - (AndroidUtilities.dp2(8.0f) * f)) - dp2) * (1.0f - this.swipeToReleaseProgress)) + ((f13 - AndroidUtilities.dp(2.0f)) * this.swipeToReleaseProgress) + f10;
+                float dp22 = ((((-AndroidUtilities.dp(8.0f)) - (AndroidUtilities.dp2(8.0f) * f)) - f13) * (1.0f - this.swipeToReleaseProgress)) + ((f14 - AndroidUtilities.dp(2.0f)) * this.swipeToReleaseProgress) + f10;
                 this.arrowPaint.setAlpha(alpha4);
                 canvas.save();
                 canvas.scale(f, f, f9, AndroidUtilities.dp(28.0f) + dp22);
@@ -562,9 +564,8 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             this.textPaint.setAlpha(i6);
             float dp6 = ((AndroidUtilities.dp(20.0f) * (1.0f - this.swipeToReleaseProgress)) - (AndroidUtilities.dp(36.0f) * this.swipeToReleaseProgress)) + f10;
             RectF rectF2 = AndroidUtilities.rectTmp;
-            int i7 = this.lastWidth;
-            float f15 = (i7 - this.chatNameWidth) / 2.0f;
-            rectF2.set(f15, dp6, i7 - f15, this.chatNameLayout.getHeight() + dp6);
+            float f16 = (r5 - this.chatNameWidth) / 2.0f;
+            rectF2.set(f16, dp6, this.lastWidth - f16, this.chatNameLayout.getHeight() + dp6);
             rectF2.inset(-AndroidUtilities.dp(8.0f), -AndroidUtilities.dp(4.0f));
             canvas.drawRoundRect(rectF2, AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), getThemedPaint("paintChatActionBackground"));
             if (hasGradientService()) {
@@ -575,14 +576,14 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             this.chatNameLayout.draw(canvas);
             canvas.restore();
         }
-        if (!this.emptyStub && dp2 > 0.0f) {
-            float dp23 = ((((-AndroidUtilities.dp(8.0f)) - (AndroidUtilities.dp2(8.0f) * f)) - dp2) * (1.0f - this.swipeToReleaseProgress)) + (((-f5) + AndroidUtilities.dp(4.0f)) * this.swipeToReleaseProgress) + f10;
+        if (!this.emptyStub && f13 > 0.0f) {
+            float dp23 = ((((-AndroidUtilities.dp(8.0f)) - (AndroidUtilities.dp2(8.0f) * f)) - f13) * (1.0f - this.swipeToReleaseProgress)) + (((-f5) + AndroidUtilities.dp(4.0f)) * this.swipeToReleaseProgress) + f10;
             AnimatedEmojiDrawable animatedEmojiDrawable2 = this.animatedEmojiDrawable;
             ImageReceiver imageReceiver = (animatedEmojiDrawable2 == null || animatedEmojiDrawable2.getImageReceiver() == null) ? this.imageReceiver : this.animatedEmojiDrawable.getImageReceiver();
             imageReceiver.setAlpha(f3);
-            float f16 = dp2 / 2.0f;
-            imageReceiver.setRoundRadius((int) f16);
-            imageReceiver.setImageCoords(f9 - f16, dp23, dp2, dp2);
+            float f17 = f13 / 2.0f;
+            imageReceiver.setRoundRadius((int) f17);
+            imageReceiver.setImageCoords(f9 - f17, dp23, f13, f13);
             if (this.isTopic && imageReceiver.getDrawable() != null && (imageReceiver.getDrawable() instanceof CombinedDrawable) && (((CombinedDrawable) imageReceiver.getDrawable()).getIcon() instanceof LetterDrawable)) {
                 ((LetterDrawable) ((CombinedDrawable) imageReceiver.getDrawable()).getIcon()).scale = f;
             }
@@ -593,8 +594,8 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
                 f6 = 1.0f;
                 canvas.saveLayerAlpha(imageReceiver.getImageX(), imageReceiver.getImageY(), imageReceiver.getImageWidth() + imageReceiver.getImageX(), imageReceiver.getImageHeight() + imageReceiver.getImageY(), NotificationCenter.closeSearchByActiveAction, 31);
                 imageReceiver.draw(canvas);
-                float f17 = this.swipeToReleaseProgress;
-                canvas.scale(f17, f17, AndroidUtilities.dp(12.0f) + f9 + this.counterDrawable.getCenterX(), (dp23 - AndroidUtilities.dp(6.0f)) + AndroidUtilities.dp(14.0f));
+                float f18 = this.swipeToReleaseProgress;
+                canvas.scale(f18, f18, AndroidUtilities.dp(12.0f) + f9 + this.counterDrawable.getCenterX(), (dp23 - AndroidUtilities.dp(6.0f)) + AndroidUtilities.dp(14.0f));
                 canvas.translate(AndroidUtilities.dp(12.0f) + f9, dp23 - AndroidUtilities.dp(6.0f));
                 this.counterDrawable.updateBackgroundRect();
                 this.counterDrawable.rectF.inset(-AndroidUtilities.dp(2.0f), -AndroidUtilities.dp(2.0f));
@@ -602,8 +603,8 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
                 canvas.drawRoundRect(rectF3, rectF3.height() / 2.0f, this.counterDrawable.rectF.height() / 2.0f, this.xRefPaint);
                 canvas.restore();
                 canvas.save();
-                float f18 = this.swipeToReleaseProgress;
-                canvas.scale(f18, f18, AndroidUtilities.dp(12.0f) + f9 + this.counterDrawable.getCenterX(), (dp23 - AndroidUtilities.dp(6.0f)) + AndroidUtilities.dp(14.0f));
+                float f19 = this.swipeToReleaseProgress;
+                canvas.scale(f19, f19, AndroidUtilities.dp(12.0f) + f9 + this.counterDrawable.getCenterX(), (dp23 - AndroidUtilities.dp(6.0f)) + AndroidUtilities.dp(14.0f));
                 canvas.translate(f9 + AndroidUtilities.dp(12.0f), dp23 - AndroidUtilities.dp(6.0f));
                 this.counterDrawable.draw(canvas);
                 canvas.restore();
@@ -616,8 +617,8 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         this.arrowPaint.setAlpha(alpha4);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00b6  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00b6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -853,8 +854,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         this.imageReceiver.setRoundRadius((int) (AndroidUtilities.dp(40.0f) / 2.0f));
         this.counterDrawable.setSize(AndroidUtilities.dp(28.0f), AndroidUtilities.dp(100.0f));
         if (this.isTopic) {
-            TLRPC.TL_forumTopic tL_forumTopic3 = this.nextTopic;
-            this.lastWidthTopicId = tL_forumTopic3 == null ? 0L : tL_forumTopic3.id;
+            this.lastWidthTopicId = this.nextTopic == null ? 0L : r14.id;
         }
     }
 
@@ -917,7 +917,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         this.nextTopic = null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00b0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -947,26 +947,27 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             }
             this.animatedEmojiDrawable = null;
             createTopicDrawable = ForumUtilities.createGeneralTopicDrawable(this.fragmentView.getContext(), 1.0f, getThemedColor(Theme.key_chat_inMenu), false, true);
-        } else if (nextUnreadTopic.icon_emoji_id != 0) {
-            AnimatedEmojiDrawable animatedEmojiDrawable3 = this.animatedEmojiDrawable;
-            if (animatedEmojiDrawable3 == null || animatedEmojiDrawable3.getDocumentId() != nextUnreadTopic.icon_emoji_id) {
-                AnimatedEmojiDrawable animatedEmojiDrawable4 = this.animatedEmojiDrawable;
-                if (animatedEmojiDrawable4 != null && (view = this.parentView) != null) {
-                    animatedEmojiDrawable4.removeView(view);
-                }
-                AnimatedEmojiDrawable animatedEmojiDrawable5 = new AnimatedEmojiDrawable(22, this.currentAccount, nextUnreadTopic.icon_emoji_id);
-                this.animatedEmojiDrawable = animatedEmojiDrawable5;
-                animatedEmojiDrawable5.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_serviceText), PorterDuff.Mode.SRC_IN));
-            }
-            AnimatedEmojiDrawable animatedEmojiDrawable6 = this.animatedEmojiDrawable;
-            if (animatedEmojiDrawable6 != null && (view2 = this.parentView) != null) {
-                animatedEmojiDrawable6.addView(view2);
-            }
-            this.imageReceiver.setImageBitmap((Bitmap) null);
-            int i = nextUnreadTopic.unread_count;
-            this.counterDrawable.setCount(i, false);
-            this.visibleCounterDrawable = i > 0;
         } else {
+            if (nextUnreadTopic.icon_emoji_id != 0) {
+                AnimatedEmojiDrawable animatedEmojiDrawable3 = this.animatedEmojiDrawable;
+                if (animatedEmojiDrawable3 == null || animatedEmojiDrawable3.getDocumentId() != nextUnreadTopic.icon_emoji_id) {
+                    AnimatedEmojiDrawable animatedEmojiDrawable4 = this.animatedEmojiDrawable;
+                    if (animatedEmojiDrawable4 != null && (view = this.parentView) != null) {
+                        animatedEmojiDrawable4.removeView(view);
+                    }
+                    AnimatedEmojiDrawable animatedEmojiDrawable5 = new AnimatedEmojiDrawable(22, this.currentAccount, nextUnreadTopic.icon_emoji_id);
+                    this.animatedEmojiDrawable = animatedEmojiDrawable5;
+                    animatedEmojiDrawable5.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_serviceText), PorterDuff.Mode.SRC_IN));
+                }
+                AnimatedEmojiDrawable animatedEmojiDrawable6 = this.animatedEmojiDrawable;
+                if (animatedEmojiDrawable6 != null && (view2 = this.parentView) != null) {
+                    animatedEmojiDrawable6.addView(view2);
+                }
+                this.imageReceiver.setImageBitmap((Bitmap) null);
+                int i = nextUnreadTopic.unread_count;
+                this.counterDrawable.setCount(i, false);
+                this.visibleCounterDrawable = i > 0;
+            }
             View view4 = this.parentView;
             if (view4 != null && (animatedEmojiDrawable = this.animatedEmojiDrawable) != null) {
                 animatedEmojiDrawable.removeView(view4);

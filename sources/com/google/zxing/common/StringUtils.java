@@ -3,6 +3,7 @@ package com.google.zxing.common;
 import com.google.zxing.DecodeHintType;
 import java.nio.charset.Charset;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class StringUtils {
     private static final boolean ASSUME_SHIFT_JIS;
@@ -14,9 +15,9 @@ public abstract class StringUtils {
         ASSUME_SHIFT_JIS = "SJIS".equalsIgnoreCase(name) || "EUC_JP".equalsIgnoreCase(name);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:139:0x00f6 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x00ad  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x00f6 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x00ad  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -25,6 +25,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.widget.PopupWindowCompat;
 import java.lang.reflect.Method;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public abstract class ListPopupWindow implements ShowableListMenu {
     private static Method sGetMaxAvailableHeightMethod;
@@ -150,13 +151,13 @@ public abstract class ListPopupWindow implements ShowableListMenu {
                 ListPopupWindow listPopupWindow = ListPopupWindow.this;
                 listPopupWindow.mHandler.postDelayed(listPopupWindow.mResizePopupRunnable, 250L);
                 return false;
-            } else if (action == 1) {
-                ListPopupWindow listPopupWindow2 = ListPopupWindow.this;
-                listPopupWindow2.mHandler.removeCallbacks(listPopupWindow2.mResizePopupRunnable);
-                return false;
-            } else {
+            }
+            if (action != 1) {
                 return false;
             }
+            ListPopupWindow listPopupWindow2 = ListPopupWindow.this;
+            listPopupWindow2.mHandler.removeCallbacks(listPopupWindow2.mResizePopupRunnable);
+            return false;
         }
     }
 
@@ -236,8 +237,7 @@ public abstract class ListPopupWindow implements ShowableListMenu {
         appCompatPopupWindow.setInputMethodMode(1);
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0152  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0152  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -289,21 +289,21 @@ public abstract class ListPopupWindow implements ShowableListMenu {
             if (onItemSelectedListener != null) {
                 this.mDropDownList.setOnItemSelectedListener(onItemSelectedListener);
             }
-            DropDownListView dropDownListView = this.mDropDownList;
-            View view = this.mPromptView;
-            if (view != null) {
+            View view = this.mDropDownList;
+            View view2 = this.mPromptView;
+            if (view2 != null) {
                 LinearLayout linearLayout = new LinearLayout(context);
                 linearLayout.setOrientation(1);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, 0, 1.0f);
+                ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, 0, 1.0f);
                 int i5 = this.mPromptPosition;
                 if (i5 == 0) {
-                    linearLayout.addView(view);
-                    linearLayout.addView(dropDownListView, layoutParams);
+                    linearLayout.addView(view2);
+                    linearLayout.addView(view, layoutParams);
                 } else if (i5 != 1) {
                     Log.e("ListPopupWindow", "Invalid hint position " + this.mPromptPosition);
                 } else {
-                    linearLayout.addView(dropDownListView, layoutParams);
-                    linearLayout.addView(view);
+                    linearLayout.addView(view, layoutParams);
+                    linearLayout.addView(view2);
                 }
                 int i6 = this.mDropDownWidth;
                 if (i6 >= 0) {
@@ -312,20 +312,19 @@ public abstract class ListPopupWindow implements ShowableListMenu {
                     i6 = 0;
                     i3 = 0;
                 }
-                view.measure(View.MeasureSpec.makeMeasureSpec(i6, i3), 0);
-                LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) view.getLayoutParams();
-                i = view.getMeasuredHeight() + layoutParams2.topMargin + layoutParams2.bottomMargin;
-                dropDownListView = linearLayout;
+                view2.measure(View.MeasureSpec.makeMeasureSpec(i6, i3), 0);
+                LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) view2.getLayoutParams();
+                i = view2.getMeasuredHeight() + layoutParams2.topMargin + layoutParams2.bottomMargin;
+                view = linearLayout;
             } else {
                 i = 0;
             }
-            this.mPopup.setContentView(dropDownListView);
+            this.mPopup.setContentView(view);
         } else {
-            ViewGroup viewGroup = (ViewGroup) this.mPopup.getContentView();
-            View view2 = this.mPromptView;
-            if (view2 != null) {
-                LinearLayout.LayoutParams layoutParams3 = (LinearLayout.LayoutParams) view2.getLayoutParams();
-                i = view2.getMeasuredHeight() + layoutParams3.topMargin + layoutParams3.bottomMargin;
+            View view3 = this.mPromptView;
+            if (view3 != null) {
+                LinearLayout.LayoutParams layoutParams3 = (LinearLayout.LayoutParams) view3.getLayoutParams();
+                i = view3.getMeasuredHeight() + layoutParams3.topMargin + layoutParams3.bottomMargin;
             } else {
                 i = 0;
             }
@@ -369,18 +368,18 @@ public abstract class ListPopupWindow implements ShowableListMenu {
     }
 
     private int getMaxAvailableHeight(View view, int i, boolean z) {
-        if (Build.VERSION.SDK_INT <= 23) {
-            Method method = sGetMaxAvailableHeightMethod;
-            if (method != null) {
-                try {
-                    return ((Integer) method.invoke(this.mPopup, view, Integer.valueOf(i), Boolean.valueOf(z))).intValue();
-                } catch (Exception unused) {
-                    Log.i("ListPopupWindow", "Could not call getMaxAvailableHeightMethod(View, int, boolean) on PopupWindow. Using the public version.");
-                }
-            }
-            return this.mPopup.getMaxAvailableHeight(view, i);
+        if (Build.VERSION.SDK_INT > 23) {
+            return Api24Impl.getMaxAvailableHeight(this.mPopup, view, i, z);
         }
-        return Api24Impl.getMaxAvailableHeight(this.mPopup, view, i, z);
+        Method method = sGetMaxAvailableHeightMethod;
+        if (method != null) {
+            try {
+                return ((Integer) method.invoke(this.mPopup, view, Integer.valueOf(i), Boolean.valueOf(z))).intValue();
+            } catch (Exception unused) {
+                Log.i("ListPopupWindow", "Could not call getMaxAvailableHeightMethod(View, int, boolean) on PopupWindow. Using the public version.");
+            }
+        }
+        return this.mPopup.getMaxAvailableHeight(view, i);
     }
 
     private void removePromptView() {
@@ -577,7 +576,6 @@ public abstract class ListPopupWindow implements ShowableListMenu {
         int buildDropDown = buildDropDown();
         boolean isInputMethodNotNeeded = isInputMethodNotNeeded();
         PopupWindowCompat.setWindowLayoutType(this.mPopup, this.mDropDownWindowLayoutType);
-        boolean z = true;
         if (this.mPopup.isShowing()) {
             if (ViewCompat.isAttachedToWindow(getAnchorView())) {
                 int i = this.mDropDownWidth;
@@ -601,7 +599,7 @@ public abstract class ListPopupWindow implements ShowableListMenu {
                 } else if (i2 != -2) {
                     buildDropDown = i2;
                 }
-                this.mPopup.setOutsideTouchable((this.mForceIgnoreOutsideTouch || this.mDropDownAlwaysVisible) ? false : false);
+                this.mPopup.setOutsideTouchable((this.mForceIgnoreOutsideTouch || this.mDropDownAlwaysVisible) ? false : true);
                 this.mPopup.update(getAnchorView(), this.mDropDownHorizontalOffset, this.mDropDownVerticalOffset, i < 0 ? -1 : i, buildDropDown < 0 ? -1 : buildDropDown);
                 return;
             }

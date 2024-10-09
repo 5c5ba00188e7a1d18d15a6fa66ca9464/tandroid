@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public enum zziv implements zzag {
     zza(0),
@@ -219,7 +220,7 @@ public enum zziv implements zzag {
     zzdf(602),
     zzdg(603),
     zzdh(604);
-    
+
     private final int zzdj;
 
     zziv(int i) {

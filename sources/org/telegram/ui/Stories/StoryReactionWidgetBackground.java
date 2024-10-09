@@ -13,6 +13,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+
 /* loaded from: classes4.dex */
 public class StoryReactionWidgetBackground extends Drawable {
     Paint backgroundPaint;
@@ -39,7 +40,7 @@ public class StoryReactionWidgetBackground extends Drawable {
         paint2.setColor(-1);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0205  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0205  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

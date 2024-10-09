@@ -66,6 +66,7 @@ import org.telegram.ui.StatisticActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.TwoStepVerificationActivity;
 import org.telegram.ui.TwoStepVerificationSetupActivity;
+
 /* loaded from: classes3.dex */
 public class BotStarsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ButtonWithCounterView adsButton;
@@ -158,7 +159,8 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
                         }
                         currentListView.scrollBy(0, i4);
                         return;
-                    } else if (i2 > 0) {
+                    }
+                    if (i2 > 0) {
                         RecyclerListView currentListView2 = BotStarsActivity.this.transactionsLayout.getCurrentListView();
                         if (BotStarsActivity.this.listView.getHeight() - bottom < 0 || currentListView2 == null || currentListView2.canScrollVertically(1)) {
                             return;
@@ -166,9 +168,8 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
                         iArr[1] = i2;
                         BotStarsActivity.this.listView.stopScroll();
                         return;
-                    } else {
-                        return;
                     }
+                    return;
                 }
                 ((BaseFragment) BotStarsActivity.this).actionBar.setCastShadows(BotStarsActivity.this.listView.getHeight() - bottom < 0);
                 if (BotStarsActivity.this.listView.getHeight() - bottom >= 0) {
@@ -329,7 +330,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: initWithdraw */
+    /* renamed from: initWithdraw, reason: merged with bridge method [inline-methods] */
     public void lambda$withdraw$9(final long j, TLRPC.InputCheckPasswordSRP inputCheckPasswordSRP, final TwoStepVerificationActivity twoStepVerificationActivity) {
         final Activity parentActivity = getParentActivity();
         TLRPC.User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
@@ -358,11 +359,11 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(TextView textView, int i, KeyEvent keyEvent) {
-        if (i == 5) {
-            withdraw();
-            return true;
+        if (i != 5) {
+            return false;
         }
-        return false;
+        withdraw();
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -445,12 +446,15 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         int i2;
         if (tL_error == null) {
             twoStepVerificationActivity.needHideProgress();
-            twoStepVerificationActivity.finishFragment();
+            twoStepVerificationActivity.lambda$onBackPressed$300();
             if (tLObject instanceof TLRPC.TL_payments_starsRevenueWithdrawalUrl) {
                 this.balanceEditTextAll = true;
                 Browser.openUrl(getContext(), ((TLRPC.TL_payments_starsRevenueWithdrawalUrl) tLObject).url);
+                return;
             }
-        } else if (!"PASSWORD_MISSING".equals(tL_error.text) && !tL_error.text.startsWith("PASSWORD_TOO_FRESH_") && !tL_error.text.startsWith("SESSION_TOO_FRESH_")) {
+            return;
+        }
+        if (!"PASSWORD_MISSING".equals(tL_error.text) && !tL_error.text.startsWith("PASSWORD_TOO_FRESH_") && !tL_error.text.startsWith("SESSION_TOO_FRESH_")) {
             if ("SRP_ID_INVALID".equals(tL_error.text)) {
                 ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda18
                     @Override // org.telegram.tgnet.RequestDelegate
@@ -462,96 +466,96 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
             }
             if (twoStepVerificationActivity != null) {
                 twoStepVerificationActivity.needHideProgress();
-                twoStepVerificationActivity.finishFragment();
+                twoStepVerificationActivity.lambda$onBackPressed$300();
             }
             BulletinFactory.showError(tL_error);
+            return;
+        }
+        if (twoStepVerificationActivity != null) {
+            twoStepVerificationActivity.needHideProgress();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(LocaleController.getString(R.string.EditAdminTransferAlertTitle));
+        LinearLayout linearLayout = new LinearLayout(activity);
+        linearLayout.setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(24.0f), 0);
+        linearLayout.setOrientation(1);
+        builder.setView(linearLayout);
+        TextView textView = new TextView(activity);
+        int i3 = Theme.key_dialogTextBlack;
+        textView.setTextColor(Theme.getColor(i3));
+        textView.setTextSize(1, 16.0f);
+        textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
+        textView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.WithdrawChannelAlertText)));
+        linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2));
+        LinearLayout linearLayout2 = new LinearLayout(activity);
+        linearLayout2.setOrientation(0);
+        linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
+        ImageView imageView = new ImageView(activity);
+        int i4 = R.drawable.list_circle;
+        imageView.setImageResource(i4);
+        imageView.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
+        int color = Theme.getColor(i3);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        imageView.setColorFilter(new PorterDuffColorFilter(color, mode));
+        TextView textView2 = new TextView(activity);
+        textView2.setTextColor(Theme.getColor(i3));
+        textView2.setTextSize(1, 16.0f);
+        textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
+        textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EditAdminTransferAlertText1)));
+        if (LocaleController.isRTL) {
+            linearLayout2.addView(textView2, LayoutHelper.createLinear(-1, -2));
+            linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 5));
         } else {
-            if (twoStepVerificationActivity != null) {
-                twoStepVerificationActivity.needHideProgress();
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setTitle(LocaleController.getString(R.string.EditAdminTransferAlertTitle));
-            LinearLayout linearLayout = new LinearLayout(activity);
-            linearLayout.setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(24.0f), 0);
-            linearLayout.setOrientation(1);
-            builder.setView(linearLayout);
-            TextView textView = new TextView(activity);
-            int i3 = Theme.key_dialogTextBlack;
-            textView.setTextColor(Theme.getColor(i3));
-            textView.setTextSize(1, 16.0f);
-            textView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-            textView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.WithdrawChannelAlertText)));
-            linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2));
-            LinearLayout linearLayout2 = new LinearLayout(activity);
-            linearLayout2.setOrientation(0);
-            linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
-            ImageView imageView = new ImageView(activity);
-            int i4 = R.drawable.list_circle;
-            imageView.setImageResource(i4);
-            imageView.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
-            int color = Theme.getColor(i3);
-            PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
-            imageView.setColorFilter(new PorterDuffColorFilter(color, mode));
-            TextView textView2 = new TextView(activity);
-            textView2.setTextColor(Theme.getColor(i3));
-            textView2.setTextSize(1, 16.0f);
-            textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-            textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EditAdminTransferAlertText1)));
-            if (LocaleController.isRTL) {
-                linearLayout2.addView(textView2, LayoutHelper.createLinear(-1, -2));
-                linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 5));
-            } else {
-                linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2));
-                linearLayout2.addView(textView2, LayoutHelper.createLinear(-1, -2));
-            }
-            LinearLayout linearLayout3 = new LinearLayout(activity);
-            linearLayout3.setOrientation(0);
-            linearLayout.addView(linearLayout3, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
-            ImageView imageView2 = new ImageView(activity);
-            imageView2.setImageResource(i4);
-            imageView2.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
-            imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i3), mode));
-            TextView textView3 = new TextView(activity);
-            textView3.setTextColor(Theme.getColor(i3));
-            textView3.setTextSize(1, 16.0f);
-            textView3.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-            textView3.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EditAdminTransferAlertText2)));
-            if (LocaleController.isRTL) {
-                linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
-                i = 5;
-                linearLayout3.addView(imageView2, LayoutHelper.createLinear(-2, -2, 5));
-            } else {
-                i = 5;
-                linearLayout3.addView(imageView2, LayoutHelper.createLinear(-2, -2));
-                linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
-            }
-            if ("PASSWORD_MISSING".equals(tL_error.text)) {
-                builder.setPositiveButton(LocaleController.getString(R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda19
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i5) {
-                        BotStarsActivity.this.lambda$initWithdraw$12(dialogInterface, i5);
-                    }
-                });
-                i2 = R.string.Cancel;
-            } else {
-                TextView textView4 = new TextView(activity);
-                textView4.setTextColor(Theme.getColor(i3));
-                textView4.setTextSize(1, 16.0f);
-                if (!LocaleController.isRTL) {
-                    i = 3;
+            linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2));
+            linearLayout2.addView(textView2, LayoutHelper.createLinear(-1, -2));
+        }
+        LinearLayout linearLayout3 = new LinearLayout(activity);
+        linearLayout3.setOrientation(0);
+        linearLayout.addView(linearLayout3, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
+        ImageView imageView2 = new ImageView(activity);
+        imageView2.setImageResource(i4);
+        imageView2.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
+        imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i3), mode));
+        TextView textView3 = new TextView(activity);
+        textView3.setTextColor(Theme.getColor(i3));
+        textView3.setTextSize(1, 16.0f);
+        textView3.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
+        textView3.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EditAdminTransferAlertText2)));
+        if (LocaleController.isRTL) {
+            linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
+            i = 5;
+            linearLayout3.addView(imageView2, LayoutHelper.createLinear(-2, -2, 5));
+        } else {
+            i = 5;
+            linearLayout3.addView(imageView2, LayoutHelper.createLinear(-2, -2));
+            linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
+        }
+        if ("PASSWORD_MISSING".equals(tL_error.text)) {
+            builder.setPositiveButton(LocaleController.getString(R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda19
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i5) {
+                    BotStarsActivity.this.lambda$initWithdraw$12(dialogInterface, i5);
                 }
-                textView4.setGravity(i | 48);
-                textView4.setText(LocaleController.getString(R.string.EditAdminTransferAlertText3));
-                linearLayout.addView(textView4, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
-                i2 = R.string.OK;
+            });
+            i2 = R.string.Cancel;
+        } else {
+            TextView textView4 = new TextView(activity);
+            textView4.setTextColor(Theme.getColor(i3));
+            textView4.setTextSize(1, 16.0f);
+            if (!LocaleController.isRTL) {
+                i = 3;
             }
-            builder.setNegativeButton(LocaleController.getString(i2), null);
-            AlertDialog create = builder.create();
-            if (twoStepVerificationActivity != null) {
-                twoStepVerificationActivity.showDialog(create);
-            } else {
-                showDialog(create);
-            }
+            textView4.setGravity(i | 48);
+            textView4.setText(LocaleController.getString(R.string.EditAdminTransferAlertText3));
+            linearLayout.addView(textView4, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
+            i2 = R.string.OK;
+        }
+        builder.setNegativeButton(LocaleController.getString(i2), null);
+        AlertDialog create = builder.create();
+        if (twoStepVerificationActivity != null) {
+            twoStepVerificationActivity.showDialog(create);
+        } else {
+            showDialog(create);
         }
     }
 
@@ -688,30 +692,32 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         int currentTime = getConnectionsManager().getCurrentTime();
         if (this.balanceBlockedUntil > currentTime) {
             this.withdrawalBulletin = BulletinFactory.of(this).createSimpleBulletin(R.raw.timer_3, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotStarsWithdrawalToast, untilString(this.balanceBlockedUntil - currentTime)))).show();
-        } else if (this.balanceEditTextValue < getMessagesController().starsRevenueWithdrawalMin) {
+            return;
+        }
+        if (this.balanceEditTextValue < getMessagesController().starsRevenueWithdrawalMin) {
             BulletinFactory.of(this).createSimpleBulletin(getContext().getResources().getDrawable(R.drawable.star_small_inner).mutate(), AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("BotStarsWithdrawMinLimit", (int) getMessagesController().starsRevenueWithdrawalMin, new Object[0]), new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
                     BotStarsActivity.this.lambda$withdraw$8();
                 }
             })).show();
-        } else {
-            final long j = this.balanceEditTextValue;
-            final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda11
-                @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
-                public final void didEnterPassword(TLRPC.InputCheckPasswordSRP inputCheckPasswordSRP) {
-                    BotStarsActivity.this.lambda$withdraw$9(j, twoStepVerificationActivity, inputCheckPasswordSRP);
-                }
-            });
-            this.balanceButton.setLoading(true);
-            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda12
-                @Override // java.lang.Runnable
-                public final void run() {
-                    BotStarsActivity.this.lambda$withdraw$10(twoStepVerificationActivity);
-                }
-            });
+            return;
         }
+        final long j = this.balanceEditTextValue;
+        final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
+        twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda11
+            @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
+            public final void didEnterPassword(TLRPC.InputCheckPasswordSRP inputCheckPasswordSRP) {
+                BotStarsActivity.this.lambda$withdraw$9(j, twoStepVerificationActivity, inputCheckPasswordSRP);
+            }
+        });
+        this.balanceButton.setLoading(true);
+        twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                BotStarsActivity.this.lambda$withdraw$10(twoStepVerificationActivity);
+            }
+        });
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -733,7 +739,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    BotStarsActivity.this.finishFragment();
+                    BotStarsActivity.this.lambda$onBackPressed$300();
                 }
             }
         });

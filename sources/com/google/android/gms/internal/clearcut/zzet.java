@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.clearcut;
+
 /* loaded from: classes.dex */
 abstract class zzet {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -44,7 +45,6 @@ abstract class zzet {
                         }
                         sb.append((char) zzj);
                         continue;
-                        break;
                 }
             } else {
                 str = "\\\\";

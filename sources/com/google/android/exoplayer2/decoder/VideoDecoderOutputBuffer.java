@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.decoder.DecoderOutputBuffer;
 import java.nio.ByteBuffer;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class VideoDecoderOutputBuffer extends DecoderOutputBuffer {
     public static final int COLORSPACE_BT2020 = 3;

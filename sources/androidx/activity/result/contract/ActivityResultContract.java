@@ -3,6 +3,7 @@ package androidx.activity.result.contract;
 import android.content.Context;
 import android.content.Intent;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public abstract class ActivityResultContract {
 

@@ -7,10 +7,12 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.savedstate.SavedStateRegistry;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
+
 /* loaded from: classes.dex */
 public final class Recreator implements LifecycleEventObserver {
     public static final Companion Companion = new Companion(null);
@@ -92,8 +94,9 @@ public final class Recreator implements LifecycleEventObserver {
         if (stringArrayList == null) {
             throw new IllegalStateException("Bundle with restored state for the component \"androidx.savedstate.Restarter\" must contain list of strings by the key \"classes_to_restore\"");
         }
-        for (String str : stringArrayList) {
-            reflectiveNew(str);
+        Iterator<String> it = stringArrayList.iterator();
+        while (it.hasNext()) {
+            reflectiveNew(it.next());
         }
     }
 }

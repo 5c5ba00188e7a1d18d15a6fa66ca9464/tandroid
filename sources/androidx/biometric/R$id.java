@@ -1,4 +1,5 @@
 package androidx.biometric;
+
 /* loaded from: classes.dex */
 public abstract class R$id {
     public static final int fingerprint_description = 2131296386;

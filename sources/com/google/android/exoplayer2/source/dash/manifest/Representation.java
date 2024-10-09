@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class Representation {
     public final ImmutableList baseUrls;

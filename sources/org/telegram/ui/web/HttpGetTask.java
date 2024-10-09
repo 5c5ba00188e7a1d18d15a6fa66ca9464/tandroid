@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes.dex */
 public class HttpGetTask extends AsyncTask {
     private final Utilities.Callback callback;

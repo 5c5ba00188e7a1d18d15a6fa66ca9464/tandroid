@@ -5,19 +5,14 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public abstract class SafeParcelReader {
 
     /* loaded from: classes.dex */
     public static class ParseException extends RuntimeException {
-        /* JADX WARN: Illegal instructions before constructor call */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public ParseException(String str, Parcel parcel) {
-            super(str + " Parcel: pos=" + r0 + " size=" + r4);
-            int dataPosition = parcel.dataPosition();
-            int dataSize = parcel.dataSize();
+            super(str + " Parcel: pos=" + parcel.dataPosition() + " size=" + parcel.dataSize());
         }
     }
 
@@ -262,22 +257,21 @@ public abstract class SafeParcelReader {
         int readHeader = readHeader(parcel);
         int readSize = readSize(parcel, readHeader);
         int dataPosition = parcel.dataPosition();
-        if (getFieldId(readHeader) == 20293) {
-            int i = readSize + dataPosition;
-            if (i < dataPosition || i > parcel.dataSize()) {
-                throw new ParseException("Size read is invalid start=" + dataPosition + " end=" + i, parcel);
-            }
+        if (getFieldId(readHeader) != 20293) {
+            throw new ParseException("Expected object header. Got 0x".concat(String.valueOf(Integer.toHexString(readHeader))), parcel);
+        }
+        int i = readSize + dataPosition;
+        if (i >= dataPosition && i <= parcel.dataSize()) {
             return i;
         }
-        throw new ParseException("Expected object header. Got 0x".concat(String.valueOf(Integer.toHexString(readHeader))), parcel);
+        throw new ParseException("Size read is invalid start=" + dataPosition + " end=" + i, parcel);
     }
 
     private static void zza(Parcel parcel, int i, int i2, int i3) {
         if (i2 == i3) {
             return;
         }
-        String hexString = Integer.toHexString(i2);
-        throw new ParseException("Expected size " + i3 + " got " + i2 + " (0x" + hexString + ")", parcel);
+        throw new ParseException("Expected size " + i3 + " got " + i2 + " (0x" + Integer.toHexString(i2) + ")", parcel);
     }
 
     private static void zzb(Parcel parcel, int i, int i2) {
@@ -285,7 +279,6 @@ public abstract class SafeParcelReader {
         if (readSize == i2) {
             return;
         }
-        String hexString = Integer.toHexString(readSize);
-        throw new ParseException("Expected size " + i2 + " got " + readSize + " (0x" + hexString + ")", parcel);
+        throw new ParseException("Expected size " + i2 + " got " + readSize + " (0x" + Integer.toHexString(readSize) + ")", parcel);
     }
 }

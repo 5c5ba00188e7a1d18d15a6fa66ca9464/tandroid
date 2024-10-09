@@ -3,6 +3,7 @@ package j$.time.format;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class h implements g {
@@ -54,23 +55,22 @@ public final class h implements g {
             }
             sb.append(substring);
             return true;
-        } else if (i > 0) {
-            if (z) {
-                b.getClass();
-                sb.append('.');
-            }
-            for (int i2 = 0; i2 < i; i2++) {
-                b.getClass();
-                sb.append('0');
-            }
-            return true;
-        } else {
+        }
+        if (i <= 0) {
             return true;
         }
+        if (z) {
+            b.getClass();
+            sb.append('.');
+        }
+        for (int i2 = 0; i2 < i; i2++) {
+            b.getClass();
+            sb.append('0');
+        }
+        return true;
     }
 
     public final String toString() {
-        String str = this.d ? ",DecimalPoint" : "";
-        return "Fraction(" + this.a + "," + this.b + "," + this.c + str + ")";
+        return "Fraction(" + this.a + "," + this.b + "," + this.c + (this.d ? ",DecimalPoint" : "") + ")";
     }
 }

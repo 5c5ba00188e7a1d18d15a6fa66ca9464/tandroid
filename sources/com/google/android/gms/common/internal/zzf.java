@@ -7,6 +7,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.internal.BaseGmsClient;
+
 /* loaded from: classes.dex */
 public final class zzf extends zza {
     public final IBinder zze;
@@ -53,11 +54,11 @@ public final class zzf extends zza {
         Bundle connectionHint = this.zzf.getConnectionHint();
         BaseGmsClient baseGmsClient = this.zzf;
         baseConnectionCallbacks = baseGmsClient.zzw;
-        if (baseConnectionCallbacks != null) {
-            baseConnectionCallbacks2 = baseGmsClient.zzw;
-            baseConnectionCallbacks2.onConnected(connectionHint);
+        if (baseConnectionCallbacks == null) {
             return true;
         }
+        baseConnectionCallbacks2 = baseGmsClient.zzw;
+        baseConnectionCallbacks2.onConnected(connectionHint);
         return true;
     }
 }

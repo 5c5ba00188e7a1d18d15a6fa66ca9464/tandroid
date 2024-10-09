@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import androidx.appcompat.view.menu.MenuView;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public class MenuAdapter extends BaseAdapter {
     MenuBuilder mAdapterMenu;

@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+
 /* loaded from: classes.dex */
 public abstract class NavUtils {
     public static String getParentActivityName(Activity activity) {
@@ -30,9 +31,9 @@ public abstract class NavUtils {
         if (bundle == null || (string = bundle.getString("android.support.PARENT_ACTIVITY")) == null) {
             return null;
         }
-        if (string.charAt(0) == '.') {
-            return context.getPackageName() + string;
+        if (string.charAt(0) != '.') {
+            return string;
         }
-        return string;
+        return context.getPackageName() + string;
     }
 }

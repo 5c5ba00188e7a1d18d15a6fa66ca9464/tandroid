@@ -4,6 +4,7 @@ import android.hardware.biometrics.BiometricPrompt;
 import android.os.Build;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class AuthenticationCallbackProvider {

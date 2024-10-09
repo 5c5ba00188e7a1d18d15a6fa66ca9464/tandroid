@@ -14,6 +14,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public abstract class Timeline implements Bundleable {
     public static final Timeline EMPTY = new Timeline() { // from class: com.google.android.exoplayer2.Timeline.1
@@ -182,10 +183,11 @@ public abstract class Timeline implements Bundleable {
             Object obj = this.id;
             int hashCode = ((obj == null ? 0 : obj.hashCode()) + NotificationCenter.botStarsTransactionsLoaded) * 31;
             Object obj2 = this.uid;
-            int hashCode2 = obj2 != null ? obj2.hashCode() : 0;
+            int hashCode2 = (((hashCode + (obj2 != null ? obj2.hashCode() : 0)) * 31) + this.windowIndex) * 31;
             long j = this.durationUs;
+            int i = (hashCode2 + ((int) (j ^ (j >>> 32)))) * 31;
             long j2 = this.positionInWindowUs;
-            return ((((((((((hashCode + hashCode2) * 31) + this.windowIndex) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.isPlaceholder ? 1 : 0)) * 31) + this.adPlaybackState.hashCode();
+            return ((((i + ((int) (j2 ^ (j2 >>> 32)))) * 31) + (this.isPlaceholder ? 1 : 0)) * 31) + this.adPlaybackState.hashCode();
         }
 
         public boolean isServerSideInsertedAdGroup(int i) {
@@ -282,11 +284,11 @@ public abstract class Timeline implements Bundleable {
             }
             if (i != getLastWindowIndex(z)) {
                 return z ? this.shuffledWindowIndices[this.windowIndicesInShuffled[i] + 1] : i + 1;
-            } else if (i2 == 2) {
-                return getFirstWindowIndex(z);
-            } else {
-                return -1;
             }
+            if (i2 == 2) {
+                return getFirstWindowIndex(z);
+            }
+            return -1;
         }
 
         @Override // com.google.android.exoplayer2.Timeline
@@ -308,11 +310,11 @@ public abstract class Timeline implements Bundleable {
             }
             if (i != getFirstWindowIndex(z)) {
                 return z ? this.shuffledWindowIndices[this.windowIndicesInShuffled[i] - 1] : i - 1;
-            } else if (i2 == 2) {
-                return getLastWindowIndex(z);
-            } else {
-                return -1;
             }
+            if (i2 == 2) {
+                return getLastWindowIndex(z);
+            }
+            return -1;
         }
 
         @Override // com.google.android.exoplayer2.Timeline
@@ -439,12 +441,17 @@ public abstract class Timeline implements Bundleable {
             MediaItem.LiveConfiguration liveConfiguration = this.liveConfiguration;
             int hashCode3 = liveConfiguration != null ? liveConfiguration.hashCode() : 0;
             long j = this.presentationStartTimeMs;
+            int i = (((hashCode2 + hashCode3) * 31) + ((int) (j ^ (j >>> 32)))) * 31;
             long j2 = this.windowStartTimeMs;
+            int i2 = (i + ((int) (j2 ^ (j2 >>> 32)))) * 31;
             long j3 = this.elapsedRealtimeEpochOffsetMs;
+            int i3 = (((((((i2 + ((int) (j3 ^ (j3 >>> 32)))) * 31) + (this.isSeekable ? 1 : 0)) * 31) + (this.isDynamic ? 1 : 0)) * 31) + (this.isPlaceholder ? 1 : 0)) * 31;
             long j4 = this.defaultPositionUs;
+            int i4 = (i3 + ((int) (j4 ^ (j4 >>> 32)))) * 31;
             long j5 = this.durationUs;
+            int i5 = (((((i4 + ((int) (j5 ^ (j5 >>> 32)))) * 31) + this.firstPeriodIndex) * 31) + this.lastPeriodIndex) * 31;
             long j6 = this.positionInFirstPeriodUs;
-            return ((((((((((((((((((((((hashCode2 + hashCode3) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31) + ((int) (j3 ^ (j3 >>> 32)))) * 31) + (this.isSeekable ? 1 : 0)) * 31) + (this.isDynamic ? 1 : 0)) * 31) + (this.isPlaceholder ? 1 : 0)) * 31) + ((int) (j4 ^ (j4 >>> 32)))) * 31) + ((int) (j5 ^ (j5 >>> 32)))) * 31) + this.firstPeriodIndex) * 31) + this.lastPeriodIndex) * 31) + ((int) (j6 ^ (j6 >>> 32)));
+            return i5 + ((int) (j6 ^ (j6 >>> 32)));
         }
 
         public boolean isLive() {
@@ -568,39 +575,39 @@ public abstract class Timeline implements Bundleable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof Timeline) {
-            Timeline timeline = (Timeline) obj;
-            if (timeline.getWindowCount() == getWindowCount() && timeline.getPeriodCount() == getPeriodCount()) {
-                Window window = new Window();
-                Period period = new Period();
-                Window window2 = new Window();
-                Period period2 = new Period();
-                for (int i = 0; i < getWindowCount(); i++) {
-                    if (!getWindow(i, window).equals(timeline.getWindow(i, window2))) {
-                        return false;
-                    }
-                }
-                for (int i2 = 0; i2 < getPeriodCount(); i2++) {
-                    if (!getPeriod(i2, period, true).equals(timeline.getPeriod(i2, period2, true))) {
-                        return false;
-                    }
-                }
-                int firstWindowIndex = getFirstWindowIndex(true);
-                if (firstWindowIndex == timeline.getFirstWindowIndex(true) && (lastWindowIndex = getLastWindowIndex(true)) == timeline.getLastWindowIndex(true)) {
-                    while (firstWindowIndex != lastWindowIndex) {
-                        int nextWindowIndex = getNextWindowIndex(firstWindowIndex, 0, true);
-                        if (nextWindowIndex != timeline.getNextWindowIndex(firstWindowIndex, 0, true)) {
-                            return false;
-                        }
-                        firstWindowIndex = nextWindowIndex;
-                    }
-                    return true;
-                }
-                return false;
-            }
+        if (!(obj instanceof Timeline)) {
             return false;
         }
-        return false;
+        Timeline timeline = (Timeline) obj;
+        if (timeline.getWindowCount() != getWindowCount() || timeline.getPeriodCount() != getPeriodCount()) {
+            return false;
+        }
+        Window window = new Window();
+        Period period = new Period();
+        Window window2 = new Window();
+        Period period2 = new Period();
+        for (int i = 0; i < getWindowCount(); i++) {
+            if (!getWindow(i, window).equals(timeline.getWindow(i, window2))) {
+                return false;
+            }
+        }
+        for (int i2 = 0; i2 < getPeriodCount(); i2++) {
+            if (!getPeriod(i2, period, true).equals(timeline.getPeriod(i2, period2, true))) {
+                return false;
+            }
+        }
+        int firstWindowIndex = getFirstWindowIndex(true);
+        if (firstWindowIndex != timeline.getFirstWindowIndex(true) || (lastWindowIndex = getLastWindowIndex(true)) != timeline.getLastWindowIndex(true)) {
+            return false;
+        }
+        while (firstWindowIndex != lastWindowIndex) {
+            int nextWindowIndex = getNextWindowIndex(firstWindowIndex, 0, true);
+            if (nextWindowIndex != timeline.getNextWindowIndex(firstWindowIndex, 0, true)) {
+                return false;
+            }
+            firstWindowIndex = nextWindowIndex;
+        }
+        return true;
     }
 
     public int getFirstWindowIndex(boolean z) {
@@ -618,14 +625,14 @@ public abstract class Timeline implements Bundleable {
 
     public final int getNextPeriodIndex(int i, Period period, Window window, int i2, boolean z) {
         int i3 = getPeriod(i, period).windowIndex;
-        if (getWindow(i3, window).lastPeriodIndex == i) {
-            int nextWindowIndex = getNextWindowIndex(i3, i2, z);
-            if (nextWindowIndex == -1) {
-                return -1;
-            }
-            return getWindow(nextWindowIndex, window).firstPeriodIndex;
+        if (getWindow(i3, window).lastPeriodIndex != i) {
+            return i + 1;
         }
-        return i + 1;
+        int nextWindowIndex = getNextWindowIndex(i3, i2, z);
+        if (nextWindowIndex == -1) {
+            return -1;
+        }
+        return getWindow(nextWindowIndex, window).firstPeriodIndex;
     }
 
     public int getNextWindowIndex(int i, int i2, boolean z) {
@@ -634,14 +641,14 @@ public abstract class Timeline implements Bundleable {
                 return -1;
             }
             return i + 1;
-        } else if (i2 != 1) {
-            if (i2 == 2) {
-                return i == getLastWindowIndex(z) ? getFirstWindowIndex(z) : i + 1;
-            }
-            throw new IllegalStateException();
-        } else {
+        }
+        if (i2 == 1) {
             return i;
         }
+        if (i2 == 2) {
+            return i == getLastWindowIndex(z) ? getFirstWindowIndex(z) : i + 1;
+        }
+        throw new IllegalStateException();
     }
 
     public final Period getPeriod(int i, Period period) {
@@ -693,14 +700,14 @@ public abstract class Timeline implements Bundleable {
                 return -1;
             }
             return i - 1;
-        } else if (i2 != 1) {
-            if (i2 == 2) {
-                return i == getFirstWindowIndex(z) ? getLastWindowIndex(z) : i - 1;
-            }
-            throw new IllegalStateException();
-        } else {
+        }
+        if (i2 == 1) {
             return i;
         }
+        if (i2 == 2) {
+            return i == getFirstWindowIndex(z) ? getLastWindowIndex(z) : i - 1;
+        }
+        throw new IllegalStateException();
     }
 
     public abstract Object getUidOfPeriod(int i);

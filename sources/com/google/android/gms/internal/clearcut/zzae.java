@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.UserManager;
 import android.util.Log;
 import androidx.core.content.PermissionChecker;
+
 /* loaded from: classes.dex */
 public abstract class zzae {
     private static final Object zzdn = new Object();
@@ -64,7 +65,7 @@ public abstract class zzae {
         this(zzaoVar, str, obj);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0022 A[Catch: all -> 0x0014, TryCatch #0 {all -> 0x0014, blocks: (B:35:0x0007, B:37:0x000d, B:46:0x001e, B:48:0x0022, B:49:0x0025, B:50:0x0027, B:42:0x0016), top: B:55:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0022 A[Catch: all -> 0x0014, TryCatch #0 {all -> 0x0014, blocks: (B:6:0x0007, B:8:0x000d, B:11:0x001e, B:13:0x0022, B:14:0x0025, B:15:0x0027, B:20:0x0016), top: B:5:0x0007 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -123,8 +124,9 @@ public abstract class zzae {
     }
 
     public static boolean zza(String str, boolean z) {
+        boolean z2 = false;
         if (zzn()) {
-            return ((Boolean) zza(new zzam(str, false) { // from class: com.google.android.gms.internal.clearcut.zzah
+            return ((Boolean) zza(new zzam(str, z2) { // from class: com.google.android.gms.internal.clearcut.zzah
                 private final String zzea;
                 private final boolean zzeb = false;
 
@@ -144,8 +146,8 @@ public abstract class zzae {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:68:0x007c A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x007c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x007d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -194,7 +196,7 @@ public abstract class zzae {
                         isDeviceProtectedStorage = zzh.isDeviceProtectedStorage();
                         if (!isDeviceProtectedStorage) {
                             if (zzdq == null || !zzdq.booleanValue()) {
-                                systemService = zzh.getSystemService(UserManager.class);
+                                systemService = zzh.getSystemService((Class<Object>) UserManager.class);
                                 isUserUnlocked = ((UserManager) systemService).isUserUnlocked();
                                 zzdq = Boolean.valueOf(isUserUnlocked);
                             }
@@ -257,30 +259,30 @@ public abstract class zzae {
 
     public final Object get() {
         boolean z;
-        if (zzh != null) {
-            z = this.zzdr.zzek;
-            if (z) {
-                Object zzm = zzm();
-                if (zzm != null) {
-                    return zzm;
-                }
-                Object zzl = zzl();
-                if (zzl != null) {
-                    return zzl;
-                }
-            } else {
-                Object zzl2 = zzl();
-                if (zzl2 != null) {
-                    return zzl2;
-                }
-                Object zzm2 = zzm();
-                if (zzm2 != null) {
-                    return zzm2;
-                }
-            }
-            return this.zzdu;
+        if (zzh == null) {
+            throw new IllegalStateException("Must call PhenotypeFlag.init() first");
         }
-        throw new IllegalStateException("Must call PhenotypeFlag.init() first");
+        z = this.zzdr.zzek;
+        if (z) {
+            Object zzm = zzm();
+            if (zzm != null) {
+                return zzm;
+            }
+            Object zzl = zzl();
+            if (zzl != null) {
+                return zzl;
+            }
+        } else {
+            Object zzl2 = zzl();
+            if (zzl2 != null) {
+                return zzl2;
+            }
+            Object zzm2 = zzm();
+            if (zzm2 != null) {
+                return zzm2;
+            }
+        }
+        return this.zzdu;
     }
 
     protected abstract Object zza(SharedPreferences sharedPreferences);

@@ -14,6 +14,7 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+
 /* loaded from: classes.dex */
 public final class SingleSampleMediaSource extends BaseMediaSource {
     private final DataSource.Factory dataSourceFactory;

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.vision;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzib {

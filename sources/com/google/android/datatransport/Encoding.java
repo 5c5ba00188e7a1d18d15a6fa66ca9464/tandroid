@@ -1,4 +1,5 @@
 package com.google.android.datatransport;
+
 /* loaded from: classes.dex */
 public final class Encoding {
     private final String name;

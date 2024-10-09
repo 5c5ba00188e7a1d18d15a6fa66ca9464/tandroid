@@ -4,6 +4,7 @@ import android.os.IBinder;
 import android.os.Parcel;
 import com.google.android.gms.dynamic.IObjectWrapper;
 import com.google.android.gms.internal.vision.zzs;
+
 /* loaded from: classes.dex */
 public final class zzj extends com.google.android.gms.internal.vision.zzb implements zzh {
     /* JADX INFO: Access modifiers changed from: package-private */

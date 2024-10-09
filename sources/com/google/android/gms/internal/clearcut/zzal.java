@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.util.Base64;
 import android.util.Log;
 import java.io.IOException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzal extends zzae {
@@ -37,12 +38,15 @@ public final class zzal extends zzae {
         Object obj;
         try {
             synchronized (this.lock) {
-                if (!str.equals(this.zzec)) {
-                    Object zzb = this.zzee.zzb(Base64.decode(str, 3));
-                    this.zzec = str;
-                    this.zzed = zzb;
+                try {
+                    if (!str.equals(this.zzec)) {
+                        Object zzb = this.zzee.zzb(Base64.decode(str, 3));
+                        this.zzec = str;
+                        this.zzed = zzb;
+                    }
+                    obj = this.zzed;
+                } finally {
                 }
-                obj = this.zzed;
             }
             return obj;
         } catch (IOException | IllegalArgumentException unused) {

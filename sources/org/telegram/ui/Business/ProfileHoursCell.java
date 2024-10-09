@@ -26,6 +26,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ClickableAnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes4.dex */
 public abstract class ProfileHoursCell extends LinearLayout {
     private ImageView arrowView;
@@ -200,8 +201,8 @@ public abstract class ProfileHoursCell extends LinearLayout {
 
     protected abstract int processColor(int i);
 
-    /* JADX WARN: Removed duplicated region for block: B:84:0x015d  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0163  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x015d  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0163  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

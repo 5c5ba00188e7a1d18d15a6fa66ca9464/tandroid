@@ -5,7 +5,9 @@ import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public abstract class ImmutableCollection extends AbstractCollection implements Serializable {
     private static final Object[] EMPTY_ARRAY = new Object[0];
@@ -69,21 +71,22 @@ public abstract class ImmutableCollection extends AbstractCollection implements 
 
         /* JADX INFO: Access modifiers changed from: package-private */
         public static int expandedCapacity(int i, int i2) {
-            if (i2 >= 0) {
-                int i3 = i + (i >> 1) + 1;
-                if (i3 < i2) {
-                    i3 = Integer.highestOneBit(i2 - 1) << 1;
-                }
-                return i3 < 0 ? ConnectionsManager.DEFAULT_DATACENTER_ID : i3;
+            if (i2 < 0) {
+                throw new AssertionError("cannot store more than MAX_VALUE elements");
             }
-            throw new AssertionError("cannot store more than MAX_VALUE elements");
+            int i3 = i + (i >> 1) + 1;
+            if (i3 < i2) {
+                i3 = Integer.highestOneBit(i2 - 1) << 1;
+            }
+            return i3 < 0 ? ConnectionsManager.DEFAULT_DATACENTER_ID : i3;
         }
 
         public abstract Builder add(Object obj);
 
         public Builder addAll(Iterable iterable) {
-            for (Object obj : iterable) {
-                add(obj);
+            Iterator it = iterable.iterator();
+            while (it.hasNext()) {
+                add(it.next());
             }
             return this;
         }

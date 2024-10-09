@@ -2,6 +2,7 @@ package kotlin.jvm.internal;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 /* loaded from: classes.dex */
 final class ArrayIterator implements Iterator {
     private final Object[] array;

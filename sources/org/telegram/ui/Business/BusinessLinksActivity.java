@@ -57,6 +57,7 @@ import org.telegram.ui.Components.UniversalFragment;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.LaunchActivity;
+
 /* loaded from: classes4.dex */
 public class BusinessLinksActivity extends UniversalFragment implements NotificationCenter.NotificationCenterDelegate {
     private static AlertDialog currentDialog;
@@ -271,7 +272,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLongClick$9(TLRPC.TL_businessChatLink tL_businessChatLink) {
-        Intent intent = new Intent(getContext(), LaunchActivity.class);
+        Intent intent = new Intent(getContext(), (Class<?>) LaunchActivity.class);
         intent.setAction("android.intent.action.SEND");
         intent.setType("text/plain");
         intent.putExtra("android.intent.extra.TEXT", tL_businessChatLink.link);
@@ -280,26 +281,26 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$openRenameAlert$0(EditTextBoldCursor editTextBoldCursor, int i, TLRPC.TL_businessChatLink tL_businessChatLink, AlertDialog[] alertDialogArr, View view, TextView textView, int i2, KeyEvent keyEvent) {
-        if (i2 == 6) {
-            String obj = editTextBoldCursor.getText().toString();
-            if (obj.length() > 32) {
-                AndroidUtilities.shakeView(editTextBoldCursor);
-                return true;
-            }
-            BusinessLinksController.getInstance(i).editLinkTitle(tL_businessChatLink.link, obj);
-            AlertDialog alertDialog = alertDialogArr[0];
-            if (alertDialog != null) {
-                alertDialog.dismiss();
-            }
-            if (alertDialogArr[0] == currentDialog) {
-                currentDialog = null;
-            }
-            if (view != null) {
-                view.requestFocus();
-            }
+        if (i2 != 6) {
+            return false;
+        }
+        String obj = editTextBoldCursor.getText().toString();
+        if (obj.length() > 32) {
+            AndroidUtilities.shakeView(editTextBoldCursor);
             return true;
         }
-        return false;
+        BusinessLinksController.getInstance(i).editLinkTitle(tL_businessChatLink.link, obj);
+        AlertDialog alertDialog = alertDialogArr[0];
+        if (alertDialog != null) {
+            alertDialog.dismiss();
+        }
+        if (alertDialogArr[0] == currentDialog) {
+            currentDialog = null;
+        }
+        if (view != null) {
+            view.requestFocus();
+        }
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -307,10 +308,10 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
         String obj = editTextBoldCursor.getText().toString();
         if (obj.length() > 32) {
             AndroidUtilities.shakeView(editTextBoldCursor);
-            return;
+        } else {
+            BusinessLinksController.getInstance(i).editLinkTitle(tL_businessChatLink.link, obj);
+            dialogInterface.dismiss();
         }
-        BusinessLinksController.getInstance(i).editLinkTitle(tL_businessChatLink.link, obj);
-        dialogInterface.dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -504,14 +505,17 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
                 return;
             }
             universalAdapter.update(true);
-        } else if (i != NotificationCenter.businessLinkCreated) {
+            return;
+        }
+        if (i != NotificationCenter.businessLinkCreated) {
             if (i == NotificationCenter.needDeleteBusinessLink) {
                 BusinessLinksController.getInstance(this.currentAccount).deleteLinkUndoable(this, ((TLRPC.TL_businessChatLink) objArr[0]).link);
             }
         } else {
+            TLRPC.TL_businessChatLink tL_businessChatLink = (TLRPC.TL_businessChatLink) objArr[0];
             Bundle bundle = new Bundle();
             bundle.putInt("chatMode", 6);
-            bundle.putString("business_link", ((TLRPC.TL_businessChatLink) objArr[0]).link);
+            bundle.putString("business_link", tL_businessChatLink.link);
             presentFragment(new ChatActivity(bundle));
         }
     }
@@ -573,7 +577,9 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
     protected void onClick(UItem uItem, View view, int i, float f, float f2) {
         if (uItem.id == 1) {
             BusinessLinksController.getInstance(this.currentAccount).createEmptyLink();
-        } else if (uItem.viewType == 29) {
+            return;
+        }
+        if (uItem.viewType == 29) {
             Object obj = uItem.object;
             if (obj instanceof BusinessLinkWrapper) {
                 Bundle bundle = new Bundle();
@@ -607,40 +613,40 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
 
     @Override // org.telegram.ui.Components.UniversalFragment
     protected boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
-        if (uItem.viewType == 29) {
-            Object obj = uItem.object;
-            if (obj instanceof BusinessLinkWrapper) {
-                final TLRPC.TL_businessChatLink tL_businessChatLink = ((BusinessLinkWrapper) obj).link;
-                ItemOptions makeOptions = ItemOptions.makeOptions(this, view);
-                makeOptions.add(R.drawable.msg_copy, LocaleController.getString(R.string.Copy), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda8
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        BusinessLinksActivity.lambda$onLongClick$8(TLRPC.TL_businessChatLink.this);
-                    }
-                });
-                makeOptions.add(R.drawable.msg_share, LocaleController.getString(R.string.LinkActionShare), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda9
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        BusinessLinksActivity.this.lambda$onLongClick$9(tL_businessChatLink);
-                    }
-                });
-                makeOptions.add(R.drawable.msg_edit, LocaleController.getString(R.string.Rename), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda10
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        BusinessLinksActivity.this.lambda$onLongClick$10(tL_businessChatLink);
-                    }
-                });
-                makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.Delete), true, new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda11
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        BusinessLinksActivity.this.lambda$onLongClick$12(tL_businessChatLink);
-                    }
-                });
-                makeOptions.show();
-                return true;
-            }
+        if (uItem.viewType != 29) {
             return false;
         }
-        return false;
+        Object obj = uItem.object;
+        if (!(obj instanceof BusinessLinkWrapper)) {
+            return false;
+        }
+        final TLRPC.TL_businessChatLink tL_businessChatLink = ((BusinessLinkWrapper) obj).link;
+        ItemOptions makeOptions = ItemOptions.makeOptions(this, view);
+        makeOptions.add(R.drawable.msg_copy, LocaleController.getString(R.string.Copy), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                BusinessLinksActivity.lambda$onLongClick$8(TLRPC.TL_businessChatLink.this);
+            }
+        });
+        makeOptions.add(R.drawable.msg_share, LocaleController.getString(R.string.LinkActionShare), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                BusinessLinksActivity.this.lambda$onLongClick$9(tL_businessChatLink);
+            }
+        });
+        makeOptions.add(R.drawable.msg_edit, LocaleController.getString(R.string.Rename), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda10
+            @Override // java.lang.Runnable
+            public final void run() {
+                BusinessLinksActivity.this.lambda$onLongClick$10(tL_businessChatLink);
+            }
+        });
+        makeOptions.add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.Delete), true, new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                BusinessLinksActivity.this.lambda$onLongClick$12(tL_businessChatLink);
+            }
+        });
+        makeOptions.show();
+        return true;
     }
 }

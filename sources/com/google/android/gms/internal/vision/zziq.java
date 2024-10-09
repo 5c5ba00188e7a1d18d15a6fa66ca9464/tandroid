@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.util.Map;
+
 /* loaded from: classes.dex */
 abstract class zziq {
     /* JADX INFO: Access modifiers changed from: package-private */

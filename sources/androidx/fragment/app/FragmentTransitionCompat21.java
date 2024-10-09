@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.core.os.CancellationSignal;
 import java.util.ArrayList;
 import java.util.List;
+
 /* loaded from: classes.dex */
 class FragmentTransitionCompat21 extends FragmentTransitionImpl {
     private static boolean hasSimpleTarget(Transition transition) {
@@ -50,13 +51,15 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
                 addTargets(transitionAt, arrayList);
                 i++;
             }
-        } else if (hasSimpleTarget(transition) || !FragmentTransitionImpl.isNullOrEmpty(transition.getTargets())) {
-        } else {
-            int size = arrayList.size();
-            while (i < size) {
-                transition.addTarget((View) arrayList.get(i));
-                i++;
-            }
+            return;
+        }
+        if (hasSimpleTarget(transition) || !FragmentTransitionImpl.isNullOrEmpty(transition.getTargets())) {
+            return;
+        }
+        int size = arrayList.size();
+        while (i < size) {
+            transition.addTarget((View) arrayList.get(i));
+            i++;
         }
     }
 
@@ -88,15 +91,15 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
         } else if (transition == null) {
             transition = transition2 != null ? transition2 : null;
         }
-        if (transition3 != null) {
-            TransitionSet transitionSet = new TransitionSet();
-            if (transition != null) {
-                transitionSet.addTransition(transition);
-            }
-            transitionSet.addTransition(transition3);
-            return transitionSet;
+        if (transition3 == null) {
+            return transition;
         }
-        return transition;
+        TransitionSet transitionSet = new TransitionSet();
+        if (transition != null) {
+            transitionSet.addTransition(transition);
+        }
+        transitionSet.addTransition(transition3);
+        return transitionSet;
     }
 
     @Override // androidx.fragment.app.FragmentTransitionImpl
@@ -136,15 +139,18 @@ class FragmentTransitionCompat21 extends FragmentTransitionImpl {
                 replaceTargets(transitionAt, arrayList, arrayList2);
                 i++;
             }
-        } else if (!hasSimpleTarget(transition) && (targets = transition.getTargets()) != null && targets.size() == arrayList.size() && targets.containsAll(arrayList)) {
-            int size = arrayList2 == null ? 0 : arrayList2.size();
-            while (i < size) {
-                transition.addTarget((View) arrayList2.get(i));
-                i++;
-            }
-            for (int size2 = arrayList.size() - 1; size2 >= 0; size2--) {
-                transition.removeTarget((View) arrayList.get(size2));
-            }
+            return;
+        }
+        if (hasSimpleTarget(transition) || (targets = transition.getTargets()) == null || targets.size() != arrayList.size() || !targets.containsAll(arrayList)) {
+            return;
+        }
+        int size = arrayList2 == null ? 0 : arrayList2.size();
+        while (i < size) {
+            transition.addTarget((View) arrayList2.get(i));
+            i++;
+        }
+        for (int size2 = arrayList.size() - 1; size2 >= 0; size2--) {
+            transition.removeTarget((View) arrayList.get(size2));
         }
     }
 

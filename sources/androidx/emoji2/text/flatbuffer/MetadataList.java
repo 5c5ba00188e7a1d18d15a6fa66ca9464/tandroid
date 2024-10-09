@@ -2,6 +2,7 @@ package androidx.emoji2.text.flatbuffer;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
 /* loaded from: classes.dex */
 public final class MetadataList extends Table {
     public static MetadataList getRootAsMetadataList(ByteBuffer byteBuffer) {

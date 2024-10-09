@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /* loaded from: classes.dex */
 public class WakeLock {
     private static ScheduledExecutorService zzn;
@@ -116,11 +117,12 @@ public class WakeLock {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0061, code lost:
-        if (r16.zzl == 0) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0061, code lost:
+    
+        if (r16.zzl == 0) goto L24;
      */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0036 A[Catch: all -> 0x0020, TryCatch #0 {all -> 0x0020, blocks: (B:4:0x0013, B:6:0x001b, B:14:0x0032, B:16:0x0036, B:18:0x0040, B:24:0x0063, B:25:0x0083, B:19:0x004e, B:20:0x005b, B:22:0x005f, B:11:0x0023, B:13:0x002b), top: B:32:0x0013 }] */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x005f A[Catch: all -> 0x0020, TryCatch #0 {all -> 0x0020, blocks: (B:4:0x0013, B:6:0x001b, B:14:0x0032, B:16:0x0036, B:18:0x0040, B:24:0x0063, B:25:0x0083, B:19:0x004e, B:20:0x005b, B:22:0x005f, B:11:0x0023, B:13:0x002b), top: B:32:0x0013 }] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0036 A[Catch: all -> 0x0020, TryCatch #0 {all -> 0x0020, blocks: (B:4:0x0013, B:6:0x001b, B:9:0x0032, B:11:0x0036, B:13:0x0040, B:14:0x0063, B:15:0x0083, B:23:0x004e, B:24:0x005b, B:26:0x005f, B:28:0x0023, B:30:0x002b), top: B:3:0x0013 }] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x005f A[Catch: all -> 0x0020, TryCatch #0 {all -> 0x0020, blocks: (B:4:0x0013, B:6:0x001b, B:9:0x0032, B:11:0x0036, B:13:0x0040, B:14:0x0063, B:15:0x0083, B:23:0x004e, B:24:0x005b, B:26:0x005f, B:28:0x0023, B:30:0x002b), top: B:3:0x0013 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -163,8 +165,9 @@ public class WakeLock {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0055, code lost:
-        if (r12.zzl == 1) goto L15;
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0055, code lost:
+    
+        if (r12.zzl == 1) goto L22;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -25,6 +25,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.XMLReader;
+
 /* loaded from: classes3.dex */
 public abstract class CopyUtilities {
 
@@ -150,14 +151,14 @@ public abstract class CopyUtilities {
         }
 
         private ParsedSpan getLast(Editable editable, Class cls, int i) {
-            Object[] objArr = (ParsedSpan[]) editable.getSpans(0, editable.length(), cls);
-            if (objArr.length == 0) {
+            ParsedSpan[] parsedSpanArr = (ParsedSpan[]) editable.getSpans(0, editable.length(), cls);
+            if (parsedSpanArr.length == 0) {
                 return null;
             }
-            for (int length = objArr.length; length > 0; length--) {
+            for (int length = parsedSpanArr.length; length > 0; length--) {
                 int i2 = length - 1;
-                if (editable.getSpanFlags(objArr[i2]) == 17) {
-                    ParsedSpan parsedSpan = objArr[i2];
+                if (editable.getSpanFlags(parsedSpanArr[i2]) == 17) {
+                    ParsedSpan parsedSpan = parsedSpanArr[i2];
                     if (parsedSpan.type == i) {
                         return parsedSpan;
                     }
@@ -168,6 +169,8 @@ public abstract class CopyUtilities {
 
         @Override // org.telegram.messenger.utils.CopyUtilities.HTMLTagAttributesHandler.TagHandler
         public boolean handleTag(boolean z, String str, Editable editable, Attributes attributes) {
+            int i = 0;
+            int i2 = 1;
             if (str.startsWith("animated-emoji")) {
                 if (z) {
                     String value = HTMLTagAttributesHandler.getValue(attributes, "data-document-id");
@@ -188,7 +191,7 @@ public abstract class CopyUtilities {
                 }
             } else if (str.equals("spoiler")) {
                 if (z) {
-                    editable.setSpan(new ParsedSpan(0), editable.length(), editable.length(), 17);
+                    editable.setSpan(new ParsedSpan(i), editable.length(), editable.length(), 17);
                     return true;
                 }
                 ParsedSpan last = getLast(editable, ParsedSpan.class, 0);
@@ -202,7 +205,7 @@ public abstract class CopyUtilities {
                 }
             } else if (str.equals("pre")) {
                 if (z) {
-                    editable.setSpan(new ParsedSpan(1, HTMLTagAttributesHandler.getValue(attributes, "lang")), editable.length(), editable.length(), 17);
+                    editable.setSpan(new ParsedSpan(i2, HTMLTagAttributesHandler.getValue(attributes, "lang")), editable.length(), editable.length(), 17);
                     return true;
                 }
                 ParsedSpan last2 = getLast(editable, ParsedSpan.class, 1);
@@ -215,8 +218,9 @@ public abstract class CopyUtilities {
                     return true;
                 }
             } else if (str.equals("blockquote")) {
+                int i3 = 2;
                 if (z) {
-                    editable.setSpan(new ParsedSpan(2), editable.length(), editable.length(), 17);
+                    editable.setSpan(new ParsedSpan(i3), editable.length(), editable.length(), 17);
                     return true;
                 }
                 ParsedSpan last3 = getLast(editable, ParsedSpan.class, 2);
@@ -229,8 +233,9 @@ public abstract class CopyUtilities {
                     return true;
                 }
             } else if (str.equals("details")) {
+                int i4 = 3;
                 if (z) {
-                    editable.setSpan(new ParsedSpan(3), editable.length(), editable.length(), 17);
+                    editable.setSpan(new ParsedSpan(i4), editable.length(), editable.length(), 17);
                     return true;
                 }
                 ParsedSpan last4 = getLast(editable, ParsedSpan.class, 3);
@@ -321,7 +326,7 @@ public abstract class CopyUtilities {
                 arrayList.add(entityStartEnd);
             }
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(fromHtml.toString());
-            MediaDataController.addTextStyleRuns(arrayList, spannableStringBuilder, spannableStringBuilder);
+            MediaDataController.addTextStyleRuns((ArrayList<TLRPC.MessageEntity>) arrayList, spannableStringBuilder, spannableStringBuilder);
             for (Object obj2 : spans) {
                 if (obj2 instanceof URLSpan) {
                     int spanStart2 = fromHtml.getSpanStart(obj2);

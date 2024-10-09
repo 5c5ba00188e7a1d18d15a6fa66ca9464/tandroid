@@ -1,4 +1,5 @@
 package kotlinx.coroutines.scheduling;
+
 /* loaded from: classes.dex */
 public abstract class Task implements Runnable {
     public long submissionTime;

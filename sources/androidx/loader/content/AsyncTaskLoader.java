@@ -8,6 +8,7 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public abstract class AsyncTaskLoader extends Loader {
     volatile LoadTask mCancellingTask;
@@ -84,14 +85,16 @@ public abstract class AsyncTaskLoader extends Loader {
     void dispatchOnLoadComplete(LoadTask loadTask, Object obj) {
         if (this.mTask != loadTask) {
             dispatchOnCancelled(loadTask, obj);
-        } else if (isAbandoned()) {
-            onCanceled(obj);
-        } else {
-            commitContentChanged();
-            this.mLastLoadCompleteTime = SystemClock.uptimeMillis();
-            this.mTask = null;
-            deliverResult(obj);
+            return;
         }
+        if (isAbandoned()) {
+            onCanceled(obj);
+            return;
+        }
+        commitContentChanged();
+        this.mLastLoadCompleteTime = SystemClock.uptimeMillis();
+        this.mTask = null;
+        deliverResult(obj);
     }
 
     @Override // androidx.loader.content.Loader
@@ -131,43 +134,43 @@ public abstract class AsyncTaskLoader extends Loader {
         }
         if (this.mUpdateThrottle <= 0 || SystemClock.uptimeMillis() >= this.mLastLoadCompleteTime + this.mUpdateThrottle) {
             this.mTask.executeOnExecutor(this.mExecutor, null);
-            return;
+        } else {
+            this.mTask.waiting = true;
+            this.mHandler.postAtTime(this.mTask, this.mLastLoadCompleteTime + this.mUpdateThrottle);
         }
-        this.mTask.waiting = true;
-        this.mHandler.postAtTime(this.mTask, this.mLastLoadCompleteTime + this.mUpdateThrottle);
     }
 
     public abstract Object loadInBackground();
 
     @Override // androidx.loader.content.Loader
     protected boolean onCancelLoad() {
-        if (this.mTask != null) {
-            if (!this.mStarted) {
-                this.mContentChanged = true;
-            }
-            if (this.mCancellingTask != null) {
-                if (this.mTask.waiting) {
-                    this.mTask.waiting = false;
-                    this.mHandler.removeCallbacks(this.mTask);
-                }
-                this.mTask = null;
-                return false;
-            } else if (this.mTask.waiting) {
+        if (this.mTask == null) {
+            return false;
+        }
+        if (!this.mStarted) {
+            this.mContentChanged = true;
+        }
+        if (this.mCancellingTask != null) {
+            if (this.mTask.waiting) {
                 this.mTask.waiting = false;
                 this.mHandler.removeCallbacks(this.mTask);
-                this.mTask = null;
-                return false;
-            } else {
-                boolean cancel = this.mTask.cancel(false);
-                if (cancel) {
-                    this.mCancellingTask = this.mTask;
-                    cancelLoadInBackground();
-                }
-                this.mTask = null;
-                return cancel;
             }
+            this.mTask = null;
+            return false;
         }
-        return false;
+        if (this.mTask.waiting) {
+            this.mTask.waiting = false;
+            this.mHandler.removeCallbacks(this.mTask);
+            this.mTask = null;
+            return false;
+        }
+        boolean cancel = this.mTask.cancel(false);
+        if (cancel) {
+            this.mCancellingTask = this.mTask;
+            cancelLoadInBackground();
+        }
+        this.mTask = null;
+        return cancel;
     }
 
     public void onCanceled(Object obj) {

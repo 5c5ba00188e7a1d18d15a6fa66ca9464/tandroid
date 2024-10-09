@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_common;
 
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public abstract class zzau extends zzam implements Set {
     private transient zzaq zza;
@@ -31,12 +32,12 @@ public abstract class zzau extends zzam implements Set {
 
     public final zzaq zzf() {
         zzaq zzaqVar = this.zza;
-        if (zzaqVar == null) {
-            zzaq zzg = zzg();
-            this.zza = zzg;
-            return zzg;
+        if (zzaqVar != null) {
+            return zzaqVar;
         }
-        return zzaqVar;
+        zzaq zzg = zzg();
+        this.zza = zzg;
+        return zzg;
     }
 
     zzaq zzg() {

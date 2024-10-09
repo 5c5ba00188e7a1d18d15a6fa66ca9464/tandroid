@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 abstract class s2 extends a2 {
     protected final Comparator b;

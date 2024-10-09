@@ -3,6 +3,7 @@ package com.google.android.gms.internal.safetynet;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
+
 /* loaded from: classes.dex */
 public final class zzh extends zza implements IInterface {
     /* JADX INFO: Access modifiers changed from: package-private */

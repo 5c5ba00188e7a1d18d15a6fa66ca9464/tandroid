@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import org.telegram.tgnet.ConnectionsManager;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzih extends zzif {
@@ -38,17 +39,17 @@ public final class zzih extends zzif {
 
     @Override // com.google.android.gms.internal.vision.zzif
     public final int zzc(int i) {
-        if (i >= 0) {
-            int zzu = i + zzu();
-            int i2 = this.zzk;
-            if (zzu <= i2) {
-                this.zzk = zzu;
-                zzz();
-                return i2;
-            }
+        if (i < 0) {
+            throw zzjk.zzb();
+        }
+        int zzu = i + zzu();
+        int i2 = this.zzk;
+        if (zzu > i2) {
             throw zzjk.zza();
         }
-        throw zzjk.zzb();
+        this.zzk = zzu;
+        zzz();
+        return i2;
     }
 
     @Override // com.google.android.gms.internal.vision.zzif

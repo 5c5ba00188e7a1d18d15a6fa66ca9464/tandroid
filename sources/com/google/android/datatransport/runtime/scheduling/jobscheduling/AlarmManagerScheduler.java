@@ -13,6 +13,7 @@ import com.google.android.datatransport.runtime.scheduling.persistence.EventStor
 import com.google.android.datatransport.runtime.time.Clock;
 import com.google.android.datatransport.runtime.util.PriorityMapping;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class AlarmManagerScheduler implements WorkScheduler {
     private AlarmManager alarmManager;
@@ -50,7 +51,7 @@ public class AlarmManagerScheduler implements WorkScheduler {
         if (transportContext.getExtras() != null) {
             builder.appendQueryParameter("extras", Base64.encodeToString(transportContext.getExtras(), 0));
         }
-        Intent intent = new Intent(this.context, AlarmManagerSchedulerBroadcastReceiver.class);
+        Intent intent = new Intent(this.context, (Class<?>) AlarmManagerSchedulerBroadcastReceiver.class);
         intent.setData(builder.build());
         intent.putExtra("attemptNumber", i);
         if (!z && isJobServiceOn(intent)) {

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Map;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzgz implements Comparable, Map.Entry {
@@ -34,11 +35,11 @@ public final class zzgz implements Comparable, Map.Entry {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Map.Entry) {
-            Map.Entry entry = (Map.Entry) obj;
-            return zza(this.zza, entry.getKey()) && zza(this.zzb, entry.getValue());
+        if (!(obj instanceof Map.Entry)) {
+            return false;
         }
-        return false;
+        Map.Entry entry = (Map.Entry) obj;
+        return zza(this.zza, entry.getKey()) && zza(this.zzb, entry.getValue());
     }
 
     @Override // java.util.Map.Entry

@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.upstream.Allocator;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public final class MaskingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
     private final Allocator allocator;

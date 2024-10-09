@@ -14,10 +14,12 @@ import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public final class zznp {
     private static zzbe zza;
@@ -59,9 +61,8 @@ public final class zznp {
     }
 
     static long zza(List list, double d) {
-        double d2;
         Double.isNaN(list.size());
-        return ((Long) list.get(Math.max(((int) Math.ceil((d / 100.0d) * d2)) - 1, 0))).longValue();
+        return ((Long) list.get(Math.max(((int) Math.ceil((d / 100.0d) * r0)) - 1, 0))).longValue();
     }
 
     private static synchronized zzbe zzi() {
@@ -134,12 +135,13 @@ public final class zznp {
         zzbj zzbjVar = (zzbj) this.zzl.get(zzkfVar);
         if (zzbjVar != null) {
             for (Object obj : zzbjVar.zzq()) {
-                ArrayList<Long> arrayList = new ArrayList(zzbjVar.zzc(obj));
+                ArrayList arrayList = new ArrayList(zzbjVar.zzc(obj));
                 Collections.sort(arrayList);
                 zzjl zzjlVar = new zzjl();
+                Iterator it = arrayList.iterator();
                 long j = 0;
-                for (Long l : arrayList) {
-                    j += l.longValue();
+                while (it.hasNext()) {
+                    j += ((Long) it.next()).longValue();
                 }
                 zzjlVar.zza(Long.valueOf(j / arrayList.size()));
                 zzjlVar.zzc(Long.valueOf(zza(arrayList, 100.0d)));
@@ -171,7 +173,8 @@ public final class zznp {
         long elapsedRealtime = SystemClock.elapsedRealtime();
         if (zzk(zzkfVar, elapsedRealtime, 30L)) {
             this.zzk.put(zzkfVar, Long.valueOf(elapsedRealtime));
-            MLTaskExecutor.workerThreadExecutor().execute(new Runnable(zzkfVar, zzgVar, null) { // from class: com.google.android.gms.internal.mlkit_vision_label.zznn
+            final byte[] bArr = null;
+            MLTaskExecutor.workerThreadExecutor().execute(new Runnable(zzkfVar, zzgVar, bArr) { // from class: com.google.android.gms.internal.mlkit_vision_label.zznn
                 public final /* synthetic */ zzkf zzb;
                 public final /* synthetic */ com.google.mlkit.vision.label.defaults.thin.zzg zzc;
 

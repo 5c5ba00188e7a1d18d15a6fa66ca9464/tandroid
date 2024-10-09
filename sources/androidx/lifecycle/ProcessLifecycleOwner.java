@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ReportFragment;
+
 /* loaded from: classes.dex */
 public class ProcessLifecycleOwner implements LifecycleOwner {
     private static final ProcessLifecycleOwner sInstance = new ProcessLifecycleOwner();
@@ -66,10 +67,10 @@ public class ProcessLifecycleOwner implements LifecycleOwner {
         if (i == 1) {
             if (!this.mPauseSent) {
                 this.mHandler.removeCallbacks(this.mDelayedPauseRunnable);
-                return;
+            } else {
+                this.mRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+                this.mPauseSent = false;
             }
-            this.mRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
-            this.mPauseSent = false;
         }
     }
 

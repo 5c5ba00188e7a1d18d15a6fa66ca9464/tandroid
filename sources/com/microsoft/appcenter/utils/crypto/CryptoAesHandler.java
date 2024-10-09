@@ -6,6 +6,7 @@ import com.microsoft.appcenter.utils.crypto.CryptoUtils;
 import java.security.KeyStore;
 import java.util.Calendar;
 import javax.crypto.spec.IvParameterSpec;
+
 /* loaded from: classes.dex */
 class CryptoAesHandler implements CryptoHandler {
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler

@@ -28,6 +28,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.TextInfoCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.TopicsFragment;
+
 /* loaded from: classes3.dex */
 public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter {
     private BaseFragment baseFragment;
@@ -55,8 +56,10 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
     public /* synthetic */ void lambda$onBindViewHolder$2(final ActionBtnCell actionBtnCell, View view) {
         if (!this.isUnused) {
             dismiss();
-        } else if (actionBtnCell.isLoading()) {
         } else {
+            if (actionBtnCell.isLoading()) {
+                return;
+            }
             actionBtnCell.updateLoading(true);
             BoostRepository.applyGiftCode(this.slug, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda6
                 @Override // org.telegram.messenger.Utilities.Callback
@@ -82,7 +85,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             j = ((MessagesStorage.TopicKey) arrayList.get(i2)).dialogId;
             this.baseFragment.getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(str, j, null, null, null, true, null, null, null, true, 0, null, false));
         }
-        dialogsActivity.finishFragment();
+        dialogsActivity.lambda$onBackPressed$300();
         BoostDialogs.showGiftLinkForwardedBulletin(j);
         return true;
     }
@@ -116,23 +119,23 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public int getItemViewType(int i) {
-        if (i != 0) {
-            int i2 = 1;
-            if (i != 1) {
-                i2 = 2;
-                if (i != 2) {
-                    i2 = 3;
-                    if (i != 3) {
-                        i2 = 4;
-                        if (i != 4) {
-                            return 5;
-                        }
+        if (i == 0) {
+            return 0;
+        }
+        int i2 = 1;
+        if (i != 1) {
+            i2 = 2;
+            if (i != 2) {
+                i2 = 3;
+                if (i != 3) {
+                    i2 = 4;
+                    if (i != 4) {
+                        return 5;
                     }
                 }
             }
-            return i2;
         }
-        return 0;
+        return i2;
     }
 
     public void init(BaseFragment baseFragment, TLRPC.TL_payments_checkedGiftCode tL_payments_checkedGiftCode, String str, FrameLayout frameLayout) {
@@ -171,8 +174,11 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             }
             if (this.giftCode.to_id == -1) {
                 headerCell.setUnclaimedText();
+                return;
             }
-        } else if (itemViewType == 1) {
+            return;
+        }
+        if (itemViewType == 1) {
             LinkCell linkCell = (LinkCell) viewHolder.itemView;
             linkCell.setSlug(this.slug);
             if (this.giftCode.boost != null && this.slug == null) {
@@ -191,15 +197,20 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                         GiftInfoAdapter.this.onHiddenLinkClicked();
                     }
                 });
+                return;
             }
-        } else if (itemViewType == 2) {
+            return;
+        }
+        if (itemViewType == 2) {
             ((TableCell) viewHolder.itemView).setData(this.giftCode, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda3
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     GiftInfoAdapter.this.onObjectClicked((TLObject) obj);
                 }
             });
-        } else if (itemViewType != 3) {
+            return;
+        }
+        if (itemViewType != 3) {
             if (itemViewType != 4) {
                 return;
             }
@@ -220,33 +231,34 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                         GiftInfoAdapter.this.lambda$onBindViewHolder$3(view);
                     }
                 });
-            }
-        } else {
-            TextInfoCell textInfoCell = (TextInfoCell) viewHolder.itemView;
-            textInfoCell.setTextGravity(17);
-            textInfoCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-            textInfoCell.setTopPadding(14);
-            textInfoCell.setBottomPadding(15);
-            TLRPC.TL_payments_checkedGiftCode tL_payments_checkedGiftCode3 = this.giftCode;
-            if (tL_payments_checkedGiftCode3.boost == null) {
-                if (this.isUnused) {
-                    formatString = AndroidUtilities.replaceSingleTag(LocaleController.getString(tL_payments_checkedGiftCode3.to_id == -1 ? R.string.BoostingSendLinkToAnyone : R.string.BoostingSendLinkToFriends), Theme.key_chat_messageLinkIn, 0, new GiftInfoAdapter$$ExternalSyntheticLambda2(this), this.resourcesProvider);
-                } else {
-                    Date date = new Date(this.giftCode.used_date * 1000);
-                    formatString = LocaleController.formatString("BoostingUsedLinkDate", R.string.BoostingUsedLinkDate, LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(date), LocaleController.getInstance().getFormatterDay().format(date)));
-                }
-                textInfoCell.setText(formatString);
                 return;
             }
-            String str2 = this.slug;
-            if (str2 == null || str2.isEmpty()) {
-                string = LocaleController.getString(R.string.BoostingLinkNotActivated);
-            } else {
-                textInfoCell.setFixedSize(14);
-                string = null;
-            }
-            textInfoCell.setText(string);
+            return;
         }
+        TextInfoCell textInfoCell = (TextInfoCell) viewHolder.itemView;
+        textInfoCell.setTextGravity(17);
+        textInfoCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        textInfoCell.setTopPadding(14);
+        textInfoCell.setBottomPadding(15);
+        TLRPC.TL_payments_checkedGiftCode tL_payments_checkedGiftCode3 = this.giftCode;
+        if (tL_payments_checkedGiftCode3.boost == null) {
+            if (this.isUnused) {
+                formatString = AndroidUtilities.replaceSingleTag(LocaleController.getString(tL_payments_checkedGiftCode3.to_id == -1 ? R.string.BoostingSendLinkToAnyone : R.string.BoostingSendLinkToFriends), Theme.key_chat_messageLinkIn, 0, new GiftInfoAdapter$$ExternalSyntheticLambda2(this), this.resourcesProvider);
+            } else {
+                Date date = new Date(this.giftCode.used_date * 1000);
+                formatString = LocaleController.formatString("BoostingUsedLinkDate", R.string.BoostingUsedLinkDate, LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(date), LocaleController.getInstance().getFormatterDay().format(date)));
+            }
+            textInfoCell.setText(formatString);
+            return;
+        }
+        String str2 = this.slug;
+        if (str2 == null || str2.isEmpty()) {
+            string = LocaleController.getString(R.string.BoostingLinkNotActivated);
+        } else {
+            textInfoCell.setFixedSize(14);
+            string = null;
+        }
+        textInfoCell.setText(string);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter

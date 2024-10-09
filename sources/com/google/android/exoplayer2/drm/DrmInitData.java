@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public final class DrmInitData implements Comparator, Parcelable {
     public static final Parcelable.Creator<DrmInitData> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.drm.DrmInitData.1
@@ -80,14 +81,14 @@ public final class DrmInitData implements Comparator, Parcelable {
         }
 
         public boolean equals(Object obj) {
-            if (obj instanceof SchemeData) {
-                if (obj == this) {
-                    return true;
-                }
-                SchemeData schemeData = (SchemeData) obj;
-                return Util.areEqual(this.licenseServerUrl, schemeData.licenseServerUrl) && Util.areEqual(this.mimeType, schemeData.mimeType) && Util.areEqual(this.uuid, schemeData.uuid) && Arrays.equals(this.data, schemeData.data);
+            if (!(obj instanceof SchemeData)) {
+                return false;
             }
-            return false;
+            if (obj == this) {
+                return true;
+            }
+            SchemeData schemeData = (SchemeData) obj;
+            return Util.areEqual(this.licenseServerUrl, schemeData.licenseServerUrl) && Util.areEqual(this.mimeType, schemeData.mimeType) && Util.areEqual(this.uuid, schemeData.uuid) && Arrays.equals(this.data, schemeData.data);
         }
 
         public boolean hasData() {
@@ -159,8 +160,6 @@ public final class DrmInitData implements Comparator, Parcelable {
 
     public static DrmInitData createSessionCreationData(DrmInitData drmInitData, DrmInitData drmInitData2) {
         String str;
-        SchemeData[] schemeDataArr;
-        SchemeData[] schemeDataArr2;
         ArrayList arrayList = new ArrayList();
         if (drmInitData != null) {
             str = drmInitData.schemeType;

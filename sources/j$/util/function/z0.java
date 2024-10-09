@@ -1,4 +1,5 @@
 package j$.util.function;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class z0 implements ToLongFunction {
     public final /* synthetic */ java.util.function.ToLongFunction a;

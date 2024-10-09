@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 /* loaded from: classes.dex */
 public abstract class TextViewCompat {
 
@@ -171,13 +172,13 @@ public abstract class TextViewCompat {
 
         private List getSupportedActivities(Context context, PackageManager packageManager) {
             ArrayList arrayList = new ArrayList();
-            if (context instanceof Activity) {
-                for (ResolveInfo resolveInfo : packageManager.queryIntentActivities(createProcessTextIntent(), 0)) {
-                    if (isSupportedActivity(resolveInfo, context)) {
-                        arrayList.add(resolveInfo);
-                    }
-                }
+            if (!(context instanceof Activity)) {
                 return arrayList;
+            }
+            for (ResolveInfo resolveInfo : packageManager.queryIntentActivities(createProcessTextIntent(), 0)) {
+                if (isSupportedActivity(resolveInfo, context)) {
+                    arrayList.add(resolveInfo);
+                }
             }
             return arrayList;
         }
@@ -192,15 +193,15 @@ public abstract class TextViewCompat {
                 return true;
             }
             ActivityInfo activityInfo = resolveInfo.activityInfo;
-            if (activityInfo.exported) {
-                String str = activityInfo.permission;
-                if (str != null) {
-                    checkSelfPermission = context.checkSelfPermission(str);
-                    return checkSelfPermission == 0;
-                }
+            if (!activityInfo.exported) {
+                return false;
+            }
+            String str = activityInfo.permission;
+            if (str == null) {
                 return true;
             }
-            return false;
+            checkSelfPermission = context.checkSelfPermission(str);
+            return checkSelfPermission == 0;
         }
 
         private void recomputeProcessTextMenuItems(Menu menu) {
@@ -335,6 +336,7 @@ public abstract class TextViewCompat {
         return builder.build();
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setCompoundDrawableTintList(TextView textView, ColorStateList colorStateList) {
         Preconditions.checkNotNull(textView);
         if (Build.VERSION.SDK_INT >= 24) {
@@ -344,6 +346,7 @@ public abstract class TextViewCompat {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void setCompoundDrawableTintMode(TextView textView, PorterDuff.Mode mode) {
         Preconditions.checkNotNull(textView);
         if (Build.VERSION.SDK_INT >= 24) {
@@ -377,9 +380,8 @@ public abstract class TextViewCompat {
 
     public static void setLineHeight(TextView textView, int i) {
         Preconditions.checkArgumentNonnegative(i);
-        int fontMetricsInt = textView.getPaint().getFontMetricsInt(null);
-        if (i != fontMetricsInt) {
-            textView.setLineSpacing(i - fontMetricsInt, 1.0f);
+        if (i != textView.getPaint().getFontMetricsInt(null)) {
+            textView.setLineSpacing(i - r0, 1.0f);
         }
     }
 
@@ -398,14 +400,14 @@ public abstract class TextViewCompat {
             textView.getPaint().set(params.getTextPaint());
             Api23Impl.setBreakStrategy(textView, params.getBreakStrategy());
             Api23Impl.setHyphenationFrequency(textView, params.getHyphenationFrequency());
-            return;
+        } else {
+            float textScaleX = params.getTextPaint().getTextScaleX();
+            textView.getPaint().set(params.getTextPaint());
+            if (textScaleX == textView.getTextScaleX()) {
+                textView.setTextScaleX((textScaleX / 2.0f) + 1.0f);
+            }
+            textView.setTextScaleX(textScaleX);
         }
-        float textScaleX = params.getTextPaint().getTextScaleX();
-        textView.getPaint().set(params.getTextPaint());
-        if (textScaleX == textView.getTextScaleX()) {
-            textView.setTextScaleX((textScaleX / 2.0f) + 1.0f);
-        }
-        textView.setTextScaleX(textScaleX);
     }
 
     public static ActionMode.Callback unwrapCustomSelectionActionModeCallback(ActionMode.Callback callback) {

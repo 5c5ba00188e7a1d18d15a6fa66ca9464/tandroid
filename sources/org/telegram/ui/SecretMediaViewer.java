@@ -97,6 +97,7 @@ import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.SecretMediaViewer;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.HintView2;
+
 /* loaded from: classes4.dex */
 public class SecretMediaViewer implements NotificationCenter.NotificationCenterDelegate, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
     private static volatile SecretMediaViewer Instance;
@@ -376,18 +377,18 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     }
                 });
                 return ofInt;
-            } else if (transitionValues2.view != SecretMediaViewer.this.captionTextViewSwitcher || (intValue = ((Integer) transitionValues2.values.get("translationY")).intValue()) == 0) {
-                return null;
-            } else {
-                ObjectAnimator ofFloat = ObjectAnimator.ofFloat(SecretMediaViewer.this.captionTextViewSwitcher, View.TRANSLATION_Y, 0.0f, intValue);
-                ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SecretMediaViewer.13.2
-                    @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                    public void onAnimationEnd(Animator animator) {
-                        SecretMediaViewer.this.captionTextViewSwitcher.setTranslationY(0.0f);
-                    }
-                });
-                return ofFloat;
             }
+            if (transitionValues2.view != SecretMediaViewer.this.captionTextViewSwitcher || (intValue = ((Integer) transitionValues2.values.get("translationY")).intValue()) == 0) {
+                return null;
+            }
+            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(SecretMediaViewer.this.captionTextViewSwitcher, (Property<PhotoViewer.CaptionTextViewSwitcher, Float>) View.TRANSLATION_Y, 0.0f, intValue);
+            ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.SecretMediaViewer.13.2
+                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                public void onAnimationEnd(Animator animator) {
+                    SecretMediaViewer.this.captionTextViewSwitcher.setTranslationY(0.0f);
+                }
+            });
+            return ofFloat;
         }
     }
 
@@ -507,12 +508,11 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 if (i == 4) {
                     SecretMediaViewer.this.videoWatchedOneTime = true;
                     if (SecretMediaViewer.this.closeVideoAfterWatch) {
-                        SecretMediaViewer secretMediaViewer = SecretMediaViewer.this;
-                        secretMediaViewer.closePhoto(true, !secretMediaViewer.ignoreDelete);
-                        return;
+                        SecretMediaViewer.this.closePhoto(true, !r4.ignoreDelete);
+                    } else {
+                        SecretMediaViewer.this.videoPlayer.seekTo(0L);
+                        SecretMediaViewer.this.videoPlayer.play();
                     }
-                    SecretMediaViewer.this.videoPlayer.seekTo(0L);
-                    SecretMediaViewer.this.videoPlayer.play();
                 }
             }
         }
@@ -850,8 +850,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             SecretMediaViewer.this.seekbar.setProgress(SecretMediaViewer.this.videoPlayer != null ? ((float) SecretMediaViewer.this.videoPlayer.getCurrentPosition()) / ((float) SecretMediaViewer.this.videoPlayer.getDuration()) : 0.0f);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:9:0x004d, code lost:
-            if (r13 == (-9223372036854775807L)) goto L21;
+        /* JADX WARN: Code restructure failed: missing block: B:7:0x004d, code lost:
+        
+            if (r13 == (-9223372036854775807L)) goto L10;
          */
         @Override // android.widget.FrameLayout, android.view.View
         /*
@@ -860,8 +861,6 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         protected void onMeasure(int i, int i2) {
             int i3;
             long j;
-            long j2;
-            long j3;
             this.ignoreLayout = true;
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) SecretMediaViewer.this.videoPlayerTime.getLayoutParams();
             if (this.parentWidth > this.parentHeight) {
@@ -877,7 +876,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 j = SecretMediaViewer.this.videoPlayer.getDuration();
             }
             j = 0;
-            int ceil = (int) Math.ceil(SecretMediaViewer.this.videoPlayerTime.getPaint().measureText(String.format(Locale.ROOT, "%1$s / %1$s", (j / 1000) / 60 > 60 ? String.format(Locale.ROOT, "%02d:%02d:%02d", Long.valueOf(j3 / 60), Long.valueOf(j3 % 60), Long.valueOf(j2 % 60)) : String.format(Locale.ROOT, "%02d:%02d", Long.valueOf(j3), Long.valueOf(j2 % 60)))));
+            int ceil = (int) Math.ceil(SecretMediaViewer.this.videoPlayerTime.getPaint().measureText(String.format(Locale.ROOT, "%1$s / %1$s", (j / 1000) / 60 > 60 ? String.format(Locale.ROOT, "%02d:%02d:%02d", Long.valueOf(r8 / 60), Long.valueOf(r8 % 60), Long.valueOf(r13 % 60)) : String.format(Locale.ROOT, "%02d:%02d", Long.valueOf(r8), Long.valueOf(r13 % 60)))));
             this.timeSpring.cancel();
             if (this.lastTimeWidth != 0) {
                 float f = ceil;
@@ -954,11 +953,13 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         this.imageMoveAnimation.start();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0028, code lost:
-        if (r2 > r3) goto L6;
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x0028, code lost:
+    
+        if (r2 > r3) goto L10;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x0017, code lost:
-        if (r2 > r3) goto L3;
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x0017, code lost:
+    
+        if (r2 > r3) goto L4;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1119,13 +1120,13 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
         frameLayoutDrawer.setLayerType(0, null);
         this.containerView.invalidate();
-        SecretDeleteTimer secretDeleteTimer = this.secretDeleteTimer;
-        TLRPC.Message message = messageObject.messageOwner;
-        secretDeleteTimer.setDestroyTime(message.destroyTimeMillis, message.ttl, false);
+        this.secretDeleteTimer.setDestroyTime(messageObject.messageOwner.destroyTimeMillis, r8.ttl, false);
         if (this.closeAfterAnimation) {
             closePhoto(true, true);
-        } else if (!this.ignoreDelete || MessagesController.getGlobalMainSettings().getInt("viewoncehint", 0) >= 3) {
         } else {
+            if (!this.ignoreDelete || MessagesController.getGlobalMainSettings().getInt("viewoncehint", 0) >= 3) {
+                return;
+            }
             showSecretHint();
         }
     }
@@ -1137,8 +1138,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:5:0x0016, code lost:
-        if (r2.equals(r0) == false) goto L12;
+    /* JADX WARN: Code restructure failed: missing block: B:4:0x0016, code lost:
+    
+        if (r2.equals(r0) == false) goto L6;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1179,8 +1181,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x02e5  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x02a4  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02a4  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x02e5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1223,25 +1225,26 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     }
                 } else {
                     float f18 = this.scale;
-                    float f19 = this.animationValue;
-                    f = ((this.animateToScale - f18) * f19) + f18;
-                    f14 = f19;
+                    float f19 = this.animateToScale - f18;
+                    float f20 = this.animationValue;
+                    f = (f19 * f20) + f18;
+                    f14 = f20;
                 }
-                float f20 = this.translationY;
-                f2 = f20 + ((this.animateToY - f20) * f14);
-                float f21 = this.translationX;
-                f3 = ((this.animateToX - f21) * f14) + f21;
-                float f22 = this.clipTop;
-                f4 = f22 + ((this.animateToClipTop - f22) * f14);
-                float f23 = this.clipBottom;
-                f5 = f23 + ((this.animateToClipBottom - f23) * f14);
-                float f24 = this.clipTopOrigin;
-                f6 = f24 + ((this.animateToClipTopOrigin - f24) * f14);
-                float f25 = this.clipBottomOrigin;
-                f7 = f25 + ((this.animateToClipBottomOrigin - f25) * f14);
-                float f26 = this.clipHorizontal;
-                f8 = f26 + ((this.animateToClipHorizontal - f26) * f14);
-                f9 = (this.animateToScale == 1.0f && this.scale == 1.0f && f21 == 0.0f) ? f2 : -1.0f;
+                float f21 = this.translationY;
+                f2 = f21 + ((this.animateToY - f21) * f14);
+                float f22 = this.translationX;
+                f3 = ((this.animateToX - f22) * f14) + f22;
+                float f23 = this.clipTop;
+                f4 = f23 + ((this.animateToClipTop - f23) * f14);
+                float f24 = this.clipBottom;
+                f5 = f24 + ((this.animateToClipBottom - f24) * f14);
+                float f25 = this.clipTopOrigin;
+                f6 = f25 + ((this.animateToClipTopOrigin - f25) * f14);
+                float f26 = this.clipBottomOrigin;
+                f7 = f26 + ((this.animateToClipBottomOrigin - f26) * f14);
+                float f27 = this.clipHorizontal;
+                f8 = f27 + ((this.animateToClipHorizontal - f27) * f14);
+                f9 = (this.animateToScale == 1.0f && this.scale == 1.0f && f22 == 0.0f) ? f2 : -1.0f;
                 this.containerView.invalidate();
             } else {
                 if (this.animationStartTime != 0) {
@@ -1252,10 +1255,10 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     this.clipTopOrigin = this.animateToClipTopOrigin;
                     this.clipBottomOrigin = this.animateToClipBottomOrigin;
                     this.clipHorizontal = this.animateToClipHorizontal;
-                    float f27 = this.animateToScale;
-                    this.scale = f27;
+                    float f28 = this.animateToScale;
+                    this.scale = f28;
                     this.animationStartTime = 0L;
-                    updateMinMax(f27);
+                    updateMinMax(f28);
                     this.zoomAnimation = false;
                     this.useOvershootForScale = false;
                 }
@@ -1282,12 +1285,12 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 if (this.currentRadii == null) {
                     this.currentRadii = new float[8];
                 }
-                float f28 = this.animateToRadius ? this.animationValue : 1.0f - this.animationValue;
+                float f29 = this.animateToRadius ? this.animationValue : 1.0f - this.animationValue;
                 int i3 = 0;
                 z = true;
                 for (int i4 = 8; i3 < i4; i4 = 8) {
                     float[] fArr = this.currentRadii;
-                    float lerp = AndroidUtilities.lerp(this.animateFromRadius[i3 / 2] * 2.0f, 0.0f, f28);
+                    float lerp = AndroidUtilities.lerp(this.animateFromRadius[i3 / 2] * 2.0f, 0.0f, f29);
                     fArr[i3 + 1] = lerp;
                     fArr[i3] = lerp;
                     if (this.currentRadii[i3] > 0.0f) {
@@ -1306,18 +1309,18 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     this.photoBackgroundDrawable.setAlpha((int) Math.max(127.0f, (1.0f - (Math.min(Math.abs(f9), containerViewHeight) / containerViewHeight)) * 255.0f));
                 }
                 if (!this.zoomAnimation) {
-                    float f29 = this.maxX;
-                    if (f3 > f29) {
-                        float min = Math.min(1.0f, (f3 - f29) / canvas.getWidth());
+                    float f30 = this.maxX;
+                    if (f3 > f30) {
+                        float min = Math.min(1.0f, (f3 - f30) / canvas.getWidth());
                         f11 = 0.3f * min;
                         f10 = 1.0f - min;
                         f3 = this.maxX;
                         AspectRatioFrameLayout aspectRatioFrameLayout = this.aspectRatioFrameLayout;
                         z2 = aspectRatioFrameLayout == null && aspectRatioFrameLayout.getVisibility() == 0;
                         canvas.save();
-                        float f30 = f - f11;
+                        float f31 = f - f11;
                         canvas.translate((getContainerViewWidth() / 2) + f3, (getContainerViewHeight() / 2) + f2);
-                        canvas.scale(f30, f30);
+                        canvas.scale(f31, f31);
                         bitmapWidth = this.centerImage.getBitmapWidth();
                         bitmapHeight = this.centerImage.getBitmapHeight();
                         i = this.videoWidth;
@@ -1329,22 +1332,22 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                             bitmapWidth = this.videoTextureView.getMeasuredWidth();
                             bitmapHeight = this.videoTextureView.getMeasuredHeight();
                         }
-                        float f31 = bitmapHeight;
-                        float f32 = bitmapWidth;
-                        float min2 = Math.min(getContainerViewHeight() / f31, getContainerViewWidth() / f32);
-                        int i5 = (int) (f32 * min2);
-                        int i6 = (int) (f31 * min2);
+                        float f32 = bitmapHeight;
+                        float f33 = bitmapWidth;
+                        float min2 = Math.min(getContainerViewHeight() / f32, getContainerViewWidth() / f33);
+                        int i5 = (int) (f33 * min2);
+                        int i6 = (int) (f32 * min2);
                         f12 = (-i5) / 2;
-                        float f33 = f8 / f30;
-                        float f34 = f12 + f33;
+                        float f34 = f8 / f31;
+                        float f35 = f12 + f34;
                         f13 = (-i6) / 2;
-                        float f35 = (i5 / 2) - f33;
-                        float f36 = i6 / 2;
-                        canvas.clipRect(f34, (f4 / f30) + f13, f35, f36 - (f5 / f30));
+                        float f36 = (i5 / 2) - f34;
+                        float f37 = i6 / 2;
+                        canvas.clipRect(f35, (f4 / f31) + f13, f36, f37 - (f5 / f31));
                         if (!z) {
                             this.roundRectPath.reset();
                             RectF rectF = AndroidUtilities.rectTmp;
-                            rectF.set(f34, (f6 / f30) + f13, f35, f36 - (f7 / f30));
+                            rectF.set(f35, (f6 / f31) + f13, f36, f37 - (f7 / f31));
                             this.roundRectPath.addRoundRect(rectF, this.currentRadii, Path.Direction.CW);
                             canvas.clipPath(this.roundRectPath);
                         }
@@ -1383,9 +1386,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             if (aspectRatioFrameLayout2 == null) {
             }
             canvas.save();
-            float f302 = f - f11;
+            float f312 = f - f11;
             canvas.translate((getContainerViewWidth() / 2) + f3, (getContainerViewHeight() / 2) + f2);
-            canvas.scale(f302, f302);
+            canvas.scale(f312, f312);
             bitmapWidth = this.centerImage.getBitmapWidth();
             bitmapHeight = this.centerImage.getBitmapHeight();
             i = this.videoWidth;
@@ -1397,18 +1400,18 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 bitmapWidth = this.videoTextureView.getMeasuredWidth();
                 bitmapHeight = this.videoTextureView.getMeasuredHeight();
             }
-            float f312 = bitmapHeight;
-            float f322 = bitmapWidth;
-            float min22 = Math.min(getContainerViewHeight() / f312, getContainerViewWidth() / f322);
-            int i52 = (int) (f322 * min22);
-            int i62 = (int) (f312 * min22);
+            float f322 = bitmapHeight;
+            float f332 = bitmapWidth;
+            float min22 = Math.min(getContainerViewHeight() / f322, getContainerViewWidth() / f332);
+            int i52 = (int) (f332 * min22);
+            int i62 = (int) (f322 * min22);
             f12 = (-i52) / 2;
-            float f332 = f8 / f302;
-            float f342 = f12 + f332;
+            float f342 = f8 / f312;
+            float f352 = f12 + f342;
             f13 = (-i62) / 2;
-            float f352 = (i52 / 2) - f332;
-            float f362 = i62 / 2;
-            canvas.clipRect(f342, (f4 / f302) + f13, f352, f362 - (f5 / f302));
+            float f362 = (i52 / 2) - f342;
+            float f372 = i62 / 2;
+            canvas.clipRect(f352, (f4 / f312) + f13, f362, f372 - (f5 / f312));
             if (!z) {
             }
             if (z2) {
@@ -1493,28 +1496,35 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x025d, code lost:
-        if (r13 > r3) goto L112;
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x026c, code lost:
+    
+        if (r0 > r3) goto L120;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:122:0x026c, code lost:
-        if (r0 > r3) goto L115;
+    /* JADX WARN: Code restructure failed: missing block: B:120:0x025d, code lost:
+    
+        if (r13 > r3) goto L114;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:145:0x02ce, code lost:
-        if (r2 > r3) goto L138;
+    /* JADX WARN: Code restructure failed: missing block: B:144:0x02df, code lost:
+    
+        if (r2 > r3) goto L149;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:151:0x02df, code lost:
-        if (r2 > r3) goto L141;
+    /* JADX WARN: Code restructure failed: missing block: B:146:0x02ce, code lost:
+    
+        if (r2 > r3) goto L143;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:162:0x0347, code lost:
-        if (r13 != null) goto L156;
+    /* JADX WARN: Code restructure failed: missing block: B:155:0x0347, code lost:
+    
+        if (r13 != null) goto L168;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:167:0x0364, code lost:
-        if (r13 != null) goto L156;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:168:0x0366, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:156:0x0366, code lost:
+    
         r13.clear();
      */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x01d6  */
+    /* JADX WARN: Code restructure failed: missing block: B:160:0x0364, code lost:
+    
+        if (r13 != null) goto L168;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01d6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1528,7 +1538,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 this.zooming = false;
                 checkMinMax(false);
                 return true;
-            } else if (motionEvent.getActionMasked() == 0 || motionEvent.getActionMasked() == 5) {
+            }
+            if (motionEvent.getActionMasked() == 0 || motionEvent.getActionMasked() == 5) {
                 this.discardTap = false;
                 if (!this.scroller.isFinished()) {
                     this.scroller.abortAnimation();
@@ -1745,7 +1756,6 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         boolean z3;
         TLRPC.Message message;
         CharSequence cloneSpans = AnimatedEmojiSpan.cloneSpans(charSequence, 3);
-        boolean z4 = false;
         if (this.captionScrollView == null) {
             FrameLayout frameLayout = new FrameLayout(this.containerView.getContext());
             this.captionContainer = frameLayout;
@@ -1825,7 +1835,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         if (isEmpty) {
             this.captionTextViewSwitcher.setText(null, z2);
             this.captionTextViewSwitcher.getCurrentView().setTextColor(-1);
-            this.captionTextViewSwitcher.setVisibility(4, (!z3 || isEmpty2) ? true : true);
+            this.captionTextViewSwitcher.setVisibility(4, !z3 || isEmpty2);
             this.captionTextViewSwitcher.setTag(null);
         } else {
             Theme.createChatResources(null, true);
@@ -1917,12 +1927,12 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         ArrayList arrayList = new ArrayList();
         ActionBar actionBar = this.actionBar;
         Property property = View.ALPHA;
-        arrayList.add(ObjectAnimator.ofFloat(actionBar, property, z ? 1.0f : 0.0f));
+        arrayList.add(ObjectAnimator.ofFloat(actionBar, (Property<ActionBar, Float>) property, z ? 1.0f : 0.0f));
         VideoPlayerControlFrameLayout videoPlayerControlFrameLayout = this.seekbarContainer;
-        arrayList.add(ObjectAnimator.ofFloat(videoPlayerControlFrameLayout, videoPlayerControlFrameLayout.SEEKBAR_ALPHA, z ? 1.0f : 0.0f));
-        arrayList.add(ObjectAnimator.ofFloat(this.captionScrollView, property, z ? 1.0f : 0.0f));
-        arrayList.add(ObjectAnimator.ofFloat(this.seekbarBackground, property, z ? 1.0f : 0.0f));
-        arrayList.add(ObjectAnimator.ofFloat(this.navigationBar, property, z ? 1.0f : 0.0f));
+        arrayList.add(ObjectAnimator.ofFloat(videoPlayerControlFrameLayout, (Property<VideoPlayerControlFrameLayout, Float>) videoPlayerControlFrameLayout.SEEKBAR_ALPHA, z ? 1.0f : 0.0f));
+        arrayList.add(ObjectAnimator.ofFloat(this.captionScrollView, (Property<PhotoViewer.CaptionScrollView, Float>) property, z ? 1.0f : 0.0f));
+        arrayList.add(ObjectAnimator.ofFloat(this.seekbarBackground, (Property<View, Float>) property, z ? 1.0f : 0.0f));
+        arrayList.add(ObjectAnimator.ofFloat(this.navigationBar, (Property<View, Float>) property, z ? 1.0f : 0.0f));
         AnimatorSet animatorSet = new AnimatorSet();
         this.currentActionBarAnimation = animatorSet;
         animatorSet.playTogether(arrayList);
@@ -1957,10 +1967,10 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         if (imageHeight > 0) {
             this.minY = -imageHeight;
             this.maxY = imageHeight;
-            return;
+        } else {
+            this.maxY = 0.0f;
+            this.minY = 0.0f;
         }
-        this.maxY = 0.0f;
-        this.minY = 0.0f;
     }
 
     private void updateVideoPlayerTime() {
@@ -1984,10 +1994,10 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         this.videoPlayerTime.setText(String.format(Locale.ROOT, "%s / %s", format, i2 >= 60 ? String.format(Locale.ROOT, "%02d:%02d:%02d", Integer.valueOf(i2 / 60), Integer.valueOf(this.videoPlayerTotalTime[0] % 60), Integer.valueOf(this.videoPlayerTotalTime[1])) : String.format(Locale.ROOT, "%02d:%02d", Integer.valueOf(i2), Integer.valueOf(this.videoPlayerTotalTime[1]))));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0097  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x009d  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x030e  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x03bb  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0097  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x03bb  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x030e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1997,8 +2007,6 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         final SecretMediaViewer secretMediaViewer;
         Runnable runnable;
         Runnable runnable2;
-        int i;
-        int[] iArr;
         if (this.parentActivity == null || !this.isPhotoVisible || checkPhotoAnimation()) {
             return false;
         }
@@ -2041,16 +2049,16 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     secretMediaViewer = this;
                     secretMediaViewer.showPlayButton(false, true);
                     AnimatorSet animatorSet = new AnimatorSet();
-                    ObjectAnimator ofFloat = ObjectAnimator.ofFloat(secretMediaViewer.containerView, View.SCALE_X, 0.9f);
-                    ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(secretMediaViewer.containerView, View.SCALE_Y, 0.9f);
-                    ObjectAnimator ofInt = ObjectAnimator.ofInt(secretMediaViewer.photoBackgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0);
+                    ObjectAnimator ofFloat = ObjectAnimator.ofFloat(secretMediaViewer.containerView, (Property<FrameLayoutDrawer, Float>) View.SCALE_X, 0.9f);
+                    ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(secretMediaViewer.containerView, (Property<FrameLayoutDrawer, Float>) View.SCALE_Y, 0.9f);
+                    ObjectAnimator ofInt = ObjectAnimator.ofInt(secretMediaViewer.photoBackgroundDrawable, (Property<PhotoBackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0);
                     ActionBar actionBar = secretMediaViewer.actionBar;
                     Property property = View.ALPHA;
-                    ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(actionBar, property, 0.0f);
-                    ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(secretMediaViewer.captionScrollView, property, 0.0f);
-                    ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(secretMediaViewer.navigationBar, property, 0.0f);
+                    ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(actionBar, (Property<ActionBar, Float>) property, 0.0f);
+                    ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(secretMediaViewer.captionScrollView, (Property<PhotoViewer.CaptionScrollView, Float>) property, 0.0f);
+                    ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(secretMediaViewer.navigationBar, (Property<View, Float>) property, 0.0f);
                     VideoPlayerControlFrameLayout videoPlayerControlFrameLayout = secretMediaViewer.seekbarContainer;
-                    animatorSet.playTogether(ofFloat, ofFloat2, ofInt, ofFloat3, ofFloat4, ofFloat5, ObjectAnimator.ofFloat(videoPlayerControlFrameLayout, videoPlayerControlFrameLayout.SEEKBAR_ALPHA, 0.0f), ObjectAnimator.ofFloat(secretMediaViewer.seekbarContainer, property, 0.0f));
+                    animatorSet.playTogether(ofFloat, ofFloat2, ofInt, ofFloat3, ofFloat4, ofFloat5, ObjectAnimator.ofFloat(videoPlayerControlFrameLayout, (Property<VideoPlayerControlFrameLayout, Float>) videoPlayerControlFrameLayout.SEEKBAR_ALPHA, 0.0f), ObjectAnimator.ofFloat(secretMediaViewer.seekbarContainer, (Property<VideoPlayerControlFrameLayout, Float>) property, 0.0f));
                     secretMediaViewer.photoAnimationInProgress = 2;
                     secretMediaViewer.photoAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
@@ -2077,38 +2085,39 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     this.containerView.invalidate();
                     this.imageMoveAnimation = new AnimatorSet();
                     if (placeProviderObject == null || placeProviderObject.imageReceiver.getThumbBitmap() == null || z2 || this.onClose != null) {
-                        int i2 = AndroidUtilities.displaySize.y + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
+                        int i = AndroidUtilities.displaySize.y + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0);
                         if (this.translationY < 0.0f) {
-                            i2 = -i2;
+                            i = -i;
                         }
-                        this.animateToY = i2;
+                        this.animateToY = i;
                     } else {
                         placeProviderObject.imageReceiver.setVisible(false, true);
                         RectF drawRegion = placeProviderObject.imageReceiver.getDrawRegion();
                         float f = drawRegion.right - drawRegion.left;
                         float f2 = drawRegion.bottom - drawRegion.top;
                         Point point = AndroidUtilities.displaySize;
-                        int i3 = point.x;
-                        int i4 = point.y;
-                        int i5 = Build.VERSION.SDK_INT;
-                        this.animateToScale = Math.max(f / i3, f2 / (i4 + (i5 >= 21 ? AndroidUtilities.statusBarHeight : 0)));
-                        float f3 = drawRegion.left;
-                        this.animateToX = ((placeProviderObject.viewX + f3) + (f / 2.0f)) - (i3 / 2);
-                        this.animateToY = ((placeProviderObject.viewY + drawRegion.top) + (f2 / 2.0f)) - (i / 2);
-                        this.animateToClipHorizontal = Math.abs(f3 - placeProviderObject.imageReceiver.getImageX());
+                        int i2 = point.x;
+                        int i3 = point.y;
+                        int i4 = Build.VERSION.SDK_INT;
+                        this.animateToScale = Math.max(f / i2, f2 / (i3 + (i4 >= 21 ? AndroidUtilities.statusBarHeight : 0)));
+                        float f3 = placeProviderObject.viewX;
+                        float f4 = drawRegion.left;
+                        this.animateToX = ((f3 + f4) + (f / 2.0f)) - (i2 / 2);
+                        this.animateToY = ((placeProviderObject.viewY + drawRegion.top) + (f2 / 2.0f)) - (r3 / 2);
+                        this.animateToClipHorizontal = Math.abs(f4 - placeProviderObject.imageReceiver.getImageX());
                         int abs = (int) Math.abs(drawRegion.top - placeProviderObject.imageReceiver.getImageY());
                         placeProviderObject.parentView.getLocationInWindow(new int[2]);
-                        float f4 = ((iArr[1] - (i5 >= 21 ? 0 : AndroidUtilities.statusBarHeight)) - (placeProviderObject.viewY + drawRegion.top)) + placeProviderObject.clipTopAddition;
-                        this.animateToClipTop = f4;
-                        float f5 = abs;
-                        this.animateToClipTop = Math.max(0.0f, Math.max(f4, f5));
-                        float height = (((placeProviderObject.viewY + drawRegion.top) + ((int) f2)) - ((iArr[1] + placeProviderObject.parentView.getHeight()) - (i5 >= 21 ? 0 : AndroidUtilities.statusBarHeight))) + placeProviderObject.clipBottomAddition;
+                        float f5 = ((r4[1] - (i4 >= 21 ? 0 : AndroidUtilities.statusBarHeight)) - (placeProviderObject.viewY + drawRegion.top)) + placeProviderObject.clipTopAddition;
+                        this.animateToClipTop = f5;
+                        float f6 = abs;
+                        this.animateToClipTop = Math.max(0.0f, Math.max(f5, f6));
+                        float height = (((placeProviderObject.viewY + drawRegion.top) + ((int) f2)) - ((r4[1] + placeProviderObject.parentView.getHeight()) - (i4 >= 21 ? 0 : AndroidUtilities.statusBarHeight))) + placeProviderObject.clipBottomAddition;
                         this.animateToClipBottom = height;
-                        this.animateToClipBottom = Math.max(0.0f, Math.max(height, f5));
+                        this.animateToClipBottom = Math.max(0.0f, Math.max(height, f6));
                         this.animateToClipTopOrigin = 0.0f;
-                        this.animateToClipTopOrigin = Math.max(0.0f, Math.max(0.0f, f5));
+                        this.animateToClipTopOrigin = Math.max(0.0f, Math.max(0.0f, f6));
                         this.animateToClipBottomOrigin = 0.0f;
-                        this.animateToClipBottomOrigin = Math.max(0.0f, Math.max(0.0f, f5));
+                        this.animateToClipBottomOrigin = Math.max(0.0f, Math.max(0.0f, f6));
                         this.animationStartTime = System.currentTimeMillis();
                         this.zoomAnimation = true;
                     }
@@ -2118,27 +2127,27 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                         this.videoCrossfadeStarted = false;
                         this.textureUploaded = false;
                         AnimatorSet animatorSet2 = this.imageMoveAnimation;
-                        ObjectAnimator ofInt2 = ObjectAnimator.ofInt(this.photoBackgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0);
-                        ObjectAnimator ofFloat6 = ObjectAnimator.ofFloat(this, this.ANIMATION_VALUE, 0.0f, 1.0f);
+                        ObjectAnimator ofInt2 = ObjectAnimator.ofInt(this.photoBackgroundDrawable, (Property<PhotoBackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0);
+                        ObjectAnimator ofFloat6 = ObjectAnimator.ofFloat(this, (Property<SecretMediaViewer, Float>) this.ANIMATION_VALUE, 0.0f, 1.0f);
                         ActionBar actionBar2 = this.actionBar;
                         Property property2 = View.ALPHA;
-                        ObjectAnimator ofFloat7 = ObjectAnimator.ofFloat(actionBar2, property2, 0.0f);
-                        ObjectAnimator ofFloat8 = ObjectAnimator.ofFloat(this.captionScrollView, property2, 0.0f);
-                        ObjectAnimator ofFloat9 = ObjectAnimator.ofFloat(this.navigationBar, property2, 0.0f);
+                        ObjectAnimator ofFloat7 = ObjectAnimator.ofFloat(actionBar2, (Property<ActionBar, Float>) property2, 0.0f);
+                        ObjectAnimator ofFloat8 = ObjectAnimator.ofFloat(this.captionScrollView, (Property<PhotoViewer.CaptionScrollView, Float>) property2, 0.0f);
+                        ObjectAnimator ofFloat9 = ObjectAnimator.ofFloat(this.navigationBar, (Property<View, Float>) property2, 0.0f);
                         VideoPlayerControlFrameLayout videoPlayerControlFrameLayout2 = this.seekbarContainer;
-                        animatorSet2.playTogether(ofInt2, ofFloat6, ofFloat7, ofFloat8, ofFloat9, ObjectAnimator.ofFloat(videoPlayerControlFrameLayout2, videoPlayerControlFrameLayout2.SEEKBAR_ALPHA, 0.0f), ObjectAnimator.ofFloat(this.seekbarContainer, property2, 0.0f), ObjectAnimator.ofFloat(this.secretHint, property2, 0.0f), ObjectAnimator.ofFloat(this, this.VIDEO_CROSSFADE_ALPHA, 0.0f));
+                        animatorSet2.playTogether(ofInt2, ofFloat6, ofFloat7, ofFloat8, ofFloat9, ObjectAnimator.ofFloat(videoPlayerControlFrameLayout2, (Property<VideoPlayerControlFrameLayout, Float>) videoPlayerControlFrameLayout2.SEEKBAR_ALPHA, 0.0f), ObjectAnimator.ofFloat(this.seekbarContainer, (Property<VideoPlayerControlFrameLayout, Float>) property2, 0.0f), ObjectAnimator.ofFloat(this.secretHint, (Property<HintView2, Float>) property2, 0.0f), ObjectAnimator.ofFloat(this, (Property<SecretMediaViewer, Float>) this.VIDEO_CROSSFADE_ALPHA, 0.0f));
                     } else {
                         this.centerImage.setManualAlphaAnimator(true);
                         AnimatorSet animatorSet3 = this.imageMoveAnimation;
-                        ObjectAnimator ofInt3 = ObjectAnimator.ofInt(this.photoBackgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0);
-                        ObjectAnimator ofFloat10 = ObjectAnimator.ofFloat(this, this.ANIMATION_VALUE, 0.0f, 1.0f);
+                        ObjectAnimator ofInt3 = ObjectAnimator.ofInt(this.photoBackgroundDrawable, (Property<PhotoBackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0);
+                        ObjectAnimator ofFloat10 = ObjectAnimator.ofFloat(this, (Property<SecretMediaViewer, Float>) this.ANIMATION_VALUE, 0.0f, 1.0f);
                         ActionBar actionBar3 = this.actionBar;
                         Property property3 = View.ALPHA;
-                        ObjectAnimator ofFloat11 = ObjectAnimator.ofFloat(actionBar3, property3, 0.0f);
-                        ObjectAnimator ofFloat12 = ObjectAnimator.ofFloat(this.captionScrollView, property3, 0.0f);
-                        ObjectAnimator ofFloat13 = ObjectAnimator.ofFloat(this.navigationBar, property3, 0.0f);
+                        ObjectAnimator ofFloat11 = ObjectAnimator.ofFloat(actionBar3, (Property<ActionBar, Float>) property3, 0.0f);
+                        ObjectAnimator ofFloat12 = ObjectAnimator.ofFloat(this.captionScrollView, (Property<PhotoViewer.CaptionScrollView, Float>) property3, 0.0f);
+                        ObjectAnimator ofFloat13 = ObjectAnimator.ofFloat(this.navigationBar, (Property<View, Float>) property3, 0.0f);
                         VideoPlayerControlFrameLayout videoPlayerControlFrameLayout3 = this.seekbarContainer;
-                        animatorSet3.playTogether(ofInt3, ofFloat10, ofFloat11, ofFloat12, ofFloat13, ObjectAnimator.ofFloat(videoPlayerControlFrameLayout3, videoPlayerControlFrameLayout3.SEEKBAR_ALPHA, 0.0f), ObjectAnimator.ofFloat(this.seekbarContainer, property3, 0.0f), ObjectAnimator.ofFloat(this.secretHint, property3, 0.0f), ObjectAnimator.ofFloat(this.centerImage, AnimationProperties.IMAGE_RECEIVER_ALPHA, 0.0f));
+                        animatorSet3.playTogether(ofInt3, ofFloat10, ofFloat11, ofFloat12, ofFloat13, ObjectAnimator.ofFloat(videoPlayerControlFrameLayout3, (Property<VideoPlayerControlFrameLayout, Float>) videoPlayerControlFrameLayout3.SEEKBAR_ALPHA, 0.0f), ObjectAnimator.ofFloat(this.seekbarContainer, (Property<VideoPlayerControlFrameLayout, Float>) property3, 0.0f), ObjectAnimator.ofFloat(this.secretHint, (Property<HintView2, Float>) property3, 0.0f), ObjectAnimator.ofFloat(this.centerImage, (Property<ImageReceiver, Float>) AnimationProperties.IMAGE_RECEIVER_ALPHA, 0.0f));
                     }
                     secretMediaViewer = this;
                     secretMediaViewer.photoAnimationEndRunnable = new Runnable() { // from class: org.telegram.ui.SecretMediaViewer$$ExternalSyntheticLambda0
@@ -2218,29 +2227,39 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     return;
                 }
                 this.closeVideoAfterWatch = true;
+                return;
             }
-        } else if (i != NotificationCenter.didCreatedNewDeleteTask) {
-            if (i == NotificationCenter.updateMessageMedia && this.currentMessageObject.getId() == ((TLRPC.Message) objArr[0]).id) {
-                if (!this.isVideo || this.videoWatchedOneTime) {
-                    if (closePhoto(true, true)) {
+            return;
+        }
+        if (i != NotificationCenter.didCreatedNewDeleteTask) {
+            if (i == NotificationCenter.updateMessageMedia) {
+                if (this.currentMessageObject.getId() == ((TLRPC.Message) objArr[0]).id) {
+                    if (!this.isVideo || this.videoWatchedOneTime) {
+                        if (closePhoto(true, true)) {
+                            return;
+                        }
+                        this.closeAfterAnimation = true;
                         return;
                     }
-                    this.closeAfterAnimation = true;
+                    this.closeVideoAfterWatch = true;
                     return;
                 }
-                this.closeVideoAfterWatch = true;
+                return;
             }
-        } else if (this.currentMessageObject != null && this.secretDeleteTimer != null && ((Long) objArr[0]).longValue() == this.currentDialogId) {
-            SparseArray sparseArray = (SparseArray) objArr[1];
-            for (int i3 = 0; i3 < sparseArray.size(); i3++) {
-                int keyAt = sparseArray.keyAt(i3);
-                ArrayList arrayList = (ArrayList) sparseArray.get(keyAt);
-                for (int i4 = 0; i4 < arrayList.size(); i4++) {
-                    if (this.currentMessageObject.getId() == ((Integer) arrayList.get(i4)).intValue()) {
-                        this.currentMessageObject.messageOwner.destroyTime = keyAt;
-                        this.secretDeleteTimer.invalidate();
-                        return;
-                    }
+            return;
+        }
+        if (this.currentMessageObject == null || this.secretDeleteTimer == null || ((Long) objArr[0]).longValue() != this.currentDialogId) {
+            return;
+        }
+        SparseArray sparseArray = (SparseArray) objArr[1];
+        for (int i3 = 0; i3 < sparseArray.size(); i3++) {
+            int keyAt = sparseArray.keyAt(i3);
+            ArrayList arrayList = (ArrayList) sparseArray.get(keyAt);
+            for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                if (this.currentMessageObject.getId() == ((Integer) arrayList.get(i4)).intValue()) {
+                    this.currentMessageObject.messageOwner.destroyTime = keyAt;
+                    this.secretDeleteTimer.invalidate();
+                    return;
                 }
             }
         }
@@ -2275,11 +2294,13 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         return this.isVisible;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x007f, code lost:
-        if (r0 > r10) goto L17;
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x008e, code lost:
+    
+        if (r2 > r10) goto L24;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x008e, code lost:
-        if (r2 > r10) goto L20;
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x007f, code lost:
+    
+        if (r0 > r10) goto L18;
      */
     @Override // android.view.GestureDetector.OnDoubleTapListener
     /*
@@ -2288,32 +2309,32 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     public boolean onDoubleTap(MotionEvent motionEvent) {
         float f = this.scale;
         boolean z = false;
-        if (f != 1.0f || (this.translationY == 0.0f && this.translationX == 0.0f)) {
-            if (this.animationStartTime == 0 && this.photoAnimationInProgress == 0) {
-                z = true;
-                if (f == 1.0f) {
-                    float x = (motionEvent.getX() - (getContainerViewWidth() / 2)) - (((motionEvent.getX() - (getContainerViewWidth() / 2)) - this.translationX) * (3.0f / this.scale));
-                    float y = (motionEvent.getY() - (getContainerViewHeight() / 2)) - (((motionEvent.getY() - (getContainerViewHeight() / 2)) - this.translationY) * (3.0f / this.scale));
-                    updateMinMax(3.0f);
-                    float f2 = this.minX;
-                    if (x >= f2) {
-                        f2 = this.maxX;
-                    }
-                    x = f2;
-                    float f3 = this.minY;
-                    if (y >= f3) {
-                        f3 = this.maxY;
-                    }
-                    y = f3;
-                    animateTo(3.0f, x, y, true);
-                } else {
-                    animateTo(1.0f, 0.0f, 0.0f, true);
-                }
-                this.doubleTap = true;
-            }
-            return z;
+        if (f == 1.0f && (this.translationY != 0.0f || this.translationX != 0.0f)) {
+            return false;
         }
-        return false;
+        if (this.animationStartTime == 0 && this.photoAnimationInProgress == 0) {
+            z = true;
+            if (f == 1.0f) {
+                float x = (motionEvent.getX() - (getContainerViewWidth() / 2)) - (((motionEvent.getX() - (getContainerViewWidth() / 2)) - this.translationX) * (3.0f / this.scale));
+                float y = (motionEvent.getY() - (getContainerViewHeight() / 2)) - (((motionEvent.getY() - (getContainerViewHeight() / 2)) - this.translationY) * (3.0f / this.scale));
+                updateMinMax(3.0f);
+                float f2 = this.minX;
+                if (x >= f2) {
+                    f2 = this.maxX;
+                }
+                x = f2;
+                float f3 = this.minY;
+                if (y >= f3) {
+                    f3 = this.maxY;
+                }
+                y = f3;
+                animateTo(3.0f, x, y, true);
+            } else {
+                animateTo(1.0f, 0.0f, 0.0f, true);
+            }
+            this.doubleTap = true;
+        }
+        return z;
     }
 
     @Override // android.view.GestureDetector.OnDoubleTapListener
@@ -2328,12 +2349,12 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
 
     @Override // android.view.GestureDetector.OnGestureListener
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-        if (this.scale != 1.0f) {
-            this.scroller.abortAnimation();
-            this.scroller.fling(Math.round(this.translationX), Math.round(this.translationY), Math.round(f), Math.round(f2), (int) this.minX, (int) this.maxX, (int) this.minY, (int) this.maxY);
-            this.containerView.postInvalidate();
+        if (this.scale == 1.0f) {
             return false;
         }
+        this.scroller.abortAnimation();
+        this.scroller.fling(Math.round(this.translationX), Math.round(this.translationY), Math.round(f), Math.round(f2), (int) this.minX, (int) this.maxX, (int) this.minY, (int) this.maxY);
+        this.containerView.postInvalidate();
         return false;
     }
 
@@ -2358,8 +2379,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         if (this.videoPlayer == null || !this.isActionBarVisible || motionEvent.getX() < this.playButton.getX() || motionEvent.getY() < this.playButton.getY() || motionEvent.getX() > this.playButton.getX() + this.playButton.getMeasuredWidth() || motionEvent.getX() > this.playButton.getX() + this.playButton.getMeasuredWidth()) {
             toggleActionBar(!this.isActionBarVisible, true);
         } else {
-            VideoPlayer videoPlayer = this.videoPlayer;
-            videoPlayer.setPlayWhenReady(!videoPlayer.getPlayWhenReady());
+            this.videoPlayer.setPlayWhenReady(!r5.getPlayWhenReady());
             if (this.videoPlayer.getPlayWhenReady()) {
                 toggleActionBar(true, true);
             } else {
@@ -2384,10 +2404,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     /* JADX WARN: Type inference failed for: r15v8 */
     public void openMedia(final MessageObject messageObject, PhotoViewer.PhotoViewerProvider photoViewerProvider, final Runnable runnable, Runnable runnable2) {
         PhotoViewer.PlaceProviderObject placeForPhoto;
-        int i;
         PhotoViewer.PlaceProviderObject placeProviderObject;
         String str;
-        int i2;
+        int i;
         float f;
         ?? r15;
         int navigationBarColor;
@@ -2396,7 +2415,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         ImageReceiver imageReceiver;
         BitmapDrawable bitmapDrawable;
         String str2;
-        int i3;
+        int i2;
         ImageLocation imageLocation;
         String str3;
         long j;
@@ -2450,43 +2469,44 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         float width = rectF.width();
         float height = rectF.height();
         Point point = AndroidUtilities.displaySize;
-        int i4 = point.x;
-        this.scale = Math.max(width / i4, height / (point.y + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
+        int i3 = point.x;
+        this.scale = Math.max(width / i3, height / (point.y + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
         int[] iArr = placeForPhoto.radius;
         if (iArr != null) {
             this.animateFromRadius = new int[iArr.length];
-            int i5 = 0;
+            int i4 = 0;
             while (true) {
                 int[] iArr2 = placeForPhoto.radius;
-                if (i5 >= iArr2.length) {
+                if (i4 >= iArr2.length) {
                     break;
                 }
-                this.animateFromRadius[i5] = iArr2[i5];
-                i5++;
+                this.animateFromRadius[i4] = iArr2[i4];
+                i4++;
             }
         } else {
             this.animateFromRadius = null;
         }
-        float f2 = rectF.left;
-        this.translationX = ((placeForPhoto.viewX + f2) + (width / 2.0f)) - (i4 / 2);
-        this.translationY = ((placeForPhoto.viewY + rectF.top) + (height / 2.0f)) - (i / 2);
-        this.clipHorizontal = Math.abs(f2 - placeForPhoto.imageReceiver.getImageX());
+        float f2 = placeForPhoto.viewX;
+        float f3 = rectF.left;
+        this.translationX = ((f2 + f3) + (width / 2.0f)) - (i3 / 2);
+        this.translationY = ((placeForPhoto.viewY + rectF.top) + (height / 2.0f)) - (r4 / 2);
+        this.clipHorizontal = Math.abs(f3 - placeForPhoto.imageReceiver.getImageX());
         int abs = (int) Math.abs(rectF.top - placeForPhoto.imageReceiver.getImageY());
         int[] iArr3 = new int[2];
         placeForPhoto.parentView.getLocationInWindow(iArr3);
-        int i6 = iArr3[1];
-        int i7 = Build.VERSION.SDK_INT;
-        float f3 = ((i6 - (i7 >= 21 ? 0 : AndroidUtilities.statusBarHeight)) - (placeForPhoto.viewY + rectF.top)) + placeForPhoto.clipTopAddition;
-        this.clipTop = f3;
-        float f4 = abs;
-        this.clipTop = Math.max(0.0f, Math.max(f3, f4));
-        float height2 = (((placeForPhoto.viewY + rectF.top) + ((int) height)) - ((iArr3[1] + placeForPhoto.parentView.getHeight()) - (i7 >= 21 ? 0 : AndroidUtilities.statusBarHeight))) + placeForPhoto.clipBottomAddition;
+        int i5 = iArr3[1];
+        int i6 = Build.VERSION.SDK_INT;
+        float f4 = ((i5 - (i6 >= 21 ? 0 : AndroidUtilities.statusBarHeight)) - (placeForPhoto.viewY + rectF.top)) + placeForPhoto.clipTopAddition;
+        this.clipTop = f4;
+        float f5 = abs;
+        this.clipTop = Math.max(0.0f, Math.max(f4, f5));
+        float height2 = (((placeForPhoto.viewY + rectF.top) + ((int) height)) - ((iArr3[1] + placeForPhoto.parentView.getHeight()) - (i6 >= 21 ? 0 : AndroidUtilities.statusBarHeight))) + placeForPhoto.clipBottomAddition;
         this.clipBottom = height2;
-        this.clipBottom = Math.max(0.0f, Math.max(height2, f4));
+        this.clipBottom = Math.max(0.0f, Math.max(height2, f5));
         this.clipTopOrigin = 0.0f;
-        this.clipTopOrigin = Math.max(0.0f, Math.max(0.0f, f4));
+        this.clipTopOrigin = Math.max(0.0f, Math.max(0.0f, f5));
         this.clipBottomOrigin = 0.0f;
-        this.clipBottomOrigin = Math.max(0.0f, Math.max(0.0f, f4));
+        this.clipBottomOrigin = Math.max(0.0f, Math.max(0.0f, f5));
         this.animationStartTime = System.currentTimeMillis();
         this.animateToX = 0.0f;
         this.animateToY = 0.0f;
@@ -2512,19 +2532,19 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         this.currentThumb = placeForPhoto.imageReceiver.getThumbBitmapSafe();
         this.seekbarContainer.setVisibility(8);
         if (document != null) {
-            int i8 = 0;
+            int i7 = 0;
             while (true) {
-                if (i8 >= document.attributes.size()) {
+                if (i7 >= document.attributes.size()) {
                     break;
                 }
-                TLRPC.DocumentAttribute documentAttribute = document.attributes.get(i8);
+                TLRPC.DocumentAttribute documentAttribute = document.attributes.get(i7);
                 if (documentAttribute instanceof TLRPC.TL_documentAttributeVideo) {
                     TLRPC.TL_documentAttributeVideo tL_documentAttributeVideo = (TLRPC.TL_documentAttributeVideo) documentAttribute;
                     this.videoWidth = tL_documentAttributeVideo.w;
                     this.videoHeight = tL_documentAttributeVideo.h;
                     break;
                 }
-                i8++;
+                i7++;
             }
             if (MessageObject.isGifDocument(document)) {
                 this.actionBar.setTitle(LocaleController.getString(R.string.DisappearingGif));
@@ -2541,7 +2561,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 str = "window";
                 messageObject2 = messageObject;
                 z = true;
-                i3 = 1;
+                i2 = 1;
             } else {
                 placeProviderObject = placeForPhoto;
                 obj = null;
@@ -2564,21 +2584,21 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                 imageReceiver = this.centerImage;
                 bitmapDrawable = this.currentThumb != null ? new BitmapDrawable(this.currentThumb.bitmap) : null;
                 str2 = null;
-                i3 = 2;
+                i2 = 2;
                 imageLocation = null;
                 str3 = null;
                 j = -1;
                 messageObject2 = messageObject;
             }
-            imageReceiver.setImage(imageLocation, str3, bitmapDrawable, j, str2, messageObject2, i3);
-            i2 = z;
+            imageReceiver.setImage(imageLocation, str3, bitmapDrawable, j, str2, messageObject2, i2);
+            i = z;
             r15 = obj;
         } else {
             placeProviderObject = placeForPhoto;
             Object obj2 = null;
             str = "window";
-            i2 = 1;
-            i2 = 1;
+            i = 1;
+            i = 1;
             f = 1.0f;
             this.actionBar.setTitle(LocaleController.getString(R.string.DisappearingPhoto));
             TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
@@ -2591,10 +2611,10 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             }
         }
         setCurrentCaption(messageObject, "", false, false);
-        setCurrentCaption(messageObject, messageObject.caption, false, i2);
-        toggleActionBar(i2, false);
+        setCurrentCaption(messageObject, messageObject.caption, false, i);
+        toggleActionBar(i, false);
         showPlayButton(false, false);
-        this.playButtonDrawable.setPause(i2);
+        this.playButtonDrawable.setPause(i);
         if (this.ignoreDelete) {
             this.secretDeleteTimer.setOnce();
             this.secretDeleteTimer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.SecretMediaViewer$$ExternalSyntheticLambda7
@@ -2615,7 +2635,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
         ((WindowManager) this.parentActivity.getSystemService(str)).addView(this.windowView, this.windowLayoutParams);
         this.secretDeleteTimer.invalidate();
-        this.isVisible = i2;
+        this.isVisible = i;
         Window window = this.parentActivity.getWindow();
         if (Build.VERSION.SDK_INT >= 21) {
             this.wasLightNavigationBar = AndroidUtilities.getLightNavigationBar(window);
@@ -2635,26 +2655,26 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         this.imageMoveAnimation = animatorSet;
         ActionBar actionBar = this.actionBar;
         Property property = View.ALPHA;
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(actionBar, property, 0.0f, 1.0f);
-        ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(this.captionScrollView, property, 0.0f, 1.0f);
-        ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.secretHint, property, 0.0f, 1.0f);
-        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.photoBackgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 0, NotificationCenter.closeSearchByActiveAction);
-        ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this, this.ANIMATION_VALUE, 0.0f, 1.0f);
+        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(actionBar, (Property<ActionBar, Float>) property, 0.0f, 1.0f);
+        ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(this.captionScrollView, (Property<PhotoViewer.CaptionScrollView, Float>) property, 0.0f, 1.0f);
+        ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.secretHint, (Property<HintView2, Float>) property, 0.0f, 1.0f);
+        ObjectAnimator ofInt = ObjectAnimator.ofInt(this.photoBackgroundDrawable, (Property<PhotoBackgroundDrawable, Integer>) AnimationProperties.COLOR_DRAWABLE_ALPHA, 0, NotificationCenter.closeSearchByActiveAction);
+        ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this, (Property<SecretMediaViewer, Float>) this.ANIMATION_VALUE, 0.0f, 1.0f);
         VideoPlayerControlFrameLayout videoPlayerControlFrameLayout = this.seekbarContainer;
         Property property2 = videoPlayerControlFrameLayout.SEEKBAR_ALPHA;
-        float[] fArr = new float[i2];
+        float[] fArr = new float[i];
         fArr[0] = f;
-        ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(videoPlayerControlFrameLayout, property2, fArr);
+        ObjectAnimator ofFloat5 = ObjectAnimator.ofFloat(videoPlayerControlFrameLayout, (Property<VideoPlayerControlFrameLayout, Float>) property2, fArr);
         VideoPlayerControlFrameLayout videoPlayerControlFrameLayout2 = this.seekbarContainer;
         if (!this.isVideo) {
             f = 0.0f;
         }
-        float[] fArr2 = new float[i2];
+        float[] fArr2 = new float[i];
         fArr2[0] = f;
-        ObjectAnimator ofFloat6 = ObjectAnimator.ofFloat(videoPlayerControlFrameLayout2, property, fArr2);
+        ObjectAnimator ofFloat6 = ObjectAnimator.ofFloat(videoPlayerControlFrameLayout2, (Property<VideoPlayerControlFrameLayout, Float>) property, fArr2);
         Animator[] animatorArr = new Animator[7];
         animatorArr[0] = ofFloat;
-        animatorArr[i2] = ofFloat2;
+        animatorArr[i] = ofFloat2;
         animatorArr[2] = ofFloat3;
         animatorArr[3] = ofInt;
         animatorArr[4] = ofFloat4;
@@ -2870,9 +2890,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             public void onSeekBarContinuousDrag(float f) {
                 if (SecretMediaViewer.this.videoPlayer != null) {
                     SecretMediaViewer.this.videoPlayer.pause();
-                    long duration = SecretMediaViewer.this.videoPlayer.getDuration();
-                    if (duration != -9223372036854775807L) {
-                        SecretMediaViewer.this.videoPlayer.seekTo(f * ((float) duration), false);
+                    if (SecretMediaViewer.this.videoPlayer.getDuration() != -9223372036854775807L) {
+                        SecretMediaViewer.this.videoPlayer.seekTo(f * ((float) r0), false);
                     }
                 }
             }
@@ -2880,9 +2899,8 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             @Override // org.telegram.ui.Components.VideoPlayerSeekBar.SeekBarDelegate
             public void onSeekBarDrag(float f) {
                 if (SecretMediaViewer.this.videoPlayer != null) {
-                    long duration = SecretMediaViewer.this.videoPlayer.getDuration();
-                    if (duration != -9223372036854775807L) {
-                        SecretMediaViewer.this.videoPlayer.seekTo(f * ((float) duration), false);
+                    if (SecretMediaViewer.this.videoPlayer.getDuration() != -9223372036854775807L) {
+                        SecretMediaViewer.this.videoPlayer.seekTo(f * ((float) r0), false);
                     }
                     SecretMediaViewer.this.videoPlayer.play();
                 }

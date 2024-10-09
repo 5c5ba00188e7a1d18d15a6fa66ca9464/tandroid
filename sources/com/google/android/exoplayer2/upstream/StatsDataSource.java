@@ -4,6 +4,7 @@ import android.net.Uri;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.Collections;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class StatsDataSource implements DataSource {
     private long bytesRead;

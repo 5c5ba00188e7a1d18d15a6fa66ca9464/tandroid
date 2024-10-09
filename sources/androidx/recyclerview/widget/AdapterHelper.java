@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.telegram.messenger.BuildVars;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class AdapterHelper implements OpReorderer.Callback {
@@ -77,19 +78,19 @@ public class AdapterHelper implements OpReorderer.Callback {
             if (i == 8 && Math.abs(this.itemCount - this.positionStart) == 1 && this.itemCount == updateOp.positionStart && this.positionStart == updateOp.itemCount) {
                 return true;
             }
-            if (this.itemCount == updateOp.itemCount && this.positionStart == updateOp.positionStart) {
-                Object obj2 = this.payload;
-                Object obj3 = updateOp.payload;
-                if (obj2 != null) {
-                    if (!obj2.equals(obj3)) {
-                        return false;
-                    }
-                } else if (obj3 != null) {
+            if (this.itemCount != updateOp.itemCount || this.positionStart != updateOp.positionStart) {
+                return false;
+            }
+            Object obj2 = this.payload;
+            Object obj3 = updateOp.payload;
+            if (obj2 != null) {
+                if (!obj2.equals(obj3)) {
                     return false;
                 }
-                return true;
+            } else if (obj3 != null) {
+                return false;
             }
-            return false;
+            return true;
         }
 
         public int hashCode() {
@@ -227,7 +228,6 @@ public class AdapterHelper implements OpReorderer.Callback {
                     }
                     i4++;
                 }
-                continue;
             } else {
                 continue;
             }
@@ -246,9 +246,10 @@ public class AdapterHelper implements OpReorderer.Callback {
         int i4 = updateOp.cmd;
         if (i4 == 2) {
             i = 0;
-        } else if (i4 != 4) {
-            throw new IllegalArgumentException("op should be remove or update." + updateOp);
         } else {
+            if (i4 != 4) {
+                throw new IllegalArgumentException("op should be remove or update." + updateOp);
+            }
             i = 1;
         }
         int i5 = 1;
@@ -285,8 +286,9 @@ public class AdapterHelper implements OpReorderer.Callback {
         while (true) {
             if (this.lastNotifies.size() <= 5) {
                 break;
+            } else {
+                this.lastNotifies.remove(0);
             }
-            this.lastNotifies.remove(0);
         }
         StringBuilder sb = new StringBuilder();
         sb.append(new Date().toString());
@@ -312,13 +314,19 @@ public class AdapterHelper implements OpReorderer.Callback {
         int i = updateOp.cmd;
         if (i == 1) {
             this.mCallback.offsetPositionsForAdd(updateOp.positionStart, updateOp.itemCount);
-        } else if (i == 2) {
+            return;
+        }
+        if (i == 2) {
             this.mCallback.offsetPositionsForRemovingLaidOutOrNewView(updateOp.positionStart, updateOp.itemCount);
-        } else if (i == 4) {
+            return;
+        }
+        if (i == 4) {
             this.mCallback.markViewHoldersUpdated(updateOp.positionStart, updateOp.itemCount, updateOp.payload);
-        } else if (i == 8) {
-            this.mCallback.offsetPositionsForMove(updateOp.positionStart, updateOp.itemCount);
         } else {
+            if (i == 8) {
+                this.mCallback.offsetPositionsForMove(updateOp.positionStart, updateOp.itemCount);
+                return;
+            }
             throw new IllegalArgumentException("Unknown update op type for " + updateOp);
         }
     }
@@ -492,9 +500,10 @@ public class AdapterHelper implements OpReorderer.Callback {
         int i2 = updateOp.cmd;
         if (i2 == 2) {
             this.mCallback.offsetPositionsForRemovingInvisible(i, updateOp.itemCount);
-        } else if (i2 != 4) {
-            throw new IllegalArgumentException("only remove and update ops can be dispatched in first pass");
         } else {
+            if (i2 != 4) {
+                throw new IllegalArgumentException("only remove and update ops can be dispatched in first pass");
+            }
             this.mCallback.markViewHoldersUpdated(i, updateOp.itemCount, updateOp.payload);
         }
     }
@@ -607,15 +616,15 @@ public class AdapterHelper implements OpReorderer.Callback {
         if (i == i2) {
             return false;
         }
-        if (i3 == 1) {
-            if (BuildVars.DEBUG_VERSION) {
-                logNotify("onItemRangeMoved(" + i + ", " + i2 + ", " + i3 + ")");
-            }
-            this.mPendingUpdates.add(obtainUpdateOp(8, i, i2, null));
-            this.mExistingUpdateTypes |= 8;
-            return this.mPendingUpdates.size() == 1;
+        if (i3 != 1) {
+            throw new IllegalArgumentException("Moving more than 1 item is not supported yet");
         }
-        throw new IllegalArgumentException("Moving more than 1 item is not supported yet");
+        if (BuildVars.DEBUG_VERSION) {
+            logNotify("onItemRangeMoved(" + i + ", " + i2 + ", " + i3 + ")");
+        }
+        this.mPendingUpdates.add(obtainUpdateOp(8, i, i2, null));
+        this.mExistingUpdateTypes |= 8;
+        return this.mPendingUpdates.size() == 1;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

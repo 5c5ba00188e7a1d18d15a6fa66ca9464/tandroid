@@ -6,6 +6,7 @@ import com.google.android.gms.internal.vision.zzfe;
 import com.google.android.gms.internal.vision.zzfi$zzo;
 import com.google.android.gms.internal.vision.zzio;
 import com.google.android.gms.vision.L;
+
 /* loaded from: classes.dex */
 public class VisionClearcutLogger {
     private final ClearcutLogger zza;

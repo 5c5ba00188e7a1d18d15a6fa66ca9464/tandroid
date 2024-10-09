@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 final class e0 implements K {
     private final long[] a;
@@ -27,8 +28,8 @@ final class e0 implements K {
     }
 
     @Override // j$.util.N
-    /* renamed from: d */
-    public final void forEachRemaining(j$.util.function.W w) {
+    /* renamed from: d, reason: merged with bridge method [inline-methods] */
+    public final void e(j$.util.function.W w) {
         int i;
         w.getClass();
         long[] jArr = this.a;
@@ -38,12 +39,13 @@ final class e0 implements K {
             return;
         }
         this.b = i2;
-        if (i < i2) {
-            do {
-                w.accept(jArr[i]);
-                i++;
-            } while (i < i2);
+        if (i >= i2) {
+            return;
         }
+        do {
+            w.accept(jArr[i]);
+            i++;
+        } while (i < i2);
     }
 
     @Override // j$.util.Q
@@ -70,8 +72,8 @@ final class e0 implements K {
     }
 
     @Override // j$.util.N
-    /* renamed from: i */
-    public final boolean tryAdvance(j$.util.function.W w) {
+    /* renamed from: i, reason: merged with bridge method [inline-methods] */
+    public final boolean p(j$.util.function.W w) {
         w.getClass();
         int i = this.b;
         if (i < 0 || i >= this.c) {

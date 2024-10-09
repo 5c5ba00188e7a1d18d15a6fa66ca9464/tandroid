@@ -19,6 +19,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Adapters.DialogsAdapter;
 import org.telegram.ui.Cells.DialogCell;
 import org.telegram.ui.Cells.DialogsEmptyCell;
+
 /* loaded from: classes3.dex */
 public abstract class DialogsItemAnimator extends SimpleItemAnimator {
     private static TimeInterpolator sDefaultInterpolator = new DecelerateInterpolator();
@@ -89,7 +90,7 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
         this.listView = recyclerListView;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x004e  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x004e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -135,7 +136,7 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
                     dialogCell.setElevation(-1.0f);
                     dialogCell.setOutlineProvider(null);
                 }
-                duration = ObjectAnimator.ofFloat(dialogCell, AnimationProperties.CLIP_DIALOG_CELL_PROGRESS, 1.0f).setDuration(180L);
+                duration = ObjectAnimator.ofFloat(dialogCell, (Property<DialogCell, Float>) AnimationProperties.CLIP_DIALOG_CELL_PROGRESS, 1.0f).setDuration(180L);
                 duration.setInterpolator(sDefaultInterpolator);
                 animatorListenerAdapter = new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.1
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -159,7 +160,7 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
             this.removingDialog.setBottomClip(this.bottomClip);
             if (Build.VERSION.SDK_INT >= 21) {
             }
-            duration = ObjectAnimator.ofFloat(dialogCell, AnimationProperties.CLIP_DIALOG_CELL_PROGRESS, 1.0f).setDuration(180L);
+            duration = ObjectAnimator.ofFloat(dialogCell, (Property<DialogCell, Float>) AnimationProperties.CLIP_DIALOG_CELL_PROGRESS, 1.0f).setDuration(180L);
             duration.setInterpolator(sDefaultInterpolator);
             animatorListenerAdapter = new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.1
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -180,7 +181,7 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
                 }
             };
         } else {
-            duration = ObjectAnimator.ofFloat(dialogCell, View.ALPHA, 1.0f).setDuration(180L);
+            duration = ObjectAnimator.ofFloat(dialogCell, (Property<DialogCell, Float>) View.ALPHA, 1.0f).setDuration(180L);
             duration.setInterpolator(sDefaultInterpolator);
             animatorListenerAdapter = new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.2
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -229,9 +230,10 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
         boolean z = false;
         if (changeInfo.newHolder == viewHolder) {
             changeInfo.newHolder = null;
-        } else if (changeInfo.oldHolder != viewHolder) {
-            return false;
         } else {
+            if (changeInfo.oldHolder != viewHolder) {
+                return false;
+            }
             changeInfo.oldHolder = null;
             z = true;
         }
@@ -328,16 +330,16 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
 
     @Override // androidx.recyclerview.widget.SimpleItemAnimator
     public boolean animateChange(RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2, RecyclerView.ItemAnimator.ItemHolderInfo itemHolderInfo, int i, int i2, int i3, int i4) {
-        if (viewHolder.itemView instanceof DialogCell) {
-            resetAnimation(viewHolder);
-            resetAnimation(viewHolder2);
-            viewHolder.itemView.setAlpha(1.0f);
-            viewHolder2.itemView.setAlpha(0.0f);
-            viewHolder2.itemView.setTranslationX(0.0f);
-            this.mPendingChanges.add(new ChangeInfo(viewHolder, viewHolder2, i, i2, i3, i4));
-            return true;
+        if (!(viewHolder.itemView instanceof DialogCell)) {
+            return false;
         }
-        return false;
+        resetAnimation(viewHolder);
+        resetAnimation(viewHolder2);
+        viewHolder.itemView.setAlpha(1.0f);
+        viewHolder2.itemView.setAlpha(0.0f);
+        viewHolder2.itemView.setTranslationX(0.0f);
+        this.mPendingChanges.add(new ChangeInfo(viewHolder, viewHolder2, i, i2, i3, i4));
+        return true;
     }
 
     void animateChangeImpl(final ChangeInfo changeInfo) {
@@ -350,7 +352,7 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
         animatorSet.setDuration(180L);
         View view = viewHolder.itemView;
         Property property = View.ALPHA;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(view, property, 0.0f), ObjectAnimator.ofFloat(viewHolder2.itemView, property, 1.0f));
+        animatorSet.playTogether(ObjectAnimator.ofFloat(view, (Property<View, Float>) property, 0.0f), ObjectAnimator.ofFloat(viewHolder2.itemView, (Property<View, Float>) property, 1.0f));
         this.mChangeAnimations.add(changeInfo.oldHolder);
         this.mChangeAnimations.add(changeInfo.newHolder);
         animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.6
@@ -485,10 +487,10 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
                 dialogCell = (DialogCell) childAt;
             }
         }
-        if (viewHolder.itemView == dialogCell) {
-            this.removingDialog = dialogCell;
+        if (viewHolder.itemView != dialogCell) {
             return true;
         }
+        this.removingDialog = dialogCell;
         return true;
     }
 
@@ -520,7 +522,8 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
             size--;
             if (size < 0) {
                 break;
-            } else if (((MoveInfo) this.mPendingMoves.get(size)).holder == viewHolder) {
+            }
+            if (((MoveInfo) this.mPendingMoves.get(size)).holder == viewHolder) {
                 view.setTranslationY(0.0f);
                 view.setTranslationX(0.0f);
                 dispatchMoveFinished(viewHolder);
@@ -557,7 +560,8 @@ public abstract class DialogsItemAnimator extends SimpleItemAnimator {
             while (true) {
                 if (size4 < 0) {
                     break;
-                } else if (((MoveInfo) arrayList2.get(size4)).holder == viewHolder) {
+                }
+                if (((MoveInfo) arrayList2.get(size4)).holder == viewHolder) {
                     view.setTranslationY(0.0f);
                     view.setTranslationX(0.0f);
                     dispatchMoveFinished(viewHolder);

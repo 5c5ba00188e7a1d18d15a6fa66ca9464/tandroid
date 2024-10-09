@@ -33,6 +33,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public class FirebaseMessaging {
     private static final long MAX_DELAY_SEC = TimeUnit.HOURS.toSeconds(8);
@@ -270,41 +271,41 @@ public class FirebaseMessaging {
     /* JADX INFO: Access modifiers changed from: package-private */
     public String blockingGetToken() {
         Store.Token tokenWithoutTriggeringSync = getTokenWithoutTriggeringSync();
-        if (tokenNeedsRefresh(tokenWithoutTriggeringSync)) {
-            final String defaultSenderId = Metadata.getDefaultSenderId(this.firebaseApp);
-            try {
-                String str = (String) Tasks.await(this.fis.getId().continueWithTask(FcmExecutors.newNetworkIOExecutor(), new Continuation(this, defaultSenderId) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$8
-                    private final FirebaseMessaging arg$1;
-                    private final String arg$2;
-
-                    /* JADX INFO: Access modifiers changed from: package-private */
-                    {
-                        this.arg$1 = this;
-                        this.arg$2 = defaultSenderId;
-                    }
-
-                    @Override // com.google.android.gms.tasks.Continuation
-                    public Object then(Task task) {
-                        return this.arg$1.lambda$blockingGetToken$9$FirebaseMessaging(this.arg$2, task);
-                    }
-                }));
-                store.saveToken(getSubtype(), defaultSenderId, str, this.metadata.getAppVersionCode());
-                if (tokenWithoutTriggeringSync != null) {
-                    if (!str.equals(tokenWithoutTriggeringSync.token)) {
-                    }
-                    return str;
-                }
-                invokeOnTokenRefresh(str);
-                return str;
-            } catch (InterruptedException e) {
-                e = e;
-                throw new IOException(e);
-            } catch (ExecutionException e2) {
-                e = e2;
-                throw new IOException(e);
-            }
+        if (!tokenNeedsRefresh(tokenWithoutTriggeringSync)) {
+            return tokenWithoutTriggeringSync.token;
         }
-        return tokenWithoutTriggeringSync.token;
+        final String defaultSenderId = Metadata.getDefaultSenderId(this.firebaseApp);
+        try {
+            String str = (String) Tasks.await(this.fis.getId().continueWithTask(FcmExecutors.newNetworkIOExecutor(), new Continuation(this, defaultSenderId) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$8
+                private final FirebaseMessaging arg$1;
+                private final String arg$2;
+
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.arg$1 = this;
+                    this.arg$2 = defaultSenderId;
+                }
+
+                @Override // com.google.android.gms.tasks.Continuation
+                public Object then(Task task) {
+                    return this.arg$1.lambda$blockingGetToken$9$FirebaseMessaging(this.arg$2, task);
+                }
+            }));
+            store.saveToken(getSubtype(), defaultSenderId, str, this.metadata.getAppVersionCode());
+            if (tokenWithoutTriggeringSync != null) {
+                if (!str.equals(tokenWithoutTriggeringSync.token)) {
+                }
+                return str;
+            }
+            invokeOnTokenRefresh(str);
+            return str;
+        } catch (InterruptedException e) {
+            e = e;
+            throw new IOException(e);
+        } catch (ExecutionException e2) {
+            e = e2;
+            throw new IOException(e);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

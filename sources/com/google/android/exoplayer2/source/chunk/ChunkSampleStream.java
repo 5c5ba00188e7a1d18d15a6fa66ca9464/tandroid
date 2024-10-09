@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public class ChunkSampleStream implements SampleStream, SequenceableLoader, Loader.Callback, Loader.ReleaseCallback {
     private final SequenceableLoader.Callback callback;
@@ -84,11 +85,11 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
             if (ChunkSampleStream.this.isPendingReset()) {
                 return -3;
             }
-            if (ChunkSampleStream.this.canceledMediaChunk == null || ChunkSampleStream.this.canceledMediaChunk.getFirstSampleIndex(this.index + 1) > this.sampleQueue.getReadIndex()) {
-                maybeNotifyDownstreamFormat();
-                return this.sampleQueue.read(formatHolder, decoderInputBuffer, i, ChunkSampleStream.this.loadingFinished);
+            if (ChunkSampleStream.this.canceledMediaChunk != null && ChunkSampleStream.this.canceledMediaChunk.getFirstSampleIndex(this.index + 1) <= this.sampleQueue.getReadIndex()) {
+                return -3;
             }
-            return -3;
+            maybeNotifyDownstreamFormat();
+            return this.sampleQueue.read(formatHolder, decoderInputBuffer, i, ChunkSampleStream.this.loadingFinished);
         }
 
         public void release() {
@@ -208,8 +209,7 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
     }
 
     private BaseMediaChunk getLastMediaChunk() {
-        ArrayList arrayList = this.mediaChunks;
-        return (BaseMediaChunk) arrayList.get(arrayList.size() - 1);
+        return (BaseMediaChunk) this.mediaChunks.get(r0.size() - 1);
     }
 
     private boolean haveReadFromMediaChunk(int i) {
@@ -296,31 +296,31 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
             this.pendingResetPositionUs = -9223372036854775807L;
             this.loadingFinished = true;
             return true;
-        } else if (chunk == null) {
-            return false;
-        } else {
-            this.loadingChunk = chunk;
-            if (isMediaChunk(chunk)) {
-                BaseMediaChunk baseMediaChunk = (BaseMediaChunk) chunk;
-                if (isPendingReset) {
-                    long j2 = baseMediaChunk.startTimeUs;
-                    long j3 = this.pendingResetPositionUs;
-                    if (j2 != j3) {
-                        this.primarySampleQueue.setStartTimeUs(j3);
-                        for (SampleQueue sampleQueue : this.embeddedSampleQueues) {
-                            sampleQueue.setStartTimeUs(this.pendingResetPositionUs);
-                        }
-                    }
-                    this.pendingResetPositionUs = -9223372036854775807L;
-                }
-                baseMediaChunk.init(this.chunkOutput);
-                this.mediaChunks.add(baseMediaChunk);
-            } else if (chunk instanceof InitializationChunk) {
-                ((InitializationChunk) chunk).init(this.chunkOutput);
-            }
-            this.mediaSourceEventDispatcher.loadStarted(new LoadEventInfo(chunk.loadTaskId, chunk.dataSpec, this.loader.startLoading(chunk, this, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(chunk.type))), chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs);
-            return true;
         }
+        if (chunk == null) {
+            return false;
+        }
+        this.loadingChunk = chunk;
+        if (isMediaChunk(chunk)) {
+            BaseMediaChunk baseMediaChunk = (BaseMediaChunk) chunk;
+            if (isPendingReset) {
+                long j2 = baseMediaChunk.startTimeUs;
+                long j3 = this.pendingResetPositionUs;
+                if (j2 != j3) {
+                    this.primarySampleQueue.setStartTimeUs(j3);
+                    for (SampleQueue sampleQueue : this.embeddedSampleQueues) {
+                        sampleQueue.setStartTimeUs(this.pendingResetPositionUs);
+                    }
+                }
+                this.pendingResetPositionUs = -9223372036854775807L;
+            }
+            baseMediaChunk.init(this.chunkOutput);
+            this.mediaChunks.add(baseMediaChunk);
+        } else if (chunk instanceof InitializationChunk) {
+            ((InitializationChunk) chunk).init(this.chunkOutput);
+        }
+        this.mediaSourceEventDispatcher.loadStarted(new LoadEventInfo(chunk.loadTaskId, chunk.dataSpec, this.loader.startLoading(chunk, this, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(chunk.type))), chunk.type, this.primaryTrackType, chunk.trackFormat, chunk.trackSelectionReason, chunk.trackSelectionData, chunk.startTimeUs, chunk.endTimeUs);
+        return true;
     }
 
     public void discardBuffer(long j, boolean z) {
@@ -361,8 +361,7 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
         BaseMediaChunk lastMediaChunk = getLastMediaChunk();
         if (!lastMediaChunk.isLoadCompleted()) {
             if (this.mediaChunks.size() > 1) {
-                ArrayList arrayList = this.mediaChunks;
-                lastMediaChunk = (BaseMediaChunk) arrayList.get(arrayList.size() - 2);
+                lastMediaChunk = (BaseMediaChunk) this.mediaChunks.get(r2.size() - 2);
             } else {
                 lastMediaChunk = null;
             }
@@ -443,8 +442,8 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
         this.callback.onContinueLoadingRequested(this);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00a9  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x00f1  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x00f1  */
     @Override // com.google.android.exoplayer2.upstream.Loader.Callback
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -511,11 +510,11 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
             return -3;
         }
         BaseMediaChunk baseMediaChunk = this.canceledMediaChunk;
-        if (baseMediaChunk == null || baseMediaChunk.getFirstSampleIndex(0) > this.primarySampleQueue.getReadIndex()) {
-            maybeNotifyPrimaryTrackFormatChanged();
-            return this.primarySampleQueue.read(formatHolder, decoderInputBuffer, i, this.loadingFinished);
+        if (baseMediaChunk != null && baseMediaChunk.getFirstSampleIndex(0) <= this.primarySampleQueue.getReadIndex()) {
+            return -3;
         }
-        return -3;
+        maybeNotifyPrimaryTrackFormatChanged();
+        return this.primarySampleQueue.read(formatHolder, decoderInputBuffer, i, this.loadingFinished);
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
@@ -566,8 +565,10 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
             long j2 = baseMediaChunk.startTimeUs;
             if (j2 == j && baseMediaChunk.clippedStartTimeUs == -9223372036854775807L) {
                 break;
-            } else if (j2 > j) {
-                break;
+            } else {
+                if (j2 > j) {
+                    break;
+                }
             }
         }
         baseMediaChunk = null;

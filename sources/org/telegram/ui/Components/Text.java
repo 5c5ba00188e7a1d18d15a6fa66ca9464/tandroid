@@ -14,6 +14,7 @@ import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class Text {
     private boolean doNotSave;
@@ -53,12 +54,11 @@ public class Text {
     public void draw(Canvas canvas) {
         int i;
         int i2;
-        StaticLayout staticLayout = this.layout;
-        if (staticLayout == null) {
+        if (this.layout == null) {
             return;
         }
         if (!this.doNotSave && (i2 = this.ellipsizeWidth) >= 0 && this.width > i2) {
-            canvas.saveLayerAlpha(0.0f, -this.vertPad, i2 - 1, staticLayout.getHeight() + this.vertPad, NotificationCenter.closeSearchByActiveAction, 31);
+            canvas.saveLayerAlpha(0.0f, -this.vertPad, i2 - 1, r0.getHeight() + this.vertPad, NotificationCenter.closeSearchByActiveAction, 31);
         }
         if (this.hackClipBounds) {
             canvas.drawText(this.layout.getText().toString(), 0.0f, -this.paint.getFontMetricsInt().ascent, this.paint);

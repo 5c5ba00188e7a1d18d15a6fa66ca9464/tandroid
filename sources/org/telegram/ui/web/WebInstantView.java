@@ -55,6 +55,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.web.BotWebViewContainer;
 import org.telegram.ui.web.MHTML;
 import org.telegram.ui.web.WebInstantView;
+
 /* loaded from: classes.dex */
 public class WebInstantView {
     public static final HashMap instants = new HashMap();
@@ -166,8 +167,9 @@ public class WebInstantView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:9:0x0030, code lost:
-            if ((r5.cached_page instanceof org.telegram.tgnet.TLRPC.TL_page) != false) goto L4;
+        /* JADX WARN: Code restructure failed: missing block: B:23:0x0030, code lost:
+        
+            if ((r5.cached_page instanceof org.telegram.tgnet.TLRPC.TL_page) != false) goto L5;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -240,14 +242,14 @@ public class WebInstantView {
 
         public TLRPC.WebPage getWebPage() {
             TLRPC.WebPage webPage;
-            if (SharedConfig.onlyLocalInstantView || (webPage = this.remotePage) == null) {
-                TLRPC.WebPage webPage2 = this.localPage;
-                if (webPage2 != null) {
-                    return webPage2;
-                }
-                return null;
+            if (!SharedConfig.onlyLocalInstantView && (webPage = this.remotePage) != null) {
+                return webPage;
             }
-            return webPage;
+            TLRPC.WebPage webPage2 = this.localPage;
+            if (webPage2 != null) {
+                return webPage2;
+            }
+            return null;
         }
 
         public boolean isDone() {
@@ -339,7 +341,6 @@ public class WebInstantView {
     public static TLRPC.RichText addLastSpace(TLRPC.RichText richText) {
         TLRPC.TL_textPlain tL_textPlain;
         String str;
-        ArrayList<TLRPC.RichText> arrayList;
         if (richText == null) {
             return richText;
         }
@@ -351,7 +352,7 @@ public class WebInstantView {
                 }
                 return richText;
             }
-            richText2 = richText.texts.get(arrayList.size() - 1);
+            richText2 = richText.texts.get(r0.size() - 1);
         }
         addLastSpace(richText2);
         return richText;
@@ -373,8 +374,7 @@ public class WebInstantView {
                 }
                 return richText;
             }
-            ArrayList<TLRPC.RichText> arrayList = richText.texts;
-            richText2 = arrayList.get(arrayList.size() - 1);
+            richText2 = richText.texts.get(r0.size() - 1);
         }
         addNewLine(richText2);
         return richText;
@@ -406,12 +406,12 @@ public class WebInstantView {
             while (true) {
                 if (i >= arrayList.size()) {
                     break;
-                } else if (((Pair) arrayList.get(i)).first == imageReceiver) {
+                }
+                if (((Pair) arrayList.get(i)).first == imageReceiver) {
                     arrayList.remove(i);
                     break;
-                } else {
-                    i++;
                 }
+                i++;
             }
             if (arrayList.isEmpty()) {
                 loadingPhotos.remove(str);
@@ -436,18 +436,16 @@ public class WebInstantView {
                 }
             }
             return tL_textConcat2;
-        } else if (!(richText instanceof TLRPC.TL_textUrl) || (str3 = (tL_textUrl = (TLRPC.TL_textUrl) richText).url) == null) {
-            return richText;
-        } else {
-            String lowerCase = str3.toLowerCase();
-            if (!lowerCase.equals("#" + str2)) {
-                String lowerCase2 = tL_textUrl.url.toLowerCase();
-                if (!TextUtils.equals(lowerCase2, str + "#" + str2)) {
-                    return richText;
-                }
-            }
-            return null;
         }
+        if (!(richText instanceof TLRPC.TL_textUrl) || (str3 = (tL_textUrl = (TLRPC.TL_textUrl) richText).url) == null) {
+            return richText;
+        }
+        if (!str3.toLowerCase().equals("#" + str2)) {
+            if (!TextUtils.equals(tL_textUrl.url.toLowerCase(), str + "#" + str2)) {
+                return richText;
+            }
+        }
+        return null;
     }
 
     public static Runnable generate(WebView webView, boolean z, final Utilities.Callback callback) {
@@ -569,7 +567,7 @@ public class WebInstantView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0062  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -638,8 +636,8 @@ public class WebInstantView {
         webInstantView.loadPhotoInternal(webPhoto, imageReceiver, runnable);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00a6 A[Catch: Exception -> 0x0025, TryCatch #0 {Exception -> 0x0025, blocks: (B:2:0x0000, B:4:0x0005, B:5:0x000c, B:7:0x0012, B:15:0x002c, B:17:0x0038, B:19:0x003c, B:22:0x0041, B:45:0x00bb, B:24:0x0059, B:26:0x005d, B:44:0x00b3, B:28:0x0061, B:30:0x0074, B:32:0x0078, B:38:0x00a0, B:39:0x00a2, B:41:0x00a6, B:43:0x00b0, B:34:0x0081, B:35:0x0091, B:37:0x0095, B:47:0x00bf, B:49:0x00c9, B:51:0x00d7, B:53:0x00db, B:54:0x00e2, B:56:0x00ee, B:58:0x00f4, B:61:0x00ff, B:62:0x0102, B:64:0x010b), top: B:68:0x0000 }] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00b0 A[Catch: Exception -> 0x0025, TryCatch #0 {Exception -> 0x0025, blocks: (B:2:0x0000, B:4:0x0005, B:5:0x000c, B:7:0x0012, B:15:0x002c, B:17:0x0038, B:19:0x003c, B:22:0x0041, B:45:0x00bb, B:24:0x0059, B:26:0x005d, B:44:0x00b3, B:28:0x0061, B:30:0x0074, B:32:0x0078, B:38:0x00a0, B:39:0x00a2, B:41:0x00a6, B:43:0x00b0, B:34:0x0081, B:35:0x0091, B:37:0x0095, B:47:0x00bf, B:49:0x00c9, B:51:0x00d7, B:53:0x00db, B:54:0x00e2, B:56:0x00ee, B:58:0x00f4, B:61:0x00ff, B:62:0x0102, B:64:0x010b), top: B:68:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00a6 A[Catch: Exception -> 0x0025, TryCatch #0 {Exception -> 0x0025, blocks: (B:2:0x0000, B:4:0x0005, B:5:0x000c, B:7:0x0012, B:13:0x002c, B:15:0x0038, B:17:0x003c, B:22:0x0041, B:23:0x00bb, B:26:0x0059, B:28:0x005d, B:30:0x00b3, B:31:0x0061, B:33:0x0074, B:35:0x0078, B:36:0x00a0, B:37:0x00a2, B:39:0x00a6, B:41:0x00b0, B:43:0x0081, B:44:0x0091, B:46:0x0095, B:47:0x00bf, B:49:0x00c9, B:51:0x00d7, B:53:0x00db, B:54:0x00e2, B:56:0x00ee, B:58:0x00f4, B:60:0x00ff, B:65:0x0102, B:67:0x010b), top: B:1:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00b0 A[Catch: Exception -> 0x0025, TryCatch #0 {Exception -> 0x0025, blocks: (B:2:0x0000, B:4:0x0005, B:5:0x000c, B:7:0x0012, B:13:0x002c, B:15:0x0038, B:17:0x003c, B:22:0x0041, B:23:0x00bb, B:26:0x0059, B:28:0x005d, B:30:0x00b3, B:31:0x0061, B:33:0x0074, B:35:0x0078, B:36:0x00a0, B:37:0x00a2, B:39:0x00a6, B:41:0x00b0, B:43:0x0081, B:44:0x0091, B:46:0x0095, B:47:0x00bf, B:49:0x00c9, B:51:0x00d7, B:53:0x00db, B:54:0x00e2, B:56:0x00ee, B:58:0x00f4, B:60:0x00ff, B:65:0x0102, B:67:0x010b), top: B:1:0x0000 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -679,14 +677,15 @@ public class WebInstantView {
                         }
                     }).execute(webPhoto.url);
                     return;
-                }
-                for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                    if (((Pair) arrayList.get(i2)).first == imageReceiver) {
-                        return;
+                } else {
+                    for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                        if (((Pair) arrayList.get(i2)).first == imageReceiver) {
+                            return;
+                        }
                     }
+                    arrayList.add(new Pair(imageReceiver, runnable));
+                    return;
                 }
-                arrayList.add(new Pair(imageReceiver, runnable));
-                return;
             }
             if (entry.getType().contains("svg")) {
                 if (webPhoto.w > 0 && webPhoto.h > 0) {
@@ -782,8 +781,7 @@ public class WebInstantView {
                 }
                 return richText;
             }
-            ArrayList<TLRPC.RichText> arrayList = richText.texts;
-            richText2 = arrayList.get(arrayList.size() - 1);
+            richText2 = richText.texts.get(r0.size() - 1);
         }
         trimEnd(richText2);
         return richText;
@@ -815,14 +813,16 @@ public class WebInstantView {
         }
         if (webView == null) {
             callback.run(null);
-        } else if (z) {
-            webView.evaluateJavascript("document.documentElement.outerHTML", new ValueCallback() { // from class: org.telegram.ui.web.WebInstantView$$ExternalSyntheticLambda2
-                @Override // android.webkit.ValueCallback
-                public final void onReceiveValue(Object obj) {
-                    WebInstantView.lambda$getHTML$5(Utilities.Callback.this, (String) obj);
-                }
-            });
         } else {
+            if (z) {
+                webView.evaluateJavascript("document.documentElement.outerHTML", new ValueCallback() { // from class: org.telegram.ui.web.WebInstantView$$ExternalSyntheticLambda2
+                    @Override // android.webkit.ValueCallback
+                    public final void onReceiveValue(Object obj) {
+                        WebInstantView.lambda$getHTML$5(Utilities.Callback.this, (String) obj);
+                    }
+                });
+                return;
+            }
             System.currentTimeMillis();
             final File file = new File(AndroidUtilities.getCacheDir(), "archive.mht");
             webView.evaluateJavascript(AndroidUtilities.readRes(R.raw.open_collapsed).replace("$OPEN$", "true"), new ValueCallback() { // from class: org.telegram.ui.web.WebInstantView$$ExternalSyntheticLambda3
@@ -1126,17 +1126,15 @@ public class WebInstantView {
         return tL_page;
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:14:0x0041. Please report as an issue. */
+    /* JADX WARN: Failed to find 'out' block for switch in B:96:0x01a7. Please report as an issue. */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r3v11, types: [org.telegram.tgnet.TLRPC$TL_pageBlockDivider] */
-    /* JADX WARN: Type inference failed for: r3v12, types: [org.telegram.tgnet.TLRPC$PageBlock] */
-    /* JADX WARN: Type inference failed for: r3v17, types: [org.telegram.tgnet.TLRPC$TL_pageBlockTable] */
-    /* JADX WARN: Type inference failed for: r3v22, types: [org.telegram.tgnet.TLRPC$TL_pageBlockDetails] */
     /* JADX WARN: Type inference failed for: r3v4, types: [org.telegram.tgnet.TLRPC$TL_pageBlockParagraph] */
     /* JADX WARN: Type inference failed for: r4v10, types: [org.telegram.tgnet.TLRPC$TL_pageBlockBlockquote] */
     /* JADX WARN: Type inference failed for: r4v7, types: [org.telegram.tgnet.TLRPC$TL_pageBlockHeader] */
     /* JADX WARN: Type inference failed for: r4v8, types: [org.telegram.tgnet.TLRPC$TL_pageBlockSubheader] */
     /* JADX WARN: Type inference failed for: r4v9, types: [org.telegram.tgnet.TLRPC$TL_pageBlockPreformatted] */
-    /* JADX WARN: Type inference failed for: r8v0, types: [org.telegram.ui.web.WebInstantView] */
     public ArrayList parsePageBlocks(String str, JSONArray jSONArray, TLRPC.TL_page tL_page) {
         TLRPC.RichText trim;
         TLRPC.TL_pageBlockPhoto tL_pageBlockPhoto;
@@ -1408,9 +1406,9 @@ public class WebInstantView {
                             arrayList.add(tL_pageBlockParagraph);
                             break;
                         case 26:
-                            ?? parseDetails = parseDetails(str, jSONObject, tL_page);
+                            TLRPC.TL_pageBlockDetails parseDetails = parseDetails(str, jSONObject, tL_page);
                             tL_pageBlockPhoto = parseDetails;
-                            if (parseDetails == 0) {
+                            if (parseDetails == null) {
                                 break;
                             }
                             arrayList.add(tL_pageBlockPhoto);
@@ -1433,16 +1431,149 @@ public class WebInstantView {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x00d5, code lost:
+    
+        switch(r9) {
+            case 0: goto L95;
+            case 1: goto L84;
+            case 2: goto L95;
+            case 3: goto L83;
+            case 4: goto L80;
+            case 5: goto L79;
+            case 6: goto L75;
+            case 7: goto L71;
+            case 8: goto L70;
+            case 9: goto L69;
+            case 10: goto L68;
+            case 11: goto L70;
+            case 12: goto L66;
+            default: goto L86;
+        };
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x00da, code lost:
+    
+        r4 = new org.telegram.tgnet.TLRPC.TL_textMarked();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:53:0x00df, code lost:
+    
+        r4.text = parseRichText(r3, r12);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x0196, code lost:
+    
+        if (r4 == null) goto L111;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0198, code lost:
+    
+        r3 = applyAnchor(r4, r3);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x00e7, code lost:
+    
+        r4 = new org.telegram.tgnet.TLRPC.TL_textSuperscript();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x00ed, code lost:
+    
+        r4 = new org.telegram.tgnet.TLRPC.TL_textSubscript();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x00f3, code lost:
+    
+        r4 = new org.telegram.tgnet.TLRPC.TL_textFixed();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00fd, code lost:
+    
+        if (r0.isEmpty() != false) goto L74;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:62:0x00ff, code lost:
+    
+        addLastSpace(r0.get(r0.size() - 1));
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x010d, code lost:
+    
+        r4 = parseInlineImage(r3, r12);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x0117, code lost:
+    
+        if (r0.isEmpty() != false) goto L78;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x0119, code lost:
+    
+        addNewLine(r0.get(r0.size() - 1));
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:67:0x0127, code lost:
+    
+        r4 = null;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:68:0x012a, code lost:
+    
+        r4 = new org.telegram.tgnet.TLRPC.TL_textStrike();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:70:0x0134, code lost:
+    
+        if (r0.isEmpty() != false) goto L86;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x0136, code lost:
+    
+        addNewLine(r0.get(r0.size() - 1));
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x0145, code lost:
+    
+        r4 = new org.telegram.tgnet.TLRPC.TL_textItalic();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x014b, code lost:
+    
+        r4 = r3.optString("href");
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x0151, code lost:
+    
+        if (r4 != null) goto L87;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x015e, code lost:
+    
+        if (r4.startsWith("tel:") == false) goto L91;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:77:0x0160, code lost:
+    
+        r5 = new org.telegram.tgnet.TLRPC.TL_textPhone();
+        r5.phone = r4.substring(4);
+        r5 = r5;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x016b, code lost:
+    
+        r5.text = parseRichText(r3, r12);
+        r4 = r5;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:80:0x0179, code lost:
+    
+        if (r4.startsWith("mailto:") == false) goto L94;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x017b, code lost:
+    
+        r5 = new org.telegram.tgnet.TLRPC.TL_textEmail();
+        r5.email = r4.substring(7);
+        r5 = r5;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:82:0x0187, code lost:
+    
+        r5 = new org.telegram.tgnet.TLRPC.TL_textUrl();
+        r5.url = r4;
+        r5 = r5;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:83:0x018f, code lost:
+    
+        r4 = new org.telegram.tgnet.TLRPC.TL_textBold();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x0153, code lost:
+    
+        r4 = parseRichText(r3, r12);
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public TLRPC.RichText parseRichText(JSONArray jSONArray, TLRPC.TL_page tL_page) {
-        TLRPC.RichText parseRichText;
-        TLRPC.TL_textPhone tL_textPhone;
         TLRPC.RichText applyAnchor;
         ArrayList<TLRPC.RichText> arrayList = new ArrayList<>();
         for (int i = 0; i < jSONArray.length(); i++) {
             Object obj = jSONArray.get(i);
-            if (obj instanceof String) {
-                applyAnchor = parseRichText((String) obj);
-            } else {
+            if (!(obj instanceof String)) {
                 JSONObject jSONObject = (JSONObject) obj;
                 String optString = jSONObject.optString("tag");
                 optString.hashCode();
@@ -1527,84 +1658,8 @@ public class WebInstantView {
                         }
                         break;
                 }
-                switch (c) {
-                    case 0:
-                    case 2:
-                        parseRichText = new TLRPC.TL_textBold();
-                        parseRichText.text = parseRichText(jSONObject, tL_page);
-                        break;
-                    case 1:
-                        String optString2 = jSONObject.optString("href");
-                        if (optString2 != null) {
-                            if (optString2.startsWith("tel:")) {
-                                TLRPC.TL_textPhone tL_textPhone2 = new TLRPC.TL_textPhone();
-                                tL_textPhone2.phone = optString2.substring(4);
-                                tL_textPhone = tL_textPhone2;
-                            } else if (optString2.startsWith("mailto:")) {
-                                TLRPC.TL_textEmail tL_textEmail = new TLRPC.TL_textEmail();
-                                tL_textEmail.email = optString2.substring(7);
-                                tL_textPhone = tL_textEmail;
-                            } else {
-                                TLRPC.TL_textUrl tL_textUrl = new TLRPC.TL_textUrl();
-                                tL_textUrl.url = optString2;
-                                tL_textPhone = tL_textUrl;
-                            }
-                            tL_textPhone.text = parseRichText(jSONObject, tL_page);
-                            parseRichText = tL_textPhone;
-                            break;
-                        }
-                        parseRichText = parseRichText(jSONObject, tL_page);
-                        break;
-                    case 3:
-                        parseRichText = new TLRPC.TL_textItalic();
-                        parseRichText.text = parseRichText(jSONObject, tL_page);
-                        break;
-                    case 4:
-                        if (!arrayList.isEmpty()) {
-                            addNewLine(arrayList.get(arrayList.size() - 1));
-                        }
-                        parseRichText = parseRichText(jSONObject, tL_page);
-                        break;
-                    case 5:
-                        parseRichText = new TLRPC.TL_textStrike();
-                        parseRichText.text = parseRichText(jSONObject, tL_page);
-                        break;
-                    case 6:
-                        if (!arrayList.isEmpty()) {
-                            addNewLine(arrayList.get(arrayList.size() - 1));
-                        }
-                        parseRichText = null;
-                        break;
-                    case 7:
-                        if (!arrayList.isEmpty()) {
-                            addLastSpace(arrayList.get(arrayList.size() - 1));
-                        }
-                        parseRichText = parseInlineImage(jSONObject, tL_page);
-                        break;
-                    case '\b':
-                    case 11:
-                        parseRichText = new TLRPC.TL_textFixed();
-                        parseRichText.text = parseRichText(jSONObject, tL_page);
-                        break;
-                    case '\t':
-                        parseRichText = new TLRPC.TL_textSubscript();
-                        parseRichText.text = parseRichText(jSONObject, tL_page);
-                        break;
-                    case '\n':
-                        parseRichText = new TLRPC.TL_textSuperscript();
-                        parseRichText.text = parseRichText(jSONObject, tL_page);
-                        break;
-                    case '\f':
-                        parseRichText = new TLRPC.TL_textMarked();
-                        parseRichText.text = parseRichText(jSONObject, tL_page);
-                        break;
-                    default:
-                        parseRichText = parseRichText(jSONObject, tL_page);
-                        break;
-                }
-                if (parseRichText != null) {
-                    applyAnchor = applyAnchor(parseRichText, jSONObject);
-                }
+            } else {
+                applyAnchor = parseRichText((String) obj);
             }
             arrayList.add(applyAnchor);
         }
@@ -1626,12 +1681,12 @@ public class WebInstantView {
             tL_textBold.text = applyAnchor;
             applyAnchor = tL_textBold;
         }
-        if (jSONObject.has("italic")) {
-            TLRPC.TL_textItalic tL_textItalic = new TLRPC.TL_textItalic();
-            tL_textItalic.text = applyAnchor;
-            return tL_textItalic;
+        if (!jSONObject.has("italic")) {
+            return applyAnchor;
         }
-        return applyAnchor;
+        TLRPC.TL_textItalic tL_textItalic = new TLRPC.TL_textItalic();
+        tL_textItalic.text = applyAnchor;
+        return tL_textItalic;
     }
 
     public TLRPC.TL_pageBlockTable parseTable(String str, JSONObject jSONObject, TLRPC.TL_page tL_page) {
@@ -1722,7 +1777,7 @@ public class WebInstantView {
             callback.run(null);
             return;
         }
-        View rootView = findActivity.findViewById(16908290).getRootView();
+        View rootView = findActivity.findViewById(android.R.id.content).getRootView();
         if (!(rootView instanceof ViewGroup)) {
             callback.run(null);
             return;
@@ -1770,9 +1825,7 @@ public class WebInstantView {
                 String str3;
                 if (this.firstLoad) {
                     this.firstLoad = false;
-                    String readRes = AndroidUtilities.readRes(R.raw.instant);
-                    String replace = readRes.replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION);
-                    return new WebResourceResponse("text/html", "UTF-8", new ByteArrayInputStream(("<script>\n" + replace + "\n</script>").getBytes(StandardCharsets.UTF_8)));
+                    return new WebResourceResponse("text/html", "UTF-8", new ByteArrayInputStream(("<script>\n" + AndroidUtilities.readRes(R.raw.instant).replace("$DEBUG$", "" + BuildVars.DEBUG_VERSION) + "\n</script>").getBytes(StandardCharsets.UTF_8)));
                 }
                 if (str2 == null || !str2.endsWith("/index.html")) {
                     MHTML mhtml = WebInstantView.this.mhtml;
@@ -1824,17 +1877,18 @@ public class WebInstantView {
         TLRPC.Page page;
         ArrayList<TLRPC.Photo> arrayList;
         instants.remove(this.webpage);
-        for (Map.Entry entry : this.loadedPhotos.entrySet()) {
-            AndroidUtilities.recycleBitmap((Bitmap) entry.getValue());
+        Iterator it = this.loadedPhotos.entrySet().iterator();
+        while (it.hasNext()) {
+            AndroidUtilities.recycleBitmap((Bitmap) ((Map.Entry) it.next()).getValue());
         }
         this.loadedPhotos.clear();
         TLRPC.WebPage webPage = this.webpage;
         if (webPage == null || (page = webPage.cached_page) == null || (arrayList = page.photos) == null) {
             return;
         }
-        Iterator<TLRPC.Photo> it = arrayList.iterator();
-        while (it.hasNext()) {
-            TLRPC.Photo next = it.next();
+        Iterator<TLRPC.Photo> it2 = arrayList.iterator();
+        while (it2.hasNext()) {
+            TLRPC.Photo next = it2.next();
             if (next instanceof WebPhoto) {
                 WebPhoto webPhoto = (WebPhoto) next;
                 HashMap hashMap = loadingPhotos;

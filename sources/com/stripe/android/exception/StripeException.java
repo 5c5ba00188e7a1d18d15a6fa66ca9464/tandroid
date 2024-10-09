@@ -1,4 +1,5 @@
 package com.stripe.android.exception;
+
 /* loaded from: classes.dex */
 public abstract class StripeException extends Exception {
     private String requestId;

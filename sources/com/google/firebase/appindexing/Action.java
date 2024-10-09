@@ -4,6 +4,7 @@ import android.os.Bundle;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.firebase.appindexing.builders.IndexableBuilder;
 import com.google.firebase.appindexing.internal.zzc;
+
 /* loaded from: classes.dex */
 public interface Action {
 

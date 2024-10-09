@@ -11,6 +11,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.webrtc.EglBase;
 import org.webrtc.VideoFrame;
 import org.webrtc.VideoSink;
+
 /* loaded from: classes.dex */
 public class VideoFileRenderer implements VideoSink {
     private static final String TAG = "VideoFileRenderer";
@@ -94,7 +95,7 @@ public class VideoFileRenderer implements VideoSink {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: renderFrameOnRenderThread */
+    /* renamed from: renderFrameOnRenderThread, reason: merged with bridge method [inline-methods] */
     public void lambda$onFrame$0(final VideoFrame videoFrame) {
         VideoFrame.Buffer buffer = videoFrame.getBuffer();
         int i = videoFrame.getRotation() % NotificationCenter.updateBotMenuButton == 0 ? this.outputFileWidth : this.outputFileHeight;

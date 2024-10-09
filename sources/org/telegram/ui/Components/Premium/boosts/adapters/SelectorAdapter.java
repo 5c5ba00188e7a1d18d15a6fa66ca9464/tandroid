@@ -28,6 +28,7 @@ import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorLetterCe
 import org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerEmptyView;
+
 /* loaded from: classes3.dex */
 public class SelectorAdapter extends AdapterWithDiffUtils {
     private HashMap chatsParticipantsCount = new HashMap();
@@ -136,15 +137,15 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             if (this.checked != item2.checked) {
                 return false;
             }
-            if (this.viewType == 8) {
-                if (TextUtils.equals(this.subtext, item2.subtext)) {
-                    if ((this.callback == null) == (item2.callback == null)) {
-                        return true;
-                    }
-                }
-                return false;
+            if (this.viewType != 8) {
+                return true;
             }
-            return true;
+            if (TextUtils.equals(this.subtext, item2.subtext)) {
+                if ((this.callback == null) == (item2.callback == null)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public boolean equals(Object obj) {
@@ -159,24 +160,24 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             if (i != item.viewType) {
                 return false;
             }
-            if (i != -1 || this.padHeight == item.padHeight) {
-                if (i != 3 || (getDialogId() == item.getDialogId() && this.type == item.type)) {
-                    int i2 = this.viewType;
-                    if (i2 != 6 || this.country == item.country) {
-                        if (i2 != 7 || TextUtils.equals(this.text, item.text)) {
-                            if (this.viewType != 8 || TextUtils.equals(this.text, item.text)) {
-                                if (this.viewType != 9 || (TextUtils.equals(this.text, item.text) && this.id == item.id && this.resId == item.resId)) {
-                                    return this.viewType != 10 || this.view == item.view;
-                                }
-                                return false;
-                            }
-                            return false;
-                        }
-                        return false;
-                    }
-                    return false;
-                }
+            if (i == -1 && this.padHeight != item.padHeight) {
                 return false;
+            }
+            if (i == 3 && (getDialogId() != item.getDialogId() || this.type != item.type)) {
+                return false;
+            }
+            int i2 = this.viewType;
+            if (i2 == 6 && this.country != item.country) {
+                return false;
+            }
+            if (i2 == 7 && !TextUtils.equals(this.text, item.text)) {
+                return false;
+            }
+            if (this.viewType == 8 && !TextUtils.equals(this.text, item.text)) {
+                return false;
+            }
+            if (this.viewType != 9 || (TextUtils.equals(this.text, item.text) && this.id == item.id && this.resId == item.resId)) {
+                return this.viewType != 10 || this.view == item.view;
             }
             return false;
         }
@@ -265,8 +266,8 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
         notifyItemChanged(this.items.size() - 1);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00a6  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00a6  */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -282,31 +283,34 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
         }
         Item item = (Item) list.get(i);
         int itemViewType = viewHolder.getItemViewType();
-        boolean z = true;
         if (itemViewType != 3) {
             if (itemViewType == 6) {
                 SelectorCountryCell selectorCountryCell = (SelectorCountryCell) viewHolder.itemView;
-                selectorCountryCell.setCountry(item.country, (i >= this.items.size() - 1 || (i2 = i + 1) >= this.items.size() - 1 || ((Item) this.items.get(i2)).viewType == 7) ? false : false);
+                selectorCountryCell.setCountry(item.country, i < this.items.size() - 1 && (i2 = i + 1) < this.items.size() - 1 && ((Item) this.items.get(i2)).viewType != 7);
                 selectorCountryCell.setChecked(item.checked, false);
                 return;
-            } else if (itemViewType == -1) {
+            }
+            if (itemViewType == -1) {
                 int i4 = item.padHeight;
                 if (i4 < 0) {
                     i4 = (int) (AndroidUtilities.displaySize.y * 0.3f);
                 }
                 viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(-1, i4));
                 return;
-            } else if (itemViewType == 7) {
+            }
+            if (itemViewType == 7) {
                 ((SelectorLetterCell) viewHolder.itemView).setLetter(item.text);
                 return;
-            } else if (itemViewType == 5) {
+            }
+            if (itemViewType == 5) {
                 try {
                     ((StickerEmptyView) viewHolder.itemView).stickerView.getImageReceiver().startAnimation();
                     return;
                 } catch (Exception unused) {
                     return;
                 }
-            } else if (itemViewType == 8) {
+            }
+            if (itemViewType == 8) {
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (TextUtils.equals(graySectionCell.getText(), item.text)) {
                     CharSequence charSequence = item.subtext;
@@ -322,20 +326,22 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
                 }
                 this.topSectionCell = graySectionCell;
                 return;
-            } else if (itemViewType == 9) {
+            }
+            if (itemViewType == 9) {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
                 textCell.setTextAndIcon(item.text, item.resId, false);
                 return;
-            } else if (itemViewType == 10) {
-                FrameLayout frameLayout = (FrameLayout) viewHolder.itemView;
-                if (frameLayout.getChildCount() == 1 && frameLayout.getChildAt(0) == item.view) {
+            } else {
+                if (itemViewType == 10) {
+                    FrameLayout frameLayout = (FrameLayout) viewHolder.itemView;
+                    if (frameLayout.getChildCount() == 1 && frameLayout.getChildAt(0) == item.view) {
+                        return;
+                    }
+                    AndroidUtilities.removeFromParent(item.view);
+                    frameLayout.addView(item.view, LayoutHelper.createFrame(-1, -2.0f));
                     return;
                 }
-                AndroidUtilities.removeFromParent(item.view);
-                frameLayout.addView(item.view, LayoutHelper.createFrame(-1, -2.0f));
-                return;
-            } else {
                 return;
             }
         }
@@ -365,9 +371,9 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
                 selectorUserCell.setCheckboxAlpha(1.0f, false);
                 i3 = i + 1;
                 if (i3 < this.items.size() && ((Item) this.items.get(i3)).viewType != itemViewType) {
-                    z = false;
+                    r4 = false;
                 }
-                selectorUserCell.setDivider(z);
+                selectorUserCell.setDivider(r4);
                 if (i3 < this.items.size() && ((Item) this.items.get(i3)).viewType == 7) {
                     selectorUserCell.setDivider(false);
                 }
@@ -378,9 +384,9 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             selectorUserCell.setCheckboxAlpha(1.0f, false);
             i3 = i + 1;
             if (i3 < this.items.size()) {
-                z = false;
+                r4 = false;
             }
-            selectorUserCell.setDivider(z);
+            selectorUserCell.setDivider(r4);
             if (i3 < this.items.size()) {
                 selectorUserCell.setDivider(false);
             }
@@ -392,7 +398,7 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
         i3 = i + 1;
         if (i3 < this.items.size()) {
         }
-        selectorUserCell.setDivider(z);
+        selectorUserCell.setDivider(r4);
         if (i3 < this.items.size()) {
         }
         selectorUserCell.setOptions(item.options);
@@ -400,32 +406,32 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        SelectorUserCell selectorUserCell;
+        View view;
         if (i == -1) {
-            selectorUserCell = new View(this.context);
+            view = new View(this.context);
         } else if (i == 3) {
-            selectorUserCell = new SelectorUserCell(this.context, this.needChecks, this.resourcesProvider, this.isGreenSelector);
+            view = new SelectorUserCell(this.context, this.needChecks, this.resourcesProvider, this.isGreenSelector);
         } else if (i == 5) {
             StickerEmptyView stickerEmptyView = new StickerEmptyView(this.context, null, 1, this.resourcesProvider);
             stickerEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
             stickerEmptyView.subtitle.setText(LocaleController.getString(R.string.SearchEmptyViewFilteredSubtitle2));
             stickerEmptyView.linearLayout.setTranslationY(AndroidUtilities.dp(24.0f));
-            selectorUserCell = stickerEmptyView;
+            view = stickerEmptyView;
         } else if (i == 7) {
-            selectorUserCell = new SelectorLetterCell(this.context, this.resourcesProvider);
+            view = new SelectorLetterCell(this.context, this.resourcesProvider);
         } else if (i == 6) {
-            selectorUserCell = new SelectorCountryCell(this.context, this.resourcesProvider);
+            view = new SelectorCountryCell(this.context, this.resourcesProvider);
         } else if (i == 8) {
-            selectorUserCell = new GraySectionCell(this.context, this.resourcesProvider);
+            view = new GraySectionCell(this.context, this.resourcesProvider);
         } else if (i == 9) {
             TextCell textCell = new TextCell(this.context, this.resourcesProvider);
             textCell.leftPadding = 16;
             textCell.imageLeft = 19;
-            selectorUserCell = textCell;
+            view = textCell;
         } else {
-            selectorUserCell = i == 10 ? new FrameLayout(this.context) : new View(this.context);
+            view = i == 10 ? new FrameLayout(this.context) : new View(this.context);
         }
-        return new RecyclerListView.Holder(selectorUserCell);
+        return new RecyclerListView.Holder(view);
     }
 
     public void setData(List list, RecyclerListView recyclerListView) {

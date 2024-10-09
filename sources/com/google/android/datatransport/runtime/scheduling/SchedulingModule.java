@@ -8,6 +8,7 @@ import com.google.android.datatransport.runtime.scheduling.jobscheduling.Schedul
 import com.google.android.datatransport.runtime.scheduling.jobscheduling.WorkScheduler;
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStore;
 import com.google.android.datatransport.runtime.time.Clock;
+
 /* loaded from: classes.dex */
 public abstract class SchedulingModule {
     /* JADX INFO: Access modifiers changed from: package-private */

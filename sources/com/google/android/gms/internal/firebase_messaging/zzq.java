@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.firebase_messaging;
+
 /* loaded from: classes.dex */
 final class zzq extends zzn {
     private final zzp zza = new zzp();

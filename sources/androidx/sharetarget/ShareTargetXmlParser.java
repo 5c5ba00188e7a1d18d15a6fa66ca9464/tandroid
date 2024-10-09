@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import androidx.sharetarget.ShareTargetCompat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 abstract class ShareTargetXmlParser {
     private static final Object GET_INSTANCE_LOCK = new Object();
@@ -82,8 +84,9 @@ abstract class ShareTargetXmlParser {
         if (queryIntentActivities == null) {
             return arrayList;
         }
-        for (ResolveInfo resolveInfo : queryIntentActivities) {
-            ActivityInfo activityInfo = resolveInfo.activityInfo;
+        Iterator<ResolveInfo> it = queryIntentActivities.iterator();
+        while (it.hasNext()) {
+            ActivityInfo activityInfo = it.next().activityInfo;
             Bundle bundle = activityInfo.metaData;
             if (bundle != null && bundle.containsKey("android.app.shortcuts")) {
                 arrayList.addAll(parseShareTargets(context, activityInfo));
@@ -101,7 +104,8 @@ abstract class ShareTargetXmlParser {
                 int next = xmlResourceParser.next();
                 if (next == 1) {
                     break;
-                } else if (next == 2 && xmlResourceParser.getName().equals("share-target") && (parseShareTarget = parseShareTarget(xmlResourceParser)) != null) {
+                }
+                if (next == 2 && xmlResourceParser.getName().equals("share-target") && (parseShareTarget = parseShareTarget(xmlResourceParser)) != null) {
                     arrayList.add(parseShareTarget);
                 }
             } catch (Exception e) {

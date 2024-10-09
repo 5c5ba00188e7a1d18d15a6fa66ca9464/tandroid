@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public class ESDescriptor extends BaseDescriptor {
     private static Logger log = Logger.getLogger(ESDescriptor.class.getName());
@@ -31,24 +32,24 @@ public class ESDescriptor extends BaseDescriptor {
             return false;
         }
         ESDescriptor eSDescriptor = (ESDescriptor) obj;
-        if (this.URLFlag == eSDescriptor.URLFlag && this.URLLength == eSDescriptor.URLLength && this.dependsOnEsId == eSDescriptor.dependsOnEsId && this.esId == eSDescriptor.esId && this.oCREsId == eSDescriptor.oCREsId && this.oCRstreamFlag == eSDescriptor.oCRstreamFlag && this.remoteODFlag == eSDescriptor.remoteODFlag && this.streamDependenceFlag == eSDescriptor.streamDependenceFlag && this.streamPriority == eSDescriptor.streamPriority) {
-            String str = this.URLString;
-            if (str == null ? eSDescriptor.URLString == null : str.equals(eSDescriptor.URLString)) {
-                DecoderConfigDescriptor decoderConfigDescriptor = this.decoderConfigDescriptor;
-                if (decoderConfigDescriptor == null ? eSDescriptor.decoderConfigDescriptor == null : decoderConfigDescriptor.equals(eSDescriptor.decoderConfigDescriptor)) {
-                    List list = this.otherDescriptors;
-                    if (list == null ? eSDescriptor.otherDescriptors == null : list.equals(eSDescriptor.otherDescriptors)) {
-                        SLConfigDescriptor sLConfigDescriptor = this.slConfigDescriptor;
-                        SLConfigDescriptor sLConfigDescriptor2 = eSDescriptor.slConfigDescriptor;
-                        return sLConfigDescriptor == null ? sLConfigDescriptor2 == null : sLConfigDescriptor.equals(sLConfigDescriptor2);
-                    }
-                    return false;
-                }
-                return false;
-            }
+        if (this.URLFlag != eSDescriptor.URLFlag || this.URLLength != eSDescriptor.URLLength || this.dependsOnEsId != eSDescriptor.dependsOnEsId || this.esId != eSDescriptor.esId || this.oCREsId != eSDescriptor.oCREsId || this.oCRstreamFlag != eSDescriptor.oCRstreamFlag || this.remoteODFlag != eSDescriptor.remoteODFlag || this.streamDependenceFlag != eSDescriptor.streamDependenceFlag || this.streamPriority != eSDescriptor.streamPriority) {
             return false;
         }
-        return false;
+        String str = this.URLString;
+        if (str == null ? eSDescriptor.URLString != null : !str.equals(eSDescriptor.URLString)) {
+            return false;
+        }
+        DecoderConfigDescriptor decoderConfigDescriptor = this.decoderConfigDescriptor;
+        if (decoderConfigDescriptor == null ? eSDescriptor.decoderConfigDescriptor != null : !decoderConfigDescriptor.equals(eSDescriptor.decoderConfigDescriptor)) {
+            return false;
+        }
+        List list = this.otherDescriptors;
+        if (list == null ? eSDescriptor.otherDescriptors != null : !list.equals(eSDescriptor.otherDescriptors)) {
+            return false;
+        }
+        SLConfigDescriptor sLConfigDescriptor = this.slConfigDescriptor;
+        SLConfigDescriptor sLConfigDescriptor2 = eSDescriptor.slConfigDescriptor;
+        return sLConfigDescriptor == null ? sLConfigDescriptor2 == null : sLConfigDescriptor.equals(sLConfigDescriptor2);
     }
 
     public int hashCode() {

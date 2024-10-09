@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class FragmentedMp4Extractor implements Extractor {
     private final TrackOutput additionalEmsgTrackOutput;
@@ -146,34 +147,34 @@ public class FragmentedMp4Extractor implements Extractor {
         }
 
         public TrackEncryptionBox getEncryptionBoxIfEncrypted() {
-            if (this.currentlyInFragment) {
-                int i = ((DefaultSampleValues) Util.castNonNull(this.fragment.header)).sampleDescriptionIndex;
-                TrackEncryptionBox trackEncryptionBox = this.fragment.trackEncryptionBox;
-                if (trackEncryptionBox == null) {
-                    trackEncryptionBox = this.moovSampleTable.track.getSampleDescriptionEncryptionBox(i);
-                }
-                if (trackEncryptionBox == null || !trackEncryptionBox.isEncrypted) {
-                    return null;
-                }
-                return trackEncryptionBox;
+            if (!this.currentlyInFragment) {
+                return null;
             }
-            return null;
+            int i = ((DefaultSampleValues) Util.castNonNull(this.fragment.header)).sampleDescriptionIndex;
+            TrackEncryptionBox trackEncryptionBox = this.fragment.trackEncryptionBox;
+            if (trackEncryptionBox == null) {
+                trackEncryptionBox = this.moovSampleTable.track.getSampleDescriptionEncryptionBox(i);
+            }
+            if (trackEncryptionBox == null || !trackEncryptionBox.isEncrypted) {
+                return null;
+            }
+            return trackEncryptionBox;
         }
 
         public boolean next() {
             this.currentSampleIndex++;
-            if (this.currentlyInFragment) {
-                int i = this.currentSampleInTrackRun + 1;
-                this.currentSampleInTrackRun = i;
-                int[] iArr = this.fragment.trunLength;
-                int i2 = this.currentTrackRunIndex;
-                if (i == iArr[i2]) {
-                    this.currentTrackRunIndex = i2 + 1;
-                    this.currentSampleInTrackRun = 0;
-                    return false;
-                }
+            if (!this.currentlyInFragment) {
+                return false;
+            }
+            int i = this.currentSampleInTrackRun + 1;
+            this.currentSampleInTrackRun = i;
+            int[] iArr = this.fragment.trunLength;
+            int i2 = this.currentTrackRunIndex;
+            if (i != iArr[i2]) {
                 return true;
             }
+            this.currentTrackRunIndex = i2 + 1;
+            this.currentSampleInTrackRun = 0;
             return false;
         }
 
@@ -199,38 +200,38 @@ public class FragmentedMp4Extractor implements Extractor {
             this.encryptionSignalByte.setPosition(0);
             this.output.sampleData(this.encryptionSignalByte, 1, 1);
             this.output.sampleData(parsableByteArray, i3, 1);
-            if (z) {
-                if (!sampleHasSubsampleEncryptionTable) {
-                    this.scratch.reset(8);
-                    byte[] data = this.scratch.getData();
-                    data[0] = 0;
-                    data[1] = 1;
-                    data[2] = (byte) ((i2 >> 8) & NotificationCenter.closeSearchByActiveAction);
-                    data[3] = (byte) (i2 & NotificationCenter.closeSearchByActiveAction);
-                    data[4] = (byte) ((i >> 24) & NotificationCenter.closeSearchByActiveAction);
-                    data[5] = (byte) ((i >> 16) & NotificationCenter.closeSearchByActiveAction);
-                    data[6] = (byte) ((i >> 8) & NotificationCenter.closeSearchByActiveAction);
-                    data[7] = (byte) (i & NotificationCenter.closeSearchByActiveAction);
-                    this.output.sampleData(this.scratch, 8, 1);
-                    return i3 + 9;
-                }
-                ParsableByteArray parsableByteArray3 = this.fragment.sampleEncryptionData;
-                int readUnsignedShort = parsableByteArray3.readUnsignedShort();
-                parsableByteArray3.skipBytes(-2);
-                int i4 = (readUnsignedShort * 6) + 2;
-                if (i2 != 0) {
-                    this.scratch.reset(i4);
-                    byte[] data2 = this.scratch.getData();
-                    parsableByteArray3.readBytes(data2, 0, i4);
-                    int i5 = (((data2[2] & 255) << 8) | (data2[3] & 255)) + i2;
-                    data2[2] = (byte) ((i5 >> 8) & NotificationCenter.closeSearchByActiveAction);
-                    data2[3] = (byte) (i5 & NotificationCenter.closeSearchByActiveAction);
-                    parsableByteArray3 = this.scratch;
-                }
-                this.output.sampleData(parsableByteArray3, i4, 1);
-                return i3 + 1 + i4;
+            if (!z) {
+                return i3 + 1;
             }
-            return i3 + 1;
+            if (!sampleHasSubsampleEncryptionTable) {
+                this.scratch.reset(8);
+                byte[] data = this.scratch.getData();
+                data[0] = 0;
+                data[1] = 1;
+                data[2] = (byte) ((i2 >> 8) & NotificationCenter.closeSearchByActiveAction);
+                data[3] = (byte) (i2 & NotificationCenter.closeSearchByActiveAction);
+                data[4] = (byte) ((i >> 24) & NotificationCenter.closeSearchByActiveAction);
+                data[5] = (byte) ((i >> 16) & NotificationCenter.closeSearchByActiveAction);
+                data[6] = (byte) ((i >> 8) & NotificationCenter.closeSearchByActiveAction);
+                data[7] = (byte) (i & NotificationCenter.closeSearchByActiveAction);
+                this.output.sampleData(this.scratch, 8, 1);
+                return i3 + 9;
+            }
+            ParsableByteArray parsableByteArray3 = this.fragment.sampleEncryptionData;
+            int readUnsignedShort = parsableByteArray3.readUnsignedShort();
+            parsableByteArray3.skipBytes(-2);
+            int i4 = (readUnsignedShort * 6) + 2;
+            if (i2 != 0) {
+                this.scratch.reset(i4);
+                byte[] data2 = this.scratch.getData();
+                parsableByteArray3.readBytes(data2, 0, i4);
+                int i5 = (((data2[2] & 255) << 8) | (data2[3] & 255)) + i2;
+                data2[2] = (byte) ((i5 >> 8) & NotificationCenter.closeSearchByActiveAction);
+                data2[3] = (byte) (i5 & NotificationCenter.closeSearchByActiveAction);
+                parsableByteArray3 = this.scratch;
+            }
+            this.output.sampleData(parsableByteArray3, i4, 1);
+            return i3 + 1 + i4;
         }
 
         public void reset(TrackSampleTable trackSampleTable, DefaultSampleValues defaultSampleValues) {
@@ -430,8 +431,10 @@ public class FragmentedMp4Extractor implements Extractor {
             onMoovContainerAtomRead(containerAtom);
         } else if (i == 1836019558) {
             onMoofContainerAtomRead(containerAtom);
-        } else if (this.containerAtoms.isEmpty()) {
         } else {
+            if (this.containerAtoms.isEmpty()) {
+                return;
+            }
             ((Atom.ContainerAtom) this.containerAtoms.peek()).add(containerAtom);
         }
     }
@@ -443,7 +446,6 @@ public class FragmentedMp4Extractor implements Extractor {
         String str2;
         long readUnsignedInt;
         long j;
-        TrackOutput[] trackOutputArr;
         if (this.emsgTrackOutputs.length == 0) {
             return;
         }
@@ -461,10 +463,11 @@ public class FragmentedMp4Extractor implements Extractor {
             str2 = str4;
             readUnsignedInt = parsableByteArray.readUnsignedInt();
             j = j3;
-        } else if (parseFullAtomVersion != 1) {
-            Log.w("FragmentedMp4Extractor", "Skipping unsupported emsg version: " + parseFullAtomVersion);
-            return;
         } else {
+            if (parseFullAtomVersion != 1) {
+                Log.w("FragmentedMp4Extractor", "Skipping unsupported emsg version: " + parseFullAtomVersion);
+                return;
+            }
             long readUnsignedInt3 = parsableByteArray.readUnsignedInt();
             j = Util.scaleLargeTimestamp(parsableByteArray.readUnsignedLongToLong(), 1000000L, readUnsignedInt3);
             long scaleLargeTimestamp3 = Util.scaleLargeTimestamp(parsableByteArray.readUnsignedInt(), 1000L, readUnsignedInt3);
@@ -485,16 +488,17 @@ public class FragmentedMp4Extractor implements Extractor {
         }
         if (j == -9223372036854775807L) {
             this.pendingMetadataSampleInfos.addLast(new MetadataSampleInfo(scaleLargeTimestamp, true, bytesLeft));
-        } else if (this.pendingMetadataSampleInfos.isEmpty()) {
-            TimestampAdjuster timestampAdjuster = this.timestampAdjuster;
-            if (timestampAdjuster != null) {
-                j = timestampAdjuster.adjustSampleTimestamp(j);
-            }
-            for (TrackOutput trackOutput2 : this.emsgTrackOutputs) {
-                trackOutput2.sampleMetadata(j, 1, bytesLeft, 0, null);
-            }
-            return;
         } else {
+            if (this.pendingMetadataSampleInfos.isEmpty()) {
+                TimestampAdjuster timestampAdjuster = this.timestampAdjuster;
+                if (timestampAdjuster != null) {
+                    j = timestampAdjuster.adjustSampleTimestamp(j);
+                }
+                for (TrackOutput trackOutput2 : this.emsgTrackOutputs) {
+                    trackOutput2.sampleMetadata(j, 1, bytesLeft, 0, null);
+                }
+                return;
+            }
             this.pendingMetadataSampleInfos.addLast(new MetadataSampleInfo(j, false, bytesLeft));
         }
         this.pendingMetadataSampleBytes += bytesLeft;
@@ -509,14 +513,13 @@ public class FragmentedMp4Extractor implements Extractor {
         if (i != 1936286840) {
             if (i == 1701671783) {
                 onEmsgLeafAtomRead(leafAtom.data);
-                return;
             }
-            return;
+        } else {
+            Pair parseSidx = parseSidx(leafAtom.data, j);
+            this.segmentIndexEarliestPresentationTimeUs = ((Long) parseSidx.first).longValue();
+            this.extractorOutput.seekMap((SeekMap) parseSidx.second);
+            this.haveOutputSeekMap = true;
         }
-        Pair parseSidx = parseSidx(leafAtom.data, j);
-        this.segmentIndexEarliestPresentationTimeUs = ((Long) parseSidx.first).longValue();
-        this.extractorOutput.seekMap((SeekMap) parseSidx.second);
-        this.haveOutputSeekMap = true;
     }
 
     private void onMoofContainerAtomRead(Atom.ContainerAtom containerAtom) {
@@ -624,9 +627,9 @@ public class FragmentedMp4Extractor implements Extractor {
         int readUnsignedIntToInt = parsableByteArray.readUnsignedIntToInt();
         if (readUnsignedIntToInt == 1) {
             trackFragment.auxiliaryDataPosition += Atom.parseFullAtomVersion(readInt) == 0 ? parsableByteArray.readUnsignedInt() : parsableByteArray.readUnsignedLongToLong();
-            return;
+        } else {
+            throw ParserException.createForMalformedContainer("Unexpected saio entry count: " + readUnsignedIntToInt, null);
         }
-        throw ParserException.createForMalformedContainer("Unexpected saio entry count: " + readUnsignedIntToInt, null);
     }
 
     private static void parseSaiz(TrackEncryptionBox trackEncryptionBox, ParsableByteArray parsableByteArray, TrackFragment trackFragment) {
@@ -733,7 +736,9 @@ public class FragmentedMp4Extractor implements Extractor {
         int readUnsignedIntToInt = parsableByteArray.readUnsignedIntToInt();
         if (readUnsignedIntToInt == 0) {
             Arrays.fill(trackFragment.sampleHasSubsampleEncryptionTable, 0, trackFragment.sampleCount, false);
-        } else if (readUnsignedIntToInt == trackFragment.sampleCount) {
+            return;
+        }
+        if (readUnsignedIntToInt == trackFragment.sampleCount) {
             Arrays.fill(trackFragment.sampleHasSubsampleEncryptionTable, 0, readUnsignedIntToInt, z);
             trackFragment.initEncryptionData(parsableByteArray.bytesLeft());
             trackFragment.fillEncryptionData(parsableByteArray);
@@ -785,13 +790,12 @@ public class FragmentedMp4Extractor implements Extractor {
             long[] jArr4 = jArr2;
             long[] jArr5 = jArr3;
             int i2 = readUnsignedShort;
-            int[] iArr2 = iArr;
             long scaleLargeTimestamp2 = Util.scaleLargeTimestamp(j6, 1000000L, readUnsignedInt);
             jArr4[i] = scaleLargeTimestamp2 - jArr5[i];
             parsableByteArray.skipBytes(4);
-            j3 += iArr2[i];
+            j3 += r1[i];
             i++;
-            iArr = iArr2;
+            iArr = iArr;
             jArr3 = jArr5;
             jArr2 = jArr4;
             jArr = jArr;
@@ -872,7 +876,7 @@ public class FragmentedMp4Extractor implements Extractor {
         return Pair.create(Integer.valueOf(parsableByteArray.readInt()), new DefaultSampleValues(parsableByteArray.readInt() - 1, parsableByteArray.readInt(), parsableByteArray.readInt(), parsableByteArray.readInt()));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00b0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1044,8 +1048,8 @@ public class FragmentedMp4Extractor implements Extractor {
         enterReadingAtomHeaderState();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0084  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0155  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0084  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0155  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1071,64 +1075,65 @@ public class FragmentedMp4Extractor implements Extractor {
                     position = (length - extractorInput.getPosition()) + this.atomHeaderBytesRead;
                 }
             }
-            if (this.atomSize < this.atomHeaderBytesRead) {
-                long position2 = extractorInput.getPosition() - this.atomHeaderBytesRead;
-                int i = this.atomType;
-                if ((i == 1836019558 || i == 1835295092) && !this.haveOutputSeekMap) {
-                    this.extractorOutput.seekMap(new SeekMap.Unseekable(this.durationUs, position2));
-                    this.haveOutputSeekMap = true;
+            if (this.atomSize >= this.atomHeaderBytesRead) {
+                throw ParserException.createForUnsupportedContainerFeature("Atom size less than header length (unsupported).");
+            }
+            long position2 = extractorInput.getPosition() - this.atomHeaderBytesRead;
+            int i = this.atomType;
+            if ((i == 1836019558 || i == 1835295092) && !this.haveOutputSeekMap) {
+                this.extractorOutput.seekMap(new SeekMap.Unseekable(this.durationUs, position2));
+                this.haveOutputSeekMap = true;
+            }
+            if (this.atomType == 1836019558) {
+                int size = this.trackBundles.size();
+                for (int i2 = 0; i2 < size; i2++) {
+                    TrackFragment trackFragment = ((TrackBundle) this.trackBundles.valueAt(i2)).fragment;
+                    trackFragment.atomPosition = position2;
+                    trackFragment.auxiliaryDataPosition = position2;
+                    trackFragment.dataPosition = position2;
                 }
-                if (this.atomType == 1836019558) {
-                    int size = this.trackBundles.size();
-                    for (int i2 = 0; i2 < size; i2++) {
-                        TrackFragment trackFragment = ((TrackBundle) this.trackBundles.valueAt(i2)).fragment;
-                        trackFragment.atomPosition = position2;
-                        trackFragment.auxiliaryDataPosition = position2;
-                        trackFragment.dataPosition = position2;
-                    }
-                }
-                int i3 = this.atomType;
-                if (i3 == 1835295092) {
-                    this.currentTrackBundle = null;
-                    this.endOfMdatPosition = position2 + this.atomSize;
-                    this.parserState = 2;
-                    return true;
-                }
-                if (shouldParseContainerAtom(i3)) {
-                    long position3 = (extractorInput.getPosition() + this.atomSize) - 8;
-                    this.containerAtoms.push(new Atom.ContainerAtom(this.atomType, position3));
-                    if (this.atomSize == this.atomHeaderBytesRead) {
-                        processAtomEnded(position3);
-                    } else {
-                        enterReadingAtomHeaderState();
-                    }
-                } else {
-                    if (shouldParseLeafAtom(this.atomType)) {
-                        if (this.atomHeaderBytesRead != 8) {
-                            throw ParserException.createForUnsupportedContainerFeature("Leaf atom defines extended atom size (unsupported).");
-                        }
-                        if (this.atomSize > 2147483647L) {
-                            throw ParserException.createForUnsupportedContainerFeature("Leaf atom with length > 2147483647 (unsupported).");
-                        }
-                        ParsableByteArray parsableByteArray = new ParsableByteArray((int) this.atomSize);
-                        System.arraycopy(this.atomHeader.getData(), 0, parsableByteArray.getData(), 0, 8);
-                        this.atomData = parsableByteArray;
-                    } else if (this.atomSize > 2147483647L) {
-                        throw ParserException.createForUnsupportedContainerFeature("Skipping atom with length > 2147483647 (unsupported).");
-                    } else {
-                        this.atomData = null;
-                    }
-                    this.parserState = 1;
-                }
+            }
+            int i3 = this.atomType;
+            if (i3 == 1835295092) {
+                this.currentTrackBundle = null;
+                this.endOfMdatPosition = position2 + this.atomSize;
+                this.parserState = 2;
                 return true;
             }
-            throw ParserException.createForUnsupportedContainerFeature("Atom size less than header length (unsupported).");
+            if (shouldParseContainerAtom(i3)) {
+                long position3 = (extractorInput.getPosition() + this.atomSize) - 8;
+                this.containerAtoms.push(new Atom.ContainerAtom(this.atomType, position3));
+                if (this.atomSize == this.atomHeaderBytesRead) {
+                    processAtomEnded(position3);
+                } else {
+                    enterReadingAtomHeaderState();
+                }
+            } else {
+                if (shouldParseLeafAtom(this.atomType)) {
+                    if (this.atomHeaderBytesRead != 8) {
+                        throw ParserException.createForUnsupportedContainerFeature("Leaf atom defines extended atom size (unsupported).");
+                    }
+                    if (this.atomSize > 2147483647L) {
+                        throw ParserException.createForUnsupportedContainerFeature("Leaf atom with length > 2147483647 (unsupported).");
+                    }
+                    ParsableByteArray parsableByteArray = new ParsableByteArray((int) this.atomSize);
+                    System.arraycopy(this.atomHeader.getData(), 0, parsableByteArray.getData(), 0, 8);
+                    this.atomData = parsableByteArray;
+                } else {
+                    if (this.atomSize > 2147483647L) {
+                        throw ParserException.createForUnsupportedContainerFeature("Skipping atom with length > 2147483647 (unsupported).");
+                    }
+                    this.atomData = null;
+                }
+                this.parserState = 1;
+            }
+            return true;
         }
         extractorInput.readFully(this.atomHeader.getData(), 8, 8);
         this.atomHeaderBytesRead += 8;
         position = this.atomHeader.readUnsignedLongToLong();
         this.atomSize = position;
-        if (this.atomSize < this.atomHeaderBytesRead) {
+        if (this.atomSize >= this.atomHeaderBytesRead) {
         }
     }
 
@@ -1179,12 +1184,12 @@ public class FragmentedMp4Extractor implements Extractor {
             trackBundle = getNextTrackBundle(this.trackBundles);
             if (trackBundle == null) {
                 int position = (int) (this.endOfMdatPosition - extractorInput.getPosition());
-                if (position >= 0) {
-                    extractorInput.skipFully(position);
-                    enterReadingAtomHeaderState();
-                    return false;
+                if (position < 0) {
+                    throw ParserException.createForMalformedContainer("Offset to end of mdat was negative.", null);
                 }
-                throw ParserException.createForMalformedContainer("Offset to end of mdat was negative.", null);
+                extractorInput.skipFully(position);
+                enterReadingAtomHeaderState();
+                return false;
             }
             int currentSampleOffset = (int) (trackBundle.getCurrentSampleOffset() - extractorInput.getPosition());
             if (currentSampleOffset < 0) {

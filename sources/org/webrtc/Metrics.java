@@ -2,6 +2,7 @@ package org.webrtc;
 
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public class Metrics {
     private static final String TAG = "Metrics";

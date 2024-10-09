@@ -15,6 +15,7 @@ import com.google.android.gms.location.LastLocationRequest;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.zzm;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
 /* loaded from: classes.dex */
 public final class zzda extends GmsClient {
     private final SimpleArrayMap zzf;
@@ -131,8 +132,8 @@ public final class zzda extends GmsClient {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0046 A[Catch: all -> 0x002e, TryCatch #0 {all -> 0x002e, blocks: (B:4:0x001a, B:8:0x0028, B:12:0x003d, B:14:0x0046, B:16:0x0082, B:15:0x0059, B:11:0x0030), top: B:20:0x001a }] */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0059 A[Catch: all -> 0x002e, TryCatch #0 {all -> 0x002e, blocks: (B:4:0x001a, B:8:0x0028, B:12:0x003d, B:14:0x0046, B:16:0x0082, B:15:0x0059, B:11:0x0030), top: B:20:0x001a }] */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0046 A[Catch: all -> 0x002e, TryCatch #0 {all -> 0x002e, blocks: (B:4:0x001a, B:8:0x0028, B:9:0x003d, B:11:0x0046, B:12:0x0082, B:16:0x0059, B:17:0x0030), top: B:3:0x001a }] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0059 A[Catch: all -> 0x002e, TryCatch #0 {all -> 0x002e, blocks: (B:4:0x001a, B:8:0x0028, B:9:0x003d, B:11:0x0046, B:12:0x0082, B:16:0x0059, B:17:0x0030), top: B:3:0x001a }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -152,9 +153,10 @@ public final class zzda extends GmsClient {
                     getContext();
                     String idString = listenerKey.toIdString();
                     if (zzE) {
+                        zzo zzoVar = (zzo) getService();
                         LocationRequest.Builder builder = new LocationRequest.Builder(locationRequest);
                         builder.zzb(null);
-                        ((zzo) getService()).zzz(new zzdf(1, zzdd.zza(null, builder.build()), null, zzcwVar, null, new zzcp(taskCompletionSource, zzcwVar), idString));
+                        zzoVar.zzz(new zzdf(1, zzdd.zza(null, builder.build()), null, zzcwVar, null, new zzcp(taskCompletionSource, zzcwVar), idString));
                     } else {
                         ((zzo) getService()).zzk(zzdb.zzb(zzcwVar2, zzcwVar, null, idString), locationRequest, new zzcl(this, null, taskCompletionSource));
                     }

@@ -9,6 +9,7 @@ import org.telegram.messenger.voip.VoIPPreNotificationService;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.voip.VoIPHelper;
+
 /* loaded from: classes4.dex */
 public class VoIPPermissionActivity extends Activity {
     @Override // android.app.Activity
@@ -68,7 +69,7 @@ public class VoIPPermissionActivity extends Activity {
                     VoIPPreNotificationService.answer(this);
                 }
                 finish();
-                startActivity(new Intent(this, LaunchActivity.class).setAction("voip"));
+                startActivity(new Intent(this, (Class<?>) LaunchActivity.class).setAction("voip"));
                 return;
             }
             shouldShowRequestPermissionRationale = shouldShowRequestPermissionRationale("android.permission.RECORD_AUDIO");

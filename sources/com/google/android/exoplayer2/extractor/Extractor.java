@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.extractor;
+
 /* loaded from: classes.dex */
 public interface Extractor {
     void init(ExtractorOutput extractorOutput);

@@ -38,6 +38,7 @@ import java.util.Collection;
 import java.util.List;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     private static final int[] STANDARD_LONG_EDGE_VIDEO_PX = {1920, 1600, 1440, 1280, 960, 854, 640, 540, 480};
@@ -88,19 +89,19 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
             int[] supportedHdrTypes;
             DisplayManager displayManager = (DisplayManager) context.getSystemService("display");
             Display display = displayManager != null ? displayManager.getDisplay(0) : null;
-            if (display != null) {
-                isHdr = display.isHdr();
-                if (isHdr) {
-                    hdrCapabilities = display.getHdrCapabilities();
-                    supportedHdrTypes = hdrCapabilities.getSupportedHdrTypes();
-                    for (int i : supportedHdrTypes) {
-                        if (i == 1) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
+            if (display == null) {
                 return false;
+            }
+            isHdr = display.isHdr();
+            if (!isHdr) {
+                return false;
+            }
+            hdrCapabilities = display.getHdrCapabilities();
+            supportedHdrTypes = hdrCapabilities.getSupportedHdrTypes();
+            for (int i : supportedHdrTypes) {
+                if (i == 1) {
+                    return true;
+                }
             }
             return false;
         }
@@ -160,9 +161,9 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         public void onFrameRendered(MediaCodecAdapter mediaCodecAdapter, long j, long j2) {
             if (Util.SDK_INT >= 30) {
                 handleFrameRendered(j);
-                return;
+            } else {
+                this.handler.sendMessageAtFrontOfQueue(Message.obtain(this.handler, 0, (int) (j >> 32), (int) j));
             }
-            this.handler.sendMessageAtFrontOfQueue(Message.obtain(this.handler, 0, (int) (j >> 32), (int) j));
         }
     }
 
@@ -211,9 +212,11 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:621:0x0848, code lost:
-        if (r0.equals("PGN528") == false) goto L46;
+    /* JADX WARN: Code restructure failed: missing block: B:448:0x0848, code lost:
+    
+        if (r0.equals("PGN528") == false) goto L91;
      */
+    /* JADX WARN: Failed to find 'out' block for switch in B:47:0x089f. Please report as an issue. */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -298,1230 +301,1230 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                     return true;
             }
         }
-        if (i > 27 || !"HWEML".equals(Util.DEVICE)) {
-            String str2 = Util.MODEL;
-            str2.hashCode();
-            switch (str2.hashCode()) {
-                case -349662828:
-                    if (str2.equals("AFTJMST12")) {
-                        c = 0;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case -321033677:
-                    if (str2.equals("AFTKMST12")) {
-                        c = 1;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 2006354:
-                    if (str2.equals("AFTA")) {
-                        c = 2;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 2006367:
-                    if (str2.equals("AFTN")) {
-                        c = 3;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 2006371:
-                    if (str2.equals("AFTR")) {
-                        c = 4;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 1785421873:
-                    if (str2.equals("AFTEU011")) {
-                        c = 5;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 1785421876:
-                    if (str2.equals("AFTEU014")) {
-                        c = 6;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 1798172390:
-                    if (str2.equals("AFTSO001")) {
-                        c = 7;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 2119412532:
-                    if (str2.equals("AFTEUFF014")) {
-                        c = '\b';
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                default:
-                    c = 65535;
-                    break;
-            }
-            switch (c) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case '\b':
-                    return true;
-                default:
-                    if (i <= 26) {
-                        String str3 = Util.DEVICE;
-                        str3.hashCode();
-                        switch (str3.hashCode()) {
-                            case -2144781245:
-                                if (str3.equals("GIONEE_SWW1609")) {
-                                    c3 = 0;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -2144781185:
-                                if (str3.equals("GIONEE_SWW1627")) {
-                                    c3 = 1;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -2144781160:
-                                if (str3.equals("GIONEE_SWW1631")) {
-                                    c3 = 2;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -2097309513:
-                                if (str3.equals("K50a40")) {
-                                    c3 = 3;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -2022874474:
-                                if (str3.equals("CP8676_I02")) {
-                                    c3 = 4;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1978993182:
-                                if (str3.equals("NX541J")) {
-                                    c3 = 5;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1978990237:
-                                if (str3.equals("NX573J")) {
-                                    c3 = 6;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1936688988:
-                                break;
-                            case -1936688066:
-                                if (str3.equals("PGN610")) {
-                                    c3 = '\b';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1936688065:
-                                if (str3.equals("PGN611")) {
-                                    c3 = '\t';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1931988508:
-                                if (str3.equals("AquaPowerM")) {
-                                    c3 = '\n';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1885099851:
-                                if (str3.equals("RAIJIN")) {
-                                    c3 = 11;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1696512866:
-                                if (str3.equals("XT1663")) {
-                                    c3 = '\f';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1680025915:
-                                if (str3.equals("ComioS1")) {
-                                    c3 = '\r';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1615810839:
-                                if (str3.equals("Phantom6")) {
-                                    c3 = 14;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1600724499:
-                                if (str3.equals("pacificrim")) {
-                                    c3 = 15;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1554255044:
-                                if (str3.equals("vernee_M5")) {
-                                    c3 = 16;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1481772737:
-                                if (str3.equals("panell_dl")) {
-                                    c3 = 17;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1481772730:
-                                if (str3.equals("panell_ds")) {
-                                    c3 = 18;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1481772729:
-                                if (str3.equals("panell_dt")) {
-                                    c3 = 19;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1320080169:
-                                if (str3.equals("GiONEE_GBL7319")) {
-                                    c3 = 20;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1217592143:
-                                if (str3.equals("BRAVIA_ATV2")) {
-                                    c3 = 21;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1180384755:
-                                if (str3.equals("iris60")) {
-                                    c3 = 22;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1139198265:
-                                if (str3.equals("Slate_Pro")) {
-                                    c3 = 23;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -1052835013:
-                                if (str3.equals("namath")) {
-                                    c3 = 24;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -993250464:
-                                if (str3.equals("A10-70F")) {
-                                    c3 = 25;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -993250458:
-                                if (str3.equals("A10-70L")) {
-                                    c3 = 26;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -965403638:
-                                if (str3.equals("s905x018")) {
-                                    c3 = 27;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -958336948:
-                                if (str3.equals("ELUGA_Ray_X")) {
-                                    c3 = 28;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -879245230:
-                                if (str3.equals("tcl_eu")) {
-                                    c3 = 29;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -842500323:
-                                if (str3.equals("nicklaus_f")) {
-                                    c3 = 30;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -821392978:
-                                if (str3.equals("A7000-a")) {
-                                    c3 = 31;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -797483286:
-                                if (str3.equals("SVP-DTV15")) {
-                                    c3 = ' ';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -794946968:
-                                if (str3.equals("watson")) {
-                                    c3 = '!';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -788334647:
-                                if (str3.equals("whyred")) {
-                                    c3 = '\"';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -782144577:
-                                if (str3.equals("OnePlus5T")) {
-                                    c3 = '#';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -575125681:
-                                if (str3.equals("GiONEE_CBL7513")) {
-                                    c3 = '$';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -521118391:
-                                if (str3.equals("GIONEE_GBL7360")) {
-                                    c3 = '%';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -430914369:
-                                if (str3.equals("Pixi4-7_3G")) {
-                                    c3 = '&';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -290434366:
-                                if (str3.equals("taido_row")) {
-                                    c3 = '\'';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -282781963:
-                                if (str3.equals("BLACK-1X")) {
-                                    c3 = '(';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -277133239:
-                                if (str3.equals("Z12_PRO")) {
-                                    c3 = ')';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -173639913:
-                                if (str3.equals("ELUGA_A3_Pro")) {
-                                    c3 = '*';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case -56598463:
-                                if (str3.equals("woods_fn")) {
-                                    c3 = '+';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2126:
-                                if (str3.equals("C1")) {
-                                    c3 = ',';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2564:
-                                if (str3.equals("Q5")) {
-                                    c3 = '-';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2715:
-                                if (str3.equals("V1")) {
-                                    c3 = '.';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2719:
-                                if (str3.equals("V5")) {
-                                    c3 = '/';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 3091:
-                                if (str3.equals("b5")) {
-                                    c3 = '0';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 3483:
-                                if (str3.equals("mh")) {
-                                    c3 = '1';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 73405:
-                                if (str3.equals("JGZ")) {
-                                    c3 = '2';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 75537:
-                                if (str3.equals("M04")) {
-                                    c3 = '3';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 75739:
-                                if (str3.equals("M5c")) {
-                                    c3 = '4';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 76779:
-                                if (str3.equals("MX6")) {
-                                    c3 = '5';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 78669:
-                                if (str3.equals("P85")) {
-                                    c3 = '6';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 79305:
-                                if (str3.equals("PLE")) {
-                                    c3 = '7';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 80618:
-                                if (str3.equals("QX1")) {
-                                    c3 = '8';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 88274:
-                                if (str3.equals("Z80")) {
-                                    c3 = '9';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 98846:
-                                if (str3.equals("cv1")) {
-                                    c3 = ':';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 98848:
-                                if (str3.equals("cv3")) {
-                                    c3 = ';';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 99329:
-                                if (str3.equals("deb")) {
-                                    c3 = '<';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 101481:
-                                if (str3.equals("flo")) {
-                                    c3 = '=';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1513190:
-                                if (str3.equals("1601")) {
-                                    c3 = '>';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1514184:
-                                if (str3.equals("1713")) {
-                                    c3 = '?';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1514185:
-                                if (str3.equals("1714")) {
-                                    c3 = '@';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2133089:
-                                if (str3.equals("F01H")) {
-                                    c3 = 'A';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2133091:
-                                if (str3.equals("F01J")) {
-                                    c3 = 'B';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2133120:
-                                if (str3.equals("F02H")) {
-                                    c3 = 'C';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2133151:
-                                if (str3.equals("F03H")) {
-                                    c3 = 'D';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2133182:
-                                if (str3.equals("F04H")) {
-                                    c3 = 'E';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2133184:
-                                if (str3.equals("F04J")) {
-                                    c3 = 'F';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2436959:
-                                if (str3.equals("P681")) {
-                                    c3 = 'G';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2463773:
-                                if (str3.equals("Q350")) {
-                                    c3 = 'H';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2464648:
-                                if (str3.equals("Q427")) {
-                                    c3 = 'I';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2689555:
-                                if (str3.equals("XE2X")) {
-                                    c3 = 'J';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 3154429:
-                                if (str3.equals("fugu")) {
-                                    c3 = 'K';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 3284551:
-                                if (str3.equals("kate")) {
-                                    c3 = 'L';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 3351335:
-                                if (str3.equals("mido")) {
-                                    c3 = 'M';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 3386211:
-                                if (str3.equals("p212")) {
-                                    c3 = 'N';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 41325051:
-                                if (str3.equals("MEIZU_M5")) {
-                                    c3 = 'O';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 51349633:
-                                if (str3.equals("601LV")) {
-                                    c3 = 'P';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 51350594:
-                                if (str3.equals("602LV")) {
-                                    c3 = 'Q';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 55178625:
-                                if (str3.equals("Aura_Note_2")) {
-                                    c3 = 'R';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 61542055:
-                                if (str3.equals("A1601")) {
-                                    c3 = 'S';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 65355429:
-                                if (str3.equals("E5643")) {
-                                    c3 = 'T';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 66214468:
-                                if (str3.equals("F3111")) {
-                                    c3 = 'U';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 66214470:
-                                if (str3.equals("F3113")) {
-                                    c3 = 'V';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 66214473:
-                                if (str3.equals("F3116")) {
-                                    c3 = 'W';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 66215429:
-                                if (str3.equals("F3211")) {
-                                    c3 = 'X';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 66215431:
-                                if (str3.equals("F3213")) {
-                                    c3 = 'Y';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 66215433:
-                                if (str3.equals("F3215")) {
-                                    c3 = 'Z';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 66216390:
-                                if (str3.equals("F3311")) {
-                                    c3 = '[';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 76402249:
-                                if (str3.equals("PRO7S")) {
-                                    c3 = '\\';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 76404105:
-                                if (str3.equals("Q4260")) {
-                                    c3 = ']';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 76404911:
-                                if (str3.equals("Q4310")) {
-                                    c3 = '^';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 80963634:
-                                if (str3.equals("V23GB")) {
-                                    c3 = '_';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 82882791:
-                                if (str3.equals("X3_HK")) {
-                                    c3 = '`';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 98715550:
-                                if (str3.equals("i9031")) {
-                                    c3 = 'a';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 101370885:
-                                if (str3.equals("l5460")) {
-                                    c3 = 'b';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 102844228:
-                                if (str3.equals("le_x6")) {
-                                    c3 = 'c';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 165221241:
-                                if (str3.equals("A2016a40")) {
-                                    c3 = 'd';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 182191441:
-                                if (str3.equals("CPY83_I00")) {
-                                    c3 = 'e';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 245388979:
-                                if (str3.equals("marino_f")) {
-                                    c3 = 'f';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 287431619:
-                                if (str3.equals("griffin")) {
-                                    c3 = 'g';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 307593612:
-                                if (str3.equals("A7010a48")) {
-                                    c3 = 'h';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 308517133:
-                                if (str3.equals("A7020a48")) {
-                                    c3 = 'i';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 316215098:
-                                if (str3.equals("TB3-730F")) {
-                                    c3 = 'j';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 316215116:
-                                if (str3.equals("TB3-730X")) {
-                                    c3 = 'k';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 316246811:
-                                if (str3.equals("TB3-850F")) {
-                                    c3 = 'l';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 316246818:
-                                if (str3.equals("TB3-850M")) {
-                                    c3 = 'm';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 407160593:
-                                if (str3.equals("Pixi5-10_4G")) {
-                                    c3 = 'n';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 507412548:
-                                if (str3.equals("QM16XE_U")) {
-                                    c3 = 'o';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 793982701:
-                                if (str3.equals("GIONEE_WBL5708")) {
-                                    c3 = 'p';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 794038622:
-                                if (str3.equals("GIONEE_WBL7365")) {
-                                    c3 = 'q';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 794040393:
-                                if (str3.equals("GIONEE_WBL7519")) {
-                                    c3 = 'r';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 835649806:
-                                if (str3.equals("manning")) {
-                                    c3 = 's';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 917340916:
-                                if (str3.equals("A7000plus")) {
-                                    c3 = 't';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 958008161:
-                                if (str3.equals("j2xlteins")) {
-                                    c3 = 'u';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1060579533:
-                                if (str3.equals("panell_d")) {
-                                    c3 = 'v';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1150207623:
-                                if (str3.equals("LS-5017")) {
-                                    c3 = 'w';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1176899427:
-                                if (str3.equals("itel_S41")) {
-                                    c3 = 'x';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1280332038:
-                                if (str3.equals("hwALE-H")) {
-                                    c3 = 'y';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1306947716:
-                                if (str3.equals("EverStar_S")) {
-                                    c3 = 'z';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1349174697:
-                                if (str3.equals("htc_e56ml_dtul")) {
-                                    c3 = '{';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1522194893:
-                                if (str3.equals("woods_f")) {
-                                    c3 = '|';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1691543273:
-                                if (str3.equals("CPH1609")) {
-                                    c3 = '}';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1691544261:
-                                if (str3.equals("CPH1715")) {
-                                    c3 = '~';
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1709443163:
-                                if (str3.equals("iball8735_9806")) {
-                                    c3 = 127;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1865889110:
-                                if (str3.equals("santoni")) {
-                                    c3 = 128;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1906253259:
-                                if (str3.equals("PB2-670M")) {
-                                    c3 = 129;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 1977196784:
-                                if (str3.equals("Infinix-X572")) {
-                                    c3 = 130;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2006372676:
-                                if (str3.equals("BRAVIA_ATV3_4K")) {
-                                    c3 = 131;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2019281702:
-                                if (str3.equals("DM-01K")) {
-                                    c3 = 132;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2029784656:
-                                if (str3.equals("HWBLN-H")) {
-                                    c3 = 133;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2030379515:
-                                if (str3.equals("HWCAM-H")) {
-                                    c3 = 134;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2033393791:
-                                if (str3.equals("ASUS_X00AD_2")) {
-                                    c3 = 135;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2047190025:
-                                if (str3.equals("ELUGA_Note")) {
-                                    c3 = 136;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2047252157:
-                                if (str3.equals("ELUGA_Prim")) {
-                                    c3 = 137;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2048319463:
-                                if (str3.equals("HWVNS-H")) {
-                                    c3 = 138;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            case 2048855701:
-                                if (str3.equals("HWWAS-H")) {
-                                    c3 = 139;
-                                    break;
-                                }
-                                c3 = 65535;
-                                break;
-                            default:
-                                c3 = 65535;
-                                break;
-                        }
-                        switch (c3) {
-                            case 0:
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case '\b':
-                            case '\t':
-                            case '\n':
-                            case 11:
-                            case '\f':
-                            case '\r':
-                            case 14:
-                            case 15:
-                            case 16:
-                            case 17:
-                            case 18:
-                            case 19:
-                            case 20:
-                            case 21:
-                            case 22:
-                            case 23:
-                            case 24:
-                            case 25:
-                            case 26:
-                            case 27:
-                            case 28:
-                            case 29:
-                            case 30:
-                            case 31:
-                            case ' ':
-                            case '!':
-                            case '\"':
-                            case '#':
-                            case '$':
-                            case '%':
-                            case '&':
-                            case '\'':
-                            case '(':
-                            case ')':
-                            case '*':
-                            case '+':
-                            case ',':
-                            case '-':
-                            case '.':
-                            case '/':
-                            case '0':
-                            case '1':
-                            case '2':
-                            case '3':
-                            case '4':
-                            case '5':
-                            case '6':
-                            case '7':
-                            case '8':
-                            case '9':
-                            case ':':
-                            case ';':
-                            case '<':
-                            case '=':
-                            case '>':
-                            case '?':
-                            case '@':
-                            case 'A':
-                            case 'B':
-                            case 'C':
-                            case 'D':
-                            case 'E':
-                            case 'F':
-                            case 'G':
-                            case 'H':
-                            case 'I':
-                            case 'J':
-                            case 'K':
-                            case 'L':
-                            case 'M':
-                            case 'N':
-                            case 'O':
-                            case 'P':
-                            case 'Q':
-                            case 'R':
-                            case 'S':
-                            case 'T':
-                            case 'U':
-                            case 'V':
-                            case 'W':
-                            case 'X':
-                            case 'Y':
-                            case 'Z':
-                            case '[':
-                            case '\\':
-                            case ']':
-                            case '^':
-                            case '_':
-                            case '`':
-                            case 'a':
-                            case 'b':
-                            case 'c':
-                            case 'd':
-                            case 'e':
-                            case 'f':
-                            case 'g':
-                            case 'h':
-                            case 'i':
-                            case 'j':
-                            case 'k':
-                            case 'l':
-                            case 'm':
-                            case 'n':
-                            case 'o':
-                            case 'p':
-                            case 'q':
-                            case 'r':
-                            case 's':
-                            case 't':
-                            case 'u':
-                            case 'v':
-                            case 'w':
-                            case 'x':
-                            case 'y':
-                            case 'z':
-                            case '{':
-                            case '|':
-                            case '}':
-                            case '~':
-                            case NotificationCenter.dialogTranslate /* 127 */:
-                            case 128:
-                            case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
-                            case NotificationCenter.walletSyncProgressChanged /* 130 */:
-                            case NotificationCenter.httpFileDidLoad /* 131 */:
-                            case NotificationCenter.httpFileDidFailedLoad /* 132 */:
-                            case NotificationCenter.didUpdateConnectionState /* 133 */:
-                            case NotificationCenter.fileUploaded /* 134 */:
-                            case NotificationCenter.fileUploadFailed /* 135 */:
-                            case NotificationCenter.fileUploadProgressChanged /* 136 */:
-                            case NotificationCenter.fileLoadProgressChanged /* 137 */:
-                            case NotificationCenter.fileLoaded /* 138 */:
-                            case NotificationCenter.fileLoadFailed /* 139 */:
-                                break;
-                            default:
-                                if (!str2.equals("JSN-L21")) {
-                                }
-                                break;
-                        }
-                        return true;
-                    }
-                    return false;
-            }
+        if (i <= 27 && "HWEML".equals(Util.DEVICE)) {
+            return true;
         }
-        return true;
+        String str2 = Util.MODEL;
+        str2.hashCode();
+        switch (str2.hashCode()) {
+            case -349662828:
+                if (str2.equals("AFTJMST12")) {
+                    c = 0;
+                    break;
+                }
+                c = 65535;
+                break;
+            case -321033677:
+                if (str2.equals("AFTKMST12")) {
+                    c = 1;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 2006354:
+                if (str2.equals("AFTA")) {
+                    c = 2;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 2006367:
+                if (str2.equals("AFTN")) {
+                    c = 3;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 2006371:
+                if (str2.equals("AFTR")) {
+                    c = 4;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 1785421873:
+                if (str2.equals("AFTEU011")) {
+                    c = 5;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 1785421876:
+                if (str2.equals("AFTEU014")) {
+                    c = 6;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 1798172390:
+                if (str2.equals("AFTSO001")) {
+                    c = 7;
+                    break;
+                }
+                c = 65535;
+                break;
+            case 2119412532:
+                if (str2.equals("AFTEUFF014")) {
+                    c = '\b';
+                    break;
+                }
+                c = 65535;
+                break;
+            default:
+                c = 65535;
+                break;
+        }
+        switch (c) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case '\b':
+                return true;
+            default:
+                if (i <= 26) {
+                    String str3 = Util.DEVICE;
+                    str3.hashCode();
+                    switch (str3.hashCode()) {
+                        case -2144781245:
+                            if (str3.equals("GIONEE_SWW1609")) {
+                                c3 = 0;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -2144781185:
+                            if (str3.equals("GIONEE_SWW1627")) {
+                                c3 = 1;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -2144781160:
+                            if (str3.equals("GIONEE_SWW1631")) {
+                                c3 = 2;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -2097309513:
+                            if (str3.equals("K50a40")) {
+                                c3 = 3;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -2022874474:
+                            if (str3.equals("CP8676_I02")) {
+                                c3 = 4;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1978993182:
+                            if (str3.equals("NX541J")) {
+                                c3 = 5;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1978990237:
+                            if (str3.equals("NX573J")) {
+                                c3 = 6;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1936688988:
+                            break;
+                        case -1936688066:
+                            if (str3.equals("PGN610")) {
+                                c3 = '\b';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1936688065:
+                            if (str3.equals("PGN611")) {
+                                c3 = '\t';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1931988508:
+                            if (str3.equals("AquaPowerM")) {
+                                c3 = '\n';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1885099851:
+                            if (str3.equals("RAIJIN")) {
+                                c3 = 11;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1696512866:
+                            if (str3.equals("XT1663")) {
+                                c3 = '\f';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1680025915:
+                            if (str3.equals("ComioS1")) {
+                                c3 = '\r';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1615810839:
+                            if (str3.equals("Phantom6")) {
+                                c3 = 14;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1600724499:
+                            if (str3.equals("pacificrim")) {
+                                c3 = 15;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1554255044:
+                            if (str3.equals("vernee_M5")) {
+                                c3 = 16;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1481772737:
+                            if (str3.equals("panell_dl")) {
+                                c3 = 17;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1481772730:
+                            if (str3.equals("panell_ds")) {
+                                c3 = 18;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1481772729:
+                            if (str3.equals("panell_dt")) {
+                                c3 = 19;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1320080169:
+                            if (str3.equals("GiONEE_GBL7319")) {
+                                c3 = 20;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1217592143:
+                            if (str3.equals("BRAVIA_ATV2")) {
+                                c3 = 21;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1180384755:
+                            if (str3.equals("iris60")) {
+                                c3 = 22;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1139198265:
+                            if (str3.equals("Slate_Pro")) {
+                                c3 = 23;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -1052835013:
+                            if (str3.equals("namath")) {
+                                c3 = 24;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -993250464:
+                            if (str3.equals("A10-70F")) {
+                                c3 = 25;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -993250458:
+                            if (str3.equals("A10-70L")) {
+                                c3 = 26;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -965403638:
+                            if (str3.equals("s905x018")) {
+                                c3 = 27;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -958336948:
+                            if (str3.equals("ELUGA_Ray_X")) {
+                                c3 = 28;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -879245230:
+                            if (str3.equals("tcl_eu")) {
+                                c3 = 29;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -842500323:
+                            if (str3.equals("nicklaus_f")) {
+                                c3 = 30;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -821392978:
+                            if (str3.equals("A7000-a")) {
+                                c3 = 31;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -797483286:
+                            if (str3.equals("SVP-DTV15")) {
+                                c3 = ' ';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -794946968:
+                            if (str3.equals("watson")) {
+                                c3 = '!';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -788334647:
+                            if (str3.equals("whyred")) {
+                                c3 = '\"';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -782144577:
+                            if (str3.equals("OnePlus5T")) {
+                                c3 = '#';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -575125681:
+                            if (str3.equals("GiONEE_CBL7513")) {
+                                c3 = '$';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -521118391:
+                            if (str3.equals("GIONEE_GBL7360")) {
+                                c3 = '%';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -430914369:
+                            if (str3.equals("Pixi4-7_3G")) {
+                                c3 = '&';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -290434366:
+                            if (str3.equals("taido_row")) {
+                                c3 = '\'';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -282781963:
+                            if (str3.equals("BLACK-1X")) {
+                                c3 = '(';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -277133239:
+                            if (str3.equals("Z12_PRO")) {
+                                c3 = ')';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -173639913:
+                            if (str3.equals("ELUGA_A3_Pro")) {
+                                c3 = '*';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case -56598463:
+                            if (str3.equals("woods_fn")) {
+                                c3 = '+';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2126:
+                            if (str3.equals("C1")) {
+                                c3 = ',';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2564:
+                            if (str3.equals("Q5")) {
+                                c3 = '-';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2715:
+                            if (str3.equals("V1")) {
+                                c3 = '.';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2719:
+                            if (str3.equals("V5")) {
+                                c3 = '/';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 3091:
+                            if (str3.equals("b5")) {
+                                c3 = '0';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 3483:
+                            if (str3.equals("mh")) {
+                                c3 = '1';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 73405:
+                            if (str3.equals("JGZ")) {
+                                c3 = '2';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 75537:
+                            if (str3.equals("M04")) {
+                                c3 = '3';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 75739:
+                            if (str3.equals("M5c")) {
+                                c3 = '4';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 76779:
+                            if (str3.equals("MX6")) {
+                                c3 = '5';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 78669:
+                            if (str3.equals("P85")) {
+                                c3 = '6';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 79305:
+                            if (str3.equals("PLE")) {
+                                c3 = '7';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 80618:
+                            if (str3.equals("QX1")) {
+                                c3 = '8';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 88274:
+                            if (str3.equals("Z80")) {
+                                c3 = '9';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 98846:
+                            if (str3.equals("cv1")) {
+                                c3 = ':';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 98848:
+                            if (str3.equals("cv3")) {
+                                c3 = ';';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 99329:
+                            if (str3.equals("deb")) {
+                                c3 = '<';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 101481:
+                            if (str3.equals("flo")) {
+                                c3 = '=';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1513190:
+                            if (str3.equals("1601")) {
+                                c3 = '>';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1514184:
+                            if (str3.equals("1713")) {
+                                c3 = '?';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1514185:
+                            if (str3.equals("1714")) {
+                                c3 = '@';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2133089:
+                            if (str3.equals("F01H")) {
+                                c3 = 'A';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2133091:
+                            if (str3.equals("F01J")) {
+                                c3 = 'B';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2133120:
+                            if (str3.equals("F02H")) {
+                                c3 = 'C';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2133151:
+                            if (str3.equals("F03H")) {
+                                c3 = 'D';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2133182:
+                            if (str3.equals("F04H")) {
+                                c3 = 'E';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2133184:
+                            if (str3.equals("F04J")) {
+                                c3 = 'F';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2436959:
+                            if (str3.equals("P681")) {
+                                c3 = 'G';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2463773:
+                            if (str3.equals("Q350")) {
+                                c3 = 'H';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2464648:
+                            if (str3.equals("Q427")) {
+                                c3 = 'I';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2689555:
+                            if (str3.equals("XE2X")) {
+                                c3 = 'J';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 3154429:
+                            if (str3.equals("fugu")) {
+                                c3 = 'K';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 3284551:
+                            if (str3.equals("kate")) {
+                                c3 = 'L';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 3351335:
+                            if (str3.equals("mido")) {
+                                c3 = 'M';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 3386211:
+                            if (str3.equals("p212")) {
+                                c3 = 'N';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 41325051:
+                            if (str3.equals("MEIZU_M5")) {
+                                c3 = 'O';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 51349633:
+                            if (str3.equals("601LV")) {
+                                c3 = 'P';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 51350594:
+                            if (str3.equals("602LV")) {
+                                c3 = 'Q';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 55178625:
+                            if (str3.equals("Aura_Note_2")) {
+                                c3 = 'R';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 61542055:
+                            if (str3.equals("A1601")) {
+                                c3 = 'S';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 65355429:
+                            if (str3.equals("E5643")) {
+                                c3 = 'T';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 66214468:
+                            if (str3.equals("F3111")) {
+                                c3 = 'U';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 66214470:
+                            if (str3.equals("F3113")) {
+                                c3 = 'V';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 66214473:
+                            if (str3.equals("F3116")) {
+                                c3 = 'W';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 66215429:
+                            if (str3.equals("F3211")) {
+                                c3 = 'X';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 66215431:
+                            if (str3.equals("F3213")) {
+                                c3 = 'Y';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 66215433:
+                            if (str3.equals("F3215")) {
+                                c3 = 'Z';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 66216390:
+                            if (str3.equals("F3311")) {
+                                c3 = '[';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 76402249:
+                            if (str3.equals("PRO7S")) {
+                                c3 = '\\';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 76404105:
+                            if (str3.equals("Q4260")) {
+                                c3 = ']';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 76404911:
+                            if (str3.equals("Q4310")) {
+                                c3 = '^';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 80963634:
+                            if (str3.equals("V23GB")) {
+                                c3 = '_';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 82882791:
+                            if (str3.equals("X3_HK")) {
+                                c3 = '`';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 98715550:
+                            if (str3.equals("i9031")) {
+                                c3 = 'a';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 101370885:
+                            if (str3.equals("l5460")) {
+                                c3 = 'b';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 102844228:
+                            if (str3.equals("le_x6")) {
+                                c3 = 'c';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 165221241:
+                            if (str3.equals("A2016a40")) {
+                                c3 = 'd';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 182191441:
+                            if (str3.equals("CPY83_I00")) {
+                                c3 = 'e';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 245388979:
+                            if (str3.equals("marino_f")) {
+                                c3 = 'f';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 287431619:
+                            if (str3.equals("griffin")) {
+                                c3 = 'g';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 307593612:
+                            if (str3.equals("A7010a48")) {
+                                c3 = 'h';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 308517133:
+                            if (str3.equals("A7020a48")) {
+                                c3 = 'i';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 316215098:
+                            if (str3.equals("TB3-730F")) {
+                                c3 = 'j';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 316215116:
+                            if (str3.equals("TB3-730X")) {
+                                c3 = 'k';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 316246811:
+                            if (str3.equals("TB3-850F")) {
+                                c3 = 'l';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 316246818:
+                            if (str3.equals("TB3-850M")) {
+                                c3 = 'm';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 407160593:
+                            if (str3.equals("Pixi5-10_4G")) {
+                                c3 = 'n';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 507412548:
+                            if (str3.equals("QM16XE_U")) {
+                                c3 = 'o';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 793982701:
+                            if (str3.equals("GIONEE_WBL5708")) {
+                                c3 = 'p';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 794038622:
+                            if (str3.equals("GIONEE_WBL7365")) {
+                                c3 = 'q';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 794040393:
+                            if (str3.equals("GIONEE_WBL7519")) {
+                                c3 = 'r';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 835649806:
+                            if (str3.equals("manning")) {
+                                c3 = 's';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 917340916:
+                            if (str3.equals("A7000plus")) {
+                                c3 = 't';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 958008161:
+                            if (str3.equals("j2xlteins")) {
+                                c3 = 'u';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1060579533:
+                            if (str3.equals("panell_d")) {
+                                c3 = 'v';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1150207623:
+                            if (str3.equals("LS-5017")) {
+                                c3 = 'w';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1176899427:
+                            if (str3.equals("itel_S41")) {
+                                c3 = 'x';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1280332038:
+                            if (str3.equals("hwALE-H")) {
+                                c3 = 'y';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1306947716:
+                            if (str3.equals("EverStar_S")) {
+                                c3 = 'z';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1349174697:
+                            if (str3.equals("htc_e56ml_dtul")) {
+                                c3 = '{';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1522194893:
+                            if (str3.equals("woods_f")) {
+                                c3 = '|';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1691543273:
+                            if (str3.equals("CPH1609")) {
+                                c3 = '}';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1691544261:
+                            if (str3.equals("CPH1715")) {
+                                c3 = '~';
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1709443163:
+                            if (str3.equals("iball8735_9806")) {
+                                c3 = 127;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1865889110:
+                            if (str3.equals("santoni")) {
+                                c3 = 128;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1906253259:
+                            if (str3.equals("PB2-670M")) {
+                                c3 = 129;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 1977196784:
+                            if (str3.equals("Infinix-X572")) {
+                                c3 = 130;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2006372676:
+                            if (str3.equals("BRAVIA_ATV3_4K")) {
+                                c3 = 131;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2019281702:
+                            if (str3.equals("DM-01K")) {
+                                c3 = 132;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2029784656:
+                            if (str3.equals("HWBLN-H")) {
+                                c3 = 133;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2030379515:
+                            if (str3.equals("HWCAM-H")) {
+                                c3 = 134;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2033393791:
+                            if (str3.equals("ASUS_X00AD_2")) {
+                                c3 = 135;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2047190025:
+                            if (str3.equals("ELUGA_Note")) {
+                                c3 = 136;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2047252157:
+                            if (str3.equals("ELUGA_Prim")) {
+                                c3 = 137;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2048319463:
+                            if (str3.equals("HWVNS-H")) {
+                                c3 = 138;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        case 2048855701:
+                            if (str3.equals("HWWAS-H")) {
+                                c3 = 139;
+                                break;
+                            }
+                            c3 = 65535;
+                            break;
+                        default:
+                            c3 = 65535;
+                            break;
+                    }
+                    switch (c3) {
+                        default:
+                            if (!str2.equals("JSN-L21")) {
+                            }
+                            break;
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                        case '\b':
+                        case '\t':
+                        case '\n':
+                        case 11:
+                        case '\f':
+                        case '\r':
+                        case 14:
+                        case 15:
+                        case 16:
+                        case 17:
+                        case 18:
+                        case 19:
+                        case 20:
+                        case 21:
+                        case 22:
+                        case 23:
+                        case 24:
+                        case 25:
+                        case 26:
+                        case 27:
+                        case 28:
+                        case 29:
+                        case 30:
+                        case 31:
+                        case ' ':
+                        case '!':
+                        case '\"':
+                        case '#':
+                        case '$':
+                        case '%':
+                        case '&':
+                        case '\'':
+                        case '(':
+                        case ')':
+                        case '*':
+                        case '+':
+                        case ',':
+                        case '-':
+                        case '.':
+                        case '/':
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                        case ':':
+                        case ';':
+                        case '<':
+                        case '=':
+                        case '>':
+                        case '?':
+                        case '@':
+                        case 'A':
+                        case 'B':
+                        case 'C':
+                        case 'D':
+                        case 'E':
+                        case 'F':
+                        case 'G':
+                        case 'H':
+                        case 'I':
+                        case 'J':
+                        case 'K':
+                        case 'L':
+                        case 'M':
+                        case 'N':
+                        case 'O':
+                        case 'P':
+                        case 'Q':
+                        case 'R':
+                        case 'S':
+                        case 'T':
+                        case 'U':
+                        case 'V':
+                        case 'W':
+                        case 'X':
+                        case 'Y':
+                        case 'Z':
+                        case '[':
+                        case '\\':
+                        case ']':
+                        case '^':
+                        case '_':
+                        case '`':
+                        case 'a':
+                        case 'b':
+                        case 'c':
+                        case 'd':
+                        case 'e':
+                        case 'f':
+                        case 'g':
+                        case 'h':
+                        case 'i':
+                        case 'j':
+                        case 'k':
+                        case 'l':
+                        case 'm':
+                        case 'n':
+                        case 'o':
+                        case 'p':
+                        case 'q':
+                        case 'r':
+                        case 's':
+                        case 't':
+                        case 'u':
+                        case 'v':
+                        case 'w':
+                        case 'x':
+                        case 'y':
+                        case 'z':
+                        case '{':
+                        case '|':
+                        case '}':
+                        case '~':
+                        case NotificationCenter.dialogTranslate /* 127 */:
+                        case 128:
+                        case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
+                        case NotificationCenter.walletSyncProgressChanged /* 130 */:
+                        case NotificationCenter.httpFileDidLoad /* 131 */:
+                        case NotificationCenter.httpFileDidFailedLoad /* 132 */:
+                        case NotificationCenter.didUpdateConnectionState /* 133 */:
+                        case NotificationCenter.fileUploaded /* 134 */:
+                        case NotificationCenter.fileUploadFailed /* 135 */:
+                        case NotificationCenter.fileUploadProgressChanged /* 136 */:
+                        case NotificationCenter.fileLoadProgressChanged /* 137 */:
+                        case NotificationCenter.fileLoaded /* 138 */:
+                        case NotificationCenter.fileLoadFailed /* 139 */:
+                            return true;
+                    }
+                }
+                return false;
+        }
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x007a, code lost:
-        if (r3.equals("video/av01") == false) goto L16;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x007a, code lost:
+    
+        if (r3.equals("video/av01") == false) goto L18;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1611,7 +1614,6 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     private static Point getCodecMaxSize(MediaCodecInfo mediaCodecInfo, Format format) {
-        int[] iArr;
         int i = format.height;
         int i2 = format.width;
         boolean z = i > i2;
@@ -1667,15 +1669,15 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     protected static int getMaxInputSize(MediaCodecInfo mediaCodecInfo, Format format) {
-        if (format.maxInputSize != -1) {
-            int size = format.initializationData.size();
-            int i = 0;
-            for (int i2 = 0; i2 < size; i2++) {
-                i += ((byte[]) format.initializationData.get(i2)).length;
-            }
-            return format.maxInputSize + i;
+        if (format.maxInputSize == -1) {
+            return getCodecMaxInputSize(mediaCodecInfo, format);
         }
-        return getCodecMaxInputSize(mediaCodecInfo, format);
+        int size = format.initializationData.size();
+        int i = 0;
+        for (int i2 = 0; i2 < size; i2++) {
+            i += ((byte[]) format.initializationData.get(i2)).length;
+        }
+        return format.maxInputSize + i;
     }
 
     private static int getMaxSampleSize(int i, int i2) {
@@ -2021,28 +2023,37 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     public void handleMessage(int i, Object obj) {
         if (i == 1) {
             setOutput(obj);
-        } else if (i == 7) {
+            return;
+        }
+        if (i == 7) {
             this.frameMetadataListener = (VideoFrameMetadataListener) obj;
-        } else if (i == 10) {
+            return;
+        }
+        if (i == 10) {
             int intValue = ((Integer) obj).intValue();
             if (this.tunnelingAudioSessionId != intValue) {
                 this.tunnelingAudioSessionId = intValue;
                 if (this.tunneling) {
                     releaseCodec();
+                    return;
                 }
+                return;
             }
-        } else if (i != 4) {
+            return;
+        }
+        if (i != 4) {
             if (i != 5) {
                 super.handleMessage(i, obj);
+                return;
             } else {
                 this.frameReleaseHelper.setChangeFrameRateStrategy(((Integer) obj).intValue());
+                return;
             }
-        } else {
-            this.scalingMode = ((Integer) obj).intValue();
-            MediaCodecAdapter codec = getCodec();
-            if (codec != null) {
-                codec.setVideoScalingMode(this.scalingMode);
-            }
+        }
+        this.scalingMode = ((Integer) obj).intValue();
+        MediaCodecAdapter codec = getCodec();
+        if (codec != null) {
+            codec.setVideoScalingMode(this.scalingMode);
         }
     }
 
@@ -2052,15 +2063,15 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         if (super.isReady() && (this.renderedFirstFrameAfterReset || (((placeholderSurface = this.placeholderSurface) != null && this.surface == placeholderSurface) || getCodec() == null || this.tunneling))) {
             this.joiningDeadlineMs = -9223372036854775807L;
             return true;
-        } else if (this.joiningDeadlineMs == -9223372036854775807L) {
-            return false;
-        } else {
-            if (SystemClock.elapsedRealtime() < this.joiningDeadlineMs) {
-                return true;
-            }
-            this.joiningDeadlineMs = -9223372036854775807L;
+        }
+        if (this.joiningDeadlineMs == -9223372036854775807L) {
             return false;
         }
+        if (SystemClock.elapsedRealtime() < this.joiningDeadlineMs) {
+            return true;
+        }
+        this.joiningDeadlineMs = -9223372036854775807L;
+        return false;
     }
 
     protected boolean maybeDropBuffersToKeyframe(long j, boolean z) {
@@ -2301,12 +2312,12 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
             j8 -= elapsedRealtime - j2;
         }
         if (this.surface == this.placeholderSurface) {
-            if (isBufferLate(j8)) {
-                skipOutputBuffer(mediaCodecAdapter, i, j7);
-                updateVideoFrameProcessingOffsetCounters(j8);
-                return true;
+            if (!isBufferLate(j8)) {
+                return false;
             }
-            return false;
+            skipOutputBuffer(mediaCodecAdapter, i, j7);
+            updateVideoFrameProcessingOffsetCounters(j8);
+            return true;
         }
         long j9 = elapsedRealtime - this.lastRenderRealtimeUs;
         if (this.renderedFirstFrameAfterEnable ? this.renderedFirstFrameAfterReset : !(z4 || this.mayRenderFirstFrameAfterEnableIfNotStarted)) {
@@ -2442,51 +2453,51 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     protected int supportsFormat(MediaCodecSelector mediaCodecSelector, Format format) {
         boolean z;
         int i = 0;
-        if (MimeTypes.isVideo(format.sampleMimeType)) {
-            boolean z2 = format.drmInitData != null;
-            List decoderInfos = getDecoderInfos(this.context, mediaCodecSelector, format, z2, false);
-            if (z2 && decoderInfos.isEmpty()) {
-                decoderInfos = getDecoderInfos(this.context, mediaCodecSelector, format, false, false);
-            }
-            if (decoderInfos.isEmpty()) {
-                return RendererCapabilities.-CC.create(1);
-            }
-            if (MediaCodecRenderer.supportsFormatDrm(format)) {
-                MediaCodecInfo mediaCodecInfo = (MediaCodecInfo) decoderInfos.get(0);
-                boolean isFormatSupported = mediaCodecInfo.isFormatSupported(format);
-                if (!isFormatSupported) {
-                    for (int i2 = 1; i2 < decoderInfos.size(); i2++) {
-                        MediaCodecInfo mediaCodecInfo2 = (MediaCodecInfo) decoderInfos.get(i2);
-                        if (mediaCodecInfo2.isFormatSupported(format)) {
-                            mediaCodecInfo = mediaCodecInfo2;
-                            z = false;
-                            isFormatSupported = true;
-                            break;
-                        }
-                    }
-                }
-                z = true;
-                int i3 = isFormatSupported ? 4 : 3;
-                int i4 = mediaCodecInfo.isSeamlessAdaptationSupported(format) ? 16 : 8;
-                int i5 = mediaCodecInfo.hardwareAccelerated ? 64 : 0;
-                int i6 = z ? 128 : 0;
-                if (Util.SDK_INT >= 26 && "video/dolby-vision".equals(format.sampleMimeType) && !Api26.doesDisplaySupportDolbyVision(this.context)) {
-                    i6 = 256;
-                }
-                if (isFormatSupported) {
-                    List decoderInfos2 = getDecoderInfos(this.context, mediaCodecSelector, format, z2, true);
-                    if (!decoderInfos2.isEmpty()) {
-                        MediaCodecInfo mediaCodecInfo3 = (MediaCodecInfo) MediaCodecUtil.getDecoderInfosSortedByFormatSupport(decoderInfos2, format).get(0);
-                        if (mediaCodecInfo3.isFormatSupported(format) && mediaCodecInfo3.isSeamlessAdaptationSupported(format)) {
-                            i = 32;
-                        }
-                    }
-                }
-                return RendererCapabilities.-CC.create(i3, i4, i, i5, i6);
-            }
+        if (!MimeTypes.isVideo(format.sampleMimeType)) {
+            return RendererCapabilities.-CC.create(0);
+        }
+        boolean z2 = format.drmInitData != null;
+        List decoderInfos = getDecoderInfos(this.context, mediaCodecSelector, format, z2, false);
+        if (z2 && decoderInfos.isEmpty()) {
+            decoderInfos = getDecoderInfos(this.context, mediaCodecSelector, format, false, false);
+        }
+        if (decoderInfos.isEmpty()) {
+            return RendererCapabilities.-CC.create(1);
+        }
+        if (!MediaCodecRenderer.supportsFormatDrm(format)) {
             return RendererCapabilities.-CC.create(2);
         }
-        return RendererCapabilities.-CC.create(0);
+        MediaCodecInfo mediaCodecInfo = (MediaCodecInfo) decoderInfos.get(0);
+        boolean isFormatSupported = mediaCodecInfo.isFormatSupported(format);
+        if (!isFormatSupported) {
+            for (int i2 = 1; i2 < decoderInfos.size(); i2++) {
+                MediaCodecInfo mediaCodecInfo2 = (MediaCodecInfo) decoderInfos.get(i2);
+                if (mediaCodecInfo2.isFormatSupported(format)) {
+                    mediaCodecInfo = mediaCodecInfo2;
+                    z = false;
+                    isFormatSupported = true;
+                    break;
+                }
+            }
+        }
+        z = true;
+        int i3 = isFormatSupported ? 4 : 3;
+        int i4 = mediaCodecInfo.isSeamlessAdaptationSupported(format) ? 16 : 8;
+        int i5 = mediaCodecInfo.hardwareAccelerated ? 64 : 0;
+        int i6 = z ? 128 : 0;
+        if (Util.SDK_INT >= 26 && "video/dolby-vision".equals(format.sampleMimeType) && !Api26.doesDisplaySupportDolbyVision(this.context)) {
+            i6 = 256;
+        }
+        if (isFormatSupported) {
+            List decoderInfos2 = getDecoderInfos(this.context, mediaCodecSelector, format, z2, true);
+            if (!decoderInfos2.isEmpty()) {
+                MediaCodecInfo mediaCodecInfo3 = (MediaCodecInfo) MediaCodecUtil.getDecoderInfosSortedByFormatSupport(decoderInfos2, format).get(0);
+                if (mediaCodecInfo3.isFormatSupported(format) && mediaCodecInfo3.isSeamlessAdaptationSupported(format)) {
+                    i = 32;
+                }
+            }
+        }
+        return RendererCapabilities.-CC.create(i3, i4, i, i5, i6);
     }
 
     protected void updateDroppedBufferCounters(int i, int i2) {

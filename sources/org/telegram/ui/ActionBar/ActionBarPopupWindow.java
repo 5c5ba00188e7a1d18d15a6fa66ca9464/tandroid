@@ -13,6 +13,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.util.Property;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
+
 /* loaded from: classes4.dex */
 public class ActionBarPopupWindow extends PopupWindow {
     private static final ViewTreeObserver.OnScrollChangedListener NOP;
@@ -227,7 +229,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         private void startChildAnimation(final View view) {
             if (this.animationEnabled) {
                 final AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, view.isEnabled() ? 1.0f : 0.5f), ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, AndroidUtilities.dp(this.shownFromBottom ? 6.0f : -6.0f), 0.0f));
+                animatorSet.playTogether(ObjectAnimator.ofFloat(view, (Property<View, Float>) View.ALPHA, 0.0f, view.isEnabled() ? 1.0f : 0.5f), ObjectAnimator.ofFloat(view, (Property<View, Float>) View.TRANSLATION_Y, AndroidUtilities.dp(this.shownFromBottom ? 6.0f : -6.0f), 0.0f));
                 animatorSet.setDuration(180L);
                 animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout.3
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -263,12 +265,13 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:59:0x0186, code lost:
-            if (r21.gapStartY != r9) goto L89;
+        /* JADX WARN: Code restructure failed: missing block: B:89:0x0186, code lost:
+        
+            if (r21.gapStartY != r9) goto L60;
          */
-        /* JADX WARN: Removed duplicated region for block: B:104:0x02a2  */
-        /* JADX WARN: Removed duplicated region for block: B:106:0x02c5  */
-        /* JADX WARN: Removed duplicated region for block: B:98:0x0275  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x0275  */
+        /* JADX WARN: Removed duplicated region for block: B:47:0x02a2  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x02c5  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -307,10 +310,11 @@ public class ActionBarPopupWindow extends PopupWindow {
                     if (i6 >= this.linearLayout.getChildCount()) {
                         z = false;
                         break;
-                    } else if ((this.linearLayout.getChildAt(i6) instanceof GapView) && this.linearLayout.getChildAt(i6).getVisibility() == 0) {
-                        z = true;
-                        break;
                     } else {
+                        if ((this.linearLayout.getChildAt(i6) instanceof GapView) && this.linearLayout.getChildAt(i6).getVisibility() == 0) {
+                            z = true;
+                            break;
+                        }
                         i6++;
                     }
                 }
@@ -574,7 +578,6 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
 
         public void setBackScaleY(float f) {
-            Integer num;
             if (this.backScaleY != f) {
                 this.backScaleY = f;
                 if (this.animationEnabled && this.updateAnimation) {
@@ -583,7 +586,7 @@ public class ActionBarPopupWindow extends PopupWindow {
                         for (int i = this.lastStartedChild; i >= 0; i--) {
                             View itemAt = getItemAt(i);
                             if (itemAt != null && itemAt.getVisibility() == 0 && !(itemAt instanceof GapView)) {
-                                if (((Integer) this.positions.get(itemAt)) != null && measuredHeight - ((num.intValue() * AndroidUtilities.dp(48.0f)) + AndroidUtilities.dp(32.0f)) > measuredHeight * f) {
+                                if (((Integer) this.positions.get(itemAt)) != null && measuredHeight - ((r3.intValue() * AndroidUtilities.dp(48.0f)) + AndroidUtilities.dp(32.0f)) > measuredHeight * f) {
                                     break;
                                 }
                                 this.lastStartedChild = i - 1;
@@ -599,9 +602,10 @@ public class ActionBarPopupWindow extends PopupWindow {
                                 i2 += itemAt2.getMeasuredHeight();
                                 if (i3 < this.lastStartedChild) {
                                     continue;
-                                } else if (((Integer) this.positions.get(itemAt2)) != null && i2 - AndroidUtilities.dp(24.0f) > measuredHeight * f) {
-                                    break;
                                 } else {
+                                    if (((Integer) this.positions.get(itemAt2)) != null && i2 - AndroidUtilities.dp(24.0f) > measuredHeight * f) {
+                                        break;
+                                    }
                                     this.lastStartedChild = i3 + 1;
                                     startChildAnimation(itemAt2);
                                 }
@@ -952,10 +956,11 @@ public class ActionBarPopupWindow extends PopupWindow {
 
     public void dimBehind(float f) {
         View rootView = getContentView().getRootView();
+        WindowManager windowManager = (WindowManager) getContentView().getContext().getSystemService("window");
         WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) rootView.getLayoutParams();
         layoutParams.flags |= 2;
         layoutParams.dimAmount = f;
-        ((WindowManager) getContentView().getContext().getSystemService("window")).updateViewLayout(rootView, layoutParams);
+        windowManager.updateViewLayout(rootView, layoutParams);
     }
 
     @Override // android.widget.PopupWindow
@@ -1010,9 +1015,9 @@ public class ActionBarPopupWindow extends PopupWindow {
             j = this.outEmptyTime;
         } else {
             if (this.scaleOut) {
-                animatorSet4.playTogether(ObjectAnimator.ofFloat(viewGroup, View.SCALE_Y, 0.8f), ObjectAnimator.ofFloat(viewGroup, View.SCALE_X, 0.8f), ObjectAnimator.ofFloat(viewGroup, View.ALPHA, 0.0f));
+                animatorSet4.playTogether(ObjectAnimator.ofFloat(viewGroup, (Property<ViewGroup, Float>) View.SCALE_Y, 0.8f), ObjectAnimator.ofFloat(viewGroup, (Property<ViewGroup, Float>) View.SCALE_X, 0.8f), ObjectAnimator.ofFloat(viewGroup, (Property<ViewGroup, Float>) View.ALPHA, 0.0f));
             } else {
-                animatorSet4.playTogether(ObjectAnimator.ofFloat(viewGroup, View.TRANSLATION_Y, AndroidUtilities.dp((actionBarPopupWindowLayout == null || !actionBarPopupWindowLayout.shownFromBottom) ? -5.0f : 5.0f)), ObjectAnimator.ofFloat(viewGroup, View.ALPHA, 0.0f));
+                animatorSet4.playTogether(ObjectAnimator.ofFloat(viewGroup, (Property<ViewGroup, Float>) View.TRANSLATION_Y, AndroidUtilities.dp((actionBarPopupWindowLayout == null || !actionBarPopupWindowLayout.shownFromBottom) ? -5.0f : 5.0f)), ObjectAnimator.ofFloat(viewGroup, (Property<ViewGroup, Float>) View.ALPHA, 0.0f));
             }
             animatorSet = this.windowAnimatorSet;
             j = this.dismissAnimationDuration;

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public abstract class JSONUtils {
     public static List readArray(JSONObject jSONObject, String str, ModelFactory modelFactory) {
@@ -84,8 +85,9 @@ public abstract class JSONUtils {
             jSONStringer.key(str).array();
             Iterator it = list.iterator();
             while (it.hasNext()) {
+                Model model = (Model) it.next();
                 jSONStringer.object();
-                ((Model) it.next()).write(jSONStringer);
+                model.write(jSONStringer);
                 jSONStringer.endObject();
             }
             jSONStringer.endArray();

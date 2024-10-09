@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.extractor.ExtractorUtil;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 final class OggPacket {
     private boolean populated;

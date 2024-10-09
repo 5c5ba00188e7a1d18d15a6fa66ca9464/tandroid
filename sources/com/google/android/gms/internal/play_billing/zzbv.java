@@ -9,6 +9,7 @@ import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 abstract class zzbv {
     private static final Logger zza = Logger.getLogger(zzbi.class.getName());
@@ -20,9 +21,10 @@ abstract class zzbv {
         ClassLoader classLoader = zzbv.class.getClassLoader();
         if (cls.equals(zzbn.class)) {
             str = zzb;
-        } else if (!cls.getPackage().equals(zzbv.class.getPackage())) {
-            throw new IllegalArgumentException(cls.getName());
         } else {
+            if (!cls.getPackage().equals(zzbv.class.getPackage())) {
+                throw new IllegalArgumentException(cls.getName());
+            }
             str = String.format("%s.BlazeGenerated%sLoader", cls.getPackage().getName(), cls.getSimpleName());
         }
         try {

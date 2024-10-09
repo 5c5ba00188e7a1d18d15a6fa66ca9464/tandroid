@@ -28,6 +28,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class QRCodeBottomSheet extends BottomSheet {
     private TextView button2TextView;
@@ -87,7 +88,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         };
         frameLayout.addView(imageView, LayoutHelper.createFrame(-1, -1.0f));
         frameLayout.addView(this.iconImage, LayoutHelper.createFrame(60, 60, 17));
-        linearLayout.addView(frameLayout, LayoutHelper.createLinear((int) NotificationCenter.updateAllMessages, (int) NotificationCenter.updateAllMessages, 1, 30, 0, 30, 0));
+        linearLayout.addView(frameLayout, LayoutHelper.createLinear(NotificationCenter.updateAllMessages, NotificationCenter.updateAllMessages, 1, 30, 0, 30, 0));
         TextView textView = new TextView(context);
         this.help = textView;
         textView.setTextSize(1, 14.0f);
@@ -189,7 +190,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         TextView textView2 = this.button2TextView;
         if (textView2 != null) {
             textView2.setTextColor(Theme.getColor(i));
-            this.button2TextView.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor(i), Math.min((int) NotificationCenter.closeSearchByActiveAction, Color.alpha(Theme.getColor(Theme.key_listSelector)) * 2)), 7));
+            this.button2TextView.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor(i), Math.min(NotificationCenter.closeSearchByActiveAction, Color.alpha(Theme.getColor(Theme.key_listSelector)) * 2)), 7));
         }
         TextView textView3 = this.help;
         int i2 = Theme.key_windowBackgroundWhiteGrayText;

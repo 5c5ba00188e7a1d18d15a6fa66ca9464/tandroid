@@ -3,6 +3,7 @@ package com.coremedia.iso.boxes.sampleentry;
 import com.coremedia.iso.IsoTypeWriter;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
+
 /* loaded from: classes.dex */
 public final class AudioSampleEntry extends AbstractSampleEntry {
     private long bytesPerFrame;

@@ -13,6 +13,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes3.dex */
 public class CameraSession {
     public static final int ORIENTATION_HYSTERESIS = 5;
@@ -79,10 +80,10 @@ public class CameraSession {
         this.orientationEventListener = orientationEventListener;
         if (orientationEventListener.canDetectOrientation()) {
             this.orientationEventListener.enable();
-            return;
+        } else {
+            this.orientationEventListener.disable();
+            this.orientationEventListener = null;
         }
-        this.orientationEventListener.disable();
-        this.orientationEventListener = null;
     }
 
     private int getDisplayOrientation(Camera.CameraInfo cameraInfo, boolean z) {
@@ -99,17 +100,17 @@ public class CameraSession {
         }
         int i2 = cameraInfo.facing;
         int i3 = cameraInfo.orientation;
-        if (i2 == 1) {
-            int i4 = (360 - ((i3 + i) % 360)) % 360;
-            if (!z && i4 == 90) {
-                i4 = NotificationCenter.dialogsUnreadReactionsCounterChanged;
-            }
-            if (!z && "Huawei".equals(Build.MANUFACTURER) && "angler".equals(Build.PRODUCT) && i4 == 270) {
-                return 90;
-            }
-            return i4;
+        if (i2 != 1) {
+            return ((i3 - i) + 360) % 360;
         }
-        return ((i3 - i) + 360) % 360;
+        int i4 = (360 - ((i3 + i) % 360)) % 360;
+        if (!z && i4 == 90) {
+            i4 = NotificationCenter.dialogsUnreadReactionsCounterChanged;
+        }
+        if (!z && "Huawei".equals(Build.MANUFACTURER) && "angler".equals(Build.PRODUCT) && i4 == 270) {
+            return 90;
+        }
+        return i4;
     }
 
     private int getHigh() {
@@ -146,21 +147,23 @@ public class CameraSession {
         this.currentFlashMode = str;
         if (this.isRound) {
             configureRoundCamera(false);
-            return;
+        } else {
+            configurePhotoCamera();
+            ApplicationLoader.applicationContext.getSharedPreferences("camera", 0).edit().putString(this.cameraInfo.frontCamera != 0 ? "flashMode_front" : "flashMode", str).commit();
         }
-        configurePhotoCamera();
-        ApplicationLoader.applicationContext.getSharedPreferences("camera", 0).edit().putString(this.cameraInfo.frontCamera != 0 ? "flashMode_front" : "flashMode", str).commit();
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x008e, code lost:
-        if (r2.getSupportedFocusModes().contains("continuous-picture") != false) goto L21;
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x00bc, code lost:
+    
+        if (((360 - r7.displayOrientation) % 360) == r3) goto L41;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00bc, code lost:
-        if (((360 - r7.displayOrientation) % 360) == r3) goto L33;
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x008e, code lost:
+    
+        if (r2.getSupportedFocusModes().contains("continuous-picture") != false) goto L27;
      */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00cb  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00cf A[Catch: all -> 0x000d, TryCatch #3 {all -> 0x000d, blocks: (B:3:0x0002, B:5:0x0008, B:11:0x0015, B:13:0x0024, B:15:0x002a, B:17:0x0068, B:19:0x006e, B:21:0x0074, B:22:0x0077, B:27:0x0090, B:28:0x0093, B:30:0x009a, B:32:0x00a0, B:34:0x00a9, B:37:0x00ad, B:39:0x00b6, B:45:0x00c5, B:42:0x00c0, B:46:0x00c7, B:50:0x00d1, B:51:0x00d4, B:49:0x00cf, B:33:0x00a6, B:25:0x0084, B:10:0x0011), top: B:63:0x0002, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00cb  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00cf A[Catch: all -> 0x000d, TryCatch #3 {all -> 0x000d, blocks: (B:3:0x0002, B:6:0x0008, B:7:0x0015, B:9:0x0024, B:11:0x002a, B:13:0x0068, B:15:0x006e, B:17:0x0074, B:18:0x0077, B:21:0x0090, B:22:0x0093, B:24:0x009a, B:26:0x00a0, B:27:0x00a9, B:29:0x00ad, B:31:0x00b6, B:34:0x00c5, B:48:0x00c0, B:35:0x00c7, B:38:0x00d1, B:40:0x00d4, B:46:0x00cf, B:52:0x00a6, B:54:0x0084, B:59:0x0011), top: B:2:0x0002, inners: #0 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -262,9 +265,10 @@ public class CameraSession {
         boolean hasProfile2 = CamcorderProfile.hasProfile(this.cameraInfo.cameraId, 0);
         if (hasProfile && (i == 1 || !hasProfile2)) {
             camcorderProfile = CamcorderProfile.get(this.cameraInfo.cameraId, high);
-        } else if (!hasProfile2) {
-            throw new IllegalStateException("cannot find valid CamcorderProfile");
         } else {
+            if (!hasProfile2) {
+                throw new IllegalStateException("cannot find valid CamcorderProfile");
+            }
             camcorderProfile = CamcorderProfile.get(this.cameraInfo.cameraId, 0);
         }
         mediaRecorder.setProfile(camcorderProfile);
@@ -272,11 +276,13 @@ public class CameraSession {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x00be, code lost:
-        if (r3.getSupportedFocusModes().contains("auto") != false) goto L24;
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00ea, code lost:
+    
+        if (((360 - r7.displayOrientation) % 360) == r4) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x00ea, code lost:
-        if (((360 - r7.displayOrientation) % 360) == r4) goto L36;
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x00be, code lost:
+    
+        if (r3.getSupportedFocusModes().contains("auto") != false) goto L28;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -459,10 +465,10 @@ public class CameraSession {
         this.currentFlashMode = str;
         if (this.isRound) {
             configureRoundCamera(false);
-            return;
+        } else {
+            configurePhotoCamera();
+            ApplicationLoader.applicationContext.getSharedPreferences("camera", 0).edit().putString(this.cameraInfo.frontCamera != 0 ? "flashMode_front" : "flashMode", str).commit();
         }
-        configurePhotoCamera();
-        ApplicationLoader.applicationContext.getSharedPreferences("camera", 0).edit().putString(this.cameraInfo.frontCamera != 0 ? "flashMode_front" : "flashMode", str).commit();
     }
 
     public void setFlipFront(boolean z) {
@@ -525,9 +531,9 @@ public class CameraSession {
         configurePhotoCamera();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x0051  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0057  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0051  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0057  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0061  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

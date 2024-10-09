@@ -16,6 +16,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class TopicsSubscriber {
@@ -143,8 +144,8 @@ public class TopicsSubscriber {
         return this.syncScheduledOrRunning;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x002e  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x008c A[Catch: IOException -> 0x005a, TryCatch #0 {IOException -> 0x005a, blocks: (B:3:0x0003, B:19:0x0030, B:21:0x0036, B:22:0x0056, B:25:0x005c, B:27:0x0069, B:28:0x008c, B:30:0x0099), top: B:45:0x0003 }] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x002e  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x008c A[Catch: IOException -> 0x005a, TryCatch #0 {IOException -> 0x005a, blocks: (B:3:0x0003, B:14:0x0030, B:16:0x0036, B:17:0x0056, B:21:0x005c, B:23:0x0069, B:24:0x008c, B:26:0x0099), top: B:2:0x0003 }] */
     /* JADX WARN: Removed duplicated region for block: B:35:0x00c9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -214,7 +215,8 @@ public class TopicsSubscriber {
                     Log.d("FirebaseMessaging", sb2);
                 }
                 return true;
-            } else if (c != 1) {
+            }
+            if (c != 1) {
                 if (isDebugLogEnabled()) {
                     String valueOf = String.valueOf(topicOperation);
                     StringBuilder sb5 = new StringBuilder(valueOf.length() + 24);
@@ -225,19 +227,18 @@ public class TopicsSubscriber {
                     Log.d("FirebaseMessaging", sb2);
                 }
                 return true;
-            } else {
-                blockingUnsubscribeFromTopic(topicOperation.getTopic());
-                if (isDebugLogEnabled()) {
-                    String topic2 = topicOperation.getTopic();
-                    StringBuilder sb6 = new StringBuilder(String.valueOf(topic2).length() + 35);
-                    sb6.append("Unsubscribe from topic: ");
-                    sb6.append(topic2);
-                    sb6.append(" succeeded.");
-                    sb2 = sb6.toString();
-                    Log.d("FirebaseMessaging", sb2);
-                }
-                return true;
             }
+            blockingUnsubscribeFromTopic(topicOperation.getTopic());
+            if (isDebugLogEnabled()) {
+                String topic2 = topicOperation.getTopic();
+                StringBuilder sb6 = new StringBuilder(String.valueOf(topic2).length() + 35);
+                sb6.append("Unsubscribe from topic: ");
+                sb6.append(topic2);
+                sb6.append(" succeeded.");
+                sb2 = sb6.toString();
+                Log.d("FirebaseMessaging", sb2);
+            }
+            return true;
             if (!"SERVICE_NOT_AVAILABLE".equals(e.getMessage()) || "INTERNAL_SERVER_ERROR".equals(e.getMessage())) {
                 String message222 = e.getMessage();
                 StringBuilder sb3222 = new StringBuilder(String.valueOf(message222).length() + 53);
@@ -245,9 +246,10 @@ public class TopicsSubscriber {
                 sb3222.append(message222);
                 sb3222.append(". Will retry Topic operation.");
                 sb = sb3222.toString();
-            } else if (e.getMessage() != null) {
-                throw e;
             } else {
+                if (e.getMessage() != null) {
+                    throw e;
+                }
                 sb = "Topic operation failed without exception message. Will retry Topic operation.";
             }
             Log.e("FirebaseMessaging", sb);
@@ -286,14 +288,17 @@ public class TopicsSubscriber {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x001a, code lost:
-        return true;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x000d, code lost:
+    
+        if (isDebugLogEnabled() == false) goto L10;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x000d, code lost:
-        if (isDebugLogEnabled() == false) goto L16;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x000f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x000f, code lost:
+    
         android.util.Log.d("FirebaseMessaging", "topic sync succeeded");
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x001a, code lost:
+    
+        return true;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -305,12 +310,12 @@ public class TopicsSubscriber {
                     TopicOperation nextTopicOperation = this.store.getNextTopicOperation();
                     if (nextTopicOperation == null) {
                         break;
-                    } else if (!performTopicOperation(nextTopicOperation)) {
-                        return false;
-                    } else {
-                        this.store.removeTopicOperation(nextTopicOperation);
-                        markCompletePendingOperation(nextTopicOperation);
                     }
+                    if (!performTopicOperation(nextTopicOperation)) {
+                        return false;
+                    }
+                    this.store.removeTopicOperation(nextTopicOperation);
+                    markCompletePendingOperation(nextTopicOperation);
                 } catch (Throwable th) {
                     throw th;
                 }

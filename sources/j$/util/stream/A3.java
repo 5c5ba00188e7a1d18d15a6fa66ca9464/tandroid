@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+
 /* loaded from: classes2.dex */
 abstract class A3 {
     static final boolean a = ((Boolean) AccessController.doPrivileged(new PrivilegedAction() { // from class: j$.util.stream.z3

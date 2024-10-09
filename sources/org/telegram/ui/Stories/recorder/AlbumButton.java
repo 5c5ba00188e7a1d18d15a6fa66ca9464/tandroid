@@ -18,6 +18,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CombinedDrawable;
+
 /* loaded from: classes4.dex */
 public class AlbumButton extends View {
     private StaticLayout countLayout;

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class DefaultDataSource implements DataSource {
     private DataSource assetDataSource;

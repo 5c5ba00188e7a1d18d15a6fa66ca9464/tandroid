@@ -3,6 +3,7 @@ package com.google.android.gms.internal.vision;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzle {
@@ -69,7 +70,6 @@ public abstract class zzle {
             return 0;
         }
         if (list instanceof zzjy) {
-            zzjy zzjyVar = (zzjy) list;
             if (size <= 0) {
                 return 0;
             }
@@ -239,7 +239,6 @@ public abstract class zzle {
             return 0;
         }
         if (list instanceof zzjy) {
-            zzjy zzjyVar = (zzjy) list;
             if (size <= 0) {
                 return 0;
             }
@@ -293,7 +292,6 @@ public abstract class zzle {
             return 0;
         }
         if (list instanceof zzjy) {
-            zzjy zzjyVar = (zzjy) list;
             if (size <= 0) {
                 return 0;
             }

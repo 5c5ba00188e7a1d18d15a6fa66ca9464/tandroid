@@ -9,6 +9,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.internal.Preconditions;
 import java.util.Iterator;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public final class zaaj implements zabf {
     private final zabi zaa;
@@ -80,10 +81,10 @@ public final class zaaj implements zabf {
         }
         this.zab = true;
         Iterator it = set.iterator();
-        if (it.hasNext()) {
-            ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
-            throw null;
+        if (!it.hasNext()) {
+            return false;
         }
-        return false;
+        ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
+        throw null;
     }
 }

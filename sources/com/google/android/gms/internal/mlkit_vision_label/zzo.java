@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_label;
+
 /* loaded from: classes.dex */
 public abstract class zzo extends zzn {
     public static boolean zza(Object obj, Object obj2) {

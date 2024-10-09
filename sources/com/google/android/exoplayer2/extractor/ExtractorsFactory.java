@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor;
 import android.net.Uri;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public interface ExtractorsFactory {
     public static final ExtractorsFactory EMPTY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ExtractorsFactory$$ExternalSyntheticLambda0

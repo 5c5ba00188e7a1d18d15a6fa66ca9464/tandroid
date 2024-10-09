@@ -98,6 +98,7 @@ import org.telegram.ui.SelectAnimatedEmojiDialog;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.PreviewView;
 import org.telegram.ui.ThemePreviewActivity;
+
 /* loaded from: classes4.dex */
 public class ChannelColorActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     protected Adapter adapter;
@@ -175,16 +176,17 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             if (str == null) {
                 channelColorActivity = ChannelColorActivity.this;
                 wallPaper = channelColorActivity.galleryWallpaper;
-            } else if (!str.equals("❌")) {
-                ChannelColorActivity.this.selectedWallpaper = new TLRPC.TL_wallPaperNoFile();
-                TLRPC.WallPaper wallPaper2 = ChannelColorActivity.this.selectedWallpaper;
-                wallPaper2.id = 0L;
-                wallPaper2.flags |= 4;
-                wallPaper2.settings = new TLRPC.TL_wallPaperSettings();
-                ChannelColorActivity.this.selectedWallpaper.settings.emoticon = str;
-                ChannelColorActivity.this.updateButton(true);
-                ChannelColorActivity.this.updateMessagesPreview(true);
             } else {
+                if (!str.equals("❌")) {
+                    ChannelColorActivity.this.selectedWallpaper = new TLRPC.TL_wallPaperNoFile();
+                    TLRPC.WallPaper wallPaper2 = ChannelColorActivity.this.selectedWallpaper;
+                    wallPaper2.id = 0L;
+                    wallPaper2.flags |= 4;
+                    wallPaper2.settings = new TLRPC.TL_wallPaperSettings();
+                    ChannelColorActivity.this.selectedWallpaper.settings.emoticon = str;
+                    ChannelColorActivity.this.updateButton(true);
+                    ChannelColorActivity.this.updateMessagesPreview(true);
+                }
                 channelColorActivity = ChannelColorActivity.this;
                 wallPaper = null;
             }
@@ -249,8 +251,8 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             return itemViewType == 5 || itemViewType == 6;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:39:0x0077  */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x007a  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x0077  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x007a  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -269,11 +271,17 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 profilePreview.profileView.setForum(ChannelColorActivity.this.isForum());
                 profilePreview.profileView.setStatusEmoji(DialogObject.getEmojiStatusDocumentId(ChannelColorActivity.this.selectedStatusEmoji), false);
                 profilePreview.profileView.overrideAvatarColor(ChannelColorActivity.this.selectedReplyColor);
-            } else if (itemViewType == 3) {
+                return;
+            }
+            if (itemViewType == 3) {
                 ((PeerColorPicker) viewHolder.itemView).setSelected(ChannelColorActivity.this.selectedReplyColor, false);
-            } else if (itemViewType == 4) {
+                return;
+            }
+            if (itemViewType == 4) {
                 ((PeerColorActivity.PeerColorGrid) viewHolder.itemView).setSelected(ChannelColorActivity.this.selectedProfileColor, false);
-            } else if (itemViewType == 5) {
+                return;
+            }
+            if (itemViewType == 5) {
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 ChannelColorActivity channelColorActivity = ChannelColorActivity.this;
                 if (i == channelColorActivity.removeProfileColorRow) {
@@ -284,10 +292,13 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 ChannelColorActivity channelColorActivity2 = ChannelColorActivity.this;
                 if (channelColorActivity2.currentLevel < channelColorActivity2.getCustomWallpaperLevelMin()) {
                     textCell.setLockLevel(false, ChannelColorActivity.this.getCustomWallpaperLevelMin());
+                    return;
                 } else {
                     textCell.setLockLevel(false, 0);
+                    return;
                 }
-            } else if (itemViewType != 6) {
+            }
+            if (itemViewType != 6) {
                 if (itemViewType != 7) {
                     return;
                 }
@@ -304,92 +315,95 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                     stickerPackInfoStrRes = channelColorActivity3.getEmojiStatusInfoStrRes();
                 } else if (i == channelColorActivity3.packEmojiHintRow) {
                     stickerPackInfoStrRes = channelColorActivity3.getEmojiPackInfoStrRes();
-                } else if (i != channelColorActivity3.packStickerHintRow) {
-                    if (i == channelColorActivity3.removeProfileColorShadowRow) {
-                        textInfoPrivacyCell.setText("");
-                        textInfoPrivacyCell.setFixedSize(12);
-                    }
-                    Context context = ChannelColorActivity.this.getContext();
-                    ChannelColorActivity channelColorActivity4 = ChannelColorActivity.this;
-                    textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, i != channelColorActivity4.statusHintRow ? R.drawable.greydivider_bottom : R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow, ((BaseFragment) channelColorActivity4).resourceProvider));
                 } else {
+                    if (i != channelColorActivity3.packStickerHintRow) {
+                        if (i == channelColorActivity3.removeProfileColorShadowRow) {
+                            textInfoPrivacyCell.setText("");
+                            textInfoPrivacyCell.setFixedSize(12);
+                        }
+                        Context context = ChannelColorActivity.this.getContext();
+                        ChannelColorActivity channelColorActivity4 = ChannelColorActivity.this;
+                        textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, i != channelColorActivity4.statusHintRow ? R.drawable.greydivider_bottom : R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow, ((BaseFragment) channelColorActivity4).resourceProvider));
+                        return;
+                    }
                     stickerPackInfoStrRes = channelColorActivity3.getStickerPackInfoStrRes();
                 }
                 textInfoPrivacyCell.setText(LocaleController.getString(stickerPackInfoStrRes));
                 Context context2 = ChannelColorActivity.this.getContext();
                 ChannelColorActivity channelColorActivity42 = ChannelColorActivity.this;
                 textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context2, i != channelColorActivity42.statusHintRow ? R.drawable.greydivider_bottom : R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow, ((BaseFragment) channelColorActivity42).resourceProvider));
-            } else {
-                EmojiCell emojiCell = (EmojiCell) viewHolder.itemView;
-                emojiCell.setDivider(false);
-                ChannelColorActivity channelColorActivity5 = ChannelColorActivity.this;
-                if (i == channelColorActivity5.replyEmojiRow) {
-                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedReplyColor, true);
-                    emojiCell.setText(LocaleController.getString(R.string.ChannelReplyLogo));
-                    ChannelColorActivity channelColorActivity6 = ChannelColorActivity.this;
-                    if (channelColorActivity6.currentLevel < channelColorActivity6.getMessagesController().channelBgIconLevelMin) {
-                        emojiCell.setLockLevel(ChannelColorActivity.this.getMessagesController().channelBgIconLevelMin);
-                    } else {
-                        emojiCell.setLockLevel(0);
-                    }
-                    j = ChannelColorActivity.this.selectedReplyEmoji;
-                } else if (i == channelColorActivity5.profileEmojiRow) {
-                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
-                    emojiCell.setText(LocaleController.getString(R.string.ChannelProfileLogo));
-                    emojiCell.setDivider(ChannelColorActivity.this.removeProfileColorRow >= 0);
-                    ChannelColorActivity channelColorActivity7 = ChannelColorActivity.this;
-                    if (channelColorActivity7.currentLevel < channelColorActivity7.getProfileIconLevelMin()) {
-                        emojiCell.setLockLevel(ChannelColorActivity.this.getProfileIconLevelMin());
-                    } else {
-                        emojiCell.setLockLevel(0);
-                    }
-                    j = ChannelColorActivity.this.selectedProfileEmoji;
-                } else if (i == channelColorActivity5.statusEmojiRow) {
-                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
-                    emojiCell.setText(LocaleController.getString(ChannelColorActivity.this.getEmojiStatusStrRes()));
-                    ChannelColorActivity channelColorActivity8 = ChannelColorActivity.this;
-                    if (channelColorActivity8.currentLevel < channelColorActivity8.getEmojiStatusLevelMin()) {
-                        emojiCell.setLockLevel(ChannelColorActivity.this.getEmojiStatusLevelMin());
-                    } else {
-                        emojiCell.setLockLevel(0);
-                    }
-                    j = DialogObject.getEmojiStatusDocumentId(ChannelColorActivity.this.selectedStatusEmoji);
-                } else {
-                    if (i == channelColorActivity5.packEmojiRow) {
-                        emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
-                        emojiCell.setText(LocaleController.getString(ChannelColorActivity.this.getEmojiPackStrRes()));
-                        ChannelColorActivity channelColorActivity9 = ChannelColorActivity.this;
-                        if (channelColorActivity9.currentLevel < channelColorActivity9.getEmojiStickersLevelMin()) {
-                            emojiCell.setLockLevel(ChannelColorActivity.this.getEmojiStickersLevelMin());
-                        } else {
-                            emojiCell.setLockLevel(0);
-                        }
-                        TLRPC.ChatFull chatFull = ChannelColorActivity.this.getMessagesController().getChatFull(-ChannelColorActivity.this.dialogId);
-                        if (chatFull != null && (stickerSet2 = chatFull.emojiset) != null) {
-                            j = ChannelColorActivity.this.getEmojiSetThumbId(stickerSet2);
-                        }
-                    } else if (i != channelColorActivity5.packStickerRow) {
-                        return;
-                    } else {
-                        emojiCell.setText(LocaleController.getString(channelColorActivity5.getStickerPackStrRes()));
-                        emojiCell.setLockLevel(0);
-                        TLRPC.ChatFull chatFull2 = ChannelColorActivity.this.getMessagesController().getChatFull(-ChannelColorActivity.this.dialogId);
-                        if (chatFull2 != null && (stickerSet = chatFull2.stickerset) != null) {
-                            emojiCell.setEmoji(ChannelColorActivity.this.getEmojiSetThumb(stickerSet), false);
-                            return;
-                        }
-                    }
-                    j = 0;
-                }
-                emojiCell.setEmoji(j, false);
+                return;
             }
+            EmojiCell emojiCell = (EmojiCell) viewHolder.itemView;
+            emojiCell.setDivider(false);
+            ChannelColorActivity channelColorActivity5 = ChannelColorActivity.this;
+            if (i == channelColorActivity5.replyEmojiRow) {
+                emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedReplyColor, true);
+                emojiCell.setText(LocaleController.getString(R.string.ChannelReplyLogo));
+                ChannelColorActivity channelColorActivity6 = ChannelColorActivity.this;
+                if (channelColorActivity6.currentLevel < channelColorActivity6.getMessagesController().channelBgIconLevelMin) {
+                    emojiCell.setLockLevel(ChannelColorActivity.this.getMessagesController().channelBgIconLevelMin);
+                } else {
+                    emojiCell.setLockLevel(0);
+                }
+                j = ChannelColorActivity.this.selectedReplyEmoji;
+            } else if (i == channelColorActivity5.profileEmojiRow) {
+                emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
+                emojiCell.setText(LocaleController.getString(R.string.ChannelProfileLogo));
+                emojiCell.setDivider(ChannelColorActivity.this.removeProfileColorRow >= 0);
+                ChannelColorActivity channelColorActivity7 = ChannelColorActivity.this;
+                if (channelColorActivity7.currentLevel < channelColorActivity7.getProfileIconLevelMin()) {
+                    emojiCell.setLockLevel(ChannelColorActivity.this.getProfileIconLevelMin());
+                } else {
+                    emojiCell.setLockLevel(0);
+                }
+                j = ChannelColorActivity.this.selectedProfileEmoji;
+            } else if (i == channelColorActivity5.statusEmojiRow) {
+                emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
+                emojiCell.setText(LocaleController.getString(ChannelColorActivity.this.getEmojiStatusStrRes()));
+                ChannelColorActivity channelColorActivity8 = ChannelColorActivity.this;
+                if (channelColorActivity8.currentLevel < channelColorActivity8.getEmojiStatusLevelMin()) {
+                    emojiCell.setLockLevel(ChannelColorActivity.this.getEmojiStatusLevelMin());
+                } else {
+                    emojiCell.setLockLevel(0);
+                }
+                j = DialogObject.getEmojiStatusDocumentId(ChannelColorActivity.this.selectedStatusEmoji);
+            } else {
+                if (i == channelColorActivity5.packEmojiRow) {
+                    emojiCell.setAdaptiveEmojiColor(((BaseFragment) channelColorActivity5).currentAccount, ChannelColorActivity.this.selectedProfileColor, false);
+                    emojiCell.setText(LocaleController.getString(ChannelColorActivity.this.getEmojiPackStrRes()));
+                    ChannelColorActivity channelColorActivity9 = ChannelColorActivity.this;
+                    if (channelColorActivity9.currentLevel < channelColorActivity9.getEmojiStickersLevelMin()) {
+                        emojiCell.setLockLevel(ChannelColorActivity.this.getEmojiStickersLevelMin());
+                    } else {
+                        emojiCell.setLockLevel(0);
+                    }
+                    TLRPC.ChatFull chatFull = ChannelColorActivity.this.getMessagesController().getChatFull(-ChannelColorActivity.this.dialogId);
+                    if (chatFull != null && (stickerSet2 = chatFull.emojiset) != null) {
+                        j = ChannelColorActivity.this.getEmojiSetThumbId(stickerSet2);
+                    }
+                } else {
+                    if (i != channelColorActivity5.packStickerRow) {
+                        return;
+                    }
+                    emojiCell.setText(LocaleController.getString(channelColorActivity5.getStickerPackStrRes()));
+                    emojiCell.setLockLevel(0);
+                    TLRPC.ChatFull chatFull2 = ChannelColorActivity.this.getMessagesController().getChatFull(-ChannelColorActivity.this.dialogId);
+                    if (chatFull2 != null && (stickerSet = chatFull2.stickerset) != null) {
+                        emojiCell.setEmoji(ChannelColorActivity.this.getEmojiSetThumb(stickerSet), false);
+                        return;
+                    }
+                }
+                j = 0;
+            }
+            emojiCell.setEmoji(j, false);
         }
 
         /* JADX WARN: Multi-variable type inference failed */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            ThemeChooser themeChooser;
-            ThemeChooser themeChooser2;
+            FrameLayout frameLayout;
+            FrameLayout frameLayout2;
             if (i == 0) {
                 Context context = ChannelColorActivity.this.getContext();
                 INavigationLayout iNavigationLayout = ((BaseFragment) ChannelColorActivity.this).parentLayout;
@@ -406,24 +420,24 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 Drawable backgroundDrawable = PreviewView.getBackgroundDrawable(drawable, i2, channelColorActivity3.selectedWallpaper, channelColorActivity3.isDark);
                 channelColorActivity2.backgroundDrawable = backgroundDrawable;
                 themePreviewMessagesCell.setOverrideBackground(backgroundDrawable);
-                themeChooser2 = themePreviewMessagesCell;
+                frameLayout2 = themePreviewMessagesCell;
             } else {
                 if (i == 2) {
-                    ThemeChooser themeChooser3 = new ThemeChooser(ChannelColorActivity.this.getContext(), false, ((BaseFragment) ChannelColorActivity.this).currentAccount, ((BaseFragment) ChannelColorActivity.this).resourceProvider);
-                    themeChooser3.setWithRemovedStub(true);
-                    themeChooser3.setSelectedEmoticon(ChannelColorActivity.this.getThemeChooserEmoticon(), false);
-                    themeChooser3.setGalleryWallpaper(ChannelColorActivity.this.galleryWallpaper);
-                    themeChooser3.setOnEmoticonSelected(new Utilities.Callback() { // from class: org.telegram.ui.ChannelColorActivity$Adapter$$ExternalSyntheticLambda0
+                    ThemeChooser themeChooser = new ThemeChooser(ChannelColorActivity.this.getContext(), false, ((BaseFragment) ChannelColorActivity.this).currentAccount, ((BaseFragment) ChannelColorActivity.this).resourceProvider);
+                    themeChooser.setWithRemovedStub(true);
+                    themeChooser.setSelectedEmoticon(ChannelColorActivity.this.getThemeChooserEmoticon(), false);
+                    themeChooser.setGalleryWallpaper(ChannelColorActivity.this.galleryWallpaper);
+                    themeChooser.setOnEmoticonSelected(new Utilities.Callback() { // from class: org.telegram.ui.ChannelColorActivity$Adapter$$ExternalSyntheticLambda0
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
                             ChannelColorActivity.Adapter.this.lambda$onCreateViewHolder$0((String) obj);
                         }
                     });
-                    themeChooser = themeChooser3;
+                    frameLayout = themeChooser;
                 } else if (i == 5) {
-                    themeChooser = new TextCell(ChannelColorActivity.this.getContext(), ChannelColorActivity.this.getResourceProvider());
+                    frameLayout = new TextCell(ChannelColorActivity.this.getContext(), ChannelColorActivity.this.getResourceProvider());
                 } else if (i == 6) {
-                    themeChooser = new EmojiCell(ChannelColorActivity.this.getContext(), ((BaseFragment) ChannelColorActivity.this).resourceProvider);
+                    frameLayout = new EmojiCell(ChannelColorActivity.this.getContext(), ((BaseFragment) ChannelColorActivity.this).resourceProvider);
                 } else if (i == 3) {
                     final PeerColorPicker peerColorPicker = new PeerColorPicker(ChannelColorActivity.this.getContext(), ((BaseFragment) ChannelColorActivity.this).currentAccount, ((BaseFragment) ChannelColorActivity.this).resourceProvider);
                     peerColorPicker.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChannelColorActivity$Adapter$$ExternalSyntheticLambda1
@@ -432,7 +446,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                             ChannelColorActivity.Adapter.this.lambda$onCreateViewHolder$1(peerColorPicker, view, i3);
                         }
                     });
-                    themeChooser = peerColorPicker;
+                    frameLayout = peerColorPicker;
                 } else if (i == 4) {
                     PeerColorActivity.PeerColorGrid peerColorGrid = new PeerColorActivity.PeerColorGrid(ChannelColorActivity.this.getContext(), 1, ((BaseFragment) ChannelColorActivity.this).currentAccount, ((BaseFragment) ChannelColorActivity.this).resourceProvider);
                     peerColorGrid.setDivider(false);
@@ -442,17 +456,17 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                             ChannelColorActivity.Adapter.this.lambda$onCreateViewHolder$2((Integer) obj);
                         }
                     });
-                    themeChooser = peerColorGrid;
+                    frameLayout = peerColorGrid;
                 } else if (i == 1) {
                     ChannelColorActivity channelColorActivity4 = ChannelColorActivity.this;
-                    themeChooser2 = new ProfilePreview(channelColorActivity4.getContext());
+                    frameLayout2 = new ProfilePreview(channelColorActivity4.getContext());
                 } else {
-                    themeChooser2 = new TextInfoPrivacyCell(ChannelColorActivity.this.getContext());
+                    frameLayout2 = new TextInfoPrivacyCell(ChannelColorActivity.this.getContext());
                 }
-                themeChooser.setBackgroundColor(ChannelColorActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
-                themeChooser2 = themeChooser;
+                frameLayout.setBackgroundColor(ChannelColorActivity.this.getThemedColor(Theme.key_windowBackgroundWhite));
+                frameLayout2 = frameLayout;
             }
-            return new RecyclerListView.Holder(themeChooser2);
+            return new RecyclerListView.Holder(frameLayout2);
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -577,11 +591,11 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             if (j != 0) {
                 this.imageDrawable.set(j, z);
                 this.offText = null;
-                return;
-            }
-            this.imageDrawable.set((Drawable) null, z);
-            if (this.offText == null) {
-                this.offText = new Text(LocaleController.getString(R.string.ChannelReplyIconOff), 16.0f);
+            } else {
+                this.imageDrawable.set((Drawable) null, z);
+                if (this.offText == null) {
+                    this.offText = new Text(LocaleController.getString(R.string.ChannelReplyIconOff), 16.0f);
+                }
             }
         }
 
@@ -589,21 +603,21 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             if (document != null) {
                 this.imageDrawable.set(document, z);
                 this.offText = null;
-                return;
-            }
-            this.imageDrawable.set((Drawable) null, z);
-            if (this.offText == null) {
-                this.offText = new Text(LocaleController.getString(R.string.ChannelReplyIconOff), 16.0f);
+            } else {
+                this.imageDrawable.set((Drawable) null, z);
+                if (this.offText == null) {
+                    this.offText = new Text(LocaleController.getString(R.string.ChannelReplyIconOff), 16.0f);
+                }
             }
         }
 
         public void setLockLevel(int i) {
             if (i <= 0) {
                 this.textView.setRightDrawable((Drawable) null);
-                return;
+            } else {
+                this.textView.setRightDrawable(new PeerColorActivity.LevelLock(getContext(), i, this.resourcesProvider));
+                this.textView.setDrawablePadding(AndroidUtilities.dp(6.0f));
             }
-            this.textView.setRightDrawable(new PeerColorActivity.LevelLock(getContext(), i, this.resourcesProvider));
-            this.textView.setDrawablePadding(AndroidUtilities.dp(6.0f));
         }
 
         public void setText(CharSequence charSequence) {
@@ -1228,8 +1242,8 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Removed duplicated region for block: B:89:0x01c7 A[Catch: all -> 0x00a2, TryCatch #5 {all -> 0x020e, blocks: (B:8:0x0015, B:113:0x020a, B:10:0x001c, B:14:0x002a, B:16:0x0032, B:18:0x0045, B:20:0x0082, B:22:0x008e, B:25:0x0092, B:27:0x0095, B:29:0x009f, B:32:0x00a6, B:33:0x00a9, B:35:0x00b5, B:37:0x00c1, B:39:0x00db, B:41:0x00e5, B:42:0x00f2, B:44:0x00fa, B:46:0x0104, B:47:0x0112, B:49:0x011a, B:51:0x0124, B:105:0x01ef, B:107:0x01f3, B:52:0x0132, B:54:0x013e, B:55:0x0148, B:57:0x0154, B:58:0x015e, B:60:0x0162, B:62:0x0169, B:64:0x0171, B:65:0x0177, B:67:0x0180, B:69:0x018d, B:71:0x0191, B:73:0x0195, B:75:0x0199, B:77:0x019d, B:79:0x01a1, B:81:0x01ad, B:84:0x01b6, B:87:0x01c3, B:89:0x01c7, B:90:0x01cb, B:92:0x01cf, B:93:0x01d3, B:95:0x01d7, B:96:0x01db, B:98:0x01df, B:99:0x01e2, B:101:0x01e6, B:102:0x01e9, B:104:0x01ed, B:86:0x01bb, B:111:0x01fe), top: B:147:0x0015 }] */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x01cb A[Catch: all -> 0x00a2, TryCatch #5 {all -> 0x020e, blocks: (B:8:0x0015, B:113:0x020a, B:10:0x001c, B:14:0x002a, B:16:0x0032, B:18:0x0045, B:20:0x0082, B:22:0x008e, B:25:0x0092, B:27:0x0095, B:29:0x009f, B:32:0x00a6, B:33:0x00a9, B:35:0x00b5, B:37:0x00c1, B:39:0x00db, B:41:0x00e5, B:42:0x00f2, B:44:0x00fa, B:46:0x0104, B:47:0x0112, B:49:0x011a, B:51:0x0124, B:105:0x01ef, B:107:0x01f3, B:52:0x0132, B:54:0x013e, B:55:0x0148, B:57:0x0154, B:58:0x015e, B:60:0x0162, B:62:0x0169, B:64:0x0171, B:65:0x0177, B:67:0x0180, B:69:0x018d, B:71:0x0191, B:73:0x0195, B:75:0x0199, B:77:0x019d, B:79:0x01a1, B:81:0x01ad, B:84:0x01b6, B:87:0x01c3, B:89:0x01c7, B:90:0x01cb, B:92:0x01cf, B:93:0x01d3, B:95:0x01d7, B:96:0x01db, B:98:0x01df, B:99:0x01e2, B:101:0x01e6, B:102:0x01e9, B:104:0x01ed, B:86:0x01bb, B:111:0x01fe), top: B:147:0x0015 }] */
+        /* JADX WARN: Removed duplicated region for block: B:96:0x01c7 A[Catch: all -> 0x00a2, TryCatch #0 {all -> 0x00a2, blocks: (B:10:0x001c, B:14:0x002a, B:16:0x0032, B:18:0x0045, B:20:0x0082, B:22:0x008e, B:25:0x0092, B:27:0x0095, B:31:0x009f, B:29:0x00a6, B:33:0x00a9, B:40:0x00b5, B:42:0x00c1, B:44:0x00db, B:46:0x00e5, B:47:0x00f2, B:49:0x00fa, B:51:0x0104, B:52:0x0112, B:54:0x011a, B:56:0x0124, B:36:0x01ef, B:38:0x01f3, B:58:0x0132, B:60:0x013e, B:61:0x0148, B:63:0x0154, B:64:0x015e, B:66:0x0162, B:71:0x0169, B:116:0x0171, B:73:0x0177, B:75:0x0180, B:77:0x018d, B:79:0x0191, B:81:0x0195, B:83:0x0199, B:85:0x019d, B:87:0x01a1, B:89:0x01ad, B:93:0x01b6, B:94:0x01c3, B:96:0x01c7, B:97:0x01cb, B:99:0x01cf, B:100:0x01d3, B:102:0x01d7, B:103:0x01db, B:105:0x01df, B:106:0x01e2, B:108:0x01e6, B:109:0x01e9, B:111:0x01ed, B:114:0x01bb, B:119:0x01fe), top: B:9:0x001c, outer: #5 }] */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x01cb A[Catch: all -> 0x00a2, TryCatch #0 {all -> 0x00a2, blocks: (B:10:0x001c, B:14:0x002a, B:16:0x0032, B:18:0x0045, B:20:0x0082, B:22:0x008e, B:25:0x0092, B:27:0x0095, B:31:0x009f, B:29:0x00a6, B:33:0x00a9, B:40:0x00b5, B:42:0x00c1, B:44:0x00db, B:46:0x00e5, B:47:0x00f2, B:49:0x00fa, B:51:0x0104, B:52:0x0112, B:54:0x011a, B:56:0x0124, B:36:0x01ef, B:38:0x01f3, B:58:0x0132, B:60:0x013e, B:61:0x0148, B:63:0x0154, B:64:0x015e, B:66:0x0162, B:71:0x0169, B:116:0x0171, B:73:0x0177, B:75:0x0180, B:77:0x018d, B:79:0x0191, B:81:0x0195, B:83:0x0199, B:85:0x019d, B:87:0x01a1, B:89:0x01ad, B:93:0x01b6, B:94:0x01c3, B:96:0x01c7, B:97:0x01cb, B:99:0x01cf, B:100:0x01d3, B:102:0x01d7, B:103:0x01db, B:105:0x01df, B:106:0x01e2, B:108:0x01e6, B:109:0x01e9, B:111:0x01ed, B:114:0x01bb, B:119:0x01fe), top: B:9:0x001c, outer: #5 }] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1246,118 +1260,121 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 int i = 0;
                 boolean z2 = false;
                 while (true) {
-                    int read = fileInputStream.read(ThemesHorizontalListCell.bytes);
-                    if (read == -1) {
-                        break;
-                    }
-                    int i2 = i;
-                    int i3 = 0;
-                    int i4 = 0;
-                    while (true) {
-                        if (i3 >= read) {
+                    try {
+                        int read = fileInputStream.read(ThemesHorizontalListCell.bytes);
+                        if (read == -1) {
                             break;
                         }
-                        byte[] bArr = ThemesHorizontalListCell.bytes;
-                        if (bArr[i3] == 10) {
-                            int i5 = i3 - i4;
-                            int i6 = i5 + 1;
-                            String str = new String(bArr, i4, i5, "UTF-8");
-                            if (str.startsWith("WLS=")) {
-                                String substring = str.substring(4);
-                                Uri parse = Uri.parse(substring);
-                                themeInfo.slug = parse.getQueryParameter("slug");
-                                File filesDirFixed = ApplicationLoader.getFilesDirFixed();
-                                themeInfo.pathToWallpaper = new File(filesDirFixed, Utilities.MD5(substring) + ".wp").getAbsolutePath();
-                                String queryParameter = parse.getQueryParameter("mode");
-                                if (queryParameter != null && (split = queryParameter.toLowerCase().split(" ")) != null && split.length > 0) {
-                                    int i7 = 0;
-                                    while (true) {
-                                        if (i7 >= split.length) {
-                                            break;
-                                        } else if ("blur".equals(split[i7])) {
-                                            themeInfo.isBlured = z;
-                                            break;
-                                        } else {
+                        int i2 = i;
+                        int i3 = 0;
+                        int i4 = 0;
+                        while (true) {
+                            if (i3 >= read) {
+                                break;
+                            }
+                            byte[] bArr = ThemesHorizontalListCell.bytes;
+                            if (bArr[i3] == 10) {
+                                int i5 = i3 - i4;
+                                int i6 = i5 + 1;
+                                String str = new String(bArr, i4, i5, "UTF-8");
+                                if (str.startsWith("WLS=")) {
+                                    String substring = str.substring(4);
+                                    Uri parse = Uri.parse(substring);
+                                    themeInfo.slug = parse.getQueryParameter("slug");
+                                    themeInfo.pathToWallpaper = new File(ApplicationLoader.getFilesDirFixed(), Utilities.MD5(substring) + ".wp").getAbsolutePath();
+                                    String queryParameter = parse.getQueryParameter("mode");
+                                    if (queryParameter != null && (split = queryParameter.toLowerCase().split(" ")) != null && split.length > 0) {
+                                        int i7 = 0;
+                                        while (true) {
+                                            if (i7 >= split.length) {
+                                                break;
+                                            }
+                                            if ("blur".equals(split[i7])) {
+                                                themeInfo.isBlured = z;
+                                                break;
+                                            }
                                             i7++;
                                         }
                                     }
-                                }
-                                if (!TextUtils.isEmpty(parse.getQueryParameter("pattern"))) {
-                                    try {
-                                        String queryParameter2 = parse.getQueryParameter("bg_color");
-                                        if (!TextUtils.isEmpty(queryParameter2)) {
-                                            themeInfo.patternBgColor = Integer.parseInt(queryParameter2.substring(0, 6), 16) | (-16777216);
-                                            if (queryParameter2.length() >= 13 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(6))) {
-                                                themeInfo.patternBgGradientColor1 = Integer.parseInt(queryParameter2.substring(7, 13), 16) | (-16777216);
-                                            }
-                                            if (queryParameter2.length() >= 20 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(13))) {
-                                                themeInfo.patternBgGradientColor2 = Integer.parseInt(queryParameter2.substring(14, 20), 16) | (-16777216);
-                                            }
-                                            if (queryParameter2.length() == 27 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(20))) {
-                                                themeInfo.patternBgGradientColor3 = Integer.parseInt(queryParameter2.substring(21), 16) | (-16777216);
-                                            }
-                                        }
-                                    } catch (Exception unused) {
-                                    }
-                                    try {
-                                        String queryParameter3 = parse.getQueryParameter("rotation");
-                                        if (!TextUtils.isEmpty(queryParameter3)) {
-                                            themeInfo.patternBgGradientRotation = Utilities.parseInt((CharSequence) queryParameter3).intValue();
-                                        }
-                                    } catch (Exception unused2) {
-                                    }
-                                    String queryParameter4 = parse.getQueryParameter("intensity");
-                                    if (!TextUtils.isEmpty(queryParameter4)) {
-                                        themeInfo.patternIntensity = Utilities.parseInt((CharSequence) queryParameter4).intValue();
-                                    }
-                                    if (themeInfo.patternIntensity == 0) {
-                                        themeInfo.patternIntensity = 50;
-                                    }
-                                }
-                            } else if (str.startsWith("WPS")) {
-                                themeInfo.previewWallpaperOffset = i6 + i2;
-                                z2 = true;
-                                break;
-                            } else {
-                                int indexOf = str.indexOf(61);
-                                if (indexOf != -1 && ((stringKeyToInt = ThemeColors.stringKeyToInt(str.substring(0, indexOf))) == Theme.key_chat_inBubble || stringKeyToInt == Theme.key_chat_outBubble || stringKeyToInt == Theme.key_chat_wallpaper || stringKeyToInt == Theme.key_chat_wallpaper_gradient_to1 || stringKeyToInt == Theme.key_chat_wallpaper_gradient_to2 || stringKeyToInt == Theme.key_chat_wallpaper_gradient_to3)) {
-                                    String substring2 = str.substring(indexOf + 1);
-                                    if (substring2.length() > 0 && substring2.charAt(0) == '#') {
+                                    if (!TextUtils.isEmpty(parse.getQueryParameter("pattern"))) {
                                         try {
-                                            intValue = Color.parseColor(substring2);
-                                        } catch (Exception unused3) {
+                                            String queryParameter2 = parse.getQueryParameter("bg_color");
+                                            if (!TextUtils.isEmpty(queryParameter2)) {
+                                                themeInfo.patternBgColor = Integer.parseInt(queryParameter2.substring(0, 6), 16) | (-16777216);
+                                                if (queryParameter2.length() >= 13 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(6))) {
+                                                    themeInfo.patternBgGradientColor1 = Integer.parseInt(queryParameter2.substring(7, 13), 16) | (-16777216);
+                                                }
+                                                if (queryParameter2.length() >= 20 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(13))) {
+                                                    themeInfo.patternBgGradientColor2 = Integer.parseInt(queryParameter2.substring(14, 20), 16) | (-16777216);
+                                                }
+                                                if (queryParameter2.length() == 27 && AndroidUtilities.isValidWallChar(queryParameter2.charAt(20))) {
+                                                    themeInfo.patternBgGradientColor3 = Integer.parseInt(queryParameter2.substring(21), 16) | (-16777216);
+                                                }
+                                            }
+                                        } catch (Exception unused) {
                                         }
-                                        if (stringKeyToInt != Theme.key_chat_inBubble) {
-                                            themeInfo.setPreviewInColor(intValue);
-                                        } else if (stringKeyToInt == Theme.key_chat_outBubble) {
-                                            themeInfo.setPreviewOutColor(intValue);
-                                        } else if (stringKeyToInt == Theme.key_chat_wallpaper) {
-                                            themeInfo.setPreviewBackgroundColor(intValue);
-                                        } else if (stringKeyToInt == Theme.key_chat_wallpaper_gradient_to1) {
-                                            themeInfo.previewBackgroundGradientColor1 = intValue;
-                                        } else if (stringKeyToInt == Theme.key_chat_wallpaper_gradient_to2) {
-                                            themeInfo.previewBackgroundGradientColor2 = intValue;
-                                        } else if (stringKeyToInt == Theme.key_chat_wallpaper_gradient_to3) {
-                                            themeInfo.previewBackgroundGradientColor3 = intValue;
+                                        try {
+                                            String queryParameter3 = parse.getQueryParameter("rotation");
+                                            if (!TextUtils.isEmpty(queryParameter3)) {
+                                                themeInfo.patternBgGradientRotation = Utilities.parseInt((CharSequence) queryParameter3).intValue();
+                                            }
+                                        } catch (Exception unused2) {
+                                        }
+                                        String queryParameter4 = parse.getQueryParameter("intensity");
+                                        if (!TextUtils.isEmpty(queryParameter4)) {
+                                            themeInfo.patternIntensity = Utilities.parseInt((CharSequence) queryParameter4).intValue();
+                                        }
+                                        if (themeInfo.patternIntensity == 0) {
+                                            themeInfo.patternIntensity = 50;
                                         }
                                     }
-                                    intValue = Utilities.parseInt((CharSequence) substring2).intValue();
-                                    if (stringKeyToInt != Theme.key_chat_inBubble) {
+                                } else {
+                                    if (str.startsWith("WPS")) {
+                                        themeInfo.previewWallpaperOffset = i6 + i2;
+                                        z2 = true;
+                                        break;
+                                    }
+                                    int indexOf = str.indexOf(61);
+                                    if (indexOf != -1 && ((stringKeyToInt = ThemeColors.stringKeyToInt(str.substring(0, indexOf))) == Theme.key_chat_inBubble || stringKeyToInt == Theme.key_chat_outBubble || stringKeyToInt == Theme.key_chat_wallpaper || stringKeyToInt == Theme.key_chat_wallpaper_gradient_to1 || stringKeyToInt == Theme.key_chat_wallpaper_gradient_to2 || stringKeyToInt == Theme.key_chat_wallpaper_gradient_to3)) {
+                                        String substring2 = str.substring(indexOf + 1);
+                                        if (substring2.length() > 0 && substring2.charAt(0) == '#') {
+                                            try {
+                                                intValue = Color.parseColor(substring2);
+                                            } catch (Exception unused3) {
+                                            }
+                                            if (stringKeyToInt != Theme.key_chat_inBubble) {
+                                                themeInfo.setPreviewInColor(intValue);
+                                            } else if (stringKeyToInt == Theme.key_chat_outBubble) {
+                                                themeInfo.setPreviewOutColor(intValue);
+                                            } else if (stringKeyToInt == Theme.key_chat_wallpaper) {
+                                                themeInfo.setPreviewBackgroundColor(intValue);
+                                            } else if (stringKeyToInt == Theme.key_chat_wallpaper_gradient_to1) {
+                                                themeInfo.previewBackgroundGradientColor1 = intValue;
+                                            } else if (stringKeyToInt == Theme.key_chat_wallpaper_gradient_to2) {
+                                                themeInfo.previewBackgroundGradientColor2 = intValue;
+                                            } else if (stringKeyToInt == Theme.key_chat_wallpaper_gradient_to3) {
+                                                themeInfo.previewBackgroundGradientColor3 = intValue;
+                                            }
+                                        }
+                                        intValue = Utilities.parseInt((CharSequence) substring2).intValue();
+                                        if (stringKeyToInt != Theme.key_chat_inBubble) {
+                                        }
                                     }
                                 }
+                                i4 += i6;
+                                i2 += i6;
                             }
-                            i4 += i6;
-                            i2 += i6;
+                            i3++;
+                            z = true;
                         }
-                        i3++;
+                        if (z2 || i == i2) {
+                            break;
+                        }
+                        fileInputStream.getChannel().position(i2);
+                        i = i2;
                         z = true;
+                    } finally {
                     }
-                    if (z2 || i == i2) {
-                        break;
-                    }
-                    fileInputStream.getChannel().position(i2);
-                    i = i2;
-                    z = true;
                 }
                 fileInputStream.close();
             } catch (Throwable th) {
@@ -1366,22 +1383,22 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             if (themeInfo.pathToWallpaper == null || themeInfo.badWallpaper || new File(themeInfo.pathToWallpaper).exists()) {
                 themeInfo.previewParsed = true;
                 return true;
-            } else if (this.loadingWallpapers.containsKey(themeInfo)) {
-                return false;
-            } else {
-                this.loadingWallpapers.put(themeInfo, themeInfo.slug);
-                TLRPC.TL_account_getWallPaper tL_account_getWallPaper = new TLRPC.TL_account_getWallPaper();
-                TLRPC.TL_inputWallPaperSlug tL_inputWallPaperSlug = new TLRPC.TL_inputWallPaperSlug();
-                tL_inputWallPaperSlug.slug = themeInfo.slug;
-                tL_account_getWallPaper.wallpaper = tL_inputWallPaperSlug;
-                ConnectionsManager.getInstance(themeInfo.account).sendRequest(tL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$ThemeChooser$$ExternalSyntheticLambda3
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                        ChannelColorActivity.ThemeChooser.this.lambda$parseTheme$4(themeInfo, tLObject, tL_error);
-                    }
-                });
+            }
+            if (this.loadingWallpapers.containsKey(themeInfo)) {
                 return false;
             }
+            this.loadingWallpapers.put(themeInfo, themeInfo.slug);
+            TLRPC.TL_account_getWallPaper tL_account_getWallPaper = new TLRPC.TL_account_getWallPaper();
+            TLRPC.TL_inputWallPaperSlug tL_inputWallPaperSlug = new TLRPC.TL_inputWallPaperSlug();
+            tL_inputWallPaperSlug.slug = themeInfo.slug;
+            tL_account_getWallPaper.wallpaper = tL_inputWallPaperSlug;
+            ConnectionsManager.getInstance(themeInfo.account).sendRequest(tL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$ThemeChooser$$ExternalSyntheticLambda3
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    ChannelColorActivity.ThemeChooser.this.lambda$parseTheme$4(themeInfo, tLObject, tL_error);
+                }
+            });
+            return false;
         }
 
         private void updateSelected() {
@@ -1522,12 +1539,12 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             if (str.equals("drawableMsgOutCheckRead")) {
                 ChannelColorActivity.this.msgOutCheckReadDrawable.setColorFilter(getColor(Theme.key_chat_outSentCheckRead), PorterDuff.Mode.MULTIPLY);
                 return ChannelColorActivity.this.msgOutCheckReadDrawable;
-            } else if (!str.equals("drawableMsgOutHalfCheck")) {
-                return ChannelColorActivity.this.parentResourcesProvider != null ? ChannelColorActivity.this.parentResourcesProvider.getDrawable(str) : Theme.getThemeDrawable(str);
-            } else {
-                ChannelColorActivity.this.msgOutHalfCheckDrawable.setColorFilter(getColor(Theme.key_chat_outSentCheckRead), PorterDuff.Mode.MULTIPLY);
-                return ChannelColorActivity.this.msgOutHalfCheckDrawable;
             }
+            if (!str.equals("drawableMsgOutHalfCheck")) {
+                return ChannelColorActivity.this.parentResourcesProvider != null ? ChannelColorActivity.this.parentResourcesProvider.getDrawable(str) : Theme.getThemeDrawable(str);
+            }
+            ChannelColorActivity.this.msgOutHalfCheckDrawable.setColorFilter(getColor(Theme.key_chat_outSentCheckRead), PorterDuff.Mode.MULTIPLY);
+            return ChannelColorActivity.this.msgOutHalfCheckDrawable;
         }
 
         @Override // org.telegram.ui.ActionBar.Theme.ResourcesProvider
@@ -1556,8 +1573,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
 
         public void toggle() {
-            ChannelColorActivity channelColorActivity = ChannelColorActivity.this;
-            channelColorActivity.isDark = !channelColorActivity.isDark;
+            ChannelColorActivity.this.isDark = !r0.isDark;
             ChannelColorActivity.this.updateThemeColors();
             ChannelColorActivity.this.updateColors();
         }
@@ -1780,7 +1796,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             });
         }
         if (iArr[r2] == 0) {
-            finishFragment();
+            lambda$onBackPressed$300();
             this.button.setLoading(r2);
             return;
         }
@@ -1809,11 +1825,11 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             return 0L;
         }
         long j = stickerSet.thumb_document_id;
-        if (j == 0) {
-            TLRPC.TL_messages_stickerSet groupStickerSetById = getMediaDataController().getGroupStickerSetById(stickerSet);
-            return !groupStickerSetById.documents.isEmpty() ? groupStickerSetById.documents.get(0).id : j;
+        if (j != 0) {
+            return j;
         }
-        return j;
+        TLRPC.TL_messages_stickerSet groupStickerSetById = getMediaDataController().getGroupStickerSetById(stickerSet);
+        return !groupStickerSetById.documents.isEmpty() ? groupStickerSetById.documents.get(0).id : j;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1853,15 +1869,16 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             if ("BOOSTS_REQUIRED".equals(tL_error.text)) {
                 showLimit();
                 return;
+            } else {
+                this.button.setLoading(false);
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.error, LocaleController.formatString(R.string.UnknownErrorCode, tL_error.text)).show();
+                return;
             }
-            this.button.setLoading(false);
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.error, LocaleController.formatString(R.string.UnknownErrorCode, tL_error.text)).show();
-            return;
         }
         int i2 = i + 1;
         iArr[0] = i2;
         if (i2 == iArr2[0]) {
-            finishFragment();
+            lambda$onBackPressed$300();
             showBulletin();
             this.button.setLoading(false);
         }
@@ -1979,47 +1996,50 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                     return;
                 }
                 return;
+            } else {
+                this.selectedProfileColor = -1;
+                this.selectedProfileEmoji = 0L;
+                updateProfilePreview(true);
+                updateButton(true);
+                updateRows();
+                return;
             }
-            this.selectedProfileColor = -1;
-            this.selectedProfileEmoji = 0L;
-            updateProfilePreview(true);
-            updateButton(true);
-            updateRows();
-        } else if (i == this.packStickerRow) {
+        }
+        if (i == this.packStickerRow) {
             if (chatFull == null) {
                 return;
             }
             GroupStickersActivity groupStickersActivity = new GroupStickersActivity(-this.dialogId);
             groupStickersActivity.setInfo(chatFull);
             presentFragment(groupStickersActivity);
-        } else {
-            if (i == this.replyEmojiRow) {
-                j = this.selectedReplyEmoji;
-            } else if (i == this.profileEmojiRow) {
-                j = this.selectedProfileEmoji;
-            } else if (i == this.statusEmojiRow) {
-                j = DialogObject.getEmojiStatusDocumentId(this.selectedStatusEmoji);
-            }
-            long j2 = j;
-            if (i != this.packEmojiRow) {
-                showSelectStatusDialog((EmojiCell) view, j2, i == this.statusEmojiRow, new Utilities.Callback2() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda12
-                    @Override // org.telegram.messenger.Utilities.Callback2
-                    public final void run(Object obj, Object obj2) {
-                        ChannelColorActivity.this.lambda$createView$1(i, view, (Long) obj, (Integer) obj2);
-                    }
-                });
-                return;
-            }
-            int emojiStickersLevelMin = getEmojiStickersLevelMin();
-            TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus = this.boostsStatus;
-            if (tL_premium_boostsStatus != null && tL_premium_boostsStatus.level < emojiStickersLevelMin) {
-                openBoostDialog(29);
-                return;
-            }
-            GroupStickersActivity groupStickersActivity2 = new GroupStickersActivity(-this.dialogId, true);
-            groupStickersActivity2.setInfo(chatFull);
-            presentFragment(groupStickersActivity2);
+            return;
         }
+        if (i == this.replyEmojiRow) {
+            j = this.selectedReplyEmoji;
+        } else if (i == this.profileEmojiRow) {
+            j = this.selectedProfileEmoji;
+        } else if (i == this.statusEmojiRow) {
+            j = DialogObject.getEmojiStatusDocumentId(this.selectedStatusEmoji);
+        }
+        long j2 = j;
+        if (i != this.packEmojiRow) {
+            showSelectStatusDialog((EmojiCell) view, j2, i == this.statusEmojiRow, new Utilities.Callback2() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda12
+                @Override // org.telegram.messenger.Utilities.Callback2
+                public final void run(Object obj, Object obj2) {
+                    ChannelColorActivity.this.lambda$createView$1(i, view, (Long) obj, (Integer) obj2);
+                }
+            });
+            return;
+        }
+        int emojiStickersLevelMin = getEmojiStickersLevelMin();
+        TL_stories.TL_premium_boostsStatus tL_premium_boostsStatus = this.boostsStatus;
+        if (tL_premium_boostsStatus != null && tL_premium_boostsStatus.level < emojiStickersLevelMin) {
+            openBoostDialog(29);
+            return;
+        }
+        GroupStickersActivity groupStickersActivity2 = new GroupStickersActivity(-this.dialogId, true);
+        groupStickersActivity2.setInfo(chatFull);
+        presentFragment(groupStickersActivity2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2051,14 +2071,14 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0032  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0062  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0076  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x00b4  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00bb  */
-    /* JADX WARN: Removed duplicated region for block: B:57:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0032  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0076  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00bb  */
+    /* JADX WARN: Removed duplicated region for block: B:51:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00b4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2128,8 +2148,9 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 }
                 if (getContext() == null) {
                     return;
+                } else {
+                    return;
                 }
-                return;
             }
         }
         i = 0;
@@ -2151,7 +2172,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showUnsavedAlert$14(DialogInterface dialogInterface, int i) {
-        finishFragment();
+        lambda$onBackPressed$300();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2244,7 +2265,9 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
         if (view instanceof EmojiCell) {
             ((EmojiCell) view).updateColors();
-        } else if (view instanceof TextCell) {
+            return;
+        }
+        if (view instanceof TextCell) {
             ((TextCell) view).updateColors();
         } else if (view instanceof PeerColorPicker) {
             ((PeerColorPicker) view).updateColors();
@@ -2294,15 +2317,14 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 if (i != -1) {
                     if (i == 1) {
                         ChannelColorActivity.this.toggleTheme();
-                        return;
                     }
-                    return;
-                }
-                ChannelColorActivity channelColorActivity = ChannelColorActivity.this;
-                if (channelColorActivity.currentLevel < channelColorActivity.minLevelRequired() || !ChannelColorActivity.this.hasUnsavedChanged()) {
-                    ChannelColorActivity.this.finishFragment();
                 } else {
-                    ChannelColorActivity.this.showUnsavedAlert();
+                    ChannelColorActivity channelColorActivity = ChannelColorActivity.this;
+                    if (channelColorActivity.currentLevel < channelColorActivity.minLevelRequired() || !ChannelColorActivity.this.hasUnsavedChanged()) {
+                        ChannelColorActivity.this.lambda$onBackPressed$300();
+                    } else {
+                        ChannelColorActivity.this.showUnsavedAlert();
+                    }
                 }
             }
         });
@@ -2414,8 +2436,10 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             if (this.dialogId == ((Long) objArr[2]).longValue()) {
                 updateBoostsAndLevels((TL_stories.TL_premium_boostsStatus) objArr[0]);
             }
-        } else if (i != NotificationCenter.boostByChannelCreated || ((Boolean) objArr[1]).booleanValue()) {
         } else {
+            if (i != NotificationCenter.boostByChannelCreated || ((Boolean) objArr[1]).booleanValue()) {
+                return;
+            }
             getMessagesController().getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda5
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
@@ -2648,7 +2672,8 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         selectAnimatedEmojiDialog.setSelected(j == 0 ? null : Long.valueOf(j));
         selectAnimatedEmojiDialog.setSaveState(3);
         selectAnimatedEmojiDialog.setScrimDrawable(swapAnimatedEmojiDrawable, emojiCell);
-        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(selectAnimatedEmojiDialog, -2, -2) { // from class: org.telegram.ui.ChannelColorActivity.6
+        int i4 = -2;
+        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(selectAnimatedEmojiDialog, i4, i4) { // from class: org.telegram.ui.ChannelColorActivity.6
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow, android.widget.PopupWindow
             public void dismiss() {
                 super.dismiss();
@@ -2922,14 +2947,14 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         this.statusHintRow = i2 + 2;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0064  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0069  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x007a  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x007f  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0090  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00a0  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00e7  */
-    /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x007a  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0090  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00e7  */
+    /* JADX WARN: Removed duplicated region for block: B:45:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0069  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2940,10 +2965,14 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0);
         String str = "Blue";
         String string = sharedPreferences.getString("lastDayTheme", "Blue");
-        string = (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) ? "Blue" : "Blue";
+        if (Theme.getTheme(string) == null || Theme.getTheme(string).isDark()) {
+            string = "Blue";
+        }
         String str2 = "Dark Blue";
         String string2 = sharedPreferences.getString("lastDarkTheme", "Dark Blue");
-        string2 = (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) ? "Dark Blue" : "Dark Blue";
+        if (Theme.getTheme(string2) == null || !Theme.getTheme(string2).isDark()) {
+            string2 = "Dark Blue";
+        }
         Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
         if (!string.equals(string2)) {
             str2 = string2;

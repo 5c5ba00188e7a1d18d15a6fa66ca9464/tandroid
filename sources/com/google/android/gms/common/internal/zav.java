@@ -7,6 +7,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class zav extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zav> CREATOR = new zaw();
@@ -32,11 +33,11 @@ public final class zav extends AbstractSafeParcelable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof zav) {
-            zav zavVar = (zav) obj;
-            return this.zac.equals(zavVar.zac) && Objects.equal(zab(), zavVar.zab());
+        if (!(obj instanceof zav)) {
+            return false;
         }
-        return false;
+        zav zavVar = (zav) obj;
+        return this.zac.equals(zavVar.zac) && Objects.equal(zab(), zavVar.zab());
     }
 
     @Override // android.os.Parcelable

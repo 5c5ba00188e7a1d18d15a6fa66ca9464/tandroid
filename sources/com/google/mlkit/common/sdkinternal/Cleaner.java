@@ -4,6 +4,7 @@ import java.lang.ref.ReferenceQueue;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public class Cleaner {
     private final ReferenceQueue zza = new ReferenceQueue();

@@ -12,17 +12,18 @@ import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public final class ArrayTypeAdapter extends TypeAdapter {
     public static final TypeAdapterFactory FACTORY = new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.ArrayTypeAdapter.1
         @Override // com.google.gson.TypeAdapterFactory
         public TypeAdapter create(Gson gson, TypeToken typeToken) {
             Type type = typeToken.getType();
-            if ((type instanceof GenericArrayType) || ((type instanceof Class) && ((Class) type).isArray())) {
-                Type arrayComponentType = $Gson$Types.getArrayComponentType(type);
-                return new ArrayTypeAdapter(gson, gson.getAdapter(TypeToken.get(arrayComponentType)), $Gson$Types.getRawType(arrayComponentType));
+            if (!(type instanceof GenericArrayType) && (!(type instanceof Class) || !((Class) type).isArray())) {
+                return null;
             }
-            return null;
+            Type arrayComponentType = $Gson$Types.getArrayComponentType(type);
+            return new ArrayTypeAdapter(gson, gson.getAdapter(TypeToken.get(arrayComponentType)), $Gson$Types.getRawType(arrayComponentType));
         }
     };
     private final Class componentType;
@@ -46,14 +47,14 @@ public final class ArrayTypeAdapter extends TypeAdapter {
         }
         jsonReader.endArray();
         int size = arrayList.size();
-        if (this.componentType.isPrimitive()) {
-            Object newInstance = Array.newInstance(this.componentType, size);
-            for (int i = 0; i < size; i++) {
-                Array.set(newInstance, i, arrayList.get(i));
-            }
-            return newInstance;
+        if (!this.componentType.isPrimitive()) {
+            return arrayList.toArray((Object[]) Array.newInstance((Class<?>) this.componentType, size));
         }
-        return arrayList.toArray((Object[]) Array.newInstance(this.componentType, size));
+        Object newInstance = Array.newInstance((Class<?>) this.componentType, size);
+        for (int i = 0; i < size; i++) {
+            Array.set(newInstance, i, arrayList.get(i));
+        }
+        return newInstance;
     }
 
     @Override // com.google.gson.TypeAdapter

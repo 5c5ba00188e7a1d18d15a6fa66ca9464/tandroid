@@ -7,6 +7,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
+
 /* loaded from: classes3.dex */
 public class DialogObject {
     public static boolean emojiStatusesEqual(TLRPC.EmojiStatus emojiStatus, TLRPC.EmojiStatus emojiStatus2) {
@@ -62,12 +63,12 @@ public class DialogObject {
     }
 
     public static int getEmojiStatusUntil(TLRPC.EmojiStatus emojiStatus) {
-        if (emojiStatus instanceof TLRPC.TL_emojiStatusUntil) {
-            TLRPC.TL_emojiStatusUntil tL_emojiStatusUntil = (TLRPC.TL_emojiStatusUntil) emojiStatus;
-            if (tL_emojiStatusUntil.until > ((int) (System.currentTimeMillis() / 1000))) {
-                return tL_emojiStatusUntil.until;
-            }
+        if (!(emojiStatus instanceof TLRPC.TL_emojiStatusUntil)) {
             return 0;
+        }
+        TLRPC.TL_emojiStatusUntil tL_emojiStatusUntil = (TLRPC.TL_emojiStatusUntil) emojiStatus;
+        if (tL_emojiStatusUntil.until > ((int) (System.currentTimeMillis() / 1000))) {
+            return tL_emojiStatusUntil.until;
         }
         return 0;
     }
@@ -173,14 +174,17 @@ public class DialogObject {
         return i | 2305843009213693952L;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x003f, code lost:
-        if (r2 != null) goto L26;
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x003f, code lost:
+    
+        if (r2 != null) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x0052, code lost:
-        if (r2 != null) goto L26;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0054, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0054, code lost:
+    
         r2.setForUserOrChat(r4, r3);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0052, code lost:
+    
+        if (r2 != null) goto L30;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -214,14 +218,14 @@ public class DialogObject {
             }
             imageReceiver.setForUserOrChat(null, avatarDrawable);
             return string;
-        } else if (!(tLObject instanceof TLRPC.Chat)) {
+        }
+        if (!(tLObject instanceof TLRPC.Chat)) {
             return "";
-        } else {
-            TLRPC.Chat chat = (TLRPC.Chat) tLObject;
-            str = chat.title;
-            if (avatarDrawable != null) {
-                avatarDrawable.setInfo(chat);
-            }
+        }
+        TLRPC.Chat chat = (TLRPC.Chat) tLObject;
+        str = chat.title;
+        if (avatarDrawable != null) {
+            avatarDrawable.setInfo(chat);
         }
         return str;
     }

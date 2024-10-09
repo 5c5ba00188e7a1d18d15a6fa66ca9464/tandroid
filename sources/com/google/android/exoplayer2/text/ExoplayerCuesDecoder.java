@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class ExoplayerCuesDecoder implements SubtitleDecoder {
     private int inputBufferState;

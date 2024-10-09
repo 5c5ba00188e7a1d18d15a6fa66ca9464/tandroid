@@ -19,6 +19,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class ThemePreviewDrawable extends BitmapDrawable {
     private DocumentObject.ThemeDocument themeDocument;
@@ -147,8 +148,9 @@ public class ThemePreviewDrawable extends BitmapDrawable {
                     }
                     paint2.setAlpha(NotificationCenter.closeSearchByActiveAction);
                     float max = Math.max(560 / decodeFile.getWidth(), 678 / decodeFile.getHeight());
+                    int width = (int) (decodeFile.getWidth() * max);
                     canvas.save();
-                    canvas.translate((560 - ((int) (decodeFile.getWidth() * max))) / 2, (678 - ((int) (decodeFile.getHeight() * max))) / 2);
+                    canvas.translate((560 - width) / 2, (678 - ((int) (decodeFile.getHeight() * max))) / 2);
                     canvas.scale(max, max);
                     canvas.drawBitmap(decodeFile, 0.0f, 0.0f, paint2);
                     canvas.restore();
@@ -170,9 +172,9 @@ public class ThemePreviewDrawable extends BitmapDrawable {
             drawable5.draw(canvas);
         }
         if (drawable6 != null) {
-            int width = (createBitmap.getWidth() - drawable6.getIntrinsicWidth()) - 10;
+            int width2 = (createBitmap.getWidth() - drawable6.getIntrinsicWidth()) - 10;
             int intrinsicHeight2 = (120 - drawable6.getIntrinsicHeight()) / 2;
-            drawable6.setBounds(width, intrinsicHeight2, drawable6.getIntrinsicWidth() + width, drawable6.getIntrinsicHeight() + intrinsicHeight2);
+            drawable6.setBounds(width2, intrinsicHeight2, drawable6.getIntrinsicWidth() + width2, drawable6.getIntrinsicHeight() + intrinsicHeight2);
             drawable6.draw(canvas);
         }
         messageDrawableArr[1].setBounds(NotificationCenter.didStartedCall, NotificationCenter.botStarsUpdated, createBitmap.getWidth() - 20, 308);
@@ -192,9 +194,9 @@ public class ThemePreviewDrawable extends BitmapDrawable {
             mutate3.draw(canvas);
         }
         if (drawable4 != null) {
-            int width2 = (createBitmap.getWidth() - drawable4.getIntrinsicWidth()) - 22;
+            int width3 = (createBitmap.getWidth() - drawable4.getIntrinsicWidth()) - 22;
             int height2 = (createBitmap.getHeight() - 120) + ((120 - drawable4.getIntrinsicHeight()) / 2);
-            drawable4.setBounds(width2, height2, drawable4.getIntrinsicWidth() + width2, drawable4.getIntrinsicHeight() + height2);
+            drawable4.setBounds(width3, height2, drawable4.getIntrinsicWidth() + width3, drawable4.getIntrinsicHeight() + height2);
             drawable4.draw(canvas);
         }
         return createBitmap;

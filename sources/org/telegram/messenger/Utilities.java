@@ -20,6 +20,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class Utilities {
     private static final String RANDOM_STRING_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -577,19 +578,18 @@ public class Utilities {
         if (callbackArr == null || callbackArr.length == 0) {
             if (runnable != null) {
                 runnable.run();
-                return;
             }
-            return;
-        }
-        final int[] iArr = {0};
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda1
-            @Override // java.lang.Runnable
-            public final void run() {
-                Utilities.lambda$raceCallbacks$1(iArr, callbackArr, runnable);
+        } else {
+            final int[] iArr = {0};
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda1
+                @Override // java.lang.Runnable
+                public final void run() {
+                    Utilities.lambda$raceCallbacks$1(iArr, callbackArr, runnable);
+                }
+            };
+            for (Callback<Runnable> callback : callbackArr) {
+                callback.run(runnable2);
             }
-        };
-        for (Callback<Runnable> callback : callbackArr) {
-            callback.run(runnable2);
         }
     }
 

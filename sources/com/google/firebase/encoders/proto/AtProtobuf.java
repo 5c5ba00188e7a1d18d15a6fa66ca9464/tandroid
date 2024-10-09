@@ -1,6 +1,7 @@
 package com.google.firebase.encoders.proto;
 
 import com.google.firebase.encoders.proto.Protobuf;
+
 /* loaded from: classes.dex */
 public final class AtProtobuf {
     private Protobuf.IntEncoding intEncoding = Protobuf.IntEncoding.DEFAULT;
@@ -26,11 +27,11 @@ public final class AtProtobuf {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof Protobuf) {
-                Protobuf protobuf = (Protobuf) obj;
-                return this.tag == protobuf.tag() && this.intEncoding.equals(protobuf.intEncoding());
+            if (!(obj instanceof Protobuf)) {
+                return false;
             }
-            return false;
+            Protobuf protobuf = (Protobuf) obj;
+            return this.tag == protobuf.tag() && this.intEncoding.equals(protobuf.intEncoding());
         }
 
         @Override // java.lang.annotation.Annotation

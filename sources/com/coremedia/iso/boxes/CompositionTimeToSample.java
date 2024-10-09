@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
+
 /* loaded from: classes.dex */
 public class CompositionTimeToSample extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;

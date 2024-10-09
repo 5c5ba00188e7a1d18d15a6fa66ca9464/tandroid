@@ -8,10 +8,12 @@ import com.google.firebase.events.Subscriber;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayDeque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.Executor;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public class EventBus implements Subscriber, Publisher {
@@ -35,7 +37,7 @@ public class EventBus implements Subscriber, Publisher {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void enablePublishingAndFlushPending() {
-        Queue<Object> queue;
+        Queue queue;
         synchronized (this) {
             try {
                 queue = this.pendingEvents;
@@ -49,8 +51,9 @@ public class EventBus implements Subscriber, Publisher {
             }
         }
         if (queue != null) {
-            for (Object obj : queue) {
-                ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);
+            Iterator it = queue.iterator();
+            while (it.hasNext()) {
+                ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
                 publish(null);
             }
         }

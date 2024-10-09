@@ -3,14 +3,15 @@ package kotlinx.coroutines.internal;
 import java.util.List;
 import kotlin.KotlinNothingValueException;
 import kotlinx.coroutines.MainCoroutineDispatcher;
+
 /* loaded from: classes.dex */
 public abstract class MainDispatchersKt {
     private static final MissingMainCoroutineDispatcher createMissingDispatcher(Throwable th, String str) {
-        if (th == null) {
-            throwMissingMainDispatcherException();
-            throw new KotlinNothingValueException();
+        if (th != null) {
+            throw th;
         }
-        throw th;
+        throwMissingMainDispatcherException();
+        throw new KotlinNothingValueException();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

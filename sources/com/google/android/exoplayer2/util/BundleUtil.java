@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public abstract class BundleUtil {
     private static Method getIBinderMethod;

@@ -1,4 +1,5 @@
 package j$.time.format;
+
 /* loaded from: classes2.dex */
 public enum TextStyle {
     FULL(0),
@@ -7,7 +8,7 @@ public enum TextStyle {
     SHORT_STANDALONE(1),
     NARROW(1),
     NARROW_STANDALONE(1);
-    
+
     private final int a;
 
     TextStyle(int i) {

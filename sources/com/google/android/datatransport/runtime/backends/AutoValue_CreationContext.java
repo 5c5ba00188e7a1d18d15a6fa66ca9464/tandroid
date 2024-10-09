@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.backends;
 
 import android.content.Context;
 import com.google.android.datatransport.runtime.time.Clock;
+
 /* loaded from: classes.dex */
 final class AutoValue_CreationContext extends CreationContext {
     private final Context applicationContext;
@@ -33,11 +34,11 @@ final class AutoValue_CreationContext extends CreationContext {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof CreationContext) {
-            CreationContext creationContext = (CreationContext) obj;
-            return this.applicationContext.equals(creationContext.getApplicationContext()) && this.wallClock.equals(creationContext.getWallClock()) && this.monotonicClock.equals(creationContext.getMonotonicClock()) && this.backendName.equals(creationContext.getBackendName());
+        if (!(obj instanceof CreationContext)) {
+            return false;
         }
-        return false;
+        CreationContext creationContext = (CreationContext) obj;
+        return this.applicationContext.equals(creationContext.getApplicationContext()) && this.wallClock.equals(creationContext.getWallClock()) && this.monotonicClock.equals(creationContext.getMonotonicClock()) && this.backendName.equals(creationContext.getBackendName());
     }
 
     @Override // com.google.android.datatransport.runtime.backends.CreationContext

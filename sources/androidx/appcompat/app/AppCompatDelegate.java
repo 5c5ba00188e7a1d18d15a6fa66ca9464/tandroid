@@ -10,6 +10,7 @@ import androidx.core.os.LocaleListCompat;
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public abstract class AppCompatDelegate {
     static AppLocalesStorageHelper$SerialExecutor sSerialExecutorForLocalesStorage = new AppLocalesStorageHelper$SerialExecutor(new Executor() { // from class: androidx.appcompat.app.AppLocalesStorageHelper$ThreadPerTaskExecutor

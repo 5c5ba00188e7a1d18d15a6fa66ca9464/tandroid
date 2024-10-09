@@ -3,8 +3,10 @@ package org.webrtc;
 import android.content.Context;
 import android.os.Build;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.webrtc.NetworkChangeDetector;
+
 /* loaded from: classes.dex */
 public class NetworkMonitor {
     private static final String TAG = "NetworkMonitor";
@@ -137,29 +139,33 @@ public class NetworkMonitor {
     }
 
     private void notifyObserversOfConnectionTypeChange(NetworkChangeDetector.ConnectionType connectionType) {
-        ArrayList<NetworkObserver> arrayList;
-        for (Long l : getNativeNetworkObserversSync()) {
-            nativeNotifyConnectionTypeChanged(l.longValue());
+        ArrayList arrayList;
+        Iterator<Long> it = getNativeNetworkObserversSync().iterator();
+        while (it.hasNext()) {
+            nativeNotifyConnectionTypeChanged(it.next().longValue());
         }
         synchronized (this.networkObservers) {
             arrayList = new ArrayList(this.networkObservers);
         }
-        for (NetworkObserver networkObserver : arrayList) {
-            networkObserver.onConnectionTypeChanged(connectionType);
+        Iterator it2 = arrayList.iterator();
+        while (it2.hasNext()) {
+            ((NetworkObserver) it2.next()).onConnectionTypeChanged(connectionType);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void notifyObserversOfNetworkConnect(NetworkChangeDetector.NetworkInformation networkInformation) {
-        for (Long l : getNativeNetworkObserversSync()) {
-            nativeNotifyOfNetworkConnect(l.longValue(), networkInformation);
+        Iterator<Long> it = getNativeNetworkObserversSync().iterator();
+        while (it.hasNext()) {
+            nativeNotifyOfNetworkConnect(it.next().longValue(), networkInformation);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void notifyObserversOfNetworkDisconnect(long j) {
-        for (Long l : getNativeNetworkObserversSync()) {
-            nativeNotifyOfNetworkDisconnect(l.longValue(), j);
+        Iterator<Long> it = getNativeNetworkObserversSync().iterator();
+        while (it.hasNext()) {
+            nativeNotifyOfNetworkDisconnect(it.next().longValue(), j);
         }
     }
 
@@ -167,8 +173,9 @@ public class NetworkMonitor {
     public void notifyObserversOfNetworkPreference(List<NetworkChangeDetector.ConnectionType> list, int i) {
         List<Long> nativeNetworkObserversSync = getNativeNetworkObserversSync();
         for (NetworkChangeDetector.ConnectionType connectionType : list) {
-            for (Long l : nativeNetworkObserversSync) {
-                nativeNotifyOfNetworkPreference(l.longValue(), connectionType, i);
+            Iterator<Long> it = nativeNetworkObserversSync.iterator();
+            while (it.hasNext()) {
+                nativeNotifyOfNetworkPreference(it.next().longValue(), connectionType, i);
             }
         }
     }

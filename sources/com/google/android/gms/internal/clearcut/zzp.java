@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class zzp implements ClearcutLogger.zza {
     private static final Charset UTF_8 = Charset.forName("UTF-8");
@@ -74,16 +75,16 @@ public final class zzp implements ClearcutLogger.zza {
         try {
             long parseLong = Long.parseLong(str.substring(i, indexOf2));
             long parseLong2 = Long.parseLong(str.substring(indexOf2 + 1));
-            if (parseLong < 0 || parseLong2 < 0) {
-                StringBuilder sb = new StringBuilder(72);
-                sb.append("negative values not supported: ");
-                sb.append(parseLong);
-                sb.append("/");
-                sb.append(parseLong2);
-                Log.e("LogSamplerImpl", sb.toString());
-                return null;
+            if (parseLong >= 0 && parseLong2 >= 0) {
+                return (zzgw$zza.zzb) zzgw$zza.zzb.zzfz().zzn(str2).zzr(parseLong).zzs(parseLong2).zzbh();
             }
-            return (zzgw$zza.zzb) zzgw$zza.zzb.zzfz().zzn(str2).zzr(parseLong).zzs(parseLong2).zzbh();
+            StringBuilder sb = new StringBuilder(72);
+            sb.append("negative values not supported: ");
+            sb.append(parseLong);
+            sb.append("/");
+            sb.append(parseLong2);
+            Log.e("LogSamplerImpl", sb.toString());
+            return null;
         } catch (NumberFormatException e) {
             Log.e("LogSamplerImpl", str.length() != 0 ? "parseLong() failed while parsing: ".concat(str) : new String("parseLong() failed while parsing: "), e);
             return null;
@@ -127,51 +128,51 @@ public final class zzp implements ClearcutLogger.zza {
             if (str == null || str.isEmpty()) {
                 str = i >= 0 ? String.valueOf(i) : null;
             }
-            if (str != null) {
-                Context context = this.zzh;
-                if (context != null && zzc(context)) {
-                    HashMap hashMap = zzat;
-                    zzae zzaeVar = (zzae) hashMap.get(str);
-                    if (zzaeVar == null) {
-                        zzaeVar = zzar.zza(str, null);
-                        hashMap.put(str, zzaeVar);
-                    }
-                    str2 = (String) zzaeVar.get();
-                }
-                zzgw$zza.zzb zza = zza(str2);
-                if (zza != null) {
-                    return zzb(zza(zza.zzfw(), zzd(this.zzh)), zza.zzfx(), zza.zzfy());
-                }
+            if (str == null) {
                 return true;
+            }
+            Context context = this.zzh;
+            if (context != null && zzc(context)) {
+                HashMap hashMap = zzat;
+                zzae zzaeVar = (zzae) hashMap.get(str);
+                if (zzaeVar == null) {
+                    zzaeVar = zzar.zza(str, null);
+                    hashMap.put(str, zzaeVar);
+                }
+                str2 = (String) zzaeVar.get();
+            }
+            zzgw$zza.zzb zza = zza(str2);
+            if (zza != null) {
+                return zzb(zza(zza.zzfw(), zzd(this.zzh)), zza.zzfx(), zza.zzfy());
             }
             return true;
         }
         if (str == null || str.isEmpty()) {
             str = i >= 0 ? String.valueOf(i) : null;
         }
-        if (str != null) {
-            if (this.zzh == null) {
-                zzfs = Collections.emptyList();
-            } else {
-                ConcurrentHashMap concurrentHashMap = zzas;
-                zzae zzaeVar2 = (zzae) concurrentHashMap.get(str);
-                if (zzaeVar2 == null) {
-                    zzaeVar2 = zzaq.zza(str, zzgw$zza.zzft(), zzq.zzax);
-                    zzae zzaeVar3 = (zzae) concurrentHashMap.putIfAbsent(str, zzaeVar2);
-                    if (zzaeVar3 != null) {
-                        zzaeVar2 = zzaeVar3;
-                    }
-                }
-                zzfs = ((zzgw$zza) zzaeVar2.get()).zzfs();
-            }
-            for (zzgw$zza.zzb zzbVar : zzfs) {
-                if (!zzbVar.zzfv() || zzbVar.getEventCode() == 0 || zzbVar.getEventCode() == i2) {
-                    if (!zzb(zza(zzbVar.zzfw(), zzd(this.zzh)), zzbVar.zzfx(), zzbVar.zzfy())) {
-                        return false;
-                    }
-                }
-            }
+        if (str == null) {
             return true;
+        }
+        if (this.zzh == null) {
+            zzfs = Collections.emptyList();
+        } else {
+            ConcurrentHashMap concurrentHashMap = zzas;
+            zzae zzaeVar2 = (zzae) concurrentHashMap.get(str);
+            if (zzaeVar2 == null) {
+                zzaeVar2 = zzaq.zza(str, zzgw$zza.zzft(), zzq.zzax);
+                zzae zzaeVar3 = (zzae) concurrentHashMap.putIfAbsent(str, zzaeVar2);
+                if (zzaeVar3 != null) {
+                    zzaeVar2 = zzaeVar3;
+                }
+            }
+            zzfs = ((zzgw$zza) zzaeVar2.get()).zzfs();
+        }
+        for (zzgw$zza.zzb zzbVar : zzfs) {
+            if (!zzbVar.zzfv() || zzbVar.getEventCode() == 0 || zzbVar.getEventCode() == i2) {
+                if (!zzb(zza(zzbVar.zzfw(), zzd(this.zzh)), zzbVar.zzfx(), zzbVar.zzfy())) {
+                    return false;
+                }
+            }
         }
         return true;
     }

@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import java.util.EnumMap;
 import java.util.Map;
+
 /* loaded from: classes2.dex */
 final class Q2 {
     final Map a;

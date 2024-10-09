@@ -3,6 +3,7 @@ package kotlin.collections;
 import java.util.Collection;
 import java.util.List;
 import kotlin.jvm.internal.Intrinsics;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class CollectionsKt__CollectionsKt extends CollectionsKt__CollectionsJVMKt {

@@ -15,6 +15,7 @@ import androidx.emoji2.text.FontRequestEmojiCompatConfig;
 import java.nio.ByteBuffer;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
+
 /* loaded from: classes.dex */
 public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
     private static final FontProviderHelper DEFAULT_FONTS_CONTRACT = new FontProviderHelper();
@@ -115,27 +116,35 @@ public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
                         if (resultCode != 0) {
                             throw new RuntimeException("fetchFonts result is not OK. (" + resultCode + ")");
                         }
-                        TraceCompat.beginSection("EmojiCompat.FontRequestEmojiCompatConfig.buildTypeface");
-                        Typeface buildTypeface = this.mFontProviderHelper.buildTypeface(this.mContext, retrieveFontInfo);
-                        ByteBuffer mmap = TypefaceCompatUtil.mmap(this.mContext, null, retrieveFontInfo.getUri());
-                        if (mmap == null || buildTypeface == null) {
-                            throw new RuntimeException("Unable to open file.");
-                        }
-                        MetadataRepo create = MetadataRepo.create(buildTypeface, mmap);
-                        TraceCompat.endSection();
-                        synchronized (this.mLock) {
-                            EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback = this.mCallback;
-                            if (metadataRepoLoaderCallback != null) {
-                                metadataRepoLoaderCallback.onLoaded(create);
+                        try {
+                            TraceCompat.beginSection("EmojiCompat.FontRequestEmojiCompatConfig.buildTypeface");
+                            Typeface buildTypeface = this.mFontProviderHelper.buildTypeface(this.mContext, retrieveFontInfo);
+                            ByteBuffer mmap = TypefaceCompatUtil.mmap(this.mContext, null, retrieveFontInfo.getUri());
+                            if (mmap == null || buildTypeface == null) {
+                                throw new RuntimeException("Unable to open file.");
                             }
+                            MetadataRepo create = MetadataRepo.create(buildTypeface, mmap);
+                            TraceCompat.endSection();
+                            synchronized (this.mLock) {
+                                try {
+                                    EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback = this.mCallback;
+                                    if (metadataRepoLoaderCallback != null) {
+                                        metadataRepoLoaderCallback.onLoaded(create);
+                                    }
+                                } finally {
+                                }
+                            }
+                            cleanUp();
+                        } catch (Throwable th) {
+                            TraceCompat.endSection();
+                            throw th;
                         }
-                        cleanUp();
-                    } catch (Throwable th) {
+                    } catch (Throwable th2) {
                         synchronized (this.mLock) {
                             try {
                                 EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback2 = this.mCallback;
                                 if (metadataRepoLoaderCallback2 != null) {
-                                    metadataRepoLoaderCallback2.onFailed(th);
+                                    metadataRepoLoaderCallback2.onFailed(th2);
                                 }
                                 cleanUp();
                             } finally {

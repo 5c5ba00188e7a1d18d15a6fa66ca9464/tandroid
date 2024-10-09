@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import com.google.android.gms.common.internal.LibraryVersion;
 import java.util.concurrent.Callable;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final /* synthetic */ class zzcu implements Callable {

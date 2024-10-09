@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.extractor;
+
 /* loaded from: classes.dex */
 public final class SeekPoint {
     public static final SeekPoint START = new SeekPoint(0, 0);

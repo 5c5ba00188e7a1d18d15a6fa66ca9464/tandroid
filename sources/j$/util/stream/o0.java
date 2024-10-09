@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class o0 extends p0 implements b2 {
     final /* synthetic */ q0 c;
@@ -30,7 +31,8 @@ final class o0 extends p0 implements b2 {
     }
 
     @Override // j$.util.function.Consumer
-    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+    /* renamed from: accept */
+    public final /* bridge */ /* synthetic */ void r(Object obj) {
         r((Double) obj);
     }
 

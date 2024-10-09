@@ -78,6 +78,7 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.TypefaceSpan;
+
 /* loaded from: classes4.dex */
 public class ChannelCreateActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
     private ArrayList adminedChannelCells;
@@ -171,54 +172,64 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             if (i == -1) {
                 if (ChannelCreateActivity.this.donePressed) {
                     ChannelCreateActivity.this.showDoneCancelDialog();
+                    return;
                 } else {
-                    ChannelCreateActivity.this.finishFragment();
+                    ChannelCreateActivity.this.lambda$onBackPressed$300();
+                    return;
                 }
-            } else if (i == 1) {
+            }
+            if (i == 1) {
                 if (ChannelCreateActivity.this.currentStep == 0) {
                     if (ChannelCreateActivity.this.getParentActivity() == null) {
                         return;
                     }
                     if (ChannelCreateActivity.this.donePressed) {
                         ChannelCreateActivity.this.showDoneCancelDialog();
-                    } else if (ChannelCreateActivity.this.nameTextView.length() == 0) {
+                        return;
+                    }
+                    if (ChannelCreateActivity.this.nameTextView.length() == 0) {
                         Vibrator vibrator = (Vibrator) ChannelCreateActivity.this.getParentActivity().getSystemService("vibrator");
                         if (vibrator != null) {
                             vibrator.vibrate(200L);
                         }
                         AndroidUtilities.shakeView(ChannelCreateActivity.this.nameTextView);
+                        return;
+                    }
+                    ChannelCreateActivity.this.donePressed = true;
+                    AndroidUtilities.runOnUIThread(ChannelCreateActivity.this.enableDoneLoading, 200L);
+                    if (ChannelCreateActivity.this.imageUpdater.isUploadingImage()) {
+                        ChannelCreateActivity.this.createAfterUpload = true;
+                        return;
                     } else {
-                        ChannelCreateActivity.this.donePressed = true;
-                        AndroidUtilities.runOnUIThread(ChannelCreateActivity.this.enableDoneLoading, 200L);
-                        if (ChannelCreateActivity.this.imageUpdater.isUploadingImage()) {
-                            ChannelCreateActivity.this.createAfterUpload = true;
-                            return;
-                        }
                         ChannelCreateActivity channelCreateActivity = ChannelCreateActivity.this;
                         channelCreateActivity.doneRequestId = Integer.valueOf(MessagesController.getInstance(((BaseFragment) channelCreateActivity).currentAccount).createChat(ChannelCreateActivity.this.nameTextView.getText().toString(), new ArrayList<>(), ChannelCreateActivity.this.descriptionTextView.getText().toString(), 2, false, null, null, -1, ChannelCreateActivity.this));
+                        return;
                     }
-                } else if (ChannelCreateActivity.this.currentStep == 1) {
+                }
+                if (ChannelCreateActivity.this.currentStep == 1) {
                     if (ChannelCreateActivity.this.isPrivate) {
                         if (ChannelCreateActivity.this.onFinishListener != null) {
                             Utilities.Callback2 callback2 = ChannelCreateActivity.this.onFinishListener;
                             ChannelCreateActivity channelCreateActivity2 = ChannelCreateActivity.this;
                             callback2.run(channelCreateActivity2, Long.valueOf(channelCreateActivity2.chatId));
                         }
-                    } else if (ChannelCreateActivity.this.descriptionTextView.length() == 0) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ChannelCreateActivity.this.getParentActivity());
-                        builder.setTitle(LocaleController.getString(R.string.ChannelPublicEmptyUsernameTitle));
-                        builder.setMessage(LocaleController.getString(R.string.ChannelPublicEmptyUsername));
-                        builder.setPositiveButton(LocaleController.getString(R.string.Close), null);
-                        ChannelCreateActivity.this.showDialog(builder.create());
-                        return;
-                    } else if (!ChannelCreateActivity.this.lastNameAvailable) {
-                        Vibrator vibrator2 = (Vibrator) ChannelCreateActivity.this.getParentActivity().getSystemService("vibrator");
-                        if (vibrator2 != null) {
-                            vibrator2.vibrate(200L);
-                        }
-                        AndroidUtilities.shakeView(ChannelCreateActivity.this.checkTextView);
-                        return;
                     } else {
+                        if (ChannelCreateActivity.this.descriptionTextView.length() == 0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ChannelCreateActivity.this.getParentActivity());
+                            builder.setTitle(LocaleController.getString(R.string.ChannelPublicEmptyUsernameTitle));
+                            builder.setMessage(LocaleController.getString(R.string.ChannelPublicEmptyUsername));
+                            builder.setPositiveButton(LocaleController.getString(R.string.Close), null);
+                            ChannelCreateActivity.this.showDialog(builder.create());
+                            return;
+                        }
+                        if (!ChannelCreateActivity.this.lastNameAvailable) {
+                            Vibrator vibrator2 = (Vibrator) ChannelCreateActivity.this.getParentActivity().getSystemService("vibrator");
+                            if (vibrator2 != null) {
+                                vibrator2.vibrate(200L);
+                            }
+                            AndroidUtilities.shakeView(ChannelCreateActivity.this.checkTextView);
+                            return;
+                        }
                         AndroidUtilities.runOnUIThread(ChannelCreateActivity.this.enableDoneLoading, 200L);
                         MessagesController messagesController = MessagesController.getInstance(((BaseFragment) ChannelCreateActivity.this).currentAccount);
                         ChannelCreateActivity channelCreateActivity3 = ChannelCreateActivity.this;
@@ -313,7 +324,8 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                         textView = this.checkTextView;
                         i = R.string.LinkInvalidStartNumber;
                         break;
-                    } else if ((charAt >= '0' && charAt <= '9') || ((charAt >= 'a' && charAt <= 'z') || ((charAt >= 'A' && charAt <= 'Z') || charAt == '_'))) {
+                    }
+                    if ((charAt >= '0' && charAt <= '9') || ((charAt >= 'a' && charAt <= 'z') || ((charAt >= 'A' && charAt <= 'Z') || charAt == '_'))) {
                     }
                 }
             }
@@ -329,23 +341,24 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         if (str == null || str.length() < 4) {
             textView = this.checkTextView;
             i = R.string.LinkInvalidShort;
-        } else if (str.length() <= 32) {
-            this.checkTextView.setText(LocaleController.getString(R.string.LinkChecking));
-            TextView textView3 = this.checkTextView;
-            int i4 = Theme.key_windowBackgroundWhiteGrayText8;
-            textView3.setTag(Integer.valueOf(i4));
-            this.checkTextView.setTextColor(Theme.getColor(i4));
-            this.lastCheckName = str;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda18
-                @Override // java.lang.Runnable
-                public final void run() {
-                    ChannelCreateActivity.this.lambda$checkUserName$24(str);
-                }
-            };
-            this.checkRunnable = runnable2;
-            AndroidUtilities.runOnUIThread(runnable2, 300L);
-            return true;
         } else {
+            if (str.length() <= 32) {
+                this.checkTextView.setText(LocaleController.getString(R.string.LinkChecking));
+                TextView textView3 = this.checkTextView;
+                int i4 = Theme.key_windowBackgroundWhiteGrayText8;
+                textView3.setTag(Integer.valueOf(i4));
+                this.checkTextView.setTextColor(Theme.getColor(i4));
+                this.lastCheckName = str;
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda18
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        ChannelCreateActivity.this.lambda$checkUserName$24(str);
+                    }
+                };
+                this.checkRunnable = runnable2;
+                AndroidUtilities.runOnUIThread(runnable2, 300L);
+                return true;
+            }
             textView = this.checkTextView;
             i = R.string.LinkInvalidLong;
         }
@@ -405,17 +418,18 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             this.checkTextView.setText(LocaleController.getString(R.string.UsernameInvalidShort));
             textView2 = this.checkTextView;
             i2 = Theme.key_text_RedRegular;
-        } else if (tL_error == null || !"USERNAME_PURCHASE_AVAILABLE".equals(tL_error.text)) {
-            if (tL_error == null || !"CHANNELS_ADMIN_PUBLIC_TOO_MUCH".equals(tL_error.text)) {
-                this.checkTextView.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
-                this.checkTextView.setText(LocaleController.getString(R.string.LinkInUse));
-            } else {
-                this.checkTextView.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
-                this.canCreatePublic = false;
-                showPremiumIncreaseLimitDialog();
-            }
-            this.lastNameAvailable = false;
         } else {
+            if (tL_error == null || !"USERNAME_PURCHASE_AVAILABLE".equals(tL_error.text)) {
+                if (tL_error == null || !"CHANNELS_ADMIN_PUBLIC_TOO_MUCH".equals(tL_error.text)) {
+                    this.checkTextView.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
+                    this.checkTextView.setText(LocaleController.getString(R.string.LinkInUse));
+                } else {
+                    this.checkTextView.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
+                    this.canCreatePublic = false;
+                    showPremiumIncreaseLimitDialog();
+                }
+                this.lastNameAvailable = false;
+            }
             if (tL_channels_checkUsername.username.length() == 4) {
                 textView = this.checkTextView;
                 i = R.string.UsernameInvalidShortPurchase;
@@ -507,10 +521,10 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     public /* synthetic */ void lambda$createView$7(DialogInterface dialogInterface) {
         if (this.imageUpdater.isUploadingImage()) {
             this.cameraDrawable.setCurrentFrame(0, false);
-            return;
+        } else {
+            this.cameraDrawable.setCustomEndFrame(86);
+            this.avatarEditor.playAnimation();
         }
-        this.cameraDrawable.setCustomEndFrame(86);
-        this.avatarEditor.playAnimation();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -649,18 +663,16 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.AppName));
         if (currentChannel.megagroup) {
-            int i = R.string.RevokeLinkAlert;
-            formatString = LocaleController.formatString("RevokeLinkAlert", i, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + ChatObject.getPublicUsername(currentChannel), currentChannel.title);
+            formatString = LocaleController.formatString("RevokeLinkAlert", R.string.RevokeLinkAlert, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + ChatObject.getPublicUsername(currentChannel), currentChannel.title);
         } else {
-            int i2 = R.string.RevokeLinkAlertChannel;
-            formatString = LocaleController.formatString("RevokeLinkAlertChannel", i2, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + ChatObject.getPublicUsername(currentChannel), currentChannel.title);
+            formatString = LocaleController.formatString("RevokeLinkAlertChannel", R.string.RevokeLinkAlertChannel, MessagesController.getInstance(this.currentAccount).linkPrefix + "/" + ChatObject.getPublicUsername(currentChannel), currentChannel.title);
         }
         builder.setMessage(AndroidUtilities.replaceTags(formatString));
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda24
             @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
-                ChannelCreateActivity.this.lambda$loadAdminedChannels$18(currentChannel, dialogInterface, i3);
+            public final void onClick(DialogInterface dialogInterface, int i) {
+                ChannelCreateActivity.this.lambda$loadAdminedChannels$18(currentChannel, dialogInterface, i);
             }
         });
         showDialog(builder.create());
@@ -794,7 +806,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             AnimatorSet animatorSet2 = this.avatarAnimation;
             RLottieImageView rLottieImageView = this.avatarEditor;
             Property property = View.ALPHA;
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(rLottieImageView, property, 0.0f), ObjectAnimator.ofFloat(this.avatarProgressView, property, 1.0f));
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(rLottieImageView, (Property<RLottieImageView, Float>) property, 0.0f), ObjectAnimator.ofFloat(this.avatarProgressView, (Property<RadialProgressView, Float>) property, 1.0f));
         } else {
             if (this.avatarEditor.getVisibility() != 0) {
                 this.avatarEditor.setAlpha(0.0f);
@@ -803,7 +815,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             AnimatorSet animatorSet3 = this.avatarAnimation;
             RLottieImageView rLottieImageView2 = this.avatarEditor;
             Property property2 = View.ALPHA;
-            animatorSet3.playTogether(ObjectAnimator.ofFloat(rLottieImageView2, property2, 1.0f), ObjectAnimator.ofFloat(this.avatarProgressView, property2, 0.0f));
+            animatorSet3.playTogether(ObjectAnimator.ofFloat(rLottieImageView2, (Property<RLottieImageView, Float>) property2, 1.0f), ObjectAnimator.ofFloat(this.avatarProgressView, (Property<RadialProgressView, Float>) property2, 0.0f));
         }
         this.avatarAnimation.setDuration(180L);
         this.avatarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelCreateActivity.10
@@ -881,17 +893,21 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x00da, code lost:
-        if (r6.isPrivate != false) goto L47;
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00da, code lost:
+    
+        if (r6.isPrivate != false) goto L31;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x00f4, code lost:
-        if (r6.isPrivate != false) goto L47;
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x00fd, code lost:
+    
+        r3 = org.telegram.messenger.R.string.ChannelLinkTitle;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x00f6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x00f6, code lost:
+    
         r3 = org.telegram.messenger.R.string.ChannelInviteLinkTitle;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x00fd, code lost:
-        r3 = org.telegram.messenger.R.string.ChannelLinkTitle;
+    /* JADX WARN: Code restructure failed: missing block: B:54:0x00f4, code lost:
+    
+        if (r6.isPrivate != false) goto L31;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1006,11 +1022,11 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                 private boolean ignoreLayout;
 
                 /* JADX INFO: Access modifiers changed from: protected */
-                /* JADX WARN: Removed duplicated region for block: B:28:0x006f  */
-                /* JADX WARN: Removed duplicated region for block: B:36:0x008b  */
-                /* JADX WARN: Removed duplicated region for block: B:39:0x009d  */
-                /* JADX WARN: Removed duplicated region for block: B:43:0x00af  */
-                /* JADX WARN: Removed duplicated region for block: B:45:0x00b9  */
+                /* JADX WARN: Removed duplicated region for block: B:22:0x006f  */
+                /* JADX WARN: Removed duplicated region for block: B:29:0x009d  */
+                /* JADX WARN: Removed duplicated region for block: B:33:0x00af  */
+                /* JADX WARN: Removed duplicated region for block: B:35:0x00b9  */
+                /* JADX WARN: Removed duplicated region for block: B:42:0x008b  */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -1472,8 +1488,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                             charSequence.setSpan(new ClickableSpan() { // from class: org.telegram.ui.ChannelCreateActivity.9.1
                                 @Override // android.text.style.ClickableSpan
                                 public void onClick(View view4) {
-                                    Context context2 = getContext();
-                                    Browser.openUrl(context2, "https://fragment.com/username/" + obj);
+                                    Browser.openUrl(getContext(), "https://fragment.com/username/" + obj);
                                 }
 
                                 @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
@@ -1533,7 +1548,9 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             }
             updateDoneProgress(false);
             this.donePressed = false;
-        } else if (i == NotificationCenter.chatDidCreated) {
+            return;
+        }
+        if (i == NotificationCenter.chatDidCreated) {
             AlertDialog alertDialog2 = this.cancelDialog;
             if (alertDialog2 != null) {
                 try {
@@ -1619,9 +1636,9 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             }
         };
         View view = this.fragmentView;
-        int i = ThemeDescription.FLAG_BACKGROUND;
+        int i = ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_BACKGROUND;
         int i2 = Theme.key_windowBackgroundWhite;
-        arrayList.add(new ThemeDescription(view, ThemeDescription.FLAG_CHECKTAG | i, null, null, null, null, i2));
+        arrayList.add(new ThemeDescription(view, i, null, null, null, null, i2));
         arrayList.add(new ThemeDescription(this.fragmentView, ThemeDescription.FLAG_BACKGROUND | ThemeDescription.FLAG_CHECKTAG, null, null, null, null, Theme.key_windowBackgroundGray));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_actionBarDefault));
         arrayList.add(new ThemeDescription(this.actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_actionBarDefaultIcon));
@@ -1662,39 +1679,41 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         arrayList.add(new ThemeDescription(this.headerCell2, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i15));
         arrayList.add(new ThemeDescription(this.editText, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, i4));
         arrayList.add(new ThemeDescription(this.editText, ThemeDescription.FLAG_HINTTEXTCOLOR, null, null, null, null, i6));
-        int i16 = Theme.key_text_RedRegular;
-        arrayList.add(new ThemeDescription(this.checkTextView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, null, null, null, null, i16));
+        TextView textView2 = this.checkTextView;
+        int i16 = ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG;
+        int i17 = Theme.key_text_RedRegular;
+        arrayList.add(new ThemeDescription(textView2, i16, null, null, null, null, i17));
         arrayList.add(new ThemeDescription(this.checkTextView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, null, null, null, null, i12));
         arrayList.add(new ThemeDescription(this.checkTextView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG, null, null, null, null, Theme.key_windowBackgroundWhiteGreenText));
         arrayList.add(new ThemeDescription(this.typeInfoCell, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{TextInfoPrivacyCell.class}, null, null, null, i14));
         arrayList.add(new ThemeDescription(this.typeInfoCell, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteGrayText4));
-        arrayList.add(new ThemeDescription(this.typeInfoCell, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i16));
+        arrayList.add(new ThemeDescription(this.typeInfoCell, ThemeDescription.FLAG_CHECKTAG, new Class[]{TextInfoPrivacyCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i17));
         arrayList.add(new ThemeDescription(this.adminedInfoCell, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{TextInfoPrivacyCell.class}, null, null, null, i14));
         arrayList.add(new ThemeDescription(this.adminnedChannelsLayout, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, i2));
         LinearLayout linearLayout = this.privateContainer;
-        int i17 = ThemeDescription.FLAG_SELECTOR;
-        int i18 = Theme.key_listSelector;
-        arrayList.add(new ThemeDescription(linearLayout, i17, null, null, null, null, i18));
+        int i18 = ThemeDescription.FLAG_SELECTOR;
+        int i19 = Theme.key_listSelector;
+        arrayList.add(new ThemeDescription(linearLayout, i18, null, null, null, null, i19));
         arrayList.add(new ThemeDescription(this.privateContainer, 0, new Class[]{TextBlockCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i4));
         arrayList.add(new ThemeDescription(this.loadingAdminedCell, 0, new Class[]{LoadingCell.class}, new String[]{"progressBar"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_progressCircle));
-        arrayList.add(new ThemeDescription(this.radioButtonCell1, ThemeDescription.FLAG_SELECTOR, null, null, null, null, i18));
-        int i19 = Theme.key_radioBackground;
-        arrayList.add(new ThemeDescription(this.radioButtonCell1, ThemeDescription.FLAG_CHECKBOX, new Class[]{RadioButtonCell.class}, new String[]{"radioButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i19));
-        int i20 = Theme.key_radioBackgroundChecked;
-        arrayList.add(new ThemeDescription(this.radioButtonCell1, ThemeDescription.FLAG_CHECKBOXCHECK, new Class[]{RadioButtonCell.class}, new String[]{"radioButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i20));
+        arrayList.add(new ThemeDescription(this.radioButtonCell1, ThemeDescription.FLAG_SELECTOR, null, null, null, null, i19));
+        int i20 = Theme.key_radioBackground;
+        arrayList.add(new ThemeDescription(this.radioButtonCell1, ThemeDescription.FLAG_CHECKBOX, new Class[]{RadioButtonCell.class}, new String[]{"radioButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i20));
+        int i21 = Theme.key_radioBackgroundChecked;
+        arrayList.add(new ThemeDescription(this.radioButtonCell1, ThemeDescription.FLAG_CHECKBOXCHECK, new Class[]{RadioButtonCell.class}, new String[]{"radioButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i21));
         arrayList.add(new ThemeDescription(this.radioButtonCell1, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{RadioButtonCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i4));
-        int i21 = Theme.key_windowBackgroundWhiteGrayText2;
-        arrayList.add(new ThemeDescription(this.radioButtonCell1, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{RadioButtonCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i21));
-        arrayList.add(new ThemeDescription(this.radioButtonCell2, ThemeDescription.FLAG_SELECTOR, null, null, null, null, i18));
-        arrayList.add(new ThemeDescription(this.radioButtonCell2, ThemeDescription.FLAG_CHECKBOX, new Class[]{RadioButtonCell.class}, new String[]{"radioButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i19));
-        arrayList.add(new ThemeDescription(this.radioButtonCell2, ThemeDescription.FLAG_CHECKBOXCHECK, new Class[]{RadioButtonCell.class}, new String[]{"radioButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i20));
+        int i22 = Theme.key_windowBackgroundWhiteGrayText2;
+        arrayList.add(new ThemeDescription(this.radioButtonCell1, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{RadioButtonCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i22));
+        arrayList.add(new ThemeDescription(this.radioButtonCell2, ThemeDescription.FLAG_SELECTOR, null, null, null, null, i19));
+        arrayList.add(new ThemeDescription(this.radioButtonCell2, ThemeDescription.FLAG_CHECKBOX, new Class[]{RadioButtonCell.class}, new String[]{"radioButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i20));
+        arrayList.add(new ThemeDescription(this.radioButtonCell2, ThemeDescription.FLAG_CHECKBOXCHECK, new Class[]{RadioButtonCell.class}, new String[]{"radioButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i21));
         arrayList.add(new ThemeDescription(this.radioButtonCell2, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{RadioButtonCell.class}, new String[]{"textView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i4));
-        arrayList.add(new ThemeDescription(this.radioButtonCell2, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{RadioButtonCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i21));
+        arrayList.add(new ThemeDescription(this.radioButtonCell2, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{RadioButtonCell.class}, new String[]{"valueTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i22));
         arrayList.add(new ThemeDescription(this.adminnedChannelsLayout, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{AdminedChannelCell.class}, new String[]{"nameTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i4));
-        int i22 = Theme.key_windowBackgroundWhiteGrayText;
-        arrayList.add(new ThemeDescription(this.adminnedChannelsLayout, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{AdminedChannelCell.class}, new String[]{"statusTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i22));
+        int i23 = Theme.key_windowBackgroundWhiteGrayText;
+        arrayList.add(new ThemeDescription(this.adminnedChannelsLayout, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{AdminedChannelCell.class}, new String[]{"statusTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i23));
         arrayList.add(new ThemeDescription(this.adminnedChannelsLayout, ThemeDescription.FLAG_LINKCOLOR, new Class[]{AdminedChannelCell.class}, new String[]{"statusTextView"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, Theme.key_windowBackgroundWhiteLinkText));
-        arrayList.add(new ThemeDescription(this.adminnedChannelsLayout, ThemeDescription.FLAG_IMAGECOLOR, new Class[]{AdminedChannelCell.class}, new String[]{"deleteButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i22));
+        arrayList.add(new ThemeDescription(this.adminnedChannelsLayout, ThemeDescription.FLAG_IMAGECOLOR, new Class[]{AdminedChannelCell.class}, new String[]{"deleteButton"}, (Paint[]) null, (Drawable[]) null, (ThemeDescription.ThemeDescriptionDelegate) null, i23));
         arrayList.add(new ThemeDescription(null, 0, null, null, Theme.avatarDrawables, themeDescriptionDelegate, Theme.key_avatar_text));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundRed));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, themeDescriptionDelegate, Theme.key_avatar_backgroundOrange));

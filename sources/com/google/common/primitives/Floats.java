@@ -1,6 +1,7 @@
 package com.google.common.primitives;
 
 import com.google.common.base.Preconditions;
+
 /* loaded from: classes.dex */
 public abstract class Floats extends FloatsMethodsForWeb {
     public static int hashCode(float f) {

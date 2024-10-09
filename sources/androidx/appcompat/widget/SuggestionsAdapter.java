@@ -1,5 +1,6 @@
 package androidx.appcompat.widget;
 
+import android.R;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.WeakHashMap;
+
 /* loaded from: classes.dex */
 class SuggestionsAdapter extends ResourceCursorAdapter implements View.OnClickListener {
     private boolean mClosed;
@@ -56,10 +58,10 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements View.OnClickLi
         public final TextView mText2;
 
         public ChildViewCache(View view) {
-            this.mText1 = (TextView) view.findViewById(16908308);
-            this.mText2 = (TextView) view.findViewById(16908309);
-            this.mIcon1 = (ImageView) view.findViewById(16908295);
-            this.mIcon2 = (ImageView) view.findViewById(16908296);
+            this.mText1 = (TextView) view.findViewById(R.id.text1);
+            this.mText2 = (TextView) view.findViewById(R.id.text2);
+            this.mIcon1 = (ImageView) view.findViewById(R.id.icon1);
+            this.mIcon2 = (ImageView) view.findViewById(R.id.icon2);
             this.mIconRefine = (ImageView) view.findViewById(R$id.edit_query);
         }
     }
@@ -115,12 +117,12 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements View.OnClickLi
             return null;
         }
         Drawable drawable = packageManager.getDrawable(componentName.getPackageName(), iconResource, activityInfo.applicationInfo);
-        if (drawable == null) {
-            obj = "Invalid icon resource " + iconResource + " for " + componentName.flattenToShortString();
-            Log.w("SuggestionsAdapter", obj);
-            return null;
+        if (drawable != null) {
+            return drawable;
         }
-        return drawable;
+        obj = "Invalid icon resource " + iconResource + " for " + componentName.flattenToShortString();
+        Log.w("SuggestionsAdapter", obj);
+        return null;
     }
 
     private Drawable getActivityIconWithCache(ComponentName componentName) {
@@ -159,13 +161,15 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements View.OnClickLi
             if (openInputStream == null) {
                 throw new FileNotFoundException("Failed to open " + uri);
             }
-            Drawable createFromStream = Drawable.createFromStream(openInputStream, null);
             try {
-                openInputStream.close();
-            } catch (IOException e) {
-                Log.e("SuggestionsAdapter", "Error closing icon stream for " + uri, e);
+                return Drawable.createFromStream(openInputStream, null);
+            } finally {
+                try {
+                    openInputStream.close();
+                } catch (IOException e) {
+                    Log.e("SuggestionsAdapter", "Error closing icon stream for " + uri, e);
+                }
             }
-            return createFromStream;
         } catch (FileNotFoundException e2) {
             Log.w("SuggestionsAdapter", "Icon not found: " + uri + ", " + e2.getMessage());
             return null;
@@ -340,13 +344,13 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements View.OnClickLi
         if (columnString3 != null) {
             return columnString3;
         }
-        if (!this.mSearchable.shouldRewriteQueryFromData() || (columnString2 = getColumnString(cursor, "suggest_intent_data")) == null) {
-            if (!this.mSearchable.shouldRewriteQueryFromText() || (columnString = getColumnString(cursor, "suggest_text_1")) == null) {
-                return null;
-            }
-            return columnString;
+        if (this.mSearchable.shouldRewriteQueryFromData() && (columnString2 = getColumnString(cursor, "suggest_intent_data")) != null) {
+            return columnString2;
         }
-        return columnString2;
+        if (!this.mSearchable.shouldRewriteQueryFromText() || (columnString = getColumnString(cursor, "suggest_text_1")) == null) {
+            return null;
+        }
+        return columnString;
     }
 
     Drawable getDrawableFromResourceUri(Uri uri) {
@@ -368,9 +372,10 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements View.OnClickLi
                 } catch (NumberFormatException unused) {
                     throw new FileNotFoundException("Single path segment is not a resource ID: " + uri);
                 }
-            } else if (size != 2) {
-                throw new FileNotFoundException("More than two path segments: " + uri);
             } else {
+                if (size != 2) {
+                    throw new FileNotFoundException("More than two path segments: " + uri);
+                }
                 parseInt = resourcesForApplication.getIdentifier(pathSegments.get(1), pathSegments.get(0), authority);
             }
             if (parseInt != 0) {

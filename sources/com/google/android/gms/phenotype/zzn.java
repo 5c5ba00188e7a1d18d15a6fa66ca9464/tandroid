@@ -1,4 +1,5 @@
 package com.google.android.gms.phenotype;
+
 /* loaded from: classes.dex */
 public abstract class zzn {
     /* JADX INFO: Access modifiers changed from: package-private */

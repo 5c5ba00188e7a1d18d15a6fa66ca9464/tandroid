@@ -62,6 +62,7 @@ import org.telegram.ui.WrappedResourceProvider;
 import org.telegram.ui.web.AddressBarList;
 import org.telegram.ui.web.BrowserHistory;
 import org.telegram.ui.web.WebMetadataCache;
+
 /* loaded from: classes.dex */
 public class AddressBarList extends FrameLayout {
     private int backgroundColor;
@@ -256,7 +257,9 @@ public class AddressBarList extends FrameLayout {
                     boolean z2 = uItem.accent;
                     CharSequence charSequence = uItem.subtext;
                     bookmarkView.set(messageObject, z2, charSequence != null ? charSequence.toString() : null, uItem.checked, z);
-                } else if (obj instanceof BrowserHistory.Entry) {
+                    return;
+                }
+                if (obj instanceof BrowserHistory.Entry) {
                     BrowserHistory.Entry entry = (BrowserHistory.Entry) obj;
                     CharSequence charSequence2 = uItem.subtext;
                     bookmarkView.set(entry, charSequence2 != null ? charSequence2.toString() : null, z);
@@ -348,31 +351,34 @@ public class AddressBarList extends FrameLayout {
         }
 
         /* JADX WARN: Can't wrap try/catch for region: R(26:1|(1:3)(1:68)|(1:5)(1:67)|6|(1:(1:(16:63|64|12|(1:(5:44|(1:46)(1:51)|47|(1:49)|50)(1:43))(1:16)|17|(1:19)|20|(1:22)(1:39)|23|24|25|26|27|(1:29)|30|31)(1:62))(1:58))(1:10)|11|12|(1:14)|(1:41)|44|(0)(0)|47|(0)|50|17|(0)|20|(0)(0)|23|24|25|26|27|(0)|30|31) */
-        /* JADX WARN: Code restructure failed: missing block: B:58:0x019e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x019e, code lost:
+        
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:59:0x019f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:36:0x019f, code lost:
+        
             org.telegram.messenger.FileLog.e((java.lang.Throwable) r0, false);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:62:0x01b5, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:37:0x01b5, code lost:
+        
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:63:0x01b6, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:38:0x01b6, code lost:
+        
             org.telegram.messenger.FileLog.e(r0);
             r0 = r5;
          */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x011e  */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x0120  */
-        /* JADX WARN: Removed duplicated region for block: B:46:0x0138  */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x017e  */
-        /* JADX WARN: Removed duplicated region for block: B:53:0x0184  */
-        /* JADX WARN: Removed duplicated region for block: B:55:0x0188  */
-        /* JADX WARN: Removed duplicated region for block: B:66:0x01c5  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x017e  */
+        /* JADX WARN: Removed duplicated region for block: B:22:0x0184  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x01c5  */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x0188  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x011e  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x0138  */
+        /* JADX WARN: Removed duplicated region for block: B:51:0x0120  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void set(MessageObject messageObject, boolean z, String str, boolean z2, boolean z3) {
-            String[] split;
             TextView textView;
             String str2;
             TLRPC.Photo photo;
@@ -386,76 +392,77 @@ public class AddressBarList extends FrameLayout {
             } else if (webMetadata != null && !TextUtils.isEmpty(webMetadata.title)) {
                 textView = this.textView;
                 str2 = webMetadata.title;
-            } else if (webMetadata == null || TextUtils.isEmpty(webMetadata.sitename)) {
-                try {
-                    String str3 = Uri.parse(link).getHost().split("\\.")[split.length - 2];
-                    this.textView.setText(str3.substring(0, 1).toUpperCase() + str3.substring(1));
-                } catch (Exception unused) {
-                    this.textView.setText("");
-                }
-                this.iconView.clearImage();
-                if (webMetadata == null && (bitmap = webMetadata.favicon) != null) {
-                    this.iconView.setImageBitmap(bitmap);
-                } else if (webPage != null || (photo = webPage.photo) == null) {
-                    String charSequence = this.textView.getText() != null ? "" : this.textView.getText().toString();
-                    BreakIterator characterInstance = BreakIterator.getCharacterInstance();
-                    characterInstance.setText(charSequence);
-                    CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(this.textColor, 0.1f)), new Drawable(charSequence.isEmpty() ? "" : charSequence.substring(characterInstance.first(), characterInstance.next())) { // from class: org.telegram.ui.web.AddressBarList.BookmarkView.2
-                        private final Text text;
-                        final /* synthetic */ String val$firstLetter;
-
-                        {
-                            this.val$firstLetter = r4;
-                            this.text = new Text(r4, 14.0f, AndroidUtilities.bold());
-                        }
-
-                        @Override // android.graphics.drawable.Drawable
-                        public void draw(Canvas canvas) {
-                            this.text.draw(canvas, getBounds().centerX() - (this.text.getCurrentWidth() / 2.0f), getBounds().centerY(), BookmarkView.this.textColor, 1.0f);
-                        }
-
-                        @Override // android.graphics.drawable.Drawable
-                        public int getOpacity() {
-                            return -2;
-                        }
-
-                        @Override // android.graphics.drawable.Drawable
-                        public void setAlpha(int i) {
-                        }
-
-                        @Override // android.graphics.drawable.Drawable
-                        public void setColorFilter(ColorFilter colorFilter) {
-                        }
-                    });
-                    combinedDrawable.setCustomSize(AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f));
-                    this.iconView.setImageDrawable(combinedDrawable);
-                } else {
-                    this.iconView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.dp(32.0f), true, null, true), webPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(webPage.photo.sizes, AndroidUtilities.dp(32.0f), true, null, false), webPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), 0, messageObject);
-                }
-                this.timeView.setVisibility(8);
-                this.insertView.setVisibility(z ? 0 : 8);
-                String link2 = webPage == null ? webPage.url : AddressBarList.getLink(messageObject);
-                Uri parse = Uri.parse(link2);
-                link2 = Browser.replaceHostname(parse, Browser.IDN_toUnicode(parse.getHost()), null);
-                link2 = URLDecoder.decode(link2.replaceAll("\\+", "%2b"), "UTF-8");
-                String str4 = BottomSheetTabs.urlWithoutFragment(link2);
-                this.subtextView.setText(str4);
-                if (!TextUtils.isEmpty(str)) {
-                    TextView textView2 = this.textView;
-                    textView2.setText(AndroidUtilities.highlightText(textView2.getText(), str, this.resourcesProvider));
-                    TextView textView3 = this.subtextView;
-                    textView3.setText(AndroidUtilities.highlightText(textView3.getText(), str, this.resourcesProvider));
-                }
-                TextView textView4 = this.textView;
-                textView4.setText(Emoji.replaceEmoji(textView4.getText(), this.textView.getPaint().getFontMetricsInt(), false));
-                TextView textView5 = this.subtextView;
-                textView5.setText(Emoji.replaceEmoji(textView5.getText(), this.subtextView.getPaint().getFontMetricsInt(), false));
-                this.checkBox.setChecked(z2, false);
-                this.textLayoutParams.rightMargin = AndroidUtilities.dp(52.0f);
-                this.textLayout.setLayoutParams(this.textLayoutParams);
-                this.needDivider = z3;
-                setWillNotDraw(!z3);
             } else {
+                if (webMetadata == null || TextUtils.isEmpty(webMetadata.sitename)) {
+                    try {
+                        String str3 = Uri.parse(link).getHost().split("\\.")[r5.length - 2];
+                        this.textView.setText(str3.substring(0, 1).toUpperCase() + str3.substring(1));
+                    } catch (Exception unused) {
+                        this.textView.setText("");
+                    }
+                    this.iconView.clearImage();
+                    if (webMetadata == null && (bitmap = webMetadata.favicon) != null) {
+                        this.iconView.setImageBitmap(bitmap);
+                    } else if (webPage != null || (photo = webPage.photo) == null) {
+                        String charSequence = this.textView.getText() != null ? "" : this.textView.getText().toString();
+                        BreakIterator characterInstance = BreakIterator.getCharacterInstance();
+                        characterInstance.setText(charSequence);
+                        CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(this.textColor, 0.1f)), new Drawable(charSequence.isEmpty() ? "" : charSequence.substring(characterInstance.first(), characterInstance.next())) { // from class: org.telegram.ui.web.AddressBarList.BookmarkView.2
+                            private final Text text;
+                            final /* synthetic */ String val$firstLetter;
+
+                            {
+                                this.val$firstLetter = r4;
+                                this.text = new Text(r4, 14.0f, AndroidUtilities.bold());
+                            }
+
+                            @Override // android.graphics.drawable.Drawable
+                            public void draw(Canvas canvas) {
+                                this.text.draw(canvas, getBounds().centerX() - (this.text.getCurrentWidth() / 2.0f), getBounds().centerY(), BookmarkView.this.textColor, 1.0f);
+                            }
+
+                            @Override // android.graphics.drawable.Drawable
+                            public int getOpacity() {
+                                return -2;
+                            }
+
+                            @Override // android.graphics.drawable.Drawable
+                            public void setAlpha(int i) {
+                            }
+
+                            @Override // android.graphics.drawable.Drawable
+                            public void setColorFilter(ColorFilter colorFilter) {
+                            }
+                        });
+                        combinedDrawable.setCustomSize(AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f));
+                        this.iconView.setImageDrawable(combinedDrawable);
+                    } else {
+                        this.iconView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.dp(32.0f), true, null, true), webPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(webPage.photo.sizes, AndroidUtilities.dp(32.0f), true, null, false), webPage.photo), AndroidUtilities.dp(32.0f) + "_" + AndroidUtilities.dp(32.0f), 0, messageObject);
+                    }
+                    this.timeView.setVisibility(8);
+                    this.insertView.setVisibility(z ? 0 : 8);
+                    String link2 = webPage == null ? webPage.url : AddressBarList.getLink(messageObject);
+                    Uri parse = Uri.parse(link2);
+                    link2 = Browser.replaceHostname(parse, Browser.IDN_toUnicode(parse.getHost()), null);
+                    link2 = URLDecoder.decode(link2.replaceAll("\\+", "%2b"), "UTF-8");
+                    String str4 = BottomSheetTabs.urlWithoutFragment(link2);
+                    this.subtextView.setText(str4);
+                    if (!TextUtils.isEmpty(str)) {
+                        TextView textView2 = this.textView;
+                        textView2.setText(AndroidUtilities.highlightText(textView2.getText(), str, this.resourcesProvider));
+                        TextView textView3 = this.subtextView;
+                        textView3.setText(AndroidUtilities.highlightText(textView3.getText(), str, this.resourcesProvider));
+                    }
+                    TextView textView4 = this.textView;
+                    textView4.setText(Emoji.replaceEmoji(textView4.getText(), this.textView.getPaint().getFontMetricsInt(), false));
+                    TextView textView5 = this.subtextView;
+                    textView5.setText(Emoji.replaceEmoji(textView5.getText(), this.subtextView.getPaint().getFontMetricsInt(), false));
+                    this.checkBox.setChecked(z2, false);
+                    this.textLayoutParams.rightMargin = AndroidUtilities.dp(52.0f);
+                    this.textLayout.setLayoutParams(this.textLayoutParams);
+                    this.needDivider = z3;
+                    setWillNotDraw(!z3);
+                }
                 textView = this.textView;
                 str2 = webMetadata.sitename;
             }
@@ -520,22 +527,26 @@ public class AddressBarList extends FrameLayout {
         }
 
         /* JADX WARN: Can't wrap try/catch for region: R(17:5|(1:(11:42|43|(5:30|(1:32)(1:37)|33|(1:35)|36)(1:14)|15|16|17|18|19|(1:21)|22|23)(1:41))(1:9)|10|(1:12)|30|(0)(0)|33|(0)|36|15|16|17|18|19|(0)|22|23) */
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x00ea, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:26:0x00fd, code lost:
+        
             r1 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x00eb, code lost:
-            org.telegram.messenger.FileLog.e((java.lang.Throwable) r1, false);
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:38:0x00fd, code lost:
-            r1 = move-exception;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:39:0x00fe, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:27:0x00fe, code lost:
+        
             org.telegram.messenger.FileLog.e(r1);
          */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x007c  */
-        /* JADX WARN: Removed duplicated region for block: B:25:0x007e  */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x0096  */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x010c  */
+        /* JADX WARN: Code restructure failed: missing block: B:28:0x00ea, code lost:
+        
+            r1 = move-exception;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:29:0x00eb, code lost:
+        
+            org.telegram.messenger.FileLog.e((java.lang.Throwable) r1, false);
+         */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x010c  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x007c  */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x0096  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x007e  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -552,73 +563,72 @@ public class AddressBarList extends FrameLayout {
             if (webMetadata != null && !TextUtils.isEmpty(webMetadata.title)) {
                 textView = this.textView;
                 str2 = webMetadata.title;
-            } else if (webMetadata == null || TextUtils.isEmpty(webMetadata.sitename)) {
-                try {
-                    String[] split = Uri.parse(str3).getHost().split("\\.");
-                    String str4 = split[split.length - 2];
-                    TextView textView2 = this.textView;
-                    textView2.setText(str4.substring(0, 1).toUpperCase() + str4.substring(1));
-                } catch (Exception unused) {
-                    this.textView.setText("");
-                }
-                if (webMetadata != null || (bitmap = webMetadata.favicon) == null) {
-                    String charSequence = this.textView.getText() != null ? "" : this.textView.getText().toString();
-                    BreakIterator characterInstance = BreakIterator.getCharacterInstance();
-                    characterInstance.setText(charSequence);
-                    CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(this.textColor, 0.1f)), new Drawable(charSequence.isEmpty() ? "" : charSequence.substring(characterInstance.first(), characterInstance.next())) { // from class: org.telegram.ui.web.AddressBarList.BookmarkView.3
-                        private final Text text;
-                        final /* synthetic */ String val$firstLetter;
-
-                        {
-                            this.val$firstLetter = r4;
-                            this.text = new Text(r4, 14.0f, AndroidUtilities.bold());
-                        }
-
-                        @Override // android.graphics.drawable.Drawable
-                        public void draw(Canvas canvas) {
-                            this.text.draw(canvas, getBounds().centerX() - (this.text.getCurrentWidth() / 2.0f), getBounds().centerY(), BookmarkView.this.textColor, 1.0f);
-                        }
-
-                        @Override // android.graphics.drawable.Drawable
-                        public int getOpacity() {
-                            return -2;
-                        }
-
-                        @Override // android.graphics.drawable.Drawable
-                        public void setAlpha(int i) {
-                        }
-
-                        @Override // android.graphics.drawable.Drawable
-                        public void setColorFilter(ColorFilter colorFilter) {
-                        }
-                    });
-                    combinedDrawable.setCustomSize(AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f));
-                    this.iconView.setImageDrawable(combinedDrawable);
-                } else {
-                    this.iconView.setImageBitmap(bitmap);
-                }
-                this.insertView.setVisibility(8);
-                Uri parse = Uri.parse(str3);
-                str3 = Browser.replaceHostname(parse, Browser.IDN_toUnicode(parse.getHost()), null);
-                str3 = URLDecoder.decode(str3.replaceAll("\\+", "%2b"), "UTF-8");
-                this.subtextView.setText(str3);
-                if (!TextUtils.isEmpty(str)) {
-                    TextView textView3 = this.textView;
-                    textView3.setText(AndroidUtilities.highlightText(textView3.getText(), str, this.resourcesProvider));
-                    TextView textView4 = this.subtextView;
-                    textView4.setText(AndroidUtilities.highlightText(textView4.getText(), str, this.resourcesProvider));
-                }
-                TextView textView5 = this.textView;
-                textView5.setText(Emoji.replaceEmoji(textView5.getText(), this.textView.getPaint().getFontMetricsInt(), false));
-                TextView textView6 = this.subtextView;
-                textView6.setText(Emoji.replaceEmoji(textView6.getText(), this.subtextView.getPaint().getFontMetricsInt(), false));
-                this.timeView.setText(LocaleController.getInstance().getFormatterDay().format(entry.time));
-                this.checkBox.setChecked(false, false);
-                this.textLayoutParams.rightMargin = AndroidUtilities.dp(70.0f);
-                this.textLayout.setLayoutParams(this.textLayoutParams);
-                this.needDivider = z;
-                setWillNotDraw(!z);
             } else {
+                if (webMetadata == null || TextUtils.isEmpty(webMetadata.sitename)) {
+                    try {
+                        String str4 = Uri.parse(str3).getHost().split("\\.")[r5.length - 2];
+                        this.textView.setText(str4.substring(0, 1).toUpperCase() + str4.substring(1));
+                    } catch (Exception unused) {
+                        this.textView.setText("");
+                    }
+                    if (webMetadata != null || (bitmap = webMetadata.favicon) == null) {
+                        String charSequence = this.textView.getText() != null ? "" : this.textView.getText().toString();
+                        BreakIterator characterInstance = BreakIterator.getCharacterInstance();
+                        characterInstance.setText(charSequence);
+                        CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), Theme.multAlpha(this.textColor, 0.1f)), new Drawable(charSequence.isEmpty() ? "" : charSequence.substring(characterInstance.first(), characterInstance.next())) { // from class: org.telegram.ui.web.AddressBarList.BookmarkView.3
+                            private final Text text;
+                            final /* synthetic */ String val$firstLetter;
+
+                            {
+                                this.val$firstLetter = r4;
+                                this.text = new Text(r4, 14.0f, AndroidUtilities.bold());
+                            }
+
+                            @Override // android.graphics.drawable.Drawable
+                            public void draw(Canvas canvas) {
+                                this.text.draw(canvas, getBounds().centerX() - (this.text.getCurrentWidth() / 2.0f), getBounds().centerY(), BookmarkView.this.textColor, 1.0f);
+                            }
+
+                            @Override // android.graphics.drawable.Drawable
+                            public int getOpacity() {
+                                return -2;
+                            }
+
+                            @Override // android.graphics.drawable.Drawable
+                            public void setAlpha(int i) {
+                            }
+
+                            @Override // android.graphics.drawable.Drawable
+                            public void setColorFilter(ColorFilter colorFilter) {
+                            }
+                        });
+                        combinedDrawable.setCustomSize(AndroidUtilities.dp(28.0f), AndroidUtilities.dp(28.0f));
+                        this.iconView.setImageDrawable(combinedDrawable);
+                    } else {
+                        this.iconView.setImageBitmap(bitmap);
+                    }
+                    this.insertView.setVisibility(8);
+                    Uri parse = Uri.parse(str3);
+                    str3 = Browser.replaceHostname(parse, Browser.IDN_toUnicode(parse.getHost()), null);
+                    str3 = URLDecoder.decode(str3.replaceAll("\\+", "%2b"), "UTF-8");
+                    this.subtextView.setText(str3);
+                    if (!TextUtils.isEmpty(str)) {
+                        TextView textView2 = this.textView;
+                        textView2.setText(AndroidUtilities.highlightText(textView2.getText(), str, this.resourcesProvider));
+                        TextView textView3 = this.subtextView;
+                        textView3.setText(AndroidUtilities.highlightText(textView3.getText(), str, this.resourcesProvider));
+                    }
+                    TextView textView4 = this.textView;
+                    textView4.setText(Emoji.replaceEmoji(textView4.getText(), this.textView.getPaint().getFontMetricsInt(), false));
+                    TextView textView5 = this.subtextView;
+                    textView5.setText(Emoji.replaceEmoji(textView5.getText(), this.subtextView.getPaint().getFontMetricsInt(), false));
+                    this.timeView.setText(LocaleController.getInstance().getFormatterDay().format(entry.time));
+                    this.checkBox.setChecked(false, false);
+                    this.textLayoutParams.rightMargin = AndroidUtilities.dp(70.0f);
+                    this.textLayout.setLayoutParams(this.textLayoutParams);
+                    this.needDivider = z;
+                    setWillNotDraw(!z);
+                }
                 textView = this.textView;
                 str2 = webMetadata.sitename;
             }
@@ -665,10 +675,10 @@ public class AddressBarList extends FrameLayout {
             this.subtextView.setText(str3);
             if (!TextUtils.isEmpty(str)) {
             }
-            TextView textView52 = this.textView;
-            textView52.setText(Emoji.replaceEmoji(textView52.getText(), this.textView.getPaint().getFontMetricsInt(), false));
-            TextView textView62 = this.subtextView;
-            textView62.setText(Emoji.replaceEmoji(textView62.getText(), this.subtextView.getPaint().getFontMetricsInt(), false));
+            TextView textView42 = this.textView;
+            textView42.setText(Emoji.replaceEmoji(textView42.getText(), this.textView.getPaint().getFontMetricsInt(), false));
+            TextView textView52 = this.subtextView;
+            textView52.setText(Emoji.replaceEmoji(textView52.getText(), this.subtextView.getPaint().getFontMetricsInt(), false));
             this.timeView.setText(LocaleController.getInstance().getFormatterDay().format(entry.time));
             this.checkBox.setChecked(false, false);
             this.textLayoutParams.rightMargin = AndroidUtilities.dp(70.0f);
@@ -760,11 +770,15 @@ public class AddressBarList extends FrameLayout {
             if (i != NotificationCenter.mediaDidLoad) {
                 if (i == NotificationCenter.bookmarkAdded) {
                     this.links.add(0, (MessageObject) objArr[0]);
+                    return;
                 }
-            } else if (((Integer) objArr[3]).intValue() == this.guid) {
+                return;
+            }
+            if (((Integer) objArr[3]).intValue() == this.guid) {
                 this.loading = false;
+                ArrayList arrayList = (ArrayList) objArr[2];
                 this.endReached = ((Boolean) objArr[5]).booleanValue();
-                this.links.addAll((ArrayList) objArr[2]);
+                this.links.addAll(arrayList);
                 this.whenUpdated.run();
             }
         }
@@ -1180,14 +1194,17 @@ public class AddressBarList extends FrameLayout {
             Utilities.Callback callback2 = this.onQueryClick;
             if (callback2 != null) {
                 callback2.run(charSequence);
+                return;
             }
-        } else if (!uItem.instanceOf(BookmarkView.Factory.class) || (callback = this.onURLClick) == null) {
-        } else {
-            try {
-                callback.run(getLink((MessageObject) uItem.object2));
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
+            return;
+        }
+        if (!uItem.instanceOf(BookmarkView.Factory.class) || (callback = this.onURLClick) == null) {
+            return;
+        }
+        try {
+            callback.run(getLink((MessageObject) uItem.object2));
+        } catch (Exception e) {
+            FileLog.e(e);
         }
     }
 

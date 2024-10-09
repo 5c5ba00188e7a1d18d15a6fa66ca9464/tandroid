@@ -1,4 +1,5 @@
 package com.google.android.exoplayer2.util;
+
 /* loaded from: classes.dex */
 public class ConditionVariable {
     private final Clock clock;

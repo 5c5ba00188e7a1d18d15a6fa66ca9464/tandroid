@@ -6,6 +6,7 @@ import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class RegularImmutableMap extends ImmutableMap {
@@ -31,13 +32,13 @@ public final class RegularImmutableMap extends ImmutableMap {
 
         @Override // com.google.common.collect.ImmutableCollection, java.util.AbstractCollection, java.util.Collection
         public boolean contains(Object obj) {
-            if (obj instanceof Map.Entry) {
-                Map.Entry entry = (Map.Entry) obj;
-                Object key = entry.getKey();
-                Object value = entry.getValue();
-                return value != null && value.equals(this.map.get(key));
+            if (!(obj instanceof Map.Entry)) {
+                return false;
             }
-            return false;
+            Map.Entry entry = (Map.Entry) obj;
+            Object key = entry.getKey();
+            Object value = entry.getValue();
+            return value != null && value.equals(this.map.get(key));
         }
 
         @Override // com.google.common.collect.ImmutableCollection
@@ -234,20 +235,22 @@ public final class RegularImmutableMap extends ImmutableMap {
                             objArr[i9 ^ 1] = obj4;
                         }
                         i6++;
-                    } else if (obj3.equals(objArr[i11])) {
-                        int i12 = i11 ^ 1;
-                        Object obj5 = objArr[i12];
-                        Objects.requireNonNull(obj5);
-                        duplicateKey = new ImmutableMap.Builder.DuplicateKey(obj3, obj4, obj5);
-                        objArr[i12] = obj4;
-                        break;
                     } else {
+                        if (obj3.equals(objArr[i11])) {
+                            int i12 = i11 ^ 1;
+                            Object obj5 = objArr[i12];
+                            Objects.requireNonNull(obj5);
+                            duplicateKey = new ImmutableMap.Builder.DuplicateKey(obj3, obj4, obj5);
+                            objArr[i12] = obj4;
+                            break;
+                        }
                         smear = i10 + 1;
                     }
                 }
             }
             return i6 == i ? bArr : new Object[]{bArr, Integer.valueOf(i6), duplicateKey};
-        } else if (i2 <= 32768) {
+        }
+        if (i2 <= 32768) {
             short[] sArr = new short[i2];
             Arrays.fill(sArr, (short) -1);
             int i13 = 0;
@@ -270,60 +273,61 @@ public final class RegularImmutableMap extends ImmutableMap {
                             objArr[i16 ^ 1] = obj7;
                         }
                         i13++;
-                    } else if (obj6.equals(objArr[i18])) {
-                        int i19 = i18 ^ 1;
-                        Object obj8 = objArr[i19];
-                        Objects.requireNonNull(obj8);
-                        duplicateKey = new ImmutableMap.Builder.DuplicateKey(obj6, obj7, obj8);
-                        objArr[i19] = obj7;
-                        break;
                     } else {
+                        if (obj6.equals(objArr[i18])) {
+                            int i19 = i18 ^ 1;
+                            Object obj8 = objArr[i19];
+                            Objects.requireNonNull(obj8);
+                            duplicateKey = new ImmutableMap.Builder.DuplicateKey(obj6, obj7, obj8);
+                            objArr[i19] = obj7;
+                            break;
+                        }
                         smear2 = i17 + 1;
                     }
                 }
             }
             return i13 == i ? sArr : new Object[]{sArr, Integer.valueOf(i13), duplicateKey};
-        } else {
-            int[] iArr = new int[i2];
-            Arrays.fill(iArr, -1);
-            int i20 = 0;
-            int i21 = 0;
-            while (i20 < i) {
-                int i22 = (i20 * 2) + i3;
-                int i23 = (i21 * 2) + i3;
-                Object obj9 = objArr[i22];
-                Objects.requireNonNull(obj9);
-                Object obj10 = objArr[i22 ^ 1];
-                Objects.requireNonNull(obj10);
-                CollectPreconditions.checkEntryNotNull(obj9, obj10);
-                int smear3 = Hashing.smear(obj9.hashCode());
-                while (true) {
-                    int i24 = smear3 & i4;
-                    int i25 = iArr[i24];
-                    if (i25 == i5) {
-                        iArr[i24] = i23;
-                        if (i21 < i20) {
-                            objArr[i23] = obj9;
-                            objArr[i23 ^ 1] = obj10;
-                        }
-                        i21++;
-                    } else if (obj9.equals(objArr[i25])) {
+        }
+        int[] iArr = new int[i2];
+        Arrays.fill(iArr, -1);
+        int i20 = 0;
+        int i21 = 0;
+        while (i20 < i) {
+            int i22 = (i20 * 2) + i3;
+            int i23 = (i21 * 2) + i3;
+            Object obj9 = objArr[i22];
+            Objects.requireNonNull(obj9);
+            Object obj10 = objArr[i22 ^ 1];
+            Objects.requireNonNull(obj10);
+            CollectPreconditions.checkEntryNotNull(obj9, obj10);
+            int smear3 = Hashing.smear(obj9.hashCode());
+            while (true) {
+                int i24 = smear3 & i4;
+                int i25 = iArr[i24];
+                if (i25 == i5) {
+                    iArr[i24] = i23;
+                    if (i21 < i20) {
+                        objArr[i23] = obj9;
+                        objArr[i23 ^ 1] = obj10;
+                    }
+                    i21++;
+                } else {
+                    if (obj9.equals(objArr[i25])) {
                         int i26 = i25 ^ 1;
                         Object obj11 = objArr[i26];
                         Objects.requireNonNull(obj11);
                         duplicateKey = new ImmutableMap.Builder.DuplicateKey(obj9, obj10, obj11);
                         objArr[i26] = obj10;
                         break;
-                    } else {
-                        smear3 = i24 + 1;
-                        i5 = -1;
                     }
+                    smear3 = i24 + 1;
+                    i5 = -1;
                 }
-                i20++;
-                i5 = -1;
             }
-            return i21 == i ? iArr : new Object[]{iArr, Integer.valueOf(i21), duplicateKey};
+            i20++;
+            i5 = -1;
         }
+        return i21 == i ? iArr : new Object[]{iArr, Integer.valueOf(i21), duplicateKey};
     }
 
     static Object get(Object obj, Object[] objArr, int i, int i2, Object obj2) {
@@ -333,60 +337,60 @@ public final class RegularImmutableMap extends ImmutableMap {
         if (i == 1) {
             Object obj3 = objArr[i2];
             Objects.requireNonNull(obj3);
-            if (obj3.equals(obj2)) {
-                Object obj4 = objArr[i2 ^ 1];
-                Objects.requireNonNull(obj4);
-                return obj4;
+            if (!obj3.equals(obj2)) {
+                return null;
             }
+            Object obj4 = objArr[i2 ^ 1];
+            Objects.requireNonNull(obj4);
+            return obj4;
+        }
+        if (obj == null) {
             return null;
-        } else if (obj == null) {
-            return null;
+        }
+        if (obj instanceof byte[]) {
+            byte[] bArr = (byte[]) obj;
+            int length = bArr.length - 1;
+            int smear = Hashing.smear(obj2.hashCode());
+            while (true) {
+                int i3 = smear & length;
+                int i4 = bArr[i3] & 255;
+                if (i4 == 255) {
+                    return null;
+                }
+                if (obj2.equals(objArr[i4])) {
+                    return objArr[i4 ^ 1];
+                }
+                smear = i3 + 1;
+            }
+        } else if (obj instanceof short[]) {
+            short[] sArr = (short[]) obj;
+            int length2 = sArr.length - 1;
+            int smear2 = Hashing.smear(obj2.hashCode());
+            while (true) {
+                int i5 = smear2 & length2;
+                int i6 = sArr[i5] & 65535;
+                if (i6 == 65535) {
+                    return null;
+                }
+                if (obj2.equals(objArr[i6])) {
+                    return objArr[i6 ^ 1];
+                }
+                smear2 = i5 + 1;
+            }
         } else {
-            if (obj instanceof byte[]) {
-                byte[] bArr = (byte[]) obj;
-                int length = bArr.length - 1;
-                int smear = Hashing.smear(obj2.hashCode());
-                while (true) {
-                    int i3 = smear & length;
-                    int i4 = bArr[i3] & 255;
-                    if (i4 == 255) {
-                        return null;
-                    }
-                    if (obj2.equals(objArr[i4])) {
-                        return objArr[i4 ^ 1];
-                    }
-                    smear = i3 + 1;
+            int[] iArr = (int[]) obj;
+            int length3 = iArr.length - 1;
+            int smear3 = Hashing.smear(obj2.hashCode());
+            while (true) {
+                int i7 = smear3 & length3;
+                int i8 = iArr[i7];
+                if (i8 == -1) {
+                    return null;
                 }
-            } else if (obj instanceof short[]) {
-                short[] sArr = (short[]) obj;
-                int length2 = sArr.length - 1;
-                int smear2 = Hashing.smear(obj2.hashCode());
-                while (true) {
-                    int i5 = smear2 & length2;
-                    int i6 = sArr[i5] & 65535;
-                    if (i6 == 65535) {
-                        return null;
-                    }
-                    if (obj2.equals(objArr[i6])) {
-                        return objArr[i6 ^ 1];
-                    }
-                    smear2 = i5 + 1;
+                if (obj2.equals(objArr[i8])) {
+                    return objArr[i8 ^ 1];
                 }
-            } else {
-                int[] iArr = (int[]) obj;
-                int length3 = iArr.length - 1;
-                int smear3 = Hashing.smear(obj2.hashCode());
-                while (true) {
-                    int i7 = smear3 & length3;
-                    int i8 = iArr[i7];
-                    if (i8 == -1) {
-                        return null;
-                    }
-                    if (obj2.equals(objArr[i8])) {
-                        return objArr[i8 ^ 1];
-                    }
-                    smear3 = i7 + 1;
-                }
+                smear3 = i7 + 1;
             }
         }
     }

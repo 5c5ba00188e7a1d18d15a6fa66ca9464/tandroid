@@ -3,6 +3,7 @@ package com.google.android.exoplayer2;
 import android.os.Bundle;
 import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Util;
+
 /* loaded from: classes.dex */
 public abstract class Rating implements Bundleable {
     static final String FIELD_RATING_TYPE = Util.intToStringMaxRadix(0);
@@ -25,9 +26,10 @@ public abstract class Rating implements Bundleable {
             creator = PercentageRating.CREATOR;
         } else if (i == 2) {
             creator = StarRating.CREATOR;
-        } else if (i != 3) {
-            throw new IllegalArgumentException("Unknown RatingType: " + i);
         } else {
+            if (i != 3) {
+                throw new IllegalArgumentException("Unknown RatingType: " + i);
+            }
             creator = ThumbRating.CREATOR;
         }
         return (Rating) creator.fromBundle(bundle);

@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import org.telegram.tgnet.TLRPC;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes3.dex */
 public class FileStreamLoadOperation extends BaseDataSource implements FileLoadOperationStream {
     public static final ConcurrentHashMap<Long, FileStreamLoadOperation> allStreams = new ConcurrentHashMap<>();
@@ -67,39 +68,38 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
     public static Uri prepareUri(int i, TLRPC.Document document, Object obj) {
         String attachFileName = FileLoader.getAttachFileName(document);
         File pathToAttach = FileLoader.getInstance(i).getPathToAttach(document);
-        if (pathToAttach == null || !pathToAttach.exists()) {
-            try {
-                StringBuilder sb = new StringBuilder();
-                sb.append("?account=");
-                sb.append(i);
-                sb.append("&id=");
-                sb.append(document.id);
-                sb.append("&hash=");
-                sb.append(document.access_hash);
-                sb.append("&dc=");
-                sb.append(document.dc_id);
-                sb.append("&size=");
-                sb.append(document.size);
-                sb.append("&mime=");
-                sb.append(URLEncoder.encode(document.mime_type, "UTF-8"));
-                sb.append("&rid=");
-                sb.append(FileLoader.getInstance(i).getFileReference(obj));
-                sb.append("&name=");
-                sb.append(URLEncoder.encode(FileLoader.getDocumentFileName(document), "UTF-8"));
-                sb.append("&reference=");
-                byte[] bArr = document.file_reference;
-                if (bArr == null) {
-                    bArr = new byte[0];
-                }
-                sb.append(Utilities.bytesToHex(bArr));
-                String sb2 = sb.toString();
-                return Uri.parse("tg://" + attachFileName + sb2);
-            } catch (UnsupportedEncodingException e) {
-                FileLog.e(e);
-                return null;
-            }
+        if (pathToAttach != null && pathToAttach.exists()) {
+            return Uri.fromFile(pathToAttach);
         }
-        return Uri.fromFile(pathToAttach);
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("?account=");
+            sb.append(i);
+            sb.append("&id=");
+            sb.append(document.id);
+            sb.append("&hash=");
+            sb.append(document.access_hash);
+            sb.append("&dc=");
+            sb.append(document.dc_id);
+            sb.append("&size=");
+            sb.append(document.size);
+            sb.append("&mime=");
+            sb.append(URLEncoder.encode(document.mime_type, "UTF-8"));
+            sb.append("&rid=");
+            sb.append(FileLoader.getInstance(i).getFileReference(obj));
+            sb.append("&name=");
+            sb.append(URLEncoder.encode(FileLoader.getDocumentFileName(document), "UTF-8"));
+            sb.append("&reference=");
+            byte[] bArr = document.file_reference;
+            if (bArr == null) {
+                bArr = new byte[0];
+            }
+            sb.append(Utilities.bytesToHex(bArr));
+            return Uri.parse("tg://" + attachFileName + sb.toString());
+        } catch (UnsupportedEncodingException e) {
+            FileLog.e(e);
+            return null;
+        }
     }
 
     public static void setPriorityForDocument(TLRPC.Document document, int i) {
@@ -157,11 +157,11 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0124  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0133  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x016e  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0124  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0133  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x016e  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x011c  */
     @Override // com.google.android.exoplayer2.upstream.DataSource
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -206,28 +206,28 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                 j = this.document.size - dataSpec.position;
             }
             this.bytesRemaining = j;
-            if (j < 0) {
-                this.opened = true;
-                transferStarted(dataSpec);
-                FileLoadOperation fileLoadOperation = this.loadOperation;
-                if (fileLoadOperation != null) {
-                    File currentFile = fileLoadOperation.getCurrentFile();
-                    this.currentFile = currentFile;
-                    if (currentFile != null) {
-                        try {
-                            RandomAccessFile randomAccessFile = new RandomAccessFile(this.currentFile, "r");
-                            this.file = randomAccessFile;
-                            randomAccessFile.seek(this.currentOffset);
-                            if (this.loadOperation.isFinished() && !this.customLength) {
-                                this.bytesRemaining = this.currentFile.length() - this.currentOffset;
-                            }
-                        } catch (Throwable unused) {
+            if (j >= 0) {
+                throw new EOFException();
+            }
+            this.opened = true;
+            transferStarted(dataSpec);
+            FileLoadOperation fileLoadOperation = this.loadOperation;
+            if (fileLoadOperation != null) {
+                File currentFile = fileLoadOperation.getCurrentFile();
+                this.currentFile = currentFile;
+                if (currentFile != null) {
+                    try {
+                        RandomAccessFile randomAccessFile = new RandomAccessFile(this.currentFile, "r");
+                        this.file = randomAccessFile;
+                        randomAccessFile.seek(this.currentOffset);
+                        if (this.loadOperation.isFinished() && !this.customLength) {
+                            this.bytesRemaining = this.currentFile.length() - this.currentOffset;
                         }
+                    } catch (Throwable unused) {
                     }
                 }
-                return this.bytesRemaining;
             }
-            throw new EOFException();
+            return this.bytesRemaining;
         }
         arrayList = this.document.attributes;
         tL_documentAttributeAudio = new TLRPC.TL_documentAttributeVideo();
@@ -246,15 +246,15 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         if (!z) {
         }
         this.bytesRemaining = j;
-        if (j < 0) {
+        if (j >= 0) {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0038 A[Catch: Exception -> 0x0023, TryCatch #2 {Exception -> 0x0023, blocks: (B:13:0x001e, B:20:0x002a, B:22:0x0038, B:24:0x005c, B:25:0x0061, B:27:0x0065, B:28:0x006b, B:30:0x0075, B:32:0x007d, B:34:0x0081, B:35:0x0095, B:38:0x009c, B:18:0x0026, B:48:0x00cc, B:51:0x00d1, B:53:0x00db, B:56:0x00e0), top: B:66:0x001e }] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0081 A[Catch: Exception -> 0x0023, TryCatch #2 {Exception -> 0x0023, blocks: (B:13:0x001e, B:20:0x002a, B:22:0x0038, B:24:0x005c, B:25:0x0061, B:27:0x0065, B:28:0x006b, B:30:0x0075, B:32:0x007d, B:34:0x0081, B:35:0x0095, B:38:0x009c, B:18:0x0026, B:48:0x00cc, B:51:0x00d1, B:53:0x00db, B:56:0x00e0), top: B:66:0x001e }] */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x00a0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x00c9 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0038 A[Catch: Exception -> 0x0023, TryCatch #2 {Exception -> 0x0023, blocks: (B:65:0x001e, B:15:0x002a, B:17:0x0038, B:19:0x005c, B:20:0x0061, B:22:0x0065, B:23:0x006b, B:25:0x0075, B:29:0x007d, B:31:0x0081, B:32:0x0095, B:34:0x009c, B:13:0x0026, B:54:0x00cc, B:57:0x00d1, B:59:0x00db, B:62:0x00e0), top: B:64:0x001e }] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0081 A[Catch: Exception -> 0x0023, TryCatch #2 {Exception -> 0x0023, blocks: (B:65:0x001e, B:15:0x002a, B:17:0x0038, B:19:0x005c, B:20:0x0061, B:22:0x0065, B:23:0x006b, B:25:0x0075, B:29:0x007d, B:31:0x0081, B:32:0x0095, B:34:0x009c, B:13:0x0026, B:54:0x00cc, B:57:0x00d1, B:59:0x00db, B:62:0x00e0), top: B:64:0x001e }] */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00a0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00c9 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @Override // com.google.android.exoplayer2.upstream.DataReader
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -347,20 +347,20 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             }
             i5 = i3;
         }
-        if (this.opened) {
-            int read = randomAccessFile2.read(bArr, i, i5);
-            if (read == -1) {
-                this.bytesRemaining = 0L;
-                return -1;
-            }
-            if (read > 0) {
-                long j2 = read;
-                this.currentOffset += j2;
-                this.bytesRemaining -= j2;
-                bytesTransferred(read);
-            }
-            return read;
+        if (!this.opened) {
+            return 0;
         }
-        return 0;
+        int read = randomAccessFile2.read(bArr, i, i5);
+        if (read == -1) {
+            this.bytesRemaining = 0L;
+            return -1;
+        }
+        if (read > 0) {
+            long j2 = read;
+            this.currentOffset += j2;
+            this.bytesRemaining -= j2;
+            bytesTransferred(read);
+        }
+        return read;
     }
 }

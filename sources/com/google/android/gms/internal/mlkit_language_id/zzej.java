@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class zzej {
     private static final zzej zzd = new zzej(true);
@@ -29,21 +30,23 @@ final class zzej {
     public static int zza(zzel zzelVar, Object obj) {
         zzhv zzb = zzelVar.zzb();
         int zza = zzelVar.zza();
-        if (zzelVar.zzd()) {
-            int i = 0;
-            List<Object> list = (List) obj;
-            if (zzelVar.zze()) {
-                for (Object obj2 : list) {
-                    i += zzb(zzb, obj2);
-                }
-                return zzea.zze(zza) + i + zzea.zzl(i);
-            }
-            for (Object obj3 : list) {
-                i += zza(zzb, zza, obj3);
-            }
-            return i;
+        if (!zzelVar.zzd()) {
+            return zza(zzb, zza, obj);
         }
-        return zza(zzb, zza, obj);
+        int i = 0;
+        List list = (List) obj;
+        if (zzelVar.zze()) {
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+                i += zzb(zzb, it.next());
+            }
+            return zzea.zze(zza) + i + zzea.zzl(i);
+        }
+        Iterator it2 = list.iterator();
+        while (it2.hasNext()) {
+            i += zza(zzb, zza, it2.next());
+        }
+        return i;
     }
 
     static int zza(zzhv zzhvVar, int i, Object obj) {
@@ -60,14 +63,17 @@ final class zzej {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0021, code lost:
-        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzet) == false) goto L3;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0018, code lost:
+    
+        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzfz) == false) goto L4;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002a, code lost:
-        if ((r3 instanceof byte[]) == false) goto L3;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0021, code lost:
+    
+        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzet) == false) goto L4;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x0018, code lost:
-        if ((r3 instanceof com.google.android.gms.internal.mlkit_language_id.zzfz) == false) goto L3;
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x002a, code lost:
+    
+        if ((r3 instanceof byte[]) == false) goto L4;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -166,9 +172,10 @@ final class zzej {
     private final void zzb(zzel zzelVar, Object obj) {
         if (!zzelVar.zzd()) {
             zza(zzelVar.zzb(), obj);
-        } else if (!(obj instanceof List)) {
-            throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
         } else {
+            if (!(obj instanceof List)) {
+                throw new IllegalArgumentException("Wrong object type used with protocol message reflection.");
+            }
             ArrayList arrayList = new ArrayList();
             arrayList.addAll((List) obj);
             int size = arrayList.size();
@@ -228,8 +235,9 @@ final class zzej {
         for (int i = 0; i < zzejVar.zza.zzc(); i++) {
             zzb(zzejVar.zza.zzb(i));
         }
-        for (Map.Entry entry : zzejVar.zza.zzd()) {
-            zzb(entry);
+        Iterator it = zzejVar.zza.zzd().iterator();
+        while (it.hasNext()) {
+            zzb((Map.Entry) it.next());
         }
     }
 
@@ -260,8 +268,9 @@ final class zzej {
                 return false;
             }
         }
-        for (Map.Entry entry : this.zza.zzd()) {
-            if (!zza(entry)) {
+        Iterator it = this.zza.zzd().iterator();
+        while (it.hasNext()) {
+            if (!zza((Map.Entry) it.next())) {
                 return false;
             }
         }
@@ -273,8 +282,9 @@ final class zzej {
         for (int i2 = 0; i2 < this.zza.zzc(); i2++) {
             i += zzc(this.zza.zzb(i2));
         }
-        for (Map.Entry entry : this.zza.zzd()) {
-            i += zzc(entry);
+        Iterator it = this.zza.zzd().iterator();
+        while (it.hasNext()) {
+            i += zzc((Map.Entry) it.next());
         }
         return i;
     }

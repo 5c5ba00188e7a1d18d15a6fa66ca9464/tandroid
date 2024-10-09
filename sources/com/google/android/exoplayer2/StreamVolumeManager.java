@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import org.webrtc.MediaStreamTrack;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class StreamVolumeManager {
@@ -107,11 +108,11 @@ public final class StreamVolumeManager {
 
     public int getMinVolume() {
         int streamMinVolume;
-        if (Util.SDK_INT >= 28) {
-            streamMinVolume = this.audioManager.getStreamMinVolume(this.streamType);
-            return streamMinVolume;
+        if (Util.SDK_INT < 28) {
+            return 0;
         }
-        return 0;
+        streamMinVolume = this.audioManager.getStreamMinVolume(this.streamType);
+        return streamMinVolume;
     }
 
     public void release() {

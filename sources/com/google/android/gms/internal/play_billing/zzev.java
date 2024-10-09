@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import org.telegram.messenger.NotificationCenter;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzev {
@@ -24,9 +25,10 @@ public abstract class zzev {
                 if (b <= -12 && b2 <= -65) {
                     return b ^ (b2 << 8);
                 }
-            } else if (i3 != 2) {
-                throw new AssertionError();
             } else {
+                if (i3 != 2) {
+                    throw new AssertionError();
+                }
                 byte b3 = bArr[i];
                 byte b4 = bArr[i + 1];
                 if (b <= -12 && b3 <= -65 && b4 <= -65) {
@@ -40,7 +42,8 @@ public abstract class zzev {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x00ff, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x00ff, code lost:
+    
         return r9 + r0;
      */
     /*
@@ -72,31 +75,32 @@ public abstract class zzev {
                 bArr[i7] = (byte) ((charAt2 >>> 6) | 960);
                 i7 += 2;
                 bArr[i8] = (byte) ((charAt2 & '?') | 128);
-            } else if ((charAt2 >= 55296 && charAt2 <= 57343) || i7 > i3 - 3) {
-                if (i7 > i3 - 4) {
-                    if (charAt2 < 55296 || charAt2 > 57343 || ((i4 = i6 + 1) != charSequence.length() && Character.isSurrogatePair(charAt2, charSequence.charAt(i4)))) {
+            } else {
+                if ((charAt2 >= 55296 && charAt2 <= 57343) || i7 > i3 - 3) {
+                    if (i7 > i3 - 4) {
+                        if (charAt2 >= 55296 && charAt2 <= 57343 && ((i4 = i6 + 1) == charSequence.length() || !Character.isSurrogatePair(charAt2, charSequence.charAt(i4)))) {
+                            throw new zzeu(i6, length);
+                        }
                         throw new ArrayIndexOutOfBoundsException("Failed writing " + charAt2 + " at index " + i7);
                     }
-                    throw new zzeu(i6, length);
-                }
-                int i9 = i6 + 1;
-                if (i9 != charSequence.length()) {
-                    char charAt3 = charSequence.charAt(i9);
-                    if (Character.isSurrogatePair(charAt2, charAt3)) {
-                        int codePoint = Character.toCodePoint(charAt2, charAt3);
-                        bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.needSetDayNightTheme);
-                        bArr[i7 + 1] = (byte) (((codePoint >>> 12) & 63) | 128);
-                        int i10 = i7 + 3;
-                        bArr[i7 + 2] = (byte) (((codePoint >>> 6) & 63) | 128);
-                        i7 += 4;
-                        bArr[i10] = (byte) ((codePoint & 63) | 128);
-                        i6 = i9;
-                    } else {
-                        i6 = i9;
+                    int i9 = i6 + 1;
+                    if (i9 != charSequence.length()) {
+                        char charAt3 = charSequence.charAt(i9);
+                        if (Character.isSurrogatePair(charAt2, charAt3)) {
+                            int codePoint = Character.toCodePoint(charAt2, charAt3);
+                            bArr[i7] = (byte) ((codePoint >>> 18) | NotificationCenter.needSetDayNightTheme);
+                            bArr[i7 + 1] = (byte) (((codePoint >>> 12) & 63) | 128);
+                            int i10 = i7 + 3;
+                            bArr[i7 + 2] = (byte) (((codePoint >>> 6) & 63) | 128);
+                            i7 += 4;
+                            bArr[i10] = (byte) ((codePoint & 63) | 128);
+                            i6 = i9;
+                        } else {
+                            i6 = i9;
+                        }
                     }
+                    throw new zzeu(i6 - 1, length);
                 }
-                throw new zzeu(i6 - 1, length);
-            } else {
                 bArr[i7] = (byte) ((charAt2 >>> '\f') | 480);
                 int i11 = i7 + 2;
                 bArr[i7 + 1] = (byte) (((charAt2 >>> 6) & 63) | 128);

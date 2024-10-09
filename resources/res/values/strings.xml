@@ -3310,8 +3310,8 @@
     <string name="Gift2HideInfo">You can hide your name and message from visitors to %1$s`s profile. %1$s will still see your name and message.</string>
     <string name="Gift2InfoConverted_one">You converted this gift to **%d** Star.</string>
     <string name="Gift2InfoConverted_other">You converted this gift to **%d** Stars.</string>
-    <string name="Gift2InfoOutConverted_one">%2$s converted this gift to **%d** Star.</string>
-    <string name="Gift2InfoOutConverted_other">%2$s converted this gift to **%d** Stars.</string>
+    <string name="Gift2InfoOutConverted_one" formatted="false">%2$s converted this gift to **%d** Star.</string>
+    <string name="Gift2InfoOutConverted_other" formatted="false">%2$s converted this gift to **%d** Stars.</string>
     <string name="Gift2InfoOutPinned">%1$s kept this gift in your Profile.</string>
     <string name="Gift2InfoOut_one">%2$s can keep this gift in profile or convert it to **%1$d** Star.</string>
     <string name="Gift2InfoOut_other">%2$s can keep this gift in profile or convert it to **%1$d** Stars.</string>
@@ -4590,8 +4590,8 @@
     <string name="NotificationShowSenderNames">Show Senders Name</string>
     <string name="NotificationStories">Stories</string>
     <string name="NotificationStory">%s shared a story with you</string>
-    <string name="NotificationTopicExceptionsDesctription_one">%s, %d exception</string>
-    <string name="NotificationTopicExceptionsDesctription_other">%s, %d exceptions</string>
+    <string name="NotificationTopicExceptionsDesctription_one" formatted="false">%s, %d exception</string>
+    <string name="NotificationTopicExceptionsDesctription_other" formatted="false">%s, %d exceptions</string>
     <string name="NotificationUnrecognizedDevice">%1$s,\nWe detected a login into your account from a new device on %2$s\n\nDevice: %3$s\nLocation: %4$s\n\nIf this wasn\'t you, you can go to Settings - Privacy and Security - Sessions and terminate that session.\n\nIf you think that somebody logged in to your account against your will, you can enable two-step verification in Privacy and Security settings.\n\nSincerely,\nThe Telegram Team</string>
     <string name="Notifications">Notifications</string>
     <string name="NotificationsAddAnException">Add an Exception</string>
@@ -7372,8 +7372,8 @@
     <string name="UnconfirmedAuthDeniedTitle_other">New Logins Prevented</string>
     <string name="UnconfirmedAuthDeniedWarning">Never send your login code to anyone or you can lose your Telegram account!</string>
     <string name="UnconfirmedAuthDeny">No, it’s not me!</string>
-    <string name="UnconfirmedAuthMultipleFrom_one">We detected new %d login to your account from %s. Is it you?</string>
-    <string name="UnconfirmedAuthMultipleFrom_other">We detected new %d logins to your account from %s. Is it you?</string>
+    <string name="UnconfirmedAuthMultipleFrom_one" formatted="false">We detected new %d login to your account from %s. Is it you?</string>
+    <string name="UnconfirmedAuthMultipleFrom_other" formatted="false">We detected new %d logins to your account from %s. Is it you?</string>
     <string name="UnconfirmedAuthMultiple_one">We detected new %d login to your account. Is it you?</string>
     <string name="UnconfirmedAuthMultiple_other">We detected new %d logins to your account. Is it you?</string>
     <string name="UnconfirmedAuthSingle">We detected a new login to your account from %s. Is it you?</string>

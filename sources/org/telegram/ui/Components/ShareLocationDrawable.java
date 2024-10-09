@@ -7,6 +7,7 @@ import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
+
 /* loaded from: classes3.dex */
 public class ShareLocationDrawable extends Drawable {
     private int currentType;
@@ -28,13 +29,14 @@ public class ShareLocationDrawable extends Drawable {
         } else if (i == 5) {
             resources2 = context.getResources();
             i3 = R.drawable.filled_stop_location;
-        } else if (i != 1) {
-            this.drawable = context.getResources().getDrawable(R.drawable.animationpin).mutate();
-            this.drawableLeft = context.getResources().getDrawable(R.drawable.animationpinleft).mutate();
-            resources = context.getResources();
-            i2 = R.drawable.animationpinright;
-            this.drawableRight = resources.getDrawable(i2).mutate();
         } else {
+            if (i != 1) {
+                this.drawable = context.getResources().getDrawable(R.drawable.animationpin).mutate();
+                this.drawableLeft = context.getResources().getDrawable(R.drawable.animationpinleft).mutate();
+                resources = context.getResources();
+                i2 = R.drawable.animationpinright;
+                this.drawableRight = resources.getDrawable(i2).mutate();
+            }
             resources2 = context.getResources();
             i3 = R.drawable.smallanimationpin;
         }
@@ -66,8 +68,8 @@ public class ShareLocationDrawable extends Drawable {
         invalidateSelf();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:38:0x016c  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x016e  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x016c  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x016e  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

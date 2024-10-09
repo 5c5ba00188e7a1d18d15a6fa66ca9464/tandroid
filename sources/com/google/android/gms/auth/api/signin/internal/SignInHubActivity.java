@@ -10,6 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.SignInAccount;
 import com.google.android.gms.common.api.Status;
+
 /* loaded from: classes.dex */
 public class SignInHubActivity extends FragmentActivity {
     private static boolean zba = false;
@@ -75,7 +76,8 @@ public class SignInHubActivity extends FragmentActivity {
                 this.zbf = intent;
                 zbc();
                 return;
-            } else if (intent.hasExtra("errorCode")) {
+            }
+            if (intent.hasExtra("errorCode")) {
                 int intExtra = intent.getIntExtra("errorCode", 8);
                 if (intExtra == 13) {
                     intExtra = 12501;
@@ -95,39 +97,42 @@ public class SignInHubActivity extends FragmentActivity {
         action.getClass();
         if ("com.google.android.gms.auth.NO_IMPL".equals(action)) {
             zbd(12500);
-        } else if (!action.equals("com.google.android.gms.auth.GOOGLE_SIGN_IN") && !action.equals("com.google.android.gms.auth.APPAUTH_SIGN_IN")) {
+            return;
+        }
+        if (!action.equals("com.google.android.gms.auth.GOOGLE_SIGN_IN") && !action.equals("com.google.android.gms.auth.APPAUTH_SIGN_IN")) {
             Log.e("AuthSignInClient", "Unknown action: ".concat(String.valueOf(intent.getAction())));
             finish();
-        } else {
-            Bundle bundleExtra = intent.getBundleExtra("config");
-            bundleExtra.getClass();
-            SignInConfiguration signInConfiguration = (SignInConfiguration) bundleExtra.getParcelable("config");
-            if (signInConfiguration == null) {
-                Log.e("AuthSignInClient", "Activity started with invalid configuration.");
+            return;
+        }
+        Bundle bundleExtra = intent.getBundleExtra("config");
+        bundleExtra.getClass();
+        SignInConfiguration signInConfiguration = (SignInConfiguration) bundleExtra.getParcelable("config");
+        if (signInConfiguration == null) {
+            Log.e("AuthSignInClient", "Activity started with invalid configuration.");
+            setResult(0);
+            finish();
+            return;
+        }
+        this.zbc = signInConfiguration;
+        if (bundle == null) {
+            if (zba) {
                 setResult(0);
-                finish();
+                zbd(12502);
                 return;
-            }
-            this.zbc = signInConfiguration;
-            if (bundle == null) {
-                if (zba) {
-                    setResult(0);
-                    zbd(12502);
-                    return;
-                }
+            } else {
                 zba = true;
                 zbe(action);
                 return;
             }
-            boolean z = bundle.getBoolean("signingInGoogleApiClients");
-            this.zbd = z;
-            if (z) {
-                this.zbe = bundle.getInt("signInResultCode");
-                Intent intent2 = (Intent) bundle.getParcelable("signInResultData");
-                intent2.getClass();
-                this.zbf = intent2;
-                zbc();
-            }
+        }
+        boolean z = bundle.getBoolean("signingInGoogleApiClients");
+        this.zbd = z;
+        if (z) {
+            this.zbe = bundle.getInt("signInResultCode");
+            Intent intent2 = (Intent) bundle.getParcelable("signInResultData");
+            intent2.getClass();
+            this.zbf = intent2;
+            zbc();
         }
     }
 

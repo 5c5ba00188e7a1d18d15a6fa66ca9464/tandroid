@@ -4,6 +4,7 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public class CustomProperties {
     private static final Pattern KEY_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]*$");
@@ -27,13 +28,14 @@ public class CustomProperties {
             sb.append("\" must match \"");
             sb.append(KEY_PATTERN);
             str2 = "\"";
-        } else if (str.length() <= 128) {
-            if (this.mProperties.containsKey(str)) {
+        } else {
+            if (str.length() <= 128) {
+                if (!this.mProperties.containsKey(str)) {
+                    return true;
+                }
                 AppCenterLog.warn("AppCenter", "Custom property \"" + str + "\" is already set or cleared and will be overridden.");
                 return true;
             }
-            return true;
-        } else {
             sb = new StringBuilder();
             sb.append("Custom property \"");
             sb.append(str);
@@ -50,9 +52,10 @@ public class CustomProperties {
         String str3;
         if (str2 == null) {
             str3 = "Custom property value cannot be null, did you mean to call clear?";
-        } else if (str2.length() <= 128) {
-            return true;
         } else {
+            if (str2.length() <= 128) {
+                return true;
+            }
             str3 = "Custom property \"" + str + "\" value length cannot be longer than 128 characters.";
         }
         AppCenterLog.error("AppCenter", str3);

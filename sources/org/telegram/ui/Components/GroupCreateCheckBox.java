@@ -10,6 +10,7 @@ import android.graphics.PorterDuffXfermode;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class GroupCreateCheckBox extends View {
     private static Paint eraser;
@@ -144,10 +145,10 @@ public class GroupCreateCheckBox extends View {
         this.isChecked = z;
         if (this.attachedToWindow && z2) {
             animateToCheckedState(z);
-            return;
+        } else {
+            cancelCheckAnimator();
+            setProgress(z ? 1.0f : 0.0f);
         }
-        cancelCheckAnimator();
-        setProgress(z ? 1.0f : 0.0f);
     }
 
     public void setColorKeysOverrides(int i, int i2, int i3) {

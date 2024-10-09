@@ -1,4 +1,5 @@
 package j$.util.concurrent;
+
 /* loaded from: classes2.dex */
 final class l extends k {
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -9,6 +9,7 @@ import androidx.emoji2.text.EmojiCompat;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 final class EmojiTextWatcher implements TextWatcher {
     private final EditText mEditText;

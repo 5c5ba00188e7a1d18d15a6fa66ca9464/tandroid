@@ -5,9 +5,11 @@ import android.util.Log;
 import androidx.loader.content.AsyncTaskLoader;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.internal.SignInConnectionListener;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
 /* loaded from: classes.dex */
 public final class zbc extends AsyncTaskLoader implements SignInConnectionListener {
     private final Semaphore zba;
@@ -21,9 +23,10 @@ public final class zbc extends AsyncTaskLoader implements SignInConnectionListen
 
     @Override // androidx.loader.content.AsyncTaskLoader
     public final /* bridge */ /* synthetic */ Object loadInBackground() {
+        Iterator it = this.zbb.iterator();
         int i = 0;
-        for (GoogleApiClient googleApiClient : this.zbb) {
-            if (googleApiClient.maybeSignIn(this)) {
+        while (it.hasNext()) {
+            if (((GoogleApiClient) it.next()).maybeSignIn(this)) {
                 i++;
             }
         }

@@ -1,6 +1,7 @@
 package com.google.firebase.installations;
 
 import com.google.firebase.installations.InstallationTokenResult;
+
 /* loaded from: classes.dex */
 final class AutoValue_InstallationTokenResult extends InstallationTokenResult {
     private final String token;
@@ -33,11 +34,11 @@ final class AutoValue_InstallationTokenResult extends InstallationTokenResult {
 
         @Override // com.google.firebase.installations.InstallationTokenResult.Builder
         public InstallationTokenResult.Builder setToken(String str) {
-            if (str != null) {
-                this.token = str;
-                return this;
+            if (str == null) {
+                throw new NullPointerException("Null token");
             }
-            throw new NullPointerException("Null token");
+            this.token = str;
+            return this;
         }
 
         @Override // com.google.firebase.installations.InstallationTokenResult.Builder
@@ -63,11 +64,11 @@ final class AutoValue_InstallationTokenResult extends InstallationTokenResult {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof InstallationTokenResult) {
-            InstallationTokenResult installationTokenResult = (InstallationTokenResult) obj;
-            return this.token.equals(installationTokenResult.getToken()) && this.tokenExpirationTimestamp == installationTokenResult.getTokenExpirationTimestamp() && this.tokenCreationTimestamp == installationTokenResult.getTokenCreationTimestamp();
+        if (!(obj instanceof InstallationTokenResult)) {
+            return false;
         }
-        return false;
+        InstallationTokenResult installationTokenResult = (InstallationTokenResult) obj;
+        return this.token.equals(installationTokenResult.getToken()) && this.tokenExpirationTimestamp == installationTokenResult.getTokenExpirationTimestamp() && this.tokenCreationTimestamp == installationTokenResult.getTokenCreationTimestamp();
     }
 
     @Override // com.google.firebase.installations.InstallationTokenResult
@@ -86,9 +87,10 @@ final class AutoValue_InstallationTokenResult extends InstallationTokenResult {
     }
 
     public int hashCode() {
+        int hashCode = (this.token.hashCode() ^ 1000003) * 1000003;
         long j = this.tokenExpirationTimestamp;
         long j2 = this.tokenCreationTimestamp;
-        return ((((this.token.hashCode() ^ 1000003) * 1000003) ^ ((int) (j ^ (j >>> 32)))) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)));
+        return ((hashCode ^ ((int) (j ^ (j >>> 32)))) * 1000003) ^ ((int) (j2 ^ (j2 >>> 32)));
     }
 
     public String toString() {

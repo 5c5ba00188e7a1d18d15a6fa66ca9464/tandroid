@@ -11,6 +11,7 @@ import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
+
 /* loaded from: classes3.dex */
 public class GroupCallStatusIcon {
     Callback callback;
@@ -171,8 +172,8 @@ public class GroupCallStatusIcon {
         updateIcon(z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:87:0x012a  */
-    /* JADX WARN: Removed duplicated region for block: B:93:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:64:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

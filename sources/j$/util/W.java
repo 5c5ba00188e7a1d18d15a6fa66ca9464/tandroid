@@ -2,6 +2,7 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 final class W implements Q {
     private final Object[] a;
@@ -27,12 +28,13 @@ final class W implements Q {
             return;
         }
         this.b = i2;
-        if (i < i2) {
-            do {
-                consumer.accept(objArr[i]);
-                i++;
-            } while (i < i2);
+        if (i >= i2) {
+            return;
         }
+        do {
+            consumer.r(objArr[i]);
+            i++;
+        } while (i < i2);
     }
 
     @Override // j$.util.Q
@@ -71,7 +73,7 @@ final class W implements Q {
             return false;
         }
         this.b = i + 1;
-        consumer.accept(this.a[i]);
+        consumer.r(this.a[i]);
         return true;
     }
 

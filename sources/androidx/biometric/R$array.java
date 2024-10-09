@@ -1,4 +1,5 @@
 package androidx.biometric;
+
 /* loaded from: classes.dex */
 public abstract class R$array {
     public static final int assume_strong_biometrics_models = 2130903041;

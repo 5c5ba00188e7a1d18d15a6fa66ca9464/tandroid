@@ -13,6 +13,7 @@ import androidx.appcompat.R$id;
 import androidx.appcompat.R$styleable;
 import androidx.core.view.ViewCompat;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public class ActionBarContainer extends FrameLayout {
     private View mActionBarView;
@@ -133,8 +134,10 @@ public class ActionBarContainer extends FrameLayout {
         boolean z4 = (view2 == null || view2.getVisibility() == 8) ? false : true;
         if (view2 != null && view2.getVisibility() != 8) {
             int measuredHeight = getMeasuredHeight();
-            int i5 = ((FrameLayout.LayoutParams) view2.getLayoutParams()).bottomMargin;
-            view2.layout(i, (measuredHeight - view2.getMeasuredHeight()) - i5, i3, measuredHeight - i5);
+            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view2.getLayoutParams();
+            int measuredHeight2 = measuredHeight - view2.getMeasuredHeight();
+            int i5 = layoutParams.bottomMargin;
+            view2.layout(i, measuredHeight2 - i5, i3, measuredHeight - i5);
         }
         if (this.mIsSplit) {
             Drawable drawable3 = this.mSplitBackground;
@@ -179,8 +182,8 @@ public class ActionBarContainer extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0055  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x005a  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0055  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x005a  */
     @Override // android.widget.FrameLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -203,10 +206,11 @@ public class ActionBarContainer extends FrameLayout {
         }
         if (!isCollapsed(this.mActionBarView)) {
             view = this.mActionBarView;
-        } else if (isCollapsed(this.mContextView)) {
-            i3 = 0;
-            setMeasuredDimension(getMeasuredWidth(), Math.min(i3 + getMeasuredHeightWithMargins(this.mTabContainer), mode != Integer.MIN_VALUE ? View.MeasureSpec.getSize(i2) : ConnectionsManager.DEFAULT_DATACENTER_ID));
         } else {
+            if (isCollapsed(this.mContextView)) {
+                i3 = 0;
+                setMeasuredDimension(getMeasuredWidth(), Math.min(i3 + getMeasuredHeightWithMargins(this.mTabContainer), mode != Integer.MIN_VALUE ? View.MeasureSpec.getSize(i2) : ConnectionsManager.DEFAULT_DATACENTER_ID));
+            }
             view = this.mContextView;
         }
         i3 = getMeasuredHeightWithMargins(view);

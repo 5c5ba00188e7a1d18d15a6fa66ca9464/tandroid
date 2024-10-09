@@ -19,6 +19,7 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -38,6 +39,7 @@ import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
@@ -65,6 +67,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.Components.WebPlayerView;
 import org.webrtc.MediaStreamTrack;
+
 /* loaded from: classes3.dex */
 public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerDelegate, AudioManager.OnAudioFocusChangeListener {
     private static int lastContainerId = 4001;
@@ -262,13 +265,13 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             show(false, true);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:44:0x0148  */
-        /* JADX WARN: Removed duplicated region for block: B:47:0x015c  */
-        /* JADX WARN: Removed duplicated region for block: B:49:0x0160  */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x018f  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x0193  */
-        /* JADX WARN: Removed duplicated region for block: B:62:0x01b9  */
-        /* JADX WARN: Removed duplicated region for block: B:71:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x0148  */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x015c  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x018f  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x0193  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x01b9  */
+        /* JADX WARN: Removed duplicated region for block: B:62:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x0160  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -285,8 +288,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             if (WebPlayerView.this.drawImage) {
                 if (WebPlayerView.this.firstFrameRendered && WebPlayerView.this.currentAlpha != 0.0f) {
                     long currentTimeMillis = System.currentTimeMillis();
+                    long j = currentTimeMillis - WebPlayerView.this.lastUpdateTime;
                     WebPlayerView.this.lastUpdateTime = currentTimeMillis;
-                    WebPlayerView.access$4724(WebPlayerView.this, ((float) (currentTimeMillis - WebPlayerView.this.lastUpdateTime)) / 150.0f);
+                    WebPlayerView.access$4724(WebPlayerView.this, ((float) j) / 150.0f);
                     if (WebPlayerView.this.currentAlpha < 0.0f) {
                         WebPlayerView.this.currentAlpha = 0.0f;
                     }
@@ -320,30 +324,31 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             if (WebPlayerView.this.isInline) {
                 dp = measuredHeight - AndroidUtilities.dp(3.0f);
                 dp2 = AndroidUtilities.dp(7.0f);
-            } else if (WebPlayerView.this.inFullscreen) {
-                int dp5 = measuredHeight - AndroidUtilities.dp(29.0f);
-                int dp6 = AndroidUtilities.dp(36.0f) + this.durationWidth;
-                dp3 = (measuredWidth - AndroidUtilities.dp(76.0f)) - this.durationWidth;
-                dp4 = measuredHeight - AndroidUtilities.dp(28.0f);
-                i = dp5;
-                i2 = dp6;
+            } else {
                 if (WebPlayerView.this.inFullscreen) {
-                    canvas.drawRect(i2, i, dp3, AndroidUtilities.dp(3.0f) + i, this.progressInnerPaint);
-                }
-                int i5 = !this.progressPressed ? this.currentProgressX : ((int) ((dp3 - i2) * (this.progress / this.duration))) + i2;
-                i3 = this.bufferedPosition;
-                if (i3 != 0 && (i4 = this.duration) != 0) {
-                    float f = i2;
-                    canvas.drawRect(f, i, ((dp3 - i2) * (i3 / i4)) + f, AndroidUtilities.dp(3.0f) + i, !WebPlayerView.this.inFullscreen ? this.progressBufferedPaint : this.progressInnerPaint);
-                }
-                float f2 = i5;
-                canvas.drawRect(i2, i, f2, i + AndroidUtilities.dp(3.0f), this.progressPaint);
-                if (WebPlayerView.this.isInline) {
-                    canvas.drawCircle(f2, dp4, AndroidUtilities.dp(this.progressPressed ? 7.0f : 5.0f), this.progressPaint);
+                    int dp5 = measuredHeight - AndroidUtilities.dp(29.0f);
+                    int dp6 = AndroidUtilities.dp(36.0f) + this.durationWidth;
+                    dp3 = (measuredWidth - AndroidUtilities.dp(76.0f)) - this.durationWidth;
+                    dp4 = measuredHeight - AndroidUtilities.dp(28.0f);
+                    i = dp5;
+                    i2 = dp6;
+                    if (WebPlayerView.this.inFullscreen) {
+                        canvas.drawRect(i2, i, dp3, AndroidUtilities.dp(3.0f) + i, this.progressInnerPaint);
+                    }
+                    int i5 = !this.progressPressed ? this.currentProgressX : ((int) ((dp3 - i2) * (this.progress / this.duration))) + i2;
+                    i3 = this.bufferedPosition;
+                    if (i3 != 0 && (i4 = this.duration) != 0) {
+                        float f = i2;
+                        canvas.drawRect(f, i, ((dp3 - i2) * (i3 / i4)) + f, AndroidUtilities.dp(3.0f) + i, !WebPlayerView.this.inFullscreen ? this.progressBufferedPaint : this.progressInnerPaint);
+                    }
+                    float f2 = i5;
+                    canvas.drawRect(i2, i, f2, i + AndroidUtilities.dp(3.0f), this.progressPaint);
+                    if (WebPlayerView.this.isInline) {
+                        canvas.drawCircle(f2, dp4, AndroidUtilities.dp(this.progressPressed ? 7.0f : 5.0f), this.progressPaint);
+                        return;
+                    }
                     return;
                 }
-                return;
-            } else {
                 dp = measuredHeight - AndroidUtilities.dp(13.0f);
                 dp2 = AndroidUtilities.dp(12.0f);
             }
@@ -367,15 +372,15 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
 
         @Override // android.view.ViewGroup
         public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            if (motionEvent.getAction() == 0) {
-                if (this.isVisible) {
-                    onTouchEvent(motionEvent);
-                    return this.progressPressed;
-                }
-                show(true, true);
-                return true;
+            if (motionEvent.getAction() != 0) {
+                return super.onInterceptTouchEvent(motionEvent);
             }
-            return super.onInterceptTouchEvent(motionEvent);
+            if (this.isVisible) {
+                onTouchEvent(motionEvent);
+                return this.progressPressed;
+            }
+            show(true, true);
+            return true;
         }
 
         @Override // android.view.View
@@ -487,7 +492,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 if (z2) {
                     AnimatorSet animatorSet3 = new AnimatorSet();
                     this.currentAnimation = animatorSet3;
-                    animatorSet3.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 1.0f));
+                    animatorSet3.playTogether(ObjectAnimator.ofFloat(this, (Property<ControlsView, Float>) View.ALPHA, 1.0f));
                     this.currentAnimation.setDuration(150L);
                     animatorSet = this.currentAnimation;
                     animatorListenerAdapter = new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.WebPlayerView.ControlsView.1
@@ -505,7 +510,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 if (z2) {
                     AnimatorSet animatorSet4 = new AnimatorSet();
                     this.currentAnimation = animatorSet4;
-                    animatorSet4.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f));
+                    animatorSet4.playTogether(ObjectAnimator.ofFloat(this, (Property<ControlsView, Float>) View.ALPHA, 0.0f));
                     this.currentAnimation.setDuration(150L);
                     animatorSet = this.currentAnimation;
                     animatorListenerAdapter = new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.WebPlayerView.ControlsView.2
@@ -619,8 +624,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 if (matcher.find()) {
                     String group = matcher.group();
                     if (!this.codeLines.contains(group)) {
-                        ArrayList arrayList = this.codeLines;
-                        arrayList.add(group + ";");
+                        this.codeLines.add(group + ";");
                     }
                     buildFunction(matcher.group(1).split(","), matcher.group(2));
                 }
@@ -669,7 +673,8 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 while (true) {
                     if (!matcher.find()) {
                         break;
-                    } else if (matcher.group(0).indexOf(48) == 40) {
+                    }
+                    if (matcher.group(0).indexOf(48) == 40) {
                         i2++;
                     } else {
                         i2--;
@@ -1050,9 +1055,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$doInBackground$0(String str) {
             String[] strArr = this.result;
-            String str2 = strArr[0];
-            String str3 = this.sig;
-            strArr[0] = str2.replace(str3, "/signature/" + str.substring(1, str.length() - 1));
+            strArr[0] = strArr[0].replace(this.sig, "/signature/" + str.substring(1, str.length() - 1));
             this.countDownLatch.countDown();
         }
 
@@ -1069,8 +1072,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
             try {
                 String encodeToString = Base64.encodeToString(("<script>" + str + "</script>").getBytes("UTF-8"), 0);
-                WebView webView = WebPlayerView.this.webView;
-                webView.loadUrl("data:text/html;charset=utf-8;base64," + encodeToString);
+                WebPlayerView.this.webView.loadUrl("data:text/html;charset=utf-8;base64," + encodeToString);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -1079,88 +1081,109 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         /* JADX INFO: Access modifiers changed from: private */
         public void onInterfaceResult(String str) {
             String[] strArr = this.result;
-            String str2 = strArr[0];
-            String str3 = this.sig;
-            strArr[0] = str2.replace(str3, "/signature/" + str);
+            strArr[0] = strArr[0].replace(this.sig, "/signature/" + str);
             this.countDownLatch.countDown();
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:100:0x026c, code lost:
-            if (r2[0] != null) goto L125;
+        /* JADX WARN: Code restructure failed: missing block: B:121:0x0267, code lost:
+        
+            r2 = r23.result;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:101:0x026e, code lost:
-            if (r10 == null) goto L125;
+        /* JADX WARN: Code restructure failed: missing block: B:122:0x026c, code lost:
+        
+            if (r2[0] != null) goto L103;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:102:0x0270, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:123:0x026e, code lost:
+        
+            if (r10 == null) goto L103;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:124:0x0270, code lost:
+        
             r2[0] = r10;
             r2[1] = "other";
          */
-        /* JADX WARN: Code restructure failed: missing block: B:103:0x0277, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:125:0x0277, code lost:
+        
             r2 = r2[0];
          */
-        /* JADX WARN: Code restructure failed: missing block: B:104:0x0279, code lost:
-            if (r2 == null) goto L208;
+        /* JADX WARN: Code restructure failed: missing block: B:126:0x0279, code lost:
+        
+            if (r2 == null) goto L109;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:105:0x027b, code lost:
-            if (r0 != false) goto L130;
+        /* JADX WARN: Code restructure failed: missing block: B:127:0x027b, code lost:
+        
+            if (r0 != false) goto L110;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:107:0x0281, code lost:
-            if (r2.contains("/s/") == false) goto L208;
+        /* JADX WARN: Code restructure failed: missing block: B:129:0x0281, code lost:
+        
+            if (r2.contains("/s/") == false) goto L109;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:109:0x0284, code lost:
-            r6 = null;
+        /* JADX WARN: Code restructure failed: missing block: B:130:0x0287, code lost:
+        
+            if (r3 == null) goto L109;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:110:0x0287, code lost:
-            if (r3 == null) goto L208;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:111:0x0289, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:131:0x0289, code lost:
+        
             r0 = r23.result[0].indexOf("/s/");
             r2 = r23.result[0].indexOf(47, r0 + 10);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:112:0x029e, code lost:
-            if (r0 == (-1)) goto L207;
+        /* JADX WARN: Code restructure failed: missing block: B:132:0x029e, code lost:
+        
+            if (r0 == (-1)) goto L176;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:113:0x02a0, code lost:
-            if (r2 != (-1)) goto L135;
+        /* JADX WARN: Code restructure failed: missing block: B:133:0x02a0, code lost:
+        
+            if (r2 != (-1)) goto L115;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:114:0x02a2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:134:0x02a2, code lost:
+        
             r2 = r23.result[0].length();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:115:0x02aa, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:135:0x02aa, code lost:
+        
             r23.sig = r23.result[0].substring(r0, r2);
             r0 = org.telegram.ui.Components.WebPlayerView.jsPattern.matcher(r3);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:116:0x02c0, code lost:
-            if (r0.find() == false) goto L137;
+        /* JADX WARN: Code restructure failed: missing block: B:136:0x02c0, code lost:
+        
+            if (r0.find() == false) goto L123;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:117:0x02c2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:200:0x02c2, code lost:
+        
             r0 = new org.json.JSONTokener(r0.group(1)).nextValue();
          */
-        /* JADX WARN: Code restructure failed: missing block: B:118:0x02d2, code lost:
-            if ((r0 instanceof java.lang.String) == false) goto L137;
+        /* JADX WARN: Code restructure failed: missing block: B:201:0x02d2, code lost:
+        
+            if ((r0 instanceof java.lang.String) == false) goto L123;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:120:0x02d6, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:203:0x02d6, code lost:
+        
             r2 = (java.lang.String) r0;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:121:0x02d8, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:205:0x02d8, code lost:
+        
             r0 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:122:0x02d9, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:206:0x02d9, code lost:
+        
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:178:0x0444, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:208:0x0284, code lost:
+        
+            r6 = null;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:209:0x0444, code lost:
+        
             r7 = r0;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:99:0x0267, code lost:
-            r2 = r23.result;
-         */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:143:0x0369 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:145:0x036b  */
-        /* JADX WARN: Removed duplicated region for block: B:167:0x03d4  */
-        /* JADX WARN: Removed duplicated region for block: B:181:0x044b A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:194:0x0395 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:152:0x0369 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:153:0x036b  */
+        /* JADX WARN: Removed duplicated region for block: B:162:0x03d4  */
+        /* JADX WARN: Removed duplicated region for block: B:171:0x044b A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:181:0x0395 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Type inference failed for: r16v0 */
         /* JADX WARN: Type inference failed for: r16v1 */
         /* JADX WARN: Type inference failed for: r16v2, types: [java.lang.String] */
         /* JADX WARN: Type inference failed for: r16v3 */
@@ -1172,7 +1195,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         public String[] doInBackground(Void... voidArr) {
             String[] strArr;
             boolean z;
-            Matcher matcher;
             String str;
             String str2;
             String str3;
@@ -1185,7 +1207,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             boolean z2;
             boolean z3;
             String str8;
-            Matcher matcher2;
             String downloadUrlContent = WebPlayerView.this.downloadUrlContent(this, "https://www.youtube.com/embed/" + this.videoId);
             String[] strArr2 = null;
             if (!isCancelled()) {
@@ -1200,8 +1221,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     FileLog.e(e);
                 }
                 if (downloadUrlContent != null) {
-                    if (WebPlayerView.stsPattern.matcher(downloadUrlContent).find()) {
-                        str9 = str9 + "&sts=" + downloadUrlContent.substring(matcher2.start() + 6, matcher2.end());
+                    Matcher matcher = WebPlayerView.stsPattern.matcher(downloadUrlContent);
+                    if (matcher.find()) {
+                        str9 = str9 + "&sts=" + downloadUrlContent.substring(matcher.start() + 6, matcher.end());
                     } else {
                         str9 = str9 + "&sts=";
                     }
@@ -1224,7 +1246,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     }
                     if (downloadUrlContent2 != null) {
                         String[] split = downloadUrlContent2.split("&");
-                        String[] strArr4 = strArr2;
+                        ?? r16 = strArr2;
                         String str11 = str10;
                         int i3 = 0;
                         z2 = false;
@@ -1252,7 +1274,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                         boolean z6 = false;
                                         while (i4 < split4.length) {
                                             String[] split5 = split4[i4].split("=");
-                                            String[] strArr5 = split4;
+                                            String[] strArr4 = split4;
                                             str8 = str9;
                                             try {
                                                 if (split5[0].startsWith("type")) {
@@ -1270,7 +1292,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                                     break;
                                                 }
                                                 i4++;
-                                                split4 = strArr5;
+                                                split4 = strArr4;
                                                 str9 = str8;
                                             } catch (Exception e3) {
                                                 e = e3;
@@ -1280,7 +1302,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                                 c = 1;
                                                 c2 = 0;
                                                 i2 = 2;
-                                                strArr4 = strArr4;
+                                                r16 = r16;
                                             }
                                         }
                                     } catch (Exception e4) {
@@ -1299,7 +1321,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                                 } else if (split[i3].startsWith("hlsvp")) {
                                     String[] split7 = split[i3].split("=");
                                     if (split7.length == 2) {
-                                        strArr4 = URLDecoder.decode(split7[1], "UTF-8");
+                                        r16 = URLDecoder.decode(split7[1], "UTF-8");
                                     }
                                 } else if (split[i3].startsWith("livestream")) {
                                     String[] split8 = split[i3].split("=");
@@ -1313,12 +1335,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                             c = 1;
                             c2 = 0;
                             i2 = 2;
-                            strArr4 = strArr4;
+                            r16 = r16;
                         }
                         str6 = str9;
                         z4 = z5;
                         str10 = str11;
-                        str7 = strArr4;
+                        str7 = r16;
                     } else {
                         str6 = str9;
                         str7 = null;
@@ -1329,9 +1351,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                         if (str7 == null || z4 || str7.contains("/s/")) {
                             return null;
                         }
-                        String[] strArr6 = this.result;
-                        strArr6[0] = str7;
-                        strArr6[1] = "hls";
+                        String[] strArr5 = this.result;
+                        strArr5[0] = str7;
+                        strArr5[1] = "hls";
                     }
                     if (z3) {
                         break;
@@ -1347,8 +1369,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
             String str13 = null;
             if (str13 != null) {
-                if (WebPlayerView.playerIdPattern.matcher(str13).find()) {
-                    str = matcher.group(1) + matcher.group(2);
+                Matcher matcher2 = WebPlayerView.playerIdPattern.matcher(str13);
+                if (matcher2.find()) {
+                    str = matcher2.group(1) + matcher2.group(2);
                 } else {
                     str = null;
                 }
@@ -1554,16 +1577,16 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
 
             @Override // android.view.TextureView.SurfaceTextureListener
             public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-                if (WebPlayerView.this.changingTextureView) {
-                    if (WebPlayerView.this.switchingInlineMode) {
-                        WebPlayerView.this.waitingForFirstTextureUpload = 2;
-                    }
-                    WebPlayerView.this.textureView.setSurfaceTexture(surfaceTexture);
-                    WebPlayerView.this.textureView.setVisibility(0);
-                    WebPlayerView.this.changingTextureView = false;
-                    return false;
+                if (!WebPlayerView.this.changingTextureView) {
+                    return true;
                 }
-                return true;
+                if (WebPlayerView.this.switchingInlineMode) {
+                    WebPlayerView.this.waitingForFirstTextureUpload = 2;
+                }
+                WebPlayerView.this.textureView.setSurfaceTexture(surfaceTexture);
+                WebPlayerView.this.textureView.setVisibility(0);
+                WebPlayerView.this.changingTextureView = false;
+                return false;
             }
 
             @Override // android.view.TextureView.SurfaceTextureListener
@@ -1769,8 +1792,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         if (this.hasAudioFocus) {
             return;
         }
+        AudioManager audioManager = (AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
         this.hasAudioFocus = true;
-        if (((AudioManager) ApplicationLoader.applicationContext.getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND)).requestAudioFocus(this, 3, 1) == 1) {
+        if (audioManager.requestAudioFocus(this, 3, 1) == 1) {
             this.audioFocus = 2;
         }
     }
@@ -1898,15 +1922,22 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
             this.hasAudioFocus = false;
             this.audioFocus = 0;
-        } else if (i == 1) {
+            return;
+        }
+        if (i == 1) {
             this.audioFocus = 2;
             if (this.resumeAudioOnFocusGain) {
                 this.resumeAudioOnFocusGain = false;
                 this.videoPlayer.play();
+                return;
             }
-        } else if (i == -3) {
+            return;
+        }
+        if (i == -3) {
             this.audioFocus = 1;
-        } else if (i == -2) {
+            return;
+        }
+        if (i == -2) {
             this.audioFocus = 0;
             if (this.videoPlayer.isPlaying()) {
                 this.resumeAudioOnFocusGain = true;
@@ -1946,9 +1977,8 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         updateShareButton();
         updateInlineButton();
         this.controlsView.invalidate();
-        int i = this.seekToTime;
-        if (i != -1) {
-            this.videoPlayer.seekTo(i * 1000);
+        if (this.seekToTime != -1) {
+            this.videoPlayer.seekTo(r0 * 1000);
         }
     }
 
@@ -2089,16 +2119,16 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             this.playButton.setImageResource(this.isInline ? R.drawable.ic_pauseinline : R.drawable.ic_pause);
             AndroidUtilities.runOnUIThread(this.progressRunnable, 500L);
             checkAudioFocus();
-            return;
-        }
-        if (this.isCompleted) {
-            imageView = this.playButton;
-            i = this.isInline ? R.drawable.ic_againinline : R.drawable.ic_again;
         } else {
-            imageView = this.playButton;
-            i = this.isInline ? R.drawable.ic_playinline : R.drawable.ic_play;
+            if (this.isCompleted) {
+                imageView = this.playButton;
+                i = this.isInline ? R.drawable.ic_againinline : R.drawable.ic_again;
+            } else {
+                imageView = this.playButton;
+                i = this.isInline ? R.drawable.ic_playinline : R.drawable.ic_play;
+            }
+            imageView.setImageResource(i);
         }
-        imageView.setImageResource(i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2111,59 +2141,59 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     }
 
     public boolean canHandleUrl(String str) {
-        if (str != null) {
-            if (str.endsWith(".mp4")) {
+        if (str == null) {
+            return false;
+        }
+        if (str.endsWith(".mp4")) {
+            return true;
+        }
+        try {
+            Matcher matcher = youtubeIdRegex.matcher(str);
+            if ((matcher.find() ? matcher.group(1) : null) != null) {
                 return true;
             }
-            try {
-                Matcher matcher = youtubeIdRegex.matcher(str);
-                if ((matcher.find() ? matcher.group(1) : null) != null) {
-                    return true;
-                }
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            try {
-                Matcher matcher2 = vimeoIdRegex.matcher(str);
-                if ((matcher2.find() ? matcher2.group(3) : null) != null) {
-                    return true;
-                }
-            } catch (Exception e2) {
-                FileLog.e(e2);
-            }
-            try {
-                Matcher matcher3 = aparatIdRegex.matcher(str);
-                if ((matcher3.find() ? matcher3.group(1) : null) != null) {
-                    return true;
-                }
-            } catch (Exception e3) {
-                FileLog.e(e3);
-            }
-            try {
-                Matcher matcher4 = twitchClipIdRegex.matcher(str);
-                if ((matcher4.find() ? matcher4.group(1) : null) != null) {
-                    return true;
-                }
-            } catch (Exception e4) {
-                FileLog.e(e4);
-            }
-            try {
-                Matcher matcher5 = twitchStreamIdRegex.matcher(str);
-                if ((matcher5.find() ? matcher5.group(1) : null) != null) {
-                    return true;
-                }
-            } catch (Exception e5) {
-                FileLog.e(e5);
-            }
-            try {
-                Matcher matcher6 = coubIdRegex.matcher(str);
-                return (matcher6.find() ? matcher6.group(1) : null) != null;
-            } catch (Exception e6) {
-                FileLog.e(e6);
-                return false;
-            }
+        } catch (Exception e) {
+            FileLog.e(e);
         }
-        return false;
+        try {
+            Matcher matcher2 = vimeoIdRegex.matcher(str);
+            if ((matcher2.find() ? matcher2.group(3) : null) != null) {
+                return true;
+            }
+        } catch (Exception e2) {
+            FileLog.e(e2);
+        }
+        try {
+            Matcher matcher3 = aparatIdRegex.matcher(str);
+            if ((matcher3.find() ? matcher3.group(1) : null) != null) {
+                return true;
+            }
+        } catch (Exception e3) {
+            FileLog.e(e3);
+        }
+        try {
+            Matcher matcher4 = twitchClipIdRegex.matcher(str);
+            if ((matcher4.find() ? matcher4.group(1) : null) != null) {
+                return true;
+            }
+        } catch (Exception e4) {
+            FileLog.e(e4);
+        }
+        try {
+            Matcher matcher5 = twitchStreamIdRegex.matcher(str);
+            if ((matcher5.find() ? matcher5.group(1) : null) != null) {
+                return true;
+            }
+        } catch (Exception e5) {
+            FileLog.e(e5);
+        }
+        try {
+            Matcher matcher6 = coubIdRegex.matcher(str);
+            return (matcher6.find() ? matcher6.group(1) : null) != null;
+        } catch (Exception e6) {
+            FileLog.e(e6);
+            return false;
+        }
     }
 
     public void destroy() {
@@ -2180,19 +2210,20 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         return downloadUrlContent(asyncTask, str, null, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:93:0x016c, code lost:
-        if (r3 == (-1)) goto L72;
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x016c, code lost:
+    
+        if (r3 == (-1)) goto L102;
      */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x018c  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x0191  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x0196 A[ORIG_RETURN, RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x0181 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0127 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x018c  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0191  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0196 A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0127 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0181 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected String downloadUrlContent(AsyncTask asyncTask, String str, HashMap hashMap, boolean z) {
-        HttpURLConnection httpURLConnection;
+        URLConnection uRLConnection;
         boolean z2;
         InputStream inputStream;
         StringBuilder sb;
@@ -2202,51 +2233,51 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         boolean z4 = true;
         try {
             url = new URL(str);
-            httpURLConnection = url.openConnection();
+            uRLConnection = url.openConnection();
         } catch (Throwable th) {
             th = th;
-            httpURLConnection = null;
+            uRLConnection = null;
         }
         try {
-            httpURLConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20150101 Firefox/47.0 (Chrome)");
+            uRLConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20150101 Firefox/47.0 (Chrome)");
             if (z) {
-                httpURLConnection.addRequestProperty("Accept-Encoding", "gzip, deflate");
+                uRLConnection.addRequestProperty("Accept-Encoding", "gzip, deflate");
             }
-            httpURLConnection.addRequestProperty("Accept-Language", "en-us,en;q=0.5");
-            httpURLConnection.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-            httpURLConnection.addRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
+            uRLConnection.addRequestProperty("Accept-Language", "en-us,en;q=0.5");
+            uRLConnection.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            uRLConnection.addRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
             if (hashMap != null) {
                 for (Map.Entry entry : hashMap.entrySet()) {
-                    httpURLConnection.addRequestProperty((String) entry.getKey(), (String) entry.getValue());
+                    uRLConnection.addRequestProperty((String) entry.getKey(), (String) entry.getValue());
                 }
             }
-            httpURLConnection.setConnectTimeout(5000);
-            httpURLConnection.setReadTimeout(5000);
-            if (httpURLConnection instanceof HttpURLConnection) {
-                HttpURLConnection httpURLConnection2 = (HttpURLConnection) httpURLConnection;
-                httpURLConnection2.setInstanceFollowRedirects(true);
-                int responseCode = httpURLConnection2.getResponseCode();
+            uRLConnection.setConnectTimeout(5000);
+            uRLConnection.setReadTimeout(5000);
+            if (uRLConnection instanceof HttpURLConnection) {
+                HttpURLConnection httpURLConnection = (HttpURLConnection) uRLConnection;
+                httpURLConnection.setInstanceFollowRedirects(true);
+                int responseCode = httpURLConnection.getResponseCode();
                 if (responseCode == 302 || responseCode == 301 || responseCode == 303) {
-                    String headerField = httpURLConnection2.getHeaderField("Location");
-                    String headerField2 = httpURLConnection2.getHeaderField("Set-Cookie");
+                    String headerField = httpURLConnection.getHeaderField("Location");
+                    String headerField2 = httpURLConnection.getHeaderField("Set-Cookie");
                     url = new URL(headerField);
-                    httpURLConnection = url.openConnection();
-                    httpURLConnection.setRequestProperty("Cookie", headerField2);
-                    httpURLConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20150101 Firefox/47.0 (Chrome)");
+                    uRLConnection = url.openConnection();
+                    uRLConnection.setRequestProperty("Cookie", headerField2);
+                    uRLConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20150101 Firefox/47.0 (Chrome)");
                     if (z) {
-                        httpURLConnection.addRequestProperty("Accept-Encoding", "gzip, deflate");
+                        uRLConnection.addRequestProperty("Accept-Encoding", "gzip, deflate");
                     }
-                    httpURLConnection.addRequestProperty("Accept-Language", "en-us,en;q=0.5");
-                    httpURLConnection.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-                    httpURLConnection.addRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
+                    uRLConnection.addRequestProperty("Accept-Language", "en-us,en;q=0.5");
+                    uRLConnection.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+                    uRLConnection.addRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
                     if (hashMap != null) {
                         for (Map.Entry entry2 : hashMap.entrySet()) {
-                            httpURLConnection.addRequestProperty((String) entry2.getKey(), (String) entry2.getValue());
+                            uRLConnection.addRequestProperty((String) entry2.getKey(), (String) entry2.getValue());
                         }
                     }
                 }
             }
-            httpURLConnection.connect();
+            uRLConnection.connect();
         } catch (Throwable th2) {
             th = th2;
             boolean z5 = !(th instanceof SocketTimeoutException) ? !(!(th instanceof UnknownHostException) && (!(th instanceof SocketException) ? (th instanceof FileNotFoundException) : !(th.getMessage() == null || !th.getMessage().contains("ECONNRESET")))) : ApplicationLoader.isNetworkOnline();
@@ -2260,17 +2291,17 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
         if (z) {
             try {
-                gZIPInputStream = new GZIPInputStream(httpURLConnection.getInputStream());
+                gZIPInputStream = new GZIPInputStream(uRLConnection.getInputStream());
             } catch (Exception unused) {
-                httpURLConnection = url.openConnection();
-                httpURLConnection.connect();
+                uRLConnection = url.openConnection();
+                uRLConnection.connect();
             }
             inputStream = gZIPInputStream;
             z2 = true;
             if (z2) {
                 try {
-                    if (httpURLConnection instanceof HttpURLConnection) {
-                        httpURLConnection.getResponseCode();
+                    if (uRLConnection instanceof HttpURLConnection) {
+                        ((HttpURLConnection) uRLConnection).getResponseCode();
                     }
                 } catch (Exception e) {
                     FileLog.e(e);
@@ -2349,7 +2380,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
             }
             return null;
         }
-        gZIPInputStream = httpURLConnection.getInputStream();
+        gZIPInputStream = uRLConnection.getInputStream();
         inputStream = gZIPInputStream;
         z2 = true;
         if (z2) {
@@ -2424,19 +2455,19 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         return this.isInline || this.switchingInlineMode;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:0x014b  */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x015e  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x0186  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x018c  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x019a  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x019f  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x01b8  */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x024f A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x00b7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x00d5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x00f3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0111 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x00b7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x014b  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x015e  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x018c  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x019a  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x019f  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x024f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x01b8  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0186  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0111 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x00f3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x00d5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2464,289 +2495,337 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         if (coubId != null || str == null) {
             str3 = null;
             str4 = null;
-        } else if (!str.endsWith(".mp4")) {
-            try {
-                if (str2 != null) {
-                    try {
-                        Uri parse = Uri.parse(str2);
-                        String queryParameter = parse.getQueryParameter("t");
-                        if (queryParameter == null) {
-                            queryParameter = parse.getQueryParameter("time_continue");
-                        }
-                        if (queryParameter != null) {
-                            if (queryParameter.contains("m")) {
-                                String[] split = queryParameter.split("m");
-                                intValue = (Utilities.parseInt((CharSequence) split[0]).intValue() * 60) + Utilities.parseInt((CharSequence) split[1]).intValue();
-                            } else {
-                                intValue = Utilities.parseInt((CharSequence) queryParameter).intValue();
+        } else {
+            if (!str.endsWith(".mp4")) {
+                try {
+                    if (str2 != null) {
+                        try {
+                            Uri parse = Uri.parse(str2);
+                            String queryParameter = parse.getQueryParameter("t");
+                            if (queryParameter == null) {
+                                queryParameter = parse.getQueryParameter("time_continue");
                             }
-                            this.seekToTime = intValue;
+                            if (queryParameter != null) {
+                                if (queryParameter.contains("m")) {
+                                    String[] split = queryParameter.split("m");
+                                    intValue = (Utilities.parseInt((CharSequence) split[0]).intValue() * 60) + Utilities.parseInt((CharSequence) split[1]).intValue();
+                                } else {
+                                    intValue = Utilities.parseInt((CharSequence) queryParameter).intValue();
+                                }
+                                this.seekToTime = intValue;
+                            }
+                        } catch (Exception e) {
+                            FileLog.e(e);
                         }
-                    } catch (Exception e) {
-                        FileLog.e(e);
                     }
+                    Matcher matcher = youtubeIdRegex.matcher(str);
+                    group5 = matcher.find() ? matcher.group(1) : null;
+                } catch (Exception e2) {
+                    FileLog.e(e2);
                 }
-                Matcher matcher = youtubeIdRegex.matcher(str);
-                group5 = matcher.find() ? matcher.group(1) : null;
-            } catch (Exception e2) {
-                FileLog.e(e2);
-            }
-            if (group5 != null) {
-                str4 = group5;
-                if (str4 == null) {
-                    try {
-                        Matcher matcher2 = vimeoIdRegex.matcher(str);
-                        group = matcher2.find() ? matcher2.group(3) : null;
-                    } catch (Exception e3) {
-                        FileLog.e(e3);
-                    }
-                    if (group != null) {
-                        str8 = group;
-                        if (str8 == null) {
-                            try {
-                                Matcher matcher3 = aparatIdRegex.matcher(str);
-                                group2 = matcher3.find() ? matcher3.group(1) : null;
-                            } catch (Exception e4) {
-                                FileLog.e(e4);
-                            }
-                            if (group2 != null) {
-                                str7 = group2;
-                                if (str7 == null) {
-                                    try {
-                                        Matcher matcher4 = twitchClipIdRegex.matcher(str);
-                                        group3 = matcher4.find() ? matcher4.group(1) : null;
-                                    } catch (Exception e5) {
-                                        FileLog.e(e5);
-                                    }
-                                    if (group3 != null) {
-                                        str6 = group3;
-                                        if (str6 == null) {
-                                            try {
-                                                Matcher matcher5 = twitchStreamIdRegex.matcher(str);
-                                                group4 = matcher5.find() ? matcher5.group(1) : null;
-                                            } catch (Exception e6) {
-                                                FileLog.e(e6);
-                                            }
-                                            if (group4 != null) {
-                                                str5 = group4;
-                                                if (str5 == null) {
-                                                    try {
-                                                        Matcher matcher6 = coubIdRegex.matcher(str);
-                                                        String group6 = matcher6.find() ? matcher6.group(1) : null;
-                                                        if (group6 != null) {
-                                                            coubId = group6;
+                if (group5 != null) {
+                    str4 = group5;
+                    if (str4 == null) {
+                        try {
+                            Matcher matcher2 = vimeoIdRegex.matcher(str);
+                            group = matcher2.find() ? matcher2.group(3) : null;
+                        } catch (Exception e3) {
+                            FileLog.e(e3);
+                        }
+                        if (group != null) {
+                            str8 = group;
+                            if (str8 == null) {
+                                try {
+                                    Matcher matcher3 = aparatIdRegex.matcher(str);
+                                    group2 = matcher3.find() ? matcher3.group(1) : null;
+                                } catch (Exception e4) {
+                                    FileLog.e(e4);
+                                }
+                                if (group2 != null) {
+                                    str7 = group2;
+                                    if (str7 == null) {
+                                        try {
+                                            Matcher matcher4 = twitchClipIdRegex.matcher(str);
+                                            group3 = matcher4.find() ? matcher4.group(1) : null;
+                                        } catch (Exception e5) {
+                                            FileLog.e(e5);
+                                        }
+                                        if (group3 != null) {
+                                            str6 = group3;
+                                            if (str6 == null) {
+                                                try {
+                                                    Matcher matcher5 = twitchStreamIdRegex.matcher(str);
+                                                    group4 = matcher5.find() ? matcher5.group(1) : null;
+                                                } catch (Exception e6) {
+                                                    FileLog.e(e6);
+                                                }
+                                                if (group4 != null) {
+                                                    str5 = group4;
+                                                    if (str5 == null) {
+                                                        try {
+                                                            Matcher matcher6 = coubIdRegex.matcher(str);
+                                                            String group6 = matcher6.find() ? matcher6.group(1) : null;
+                                                            if (group6 != null) {
+                                                                coubId = group6;
+                                                            }
+                                                        } catch (Exception e7) {
+                                                            FileLog.e(e7);
                                                         }
-                                                    } catch (Exception e7) {
-                                                        FileLog.e(e7);
                                                     }
-                                                }
-                                                str3 = null;
-                                                this.initied = false;
-                                                this.isCompleted = false;
-                                                this.isAutoplay = z;
-                                                this.playVideoUrl = null;
-                                                this.playAudioUrl = null;
-                                                destroy();
-                                                this.firstFrameRendered = false;
-                                                this.currentAlpha = 1.0f;
-                                                asyncTask = this.currentTask;
-                                                if (asyncTask != null) {
-                                                    asyncTask.cancel(true);
-                                                    this.currentTask = null;
-                                                }
-                                                updateFullscreenButton();
-                                                updateShareButton();
-                                                updateInlineButton();
-                                                updatePlayButton();
-                                                if (photo != null) {
-                                                    TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 80, true);
-                                                    if (closestPhotoSizeWithSize != null) {
-                                                        this.controlsView.imageReceiver.setImage(null, null, ImageLocation.getForPhoto(closestPhotoSizeWithSize, photo), "80_80_b", 0L, null, obj, 1);
-                                                        this.drawImage = true;
+                                                    str3 = null;
+                                                    this.initied = false;
+                                                    this.isCompleted = false;
+                                                    this.isAutoplay = z;
+                                                    this.playVideoUrl = null;
+                                                    this.playAudioUrl = null;
+                                                    destroy();
+                                                    this.firstFrameRendered = false;
+                                                    this.currentAlpha = 1.0f;
+                                                    asyncTask = this.currentTask;
+                                                    if (asyncTask != null) {
+                                                        asyncTask.cancel(true);
+                                                        this.currentTask = null;
                                                     }
-                                                } else {
-                                                    this.drawImage = false;
-                                                }
-                                                animatorSet = this.progressAnimation;
-                                                if (animatorSet != null) {
-                                                    animatorSet.cancel();
-                                                    this.progressAnimation = null;
-                                                }
-                                                this.isLoading = true;
-                                                this.controlsView.setProgress(0);
-                                                if (str4 != null) {
-                                                    this.currentYoutubeId = str4;
-                                                    str4 = null;
-                                                }
-                                                if (str3 != null) {
-                                                    this.initied = true;
-                                                    this.playVideoUrl = str3;
-                                                    this.playVideoType = "other";
-                                                    if (this.isAutoplay) {
-                                                        preparePlayer();
-                                                    }
-                                                    showProgress(false, false);
-                                                    this.controlsView.show(true, true);
-                                                } else {
-                                                    if (str4 != null) {
-                                                        aparatVideoTask = new YoutubeVideoTask(str4);
-                                                        aparatVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                                                    } else if (str8 != null) {
-                                                        aparatVideoTask = new VimeoVideoTask(str8);
-                                                        aparatVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                                    updateFullscreenButton();
+                                                    updateShareButton();
+                                                    updateInlineButton();
+                                                    updatePlayButton();
+                                                    if (photo != null) {
+                                                        TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 80, true);
+                                                        if (closestPhotoSizeWithSize != null) {
+                                                            this.controlsView.imageReceiver.setImage(null, null, ImageLocation.getForPhoto(closestPhotoSizeWithSize, photo), "80_80_b", 0L, null, obj, 1);
+                                                            this.drawImage = true;
+                                                        }
                                                     } else {
-                                                        if (coubId != null) {
-                                                            CoubVideoTask coubVideoTask = new CoubVideoTask(coubId);
-                                                            coubVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                                                            this.currentTask = coubVideoTask;
-                                                        } else if (str7 != null) {
-                                                            aparatVideoTask = new AparatVideoTask(str7);
+                                                        this.drawImage = false;
+                                                    }
+                                                    animatorSet = this.progressAnimation;
+                                                    if (animatorSet != null) {
+                                                        animatorSet.cancel();
+                                                        this.progressAnimation = null;
+                                                    }
+                                                    this.isLoading = true;
+                                                    this.controlsView.setProgress(0);
+                                                    if (str4 != null) {
+                                                        this.currentYoutubeId = str4;
+                                                        str4 = null;
+                                                    }
+                                                    if (str3 != null) {
+                                                        this.initied = true;
+                                                        this.playVideoUrl = str3;
+                                                        this.playVideoType = "other";
+                                                        if (this.isAutoplay) {
+                                                            preparePlayer();
+                                                        }
+                                                        showProgress(false, false);
+                                                        this.controlsView.show(true, true);
+                                                    } else {
+                                                        if (str4 != null) {
+                                                            aparatVideoTask = new YoutubeVideoTask(str4);
+                                                            aparatVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                                        } else if (str8 != null) {
+                                                            aparatVideoTask = new VimeoVideoTask(str8);
                                                             aparatVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
                                                         } else {
-                                                            if (str6 != null) {
-                                                                TwitchClipVideoTask twitchClipVideoTask = new TwitchClipVideoTask(str, str6);
-                                                                twitchClipVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                                                                this.currentTask = twitchClipVideoTask;
-                                                            } else if (str5 != null) {
-                                                                TwitchStreamVideoTask twitchStreamVideoTask = new TwitchStreamVideoTask(str, str5);
-                                                                twitchStreamVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                                                                this.currentTask = twitchStreamVideoTask;
+                                                            if (coubId != null) {
+                                                                CoubVideoTask coubVideoTask = new CoubVideoTask(coubId);
+                                                                coubVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                                                this.currentTask = coubVideoTask;
+                                                            } else if (str7 != null) {
+                                                                aparatVideoTask = new AparatVideoTask(str7);
+                                                                aparatVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                                            } else {
+                                                                if (str6 != null) {
+                                                                    TwitchClipVideoTask twitchClipVideoTask = new TwitchClipVideoTask(str, str6);
+                                                                    twitchClipVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                                                    this.currentTask = twitchClipVideoTask;
+                                                                } else if (str5 != null) {
+                                                                    TwitchStreamVideoTask twitchStreamVideoTask = new TwitchStreamVideoTask(str, str5);
+                                                                    twitchStreamVideoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+                                                                    this.currentTask = twitchStreamVideoTask;
+                                                                }
+                                                                this.controlsView.show(false, false);
+                                                                showProgress(true, false);
                                                             }
+                                                            this.isStream = true;
                                                             this.controlsView.show(false, false);
                                                             showProgress(true, false);
                                                         }
-                                                        this.isStream = true;
+                                                        this.currentTask = aparatVideoTask;
                                                         this.controlsView.show(false, false);
                                                         showProgress(true, false);
                                                     }
-                                                    this.currentTask = aparatVideoTask;
-                                                    this.controlsView.show(false, false);
-                                                    showProgress(true, false);
+                                                    if (str4 != null && str8 == null && coubId == null && str7 == null && str3 == null && str6 == null && str5 == null) {
+                                                        this.controlsView.setVisibility(8);
+                                                        return false;
+                                                    }
+                                                    this.controlsView.setVisibility(0);
+                                                    return true;
                                                 }
-                                                if (str4 != null && str8 == null && coubId == null && str7 == null && str3 == null && str6 == null && str5 == null) {
-                                                    this.controlsView.setVisibility(8);
-                                                    return false;
-                                                }
-                                                this.controlsView.setVisibility(0);
-                                                return true;
                                             }
+                                            str5 = null;
+                                            if (str5 == null) {
+                                            }
+                                            str3 = null;
+                                            this.initied = false;
+                                            this.isCompleted = false;
+                                            this.isAutoplay = z;
+                                            this.playVideoUrl = null;
+                                            this.playAudioUrl = null;
+                                            destroy();
+                                            this.firstFrameRendered = false;
+                                            this.currentAlpha = 1.0f;
+                                            asyncTask = this.currentTask;
+                                            if (asyncTask != null) {
+                                            }
+                                            updateFullscreenButton();
+                                            updateShareButton();
+                                            updateInlineButton();
+                                            updatePlayButton();
+                                            if (photo != null) {
+                                            }
+                                            animatorSet = this.progressAnimation;
+                                            if (animatorSet != null) {
+                                            }
+                                            this.isLoading = true;
+                                            this.controlsView.setProgress(0);
+                                            if (str4 != null) {
+                                            }
+                                            if (str3 != null) {
+                                            }
+                                            if (str4 != null) {
+                                            }
+                                            this.controlsView.setVisibility(0);
+                                            return true;
                                         }
-                                        str5 = null;
-                                        if (str5 == null) {
-                                        }
-                                        str3 = null;
-                                        this.initied = false;
-                                        this.isCompleted = false;
-                                        this.isAutoplay = z;
-                                        this.playVideoUrl = null;
-                                        this.playAudioUrl = null;
-                                        destroy();
-                                        this.firstFrameRendered = false;
-                                        this.currentAlpha = 1.0f;
-                                        asyncTask = this.currentTask;
-                                        if (asyncTask != null) {
-                                        }
-                                        updateFullscreenButton();
-                                        updateShareButton();
-                                        updateInlineButton();
-                                        updatePlayButton();
-                                        if (photo != null) {
-                                        }
-                                        animatorSet = this.progressAnimation;
-                                        if (animatorSet != null) {
-                                        }
-                                        this.isLoading = true;
-                                        this.controlsView.setProgress(0);
-                                        if (str4 != null) {
-                                        }
-                                        if (str3 != null) {
-                                        }
-                                        if (str4 != null) {
-                                        }
-                                        this.controlsView.setVisibility(0);
-                                        return true;
                                     }
+                                    str6 = null;
+                                    if (str6 == null) {
+                                    }
+                                    str5 = null;
+                                    if (str5 == null) {
+                                    }
+                                    str3 = null;
+                                    this.initied = false;
+                                    this.isCompleted = false;
+                                    this.isAutoplay = z;
+                                    this.playVideoUrl = null;
+                                    this.playAudioUrl = null;
+                                    destroy();
+                                    this.firstFrameRendered = false;
+                                    this.currentAlpha = 1.0f;
+                                    asyncTask = this.currentTask;
+                                    if (asyncTask != null) {
+                                    }
+                                    updateFullscreenButton();
+                                    updateShareButton();
+                                    updateInlineButton();
+                                    updatePlayButton();
+                                    if (photo != null) {
+                                    }
+                                    animatorSet = this.progressAnimation;
+                                    if (animatorSet != null) {
+                                    }
+                                    this.isLoading = true;
+                                    this.controlsView.setProgress(0);
+                                    if (str4 != null) {
+                                    }
+                                    if (str3 != null) {
+                                    }
+                                    if (str4 != null) {
+                                    }
+                                    this.controlsView.setVisibility(0);
+                                    return true;
                                 }
-                                str6 = null;
-                                if (str6 == null) {
-                                }
-                                str5 = null;
-                                if (str5 == null) {
-                                }
-                                str3 = null;
-                                this.initied = false;
-                                this.isCompleted = false;
-                                this.isAutoplay = z;
-                                this.playVideoUrl = null;
-                                this.playAudioUrl = null;
-                                destroy();
-                                this.firstFrameRendered = false;
-                                this.currentAlpha = 1.0f;
-                                asyncTask = this.currentTask;
-                                if (asyncTask != null) {
-                                }
-                                updateFullscreenButton();
-                                updateShareButton();
-                                updateInlineButton();
-                                updatePlayButton();
-                                if (photo != null) {
-                                }
-                                animatorSet = this.progressAnimation;
-                                if (animatorSet != null) {
-                                }
-                                this.isLoading = true;
-                                this.controlsView.setProgress(0);
-                                if (str4 != null) {
-                                }
-                                if (str3 != null) {
-                                }
-                                if (str4 != null) {
-                                }
-                                this.controlsView.setVisibility(0);
-                                return true;
                             }
+                            str7 = null;
+                            if (str7 == null) {
+                            }
+                            str6 = null;
+                            if (str6 == null) {
+                            }
+                            str5 = null;
+                            if (str5 == null) {
+                            }
+                            str3 = null;
+                            this.initied = false;
+                            this.isCompleted = false;
+                            this.isAutoplay = z;
+                            this.playVideoUrl = null;
+                            this.playAudioUrl = null;
+                            destroy();
+                            this.firstFrameRendered = false;
+                            this.currentAlpha = 1.0f;
+                            asyncTask = this.currentTask;
+                            if (asyncTask != null) {
+                            }
+                            updateFullscreenButton();
+                            updateShareButton();
+                            updateInlineButton();
+                            updatePlayButton();
+                            if (photo != null) {
+                            }
+                            animatorSet = this.progressAnimation;
+                            if (animatorSet != null) {
+                            }
+                            this.isLoading = true;
+                            this.controlsView.setProgress(0);
+                            if (str4 != null) {
+                            }
+                            if (str3 != null) {
+                            }
+                            if (str4 != null) {
+                            }
+                            this.controlsView.setVisibility(0);
+                            return true;
                         }
-                        str7 = null;
-                        if (str7 == null) {
-                        }
-                        str6 = null;
-                        if (str6 == null) {
-                        }
-                        str5 = null;
-                        if (str5 == null) {
-                        }
-                        str3 = null;
-                        this.initied = false;
-                        this.isCompleted = false;
-                        this.isAutoplay = z;
-                        this.playVideoUrl = null;
-                        this.playAudioUrl = null;
-                        destroy();
-                        this.firstFrameRendered = false;
-                        this.currentAlpha = 1.0f;
-                        asyncTask = this.currentTask;
-                        if (asyncTask != null) {
-                        }
-                        updateFullscreenButton();
-                        updateShareButton();
-                        updateInlineButton();
-                        updatePlayButton();
-                        if (photo != null) {
-                        }
-                        animatorSet = this.progressAnimation;
-                        if (animatorSet != null) {
-                        }
-                        this.isLoading = true;
-                        this.controlsView.setProgress(0);
-                        if (str4 != null) {
-                        }
-                        if (str3 != null) {
-                        }
-                        if (str4 != null) {
-                        }
-                        this.controlsView.setVisibility(0);
-                        return true;
                     }
+                    str8 = null;
+                    if (str8 == null) {
+                    }
+                    str7 = null;
+                    if (str7 == null) {
+                    }
+                    str6 = null;
+                    if (str6 == null) {
+                    }
+                    str5 = null;
+                    if (str5 == null) {
+                    }
+                    str3 = null;
+                    this.initied = false;
+                    this.isCompleted = false;
+                    this.isAutoplay = z;
+                    this.playVideoUrl = null;
+                    this.playAudioUrl = null;
+                    destroy();
+                    this.firstFrameRendered = false;
+                    this.currentAlpha = 1.0f;
+                    asyncTask = this.currentTask;
+                    if (asyncTask != null) {
+                    }
+                    updateFullscreenButton();
+                    updateShareButton();
+                    updateInlineButton();
+                    updatePlayButton();
+                    if (photo != null) {
+                    }
+                    animatorSet = this.progressAnimation;
+                    if (animatorSet != null) {
+                    }
+                    this.isLoading = true;
+                    this.controlsView.setProgress(0);
+                    if (str4 != null) {
+                    }
+                    if (str3 != null) {
+                    }
+                    if (str4 != null) {
+                    }
+                    this.controlsView.setVisibility(0);
+                    return true;
+                }
+                str4 = null;
+                if (str4 == null) {
                 }
                 str8 = null;
                 if (str8 == null) {
@@ -2792,53 +2871,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 this.controlsView.setVisibility(0);
                 return true;
             }
-            str4 = null;
-            if (str4 == null) {
-            }
-            str8 = null;
-            if (str8 == null) {
-            }
-            str7 = null;
-            if (str7 == null) {
-            }
-            str6 = null;
-            if (str6 == null) {
-            }
-            str5 = null;
-            if (str5 == null) {
-            }
-            str3 = null;
-            this.initied = false;
-            this.isCompleted = false;
-            this.isAutoplay = z;
-            this.playVideoUrl = null;
-            this.playAudioUrl = null;
-            destroy();
-            this.firstFrameRendered = false;
-            this.currentAlpha = 1.0f;
-            asyncTask = this.currentTask;
-            if (asyncTask != null) {
-            }
-            updateFullscreenButton();
-            updateShareButton();
-            updateInlineButton();
-            updatePlayButton();
-            if (photo != null) {
-            }
-            animatorSet = this.progressAnimation;
-            if (animatorSet != null) {
-            }
-            this.isLoading = true;
-            this.controlsView.setProgress(0);
-            if (str4 != null) {
-            }
-            if (str3 != null) {
-            }
-            if (str4 != null) {
-            }
-            this.controlsView.setVisibility(0);
-            return true;
-        } else {
             str3 = str;
             str4 = null;
         }
@@ -2968,7 +3000,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
         if (this.videoPlayer.isPlaying() && i != 4) {
             updatePlayButton();
-        } else if (i == 4) {
+            return;
+        }
+        if (i == 4) {
             this.isCompleted = true;
             this.videoPlayer.pause();
             this.videoPlayer.seekTo(0L);
@@ -3056,10 +3090,10 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
         if (this.currentBitmap == null) {
             this.textureImageView.setImageDrawable(null);
-            return;
+        } else {
+            this.textureImageView.setVisibility(0);
+            this.textureImageView.setImageBitmap(this.currentBitmap);
         }
-        this.textureImageView.setVisibility(0);
-        this.textureImageView.setImageBitmap(this.currentBitmap);
     }
 
     public void willHandle() {

@@ -17,6 +17,7 @@ import androidx.core.util.ObjectsCompat;
 import androidx.core.util.Preconditions;
 import androidx.core.view.ContentInfoCompat;
 import androidx.core.view.ViewCompat;
+
 /* loaded from: classes.dex */
 public abstract class InputConnectionCompat {
 
@@ -45,7 +46,8 @@ public abstract class InputConnectionCompat {
         ObjectsCompat.requireNonNull(inputConnection, "inputConnection must be non-null");
         ObjectsCompat.requireNonNull(editorInfo, "editorInfo must be non-null");
         ObjectsCompat.requireNonNull(onCommitContentListener, "onCommitContentListener must be non-null");
-        return Build.VERSION.SDK_INT >= 25 ? new InputConnectionWrapper(inputConnection, false) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.1
+        boolean z = false;
+        return Build.VERSION.SDK_INT >= 25 ? new InputConnectionWrapper(inputConnection, z) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.1
             @Override // android.view.inputmethod.InputConnectionWrapper, android.view.inputmethod.InputConnection
             public boolean commitContent(InputContentInfo inputContentInfo, int i, Bundle bundle) {
                 if (onCommitContentListener.onCommitContent(InputContentInfoCompat.wrap(inputContentInfo), i, bundle)) {
@@ -53,7 +55,7 @@ public abstract class InputConnectionCompat {
                 }
                 return super.commitContent(inputContentInfo, i, bundle);
             }
-        } : EditorInfoCompat.getContentMimeTypes(editorInfo).length == 0 ? inputConnection : new InputConnectionWrapper(inputConnection, false) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.2
+        } : EditorInfoCompat.getContentMimeTypes(editorInfo).length == 0 ? inputConnection : new InputConnectionWrapper(inputConnection, z) { // from class: androidx.core.view.inputmethod.InputConnectionCompat.2
             @Override // android.view.inputmethod.InputConnectionWrapper, android.view.inputmethod.InputConnection
             public boolean performPrivateCommand(String str, Bundle bundle) {
                 if (InputConnectionCompat.handlePerformPrivateCommand(str, bundle, onCommitContentListener)) {
@@ -64,8 +66,9 @@ public abstract class InputConnectionCompat {
         };
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r0v0 */
-    /* JADX WARN: Type inference failed for: r0v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r0v5 */
     /* JADX WARN: Type inference failed for: r0v6 */
     static boolean handlePerformPrivateCommand(String str, Bundle bundle, OnCommitContentListener onCommitContentListener) {
@@ -78,9 +81,10 @@ public abstract class InputConnectionCompat {
         }
         if (TextUtils.equals("androidx.core.view.inputmethod.InputConnectionCompat.COMMIT_CONTENT", str)) {
             z = false;
-        } else if (!TextUtils.equals("android.support.v13.view.inputmethod.InputConnectionCompat.COMMIT_CONTENT", str)) {
-            return false;
         } else {
+            if (!TextUtils.equals("android.support.v13.view.inputmethod.InputConnectionCompat.COMMIT_CONTENT", str)) {
+                return false;
+            }
             z = true;
         }
         try {
@@ -94,7 +98,7 @@ public abstract class InputConnectionCompat {
                 if (uri != null && clipDescription != null) {
                     r0 = onCommitContentListener.onCommitContent(new InputContentInfoCompat(uri, clipDescription, uri2), i, bundle2);
                 }
-                if (resultReceiver2 != null) {
+                if (resultReceiver2 != 0) {
                     resultReceiver2.send(r0, null);
                 }
                 return r0;

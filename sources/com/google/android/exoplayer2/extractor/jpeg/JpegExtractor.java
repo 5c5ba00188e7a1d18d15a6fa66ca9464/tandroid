@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.mp4.MotionPhotoMetadata;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+
 /* loaded from: classes.dex */
 public final class JpegExtractor implements Extractor {
     private ExtractorOutput extractorOutput;
@@ -133,13 +134,16 @@ public final class JpegExtractor implements Extractor {
         if (i == 0) {
             readMarker(extractorInput);
             return 0;
-        } else if (i == 1) {
+        }
+        if (i == 1) {
             readSegmentLength(extractorInput);
             return 0;
-        } else if (i == 2) {
+        }
+        if (i == 2) {
             readSegment(extractorInput);
             return 0;
-        } else if (i == 4) {
+        }
+        if (i == 4) {
             long position = extractorInput.getPosition();
             long j = this.mp4StartPosition;
             if (position != j) {
@@ -148,22 +152,22 @@ public final class JpegExtractor implements Extractor {
             }
             sniffMotionPhotoVideo(extractorInput);
             return 0;
-        } else if (i != 5) {
+        }
+        if (i != 5) {
             if (i == 6) {
                 return -1;
             }
             throw new IllegalStateException();
-        } else {
-            if (this.mp4ExtractorStartOffsetExtractorInput == null || extractorInput != this.lastExtractorInput) {
-                this.lastExtractorInput = extractorInput;
-                this.mp4ExtractorStartOffsetExtractorInput = new StartOffsetExtractorInput(extractorInput, this.mp4StartPosition);
-            }
-            int read = ((Mp4Extractor) Assertions.checkNotNull(this.mp4Extractor)).read(this.mp4ExtractorStartOffsetExtractorInput, positionHolder);
-            if (read == 1) {
-                positionHolder.position += this.mp4StartPosition;
-            }
-            return read;
         }
+        if (this.mp4ExtractorStartOffsetExtractorInput == null || extractorInput != this.lastExtractorInput) {
+            this.lastExtractorInput = extractorInput;
+            this.mp4ExtractorStartOffsetExtractorInput = new StartOffsetExtractorInput(extractorInput, this.mp4StartPosition);
+        }
+        int read = ((Mp4Extractor) Assertions.checkNotNull(this.mp4Extractor)).read(this.mp4ExtractorStartOffsetExtractorInput, positionHolder);
+        if (read == 1) {
+            positionHolder.position += this.mp4StartPosition;
+        }
+        return read;
     }
 
     @Override // com.google.android.exoplayer2.extractor.Extractor

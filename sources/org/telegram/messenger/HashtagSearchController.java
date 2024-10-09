@@ -1,6 +1,5 @@
 package org.telegram.messenger;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import java.util.ArrayList;
@@ -12,16 +11,17 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes3.dex */
 public class HashtagSearchController {
     public static final int HISTORY_LIMIT = 100;
     private static volatile HashtagSearchController[] Instance = new HashtagSearchController[4];
     private static final Object[] lockObjects = new Object[4];
+    private final SearchResult channelPostsSearch;
     public final int currentAccount;
-    private final SharedPreferences historyPreferences;
-    private final SearchResult myMessagesSearch = new SearchResult();
-    private final SearchResult channelPostsSearch = new SearchResult();
     public final ArrayList<String> history = new ArrayList<>();
+    private final SharedPreferences historyPreferences;
+    private final SearchResult myMessagesSearch;
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
@@ -100,9 +100,10 @@ public class HashtagSearchController {
     }
 
     private HashtagSearchController(int i) {
+        this.myMessagesSearch = new SearchResult();
+        this.channelPostsSearch = new SearchResult();
         this.currentAccount = i;
-        Context context = ApplicationLoader.applicationContext;
-        this.historyPreferences = context.getSharedPreferences("hashtag_search_history" + i, 0);
+        this.historyPreferences = ApplicationLoader.applicationContext.getSharedPreferences("hashtag_search_history" + i, 0);
         loadHistoryFromPref();
     }
 
@@ -256,8 +257,9 @@ public class HashtagSearchController {
             if (indexOf != -1) {
                 if (indexOf == 0) {
                     return;
+                } else {
+                    this.history.remove(indexOf);
                 }
-                this.history.remove(indexOf);
             }
             this.history.add(0, str);
             if (this.history.size() >= 100) {
@@ -291,6 +293,7 @@ public class HashtagSearchController {
             }
             final String str2 = str;
             searchResult.lastHashtag = str2;
+            final int i4 = 30;
             if (i2 == 1) {
                 TLRPC.TL_messages_searchGlobal tL_messages_searchGlobal = new TLRPC.TL_messages_searchGlobal();
                 tL_messages_searchGlobal.limit = 30;
@@ -320,7 +323,7 @@ public class HashtagSearchController {
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_channels_searchPosts, new RequestDelegate() { // from class: org.telegram.messenger.HashtagSearchController$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    HashtagSearchController.this.lambda$searchHashtag$1(i2, str2, searchResult, r5, i, i3, tLObject, tL_error);
+                    HashtagSearchController.this.lambda$searchHashtag$1(i2, str2, searchResult, i4, i, i3, tLObject, tL_error);
                 }
             });
         }

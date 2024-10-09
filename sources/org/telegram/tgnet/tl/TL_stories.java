@@ -8,6 +8,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stats;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
+
 /* loaded from: classes3.dex */
 public class TL_stories {
 
@@ -1392,11 +1393,11 @@ public class TL_stories {
                     if (z) {
                         throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt324)));
                     }
-                    return;
-                }
-                int readInt325 = abstractSerializedData.readInt32(z);
-                for (int i2 = 0; i2 < readInt325; i2++) {
-                    this.my_boost_slots.add(Integer.valueOf(abstractSerializedData.readInt32(z)));
+                } else {
+                    int readInt325 = abstractSerializedData.readInt32(z);
+                    for (int i2 = 0; i2 < readInt325; i2++) {
+                        this.my_boost_slots.add(Integer.valueOf(abstractSerializedData.readInt32(z)));
+                    }
                 }
             }
         }
@@ -2575,10 +2576,11 @@ public class TL_stories {
                         throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt323)));
                     }
                     return;
-                }
-                int readInt324 = abstractSerializedData.readInt32(z);
-                for (int i2 = 0; i2 < readInt324; i2++) {
-                    this.pinned_to_top.add(Integer.valueOf(abstractSerializedData.readInt32(z)));
+                } else {
+                    int readInt324 = abstractSerializedData.readInt32(z);
+                    for (int i2 = 0; i2 < readInt324; i2++) {
+                        this.pinned_to_top.add(Integer.valueOf(abstractSerializedData.readInt32(z)));
+                    }
                 }
             }
             int readInt325 = abstractSerializedData.readInt32(z);
@@ -3700,11 +3702,11 @@ public class TL_stories {
                     if (z) {
                         throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt324)));
                     }
-                    return;
-                }
-                int readInt325 = abstractSerializedData.readInt32(z);
-                for (int i2 = 0; i2 < readInt325; i2++) {
-                    this.recent_viewers.add(Long.valueOf(abstractSerializedData.readInt64(z)));
+                } else {
+                    int readInt325 = abstractSerializedData.readInt32(z);
+                    for (int i2 = 0; i2 < readInt325; i2++) {
+                        this.recent_viewers.add(Long.valueOf(abstractSerializedData.readInt64(z)));
+                    }
                 }
             }
         }
@@ -3916,11 +3918,11 @@ public class TL_stories {
                     if (z) {
                         throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
                     }
-                    return;
-                }
-                int readInt322 = abstractSerializedData.readInt32(z);
-                for (int i = 0; i < readInt322; i++) {
-                    this.recent_viewers.add(Long.valueOf(abstractSerializedData.readInt64(z)));
+                } else {
+                    int readInt322 = abstractSerializedData.readInt32(z);
+                    for (int i = 0; i < readInt322; i++) {
+                        this.recent_viewers.add(Long.valueOf(abstractSerializedData.readInt64(z)));
+                    }
                 }
             }
         }
@@ -3956,11 +3958,11 @@ public class TL_stories {
                     if (z) {
                         throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
                     }
-                    return;
-                }
-                int readInt322 = abstractSerializedData.readInt32(z);
-                for (int i = 0; i < readInt322; i++) {
-                    this.recent_viewers.add(Long.valueOf(abstractSerializedData.readInt64(z)));
+                } else {
+                    int readInt322 = abstractSerializedData.readInt32(z);
+                    for (int i = 0; i < readInt322; i++) {
+                        this.recent_viewers.add(Long.valueOf(abstractSerializedData.readInt64(z)));
+                    }
                 }
             }
         }

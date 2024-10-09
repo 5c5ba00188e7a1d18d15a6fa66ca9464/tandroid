@@ -3,6 +3,7 @@ package com.google.android.gms.internal.play_billing;
 import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0;
 import java.util.Collections;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class zzbn {
     static final zzbn zza = new zzbn(true);

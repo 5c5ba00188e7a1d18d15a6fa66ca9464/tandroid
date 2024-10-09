@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public final class LatLng extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<LatLng> CREATOR = new zzg();
@@ -20,11 +21,11 @@ public final class LatLng extends AbstractSafeParcelable implements ReflectedPar
         if (this == obj) {
             return true;
         }
-        if (obj instanceof LatLng) {
-            LatLng latLng = (LatLng) obj;
-            return Double.doubleToLongBits(this.latitude) == Double.doubleToLongBits(latLng.latitude) && Double.doubleToLongBits(this.longitude) == Double.doubleToLongBits(latLng.longitude);
+        if (!(obj instanceof LatLng)) {
+            return false;
         }
-        return false;
+        LatLng latLng = (LatLng) obj;
+        return Double.doubleToLongBits(this.latitude) == Double.doubleToLongBits(latLng.latitude) && Double.doubleToLongBits(this.longitude) == Double.doubleToLongBits(latLng.longitude);
     }
 
     public int hashCode() {
@@ -34,9 +35,7 @@ public final class LatLng extends AbstractSafeParcelable implements ReflectedPar
     }
 
     public String toString() {
-        double d = this.latitude;
-        double d2 = this.longitude;
-        return "lat/lng: (" + d + "," + d2 + ")";
+        return "lat/lng: (" + this.latitude + "," + this.longitude + ")";
     }
 
     @Override // android.os.Parcelable

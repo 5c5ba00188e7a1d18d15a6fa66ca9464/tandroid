@@ -2,6 +2,7 @@ package kotlin.sequences;
 
 import java.util.Iterator;
 import kotlin.jvm.internal.Intrinsics;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class SequencesKt__SequencesKt extends SequencesKt__SequencesJVMKt {

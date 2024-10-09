@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public class BiometricManager {
     private final android.hardware.biometrics.BiometricManager mBiometricManager;
@@ -105,26 +106,26 @@ public class BiometricManager {
     }
 
     private int canAuthenticateCompat(int i) {
-        if (AuthenticatorUtils.isSupportedCombination(i)) {
-            if (i != 0 && this.mInjector.isDeviceSecurable()) {
-                if (AuthenticatorUtils.isDeviceCredentialAllowed(i)) {
-                    return this.mInjector.isDeviceSecuredWithCredential() ? 0 : 11;
-                }
-                int i2 = Build.VERSION.SDK_INT;
-                if (i2 == 29) {
-                    return AuthenticatorUtils.isWeakBiometricAllowed(i) ? canAuthenticateWithWeakBiometricOnApi29() : canAuthenticateWithStrongBiometricOnApi29();
-                } else if (i2 == 28) {
-                    if (this.mInjector.isFingerprintHardwarePresent()) {
-                        return canAuthenticateWithFingerprintOrUnknownBiometric();
-                    }
-                    return 12;
-                } else {
-                    return canAuthenticateWithFingerprint();
-                }
-            }
+        if (!AuthenticatorUtils.isSupportedCombination(i)) {
+            return -2;
+        }
+        if (i == 0 || !this.mInjector.isDeviceSecurable()) {
             return 12;
         }
-        return -2;
+        if (AuthenticatorUtils.isDeviceCredentialAllowed(i)) {
+            return this.mInjector.isDeviceSecuredWithCredential() ? 0 : 11;
+        }
+        int i2 = Build.VERSION.SDK_INT;
+        if (i2 == 29) {
+            return AuthenticatorUtils.isWeakBiometricAllowed(i) ? canAuthenticateWithWeakBiometricOnApi29() : canAuthenticateWithStrongBiometricOnApi29();
+        }
+        if (i2 != 28) {
+            return canAuthenticateWithFingerprint();
+        }
+        if (this.mInjector.isFingerprintHardwarePresent()) {
+            return canAuthenticateWithFingerprintOrUnknownBiometric();
+        }
+        return 12;
     }
 
     private int canAuthenticateWithFingerprint() {
@@ -132,11 +133,11 @@ public class BiometricManager {
         if (fingerprintManagerCompat == null) {
             Log.e("BiometricManager", "Failure in canAuthenticate(). FingerprintManager was null.");
             return 1;
-        } else if (fingerprintManagerCompat.isHardwareDetected()) {
-            return !this.mFingerprintManager.hasEnrolledFingerprints() ? 11 : 0;
-        } else {
-            return 12;
         }
+        if (fingerprintManagerCompat.isHardwareDetected()) {
+            return !this.mFingerprintManager.hasEnrolledFingerprints() ? 11 : 0;
+        }
+        return 12;
     }
 
     private int canAuthenticateWithFingerprintOrUnknownBiometric() {
@@ -144,7 +145,7 @@ public class BiometricManager {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:21:0x0046 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:26:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:25:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -186,11 +187,11 @@ public class BiometricManager {
 
     private int canAuthenticateWithWeakBiometricOnApi29() {
         android.hardware.biometrics.BiometricManager biometricManager = this.mBiometricManager;
-        if (biometricManager == null) {
-            Log.e("BiometricManager", "Failure in canAuthenticate(). BiometricManager was null.");
-            return 1;
+        if (biometricManager != null) {
+            return Api29Impl.canAuthenticate(biometricManager);
         }
-        return Api29Impl.canAuthenticate(biometricManager);
+        Log.e("BiometricManager", "Failure in canAuthenticate(). BiometricManager was null.");
+        return 1;
     }
 
     public static BiometricManager from(Context context) {
@@ -198,14 +199,14 @@ public class BiometricManager {
     }
 
     public int canAuthenticate(int i) {
-        if (Build.VERSION.SDK_INT >= 30) {
-            android.hardware.biometrics.BiometricManager biometricManager = this.mBiometricManager;
-            if (biometricManager == null) {
-                Log.e("BiometricManager", "Failure in canAuthenticate(). BiometricManager was null.");
-                return 1;
-            }
+        if (Build.VERSION.SDK_INT < 30) {
+            return canAuthenticateCompat(i);
+        }
+        android.hardware.biometrics.BiometricManager biometricManager = this.mBiometricManager;
+        if (biometricManager != null) {
             return Api30Impl.canAuthenticate(biometricManager, i);
         }
-        return canAuthenticateCompat(i);
+        Log.e("BiometricManager", "Failure in canAuthenticate(). BiometricManager was null.");
+        return 1;
     }
 }

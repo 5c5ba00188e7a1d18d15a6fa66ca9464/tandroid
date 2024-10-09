@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /* loaded from: classes.dex */
 public abstract class WebvttParserUtil {
     private static final Pattern COMMENT = Pattern.compile("^NOTE([ \t].*)?$");

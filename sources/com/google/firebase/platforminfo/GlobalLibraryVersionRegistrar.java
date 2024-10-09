@@ -3,6 +3,7 @@ package com.google.firebase.platforminfo;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
 /* loaded from: classes.dex */
 public class GlobalLibraryVersionRegistrar {
     private static volatile GlobalLibraryVersionRegistrar INSTANCE;

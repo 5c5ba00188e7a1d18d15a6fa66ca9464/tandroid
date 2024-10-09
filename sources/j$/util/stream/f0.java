@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class f0 extends h0 {
@@ -12,10 +13,10 @@ public final class f0 extends h0 {
         j$.util.K H0;
         if (isParallel()) {
             super.V(w);
-            return;
+        } else {
+            H0 = h0.H0(B0());
+            H0.e(w);
         }
-        H0 = h0.H0(B0());
-        H0.d(w);
     }
 
     @Override // j$.util.stream.h0, j$.util.stream.LongStream
@@ -23,10 +24,10 @@ public final class f0 extends h0 {
         j$.util.K H0;
         if (isParallel()) {
             super.d(w);
-            return;
+        } else {
+            H0 = h0.H0(B0());
+            H0.e(w);
         }
-        H0 = h0.H0(B0());
-        H0.d(w);
     }
 
     @Override // j$.util.stream.b, j$.util.stream.BaseStream

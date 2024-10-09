@@ -20,6 +20,7 @@ import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.bots.BotBiometry;
+
 /* loaded from: classes4.dex */
 public class BotBiometrySettings extends BaseFragment {
     private final ArrayList biometryBots = new ArrayList();
@@ -88,7 +89,7 @@ public class BotBiometrySettings extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    BotBiometrySettings.this.finishFragment();
+                    BotBiometrySettings.this.lambda$onBackPressed$300();
                 }
             }
         });

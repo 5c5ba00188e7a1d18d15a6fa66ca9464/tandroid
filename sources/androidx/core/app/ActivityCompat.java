@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.os.BuildCompat;
 import java.util.Arrays;
 import java.util.HashSet;
+
 /* loaded from: classes.dex */
 public abstract class ActivityCompat extends ContextCompat {
 
@@ -80,6 +81,7 @@ public abstract class ActivityCompat extends ContextCompat {
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public static void requestPermissions(final Activity activity, String[] strArr, final int i) {
         HashSet hashSet = new HashSet();
         for (int i2 = 0; i2 < strArr.length; i2++) {

@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineDispatcher;
 import kotlinx.coroutines.CoroutineExceptionHandlerKt;
 import kotlinx.coroutines.DefaultExecutorKt;
 import kotlinx.coroutines.Delay;
+
 /* loaded from: classes.dex */
 public final class LimitedDispatcher extends CoroutineDispatcher implements Runnable, Delay {
     private final /* synthetic */ Delay $$delegate_0;
@@ -15,6 +16,7 @@ public final class LimitedDispatcher extends CoroutineDispatcher implements Runn
     private volatile int runningWorkers;
     private final Object workerAllocationLock;
 
+    /* JADX WARN: Multi-variable type inference failed */
     public LimitedDispatcher(CoroutineDispatcher coroutineDispatcher, int i) {
         this.dispatcher = coroutineDispatcher;
         this.parallelism = i;
@@ -46,27 +48,34 @@ public final class LimitedDispatcher extends CoroutineDispatcher implements Runn
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x002a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x002a, code lost:
+    
         r1 = r4.workerAllocationLock;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x002c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x002c, code lost:
+    
         monitor-enter(r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x002d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x002d, code lost:
+    
         r4.runningWorkers--;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0039, code lost:
-        if (r4.queue.getSize() != 0) goto L28;
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0039, code lost:
+    
+        if (r4.queue.getSize() != 0) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x003b, code lost:
-        monitor-exit(r1);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x003c, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x003d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x003d, code lost:
+    
         r4.runningWorkers++;
         r2 = kotlin.Unit.INSTANCE;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x003b, code lost:
+    
+        monitor-exit(r1);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x003c, code lost:
+    
+        return;
      */
     @Override // java.lang.Runnable
     /*

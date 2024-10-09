@@ -10,6 +10,7 @@ import android.view.View;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.PhotoFilterView;
+
 /* loaded from: classes3.dex */
 public class PhotoFilterCurvesControl extends View {
     private int activeSegment;
@@ -63,35 +64,38 @@ public class PhotoFilterCurvesControl extends View {
         float y = motionEvent.getY();
         if (i == 1) {
             selectSegmentWithPoint(x);
-        } else if (i != 2) {
+            return;
+        }
+        if (i != 2) {
             if (i == 3 || i == 4 || i == 5) {
                 unselectSegments();
+                return;
             }
-        } else {
-            float min = Math.min(2.0f, (this.lastY - y) / 8.0f);
-            PhotoFilterView.CurvesToolValue curvesToolValue = this.curveValue;
-            int i2 = curvesToolValue.activeType;
-            PhotoFilterView.CurvesValue curvesValue = i2 != 0 ? i2 != 1 ? i2 != 2 ? i2 != 3 ? null : curvesToolValue.blueCurve : curvesToolValue.greenCurve : curvesToolValue.redCurve : curvesToolValue.luminanceCurve;
-            int i3 = this.activeSegment;
-            if (i3 == 1) {
-                curvesValue.blacksLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.blacksLevel + min));
-            } else if (i3 == 2) {
-                curvesValue.shadowsLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.shadowsLevel + min));
-            } else if (i3 == 3) {
-                curvesValue.midtonesLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.midtonesLevel + min));
-            } else if (i3 == 4) {
-                curvesValue.highlightsLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.highlightsLevel + min));
-            } else if (i3 == 5) {
-                curvesValue.whitesLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.whitesLevel + min));
-            }
-            invalidate();
-            PhotoFilterCurvesControlDelegate photoFilterCurvesControlDelegate = this.delegate;
-            if (photoFilterCurvesControlDelegate != null) {
-                photoFilterCurvesControlDelegate.valueChanged();
-            }
-            this.lastX = x;
-            this.lastY = y;
+            return;
         }
+        float min = Math.min(2.0f, (this.lastY - y) / 8.0f);
+        PhotoFilterView.CurvesToolValue curvesToolValue = this.curveValue;
+        int i2 = curvesToolValue.activeType;
+        PhotoFilterView.CurvesValue curvesValue = i2 != 0 ? i2 != 1 ? i2 != 2 ? i2 != 3 ? null : curvesToolValue.blueCurve : curvesToolValue.greenCurve : curvesToolValue.redCurve : curvesToolValue.luminanceCurve;
+        int i3 = this.activeSegment;
+        if (i3 == 1) {
+            curvesValue.blacksLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.blacksLevel + min));
+        } else if (i3 == 2) {
+            curvesValue.shadowsLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.shadowsLevel + min));
+        } else if (i3 == 3) {
+            curvesValue.midtonesLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.midtonesLevel + min));
+        } else if (i3 == 4) {
+            curvesValue.highlightsLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.highlightsLevel + min));
+        } else if (i3 == 5) {
+            curvesValue.whitesLevel = Math.max(0.0f, Math.min(100.0f, curvesValue.whitesLevel + min));
+        }
+        invalidate();
+        PhotoFilterCurvesControlDelegate photoFilterCurvesControlDelegate = this.delegate;
+        if (photoFilterCurvesControlDelegate != null) {
+            photoFilterCurvesControlDelegate.valueChanged();
+        }
+        this.lastX = x;
+        this.lastY = y;
     }
 
     private void selectSegmentWithPoint(float f) {
@@ -164,8 +168,9 @@ public class PhotoFilterCurvesControl extends View {
         canvas.drawPath(this.path, this.paintCurve);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0014, code lost:
-        if (r0 != 6) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0014, code lost:
+    
+        if (r0 != 6) goto L41;
      */
     @Override // android.view.View
     /*

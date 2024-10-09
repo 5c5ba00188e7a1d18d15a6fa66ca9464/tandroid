@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 import android.os.Handler;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+
 /* loaded from: classes.dex */
 public class ApplicationLifecycleListener implements Application.ActivityLifecycleCallbacks {
     private Handler mHandler;
@@ -43,8 +45,9 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
     /* JADX INFO: Access modifiers changed from: private */
     public void dispatchStopIfNeeded() {
         if (this.mStartedCounter == 0 && this.mPauseSent) {
-            for (ApplicationLifecycleCallbacks applicationLifecycleCallbacks : this.mLifecycleCallbacks) {
-                applicationLifecycleCallbacks.onApplicationEnterBackground();
+            Iterator it = this.mLifecycleCallbacks.iterator();
+            while (it.hasNext()) {
+                ((ApplicationLifecycleCallbacks) it.next()).onApplicationEnterBackground();
             }
             this.mStopSent = true;
         }
@@ -96,8 +99,9 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
         int i = this.mStartedCounter + 1;
         this.mStartedCounter = i;
         if (i == 1 && this.mStopSent) {
-            for (ApplicationLifecycleCallbacks applicationLifecycleCallbacks : this.mLifecycleCallbacks) {
-                applicationLifecycleCallbacks.onApplicationEnterForeground();
+            Iterator it = this.mLifecycleCallbacks.iterator();
+            while (it.hasNext()) {
+                ((ApplicationLifecycleCallbacks) it.next()).onApplicationEnterForeground();
             }
             this.mStopSent = false;
         }

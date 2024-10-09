@@ -2,6 +2,7 @@ package org.telegram.ui.Stories;
 
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.GradientTools;
+
 /* loaded from: classes4.dex */
 public class StoriesGradientTools extends GradientTools {
     int colorKey1;

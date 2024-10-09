@@ -2,7 +2,9 @@ package com.google.android.gms.internal.mlkit_vision_common;
 
 import android.content.Context;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class zzmf implements zzmc {
     final List zza;
@@ -17,8 +19,9 @@ public final class zzmf implements zzmc {
 
     @Override // com.google.android.gms.internal.mlkit_vision_common.zzmc
     public final void zza(zzmb zzmbVar) {
-        for (zzmc zzmcVar : this.zza) {
-            zzmcVar.zza(zzmbVar);
+        Iterator it = this.zza.iterator();
+        while (it.hasNext()) {
+            ((zzmc) it.next()).zza(zzmbVar);
         }
     }
 }

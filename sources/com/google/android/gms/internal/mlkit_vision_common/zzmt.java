@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_common;
+
 /* loaded from: classes.dex */
 public final /* synthetic */ class zzmt {
     public final /* synthetic */ int zza;

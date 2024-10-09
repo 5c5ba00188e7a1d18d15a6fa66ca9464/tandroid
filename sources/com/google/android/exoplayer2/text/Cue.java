@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
+
 /* loaded from: classes.dex */
 public final class Cue implements Bundleable {
     public final Bitmap bitmap;

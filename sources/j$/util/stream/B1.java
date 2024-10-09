@@ -2,6 +2,7 @@ package j$.util.stream;
 
 import j$.util.function.BiFunction;
 import j$.util.function.Consumer;
+
 /* loaded from: classes2.dex */
 final class B1 extends O1 implements N1 {
     final /* synthetic */ Object b;
@@ -34,7 +35,8 @@ final class B1 extends O1 implements N1 {
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
+    /* renamed from: accept */
+    public final void r(Object obj) {
         this.a = this.c.apply(this.a, obj);
     }
 

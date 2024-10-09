@@ -2,6 +2,7 @@ package com.microsoft.appcenter.ingestion.models.properties;
 
 import org.json.JSONObject;
 import org.json.JSONStringer;
+
 /* loaded from: classes.dex */
 public class StringTypedProperty extends TypedProperty {
     private String value;
@@ -11,12 +12,12 @@ public class StringTypedProperty extends TypedProperty {
         if (this == obj) {
             return true;
         }
-        if (obj != null && getClass() == obj.getClass() && super.equals(obj)) {
-            String str = this.value;
-            String str2 = ((StringTypedProperty) obj).value;
-            return str != null ? str.equals(str2) : str2 == null;
+        if (obj == null || getClass() != obj.getClass() || !super.equals(obj)) {
+            return false;
         }
-        return false;
+        String str = this.value;
+        String str2 = ((StringTypedProperty) obj).value;
+        return str != null ? str.equals(str2) : str2 == null;
     }
 
     @Override // com.microsoft.appcenter.ingestion.models.properties.TypedProperty

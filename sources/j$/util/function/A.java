@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.IntBinaryOperator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class A implements IntBinaryOperator {
     public final /* synthetic */ B a;

@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.location;
 
 import java.util.List;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzdr extends zzds {
@@ -55,7 +56,8 @@ public final class zzdr extends zzds {
     }
 
     @Override // com.google.android.gms.internal.location.zzds
-    public final zzds zzh(int i, int i2) {
+    /* renamed from: zzh */
+    public final zzds subList(int i, int i2) {
         zzdm.zzc(i, i2, this.zzb);
         zzds zzdsVar = this.zzc;
         int i3 = this.zza;

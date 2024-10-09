@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+
 /* loaded from: classes.dex */
 public class FaceParcel extends AbstractSafeParcelable {
     public static final Parcelable.Creator<FaceParcel> CREATOR = new zzd();

@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
 /* loaded from: classes.dex */
 public interface AudioProcessor {
     public static final ByteBuffer EMPTY_BUFFER = ByteBuffer.allocateDirect(0).order(ByteOrder.nativeOrder());
@@ -27,11 +28,11 @@ public interface AudioProcessor {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof AudioFormat) {
-                AudioFormat audioFormat = (AudioFormat) obj;
-                return this.sampleRate == audioFormat.sampleRate && this.channelCount == audioFormat.channelCount && this.encoding == audioFormat.encoding;
+            if (!(obj instanceof AudioFormat)) {
+                return false;
             }
-            return false;
+            AudioFormat audioFormat = (AudioFormat) obj;
+            return this.sampleRate == audioFormat.sampleRate && this.channelCount == audioFormat.channelCount && this.encoding == audioFormat.encoding;
         }
 
         public int hashCode() {

@@ -20,6 +20,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public class ArchiveHelp extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private int currentAccount;

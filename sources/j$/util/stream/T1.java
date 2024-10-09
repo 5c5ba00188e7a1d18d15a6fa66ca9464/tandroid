@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import j$.util.function.Function;
+
 /* loaded from: classes2.dex */
 final class T1 extends V1 {
     public final /* synthetic */ int m;

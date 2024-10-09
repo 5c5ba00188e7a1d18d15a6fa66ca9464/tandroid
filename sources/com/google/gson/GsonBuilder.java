@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
 /* loaded from: classes.dex */
 public final class GsonBuilder {
     private Excluder excluder = Excluder.DEFAULT;
@@ -48,9 +49,10 @@ public final class GsonBuilder {
                 typeAdapterFactory2 = SqlTypesSupport.DATE_DATE_TYPE.createAdapterFactory(str);
             }
             typeAdapterFactory2 = null;
-        } else if (i == 2 && i2 == 2) {
-            return;
         } else {
+            if (i == 2 && i2 == 2) {
+                return;
+            }
             TypeAdapterFactory createAdapterFactory = DefaultDateTypeAdapter.DateType.DATE.createAdapterFactory(i, i2);
             if (z) {
                 typeAdapterFactory3 = SqlTypesSupport.TIMESTAMP_DATE_TYPE.createAdapterFactory(i, i2);

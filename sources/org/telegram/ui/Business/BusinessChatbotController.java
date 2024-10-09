@@ -8,6 +8,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+
 /* loaded from: classes4.dex */
 public class BusinessChatbotController {
     private static volatile BusinessChatbotController[] Instance = new BusinessChatbotController[4];

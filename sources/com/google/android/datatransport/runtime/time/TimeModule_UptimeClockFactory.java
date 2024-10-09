@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.time;
 
 import com.google.android.datatransport.runtime.dagger.internal.Factory;
 import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
+
 /* loaded from: classes.dex */
 public final class TimeModule_UptimeClockFactory implements Factory {
 

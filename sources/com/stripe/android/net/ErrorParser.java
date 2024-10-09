@@ -3,6 +3,7 @@ package com.stripe.android.net;
 import com.stripe.android.util.StripeJsonUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /* loaded from: classes.dex */
 abstract class ErrorParser {
 

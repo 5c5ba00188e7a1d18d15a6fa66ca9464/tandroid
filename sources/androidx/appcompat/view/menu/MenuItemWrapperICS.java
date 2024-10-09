@@ -16,6 +16,7 @@ import androidx.appcompat.view.CollapsibleActionView;
 import androidx.core.internal.view.SupportMenuItem;
 import androidx.core.view.ActionProvider;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public class MenuItemWrapperICS extends BaseMenuWrapper implements MenuItem {
     private Method mSetExclusiveCheckableMethod;
@@ -88,6 +89,7 @@ public class MenuItemWrapperICS extends BaseMenuWrapper implements MenuItem {
     static class CollapsibleActionViewWrapper extends FrameLayout implements CollapsibleActionView {
         final android.view.CollapsibleActionView mWrappedView;
 
+        /* JADX WARN: Multi-variable type inference failed */
         CollapsibleActionViewWrapper(View view) {
             super(view.getContext());
             this.mWrappedView = (android.view.CollapsibleActionView) view;

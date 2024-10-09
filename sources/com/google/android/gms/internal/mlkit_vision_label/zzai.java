@@ -2,6 +2,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.Map;
 import java.util.Set;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class zzai implements zzbr {
@@ -33,22 +34,22 @@ public abstract class zzai implements zzbr {
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzbr
     public final Map zzp() {
         Map map = this.zzb;
-        if (map == null) {
-            Map zzk = zzk();
-            this.zzb = zzk;
-            return zzk;
+        if (map != null) {
+            return map;
         }
-        return map;
+        Map zzk = zzk();
+        this.zzb = zzk;
+        return zzk;
     }
 
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzbr
     public final Set zzq() {
         Set set = this.zza;
-        if (set == null) {
-            Set zzl = zzl();
-            this.zza = zzl;
-            return zzl;
+        if (set != null) {
+            return set;
         }
-        return set;
+        Set zzl = zzl();
+        this.zza = zzl;
+        return zzl;
     }
 }

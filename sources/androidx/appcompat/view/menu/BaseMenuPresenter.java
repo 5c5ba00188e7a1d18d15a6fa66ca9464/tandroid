@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.appcompat.view.menu.MenuPresenter;
 import androidx.appcompat.view.menu.MenuView;
 import java.util.ArrayList;
+
 /* loaded from: classes.dex */
 public abstract class BaseMenuPresenter implements MenuPresenter {
     private MenuPresenter.Callback mCallback;
@@ -61,6 +62,7 @@ public abstract class BaseMenuPresenter implements MenuPresenter {
         return this.mCallback;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public View getItemView(MenuItemImpl menuItemImpl, View view, ViewGroup viewGroup) {
         MenuView.ItemView createItemView = view instanceof MenuView.ItemView ? (MenuView.ItemView) view : createItemView(viewGroup);
         bindItemView(menuItemImpl, createItemView);
@@ -98,13 +100,13 @@ public abstract class BaseMenuPresenter implements MenuPresenter {
     public boolean onSubMenuSelected(SubMenuBuilder subMenuBuilder) {
         MenuPresenter.Callback callback = this.mCallback;
         SubMenuBuilder subMenuBuilder2 = subMenuBuilder;
-        if (callback != null) {
-            if (subMenuBuilder == null) {
-                subMenuBuilder2 = this.mMenu;
-            }
-            return callback.onOpenSubMenu(subMenuBuilder2);
+        if (callback == null) {
+            return false;
         }
-        return false;
+        if (subMenuBuilder == null) {
+            subMenuBuilder2 = this.mMenu;
+        }
+        return callback.onOpenSubMenu(subMenuBuilder2);
     }
 
     @Override // androidx.appcompat.view.menu.MenuPresenter
@@ -118,6 +120,7 @@ public abstract class BaseMenuPresenter implements MenuPresenter {
 
     public abstract boolean shouldIncludeItem(int i, MenuItemImpl menuItemImpl);
 
+    /* JADX WARN: Multi-variable type inference failed */
     @Override // androidx.appcompat.view.menu.MenuPresenter
     public void updateMenuView(boolean z) {
         ViewGroup viewGroup = (ViewGroup) this.mMenuView;

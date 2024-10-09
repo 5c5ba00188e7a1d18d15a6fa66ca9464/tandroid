@@ -13,6 +13,7 @@ import java.util.Map;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.runtime.reflect.Factory;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public class HandlerBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_0 = null;

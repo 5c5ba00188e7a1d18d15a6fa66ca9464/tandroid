@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.Parcel;
 import com.google.android.gms.dynamic.IObjectWrapper;
+
 /* loaded from: classes.dex */
 public final class zzg extends zza implements zzi {
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -1,6 +1,7 @@
 package org.telegram.messenger.video.resample;
 
 import java.nio.ShortBuffer;
+
 /* loaded from: classes3.dex */
 public class PassThroughAudioResampler implements AudioResampler {
     @Override // org.telegram.messenger.video.resample.AudioResampler

@@ -31,9 +31,11 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import org.telegram.tgnet.ConnectionsManager;
+
 /* loaded from: classes.dex */
 public final class DefaultMediaSourceFactory implements MediaSource.Factory {
     private DataSource.Factory dataSourceFactory;
@@ -67,7 +69,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
             return new ProgressiveMediaSource.Factory(factory, this.extractorsFactory);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0075  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x0075  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -102,36 +104,37 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                         return access$100;
                     }
                 };
-            } else if (i != 2) {
-                if (i != 3) {
-                    if (i == 4) {
-                        supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda0
+            } else {
+                if (i != 2) {
+                    if (i != 3) {
+                        if (i == 4) {
+                            supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda0
+                                @Override // com.google.common.base.Supplier
+                                public final Object get() {
+                                    MediaSource.Factory lambda$maybeLoadSupplier$4;
+                                    lambda$maybeLoadSupplier$4 = DefaultMediaSourceFactory.DelegateFactoryLoader.this.lambda$maybeLoadSupplier$4(factory);
+                                    return lambda$maybeLoadSupplier$4;
+                                }
+                            };
+                        }
+                        supplier = null;
+                    } else {
+                        final Class asSubclass3 = RtspMediaSource$Factory.class.asSubclass(MediaSource.Factory.class);
+                        supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda1
                             @Override // com.google.common.base.Supplier
                             public final Object get() {
-                                MediaSource.Factory lambda$maybeLoadSupplier$4;
-                                lambda$maybeLoadSupplier$4 = DefaultMediaSourceFactory.DelegateFactoryLoader.this.lambda$maybeLoadSupplier$4(factory);
-                                return lambda$maybeLoadSupplier$4;
+                                MediaSource.Factory access$000;
+                                access$000 = DefaultMediaSourceFactory.access$000(asSubclass3);
+                                return access$000;
                             }
                         };
                     }
-                    supplier = null;
-                } else {
-                    final Class asSubclass3 = RtspMediaSource$Factory.class.asSubclass(MediaSource.Factory.class);
-                    supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda1
-                        @Override // com.google.common.base.Supplier
-                        public final Object get() {
-                            MediaSource.Factory access$000;
-                            access$000 = DefaultMediaSourceFactory.access$000(asSubclass3);
-                            return access$000;
-                        }
-                    };
+                    this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier);
+                    if (supplier != null) {
+                        this.supportedTypes.add(Integer.valueOf(i));
+                    }
+                    return supplier;
                 }
-                this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier);
-                if (supplier != null) {
-                    this.supportedTypes.add(Integer.valueOf(i));
-                }
-                return supplier;
-            } else {
                 final Class asSubclass4 = HlsMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
                 supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda2
                     @Override // com.google.common.base.Supplier
@@ -181,15 +184,17 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
 
         public void setDrmSessionManagerProvider(DrmSessionManagerProvider drmSessionManagerProvider) {
             this.drmSessionManagerProvider = drmSessionManagerProvider;
-            for (MediaSource.Factory factory : this.mediaSourceFactories.values()) {
-                factory.setDrmSessionManagerProvider(drmSessionManagerProvider);
+            Iterator it = this.mediaSourceFactories.values().iterator();
+            while (it.hasNext()) {
+                ((MediaSource.Factory) it.next()).setDrmSessionManagerProvider(drmSessionManagerProvider);
             }
         }
 
         public void setLoadErrorHandlingPolicy(LoadErrorHandlingPolicy loadErrorHandlingPolicy) {
             this.loadErrorHandlingPolicy = loadErrorHandlingPolicy;
-            for (MediaSource.Factory factory : this.mediaSourceFactories.values()) {
-                factory.setLoadErrorHandlingPolicy(loadErrorHandlingPolicy);
+            Iterator it = this.mediaSourceFactories.values().iterator();
+            while (it.hasNext()) {
+                ((MediaSource.Factory) it.next()).setLoadErrorHandlingPolicy(loadErrorHandlingPolicy);
             }
         }
     }
@@ -301,73 +306,73 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
     public MediaSource createMediaSource(MediaItem mediaItem) {
         Assertions.checkNotNull(mediaItem.localConfiguration);
         String scheme = mediaItem.localConfiguration.uri.getScheme();
-        if (scheme == null || !scheme.equals("ssai")) {
-            MediaItem.LocalConfiguration localConfiguration = mediaItem.localConfiguration;
-            int inferContentTypeForUriAndMimeType = Util.inferContentTypeForUriAndMimeType(localConfiguration.uri, localConfiguration.mimeType);
-            MediaSource.Factory mediaSourceFactory = this.delegateFactoryLoader.getMediaSourceFactory(inferContentTypeForUriAndMimeType);
-            Assertions.checkStateNotNull(mediaSourceFactory, "No suitable media source factory found for content type: " + inferContentTypeForUriAndMimeType);
-            MediaItem.LiveConfiguration.Builder buildUpon = mediaItem.liveConfiguration.buildUpon();
-            if (mediaItem.liveConfiguration.targetOffsetMs == -9223372036854775807L) {
-                buildUpon.setTargetOffsetMs(this.liveTargetOffsetMs);
-            }
-            if (mediaItem.liveConfiguration.minPlaybackSpeed == -3.4028235E38f) {
-                buildUpon.setMinPlaybackSpeed(this.liveMinSpeed);
-            }
-            if (mediaItem.liveConfiguration.maxPlaybackSpeed == -3.4028235E38f) {
-                buildUpon.setMaxPlaybackSpeed(this.liveMaxSpeed);
-            }
-            if (mediaItem.liveConfiguration.minOffsetMs == -9223372036854775807L) {
-                buildUpon.setMinOffsetMs(this.liveMinOffsetMs);
-            }
-            if (mediaItem.liveConfiguration.maxOffsetMs == -9223372036854775807L) {
-                buildUpon.setMaxOffsetMs(this.liveMaxOffsetMs);
-            }
-            MediaItem.LiveConfiguration build = buildUpon.build();
-            if (!build.equals(mediaItem.liveConfiguration)) {
-                mediaItem = mediaItem.buildUpon().setLiveConfiguration(build).build();
-            }
-            MediaSource createMediaSource = mediaSourceFactory.createMediaSource(mediaItem);
-            ImmutableList immutableList = ((MediaItem.LocalConfiguration) Util.castNonNull(mediaItem.localConfiguration)).subtitleConfigurations;
-            if (!immutableList.isEmpty()) {
-                MediaSource[] mediaSourceArr = new MediaSource[immutableList.size() + 1];
-                mediaSourceArr[0] = createMediaSource;
-                for (int i = 0; i < immutableList.size(); i++) {
-                    if (this.useProgressiveMediaSourceForSubtitles) {
-                        final Format build2 = new Format.Builder().setSampleMimeType(((MediaItem.SubtitleConfiguration) immutableList.get(i)).mimeType).setLanguage(((MediaItem.SubtitleConfiguration) immutableList.get(i)).language).setSelectionFlags(((MediaItem.SubtitleConfiguration) immutableList.get(i)).selectionFlags).setRoleFlags(((MediaItem.SubtitleConfiguration) immutableList.get(i)).roleFlags).setLabel(((MediaItem.SubtitleConfiguration) immutableList.get(i)).label).setId(((MediaItem.SubtitleConfiguration) immutableList.get(i)).id).build();
-                        ProgressiveMediaSource.Factory factory = new ProgressiveMediaSource.Factory(this.dataSourceFactory, new ExtractorsFactory() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$$ExternalSyntheticLambda0
-                            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-                            public final Extractor[] createExtractors() {
-                                Extractor[] lambda$createMediaSource$0;
-                                lambda$createMediaSource$0 = DefaultMediaSourceFactory.lambda$createMediaSource$0(Format.this);
-                                return lambda$createMediaSource$0;
-                            }
-
-                            @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
-                            public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
-                                Extractor[] createExtractors;
-                                createExtractors = createExtractors();
-                                return createExtractors;
-                            }
-                        });
-                        LoadErrorHandlingPolicy loadErrorHandlingPolicy = this.loadErrorHandlingPolicy;
-                        if (loadErrorHandlingPolicy != null) {
-                            factory.setLoadErrorHandlingPolicy(loadErrorHandlingPolicy);
-                        }
-                        mediaSourceArr[i + 1] = factory.createMediaSource(MediaItem.fromUri(((MediaItem.SubtitleConfiguration) immutableList.get(i)).uri.toString()));
-                    } else {
-                        SingleSampleMediaSource.Factory factory2 = new SingleSampleMediaSource.Factory(this.dataSourceFactory);
-                        LoadErrorHandlingPolicy loadErrorHandlingPolicy2 = this.loadErrorHandlingPolicy;
-                        if (loadErrorHandlingPolicy2 != null) {
-                            factory2.setLoadErrorHandlingPolicy(loadErrorHandlingPolicy2);
-                        }
-                        mediaSourceArr[i + 1] = factory2.createMediaSource((MediaItem.SubtitleConfiguration) immutableList.get(i), -9223372036854775807L);
-                    }
-                }
-                createMediaSource = new MergingMediaSource(mediaSourceArr);
-            }
-            return maybeWrapWithAdsMediaSource(mediaItem, maybeClipMediaSource(mediaItem, createMediaSource));
+        if (scheme != null && scheme.equals("ssai")) {
+            return ((MediaSource.Factory) Assertions.checkNotNull(this.serverSideAdInsertionMediaSourceFactory)).createMediaSource(mediaItem);
         }
-        return ((MediaSource.Factory) Assertions.checkNotNull(this.serverSideAdInsertionMediaSourceFactory)).createMediaSource(mediaItem);
+        MediaItem.LocalConfiguration localConfiguration = mediaItem.localConfiguration;
+        int inferContentTypeForUriAndMimeType = Util.inferContentTypeForUriAndMimeType(localConfiguration.uri, localConfiguration.mimeType);
+        MediaSource.Factory mediaSourceFactory = this.delegateFactoryLoader.getMediaSourceFactory(inferContentTypeForUriAndMimeType);
+        Assertions.checkStateNotNull(mediaSourceFactory, "No suitable media source factory found for content type: " + inferContentTypeForUriAndMimeType);
+        MediaItem.LiveConfiguration.Builder buildUpon = mediaItem.liveConfiguration.buildUpon();
+        if (mediaItem.liveConfiguration.targetOffsetMs == -9223372036854775807L) {
+            buildUpon.setTargetOffsetMs(this.liveTargetOffsetMs);
+        }
+        if (mediaItem.liveConfiguration.minPlaybackSpeed == -3.4028235E38f) {
+            buildUpon.setMinPlaybackSpeed(this.liveMinSpeed);
+        }
+        if (mediaItem.liveConfiguration.maxPlaybackSpeed == -3.4028235E38f) {
+            buildUpon.setMaxPlaybackSpeed(this.liveMaxSpeed);
+        }
+        if (mediaItem.liveConfiguration.minOffsetMs == -9223372036854775807L) {
+            buildUpon.setMinOffsetMs(this.liveMinOffsetMs);
+        }
+        if (mediaItem.liveConfiguration.maxOffsetMs == -9223372036854775807L) {
+            buildUpon.setMaxOffsetMs(this.liveMaxOffsetMs);
+        }
+        MediaItem.LiveConfiguration build = buildUpon.build();
+        if (!build.equals(mediaItem.liveConfiguration)) {
+            mediaItem = mediaItem.buildUpon().setLiveConfiguration(build).build();
+        }
+        MediaSource createMediaSource = mediaSourceFactory.createMediaSource(mediaItem);
+        ImmutableList immutableList = ((MediaItem.LocalConfiguration) Util.castNonNull(mediaItem.localConfiguration)).subtitleConfigurations;
+        if (!immutableList.isEmpty()) {
+            MediaSource[] mediaSourceArr = new MediaSource[immutableList.size() + 1];
+            mediaSourceArr[0] = createMediaSource;
+            for (int i = 0; i < immutableList.size(); i++) {
+                if (this.useProgressiveMediaSourceForSubtitles) {
+                    final Format build2 = new Format.Builder().setSampleMimeType(((MediaItem.SubtitleConfiguration) immutableList.get(i)).mimeType).setLanguage(((MediaItem.SubtitleConfiguration) immutableList.get(i)).language).setSelectionFlags(((MediaItem.SubtitleConfiguration) immutableList.get(i)).selectionFlags).setRoleFlags(((MediaItem.SubtitleConfiguration) immutableList.get(i)).roleFlags).setLabel(((MediaItem.SubtitleConfiguration) immutableList.get(i)).label).setId(((MediaItem.SubtitleConfiguration) immutableList.get(i)).id).build();
+                    ProgressiveMediaSource.Factory factory = new ProgressiveMediaSource.Factory(this.dataSourceFactory, new ExtractorsFactory() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$$ExternalSyntheticLambda0
+                        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+                        public final Extractor[] createExtractors() {
+                            Extractor[] lambda$createMediaSource$0;
+                            lambda$createMediaSource$0 = DefaultMediaSourceFactory.lambda$createMediaSource$0(Format.this);
+                            return lambda$createMediaSource$0;
+                        }
+
+                        @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
+                        public /* synthetic */ Extractor[] createExtractors(Uri uri, Map map) {
+                            Extractor[] createExtractors;
+                            createExtractors = createExtractors();
+                            return createExtractors;
+                        }
+                    });
+                    LoadErrorHandlingPolicy loadErrorHandlingPolicy = this.loadErrorHandlingPolicy;
+                    if (loadErrorHandlingPolicy != null) {
+                        factory.setLoadErrorHandlingPolicy(loadErrorHandlingPolicy);
+                    }
+                    mediaSourceArr[i + 1] = factory.createMediaSource(MediaItem.fromUri(((MediaItem.SubtitleConfiguration) immutableList.get(i)).uri.toString()));
+                } else {
+                    SingleSampleMediaSource.Factory factory2 = new SingleSampleMediaSource.Factory(this.dataSourceFactory);
+                    LoadErrorHandlingPolicy loadErrorHandlingPolicy2 = this.loadErrorHandlingPolicy;
+                    if (loadErrorHandlingPolicy2 != null) {
+                        factory2.setLoadErrorHandlingPolicy(loadErrorHandlingPolicy2);
+                    }
+                    mediaSourceArr[i + 1] = factory2.createMediaSource((MediaItem.SubtitleConfiguration) immutableList.get(i), -9223372036854775807L);
+                }
+            }
+            createMediaSource = new MergingMediaSource(mediaSourceArr);
+        }
+        return maybeWrapWithAdsMediaSource(mediaItem, maybeClipMediaSource(mediaItem, createMediaSource));
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource.Factory

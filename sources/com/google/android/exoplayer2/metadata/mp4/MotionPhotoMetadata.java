@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.common.primitives.Longs;
+
 /* loaded from: classes.dex */
 public final class MotionPhotoMetadata implements Metadata.Entry {
     public static final Parcelable.Creator<MotionPhotoMetadata> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.mp4.MotionPhotoMetadata.1

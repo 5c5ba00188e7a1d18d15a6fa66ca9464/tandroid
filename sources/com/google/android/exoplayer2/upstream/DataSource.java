@@ -2,6 +2,7 @@ package com.google.android.exoplayer2.upstream;
 
 import android.net.Uri;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public interface DataSource extends DataReader {
 

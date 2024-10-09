@@ -5,6 +5,7 @@ import com.google.android.datatransport.Event;
 import com.google.android.datatransport.Transformer;
 import com.google.android.datatransport.Transport;
 import com.google.android.datatransport.TransportScheduleCallback;
+
 /* loaded from: classes.dex */
 final class TransportImpl implements Transport {
     private final String name;

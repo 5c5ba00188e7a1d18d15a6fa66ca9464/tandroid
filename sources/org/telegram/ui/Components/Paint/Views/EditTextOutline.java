@@ -16,6 +16,7 @@ import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.CornerPath;
 import org.telegram.ui.Components.EditTextBoldCursor;
+
 /* loaded from: classes3.dex */
 public class EditTextOutline extends EditTextBoldCursor {
     public RectF framePadding;
@@ -147,8 +148,9 @@ public class EditTextOutline extends EditTextBoldCursor {
                     rectF6.bottom = Math.max(rectF6.bottom, getPaddingTop() + this.lines[i4].bottom);
                 }
                 RectF rectF7 = this.framePadding;
+                float measuredWidth2 = getMeasuredWidth();
                 RectF rectF8 = this.framePadding;
-                rectF7.right = getMeasuredWidth() - rectF8.right;
+                rectF7.right = measuredWidth2 - rectF8.right;
                 rectF8.bottom = getMeasuredHeight() - this.framePadding.bottom;
             }
             this.path.rewind();
@@ -246,12 +248,12 @@ public class EditTextOutline extends EditTextBoldCursor {
         this.isFrameDirty = true;
     }
 
-    @Override // android.widget.TextView
+    @Override // android.widget.EditText, android.widget.TextView
     public boolean onTextContextMenuItem(int i) {
         return super.onTextContextMenuItem(i);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x003f  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x003f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

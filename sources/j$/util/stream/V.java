@@ -1,4 +1,5 @@
 package j$.util.stream;
+
 /* loaded from: classes2.dex */
 final class V extends Y1 {
     public final /* synthetic */ int b;

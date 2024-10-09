@@ -2,6 +2,7 @@ package j$.util;
 
 import java.util.Collections;
 import java.util.Comparator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class Comparator$-EL {
     public static d a(Comparator comparator, Comparator comparator2) {
@@ -16,10 +17,10 @@ public final /* synthetic */ class Comparator$-EL {
     }
 
     public static Comparator reversed(Comparator comparator) {
-        if (comparator instanceof e) {
-            ((f) ((e) comparator)).getClass();
-            return Comparator$-CC.reverseOrder();
+        if (!(comparator instanceof e)) {
+            return Collections.reverseOrder(comparator);
         }
-        return Collections.reverseOrder(comparator);
+        ((f) ((e) comparator)).getClass();
+        return Comparator$-CC.reverseOrder();
     }
 }

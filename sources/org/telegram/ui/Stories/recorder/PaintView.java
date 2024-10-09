@@ -153,6 +153,7 @@ import org.telegram.ui.Stories.recorder.PreviewView;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
 import org.telegram.ui.Stories.recorder.Weather;
 import org.telegram.ui.WrappedResourceProvider;
+
 /* loaded from: classes4.dex */
 public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPaintView, PaintToolsView.Delegate, EntityView.EntityViewDelegate, PaintTextOptionsView.Delegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StoryRecorder.Touchable {
     private float baseScale;
@@ -308,9 +309,10 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
             if (messageMedia instanceof TLRPC.TL_messageMediaGeo) {
                 tL_mediaAreaGeoPoint2 = new TL_stories.TL_mediaAreaGeoPoint();
                 tL_mediaAreaGeoPoint2.geo = messageMedia.geo;
-            } else if (!(messageMedia instanceof TLRPC.TL_messageMediaVenue)) {
-                return;
             } else {
+                if (!(messageMedia instanceof TLRPC.TL_messageMediaVenue)) {
+                    return;
+                }
                 TLRPC.TL_messageMediaVenue tL_messageMediaVenue = (TLRPC.TL_messageMediaVenue) messageMedia;
                 long j = tL_messageMediaVenue.query_id;
                 if (j == -1 || j == -2) {
@@ -524,7 +526,8 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-        public /* synthetic */ void onGifSelected(View view, Object obj, String str, Object obj2, boolean z, int i) {
+        /* renamed from: onGifSelected */
+        public /* synthetic */ void lambda$onGifSelected$1(View view, Object obj, String str, Object obj2, boolean z, int i) {
             EmojiView.EmojiViewDelegate.-CC.$default$onGifSelected(this, view, obj, str, obj2, z, i);
         }
 
@@ -1031,10 +1034,10 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
             public void resetBrush() {
                 if (PaintView.this.ignoreToolChangeAnimationOnce) {
                     PaintView.this.ignoreToolChangeAnimationOnce = false;
-                    return;
+                } else {
+                    PaintView.this.paintToolsView.select(1);
+                    PaintView.this.onBrushSelected((Brush) Brush.BRUSHES_LIST.get(0));
                 }
-                PaintView.this.paintToolsView.select(1);
-                PaintView.this.onBrushSelected((Brush) Brush.BRUSHES_LIST.get(0));
             }
 
             @Override // org.telegram.ui.Components.Paint.RenderView.RenderViewDelegate
@@ -1099,11 +1102,11 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 return super.dispatchTouchEvent(motionEvent);
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:25:0x0081  */
-            /* JADX WARN: Removed duplicated region for block: B:30:0x0096  */
-            /* JADX WARN: Removed duplicated region for block: B:35:0x00b0  */
-            /* JADX WARN: Removed duplicated region for block: B:46:0x00eb  */
-            /* JADX WARN: Removed duplicated region for block: B:56:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:19:0x0081  */
+            /* JADX WARN: Removed duplicated region for block: B:25:0x00b0  */
+            /* JADX WARN: Removed duplicated region for block: B:36:0x00eb  */
+            /* JADX WARN: Removed duplicated region for block: B:47:? A[RETURN, SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:49:0x0096  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -1170,12 +1173,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                     int i9 = this.lastStickyX;
                                     if (i9 == 1) {
                                         measuredWidth = AndroidUtilities.dp(8.0f);
-                                    } else if (i9 == 2) {
-                                        measuredWidth2 = getMeasuredWidth() / 2.0f;
-                                        float f6 = measuredWidth2;
-                                        canvas.drawLine(f6, 0.0f, f6, getMeasuredHeight(), this.linePaint);
-                                        return;
                                     } else {
+                                        if (i9 == 2) {
+                                            measuredWidth2 = getMeasuredWidth() / 2.0f;
+                                            float f6 = measuredWidth2;
+                                            canvas.drawLine(f6, 0.0f, f6, getMeasuredHeight(), this.linePaint);
+                                            return;
+                                        }
                                         measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(8.0f);
                                     }
                                     measuredWidth2 = measuredWidth;
@@ -1498,11 +1502,11 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
 
             @Override // android.view.View
             public boolean onTouchEvent(MotionEvent motionEvent) {
-                if (motionEvent.getActionMasked() == 0 && PaintView.this.isTypefaceMenuShown) {
-                    PaintView.this.showTypefaceMenu(false);
-                    return true;
+                if (motionEvent.getActionMasked() != 0 || !PaintView.this.isTypefaceMenuShown) {
+                    return super.onTouchEvent(motionEvent);
                 }
-                return super.onTouchEvent(motionEvent);
+                PaintView.this.showTypefaceMenu(false);
+                return true;
             }
         };
         this.overlayLayout = frameLayout4;
@@ -1595,8 +1599,9 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
             int dp = AndroidUtilities.dp(100.0f);
             double d = AndroidUtilities.displaySize.y;
             Double.isNaN(d);
+            Rect rect = new Rect(0, (int) (AndroidUtilities.displaySize.y * 0.35f), dp, (int) (d * 0.65d));
             i5 = 1;
-            setSystemGestureExclusionRects(Arrays.asList(new Rect(0, (int) (AndroidUtilities.displaySize.y * 0.35f), dp, (int) (d * 0.65d))));
+            setSystemGestureExclusionRects(Arrays.asList(rect));
         } else {
             i5 = 1;
         }
@@ -1640,17 +1645,16 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         return new Size(f * floor2, floor2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0029  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0048  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0029  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private Size basePhotoSize(TLObject tLObject) {
         float f;
-        TLRPC.PhotoSize closestPhotoSizeWithSize;
         if (tLObject instanceof TLRPC.Photo) {
             if (FileLoader.getClosestPhotoSizeWithSize(((TLRPC.Photo) tLObject).sizes, 1000) != null) {
-                f = closestPhotoSizeWithSize.w / closestPhotoSizeWithSize.h;
+                f = r7.w / r7.h;
                 if (f <= 1.0f) {
                     double max = Math.max(this.w, this.entitiesView.getMeasuredWidth());
                     Double.isNaN(max);
@@ -1771,7 +1775,6 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     private LinkView createLinkSticker(LinkPreview.WebPagePreview webPagePreview, TL_stories.MediaArea mediaArea, boolean z) {
-        MediaController.CropState cropState;
         int i;
         onTextAdd();
         this.forceChanges = true;
@@ -1794,10 +1797,10 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         linkView.setMaxWidth(dp);
         this.entitiesView.addView(linkView, LayoutHelper.createFrame(-2, -2.0f));
         checkEntitiesIsVideo();
-        MediaController.CropState cropState2 = this.currentCropState;
-        if (cropState2 != null) {
-            linkView.scale(1.0f / cropState2.cropScale);
-            linkView.rotate(-(cropState.transformRotation + this.currentCropState.cropRotate));
+        MediaController.CropState cropState = this.currentCropState;
+        if (cropState != null) {
+            linkView.scale(1.0f / cropState.cropScale);
+            linkView.rotate(-(r13.transformRotation + this.currentCropState.cropRotate));
         }
         if (z) {
             registerRemovalUndo(linkView);
@@ -1807,7 +1810,6 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     private LocationView createLocationSticker(TLRPC.MessageMedia messageMedia, TL_stories.MediaArea mediaArea, boolean z) {
-        MediaController.CropState cropState;
         int i;
         onTextAdd();
         this.forceChanges = true;
@@ -1830,10 +1832,10 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         locationView.setMaxWidth(dp);
         this.entitiesView.addView(locationView, LayoutHelper.createFrame(-2, -2.0f));
         checkEntitiesIsVideo();
-        MediaController.CropState cropState2 = this.currentCropState;
-        if (cropState2 != null) {
-            locationView.scale(1.0f / cropState2.cropScale);
-            locationView.rotate(-(cropState.transformRotation + this.currentCropState.cropRotate));
+        MediaController.CropState cropState = this.currentCropState;
+        if (cropState != null) {
+            locationView.scale(1.0f / cropState.cropScale);
+            locationView.rotate(-(r12.transformRotation + this.currentCropState.cropRotate));
         }
         if (z) {
             registerRemovalUndo(locationView);
@@ -1919,8 +1921,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         MediaController.CropState cropState = this.currentCropState;
         if (cropState != null) {
             textPaintView.scale(1.0f / cropState.cropScale);
-            MediaController.CropState cropState2 = this.currentCropState;
-            textPaintView.rotate(-(cropState2.transformRotation + cropState2.cropRotate));
+            textPaintView.rotate(-(r0.transformRotation + this.currentCropState.cropRotate));
         }
         if (z) {
             registerRemovalUndo(textPaintView);
@@ -1936,7 +1937,6 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     private WeatherView createWeatherView(Weather.State state, boolean z) {
-        MediaController.CropState cropState;
         int i;
         onTextAdd();
         this.forceChanges = true;
@@ -1959,10 +1959,10 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         weatherView.setMaxWidth(dp);
         this.entitiesView.addView(weatherView, LayoutHelper.createFrame(-2, -2.0f));
         checkEntitiesIsVideo();
-        MediaController.CropState cropState2 = this.currentCropState;
-        if (cropState2 != null) {
-            weatherView.scale(1.0f / cropState2.cropScale);
-            weatherView.rotate(-(cropState.transformRotation + this.currentCropState.cropRotate));
+        MediaController.CropState cropState = this.currentCropState;
+        if (cropState != null) {
+            weatherView.scale(1.0f / cropState.cropScale);
+            weatherView.rotate(-(r11.transformRotation + this.currentCropState.cropRotate));
         }
         if (z) {
             registerRemovalUndo(weatherView);
@@ -1987,13 +1987,14 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         }
         Point startPositionRelativeToEntity = startPositionRelativeToEntity(entityView);
         if (entityView instanceof StickerView) {
-            EntityView stickerView = new StickerView(getContext(), (StickerView) entityView, startPositionRelativeToEntity);
+            StickerView stickerView = new StickerView(getContext(), (StickerView) entityView, startPositionRelativeToEntity);
             stickerView.setDelegate(this);
             this.entitiesView.addView(stickerView);
             entityView2 = stickerView;
-        } else if (!(entityView instanceof TextPaintView)) {
-            return;
         } else {
+            if (!(entityView instanceof TextPaintView)) {
+                return;
+            }
             TextPaintView textPaintView = new TextPaintView(getContext(), (TextPaintView) entityView, startPositionRelativeToEntity);
             textPaintView.setDelegate(this);
             textPaintView.setMaxWidth(this.w - AndroidUtilities.dp(32.0f));
@@ -2034,13 +2035,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
 
     private int getFrameRotation() {
         int i = this.originalBitmapRotation;
-        if (i != 90) {
-            if (i != 180) {
-                return i != 270 ? 0 : 3;
-            }
-            return 2;
+        if (i == 90) {
+            return 1;
         }
-        return 1;
+        if (i != 180) {
+            return i != 270 ? 0 : 3;
+        }
+        return 2;
     }
 
     private Size getPaintingSize() {
@@ -2119,8 +2120,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     private boolean isFaceAnchorOccupied(PhotoFace photoFace, int i, long j, TLRPC.TL_maskCoords tL_maskCoords) {
-        Point pointForAnchor = photoFace.getPointForAnchor(i);
-        if (pointForAnchor == null) {
+        if (photoFace.getPointForAnchor(i) == null) {
             return true;
         }
         float widthForAnchor = photoFace.getWidthForAnchor(0) * 1.1f;
@@ -2132,7 +2132,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                     continue;
                 } else {
                     Point position = stickerView.getPosition();
-                    float hypot = (float) Math.hypot(position.x - pointForAnchor.x, position.y - pointForAnchor.y);
+                    float hypot = (float) Math.hypot(position.x - r14.x, position.y - r14.y);
                     if ((j == stickerView.getSticker().id || this.faces.size() > 1) && hypot < widthForAnchor) {
                         return true;
                     }
@@ -2148,14 +2148,14 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     public static boolean isVideoStickerDocument(TLRPC.Document document) {
-        if (document != null) {
-            for (int i = 0; i < document.attributes.size(); i++) {
-                TLRPC.DocumentAttribute documentAttribute = document.attributes.get(i);
-                if ((documentAttribute instanceof TLRPC.TL_documentAttributeSticker) || (documentAttribute instanceof TLRPC.TL_documentAttributeCustomEmoji) || (documentAttribute instanceof TLRPC.TL_documentAttributeVideo)) {
-                    return "video/webm".equals(document.mime_type) || "video/mp4".equals(document.mime_type);
-                }
-            }
+        if (document == null) {
             return false;
+        }
+        for (int i = 0; i < document.attributes.size(); i++) {
+            TLRPC.DocumentAttribute documentAttribute = document.attributes.get(i);
+            if ((documentAttribute instanceof TLRPC.TL_documentAttributeSticker) || (documentAttribute instanceof TLRPC.TL_documentAttributeCustomEmoji) || (documentAttribute instanceof TLRPC.TL_documentAttributeVideo)) {
+                return "video/webm".equals(document.mime_type) || "video/mp4".equals(document.mime_type);
+            }
         }
         return false;
     }
@@ -2322,11 +2322,11 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                     PaintView.this.lambda$new$10(persistColorPalette, (Integer) obj);
                 }
             }).show();
-            return;
-        }
-        Runnable runnable = this.onDoneButtonClickedListener;
-        if (runnable != null) {
-            runnable.run();
+        } else {
+            Runnable runnable = this.onDoneButtonClickedListener;
+            if (runnable != null) {
+                runnable.run();
+            }
         }
     }
 
@@ -2337,18 +2337,18 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0038  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x004e  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0060  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0070  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x007d  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0092  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0094  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00de  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00e9  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00fd  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0128  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x012f  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0038  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x004e  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0070  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00de  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00fd  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0128  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x012f  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00e9  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0094  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0060  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2373,14 +2373,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 arrayList = new ArrayList();
                 PaintWeightChooserView paintWeightChooserView = this.weightChooserView;
                 Property property = View.TRANSLATION_Y;
-                float f = 0.0f;
-                arrayList.add(ObjectAnimator.ofFloat(paintWeightChooserView, property, max <= 0 ? Math.min(0.0f, ((-max) / 2.0f) - AndroidUtilities.dp(8.0f)) : 0.0f));
-                arrayList.add(ObjectAnimator.ofFloat(this.bottomLayout, property, max <= 0 ? Math.min(0, (-max) + AndroidUtilities.dp(40.0f)) : 0));
+                arrayList.add(ObjectAnimator.ofFloat(paintWeightChooserView, (Property<PaintWeightChooserView, Float>) property, max <= 0 ? Math.min(0.0f, ((-max) / 2.0f) - AndroidUtilities.dp(8.0f)) : 0.0f));
+                arrayList.add(ObjectAnimator.ofFloat(this.bottomLayout, (Property<FrameLayout, Float>) property, max <= 0 ? Math.min(0, (-max) + AndroidUtilities.dp(40.0f)) : 0));
                 LinearLayout linearLayout = this.tabsLayout;
                 Property property2 = View.ALPHA;
-                arrayList.add(ObjectAnimator.ofFloat(linearLayout, property2, !z ? 0.0f : 1.0f));
-                arrayList.add(ObjectAnimator.ofFloat(this.doneButton, property2, (z || this.isColorListShown) ? 1.0f : 0.0f));
-                arrayList.add(ObjectAnimator.ofFloat(this.cancelButton, property2, (z || this.isColorListShown) ? 1.0f : 1.0f));
+                arrayList.add(ObjectAnimator.ofFloat(linearLayout, (Property<LinearLayout, Float>) property2, !z ? 0.0f : 1.0f));
+                arrayList.add(ObjectAnimator.ofFloat(this.doneButton, (Property<PaintDoneView, Float>) property2, (z || this.isColorListShown) ? 1.0f : 0.0f));
+                arrayList.add(ObjectAnimator.ofFloat(this.cancelButton, (Property<PaintCancelView, Float>) property2, (z || this.isColorListShown) ? 1.0f : 0.0f));
                 updatePreviewViewTranslationY();
                 this.keyboardAnimator.playTogether(arrayList);
                 AnimatorSet animatorSet3 = this.keyboardAnimator;
@@ -2417,14 +2416,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         arrayList = new ArrayList();
         PaintWeightChooserView paintWeightChooserView2 = this.weightChooserView;
         Property property3 = View.TRANSLATION_Y;
-        float f2 = 0.0f;
-        arrayList.add(ObjectAnimator.ofFloat(paintWeightChooserView2, property3, max <= 0 ? Math.min(0.0f, ((-max) / 2.0f) - AndroidUtilities.dp(8.0f)) : 0.0f));
-        arrayList.add(ObjectAnimator.ofFloat(this.bottomLayout, property3, max <= 0 ? Math.min(0, (-max) + AndroidUtilities.dp(40.0f)) : 0));
+        arrayList.add(ObjectAnimator.ofFloat(paintWeightChooserView2, (Property<PaintWeightChooserView, Float>) property3, max <= 0 ? Math.min(0.0f, ((-max) / 2.0f) - AndroidUtilities.dp(8.0f)) : 0.0f));
+        arrayList.add(ObjectAnimator.ofFloat(this.bottomLayout, (Property<FrameLayout, Float>) property3, max <= 0 ? Math.min(0, (-max) + AndroidUtilities.dp(40.0f)) : 0));
         LinearLayout linearLayout2 = this.tabsLayout;
         Property property22 = View.ALPHA;
-        arrayList.add(ObjectAnimator.ofFloat(linearLayout2, property22, !z ? 0.0f : 1.0f));
-        arrayList.add(ObjectAnimator.ofFloat(this.doneButton, property22, (z || this.isColorListShown) ? 1.0f : 0.0f));
-        arrayList.add(ObjectAnimator.ofFloat(this.cancelButton, property22, (z || this.isColorListShown) ? 1.0f : 1.0f));
+        arrayList.add(ObjectAnimator.ofFloat(linearLayout2, (Property<LinearLayout, Float>) property22, !z ? 0.0f : 1.0f));
+        arrayList.add(ObjectAnimator.ofFloat(this.doneButton, (Property<PaintDoneView, Float>) property22, (z || this.isColorListShown) ? 1.0f : 0.0f));
+        arrayList.add(ObjectAnimator.ofFloat(this.cancelButton, (Property<PaintCancelView, Float>) property22, (z || this.isColorListShown) ? 1.0f : 0.0f));
         updatePreviewViewTranslationY();
         this.keyboardAnimator.playTogether(arrayList);
         AnimatorSet animatorSet32 = this.keyboardAnimator;
@@ -2492,15 +2490,19 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     public /* synthetic */ void lambda$new$9(View view) {
         if (this.isColorListShown) {
             showColorList(false);
-        } else if (this.emojiViewVisible) {
+            return;
+        }
+        if (this.emojiViewVisible) {
             hideEmojiPopup(true);
-        } else if (this.editingText) {
+            return;
+        }
+        if (this.editingText) {
             lambda$createRound$61(null);
-        } else {
-            Runnable runnable = this.onCancelButtonClickedListener;
-            if (runnable != null) {
-                runnable.run();
-            }
+            return;
+        }
+        Runnable runnable = this.onCancelButtonClickedListener;
+        if (runnable != null) {
+            runnable.run();
         }
     }
 
@@ -2643,7 +2645,8 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 }
             });
             return Boolean.TRUE;
-        } else if (num.intValue() == 5) {
+        }
+        if (num.intValue() == 5) {
             zArr[0] = false;
             Weather.fetch(true, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda55
                 @Override // org.telegram.messenger.Utilities.Callback
@@ -2652,11 +2655,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 }
             });
             return Boolean.FALSE;
-        } else if (num.intValue() == 2) {
+        }
+        if (num.intValue() == 2) {
             emojiBottomSheet.dismiss();
             onGalleryClick();
             return Boolean.TRUE;
-        } else if (num.intValue() == 1) {
+        }
+        if (num.intValue() == 1) {
             zArr[0] = false;
             showAudioAlert(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda56
                 @Override // org.telegram.messenger.Utilities.Callback
@@ -2665,38 +2670,39 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 }
             });
             return Boolean.TRUE;
-        } else if (num.intValue() == 3) {
+        }
+        if (num.intValue() == 3) {
             this.forceChanges = true;
             appearAnimation(createReactionWidget(true));
             return Boolean.TRUE;
-        } else if (num.intValue() == 4) {
-            if (!UserConfig.getInstance(this.currentAccount).isPremium()) {
-                emojiBottomSheet.container.performHapticFeedback(3);
-                BulletinFactory.of(emojiBottomSheet.container, this.resourcesProvider).createSimpleBulletin(R.raw.star_premium_2, AndroidUtilities.premiumText(LocaleController.getString(R.string.StoryLinkPremium), new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda57
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        PaintView.this.lambda$openStickersView$26();
-                    }
-                })).show(true);
-                return Boolean.FALSE;
-            }
-            int i = 0;
-            for (int i2 = 0; i2 < this.entitiesView.getChildCount(); i2++) {
-                if (this.entitiesView.getChildAt(i2) instanceof LinkView) {
-                    i++;
-                }
-            }
-            if (i >= 3) {
-                BulletinFactory.of(emojiBottomSheet.container, this.resourcesProvider).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString(R.string.StoryLinkLimitTitle), LocaleController.formatPluralString("StoryLinkLimitMessage", 3, new Object[0])).show(true);
-                return Boolean.FALSE;
-            }
-            zArr[0] = false;
-            showLinkAlert(null);
-            emojiBottomSheet.dismiss();
-            return Boolean.TRUE;
-        } else {
+        }
+        if (num.intValue() != 4) {
             return Boolean.FALSE;
         }
+        if (!UserConfig.getInstance(this.currentAccount).isPremium()) {
+            emojiBottomSheet.container.performHapticFeedback(3);
+            BulletinFactory.of(emojiBottomSheet.container, this.resourcesProvider).createSimpleBulletin(R.raw.star_premium_2, AndroidUtilities.premiumText(LocaleController.getString(R.string.StoryLinkPremium), new Runnable() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda57
+                @Override // java.lang.Runnable
+                public final void run() {
+                    PaintView.this.lambda$openStickersView$26();
+                }
+            })).show(true);
+            return Boolean.FALSE;
+        }
+        int i = 0;
+        for (int i2 = 0; i2 < this.entitiesView.getChildCount(); i2++) {
+            if (this.entitiesView.getChildAt(i2) instanceof LinkView) {
+                i++;
+            }
+        }
+        if (i >= 3) {
+            BulletinFactory.of(emojiBottomSheet.container, this.resourcesProvider).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString(R.string.StoryLinkLimitTitle), LocaleController.formatPluralString("StoryLinkLimitMessage", 3, new Object[0])).show(true);
+            return Boolean.FALSE;
+        }
+        zArr[0] = false;
+        showLinkAlert(null);
+        emojiBottomSheet.dismiss();
+        return Boolean.TRUE;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2832,7 +2838,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showMenuForEntity$46(EntityView entityView, View view) {
         try {
-            ((TextPaintView) entityView).getEditText().onTextContextMenuItem(16908337);
+            ((TextPaintView) entityView).getEditText().onTextContextMenuItem(android.R.id.pasteAsPlainText);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -2939,8 +2945,8 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x014e  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0252  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x014e  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0252  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3003,109 +3009,110 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                     }
                 };
             }
-        } else if (!(entityView instanceof LocationView)) {
-            if (entityView instanceof LinkView) {
-                createActionLayoutButton = createActionLayoutButton(1, LocaleController.getString("PaintEdit", R.string.PaintEdit));
-                onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda44
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        PaintView.this.lambda$showMenuForEntity$50(entityView, view);
-                    }
-                };
-            }
-            if (!(entityView instanceof StickerView) || (entityView instanceof RoundView) || (entityView instanceof PhotoView) || (entityView instanceof ReactionWidgetEntityView)) {
-                TextView createActionLayoutButton2 = createActionLayoutButton(4, LocaleController.getString("Flip", R.string.Flip));
-                createActionLayoutButton2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda45
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        PaintView.this.lambda$showMenuForEntity$51(entityView, view);
-                    }
-                });
-                linearLayout.addView(createActionLayoutButton2, LayoutHelper.createLinear(-2, 44));
-            }
-            z = entityView instanceof PhotoView;
-            if (z) {
-                final PhotoView photoView = (PhotoView) entityView;
-                if (photoView.hasSegmentedImage()) {
-                    TextView createActionLayoutButton3 = createActionLayoutButton(5, LocaleController.getString(photoView.isSegmented() ? R.string.SegmentationUndoCutOut : R.string.SegmentationCutOut));
-                    createActionLayoutButton3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda46
+        } else {
+            if (!(entityView instanceof LocationView)) {
+                if (entityView instanceof LinkView) {
+                    createActionLayoutButton = createActionLayoutButton(1, LocaleController.getString("PaintEdit", R.string.PaintEdit));
+                    onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda44
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
-                            PaintView.this.lambda$showMenuForEntity$52(photoView, view);
-                        }
-                    });
-                    linearLayout.addView(createActionLayoutButton3, LayoutHelper.createLinear(-2, 44));
-                    photoView.highlightSegmented();
-                }
-            }
-            if (this.entitiesView.indexOfChild(entityView) != this.entitiesView.getChildCount() - 1 || (entityView instanceof ReactionWidgetEntityView)) {
-                if (!z && !z2 && !(entityView instanceof RoundView) && !(entityView instanceof LocationView) && !(entityView instanceof WeatherView) && !(entityView instanceof LinkView) && !(entityView instanceof ReactionWidgetEntityView)) {
-                    textView = new TextView(getContext());
-                    textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
-                    textView.setLines(1);
-                    textView.setSingleLine();
-                    textView.setEllipsize(TextUtils.TruncateAt.END);
-                    textView.setGravity(16);
-                    textView.setTypeface(AndroidUtilities.bold());
-                    textView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
-                    textView.setTextSize(1, 14.0f);
-                    textView.setTag(2);
-                    textView.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
-                    onClickListener2 = new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda48
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            PaintView.this.lambda$showMenuForEntity$54(entityView, view);
+                            PaintView.this.lambda$showMenuForEntity$50(entityView, view);
                         }
                     };
                 }
+                if (!(entityView instanceof StickerView) || (entityView instanceof RoundView) || (entityView instanceof PhotoView) || (entityView instanceof ReactionWidgetEntityView)) {
+                    TextView createActionLayoutButton2 = createActionLayoutButton(4, LocaleController.getString("Flip", R.string.Flip));
+                    createActionLayoutButton2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda45
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            PaintView.this.lambda$showMenuForEntity$51(entityView, view);
+                        }
+                    });
+                    linearLayout.addView(createActionLayoutButton2, LayoutHelper.createLinear(-2, 44));
+                }
+                z = entityView instanceof PhotoView;
+                if (z) {
+                    final PhotoView photoView = (PhotoView) entityView;
+                    if (photoView.hasSegmentedImage()) {
+                        TextView createActionLayoutButton3 = createActionLayoutButton(5, LocaleController.getString(photoView.isSegmented() ? R.string.SegmentationUndoCutOut : R.string.SegmentationCutOut));
+                        createActionLayoutButton3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda46
+                            @Override // android.view.View.OnClickListener
+                            public final void onClick(View view) {
+                                PaintView.this.lambda$showMenuForEntity$52(photoView, view);
+                            }
+                        });
+                        linearLayout.addView(createActionLayoutButton3, LayoutHelper.createLinear(-2, 44));
+                        photoView.highlightSegmented();
+                    }
+                }
+                if (this.entitiesView.indexOfChild(entityView) != this.entitiesView.getChildCount() - 1 || (entityView instanceof ReactionWidgetEntityView)) {
+                    if (!z && !z2 && !(entityView instanceof RoundView) && !(entityView instanceof LocationView) && !(entityView instanceof WeatherView) && !(entityView instanceof LinkView) && !(entityView instanceof ReactionWidgetEntityView)) {
+                        textView = new TextView(getContext());
+                        textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
+                        textView.setLines(1);
+                        textView.setSingleLine();
+                        textView.setEllipsize(TextUtils.TruncateAt.END);
+                        textView.setGravity(16);
+                        textView.setTypeface(AndroidUtilities.bold());
+                        textView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
+                        textView.setTextSize(1, 14.0f);
+                        textView.setTag(2);
+                        textView.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
+                        onClickListener2 = new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda48
+                            @Override // android.view.View.OnClickListener
+                            public final void onClick(View view) {
+                                PaintView.this.lambda$showMenuForEntity$54(entityView, view);
+                            }
+                        };
+                    }
+                    i = 0;
+                    while (i < linearLayout.getChildCount()) {
+                        View childAt = linearLayout.getChildAt(i);
+                        int themedColor = getThemedColor(Theme.key_listSelector);
+                        int i2 = 8;
+                        int i3 = i == 0 ? 8 : 0;
+                        int i4 = i == linearLayout.getChildCount() - 1 ? 8 : 0;
+                        int i5 = i == linearLayout.getChildCount() - 1 ? 8 : 0;
+                        if (i != 0) {
+                            i2 = 0;
+                        }
+                        childAt.setBackground(Theme.createRadSelectorDrawable(themedColor, i3, i4, i5, i2));
+                        i++;
+                    }
+                    this.popupLayout.addView(linearLayout);
+                    LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
+                    layoutParams.width = -2;
+                    layoutParams.height = -2;
+                    linearLayout.setLayoutParams(layoutParams);
+                }
+                textView = new TextView(getContext());
+                textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
+                textView.setLines(1);
+                textView.setSingleLine();
+                textView.setEllipsize(TextUtils.TruncateAt.END);
+                textView.setGravity(16);
+                textView.setTypeface(AndroidUtilities.bold());
+                textView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
+                textView.setTextSize(1, 14.0f);
+                textView.setTag(2);
+                textView.setText(LocaleController.getString(R.string.PaintBringToFront));
+                onClickListener2 = new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda47
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        PaintView.this.lambda$showMenuForEntity$53(entityView, view);
+                    }
+                };
+                textView.setOnClickListener(onClickListener2);
+                linearLayout.addView(textView, LayoutHelper.createLinear(-2, 44));
                 i = 0;
                 while (i < linearLayout.getChildCount()) {
-                    View childAt = linearLayout.getChildAt(i);
-                    int themedColor = getThemedColor(Theme.key_listSelector);
-                    int i2 = 8;
-                    int i3 = i == 0 ? 8 : 0;
-                    int i4 = i == linearLayout.getChildCount() - 1 ? 8 : 0;
-                    int i5 = i == linearLayout.getChildCount() - 1 ? 8 : 0;
-                    if (i != 0) {
-                        i2 = 0;
-                    }
-                    childAt.setBackground(Theme.createRadSelectorDrawable(themedColor, i3, i4, i5, i2));
-                    i++;
                 }
                 this.popupLayout.addView(linearLayout);
-                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
-                layoutParams.width = -2;
-                layoutParams.height = -2;
-                linearLayout.setLayoutParams(layoutParams);
+                LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
+                layoutParams2.width = -2;
+                layoutParams2.height = -2;
+                linearLayout.setLayoutParams(layoutParams2);
             }
-            textView = new TextView(getContext());
-            textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
-            textView.setLines(1);
-            textView.setSingleLine();
-            textView.setEllipsize(TextUtils.TruncateAt.END);
-            textView.setGravity(16);
-            textView.setTypeface(AndroidUtilities.bold());
-            textView.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
-            textView.setTextSize(1, 14.0f);
-            textView.setTag(2);
-            textView.setText(LocaleController.getString(R.string.PaintBringToFront));
-            onClickListener2 = new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda47
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    PaintView.this.lambda$showMenuForEntity$53(entityView, view);
-                }
-            };
-            textView.setOnClickListener(onClickListener2);
-            linearLayout.addView(textView, LayoutHelper.createLinear(-2, 44));
-            i = 0;
-            while (i < linearLayout.getChildCount()) {
-            }
-            this.popupLayout.addView(linearLayout);
-            LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
-            layoutParams2.width = -2;
-            layoutParams2.height = -2;
-            linearLayout.setLayoutParams(layoutParams2);
-        } else {
             createActionLayoutButton = createActionLayoutButton(1, LocaleController.getString("PaintEdit", R.string.PaintEdit));
             onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.PaintView$$ExternalSyntheticLambda43
                 @Override // android.view.View.OnClickListener
@@ -3165,14 +3172,14 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$showPopup$56(View view, MotionEvent motionEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
-        if (motionEvent.getActionMasked() == 0 && (actionBarPopupWindow = this.popupWindow) != null && actionBarPopupWindow.isShowing()) {
-            view.getHitRect(this.popupRect);
-            if (this.popupRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
-                return false;
-            }
-            this.popupWindow.dismiss();
+        if (motionEvent.getActionMasked() != 0 || (actionBarPopupWindow = this.popupWindow) == null || !actionBarPopupWindow.isShowing()) {
             return false;
         }
+        view.getHitRect(this.popupRect);
+        if (this.popupRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
+            return false;
+        }
+        this.popupWindow.dismiss();
         return false;
     }
 
@@ -3283,7 +3290,8 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                     if (i2 >= MessagesController.getInstance(this.currentAccount).storiesSuggestedReactionsLimitDefault && !UserConfig.getInstance(this.currentAccount).isPremium()) {
                         showPremiumBulletin(LocaleController.formatPluralString("StoryPremiumWidgets2", MessagesController.getInstance(this.currentAccount).storiesSuggestedReactionsLimitPremium, new Object[0]));
                         return false;
-                    } else if (i2 >= MessagesController.getInstance(this.currentAccount).storiesSuggestedReactionsLimitPremium) {
+                    }
+                    if (i2 >= MessagesController.getInstance(this.currentAccount).storiesSuggestedReactionsLimitPremium) {
                         this.container.performHapticFeedback(3);
                         BulletinFactory.of(this.container, this.resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString("LimitReached", R.string.LimitReached), LocaleController.formatPluralString("StoryReactionsWidgetLimit2", MessagesController.getInstance(this.currentAccount).storiesSuggestedReactionsLimitPremium, new Object[0])).show(true);
                         return false;
@@ -3299,22 +3307,22 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 int intValue = num.intValue();
                 if (z) {
                     return intValue == 2;
-                } else if (intValue == 5) {
-                    int i2 = 0;
-                    while (true) {
-                        if (i2 >= PaintView.this.entitiesView.getChildCount()) {
-                            break;
-                        } else if (PaintView.this.entitiesView.getChildAt(i2) instanceof WeatherView) {
-                            z2 = true;
-                            break;
-                        } else {
-                            i2++;
-                        }
-                    }
-                    return !z2;
-                } else {
+                }
+                if (intValue != 5) {
                     return true;
                 }
+                int i2 = 0;
+                while (true) {
+                    if (i2 >= PaintView.this.entitiesView.getChildCount()) {
+                        break;
+                    }
+                    if (PaintView.this.entitiesView.getChildAt(i2) instanceof WeatherView) {
+                        z2 = true;
+                        break;
+                    }
+                    i2++;
+                }
+                return !z2;
             }
 
             @Override // org.telegram.ui.Stories.recorder.EmojiBottomSheet
@@ -3377,7 +3385,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: removeEntity */
+    /* renamed from: removeEntity, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public void lambda$registerRemovalUndo$62(EntityView entityView) {
         EntityView entityView2 = this.currentEntityView;
         if (entityView == entityView2 && entityView2 != null) {
@@ -3444,44 +3452,45 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         EntityView entityView2 = this.currentEntityView;
         if (entityView2 == null) {
             z2 = false;
-        } else if (entityView2 == entityView) {
-            if (!entityView.hadMultitouch()) {
-                if (entityView instanceof LocationView) {
-                    LocationView locationView = (LocationView) entityView;
-                    locationView.setType((locationView.getType() + 1) % locationView.getTypesCount());
-                } else if (entityView instanceof WeatherView) {
-                    WeatherView weatherView = (WeatherView) entityView;
-                    weatherView.setType((weatherView.getType() + 1) % weatherView.getTypesCount());
-                } else if (entityView instanceof LinkView) {
-                    LinkView linkView = (LinkView) entityView;
-                    if (linkView.marker.withPreview()) {
-                        LinkPreview linkPreview = linkView.marker;
-                        linkPreview.setPreviewType(linkPreview.getPreviewType() == 0 ? 1 : 0);
-                    } else {
-                        linkView.setType(linkView.getNextType());
-                    }
-                } else if (this.editingText) {
-                    EntityView entityView3 = this.currentEntityView;
-                    if (entityView3 instanceof TextPaintView) {
-                        AndroidUtilities.showKeyboard(((TextPaintView) entityView3).getFocusedView());
-                        hideEmojiPopup(false);
-                    }
-                } else if (entityView instanceof TextPaintView) {
-                    this.enteredThroughText = true;
-                    editSelectedTextEntity();
-                } else if (entityView instanceof ReactionWidgetEntityView) {
-                    ReactionWidgetEntityView reactionWidgetEntityView = (ReactionWidgetEntityView) entityView;
-                    if (this.reactionLayoutShowing && this.reactionForEntity == entityView) {
-                        reactionWidgetEntityView.changeStyle(true);
-                    } else {
-                        showReactionsLayoutForView(reactionWidgetEntityView);
-                    }
-                } else {
-                    showMenuForEntity(this.currentEntityView);
-                }
-            }
-            return true;
         } else {
+            if (entityView2 == entityView) {
+                if (!entityView.hadMultitouch()) {
+                    if (entityView instanceof LocationView) {
+                        LocationView locationView = (LocationView) entityView;
+                        locationView.setType((locationView.getType() + 1) % locationView.getTypesCount());
+                    } else if (entityView instanceof WeatherView) {
+                        WeatherView weatherView = (WeatherView) entityView;
+                        weatherView.setType((weatherView.getType() + 1) % weatherView.getTypesCount());
+                    } else if (entityView instanceof LinkView) {
+                        LinkView linkView = (LinkView) entityView;
+                        if (linkView.marker.withPreview()) {
+                            LinkPreview linkPreview = linkView.marker;
+                            linkPreview.setPreviewType(linkPreview.getPreviewType() == 0 ? 1 : 0);
+                        } else {
+                            linkView.setType(linkView.getNextType());
+                        }
+                    } else if (this.editingText) {
+                        EntityView entityView3 = this.currentEntityView;
+                        if (entityView3 instanceof TextPaintView) {
+                            AndroidUtilities.showKeyboard(((TextPaintView) entityView3).getFocusedView());
+                            hideEmojiPopup(false);
+                        }
+                    } else if (entityView instanceof TextPaintView) {
+                        this.enteredThroughText = true;
+                        editSelectedTextEntity();
+                    } else if (entityView instanceof ReactionWidgetEntityView) {
+                        ReactionWidgetEntityView reactionWidgetEntityView = (ReactionWidgetEntityView) entityView;
+                        if (this.reactionLayoutShowing && this.reactionForEntity == entityView) {
+                            reactionWidgetEntityView.changeStyle(true);
+                        } else {
+                            showReactionsLayoutForView(reactionWidgetEntityView);
+                        }
+                    } else {
+                        showMenuForEntity(this.currentEntityView);
+                    }
+                }
+                return true;
+            }
             entityView2.deselect();
             EntityView entityView4 = this.currentEntityView;
             if (entityView4 instanceof TextPaintView) {
@@ -3618,7 +3627,9 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         EntityView entityView = this.currentEntityView;
         if (entityView instanceof TextPaintView) {
             ((TextPaintView) entityView).setSwatch(new Swatch(swatch.color, swatch.colorLocation, swatch.brushWeight));
-        } else if (z2 && (entityView instanceof LocationView)) {
+            return;
+        }
+        if (z2 && (entityView instanceof LocationView)) {
             ((LocationView) entityView).setColor(swatch.color);
             ((LocationView) this.currentEntityView).setType(3);
         } else if (z2 && (entityView instanceof WeatherView)) {
@@ -3669,14 +3680,14 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x00f1, code lost:
-        if (r5.viewHeight > 0) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00f1, code lost:
+    
+        if (r5.viewHeight > 0) goto L39;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setupEntities() {
-        LinkPreview linkPreview;
         Emoji.EmojiSpan[] emojiSpanArr;
         RoundView roundView;
         RoundView roundView2;
@@ -3772,10 +3783,10 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                         if (b2 == -1) {
                             createLinkSticker.setType(3);
                             createLinkSticker.marker.setupLayout();
-                            int ceil = createLinkSticker.marker.padx + ((int) Math.ceil(linkPreview.w));
-                            LinkPreview linkPreview2 = createLinkSticker.marker;
-                            mediaEntity.viewWidth = ceil + linkPreview2.padx;
-                            mediaEntity.viewHeight = linkPreview2.pady + ((int) Math.ceil(linkPreview2.h)) + createLinkSticker.marker.pady;
+                            int ceil = createLinkSticker.marker.padx + ((int) Math.ceil(r7.w));
+                            LinkPreview linkPreview = createLinkSticker.marker;
+                            mediaEntity.viewWidth = ceil + linkPreview.padx;
+                            mediaEntity.viewHeight = linkPreview.pady + ((int) Math.ceil(linkPreview.h)) + createLinkSticker.marker.pady;
                             Point position = createLinkSticker.getPosition();
                             position.y += this.h * 0.3f;
                             createLinkSticker.setPosition(position);
@@ -4299,10 +4310,10 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         PopupWindowLayout popupWindowLayout3 = this.popupLayout;
         if (z) {
             popupWindowLayout3.setBackgroundDrawable(new BlurringShader.StoryBlurDrawer(this.blurManager, popupWindowLayout3, 5).makeDrawable(i2, i3, mutate, AndroidUtilities.dpf2(8.3f)));
-            return;
+        } else {
+            popupWindowLayout3.setBackgroundDrawable(mutate);
+            this.popupLayout.setBackgroundColor(-14145495);
         }
-        popupWindowLayout3.setBackgroundDrawable(mutate);
-        this.popupLayout.setBackgroundColor(-14145495);
     }
 
     private void showReactionsLayoutForView(ReactionWidgetEntityView reactionWidgetEntityView) {
@@ -4568,7 +4579,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         if (view == null) {
             return;
         }
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, (((!this.keyboardNotifier.keyboardVisible() || this.keyboardNotifier.ignoring) && this.emojiPadding <= 0) || (entityView = this.currentEntityView) == null) ? 0.0f : (-(entityView.getPosition().y - (view.getMeasuredHeight() * 0.3f))) * view.getScaleY());
+        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(view, (Property<View, Float>) View.TRANSLATION_Y, (((!this.keyboardNotifier.keyboardVisible() || this.keyboardNotifier.ignoring) && this.emojiPadding <= 0) || (entityView = this.currentEntityView) == null) ? 0.0f : (-(entityView.getPosition().y - (view.getMeasuredHeight() * 0.3f))) * view.getScaleY());
         this.previewViewTranslationAnimator = ofFloat;
         ofFloat.setDuration(350L);
         this.previewViewTranslationAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -4704,7 +4715,6 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     public RoundView createRound(String str, boolean z) {
-        float f;
         this.forceChanges = true;
         this.creatingNewRound = true;
         deleteRound();
@@ -4713,7 +4723,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         if (measuredWidth <= 0) {
             measuredWidth = this.w;
         }
-        float floor = (float) Math.floor(0.43f * f);
+        float floor = (float) Math.floor(0.43f * r0);
         Size size = new Size(floor, floor);
         final RoundView roundView = new RoundView(getContext(), new Point((measuredWidth - (size.width / 2.0f)) - AndroidUtilities.dp(16.0f), AndroidUtilities.dp(72.0f) + (size.height / 2.0f)), 0.0f, 1.0f, size, str);
         roundView.setDelegate(this);
@@ -4837,13 +4847,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         return AndroidUtilities.dp(48.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0057  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x0592  */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x0725  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x07ea  */
-    /* JADX WARN: Removed duplicated region for block: B:238:0x0969  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x0973  */
-    /* JADX WARN: Removed duplicated region for block: B:250:0x098f  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x07ea  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x0969  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x0973  */
+    /* JADX WARN: Removed duplicated region for block: B:290:0x0592  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0725  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x098f  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0057  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4860,21 +4870,17 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         View view3;
         ImageReceiver imageReceiver;
         ArrayList arrayList2;
-        Weather.State state;
         boolean z7;
         File saveSegmentedImage;
         float scaleX;
         boolean z8;
-        LinkView linkView;
         TL_stories.MediaAreaCoordinates mediaAreaCoordinates;
         float f;
         int i5;
-        WeatherView weatherView;
         LocationMarker locationMarker;
         float radius;
         LocationMarker locationMarker2;
         double d;
-        LocationView locationView;
         TL_stories.MediaArea mediaArea;
         TL_stories.MediaAreaCoordinates mediaAreaCoordinates2;
         int i6;
@@ -4889,451 +4895,481 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
             createBitmap = this.renderView.getResultBitmap(false, z4);
         } else if (z3) {
             createBitmap = Bitmap.createBitmap(Math.max(1, this.entitiesView.getMeasuredWidth()), Math.max(1, this.entitiesView.getMeasuredHeight()), Bitmap.Config.ARGB_8888);
-        } else if (!z2 || (resultBitmap = this.renderView.getResultBitmap(false, false)) == null) {
-            bitmap = null;
-            this.lcm = BigInteger.ONE;
-            if (this.entitiesView.entitiesCount() > 0) {
-                int childCount = this.entitiesView.getChildCount();
-                int i9 = 0;
-                while (i9 < childCount) {
-                    View childAt = this.entitiesView.getChildAt(i9);
-                    if (childAt instanceof EntityView) {
-                        EntityView entityView = (EntityView) childAt;
-                        entityView.getPosition();
-                        VideoEditedInfo.MediaEntity mediaEntity = new VideoEditedInfo.MediaEntity();
-                        if (arrayList3 != null) {
-                            long j = 5000;
-                            if (entityView instanceof TextPaintView) {
-                                mediaEntity.type = b;
-                                TextPaintView textPaintView = (TextPaintView) entityView;
-                                CharSequence text = textPaintView.getText();
-                                if (text instanceof Spanned) {
-                                    Spanned spanned2 = (Spanned) text;
-                                    AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) spanned2.getSpans(i8, text.length(), AnimatedEmojiSpan.class);
-                                    if (animatedEmojiSpanArr != null) {
-                                        int i10 = 0;
-                                        while (i10 < animatedEmojiSpanArr.length) {
-                                            AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr[i10];
-                                            TLRPC.Document document = animatedEmojiSpan.document;
-                                            if (document == null) {
-                                                i6 = childCount;
-                                                i7 = i9;
-                                                document = AnimatedEmojiDrawable.findDocument(this.currentAccount, animatedEmojiSpan.getDocumentId());
-                                            } else {
-                                                i6 = childCount;
-                                                i7 = i9;
-                                            }
-                                            if (document != null) {
-                                                AnimatedEmojiDrawable.getDocumentFetcher(this.currentAccount).putDocument(document);
-                                            }
-                                            VideoEditedInfo.EmojiEntity emojiEntity = new VideoEditedInfo.EmojiEntity();
-                                            View view4 = childAt;
-                                            emojiEntity.document_id = animatedEmojiSpan.getDocumentId();
-                                            emojiEntity.document = document;
-                                            emojiEntity.offset = spanned2.getSpanStart(animatedEmojiSpan);
-                                            emojiEntity.length = spanned2.getSpanEnd(animatedEmojiSpan) - emojiEntity.offset;
-                                            emojiEntity.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(document, true).getAbsolutePath();
-                                            int i11 = 0;
-                                            while (document != null) {
-                                                ArrayList<TLRPC.PhotoSize> arrayList4 = document.thumbs;
-                                                if (arrayList4 == null || arrayList4.isEmpty() || new File(emojiEntity.documentAbsolutePath).exists()) {
-                                                    break;
+        } else {
+            if (!z2 || (resultBitmap = this.renderView.getResultBitmap(false, false)) == null) {
+                bitmap = null;
+                this.lcm = BigInteger.ONE;
+                if (this.entitiesView.entitiesCount() > 0) {
+                    int childCount = this.entitiesView.getChildCount();
+                    int i9 = 0;
+                    while (i9 < childCount) {
+                        View childAt = this.entitiesView.getChildAt(i9);
+                        if (childAt instanceof EntityView) {
+                            EntityView entityView = (EntityView) childAt;
+                            entityView.getPosition();
+                            VideoEditedInfo.MediaEntity mediaEntity = new VideoEditedInfo.MediaEntity();
+                            if (arrayList3 != null) {
+                                if (entityView instanceof TextPaintView) {
+                                    mediaEntity.type = b;
+                                    TextPaintView textPaintView = (TextPaintView) entityView;
+                                    CharSequence text = textPaintView.getText();
+                                    if (text instanceof Spanned) {
+                                        Spanned spanned2 = (Spanned) text;
+                                        AnimatedEmojiSpan[] animatedEmojiSpanArr = (AnimatedEmojiSpan[]) spanned2.getSpans(i8, text.length(), AnimatedEmojiSpan.class);
+                                        if (animatedEmojiSpanArr != null) {
+                                            int i10 = 0;
+                                            while (i10 < animatedEmojiSpanArr.length) {
+                                                AnimatedEmojiSpan animatedEmojiSpan = animatedEmojiSpanArr[i10];
+                                                TLRPC.Document document = animatedEmojiSpan.document;
+                                                if (document == null) {
+                                                    i6 = childCount;
+                                                    i7 = i9;
+                                                    document = AnimatedEmojiDrawable.findDocument(this.currentAccount, animatedEmojiSpan.getDocumentId());
+                                                } else {
+                                                    i6 = childCount;
+                                                    i7 = i9;
+                                                }
+                                                if (document != null) {
+                                                    AnimatedEmojiDrawable.getDocumentFetcher(this.currentAccount).putDocument(document);
+                                                }
+                                                VideoEditedInfo.EmojiEntity emojiEntity = new VideoEditedInfo.EmojiEntity();
+                                                View view4 = childAt;
+                                                emojiEntity.document_id = animatedEmojiSpan.getDocumentId();
+                                                emojiEntity.document = document;
+                                                emojiEntity.offset = spanned2.getSpanStart(animatedEmojiSpan);
+                                                emojiEntity.length = spanned2.getSpanEnd(animatedEmojiSpan) - emojiEntity.offset;
+                                                emojiEntity.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(document, true).getAbsolutePath();
+                                                int i11 = 0;
+                                                while (document != null) {
+                                                    ArrayList<TLRPC.PhotoSize> arrayList4 = document.thumbs;
+                                                    if (arrayList4 == null || arrayList4.isEmpty() || new File(emojiEntity.documentAbsolutePath).exists()) {
+                                                        break;
+                                                    }
+                                                    spanned = spanned2;
+                                                    z9 = true;
+                                                    emojiEntity.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(document.thumbs.get(i11), true).getAbsolutePath();
+                                                    i11++;
+                                                    if (i11 >= document.thumbs.size()) {
+                                                        break;
+                                                    }
+                                                    spanned2 = spanned;
                                                 }
                                                 spanned = spanned2;
                                                 z9 = true;
-                                                emojiEntity.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(document.thumbs.get(i11), true).getAbsolutePath();
-                                                i11++;
-                                                if (i11 >= document.thumbs.size()) {
-                                                    break;
+                                                boolean isAnimatedStickerDocument = MessageObject.isAnimatedStickerDocument(emojiEntity.document, z9);
+                                                if (isAnimatedStickerDocument || isVideoStickerDocument(emojiEntity.document)) {
+                                                    emojiEntity.subType = (byte) ((isAnimatedStickerDocument ? (byte) 1 : (byte) 4) | emojiEntity.subType);
                                                 }
+                                                if (MessageObject.isTextColorEmoji(emojiEntity.document)) {
+                                                    emojiEntity.subType = (byte) (emojiEntity.subType | 8);
+                                                }
+                                                mediaEntity.entities.add(emojiEntity);
+                                                if (document != null) {
+                                                    BigInteger valueOf = BigInteger.valueOf(5000L);
+                                                    this.lcm = this.lcm.multiply(valueOf).divide(this.lcm.gcd(valueOf));
+                                                }
+                                                i10++;
+                                                childCount = i6;
+                                                i9 = i7;
+                                                childAt = view4;
                                                 spanned2 = spanned;
                                             }
-                                            spanned = spanned2;
-                                            z9 = true;
-                                            boolean isAnimatedStickerDocument = MessageObject.isAnimatedStickerDocument(emojiEntity.document, z9);
-                                            if (isAnimatedStickerDocument || isVideoStickerDocument(emojiEntity.document)) {
-                                                emojiEntity.subType = (byte) ((isAnimatedStickerDocument ? (byte) 1 : (byte) 4) | emojiEntity.subType);
-                                            }
-                                            if (MessageObject.isTextColorEmoji(emojiEntity.document)) {
-                                                emojiEntity.subType = (byte) (emojiEntity.subType | 8);
-                                            }
-                                            mediaEntity.entities.add(emojiEntity);
-                                            if (document != null) {
-                                                BigInteger valueOf = BigInteger.valueOf(5000L);
-                                                this.lcm = this.lcm.multiply(valueOf).divide(this.lcm.gcd(valueOf));
-                                            }
-                                            i10++;
-                                            childCount = i6;
-                                            i9 = i7;
-                                            childAt = view4;
-                                            spanned2 = spanned;
                                         }
                                     }
-                                }
-                                i3 = childCount;
-                                i4 = i9;
-                                view = childAt;
-                                mediaEntity.text = text.toString();
-                                mediaEntity.subType = (byte) textPaintView.getType();
-                                mediaEntity.color = textPaintView.getSwatch().color;
-                                mediaEntity.fontSize = textPaintView.getTextSize();
-                                mediaEntity.textTypeface = textPaintView.getTypeface();
-                                mediaEntity.textAlign = textPaintView.getAlign();
-                            } else {
-                                i3 = childCount;
-                                i4 = i9;
-                                view = childAt;
-                                if (entityView instanceof StickerView) {
-                                    mediaEntity.type = (byte) 0;
-                                    StickerView stickerView = (StickerView) entityView;
-                                    Size baseSize = stickerView.getBaseSize();
-                                    mediaEntity.width = baseSize.width;
-                                    mediaEntity.height = baseSize.height;
-                                    mediaEntity.document = stickerView.getSticker();
-                                    mediaEntity.parentObject = stickerView.getParentObject();
-                                    TLRPC.Document sticker = stickerView.getSticker();
-                                    mediaEntity.text = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(sticker, true).getAbsolutePath();
-                                    if (MessageObject.isAnimatedStickerDocument(sticker, true) || isVideoStickerDocument(sticker)) {
-                                        boolean isAnimatedStickerDocument2 = MessageObject.isAnimatedStickerDocument(sticker, true);
-                                        mediaEntity.subType = (byte) (mediaEntity.subType | (isAnimatedStickerDocument2 ? (byte) 1 : (byte) 4));
-                                        if (isAnimatedStickerDocument2 || isVideoStickerDocument(sticker)) {
-                                            j = stickerView.getDuration();
+                                    i3 = childCount;
+                                    i4 = i9;
+                                    view = childAt;
+                                    mediaEntity.text = text.toString();
+                                    mediaEntity.subType = (byte) textPaintView.getType();
+                                    mediaEntity.color = textPaintView.getSwatch().color;
+                                    mediaEntity.fontSize = textPaintView.getTextSize();
+                                    mediaEntity.textTypeface = textPaintView.getTypeface();
+                                    mediaEntity.textAlign = textPaintView.getAlign();
+                                } else {
+                                    i3 = childCount;
+                                    i4 = i9;
+                                    view = childAt;
+                                    if (entityView instanceof StickerView) {
+                                        mediaEntity.type = (byte) 0;
+                                        StickerView stickerView = (StickerView) entityView;
+                                        Size baseSize = stickerView.getBaseSize();
+                                        mediaEntity.width = baseSize.width;
+                                        mediaEntity.height = baseSize.height;
+                                        mediaEntity.document = stickerView.getSticker();
+                                        mediaEntity.parentObject = stickerView.getParentObject();
+                                        TLRPC.Document sticker = stickerView.getSticker();
+                                        mediaEntity.text = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(sticker, true).getAbsolutePath();
+                                        if (MessageObject.isAnimatedStickerDocument(sticker, true) || isVideoStickerDocument(sticker)) {
+                                            boolean isAnimatedStickerDocument2 = MessageObject.isAnimatedStickerDocument(sticker, true);
+                                            mediaEntity.subType = (byte) (mediaEntity.subType | (isAnimatedStickerDocument2 ? (byte) 1 : (byte) 4));
+                                            long duration = (isAnimatedStickerDocument2 || isVideoStickerDocument(sticker)) ? stickerView.getDuration() : 5000L;
+                                            if (duration != 0) {
+                                                BigInteger valueOf2 = BigInteger.valueOf(duration);
+                                                this.lcm = this.lcm.multiply(valueOf2).divide(this.lcm.gcd(valueOf2));
+                                            }
                                         }
-                                        if (j != 0) {
-                                            BigInteger valueOf2 = BigInteger.valueOf(j);
-                                            this.lcm = this.lcm.multiply(valueOf2).divide(this.lcm.gcd(valueOf2));
+                                        if (MessageObject.isTextColorEmoji(sticker)) {
+                                            mediaEntity.color = -1;
+                                            mediaEntity.subType = (byte) (mediaEntity.subType | 8);
                                         }
-                                    }
-                                    if (MessageObject.isTextColorEmoji(sticker)) {
-                                        mediaEntity.color = -1;
-                                        mediaEntity.subType = (byte) (mediaEntity.subType | 8);
-                                    }
-                                    if (stickerView.isMirrored()) {
+                                        if (stickerView.isMirrored()) {
+                                            z5 = false;
+                                            mediaEntity.subType = (byte) (mediaEntity.subType | 2);
+                                        }
+                                    } else if (entityView instanceof PhotoView) {
+                                        PhotoView photoView = (PhotoView) entityView;
+                                        mediaEntity.type = (byte) 2;
+                                        Size baseSize2 = photoView.getBaseSize();
+                                        mediaEntity.width = baseSize2.width;
+                                        mediaEntity.height = baseSize2.height;
+                                        mediaEntity.text = photoView.getPath(this.currentAccount);
+                                        if (photoView.isMirrored()) {
+                                            mediaEntity.subType = (byte) (mediaEntity.subType | 2);
+                                        }
+                                        if (photoView.hasSegmentedImage() && photoView.isSegmented() && (saveSegmentedImage = photoView.saveSegmentedImage(this.currentAccount)) != null) {
+                                            mediaEntity.subType = (byte) (mediaEntity.subType | 16);
+                                            mediaEntity.segmentedPath = saveSegmentedImage.getPath();
+                                        }
+                                    } else if (entityView instanceof LocationView) {
+                                        LocationView locationView = (LocationView) entityView;
+                                        mediaEntity.type = (byte) 3;
+                                        mediaEntity.subType = (byte) locationView.getType();
+                                        mediaEntity.width = locationView.marker.getWidth();
+                                        mediaEntity.height = locationView.marker.getHeight();
+                                        mediaEntity.text = locationView.marker.getText();
+                                        mediaEntity.color = locationView.hasColor() ? locationView.getColor() : 0;
+                                        mediaEntity.density = locationView.marker.density;
+                                        mediaEntity.media = locationView.location;
+                                        TL_stories.MediaArea mediaArea2 = locationView.mediaArea;
+                                        mediaEntity.mediaArea = mediaArea2;
+                                        mediaArea2.coordinates = new TL_stories.TL_mediaAreaCoordinates();
+                                        TLRPC.Document codeEmojiDocument = locationView.marker.getCodeEmojiDocument();
+                                        if (codeEmojiDocument != null) {
+                                            VideoEditedInfo.EmojiEntity emojiEntity2 = new VideoEditedInfo.EmojiEntity();
+                                            emojiEntity2.document_id = codeEmojiDocument.id;
+                                            emojiEntity2.document = codeEmojiDocument;
+                                            emojiEntity2.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(codeEmojiDocument, true).getAbsolutePath();
+                                            boolean isAnimatedStickerDocument3 = MessageObject.isAnimatedStickerDocument(emojiEntity2.document, true);
+                                            if (isAnimatedStickerDocument3 || isVideoStickerDocument(emojiEntity2.document)) {
+                                                emojiEntity2.subType = (byte) (emojiEntity2.subType | (isAnimatedStickerDocument3 ? (byte) 1 : (byte) 4));
+                                            }
+                                            mediaEntity.entities.add(emojiEntity2);
+                                        }
+                                    } else if (entityView instanceof WeatherView) {
+                                        WeatherView weatherView = (WeatherView) entityView;
+                                        mediaEntity.type = (byte) 8;
+                                        mediaEntity.subType = (byte) weatherView.getType();
+                                        mediaEntity.width = weatherView.marker.getWidth();
+                                        mediaEntity.height = weatherView.marker.getHeight();
+                                        mediaEntity.text = weatherView.marker.getText();
+                                        mediaEntity.color = weatherView.hasColor() ? weatherView.getColor() : 0;
+                                        mediaEntity.density = weatherView.marker.density;
+                                        mediaEntity.weather = weatherView.weather;
+                                        TL_stories.TL_mediaAreaWeather tL_mediaAreaWeather = new TL_stories.TL_mediaAreaWeather();
+                                        tL_mediaAreaWeather.emoji = weatherView.weather.emoji;
+                                        tL_mediaAreaWeather.temperature_c = Math.round(r6.temperature);
+                                        tL_mediaAreaWeather.color = weatherView.marker.outlinePaint.getColor();
+                                        mediaEntity.mediaArea = tL_mediaAreaWeather;
+                                        tL_mediaAreaWeather.coordinates = new TL_stories.TL_mediaAreaCoordinates();
+                                        TLRPC.Document codeEmojiDocument2 = weatherView.marker.getCodeEmojiDocument();
+                                        if (codeEmojiDocument2 != null) {
+                                            VideoEditedInfo.EmojiEntity emojiEntity3 = new VideoEditedInfo.EmojiEntity();
+                                            emojiEntity3.document_id = codeEmojiDocument2.id;
+                                            emojiEntity3.document = codeEmojiDocument2;
+                                            emojiEntity3.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(codeEmojiDocument2, true).getAbsolutePath();
+                                            boolean isAnimatedStickerDocument4 = MessageObject.isAnimatedStickerDocument(emojiEntity3.document, true);
+                                            if (isAnimatedStickerDocument4 || isVideoStickerDocument(emojiEntity3.document)) {
+                                                emojiEntity3.subType = (byte) (emojiEntity3.subType | (isAnimatedStickerDocument4 ? (byte) 1 : (byte) 4));
+                                            }
+                                            mediaEntity.entities.add(emojiEntity3);
+                                        }
                                         z5 = false;
-                                        mediaEntity.subType = (byte) (mediaEntity.subType | 2);
-                                    }
-                                } else if (entityView instanceof PhotoView) {
-                                    PhotoView photoView = (PhotoView) entityView;
-                                    mediaEntity.type = (byte) 2;
-                                    Size baseSize2 = photoView.getBaseSize();
-                                    mediaEntity.width = baseSize2.width;
-                                    mediaEntity.height = baseSize2.height;
-                                    mediaEntity.text = photoView.getPath(this.currentAccount);
-                                    if (photoView.isMirrored()) {
-                                        mediaEntity.subType = (byte) (mediaEntity.subType | 2);
-                                    }
-                                    if (photoView.hasSegmentedImage() && photoView.isSegmented() && (saveSegmentedImage = photoView.saveSegmentedImage(this.currentAccount)) != null) {
-                                        mediaEntity.subType = (byte) (mediaEntity.subType | 16);
-                                        mediaEntity.segmentedPath = saveSegmentedImage.getPath();
-                                    }
-                                } else if (entityView instanceof LocationView) {
-                                    LocationView locationView2 = (LocationView) entityView;
-                                    mediaEntity.type = (byte) 3;
-                                    mediaEntity.subType = (byte) locationView2.getType();
-                                    mediaEntity.width = locationView2.marker.getWidth();
-                                    mediaEntity.height = locationView2.marker.getHeight();
-                                    mediaEntity.text = locationView2.marker.getText();
-                                    mediaEntity.color = locationView2.hasColor() ? locationView2.getColor() : 0;
-                                    mediaEntity.density = locationView2.marker.density;
-                                    mediaEntity.media = locationView2.location;
-                                    TL_stories.MediaArea mediaArea2 = locationView2.mediaArea;
-                                    mediaEntity.mediaArea = mediaArea2;
-                                    mediaArea2.coordinates = new TL_stories.TL_mediaAreaCoordinates();
-                                    TLRPC.Document codeEmojiDocument = locationView2.marker.getCodeEmojiDocument();
-                                    if (codeEmojiDocument != null) {
-                                        VideoEditedInfo.EmojiEntity emojiEntity2 = new VideoEditedInfo.EmojiEntity();
-                                        emojiEntity2.document_id = codeEmojiDocument.id;
-                                        emojiEntity2.document = codeEmojiDocument;
-                                        emojiEntity2.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(codeEmojiDocument, true).getAbsolutePath();
-                                        boolean isAnimatedStickerDocument3 = MessageObject.isAnimatedStickerDocument(emojiEntity2.document, true);
-                                        if (isAnimatedStickerDocument3 || isVideoStickerDocument(emojiEntity2.document)) {
-                                            emojiEntity2.subType = (byte) (emojiEntity2.subType | (isAnimatedStickerDocument3 ? (byte) 1 : (byte) 4));
-                                        }
-                                        mediaEntity.entities.add(emojiEntity2);
-                                    }
-                                } else if (entityView instanceof WeatherView) {
-                                    WeatherView weatherView2 = (WeatherView) entityView;
-                                    mediaEntity.type = (byte) 8;
-                                    mediaEntity.subType = (byte) weatherView2.getType();
-                                    mediaEntity.width = weatherView2.marker.getWidth();
-                                    mediaEntity.height = weatherView2.marker.getHeight();
-                                    mediaEntity.text = weatherView2.marker.getText();
-                                    mediaEntity.color = weatherView2.hasColor() ? weatherView2.getColor() : 0;
-                                    mediaEntity.density = weatherView2.marker.density;
-                                    mediaEntity.weather = weatherView2.weather;
-                                    TL_stories.TL_mediaAreaWeather tL_mediaAreaWeather = new TL_stories.TL_mediaAreaWeather();
-                                    tL_mediaAreaWeather.emoji = weatherView2.weather.emoji;
-                                    tL_mediaAreaWeather.temperature_c = Math.round(state.temperature);
-                                    tL_mediaAreaWeather.color = weatherView2.marker.outlinePaint.getColor();
-                                    mediaEntity.mediaArea = tL_mediaAreaWeather;
-                                    tL_mediaAreaWeather.coordinates = new TL_stories.TL_mediaAreaCoordinates();
-                                    TLRPC.Document codeEmojiDocument2 = weatherView2.marker.getCodeEmojiDocument();
-                                    if (codeEmojiDocument2 != null) {
-                                        VideoEditedInfo.EmojiEntity emojiEntity3 = new VideoEditedInfo.EmojiEntity();
-                                        emojiEntity3.document_id = codeEmojiDocument2.id;
-                                        emojiEntity3.document = codeEmojiDocument2;
-                                        emojiEntity3.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(codeEmojiDocument2, true).getAbsolutePath();
-                                        boolean isAnimatedStickerDocument4 = MessageObject.isAnimatedStickerDocument(emojiEntity3.document, true);
-                                        if (isAnimatedStickerDocument4 || isVideoStickerDocument(emojiEntity3.document)) {
-                                            emojiEntity3.subType = (byte) (emojiEntity3.subType | (isAnimatedStickerDocument4 ? (byte) 1 : (byte) 4));
-                                        }
-                                        mediaEntity.entities.add(emojiEntity3);
-                                    }
-                                    z5 = false;
-                                    z7 = false;
-                                    arrayList3.add(mediaEntity);
-                                    scaleX = view.getScaleX();
-                                    float scaleY = view.getScaleY();
-                                    float x = view.getX();
-                                    float y = view.getY();
-                                    mediaEntity.viewWidth = view.getWidth();
-                                    mediaEntity.viewHeight = view.getHeight();
-                                    mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.height = (view.getHeight() * scaleY) / this.entitiesView.getMeasuredHeight();
-                                    mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x) / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.y = (((view.getHeight() * (1.0f - scaleY)) / 2.0f) + y) / this.entitiesView.getMeasuredHeight();
-                                    double d2 = -view.getRotation();
-                                    Double.isNaN(d2);
-                                    mediaEntity.rotation = (float) (d2 * 0.017453292519943295d);
-                                    mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x) / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y) / this.entitiesView.getMeasuredHeight();
-                                    mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
-                                    mediaEntity.scale = scaleX;
-                                    if (entityView instanceof MessageEntityView) {
-                                        if (entityView instanceof StickerView) {
-                                            float imageAspectRatio = ((StickerView) entityView).centerImage.getImageAspectRatio();
-                                            float f2 = mediaEntity.x + (mediaEntity.width / 2.0f);
-                                            float f3 = mediaEntity.y + (mediaEntity.height / 2.0f);
-                                            float measuredWidth = this.entitiesView.getMeasuredWidth() / this.entitiesView.getMeasuredHeight();
-                                            if (imageAspectRatio > 1.0f) {
-                                                float f4 = (mediaEntity.width * measuredWidth) / imageAspectRatio;
-                                                mediaEntity.height = f4;
-                                                mediaEntity.viewHeight = (int) (mediaEntity.viewWidth / imageAspectRatio);
-                                                mediaEntity.y = f3 - (f4 / 2.0f);
-                                            } else if (imageAspectRatio < 1.0f) {
-                                                float f5 = (mediaEntity.height / measuredWidth) * imageAspectRatio;
-                                                mediaEntity.width = f5;
-                                                mediaEntity.viewWidth = (int) (mediaEntity.viewHeight * imageAspectRatio);
-                                                mediaEntity.x = f2 - (f5 / 2.0f);
-                                            }
-                                        } else {
-                                            TL_stories.MediaArea mediaArea3 = mediaEntity.mediaArea;
-                                            if (mediaArea3 != null && (((z8 = entityView instanceof LocationView)) || (entityView instanceof WeatherView) || (entityView instanceof LinkView) || (entityView instanceof ReactionWidgetEntityView))) {
-                                                TL_stories.MediaAreaCoordinates mediaAreaCoordinates3 = mediaArea3.coordinates;
-                                                float f6 = mediaEntity.x;
-                                                float f7 = mediaEntity.width;
-                                                mediaAreaCoordinates3.x = (f6 + (f7 / 2.0f)) * 100.0f;
-                                                mediaAreaCoordinates3.y = (mediaEntity.y + (mediaEntity.height / 2.0f)) * 100.0f;
-                                                if (z8) {
-                                                    mediaAreaCoordinates3.w = (f7 - (((locationView.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
-                                                    mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
-                                                    f = mediaEntity.height;
-                                                    locationMarker = ((LocationView) entityView).marker;
-                                                } else if (entityView instanceof WeatherView) {
-                                                    mediaAreaCoordinates3.w = (f7 - (((weatherView.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
-                                                    mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
-                                                    f = mediaEntity.height;
-                                                    locationMarker = ((WeatherView) entityView).marker;
-                                                } else if (entityView instanceof LinkView) {
-                                                    mediaAreaCoordinates3.w = (f7 - (((linkView.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
-                                                    mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
-                                                    f = mediaEntity.height;
-                                                    i5 = ((LinkView) entityView).marker.pady;
-                                                    mediaAreaCoordinates.h = (f - (((i5 * 2) * scaleY) / this.entitiesView.getMeasuredHeight())) * 100.0f;
-                                                    TL_stories.MediaAreaCoordinates mediaAreaCoordinates4 = mediaEntity.mediaArea.coordinates;
-                                                    double d3 = -mediaEntity.rotation;
-                                                    Double.isNaN(d3);
-                                                    mediaAreaCoordinates4.rotation = (d3 / 3.141592653589793d) * 180.0d;
+                                        z7 = false;
+                                        arrayList3.add(mediaEntity);
+                                        scaleX = view.getScaleX();
+                                        float scaleY = view.getScaleY();
+                                        float x = view.getX();
+                                        float y = view.getY();
+                                        mediaEntity.viewWidth = view.getWidth();
+                                        mediaEntity.viewHeight = view.getHeight();
+                                        mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
+                                        mediaEntity.height = (view.getHeight() * scaleY) / this.entitiesView.getMeasuredHeight();
+                                        mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x) / this.entitiesView.getMeasuredWidth();
+                                        mediaEntity.y = (((view.getHeight() * (1.0f - scaleY)) / 2.0f) + y) / this.entitiesView.getMeasuredHeight();
+                                        double d2 = -view.getRotation();
+                                        Double.isNaN(d2);
+                                        mediaEntity.rotation = (float) (d2 * 0.017453292519943295d);
+                                        mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x) / this.entitiesView.getMeasuredWidth();
+                                        mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y) / this.entitiesView.getMeasuredHeight();
+                                        mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
+                                        mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
+                                        mediaEntity.scale = scaleX;
+                                        if (entityView instanceof MessageEntityView) {
+                                            if (entityView instanceof StickerView) {
+                                                float imageAspectRatio = ((StickerView) entityView).centerImage.getImageAspectRatio();
+                                                float f2 = mediaEntity.x + (mediaEntity.width / 2.0f);
+                                                float f3 = mediaEntity.y + (mediaEntity.height / 2.0f);
+                                                float measuredWidth = this.entitiesView.getMeasuredWidth() / this.entitiesView.getMeasuredHeight();
+                                                if (imageAspectRatio > 1.0f) {
+                                                    float f4 = (mediaEntity.width * measuredWidth) / imageAspectRatio;
+                                                    mediaEntity.height = f4;
+                                                    mediaEntity.viewHeight = (int) (mediaEntity.viewWidth / imageAspectRatio);
+                                                    mediaEntity.y = f3 - (f4 / 2.0f);
+                                                } else if (imageAspectRatio < 1.0f) {
+                                                    float f5 = (mediaEntity.height / measuredWidth) * imageAspectRatio;
+                                                    mediaEntity.width = f5;
+                                                    mediaEntity.viewWidth = (int) (mediaEntity.viewHeight * imageAspectRatio);
+                                                    mediaEntity.x = f2 - (f5 / 2.0f);
+                                                }
+                                            } else {
+                                                TL_stories.MediaArea mediaArea3 = mediaEntity.mediaArea;
+                                                if (mediaArea3 != null && (((z8 = entityView instanceof LocationView)) || (entityView instanceof WeatherView) || (entityView instanceof LinkView) || (entityView instanceof ReactionWidgetEntityView))) {
+                                                    TL_stories.MediaAreaCoordinates mediaAreaCoordinates3 = mediaArea3.coordinates;
+                                                    float f6 = mediaEntity.x;
+                                                    float f7 = mediaEntity.width;
+                                                    mediaAreaCoordinates3.x = (f6 + (f7 / 2.0f)) * 100.0f;
+                                                    mediaAreaCoordinates3.y = (mediaEntity.y + (mediaEntity.height / 2.0f)) * 100.0f;
                                                     if (z8) {
-                                                        locationMarker2 = ((LocationView) entityView).marker;
+                                                        mediaAreaCoordinates3.w = (f7 - (((r9.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
+                                                        mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
+                                                        f = mediaEntity.height;
+                                                        locationMarker = ((LocationView) entityView).marker;
                                                     } else if (entityView instanceof WeatherView) {
-                                                        locationMarker2 = ((WeatherView) entityView).marker;
+                                                        mediaAreaCoordinates3.w = (f7 - (((r9.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
+                                                        mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
+                                                        f = mediaEntity.height;
+                                                        locationMarker = ((WeatherView) entityView).marker;
                                                     } else if (entityView instanceof LinkView) {
-                                                        radius = ((LinkView) entityView).marker.getRadius();
+                                                        mediaAreaCoordinates3.w = (f7 - (((r9.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
+                                                        mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
+                                                        f = mediaEntity.height;
+                                                        i5 = ((LinkView) entityView).marker.pady;
+                                                        mediaAreaCoordinates.h = (f - (((i5 * 2) * scaleY) / this.entitiesView.getMeasuredHeight())) * 100.0f;
+                                                        TL_stories.MediaAreaCoordinates mediaAreaCoordinates4 = mediaEntity.mediaArea.coordinates;
+                                                        double d3 = -mediaEntity.rotation;
+                                                        Double.isNaN(d3);
+                                                        mediaAreaCoordinates4.rotation = (d3 / 3.141592653589793d) * 180.0d;
+                                                        if (z8) {
+                                                            locationMarker2 = ((LocationView) entityView).marker;
+                                                        } else if (entityView instanceof WeatherView) {
+                                                            locationMarker2 = ((WeatherView) entityView).marker;
+                                                        } else if (entityView instanceof LinkView) {
+                                                            radius = ((LinkView) entityView).marker.getRadius();
+                                                            d = radius;
+                                                        }
+                                                        radius = locationMarker2.getRadius();
+                                                        d = radius;
+                                                    } else {
+                                                        if (entityView instanceof ReactionWidgetEntityView) {
+                                                            ReactionWidgetEntityView reactionWidgetEntityView = (ReactionWidgetEntityView) entityView;
+                                                            float padding = ((reactionWidgetEntityView.getPadding() * 2) * scaleX) / this.entitiesView.getMeasuredWidth();
+                                                            float padding2 = ((reactionWidgetEntityView.getPadding() * 2) * scaleX) / this.entitiesView.getMeasuredHeight();
+                                                            TL_stories.MediaAreaCoordinates mediaAreaCoordinates5 = mediaEntity.mediaArea.coordinates;
+                                                            mediaAreaCoordinates5.w = (mediaEntity.width - padding) * 100.0f;
+                                                            mediaAreaCoordinates5.h = (mediaEntity.height - padding2) * 100.0f;
+                                                        }
+                                                        TL_stories.MediaAreaCoordinates mediaAreaCoordinates42 = mediaEntity.mediaArea.coordinates;
+                                                        double d32 = -mediaEntity.rotation;
+                                                        Double.isNaN(d32);
+                                                        mediaAreaCoordinates42.rotation = (d32 / 3.141592653589793d) * 180.0d;
+                                                        if (z8) {
+                                                        }
+                                                        radius = locationMarker2.getRadius();
                                                         d = radius;
                                                     }
-                                                    radius = locationMarker2.getRadius();
-                                                    d = radius;
-                                                } else {
-                                                    if (entityView instanceof ReactionWidgetEntityView) {
-                                                        ReactionWidgetEntityView reactionWidgetEntityView = (ReactionWidgetEntityView) entityView;
-                                                        float padding = ((reactionWidgetEntityView.getPadding() * 2) * scaleX) / this.entitiesView.getMeasuredWidth();
-                                                        float padding2 = ((reactionWidgetEntityView.getPadding() * 2) * scaleX) / this.entitiesView.getMeasuredHeight();
-                                                        TL_stories.MediaAreaCoordinates mediaAreaCoordinates5 = mediaEntity.mediaArea.coordinates;
-                                                        mediaAreaCoordinates5.w = (mediaEntity.width - padding) * 100.0f;
-                                                        mediaAreaCoordinates5.h = (mediaEntity.height - padding2) * 100.0f;
-                                                    }
-                                                    TL_stories.MediaAreaCoordinates mediaAreaCoordinates42 = mediaEntity.mediaArea.coordinates;
-                                                    double d32 = -mediaEntity.rotation;
-                                                    Double.isNaN(d32);
-                                                    mediaAreaCoordinates42.rotation = (d32 / 3.141592653589793d) * 180.0d;
+                                                    i5 = locationMarker.pady;
+                                                    mediaAreaCoordinates.h = (f - (((i5 * 2) * scaleY) / this.entitiesView.getMeasuredHeight())) * 100.0f;
+                                                    TL_stories.MediaAreaCoordinates mediaAreaCoordinates422 = mediaEntity.mediaArea.coordinates;
+                                                    double d322 = -mediaEntity.rotation;
+                                                    Double.isNaN(d322);
+                                                    mediaAreaCoordinates422.rotation = (d322 / 3.141592653589793d) * 180.0d;
                                                     if (z8) {
                                                     }
                                                     radius = locationMarker2.getRadius();
                                                     d = radius;
                                                 }
-                                                i5 = locationMarker.pady;
-                                                mediaAreaCoordinates.h = (f - (((i5 * 2) * scaleY) / this.entitiesView.getMeasuredHeight())) * 100.0f;
-                                                TL_stories.MediaAreaCoordinates mediaAreaCoordinates422 = mediaEntity.mediaArea.coordinates;
-                                                double d322 = -mediaEntity.rotation;
-                                                Double.isNaN(d322);
-                                                mediaAreaCoordinates422.rotation = (d322 / 3.141592653589793d) * 180.0d;
-                                                if (z8) {
-                                                }
-                                                radius = locationMarker2.getRadius();
-                                                d = radius;
                                             }
-                                        }
-                                        d = -1.0d;
-                                    } else {
-                                        MessageEntityView messageEntityView = (MessageEntityView) entityView;
-                                        RectF rectF = AndroidUtilities.rectTmp;
-                                        d = messageEntityView.getBubbleBounds(rectF);
-                                        rectF.offset(messageEntityView.container.getX(), messageEntityView.container.getY());
-                                        rectF.offset(messageEntityView.listView.getX(), messageEntityView.listView.getY());
-                                        mediaEntity.mediaArea.coordinates.x = ((((x + (view.getWidth() / 2.0f)) - ((view.getWidth() / 2.0f) * scaleX)) + (rectF.centerX() * scaleX)) / this.entitiesView.getMeasuredWidth()) * 100.0f;
-                                        mediaEntity.mediaArea.coordinates.y = ((((y + (view.getHeight() / 2.0f)) - ((view.getHeight() / 2.0f) * scaleY)) + (rectF.centerY() * scaleY)) / this.entitiesView.getMeasuredHeight()) * 100.0f;
-                                        mediaEntity.mediaArea.coordinates.w = ((rectF.width() * scaleX) / this.entitiesView.getMeasuredWidth()) * 100.0f;
-                                        mediaEntity.mediaArea.coordinates.h = ((rectF.height() * scaleY) / this.entitiesView.getMeasuredHeight()) * 100.0f;
-                                        TL_stories.MediaAreaCoordinates mediaAreaCoordinates6 = mediaEntity.mediaArea.coordinates;
-                                        double d4 = -mediaEntity.rotation;
-                                        Double.isNaN(d4);
-                                        mediaAreaCoordinates6.rotation = (d4 / 3.141592653589793d) * 180.0d;
-                                    }
-                                    mediaArea = mediaEntity.mediaArea;
-                                    if (mediaArea != null && (mediaAreaCoordinates2 = mediaArea.coordinates) != null && d > 0.0d) {
-                                        mediaAreaCoordinates2.flags |= 1;
-                                        double d5 = scaleX;
-                                        Double.isNaN(d5);
-                                        Double.isNaN(r8);
-                                        mediaAreaCoordinates2.radius = ((d5 * d) / r8) * 100.0d;
-                                    }
-                                    z6 = z7;
-                                } else {
-                                    if (entityView instanceof LinkView) {
-                                        LinkView linkView2 = (LinkView) entityView;
-                                        mediaEntity.type = (byte) 7;
-                                        mediaEntity.subType = (byte) (linkView2.marker.withPreview() ? linkView2.marker.getPreviewType() : linkView2.getType());
-                                        mediaEntity.width = linkView2.marker.getWidth();
-                                        mediaEntity.height = linkView2.marker.getHeight();
-                                        mediaEntity.color = linkView2.hasColor() ? linkView2.getColor() : 0;
-                                        LinkPreview linkPreview = linkView2.marker;
-                                        mediaEntity.density = linkPreview.density;
-                                        mediaEntity.linkSettings = linkView2.link;
-                                        if (linkPreview.hasPhoto) {
-                                            linkPreview.pushPhotoToCache();
-                                            LinkPreview.WebPagePreview webPagePreview = mediaEntity.linkSettings;
-                                            webPagePreview.flags |= 4;
-                                            webPagePreview.photoSize = linkView2.marker.getPhotoSide();
-                                        }
-                                        TL_stories.TL_mediaAreaUrl tL_mediaAreaUrl = new TL_stories.TL_mediaAreaUrl();
-                                        mediaEntity.mediaArea = tL_mediaAreaUrl;
-                                        LinkPreview.WebPagePreview webPagePreview2 = linkView2.link;
-                                        if (webPagePreview2 != null) {
-                                            TLRPC.WebPage webPage = webPagePreview2.webpage;
-                                            tL_mediaAreaUrl.url = (webPage == null || TextUtils.isEmpty(webPage.url)) ? linkView2.link.url : linkView2.link.webpage.url;
-                                            mediaEntity.mediaArea.coordinates = new TL_stories.TL_mediaAreaCoordinates();
-                                        }
-                                        b = 1;
-                                    } else {
-                                        if (entityView instanceof ReactionWidgetEntityView) {
-                                            ReactionWidgetEntityView reactionWidgetEntityView2 = (ReactionWidgetEntityView) entityView;
-                                            mediaEntity.type = (byte) 4;
-                                            TL_stories.TL_mediaAreaSuggestedReaction tL_mediaAreaSuggestedReaction = new TL_stories.TL_mediaAreaSuggestedReaction();
-                                            mediaEntity.mediaArea = tL_mediaAreaSuggestedReaction;
-                                            tL_mediaAreaSuggestedReaction.reaction = ReactionsUtils.toTLReaction(reactionWidgetEntityView2.getCurrentReaction());
-                                            mediaEntity.mediaArea.dark = reactionWidgetEntityView2.isDark();
-                                            mediaEntity.mediaArea.flipped = reactionWidgetEntityView2.isMirrored();
-                                            mediaEntity.mediaArea.coordinates = new TL_stories.TL_mediaAreaCoordinates();
-                                        } else if (entityView instanceof RoundView) {
-                                            RoundView roundView = (RoundView) entityView;
-                                            Size baseSize3 = roundView.getBaseSize();
-                                            mediaEntity.width = baseSize3.width;
-                                            mediaEntity.height = baseSize3.height;
-                                            mediaEntity.type = (byte) 5;
-                                            if (storyEntry2 != null) {
-                                                mediaEntity.text = storyEntry2.round.getAbsolutePath();
-                                                mediaEntity.roundOffset = storyEntry2.roundOffset;
-                                                long j2 = storyEntry2.roundDuration;
-                                                mediaEntity.roundDuration = j2;
-                                                float f8 = (float) j2;
-                                                mediaEntity.roundLeft = storyEntry2.roundLeft * f8;
-                                                mediaEntity.roundRight = storyEntry2.roundRight * f8;
-                                            }
-                                            mediaEntity.subType = (byte) 4;
-                                            if (roundView.isMirrored()) {
-                                                z5 = true;
-                                                mediaEntity.subType = (byte) (mediaEntity.subType | 2);
-                                            }
+                                            d = -1.0d;
                                         } else {
-                                            if (entityView instanceof MessageEntityView) {
-                                                MessageEntityView messageEntityView2 = (MessageEntityView) entityView;
-                                                mediaEntity.type = (byte) 6;
-                                                int width = messageEntityView2.getWidth();
-                                                mediaEntity.viewWidth = width;
-                                                mediaEntity.width = width;
-                                                int height = messageEntityView2.getHeight();
-                                                mediaEntity.viewHeight = height;
-                                                mediaEntity.height = height;
-                                                TL_stories.TL_inputMediaAreaChannelPost tL_inputMediaAreaChannelPost = new TL_stories.TL_inputMediaAreaChannelPost();
-                                                mediaEntity.mediaArea = tL_inputMediaAreaChannelPost;
-                                                tL_inputMediaAreaChannelPost.coordinates = new TL_stories.TL_mediaAreaCoordinates();
-                                                if (storyEntry2 != null && (arrayList2 = storyEntry2.messageObjects) != null) {
-                                                    MessageObject messageObject = (MessageObject) arrayList2.get(0);
-                                                    ((TL_stories.TL_inputMediaAreaChannelPost) mediaEntity.mediaArea).channel = MessagesController.getInstance(this.currentAccount).getInputChannel(-StoryEntry.getRepostDialogId(messageObject));
-                                                    ((TL_stories.TL_inputMediaAreaChannelPost) mediaEntity.mediaArea).msg_id = StoryEntry.getRepostMessageId(messageObject);
+                                            MessageEntityView messageEntityView = (MessageEntityView) entityView;
+                                            RectF rectF = AndroidUtilities.rectTmp;
+                                            d = messageEntityView.getBubbleBounds(rectF);
+                                            rectF.offset(messageEntityView.container.getX(), messageEntityView.container.getY());
+                                            rectF.offset(messageEntityView.listView.getX(), messageEntityView.listView.getY());
+                                            mediaEntity.mediaArea.coordinates.x = ((((x + (view.getWidth() / 2.0f)) - ((view.getWidth() / 2.0f) * scaleX)) + (rectF.centerX() * scaleX)) / this.entitiesView.getMeasuredWidth()) * 100.0f;
+                                            mediaEntity.mediaArea.coordinates.y = ((((y + (view.getHeight() / 2.0f)) - ((view.getHeight() / 2.0f) * scaleY)) + (rectF.centerY() * scaleY)) / this.entitiesView.getMeasuredHeight()) * 100.0f;
+                                            mediaEntity.mediaArea.coordinates.w = ((rectF.width() * scaleX) / this.entitiesView.getMeasuredWidth()) * 100.0f;
+                                            mediaEntity.mediaArea.coordinates.h = ((rectF.height() * scaleY) / this.entitiesView.getMeasuredHeight()) * 100.0f;
+                                            TL_stories.MediaAreaCoordinates mediaAreaCoordinates6 = mediaEntity.mediaArea.coordinates;
+                                            double d4 = -mediaEntity.rotation;
+                                            Double.isNaN(d4);
+                                            mediaAreaCoordinates6.rotation = (d4 / 3.141592653589793d) * 180.0d;
+                                        }
+                                        mediaArea = mediaEntity.mediaArea;
+                                        if (mediaArea != null && (mediaAreaCoordinates2 = mediaArea.coordinates) != null && d > 0.0d) {
+                                            mediaAreaCoordinates2.flags |= 1;
+                                            double d5 = scaleX;
+                                            Double.isNaN(d5);
+                                            Double.isNaN(r8);
+                                            mediaAreaCoordinates2.radius = ((d5 * d) / r8) * 100.0d;
+                                        }
+                                        z6 = z7;
+                                    } else {
+                                        if (entityView instanceof LinkView) {
+                                            LinkView linkView = (LinkView) entityView;
+                                            mediaEntity.type = (byte) 7;
+                                            mediaEntity.subType = (byte) (linkView.marker.withPreview() ? linkView.marker.getPreviewType() : linkView.getType());
+                                            mediaEntity.width = linkView.marker.getWidth();
+                                            mediaEntity.height = linkView.marker.getHeight();
+                                            mediaEntity.color = linkView.hasColor() ? linkView.getColor() : 0;
+                                            LinkPreview linkPreview = linkView.marker;
+                                            mediaEntity.density = linkPreview.density;
+                                            mediaEntity.linkSettings = linkView.link;
+                                            if (linkPreview.hasPhoto) {
+                                                linkPreview.pushPhotoToCache();
+                                                LinkPreview.WebPagePreview webPagePreview = mediaEntity.linkSettings;
+                                                webPagePreview.flags |= 4;
+                                                webPagePreview.photoSize = linkView.marker.getPhotoSide();
+                                            }
+                                            TL_stories.TL_mediaAreaUrl tL_mediaAreaUrl = new TL_stories.TL_mediaAreaUrl();
+                                            mediaEntity.mediaArea = tL_mediaAreaUrl;
+                                            LinkPreview.WebPagePreview webPagePreview2 = linkView.link;
+                                            if (webPagePreview2 != null) {
+                                                TLRPC.WebPage webPage = webPagePreview2.webpage;
+                                                tL_mediaAreaUrl.url = (webPage == null || TextUtils.isEmpty(webPage.url)) ? linkView.link.url : linkView.link.webpage.url;
+                                                mediaEntity.mediaArea.coordinates = new TL_stories.TL_mediaAreaCoordinates();
+                                            }
+                                            b = 1;
+                                        } else {
+                                            if (entityView instanceof ReactionWidgetEntityView) {
+                                                ReactionWidgetEntityView reactionWidgetEntityView2 = (ReactionWidgetEntityView) entityView;
+                                                mediaEntity.type = (byte) 4;
+                                                TL_stories.TL_mediaAreaSuggestedReaction tL_mediaAreaSuggestedReaction = new TL_stories.TL_mediaAreaSuggestedReaction();
+                                                mediaEntity.mediaArea = tL_mediaAreaSuggestedReaction;
+                                                tL_mediaAreaSuggestedReaction.reaction = ReactionsUtils.toTLReaction(reactionWidgetEntityView2.getCurrentReaction());
+                                                mediaEntity.mediaArea.dark = reactionWidgetEntityView2.isDark();
+                                                mediaEntity.mediaArea.flipped = reactionWidgetEntityView2.isMirrored();
+                                                mediaEntity.mediaArea.coordinates = new TL_stories.TL_mediaAreaCoordinates();
+                                            } else if (entityView instanceof RoundView) {
+                                                RoundView roundView = (RoundView) entityView;
+                                                Size baseSize3 = roundView.getBaseSize();
+                                                mediaEntity.width = baseSize3.width;
+                                                mediaEntity.height = baseSize3.height;
+                                                mediaEntity.type = (byte) 5;
+                                                if (storyEntry2 != null) {
+                                                    mediaEntity.text = storyEntry2.round.getAbsolutePath();
+                                                    mediaEntity.roundOffset = storyEntry2.roundOffset;
+                                                    long j = storyEntry2.roundDuration;
+                                                    mediaEntity.roundDuration = j;
+                                                    float f8 = (float) j;
+                                                    mediaEntity.roundLeft = storyEntry2.roundLeft * f8;
+                                                    mediaEntity.roundRight = storyEntry2.roundRight * f8;
                                                 }
-                                                if (z3) {
-                                                    if (storyEntry2 != null && storyEntry2.isVideo) {
-                                                        storyEntry2.matrix.reset();
-                                                        if (messageEntityView2.listView.getChildCount() == 1) {
-                                                            view3 = messageEntityView2.listView.getChildAt(0);
-                                                            if (view3 instanceof ChatMessageCell) {
-                                                                imageReceiver = ((ChatMessageCell) view3).getPhotoImage();
-                                                                if (imageReceiver != null) {
-                                                                    float max = Math.max(imageReceiver.getImageWidth() / Math.max(1, storyEntry2.width), imageReceiver.getImageHeight() / Math.max(1, storyEntry2.height));
-                                                                    storyEntry2.matrix.postScale(max, max);
-                                                                    storyEntry2.matrix.postTranslate(imageReceiver.getCenterX() - ((storyEntry2.width * max) / 2.0f), imageReceiver.getCenterY() - ((storyEntry2.height * max) / 2.0f));
-                                                                    storyEntry2.matrix.postTranslate(messageEntityView2.container.getX(), messageEntityView2.container.getY());
-                                                                    storyEntry2.matrix.postTranslate(messageEntityView2.listView.getX(), messageEntityView2.listView.getY());
-                                                                    storyEntry2.matrix.postTranslate(view3.getX(), view3.getY());
-                                                                    storyEntry2.matrix.postScale(messageEntityView2.getScaleX(), messageEntityView2.getScaleY(), messageEntityView2.getPivotX(), messageEntityView2.getPivotY());
-                                                                    storyEntry2.matrix.postRotate(messageEntityView2.getRotation(), messageEntityView2.getPivotX(), messageEntityView2.getPivotY());
-                                                                    storyEntry2.matrix.postTranslate(messageEntityView2.getX(), messageEntityView2.getY());
-                                                                    storyEntry2.matrix.postScale(1.0f / this.entitiesView.getWidth(), 1.0f / this.entitiesView.getHeight());
-                                                                    storyEntry2.matrix.postScale(storyEntry2.resultWidth, storyEntry2.resultHeight);
+                                                mediaEntity.subType = (byte) 4;
+                                                if (roundView.isMirrored()) {
+                                                    z5 = true;
+                                                    mediaEntity.subType = (byte) (mediaEntity.subType | 2);
+                                                }
+                                            } else {
+                                                if (entityView instanceof MessageEntityView) {
+                                                    MessageEntityView messageEntityView2 = (MessageEntityView) entityView;
+                                                    mediaEntity.type = (byte) 6;
+                                                    int width = messageEntityView2.getWidth();
+                                                    mediaEntity.viewWidth = width;
+                                                    mediaEntity.width = width;
+                                                    int height = messageEntityView2.getHeight();
+                                                    mediaEntity.viewHeight = height;
+                                                    mediaEntity.height = height;
+                                                    TL_stories.TL_inputMediaAreaChannelPost tL_inputMediaAreaChannelPost = new TL_stories.TL_inputMediaAreaChannelPost();
+                                                    mediaEntity.mediaArea = tL_inputMediaAreaChannelPost;
+                                                    tL_inputMediaAreaChannelPost.coordinates = new TL_stories.TL_mediaAreaCoordinates();
+                                                    if (storyEntry2 != null && (arrayList2 = storyEntry2.messageObjects) != null) {
+                                                        MessageObject messageObject = (MessageObject) arrayList2.get(0);
+                                                        ((TL_stories.TL_inputMediaAreaChannelPost) mediaEntity.mediaArea).channel = MessagesController.getInstance(this.currentAccount).getInputChannel(-StoryEntry.getRepostDialogId(messageObject));
+                                                        ((TL_stories.TL_inputMediaAreaChannelPost) mediaEntity.mediaArea).msg_id = StoryEntry.getRepostMessageId(messageObject);
+                                                    }
+                                                    if (z3) {
+                                                        if (storyEntry2 != null && storyEntry2.isVideo) {
+                                                            storyEntry2.matrix.reset();
+                                                            if (messageEntityView2.listView.getChildCount() == 1) {
+                                                                view3 = messageEntityView2.listView.getChildAt(0);
+                                                                if (view3 instanceof ChatMessageCell) {
+                                                                    imageReceiver = ((ChatMessageCell) view3).getPhotoImage();
+                                                                    if (imageReceiver != null) {
+                                                                        float max = Math.max(imageReceiver.getImageWidth() / Math.max(1, storyEntry2.width), imageReceiver.getImageHeight() / Math.max(1, storyEntry2.height));
+                                                                        storyEntry2.matrix.postScale(max, max);
+                                                                        storyEntry2.matrix.postTranslate(imageReceiver.getCenterX() - ((storyEntry2.width * max) / 2.0f), imageReceiver.getCenterY() - ((storyEntry2.height * max) / 2.0f));
+                                                                        storyEntry2.matrix.postTranslate(messageEntityView2.container.getX(), messageEntityView2.container.getY());
+                                                                        storyEntry2.matrix.postTranslate(messageEntityView2.listView.getX(), messageEntityView2.listView.getY());
+                                                                        storyEntry2.matrix.postTranslate(view3.getX(), view3.getY());
+                                                                        storyEntry2.matrix.postScale(messageEntityView2.getScaleX(), messageEntityView2.getScaleY(), messageEntityView2.getPivotX(), messageEntityView2.getPivotY());
+                                                                        storyEntry2.matrix.postRotate(messageEntityView2.getRotation(), messageEntityView2.getPivotX(), messageEntityView2.getPivotY());
+                                                                        storyEntry2.matrix.postTranslate(messageEntityView2.getX(), messageEntityView2.getY());
+                                                                        storyEntry2.matrix.postScale(1.0f / this.entitiesView.getWidth(), 1.0f / this.entitiesView.getHeight());
+                                                                        storyEntry2.matrix.postScale(storyEntry2.resultWidth, storyEntry2.resultHeight);
+                                                                    }
                                                                 }
+                                                            } else {
+                                                                view3 = null;
                                                             }
-                                                        } else {
-                                                            view3 = null;
-                                                        }
-                                                        imageReceiver = null;
-                                                        if (imageReceiver != null) {
+                                                            imageReceiver = null;
+                                                            if (imageReceiver != null) {
+                                                            }
                                                         }
                                                     }
                                                 }
+                                                b = 1;
                                             }
-                                            b = 1;
+                                            z5 = true;
                                         }
-                                        z5 = true;
+                                        arrayList3.add(mediaEntity);
+                                        scaleX = view.getScaleX();
+                                        float scaleY2 = view.getScaleY();
+                                        float x2 = view.getX();
+                                        float y2 = view.getY();
+                                        mediaEntity.viewWidth = view.getWidth();
+                                        mediaEntity.viewHeight = view.getHeight();
+                                        mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
+                                        mediaEntity.height = (view.getHeight() * scaleY2) / this.entitiesView.getMeasuredHeight();
+                                        mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x2) / this.entitiesView.getMeasuredWidth();
+                                        mediaEntity.y = (((view.getHeight() * (1.0f - scaleY2)) / 2.0f) + y2) / this.entitiesView.getMeasuredHeight();
+                                        double d22 = -view.getRotation();
+                                        Double.isNaN(d22);
+                                        mediaEntity.rotation = (float) (d22 * 0.017453292519943295d);
+                                        mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x2) / this.entitiesView.getMeasuredWidth();
+                                        mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y2) / this.entitiesView.getMeasuredHeight();
+                                        mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
+                                        mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
+                                        mediaEntity.scale = scaleX;
+                                        if (entityView instanceof MessageEntityView) {
+                                        }
+                                        mediaArea = mediaEntity.mediaArea;
+                                        if (mediaArea != null) {
+                                            mediaAreaCoordinates2.flags |= 1;
+                                            double d52 = scaleX;
+                                            Double.isNaN(d52);
+                                            Double.isNaN(r8);
+                                            mediaAreaCoordinates2.radius = ((d52 * d) / r8) * 100.0d;
+                                        }
+                                        z6 = z7;
                                     }
+                                    z7 = true;
                                     arrayList3.add(mediaEntity);
                                     scaleX = view.getScaleX();
-                                    float scaleY2 = view.getScaleY();
-                                    float x2 = view.getX();
-                                    float y2 = view.getY();
+                                    float scaleY22 = view.getScaleY();
+                                    float x22 = view.getX();
+                                    float y22 = view.getY();
                                     mediaEntity.viewWidth = view.getWidth();
                                     mediaEntity.viewHeight = view.getHeight();
                                     mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.height = (view.getHeight() * scaleY2) / this.entitiesView.getMeasuredHeight();
-                                    mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x2) / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.y = (((view.getHeight() * (1.0f - scaleY2)) / 2.0f) + y2) / this.entitiesView.getMeasuredHeight();
-                                    double d22 = -view.getRotation();
-                                    Double.isNaN(d22);
-                                    mediaEntity.rotation = (float) (d22 * 0.017453292519943295d);
-                                    mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x2) / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y2) / this.entitiesView.getMeasuredHeight();
+                                    mediaEntity.height = (view.getHeight() * scaleY22) / this.entitiesView.getMeasuredHeight();
+                                    mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x22) / this.entitiesView.getMeasuredWidth();
+                                    mediaEntity.y = (((view.getHeight() * (1.0f - scaleY22)) / 2.0f) + y22) / this.entitiesView.getMeasuredHeight();
+                                    double d222 = -view.getRotation();
+                                    Double.isNaN(d222);
+                                    mediaEntity.rotation = (float) (d222 * 0.017453292519943295d);
+                                    mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x22) / this.entitiesView.getMeasuredWidth();
+                                    mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y22) / this.entitiesView.getMeasuredHeight();
                                     mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
                                     mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
                                     mediaEntity.scale = scaleX;
@@ -5341,31 +5377,27 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                     }
                                     mediaArea = mediaEntity.mediaArea;
                                     if (mediaArea != null) {
-                                        mediaAreaCoordinates2.flags |= 1;
-                                        double d52 = scaleX;
-                                        Double.isNaN(d52);
-                                        Double.isNaN(r8);
-                                        mediaAreaCoordinates2.radius = ((d52 * d) / r8) * 100.0d;
                                     }
                                     z6 = z7;
                                 }
+                                z5 = false;
                                 z7 = true;
                                 arrayList3.add(mediaEntity);
                                 scaleX = view.getScaleX();
-                                float scaleY22 = view.getScaleY();
-                                float x22 = view.getX();
-                                float y22 = view.getY();
+                                float scaleY222 = view.getScaleY();
+                                float x222 = view.getX();
+                                float y222 = view.getY();
                                 mediaEntity.viewWidth = view.getWidth();
                                 mediaEntity.viewHeight = view.getHeight();
                                 mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
-                                mediaEntity.height = (view.getHeight() * scaleY22) / this.entitiesView.getMeasuredHeight();
-                                mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x22) / this.entitiesView.getMeasuredWidth();
-                                mediaEntity.y = (((view.getHeight() * (1.0f - scaleY22)) / 2.0f) + y22) / this.entitiesView.getMeasuredHeight();
-                                double d222 = -view.getRotation();
-                                Double.isNaN(d222);
-                                mediaEntity.rotation = (float) (d222 * 0.017453292519943295d);
-                                mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x22) / this.entitiesView.getMeasuredWidth();
-                                mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y22) / this.entitiesView.getMeasuredHeight();
+                                mediaEntity.height = (view.getHeight() * scaleY222) / this.entitiesView.getMeasuredHeight();
+                                mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x222) / this.entitiesView.getMeasuredWidth();
+                                mediaEntity.y = (((view.getHeight() * (1.0f - scaleY222)) / 2.0f) + y222) / this.entitiesView.getMeasuredHeight();
+                                double d2222 = -view.getRotation();
+                                Double.isNaN(d2222);
+                                mediaEntity.rotation = (float) (d2222 * 0.017453292519943295d);
+                                mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x222) / this.entitiesView.getMeasuredWidth();
+                                mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y222) / this.entitiesView.getMeasuredHeight();
                                 mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
                                 mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
                                 mediaEntity.scale = scaleX;
@@ -5375,99 +5407,71 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                 if (mediaArea != null) {
                                 }
                                 z6 = z7;
+                            } else {
+                                i3 = childCount;
+                                i4 = i9;
+                                view = childAt;
+                                z5 = false;
+                                z6 = true;
                             }
-                            z5 = false;
-                            z7 = true;
-                            arrayList3.add(mediaEntity);
-                            scaleX = view.getScaleX();
-                            float scaleY222 = view.getScaleY();
-                            float x222 = view.getX();
-                            float y222 = view.getY();
-                            mediaEntity.viewWidth = view.getWidth();
-                            mediaEntity.viewHeight = view.getHeight();
-                            mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
-                            mediaEntity.height = (view.getHeight() * scaleY222) / this.entitiesView.getMeasuredHeight();
-                            mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x222) / this.entitiesView.getMeasuredWidth();
-                            mediaEntity.y = (((view.getHeight() * (1.0f - scaleY222)) / 2.0f) + y222) / this.entitiesView.getMeasuredHeight();
-                            double d2222 = -view.getRotation();
-                            Double.isNaN(d2222);
-                            mediaEntity.rotation = (float) (d2222 * 0.017453292519943295d);
-                            mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x222) / this.entitiesView.getMeasuredWidth();
-                            mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y222) / this.entitiesView.getMeasuredHeight();
-                            mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
-                            mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
-                            mediaEntity.scale = scaleX;
-                            if (entityView instanceof MessageEntityView) {
+                            if (z6 && ((z2 || (z3 && mediaEntity.type == 6)) && bitmap != null)) {
+                                Canvas canvas = new Canvas(bitmap);
+                                float width2 = bitmap.getWidth() / this.entitiesView.getMeasuredWidth();
+                                int i12 = 0;
+                                while (i12 < 2) {
+                                    Canvas canvas2 = i12 == 0 ? canvas : null;
+                                    if (canvas2 == null || (i12 == 0 && z5)) {
+                                        view2 = view;
+                                    } else {
+                                        canvas2.save();
+                                        canvas2.scale(width2, width2);
+                                        canvas2.translate(mediaEntity.x * this.entitiesView.getMeasuredWidth(), mediaEntity.y * this.entitiesView.getMeasuredHeight());
+                                        canvas2.scale(view.getScaleX(), view.getScaleY());
+                                        canvas2.rotate(view.getRotation(), ((mediaEntity.width / 2.0f) / view.getScaleX()) * this.entitiesView.getMeasuredWidth(), ((mediaEntity.height / 2.0f) / view.getScaleY()) * this.entitiesView.getMeasuredHeight());
+                                        view2 = view;
+                                        if ((view2 instanceof TextPaintView) && view2.getHeight() > 0 && view2.getWidth() > 0) {
+                                            int width3 = (int) (view2.getWidth() * view2.getScaleX());
+                                            int height2 = (int) (view2.getHeight() * view2.getScaleY());
+                                            Bitmap createBitmap2 = Bitmaps.createBitmap(width3, height2, Bitmap.Config.ARGB_8888);
+                                            Canvas canvas3 = new Canvas(createBitmap2);
+                                            canvas3.scale(view2.getScaleX(), view2.getScaleY());
+                                            view2.draw(canvas3);
+                                            canvas2.scale(1.0f / view2.getScaleX(), 1.0f / view2.getScaleY());
+                                            canvas2.drawBitmap(createBitmap2, (Rect) null, new Rect(0, 0, width3, height2), new Paint(3));
+                                            try {
+                                                canvas3.setBitmap(null);
+                                            } catch (Exception e) {
+                                                FileLog.e(e);
+                                            }
+                                            createBitmap2.recycle();
+                                        } else if (view2 instanceof MessageEntityView) {
+                                            MessageEntityView messageEntityView3 = (MessageEntityView) view2;
+                                            messageEntityView3.prepareToDraw(true);
+                                            view2.draw(canvas2);
+                                            messageEntityView3.prepareToDraw(false);
+                                        } else {
+                                            view2.draw(canvas2);
+                                        }
+                                        canvas2.restore();
+                                    }
+                                    i12++;
+                                    view = view2;
+                                }
                             }
-                            mediaArea = mediaEntity.mediaArea;
-                            if (mediaArea != null) {
-                            }
-                            z6 = z7;
+                            b = 1;
                         } else {
                             i3 = childCount;
                             i4 = i9;
-                            view = childAt;
-                            z5 = false;
-                            z6 = true;
                         }
-                        if (z6 && ((z2 || (z3 && mediaEntity.type == 6)) && bitmap != null)) {
-                            Canvas canvas = new Canvas(bitmap);
-                            float width2 = bitmap.getWidth() / this.entitiesView.getMeasuredWidth();
-                            int i12 = 0;
-                            while (i12 < 2) {
-                                Canvas canvas2 = i12 == 0 ? canvas : null;
-                                if (canvas2 == null || (i12 == 0 && z5)) {
-                                    view2 = view;
-                                } else {
-                                    canvas2.save();
-                                    canvas2.scale(width2, width2);
-                                    canvas2.translate(mediaEntity.x * this.entitiesView.getMeasuredWidth(), mediaEntity.y * this.entitiesView.getMeasuredHeight());
-                                    canvas2.scale(view.getScaleX(), view.getScaleY());
-                                    canvas2.rotate(view.getRotation(), ((mediaEntity.width / 2.0f) / view.getScaleX()) * this.entitiesView.getMeasuredWidth(), ((mediaEntity.height / 2.0f) / view.getScaleY()) * this.entitiesView.getMeasuredHeight());
-                                    view2 = view;
-                                    if ((view2 instanceof TextPaintView) && view2.getHeight() > 0 && view2.getWidth() > 0) {
-                                        int width3 = (int) (view2.getWidth() * view2.getScaleX());
-                                        int height2 = (int) (view2.getHeight() * view2.getScaleY());
-                                        Bitmap createBitmap2 = Bitmaps.createBitmap(width3, height2, Bitmap.Config.ARGB_8888);
-                                        Canvas canvas3 = new Canvas(createBitmap2);
-                                        canvas3.scale(view2.getScaleX(), view2.getScaleY());
-                                        view2.draw(canvas3);
-                                        canvas2.scale(1.0f / view2.getScaleX(), 1.0f / view2.getScaleY());
-                                        canvas2.drawBitmap(createBitmap2, (Rect) null, new Rect(0, 0, width3, height2), new Paint(3));
-                                        try {
-                                            canvas3.setBitmap(null);
-                                        } catch (Exception e) {
-                                            FileLog.e(e);
-                                        }
-                                        createBitmap2.recycle();
-                                    } else if (view2 instanceof MessageEntityView) {
-                                        MessageEntityView messageEntityView3 = (MessageEntityView) view2;
-                                        messageEntityView3.prepareToDraw(true);
-                                        view2.draw(canvas2);
-                                        messageEntityView3.prepareToDraw(false);
-                                    } else {
-                                        view2.draw(canvas2);
-                                    }
-                                    canvas2.restore();
-                                }
-                                i12++;
-                                view = view2;
-                            }
-                        }
-                        b = 1;
-                    } else {
-                        i3 = childCount;
-                        i4 = i9;
+                        i9 = i4 + 1;
+                        arrayList3 = arrayList;
+                        storyEntry2 = storyEntry;
+                        childCount = i3;
+                        i8 = 0;
                     }
-                    i9 = i4 + 1;
-                    arrayList3 = arrayList;
-                    storyEntry2 = storyEntry;
-                    childCount = i3;
-                    i8 = 0;
                 }
+                return bitmap;
             }
-            return bitmap;
-        } else {
             createBitmap = Bitmap.createBitmap(resultBitmap.getWidth(), resultBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         }
         bitmap = createBitmap;
@@ -5608,8 +5612,10 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         }
         float x = (f - view2.getX()) - view.getLeft();
         float y = (f2 - view2.getY()) - view.getTop();
-        fArr[0] = view2.getPivotX() + ((x - view2.getPivotX()) / view2.getScaleX());
-        fArr[1] = view2.getPivotY() + ((y - view2.getPivotY()) / view2.getScaleY());
+        float pivotX = view2.getPivotX() + ((x - view2.getPivotX()) / view2.getScaleX());
+        float pivotY = view2.getPivotY() + ((y - view2.getPivotY()) / view2.getScaleY());
+        fArr[0] = pivotX;
+        fArr[1] = pivotY;
     }
 
     public /* bridge */ /* synthetic */ View getView() {
@@ -5680,23 +5686,25 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 this.reactionLayout.dismissWindow();
             }
             return true;
-        } else if (this.isColorListShown) {
+        }
+        if (this.isColorListShown) {
             showColorList(false);
             return true;
-        } else if (this.emojiViewVisible) {
+        }
+        if (this.emojiViewVisible) {
             hideEmojiPopup(true);
             return true;
-        } else if (this.editingText) {
-            if (!this.enteredThroughText) {
-                lambda$createRound$61(null);
-                return true;
-            }
-            this.enteredThroughText = false;
-            this.keyboardNotifier.ignore(true);
-            return false;
-        } else {
+        }
+        if (!this.editingText) {
             return false;
         }
+        if (!this.enteredThroughText) {
+            lambda$createRound$61(null);
+            return true;
+        }
+        this.enteredThroughText = false;
+        this.keyboardNotifier.ignore(true);
+        return false;
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.PaintToolsView.Delegate
@@ -5797,7 +5805,6 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     protected void onMeasure(int i, int i2) {
         float currentActionBarHeight;
         float f;
-        float f2;
         this.ignoreLayout = true;
         int size = View.MeasureSpec.getSize(i);
         int size2 = View.MeasureSpec.getSize(i2);
@@ -5811,11 +5818,11 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
             currentActionBarHeight = (size2 - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.dp(48.0f);
             f = size;
         }
-        float f3 = size;
-        if (((float) Math.floor((f3 * currentActionBarHeight) / f)) > currentActionBarHeight2) {
-            f3 = (float) Math.floor((f2 * f) / currentActionBarHeight);
+        float f2 = size;
+        if (((float) Math.floor((f2 * currentActionBarHeight) / f)) > currentActionBarHeight2) {
+            f2 = (float) Math.floor((r3 * f) / currentActionBarHeight);
         }
-        this.baseScale = f3 / this.paintingSize.width;
+        this.baseScale = f2 / this.paintingSize.width;
         EntityView entityView = this.currentEntityView;
         if (entityView != null) {
             entityView.updateSelectionView();
@@ -5843,26 +5850,23 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     public void onNewTextSelected() {
         if (this.keyboardVisible || this.emojiViewVisible) {
             onEmojiButtonClick();
-            return;
+        } else {
+            this.forceChanges = true;
+            createText(true);
         }
-        this.forceChanges = true;
-        createText(true);
     }
 
     protected abstract void onOpenCloseStickersAlert(boolean z);
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00e3  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0117  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00e3  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0117  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onParentPreDraw() {
         ReactionWidgetEntityView reactionWidgetEntityView;
         ReactionsContainerLayout reactionsContainerLayout;
-        ReactionsContainerLayout reactionsContainerLayout2;
         float measuredHeight;
-        ReactionsContainerLayout reactionsContainerLayout3;
-        ReactionsContainerLayout reactionsContainerLayout4;
         if (this.invalidateReactionPosition) {
             this.invalidateReactionPosition = false;
             if (this.reactionLayout == null || (reactionWidgetEntityView = this.reactionForEntity) == null) {
@@ -5875,31 +5879,32 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
             float measuredHeight3 = this.points[1] + ((this.reactionForEntity.getMeasuredHeight() / 2.0f) * this.reactionForEntity.getScaleX());
             if (measuredHeight2 < AndroidUtilities.dp(120.0f) && measuredHeight3 > this.parent.getMeasuredHeight() - AndroidUtilities.dp(200.0f)) {
                 this.reactionLayout.setTop(false);
-                reactionsContainerLayout2 = this.reactionLayout;
+                reactionsContainerLayout = this.reactionLayout;
                 measuredHeight = (AndroidUtilities.dp(120.0f) - this.reactionLayout.getMeasuredHeight()) + AndroidUtilities.dp(16.0f);
-            } else if (measuredHeight2 >= AndroidUtilities.dp(120.0f)) {
-                this.reactionLayout.setTop(false);
-                this.reactionLayout.setTranslationY((measuredHeight2 - reactionsContainerLayout.getMeasuredHeight()) + AndroidUtilities.dp(16.0f));
-                if (this.points[0] >= getMeasuredWidth() / 2.0f) {
-                    this.reactionLayout.setMirrorX(true);
-                    float x = (this.reactionLayout.getX() + (this.reactionLayout.getMeasuredWidth() / 2.0f)) - (this.points[0] - (this.reactionForEntity.getMeasuredHeight() / 2.0f));
-                    if (x > 0.0f) {
-                        this.reactionLayout.setBubbleOffset(((reactionsContainerLayout4.getMeasuredWidth() / 2.0f) - x) / 2.0f);
-                    }
-                } else {
-                    float x2 = (this.reactionLayout.getX() + (this.reactionLayout.getMeasuredWidth() / 2.0f)) - (this.points[0] + (this.reactionForEntity.getMeasuredHeight() / 2.0f));
-                    if (x2 < 0.0f) {
-                        this.reactionLayout.setBubbleOffset((-((reactionsContainerLayout3.getMeasuredWidth() / 2.0f) + x2)) / 2.0f);
-                    }
-                    this.reactionLayout.setMirrorX(false);
-                }
-                this.reactionLayout.setTranslationX((this.parent.getMeasuredWidth() - this.reactionLayout.getMeasuredWidth()) / 2.0f);
             } else {
+                if (measuredHeight2 >= AndroidUtilities.dp(120.0f)) {
+                    this.reactionLayout.setTop(false);
+                    this.reactionLayout.setTranslationY((measuredHeight2 - r2.getMeasuredHeight()) + AndroidUtilities.dp(16.0f));
+                    if (this.points[0] >= getMeasuredWidth() / 2.0f) {
+                        this.reactionLayout.setMirrorX(true);
+                        float x = (this.reactionLayout.getX() + (this.reactionLayout.getMeasuredWidth() / 2.0f)) - (this.points[0] - (this.reactionForEntity.getMeasuredHeight() / 2.0f));
+                        if (x > 0.0f) {
+                            this.reactionLayout.setBubbleOffset(((r0.getMeasuredWidth() / 2.0f) - x) / 2.0f);
+                        }
+                    } else {
+                        float x2 = (this.reactionLayout.getX() + (this.reactionLayout.getMeasuredWidth() / 2.0f)) - (this.points[0] + (this.reactionForEntity.getMeasuredHeight() / 2.0f));
+                        if (x2 < 0.0f) {
+                            this.reactionLayout.setBubbleOffset((-((r1.getMeasuredWidth() / 2.0f) + x2)) / 2.0f);
+                        }
+                        this.reactionLayout.setMirrorX(false);
+                    }
+                    this.reactionLayout.setTranslationX((this.parent.getMeasuredWidth() - this.reactionLayout.getMeasuredWidth()) / 2.0f);
+                }
                 this.reactionLayout.setTop(true);
-                reactionsContainerLayout2 = this.reactionLayout;
+                reactionsContainerLayout = this.reactionLayout;
                 measuredHeight = this.points[1] + ((this.reactionForEntity.getMeasuredHeight() / 2.0f) * this.reactionForEntity.getScaleX());
             }
-            reactionsContainerLayout2.setTranslationY(measuredHeight);
+            reactionsContainerLayout.setTranslationY(measuredHeight);
             if (this.points[0] >= getMeasuredWidth() / 2.0f) {
             }
             this.reactionLayout.setTranslationX((this.parent.getMeasuredWidth() - this.reactionLayout.getMeasuredWidth()) / 2.0f);
@@ -6062,7 +6067,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         super.requestLayout();
     }
 
-    /* renamed from: selectEntity */
+    /* renamed from: selectEntity, reason: merged with bridge method [inline-methods] */
     public boolean lambda$createRound$61(EntityView entityView) {
         return selectEntity(entityView, true);
     }
@@ -6193,7 +6198,6 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     public boolean wouldBeVideo() {
-        AnimatedEmojiSpan[] animatedEmojiSpanArr;
         if (this.isVideo || this.hasAudio) {
             return true;
         }
@@ -6214,7 +6218,6 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                             return true;
                         }
                     }
-                    continue;
                 } else {
                     continue;
                 }

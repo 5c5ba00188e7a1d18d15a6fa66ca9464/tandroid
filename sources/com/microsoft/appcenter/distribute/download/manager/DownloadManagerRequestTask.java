@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import com.microsoft.appcenter.distribute.ReleaseDetails;
 import com.microsoft.appcenter.utils.AppCenterLog;
+
 /* loaded from: classes.dex */
 class DownloadManagerRequestTask extends AsyncTask {
     private final DownloadManagerReleaseDownloader mDownloader;

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
 /* loaded from: classes.dex */
 public class SsManifest implements FilterableManifest {
     public final long durationUs;

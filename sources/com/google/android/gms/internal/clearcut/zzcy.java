@@ -1,8 +1,15 @@
 package com.google.android.gms.internal.clearcut;
+
 /* loaded from: classes.dex */
 abstract class zzcy {
-    private static final zzcy zzlt = new zzda();
-    private static final zzcy zzlu = new zzdb();
+    private static final zzcy zzlt;
+    private static final zzcy zzlu;
+
+    static {
+        zzcz zzczVar = null;
+        zzlt = new zzda();
+        zzlu = new zzdb();
+    }
 
     private zzcy() {
     }

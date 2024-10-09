@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.text.method.TransformationMethod;
 import android.view.View;
 import androidx.emoji2.text.EmojiCompat;
+
 /* loaded from: classes.dex */
 class EmojiTransformationMethod implements TransformationMethod {
     private final TransformationMethod mTransformationMethod;

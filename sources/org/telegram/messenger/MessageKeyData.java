@@ -1,6 +1,7 @@
 package org.telegram.messenger;
 
 import org.telegram.tgnet.SerializedData;
+
 /* loaded from: classes3.dex */
 public class MessageKeyData {
     public byte[] aesIv;

@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /* loaded from: classes.dex */
 public abstract class ObjectDescriptorFactory {
     protected static Logger log = Logger.getLogger(ObjectDescriptorFactory.class.getName());
@@ -49,16 +50,13 @@ public abstract class ObjectDescriptorFactory {
         }
         Class cls = (Class) map.get(Integer.valueOf(readUInt8));
         if (cls == null || cls.isInterface() || Modifier.isAbstract(cls.getModifiers())) {
-            Logger logger = log;
-            logger.warning("No ObjectDescriptor found for objectTypeIndication " + Integer.toHexString(i) + " and tag " + Integer.toHexString(readUInt8) + " found: " + cls);
+            log.warning("No ObjectDescriptor found for objectTypeIndication " + Integer.toHexString(i) + " and tag " + Integer.toHexString(readUInt8) + " found: " + cls);
             unknownDescriptor = new UnknownDescriptor();
         } else {
             try {
                 unknownDescriptor = (BaseDescriptor) cls.newInstance();
             } catch (Exception e) {
-                Logger logger2 = log;
-                Level level = Level.SEVERE;
-                logger2.log(level, "Couldn't instantiate BaseDescriptor class " + cls + " for objectTypeIndication " + i + " and tag " + readUInt8, (Throwable) e);
+                log.log(Level.SEVERE, "Couldn't instantiate BaseDescriptor class " + cls + " for objectTypeIndication " + i + " and tag " + readUInt8, (Throwable) e);
                 throw new RuntimeException(e);
             }
         }

@@ -49,6 +49,7 @@ import org.telegram.ui.Components.EditTextEmoji;
 import org.telegram.ui.Components.EmojiView;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
+
 /* loaded from: classes3.dex */
 public class EditTextEmoji extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate {
     AdjustPanLayoutHelper adjustPanLayoutHelper;
@@ -260,7 +261,8 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         }
 
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
-        public /* synthetic */ void onGifSelected(View view, Object obj, String str, Object obj2, boolean z, int i) {
+        /* renamed from: onGifSelected */
+        public /* synthetic */ void lambda$onGifSelected$1(View view, Object obj, String str, Object obj2, boolean z, int i) {
             EmojiView.EmojiViewDelegate.-CC.$default$onGifSelected(this, view, obj, str, obj2, z, i);
         }
 
@@ -408,10 +410,10 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
                         if (z2) {
                             this.lastIcon = replaceableIconDrawable.getIcon();
                             EditTextEmoji.this.emojiIconDrawable.setIcon(R.drawable.msg_edit, true);
-                            return;
+                        } else {
+                            replaceableIconDrawable.setIcon(this.lastIcon, true);
+                            this.lastIcon = null;
                         }
-                        replaceableIconDrawable.setIcon(this.lastIcon, true);
-                        this.lastIcon = null;
                     }
                 }
             }
@@ -635,14 +637,15 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
                     this.emojiView.onOpen(this.editText.length() > 0, false);
                     this.editText.requestFocus();
                     return;
+                } else {
+                    if (this.emojiExpanded) {
+                        hidePopup(true);
+                        this.emojiExpanded = false;
+                        onEmojiKeyboardUpdate();
+                    }
+                    openKeyboardInternal();
+                    return;
                 }
-                if (this.emojiExpanded) {
-                    hidePopup(true);
-                    this.emojiExpanded = false;
-                    onEmojiKeyboardUpdate();
-                }
-                openKeyboardInternal();
-                return;
             }
             ItemOptions itemOptions = this.formatOptions;
             if (itemOptions != null) {
@@ -1010,7 +1013,6 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             }
         }
         this.lastEmojiExpanded = this.emojiExpanded;
-        boolean z4 = true;
         if (this.lastSizeChangeValue1 == i && this.lastSizeChangeValue2 == z) {
             if (allowSearch()) {
                 if (this.editText.isFocused() && i > 0) {
@@ -1023,13 +1025,13 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         }
         this.lastSizeChangeValue1 = i;
         this.lastSizeChangeValue2 = z;
-        boolean z5 = this.keyboardVisible;
-        z4 = (!this.editText.isFocused() || i <= 0) ? false : false;
-        this.keyboardVisible = z4;
-        if (z4 && isPopupShowing()) {
+        boolean z4 = this.keyboardVisible;
+        boolean z5 = this.editText.isFocused() && i > 0;
+        this.keyboardVisible = z5;
+        if (z5 && isPopupShowing()) {
             showPopup(0);
         }
-        if (this.emojiPadding != 0 && !(z2 = this.keyboardVisible) && z2 != z5 && !isPopupShowing()) {
+        if (this.emojiPadding != 0 && !(z2 = this.keyboardVisible) && z2 != z4 && !isPopupShowing()) {
             this.emojiPadding = 0;
             this.sizeNotifierLayout.requestLayout();
         }
@@ -1055,12 +1057,14 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         AndroidUtilities.showKeyboard(this.editText);
         if (this.isPaused) {
             this.showKeyboardOnResume = true;
-        } else if (AndroidUtilities.usingHardwareInput || this.keyboardVisible || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) {
-        } else {
-            this.waitingForKeyboardOpen = true;
-            AndroidUtilities.cancelRunOnUIThread(this.openKeyboardRunnable);
-            AndroidUtilities.runOnUIThread(this.openKeyboardRunnable, 100L);
+            return;
         }
+        if (AndroidUtilities.usingHardwareInput || this.keyboardVisible || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) {
+            return;
+        }
+        this.waitingForKeyboardOpen = true;
+        AndroidUtilities.cancelRunOnUIThread(this.openKeyboardRunnable);
+        AndroidUtilities.runOnUIThread(this.openKeyboardRunnable, 100L);
     }
 
     public void setAdjustPanLayoutHelper(AdjustPanLayoutHelper adjustPanLayoutHelper) {
@@ -1212,8 +1216,8 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         ofFloat.start();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:10:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0075  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1228,21 +1232,22 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             i = Theme.key_windowBackgroundWhiteBlackText;
             editTextCaption2.setCursorColor(getThemedColor(i));
             editTextCaption = this.editText;
-        } else if (i2 == 2 || i2 == 3) {
-            this.editText.setHintTextColor(-1929379841);
-            this.editText.setTextColor(-1);
-            this.editText.setCursorColor(-1);
-            this.editText.setHandlesColor(-1);
-            this.editText.setHighlightColor(822083583);
-            this.editText.quoteColor = -1;
-            this.emojiIconDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_messagePanelIcons), PorterDuff.Mode.MULTIPLY));
-            emojiView = this.emojiView;
-            if (emojiView == null) {
-                emojiView.updateColors();
+        } else {
+            if (i2 == 2 || i2 == 3) {
+                this.editText.setHintTextColor(-1929379841);
+                this.editText.setTextColor(-1);
+                this.editText.setCursorColor(-1);
+                this.editText.setHandlesColor(-1);
+                this.editText.setHighlightColor(822083583);
+                this.editText.quoteColor = -1;
+                this.emojiIconDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_messagePanelIcons), PorterDuff.Mode.MULTIPLY));
+                emojiView = this.emojiView;
+                if (emojiView == null) {
+                    emojiView.updateColors();
+                    return;
+                }
                 return;
             }
-            return;
-        } else {
             this.editText.setHintTextColor(getThemedColor(Theme.key_dialogTextHint));
             editTextCaption = this.editText;
             i = Theme.key_dialogTextBlack;

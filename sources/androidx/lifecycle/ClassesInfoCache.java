@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class ClassesInfoCache {
     static ClassesInfoCache sInstance = new ClassesInfoCache();
@@ -63,11 +64,11 @@ final class ClassesInfoCache {
             if (this == obj) {
                 return true;
             }
-            if (obj instanceof MethodReference) {
-                MethodReference methodReference = (MethodReference) obj;
-                return this.mCallType == methodReference.mCallType && this.mMethod.getName().equals(methodReference.mMethod.getName());
+            if (!(obj instanceof MethodReference)) {
+                return false;
             }
-            return false;
+            MethodReference methodReference = (MethodReference) obj;
+            return this.mCallType == methodReference.mCallType && this.mMethod.getName().equals(methodReference.mMethod.getName());
         }
 
         public int hashCode() {
@@ -81,8 +82,10 @@ final class ClassesInfoCache {
                     this.mMethod.invoke(obj, null);
                 } else if (i == 1) {
                     this.mMethod.invoke(obj, lifecycleOwner);
-                } else if (i != 2) {
                 } else {
+                    if (i != 2) {
+                        return;
+                    }
                     this.mMethod.invoke(obj, lifecycleOwner, event);
                 }
             } catch (IllegalAccessException e) {
@@ -119,9 +122,10 @@ final class ClassesInfoCache {
                 Class<?>[] parameterTypes = method.getParameterTypes();
                 if (parameterTypes.length <= 0) {
                     i = 0;
-                } else if (!parameterTypes[0].isAssignableFrom(LifecycleOwner.class)) {
-                    throw new IllegalArgumentException("invalid parameter type. Must be one and instanceof LifecycleOwner");
                 } else {
+                    if (!parameterTypes[0].isAssignableFrom(LifecycleOwner.class)) {
+                        throw new IllegalArgumentException("invalid parameter type. Must be one and instanceof LifecycleOwner");
+                    }
                     i = 1;
                 }
                 Lifecycle.Event value = onLifecycleEvent.value();
@@ -164,8 +168,7 @@ final class ClassesInfoCache {
             }
             return;
         }
-        Method method = methodReference.mMethod;
-        throw new IllegalArgumentException("Method " + method.getName() + " in " + cls.getName() + " already declared with different @OnLifecycleEvent value: previous value " + event2 + ", new value " + event);
+        throw new IllegalArgumentException("Method " + methodReference.mMethod.getName() + " in " + cls.getName() + " already declared with different @OnLifecycleEvent value: previous value " + event2 + ", new value " + event);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

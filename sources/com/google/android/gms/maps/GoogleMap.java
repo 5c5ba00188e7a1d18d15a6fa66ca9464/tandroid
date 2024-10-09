@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
 import java.util.HashMap;
+
 /* loaded from: classes.dex */
 public class GoogleMap {
     private final IGoogleMapDelegate zza;

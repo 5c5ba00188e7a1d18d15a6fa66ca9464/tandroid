@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Executor;
+
 /* loaded from: classes.dex */
 public class BiometricViewModel extends ViewModel {
     private AuthenticationCallbackProvider mAuthenticationCallbackProvider;

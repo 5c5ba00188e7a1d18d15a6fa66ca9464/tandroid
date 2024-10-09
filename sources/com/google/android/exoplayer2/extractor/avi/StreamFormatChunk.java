@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import org.telegram.messenger.MediaController;
+
 /* loaded from: classes.dex */
 final class StreamFormatChunk implements AviChunk {
     public final Format format;
@@ -41,22 +42,22 @@ final class StreamFormatChunk implements AviChunk {
     }
 
     private static String getMimeTypeFromTag(int i) {
-        if (i != 1) {
-            if (i != 85) {
-                if (i != 255) {
-                    if (i != 8192) {
-                        if (i != 8193) {
-                            return null;
-                        }
-                        return "audio/vnd.dts";
-                    }
-                    return "audio/ac3";
-                }
-                return MediaController.AUDIO_MIME_TYPE;
-            }
+        if (i == 1) {
+            return "audio/raw";
+        }
+        if (i == 85) {
             return "audio/mpeg";
         }
-        return "audio/raw";
+        if (i == 255) {
+            return MediaController.AUDIO_MIME_TYPE;
+        }
+        if (i == 8192) {
+            return "audio/ac3";
+        }
+        if (i != 8193) {
+            return null;
+        }
+        return "audio/vnd.dts";
     }
 
     private static AviChunk parseBitmapInfoHeader(ParsableByteArray parsableByteArray) {

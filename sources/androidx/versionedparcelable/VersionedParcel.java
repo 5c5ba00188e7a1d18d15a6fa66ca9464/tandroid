@@ -4,6 +4,7 @@ import android.os.Parcelable;
 import androidx.collection.ArrayMap;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 /* loaded from: classes.dex */
 public abstract class VersionedParcel {
     protected final ArrayMap mParcelizerCache;
@@ -18,35 +19,36 @@ public abstract class VersionedParcel {
 
     private Class findParcelClass(Class cls) {
         Class cls2 = (Class) this.mParcelizerCache.get(cls.getName());
-        if (cls2 == null) {
-            Class<?> cls3 = Class.forName(String.format("%s.%sParcelizer", cls.getPackage().getName(), cls.getSimpleName()), false, cls.getClassLoader());
-            this.mParcelizerCache.put(cls.getName(), cls3);
-            return cls3;
+        if (cls2 != null) {
+            return cls2;
         }
-        return cls2;
+        Class<?> cls3 = Class.forName(String.format("%s.%sParcelizer", cls.getPackage().getName(), cls.getSimpleName()), false, cls.getClassLoader());
+        this.mParcelizerCache.put(cls.getName(), cls3);
+        return cls3;
     }
 
     private Method getReadMethod(String str) {
         Method method = (Method) this.mReadCache.get(str);
-        if (method == null) {
-            System.currentTimeMillis();
-            Method declaredMethod = Class.forName(str, true, VersionedParcel.class.getClassLoader()).getDeclaredMethod("read", VersionedParcel.class);
-            this.mReadCache.put(str, declaredMethod);
-            return declaredMethod;
+        if (method != null) {
+            return method;
         }
-        return method;
+        System.currentTimeMillis();
+        Method declaredMethod = Class.forName(str, true, VersionedParcel.class.getClassLoader()).getDeclaredMethod("read", VersionedParcel.class);
+        this.mReadCache.put(str, declaredMethod);
+        return declaredMethod;
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     private Method getWriteMethod(Class cls) {
         Method method = (Method) this.mWriteCache.get(cls.getName());
-        if (method == null) {
-            Class findParcelClass = findParcelClass(cls);
-            System.currentTimeMillis();
-            Method declaredMethod = findParcelClass.getDeclaredMethod("write", cls, VersionedParcel.class);
-            this.mWriteCache.put(cls.getName(), declaredMethod);
-            return declaredMethod;
+        if (method != null) {
+            return method;
         }
-        return method;
+        Class findParcelClass = findParcelClass(cls);
+        System.currentTimeMillis();
+        Method declaredMethod = findParcelClass.getDeclaredMethod("write", cls, VersionedParcel.class);
+        this.mWriteCache.put(cls.getName(), declaredMethod);
+        return declaredMethod;
     }
 
     private void writeVersionedParcelableCreator(VersionedParcelable versionedParcelable) {

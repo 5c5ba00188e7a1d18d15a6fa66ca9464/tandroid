@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.collect.ImmutableList;
 import java.util.Arrays;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class FlacMetadataReader {
 
@@ -76,10 +77,11 @@ public abstract class FlacMetadataReader {
                 copyWithPictureFrames = flacStreamMetadata.copyWithSeekTable(readSeekTableMetadataBlock(extractorInput, readBits2));
             } else if (readBits == 4) {
                 copyWithPictureFrames = flacStreamMetadata.copyWithVorbisComments(readVorbisCommentMetadataBlock(extractorInput, readBits2));
-            } else if (readBits != 6) {
-                extractorInput.skipFully(readBits2);
-                return readBit;
             } else {
+                if (readBits != 6) {
+                    extractorInput.skipFully(readBits2);
+                    return readBit;
+                }
                 ParsableByteArray parsableByteArray = new ParsableByteArray(readBits2);
                 extractorInput.readFully(parsableByteArray.getData(), 0, readBits2);
                 parsableByteArray.skipBytes(4);

@@ -1,4 +1,5 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class zzbq extends zzax {
@@ -21,8 +22,8 @@ public final class zzbq extends zzax {
         return new zzbq(null, objArr, 1);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x001f A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0020 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:5:0x001f A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0020 A[RETURN] */
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzax, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.

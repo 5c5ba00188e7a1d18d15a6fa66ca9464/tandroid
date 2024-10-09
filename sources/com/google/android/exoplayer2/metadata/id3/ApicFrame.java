@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.android.exoplayer2.MediaMetadata;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
+
 /* loaded from: classes.dex */
 public final class ApicFrame extends Id3Frame {
     public static final Parcelable.Creator<ApicFrame> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.metadata.id3.ApicFrame.1

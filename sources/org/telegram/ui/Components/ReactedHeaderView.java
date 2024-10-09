@@ -27,6 +27,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+
 /* loaded from: classes3.dex */
 public class ReactedHeaderView extends FrameLayout {
     private AvatarsImageView avatarsImageView;
@@ -352,7 +353,7 @@ public class ReactedHeaderView extends FrameLayout {
         }, 64);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x005a  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x005a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -378,18 +379,19 @@ public class ReactedHeaderView extends FrameLayout {
         int size = this.users.size();
         if (size == 1) {
             dp = AndroidUtilities.dp(24.0f);
-        } else if (size != 2) {
-            f = 0.0f;
-            AvatarsImageView avatarsImageView2 = this.avatarsImageView;
-            if (LocaleController.isRTL) {
-                f = AndroidUtilities.dp(12.0f);
-            }
-            avatarsImageView2.setTranslationX(f);
-            this.avatarsImageView.commitTransition(false);
-            this.titleView.animate().alpha(1.0f).setDuration(220L).start();
-            this.avatarsImageView.animate().alpha(1.0f).setDuration(220L).start();
-            this.flickerLoadingView.animate().alpha(0.0f).setDuration(220L).setListener(new HideViewAfterAnimation(this.flickerLoadingView)).start();
         } else {
+            if (size != 2) {
+                f = 0.0f;
+                AvatarsImageView avatarsImageView2 = this.avatarsImageView;
+                if (LocaleController.isRTL) {
+                    f = AndroidUtilities.dp(12.0f);
+                }
+                avatarsImageView2.setTranslationX(f);
+                this.avatarsImageView.commitTransition(false);
+                this.titleView.animate().alpha(1.0f).setDuration(220L).start();
+                this.avatarsImageView.animate().alpha(1.0f).setDuration(220L).start();
+                this.flickerLoadingView.animate().alpha(0.0f).setDuration(220L).setListener(new HideViewAfterAnimation(this.flickerLoadingView)).start();
+            }
             dp = AndroidUtilities.dp(12.0f);
         }
         f = dp;

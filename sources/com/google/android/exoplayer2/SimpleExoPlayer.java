@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.util.ConditionVariable;
 import org.telegram.messenger.DispatchQueue;
+
 /* loaded from: classes.dex */
 public class SimpleExoPlayer extends BasePlayer implements ExoPlayer {
     private final ConditionVariable constructorFinished;

@@ -1,6 +1,7 @@
 package j$.util.function;
 
 import java.util.function.UnaryOperator;
+
 /* loaded from: classes2.dex */
 public interface Function<T, R> {
 

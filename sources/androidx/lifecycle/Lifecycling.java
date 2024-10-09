@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class Lifecycling {
     private static Map sCallbackCache = new HashMap();
@@ -95,25 +96,24 @@ public abstract class Lifecycling {
             return (LifecycleEventObserver) obj;
         }
         Class<?> cls = obj.getClass();
-        if (getObserverConstructorType(cls) == 2) {
-            List list = (List) sClassToAdapters.get(cls);
-            if (list.size() == 1) {
-                createGeneratedAdapter((Constructor) list.get(0), obj);
-                return new SingleGeneratedAdapterObserver(null);
-            }
-            GeneratedAdapter[] generatedAdapterArr = new GeneratedAdapter[list.size()];
-            for (int i = 0; i < list.size(); i++) {
-                createGeneratedAdapter((Constructor) list.get(i), obj);
-                generatedAdapterArr[i] = null;
-            }
-            return new CompositeGeneratedAdaptersObserver(generatedAdapterArr);
+        if (getObserverConstructorType(cls) != 2) {
+            return new ReflectiveGenericLifecycleObserver(obj);
         }
-        return new ReflectiveGenericLifecycleObserver(obj);
+        List list = (List) sClassToAdapters.get(cls);
+        if (list.size() == 1) {
+            createGeneratedAdapter((Constructor) list.get(0), obj);
+            return new SingleGeneratedAdapterObserver(null);
+        }
+        GeneratedAdapter[] generatedAdapterArr = new GeneratedAdapter[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            createGeneratedAdapter((Constructor) list.get(i), obj);
+            generatedAdapterArr[i] = null;
+        }
+        return new CompositeGeneratedAdaptersObserver(generatedAdapterArr);
     }
 
     private static int resolveObserverCallbackType(Class cls) {
         ArrayList arrayList;
-        Class<?>[] interfaces;
         if (cls.getCanonicalName() == null) {
             return 1;
         }
@@ -121,33 +121,34 @@ public abstract class Lifecycling {
         if (generatedConstructor != null) {
             sClassToAdapters.put(cls, Collections.singletonList(generatedConstructor));
             return 2;
-        } else if (ClassesInfoCache.sInstance.hasLifecycleMethods(cls)) {
-            return 1;
-        } else {
-            Class superclass = cls.getSuperclass();
-            if (!isLifecycleParent(superclass)) {
-                arrayList = null;
-            } else if (getObserverConstructorType(superclass) == 1) {
-                return 1;
-            } else {
-                arrayList = new ArrayList((Collection) sClassToAdapters.get(superclass));
-            }
-            for (Class<?> cls2 : cls.getInterfaces()) {
-                if (isLifecycleParent(cls2)) {
-                    if (getObserverConstructorType(cls2) == 1) {
-                        return 1;
-                    }
-                    if (arrayList == null) {
-                        arrayList = new ArrayList();
-                    }
-                    arrayList.addAll((Collection) sClassToAdapters.get(cls2));
-                }
-            }
-            if (arrayList != null) {
-                sClassToAdapters.put(cls, arrayList);
-                return 2;
-            }
+        }
+        if (ClassesInfoCache.sInstance.hasLifecycleMethods(cls)) {
             return 1;
         }
+        Class superclass = cls.getSuperclass();
+        if (!isLifecycleParent(superclass)) {
+            arrayList = null;
+        } else {
+            if (getObserverConstructorType(superclass) == 1) {
+                return 1;
+            }
+            arrayList = new ArrayList((Collection) sClassToAdapters.get(superclass));
+        }
+        for (Class<?> cls2 : cls.getInterfaces()) {
+            if (isLifecycleParent(cls2)) {
+                if (getObserverConstructorType(cls2) == 1) {
+                    return 1;
+                }
+                if (arrayList == null) {
+                    arrayList = new ArrayList();
+                }
+                arrayList.addAll((Collection) sClassToAdapters.get(cls2));
+            }
+        }
+        if (arrayList == null) {
+            return 1;
+        }
+        sClassToAdapters.put(cls, arrayList);
+        return 2;
     }
 }

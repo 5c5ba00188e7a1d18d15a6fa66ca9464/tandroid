@@ -4,6 +4,7 @@ import android.net.Uri;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import java.io.IOException;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public final class MediaDrmCallbackException extends IOException {
     public final long bytesLoaded;

@@ -1,4 +1,5 @@
 package org.telegram.messenger.video.audio_input;
+
 /* loaded from: classes3.dex */
 public abstract class AudioInput {
     private boolean loopingEnabled;

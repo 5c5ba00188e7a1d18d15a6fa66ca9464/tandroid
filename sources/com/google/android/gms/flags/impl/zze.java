@@ -2,6 +2,7 @@ package com.google.android.gms.flags.impl;
 
 import android.content.SharedPreferences;
 import java.util.concurrent.Callable;
+
 /* loaded from: classes.dex */
 final class zze implements Callable {
     private final /* synthetic */ SharedPreferences zzo;

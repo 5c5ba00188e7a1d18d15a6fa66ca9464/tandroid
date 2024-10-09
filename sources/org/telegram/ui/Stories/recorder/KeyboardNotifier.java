@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Utilities;
+
 /* loaded from: classes4.dex */
 public class KeyboardNotifier {
     private boolean awaitingKeyboard;
@@ -95,8 +96,9 @@ public class KeyboardNotifier {
         if (this.awaitingKeyboard) {
             if (this.keyboardHeight < AndroidUtilities.navigationBarHeight + AndroidUtilities.dp(20.0f)) {
                 return;
+            } else {
+                this.awaitingKeyboard = false;
             }
-            this.awaitingKeyboard = false;
         }
         Utilities.Callback callback = this.listener;
         if (callback != null) {

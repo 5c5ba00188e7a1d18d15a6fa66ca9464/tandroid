@@ -3,6 +3,7 @@ package j$.util;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 import java.util.Spliterator;
+
 /* loaded from: classes2.dex */
 public final /* synthetic */ class C implements E {
     public final /* synthetic */ Spliterator.OfDouble a;
@@ -47,7 +48,8 @@ public final /* synthetic */ class C implements E {
     }
 
     @Override // j$.util.N
-    public final /* synthetic */ void forEachRemaining(Object obj) {
+    /* renamed from: forEachRemaining */
+    public final /* synthetic */ void e(Object obj) {
         this.a.forEachRemaining((Spliterator.OfDouble) obj);
     }
 
@@ -81,7 +83,8 @@ public final /* synthetic */ class C implements E {
     }
 
     @Override // j$.util.N
-    public final /* synthetic */ boolean tryAdvance(Object obj) {
+    /* renamed from: tryAdvance */
+    public final /* synthetic */ boolean p(Object obj) {
         return this.a.tryAdvance((Spliterator.OfDouble) obj);
     }
 

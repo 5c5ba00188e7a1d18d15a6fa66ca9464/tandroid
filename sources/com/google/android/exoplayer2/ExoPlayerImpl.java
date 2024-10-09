@@ -65,6 +65,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeoutException;
 import org.telegram.messenger.DispatchQueue;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
@@ -359,7 +360,7 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
             }
         }
 
-        /* renamed from: onSurfaceTextureAvailableInternal */
+        /* renamed from: onSurfaceTextureAvailableInternal, reason: merged with bridge method [inline-methods] */
         public void lambda$onSurfaceTextureAvailable$6(SurfaceTexture surfaceTexture, int i, int i2) {
             ExoPlayerImpl.this.setSurfaceTextureInternal(surfaceTexture);
             ExoPlayerImpl.this.maybeNotifySurfaceSizeChanged(i, i2);
@@ -386,7 +387,7 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
             return true;
         }
 
-        /* renamed from: onSurfaceTextureDestroyedInternal */
+        /* renamed from: onSurfaceTextureDestroyedInternal, reason: merged with bridge method [inline-methods] */
         public void lambda$onSurfaceTextureDestroyed$8(SurfaceTexture surfaceTexture) {
             ExoPlayerImpl.this.setVideoOutputInternal(null);
             ExoPlayerImpl.this.maybeNotifySurfaceSizeChanged(0, 0);
@@ -406,7 +407,7 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
             }
         }
 
-        /* renamed from: onSurfaceTextureSizeChangedInternal */
+        /* renamed from: onSurfaceTextureSizeChangedInternal, reason: merged with bridge method [inline-methods] */
         public void lambda$onSurfaceTextureSizeChanged$7(SurfaceTexture surfaceTexture, int i, int i2) {
             ExoPlayerImpl.this.maybeNotifySurfaceSizeChanged(i, i2);
         }
@@ -425,7 +426,7 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
             }
         }
 
-        /* renamed from: onSurfaceTextureUpdatedInternal */
+        /* renamed from: onSurfaceTextureUpdatedInternal, reason: merged with bridge method [inline-methods] */
         public void lambda$onSurfaceTextureUpdated$9(SurfaceTexture surfaceTexture) {
             Iterator it = Player.videoListeners.iterator();
             while (it.hasNext()) {
@@ -528,10 +529,14 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         public void handleMessage(int i, Object obj) {
             if (i == 7) {
                 this.videoFrameMetadataListener = (VideoFrameMetadataListener) obj;
-            } else if (i == 8) {
+                return;
+            }
+            if (i == 8) {
                 this.cameraMotionListener = (CameraMotionListener) obj;
-            } else if (i != 10000) {
             } else {
+                if (i != 10000) {
+                    return;
+                }
                 RecyclerView$ItemAnimator$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);
                 this.internalVideoFrameMetadataListener = null;
                 this.internalCameraMotionListener = null;
@@ -825,12 +830,12 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
             return periodPositionUs;
         }
         Object resolveSubsequentPeriod = ExoPlayerImplInternal.resolveSubsequentPeriod(this.window, this.period, this.repeatMode, this.shuffleModeEnabled, obj, timeline, timeline2);
-        if (resolveSubsequentPeriod != null) {
-            timeline2.getPeriodByUid(resolveSubsequentPeriod, this.period);
-            int i = this.period.windowIndex;
-            return maskWindowPositionMsOrGetPeriodPositionUs(timeline2, i, timeline2.getWindow(i, this.window).getDefaultPositionMs());
+        if (resolveSubsequentPeriod == null) {
+            return maskWindowPositionMsOrGetPeriodPositionUs(timeline2, -1, -9223372036854775807L);
         }
-        return maskWindowPositionMsOrGetPeriodPositionUs(timeline2, -1, -9223372036854775807L);
+        timeline2.getPeriodByUid(resolveSubsequentPeriod, this.period);
+        int i = this.period.windowIndex;
+        return maskWindowPositionMsOrGetPeriodPositionUs(timeline2, i, timeline2.getWindow(i, this.window).getDefaultPositionMs());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -925,7 +930,7 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* renamed from: handlePlaybackInfo */
+    /* renamed from: handlePlaybackInfo, reason: merged with bridge method [inline-methods] */
     public void lambda$new$1(ExoPlayerImplInternal.PlaybackInfoUpdate playbackInfoUpdate) {
         long j;
         boolean z;
@@ -1227,7 +1232,6 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     }
 
     private void sendRendererMessage(int i, int i2, Object obj) {
-        Renderer[] rendererArr;
         for (Renderer renderer : this.renderers) {
             if (renderer.getTrackType() == i) {
                 createMessageInternal(renderer).setType(i2).setPayload(obj).send();
@@ -1245,7 +1249,6 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         long j2;
         int currentWindowIndexInternal = getCurrentWindowIndexInternal();
         long currentPosition = getCurrentPosition();
-        boolean z2 = true;
         this.pendingOperationAcks++;
         if (!this.mediaSourceHolderSnapshots.isEmpty()) {
             removeMediaSourceHolders(0, this.mediaSourceHolderSnapshots.size());
@@ -1272,7 +1275,7 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         }
         PlaybackInfo copyWithPlaybackState = maskTimelineAndPosition.copyWithPlaybackState(i3);
         this.internalPlayer.setMediaSources(addMediaSourceHolders, i2, Util.msToUs(j2), this.shuffleOrder);
-        updatePlaybackInfo(copyWithPlaybackState, 0, 1, false, (this.playbackInfo.periodId.periodUid.equals(copyWithPlaybackState.periodId.periodUid) || this.playbackInfo.timeline.isEmpty()) ? false : false, 4, getCurrentPositionUsInternal(copyWithPlaybackState), -1, false);
+        updatePlaybackInfo(copyWithPlaybackState, 0, 1, false, (this.playbackInfo.periodId.periodUid.equals(copyWithPlaybackState.periodId.periodUid) || this.playbackInfo.timeline.isEmpty()) ? false : true, 4, getCurrentPositionUsInternal(copyWithPlaybackState), -1, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1285,7 +1288,7 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     /* JADX INFO: Access modifiers changed from: private */
     public void setVideoOutputInternal(Object obj) {
         boolean z;
-        ArrayList<PlayerMessage> arrayList = new ArrayList();
+        ArrayList arrayList = new ArrayList();
         Renderer[] rendererArr = this.renderers;
         int length = rendererArr.length;
         int i = 0;
@@ -1305,8 +1308,9 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
             z = false;
         } else {
             try {
-                for (PlayerMessage playerMessage : arrayList) {
-                    playerMessage.blockUntilDelivered(this.detachSurfaceTimeoutMs);
+                Iterator it = arrayList.iterator();
+                while (it.hasNext()) {
+                    ((PlayerMessage) it.next()).blockUntilDelivered(this.detachSurfaceTimeoutMs);
                 }
             } catch (InterruptedException unused) {
                 Thread.currentThread().interrupt();
@@ -1552,10 +1556,9 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     /* JADX INFO: Access modifiers changed from: private */
     public void updateWakeAndWifiLock() {
         int playbackState = getPlaybackState();
-        boolean z = true;
         if (playbackState != 1) {
             if (playbackState == 2 || playbackState == 3) {
-                this.wakeLockManager.setStayAwake((!getPlayWhenReady() || experimentalIsSleepingForOffload()) ? false : false);
+                this.wakeLockManager.setStayAwake(getPlayWhenReady() && !experimentalIsSleepingForOffload());
                 this.wifiLockManager.setStayAwake(getPlayWhenReady());
                 return;
             } else if (playbackState != 4) {
@@ -1620,11 +1623,11 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     @Override // com.google.android.exoplayer2.Player
     public long getBufferedPosition() {
         verifyApplicationThread();
-        if (isPlayingAd()) {
-            PlaybackInfo playbackInfo = this.playbackInfo;
-            return playbackInfo.loadingMediaPeriodId.equals(playbackInfo.periodId) ? Util.usToMs(this.playbackInfo.bufferedPositionUs) : getDuration();
+        if (!isPlayingAd()) {
+            return getContentBufferedPosition();
         }
-        return getContentBufferedPosition();
+        PlaybackInfo playbackInfo = this.playbackInfo;
+        return playbackInfo.loadingMediaPeriodId.equals(playbackInfo.periodId) ? Util.usToMs(this.playbackInfo.bufferedPositionUs) : getDuration();
     }
 
     public long getContentBufferedPosition() {
@@ -1650,13 +1653,13 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     @Override // com.google.android.exoplayer2.Player
     public long getContentPosition() {
         verifyApplicationThread();
-        if (isPlayingAd()) {
-            PlaybackInfo playbackInfo = this.playbackInfo;
-            playbackInfo.timeline.getPeriodByUid(playbackInfo.periodId.periodUid, this.period);
-            PlaybackInfo playbackInfo2 = this.playbackInfo;
-            return playbackInfo2.requestedContentPositionUs == -9223372036854775807L ? playbackInfo2.timeline.getWindow(getCurrentMediaItemIndex(), this.window).getDefaultPositionMs() : this.period.getPositionInWindowMs() + Util.usToMs(this.playbackInfo.requestedContentPositionUs);
+        if (!isPlayingAd()) {
+            return getCurrentPosition();
         }
-        return getCurrentPosition();
+        PlaybackInfo playbackInfo = this.playbackInfo;
+        playbackInfo.timeline.getPeriodByUid(playbackInfo.periodId.periodUid, this.period);
+        PlaybackInfo playbackInfo2 = this.playbackInfo;
+        return playbackInfo2.requestedContentPositionUs == -9223372036854775807L ? playbackInfo2.timeline.getWindow(getCurrentMediaItemIndex(), this.window).getDefaultPositionMs() : this.period.getPositionInWindowMs() + Util.usToMs(this.playbackInfo.requestedContentPositionUs);
     }
 
     @Override // com.google.android.exoplayer2.Player
@@ -1718,13 +1721,13 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     @Override // com.google.android.exoplayer2.Player
     public long getDuration() {
         verifyApplicationThread();
-        if (isPlayingAd()) {
-            PlaybackInfo playbackInfo = this.playbackInfo;
-            MediaSource.MediaPeriodId mediaPeriodId = playbackInfo.periodId;
-            playbackInfo.timeline.getPeriodByUid(mediaPeriodId.periodUid, this.period);
-            return Util.usToMs(this.period.getAdDurationUs(mediaPeriodId.adGroupIndex, mediaPeriodId.adIndexInAdGroup));
+        if (!isPlayingAd()) {
+            return getContentDuration();
         }
-        return getContentDuration();
+        PlaybackInfo playbackInfo = this.playbackInfo;
+        MediaSource.MediaPeriodId mediaPeriodId = playbackInfo.periodId;
+        playbackInfo.timeline.getPeriodByUid(mediaPeriodId.periodUid, this.period);
+        return Util.usToMs(this.period.getAdDurationUs(mediaPeriodId.adGroupIndex, mediaPeriodId.adIndexInAdGroup));
     }
 
     @Override // com.google.android.exoplayer2.Player
@@ -1991,11 +1994,11 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         if (surface == null || !surface.isValid()) {
             setVideoOutputInternal(null);
             maybeNotifySurfaceSizeChanged(0, 0);
-            return;
+        } else {
+            setVideoOutputInternal(surface);
+            Rect surfaceFrame = surfaceHolder.getSurfaceFrame();
+            maybeNotifySurfaceSizeChanged(surfaceFrame.width(), surfaceFrame.height());
         }
-        setVideoOutputInternal(surface);
-        Rect surfaceFrame = surfaceHolder.getSurfaceFrame();
-        maybeNotifySurfaceSizeChanged(surfaceFrame.width(), surfaceFrame.height());
     }
 
     @Override // com.google.android.exoplayer2.Player
@@ -2021,10 +2024,10 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         if (surfaceTexture == null) {
             setVideoOutputInternal(null);
             maybeNotifySurfaceSizeChanged(0, 0);
-            return;
+        } else {
+            setSurfaceTextureInternal(surfaceTexture);
+            maybeNotifySurfaceSizeChanged(textureView.getWidth(), textureView.getHeight());
         }
-        setSurfaceTextureInternal(surfaceTexture);
-        maybeNotifySurfaceSizeChanged(textureView.getWidth(), textureView.getHeight());
     }
 
     @Override // com.google.android.exoplayer2.Player

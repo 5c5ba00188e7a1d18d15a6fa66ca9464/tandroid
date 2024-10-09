@@ -3,6 +3,7 @@ package com.google.android.gms.internal.play_billing;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /* loaded from: classes.dex */
 final class zzcp extends zzct {
     private static final Class zza = Collections.unmodifiableList(Collections.emptyList()).getClass();
@@ -19,9 +20,10 @@ final class zzcp extends zzct {
         List list = (List) zzeq.zzf(obj, j);
         if (list instanceof zzcn) {
             unmodifiableList = ((zzcn) list).zze();
-        } else if (zza.isAssignableFrom(list.getClass())) {
-            return;
         } else {
+            if (zza.isAssignableFrom(list.getClass())) {
+                return;
+            }
             if ((list instanceof zzdm) && (list instanceof zzcf)) {
                 zzcf zzcfVar = (zzcf) list;
                 if (zzcfVar.zzc()) {
@@ -37,8 +39,8 @@ final class zzcp extends zzct {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0094 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0094 A[ADDED_TO_REGION] */
     @Override // com.google.android.gms.internal.play_billing.zzct
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -54,23 +56,24 @@ final class zzcp extends zzct {
                 ArrayList arrayList = new ArrayList(list2.size() + size2);
                 arrayList.addAll(list2);
                 zzcmVar = arrayList;
-            } else if (!(list2 instanceof zzel)) {
-                if ((list2 instanceof zzdm) && (list2 instanceof zzcf)) {
-                    zzcf zzcfVar = (zzcf) list2;
-                    if (!zzcfVar.zzc()) {
-                        list2 = zzcfVar.zzd(list2.size() + size2);
-                    }
-                }
-                size = list2.size();
-                int size3 = list.size();
-                if (size > 0 && size3 > 0) {
-                    list2.addAll(list);
-                }
-                if (size > 0) {
-                    list = list2;
-                }
-                zzeq.zzs(obj, j, list);
             } else {
+                if (!(list2 instanceof zzel)) {
+                    if ((list2 instanceof zzdm) && (list2 instanceof zzcf)) {
+                        zzcf zzcfVar = (zzcf) list2;
+                        if (!zzcfVar.zzc()) {
+                            list2 = zzcfVar.zzd(list2.size() + size2);
+                        }
+                    }
+                    size = list2.size();
+                    int size3 = list.size();
+                    if (size > 0 && size3 > 0) {
+                        list2.addAll(list);
+                    }
+                    if (size > 0) {
+                        list = list2;
+                    }
+                    zzeq.zzs(obj, j, list);
+                }
                 zzcm zzcmVar2 = new zzcm(list2.size() + size2);
                 zzcmVar2.addAll(zzcmVar2.size(), (zzel) list2);
                 zzcmVar = zzcmVar2;

@@ -4,6 +4,7 @@ import android.net.Uri;
 import com.google.android.exoplayer2.util.Assertions;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 final class FullSegmentEncryptionKeyCache {
     private final LinkedHashMap backingMap;

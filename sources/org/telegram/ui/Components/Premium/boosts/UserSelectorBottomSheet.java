@@ -65,6 +65,7 @@ import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+
 /* loaded from: classes3.dex */
 public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     private static UserSelectorBottomSheet instance;
@@ -341,9 +342,10 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
                     UserSelectorBottomSheet.this.lambda$checkEditTextHint$1();
                 }
             };
-        } else if (!this.isHintSearchText) {
-            return;
         } else {
+            if (!this.isHintSearchText) {
+                return;
+            }
             this.isHintSearchText = false;
             runnable = new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda13
                 @Override // java.lang.Runnable
@@ -386,22 +388,22 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
             return false;
         }
         if (!scheme.equals("http") && !scheme.equals("https")) {
-            if (scheme.equals("tg")) {
-                String uri = data.toString();
-                if (uri.startsWith("tg:premium_multigift") || uri.startsWith("tg://premium_multigift")) {
-                    open();
-                    return true;
-                }
+            if (!scheme.equals("tg")) {
                 return false;
             }
-            return false;
-        }
-        String lowerCase = data.getHost().toLowerCase();
-        if ((lowerCase.equals("telegram.me") || lowerCase.equals("t.me") || lowerCase.equals("telegram.dog")) && (path = data.getPath()) != null && path.startsWith("/premium_multigift")) {
+            String uri = data.toString();
+            if (!uri.startsWith("tg:premium_multigift") && !uri.startsWith("tg://premium_multigift")) {
+                return false;
+            }
             open();
             return true;
         }
-        return false;
+        String lowerCase = data.getHost().toLowerCase();
+        if ((!lowerCase.equals("telegram.me") && !lowerCase.equals("t.me") && !lowerCase.equals("telegram.dog")) || (path = data.getPath()) == null || !path.startsWith("/premium_multigift")) {
+            return false;
+        }
+        open();
+        return true;
     }
 
     private void initContacts(boolean z) {
@@ -511,7 +513,9 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
     public /* synthetic */ void lambda$new$5(int i, View view, int i2, float f, float f2) {
         if (view instanceof TextCell) {
             openBirthdaySetup();
-        } else if (view instanceof SelectorUserCell) {
+            return;
+        }
+        if (view instanceof SelectorUserCell) {
             TLRPC.User user = ((SelectorUserCell) view).getUser();
             long j = user.id;
             if (i == 1) {
@@ -524,20 +528,22 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
                     giftStarsSheet.makeAttached(this.attachedFragment);
                 }
                 giftStarsSheet.show();
-            } else if (i == 0 || i == 2) {
+                return;
+            }
+            if (i == 0 || i == 2) {
                 new GiftSheet(getContext(), this.currentAccount, j, BoostRepository.filterGiftOptionsByBilling(BoostRepository.filterGiftOptions(this.paymentOptions, 1)), new UserSelectorBottomSheet$$ExternalSyntheticLambda3(this)).show();
+                return;
+            }
+            if (this.selectedIds.contains(Long.valueOf(j))) {
+                this.selectedIds.remove(Long.valueOf(j));
             } else {
-                if (this.selectedIds.contains(Long.valueOf(j))) {
-                    this.selectedIds.remove(Long.valueOf(j));
-                } else {
-                    this.selectedIds.add(Long.valueOf(j));
-                    this.allSelectedObjects.put(Long.valueOf(j), user);
-                }
-                if (this.selectedIds.size() == 11) {
-                    this.selectedIds.remove(Long.valueOf(j));
-                    showMaximumUsersToast();
-                    return;
-                }
+                this.selectedIds.add(Long.valueOf(j));
+                this.allSelectedObjects.put(Long.valueOf(j), user);
+            }
+            if (this.selectedIds.size() == 11) {
+                this.selectedIds.remove(Long.valueOf(j));
+                showMaximumUsersToast();
+            } else {
                 checkEditTextHint();
                 this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda15
                     @Override // java.lang.Runnable
@@ -794,13 +800,14 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         if (this.selectedIds.size() != 0) {
             string = LocaleController.getString("GiftPremiumProceedBtn", R.string.GiftPremiumProceedBtn);
-        } else if (LocaleController.isRTL) {
-            spannableStringBuilder.append((CharSequence) LocaleController.getString("GiftPremiumChooseRecipientsBtn", R.string.GiftPremiumChooseRecipientsBtn));
-            spannableStringBuilder.append((CharSequence) "d").setSpan(this.recipientsBtnSpaceSpan, spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
-            this.actionButton.setCount(this.selectedIds.size(), true);
-            this.actionButton.setText(spannableStringBuilder, z, false);
-            this.actionButton.setEnabled(true);
         } else {
+            if (LocaleController.isRTL) {
+                spannableStringBuilder.append((CharSequence) LocaleController.getString("GiftPremiumChooseRecipientsBtn", R.string.GiftPremiumChooseRecipientsBtn));
+                spannableStringBuilder.append((CharSequence) "d").setSpan(this.recipientsBtnSpaceSpan, spannableStringBuilder.length() - 1, spannableStringBuilder.length(), 33);
+                this.actionButton.setCount(this.selectedIds.size(), true);
+                this.actionButton.setText(spannableStringBuilder, z, false);
+                this.actionButton.setEnabled(true);
+            }
             spannableStringBuilder.append((CharSequence) "d").setSpan(this.recipientsBtnSpaceSpan, 0, 1, 33);
             string = LocaleController.getString("GiftPremiumChooseRecipientsBtn", R.string.GiftPremiumChooseRecipientsBtn);
         }
@@ -810,34 +817,83 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
         this.actionButton.setEnabled(true);
     }
 
-    private void updateCheckboxes(boolean z) {
-        int childAdapterPosition;
-        int childAdapterPosition2;
-        int i = -1;
-        int i2 = 0;
-        for (int i3 = 0; i3 < this.recyclerListView.getChildCount(); i3++) {
-            View childAt = this.recyclerListView.getChildAt(i3);
-            if ((childAt instanceof SelectorUserCell) && (childAdapterPosition = this.recyclerListView.getChildAdapterPosition(childAt)) - 1 >= 0 && childAdapterPosition2 < this.items.size()) {
-                if (i == -1) {
-                    i = childAdapterPosition;
-                }
-                SelectorAdapter.Item item = (SelectorAdapter.Item) this.items.get(childAdapterPosition2);
-                SelectorUserCell selectorUserCell = (SelectorUserCell) childAt;
-                selectorUserCell.setChecked(item.checked, z);
-                TLRPC.Chat chat = item.chat;
-                float f = 1.0f;
-                if (chat != null && this.selectorAdapter.getParticipantsCount(chat) > 200) {
-                    f = 0.3f;
-                }
-                selectorUserCell.setCheckboxAlpha(f, z);
-                i2 = childAdapterPosition;
-            }
-        }
-        if (z) {
-            this.selectorAdapter.notifyItemRangeChanged(0, i);
-            SelectorAdapter selectorAdapter = this.selectorAdapter;
-            selectorAdapter.notifyItemRangeChanged(i2, selectorAdapter.getItemCount() - i2);
-        }
+    /*  JADX ERROR: JadxRuntimeException in pass: SimplifyVisitor
+        jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r6v2 int, still in use, count: 2, list:
+          (r6v2 int) from 0x0052: MOVE (r4v7 int) = (r6v2 int)
+          (r6v2 int) from 0x002c: MOVE (r3v4 int) = (r6v2 int)
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.utils.InsnRemover.unbindInsn(InsnRemover.java:80)
+        	at jadx.core.utils.InsnRemover.unbindArgUsage(InsnRemover.java:163)
+        	at jadx.core.utils.InsnRemover.unbindAllArgs(InsnRemover.java:95)
+        	at jadx.core.utils.InsnRemover.unbindInsn(InsnRemover.java:79)
+        	at jadx.core.utils.InsnRemover.unbindArgUsage(InsnRemover.java:163)
+        	at jadx.core.dex.instructions.args.InsnArg.wrapInstruction(InsnArg.java:140)
+        	at jadx.core.dex.visitors.SimplifyVisitor.simplifyArgs(SimplifyVisitor.java:116)
+        	at jadx.core.dex.visitors.SimplifyVisitor.simplifyInsn(SimplifyVisitor.java:132)
+        	at jadx.core.dex.visitors.SimplifyVisitor.simplifyBlock(SimplifyVisitor.java:86)
+        	at jadx.core.dex.visitors.SimplifyVisitor.visit(SimplifyVisitor.java:71)
+        */
+    private void updateCheckboxes(boolean r10) {
+        /*
+            r9 = this;
+            r0 = -1
+            r1 = 0
+            r2 = 0
+            r3 = -1
+            r4 = 0
+        L5:
+            org.telegram.ui.Components.RecyclerListView r5 = r9.recyclerListView
+            int r5 = r5.getChildCount()
+            if (r2 >= r5) goto L56
+            org.telegram.ui.Components.RecyclerListView r5 = r9.recyclerListView
+            android.view.View r5 = r5.getChildAt(r2)
+            boolean r6 = r5 instanceof org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell
+            if (r6 == 0) goto L53
+            org.telegram.ui.Components.RecyclerListView r6 = r9.recyclerListView
+            int r6 = r6.getChildAdapterPosition(r5)
+            int r7 = r6 + (-1)
+            if (r7 < 0) goto L53
+            java.util.ArrayList r8 = r9.items
+            int r8 = r8.size()
+            if (r7 < r8) goto L2a
+            goto L53
+        L2a:
+            if (r3 != r0) goto L2d
+            r3 = r6
+        L2d:
+            java.util.ArrayList r4 = r9.items
+            java.lang.Object r4 = r4.get(r7)
+            org.telegram.ui.Components.Premium.boosts.adapters.SelectorAdapter$Item r4 = (org.telegram.ui.Components.Premium.boosts.adapters.SelectorAdapter.Item) r4
+            org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell r5 = (org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorUserCell) r5
+            boolean r7 = r4.checked
+            r5.setChecked(r7, r10)
+            org.telegram.tgnet.TLRPC$Chat r4 = r4.chat
+            r7 = 1065353216(0x3f800000, float:1.0)
+            if (r4 == 0) goto L4f
+            org.telegram.ui.Components.Premium.boosts.adapters.SelectorAdapter r8 = r9.selectorAdapter
+            int r4 = r8.getParticipantsCount(r4)
+            r8 = 200(0xc8, float:2.8E-43)
+            if (r4 <= r8) goto L4f
+            r7 = 1050253722(0x3e99999a, float:0.3)
+        L4f:
+            r5.setCheckboxAlpha(r7, r10)
+            r4 = r6
+        L53:
+            int r2 = r2 + 1
+            goto L5
+        L56:
+            if (r10 == 0) goto L67
+            org.telegram.ui.Components.Premium.boosts.adapters.SelectorAdapter r10 = r9.selectorAdapter
+            r10.notifyItemRangeChanged(r1, r3)
+            org.telegram.ui.Components.Premium.boosts.adapters.SelectorAdapter r10 = r9.selectorAdapter
+            int r0 = r10.getItemCount()
+            int r0 = r0 - r4
+            r10.notifyItemRangeChanged(r4, r0)
+        L67:
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet.updateCheckboxes(boolean):void");
     }
 
     private void updateList(boolean z, boolean z2) {
@@ -998,8 +1054,9 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
             SelectorAdapter.Item item = null;
             if (!this.hints.isEmpty()) {
                 ArrayList arrayList2 = new ArrayList();
-                for (TLRPC.TL_topPeer tL_topPeer : this.hints) {
-                    TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tL_topPeer.peer.user_id));
+                Iterator it = this.hints.iterator();
+                while (it.hasNext()) {
+                    TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC.TL_topPeer) it.next()).peer.user_id));
                     if (user2 != null) {
                         long j = user2.id;
                         if (j != this.userId && !user2.self && !user2.bot && !UserObject.isService(j) && !UserObject.isDeleted(user2) && ((birthdayState2 = this.birthdays) == null || !birthdayState2.contains(user2.id))) {

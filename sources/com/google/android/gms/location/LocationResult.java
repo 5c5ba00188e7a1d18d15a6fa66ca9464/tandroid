@@ -11,6 +11,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
 /* loaded from: classes.dex */
 public final class LocationResult extends AbstractSafeParcelable implements ReflectedParcelable {
     private final List zzb;
@@ -22,31 +23,25 @@ public final class LocationResult extends AbstractSafeParcelable implements Refl
         this.zzb = list;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0037  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public boolean equals(Object obj) {
-        if (obj instanceof LocationResult) {
-            LocationResult locationResult = (LocationResult) obj;
-            if (Build.VERSION.SDK_INT >= 31) {
-                return this.zzb.equals(locationResult.zzb);
-            }
-            if (this.zzb.size() != locationResult.zzb.size()) {
+        if (!(obj instanceof LocationResult)) {
+            return false;
+        }
+        LocationResult locationResult = (LocationResult) obj;
+        if (Build.VERSION.SDK_INT >= 31) {
+            return this.zzb.equals(locationResult.zzb);
+        }
+        if (this.zzb.size() != locationResult.zzb.size()) {
+            return false;
+        }
+        Iterator it = locationResult.zzb.iterator();
+        for (Location location : this.zzb) {
+            Location location2 = (Location) it.next();
+            if (Double.compare(location.getLatitude(), location2.getLatitude()) != 0 || Double.compare(location.getLongitude(), location2.getLongitude()) != 0 || location.getTime() != location2.getTime() || location.getElapsedRealtimeNanos() != location2.getElapsedRealtimeNanos() || !Objects.equal(location.getProvider(), location2.getProvider())) {
                 return false;
             }
-            Iterator it = locationResult.zzb.iterator();
-            for (Location location : this.zzb) {
-                Location location2 = (Location) it.next();
-                if (Double.compare(location.getLatitude(), location2.getLatitude()) != 0 || Double.compare(location.getLongitude(), location2.getLongitude()) != 0 || location.getTime() != location2.getTime() || location.getElapsedRealtimeNanos() != location2.getElapsedRealtimeNanos() || !Objects.equal(location.getProvider(), location2.getProvider())) {
-                    return false;
-                }
-                while (r0.hasNext()) {
-                }
-            }
-            return true;
         }
-        return false;
+        return true;
     }
 
     public Location getLastLocation() {

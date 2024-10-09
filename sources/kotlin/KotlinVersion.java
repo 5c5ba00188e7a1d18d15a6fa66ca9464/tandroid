@@ -4,6 +4,7 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.ranges.IntRange;
 import org.telegram.messenger.NotificationCenter;
+
 /* loaded from: classes.dex */
 public final class KotlinVersion implements Comparable {
     private final int major;

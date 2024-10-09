@@ -1,6 +1,7 @@
 package j$.util.stream;
 
 import org.telegram.messenger.LiteMode;
+
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public final class g2 extends V1 {
@@ -20,27 +21,27 @@ public final class g2 extends V1 {
         long j;
         long j2;
         long o0 = bVar.o0(q);
-        if (o0 <= 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            if (S2.ORDERED.d(bVar.s0())) {
-                return (F0) new o2(this, bVar, q, i, this.m, this.n).invoke();
-            }
-            j$.util.Q F0 = bVar.F0(q);
-            long j3 = this.m;
-            long j4 = this.n;
-            if (j3 <= o0) {
-                long j5 = o0 - j3;
-                if (j4 >= 0) {
-                    j5 = Math.min(j4, j5);
-                }
-                j = j5;
-                j2 = 0;
-            } else {
-                j = j4;
-                j2 = j3;
-            }
-            return t0.E(this, new s3(F0, j2, j), true, i);
+        if (o0 > 0 && q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            return t0.E(bVar, t0.y(bVar.r0(), q, this.m, this.n), true, i);
         }
-        return t0.E(bVar, t0.y(bVar.r0(), q, this.m, this.n), true, i);
+        if (S2.ORDERED.d(bVar.s0())) {
+            return (F0) new o2(this, bVar, q, i, this.m, this.n).invoke();
+        }
+        j$.util.Q F0 = bVar.F0(q);
+        long j3 = this.m;
+        long j4 = this.n;
+        if (j3 <= o0) {
+            long j5 = o0 - j3;
+            if (j4 >= 0) {
+                j5 = Math.min(j4, j5);
+            }
+            j = j5;
+            j2 = 0;
+        } else {
+            j = j4;
+            j2 = j3;
+        }
+        return t0.E(this, new s3(F0, j2, j), true, i);
     }
 
     @Override // j$.util.stream.b

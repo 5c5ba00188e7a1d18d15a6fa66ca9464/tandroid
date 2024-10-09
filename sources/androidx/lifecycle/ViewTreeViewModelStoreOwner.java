@@ -2,6 +2,7 @@ package androidx.lifecycle;
 
 import android.view.View;
 import androidx.lifecycle.viewmodel.R$id;
+
 /* loaded from: classes.dex */
 public abstract class ViewTreeViewModelStoreOwner {
     public static void set(View view, ViewModelStoreOwner viewModelStoreOwner) {

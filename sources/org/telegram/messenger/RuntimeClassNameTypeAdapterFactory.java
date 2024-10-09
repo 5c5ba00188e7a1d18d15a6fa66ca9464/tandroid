@@ -14,6 +14,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 /* loaded from: classes3.dex */
 public final class RuntimeClassNameTypeAdapterFactory<T> implements TypeAdapterFactory {
     private final Class<?> baseType;

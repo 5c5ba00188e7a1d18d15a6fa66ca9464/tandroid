@@ -11,6 +11,7 @@ import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Components.LayoutHelper;
+
 /* loaded from: classes3.dex */
 public class BoostTypeCell extends BaseCell {
     public static int TYPE_GIVEAWAY = 0;
@@ -45,18 +46,19 @@ public class BoostTypeCell extends BaseCell {
                 this.subtitleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2, this.resourcesProvider));
                 this.avatarDrawable.setAvatarType(6);
                 this.avatarDrawable.setColor(-3905294, -6923014);
-            } else if (i != TYPE_PREMIUM) {
-                if (i == TYPE_STARS) {
-                    this.titleTextView.setText(TextCell.applyNewSpan(LocaleController.getString(R.string.BoostingStars)));
-                    setSubtitle(LocaleController.getString(R.string.BoostingWinnersRandomly));
-                    this.subtitleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextGray3, this.resourcesProvider));
-                    this.avatarDrawable.setAvatarType(26);
-                    this.avatarDrawable.setColor(-146917, -625593);
-                }
-                this.radioButton.setChecked(z, z2);
-                this.imageView.setImageDrawable(this.avatarDrawable);
-                this.imageView.setRoundRadius(AndroidUtilities.dp(20.0f));
             } else {
+                if (i != TYPE_PREMIUM) {
+                    if (i == TYPE_STARS) {
+                        this.titleTextView.setText(TextCell.applyNewSpan(LocaleController.getString(R.string.BoostingStars)));
+                        setSubtitle(LocaleController.getString(R.string.BoostingWinnersRandomly));
+                        this.subtitleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextGray3, this.resourcesProvider));
+                        this.avatarDrawable.setAvatarType(26);
+                        this.avatarDrawable.setColor(-146917, -625593);
+                    }
+                    this.radioButton.setChecked(z, z2);
+                    this.imageView.setImageDrawable(this.avatarDrawable);
+                    this.imageView.setRoundRadius(AndroidUtilities.dp(20.0f));
+                }
                 this.titleTextView.setText(LocaleController.getString(R.string.BoostingPremium));
                 setSubtitle(withArrow((i2 != 1 || user == null) ? i2 > 0 ? LocaleController.formatPluralString("Recipient", i2, new Object[0]) : LocaleController.getString(R.string.BoostingWinnersRandomly) : Emoji.replaceEmoji(UserObject.getUserName(user), this.subtitleTextView.getPaint().getFontMetricsInt(), false)));
                 this.subtitleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2, this.resourcesProvider));

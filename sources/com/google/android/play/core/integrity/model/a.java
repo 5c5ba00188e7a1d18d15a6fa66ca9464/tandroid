@@ -2,6 +2,7 @@ package com.google.android.play.core.integrity.model;
 
 import java.util.HashMap;
 import java.util.Map;
+
 /* loaded from: classes.dex */
 public abstract class a {
     private static final Map a;
@@ -53,13 +54,13 @@ public abstract class a {
     public static String a(int i) {
         Map map = a;
         Integer valueOf = Integer.valueOf(i);
-        if (map.containsKey(valueOf)) {
-            Map map2 = b;
-            if (map2.containsKey(valueOf)) {
-                return ((String) map.get(valueOf)) + " (https://developer.android.com/google/play/integrity/reference/com/google/android/play/core/integrity/model/IntegrityErrorCode.html#" + ((String) map2.get(valueOf)) + ")";
-            }
+        if (!map.containsKey(valueOf)) {
             return "";
         }
-        return "";
+        Map map2 = b;
+        if (!map2.containsKey(valueOf)) {
+            return "";
+        }
+        return ((String) map.get(valueOf)) + " (https://developer.android.com/google/play/integrity/reference/com/google/android/play/core/integrity/model/IntegrityErrorCode.html#" + ((String) map2.get(valueOf)) + ")";
     }
 }

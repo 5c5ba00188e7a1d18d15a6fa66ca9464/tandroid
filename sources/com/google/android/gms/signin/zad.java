@@ -2,6 +2,7 @@ package com.google.android.gms.signin;
 
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.Scope;
+
 /* loaded from: classes.dex */
 public abstract class zad {
     public static final Api.ClientKey zaa;
