@@ -10,6 +10,6 @@ public final /* synthetic */ class PhotoViewer$$ExternalSyntheticLambda21 implem
 
     @Override // java.lang.Runnable
     public final void run() {
-        PhotoViewer.$r8$lambda$keBktYgTUprVkmcv4o_KxbTkqME(this.f$0);
+        this.f$0.invalidateBlur();
     }
 }

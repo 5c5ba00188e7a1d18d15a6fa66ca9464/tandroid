@@ -153,6 +153,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     private int topResId;
     private View topView;
     private boolean verticalButtons;
+    private boolean withCancelDialog;
 
     /* loaded from: classes4.dex */
     public static class AlertDialogCell extends FrameLayout {
@@ -307,7 +308,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
 
         @Override // android.view.ViewGroup
         public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-            if (AlertDialog.this.progressViewStyle != 3) {
+            if (!AlertDialog.this.withCancelDialog) {
                 return super.onInterceptTouchEvent(motionEvent);
             }
             AlertDialog.this.showCancelAlert();
@@ -495,7 +496,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
 
         @Override // android.view.View
         public boolean onTouchEvent(MotionEvent motionEvent) {
-            if (AlertDialog.this.progressViewStyle != 3) {
+            if (!AlertDialog.this.withCancelDialog) {
                 return super.onTouchEvent(motionEvent);
             }
             AlertDialog.this.showCancelAlert();
@@ -810,6 +811,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             mutate.setColorFilter(new PorterDuffColorFilter(this.backgroundColor, PorterDuff.Mode.MULTIPLY));
             this.shadowDrawable.getPadding(this.backgroundPaddings);
         }
+        this.withCancelDialog = this.progressViewStyle == 3;
         this.progressViewStyle = i;
     }
 
@@ -959,32 +961,6 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             this.shadowAnimation[i].start();
         } catch (Exception e) {
             FileLog.e(e);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void showCancelAlert() {
-        if (this.canCacnel && this.cancelDialog == null) {
-            Builder builder = new Builder(getContext(), this.resourcesProvider);
-            builder.setTitle(LocaleController.getString(R.string.StopLoadingTitle));
-            builder.setMessage(LocaleController.getString(R.string.StopLoading));
-            builder.setPositiveButton(LocaleController.getString(R.string.WaitMore), null);
-            builder.setNegativeButton(LocaleController.getString(R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda9
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    AlertDialog.this.lambda$showCancelAlert$6(dialogInterface, i);
-                }
-            });
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda10
-                @Override // android.content.DialogInterface.OnDismissListener
-                public final void onDismiss(DialogInterface dialogInterface) {
-                    AlertDialog.this.lambda$showCancelAlert$7(dialogInterface);
-                }
-            });
-            try {
-                this.cancelDialog = builder.show();
-            } catch (Exception unused) {
-            }
         }
     }
 
@@ -1827,6 +1803,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.canCacnel = z;
     }
 
+    public void setCancelDialog(boolean z) {
+        this.withCancelDialog = z;
+    }
+
     @Override // android.app.Dialog
     public void setCanceledOnTouchOutside(boolean z) {
         super.setCanceledOnTouchOutside(z);
@@ -1965,6 +1945,31 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 this.progressViewContainer.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(new OvershootInterpolator(1.3f)).setDuration(190L).start();
             }
             this.shownAt = System.currentTimeMillis();
+        }
+    }
+
+    public void showCancelAlert() {
+        if (this.canCacnel && this.cancelDialog == null) {
+            Builder builder = new Builder(getContext(), this.resourcesProvider);
+            builder.setTitle(LocaleController.getString(R.string.StopLoadingTitle));
+            builder.setMessage(LocaleController.getString(R.string.StopLoading));
+            builder.setPositiveButton(LocaleController.getString(R.string.WaitMore), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda9
+                @Override // android.content.DialogInterface.OnClickListener
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    AlertDialog.this.lambda$showCancelAlert$6(dialogInterface, i);
+                }
+            });
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda10
+                @Override // android.content.DialogInterface.OnDismissListener
+                public final void onDismiss(DialogInterface dialogInterface) {
+                    AlertDialog.this.lambda$showCancelAlert$7(dialogInterface);
+                }
+            });
+            try {
+                this.cancelDialog = builder.show();
+            } catch (Exception unused) {
+            }
         }
     }
 
