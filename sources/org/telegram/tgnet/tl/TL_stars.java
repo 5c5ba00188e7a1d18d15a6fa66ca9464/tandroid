@@ -14,14 +14,17 @@ public class TL_stars {
         public int availability_remains;
         public int availability_total;
         public long convert_stars;
+        public int first_sale_date;
         public int flags;
         public long id;
+        public int last_sale_date;
         public boolean limited;
+        public boolean sold_out;
         public long stars;
         public TLRPC.Document sticker;
 
         public static StarGift TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            TL_starGift tL_starGift = i != -1365150482 ? null : new TL_starGift();
+            StarGift tL_starGift = i != -1365150482 ? i != 1237678029 ? null : new TL_starGift() : new TL_starGift_layer190();
             if (tL_starGift == null && z) {
                 throw new RuntimeException(String.format("can't parse magic %x in StarGift", Integer.valueOf(i)));
             }
@@ -534,9 +537,56 @@ public class TL_stars {
 
     /* loaded from: classes3.dex */
     public static class TL_starGift extends StarGift {
-        public static final int constructor = -1365150482;
+        public static final int constructor = 1237678029;
 
         @Override // org.telegram.tgnet.TLObject
+        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
+            int readInt32 = abstractSerializedData.readInt32(z);
+            this.flags = readInt32;
+            this.limited = (readInt32 & 1) != 0;
+            this.sold_out = (readInt32 & 2) != 0;
+            this.id = abstractSerializedData.readInt64(z);
+            this.sticker = TLRPC.Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            this.stars = abstractSerializedData.readInt64(z);
+            if ((this.flags & 1) != 0) {
+                this.availability_remains = abstractSerializedData.readInt32(z);
+                this.availability_total = abstractSerializedData.readInt32(z);
+            }
+            this.convert_stars = abstractSerializedData.readInt64(z);
+            if ((this.flags & 2) != 0) {
+                this.first_sale_date = abstractSerializedData.readInt32(z);
+                this.last_sale_date = abstractSerializedData.readInt32(z);
+            }
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+            abstractSerializedData.writeInt32(constructor);
+            int i = this.limited ? this.flags | 1 : this.flags & (-2);
+            this.flags = i;
+            int i2 = this.sold_out ? i | 2 : i & (-3);
+            this.flags = i2;
+            abstractSerializedData.writeInt32(i2);
+            abstractSerializedData.writeInt64(this.id);
+            this.sticker.serializeToStream(abstractSerializedData);
+            abstractSerializedData.writeInt64(this.stars);
+            if ((this.flags & 1) != 0) {
+                abstractSerializedData.writeInt32(this.availability_remains);
+                abstractSerializedData.writeInt32(this.availability_total);
+            }
+            abstractSerializedData.writeInt64(this.convert_stars);
+            if ((this.flags & 2) != 0) {
+                abstractSerializedData.writeInt32(this.first_sale_date);
+                abstractSerializedData.writeInt32(this.last_sale_date);
+            }
+        }
+    }
+
+    /* loaded from: classes3.dex */
+    public static class TL_starGift_layer190 extends TL_starGift {
+        public static final int constructor = -1365150482;
+
+        @Override // org.telegram.tgnet.tl.TL_stars.TL_starGift, org.telegram.tgnet.TLObject
         public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
             int readInt32 = abstractSerializedData.readInt32(z);
             this.flags = readInt32;
@@ -549,9 +599,10 @@ public class TL_stars {
                 this.availability_total = abstractSerializedData.readInt32(z);
             }
             this.convert_stars = abstractSerializedData.readInt64(z);
+            this.sold_out = this.limited && this.availability_remains <= 0;
         }
 
-        @Override // org.telegram.tgnet.TLObject
+        @Override // org.telegram.tgnet.tl.TL_stars.TL_starGift, org.telegram.tgnet.TLObject
         public void serializeToStream(AbstractSerializedData abstractSerializedData) {
             abstractSerializedData.writeInt32(constructor);
             int i = this.limited ? this.flags | 1 : this.flags & (-2);

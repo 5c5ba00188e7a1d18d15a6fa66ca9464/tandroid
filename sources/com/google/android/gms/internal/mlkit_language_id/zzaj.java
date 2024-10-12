@@ -36,7 +36,7 @@ public enum zzaj implements zzet {
     zzad(NotificationCenter.locationPermissionDenied),
     zzae(NotificationCenter.reloadInterface),
     zzaf(NotificationCenter.suggestedLangpack),
-    zzag(NotificationCenter.unconfirmedAuthUpdate),
+    zzag(191),
     zzah(NotificationCenter.dialogPhotosUpdate),
     zzai(NotificationCenter.channelRecommendationsLoaded),
     zzaj(NotificationCenter.savedMessagesDialogsUpdate),

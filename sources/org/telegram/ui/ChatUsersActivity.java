@@ -2357,7 +2357,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 public final void run() {
                     ChatUsersActivity.this.lambda$createMenuForParticipant$13(user, j4);
                 }
-            }).setMinWidth(190).show();
+            }).setMinWidth(NotificationCenter.storiesSendAsUpdate).show();
             return true;
         }
         final long j5 = j;
@@ -2407,7 +2407,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 };
             }
             makeOptions.setScrimViewBackground(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)));
-            makeOptions.setMinWidth(190);
+            makeOptions.setMinWidth(NotificationCenter.storiesSendAsUpdate);
             z3 = makeOptions.getItemsCount() <= 0;
             if (!z || !z3) {
                 return z3;
@@ -2433,7 +2433,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         };
         makeOptions.add(i2, (CharSequence) string, true, runnable);
         makeOptions.setScrimViewBackground(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)));
-        makeOptions.setMinWidth(190);
+        makeOptions.setMinWidth(NotificationCenter.storiesSendAsUpdate);
         if (makeOptions.getItemsCount() <= 0) {
         }
         if (!z) {

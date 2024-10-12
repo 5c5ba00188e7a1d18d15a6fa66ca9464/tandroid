@@ -972,7 +972,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                                 simpleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, ((BottomSheet) LimitReachedBottomSheet.this).resourcesProvider));
                                 simpleTextView.setText(" " + LocaleController.getString(R.string.InvitePremiumBlockedOr) + " ");
                                 simpleTextView.setTextSize(14);
-                                addView(simpleTextView, LayoutHelper.createLinear(190, -2, 1, 12, 0, 12, 20));
+                                addView(simpleTextView, LayoutHelper.createLinear(NotificationCenter.storiesSendAsUpdate, -2, 1, 12, 0, 12, 20));
                                 TextView textView6 = new TextView(context);
                                 textView6.setGravity(17);
                                 textView6.setTypeface(AndroidUtilities.bold());

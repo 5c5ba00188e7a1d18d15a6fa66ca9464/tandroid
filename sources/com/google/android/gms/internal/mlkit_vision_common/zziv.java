@@ -40,7 +40,7 @@ public enum zziv implements zzag {
     zzH(NotificationCenter.locationPermissionDenied),
     zzI(NotificationCenter.reloadInterface),
     zzJ(NotificationCenter.suggestedLangpack),
-    zzK(NotificationCenter.unconfirmedAuthUpdate),
+    zzK(191),
     zzL(NotificationCenter.dialogPhotosUpdate),
     zzM(NotificationCenter.channelRecommendationsLoaded),
     zzN(NotificationCenter.savedMessagesDialogsUpdate),

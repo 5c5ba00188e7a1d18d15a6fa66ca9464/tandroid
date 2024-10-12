@@ -9728,7 +9728,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
                 this.replyDisabledTextView.setTextColor(ColorUtils.blendARGB(-16777216, -1, 0.5f));
                 dp = dp2 + size2 + AndroidUtilities.dp(12.0f);
             } else {
-                this.replyDisabledTextView.setTextColor(ColorUtils.setAlphaComponent(-1, NotificationCenter.unconfirmedAuthUpdate));
+                this.replyDisabledTextView.setTextColor(ColorUtils.setAlphaComponent(-1, 191));
                 dp = ((dp2 + size2) - AndroidUtilities.dp(12.0f)) - AndroidUtilities.dp(40.0f);
             }
             layoutParams2.topMargin = dp;

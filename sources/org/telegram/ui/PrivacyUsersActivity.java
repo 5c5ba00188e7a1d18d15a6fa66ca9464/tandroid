@@ -407,7 +407,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             public final void run() {
                 PrivacyUsersActivity.this.lambda$showUnblockAlert$6(l);
             }
-        }).setMinWidth(190).show();
+        }).setMinWidth(NotificationCenter.storiesSendAsUpdate).show();
     }
 
     private void updateRows() {

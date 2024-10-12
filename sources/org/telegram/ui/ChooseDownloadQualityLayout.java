@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -27,7 +25,7 @@ public class ChooseDownloadQualityLayout {
 
     /* loaded from: classes4.dex */
     public interface Callback {
-        void onQualitySelected(MessageObject messageObject, VideoPlayer.QualityUri qualityUri);
+        void onQualitySelected(MessageObject messageObject, VideoPlayer.Quality quality);
     }
 
     public ChooseDownloadQualityLayout(Context context, final PopupSwipeBackLayout popupSwipeBackLayout, Callback callback) {
@@ -67,8 +65,8 @@ public class ChooseDownloadQualityLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$update$1(MessageObject messageObject, VideoPlayer.QualityUri qualityUri, View view) {
-        this.callback.onQualitySelected(messageObject, qualityUri);
+    public /* synthetic */ void lambda$update$1(MessageObject messageObject, VideoPlayer.Quality quality, View view) {
+        this.callback.onQualitySelected(messageObject, quality);
     }
 
     public boolean update(final MessageObject messageObject) {
@@ -82,44 +80,24 @@ public class ChooseDownloadQualityLayout {
         ArrayList qualities = VideoPlayer.getQualities(i, messageMedia.document, messageMedia.alt_documents, 0, false);
         this.buttonsLayout.removeAllViews();
         for (int i2 = 0; i2 < qualities.size(); i2++) {
-            final VideoPlayer.QualityUri qualityUri = (VideoPlayer.QualityUri) qualities.get(i2);
-            String str2 = "";
-            if (SharedConfig.debugVideoQualities) {
-                str = qualityUri.width + "x" + qualityUri.height;
-                if (qualityUri.original) {
-                    str = str + " (" + LocaleController.getString(R.string.QualitySource) + ")";
-                }
-                str2 = "" + AndroidUtilities.formatFileSize((long) qualityUri.bitrate).replace(" ", "") + "/s";
-                if (qualityUri.codec != null) {
-                    str2 = str2 + ", " + qualityUri.codec;
-                }
+            final VideoPlayer.Quality quality = (VideoPlayer.Quality) qualities.get(i2);
+            String quality2 = quality.toString();
+            if (quality2.contains("\n")) {
+                String substring = quality2.substring(0, quality2.indexOf("\n"));
+                str = quality2.substring(quality2.indexOf("\n") + 1);
+                quality2 = substring;
             } else {
-                int min = Math.min(qualityUri.width, qualityUri.height);
-                if (Math.abs(min - 1080) < 30) {
-                    min = 1080;
-                } else if (Math.abs(min - 720) < 30) {
-                    min = 720;
-                } else if (Math.abs(min - 360) < 30) {
-                    min = 360;
-                } else if (Math.abs(min - 240) < 30) {
-                    min = NotificationCenter.needSetDayNightTheme;
-                } else if (Math.abs(min - 144) < 30) {
-                    min = NotificationCenter.messagePlayingProgressDidChanged;
-                }
-                str = min + "p";
-                if (qualityUri.original) {
-                    str = str + " (" + LocaleController.getString(R.string.QualitySource) + ")";
-                }
+                str = "";
             }
-            ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.buttonsLayout, 0, str, false, null);
-            if (!TextUtils.isEmpty(str2)) {
-                addItem.setSubtext(str2);
+            ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.buttonsLayout, 0, quality2, false, null);
+            if (!TextUtils.isEmpty(str)) {
+                addItem.setSubtext(str);
             }
             addItem.setColors(-328966, -328966);
             addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseDownloadQualityLayout$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    ChooseDownloadQualityLayout.this.lambda$update$1(messageObject, qualityUri, view);
+                    ChooseDownloadQualityLayout.this.lambda$update$1(messageObject, quality, view);
                 }
             });
             addItem.setSelectorColor(268435455);

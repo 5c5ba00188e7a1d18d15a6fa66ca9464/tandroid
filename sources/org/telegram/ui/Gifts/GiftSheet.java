@@ -716,6 +716,10 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         }
     }
 
+    public GiftSheet(Context context, int i, long j, Runnable runnable) {
+        this(context, i, j, null, runnable);
+    }
+
     public GiftSheet(final Context context, final int i, long j, List list, final Runnable runnable) {
         super(context, null, false, false, false, null);
         this.premiumTiers = new ArrayList();
@@ -896,15 +900,15 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             }
             if (obj instanceof TL_stars.StarGift) {
                 TL_stars.StarGift starGift = (TL_stars.StarGift) obj;
-                if (!starGift.limited || starGift.availability_remains > 0) {
+                if (starGift.sold_out) {
+                    StarsIntroActivity.showSoldOutGiftSheet(context, i, starGift, this.resourcesProvider);
+                } else {
                     new SendGiftSheet(context, i, starGift, this.dialogId, new Runnable() { // from class: org.telegram.ui.Gifts.GiftSheet$$ExternalSyntheticLambda7
                         @Override // java.lang.Runnable
                         public final void run() {
                             GiftSheet.this.lambda$new$3(runnable);
                         }
                     }).show();
-                } else {
-                    BulletinFactory.of(this.container, this.resourcesProvider).createEmojiBulletin(starGift.sticker, LocaleController.getString(R.string.Gift2SoldOutTitle), AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("Gift2SoldOut", starGift.availability_total))).show();
                 }
             }
         }

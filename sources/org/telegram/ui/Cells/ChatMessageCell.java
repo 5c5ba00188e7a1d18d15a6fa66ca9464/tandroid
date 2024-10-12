@@ -45743,11 +45743,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             return;
         }
         float centerX = this.radialProgress.progressRect.centerX();
-        double lerp = AndroidUtilities.lerp(190, 45, f) / 180.0f;
+        double lerp = AndroidUtilities.lerp(NotificationCenter.storiesSendAsUpdate, 45, f) / 180.0f;
         Double.isNaN(lerp);
         float cos = centerX + (((float) Math.cos(lerp * 3.141592653589793d)) * AndroidUtilities.dp(22.6274f));
         float centerY = this.radialProgress.progressRect.centerY();
-        double lerp2 = AndroidUtilities.lerp(190, 45, f) / 180.0f;
+        double lerp2 = AndroidUtilities.lerp(NotificationCenter.storiesSendAsUpdate, 45, f) / 180.0f;
         Double.isNaN(lerp2);
         float sin = centerY + (((float) Math.sin(lerp2 * 3.141592653589793d)) * AndroidUtilities.dp(22.6274f));
         RectF rectF = AndroidUtilities.rectTmp;
@@ -50516,7 +50516,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /*  JADX ERROR: JadxRuntimeException in pass: IfRegionVisitor
         jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r4v15 org.telegram.tgnet.TLObject, still in use, count: 2, list:
           (r4v15 org.telegram.tgnet.TLObject) from 0x006b: IF  (r4v15 org.telegram.tgnet.TLObject) != (null org.telegram.tgnet.TLObject)  -> B:24:0x004a A[HIDDEN]
-          (r4v15 org.telegram.tgnet.TLObject) from 0x004a: PHI (r4v68 org.telegram.tgnet.TLObject) = (r4v15 org.telegram.tgnet.TLObject), (r4v16 org.telegram.tgnet.TLObject), (r4v70 org.telegram.tgnet.TLObject) binds: [B:518:0x006b, B:516:0x0066, B:21:0x0042] A[DONT_GENERATE, DONT_INLINE]
+          (r4v15 org.telegram.tgnet.TLObject) from 0x004a: PHI (r4v68 org.telegram.tgnet.TLObject) = (r4v15 org.telegram.tgnet.TLObject), (r4v16 org.telegram.tgnet.TLObject), (r4v70 org.telegram.tgnet.TLObject) binds: [B:524:0x006b, B:522:0x0066, B:21:0x0042] A[DONT_GENERATE, DONT_INLINE]
         	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
         	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
         	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:125)
@@ -50562,17 +50562,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:28:0x00b1  */
     /* JADX WARN: Removed duplicated region for block: B:33:0x00cd  */
     /* JADX WARN: Removed duplicated region for block: B:36:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:374:0x0663  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x0672  */
+    /* JADX WARN: Removed duplicated region for block: B:376:0x0669  */
+    /* JADX WARN: Removed duplicated region for block: B:379:0x0678  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0101  */
-    /* JADX WARN: Removed duplicated region for block: B:495:0x0132  */
+    /* JADX WARN: Removed duplicated region for block: B:501:0x0132  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x013c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void updateButtonState(boolean r18, boolean r19, boolean r20) {
         /*
-            Method dump skipped, instructions count: 2176
+            Method dump skipped, instructions count: 2193
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.Cells.ChatMessageCell.updateButtonState(boolean, boolean, boolean):void");

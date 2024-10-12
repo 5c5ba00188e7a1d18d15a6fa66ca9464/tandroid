@@ -15243,26 +15243,27 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         BulletinFactory.createSaveToGalleryBulletin(frameLayoutDrawer, true, -115203550, -1).show();
     }
 
-    public /* synthetic */ void lambda$setParentActivity$13(MessageObject messageObject, VideoPlayer.QualityUri qualityUri) {
-        if (qualityUri == null) {
+    public /* synthetic */ void lambda$setParentActivity$13(MessageObject messageObject, VideoPlayer.Quality quality) {
+        TLRPC.Document downloadDocument;
+        if (quality == null || (downloadDocument = quality.getDownloadDocument()) == null) {
             return;
         }
-        File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(qualityUri.document, null, false, true);
+        File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(downloadDocument, null, false, true);
         if (pathToAttach == null || !pathToAttach.exists()) {
-            pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(qualityUri.document, null, true, true);
+            pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(downloadDocument, null, true, true);
         }
         if (pathToAttach == null || !pathToAttach.exists()) {
             ArrayList arrayList = new ArrayList();
-            messageObject.qualityToSave = qualityUri;
+            messageObject.qualityToSave = downloadDocument;
             arrayList.add(messageObject);
-            MediaController.saveFilesFromMessages(this.parentActivity, AccountInstance.getInstance(this.currentAccount), arrayList, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda133
+            MediaController.saveFilesFromMessages(this.parentActivity, AccountInstance.getInstance(this.currentAccount), arrayList, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda132
                 @Override // org.telegram.messenger.MessagesStorage.IntCallback
                 public final void run(int i) {
                     PhotoViewer.this.lambda$setParentActivity$12(i);
                 }
             });
         } else {
-            MediaController.saveFile(pathToAttach.toString(), this.parentActivity, 1, null, null, new Utilities.Callback() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda132
+            MediaController.saveFile(pathToAttach.toString(), this.parentActivity, 1, null, null, new Utilities.Callback() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda131
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     PhotoViewer.this.lambda$setParentActivity$11((Uri) obj);
@@ -15313,6 +15314,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         this.actionBar.getActionBarMenuOnItemClick().onItemClick(1);
+        this.menuItem.toggleSubMenu();
     }
 
     public /* synthetic */ void lambda$setParentActivity$16(View view) {
@@ -16182,7 +16184,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     public /* synthetic */ void lambda$setParentActivity$9(int i, boolean z, boolean z2) {
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer != null) {
-            videoPlayer.setSelectedQuality(i, false);
+            videoPlayer.setSelectedQuality(i);
         }
         if (i == -1) {
             VideoPlayer.saveQuality(null, this.currentMessageObject);
@@ -25709,7 +25711,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 this.qualityItem.setSubtext(LocaleController.getString(R.string.QualityAuto));
             } else {
                 VideoPlayer videoPlayer = this.videoPlayer;
-                VideoPlayer.QualityUri quality = videoPlayer.getQuality(videoPlayer.getSelectedQuality());
+                VideoPlayer.Quality quality = videoPlayer.getQuality(videoPlayer.getSelectedQuality());
                 ActionBarMenuSubItem actionBarMenuSubItem = this.qualityItem;
                 if (quality != null) {
                     str = Math.min(quality.width, quality.height) + "p";
@@ -25718,7 +25720,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 actionBarMenuSubItem.setSubtext(str);
             }
-            VideoPlayer.QualityUri currentQuality = this.videoPlayer.getCurrentQuality();
+            VideoPlayer.Quality currentQuality = this.videoPlayer.getCurrentQuality();
             if (currentQuality != null) {
                 int max = Math.max(currentQuality.width, currentQuality.height);
                 int min = Math.min(currentQuality.width, currentQuality.height);
@@ -28662,8 +28664,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         });
         this.chooseDownloadQualityLayout = new ChooseDownloadQualityLayout(this.activityContext, this.menuItem.getPopupLayout().getSwipeBack(), new ChooseDownloadQualityLayout.Callback() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda68
             @Override // org.telegram.ui.ChooseDownloadQualityLayout.Callback
-            public final void onQualitySelected(MessageObject messageObject, VideoPlayer.QualityUri qualityUri) {
-                PhotoViewer.this.lambda$setParentActivity$13(messageObject, qualityUri);
+            public final void onQualitySelected(MessageObject messageObject, VideoPlayer.Quality quality) {
+                PhotoViewer.this.lambda$setParentActivity$13(messageObject, quality);
             }
         });
         this.chooseSpeedLayout = new ChooseSpeedLayout(this.activityContext, this.menuItem.getPopupLayout().getSwipeBack(), new ChooseSpeedLayout.Callback() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda69
@@ -29750,7 +29752,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             AlertDialog show = builder.show();
             this.visibleDialog = show;
             show.setCanceledOnTouchOutside(true);
-            this.visibleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda131
+            this.visibleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda133
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     PhotoViewer.this.lambda$showAlertDialog$69(dialogInterface);

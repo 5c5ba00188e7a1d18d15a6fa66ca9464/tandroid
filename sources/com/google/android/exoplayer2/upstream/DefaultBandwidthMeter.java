@@ -2535,7 +2535,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[5] = 2;
                 return iArr;
             case 'c':
-            case 190:
+            case NotificationCenter.storiesSendAsUpdate /* 190 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
                 iArr[1] = 2;
@@ -3118,7 +3118,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 3;
                 iArr[5] = 3;
                 return iArr;
-            case NotificationCenter.unconfirmedAuthUpdate /* 191 */:
+            case 191:
                 // fill-array-data instruction
                 iArr[0] = 1;
                 iArr[1] = 1;

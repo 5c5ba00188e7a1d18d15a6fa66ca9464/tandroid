@@ -20780,7 +20780,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         public final void run() {
                             ProfileActivity.this.lambda$onMemberClick$40(chatParticipant);
                         }
-                    }).setMinWidth(190).show();
+                    }).setMinWidth(NotificationCenter.storiesSendAsUpdate).show();
                 }
             }
             return r1;
