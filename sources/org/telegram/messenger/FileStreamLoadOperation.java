@@ -6,7 +6,6 @@ import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import j$.util.concurrent.ConcurrentHashMap;
 import j$.util.concurrent.ConcurrentMap$-EL;
-import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -25,16 +24,17 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
     public static final ConcurrentHashMap<Long, FileStreamLoadOperation> allStreams = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Long, Integer> priorityMap = new ConcurrentHashMap<>();
     private long bytesRemaining;
+    private long bytesTransferred;
     private CountDownLatch countDownLatch;
     private int currentAccount;
     File currentFile;
     private long currentOffset;
-    private boolean customLength;
     private TLRPC.Document document;
     private RandomAccessFile file;
     private FileLoadOperation loadOperation;
     private boolean opened;
     private Object parentObject;
+    private long requestedLength;
     private Uri uri;
 
     public FileStreamLoadOperation() {
@@ -157,11 +157,8 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0124  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0133  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x016e  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x013e  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x012e  */
     @Override // com.google.android.exoplayer2.upstream.DataSource
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -170,7 +167,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         ArrayList<TLRPC.DocumentAttribute> arrayList;
         TLRPC.DocumentAttribute tL_documentAttributeAudio;
         long j;
-        boolean z;
+        FileLoadOperation fileLoadOperation;
         this.uri = dataSpec.uri;
         transferInitializing(dataSpec);
         int intValue = Utilities.parseInt((CharSequence) this.uri.getQueryParameter("account")).intValue();
@@ -193,25 +190,19 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                 tL_documentAttributeAudio = new TLRPC.TL_documentAttributeAudio();
             }
             allStreams.put(Long.valueOf(this.document.id), this);
-            FileLoader fileLoader = FileLoader.getInstance(this.currentAccount);
-            TLRPC.Document document = this.document;
-            Object obj = this.parentObject;
-            long j2 = dataSpec.position;
-            this.currentOffset = j2;
-            this.loadOperation = fileLoader.loadStreamFile(this, document, null, obj, j2, false, getCurrentPriority());
-            j = dataSpec.length;
-            z = j == -1;
-            this.customLength = z;
-            if (!z) {
-                j = this.document.size - dataSpec.position;
-            }
-            this.bytesRemaining = j;
-            if (j >= 0) {
-                throw new EOFException();
+            this.currentOffset = dataSpec.position;
+            this.requestedLength = dataSpec.length;
+            this.loadOperation = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, getCurrentPriority());
+            this.bytesTransferred = 0L;
+            long j2 = this.document.size - dataSpec.position;
+            this.bytesRemaining = j2;
+            j = this.requestedLength;
+            if (j != -1) {
+                this.bytesRemaining = Math.min(j2, j);
             }
             this.opened = true;
             transferStarted(dataSpec);
-            FileLoadOperation fileLoadOperation = this.loadOperation;
+            fileLoadOperation = this.loadOperation;
             if (fileLoadOperation != null) {
                 File currentFile = fileLoadOperation.getCurrentFile();
                 this.currentFile = currentFile;
@@ -220,8 +211,13 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                         RandomAccessFile randomAccessFile = new RandomAccessFile(this.currentFile, "r");
                         this.file = randomAccessFile;
                         randomAccessFile.seek(this.currentOffset);
-                        if (this.loadOperation.isFinished() && !this.customLength) {
-                            this.bytesRemaining = this.currentFile.length() - this.currentOffset;
+                        if (this.loadOperation.isFinished()) {
+                            long length = this.currentFile.length() - this.currentOffset;
+                            this.bytesRemaining = length;
+                            long j3 = this.requestedLength;
+                            if (j3 != -1) {
+                                this.bytesRemaining = Math.min(length, j3 - this.bytesTransferred);
+                            }
                         }
                     } catch (Throwable unused) {
                     }
@@ -233,56 +229,53 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         tL_documentAttributeAudio = new TLRPC.TL_documentAttributeVideo();
         arrayList.add(tL_documentAttributeAudio);
         allStreams.put(Long.valueOf(this.document.id), this);
-        FileLoader fileLoader2 = FileLoader.getInstance(this.currentAccount);
-        TLRPC.Document document2 = this.document;
-        Object obj2 = this.parentObject;
-        long j22 = dataSpec.position;
-        this.currentOffset = j22;
-        this.loadOperation = fileLoader2.loadStreamFile(this, document2, null, obj2, j22, false, getCurrentPriority());
-        j = dataSpec.length;
-        if (j == -1) {
+        this.currentOffset = dataSpec.position;
+        this.requestedLength = dataSpec.length;
+        this.loadOperation = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, getCurrentPriority());
+        this.bytesTransferred = 0L;
+        long j22 = this.document.size - dataSpec.position;
+        this.bytesRemaining = j22;
+        j = this.requestedLength;
+        if (j != -1) {
         }
-        this.customLength = z;
-        if (!z) {
+        this.opened = true;
+        transferStarted(dataSpec);
+        fileLoadOperation = this.loadOperation;
+        if (fileLoadOperation != null) {
         }
-        this.bytesRemaining = j;
-        if (j >= 0) {
-        }
+        return this.bytesRemaining;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0038 A[Catch: Exception -> 0x0023, TryCatch #2 {Exception -> 0x0023, blocks: (B:65:0x001e, B:15:0x002a, B:17:0x0038, B:19:0x005c, B:20:0x0061, B:22:0x0065, B:23:0x006b, B:25:0x0075, B:29:0x007d, B:31:0x0081, B:32:0x0095, B:34:0x009c, B:13:0x0026, B:54:0x00cc, B:57:0x00d1, B:59:0x00db, B:62:0x00e0), top: B:64:0x001e }] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0081 A[Catch: Exception -> 0x0023, TryCatch #2 {Exception -> 0x0023, blocks: (B:65:0x001e, B:15:0x002a, B:17:0x0038, B:19:0x005c, B:20:0x0061, B:22:0x0065, B:23:0x006b, B:25:0x0075, B:29:0x007d, B:31:0x0081, B:32:0x0095, B:34:0x009c, B:13:0x0026, B:54:0x00cc, B:57:0x00d1, B:59:0x00db, B:62:0x00e0), top: B:64:0x001e }] */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00a0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00c9 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0031 A[Catch: Exception -> 0x001c, TryCatch #0 {Exception -> 0x001c, blocks: (B:72:0x0017, B:15:0x0023, B:17:0x0031, B:19:0x0054, B:20:0x0059, B:22:0x005d, B:23:0x0063, B:25:0x006d, B:28:0x0075, B:30:0x0079, B:31:0x008d, B:33:0x0094, B:13:0x001f, B:59:0x00d1, B:62:0x00d6, B:64:0x00dc), top: B:71:0x0017 }] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0079 A[Catch: Exception -> 0x001c, TryCatch #0 {Exception -> 0x001c, blocks: (B:72:0x0017, B:15:0x0023, B:17:0x0031, B:19:0x0054, B:20:0x0059, B:22:0x005d, B:23:0x0063, B:25:0x006d, B:28:0x0075, B:30:0x0079, B:31:0x008d, B:33:0x0094, B:13:0x001f, B:59:0x00d1, B:62:0x00d6, B:64:0x00dc), top: B:71:0x0017 }] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0098 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0015 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0091 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @Override // com.google.android.exoplayer2.upstream.DataReader
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public int read(byte[] bArr, int i, int i2) {
-        int i3;
         File currentFileFast;
         RandomAccessFile randomAccessFile;
         RandomAccessFile randomAccessFile2;
-        int i4 = i2;
-        System.currentTimeMillis();
-        if (i4 == 0) {
+        if (i2 == 0) {
             return 0;
         }
         long j = this.bytesRemaining;
-        if (j <= 0) {
+        if (j == 0) {
             return -1;
         }
-        if (j < i4) {
-            i4 = (int) j;
+        if (j < i2) {
+            i2 = (int) j;
         }
-        int i5 = 0;
+        int i3 = 0;
         while (true) {
-            if (i5 == 0) {
+            if (i3 == 0) {
                 try {
                     if (!this.opened) {
                     }
-                    i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i4)[0];
+                    i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
                     if (i3 == 0) {
                         this.countDownLatch = new CountDownLatch(1);
                         FileLoadOperation loadStreamFile = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, getCurrentPriority());
@@ -315,14 +308,18 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
                                 RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.currentFile, "r");
                                 this.file = randomAccessFile3;
                                 randomAccessFile3.seek(this.currentOffset);
-                                if (this.loadOperation.isFinished() && !this.customLength) {
-                                    this.bytesRemaining = this.currentFile.length() - this.currentOffset;
+                                if (this.loadOperation.isFinished()) {
+                                    long length = this.currentFile.length() - this.currentOffset;
+                                    this.bytesRemaining = length;
+                                    long j2 = this.requestedLength;
+                                    if (j2 != -1) {
+                                        this.bytesRemaining = Math.min(length, j2 - this.bytesTransferred);
+                                    }
                                 }
                             } catch (Throwable unused2) {
                             }
                         }
                     }
-                    i5 = i3;
                 } catch (Exception e) {
                     throw new IOException(e);
                 }
@@ -331,7 +328,7 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             if (randomAccessFile2 != null) {
                 break;
             }
-            i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i4)[0];
+            i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
             if (i3 == 0) {
             }
             currentFileFast = this.loadOperation.getCurrentFileFast();
@@ -345,20 +342,16 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
             this.currentFile = currentFileFast;
             if (currentFileFast == null) {
             }
-            i5 = i3;
         }
         if (!this.opened) {
             return 0;
         }
-        int read = randomAccessFile2.read(bArr, i, i5);
-        if (read == -1) {
-            this.bytesRemaining = 0L;
-            return -1;
-        }
+        int read = randomAccessFile2.read(bArr, i, i3);
         if (read > 0) {
-            long j2 = read;
-            this.currentOffset += j2;
-            this.bytesRemaining -= j2;
+            long j3 = read;
+            this.currentOffset += j3;
+            this.bytesRemaining -= j3;
+            this.bytesTransferred += j3;
             bytesTransferred(read);
         }
         return read;

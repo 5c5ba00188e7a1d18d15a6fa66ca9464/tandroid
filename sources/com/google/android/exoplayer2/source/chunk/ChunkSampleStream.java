@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.decoder.DecoderInputBuffer;
 import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.source.LoadEventInfo;
-import com.google.android.exoplayer2.source.LoadingInfo;
 import com.google.android.exoplayer2.source.MediaLoadData;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.source.SampleQueue;
@@ -273,21 +272,21 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(LoadingInfo loadingInfo) {
+    public boolean continueLoading(long j) {
         List list;
-        long j;
+        long j2;
         if (this.loadingFinished || this.loader.isLoading() || this.loader.hasFatalError()) {
             return false;
         }
         boolean isPendingReset = isPendingReset();
         if (isPendingReset) {
             list = Collections.emptyList();
-            j = this.pendingResetPositionUs;
+            j2 = this.pendingResetPositionUs;
         } else {
             list = this.readOnlyMediaChunks;
-            j = getLastMediaChunk().endTimeUs;
+            j2 = getLastMediaChunk().endTimeUs;
         }
-        this.chunkSource.getNextChunk(loadingInfo, j, list, this.nextChunkHolder);
+        this.chunkSource.getNextChunk(j, j2, list, this.nextChunkHolder);
         ChunkHolder chunkHolder = this.nextChunkHolder;
         boolean z = chunkHolder.endOfStream;
         Chunk chunk = chunkHolder.chunk;
@@ -304,10 +303,10 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
         if (isMediaChunk(chunk)) {
             BaseMediaChunk baseMediaChunk = (BaseMediaChunk) chunk;
             if (isPendingReset) {
-                long j2 = baseMediaChunk.startTimeUs;
-                long j3 = this.pendingResetPositionUs;
-                if (j2 != j3) {
-                    this.primarySampleQueue.setStartTimeUs(j3);
+                long j3 = baseMediaChunk.startTimeUs;
+                long j4 = this.pendingResetPositionUs;
+                if (j3 != j4) {
+                    this.primarySampleQueue.setStartTimeUs(j4);
                     for (SampleQueue sampleQueue : this.embeddedSampleQueues) {
                         sampleQueue.setStartTimeUs(this.pendingResetPositionUs);
                     }

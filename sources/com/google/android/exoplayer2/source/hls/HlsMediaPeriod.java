@@ -10,7 +10,6 @@ import com.google.android.exoplayer2.drm.DrmSessionEventListener;
 import com.google.android.exoplayer2.drm.DrmSessionManager;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.source.CompositeSequenceableLoaderFactory;
-import com.google.android.exoplayer2.source.LoadingInfo;
 import com.google.android.exoplayer2.source.MediaPeriod;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.source.SampleStream;
@@ -22,13 +21,11 @@ import com.google.android.exoplayer2.source.hls.playlist.HlsMultivariantPlaylist
 import com.google.android.exoplayer2.source.hls.playlist.HlsPlaylistTracker;
 import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.upstream.Allocator;
-import com.google.android.exoplayer2.upstream.CmcdConfiguration;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
-import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +35,6 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.PlaylistEventListener {
     private final Allocator allocator;
@@ -58,7 +54,6 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
     private int pendingPrepareCount;
     private final PlayerId playerId;
     private final HlsPlaylistTracker playlistTracker;
-    private final long timestampAdjusterInitializationTimeoutMs;
     private TrackGroupArray trackGroups;
     private final boolean useSessionKeys;
     private final HlsSampleStreamWrapper.Callback sampleStreamWrapperCallback = new SampleStreamWrapperCallback();
@@ -108,7 +103,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         }
     }
 
-    public HlsMediaPeriod(HlsExtractorFactory hlsExtractorFactory, HlsPlaylistTracker hlsPlaylistTracker, HlsDataSourceFactory hlsDataSourceFactory, TransferListener transferListener, CmcdConfiguration cmcdConfiguration, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher2, Allocator allocator, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, boolean z, int i, boolean z2, PlayerId playerId, long j) {
+    public HlsMediaPeriod(HlsExtractorFactory hlsExtractorFactory, HlsPlaylistTracker hlsPlaylistTracker, HlsDataSourceFactory hlsDataSourceFactory, TransferListener transferListener, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher, LoadErrorHandlingPolicy loadErrorHandlingPolicy, MediaSourceEventListener.EventDispatcher eventDispatcher2, Allocator allocator, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, boolean z, int i, boolean z2, PlayerId playerId) {
         this.extractorFactory = hlsExtractorFactory;
         this.playlistTracker = hlsPlaylistTracker;
         this.dataSourceFactory = hlsDataSourceFactory;
@@ -123,8 +118,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         this.metadataType = i;
         this.useSessionKeys = z2;
         this.playerId = playerId;
-        this.timestampAdjusterInitializationTimeoutMs = j;
-        this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.empty();
+        this.compositeSequenceableLoader = compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(new SequenceableLoader[0]);
     }
 
     static /* synthetic */ int access$106(HlsMediaPeriod hlsMediaPeriod) {
@@ -288,11 +282,10 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         while (i2 < list2.size()) {
             HlsMultivariantPlaylist.Rendition rendition = (HlsMultivariantPlaylist.Rendition) list2.get(i2);
             String str = "subtitle:" + i2 + ":" + rendition.name;
-            Format format = rendition.format;
             Uri[] uriArr = new Uri[i];
             uriArr[c] = rendition.url;
             Format[] formatArr = new Format[i];
-            formatArr[c] = format;
+            formatArr[c] = rendition.format;
             ArrayList arrayList3 = arrayList2;
             int i3 = i2;
             HlsSampleStreamWrapper buildSampleStreamWrapper = buildSampleStreamWrapper(str, 3, uriArr, formatArr, null, Collections.emptyList(), deriveOverridingDrmInitData, j);
@@ -308,7 +301,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         this.manifestUrlIndicesPerWrapper = (int[][]) arrayList2.toArray(new int[0]);
         this.pendingPrepareCount = this.sampleStreamWrappers.length;
         for (int i4 = 0; i4 < this.audioVideoSampleStreamWrapperCount; i4++) {
-            this.sampleStreamWrappers[i4].setIsPrimaryTimestampSource(true);
+            this.sampleStreamWrappers[i4].setIsTimestampMaster(true);
         }
         for (HlsSampleStreamWrapper hlsSampleStreamWrapper : this.sampleStreamWrappers) {
             hlsSampleStreamWrapper.continuePreparing();
@@ -317,7 +310,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
     }
 
     private HlsSampleStreamWrapper buildSampleStreamWrapper(String str, int i, Uri[] uriArr, Format[] formatArr, Format format, List list, Map map, long j) {
-        return new HlsSampleStreamWrapper(str, i, this.sampleStreamWrapperCallback, new HlsChunkSource(this.extractorFactory, this.playlistTracker, uriArr, formatArr, this.dataSourceFactory, this.mediaTransferListener, this.timestampAdjusterProvider, this.timestampAdjusterInitializationTimeoutMs, list, this.playerId, null), map, this.allocator, j, format, this.drmSessionManager, this.drmEventDispatcher, this.loadErrorHandlingPolicy, this.eventDispatcher, this.metadataType);
+        return new HlsSampleStreamWrapper(str, i, this.sampleStreamWrapperCallback, new HlsChunkSource(this.extractorFactory, this.playlistTracker, uriArr, formatArr, this.dataSourceFactory, this.mediaTransferListener, this.timestampAdjusterProvider, list, this.playerId), map, this.allocator, j, format, this.drmSessionManager, this.drmEventDispatcher, this.loadErrorHandlingPolicy, this.eventDispatcher, this.metadataType);
     }
 
     private static Format deriveAudioFormat(Format format, Format format2, boolean z) {
@@ -328,7 +321,6 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         String str2;
         int i2;
         int i3;
-        ImmutableList.of();
         if (format2 != null) {
             codecsOfType = format2.codecs;
             metadata = format2.metadata;
@@ -386,9 +378,9 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(LoadingInfo loadingInfo) {
+    public boolean continueLoading(long j) {
         if (this.trackGroups != null) {
-            return this.compositeSequenceableLoader.continueLoading(loadingInfo);
+            return this.compositeSequenceableLoader.continueLoading(j);
         }
         for (HlsSampleStreamWrapper hlsSampleStreamWrapper : this.sampleStreamWrappers) {
             hlsSampleStreamWrapper.continuePreparing();
@@ -576,7 +568,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
                 hlsSampleStreamWrapperArr3[i6] = hlsSampleStreamWrapper;
                 i3 = i6 + 1;
                 if (i6 == 0) {
-                    hlsSampleStreamWrapper.setIsPrimaryTimestampSource(true);
+                    hlsSampleStreamWrapper.setIsTimestampMaster(true);
                     if (!selectTracks) {
                         HlsSampleStreamWrapper[] hlsSampleStreamWrapperArr4 = this.enabledSampleStreamWrappers;
                         if (hlsSampleStreamWrapperArr4.length != 0 && hlsSampleStreamWrapper == hlsSampleStreamWrapperArr4[0]) {
@@ -585,7 +577,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
                     this.timestampAdjusterProvider.reset();
                     z = true;
                 } else {
-                    hlsSampleStreamWrapper.setIsPrimaryTimestampSource(i8 < this.audioVideoSampleStreamWrapperCount);
+                    hlsSampleStreamWrapper.setIsTimestampMaster(i8 < this.audioVideoSampleStreamWrapperCount);
                 }
             } else {
                 i3 = i6;
@@ -599,8 +591,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         System.arraycopy(sampleStreamArr3, 0, sampleStreamArr2, 0, length);
         HlsSampleStreamWrapper[] hlsSampleStreamWrapperArr5 = (HlsSampleStreamWrapper[]) Util.nullSafeArrayCopy(hlsSampleStreamWrapperArr2, i3);
         this.enabledSampleStreamWrappers = hlsSampleStreamWrapperArr5;
-        ImmutableList.copyOf(hlsSampleStreamWrapperArr5);
-        this.compositeSequenceableLoader = this.compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(this.enabledSampleStreamWrappers);
+        this.compositeSequenceableLoader = this.compositeSequenceableLoaderFactory.createCompositeSequenceableLoader(hlsSampleStreamWrapperArr5);
         return j;
     }
 }

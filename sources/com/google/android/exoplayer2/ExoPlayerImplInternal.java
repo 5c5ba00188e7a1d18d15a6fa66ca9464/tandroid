@@ -75,6 +75,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
     private PlaybackInfoUpdate playbackInfoUpdate;
     private final PlaybackInfoUpdateListener playbackInfoUpdateListener;
     private final Looper playbackLooper;
+    private long playbackMaybeBecameStuckAtMs = -9223372036854775807L;
     private final MediaPeriodQueue queue;
     private final long releaseTimeoutMs;
     private boolean released;
@@ -91,8 +92,6 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
     private boolean shuffleModeEnabled;
     private final TrackSelector trackSelector;
     private final Timeline.Window window;
-    private long lastRebufferRealtimeMs = -9223372036854775807L;
-    private long playbackMaybeBecameStuckAtMs = -9223372036854775807L;
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
@@ -306,11 +305,11 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x01b9  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x01c8  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x01d2  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0148  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x01ac  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x01b0  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x01bf  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x01c9  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x013f  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x01a3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -376,12 +375,10 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
                 setState(3);
                 this.pendingRecoverableRendererError = null;
                 if (shouldPlayWhenReady()) {
-                    updateRebufferingState(false, false);
-                    this.mediaClock.start();
                     startRenderers();
                 }
             } else if (this.playbackInfo.playbackState == 3 && (this.enabledRendererCount != 0 ? !z2 : !isTimelineReady())) {
-                updateRebufferingState(shouldPlayWhenReady(), false);
+                this.isRebuffering = shouldPlayWhenReady();
                 setState(2);
                 if (this.isRebuffering) {
                     notifyTrackSelectionRebuffer();
@@ -879,7 +876,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         boolean shouldContinueLoading = shouldContinueLoading();
         this.shouldContinueLoading = shouldContinueLoading;
         if (shouldContinueLoading) {
-            this.queue.getLoadingPeriod().continueLoading(this.rendererPositionUs, this.mediaClock.getPlaybackParameters().speed, this.lastRebufferRealtimeMs);
+            this.queue.getLoadingPeriod().continueLoading(this.rendererPositionUs);
         }
         updateIsLoading();
     }
@@ -1318,25 +1315,25 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00c4  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00cd  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00d7  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00c3  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00cc  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0100  */
     /* JADX WARN: Removed duplicated region for block: B:55:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x00de  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00d2  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00c8  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x00bf  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00dc  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00c7  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00be  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void resetInternal(boolean z, boolean z2, boolean z3, boolean z4) {
         MediaSource.MediaPeriodId mediaPeriodId;
         long j;
+        boolean z5;
         this.handler.removeMessages(2);
         this.pendingRecoverableRendererError = null;
-        boolean z5 = true;
-        updateRebufferingState(false, true);
+        this.isRebuffering = false;
         this.mediaClock.stop();
         this.rendererPositionUs = 1000000000000L;
         for (Renderer renderer : this.renderers) {
@@ -1369,6 +1366,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
             j2 = ((Long) placeholderFirstMediaPeriodPositionUs.second).longValue();
             j3 = -9223372036854775807L;
             if (!mediaPeriodId2.equals(this.playbackInfo.periodId)) {
+                z5 = true;
                 mediaPeriodId = mediaPeriodId2;
                 j = j2;
                 this.queue.clear();
@@ -1839,7 +1837,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
 
     private long seekToPeriodPosition(MediaSource.MediaPeriodId mediaPeriodId, long j, boolean z, boolean z2) {
         stopRenderers();
-        updateRebufferingState(false, true);
+        this.isRebuffering = false;
         if (z2 || this.playbackInfo.playbackState == 3) {
             setState(2);
         }
@@ -1994,7 +1992,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         this.playbackInfoUpdate.incrementPendingOperationAcks(z2 ? 1 : 0);
         this.playbackInfoUpdate.setPlayWhenReadyChangeReason(i2);
         this.playbackInfo = this.playbackInfo.copyWithPlayWhenReady(z, i);
-        updateRebufferingState(false, false);
+        this.isRebuffering = false;
         notifyTrackSelectionPlayWhenReadyChanged(z);
         if (!shouldPlayWhenReady()) {
             stopRenderers();
@@ -2206,11 +2204,6 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
             return;
         }
         this.livePlaybackSpeedControl.setTargetLiveOffsetOverrideUs(-9223372036854775807L);
-    }
-
-    private void updateRebufferingState(boolean z, boolean z2) {
-        this.isRebuffering = z;
-        this.lastRebufferRealtimeMs = (!z || z2) ? -9223372036854775807L : this.clock.elapsedRealtime();
     }
 
     private void updateTrackSelectionPlaybackSpeed(float f) {

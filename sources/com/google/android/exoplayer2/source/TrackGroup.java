@@ -88,6 +88,10 @@ public final class TrackGroup implements Bundleable {
         }
     }
 
+    public TrackGroup copyWithId(String str) {
+        return new TrackGroup(str, this.formats);
+    }
+
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

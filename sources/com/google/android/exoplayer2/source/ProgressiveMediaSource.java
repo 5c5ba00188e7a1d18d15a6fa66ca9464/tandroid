@@ -19,7 +19,6 @@ import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Assertions;
-import com.google.android.exoplayer2.util.Util;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 
 /* loaded from: classes.dex */
@@ -28,7 +27,8 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
     private final DataSource.Factory dataSourceFactory;
     private final DrmSessionManager drmSessionManager;
     private final LoadErrorHandlingPolicy loadableLoadErrorHandlingPolicy;
-    private MediaItem mediaItem;
+    private final MediaItem.LocalConfiguration localConfiguration;
+    private final MediaItem mediaItem;
     private final ProgressiveMediaExtractor.Factory progressiveMediaExtractorFactory;
     private long timelineDurationUs;
     private boolean timelineIsLive;
@@ -39,10 +39,12 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
     /* loaded from: classes.dex */
     public static final class Factory implements MediaSource.Factory {
         private int continueLoadingCheckIntervalBytes;
+        private String customCacheKey;
         private final DataSource.Factory dataSourceFactory;
         private DrmSessionManagerProvider drmSessionManagerProvider;
         private LoadErrorHandlingPolicy loadErrorHandlingPolicy;
         private ProgressiveMediaExtractor.Factory progressiveMediaExtractorFactory;
+        private Object tag;
 
         public Factory(DataSource.Factory factory) {
             this(factory, new DefaultExtractorsFactory());
@@ -78,8 +80,33 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
 
         @Override // com.google.android.exoplayer2.source.MediaSource.Factory
         public ProgressiveMediaSource createMediaSource(MediaItem mediaItem) {
+            MediaItem.Builder buildUpon;
+            MediaItem.Builder tag;
             Assertions.checkNotNull(mediaItem.localConfiguration);
-            return new ProgressiveMediaSource(mediaItem, this.dataSourceFactory, this.progressiveMediaExtractorFactory, this.drmSessionManagerProvider.get(mediaItem), this.loadErrorHandlingPolicy, this.continueLoadingCheckIntervalBytes);
+            MediaItem.LocalConfiguration localConfiguration = mediaItem.localConfiguration;
+            boolean z = false;
+            boolean z2 = localConfiguration.tag == null && this.tag != null;
+            if (localConfiguration.customCacheKey == null && this.customCacheKey != null) {
+                z = true;
+            }
+            if (!z2 || !z) {
+                if (z2) {
+                    tag = mediaItem.buildUpon().setTag(this.tag);
+                    mediaItem = tag.build();
+                    MediaItem mediaItem2 = mediaItem;
+                    return new ProgressiveMediaSource(mediaItem2, this.dataSourceFactory, this.progressiveMediaExtractorFactory, this.drmSessionManagerProvider.get(mediaItem2), this.loadErrorHandlingPolicy, this.continueLoadingCheckIntervalBytes);
+                }
+                if (z) {
+                    buildUpon = mediaItem.buildUpon();
+                }
+                MediaItem mediaItem22 = mediaItem;
+                return new ProgressiveMediaSource(mediaItem22, this.dataSourceFactory, this.progressiveMediaExtractorFactory, this.drmSessionManagerProvider.get(mediaItem22), this.loadErrorHandlingPolicy, this.continueLoadingCheckIntervalBytes);
+            }
+            buildUpon = mediaItem.buildUpon().setTag(this.tag);
+            tag = buildUpon.setCustomCacheKey(this.customCacheKey);
+            mediaItem = tag.build();
+            MediaItem mediaItem222 = mediaItem;
+            return new ProgressiveMediaSource(mediaItem222, this.dataSourceFactory, this.progressiveMediaExtractorFactory, this.drmSessionManagerProvider.get(mediaItem222), this.loadErrorHandlingPolicy, this.continueLoadingCheckIntervalBytes);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSource.Factory
@@ -96,6 +123,7 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
     }
 
     private ProgressiveMediaSource(MediaItem mediaItem, DataSource.Factory factory, ProgressiveMediaExtractor.Factory factory2, DrmSessionManager drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, int i) {
+        this.localConfiguration = (MediaItem.LocalConfiguration) Assertions.checkNotNull(mediaItem.localConfiguration);
         this.mediaItem = mediaItem;
         this.dataSourceFactory = factory;
         this.progressiveMediaExtractorFactory = factory2;
@@ -106,12 +134,8 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
         this.timelineDurationUs = -9223372036854775807L;
     }
 
-    private MediaItem.LocalConfiguration getLocalConfiguration() {
-        return (MediaItem.LocalConfiguration) Assertions.checkNotNull(getMediaItem().localConfiguration);
-    }
-
     private void notifySourceInfoRefreshed() {
-        Timeline singlePeriodTimeline = new SinglePeriodTimeline(this.timelineDurationUs, this.timelineIsSeekable, false, this.timelineIsLive, null, getMediaItem());
+        Timeline singlePeriodTimeline = new SinglePeriodTimeline(this.timelineDurationUs, this.timelineIsSeekable, false, this.timelineIsLive, null, this.mediaItem);
         if (this.timelineIsPlaceholder) {
             singlePeriodTimeline = new ForwardingTimeline(singlePeriodTimeline) { // from class: com.google.android.exoplayer2.source.ProgressiveMediaSource.1
                 @Override // com.google.android.exoplayer2.source.ForwardingTimeline, com.google.android.exoplayer2.Timeline
@@ -139,12 +163,11 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
         if (transferListener != null) {
             createDataSource.addTransferListener(transferListener);
         }
-        MediaItem.LocalConfiguration localConfiguration = getLocalConfiguration();
-        return new ProgressiveMediaPeriod(localConfiguration.uri, createDataSource, this.progressiveMediaExtractorFactory.createProgressiveMediaExtractor(getPlayerId()), this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadableLoadErrorHandlingPolicy, createEventDispatcher(mediaPeriodId), this, allocator, localConfiguration.customCacheKey, this.continueLoadingCheckIntervalBytes, Util.msToUs(0L));
+        return new ProgressiveMediaPeriod(this.localConfiguration.uri, createDataSource, this.progressiveMediaExtractorFactory.createProgressiveMediaExtractor(getPlayerId()), this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadableLoadErrorHandlingPolicy, createEventDispatcher(mediaPeriodId), this, allocator, this.localConfiguration.customCacheKey, this.continueLoadingCheckIntervalBytes);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource
-    public synchronized MediaItem getMediaItem() {
+    public MediaItem getMediaItem() {
         return this.mediaItem;
     }
 
@@ -170,8 +193,8 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
     protected void prepareSourceInternal(TransferListener transferListener) {
         this.transferListener = transferListener;
-        this.drmSessionManager.setPlayer((Looper) Assertions.checkNotNull(Looper.myLooper()), getPlayerId());
         this.drmSessionManager.prepare();
+        this.drmSessionManager.setPlayer((Looper) Assertions.checkNotNull(Looper.myLooper()), getPlayerId());
         notifySourceInfoRefreshed();
     }
 

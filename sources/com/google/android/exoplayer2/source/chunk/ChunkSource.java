@@ -1,7 +1,6 @@
 package com.google.android.exoplayer2.source.chunk;
 
 import com.google.android.exoplayer2.SeekParameters;
-import com.google.android.exoplayer2.source.LoadingInfo;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import java.util.List;
 public interface ChunkSource {
     long getAdjustedSeekPositionUs(long j, SeekParameters seekParameters);
 
-    void getNextChunk(LoadingInfo loadingInfo, long j, List list, ChunkHolder chunkHolder);
+    void getNextChunk(long j, long j2, List list, ChunkHolder chunkHolder);
 
     int getPreferredQueueSize(long j, List list);
 

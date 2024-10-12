@@ -7,7 +7,6 @@ import com.google.common.collect.Sets;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -268,10 +267,6 @@ public abstract class Maps {
 
     public static Map.Entry immutableEntry(Object obj, Object obj2) {
         return new ImmutableEntry(obj, obj2);
-    }
-
-    public static HashMap newHashMapWithExpectedSize(int i) {
-        return new HashMap(capacity(i));
     }
 
     public static IdentityHashMap newIdentityHashMap() {

@@ -1,14 +1,12 @@
 package com.google.android.exoplayer2.source.smoothstreaming;
 
 import android.net.Uri;
-import android.os.SystemClock;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor;
 import com.google.android.exoplayer2.extractor.mp4.Track;
 import com.google.android.exoplayer2.extractor.mp4.TrackEncryptionBox;
 import com.google.android.exoplayer2.source.BehindLiveWindowException;
-import com.google.android.exoplayer2.source.LoadingInfo;
 import com.google.android.exoplayer2.source.chunk.BaseMediaChunkIterator;
 import com.google.android.exoplayer2.source.chunk.BundledChunkExtractor;
 import com.google.android.exoplayer2.source.chunk.Chunk;
@@ -21,8 +19,6 @@ import com.google.android.exoplayer2.source.smoothstreaming.SsChunkSource;
 import com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifest;
 import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionUtil;
-import com.google.android.exoplayer2.upstream.CmcdConfiguration;
-import com.google.android.exoplayer2.upstream.CmcdData$Factory;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
@@ -38,7 +34,6 @@ public class DefaultSsChunkSource implements SsChunkSource {
     private int currentManifestChunkOffset;
     private final DataSource dataSource;
     private IOException fatalError;
-    private long lastChunkRequestRealtimeMs = -9223372036854775807L;
     private SsManifest manifest;
     private final LoaderErrorThrower manifestLoaderErrorThrower;
     private final int streamElementIndex;
@@ -53,12 +48,12 @@ public class DefaultSsChunkSource implements SsChunkSource {
         }
 
         @Override // com.google.android.exoplayer2.source.smoothstreaming.SsChunkSource.Factory
-        public SsChunkSource createChunkSource(LoaderErrorThrower loaderErrorThrower, SsManifest ssManifest, int i, ExoTrackSelection exoTrackSelection, TransferListener transferListener, CmcdConfiguration cmcdConfiguration) {
+        public SsChunkSource createChunkSource(LoaderErrorThrower loaderErrorThrower, SsManifest ssManifest, int i, ExoTrackSelection exoTrackSelection, TransferListener transferListener) {
             DataSource createDataSource = this.dataSourceFactory.createDataSource();
             if (transferListener != null) {
                 createDataSource.addTransferListener(transferListener);
             }
-            return new DefaultSsChunkSource(loaderErrorThrower, ssManifest, i, exoTrackSelection, createDataSource, cmcdConfiguration);
+            return new DefaultSsChunkSource(loaderErrorThrower, ssManifest, i, exoTrackSelection, createDataSource);
         }
     }
 
@@ -85,7 +80,7 @@ public class DefaultSsChunkSource implements SsChunkSource {
         }
     }
 
-    public DefaultSsChunkSource(LoaderErrorThrower loaderErrorThrower, SsManifest ssManifest, int i, ExoTrackSelection exoTrackSelection, DataSource dataSource, CmcdConfiguration cmcdConfiguration) {
+    public DefaultSsChunkSource(LoaderErrorThrower loaderErrorThrower, SsManifest ssManifest, int i, ExoTrackSelection exoTrackSelection, DataSource dataSource) {
         this.manifestLoaderErrorThrower = loaderErrorThrower;
         this.manifest = ssManifest;
         this.streamElementIndex = i;
@@ -102,8 +97,8 @@ public class DefaultSsChunkSource implements SsChunkSource {
         }
     }
 
-    private static MediaChunk newMediaChunk(Format format, DataSource dataSource, Uri uri, int i, long j, long j2, long j3, int i2, Object obj, ChunkExtractor chunkExtractor, CmcdData$Factory cmcdData$Factory) {
-        return new ContainerMediaChunk(dataSource, new DataSpec.Builder().setUri(uri).build(), format, i2, obj, j, j2, j3, -9223372036854775807L, i, 1, j, chunkExtractor);
+    private static MediaChunk newMediaChunk(Format format, DataSource dataSource, Uri uri, int i, long j, long j2, long j3, int i2, Object obj, ChunkExtractor chunkExtractor) {
+        return new ContainerMediaChunk(dataSource, new DataSpec(uri), format, i2, obj, j, j2, j3, -9223372036854775807L, i, 1, j, chunkExtractor);
     }
 
     private long resolveTimeToLiveEdgeUs(long j) {
@@ -125,8 +120,9 @@ public class DefaultSsChunkSource implements SsChunkSource {
     }
 
     @Override // com.google.android.exoplayer2.source.chunk.ChunkSource
-    public final void getNextChunk(LoadingInfo loadingInfo, long j, List list, ChunkHolder chunkHolder) {
+    public final void getNextChunk(long j, long j2, List list, ChunkHolder chunkHolder) {
         int nextChunkIndex;
+        long j3 = j2;
         if (this.fatalError != null) {
             return;
         }
@@ -136,7 +132,7 @@ public class DefaultSsChunkSource implements SsChunkSource {
             return;
         }
         if (list.isEmpty()) {
-            nextChunkIndex = streamElement.getChunkIndex(j);
+            nextChunkIndex = streamElement.getChunkIndex(j3);
         } else {
             nextChunkIndex = (int) (((MediaChunk) list.get(list.size() - 1)).getNextChunkIndex() - this.currentManifestChunkOffset);
             if (nextChunkIndex < 0) {
@@ -148,24 +144,23 @@ public class DefaultSsChunkSource implements SsChunkSource {
             chunkHolder.endOfStream = !this.manifest.isLive;
             return;
         }
-        long j2 = loadingInfo.playbackPositionUs;
-        long j3 = j - j2;
-        long resolveTimeToLiveEdgeUs = resolveTimeToLiveEdgeUs(j2);
+        long j4 = j3 - j;
+        long resolveTimeToLiveEdgeUs = resolveTimeToLiveEdgeUs(j);
         int length = this.trackSelection.length();
         MediaChunkIterator[] mediaChunkIteratorArr = new MediaChunkIterator[length];
         for (int i = 0; i < length; i++) {
             mediaChunkIteratorArr[i] = new StreamElementIterator(streamElement, this.trackSelection.getIndexInTrackGroup(i), nextChunkIndex);
         }
-        this.trackSelection.updateSelectedTrack(j2, j3, resolveTimeToLiveEdgeUs, list, mediaChunkIteratorArr);
+        this.trackSelection.updateSelectedTrack(j, j4, resolveTimeToLiveEdgeUs, list, mediaChunkIteratorArr);
         long startTimeUs = streamElement.getStartTimeUs(nextChunkIndex);
         long chunkDurationUs = startTimeUs + streamElement.getChunkDurationUs(nextChunkIndex);
-        long j4 = list.isEmpty() ? j : -9223372036854775807L;
+        if (!list.isEmpty()) {
+            j3 = -9223372036854775807L;
+        }
+        long j5 = j3;
         int i2 = nextChunkIndex + this.currentManifestChunkOffset;
         int selectedIndex = this.trackSelection.getSelectedIndex();
-        ChunkExtractor chunkExtractor = this.chunkExtractors[selectedIndex];
-        Uri buildRequestUri = streamElement.buildRequestUri(this.trackSelection.getIndexInTrackGroup(selectedIndex), nextChunkIndex);
-        this.lastChunkRequestRealtimeMs = SystemClock.elapsedRealtime();
-        chunkHolder.chunk = newMediaChunk(this.trackSelection.getSelectedFormat(), this.dataSource, buildRequestUri, i2, startTimeUs, chunkDurationUs, j4, this.trackSelection.getSelectionReason(), this.trackSelection.getSelectionData(), chunkExtractor, null);
+        chunkHolder.chunk = newMediaChunk(this.trackSelection.getSelectedFormat(), this.dataSource, streamElement.buildRequestUri(this.trackSelection.getIndexInTrackGroup(selectedIndex), nextChunkIndex), i2, startTimeUs, chunkDurationUs, j5, this.trackSelection.getSelectionReason(), this.trackSelection.getSelectionData(), this.chunkExtractors[selectedIndex]);
     }
 
     @Override // com.google.android.exoplayer2.source.chunk.ChunkSource
@@ -191,7 +186,7 @@ public class DefaultSsChunkSource implements SsChunkSource {
         LoadErrorHandlingPolicy.FallbackSelection fallbackSelectionFor = loadErrorHandlingPolicy.getFallbackSelectionFor(TrackSelectionUtil.createFallbackOptions(this.trackSelection), loadErrorInfo);
         if (z && fallbackSelectionFor != null && fallbackSelectionFor.type == 2) {
             ExoTrackSelection exoTrackSelection = this.trackSelection;
-            if (exoTrackSelection.excludeTrack(exoTrackSelection.indexOf(chunk.trackFormat), fallbackSelectionFor.exclusionDurationMs)) {
+            if (exoTrackSelection.blacklist(exoTrackSelection.indexOf(chunk.trackFormat), fallbackSelectionFor.exclusionDurationMs)) {
                 return true;
             }
         }

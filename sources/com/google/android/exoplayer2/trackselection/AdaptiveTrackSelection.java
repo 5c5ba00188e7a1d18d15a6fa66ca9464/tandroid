@@ -159,7 +159,7 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         long allocatedBandwidth = getAllocatedBandwidth(j2);
         int i = 0;
         for (int i2 = 0; i2 < this.length; i2++) {
-            if (j == Long.MIN_VALUE || !isTrackExcluded(i2, j)) {
+            if (j == Long.MIN_VALUE || !isBlacklisted(i2, j)) {
                 Format format = getFormat(i2);
                 if (canSelectFormat(format, format.bitrate, allocatedBandwidth)) {
                     return i2;
@@ -431,7 +431,7 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
             i2 = indexOf;
         }
         int determineIdealSelectedIndex = determineIdealSelectedIndex(elapsedRealtime, nextChunkDurationUs);
-        if (!isTrackExcluded(i2, elapsedRealtime)) {
+        if (!isBlacklisted(i2, elapsedRealtime)) {
             Format format = getFormat(i2);
             Format format2 = getFormat(determineIdealSelectedIndex);
             long minDurationForQualityIncreaseUs = minDurationForQualityIncreaseUs(j3, nextChunkDurationUs);

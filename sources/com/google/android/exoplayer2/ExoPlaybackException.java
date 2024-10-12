@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import com.google.android.exoplayer2.Bundleable;
-import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.MediaPeriodId;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 public final class ExoPlaybackException extends PlaybackException {
     final boolean isRecoverable;
-    public final MediaSource.MediaPeriodId mediaPeriodId;
+    public final MediaPeriodId mediaPeriodId;
     public final Format rendererFormat;
     public final int rendererFormatSupport;
     public final int rendererIndex;
@@ -55,7 +55,7 @@ public final class ExoPlaybackException extends PlaybackException {
         this.mediaPeriodId = null;
     }
 
-    private ExoPlaybackException(String str, Throwable th, int i, int i2, String str2, int i3, Format format, int i4, MediaSource.MediaPeriodId mediaPeriodId, long j, boolean z) {
+    private ExoPlaybackException(String str, Throwable th, int i, int i2, String str2, int i3, Format format, int i4, MediaPeriodId mediaPeriodId, long j, boolean z) {
         super(str, th, i, j);
         Assertions.checkArgument(!z || i2 == 1);
         Assertions.checkArgument(th != null || i2 == 3);
@@ -100,7 +100,7 @@ public final class ExoPlaybackException extends PlaybackException {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public ExoPlaybackException copyWithMediaPeriodId(MediaSource.MediaPeriodId mediaPeriodId) {
+    public ExoPlaybackException copyWithMediaPeriodId(MediaPeriodId mediaPeriodId) {
         return new ExoPlaybackException((String) Util.castNonNull(getMessage()), getCause(), this.errorCode, this.type, this.rendererName, this.rendererIndex, this.rendererFormat, this.rendererFormatSupport, mediaPeriodId, this.timestampMs, this.isRecoverable);
     }
 

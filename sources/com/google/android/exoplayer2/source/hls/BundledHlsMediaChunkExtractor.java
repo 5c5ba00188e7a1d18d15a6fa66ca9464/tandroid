@@ -19,15 +19,12 @@ public final class BundledHlsMediaChunkExtractor implements HlsMediaChunkExtract
     private static final PositionHolder POSITION_HOLDER = new PositionHolder();
     final Extractor extractor;
     private final Format multivariantPlaylistFormat;
-    private final boolean parseSubtitlesDuringExtraction;
     private final TimestampAdjuster timestampAdjuster;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public BundledHlsMediaChunkExtractor(Extractor extractor, Format format, TimestampAdjuster timestampAdjuster, boolean z) {
+    public BundledHlsMediaChunkExtractor(Extractor extractor, Format format, TimestampAdjuster timestampAdjuster) {
         this.extractor = extractor;
         this.multivariantPlaylistFormat = format;
         this.timestampAdjuster = timestampAdjuster;
-        this.parseSubtitlesDuringExtraction = z;
     }
 
     @Override // com.google.android.exoplayer2.source.hls.HlsMediaChunkExtractor
@@ -76,6 +73,6 @@ public final class BundledHlsMediaChunkExtractor implements HlsMediaChunkExtract
             }
             mp3Extractor = new Mp3Extractor();
         }
-        return new BundledHlsMediaChunkExtractor(mp3Extractor, this.multivariantPlaylistFormat, this.timestampAdjuster, this.parseSubtitlesDuringExtraction);
+        return new BundledHlsMediaChunkExtractor(mp3Extractor, this.multivariantPlaylistFormat, this.timestampAdjuster);
     }
 }

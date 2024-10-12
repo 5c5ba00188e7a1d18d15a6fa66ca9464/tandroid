@@ -17,6 +17,7 @@ public interface MediaSourceEventListener {
     public static class EventDispatcher {
         private final CopyOnWriteArrayList listenerAndHandlers;
         public final MediaSource.MediaPeriodId mediaPeriodId;
+        private final long mediaTimeOffsetMs;
         public final int windowIndex;
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -32,13 +33,22 @@ public interface MediaSourceEventListener {
         }
 
         public EventDispatcher() {
-            this(new CopyOnWriteArrayList(), 0, null);
+            this(new CopyOnWriteArrayList(), 0, null, 0L);
         }
 
-        private EventDispatcher(CopyOnWriteArrayList copyOnWriteArrayList, int i, MediaSource.MediaPeriodId mediaPeriodId) {
+        private EventDispatcher(CopyOnWriteArrayList copyOnWriteArrayList, int i, MediaSource.MediaPeriodId mediaPeriodId, long j) {
             this.listenerAndHandlers = copyOnWriteArrayList;
             this.windowIndex = i;
             this.mediaPeriodId = mediaPeriodId;
+            this.mediaTimeOffsetMs = j;
+        }
+
+        private long adjustMediaTime(long j) {
+            long usToMs = Util.usToMs(j);
+            if (usToMs == -9223372036854775807L) {
+                return -9223372036854775807L;
+            }
+            return this.mediaTimeOffsetMs + usToMs;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -78,7 +88,7 @@ public interface MediaSourceEventListener {
         }
 
         public void downstreamFormatChanged(int i, Format format, int i2, Object obj, long j) {
-            downstreamFormatChanged(new MediaLoadData(1, i, format, i2, obj, Util.usToMs(j), -9223372036854775807L));
+            downstreamFormatChanged(new MediaLoadData(1, i, format, i2, obj, adjustMediaTime(j), -9223372036854775807L));
         }
 
         public void downstreamFormatChanged(final MediaLoadData mediaLoadData) {
@@ -86,7 +96,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler listenerAndHandler = (ListenerAndHandler) it.next();
                 final MediaSourceEventListener mediaSourceEventListener = listenerAndHandler.listener;
-                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda2
+                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$downstreamFormatChanged$5(mediaSourceEventListener, mediaLoadData);
@@ -100,7 +110,7 @@ public interface MediaSourceEventListener {
         }
 
         public void loadCanceled(LoadEventInfo loadEventInfo, int i, int i2, Format format, int i3, Object obj, long j, long j2) {
-            loadCanceled(loadEventInfo, new MediaLoadData(i, i2, format, i3, obj, Util.usToMs(j), Util.usToMs(j2)));
+            loadCanceled(loadEventInfo, new MediaLoadData(i, i2, format, i3, obj, adjustMediaTime(j), adjustMediaTime(j2)));
         }
 
         public void loadCanceled(final LoadEventInfo loadEventInfo, final MediaLoadData mediaLoadData) {
@@ -108,7 +118,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler listenerAndHandler = (ListenerAndHandler) it.next();
                 final MediaSourceEventListener mediaSourceEventListener = listenerAndHandler.listener;
-                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda5
+                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$loadCanceled$2(mediaSourceEventListener, loadEventInfo, mediaLoadData);
@@ -122,7 +132,7 @@ public interface MediaSourceEventListener {
         }
 
         public void loadCompleted(LoadEventInfo loadEventInfo, int i, int i2, Format format, int i3, Object obj, long j, long j2) {
-            loadCompleted(loadEventInfo, new MediaLoadData(i, i2, format, i3, obj, Util.usToMs(j), Util.usToMs(j2)));
+            loadCompleted(loadEventInfo, new MediaLoadData(i, i2, format, i3, obj, adjustMediaTime(j), adjustMediaTime(j2)));
         }
 
         public void loadCompleted(final LoadEventInfo loadEventInfo, final MediaLoadData mediaLoadData) {
@@ -130,7 +140,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler listenerAndHandler = (ListenerAndHandler) it.next();
                 final MediaSourceEventListener mediaSourceEventListener = listenerAndHandler.listener;
-                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda3
+                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$loadCompleted$1(mediaSourceEventListener, loadEventInfo, mediaLoadData);
@@ -140,7 +150,7 @@ public interface MediaSourceEventListener {
         }
 
         public void loadError(LoadEventInfo loadEventInfo, int i, int i2, Format format, int i3, Object obj, long j, long j2, IOException iOException, boolean z) {
-            loadError(loadEventInfo, new MediaLoadData(i, i2, format, i3, obj, Util.usToMs(j), Util.usToMs(j2)), iOException, z);
+            loadError(loadEventInfo, new MediaLoadData(i, i2, format, i3, obj, adjustMediaTime(j), adjustMediaTime(j2)), iOException, z);
         }
 
         public void loadError(LoadEventInfo loadEventInfo, int i, IOException iOException, boolean z) {
@@ -152,7 +162,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler listenerAndHandler = (ListenerAndHandler) it.next();
                 final MediaSourceEventListener mediaSourceEventListener = listenerAndHandler.listener;
-                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda4
+                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$loadError$3(mediaSourceEventListener, loadEventInfo, mediaLoadData, iOException, z);
@@ -166,7 +176,7 @@ public interface MediaSourceEventListener {
         }
 
         public void loadStarted(LoadEventInfo loadEventInfo, int i, int i2, Format format, int i3, Object obj, long j, long j2) {
-            loadStarted(loadEventInfo, new MediaLoadData(i, i2, format, i3, obj, Util.usToMs(j), Util.usToMs(j2)));
+            loadStarted(loadEventInfo, new MediaLoadData(i, i2, format, i3, obj, adjustMediaTime(j), adjustMediaTime(j2)));
         }
 
         public void loadStarted(final LoadEventInfo loadEventInfo, final MediaLoadData mediaLoadData) {
@@ -174,7 +184,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler listenerAndHandler = (ListenerAndHandler) it.next();
                 final MediaSourceEventListener mediaSourceEventListener = listenerAndHandler.listener;
-                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda0
+                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$loadStarted$0(mediaSourceEventListener, loadEventInfo, mediaLoadData);
@@ -194,7 +204,7 @@ public interface MediaSourceEventListener {
         }
 
         public void upstreamDiscarded(int i, long j, long j2) {
-            upstreamDiscarded(new MediaLoadData(1, i, null, 3, null, Util.usToMs(j), Util.usToMs(j2)));
+            upstreamDiscarded(new MediaLoadData(1, i, null, 3, null, adjustMediaTime(j), adjustMediaTime(j2)));
         }
 
         public void upstreamDiscarded(final MediaLoadData mediaLoadData) {
@@ -203,7 +213,7 @@ public interface MediaSourceEventListener {
             while (it.hasNext()) {
                 ListenerAndHandler listenerAndHandler = (ListenerAndHandler) it.next();
                 final MediaSourceEventListener mediaSourceEventListener = listenerAndHandler.listener;
-                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda1
+                Util.postOrRun(listenerAndHandler.handler, new Runnable() { // from class: com.google.android.exoplayer2.source.MediaSourceEventListener$EventDispatcher$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaSourceEventListener.EventDispatcher.this.lambda$upstreamDiscarded$4(mediaSourceEventListener, mediaPeriodId, mediaLoadData);
@@ -212,8 +222,8 @@ public interface MediaSourceEventListener {
             }
         }
 
-        public EventDispatcher withParameters(int i, MediaSource.MediaPeriodId mediaPeriodId) {
-            return new EventDispatcher(this.listenerAndHandlers, i, mediaPeriodId);
+        public EventDispatcher withParameters(int i, MediaSource.MediaPeriodId mediaPeriodId, long j) {
+            return new EventDispatcher(this.listenerAndHandlers, i, mediaPeriodId, j);
         }
     }
 

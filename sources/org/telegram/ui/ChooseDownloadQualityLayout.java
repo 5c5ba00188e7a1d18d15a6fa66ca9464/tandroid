@@ -87,7 +87,7 @@ public class ChooseDownloadQualityLayout {
             if (SharedConfig.debugVideoQualities) {
                 str = qualityUri.width + "x" + qualityUri.height;
                 if (qualityUri.original) {
-                    str = str + " (" + LocaleController.getString(R.string.QualityOriginal).toLowerCase() + ")";
+                    str = str + " (" + LocaleController.getString(R.string.QualitySource) + ")";
                 }
                 str2 = "" + AndroidUtilities.formatFileSize((long) qualityUri.bitrate).replace(" ", "") + "/s";
                 if (qualityUri.codec != null) {
@@ -107,6 +107,9 @@ public class ChooseDownloadQualityLayout {
                     min = NotificationCenter.messagePlayingProgressDidChanged;
                 }
                 str = min + "p";
+                if (qualityUri.original) {
+                    str = str + " (" + LocaleController.getString(R.string.QualitySource) + ")";
+                }
             }
             ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.buttonsLayout, 0, str, false, null);
             if (!TextUtils.isEmpty(str2)) {

@@ -10,12 +10,6 @@ import java.io.IOException;
 public interface HlsPlaylistTracker {
 
     /* loaded from: classes.dex */
-    public abstract /* synthetic */ class -CC {
-        public static void $default$deactivatePlaylistForPlayback(HlsPlaylistTracker hlsPlaylistTracker, Uri uri) {
-        }
-    }
-
-    /* loaded from: classes.dex */
     public interface Factory {
         HlsPlaylistTracker createTracker(HlsDataSourceFactory hlsDataSourceFactory, LoadErrorHandlingPolicy loadErrorHandlingPolicy, HlsPlaylistParserFactory hlsPlaylistParserFactory);
     }
@@ -51,8 +45,6 @@ public interface HlsPlaylistTracker {
     }
 
     void addListener(PlaylistEventListener playlistEventListener);
-
-    void deactivatePlaylistForPlayback(Uri uri);
 
     boolean excludeMediaPlaylist(Uri uri, long j);
 

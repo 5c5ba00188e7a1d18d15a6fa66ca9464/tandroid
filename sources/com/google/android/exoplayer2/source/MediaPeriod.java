@@ -13,7 +13,7 @@ public interface MediaPeriod extends SequenceableLoader {
     }
 
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
-    boolean continueLoading(LoadingInfo loadingInfo);
+    boolean continueLoading(long j);
 
     void discardBuffer(long j, boolean z);
 

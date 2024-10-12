@@ -68,7 +68,7 @@ public abstract class TrackSelectionUtil {
         int length = exoTrackSelection.length();
         int i = 0;
         for (int i2 = 0; i2 < length; i2++) {
-            if (exoTrackSelection.isTrackExcluded(i2, elapsedRealtime)) {
+            if (exoTrackSelection.isBlacklisted(i2, elapsedRealtime)) {
                 i++;
             }
         }

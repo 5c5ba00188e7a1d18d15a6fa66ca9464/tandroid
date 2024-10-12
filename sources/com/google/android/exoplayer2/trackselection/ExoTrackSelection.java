@@ -54,13 +54,13 @@ public interface ExoTrackSelection extends TrackSelection {
         ExoTrackSelection[] createTrackSelections(Definition[] definitionArr, BandwidthMeter bandwidthMeter, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline);
     }
 
+    boolean blacklist(int i, long j);
+
     void disable();
 
     void enable();
 
     int evaluateQueueSize(long j, List list);
-
-    boolean excludeTrack(int i, long j);
 
     Format getSelectedFormat();
 
@@ -72,7 +72,7 @@ public interface ExoTrackSelection extends TrackSelection {
 
     int getSelectionReason();
 
-    boolean isTrackExcluded(int i, long j);
+    boolean isBlacklisted(int i, long j);
 
     void onDiscontinuity();
 

@@ -285,6 +285,10 @@ public final class TsExtractor implements Extractor {
         this(i, new TimestampAdjuster(0L), new DefaultTsPayloadReaderFactory(i2), i3);
     }
 
+    public TsExtractor(int i, TimestampAdjuster timestampAdjuster, TsPayloadReader.Factory factory) {
+        this(i, timestampAdjuster, factory, 112800);
+    }
+
     public TsExtractor(int i, TimestampAdjuster timestampAdjuster, TsPayloadReader.Factory factory, int i2) {
         this.payloadReaderFactory = (TsPayloadReader.Factory) Assertions.checkNotNull(factory);
         this.timestampSearchBytes = i2;

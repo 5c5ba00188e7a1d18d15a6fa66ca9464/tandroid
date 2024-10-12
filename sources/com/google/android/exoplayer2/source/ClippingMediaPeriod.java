@@ -116,8 +116,8 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod, com.google.android.exoplayer2.source.SequenceableLoader
-    public boolean continueLoading(LoadingInfo loadingInfo) {
-        return this.mediaPeriod.continueLoading(loadingInfo);
+    public boolean continueLoading(long j) {
+        return this.mediaPeriod.continueLoading(j);
     }
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod

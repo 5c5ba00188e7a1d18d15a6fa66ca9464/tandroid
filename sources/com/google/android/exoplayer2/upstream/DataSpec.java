@@ -108,6 +108,10 @@ public final class DataSpec {
         ExoPlayerLibraryInfo.registerModule("goog.exo.datasource");
     }
 
+    public DataSpec(Uri uri) {
+        this(uri, 0L, -1L);
+    }
+
     private DataSpec(Uri uri, long j, int i, byte[] bArr, Map map, long j2, long j3, String str, int i2, Object obj) {
         byte[] bArr2 = bArr;
         long j4 = j + j2;
@@ -125,6 +129,10 @@ public final class DataSpec {
         this.key = str;
         this.flags = i2;
         this.customData = obj;
+    }
+
+    public DataSpec(Uri uri, long j, long j2) {
+        this(uri, 0L, 1, null, Collections.emptyMap(), j, j2, null, 0, null);
     }
 
     public static String getStringForHttpMethod(int i) {

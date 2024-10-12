@@ -33,7 +33,6 @@ import com.google.android.exoplayer2.source.dash.manifest.Representation;
 import com.google.android.exoplayer2.source.dash.manifest.ServiceDescriptionElement;
 import com.google.android.exoplayer2.source.dash.manifest.UtcTimingElement;
 import com.google.android.exoplayer2.upstream.Allocator;
-import com.google.android.exoplayer2.upstream.CmcdConfiguration;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
@@ -88,9 +87,8 @@ public final class DashMediaSource extends BaseMediaSource {
     private final ParsingLoadable.Parser manifestParser;
     private Uri manifestUri;
     private final Object manifestUriLock;
-    private MediaItem mediaItem;
+    private final MediaItem mediaItem;
     private TransferListener mediaTransferListener;
-    private final long minLiveStartPositionUs;
     private final SparseArray periodsById;
     private final PlayerEmsgHandler.PlayerEmsgCallback playerEmsgCallback;
     private final Runnable refreshManifestRunnable;
@@ -222,7 +220,6 @@ public final class DashMediaSource extends BaseMediaSource {
         private LoadErrorHandlingPolicy loadErrorHandlingPolicy;
         private final DataSource.Factory manifestDataSourceFactory;
         private ParsingLoadable.Parser manifestParser;
-        private long minLiveStartPositionUs;
 
         public Factory(DashChunkSource.Factory factory, DataSource.Factory factory2) {
             this.chunkSourceFactory = (DashChunkSource.Factory) Assertions.checkNotNull(factory);
@@ -230,7 +227,6 @@ public final class DashMediaSource extends BaseMediaSource {
             this.drmSessionManagerProvider = new DefaultDrmSessionManagerProvider();
             this.loadErrorHandlingPolicy = new DefaultLoadErrorHandlingPolicy();
             this.fallbackTargetLiveOffsetMs = 30000L;
-            this.minLiveStartPositionUs = 5000000L;
             this.compositeSequenceableLoaderFactory = new DefaultCompositeSequenceableLoaderFactory();
         }
 
@@ -246,7 +242,7 @@ public final class DashMediaSource extends BaseMediaSource {
                 parser = new DashManifestParser();
             }
             List list = mediaItem.localConfiguration.streamKeys;
-            return new DashMediaSource(mediaItem, null, this.manifestDataSourceFactory, !list.isEmpty() ? new FilteringManifestParser(parser, list) : parser, this.chunkSourceFactory, this.compositeSequenceableLoaderFactory, null, this.drmSessionManagerProvider.get(mediaItem), this.loadErrorHandlingPolicy, this.fallbackTargetLiveOffsetMs, this.minLiveStartPositionUs);
+            return new DashMediaSource(mediaItem, null, this.manifestDataSourceFactory, !list.isEmpty() ? new FilteringManifestParser(parser, list) : parser, this.chunkSourceFactory, this.compositeSequenceableLoaderFactory, this.drmSessionManagerProvider.get(mediaItem), this.loadErrorHandlingPolicy, this.fallbackTargetLiveOffsetMs);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSource.Factory
@@ -373,7 +369,7 @@ public final class DashMediaSource extends BaseMediaSource {
         ExoPlayerLibraryInfo.registerModule("goog.exo.dash");
     }
 
-    private DashMediaSource(MediaItem mediaItem, DashManifest dashManifest, DataSource.Factory factory, ParsingLoadable.Parser parser, DashChunkSource.Factory factory2, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, CmcdConfiguration cmcdConfiguration, DrmSessionManager drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, long j, long j2) {
+    private DashMediaSource(MediaItem mediaItem, DashManifest dashManifest, DataSource.Factory factory, ParsingLoadable.Parser parser, DashChunkSource.Factory factory2, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, DrmSessionManager drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, long j) {
         this.mediaItem = mediaItem;
         this.liveConfiguration = mediaItem.liveConfiguration;
         this.manifestUri = ((MediaItem.LocalConfiguration) Assertions.checkNotNull(mediaItem.localConfiguration)).uri;
@@ -385,7 +381,6 @@ public final class DashMediaSource extends BaseMediaSource {
         this.drmSessionManager = drmSessionManager;
         this.loadErrorHandlingPolicy = loadErrorHandlingPolicy;
         this.fallbackTargetLiveOffsetMs = j;
-        this.minLiveStartPositionUs = j2;
         this.compositeSequenceableLoaderFactory = compositeSequenceableLoaderFactory;
         this.baseUrlExclusionList = new BaseUrlExclusionList();
         boolean z = dashManifest != null;
@@ -417,7 +412,7 @@ public final class DashMediaSource extends BaseMediaSource {
         this.manifestCallback = null;
         this.refreshManifestRunnable = null;
         this.simulateManifestRefreshRunnable = null;
-        this.manifestLoadErrorThrower = new LoaderErrorThrower.Placeholder();
+        this.manifestLoadErrorThrower = new LoaderErrorThrower.Dummy();
     }
 
     private static long getAvailableEndTimeInManifestUs(Period period, long j, long j2) {
@@ -532,7 +527,6 @@ public final class DashMediaSource extends BaseMediaSource {
     /* JADX INFO: Access modifiers changed from: private */
     public void onUtcTimestampResolutionError(IOException iOException) {
         Log.e("DashMediaSource", "Failed to resolve time offset.", iOException);
-        this.elapsedRealtimeOffsetMs = System.currentTimeMillis() - SystemClock.elapsedRealtime();
         processManifest(true);
     }
 
@@ -574,7 +568,7 @@ public final class DashMediaSource extends BaseMediaSource {
             updateLiveConfiguration(msToUs2, j4);
             long usToMs = this.manifest.availabilityStartTimeMs + Util.usToMs(availableStartTimeInManifestUs);
             long msToUs3 = msToUs2 - Util.msToUs(this.liveConfiguration.targetOffsetMs);
-            long min = Math.min(this.minLiveStartPositionUs, j4 / 2);
+            long min = Math.min(5000000L, j4 / 2);
             if (msToUs3 < min) {
                 j2 = min;
                 j = usToMs;
@@ -590,7 +584,7 @@ public final class DashMediaSource extends BaseMediaSource {
         }
         long msToUs4 = availableStartTimeInManifestUs - Util.msToUs(period.startMs);
         DashManifest dashManifest2 = this.manifest;
-        refreshSourceInfo(new DashTimeline(dashManifest2.availabilityStartTimeMs, j, this.elapsedRealtimeOffsetMs, this.firstPeriodId, msToUs4, j4, j2, dashManifest2, getMediaItem(), this.manifest.dynamic ? this.liveConfiguration : null));
+        refreshSourceInfo(new DashTimeline(dashManifest2.availabilityStartTimeMs, j, this.elapsedRealtimeOffsetMs, this.firstPeriodId, msToUs4, j4, j2, dashManifest2, this.mediaItem, dashManifest2.dynamic ? this.liveConfiguration : null));
         if (this.sideloadedManifest) {
             return;
         }
@@ -678,23 +672,23 @@ public final class DashMediaSource extends BaseMediaSource {
         startLoading(new ParsingLoadable(this.dataSource, uri, 4, this.manifestParser), this.manifestCallback, this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(4));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x005b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x005d, code lost:
     
-        if (r2 != (-9223372036854775807L)) goto L26;
+        if (r1 != (-9223372036854775807L)) goto L26;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x0022, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:6:0x0020, code lost:
     
-        if (r2 != (-9223372036854775807L)) goto L9;
+        if (r1 != (-9223372036854775807L)) goto L9;
      */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0044  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0051  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0065  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x008f  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00b0  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00c3  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x00d3  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0042  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0053  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0067  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x008c  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00b6  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00c9  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x00d9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -708,9 +702,8 @@ public final class DashMediaSource extends BaseMediaSource {
         float f;
         float f2;
         ServiceDescriptionElement serviceDescriptionElement;
-        MediaItem.LiveConfiguration liveConfiguration = getMediaItem().liveConfiguration;
         long usToMs2 = Util.usToMs(j);
-        long j7 = liveConfiguration.maxOffsetMs;
+        long j7 = this.mediaItem.liveConfiguration.maxOffsetMs;
         if (j7 == -9223372036854775807L) {
             ServiceDescriptionElement serviceDescriptionElement2 = this.manifest.serviceDescription;
             if (serviceDescriptionElement2 != null) {
@@ -726,7 +719,7 @@ public final class DashMediaSource extends BaseMediaSource {
                 usToMs = Math.min(usToMs + j3, usToMs2);
             }
             j4 = usToMs;
-            j5 = liveConfiguration.minOffsetMs;
+            j5 = this.mediaItem.liveConfiguration.minOffsetMs;
             if (j5 == -9223372036854775807L) {
                 ServiceDescriptionElement serviceDescriptionElement3 = this.manifest.serviceDescription;
                 if (serviceDescriptionElement3 != null) {
@@ -754,8 +747,9 @@ public final class DashMediaSource extends BaseMediaSource {
                     j6 = j4;
                 }
                 if (j6 > min) {
-                    j6 = Util.constrainValue(Util.usToMs(j - Math.min(this.minLiveStartPositionUs, j2 / 2)), j4, min);
+                    j6 = Util.constrainValue(Util.usToMs(j - Math.min(5000000L, j2 / 2)), j4, min);
                 }
+                MediaItem.LiveConfiguration liveConfiguration = this.mediaItem.liveConfiguration;
                 f = liveConfiguration.minPlaybackSpeed;
                 if (f == -3.4028235E38f) {
                     ServiceDescriptionElement serviceDescriptionElement5 = this.manifest.serviceDescription;
@@ -782,10 +776,11 @@ public final class DashMediaSource extends BaseMediaSource {
             }
             if (j6 > min) {
             }
-            f = liveConfiguration.minPlaybackSpeed;
+            MediaItem.LiveConfiguration liveConfiguration2 = this.mediaItem.liveConfiguration;
+            f = liveConfiguration2.minPlaybackSpeed;
             if (f == -3.4028235E38f) {
             }
-            f2 = liveConfiguration.maxPlaybackSpeed;
+            f2 = liveConfiguration2.maxPlaybackSpeed;
             if (f2 == -3.4028235E38f) {
             }
             if (f == -3.4028235E38f) {
@@ -803,7 +798,7 @@ public final class DashMediaSource extends BaseMediaSource {
         if (j3 != -9223372036854775807L) {
         }
         j4 = usToMs;
-        j5 = liveConfiguration.minOffsetMs;
+        j5 = this.mediaItem.liveConfiguration.minOffsetMs;
         if (j5 == -9223372036854775807L) {
         }
         j4 = Util.constrainValue(j5, j4, usToMs2);
@@ -816,10 +811,11 @@ public final class DashMediaSource extends BaseMediaSource {
         }
         if (j6 > min) {
         }
-        f = liveConfiguration.minPlaybackSpeed;
+        MediaItem.LiveConfiguration liveConfiguration22 = this.mediaItem.liveConfiguration;
+        f = liveConfiguration22.minPlaybackSpeed;
         if (f == -3.4028235E38f) {
         }
-        f2 = liveConfiguration.maxPlaybackSpeed;
+        f2 = liveConfiguration22.maxPlaybackSpeed;
         if (f2 == -3.4028235E38f) {
         }
         if (f == -3.4028235E38f) {
@@ -830,14 +826,14 @@ public final class DashMediaSource extends BaseMediaSource {
     @Override // com.google.android.exoplayer2.source.MediaSource
     public MediaPeriod createPeriod(MediaSource.MediaPeriodId mediaPeriodId, Allocator allocator, long j) {
         int intValue = ((Integer) mediaPeriodId.periodUid).intValue() - this.firstPeriodId;
-        MediaSourceEventListener.EventDispatcher createEventDispatcher = createEventDispatcher(mediaPeriodId);
-        DashMediaPeriod dashMediaPeriod = new DashMediaPeriod(intValue + this.firstPeriodId, this.manifest, this.baseUrlExclusionList, intValue, this.chunkSourceFactory, this.mediaTransferListener, null, this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadErrorHandlingPolicy, createEventDispatcher, this.elapsedRealtimeOffsetMs, this.manifestLoadErrorThrower, allocator, this.compositeSequenceableLoaderFactory, this.playerEmsgCallback, getPlayerId());
+        MediaSourceEventListener.EventDispatcher createEventDispatcher = createEventDispatcher(mediaPeriodId, this.manifest.getPeriod(intValue).startMs);
+        DashMediaPeriod dashMediaPeriod = new DashMediaPeriod(intValue + this.firstPeriodId, this.manifest, this.baseUrlExclusionList, intValue, this.chunkSourceFactory, this.mediaTransferListener, this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadErrorHandlingPolicy, createEventDispatcher, this.elapsedRealtimeOffsetMs, this.manifestLoadErrorThrower, allocator, this.compositeSequenceableLoaderFactory, this.playerEmsgCallback, getPlayerId());
         this.periodsById.put(dashMediaPeriod.id, dashMediaPeriod);
         return dashMediaPeriod;
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource
-    public synchronized MediaItem getMediaItem() {
+    public MediaItem getMediaItem() {
         return this.mediaItem;
     }
 
@@ -901,7 +897,6 @@ public final class DashMediaSource extends BaseMediaSource {
         this.manifestLoadPending = dashManifest.dynamic & this.manifestLoadPending;
         this.manifestLoadStartTimestampMs = j - j2;
         this.manifestLoadEndTimestampMs = j;
-        this.firstPeriodId += i;
         synchronized (this.manifestUriLock) {
             try {
                 if (parsingLoadable.dataSpec.uri == this.manifestUri) {
@@ -915,17 +910,22 @@ public final class DashMediaSource extends BaseMediaSource {
                 throw th;
             }
         }
-        DashManifest dashManifest3 = this.manifest;
-        if (!dashManifest3.dynamic || this.elapsedRealtimeOffsetMs != -9223372036854775807L) {
-            processManifest(true);
-            return;
-        }
-        UtcTimingElement utcTimingElement = dashManifest3.utcTiming;
-        if (utcTimingElement != null) {
-            resolveUtcTimingElement(utcTimingElement);
+        if (periodCount == 0) {
+            DashManifest dashManifest3 = this.manifest;
+            if (dashManifest3.dynamic) {
+                UtcTimingElement utcTimingElement = dashManifest3.utcTiming;
+                if (utcTimingElement != null) {
+                    resolveUtcTimingElement(utcTimingElement);
+                    return;
+                } else {
+                    loadNtpTimeOffset();
+                    return;
+                }
+            }
         } else {
-            loadNtpTimeOffset();
+            this.firstPeriodId += i;
         }
+        processManifest(true);
     }
 
     Loader.LoadErrorAction onManifestLoadError(ParsingLoadable parsingLoadable, long j, long j2, IOException iOException, int i) {
@@ -957,8 +957,8 @@ public final class DashMediaSource extends BaseMediaSource {
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
     protected void prepareSourceInternal(TransferListener transferListener) {
         this.mediaTransferListener = transferListener;
-        this.drmSessionManager.setPlayer(Looper.myLooper(), getPlayerId());
         this.drmSessionManager.prepare();
+        this.drmSessionManager.setPlayer(Looper.myLooper(), getPlayerId());
         if (this.sideloadedManifest) {
             processManifest(false);
             return;
@@ -987,6 +987,7 @@ public final class DashMediaSource extends BaseMediaSource {
         }
         this.manifestLoadStartTimestampMs = 0L;
         this.manifestLoadEndTimestampMs = 0L;
+        this.manifest = this.sideloadedManifest ? this.manifest : null;
         this.manifestUri = this.initialManifestUri;
         this.manifestFatalError = null;
         Handler handler = this.handler;
@@ -997,6 +998,7 @@ public final class DashMediaSource extends BaseMediaSource {
         this.elapsedRealtimeOffsetMs = -9223372036854775807L;
         this.staleManifestReloadAttempt = 0;
         this.expiredManifestPublishTimeUs = -9223372036854775807L;
+        this.firstPeriodId = 0;
         this.periodsById.clear();
         this.baseUrlExclusionList.reset();
         this.drmSessionManager.release();

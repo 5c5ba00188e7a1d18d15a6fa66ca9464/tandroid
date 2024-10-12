@@ -24,7 +24,6 @@ import com.google.android.exoplayer2.source.smoothstreaming.SsChunkSource;
 import com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifest;
 import com.google.android.exoplayer2.source.smoothstreaming.manifest.SsManifestParser;
 import com.google.android.exoplayer2.upstream.Allocator;
-import com.google.android.exoplayer2.upstream.CmcdConfiguration;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
@@ -45,6 +44,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
     private final DrmSessionManager drmSessionManager;
     private final long livePresentationDelayMs;
     private final LoadErrorHandlingPolicy loadErrorHandlingPolicy;
+    private final MediaItem.LocalConfiguration localConfiguration;
     private SsManifest manifest;
     private DataSource manifestDataSource;
     private final DataSource.Factory manifestDataSourceFactory;
@@ -55,7 +55,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
     private final ParsingLoadable.Parser manifestParser;
     private Handler manifestRefreshHandler;
     private final Uri manifestUri;
-    private MediaItem mediaItem;
+    private final MediaItem mediaItem;
     private final ArrayList mediaPeriods;
     private TransferListener mediaTransferListener;
     private final boolean sideloadedManifest;
@@ -91,7 +91,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
                 parser = new SsManifestParser();
             }
             List list = mediaItem.localConfiguration.streamKeys;
-            return new SsMediaSource(mediaItem, null, this.manifestDataSourceFactory, !list.isEmpty() ? new FilteringManifestParser(parser, list) : parser, this.chunkSourceFactory, this.compositeSequenceableLoaderFactory, null, this.drmSessionManagerProvider.get(mediaItem), this.loadErrorHandlingPolicy, this.livePresentationDelayMs);
+            return new SsMediaSource(mediaItem, null, this.manifestDataSourceFactory, !list.isEmpty() ? new FilteringManifestParser(parser, list) : parser, this.chunkSourceFactory, this.compositeSequenceableLoaderFactory, this.drmSessionManagerProvider.get(mediaItem), this.loadErrorHandlingPolicy, this.livePresentationDelayMs);
         }
 
         @Override // com.google.android.exoplayer2.source.MediaSource.Factory
@@ -111,10 +111,11 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
         ExoPlayerLibraryInfo.registerModule("goog.exo.smoothstreaming");
     }
 
-    private SsMediaSource(MediaItem mediaItem, SsManifest ssManifest, DataSource.Factory factory, ParsingLoadable.Parser parser, SsChunkSource.Factory factory2, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, CmcdConfiguration cmcdConfiguration, DrmSessionManager drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, long j) {
+    private SsMediaSource(MediaItem mediaItem, SsManifest ssManifest, DataSource.Factory factory, ParsingLoadable.Parser parser, SsChunkSource.Factory factory2, CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory, DrmSessionManager drmSessionManager, LoadErrorHandlingPolicy loadErrorHandlingPolicy, long j) {
         Assertions.checkState(ssManifest == null || !ssManifest.isLive);
         this.mediaItem = mediaItem;
         MediaItem.LocalConfiguration localConfiguration = (MediaItem.LocalConfiguration) Assertions.checkNotNull(mediaItem.localConfiguration);
+        this.localConfiguration = localConfiguration;
         this.manifest = ssManifest;
         this.manifestUri = localConfiguration.uri.equals(Uri.EMPTY) ? null : Util.fixSmoothStreamingIsmManifestUri(localConfiguration.uri);
         this.manifestDataSourceFactory = factory;
@@ -146,7 +147,7 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
             long j3 = this.manifest.isLive ? -9223372036854775807L : 0L;
             SsManifest ssManifest = this.manifest;
             boolean z = ssManifest.isLive;
-            singlePeriodTimeline = new SinglePeriodTimeline(j3, 0L, 0L, 0L, true, z, z, ssManifest, getMediaItem());
+            singlePeriodTimeline = new SinglePeriodTimeline(j3, 0L, 0L, 0L, true, z, z, ssManifest, this.mediaItem);
         } else {
             SsManifest ssManifest2 = this.manifest;
             if (ssManifest2.isLive) {
@@ -160,11 +161,11 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
                 if (msToUs < 5000000) {
                     msToUs = Math.min(5000000L, j6 / 2);
                 }
-                singlePeriodTimeline = new SinglePeriodTimeline(-9223372036854775807L, j6, j5, msToUs, true, true, true, this.manifest, getMediaItem());
+                singlePeriodTimeline = new SinglePeriodTimeline(-9223372036854775807L, j6, j5, msToUs, true, true, true, this.manifest, this.mediaItem);
             } else {
                 long j7 = ssManifest2.durationUs;
                 long j8 = j7 != -9223372036854775807L ? j7 : j - j2;
-                singlePeriodTimeline = new SinglePeriodTimeline(j2 + j8, j8, j2, 0L, true, false, false, this.manifest, getMediaItem());
+                singlePeriodTimeline = new SinglePeriodTimeline(j2 + j8, j8, j2, 0L, true, false, false, this.manifest, this.mediaItem);
             }
         }
         refreshSourceInfo(singlePeriodTimeline);
@@ -193,13 +194,13 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
     @Override // com.google.android.exoplayer2.source.MediaSource
     public MediaPeriod createPeriod(MediaSource.MediaPeriodId mediaPeriodId, Allocator allocator, long j) {
         MediaSourceEventListener.EventDispatcher createEventDispatcher = createEventDispatcher(mediaPeriodId);
-        SsMediaPeriod ssMediaPeriod = new SsMediaPeriod(this.manifest, this.chunkSourceFactory, this.mediaTransferListener, this.compositeSequenceableLoaderFactory, null, this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadErrorHandlingPolicy, createEventDispatcher, this.manifestLoaderErrorThrower, allocator);
+        SsMediaPeriod ssMediaPeriod = new SsMediaPeriod(this.manifest, this.chunkSourceFactory, this.mediaTransferListener, this.compositeSequenceableLoaderFactory, this.drmSessionManager, createDrmEventDispatcher(mediaPeriodId), this.loadErrorHandlingPolicy, createEventDispatcher, this.manifestLoaderErrorThrower, allocator);
         this.mediaPeriods.add(ssMediaPeriod);
         return ssMediaPeriod;
     }
 
     @Override // com.google.android.exoplayer2.source.MediaSource
-    public synchronized MediaItem getMediaItem() {
+    public MediaItem getMediaItem() {
         return this.mediaItem;
     }
 
@@ -242,10 +243,10 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
     protected void prepareSourceInternal(TransferListener transferListener) {
         this.mediaTransferListener = transferListener;
-        this.drmSessionManager.setPlayer(Looper.myLooper(), getPlayerId());
         this.drmSessionManager.prepare();
+        this.drmSessionManager.setPlayer(Looper.myLooper(), getPlayerId());
         if (this.sideloadedManifest) {
-            this.manifestLoaderErrorThrower = new LoaderErrorThrower.Placeholder();
+            this.manifestLoaderErrorThrower = new LoaderErrorThrower.Dummy();
             processManifest();
             return;
         }
