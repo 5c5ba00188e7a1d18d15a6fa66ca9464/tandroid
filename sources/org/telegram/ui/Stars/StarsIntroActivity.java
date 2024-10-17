@@ -4689,12 +4689,12 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         return bottomSheetArr[0];
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0323  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x035c  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x03b8  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x03b3  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x02f8  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x02f6  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x032a  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0363  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x03bf  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x03ba  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x02ff  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4779,23 +4779,26 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         final int max = Math.max(1, i2 / 86400);
         TableView tableView3 = new TableView(context3, resourcesProvider);
         final long clientUserId = UserConfig.getInstance(i).getClientUserId();
-        final long j3 = ((userStarGift.flags & 2) == 0 || userStarGift.name_hidden) ? UserObject.ANONYMOUS : userStarGift.from_id;
+        long j3 = ((userStarGift.flags & 2) == 0 || userStarGift.name_hidden) ? 2666000L : userStarGift.from_id;
         final TLRPC.User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(j3));
+        final long j4 = j3;
+        final long j5 = j3;
         tableView3.addRowUser(LocaleController.getString(R.string.Gift2From), i, j3, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda57
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showGiftSheet$87(bottomSheetArr, j3, userStarGift, clientUserId);
+                StarsIntroActivity.lambda$showGiftSheet$87(bottomSheetArr, j4, userStarGift, clientUserId);
             }
-        }, j3 != clientUserId ? LocaleController.getString(R.string.Gift2ButtonSendGift) : null, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda58
+        }, (j3 == clientUserId || j3 == UserObject.ANONYMOUS) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda58
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showGiftSheet$88(context, i, j3, bottomSheetArr);
+                StarsIntroActivity.lambda$showGiftSheet$88(context, i, j5, bottomSheetArr);
             }
         });
         tableView3.addRow(LocaleController.getString(R.string.StarsTransactionDate), LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(userStarGift.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(userStarGift.date * 1000))));
         if (z) {
             int i5 = userStarGift.flags;
             if ((i5 & 8) != 0 && (i5 & 2) != 0 && i2 > 0) {
+                final long j6 = j3;
                 starGift = starGift3;
                 tableView = tableView3;
                 f = 0.8f;
@@ -4803,7 +4806,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda59
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StarsIntroActivity.lambda$showGiftSheet$93(context, resourcesProvider, max, user2, j3, userStarGift, i, bottomSheetArr, j, clientUserId);
+                        StarsIntroActivity.lambda$showGiftSheet$93(context, resourcesProvider, max, user2, j6, userStarGift, i, bottomSheetArr, j, clientUserId);
                     }
                 };
                 String string = LocaleController.getString(R.string.Gift2Value);

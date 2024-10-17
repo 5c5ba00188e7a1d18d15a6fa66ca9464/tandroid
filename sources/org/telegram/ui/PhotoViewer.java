@@ -11081,7 +11081,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     if (messageObject2.isVideo()) {
                         messageObject = messageObject2;
-                        z4 = SharedConfig.streamMedia && messageObject2.canStreamVideo() && !DialogObject.isEncryptedDialog(messageObject2.getDialogId());
+                        z4 = (SharedConfig.streamMedia && messageObject2.canStreamVideo() && !DialogObject.isEncryptedDialog(messageObject2.getDialogId())) || messageObject2.hasVideoQualities();
                         z3 = true;
                     } else {
                         messageObject = messageObject2;
@@ -16428,21 +16428,21 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         return (editState3.cropState == null && arrayList == null && str == null && editState3.savedFilterState == null && this.sendPhotoType != 1) ? false : true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:106:0x00e7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:108:0x00ef, code lost:
     
-        if (r0.exists() == false) goto L188;
+        if (r0.exists() == false) goto L192;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:110:0x0126, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:112:0x012e, code lost:
     
-        if (r0.exists() == false) goto L188;
+        if (r0.exists() == false) goto L192;
      */
     /* JADX WARN: Code restructure failed: missing block: B:20:0x003c, code lost:
     
-        if (r0.exists() == false) goto L157;
+        if (r0.exists() == false) goto L159;
      */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0190 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x019a A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x028c  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0198 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x01a2 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0294  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -16482,7 +16482,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     file2 = FileLoader.getInstance(this.currentAccount).getPathToMessage(this.currentMessageObject.messageOwner);
                 }
                 if (file2 == null || !file2.exists()) {
-                    if (SharedConfig.streamMedia && !DialogObject.isEncryptedDialog(this.currentMessageObject.getDialogId()) && this.currentMessageObject.isVideo() && this.currentMessageObject.canStreamVideo()) {
+                    if (this.currentMessageObject.isVideo() && ((this.currentMessageObject.hasVideoQualities() || SharedConfig.streamMedia) && !DialogObject.isEncryptedDialog(this.currentMessageObject.getDialogId()) && this.currentMessageObject.canStreamVideo())) {
                         int fileReference = FileLoader.getInstance(this.currentMessageObject.currentAccount).getFileReference(this.currentMessageObject);
                         arrayList = new ArrayList();
                         arrayList.addAll(VideoPlayer.getQualities(this.currentAccount, document3, arrayList2, fileReference, false));
@@ -24144,7 +24144,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public boolean shouldMessageObjectAutoPlayed(MessageObject messageObject) {
-        return messageObject != null && messageObject.isVideo() && (messageObject.mediaExists || messageObject.attachPathExists || (messageObject.canStreamVideo() && SharedConfig.streamMedia)) && SharedConfig.isAutoplayVideo();
+        return messageObject != null && messageObject.isVideo() && (messageObject.mediaExists || messageObject.attachPathExists || messageObject.hasVideoQualities() || (messageObject.canStreamVideo() && SharedConfig.streamMedia)) && SharedConfig.isAutoplayVideo();
     }
 
     public void showDownloadAlert() {
