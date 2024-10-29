@@ -2574,7 +2574,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
                 if (i2 == -1) {
-                    NotificationsCustomSettingsActivity.this.lambda$onBackPressed$300();
+                    NotificationsCustomSettingsActivity.this.lambda$onBackPressed$319();
                 }
             }
         });

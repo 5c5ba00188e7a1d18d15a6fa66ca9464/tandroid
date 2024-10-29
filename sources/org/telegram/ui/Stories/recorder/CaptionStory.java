@@ -685,7 +685,7 @@ public abstract class CaptionStory extends CaptionContainerView {
             if (paint3 != null) {
                 paint = paint3;
                 f = f7;
-                canvas.saveLayerAlpha(rectF.left, rectF.top, rectF.right, rectF.bottom, NotificationCenter.closeSearchByActiveAction, 31);
+                canvas.saveLayerAlpha(rectF.left, rectF.top, rectF.right, rectF.bottom, NotificationCenter.playerDidStartPlaying, 31);
             } else {
                 paint = paint3;
                 f = f7;

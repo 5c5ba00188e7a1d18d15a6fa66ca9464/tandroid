@@ -3384,7 +3384,7 @@ public class ContactsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:109:0x0565  */
     /* JADX WARN: Removed duplicated region for block: B:111:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:112:0x0557 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r0v36, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r0v36, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r0v50 */
     /* JADX WARN: Type inference failed for: r0v56 */
     /* JADX WARN: Type inference failed for: r15v1, types: [java.lang.CharSequence, java.lang.Object, java.lang.String] */
@@ -3395,7 +3395,7 @@ public class ContactsController extends BaseController {
     /* JADX WARN: Type inference failed for: r4v30, types: [android.database.Cursor] */
     /* JADX WARN: Type inference failed for: r5v1 */
     /* JADX WARN: Type inference failed for: r5v12 */
-    /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v2, types: [int, boolean] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

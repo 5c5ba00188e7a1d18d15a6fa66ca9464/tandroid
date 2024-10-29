@@ -563,20 +563,20 @@ public class UndoView extends FrameLayout {
         showWithAction(j, i, (Object) null, (Object) null, runnable, runnable2);
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:528:0x0e72. Please report as an issue. */
-    /* JADX WARN: Removed duplicated region for block: B:319:0x0617  */
-    /* JADX WARN: Removed duplicated region for block: B:325:0x0630  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0799  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x07c5  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x162a  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x1651  */
-    /* JADX WARN: Removed duplicated region for block: B:484:0x0dfe  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x173c  */
-    /* JADX WARN: Removed duplicated region for block: B:576:0x160a  */
+    /* JADX WARN: Failed to find 'out' block for switch in B:531:0x0e79. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:322:0x061e  */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x0637  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x07a0  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x07cc  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x1631  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x1658  */
+    /* JADX WARN: Removed duplicated region for block: B:487:0x0e05  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x1743  */
+    /* JADX WARN: Removed duplicated region for block: B:579:0x1611  */
     /* JADX WARN: Removed duplicated region for block: B:67:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x1697  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x0806  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x07be  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x169e  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x080d  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x07c5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -735,16 +735,25 @@ public class UndoView extends FrameLayout {
                         if (obj instanceof TLRPC.User) {
                             TLRPC.User user2 = (TLRPC.User) obj;
                             formatString9 = ChatObject.isChannelOrGiga(chat) ? LocaleController.formatString("VoipChannelUserJoined", R.string.VoipChannelUserJoined, UserObject.getFirstName(user2)) : LocaleController.formatString("VoipChatUserJoined", R.string.VoipChatUserJoined, UserObject.getFirstName(user2));
-                        } else {
+                        } else if (obj instanceof TLRPC.Chat) {
                             TLRPC.Chat chat2 = (TLRPC.Chat) obj;
                             formatString9 = ChatObject.isChannelOrGiga(chat) ? LocaleController.formatString("VoipChannelChatJoined", R.string.VoipChannelChatJoined, chat2.title) : LocaleController.formatString("VoipChatChatJoined", R.string.VoipChatChatJoined, chat2.title);
+                        } else {
+                            replaceTags2 = "";
+                            AvatarDrawable avatarDrawable2 = new AvatarDrawable();
+                            avatarDrawable2.setTextSize(AndroidUtilities.dp(12.0f));
+                            TLObject tLObject = (TLObject) obj;
+                            avatarDrawable2.setInfo(this.currentAccount, tLObject);
+                            this.avatarImageView.setForUserOrChat(tLObject, avatarDrawable2);
+                            this.avatarImageView.setVisibility(0);
+                            this.timeLeft = 3000L;
                         }
                         replaceTags2 = AndroidUtilities.replaceTags(formatString9);
-                        AvatarDrawable avatarDrawable2 = new AvatarDrawable();
-                        avatarDrawable2.setTextSize(AndroidUtilities.dp(12.0f));
-                        TLObject tLObject = (TLObject) obj;
-                        avatarDrawable2.setInfo(this.currentAccount, tLObject);
-                        this.avatarImageView.setForUserOrChat(tLObject, avatarDrawable2);
+                        AvatarDrawable avatarDrawable22 = new AvatarDrawable();
+                        avatarDrawable22.setTextSize(AndroidUtilities.dp(12.0f));
+                        TLObject tLObject2 = (TLObject) obj;
+                        avatarDrawable22.setInfo(this.currentAccount, tLObject2);
+                        this.avatarImageView.setForUserOrChat(tLObject2, avatarDrawable22);
                         this.avatarImageView.setVisibility(0);
                         this.timeLeft = 3000L;
                     } else if (i == 37) {

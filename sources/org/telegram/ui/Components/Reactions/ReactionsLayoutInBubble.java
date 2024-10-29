@@ -89,6 +89,7 @@ public class ReactionsLayoutInBubble {
     public int positionOffsetY;
     boolean pressed;
     Theme.ResourcesProvider resourcesProvider;
+    private boolean scrimDirection;
     private float scrimProgress;
     private Integer scrimViewReaction;
     public boolean tags;
@@ -193,6 +194,7 @@ public class ReactionsLayoutInBubble {
         public int lastDrawnTagDotColor;
         public int lastDrawnTextColor;
         public boolean lastImageDrawn;
+        private boolean lastScrimProgressDirection;
         public String name;
         public boolean paid;
         private final View parentView;
@@ -203,6 +205,7 @@ public class ReactionsLayoutInBubble {
         private final TLRPC.ReactionCount reactionCount;
         public int realCount;
         private final Theme.ResourcesProvider resourcesProvider;
+        public AnimatedTextView.AnimatedTextDrawable scrimPreviewCounterDrawable;
         int serviceBackgroundColor;
         int serviceTextColor;
         int textColor;
@@ -244,6 +247,15 @@ public class ReactionsLayoutInBubble {
                 this.textDrawable.setCallback(view);
                 this.textDrawable.setTypeface(AndroidUtilities.bold());
                 this.textDrawable.setOverrideFullWidth(AndroidUtilities.displaySize.x);
+            }
+            if (this.scrimPreviewCounterDrawable == null) {
+                AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = new AnimatedTextView.AnimatedTextDrawable(false, false, false, true);
+                this.scrimPreviewCounterDrawable = animatedTextDrawable2;
+                animatedTextDrawable2.setTextSize(AndroidUtilities.dp(12.0f));
+                this.scrimPreviewCounterDrawable.setCallback(view);
+                this.scrimPreviewCounterDrawable.setTypeface(AndroidUtilities.bold());
+                this.scrimPreviewCounterDrawable.setOverrideFullWidth(AndroidUtilities.displaySize.x);
+                this.scrimPreviewCounterDrawable.setScaleProperty(0.35f);
             }
             this.reactionCount = reactionCount;
             TLRPC.Reaction reaction = reactionCount.reaction;
@@ -301,8 +313,8 @@ public class ReactionsLayoutInBubble {
                 this.hasName = !TextUtils.isEmpty(r1);
             }
             if (this.hasName) {
-                AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.textDrawable;
-                animatedTextDrawable2.setText(Emoji.replaceEmoji(this.name, animatedTextDrawable2.getPaint().getFontMetricsInt(), false), !LocaleController.isRTL);
+                AnimatedTextView.AnimatedTextDrawable animatedTextDrawable3 = this.textDrawable;
+                animatedTextDrawable3.setText(Emoji.replaceEmoji(this.name, animatedTextDrawable3.getPaint().getFontMetricsInt(), false), !LocaleController.isRTL);
                 if (!drawTextWithCounter()) {
                     this.countText = "";
                     this.counterDrawable.setCount(0, false);
@@ -310,9 +322,9 @@ public class ReactionsLayoutInBubble {
                     this.counterDrawable.gravity = 3;
                 }
             } else {
-                AnimatedTextView.AnimatedTextDrawable animatedTextDrawable3 = this.textDrawable;
-                if (animatedTextDrawable3 != null) {
-                    animatedTextDrawable3.setText("", false);
+                AnimatedTextView.AnimatedTextDrawable animatedTextDrawable4 = this.textDrawable;
+                if (animatedTextDrawable4 != null) {
+                    animatedTextDrawable4.setText("", false);
                 }
             }
             this.countText = Integer.toString(reactionCount.count);
@@ -470,23 +482,23 @@ public class ReactionsLayoutInBubble {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:108:0x03af  */
-        /* JADX WARN: Removed duplicated region for block: B:110:0x03b7  */
-        /* JADX WARN: Removed duplicated region for block: B:113:0x0393  */
-        /* JADX WARN: Removed duplicated region for block: B:121:0x03fb  */
-        /* JADX WARN: Removed duplicated region for block: B:123:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:133:0x04f5  */
+        /* JADX WARN: Removed duplicated region for block: B:135:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void draw(Canvas canvas, float f, float f2, float f3, float f4, boolean z) {
-            float f5;
+        public void draw(Canvas canvas, float f, float f2, float f3, float f4, boolean z, boolean z2, float f5) {
+            boolean z3;
             float f6;
             float f7;
+            float f8;
+            float f9;
+            int dp;
             int i;
-            int i2;
             Paint paint;
             Theme.MessageDrawable currentBackgroundDrawable;
-            boolean z2 = true;
+            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable;
+            String formatWholeNumber;
             this.wasDrawn = true;
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
@@ -524,12 +536,12 @@ public class ReactionsLayoutInBubble {
             }
             updateColors(f3);
             ReactionsLayoutInBubble.textPaint.setColor(this.lastDrawnTextColor);
-            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.textDrawable;
-            if (animatedTextDrawable != null) {
-                animatedTextDrawable.setTextColor(this.lastDrawnTextColor);
+            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.textDrawable;
+            if (animatedTextDrawable2 != null) {
+                animatedTextDrawable2.setTextColor(this.lastDrawnTextColor);
             }
             ReactionsLayoutInBubble.paint.setColor(this.lastDrawnBackgroundColor);
-            boolean z3 = this.isTag && drawTagDot() && Color.alpha(this.lastDrawnTagDotColor) == 0;
+            boolean z4 = this.isTag && drawTagDot() && Color.alpha(this.lastDrawnTagDotColor) == 0;
             if (f4 != 1.0f) {
                 ReactionsLayoutInBubble.textPaint.setAlpha((int) (ReactionsLayoutInBubble.textPaint.getAlpha() * f4));
                 ReactionsLayoutInBubble.paint.setAlpha((int) (ReactionsLayoutInBubble.paint.getAlpha() * f4));
@@ -537,21 +549,39 @@ public class ReactionsLayoutInBubble {
             if (imageReceiver != null) {
                 imageReceiver.setAlpha(f4);
             }
+            if (this.lastScrimProgressDirection != z2) {
+                if (z2) {
+                    this.scrimPreviewCounterDrawable.setAnimationProperties(0.6f, 0L, 650L, 1.6f, CubicBezierInterpolator.EASE_OUT_BACK);
+                    this.scrimPreviewCounterDrawable.setText(AndroidUtilities.formatWholeNumber(this.count, 0), false);
+                    animatedTextDrawable = this.scrimPreviewCounterDrawable;
+                    formatWholeNumber = LocaleController.formatNumber(this.count, ',');
+                } else {
+                    this.scrimPreviewCounterDrawable.setAnimationProperties(0.6f, 0L, 320L, 1.6f, CubicBezierInterpolator.EASE_OUT_QUINT);
+                    animatedTextDrawable = this.scrimPreviewCounterDrawable;
+                    formatWholeNumber = AndroidUtilities.formatWholeNumber(this.count, 0);
+                }
+                animatedTextDrawable.setText(formatWholeNumber, true);
+                this.lastScrimProgressDirection = z2;
+            }
             float scale = this.bounce.getScale(0.1f);
-            int i3 = this.width;
-            if (f3 != 1.0f && this.animationType == 3) {
-                i3 = (int) ((i3 * f3) + (this.animateFromWidth * (1.0f - f3)));
+            int i2 = this.width;
+            if (f5 > 0.0f && !this.isTag && this.scrimPreviewCounterDrawable != null && this.avatarsDrawable == null) {
+                i2 = (int) (AndroidUtilities.dp(8.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(this.animatedEmojiDrawable != null ? 6.0f : 4.0f) + this.scrimPreviewCounterDrawable.getCurrentWidth() + AndroidUtilities.dp(8.0f));
+                this.scrimPreviewCounterDrawable.setTextColor(this.lastDrawnTextColor);
+            } else if (f3 != 1.0f && this.animationType == 3) {
+                i2 = (int) ((i2 * f3) + (this.animateFromWidth * (1.0f - f3)));
             }
             RectF rectF = AndroidUtilities.rectTmp;
-            float f8 = i3;
-            rectF.set(f, f2, f + f8, this.height + f2);
+            float f10 = i2;
+            rectF.set(f, f2, f + f10, this.height + f2);
             if (scale != 1.0f) {
                 canvas.save();
-                canvas.scale(scale, scale, (f8 / 2.0f) + f, (this.height / 2.0f) + f2);
+                canvas.scale(scale, scale, (f10 / 2.0f) + f, (this.height / 2.0f) + f2);
+                z3 = true;
             } else {
-                z2 = false;
+                z3 = false;
             }
-            float f9 = this.height / 2.0f;
+            float f11 = this.height / 2.0f;
             if (getDrawServiceShaderBackground() > 0.0f) {
                 Paint themePaint = Theme.getThemePaint("paintChatActionBackground", this.resourcesProvider);
                 Paint themePaint2 = Theme.getThemePaint("paintChatActionBackgroundDarken", this.resourcesProvider);
@@ -559,10 +589,10 @@ public class ReactionsLayoutInBubble {
                 int alpha2 = themePaint2.getAlpha();
                 themePaint.setAlpha((int) (alpha * f4 * getDrawServiceShaderBackground()));
                 themePaint2.setAlpha((int) (alpha2 * f4 * getDrawServiceShaderBackground()));
-                drawRoundRect(canvas, rectF, f9, themePaint);
+                drawRoundRect(canvas, rectF, f11, themePaint);
                 Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
                 if (resourcesProvider == null ? Theme.hasGradientService() : resourcesProvider.hasGradientService()) {
-                    drawRoundRect(canvas, rectF, f9, themePaint2);
+                    drawRoundRect(canvas, rectF, f11, themePaint2);
                 }
                 themePaint.setAlpha(alpha);
                 themePaint2.setAlpha(alpha2);
@@ -570,20 +600,20 @@ public class ReactionsLayoutInBubble {
             if (z && getDrawServiceShaderBackground() < 1.0f) {
                 View view = this.parentView;
                 if ((view instanceof ChatMessageCell) && (currentBackgroundDrawable = ((ChatMessageCell) view).getCurrentBackgroundDrawable(false)) != null && !this.isTag) {
-                    canvas.drawRoundRect(rectF, f9, f9, currentBackgroundDrawable.getPaint());
+                    canvas.drawRoundRect(rectF, f11, f11, currentBackgroundDrawable.getPaint());
                 }
             }
-            if (z3) {
+            if (z4) {
                 rectF.right += AndroidUtilities.dp(4.0f);
-                canvas.saveLayerAlpha(rectF, NotificationCenter.closeSearchByActiveAction, 31);
+                canvas.saveLayerAlpha(rectF, NotificationCenter.playerDidStartPlaying, 31);
                 rectF.right -= AndroidUtilities.dp(4.0f);
             }
             if (this.particles != null) {
                 LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
             }
-            drawRoundRect(canvas, rectF, f9, ReactionsLayoutInBubble.paint);
+            drawRoundRect(canvas, rectF, f11, ReactionsLayoutInBubble.paint);
             if (this.isTag && drawTagDot()) {
-                if (z3) {
+                if (z4) {
                     paint = ReactionsLayoutInBubble.cutTagPaint;
                 } else {
                     ReactionsLayoutInBubble.tagPaint.setColor(this.lastDrawnTagDotColor);
@@ -592,88 +622,86 @@ public class ReactionsLayoutInBubble {
                 }
                 canvas.drawCircle(rectF.right - AndroidUtilities.dp(8.4f), rectF.centerY(), AndroidUtilities.dp(2.66f), paint);
             }
-            if (z3) {
+            if (z4) {
                 canvas.restore();
             }
             if (imageReceiver != null) {
                 if (this.paid) {
-                    i = AndroidUtilities.dp(22.0f);
-                    i2 = AndroidUtilities.dp(4.0f);
+                    dp = AndroidUtilities.dp(22.0f);
+                    i = AndroidUtilities.dp(4.0f);
                 } else if (this.animatedEmojiDrawable != null) {
-                    int dp = AndroidUtilities.dp(24.0f);
+                    dp = AndroidUtilities.dp(24.0f);
                     int dp2 = AndroidUtilities.dp(6.0f);
                     imageReceiver.setRoundRadius(AndroidUtilities.dp(6.0f));
-                    i = dp;
-                    i2 = dp2;
+                    i = dp2;
                 } else {
-                    int dp3 = AndroidUtilities.dp(20.0f);
-                    int dp4 = AndroidUtilities.dp(8.0f);
+                    dp = AndroidUtilities.dp(20.0f);
+                    int dp3 = AndroidUtilities.dp(8.0f);
                     imageReceiver.setRoundRadius(0);
                     i = dp3;
-                    i2 = dp4;
                 }
-                int i4 = (int) ((this.height - i) / 2.0f);
+                int i3 = (int) ((this.height - dp) / 2.0f);
                 if (this.isTag) {
-                    i2 -= AndroidUtilities.dp(2.0f);
+                    i -= AndroidUtilities.dp(2.0f);
                 }
-                int i5 = ((int) f) + i2;
-                int i6 = ((int) f2) + i4;
-                this.drawingImageRect.set(i5, i6, i5 + i, i + i6);
+                int i4 = ((int) f) + i;
+                int i5 = ((int) f2) + i3;
+                this.drawingImageRect.set(i4, i5, i4 + dp, dp + i5);
                 drawImage(canvas, this.drawingImageRect, f4);
             }
-            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.textDrawable;
-            if (animatedTextDrawable2 != null) {
-                f5 = 0.0f;
-                if (animatedTextDrawable2.isNotEmpty() > 0.0f) {
+            AnimatedTextView.AnimatedTextDrawable animatedTextDrawable3 = this.textDrawable;
+            if (animatedTextDrawable3 == null || animatedTextDrawable3.isNotEmpty() <= 0.0f) {
+                f6 = 0.0f;
+            } else {
+                canvas.save();
+                if (!this.hasName || drawTagDot()) {
+                    f9 = this.hasName ? 9 : 8;
+                } else {
+                    f9 = 10.0f;
+                }
+                canvas.translate(AndroidUtilities.dp(f9) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
+                this.textDrawable.setBounds(0, 0, this.width, this.height);
+                this.textDrawable.draw(canvas);
+                this.textDrawable.setAlpha((int) (f4 * 255.0f));
+                canvas.restore();
+                f6 = this.textDrawable.getCurrentWidth() + (AndroidUtilities.dp(4.0f) * this.textDrawable.isNotEmpty());
+            }
+            if (f5 <= 0.0f || this.isTag || this.scrimPreviewCounterDrawable == null || this.avatarsDrawable != null) {
+                if (this.counterDrawable != null && drawCounter()) {
                     canvas.save();
                     if (!this.hasName || drawTagDot()) {
                         f7 = this.hasName ? 9 : 8;
                     } else {
                         f7 = 10.0f;
                     }
-                    canvas.translate(AndroidUtilities.dp(f7) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
-                    this.textDrawable.setBounds(0, 0, this.width, this.height);
-                    this.textDrawable.draw(canvas);
-                    this.textDrawable.setAlpha((int) (255.0f * f4));
+                    canvas.translate(AndroidUtilities.dp(f7) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(this.animatedEmojiDrawable != null ? 5.0f : 2.0f) + f6 + (this.paid ? -AndroidUtilities.dp(1.0f) : 0), f2);
+                    this.counterDrawable.draw(canvas);
+                }
+                if (!this.isTag && this.avatarsDrawable != null) {
+                    canvas.save();
+                    canvas.translate(f + AndroidUtilities.dp(10.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
+                    this.avatarsDrawable.setAlpha(f4);
+                    this.avatarsDrawable.setTransitionProgress(f3);
+                    this.avatarsDrawable.onDraw(canvas);
                     canvas.restore();
-                    f5 = this.textDrawable.getCurrentWidth() + (AndroidUtilities.dp(4.0f) * this.textDrawable.isNotEmpty());
-                    if (this.counterDrawable != null && drawCounter()) {
-                        canvas.save();
-                        if (this.hasName || drawTagDot()) {
-                            f6 = this.hasName ? 9 : 8;
-                        } else {
-                            f6 = 10.0f;
-                        }
-                        canvas.translate(AndroidUtilities.dp(f6) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f) + f5 + (!this.paid ? -AndroidUtilities.dp(1.0f) : 0), f2);
-                        this.counterDrawable.draw(canvas);
-                        canvas.restore();
-                    }
-                    if (!this.isTag && this.avatarsDrawable != null) {
-                        canvas.save();
-                        canvas.translate(f + AndroidUtilities.dp(10.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
-                        this.avatarsDrawable.setAlpha(f4);
-                        this.avatarsDrawable.setTransitionProgress(f3);
-                        this.avatarsDrawable.onDraw(canvas);
-                        canvas.restore();
-                    }
-                    if (z2) {
-                        return;
-                    }
-                    canvas.restore();
+                }
+                if (z3) {
                     return;
                 }
-            } else {
-                f5 = 0.0f;
-            }
-            if (this.counterDrawable != null) {
-                canvas.save();
-                if (this.hasName) {
-                }
-                f6 = this.hasName ? 9 : 8;
-                canvas.translate(AndroidUtilities.dp(f6) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f) + f5 + (!this.paid ? -AndroidUtilities.dp(1.0f) : 0), f2);
-                this.counterDrawable.draw(canvas);
                 canvas.restore();
+                return;
             }
+            canvas.save();
+            if (!this.hasName || drawTagDot()) {
+                f8 = this.hasName ? 9 : 8;
+            } else {
+                f8 = 10.0f;
+            }
+            canvas.translate(AndroidUtilities.dp(f8) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(this.animatedEmojiDrawable != null ? 5.0f : 2.0f), f2 - AndroidUtilities.dp(1.0f));
+            this.scrimPreviewCounterDrawable.setBounds(0, 0, this.width, this.height);
+            this.scrimPreviewCounterDrawable.draw(canvas);
+            this.scrimPreviewCounterDrawable.setAlpha((int) (255.0f * f4));
+            canvas.restore();
             if (!this.isTag) {
                 canvas.save();
                 canvas.translate(f + AndroidUtilities.dp(10.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
@@ -682,7 +710,7 @@ public class ReactionsLayoutInBubble {
                 this.avatarsDrawable.onDraw(canvas);
                 canvas.restore();
             }
-            if (z2) {
+            if (z3) {
             }
         }
 
@@ -707,7 +735,7 @@ public class ReactionsLayoutInBubble {
                 if (view != null) {
                     view.invalidate();
                 }
-                this.particles.draw(canvas, ColorUtils.blendARGB(ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.closeSearchByActiveAction), ColorUtils.blendARGB(this.serviceTextColor, ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.closeSearchByActiveAction), 0.4f), getDrawServiceShaderBackground()));
+                this.particles.draw(canvas, ColorUtils.blendARGB(ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.playerDidStartPlaying), ColorUtils.blendARGB(this.serviceTextColor, ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.playerDidStartPlaying), 0.4f), getDrawServiceShaderBackground()));
                 canvas.save();
                 canvas.clipPath(this.tagPath);
                 this.particles.draw(canvas, this.textColor);
@@ -1351,7 +1379,7 @@ public class ReactionsLayoutInBubble {
                     canvas.scale(f11, f11, f6 + f8 + (reactionButton.width / 2.0f), f7 + f9 + (reactionButton.height / 2.0f));
                     f2 = f;
                 }
-                reactionButton.draw(canvas, f6 + f8, f7 + f9, reactionButton.animationType == 3 ? f : 1.0f, f2, num != null);
+                reactionButton.draw(canvas, f6 + f8, f7 + f9, reactionButton.animationType == 3 ? f : 1.0f, f2, num != null, this.scrimDirection, this.scrimProgress);
                 canvas.restore();
             }
         }
@@ -1361,7 +1389,7 @@ public class ReactionsLayoutInBubble {
             float f13 = (f12 * 0.5f) + 0.5f;
             canvas.save();
             canvas.scale(f13, f13, reactionButton2.x + f6 + (reactionButton2.width / 2.0f), reactionButton2.y + f7 + (reactionButton2.height / 2.0f));
-            ((ReactionButton) this.outButtons.get(i2)).draw(canvas, reactionButton2.x + f6, f7 + reactionButton2.y, 1.0f, f12, false);
+            ((ReactionButton) this.outButtons.get(i2)).draw(canvas, reactionButton2.x + f6, f7 + reactionButton2.y, 1.0f, f12, false, this.scrimDirection, this.scrimProgress);
             canvas.restore();
         }
     }
@@ -1484,9 +1512,9 @@ public class ReactionsLayoutInBubble {
         return this.hasPaidReaction && !(this.isEmpty && this.outButtons.isEmpty()) && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0116  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x012d  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x012e A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0137 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1536,7 +1564,7 @@ public class ReactionsLayoutInBubble {
                 }
                 i3++;
             } else {
-                reactionButton.width = AndroidUtilities.dp(8.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(4.0f);
+                reactionButton.width = AndroidUtilities.dp(8.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(reactionButton.animatedEmojiDrawable != null ? 6.0f : 4.0f);
                 if (reactionButton.avatarsDrawable == null || reactionButton.users.size() <= 0) {
                     animateToWidth = reactionButton.hasName ? (int) (reactionButton.width + reactionButton.textDrawable.getAnimateToWidth() + AndroidUtilities.dp(8.0f)) : reactionButton.width + reactionButton.counterDrawable.getCurrentWidth() + AndroidUtilities.dp(8.0f);
                 } else {
@@ -1794,6 +1822,11 @@ public class ReactionsLayoutInBubble {
 
     public void setScrimProgress(float f) {
         this.scrimProgress = f;
+    }
+
+    public void setScrimProgress(float f, boolean z) {
+        this.scrimProgress = f;
+        this.scrimDirection = z;
     }
 
     public void setScrimReaction(Integer num) {

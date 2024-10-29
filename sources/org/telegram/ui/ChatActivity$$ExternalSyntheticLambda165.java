@@ -5,8 +5,12 @@ import java.util.List;
 import org.telegram.ui.Components.ReactedUsersListView;
 
 /* loaded from: classes4.dex */
-public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda160 implements Consumer {
+public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda165 implements Consumer {
     public final /* synthetic */ ReactedUsersListView f$0;
+
+    public /* synthetic */ ChatActivity$$ExternalSyntheticLambda165(ReactedUsersListView reactedUsersListView) {
+        this.f$0 = reactedUsersListView;
+    }
 
     @Override // androidx.core.util.Consumer
     public final void accept(Object obj) {

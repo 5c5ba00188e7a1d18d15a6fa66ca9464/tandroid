@@ -319,7 +319,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
     /* JADX WARN: Removed duplicated region for block: B:138:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0265  */
     /* JADX WARN: Type inference failed for: r3v12 */
-    /* JADX WARN: Type inference failed for: r3v13, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v13, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r3v21 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

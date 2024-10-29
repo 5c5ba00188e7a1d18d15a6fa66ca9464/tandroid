@@ -11,6 +11,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
+import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
@@ -1979,8 +1981,8 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case NotificationCenter.didUpdateConnectionState /* 133 */:
             case NotificationCenter.recordStopped /* 153 */:
             case NotificationCenter.groupPackUpdated /* 204 */:
-            case NotificationCenter.wallpapersDidLoad /* 225 */:
-            case NotificationCenter.didReplacedPhotoInMemCache /* 233 */:
+            case NotificationCenter.pushMessagesUpdated /* 225 */:
+            case NotificationCenter.cameraInitied /* 233 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
                 iArr[1] = 4;
@@ -2048,7 +2050,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return iArr;
             case 31:
             case 150:
-            case NotificationCenter.closeOtherAppActivities /* 231 */:
+            case NotificationCenter.invalidateMotionBackground /* 231 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
                 iArr[1] = 1;
@@ -2348,7 +2350,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 's':
             case 'w':
             case NotificationCenter.storyQualityUpdate /* 200 */:
-            case NotificationCenter.pushMessagesUpdated /* 224 */:
+            case NotificationCenter.updateStories /* 224 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
                 iArr[1] = 2;
@@ -2368,7 +2370,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return iArr;
             case 'J':
             case NotificationCenter.didEndCall /* 168 */:
-            case NotificationCenter.dialogPhotosUpdate /* 192 */:
+            case 192:
                 // fill-array-data instruction
                 iArr[0] = 3;
                 iArr[1] = 2;
@@ -2525,7 +2527,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return iArr;
             case 'b':
             case NotificationCenter.factCheckLoaded /* 215 */:
-            case NotificationCenter.invalidateMotionBackground /* 230 */:
+            case NotificationCenter.emojiLoaded /* 230 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
                 iArr[1] = 2;
@@ -2692,7 +2694,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return iArr;
             case NotificationCenter.dialogTranslate /* 127 */:
             case NotificationCenter.starBalanceUpdated /* 212 */:
-            case NotificationCenter.themeAccentListUpdated /* 237 */:
+            case NotificationCenter.didApplyNewTheme /* 237 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
                 iArr[1] = 2;
@@ -3118,7 +3120,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 3;
                 iArr[5] = 3;
                 return iArr;
-            case 191:
+            case NotificationCenter.unconfirmedAuthUpdate /* 191 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
                 iArr[1] = 1;
@@ -3264,7 +3266,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 3;
                 iArr[5] = 2;
                 return iArr;
-            case NotificationCenter.wallpapersNeedReload /* 226 */:
+            case NotificationCenter.wallpapersDidLoad /* 226 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 2;
@@ -3273,7 +3275,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 return iArr;
-            case NotificationCenter.didReceiveSmsCode /* 227 */:
+            case NotificationCenter.wallpapersNeedReload /* 227 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
                 iArr[1] = 2;
@@ -3282,7 +3284,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 return iArr;
-            case NotificationCenter.didReceiveCall /* 228 */:
+            case NotificationCenter.didReceiveSmsCode /* 228 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
                 iArr[1] = 0;
@@ -3291,7 +3293,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 1;
                 return iArr;
-            case NotificationCenter.emojiLoaded /* 229 */:
+            case NotificationCenter.didReceiveCall /* 229 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
                 iArr[1] = 3;
@@ -3300,7 +3302,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 return iArr;
-            case NotificationCenter.cameraInitied /* 232 */:
+            case NotificationCenter.closeOtherAppActivities /* 232 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
                 iArr[1] = 2;
@@ -3309,7 +3311,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 return iArr;
-            case NotificationCenter.didSetNewTheme /* 234 */:
+            case NotificationCenter.didReplacedPhotoInMemCache /* 234 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 3;
@@ -3318,7 +3320,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 return iArr;
-            case NotificationCenter.themeListUpdated /* 235 */:
+            case NotificationCenter.didSetNewTheme /* 235 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 3;
@@ -3327,7 +3329,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 return iArr;
-            case NotificationCenter.didApplyNewTheme /* 236 */:
+            case NotificationCenter.themeListUpdated /* 236 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
                 iArr[1] = 4;
@@ -3375,7 +3377,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
     }
 
     private static boolean isTransferAtFullNetworkSpeed(DataSpec dataSpec, boolean z) {
-        return z && !dataSpec.isFlagSet(8);
+        return z && (dataSpec == null || !dataSpec.isFlagSet(8));
     }
 
     private void maybeNotifyBandwidthSample(int i, long j, long j2) {
@@ -3439,6 +3441,24 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
         }
     }
 
+    public void onTransfer(long j, long j2) {
+        long elapsedRealtime = this.clock.elapsedRealtime();
+        this.totalElapsedTimeMs += (int) (elapsedRealtime - this.sampleStartTimeMs);
+        this.totalBytesTransferred += j;
+        if (j2 <= 0 || j <= 0) {
+            return;
+        }
+        FileLog.d("debug_loading: bandwidth meter on transfer " + AndroidUtilities.formatFileSize(j) + " per " + j2 + "ms");
+        this.slidingPercentile.addSample((int) Math.sqrt((double) j), (((float) j) * 8000.0f) / ((float) j2));
+        if (this.totalElapsedTimeMs >= 2000 || this.totalBytesTransferred >= 524288) {
+            this.bitrateEstimate = this.slidingPercentile.getPercentile(0.5f);
+            FileLog.d("debug_loading: bandwidth meter (onTransfer), bitrate estimate = " + this.bitrateEstimate);
+        }
+        maybeNotifyBandwidthSample((int) j2, j, this.bitrateEstimate);
+        this.sampleStartTimeMs = elapsedRealtime;
+        this.sampleBytesTransferred = 0L;
+    }
+
     @Override // com.google.android.exoplayer2.upstream.TransferListener
     public synchronized void onTransferEnd(DataSource dataSource, DataSpec dataSpec, boolean z) {
         try {
@@ -3460,6 +3480,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                         this.sampleBytesTransferred = 0L;
                     }
                     this.bitrateEstimate = this.slidingPercentile.getPercentile(0.5f);
+                    FileLog.d("debug_loading: bandwidth meter (onTransferEnd), bitrate estimate = " + this.bitrateEstimate);
                     maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
                     this.sampleStartTimeMs = elapsedRealtime;
                     this.sampleBytesTransferred = 0L;

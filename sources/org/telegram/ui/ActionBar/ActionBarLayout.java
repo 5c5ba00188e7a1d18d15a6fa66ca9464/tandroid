@@ -1087,7 +1087,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             if (z) {
                 List list = this.fragmentsStack;
                 if (list.get(list.size() - 1) == baseFragment) {
-                    baseFragment.lambda$onBackPressed$300();
+                    baseFragment.lambda$onBackPressed$319();
                     return;
                 }
             }
@@ -1906,6 +1906,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
     }
 
+    @Override // org.telegram.ui.ActionBar.INavigationLayout
     public /* bridge */ /* synthetic */ BaseFragment getBackgroundFragment() {
         return INavigationLayout.-CC.$default$getBackgroundFragment(this);
     }
@@ -3169,7 +3170,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 int green2 = Color.green(iArr[i2]);
                 int blue2 = Color.blue(iArr[i2]);
                 int i3 = size;
-                int argb = Color.argb(Math.min(NotificationCenter.closeSearchByActiveAction, (int) (Color.alpha(iArr[i2]) + ((alpha - r2) * f))), Math.min(NotificationCenter.closeSearchByActiveAction, (int) (red2 + ((red - red2) * f))), Math.min(NotificationCenter.closeSearchByActiveAction, (int) (green2 + ((green - green2) * f))), Math.min(NotificationCenter.closeSearchByActiveAction, (int) (blue2 + ((blue - blue2) * f))));
+                int argb = Color.argb(Math.min(NotificationCenter.playerDidStartPlaying, (int) (Color.alpha(iArr[i2]) + ((alpha - r2) * f))), Math.min(NotificationCenter.playerDidStartPlaying, (int) (red2 + ((red - red2) * f))), Math.min(NotificationCenter.playerDidStartPlaying, (int) (green2 + ((green - green2) * f))), Math.min(NotificationCenter.playerDidStartPlaying, (int) (blue2 + ((blue - blue2) * f))));
                 ThemeDescription themeDescription = (ThemeDescription) arrayList.get(i2);
                 themeDescription.setAnimatedColor(argb);
                 themeDescription.setColor(argb, false, false);

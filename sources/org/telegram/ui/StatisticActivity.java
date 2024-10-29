@@ -1646,15 +1646,15 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         ChartData childChartData;
         public String errorMessage;
         final int graphType;
-        boolean isEmpty;
+        public boolean isEmpty;
         public boolean isError;
-        boolean isLanguages;
-        boolean loading;
+        public boolean isLanguages;
+        public boolean loading;
         public boolean showAll;
         final String title;
         String token;
-        boolean useHourFormat;
-        boolean useWeekFormat;
+        public boolean useHourFormat;
+        public boolean useWeekFormat;
         public boolean viewShowed;
         String zoomToken;
 
@@ -3734,7 +3734,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
             this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
             this.progressLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1));
-            frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+            frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.needShareTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
             if (this.adapter == null) {
                 this.adapter = new Adapter();
             }
@@ -3789,7 +3789,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
                 @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                 public void onItemClick(int i4) {
                     if (i4 == -1) {
-                        StatisticActivity.this.lambda$onBackPressed$300();
+                        StatisticActivity.this.lambda$onBackPressed$319();
                     }
                 }
             });
@@ -3862,7 +3862,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
         this.progressLayout.addView(textView3, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
         this.progressLayout.addView(textView22, LayoutHelper.createLinear(-2, -2, 1));
-        frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+        frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.needShareTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
         if (this.adapter == null) {
         }
         this.recyclerListView.setAdapter(this.adapter);
@@ -3916,7 +3916,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i4) {
                 if (i4 == -1) {
-                    StatisticActivity.this.lambda$onBackPressed$300();
+                    StatisticActivity.this.lambda$onBackPressed$319();
                 }
             }
         });
@@ -3955,7 +3955,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
                 List fragmentStack2 = getParentLayout().getFragmentStack();
                 BaseFragment baseFragment2 = fragmentStack2.size() >= 2 ? (BaseFragment) fragmentStack2.get(fragmentStack2.size() - 2) : null;
                 if (!booleanValue) {
-                    lambda$onBackPressed$300();
+                    lambda$onBackPressed$319();
                     if (baseFragment2 instanceof ProfileActivity) {
                         BoostDialogs.showBulletin(baseFragment2, chat, false);
                         return;
@@ -3966,7 +3966,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
                 if (baseFragment2 instanceof ProfileActivity) {
                     getParentLayout().removeFragmentFromStack(baseFragment2);
                 }
-                lambda$onBackPressed$300();
+                lambda$onBackPressed$319();
                 if (baseFragment3 instanceof ChatActivity) {
                     BoostDialogs.showBulletin(baseFragment3, chat, true);
                     return;

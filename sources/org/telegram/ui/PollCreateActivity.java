@@ -156,7 +156,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$0(TLRPC.TL_messageMediaPoll tL_messageMediaPoll, HashMap hashMap, boolean z, int i) {
             PollCreateActivity.this.delegate.sendPoll(tL_messageMediaPoll, hashMap, z, i);
-            PollCreateActivity.this.lambda$onBackPressed$300();
+            PollCreateActivity.this.lambda$onBackPressed$319();
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -250,7 +250,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
             } else if (!PollCreateActivity.this.checkDiscard()) {
                 return;
             }
-            PollCreateActivity.this.lambda$onBackPressed$300();
+            PollCreateActivity.this.lambda$onBackPressed$319();
         }
     }
 
@@ -1297,7 +1297,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$1(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1485,12 +1485,12 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         PollEditTextCell pollEditTextCell = (PollEditTextCell) view;
         if (i == this.questionRow) {
             charSequence = this.questionString;
-            i3 = NotificationCenter.closeSearchByActiveAction;
+            i3 = NotificationCenter.playerDidStartPlaying;
             if (charSequence != null) {
-                i2 = NotificationCenter.closeSearchByActiveAction;
+                i2 = NotificationCenter.playerDidStartPlaying;
                 i5 = charSequence.length();
             } else {
-                i4 = NotificationCenter.closeSearchByActiveAction;
+                i4 = NotificationCenter.playerDidStartPlaying;
                 i2 = i4;
                 i5 = 0;
             }

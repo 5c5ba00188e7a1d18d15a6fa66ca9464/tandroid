@@ -554,7 +554,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             int i3 = num.intValue() != -1 ? 0 : 90;
             if (num.intValue() != -1) {
                 if (i > i2) {
-                    i3 = NotificationCenter.dialogsUnreadReactionsCounterChanged;
+                    i3 = NotificationCenter.chatAvailableReactionsUpdated;
                 }
             } else if (i2 > i && i3 != 0) {
                 i3 = 0;
@@ -2249,7 +2249,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     this.topGradient = linearGradient;
                     this.topGradientPaint.setShader(linearGradient);
                 }
-                this.topGradientPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                this.topGradientPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getWidth(), AndroidUtilities.dp(84.0f) + f);
                 canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), this.topGradientPaint);
@@ -2448,7 +2448,6 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes4.dex */
         public class 4 extends SourceView {
             final /* synthetic */ BackupImageView val$imageView;
@@ -5048,6 +5047,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                 StoryRecorder.this.lambda$initViews$9((Integer) obj);
             }
         });
+        long j = this.selectedDialogId;
+        if (j != 0) {
+            this.captionEdit.setDialogId(j);
+        }
         this.captionEdit.setOnPremiumHint(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda36
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
@@ -8779,6 +8782,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
 
     public StoryRecorder selectedPeerId(long j) {
         this.selectedDialogId = j;
+        CaptionStory captionStory = this.captionEdit;
+        if (captionStory != null) {
+            captionStory.setDialogId(j);
+        }
         return this;
     }
 

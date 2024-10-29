@@ -143,9 +143,9 @@ public class StackLinearChartView extends BaseChartView {
                 this.ovalPath.addRoundRect(rectF, f30, f30, Path.Direction.CW);
                 canvas.clipPath(this.ovalPath);
                 f = f29;
-                i = NotificationCenter.closeSearchByActiveAction;
+                i = NotificationCenter.playerDidStartPlaying;
             } else {
-                i = i7 == 3 ? (int) (this.transitionParams.progress * 255.0f) : NotificationCenter.closeSearchByActiveAction;
+                i = i7 == 3 ? (int) (this.transitionParams.progress * 255.0f) : NotificationCenter.playerDidStartPlaying;
                 f = 0.0f;
             }
             float[] fArr = ((StackLinearChartData) this.chartData).xPercentage;
@@ -631,7 +631,7 @@ public class StackLinearChartView extends BaseChartView {
                 LineViewData lineViewData3 = (LineViewData) this.lines.get(size);
                 lineViewData3.paint.setAlpha(i15);
                 canvas.drawPath(lineViewData3.chartPath, lineViewData3.paint);
-                lineViewData3.paint.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                lineViewData3.paint.setAlpha(NotificationCenter.playerDidStartPlaying);
             }
             canvas.restore();
             canvas.restore();

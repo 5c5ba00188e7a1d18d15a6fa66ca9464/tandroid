@@ -72,7 +72,7 @@ public final class H263Reader implements ElementaryStreamReader {
                     if (i3 != 2) {
                         i4 = 4;
                         if (i3 == 3) {
-                            if ((i & NotificationCenter.needSetDayNightTheme) == 32) {
+                            if ((i & NotificationCenter.needShareTheme) == 32) {
                                 this.volStartPosition = this.length;
                                 this.state = i4;
                             }

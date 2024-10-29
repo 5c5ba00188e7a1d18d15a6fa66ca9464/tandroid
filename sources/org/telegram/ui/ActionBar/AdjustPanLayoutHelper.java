@@ -50,6 +50,7 @@ public abstract class AdjustPanLayoutHelper {
     int previousStartOffset;
     private View resizableView;
     private View resizableViewToSet;
+    public boolean showingKeyboard;
     long startAfter;
     float to;
     private boolean useInsetsAnimator;
@@ -254,6 +255,10 @@ public abstract class AdjustPanLayoutHelper {
         return this.animationInProgress;
     }
 
+    protected boolean applyTranslation() {
+        return true;
+    }
+
     public void delayAnimation() {
         this.needDelay = true;
     }
@@ -347,8 +352,11 @@ public abstract class AdjustPanLayoutHelper {
         return 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0060  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0044  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0063  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x006d  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0088  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0065  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -365,22 +373,29 @@ public abstract class AdjustPanLayoutHelper {
             if (parent instanceof View) {
                 i3 = ((View) parent).getHeight() - i2;
                 LaunchActivity launchActivity = LaunchActivity.instance;
-                setViewHeight(Math.max(i, i3 + i2 + ((launchActivity != null || launchActivity.getBottomSheetTabs() == null) ? 0 : LaunchActivity.instance.getBottomSheetTabs().getExpandedHeight())));
+                int expandedHeight = (launchActivity != null || launchActivity.getBottomSheetTabs() == null) ? 0 : LaunchActivity.instance.getBottomSheetTabs().getExpandedHeight();
+                if (applyTranslation()) {
+                    setViewHeight(Math.max(i, i3 + i2 + expandedHeight));
+                }
                 this.resizableView.requestLayout();
                 onTransitionStart(z, i, i2);
                 float f = i2 - i;
                 this.keyboardSize = Math.abs(f);
                 this.animationInProgress = true;
+                this.showingKeyboard = i2 > i;
                 if (i2 <= i) {
                     float f2 = f - startOffset;
-                    float f3 = -f2;
-                    this.parent.setTranslationY(f3);
+                    if (applyTranslation()) {
+                        this.parent.setTranslationY(-f2);
+                    }
                     onPanTranslationUpdate(f2, 1.0f, z);
-                    this.from = f3;
-                    this.to = -r3;
+                    this.from = -f2;
+                    this.to = -expandedHeight;
                     this.inverse = true;
                 } else {
-                    this.parent.setTranslationY(this.previousStartOffset);
+                    if (applyTranslation()) {
+                        this.parent.setTranslationY(this.previousStartOffset);
+                    }
                     onPanTranslationUpdate(-this.previousStartOffset, 0.0f, z);
                     this.to = -this.previousStartOffset;
                     this.from = f;
@@ -394,12 +409,14 @@ public abstract class AdjustPanLayoutHelper {
         LaunchActivity launchActivity2 = LaunchActivity.instance;
         if (launchActivity2 != null) {
         }
-        setViewHeight(Math.max(i, i3 + i2 + ((launchActivity2 != null || launchActivity2.getBottomSheetTabs() == null) ? 0 : LaunchActivity.instance.getBottomSheetTabs().getExpandedHeight())));
+        if (applyTranslation()) {
+        }
         this.resizableView.requestLayout();
         onTransitionStart(z, i, i2);
-        float f4 = i2 - i;
-        this.keyboardSize = Math.abs(f4);
+        float f3 = i2 - i;
+        this.keyboardSize = Math.abs(f3);
         this.animationInProgress = true;
+        this.showingKeyboard = i2 > i;
         if (i2 <= i) {
         }
         this.animator = ValueAnimator.ofFloat(0.0f, 1.0f);
@@ -420,7 +437,9 @@ public abstract class AdjustPanLayoutHelper {
         this.resizableView.requestLayout();
         boolean z = this.isKeyboardVisible;
         onPanTranslationUpdate(0.0f, z ? 1.0f : 0.0f, z);
-        this.parent.setTranslationY(0.0f);
+        if (applyTranslation()) {
+            this.parent.setTranslationY(0.0f);
+        }
         onTransitionEnd();
     }
 
@@ -429,7 +448,9 @@ public abstract class AdjustPanLayoutHelper {
             f = 1.0f - f;
         }
         float f2 = (int) ((this.from * f) + (this.to * (1.0f - f)));
-        this.parent.setTranslationY(f2);
+        if (applyTranslation()) {
+            this.parent.setTranslationY(f2);
+        }
         onPanTranslationUpdate(-f2, f, this.isKeyboardVisible);
     }
 }

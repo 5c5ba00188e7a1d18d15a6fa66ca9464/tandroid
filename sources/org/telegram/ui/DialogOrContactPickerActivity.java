@@ -145,7 +145,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
             i2 = R.string.UserBlocked;
         }
         AlertsCreator.showSimpleToast(this, LocaleController.getString(i2));
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -255,7 +255,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    DialogOrContactPickerActivity.this.lambda$onBackPressed$300();
+                    DialogOrContactPickerActivity.this.lambda$onBackPressed$319();
                 }
             }
         });

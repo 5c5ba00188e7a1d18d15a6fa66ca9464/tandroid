@@ -1372,10 +1372,10 @@ public class TextureRenderer {
     
         if (r7 != null) goto L20;
      */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x039e  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x03a6  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x03a9  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x03a1  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x03a0  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x03a8  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x03ab  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x03a3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

@@ -48,7 +48,7 @@ public interface INavigationLayout {
         }
 
         public static void $default$drawHeaderShadow(INavigationLayout iNavigationLayout, Canvas canvas, int i) {
-            iNavigationLayout.drawHeaderShadow(canvas, NotificationCenter.closeSearchByActiveAction, i);
+            iNavigationLayout.drawHeaderShadow(canvas, NotificationCenter.playerDidStartPlaying, i);
         }
 
         public static BaseFragment $default$getBackgroundFragment(INavigationLayout iNavigationLayout) {
@@ -400,6 +400,8 @@ public interface INavigationLayout {
     void expandPreviewFragment();
 
     void finishPreviewFragment();
+
+    BaseFragment getBackgroundFragment();
 
     BottomSheet getBottomSheet();
 

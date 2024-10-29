@@ -855,7 +855,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             public void lambda$onStickerSelected$68(TLRPC.Document document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, boolean z2, int i) {
                 TrendingStickersLayout.this.delegate.onStickerSelected(document, obj, z, z2, i);
             }
-        } : null, this.resourcesProvider);
+        } : null, this.resourcesProvider, false);
         stickersAlert.setShowTooltipWhenToggle(false);
         stickersAlert.setInstallDelegate(new StickersAlert.StickersAlertInstallDelegate() { // from class: org.telegram.ui.Components.TrendingStickersLayout.8
             @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate

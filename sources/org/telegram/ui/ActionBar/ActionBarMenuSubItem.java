@@ -1,5 +1,8 @@
 package org.telegram.ui.ActionBar;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -10,10 +13,12 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CheckBox2;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
 
@@ -22,6 +27,8 @@ public class ActionBarMenuSubItem extends FrameLayout {
     boolean bottom;
     private CheckBox2 checkView;
     private boolean checkViewLeft;
+    private boolean enabled;
+    private ValueAnimator enabledAnimator;
     boolean expandIfMultiline;
     private int iconColor;
     public RLottieImageView imageView;
@@ -126,6 +133,13 @@ public class ActionBarMenuSubItem extends FrameLayout {
         return Theme.getColor(i, this.resourcesProvider);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$setEnabledByColor$0(int i, int i2, ValueAnimator valueAnimator) {
+        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        setTextColor(ColorUtils.blendARGB(i, i2, floatValue));
+        setIconColor(ColorUtils.blendARGB(i, i2, floatValue));
+    }
+
     public CheckBox2 getCheckView() {
         return this.checkView;
     }
@@ -197,6 +211,32 @@ public class ActionBarMenuSubItem extends FrameLayout {
         setTextColor(i);
         setIconColor(i2);
         return this;
+    }
+
+    public void setEnabledByColor(final boolean z, final int i, final int i2) {
+        ValueAnimator valueAnimator = this.enabledAnimator;
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+        }
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.enabled ? 1.0f : 0.0f, z ? 1.0f : 0.0f);
+        this.enabledAnimator = ofFloat;
+        this.enabled = z;
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarMenuSubItem$$ExternalSyntheticLambda0
+            @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+            public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
+                ActionBarMenuSubItem.this.lambda$setEnabledByColor$0(i, i2, valueAnimator2);
+            }
+        });
+        this.enabledAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarMenuSubItem.1
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                float f = z ? 1.0f : 0.0f;
+                ActionBarMenuSubItem.this.setTextColor(ColorUtils.blendARGB(i, i2, f));
+                ActionBarMenuSubItem.this.setIconColor(ColorUtils.blendARGB(i, i2, f));
+            }
+        });
+        this.enabledAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+        this.enabledAnimator.start();
     }
 
     public void setIcon(int i) {

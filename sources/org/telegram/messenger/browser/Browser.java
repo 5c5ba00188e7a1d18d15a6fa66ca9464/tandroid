@@ -715,10 +715,10 @@ public abstract class Browser {
     }
 
     public static boolean openAsInternalIntent(Context context, String str) {
-        return openAsInternalIntent(context, str, false, null);
+        return openAsInternalIntent(context, str, false, false, null);
     }
 
-    public static boolean openAsInternalIntent(Context context, String str, boolean z, Progress progress) {
+    public static boolean openAsInternalIntent(Context context, String str, boolean z, boolean z2, Progress progress) {
         LaunchActivity launchActivity;
         if (str == null) {
             return false;
@@ -739,6 +739,7 @@ public abstract class Browser {
         intent.putExtra("create_new_tab", true);
         intent.putExtra("com.android.browser.application_id", context.getPackageName());
         intent.putExtra("force_not_internal_apps", z);
+        intent.putExtra("force_request", z2);
         launchActivity.onNewIntent(intent, progress);
         return true;
     }
@@ -852,11 +853,11 @@ public abstract class Browser {
     }
 
     public static void openUrl(Context context, Uri uri, boolean z, boolean z2) {
-        openUrl(context, uri, z, z2, false, null, null, false, true);
+        openUrl(context, uri, z, z2, false, null, null, false, true, false);
     }
 
     public static void openUrl(Context context, Uri uri, boolean z, boolean z2, Progress progress) {
-        openUrl(context, uri, z, z2, false, progress, null, false, true);
+        openUrl(context, uri, z, z2, false, progress, null, false, true, false);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:18:0x00f5, code lost:
@@ -866,20 +867,20 @@ public abstract class Browser {
     /* JADX WARN: Removed duplicated region for block: B:101:0x02fa  */
     /* JADX WARN: Removed duplicated region for block: B:102:0x02aa A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:23:0x0120 A[Catch: Exception -> 0x0166, TryCatch #3 {Exception -> 0x0166, blocks: (B:21:0x0104, B:23:0x0120, B:27:0x0152, B:29:0x015f, B:30:0x0169, B:33:0x0172, B:34:0x018a, B:36:0x0192, B:37:0x019f, B:38:0x01b1, B:40:0x01b7, B:41:0x01c9, B:42:0x01a3, B:44:0x01e0, B:46:0x01e4, B:49:0x01ea, B:51:0x01f3, B:53:0x01fd, B:55:0x0202, B:57:0x020c, B:60:0x021a, B:62:0x0226, B:65:0x0238), top: B:20:0x0104 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0303 A[Catch: Exception -> 0x02eb, TRY_ENTER, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031c, B:89:0x0326, B:91:0x032c, B:93:0x0336, B:95:0x034b, B:96:0x034f, B:99:0x0357, B:74:0x02ee), top: B:102:0x02aa }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x030c A[Catch: Exception -> 0x02eb, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031c, B:89:0x0326, B:91:0x032c, B:93:0x0336, B:95:0x034b, B:96:0x034f, B:99:0x0357, B:74:0x02ee), top: B:102:0x02aa }] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x031c A[Catch: Exception -> 0x02eb, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031c, B:89:0x0326, B:91:0x032c, B:93:0x0336, B:95:0x034b, B:96:0x034f, B:99:0x0357, B:74:0x02ee), top: B:102:0x02aa }] */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0357 A[Catch: Exception -> 0x02eb, TRY_LEAVE, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031c, B:89:0x0326, B:91:0x032c, B:93:0x0336, B:95:0x034b, B:96:0x034f, B:99:0x0357, B:74:0x02ee), top: B:102:0x02aa }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0303 A[Catch: Exception -> 0x02eb, TRY_ENTER, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031e, B:89:0x0328, B:91:0x032e, B:93:0x0338, B:95:0x034d, B:96:0x0351, B:99:0x0359, B:74:0x02ee), top: B:102:0x02aa }] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x030c A[Catch: Exception -> 0x02eb, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031e, B:89:0x0328, B:91:0x032e, B:93:0x0338, B:95:0x034d, B:96:0x0351, B:99:0x0359, B:74:0x02ee), top: B:102:0x02aa }] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x031e A[Catch: Exception -> 0x02eb, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031e, B:89:0x0328, B:91:0x032e, B:93:0x0338, B:95:0x034d, B:96:0x0351, B:99:0x0359, B:74:0x02ee), top: B:102:0x02aa }] */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0359 A[Catch: Exception -> 0x02eb, TRY_LEAVE, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031e, B:89:0x0328, B:91:0x032e, B:93:0x0338, B:95:0x034d, B:96:0x0351, B:99:0x0359, B:74:0x02ee), top: B:102:0x02aa }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static void openUrl(final Context context, final Uri uri, boolean z, boolean z2, boolean z3, final Progress progress, String str, boolean z4, boolean z5) {
-        boolean z6;
+    public static void openUrl(final Context context, final Uri uri, boolean z, boolean z2, boolean z3, final Progress progress, String str, boolean z4, boolean z5, boolean z6) {
         boolean z7;
+        boolean z8;
         String str2;
         boolean[] zArr;
         Uri uri2;
-        boolean z8;
+        boolean z9;
         LaunchActivity launchActivity;
         String lowerCase;
         String str3;
@@ -893,13 +894,13 @@ public abstract class Browser {
         boolean isInternalUri = isInternalUri(uri, zArr2);
         String browserPackageName = getBrowserPackageName(str);
         if (browserPackageName != null) {
+            z8 = false;
             z7 = false;
-            z6 = false;
         } else {
-            z6 = z;
-            z7 = z2;
+            z7 = z;
+            z8 = z2;
         }
-        if (z7) {
+        if (z8) {
             try {
                 String hostAuthority2 = AndroidUtilities.getHostAuthority(uri);
                 if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser() != null) {
@@ -918,12 +919,12 @@ public abstract class Browser {
                     tL_messages_getWebPagePreview.message = uri.toString();
                     str2 = browserPackageName;
                     zArr = zArr2;
-                    final boolean z9 = z6;
+                    final boolean z10 = z7;
                     try {
                         final int sendRequest = ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda0
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                                Browser.lambda$openUrl$1(Browser.Progress.this, alertDialogArr, i, uri, context, z9, tLObject, tL_error);
+                                Browser.lambda$openUrl$1(Browser.Progress.this, alertDialogArr, i, uri, context, z10, tLObject, tL_error);
                             }
                         });
                         if (progress != null) {
@@ -958,12 +959,12 @@ public abstract class Browser {
                     }
                     if (!isTonsite(uri2.toString())) {
                     }
-                    z8 = true;
+                    z9 = true;
                     if (uri2.getScheme() != null) {
                     }
                     if (!isInternalUri) {
                     }
-                    if (z8) {
+                    if (z9) {
                     }
                 }
             } else {
@@ -980,18 +981,18 @@ public abstract class Browser {
                 hostAuthority = AndroidUtilities.getHostAuthority(uri2.toString().toLowerCase());
                 if (AccountInstance.getInstance(i).getMessagesController().autologinDomains.contains(hostAuthority)) {
                 }
-                if (z6) {
+                if (z7) {
                 }
                 if (z5) {
                 }
                 if (!isTonsite(uri2.toString())) {
                 }
-                z8 = true;
+                z9 = true;
                 if (uri2.getScheme() != null) {
                 }
                 if (!isInternalUri) {
                 }
-                if (z8) {
+                if (z9) {
                 }
             }
             try {
@@ -1030,12 +1031,12 @@ public abstract class Browser {
                 }
                 if (!isTonsite(uri2.toString())) {
                 }
-                z8 = true;
+                z9 = true;
                 if (uri2.getScheme() != null) {
                 }
                 if (!isInternalUri) {
                 }
-                if (z8) {
+                if (z9) {
                 }
             }
         } catch (Exception e4) {
@@ -1046,15 +1047,15 @@ public abstract class Browser {
             }
             if (!isTonsite(uri2.toString())) {
             }
-            z8 = true;
+            z9 = true;
             if (uri2.getScheme() != null) {
             }
             if (!isInternalUri) {
             }
-            if (z8) {
+            if (z9) {
             }
         }
-        if (z6 || SharedConfig.inappBrowser || !SharedConfig.customTabs || isInternalUri || str3.equals("tel") || isTonsite(uri2.toString()) || (!zArr[0] && openInExternalApp(context, uri2.toString(), false) && hasAppToOpen(context, uri2.toString()))) {
+        if (z7 || SharedConfig.inappBrowser || !SharedConfig.customTabs || isInternalUri || str3.equals("tel") || isTonsite(uri2.toString()) || (!zArr[0] && openInExternalApp(context, uri2.toString(), false) && hasAppToOpen(context, uri2.toString()))) {
             if (z5) {
                 try {
                     if (SharedConfig.inappBrowser) {
@@ -1062,15 +1063,15 @@ public abstract class Browser {
                             if (!RestrictedDomainsList.getInstance().isRestricted(AndroidUtilities.getHostAuthority(uri2, true))) {
                                 if (uri2.getScheme() != null && !"https".equals(uri2.getScheme()) && !"http".equals(uri2.getScheme()) && !"tonsite".equals(uri2.getScheme())) {
                                 }
-                                z8 = true;
+                                z9 = true;
                                 if (uri2.getScheme() != null) {
                                     uri2.getScheme().equalsIgnoreCase("intent");
                                 }
                                 if (!isInternalUri && (launchActivity = LaunchActivity.instance) != null) {
-                                    openAsInternalIntent(launchActivity, uri2.toString(), z3, progress);
+                                    openAsInternalIntent(launchActivity, uri2.toString(), z3, z6, progress);
                                     return;
                                 }
-                                if (z8) {
+                                if (z9) {
                                     openInExternalBrowser(context, uri2.toString(), z4, str2);
                                     return;
                                 }
@@ -1094,20 +1095,20 @@ public abstract class Browser {
                 }
             }
             if (!isTonsite(uri2.toString())) {
-                z8 = false;
+                z9 = false;
                 if (uri2.getScheme() != null) {
                 }
                 if (!isInternalUri) {
                 }
-                if (z8) {
+                if (z9) {
                 }
             }
-            z8 = true;
+            z9 = true;
             if (uri2.getScheme() != null) {
             }
             if (!isInternalUri) {
             }
-            if (z8) {
+            if (z9) {
             }
         }
         if (MessagesController.getInstance(i).authDomains.contains(hostAuthority)) {
@@ -1135,12 +1136,12 @@ public abstract class Browser {
             }
             if (!isTonsite(uri2.toString())) {
             }
-            z8 = true;
+            z9 = true;
             if (uri2.getScheme() != null) {
             }
             if (!isInternalUri) {
             }
-            if (z8) {
+            if (z9) {
             }
         }
     }

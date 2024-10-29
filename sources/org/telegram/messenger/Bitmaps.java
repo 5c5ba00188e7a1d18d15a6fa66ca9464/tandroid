@@ -78,9 +78,9 @@ public class Bitmaps {
             options.inMutable = true;
             byte[] bArr = jpegData.get();
             bArr[76] = (byte) (i2 >> 8);
-            bArr[77] = (byte) (i2 & NotificationCenter.closeSearchByActiveAction);
+            bArr[77] = (byte) (i2 & NotificationCenter.playerDidStartPlaying);
             bArr[78] = (byte) (i >> 8);
-            bArr[79] = (byte) (i & NotificationCenter.closeSearchByActiveAction);
+            bArr[79] = (byte) (i & NotificationCenter.playerDidStartPlaying);
             createBitmap = BitmapFactory.decodeByteArray(bArr, 0, bArr.length, options);
             Utilities.pinBitmap(createBitmap);
             createBitmap.setHasAlpha(true);

@@ -383,10 +383,10 @@ public class TL_stats {
 
     /* loaded from: classes3.dex */
     public static class TL_getBroadcastRevenueStats extends TLObject {
-        public static final int constructor = 1977595505;
-        public TLRPC.InputChannel channel;
+        public static final int constructor = -142021095;
         public boolean dark;
         public int flags;
+        public TLRPC.InputPeer peer;
 
         @Override // org.telegram.tgnet.TLObject
         public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -399,16 +399,16 @@ public class TL_stats {
             int i = this.dark ? this.flags | 1 : this.flags & (-2);
             this.flags = i;
             abstractSerializedData.writeInt32(i);
-            this.channel.serializeToStream(abstractSerializedData);
+            this.peer.serializeToStream(abstractSerializedData);
         }
     }
 
     /* loaded from: classes3.dex */
     public static class TL_getBroadcastRevenueTransactions extends TLObject {
-        public static final int constructor = 6891535;
-        public TLRPC.InputChannel channel;
+        public static final int constructor = 1889078125;
         public int limit;
         public int offset;
+        public TLRPC.InputPeer peer;
 
         @Override // org.telegram.tgnet.TLObject
         public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -418,7 +418,7 @@ public class TL_stats {
         @Override // org.telegram.tgnet.TLObject
         public void serializeToStream(AbstractSerializedData abstractSerializedData) {
             abstractSerializedData.writeInt32(constructor);
-            this.channel.serializeToStream(abstractSerializedData);
+            this.peer.serializeToStream(abstractSerializedData);
             abstractSerializedData.writeInt32(this.offset);
             abstractSerializedData.writeInt32(this.limit);
         }
@@ -426,9 +426,9 @@ public class TL_stats {
 
     /* loaded from: classes3.dex */
     public static class TL_getBroadcastRevenueWithdrawalUrl extends TLObject {
-        public static final int constructor = 711323507;
-        public TLRPC.InputChannel channel;
+        public static final int constructor = -1644889427;
         public TLRPC.InputCheckPasswordSRP password;
+        public TLRPC.InputPeer peer;
 
         @Override // org.telegram.tgnet.TLObject
         public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -438,7 +438,7 @@ public class TL_stats {
         @Override // org.telegram.tgnet.TLObject
         public void serializeToStream(AbstractSerializedData abstractSerializedData) {
             abstractSerializedData.writeInt32(constructor);
-            this.channel.serializeToStream(abstractSerializedData);
+            this.peer.serializeToStream(abstractSerializedData);
             this.password.serializeToStream(abstractSerializedData);
         }
     }

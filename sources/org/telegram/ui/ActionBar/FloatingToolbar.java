@@ -561,11 +561,11 @@ public final class FloatingToolbar {
                 }
             };
             animation.setInterpolator(this.mFastOutSlowInInterpolator);
-            animation.setDuration(getAdjustedDuration(NotificationCenter.liveLocationsChanged));
+            animation.setDuration(getAdjustedDuration(NotificationCenter.proxyChangedByRotation));
             animation2.setInterpolator(this.mLogAccelerateInterpolator);
-            animation2.setDuration(getAdjustedDuration(NotificationCenter.liveLocationsChanged));
+            animation2.setDuration(getAdjustedDuration(NotificationCenter.proxyChangedByRotation));
             animation3.setInterpolator(this.mFastOutSlowInInterpolator);
-            animation3.setDuration(getAdjustedDuration(NotificationCenter.liveLocationsChanged));
+            animation3.setDuration(getAdjustedDuration(NotificationCenter.proxyChangedByRotation));
             this.mCloseOverflowAnimation.getAnimations().clear();
             this.mCloseOverflowAnimation.addAnimation(animation);
             this.mCloseOverflowAnimation.addAnimation(animation2);
@@ -839,11 +839,11 @@ public final class FloatingToolbar {
                 }
             };
             animation.setInterpolator(this.mLogAccelerateInterpolator);
-            animation.setDuration(getAdjustedDuration(NotificationCenter.liveLocationsChanged));
+            animation.setDuration(getAdjustedDuration(NotificationCenter.proxyChangedByRotation));
             animation2.setInterpolator(this.mFastOutSlowInInterpolator);
-            animation2.setDuration(getAdjustedDuration(NotificationCenter.liveLocationsChanged));
+            animation2.setDuration(getAdjustedDuration(NotificationCenter.proxyChangedByRotation));
             animation3.setInterpolator(this.mFastOutSlowInInterpolator);
-            animation3.setDuration(getAdjustedDuration(NotificationCenter.liveLocationsChanged));
+            animation3.setDuration(getAdjustedDuration(NotificationCenter.proxyChangedByRotation));
             this.mOpenOverflowAnimation.getAnimations().clear();
             this.mOpenOverflowAnimation.addAnimation(animation);
             this.mOpenOverflowAnimation.addAnimation(animation2);

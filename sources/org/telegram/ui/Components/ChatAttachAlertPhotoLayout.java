@@ -230,6 +230,12 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+        public long getDialogId() {
+            BaseFragment baseFragment = ChatAttachAlertPhotoLayout.this.parentAlert.baseFragment;
+            return baseFragment instanceof ChatActivity ? ((ChatActivity) baseFragment).getDialogId() : super.getDialogId();
+        }
+
+        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
             PhotoAttachPhotoCell cellForIndex = ChatAttachAlertPhotoLayout.this.getCellForIndex(i);
             if (cellForIndex == null) {
@@ -1882,36 +1888,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         return true;
     }
 
-    private void clearSelectedPhotos() {
-        this.spoilerItem.setText(LocaleController.getString(R.string.EnablePhotoSpoiler));
-        this.spoilerItem.setAnimatedIcon(R.raw.photo_spoiler);
-        this.parentAlert.selectedMenuItem.showSubItem(1);
-        if (!selectedPhotos.isEmpty()) {
-            Iterator it = selectedPhotos.entrySet().iterator();
-            while (it.hasNext()) {
-                ((MediaController.PhotoEntry) ((Map.Entry) it.next()).getValue()).reset();
-            }
-            selectedPhotos.clear();
-            selectedPhotosOrder.clear();
-        }
-        if (!cameraPhotos.isEmpty()) {
-            int size = cameraPhotos.size();
-            for (int i = 0; i < size; i++) {
-                MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) cameraPhotos.get(i);
-                new File(photoEntry.path).delete();
-                if (photoEntry.imagePath != null) {
-                    new File(photoEntry.imagePath).delete();
-                }
-                if (photoEntry.thumbPath != null) {
-                    new File(photoEntry.thumbPath).delete();
-                }
-            }
-            cameraPhotos.clear();
-        }
-        this.adapter.notifyDataSetChanged();
-        this.cameraAttachAdapter.notifyDataSetChanged();
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     public PhotoAttachPhotoCell getCellForIndex(int i) {
         int childCount = this.gridView.getChildCount();
@@ -2568,7 +2544,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (baseFragment != null) {
             baseFragment.removeSelfFromStack();
         }
-        avatarConstructorFragment.lambda$onBackPressed$300();
+        avatarConstructorFragment.lambda$onBackPressed$319();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3395,6 +3371,36 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.noGalleryPermissions = isNoGalleryPermissions;
         if (!isNoGalleryPermissions) {
             loadGalleryPhotos();
+        }
+        this.adapter.notifyDataSetChanged();
+        this.cameraAttachAdapter.notifyDataSetChanged();
+    }
+
+    public void clearSelectedPhotos() {
+        this.spoilerItem.setText(LocaleController.getString(R.string.EnablePhotoSpoiler));
+        this.spoilerItem.setAnimatedIcon(R.raw.photo_spoiler);
+        this.parentAlert.selectedMenuItem.showSubItem(1);
+        if (!selectedPhotos.isEmpty()) {
+            Iterator it = selectedPhotos.entrySet().iterator();
+            while (it.hasNext()) {
+                ((MediaController.PhotoEntry) ((Map.Entry) it.next()).getValue()).reset();
+            }
+            selectedPhotos.clear();
+            selectedPhotosOrder.clear();
+        }
+        if (!cameraPhotos.isEmpty()) {
+            int size = cameraPhotos.size();
+            for (int i = 0; i < size; i++) {
+                MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) cameraPhotos.get(i);
+                new File(photoEntry.path).delete();
+                if (photoEntry.imagePath != null) {
+                    new File(photoEntry.imagePath).delete();
+                }
+                if (photoEntry.thumbPath != null) {
+                    new File(photoEntry.thumbPath).delete();
+                }
+            }
+            cameraPhotos.clear();
         }
         this.adapter.notifyDataSetChanged();
         this.cameraAttachAdapter.notifyDataSetChanged();
@@ -4570,29 +4576,25 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         checkCamera(false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x002d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x00c6, code lost:
     
-        if (getStarsPrice() <= 0) goto L25;
+        if (((org.telegram.ui.ChatActivity) r0).isSecretChat() == false) goto L48;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x00bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x0112, code lost:
     
-        if (((org.telegram.ui.ChatActivity) r0).isSecretChat() == false) goto L46;
+        if (((org.telegram.ui.ChatActivity) r9.parentAlert.baseFragment).getCurrentChatInfo().paid_media_allowed != false) goto L72;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0107, code lost:
-    
-        if (((org.telegram.ui.ChatActivity) r9.parentAlert.baseFragment).getCurrentChatInfo().paid_media_allowed != false) goto L70;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00af  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00c2  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00d9  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00e3  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x010e  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0137  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0141 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0159  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0167  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x013b  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0128  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00ba  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00cd  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00e4  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00ee  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0142  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x014c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0172  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0146  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0133  */
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4616,14 +4618,18 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 this.parentAlert.selectedMenuItem.hideSubItem(1);
                 z = false;
                 z2 = false;
-            } else if (!this.documentsEnabled || getStarsPrice() > 0) {
+            } else {
+                if (this.documentsEnabled && getStarsPrice() <= 0) {
+                    ChatAttachAlert chatAttachAlert4 = this.parentAlert;
+                    if (chatAttachAlert4.editingMessageObject == null) {
+                        chatAttachAlert4.selectedMenuItem.showSubItem(1);
+                        z = false;
+                        z2 = true;
+                    }
+                }
                 z = false;
                 this.parentAlert.selectedMenuItem.hideSubItem(1);
                 z2 = false;
-            } else {
-                z = false;
-                this.parentAlert.selectedMenuItem.showSubItem(1);
-                z2 = true;
             }
         } else {
             long starsPrice = getStarsPrice();
@@ -4635,7 +4641,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 actionBarMenuItem.hideSubItem(0);
                 z = false;
             }
-            if (this.documentsEnabled) {
+            if (this.documentsEnabled && getStarsPrice() <= 0) {
+                this.parentAlert.selectedMenuItem.showSubItem(1);
+                z2 = true;
             }
             this.parentAlert.selectedMenuItem.hideSubItem(1);
             z2 = false;
@@ -4680,9 +4688,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     this.spoilerItem.setAnimatedIcon(R.raw.photo_spoiler);
                     this.parentAlert.selectedMenuItem.hideSubItem(2);
                 } else {
-                    ChatAttachAlert chatAttachAlert4 = this.parentAlert;
-                    if (chatAttachAlert4 != null) {
-                        chatAttachAlert4.selectedMenuItem.showSubItem(2);
+                    ChatAttachAlert chatAttachAlert5 = this.parentAlert;
+                    if (chatAttachAlert5 != null) {
+                        chatAttachAlert5.selectedMenuItem.showSubItem(2);
                     }
                 }
                 MessagePreviewView.ToggleButton toggleButton = this.captionItem;

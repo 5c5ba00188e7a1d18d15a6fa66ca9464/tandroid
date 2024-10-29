@@ -989,22 +989,22 @@ public class ImageLoader {
             boolean z = true;
             if (wallPaperSettings2.second_background_color == 0) {
                 i = AndroidUtilities.getPatternColor(wallPaperSettings2.background_color);
-                canvas.drawColor(ColorUtils.setAlphaComponent(wallPaper.settings.background_color, NotificationCenter.closeSearchByActiveAction));
+                canvas.drawColor(ColorUtils.setAlphaComponent(wallPaper.settings.background_color, NotificationCenter.playerDidStartPlaying));
             } else {
                 int i2 = wallPaperSettings2.third_background_color;
-                int alphaComponent = ColorUtils.setAlphaComponent(wallPaperSettings2.background_color, NotificationCenter.closeSearchByActiveAction);
+                int alphaComponent = ColorUtils.setAlphaComponent(wallPaperSettings2.background_color, NotificationCenter.playerDidStartPlaying);
                 if (i2 == 0) {
-                    int alphaComponent2 = ColorUtils.setAlphaComponent(wallPaper.settings.second_background_color, NotificationCenter.closeSearchByActiveAction);
+                    int alphaComponent2 = ColorUtils.setAlphaComponent(wallPaper.settings.second_background_color, NotificationCenter.playerDidStartPlaying);
                     int averageColor = AndroidUtilities.getAverageColor(alphaComponent, alphaComponent2);
                     GradientDrawable gradientDrawable = new GradientDrawable(BackgroundGradientDrawable.getGradientOrientation(wallPaper.settings.rotation), new int[]{alphaComponent, alphaComponent2});
                     gradientDrawable.setBounds(0, 0, createBitmap.getWidth(), createBitmap.getHeight());
                     gradientDrawable.draw(canvas);
                     i = averageColor;
                 } else {
-                    int alphaComponent3 = ColorUtils.setAlphaComponent(wallPaper.settings.second_background_color, NotificationCenter.closeSearchByActiveAction);
-                    int alphaComponent4 = ColorUtils.setAlphaComponent(wallPaper.settings.third_background_color, NotificationCenter.closeSearchByActiveAction);
+                    int alphaComponent3 = ColorUtils.setAlphaComponent(wallPaper.settings.second_background_color, NotificationCenter.playerDidStartPlaying);
+                    int alphaComponent4 = ColorUtils.setAlphaComponent(wallPaper.settings.third_background_color, NotificationCenter.playerDidStartPlaying);
                     int i3 = wallPaper.settings.fourth_background_color;
-                    int alphaComponent5 = i3 == 0 ? 0 : ColorUtils.setAlphaComponent(i3, NotificationCenter.closeSearchByActiveAction);
+                    int alphaComponent5 = i3 == 0 ? 0 : ColorUtils.setAlphaComponent(i3, NotificationCenter.playerDidStartPlaying);
                     int patternColor = MotionBackgroundDrawable.getPatternColor(alphaComponent, alphaComponent3, alphaComponent4, alphaComponent5);
                     MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable();
                     motionBackgroundDrawable.setColors(alphaComponent, alphaComponent3, alphaComponent4, alphaComponent5);
@@ -3167,42 +3167,42 @@ public class ImageLoader {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:54:0x0121, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:54:0x0122, code lost:
         
             if (r5 != (-1)) goto L96;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:56:0x0123, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:56:0x0124, code lost:
         
             r0 = r11.fileSize;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:57:0x0125, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:57:0x0126, code lost:
         
-            if (r0 == 0) goto L113;
+            if (r0 == 0) goto L117;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:58:0x0127, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:58:0x0128, code lost:
         
             r3 = r0;
             reportProgress(r3, r3);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:74:0x012e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:74:0x012f, code lost:
         
             r0 = e;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:75:0x012f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:75:0x0130, code lost:
         
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:77:0x012c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:77:0x012d, code lost:
         
             r0 = th;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:78:0x0133, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:78:0x0134, code lost:
         
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x00a8 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x013c A[Catch: all -> 0x0142, TRY_LEAVE, TryCatch #1 {all -> 0x0142, blocks: (B:61:0x0138, B:63:0x013c), top: B:60:0x0138 }] */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x0148 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x00a9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x013d A[Catch: all -> 0x0143, TRY_LEAVE, TryCatch #3 {all -> 0x0143, blocks: (B:61:0x0139, B:63:0x013d), top: B:60:0x0139 }] */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x0149 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3449,80 +3449,80 @@ public class ImageLoader {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Can't wrap try/catch for region: R(17:1|(9:101|102|(6:104|(1:106)|107|(1:109)|110|(16:112|114|115|4|(6:35|36|(1:44)|46|(3:50|51|(1:59))|(4:64|65|66|(2:67|(1:97)(3:69|70|(3:72|(3:74|75|76)(1:78)|77)(1:79))))(0))(0)|6|7|8|(1:10)|12|13|(1:15)|(2:27|28)|(1:23)|24|25))|140|(1:146)|107|(0)|110|(0))|3|4|(0)(0)|6|7|8|(0)|12|13|(0)|(0)|(3:19|21|23)|24|25|(1:(0))) */
-        /* JADX WARN: Code restructure failed: missing block: B:122:0x00b4, code lost:
+        /* JADX WARN: Can't wrap try/catch for region: R(17:1|(9:101|102|(6:104|(1:106)|107|(1:109)|110|(16:112|114|115|4|(6:35|36|(1:44)|46|(3:50|51|(1:59))|(14:64|65|66|(2:67|(1:97)(3:69|70|(3:72|(3:74|75|76)(1:78)|77)(1:79)))|7|8|(1:10)|12|13|(1:15)|(2:27|28)|(1:23)|24|25)(0))(0)|6|7|8|(0)|12|13|(0)|(0)|(3:19|21|23)|24|25))|140|(1:146)|107|(0)|110|(0))|3|4|(0)(0)|6|7|8|(0)|12|13|(0)|(0)|(0)|24|25|(1:(0))) */
+        /* JADX WARN: Code restructure failed: missing block: B:122:0x00b5, code lost:
         
             if (org.telegram.messenger.ApplicationLoader.isNetworkOnline() != false) goto L42;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:125:0x00d2, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:125:0x00d3, code lost:
         
             r12.canRetry = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:133:0x00d0, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:133:0x00d1, code lost:
         
             if (r13.getMessage().contains("ECONNRESET") != false) goto L42;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:33:0x0195, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:33:0x0196, code lost:
         
             r1 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x0196, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x0197, code lost:
         
             org.telegram.messenger.FileLog.e(r1);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:81:0x016e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:81:0x016f, code lost:
         
             if (r7 != (-1)) goto L112;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:83:0x0170, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:83:0x0171, code lost:
         
             r2 = r12.imageSize;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:84:0x0174, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:84:0x0175, code lost:
         
             if (r2 == 0) goto L143;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:85:0x0176, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:85:0x0177, code lost:
         
             reportProgress(r2, r2);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:87:0x017e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:87:0x017f, code lost:
         
             r2 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:88:0x017f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:88:0x0180, code lost:
         
             r0 = r2;
             r2 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:89:0x0181, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:89:0x0182, code lost:
         
             org.telegram.messenger.FileLog.e(r0);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:90:0x0184, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:90:0x0185, code lost:
         
             r0 = r2;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:92:0x017a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:92:0x017b, code lost:
         
             r2 = move-exception;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:93:0x017b, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:93:0x017c, code lost:
         
             r0 = r2;
             r2 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:94:0x0186, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:94:0x0187, code lost:
         
             org.telegram.messenger.FileLog.e(r0);
          */
         /* JADX WARN: Removed duplicated region for block: B:109:0x0065  */
-        /* JADX WARN: Removed duplicated region for block: B:10:0x018f A[Catch: all -> 0x0195, TRY_LEAVE, TryCatch #4 {all -> 0x0195, blocks: (B:8:0x018b, B:10:0x018f), top: B:7:0x018b }] */
-        /* JADX WARN: Removed duplicated region for block: B:112:0x008f A[Catch: all -> 0x0020, TRY_LEAVE, TryCatch #1 {all -> 0x0020, blocks: (B:102:0x0009, B:104:0x0017, B:107:0x005f, B:110:0x0066, B:112:0x008f, B:140:0x0024, B:144:0x0034, B:146:0x0042), top: B:101:0x0009 }] */
-        /* JADX WARN: Removed duplicated region for block: B:15:0x019d A[Catch: all -> 0x01a1, TRY_LEAVE, TryCatch #2 {all -> 0x01a1, blocks: (B:13:0x0199, B:15:0x019d), top: B:12:0x0199 }] */
-        /* JADX WARN: Removed duplicated region for block: B:19:0x01ae  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x01a4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x00ef A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:10:0x0190 A[Catch: all -> 0x0196, TRY_LEAVE, TryCatch #4 {all -> 0x0196, blocks: (B:8:0x018c, B:10:0x0190), top: B:7:0x018c }] */
+        /* JADX WARN: Removed duplicated region for block: B:112:0x008f A[Catch: all -> 0x0020, TRY_LEAVE, TryCatch #0 {all -> 0x0020, blocks: (B:102:0x0009, B:104:0x0017, B:107:0x005f, B:110:0x0066, B:112:0x008f, B:140:0x0024, B:144:0x0034, B:146:0x0042), top: B:101:0x0009 }] */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x019e A[Catch: all -> 0x01a2, TRY_LEAVE, TryCatch #2 {all -> 0x01a2, blocks: (B:13:0x019a, B:15:0x019e), top: B:12:0x019a }] */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x01af  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x01a5 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x00f0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3653,28 +3653,41 @@ public class ImageLoader {
                                 } catch (Throwable th3) {
                                     th = th3;
                                 }
+                                randomAccessFile = this.fileOutputStream;
+                                if (randomAccessFile != null) {
+                                    randomAccessFile.close();
+                                    this.fileOutputStream = null;
+                                }
+                                httpURLConnection2 = this.httpConnection;
+                                if (httpURLConnection2 != null) {
+                                    httpURLConnection2.disconnect();
+                                }
+                                if (inputStream2 != null) {
+                                    try {
+                                        inputStream2.close();
+                                    } catch (Throwable th4) {
+                                        FileLog.e(th4);
+                                    }
+                                }
+                                if (z2 && (file = (cacheImage = this.cacheImage).tempFilePath) != null && !file.renameTo(cacheImage.finalFilePath)) {
+                                    CacheImage cacheImage2 = this.cacheImage;
+                                    cacheImage2.finalFilePath = cacheImage2.tempFilePath;
+                                }
+                                return Boolean.valueOf(z2);
                             }
                         }
                         z2 = false;
                         randomAccessFile = this.fileOutputStream;
                         if (randomAccessFile != null) {
-                            randomAccessFile.close();
-                            this.fileOutputStream = null;
                         }
                         httpURLConnection2 = this.httpConnection;
                         if (httpURLConnection2 != null) {
-                            httpURLConnection2.disconnect();
                         }
                         if (inputStream2 != null) {
-                            try {
-                                inputStream2.close();
-                            } catch (Throwable th4) {
-                                FileLog.e(th4);
-                            }
                         }
-                        if (z2 && (file = (cacheImage = this.cacheImage).tempFilePath) != null && !file.renameTo(cacheImage.finalFilePath)) {
-                            CacheImage cacheImage2 = this.cacheImage;
-                            cacheImage2.finalFilePath = cacheImage2.tempFilePath;
+                        if (z2) {
+                            CacheImage cacheImage22 = this.cacheImage;
+                            cacheImage22.finalFilePath = cacheImage22.tempFilePath;
                         }
                         return Boolean.valueOf(z2);
                     }
@@ -3717,8 +3730,6 @@ public class ImageLoader {
             if (inputStream2 != null) {
             }
             if (z2) {
-                CacheImage cacheImage22 = this.cacheImage;
-                cacheImage22.finalFilePath = cacheImage22.tempFilePath;
             }
             return Boolean.valueOf(z2);
         }
@@ -5647,9 +5658,9 @@ public class ImageLoader {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00c5  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00d5  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00eb  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00c6  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00ec  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

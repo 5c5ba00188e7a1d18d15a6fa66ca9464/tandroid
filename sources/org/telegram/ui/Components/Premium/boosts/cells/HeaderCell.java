@@ -140,7 +140,7 @@ public class HeaderCell extends FrameLayout {
         linksTextView.setImportantForAccessibility(2);
         linearLayout.addView(linksTextView, LayoutHelper.createFrame(-1, -2.0f, 17, 24.0f, 8.0f, 24.0f, 18.0f));
         setClipChildren(false);
-        addView(starParticlesView, LayoutHelper.createFrame(-1, NotificationCenter.didSetNewTheme, 48));
+        addView(starParticlesView, LayoutHelper.createFrame(-1, NotificationCenter.didReplacedPhotoInMemCache, 48));
         addView(linearLayout);
         setWillNotDraw(false);
     }

@@ -355,7 +355,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    TopicsNotifySettingsFragments.this.lambda$onBackPressed$300();
+                    TopicsNotifySettingsFragments.this.lambda$onBackPressed$319();
                 }
             }
         });

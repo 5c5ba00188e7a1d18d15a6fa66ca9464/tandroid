@@ -197,6 +197,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     private ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate documentsDelegate;
     private boolean documentsEnabled;
     protected ActionBarMenuItem doneItem;
+    private int editType;
     protected MessageObject editingMessageObject;
     private boolean enterCommentEventSent;
     private ArrayList exclusionRects;
@@ -2911,7 +2912,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 ChatAttachAlert.this.attachButtonPaint.setStrokeWidth(AndroidUtilities.dp(3.0f) * scaleX);
                 ChatAttachAlert.this.attachButtonPaint.setAlpha(Math.round(this.checkedState * 255.0f));
                 canvas.drawCircle(left, top, dp - (ChatAttachAlert.this.attachButtonPaint.getStrokeWidth() * 0.5f), ChatAttachAlert.this.attachButtonPaint);
-                ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
                 ChatAttachAlert.this.attachButtonPaint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(left, top, dp - (AndroidUtilities.dp(5.0f) * this.checkedState), ChatAttachAlert.this.attachButtonPaint);
             }
@@ -3017,8 +3018,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                             }
                     }
                 }
-                this.textColor = ColorUtils.setAlphaComponent(this.textColor, NotificationCenter.closeSearchByActiveAction);
-                this.iconBackgroundColor = ColorUtils.setAlphaComponent(this.iconBackgroundColor, NotificationCenter.closeSearchByActiveAction);
+                this.textColor = ColorUtils.setAlphaComponent(this.textColor, NotificationCenter.playerDidStartPlaying);
+                this.iconBackgroundColor = ColorUtils.setAlphaComponent(this.iconBackgroundColor, NotificationCenter.playerDidStartPlaying);
                 TLRPC.Document document = animatedAttachMenuBotIcon.icon;
                 this.imageView.getImageReceiver().setAllowStartLottieAnimation(false);
                 this.imageView.setImage(ImageLocation.getForDocument(document), String.valueOf(tL_attachMenuBot.bot_id), z ? "tgs" : "svg", DocumentObject.getSvgThumb(document, Theme.key_windowBackgroundGray, 1.0f), tL_attachMenuBot);
@@ -3183,7 +3184,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             ChatAttachAlert.this.attachButtonPaint.setStrokeWidth(AndroidUtilities.dp(3.0f) * scaleX);
             ChatAttachAlert.this.attachButtonPaint.setAlpha(Math.round(this.checkedState * 255.0f));
             canvas.drawCircle(left, top, dp - (ChatAttachAlert.this.attachButtonPaint.getStrokeWidth() * 0.5f), ChatAttachAlert.this.attachButtonPaint);
-            ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
+            ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
             ChatAttachAlert.this.attachButtonPaint.setStyle(Paint.Style.FILL);
             canvas.drawCircle(left, top, dp - (AndroidUtilities.dp(5.0f) * this.checkedState), ChatAttachAlert.this.attachButtonPaint);
         }
@@ -3293,9 +3294,15 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             return false;
         }
 
+        /* JADX WARN: Code restructure failed: missing block: B:21:0x0072, code lost:
+        
+            if (org.telegram.ui.Components.ChatAttachAlert.this.editType == 2) goto L148;
+         */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public void notifyDataSetChanged() {
-            int i;
             this.buttonsCount = 0;
             this.galleryButton = -1;
             this.documentButton = -1;
@@ -3308,8 +3315,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             this.attachBotsEndRow = -1;
             ChatAttachAlert chatAttachAlert = ChatAttachAlert.this;
             if (chatAttachAlert.baseFragment instanceof ChatActivity) {
-                MessageObject messageObject = chatAttachAlert.editingMessageObject;
-                if (messageObject == null) {
+                if (chatAttachAlert.editingMessageObject == null) {
                     this.buttonsCount = 1;
                     this.galleryButton = 0;
                     if (chatAttachAlert.photosEnabled || ChatAttachAlert.this.videosEnabled) {
@@ -3332,54 +3338,60 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                             this.attachBotsEndRow = size;
                         }
                     }
-                    int i2 = this.buttonsCount;
-                    this.buttonsCount = i2 + 1;
-                    this.documentButton = i2;
+                    int i = this.buttonsCount;
+                    this.buttonsCount = i + 1;
+                    this.documentButton = i;
                     if (ChatAttachAlert.this.plainTextEnabled) {
-                        int i3 = this.buttonsCount;
-                        this.buttonsCount = i3 + 1;
-                        this.locationButton = i3;
+                        int i2 = this.buttonsCount;
+                        this.buttonsCount = i2 + 1;
+                        this.locationButton = i2;
                     }
                     if (ChatAttachAlert.this.pollsEnabled) {
-                        int i4 = this.buttonsCount;
-                        this.buttonsCount = i4 + 1;
-                        this.pollButton = i4;
+                        int i3 = this.buttonsCount;
+                        this.buttonsCount = i3 + 1;
+                        this.pollButton = i3;
                     }
                     if (ChatAttachAlert.this.plainTextEnabled) {
-                        int i5 = this.buttonsCount;
-                        this.buttonsCount = i5 + 1;
-                        this.contactButton = i5;
+                        int i4 = this.buttonsCount;
+                        this.buttonsCount = i4 + 1;
+                        this.contactButton = i4;
                     }
                     BaseFragment baseFragment2 = ChatAttachAlert.this.baseFragment;
                     TLRPC.User currentUser = baseFragment2 instanceof ChatActivity ? ((ChatActivity) baseFragment2).getCurrentUser() : null;
                     BaseFragment baseFragment3 = ChatAttachAlert.this.baseFragment;
                     if ((baseFragment3 instanceof ChatActivity) && ((ChatActivity) baseFragment3).getChatMode() == 0 && currentUser != null && !currentUser.bot && QuickRepliesController.getInstance(ChatAttachAlert.this.currentAccount).hasReplies()) {
-                        int i6 = this.buttonsCount;
-                        this.buttonsCount = i6 + 1;
-                        this.quickRepliesButton = i6;
+                        int i5 = this.buttonsCount;
+                        this.buttonsCount = i5 + 1;
+                        this.quickRepliesButton = i5;
                     }
-                } else if ((!messageObject.isMusic() && !ChatAttachAlert.this.editingMessageObject.isDocument()) || !ChatAttachAlert.this.editingMessageObject.hasValidGroupId()) {
-                    int i7 = this.buttonsCount;
-                    this.galleryButton = i7;
-                    this.documentButton = i7 + 1;
-                    this.buttonsCount = i7 + 3;
-                    this.musicButton = i7 + 2;
-                } else if (!ChatAttachAlert.this.editingMessageObject.isMusic()) {
-                    int i8 = this.buttonsCount;
-                    this.buttonsCount = i8 + 1;
-                    this.documentButton = i8;
+                } else if (chatAttachAlert.editType == -1) {
+                    int i6 = this.buttonsCount;
+                    this.galleryButton = i6;
+                    this.documentButton = i6 + 1;
+                    this.buttonsCount = i6 + 3;
+                    this.musicButton = i6 + 2;
+                } else {
+                    if (ChatAttachAlert.this.editType == 0) {
+                        int i7 = this.buttonsCount;
+                        this.buttonsCount = i7 + 1;
+                        this.galleryButton = i7;
+                    }
+                    if (ChatAttachAlert.this.editType == 1) {
+                        int i8 = this.buttonsCount;
+                        this.buttonsCount = i8 + 1;
+                        this.documentButton = i8;
+                    }
                 }
-                i = this.buttonsCount;
-                this.buttonsCount = i + 1;
-                this.musicButton = i;
+                int i9 = this.buttonsCount;
+                this.buttonsCount = i9 + 1;
+                this.musicButton = i9;
             } else {
                 this.galleryButton = 0;
-                i = 2;
                 this.buttonsCount = 2;
                 this.documentButton = 1;
                 if (chatAttachAlert.allowEnterCaption) {
                     this.buttonsCount = 3;
-                    this.musicButton = i;
+                    this.musicButton = 2;
                 }
             }
             super.notifyDataSetChanged();
@@ -3798,6 +3810,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         actionBarMenuItem3.setContentDescription(LocaleController.getString(i8));
         this.selectedMenuItem.setVisibility(4);
         this.selectedMenuItem.setAlpha(0.0f);
+        this.selectedMenuItem.setScaleX(0.6f);
+        this.selectedMenuItem.setScaleY(0.6f);
         this.selectedMenuItem.setSubMenuOpenSide(2);
         this.selectedMenuItem.setDelegate(new ActionBarMenuItem.ActionBarMenuItemDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda11
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemDelegate
@@ -4863,24 +4877,25 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x02ff  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0465  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x0472  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x04db  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x04ea A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x0515 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0522  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x0547 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x055e  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x04de  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x04aa  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x046a  */
-    /* JADX WARN: Type inference failed for: r0v77, types: [org.telegram.ui.Components.ItemOptions] */
-    /* JADX WARN: Type inference failed for: r13v7 */
-    /* JADX WARN: Type inference failed for: r13v8, types: [java.lang.String, java.lang.Runnable] */
-    /* JADX WARN: Type inference failed for: r13v9 */
-    /* JADX WARN: Type inference failed for: r2v48, types: [org.telegram.ui.MessageSendPreview] */
-    /* JADX WARN: Type inference failed for: r2v60, types: [org.telegram.ui.ActionBar.ActionBarMenuSubItem, android.view.View] */
+    /* JADX WARN: Removed duplicated region for block: B:134:0x02f7  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x045c  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0469  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x04d2  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x04e1 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x050c A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:197:0x0519  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x053e A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0555  */
+    /* JADX WARN: Removed duplicated region for block: B:213:0x04d5  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x04a1  */
+    /* JADX WARN: Removed duplicated region for block: B:215:0x0461  */
+    /* JADX WARN: Type inference failed for: r0v76, types: [org.telegram.ui.Components.ItemOptions] */
+    /* JADX WARN: Type inference failed for: r15v10 */
+    /* JADX WARN: Type inference failed for: r15v3 */
+    /* JADX WARN: Type inference failed for: r15v4, types: [java.lang.String, java.lang.Runnable] */
+    /* JADX WARN: Type inference failed for: r15v5 */
+    /* JADX WARN: Type inference failed for: r2v49, types: [org.telegram.ui.MessageSendPreview] */
+    /* JADX WARN: Type inference failed for: r2v62, types: [org.telegram.ui.ActionBar.ActionBarMenuSubItem, android.view.View] */
     /* JADX WARN: Type inference failed for: r3v18, types: [org.telegram.tgnet.TLRPC$DocumentAttribute, org.telegram.tgnet.TLRPC$TL_documentAttributeVideo] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4893,8 +4908,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         ChatActivity chatActivity;
         final MessageObject messageObject3;
         boolean z;
-        boolean z2;
         long j2;
+        boolean z2;
         HashMap<Object, Object> hashMap;
         ArrayList<Object> arrayList;
         String str;
@@ -4911,21 +4926,22 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         MediaMetadataRetriever mediaMetadataRetriever;
         MediaMetadataRetriever mediaMetadataRetriever2;
         ArrayList arrayList3;
+        boolean z3;
         final long j4;
-        ?? r13;
+        ?? r15;
         AttachAlertLayout attachAlertLayout;
         MessageObject messageObject5;
-        boolean z3;
-        String substring;
         boolean z4;
+        String substring;
         boolean z5;
-        int i5;
         boolean z6;
+        int i5;
+        boolean z7;
         String str2;
         int i6 = 10;
-        boolean z7 = true;
+        boolean z8 = true;
         long j5 = this.dialogId;
-        if ((j5 == 0 && !(this.baseFragment instanceof ChatActivity)) || this.editingMessageObject != null || this.currentLimit - this.codepointCount < 0) {
+        if ((j5 == 0 && !(this.baseFragment instanceof ChatActivity)) || this.currentLimit - this.codepointCount < 0) {
             return false;
         }
         BaseFragment baseFragment2 = this.baseFragment;
@@ -4970,20 +4986,20 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             ArrayList<Object> selectedPhotosOrder = this.photoLayout.getSelectedPhotosOrder();
             if (!selectedPhotos.isEmpty()) {
                 int ceil = (int) Math.ceil(selectedPhotos.size() / 10.0f);
-                boolean z8 = false;
+                boolean z9 = false;
                 messageObject3 = null;
                 int i7 = 0;
                 int i8 = 0;
-                z = false;
+                boolean z10 = false;
                 while (i7 < ceil) {
                     String str5 = str4;
                     int i9 = i7 * 10;
-                    boolean z9 = z8;
+                    boolean z11 = z9;
                     int i10 = ceil;
                     int min = Math.min(10, selectedPhotos.size() - i9);
                     long nextLong = Utilities.random.nextLong();
                     int i11 = i8;
-                    boolean z10 = z9;
+                    boolean z12 = z11;
                     int i12 = 0;
                     while (i12 < min) {
                         int i13 = i9 + i12;
@@ -5004,8 +5020,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                             arrayList = selectedPhotosOrder;
                             tL_message.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
                             tL_message.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
-                            boolean z11 = photoEntry.isVideo;
-                            if ((!z11 && (str = photoEntry.imagePath) != null) || (str = photoEntry.path) != null) {
+                            boolean z13 = photoEntry.isVideo;
+                            if ((!z13 && (str = photoEntry.imagePath) != null) || (str = photoEntry.path) != null) {
                                 tL_message.attachPath = str;
                             }
                             if (min > 0) {
@@ -5014,7 +5030,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                             int i15 = photoEntry.width;
                             int i16 = photoEntry.height;
                             int i17 = photoEntry.orientation;
-                            if (z11) {
+                            if (z13) {
                                 if (photoEntry.videoOrientation == -1) {
                                     try {
                                         mediaMetadataRetriever2 = new MediaMetadataRetriever();
@@ -5022,150 +5038,150 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                                             try {
                                                 mediaMetadataRetriever2.setDataSource(photoEntry.path);
                                                 photoEntry.videoOrientation = Integer.parseInt(mediaMetadataRetriever2.extractMetadata(24));
-                                            } catch (Exception e) {
-                                                e = e;
-                                                i = i16;
-                                                photoEntry.videoOrientation = 0;
-                                                FileLog.e(e);
-                                                if (mediaMetadataRetriever2 != null) {
-                                                    try {
-                                                        mediaMetadataRetriever2.release();
-                                                    } catch (IOException e2) {
-                                                        e = e2;
-                                                        FileLog.e(e);
-                                                        i17 = photoEntry.videoOrientation;
-                                                        if ((i17 / 90) % 2 == 0) {
-                                                        }
-                                                        if (photoEntry.isVideo) {
-                                                        }
-                                                        arrayList2.add(tL_photoSize);
-                                                        tL_message.media.spoiler = photoEntry.hasSpoiler;
-                                                        CharSequence charSequence2 = photoEntry.caption;
-                                                        if (charSequence2 != null) {
-                                                        }
-                                                        tL_message.message = charSequence;
-                                                        if (TextUtils.isEmpty(charSequence)) {
-                                                            CharSequence[] charSequenceArr = {this.commentTextView.getText()};
-                                                            MessageObject.addLinks(true, charSequenceArr[0]);
-                                                            tL_message.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr, true);
-                                                            tL_message.message = charSequenceArr[0].toString();
-                                                        }
-                                                        if (i7 == 0) {
-                                                            TLRPC.TL_messageReplyHeader tL_messageReplyHeader = new TLRPC.TL_messageReplyHeader();
-                                                            if (messageObject2 != null) {
-                                                            }
-                                                            tL_messageReplyHeader.flags |= 16;
-                                                            tL_messageReplyHeader.reply_to_msg_id = messageObject.getId();
-                                                            tL_message.reply_to = tL_messageReplyHeader;
-                                                        }
-                                                        messageObject4 = new MessageObject(this.currentAccount, tL_message, true, false);
-                                                        if (i7 == 0) {
-                                                            messageObject4.replyMessageObject = messageObject;
-                                                        }
-                                                        messageObject4.sendPreviewEntry = photoEntry;
-                                                        messageObject4.sendPreview = true;
-                                                        messageObject4.notime = true;
-                                                        messageObject4.isOutOwnerCached = Boolean.TRUE;
-                                                        arrayList4.add(messageObject4);
-                                                        if (messageObject6 == null) {
-                                                        }
-                                                        i11 = i14;
-                                                        i4 = 1;
-                                                        z10 = true;
-                                                        z = true;
-                                                        i12 += i4;
-                                                        selectedPhotos = hashMap;
-                                                        selectedPhotosOrder = arrayList;
-                                                        j = j3;
+                                                try {
+                                                    mediaMetadataRetriever2.release();
+                                                } catch (IOException e) {
+                                                    e = e;
+                                                    i = i16;
+                                                    FileLog.e(e);
+                                                    i17 = photoEntry.videoOrientation;
+                                                    if ((i17 / 90) % 2 == 0) {
                                                     }
+                                                    if (photoEntry.isVideo) {
+                                                    }
+                                                    arrayList2.add(tL_photoSize);
+                                                    tL_message.media.spoiler = photoEntry.hasSpoiler;
+                                                    CharSequence charSequence2 = photoEntry.caption;
+                                                    if (charSequence2 != null) {
+                                                    }
+                                                    tL_message.message = charSequence;
+                                                    if (TextUtils.isEmpty(charSequence)) {
+                                                    }
+                                                    if (i7 == 0) {
+                                                    }
+                                                    messageObject4 = new MessageObject(this.currentAccount, tL_message, true, false);
+                                                    if (i7 == 0) {
+                                                    }
+                                                    messageObject4.sendPreviewEntry = photoEntry;
+                                                    messageObject4.sendPreview = true;
+                                                    messageObject4.notime = true;
+                                                    messageObject4.isOutOwnerCached = Boolean.TRUE;
+                                                    arrayList4.add(messageObject4);
+                                                    if (messageObject6 == null) {
+                                                    }
+                                                    i11 = i14;
+                                                    i4 = 1;
+                                                    z12 = true;
+                                                    z10 = true;
+                                                    i12 += i4;
+                                                    selectedPhotos = hashMap;
+                                                    selectedPhotosOrder = arrayList;
+                                                    j = j3;
                                                 }
-                                                i17 = photoEntry.videoOrientation;
-                                                if ((i17 / 90) % 2 == 0) {
+                                            } catch (Throwable th2) {
+                                                mediaMetadataRetriever = mediaMetadataRetriever2;
+                                                th = th2;
+                                                if (mediaMetadataRetriever == null) {
+                                                    throw th;
                                                 }
-                                                if (photoEntry.isVideo) {
+                                                try {
+                                                    mediaMetadataRetriever.release();
+                                                    throw th;
+                                                } catch (IOException e2) {
+                                                    FileLog.e(e2);
+                                                    throw th;
                                                 }
-                                                arrayList2.add(tL_photoSize);
-                                                tL_message.media.spoiler = photoEntry.hasSpoiler;
-                                                CharSequence charSequence22 = photoEntry.caption;
-                                                if (charSequence22 != null) {
-                                                }
-                                                tL_message.message = charSequence;
-                                                if (TextUtils.isEmpty(charSequence)) {
-                                                }
-                                                if (i7 == 0) {
-                                                }
-                                                messageObject4 = new MessageObject(this.currentAccount, tL_message, true, false);
-                                                if (i7 == 0) {
-                                                }
-                                                messageObject4.sendPreviewEntry = photoEntry;
-                                                messageObject4.sendPreview = true;
-                                                messageObject4.notime = true;
-                                                messageObject4.isOutOwnerCached = Boolean.TRUE;
-                                                arrayList4.add(messageObject4);
-                                                if (messageObject6 == null) {
-                                                }
-                                                i11 = i14;
-                                                i4 = 1;
-                                                z10 = true;
-                                                z = true;
-                                                i12 += i4;
-                                                selectedPhotos = hashMap;
-                                                selectedPhotosOrder = arrayList;
-                                                j = j3;
                                             }
-                                            try {
-                                                mediaMetadataRetriever2.release();
-                                            } catch (IOException e3) {
-                                                e = e3;
-                                                i = i16;
-                                                FileLog.e(e);
-                                                i17 = photoEntry.videoOrientation;
-                                                if ((i17 / 90) % 2 == 0) {
+                                        } catch (Exception e3) {
+                                            e = e3;
+                                            i = i16;
+                                            photoEntry.videoOrientation = 0;
+                                            FileLog.e(e);
+                                            if (mediaMetadataRetriever2 != null) {
+                                                try {
+                                                    mediaMetadataRetriever2.release();
+                                                } catch (IOException e4) {
+                                                    e = e4;
+                                                    FileLog.e(e);
+                                                    i17 = photoEntry.videoOrientation;
+                                                    if ((i17 / 90) % 2 == 0) {
+                                                    }
+                                                    if (photoEntry.isVideo) {
+                                                    }
+                                                    arrayList2.add(tL_photoSize);
+                                                    tL_message.media.spoiler = photoEntry.hasSpoiler;
+                                                    CharSequence charSequence22 = photoEntry.caption;
+                                                    if (charSequence22 != null) {
+                                                    }
+                                                    tL_message.message = charSequence;
+                                                    if (TextUtils.isEmpty(charSequence)) {
+                                                        CharSequence[] charSequenceArr = {this.commentTextView.getText()};
+                                                        MessageObject.addLinks(true, charSequenceArr[0]);
+                                                        tL_message.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr, true);
+                                                        tL_message.message = charSequenceArr[0].toString();
+                                                    }
+                                                    if (i7 == 0) {
+                                                        TLRPC.TL_messageReplyHeader tL_messageReplyHeader = new TLRPC.TL_messageReplyHeader();
+                                                        if (messageObject2 != null) {
+                                                        }
+                                                        tL_messageReplyHeader.flags |= 16;
+                                                        tL_messageReplyHeader.reply_to_msg_id = messageObject.getId();
+                                                        tL_message.reply_to = tL_messageReplyHeader;
+                                                    }
+                                                    messageObject4 = new MessageObject(this.currentAccount, tL_message, true, false);
+                                                    if (i7 == 0) {
+                                                        messageObject4.replyMessageObject = messageObject;
+                                                    }
+                                                    messageObject4.sendPreviewEntry = photoEntry;
+                                                    messageObject4.sendPreview = true;
+                                                    messageObject4.notime = true;
+                                                    messageObject4.isOutOwnerCached = Boolean.TRUE;
+                                                    arrayList4.add(messageObject4);
+                                                    if (messageObject6 == null) {
+                                                    }
+                                                    i11 = i14;
+                                                    i4 = 1;
+                                                    z12 = true;
+                                                    z10 = true;
+                                                    i12 += i4;
+                                                    selectedPhotos = hashMap;
+                                                    selectedPhotosOrder = arrayList;
+                                                    j = j3;
                                                 }
-                                                if (photoEntry.isVideo) {
-                                                }
-                                                arrayList2.add(tL_photoSize);
-                                                tL_message.media.spoiler = photoEntry.hasSpoiler;
-                                                CharSequence charSequence222 = photoEntry.caption;
-                                                if (charSequence222 != null) {
-                                                }
-                                                tL_message.message = charSequence;
-                                                if (TextUtils.isEmpty(charSequence)) {
-                                                }
-                                                if (i7 == 0) {
-                                                }
-                                                messageObject4 = new MessageObject(this.currentAccount, tL_message, true, false);
-                                                if (i7 == 0) {
-                                                }
-                                                messageObject4.sendPreviewEntry = photoEntry;
-                                                messageObject4.sendPreview = true;
-                                                messageObject4.notime = true;
-                                                messageObject4.isOutOwnerCached = Boolean.TRUE;
-                                                arrayList4.add(messageObject4);
-                                                if (messageObject6 == null) {
-                                                }
-                                                i11 = i14;
-                                                i4 = 1;
-                                                z10 = true;
-                                                z = true;
-                                                i12 += i4;
-                                                selectedPhotos = hashMap;
-                                                selectedPhotosOrder = arrayList;
-                                                j = j3;
                                             }
-                                        } catch (Throwable th2) {
-                                            mediaMetadataRetriever = mediaMetadataRetriever2;
-                                            th = th2;
-                                            if (mediaMetadataRetriever == null) {
-                                                throw th;
+                                            i17 = photoEntry.videoOrientation;
+                                            if ((i17 / 90) % 2 == 0) {
                                             }
-                                            try {
-                                                mediaMetadataRetriever.release();
-                                                throw th;
-                                            } catch (IOException e4) {
-                                                FileLog.e(e4);
-                                                throw th;
+                                            if (photoEntry.isVideo) {
                                             }
+                                            arrayList2.add(tL_photoSize);
+                                            tL_message.media.spoiler = photoEntry.hasSpoiler;
+                                            CharSequence charSequence222 = photoEntry.caption;
+                                            if (charSequence222 != null) {
+                                            }
+                                            tL_message.message = charSequence;
+                                            if (TextUtils.isEmpty(charSequence)) {
+                                            }
+                                            if (i7 == 0) {
+                                            }
+                                            messageObject4 = new MessageObject(this.currentAccount, tL_message, true, false);
+                                            if (i7 == 0) {
+                                            }
+                                            messageObject4.sendPreviewEntry = photoEntry;
+                                            messageObject4.sendPreview = true;
+                                            messageObject4.notime = true;
+                                            messageObject4.isOutOwnerCached = Boolean.TRUE;
+                                            arrayList4.add(messageObject4);
+                                            if (messageObject6 == null) {
+                                            }
+                                            i11 = i14;
+                                            i4 = 1;
+                                            z12 = true;
+                                            z10 = true;
+                                            i12 += i4;
+                                            selectedPhotos = hashMap;
+                                            selectedPhotosOrder = arrayList;
+                                            j = j3;
                                         }
                                     } catch (Exception e5) {
                                         e = e5;
@@ -5245,8 +5261,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                             messageObject3 = (messageObject6 == null || TextUtils.isEmpty(tL_message.message)) ? messageObject6 : messageObject4;
                             i11 = i14;
                             i4 = 1;
+                            z12 = true;
                             z10 = true;
-                            z = true;
                         }
                         i12 += i4;
                         selectedPhotos = hashMap;
@@ -5257,182 +5273,182 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     ceil = i10;
                     str4 = str5;
                     selectedPhotos = selectedPhotos;
-                    boolean z12 = z10;
+                    boolean z14 = z12;
                     i8 = i11;
-                    z8 = z12;
+                    z9 = z14;
                 }
-                z2 = z8;
+                z = z9;
                 j2 = j;
+                z2 = z10;
             }
             j2 = j;
+            z2 = false;
             messageObject3 = null;
             z = false;
+        } else if (attachAlertLayout2 == this.contactsLayout) {
+            if (TextUtils.isEmpty(this.commentTextView.getText())) {
+                i5 = 0;
+                z7 = false;
+            } else {
+                TLRPC.TL_message tL_message2 = new TLRPC.TL_message();
+                tL_message2.id = 0;
+                tL_message2.out = true;
+                tL_message2.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
+                tL_message2.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
+                CharSequence[] charSequenceArr3 = {this.commentTextView.getText()};
+                MessageObject.addLinks(true, charSequenceArr3[0]);
+                tL_message2.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr3, true);
+                tL_message2.message = charSequenceArr3[0].toString();
+                MessageObject messageObject7 = new MessageObject(this.currentAccount, tL_message2, true, false);
+                messageObject7.sendPreview = true;
+                messageObject7.notime = true;
+                messageObject7.isOutOwnerCached = Boolean.TRUE;
+                arrayList4.add(messageObject7);
+                i5 = 1;
+                z7 = true;
+            }
+            ArrayList<TLRPC.User> selected = this.contactsLayout.getSelected();
+            int i18 = 0;
+            while (i18 < selected.size()) {
+                TLRPC.User user2 = selected.get(i18);
+                TLRPC.TL_message tL_message3 = new TLRPC.TL_message();
+                int i19 = i5 + 1;
+                tL_message3.id = i5;
+                tL_message3.out = z8;
+                String str6 = str3;
+                tL_message3.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
+                tL_message3.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
+                TLRPC.TL_messageMediaContact tL_messageMediaContact = new TLRPC.TL_messageMediaContact();
+                tL_message3.media = tL_messageMediaContact;
+                tL_messageMediaContact.phone_number = user2.phone;
+                tL_messageMediaContact.first_name = user2.first_name;
+                tL_messageMediaContact.last_name = user2.last_name;
+                if (user2.restriction_reason.isEmpty() || !user2.restriction_reason.get(0).text.startsWith("BEGIN:VCARD")) {
+                    str2 = str6;
+                    tL_message3.media.vcard = str2;
+                } else {
+                    tL_message3.media.vcard = user2.restriction_reason.get(0).text;
+                    str2 = str6;
+                }
+                tL_message3.media.user_id = user2.id;
+                MessageObject messageObject8 = new MessageObject(this.currentAccount, tL_message3, true, false);
+                messageObject8.sendPreview = true;
+                messageObject8.notime = true;
+                messageObject8.isOutOwnerCached = Boolean.TRUE;
+                arrayList4.add(messageObject8);
+                i18++;
+                str3 = str2;
+                i5 = i19;
+                z7 = true;
+                z8 = true;
+            }
+            z = z7;
+            j2 = j;
+            z2 = false;
+            messageObject3 = null;
+        } else if (attachAlertLayout2 == this.documentLayout) {
+            boolean z15 = false;
+            int i20 = 0;
+            MessageObject messageObject9 = null;
+            for (int i21 = 0; i21 < this.documentLayout.selectedFilesOrder.size(); i21++) {
+                String str7 = (String) this.documentLayout.selectedFilesOrder.get(i21);
+                if (str7 != null) {
+                    int lastIndexOf = str7.lastIndexOf(File.separator);
+                    if (lastIndexOf < 0) {
+                        substring = str7;
+                        z4 = true;
+                    } else {
+                        z4 = true;
+                        substring = str7.substring(lastIndexOf + 1);
+                    }
+                    if (!TextUtils.isEmpty(substring)) {
+                        TLRPC.TL_message tL_message4 = new TLRPC.TL_message();
+                        int i22 = i20 + 1;
+                        tL_message4.id = i20;
+                        tL_message4.out = z4;
+                        tL_message4.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
+                        tL_message4.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
+                        TLRPC.TL_messageMediaDocument tL_messageMediaDocument2 = new TLRPC.TL_messageMediaDocument();
+                        tL_message4.media = tL_messageMediaDocument2;
+                        tL_message4.attachPath = str7;
+                        tL_messageMediaDocument2.document = new TLRPC.TL_document();
+                        TLRPC.Document document = tL_message4.media.document;
+                        document.file_name = substring;
+                        document.size = new File(str7).length();
+                        if (TextUtils.isEmpty(tL_message4.message) && i21 == 0) {
+                            z5 = true;
+                            z6 = false;
+                            CharSequence[] charSequenceArr4 = {this.commentTextView.getText()};
+                            tL_message4.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr4, true);
+                            tL_message4.message = charSequenceArr4[0].toString();
+                        } else {
+                            z5 = true;
+                            z6 = false;
+                        }
+                        MessageObject messageObject10 = new MessageObject(this.currentAccount, tL_message4, z5, z6);
+                        messageObject10.attachPathExists = z5;
+                        messageObject10.sendPreview = z5;
+                        messageObject10.notime = z5;
+                        messageObject10.isOutOwnerCached = Boolean.TRUE;
+                        arrayList4.add(messageObject10);
+                        if (i21 == 0 && messageObject9 == null && !TextUtils.isEmpty(tL_message4.message)) {
+                            messageObject9 = messageObject10;
+                        }
+                        i20 = i22;
+                        z15 = true;
+                    }
+                }
+            }
+            z = z15;
+            messageObject3 = messageObject9;
+            j2 = j;
             z2 = false;
         } else {
-            if (attachAlertLayout2 == this.contactsLayout) {
-                if (TextUtils.isEmpty(this.commentTextView.getText())) {
-                    i5 = 0;
-                    z6 = false;
-                } else {
-                    TLRPC.TL_message tL_message2 = new TLRPC.TL_message();
-                    tL_message2.id = 0;
-                    tL_message2.out = true;
-                    tL_message2.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
-                    tL_message2.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
-                    CharSequence[] charSequenceArr3 = {this.commentTextView.getText()};
-                    MessageObject.addLinks(true, charSequenceArr3[0]);
-                    tL_message2.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr3, true);
-                    tL_message2.message = charSequenceArr3[0].toString();
-                    MessageObject messageObject7 = new MessageObject(this.currentAccount, tL_message2, true, false);
-                    messageObject7.sendPreview = true;
-                    messageObject7.notime = true;
-                    messageObject7.isOutOwnerCached = Boolean.TRUE;
-                    arrayList4.add(messageObject7);
-                    i5 = 1;
-                    z6 = true;
-                }
-                ArrayList<TLRPC.User> selected = this.contactsLayout.getSelected();
-                int i18 = 0;
-                while (i18 < selected.size()) {
-                    TLRPC.User user2 = selected.get(i18);
-                    TLRPC.TL_message tL_message3 = new TLRPC.TL_message();
-                    int i19 = i5 + 1;
-                    tL_message3.id = i5;
-                    tL_message3.out = z7;
-                    String str6 = str3;
-                    tL_message3.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
-                    tL_message3.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
-                    TLRPC.TL_messageMediaContact tL_messageMediaContact = new TLRPC.TL_messageMediaContact();
-                    tL_message3.media = tL_messageMediaContact;
-                    tL_messageMediaContact.phone_number = user2.phone;
-                    tL_messageMediaContact.first_name = user2.first_name;
-                    tL_messageMediaContact.last_name = user2.last_name;
-                    if (user2.restriction_reason.isEmpty() || !user2.restriction_reason.get(0).text.startsWith("BEGIN:VCARD")) {
-                        str2 = str6;
-                        tL_message3.media.vcard = str2;
-                    } else {
-                        tL_message3.media.vcard = user2.restriction_reason.get(0).text;
-                        str2 = str6;
-                    }
-                    tL_message3.media.user_id = user2.id;
-                    MessageObject messageObject8 = new MessageObject(this.currentAccount, tL_message3, true, false);
-                    messageObject8.sendPreview = true;
-                    messageObject8.notime = true;
-                    messageObject8.isOutOwnerCached = Boolean.TRUE;
-                    arrayList4.add(messageObject8);
-                    i18++;
-                    str3 = str2;
-                    i5 = i19;
-                    z6 = true;
-                    z7 = true;
-                }
-                z2 = z6;
-                j2 = j;
-                messageObject3 = null;
-            } else if (attachAlertLayout2 == this.documentLayout) {
-                boolean z13 = false;
-                int i20 = 0;
-                MessageObject messageObject9 = null;
-                for (int i21 = 0; i21 < this.documentLayout.selectedFilesOrder.size(); i21++) {
-                    String str7 = (String) this.documentLayout.selectedFilesOrder.get(i21);
-                    if (str7 != null) {
-                        int lastIndexOf = str7.lastIndexOf(File.separator);
-                        if (lastIndexOf < 0) {
-                            substring = str7;
-                            z3 = true;
-                        } else {
-                            z3 = true;
-                            substring = str7.substring(lastIndexOf + 1);
-                        }
-                        if (!TextUtils.isEmpty(substring)) {
-                            TLRPC.TL_message tL_message4 = new TLRPC.TL_message();
-                            int i22 = i20 + 1;
-                            tL_message4.id = i20;
-                            tL_message4.out = z3;
-                            tL_message4.from_id = MessagesController.getInstance(this.currentAccount).getPeer(UserConfig.getInstance(this.currentAccount).getClientUserId());
-                            tL_message4.peer_id = MessagesController.getInstance(this.currentAccount).getPeer(j);
-                            TLRPC.TL_messageMediaDocument tL_messageMediaDocument2 = new TLRPC.TL_messageMediaDocument();
-                            tL_message4.media = tL_messageMediaDocument2;
-                            tL_message4.attachPath = str7;
-                            tL_messageMediaDocument2.document = new TLRPC.TL_document();
-                            TLRPC.Document document = tL_message4.media.document;
-                            document.file_name = substring;
-                            document.size = new File(str7).length();
-                            if (TextUtils.isEmpty(tL_message4.message) && i21 == 0) {
-                                z4 = true;
-                                z5 = false;
-                                CharSequence[] charSequenceArr4 = {this.commentTextView.getText()};
-                                tL_message4.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr4, true);
-                                tL_message4.message = charSequenceArr4[0].toString();
-                            } else {
-                                z4 = true;
-                                z5 = false;
-                            }
-                            MessageObject messageObject10 = new MessageObject(this.currentAccount, tL_message4, z4, z5);
-                            messageObject10.attachPathExists = z4;
-                            messageObject10.sendPreview = z4;
-                            messageObject10.notime = z4;
-                            messageObject10.isOutOwnerCached = Boolean.TRUE;
-                            arrayList4.add(messageObject10);
-                            if (i21 == 0 && messageObject9 == null && !TextUtils.isEmpty(tL_message4.message)) {
-                                messageObject9 = messageObject10;
-                            }
-                            i20 = i22;
-                            z13 = true;
-                        }
-                    }
-                }
-                z2 = z13;
-                messageObject3 = messageObject9;
-                j2 = j;
-            } else {
-                ChatAttachAlertAudioLayout chatAttachAlertAudioLayout = this.audioLayout;
-                if (attachAlertLayout2 == chatAttachAlertAudioLayout) {
-                    arrayList4.addAll(chatAttachAlertAudioLayout.getSelected());
-                    if (!arrayList4.isEmpty()) {
-                        MessageObject messageObject11 = (MessageObject) arrayList4.get(0);
-                        CharSequence[] charSequenceArr5 = {this.commentTextView.getText()};
-                        MessageObject.addLinks(true, charSequenceArr5[0]);
-                        messageObject11.messageOwner.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr5, true);
-                        messageObject11.messageOwner.message = charSequenceArr5[0].toString();
-                        if (!TextUtils.isEmpty(messageObject11.messageOwner.message)) {
-                            messageObject11.generateCaption();
-                            messageObject5 = messageObject11;
-                            if (arrayList4.size() > 1) {
-                                int i23 = 0;
-                                while (i23 < Math.ceil(arrayList4.size() / 10.0f)) {
-                                    int i24 = i23 * 10;
-                                    int min2 = Math.min(i6, arrayList4.size() - i24);
-                                    long nextLong2 = Utilities.random.nextLong();
-                                    for (int i25 = 0; i25 < min2; i25++) {
-                                        int i26 = i24 + i25;
-                                        if (i26 < arrayList4.size()) {
-                                            ((MessageObject) arrayList4.get(i26)).messageOwner.grouped_id = nextLong2;
-                                        }
+            ChatAttachAlertAudioLayout chatAttachAlertAudioLayout = this.audioLayout;
+            if (attachAlertLayout2 == chatAttachAlertAudioLayout) {
+                arrayList4.addAll(chatAttachAlertAudioLayout.getSelected());
+                if (!arrayList4.isEmpty()) {
+                    MessageObject messageObject11 = (MessageObject) arrayList4.get(0);
+                    CharSequence[] charSequenceArr5 = {this.commentTextView.getText()};
+                    MessageObject.addLinks(true, charSequenceArr5[0]);
+                    messageObject11.messageOwner.entities = MediaDataController.getInstance(this.currentAccount).getEntities(charSequenceArr5, true);
+                    messageObject11.messageOwner.message = charSequenceArr5[0].toString();
+                    if (!TextUtils.isEmpty(messageObject11.messageOwner.message)) {
+                        messageObject11.generateCaption();
+                        messageObject5 = messageObject11;
+                        if (arrayList4.size() > 1) {
+                            int i23 = 0;
+                            while (i23 < Math.ceil(arrayList4.size() / 10.0f)) {
+                                int i24 = i23 * 10;
+                                int min2 = Math.min(i6, arrayList4.size() - i24);
+                                long nextLong2 = Utilities.random.nextLong();
+                                for (int i25 = 0; i25 < min2; i25++) {
+                                    int i26 = i24 + i25;
+                                    if (i26 < arrayList4.size()) {
+                                        ((MessageObject) arrayList4.get(i26)).messageOwner.grouped_id = nextLong2;
                                     }
-                                    i23++;
-                                    i6 = 10;
                                 }
+                                i23++;
+                                i6 = 10;
                             }
-                            messageObject3 = messageObject5;
-                            j2 = j;
-                            z = false;
-                            z2 = true;
                         }
+                        messageObject3 = messageObject5;
+                        j2 = j;
+                        z2 = false;
+                        z = true;
                     }
-                    messageObject5 = null;
-                    if (arrayList4.size() > 1) {
-                    }
-                    messageObject3 = messageObject5;
-                    j2 = j;
-                    z = false;
-                    z2 = true;
                 }
+                messageObject5 = null;
+                if (arrayList4.size() > 1) {
+                }
+                messageObject3 = messageObject5;
                 j2 = j;
-                messageObject3 = null;
-                z = false;
                 z2 = false;
+                z = true;
             }
+            j2 = j;
+            z2 = false;
+            messageObject3 = null;
             z = false;
         }
         if (arrayList4.isEmpty()) {
@@ -5441,17 +5457,20 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         ?? makeOptions = ItemOptions.makeOptions(this.containerView, resourcesProvider, this.writeButton);
         if (messageObject3 == null || !((attachAlertLayout = this.currentAttachLayout) == this.photoLayout || attachAlertLayout == this.photoPreviewLayout)) {
             arrayList3 = arrayList4;
+            z3 = z2;
             j4 = j2;
-            r13 = 0;
+            r15 = 0;
         } else {
+            z3 = z2;
             j4 = j2;
             arrayList3 = arrayList4;
-            r13 = 0;
+            r15 = 0;
+            r15 = 0;
             final MessagePreviewView.ToggleButton toggleButton = new MessagePreviewView.ToggleButton(context, R.raw.position_below, LocaleController.getString(R.string.CaptionAbove), R.raw.position_above, LocaleController.getString(R.string.CaptionBelow), resourcesProvider);
             TLRPC.Message message = messageObject3.messageOwner;
-            boolean z14 = this.captionAbove;
-            message.invert_media = z14;
-            toggleButton.setState(!z14, false);
+            boolean z16 = this.captionAbove;
+            message.invert_media = z16;
+            toggleButton.setState(!z16, false);
             toggleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda25
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
@@ -5459,10 +5478,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
             });
             makeOptions.addView(toggleButton);
-            makeOptions.addGap();
+            if (this.editingMessageObject == null) {
+                makeOptions.addGap();
+            }
         }
         boolean isUserSelf = UserObject.isUserSelf(user);
-        if ((chatActivity != null && chatActivity.canScheduleMessage()) || this.currentAttachLayout.canScheduleMessages()) {
+        if (this.editingMessageObject == null && ((chatActivity != null && chatActivity.canScheduleMessage()) || this.currentAttachLayout.canScheduleMessages())) {
             makeOptions.add(R.drawable.msg_calendar2, LocaleController.getString(isUserSelf ? R.string.SetReminder : R.string.ScheduleMessage), new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda26
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -5470,7 +5491,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
             });
         }
-        if (!isUserSelf) {
+        if (this.editingMessageObject == null && !isUserSelf) {
             makeOptions.add(R.drawable.input_notify_off, LocaleController.getString(R.string.SendWithoutSound), new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda27
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -5478,10 +5499,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
             });
         }
-        if (z && chatActivity != null && ChatObject.isChannelAndNotMegaGroup(chatActivity.getCurrentChat()) && chatActivity.getCurrentChatInfo() != null && chatActivity.getCurrentChatInfo().paid_media_allowed) {
+        if (this.editingMessageObject == null && z3 && chatActivity != null && ChatObject.isChannelAndNotMegaGroup(chatActivity.getCurrentChat()) && chatActivity.getCurrentChatInfo() != null && chatActivity.getCurrentChatInfo().paid_media_allowed) {
             int i27 = R.drawable.menu_feature_paid;
             int i28 = R.string.PaidMediaButton;
-            final ?? last = makeOptions.add(i27, LocaleController.getString(i28), r13).getLast();
+            final ?? last = makeOptions.add(i27, LocaleController.getString(i28), r15).getLast();
             last.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlert$$ExternalSyntheticLambda28
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
@@ -5494,14 +5515,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 last.setSubtext(LocaleController.formatPluralString("Stars", (int) starsPrice, new Object[0]));
             } else {
                 last.setText(LocaleController.getString(i28));
-                last.setSubtext(r13);
+                last.setSubtext(r15);
             }
             this.messageSendPreview.setStars(starsPrice);
         }
         makeOptions.setupSelectors();
         this.messageSendPreview.setItemOptions(makeOptions);
         this.messageSendPreview.setMessageObjects(arrayList3);
-        if (j4 >= 0 && z2) {
+        if (this.editingMessageObject == null && j4 >= 0 && z) {
             this.messageSendPreview.allowEffectSelector(baseFragment);
         }
         this.messageSendPreview.show();
@@ -6082,7 +6103,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     private void setNavBarAlpha(float f) {
-        this.navBarColor = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundGray), Math.min(NotificationCenter.closeSearchByActiveAction, Math.max(0, (int) (f * 255.0f))));
+        this.navBarColor = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundGray), Math.min(NotificationCenter.playerDidStartPlaying, Math.max(0, (int) (f * 255.0f))));
         AndroidUtilities.setNavigationBarColor(getWindow(), this.navBarColor, false);
         AndroidUtilities.setLightNavigationBar(getWindow(), ((double) AndroidUtilities.computePerceivedBrightness(this.navBarColor)) > 0.721d);
         getContainer().invalidate();
@@ -6475,6 +6496,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             }
             if (z4) {
                 this.selectedMenuItem.setVisibility(0);
+                this.selectedMenuItem.setClickable(true);
             }
         } else if (this.typeButtonsAvailable && this.frameLayout2.getTag() == null) {
             this.buttonsRecyclerView.setVisibility(0);
@@ -6551,6 +6573,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         if (z4) {
             this.selectedMenuItem.setAlpha(z5 ? 1.0f : 0.0f);
+            this.selectedMenuItem.setScaleX(z5 ? 1.0f : 0.6f);
+            this.selectedMenuItem.setScaleY(z5 ? 1.0f : 0.6f);
         }
         if (z5) {
             return;
@@ -6908,6 +6932,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         if (this.optionsItem != null) {
             this.selectedTextView.setTranslationY(-AndroidUtilities.dp(8.0f));
             this.optionsItem.setVisibility(0);
+            this.optionsItem.setClickable(true);
+            this.optionsItem.setAlpha(1.0f);
+            this.optionsItem.setScaleX(1.0f);
+            this.optionsItem.setScaleY(1.0f);
         }
     }
 
@@ -7016,19 +7044,19 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         return z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x00b2  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00e9  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0112  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x01ad  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x01ba  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x01c4  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x022b  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x01bc  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x01af  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0187  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x00f5  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x00d7  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0114  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01ac  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x01b9  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x01c3  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x022b  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01bb  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01ae  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0186  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x00f4  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x00f6  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x00d9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7103,34 +7131,46 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 this.selectedId = 5L;
                 attachAlertLayout = this.locationLayout;
             } else {
-                long j2 = 3;
-                if (this.isStoryAudioPicker) {
-                    openAudioLayout(false);
-                    attachAlertLayout = this.audioLayout;
-                } else if (this.isSoundPicker) {
+                if (!this.isStoryAudioPicker) {
+                    if (!this.isSoundPicker) {
+                        MessageObject messageObject = this.editingMessageObject;
+                        if (messageObject != null) {
+                            int i2 = this.editType;
+                            if (i2 == -1) {
+                                this.typeButtonsAvailable = true;
+                                if (!messageObject.isMusic()) {
+                                    if (!this.editingMessageObject.isDocument()) {
+                                        attachAlertLayout = this.photoLayout;
+                                    }
+                                }
+                            } else {
+                                if (i2 == 2) {
+                                    openAudioLayout(false);
+                                    attachAlertLayout = this.audioLayout;
+                                    this.selectedId = 3L;
+                                } else if (i2 == 1) {
+                                    openDocumentsLayout(false);
+                                    attachAlertLayout = this.documentLayout;
+                                    this.selectedId = 4L;
+                                } else {
+                                    attachAlertLayout = this.photoLayout;
+                                    this.selectedId = 1L;
+                                }
+                                this.typeButtonsAvailable = false;
+                            }
+                        } else {
+                            attachAlertLayout = this.photoLayout;
+                            this.typeButtonsAvailable = this.avatarPicker == 0 && !this.storyMediaPicker;
+                        }
+                        this.selectedId = 1L;
+                    }
                     openDocumentsLayout(false);
                     attachAlertLayout = this.documentLayout;
                     this.selectedId = 4L;
-                } else {
-                    MessageObject messageObject = this.editingMessageObject;
-                    if (messageObject == null || (!messageObject.isMusic() && (!this.editingMessageObject.isDocument() || this.editingMessageObject.isGif()))) {
-                        attachAlertLayout = this.photoLayout;
-                        this.typeButtonsAvailable = this.avatarPicker == 0 && !this.storyMediaPicker;
-                        j2 = 1;
-                    } else {
-                        if (this.editingMessageObject.isMusic()) {
-                            openAudioLayout(false);
-                            attachAlertLayout = this.audioLayout;
-                            this.selectedId = 3L;
-                        } else {
-                            openDocumentsLayout(false);
-                            attachAlertLayout = this.documentLayout;
-                            this.selectedId = 4L;
-                        }
-                        this.typeButtonsAvailable = !this.editingMessageObject.hasValidGroupId();
-                    }
                 }
-                this.selectedId = j2;
+                openAudioLayout(false);
+                attachAlertLayout = this.audioLayout;
+                this.selectedId = 3L;
             }
             this.buttonsRecyclerView.setVisibility(this.typeButtonsAvailable ? 0 : 8);
             this.shadow.setVisibility(this.typeButtonsAvailable ? 0 : 4);
@@ -7621,12 +7661,20 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.documentsDelegate = documentSelectActivityDelegate;
     }
 
-    public void setEditingMessageObject(MessageObject messageObject) {
-        if (this.editingMessageObject == messageObject) {
+    public void setEditingMessageObject(int i, MessageObject messageObject) {
+        ChatAttachAlertPhotoLayout chatAttachAlertPhotoLayout;
+        if (messageObject != null && (chatAttachAlertPhotoLayout = this.photoLayout) != null) {
+            chatAttachAlertPhotoLayout.clearSelectedPhotos();
+        }
+        if (this.editingMessageObject == messageObject && this.editType == i) {
             return;
         }
         this.editingMessageObject = messageObject;
-        if (messageObject != null) {
+        if (messageObject != null && messageObject.hasValidGroupId()) {
+            i = this.editingMessageObject.isMusic() ? 2 : this.editingMessageObject.isDocument() ? 1 : 0;
+        }
+        this.editType = i;
+        if (this.editingMessageObject != null) {
             this.maxSelectedPhotos = 1;
             this.allowOrder = false;
         } else {
@@ -7634,6 +7682,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             this.allowOrder = true;
         }
         this.buttonsAdapter.notifyDataSetChanged();
+        updateCountButton(0);
     }
 
     public void setImageUpdater(ImageUpdater imageUpdater) {
@@ -7695,9 +7744,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.mentionContainer.getAdapter().setAllowBots(false);
         this.mentionContainer.getAdapter().setAllowChats(false);
         this.mentionContainer.getAdapter().setSearchInDailogs(true);
-        if (this.baseFragment instanceof ChatActivity) {
-            this.mentionContainer.getAdapter().setChatInfo(((ChatActivity) this.baseFragment).getCurrentChatInfo());
-            this.mentionContainer.getAdapter().setNeedUsernames(((ChatActivity) this.baseFragment).getCurrentChat() != null);
+        BaseFragment baseFragment = this.baseFragment;
+        if (baseFragment instanceof ChatActivity) {
+            ChatActivity chatActivity = (ChatActivity) baseFragment;
+            this.mentionContainer.getAdapter().setUserOrChat(chatActivity.getCurrentUser(), chatActivity.getCurrentChat());
+            this.mentionContainer.getAdapter().setChatInfo(chatActivity.getCurrentChatInfo());
+            this.mentionContainer.getAdapter().setNeedUsernames(chatActivity.getCurrentChat() != null);
         } else {
             this.mentionContainer.getAdapter().setChatInfo(null);
             this.mentionContainer.getAdapter().setNeedUsernames(false);
@@ -7822,14 +7874,14 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:112:0x00ce, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:126:0x00d3, code lost:
     
-        if (r3 != null) goto L222;
+        if (r3 != null) goto L236;
      */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x00c4  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x00c9  */
     /* JADX WARN: Removed duplicated region for block: B:48:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00de  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x013e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7879,6 +7931,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     if (i == 0) {
                         if (this.actionBar.getTag() == null && this.avatarPicker == 0 && !this.storyMediaPicker) {
                             this.selectedMenuItem.setAlpha(this.menuShowed ? 1.0f : 0.0f);
+                            this.selectedMenuItem.setScaleX(this.menuShowed ? 1.0f : 0.6f);
+                            this.selectedMenuItem.setScaleY(this.menuShowed ? 1.0f : 0.6f);
                         }
                         this.headerView.setAlpha(this.menuShowed ? 1.0f : 0.0f);
                         if (z) {
@@ -7894,6 +7948,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     ArrayList arrayList = new ArrayList();
                     if (this.actionBar.getTag() == null && this.avatarPicker == 0 && !this.storyMediaPicker) {
                         arrayList.add(ObjectAnimator.ofFloat(this.selectedMenuItem, (Property<ActionBarMenuItem, Float>) View.ALPHA, this.menuShowed ? 1.0f : 0.0f));
+                        arrayList.add(ObjectAnimator.ofFloat(this.selectedMenuItem, (Property<ActionBarMenuItem, Float>) View.SCALE_X, this.menuShowed ? 1.0f : 0.6f));
+                        arrayList.add(ObjectAnimator.ofFloat(this.selectedMenuItem, (Property<ActionBarMenuItem, Float>) View.SCALE_Y, this.menuShowed ? 1.0f : 0.6f));
                     }
                     FrameLayout frameLayout = this.headerView;
                     Property property = View.ALPHA;
@@ -7933,6 +7989,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
                 if (this.avatarPicker == 0 && !this.storyMediaPicker) {
                     this.selectedMenuItem.setVisibility(0);
+                    this.selectedMenuItem.setClickable(true);
                 }
                 view = this.headerView;
                 view.setVisibility(0);

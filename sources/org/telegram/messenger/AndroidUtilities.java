@@ -644,7 +644,7 @@ public class AndroidUtilities {
             i2 = (int) ((f5 * 255.0f) + 0.5f);
             i3 = (int) ((f7 * 255.0f) + 0.5f);
         }
-        return ((i & NotificationCenter.closeSearchByActiveAction) << 16) | (-16777216) | ((i2 & NotificationCenter.closeSearchByActiveAction) << 8) | (i3 & NotificationCenter.closeSearchByActiveAction);
+        return ((i & NotificationCenter.playerDidStartPlaying) << 16) | (-16777216) | ((i2 & NotificationCenter.playerDidStartPlaying) << 8) | (i3 & NotificationCenter.playerDidStartPlaying);
     }
 
     public static float[] RGBtoHSB(int i, int i2, int i3) {
@@ -877,7 +877,7 @@ public class AndroidUtilities {
         }
         animator.setDuration((long) ((Math.log(0.0025d) / ((-sqrt2) * sqrt)) * 1000.0d));
         final double d7 = 1.0d;
-        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.13
+        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.14
             @Override // android.animation.TimeInterpolator
             public float getInterpolation(float f) {
                 double d8;
@@ -919,7 +919,7 @@ public class AndroidUtilities {
         final double d2 = d / sqrt;
         final double sqrt2 = Math.sqrt(f / f3);
         animator.setDuration(j);
-        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.14
+        animator.setInterpolator(new Interpolator() { // from class: org.telegram.messenger.AndroidUtilities.15
             @Override // android.animation.TimeInterpolator
             public float getInterpolation(float f4) {
                 double exp;
@@ -1013,7 +1013,7 @@ public class AndroidUtilities {
             }
             i = -16777216;
         }
-        double[] rgbToHsv = rgbToHsv((i >> 16) & NotificationCenter.closeSearchByActiveAction, (i >> 8) & NotificationCenter.closeSearchByActiveAction, i & NotificationCenter.closeSearchByActiveAction);
+        double[] rgbToHsv = rgbToHsv((i >> 16) & NotificationCenter.playerDidStartPlaying, (i >> 8) & NotificationCenter.playerDidStartPlaying, i & NotificationCenter.playerDidStartPlaying);
         double d = rgbToHsv[1];
         rgbToHsv[1] = Math.min(1.0d, 0.05d + d + ((1.0d - d) * 0.1d));
         int[] hsvToRgb = hsvToRgb(rgbToHsv[0], rgbToHsv[1], Math.max(0.0d, rgbToHsv[2] * 0.65d));
@@ -1418,7 +1418,7 @@ public class AndroidUtilities {
     }
 
     public static void doOnLayout(final View view, final Runnable runnable) {
-        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.messenger.AndroidUtilities.7
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() { // from class: org.telegram.messenger.AndroidUtilities.8
             @Override // android.view.View.OnLayoutChangeListener
             public void onLayoutChange(View view2, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
                 view.removeOnLayoutChangeListener(this);
@@ -2145,7 +2145,7 @@ public class AndroidUtilities {
     }
 
     public static int getAverageColor(int i, int i2) {
-        return Color.argb(NotificationCenter.closeSearchByActiveAction, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
+        return Color.argb(NotificationCenter.playerDidStartPlaying, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
     }
 
     public static void getBitmapFromSurface(Surface surface, Bitmap bitmap) {
@@ -2474,7 +2474,7 @@ public class AndroidUtilities {
         if (i == 0) {
             return 0;
         }
-        return Color.argb(NotificationCenter.closeSearchByActiveAction, i4 / i, i3 / i, i2 / i);
+        return Color.argb(NotificationCenter.playerDidStartPlaying, i4 / i, i3 / i, i2 / i);
     }
 
     public static String getHostAuthority(Uri uri) {
@@ -2515,7 +2515,7 @@ public class AndroidUtilities {
         try {
             int i = 1;
             int attributeInt = exifInterface.getAttributeInt("Orientation", 1);
-            int i2 = NotificationCenter.dialogsUnreadReactionsCounterChanged;
+            int i2 = NotificationCenter.chatAvailableReactionsUpdated;
             switch (attributeInt) {
                 case 2:
                     i2 = 0;
@@ -3379,7 +3379,7 @@ public class AndroidUtilities {
 
     public static int hsvToColor(double d, double d2, double d3) {
         int[] hsvToRgb = hsvToRgb(d, d2, d3);
-        return Color.argb(NotificationCenter.closeSearchByActiveAction, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
+        return Color.argb(NotificationCenter.playerDidStartPlaying, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
     }
 
     public static int[] hsvToRgb(double d, double d2, double d3) {
@@ -5281,7 +5281,11 @@ public class AndroidUtilities {
         return spannableStringBuilder;
     }
 
-    public static SpannableStringBuilder replaceLinks(String str, final Theme.ResourcesProvider resourcesProvider) {
+    public static SpannableStringBuilder replaceLinks(String str, Theme.ResourcesProvider resourcesProvider) {
+        return replaceLinks(str, resourcesProvider, null);
+    }
+
+    public static SpannableStringBuilder replaceLinks(String str, final Theme.ResourcesProvider resourcesProvider, final Runnable runnable) {
         if (linksPattern == null) {
             linksPattern = Pattern.compile("\\[(.+?)\\]\\((.+?)\\)");
         }
@@ -5293,9 +5297,13 @@ public class AndroidUtilities {
             String group = matcher.group(1);
             final String group2 = matcher.group(2);
             spannableStringBuilder.append((CharSequence) group);
-            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.8
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.9
                 @Override // android.text.style.ClickableSpan
                 public void onClick(View view) {
+                    Runnable runnable2 = runnable;
+                    if (runnable2 != null) {
+                        runnable2.run();
+                    }
                     Browser.openUrl(ApplicationLoader.applicationContext, group2);
                 }
 
@@ -5411,7 +5419,7 @@ public class AndroidUtilities {
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(replace);
         if (indexOf >= 0) {
-            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.6
+            spannableStringBuilder.setSpan(runnable != null ? new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.6
                 @Override // android.text.style.ClickableSpan
                 public void onClick(View view) {
                     Runnable runnable2 = runnable;
@@ -5423,6 +5431,12 @@ public class AndroidUtilities {
                 @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
                 public void updateDrawState(TextPaint textPaint) {
                     super.updateDrawState(textPaint);
+                    textPaint.setUnderlineText(false);
+                    textPaint.setColor(i);
+                }
+            } : new CharacterStyle() { // from class: org.telegram.messenger.AndroidUtilities.7
+                @Override // android.text.style.CharacterStyle
+                public void updateDrawState(TextPaint textPaint) {
                     textPaint.setUnderlineText(false);
                     textPaint.setColor(i);
                 }
@@ -5489,6 +5503,34 @@ public class AndroidUtilities {
 
     public static SpannableStringBuilder replaceSingleTag(String str, Runnable runnable) {
         return replaceSingleTag(str, -1, 0, runnable);
+    }
+
+    public static SpannableStringBuilder replaceTags(SpannableStringBuilder spannableStringBuilder) {
+        try {
+            ArrayList arrayList = new ArrayList();
+            while (true) {
+                int charSequenceIndexOf = charSequenceIndexOf(spannableStringBuilder, "**");
+                if (charSequenceIndexOf == -1) {
+                    break;
+                }
+                spannableStringBuilder.replace(charSequenceIndexOf, charSequenceIndexOf + 2, "");
+                int charSequenceIndexOf2 = charSequenceIndexOf(spannableStringBuilder, "**");
+                if (charSequenceIndexOf2 >= 0) {
+                    spannableStringBuilder.replace(charSequenceIndexOf2, charSequenceIndexOf2 + 2, "");
+                    arrayList.add(Integer.valueOf(charSequenceIndexOf));
+                    arrayList.add(Integer.valueOf(charSequenceIndexOf2));
+                }
+            }
+            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(spannableStringBuilder);
+            for (int i = 0; i < arrayList.size() / 2; i++) {
+                int i2 = i * 2;
+                spannableStringBuilder2.setSpan(new TypefaceSpan(bold()), ((Integer) arrayList.get(i2)).intValue(), ((Integer) arrayList.get(i2 + 1)).intValue(), 33);
+            }
+            return spannableStringBuilder2;
+        } catch (Exception e) {
+            FileLog.e(e);
+            return spannableStringBuilder;
+        }
     }
 
     public static SpannableStringBuilder replaceTags(String str) {
@@ -5891,7 +5933,7 @@ public class AndroidUtilities {
                     AndroidUtilities.lambda$setNavigationBarColor$19(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
                 }
             });
-            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.11
+            ofArgb.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.12
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     if (AndroidUtilities.navigationBarColorAnimators != null) {
@@ -6170,7 +6212,7 @@ public class AndroidUtilities {
                 AndroidUtilities.lambda$shakeView$11(view, valueAnimator);
             }
         });
-        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.9
+        ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.AndroidUtilities.10
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 view.setTranslationX(0.0f);
@@ -6308,7 +6350,7 @@ public class AndroidUtilities {
             }
             if (!TextUtils.isEmpty(str6)) {
                 final AtomicReference atomicReference = new AtomicReference();
-                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity) { // from class: org.telegram.messenger.AndroidUtilities.10
+                final TextDetailSettingsCell textDetailSettingsCell = new TextDetailSettingsCell(activity) { // from class: org.telegram.messenger.AndroidUtilities.11
                     @Override // android.view.ViewGroup, android.view.View
                     protected void onAttachedToWindow() {
                         super.onAttachedToWindow();
@@ -6645,7 +6687,7 @@ public class AndroidUtilities {
 
     public static CharSequence withLearnMore(CharSequence charSequence, final Runnable runnable) {
         SpannableString spannableString = new SpannableString(LocaleController.getString(R.string.LearnMoreArrow));
-        spannableString.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.12
+        spannableString.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.13
             @Override // android.text.style.ClickableSpan
             public void onClick(View view) {
                 Runnable runnable2 = runnable;

@@ -42,7 +42,7 @@ abstract class zzfg {
             } else if (charAt3 < 2048) {
                 int i3 = position + 1;
                 try {
-                    byteBuffer.put(position, (byte) ((charAt3 >>> 6) | NotificationCenter.dialogPhotosUpdate));
+                    byteBuffer.put(position, (byte) ((charAt3 >>> 6) | 192));
                     byteBuffer.put(i3, (byte) ((charAt3 & '?') | 128));
                     position = i3;
                 } catch (IndexOutOfBoundsException unused2) {
@@ -66,7 +66,7 @@ abstract class zzfg {
                                 int codePoint = Character.toCodePoint(charAt3, charAt4);
                                 int i5 = position + 1;
                                 try {
-                                    byteBuffer.put(position, (byte) ((codePoint >>> 18) | NotificationCenter.needSetDayNightTheme));
+                                    byteBuffer.put(position, (byte) ((codePoint >>> 18) | NotificationCenter.needShareTheme));
                                     i = position + 2;
                                 } catch (IndexOutOfBoundsException unused3) {
                                     position = i5;
@@ -107,7 +107,7 @@ abstract class zzfg {
                     throw new zzfi(i2, length);
                 }
                 int i6 = position + 1;
-                byteBuffer.put(position, (byte) ((charAt3 >>> '\f') | NotificationCenter.pushMessagesUpdated));
+                byteBuffer.put(position, (byte) ((charAt3 >>> '\f') | NotificationCenter.updateStories));
                 position += 2;
                 byteBuffer.put(i6, (byte) (((charAt3 >>> 6) & 63) | 128));
                 byteBuffer.put(position, (byte) ((charAt3 & '?') | 128));

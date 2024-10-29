@@ -680,7 +680,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         if (getParentLayout().getFragmentStack().size() > 1) {
             BaseFragment baseFragment = (BaseFragment) getParentLayout().getFragmentStack().get(getParentLayout().getFragmentStack().size() - 2);
             if ((baseFragment instanceof ChatActivity) && ((ChatActivity) baseFragment).getCurrentChat().id == this.chatId) {
-                lambda$onBackPressed$300();
+                lambda$onBackPressed$319();
                 return;
             }
         }
@@ -1226,7 +1226,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
         this.progressLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1));
         this.progressLayout.setAlpha(0.0f);
-        frameLayout2.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.needSetDayNightTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+        frameLayout2.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.needShareTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context, getResourceProvider());
         this.listView = recyclerListView;
         boolean z = false;
@@ -1371,7 +1371,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i4) {
                 if (i4 == -1) {
-                    MessageStatisticActivity.this.lambda$onBackPressed$300();
+                    MessageStatisticActivity.this.lambda$onBackPressed$319();
                 } else if (i4 == 1) {
                     Bundle bundle = new Bundle();
                     bundle.putLong("chat_id", MessageStatisticActivity.this.chatId);

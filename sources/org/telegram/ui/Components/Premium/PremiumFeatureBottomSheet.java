@@ -447,7 +447,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     public PremiumFeatureBottomSheet(final BaseFragment baseFragment, Context context, int i, boolean z, int i2, final boolean z2, PremiumPreviewFragment.SubscriptionTier subscriptionTier) {
         super(context, false, getResourceProvider(baseFragment));
         this.premiumFeatures = new ArrayList();
-        this.gradientAlpha = NotificationCenter.closeSearchByActiveAction;
+        this.gradientAlpha = NotificationCenter.playerDidStartPlaying;
         this.baseFragment = baseFragment;
         if (baseFragment == null) {
             throw new RuntimeException("fragmnet can't be null");

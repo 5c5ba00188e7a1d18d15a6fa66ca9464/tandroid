@@ -51,6 +51,11 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
     private static final Pattern REGEX_BANDWIDTH = Pattern.compile("[^-]BANDWIDTH=(\\d+)\\b");
     private static final Pattern REGEX_CHANNELS = Pattern.compile("CHANNELS=\"(.+?)\"");
     private static final Pattern REGEX_CODECS = Pattern.compile("CODECS=\"(.+?)\"");
+    private static final Pattern REGEX_MIME = Pattern.compile("MIME=\"(.+?)\"");
+    private static final Pattern REGEX_CACHED = Pattern.compile("CACHED=\"(.+?)\"");
+    private static final Pattern REGEX_DOC_ID = Pattern.compile("DOCID=\"(.+?)\"");
+    private static final Pattern REGEX_DOC_FILENAME = Pattern.compile("DOCFILENAME=\"(.+?)\"");
+    private static final Pattern REGEX_ACCOUNT = Pattern.compile("ACCOUNT=\"(.+?)\"");
     private static final Pattern REGEX_RESOLUTION = Pattern.compile("RESOLUTION=(\\d+x\\d+)");
     private static final Pattern REGEX_FRAME_RATE = Pattern.compile("FRAME-RATE=([\\d\\.]+)\\b");
     private static final Pattern REGEX_TARGET_DURATION = Pattern.compile("#EXT-X-TARGETDURATION:(\\d+)\\b");
@@ -738,89 +743,83 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
         return new HlsMediaPlaylist(i10, str, arrayList12, j6, z4, j7, z5, i4, j8, i5, j9, j10, z3, z6, j7 != 0, drmInitData2, arrayList3, arrayList11, serverControl2, hashMap3);
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:94:0x032a. Please report as an issue. */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0122  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x014c  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x01b5  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0157  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0129  */
-    /* JADX WARN: Type inference failed for: r0v3, types: [java.util.List] */
+    /* JADX WARN: Failed to find 'out' block for switch in B:94:0x035e. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0150  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0174  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x01f7  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x017f  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0157  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static HlsMultivariantPlaylist parseMultivariantPlaylist(LineIterator lineIterator, String str) {
         char c;
-        Format format;
         ArrayList arrayList;
-        ArrayList arrayList2;
         String str2;
-        ArrayList arrayList3;
+        ArrayList arrayList2;
         int parseInt;
         String str3;
         String str4;
         int i;
-        ArrayList arrayList4;
-        ArrayList arrayList5;
+        ArrayList arrayList3;
+        String str5;
         int i2;
         int i3;
         String replaceVariableReferences;
-        ArrayList arrayList6;
-        String str5 = str;
+        ArrayList arrayList4;
+        String str6 = str;
         HashMap hashMap = new HashMap();
         HashMap hashMap2 = new HashMap();
+        ArrayList arrayList5 = new ArrayList();
+        ArrayList arrayList6 = new ArrayList();
         ArrayList arrayList7 = new ArrayList();
         ArrayList arrayList8 = new ArrayList();
         ArrayList arrayList9 = new ArrayList();
         ArrayList arrayList10 = new ArrayList();
         ArrayList arrayList11 = new ArrayList();
         ArrayList arrayList12 = new ArrayList();
-        ArrayList arrayList13 = new ArrayList();
-        ArrayList arrayList14 = new ArrayList();
         boolean z = false;
         boolean z2 = false;
         while (true) {
-            String str6 = "application/x-mpegURL";
+            String str7 = "application/x-mpegURL";
             if (!lineIterator.hasNext()) {
-                HashMap hashMap3 = hashMap;
+                ArrayList arrayList13 = arrayList6;
+                ArrayList arrayList14 = arrayList7;
                 ArrayList arrayList15 = arrayList8;
                 ArrayList arrayList16 = arrayList9;
                 ArrayList arrayList17 = arrayList10;
-                ArrayList arrayList18 = arrayList11;
-                ArrayList arrayList19 = arrayList12;
-                ArrayList arrayList20 = arrayList14;
-                ArrayList arrayList21 = arrayList13;
+                ArrayList arrayList18 = arrayList12;
+                ArrayList arrayList19 = arrayList11;
                 boolean z3 = z;
-                ArrayList arrayList22 = new ArrayList();
+                ArrayList arrayList20 = new ArrayList();
                 HashSet hashSet = new HashSet();
                 int i4 = 0;
-                while (i4 < arrayList7.size()) {
-                    HlsMultivariantPlaylist.Variant variant = (HlsMultivariantPlaylist.Variant) arrayList7.get(i4);
+                while (i4 < arrayList5.size()) {
+                    HlsMultivariantPlaylist.Variant variant = (HlsMultivariantPlaylist.Variant) arrayList5.get(i4);
                     if (hashSet.add(variant.url)) {
                         Assertions.checkState(variant.format.metadata == null);
                         i = 1;
-                        arrayList22.add(variant.copyWithFormat(variant.format.buildUpon().setMetadata(new Metadata(new HlsTrackMetadataEntry(null, null, (List) Assertions.checkNotNull((ArrayList) hashMap3.get(variant.url))))).build()));
+                        arrayList20.add(variant.copyWithFormat(variant.format.buildUpon().setMetadata(new Metadata(new HlsTrackMetadataEntry(null, null, (List) Assertions.checkNotNull((ArrayList) hashMap.get(variant.url))))).build()));
                     } else {
                         i = 1;
                     }
                     i4 += i;
                 }
-                Uri uri = null;
-                ArrayList arrayList23 = null;
-                Format format2 = null;
+                List list = null;
+                Format format = null;
                 int i5 = 0;
-                while (i5 < arrayList19.size()) {
-                    ArrayList arrayList24 = arrayList19;
-                    String str7 = (String) arrayList24.get(i5);
-                    String parseStringAttr = parseStringAttr(str7, REGEX_GROUP_ID, hashMap2);
-                    String parseStringAttr2 = parseStringAttr(str7, REGEX_NAME, hashMap2);
-                    Format.Builder language = new Format.Builder().setId(parseStringAttr + ":" + parseStringAttr2).setLabel(parseStringAttr2).setContainerMimeType(str6).setSelectionFlags(parseSelectionFlags(str7)).setRoleFlags(parseRoleFlags(str7, hashMap2)).setLanguage(parseOptionalStringAttr(str7, REGEX_LANGUAGE, hashMap2));
-                    String parseOptionalStringAttr = parseOptionalStringAttr(str7, REGEX_URI, hashMap2);
-                    Uri resolveToUri = parseOptionalStringAttr == null ? uri : UriUtil.resolveToUri(str, parseOptionalStringAttr);
-                    arrayList19 = arrayList24;
-                    String str8 = str6;
+                while (i5 < arrayList17.size()) {
+                    ArrayList arrayList21 = arrayList17;
+                    String str8 = (String) arrayList21.get(i5);
+                    String parseStringAttr = parseStringAttr(str8, REGEX_GROUP_ID, hashMap2);
+                    String parseStringAttr2 = parseStringAttr(str8, REGEX_NAME, hashMap2);
+                    Format.Builder language = new Format.Builder().setId(parseStringAttr + ":" + parseStringAttr2).setLabel(parseStringAttr2).setContainerMimeType(str7).setSelectionFlags(parseSelectionFlags(str8)).setRoleFlags(parseRoleFlags(str8, hashMap2)).setLanguage(parseOptionalStringAttr(str8, REGEX_LANGUAGE, hashMap2));
+                    String parseOptionalStringAttr = parseOptionalStringAttr(str8, REGEX_URI, hashMap2);
+                    Uri resolveToUri = parseOptionalStringAttr == null ? null : UriUtil.resolveToUri(str6, parseOptionalStringAttr);
+                    arrayList17 = arrayList21;
+                    String str9 = str7;
                     Metadata metadata = new Metadata(new HlsTrackMetadataEntry(parseStringAttr, parseStringAttr2, Collections.emptyList()));
-                    String parseStringAttr3 = parseStringAttr(str7, REGEX_TYPE, hashMap2);
+                    String parseStringAttr3 = parseStringAttr(str8, REGEX_TYPE, hashMap2);
                     parseStringAttr3.hashCode();
                     switch (parseStringAttr3.hashCode()) {
                         case -959297733:
@@ -851,10 +850,8 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
                     c = 65535;
                     switch (c) {
                         case 0:
-                            format = format2;
-                            arrayList = arrayList16;
-                            arrayList2 = arrayList15;
-                            HlsMultivariantPlaylist.Variant variantWithSubtitleGroup = getVariantWithSubtitleGroup(arrayList7, parseStringAttr);
+                            arrayList = arrayList14;
+                            HlsMultivariantPlaylist.Variant variantWithSubtitleGroup = getVariantWithSubtitleGroup(arrayList5, parseStringAttr);
                             if (variantWithSubtitleGroup != null) {
                                 String codecsOfType = Util.getCodecsOfType(variantWithSubtitleGroup.format.codecs, 3);
                                 language.setCodecs(codecsOfType);
@@ -867,20 +864,18 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
                             }
                             language.setSampleMimeType(str2).setMetadata(metadata);
                             if (resolveToUri == null) {
-                                arrayList3 = arrayList17;
+                                arrayList2 = arrayList15;
                                 Log.w("HlsPlaylistParser", "EXT-X-MEDIA tag with missing mandatory URI attribute: skipping");
                                 break;
                             } else {
                                 HlsMultivariantPlaylist.Rendition rendition = new HlsMultivariantPlaylist.Rendition(resolveToUri, language.build(), parseStringAttr, parseStringAttr2);
-                                arrayList3 = arrayList17;
-                                arrayList3.add(rendition);
+                                arrayList2 = arrayList15;
+                                arrayList2.add(rendition);
                                 break;
                             }
                         case 1:
-                            format = format2;
-                            arrayList = arrayList16;
-                            arrayList2 = arrayList15;
-                            String parseStringAttr4 = parseStringAttr(str7, REGEX_INSTREAM_ID, hashMap2);
+                            arrayList = arrayList14;
+                            String parseStringAttr4 = parseStringAttr(str8, REGEX_INSTREAM_ID, hashMap2);
                             if (parseStringAttr4.startsWith("CC")) {
                                 parseInt = Integer.parseInt(parseStringAttr4.substring(2));
                                 str3 = "application/cea-608";
@@ -888,26 +883,26 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
                                 parseInt = Integer.parseInt(parseStringAttr4.substring(7));
                                 str3 = "application/cea-708";
                             }
-                            if (arrayList23 == null) {
-                                arrayList23 = new ArrayList();
+                            if (list == null) {
+                                list = new ArrayList();
                             }
                             language.setSampleMimeType(str3).setAccessibilityChannel(parseInt);
-                            arrayList23.add(language.build());
-                            arrayList3 = arrayList17;
+                            list.add(language.build());
+                            arrayList2 = arrayList15;
                             break;
                         case 2:
-                            arrayList2 = arrayList15;
-                            HlsMultivariantPlaylist.Variant variantWithAudioGroup = getVariantWithAudioGroup(arrayList7, parseStringAttr);
+                            ArrayList arrayList22 = arrayList13;
+                            HlsMultivariantPlaylist.Variant variantWithAudioGroup = getVariantWithAudioGroup(arrayList5, parseStringAttr);
                             if (variantWithAudioGroup != null) {
-                                format = format2;
+                                arrayList13 = arrayList22;
                                 String codecsOfType2 = Util.getCodecsOfType(variantWithAudioGroup.format.codecs, 1);
                                 language.setCodecs(codecsOfType2);
                                 str4 = MimeTypes.getMediaMimeType(codecsOfType2);
                             } else {
-                                format = format2;
+                                arrayList13 = arrayList22;
                                 str4 = null;
                             }
-                            String parseOptionalStringAttr2 = parseOptionalStringAttr(str7, REGEX_CHANNELS, hashMap2);
+                            String parseOptionalStringAttr2 = parseOptionalStringAttr(str8, REGEX_CHANNELS, hashMap2);
                             if (parseOptionalStringAttr2 != null) {
                                 language.setChannelCount(Integer.parseInt(Util.splitAtFirst(parseOptionalStringAttr2, "/")[0]));
                                 if ("audio/eac3".equals(str4) && parseOptionalStringAttr2.endsWith("/JOC")) {
@@ -918,52 +913,48 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
                             language.setSampleMimeType(str4);
                             if (resolveToUri != null) {
                                 language.setMetadata(metadata);
-                                arrayList = arrayList16;
+                                arrayList = arrayList14;
                                 arrayList.add(new HlsMultivariantPlaylist.Rendition(resolveToUri, language.build(), parseStringAttr, parseStringAttr2));
                             } else {
-                                arrayList = arrayList16;
+                                arrayList = arrayList14;
                                 if (variantWithAudioGroup != null) {
                                     format = language.build();
                                 }
                             }
-                            arrayList3 = arrayList17;
+                            arrayList2 = arrayList15;
                             break;
                         case 3:
-                            HlsMultivariantPlaylist.Variant variantWithVideoGroup = getVariantWithVideoGroup(arrayList7, parseStringAttr);
+                            HlsMultivariantPlaylist.Variant variantWithVideoGroup = getVariantWithVideoGroup(arrayList5, parseStringAttr);
                             if (variantWithVideoGroup != null) {
-                                Format format3 = variantWithVideoGroup.format;
-                                String codecsOfType3 = Util.getCodecsOfType(format3.codecs, 2);
-                                language.setCodecs(codecsOfType3).setSampleMimeType(MimeTypes.getMediaMimeType(codecsOfType3)).setWidth(format3.width).setHeight(format3.height).setFrameRate(format3.frameRate);
+                                Format format2 = variantWithVideoGroup.format;
+                                String codecsOfType3 = Util.getCodecsOfType(format2.codecs, 2);
+                                language.setCodecs(codecsOfType3).setSampleMimeType(MimeTypes.getMediaMimeType(codecsOfType3)).setWidth(format2.width).setHeight(format2.height).setFrameRate(format2.frameRate);
                             }
                             if (resolveToUri != null) {
                                 language.setMetadata(metadata);
-                                arrayList2 = arrayList15;
-                                arrayList2.add(new HlsMultivariantPlaylist.Rendition(resolveToUri, language.build(), parseStringAttr, parseStringAttr2));
-                                format = format2;
-                                arrayList3 = arrayList17;
-                                arrayList = arrayList16;
-                                break;
+                                arrayList13.add(new HlsMultivariantPlaylist.Rendition(resolveToUri, language.build(), parseStringAttr, parseStringAttr2));
                             }
                         default:
-                            format = format2;
-                            arrayList3 = arrayList17;
-                            arrayList = arrayList16;
                             arrayList2 = arrayList15;
+                            arrayList = arrayList14;
                             break;
                     }
                     i5++;
-                    arrayList17 = arrayList3;
-                    arrayList16 = arrayList;
+                    str6 = str;
+                    arrayList14 = arrayList;
                     arrayList15 = arrayList2;
-                    str6 = str8;
-                    format2 = format;
-                    uri = null;
+                    str7 = str9;
                 }
-                return new HlsMultivariantPlaylist(str, arrayList20, arrayList22, arrayList15, arrayList16, arrayList17, arrayList18, format2, z2 ? Collections.emptyList() : arrayList23, z3, hashMap2, arrayList21);
+                ArrayList arrayList23 = arrayList15;
+                ArrayList arrayList24 = arrayList14;
+                if (z2) {
+                    list = Collections.emptyList();
+                }
+                return new HlsMultivariantPlaylist(str, arrayList18, arrayList20, arrayList13, arrayList24, arrayList23, arrayList16, format, list, z3, hashMap2, arrayList19);
             }
             String next = lineIterator.next();
             if (next.startsWith("#EXT")) {
-                arrayList14.add(next);
+                arrayList12.add(next);
             }
             boolean startsWith = next.startsWith("#EXT-X-I-FRAME-STREAM-INF");
             boolean z4 = z;
@@ -972,41 +963,47 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
             } else if (next.equals("#EXT-X-INDEPENDENT-SEGMENTS")) {
                 z = true;
             } else if (next.startsWith("#EXT-X-MEDIA")) {
-                arrayList12.add(next);
+                arrayList10.add(next);
             } else {
                 if (next.startsWith("#EXT-X-SESSION-KEY")) {
                     DrmInitData.SchemeData parseDrmSchemeData = parseDrmSchemeData(next, parseOptionalStringAttr(next, REGEX_KEYFORMAT, "identity", hashMap2), hashMap2);
                     if (parseDrmSchemeData != null) {
-                        arrayList4 = arrayList11;
-                        arrayList13.add(new DrmInitData(parseEncryptionScheme(parseStringAttr(next, REGEX_METHOD, hashMap2)), parseDrmSchemeData));
+                        arrayList3 = arrayList9;
+                        arrayList11.add(new DrmInitData(parseEncryptionScheme(parseStringAttr(next, REGEX_METHOD, hashMap2)), parseDrmSchemeData));
                     }
                 } else {
-                    arrayList4 = arrayList11;
+                    arrayList3 = arrayList9;
                     if (next.startsWith("#EXT-X-STREAM-INF") || startsWith) {
                         boolean contains = z2 | next.contains("CLOSED-CAPTIONS=NONE");
                         int i6 = startsWith ? LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : 0;
                         int parseIntAttr = parseIntAttr(next, REGEX_BANDWIDTH);
-                        ArrayList arrayList25 = arrayList13;
+                        ArrayList arrayList25 = arrayList11;
                         int parseOptionalIntAttr = parseOptionalIntAttr(next, REGEX_AVERAGE_BANDWIDTH, -1);
                         String parseOptionalStringAttr3 = parseOptionalStringAttr(next, REGEX_CODECS, hashMap2);
-                        ArrayList arrayList26 = arrayList14;
-                        String parseOptionalStringAttr4 = parseOptionalStringAttr(next, REGEX_RESOLUTION, hashMap2);
-                        ArrayList arrayList27 = arrayList10;
-                        if (parseOptionalStringAttr4 != null) {
-                            String[] split = Util.split(parseOptionalStringAttr4, "x");
+                        ArrayList arrayList26 = arrayList12;
+                        String parseOptionalStringAttr4 = parseOptionalStringAttr(next, REGEX_MIME, hashMap2);
+                        ArrayList arrayList27 = arrayList8;
+                        ArrayList arrayList28 = arrayList7;
+                        boolean equals = TextUtils.equals(parseOptionalStringAttr(next, REGEX_CACHED, hashMap2), "true");
+                        String parseOptionalStringAttr5 = parseOptionalStringAttr(next, REGEX_DOC_ID, hashMap2);
+                        ArrayList arrayList29 = arrayList6;
+                        String parseOptionalStringAttr6 = parseOptionalStringAttr(next, REGEX_DOC_FILENAME, hashMap2);
+                        ArrayList arrayList30 = arrayList10;
+                        String parseOptionalStringAttr7 = parseOptionalStringAttr(next, REGEX_ACCOUNT, hashMap2);
+                        HashMap hashMap3 = hashMap;
+                        String parseOptionalStringAttr8 = parseOptionalStringAttr(next, REGEX_RESOLUTION, hashMap2);
+                        if (parseOptionalStringAttr8 != null) {
+                            String[] split = Util.split(parseOptionalStringAttr8, "x");
                             i3 = Integer.parseInt(split[0]);
                             i2 = Integer.parseInt(split[1]);
                             if (i3 > 0 && i2 > 0) {
-                                arrayList5 = arrayList9;
-                                String parseOptionalStringAttr5 = parseOptionalStringAttr(next, REGEX_FRAME_RATE, hashMap2);
-                                float parseFloat = parseOptionalStringAttr5 == null ? Float.parseFloat(parseOptionalStringAttr5) : -1.0f;
-                                ArrayList arrayList28 = arrayList8;
-                                String parseOptionalStringAttr6 = parseOptionalStringAttr(next, REGEX_VIDEO, hashMap2);
-                                ArrayList arrayList29 = arrayList12;
-                                String parseOptionalStringAttr7 = parseOptionalStringAttr(next, REGEX_AUDIO, hashMap2);
-                                HashMap hashMap4 = hashMap;
-                                String parseOptionalStringAttr8 = parseOptionalStringAttr(next, REGEX_SUBTITLES, hashMap2);
-                                String parseOptionalStringAttr9 = parseOptionalStringAttr(next, REGEX_CLOSED_CAPTIONS, hashMap2);
+                                str5 = parseOptionalStringAttr6;
+                                String parseOptionalStringAttr9 = parseOptionalStringAttr(next, REGEX_FRAME_RATE, hashMap2);
+                                float parseFloat = parseOptionalStringAttr9 == null ? Float.parseFloat(parseOptionalStringAttr9) : -1.0f;
+                                String parseOptionalStringAttr10 = parseOptionalStringAttr(next, REGEX_VIDEO, hashMap2);
+                                String parseOptionalStringAttr11 = parseOptionalStringAttr(next, REGEX_AUDIO, hashMap2);
+                                String parseOptionalStringAttr12 = parseOptionalStringAttr(next, REGEX_SUBTITLES, hashMap2);
+                                String parseOptionalStringAttr13 = parseOptionalStringAttr(next, REGEX_CLOSED_CAPTIONS, hashMap2);
                                 if (!startsWith) {
                                     replaceVariableReferences = parseStringAttr(next, REGEX_URI, hashMap2);
                                 } else {
@@ -1015,67 +1012,62 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
                                     }
                                     replaceVariableReferences = replaceVariableReferences(lineIterator.next(), hashMap2);
                                 }
-                                Uri resolveToUri2 = UriUtil.resolveToUri(str5, replaceVariableReferences);
-                                arrayList7.add(new HlsMultivariantPlaylist.Variant(resolveToUri2, new Format.Builder().setId(arrayList7.size()).setContainerMimeType("application/x-mpegURL").setCodecs(parseOptionalStringAttr3).setAverageBitrate(parseOptionalIntAttr).setPeakBitrate(parseIntAttr).setWidth(i3).setHeight(i2).setFrameRate(parseFloat).setRoleFlags(i6).build(), parseOptionalStringAttr6, parseOptionalStringAttr7, parseOptionalStringAttr8, parseOptionalStringAttr9));
-                                arrayList6 = (ArrayList) hashMap4.get(resolveToUri2);
-                                if (arrayList6 == null) {
-                                    arrayList6 = new ArrayList();
-                                    hashMap4.put(resolveToUri2, arrayList6);
+                                Uri resolveToUri2 = UriUtil.resolveToUri(str6, replaceVariableReferences);
+                                arrayList5.add(new HlsMultivariantPlaylist.Variant(resolveToUri2, new Format.Builder().setId(arrayList5.size()).setContainerMimeType("application/x-mpegURL").setCodecs(parseOptionalStringAttr3).setSampleMimeType(parseOptionalStringAttr4).setAverageBitrate(parseOptionalIntAttr).setPeakBitrate(parseIntAttr).setWidth(i3).setHeight(i2).setFrameRate(parseFloat).setRoleFlags(i6).setCached(equals).setDocumentId(parseOptionalStringAttr5).setDocumentFilename(str5).setCurrentAccount(parseOptionalStringAttr7).build(), parseOptionalStringAttr10, parseOptionalStringAttr11, parseOptionalStringAttr12, parseOptionalStringAttr13));
+                                hashMap = hashMap3;
+                                arrayList4 = (ArrayList) hashMap.get(resolveToUri2);
+                                if (arrayList4 == null) {
+                                    arrayList4 = new ArrayList();
+                                    hashMap.put(resolveToUri2, arrayList4);
                                 }
-                                arrayList6.add(new HlsTrackMetadataEntry.VariantInfo(parseOptionalIntAttr, parseIntAttr, parseOptionalStringAttr6, parseOptionalStringAttr7, parseOptionalStringAttr8, parseOptionalStringAttr9));
-                                hashMap = hashMap4;
+                                arrayList4.add(new HlsTrackMetadataEntry.VariantInfo(parseOptionalIntAttr, parseIntAttr, parseOptionalStringAttr10, parseOptionalStringAttr11, parseOptionalStringAttr12, parseOptionalStringAttr13));
                                 z = z4;
-                                arrayList11 = arrayList4;
+                                arrayList9 = arrayList3;
                                 z2 = contains;
-                                arrayList13 = arrayList25;
-                                arrayList14 = arrayList26;
-                                arrayList10 = arrayList27;
-                                arrayList9 = arrayList5;
-                                arrayList8 = arrayList28;
-                                arrayList12 = arrayList29;
-                                str5 = str;
+                                arrayList11 = arrayList25;
+                                arrayList12 = arrayList26;
+                                arrayList8 = arrayList27;
+                                arrayList7 = arrayList28;
+                                arrayList6 = arrayList29;
+                                arrayList10 = arrayList30;
                             }
                         }
-                        arrayList5 = arrayList9;
+                        str5 = parseOptionalStringAttr6;
                         i2 = -1;
                         i3 = -1;
-                        String parseOptionalStringAttr52 = parseOptionalStringAttr(next, REGEX_FRAME_RATE, hashMap2);
-                        if (parseOptionalStringAttr52 == null) {
+                        String parseOptionalStringAttr92 = parseOptionalStringAttr(next, REGEX_FRAME_RATE, hashMap2);
+                        if (parseOptionalStringAttr92 == null) {
                         }
-                        ArrayList arrayList282 = arrayList8;
-                        String parseOptionalStringAttr62 = parseOptionalStringAttr(next, REGEX_VIDEO, hashMap2);
-                        ArrayList arrayList292 = arrayList12;
-                        String parseOptionalStringAttr72 = parseOptionalStringAttr(next, REGEX_AUDIO, hashMap2);
-                        HashMap hashMap42 = hashMap;
-                        String parseOptionalStringAttr82 = parseOptionalStringAttr(next, REGEX_SUBTITLES, hashMap2);
-                        String parseOptionalStringAttr92 = parseOptionalStringAttr(next, REGEX_CLOSED_CAPTIONS, hashMap2);
+                        String parseOptionalStringAttr102 = parseOptionalStringAttr(next, REGEX_VIDEO, hashMap2);
+                        String parseOptionalStringAttr112 = parseOptionalStringAttr(next, REGEX_AUDIO, hashMap2);
+                        String parseOptionalStringAttr122 = parseOptionalStringAttr(next, REGEX_SUBTITLES, hashMap2);
+                        String parseOptionalStringAttr132 = parseOptionalStringAttr(next, REGEX_CLOSED_CAPTIONS, hashMap2);
                         if (!startsWith) {
                         }
-                        Uri resolveToUri22 = UriUtil.resolveToUri(str5, replaceVariableReferences);
-                        arrayList7.add(new HlsMultivariantPlaylist.Variant(resolveToUri22, new Format.Builder().setId(arrayList7.size()).setContainerMimeType("application/x-mpegURL").setCodecs(parseOptionalStringAttr3).setAverageBitrate(parseOptionalIntAttr).setPeakBitrate(parseIntAttr).setWidth(i3).setHeight(i2).setFrameRate(parseFloat).setRoleFlags(i6).build(), parseOptionalStringAttr62, parseOptionalStringAttr72, parseOptionalStringAttr82, parseOptionalStringAttr92));
-                        arrayList6 = (ArrayList) hashMap42.get(resolveToUri22);
-                        if (arrayList6 == null) {
+                        Uri resolveToUri22 = UriUtil.resolveToUri(str6, replaceVariableReferences);
+                        arrayList5.add(new HlsMultivariantPlaylist.Variant(resolveToUri22, new Format.Builder().setId(arrayList5.size()).setContainerMimeType("application/x-mpegURL").setCodecs(parseOptionalStringAttr3).setSampleMimeType(parseOptionalStringAttr4).setAverageBitrate(parseOptionalIntAttr).setPeakBitrate(parseIntAttr).setWidth(i3).setHeight(i2).setFrameRate(parseFloat).setRoleFlags(i6).setCached(equals).setDocumentId(parseOptionalStringAttr5).setDocumentFilename(str5).setCurrentAccount(parseOptionalStringAttr7).build(), parseOptionalStringAttr102, parseOptionalStringAttr112, parseOptionalStringAttr122, parseOptionalStringAttr132));
+                        hashMap = hashMap3;
+                        arrayList4 = (ArrayList) hashMap.get(resolveToUri22);
+                        if (arrayList4 == null) {
                         }
-                        arrayList6.add(new HlsTrackMetadataEntry.VariantInfo(parseOptionalIntAttr, parseIntAttr, parseOptionalStringAttr62, parseOptionalStringAttr72, parseOptionalStringAttr82, parseOptionalStringAttr92));
-                        hashMap = hashMap42;
+                        arrayList4.add(new HlsTrackMetadataEntry.VariantInfo(parseOptionalIntAttr, parseIntAttr, parseOptionalStringAttr102, parseOptionalStringAttr112, parseOptionalStringAttr122, parseOptionalStringAttr132));
                         z = z4;
-                        arrayList11 = arrayList4;
+                        arrayList9 = arrayList3;
                         z2 = contains;
-                        arrayList13 = arrayList25;
-                        arrayList14 = arrayList26;
-                        arrayList10 = arrayList27;
-                        arrayList9 = arrayList5;
-                        arrayList8 = arrayList282;
-                        arrayList12 = arrayList292;
-                        str5 = str;
+                        arrayList11 = arrayList25;
+                        arrayList12 = arrayList26;
+                        arrayList8 = arrayList27;
+                        arrayList7 = arrayList28;
+                        arrayList6 = arrayList29;
+                        arrayList10 = arrayList30;
                     }
                 }
                 z = z4;
-                arrayList11 = arrayList4;
+                arrayList9 = arrayList3;
             }
-            arrayList4 = arrayList11;
+            arrayList3 = arrayList9;
             z = z4;
-            arrayList11 = arrayList4;
+            arrayList9 = arrayList3;
         }
     }
 

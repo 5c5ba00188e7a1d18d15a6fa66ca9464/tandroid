@@ -215,7 +215,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
         }
         TLRPC.InputStickerSet inputStickerSet = tL_inputStickerSetShortName;
         inputStickerSet.access_hash = stickerSetCovered.set.access_hash;
-        StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, inputStickerSet, (TLRPC.TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
+        StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, inputStickerSet, null, null, false);
         stickersAlert.setInstallDelegate(new StickersAlert.StickersAlertInstallDelegate() { // from class: org.telegram.ui.ArchivedStickersActivity.2
             @Override // org.telegram.ui.Components.StickersAlert.StickersAlertInstallDelegate
             public void onStickerSetInstalled() {
@@ -341,7 +341,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    ArchivedStickersActivity.this.lambda$onBackPressed$300();
+                    ArchivedStickersActivity.this.lambda$onBackPressed$319();
                 }
             }
         });

@@ -322,7 +322,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$4() {
-            PassportActivity.this.lambda$onBackPressed$300();
+            PassportActivity.this.lambda$onBackPressed$319();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -431,7 +431,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
             }
             if (PassportActivity.this.isHasNotAnyChanges()) {
-                PassportActivity.this.lambda$onBackPressed$300();
+                PassportActivity.this.lambda$onBackPressed$319();
                 return false;
             }
             SecureDocument secureDocument = null;
@@ -573,7 +573,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (PassportActivity.this.currentActivityType == 0 || PassportActivity.this.currentActivityType == 5) {
                     PassportActivity.this.callCallback(false);
                 }
-                PassportActivity.this.lambda$onBackPressed$300();
+                PassportActivity.this.lambda$onBackPressed$319();
                 return;
             }
             if (i == 1) {
@@ -670,7 +670,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             return;
                         }
                         if (PassportActivity.this.isHasNotAnyChanges()) {
-                            PassportActivity.this.lambda$onBackPressed$300();
+                            PassportActivity.this.lambda$onBackPressed$319();
                             return;
                         }
                         if (!PassportActivity.this.documentOnly) {
@@ -1682,7 +1682,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 passportActivityDelegate.saveValue(tL_secureRequiredType, str, null, null, null, null, null, null, null, null, new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.this.lambda$onBackPressed$300();
+                        PassportActivity.this.lambda$onBackPressed$319();
                     }
                 }, null);
                 return;
@@ -1758,7 +1758,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$resendCode$1(DialogInterface dialogInterface, int i) {
             onBackPressed(true);
-            PassportActivity.this.lambda$onBackPressed$300();
+            PassportActivity.this.lambda$onBackPressed$319();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -3841,7 +3841,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         for (byte b : bArr) {
             i += b & 255;
         }
-        if (i % NotificationCenter.closeSearchByActiveAction != 239) {
+        if (i % NotificationCenter.playerDidStartPlaying != 239) {
             return false;
         }
         return l == null || Utilities.bytesToLong(Utilities.computeSHA256(bArr)) == l.longValue();
@@ -6783,15 +6783,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         for (int i2 = 0; i2 < 32; i2++) {
             i += 255 & bArr[i2];
         }
-        int i3 = i % NotificationCenter.closeSearchByActiveAction;
+        int i3 = i % NotificationCenter.playerDidStartPlaying;
         if (i3 != 239) {
-            int i4 = NotificationCenter.needShareTheme - i3;
+            int i4 = NotificationCenter.needCheckSystemBarColors - i3;
             int nextInt = Utilities.random.nextInt(32);
             int i5 = (bArr[nextInt] & 255) + i4;
             if (i5 < 255) {
-                i5 += NotificationCenter.closeSearchByActiveAction;
+                i5 += NotificationCenter.playerDidStartPlaying;
             }
-            bArr[nextInt] = (byte) (i5 % NotificationCenter.closeSearchByActiveAction);
+            bArr[nextInt] = (byte) (i5 % NotificationCenter.playerDidStartPlaying);
         }
         return bArr;
     }
@@ -7148,7 +7148,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$69(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7226,7 +7226,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
         this.currentDocumentValues.clear();
         this.delegate.deleteValue(this.currentType, this.currentDocumentsType, this.availableDocumentTypes, zArr[0], null, null);
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7821,7 +7821,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (tL_error == null) {
             this.ignoreOnFailure = true;
             callCallback(true);
-            lambda$onBackPressed$300();
+            lambda$onBackPressed$319();
         } else {
             showEditDoneProgress(false, false);
             if ("APP_VERSION_OUTDATED".equals(tL_error.text)) {

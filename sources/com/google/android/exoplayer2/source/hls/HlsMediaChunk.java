@@ -26,6 +26,7 @@ import java.io.InterruptedIOException;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -149,27 +150,31 @@ public final class HlsMediaChunk extends MediaChunk {
             subrange = dataSpec.subrange(this.nextLoadPosition);
         }
         try {
-            DefaultExtractorInput prepareExtraction = prepareExtraction(dataSource, subrange, z2);
-            if (r0) {
-                prepareExtraction.skipFully(this.nextLoadPosition);
-            }
-            while (!this.loadCanceled && this.extractor.read(prepareExtraction)) {
-                try {
-                    try {
-                    } catch (EOFException e) {
-                        if ((this.trackFormat.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) == 0) {
-                            throw e;
-                        }
-                        this.extractor.onTruncatedSegmentParsed();
-                        position = prepareExtraction.getPosition();
-                    }
-                } catch (Throwable th) {
-                    this.nextLoadPosition = (int) (prepareExtraction.getPosition() - dataSpec.position);
-                    throw th;
+            try {
+                DefaultExtractorInput prepareExtraction = prepareExtraction(dataSource, subrange, z2);
+                if (r0) {
+                    prepareExtraction.skipFully(this.nextLoadPosition);
                 }
+                while (!this.loadCanceled && this.extractor.read(prepareExtraction)) {
+                    try {
+                        try {
+                        } catch (EOFException e) {
+                            if ((this.trackFormat.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) == 0) {
+                                throw e;
+                            }
+                            this.extractor.onTruncatedSegmentParsed();
+                            position = prepareExtraction.getPosition();
+                        }
+                    } catch (Throwable th) {
+                        this.nextLoadPosition = (int) (prepareExtraction.getPosition() - dataSpec.position);
+                        throw th;
+                    }
+                }
+                position = prepareExtraction.getPosition();
+                this.nextLoadPosition = (int) (position - dataSpec.position);
+            } catch (Exception e2) {
+                FileLog.e(e2);
             }
-            position = prepareExtraction.getPosition();
-            this.nextLoadPosition = (int) (position - dataSpec.position);
         } finally {
             DataSourceUtil.closeQuietly(dataSource);
         }

@@ -78,7 +78,7 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
         }
     }
 
-    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r0v0, types: [int, boolean] */
     private final boolean isCompleted() {
         return this._isCompleted;
     }

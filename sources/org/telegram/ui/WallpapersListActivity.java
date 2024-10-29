@@ -281,7 +281,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                         SendMessagesHelper.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(sb.toString(), j, null, null, null, true, null, null, null, true, 0, null, false));
                     }
                 }
-                dialogsActivity.lambda$onBackPressed$300();
+                dialogsActivity.lambda$onBackPressed$319();
             } else {
                 long j3 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
                 Bundle bundle = new Bundle();
@@ -309,7 +309,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         public void onItemClick(int i) {
             if (i == -1) {
                 if (!((BaseFragment) WallpapersListActivity.this).actionBar.isActionModeShowed()) {
-                    WallpapersListActivity.this.lambda$onBackPressed$300();
+                    WallpapersListActivity.this.lambda$onBackPressed$319();
                     return;
                 }
                 WallpapersListActivity.this.selectedWallPapers.clear();
@@ -459,12 +459,12 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             StringBuilder sb;
             String str;
             int i = this.gradientColor1;
-            String lowerCase = i != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor1 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor1 & NotificationCenter.closeSearchByActiveAction))).toLowerCase() : null;
-            String lowerCase2 = String.format("%02x%02x%02x", Integer.valueOf(((byte) (this.color >> 16)) & 255), Integer.valueOf(((byte) (this.color >> 8)) & 255), Byte.valueOf((byte) (this.color & NotificationCenter.closeSearchByActiveAction))).toLowerCase();
+            String lowerCase = i != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor1 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor1 & NotificationCenter.playerDidStartPlaying))).toLowerCase() : null;
+            String lowerCase2 = String.format("%02x%02x%02x", Integer.valueOf(((byte) (this.color >> 16)) & 255), Integer.valueOf(((byte) (this.color >> 8)) & 255), Byte.valueOf((byte) (this.color & NotificationCenter.playerDidStartPlaying))).toLowerCase();
             int i2 = this.gradientColor2;
-            String lowerCase3 = i2 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor2 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor2 & NotificationCenter.closeSearchByActiveAction))).toLowerCase() : null;
+            String lowerCase3 = i2 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor2 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor2 & NotificationCenter.playerDidStartPlaying))).toLowerCase() : null;
             int i3 = this.gradientColor3;
-            String lowerCase4 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor3 & NotificationCenter.closeSearchByActiveAction))).toLowerCase() : null;
+            String lowerCase4 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor3 & NotificationCenter.playerDidStartPlaying))).toLowerCase() : null;
             if (lowerCase == null || lowerCase3 == null) {
                 if (lowerCase != null) {
                     String str2 = lowerCase2 + "-" + lowerCase;

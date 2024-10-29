@@ -437,6 +437,13 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
+            public /* synthetic */ boolean canPerformReply() {
+                boolean canPerformActions;
+                canPerformActions = canPerformActions();
+                return canPerformActions;
+            }
+
+            @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
             public void didLongPress(ChatMessageCell chatMessageCell, float f, float f2) {
                 ChannelAdminLogActivity.this.createMenu(chatMessageCell);
             }
@@ -584,7 +591,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressHint(this, chatMessageCell, i);
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:53:0x0111, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:53:0x0112, code lost:
             
                 if (r11.exists() != false) goto L53;
              */
@@ -598,7 +605,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 Uri fromFile;
                 MessageObject messageObject = chatMessageCell.getMessageObject();
                 if (messageObject.getInputStickerSet() != null) {
-                    ChannelAdminLogActivity.this.showDialog(new StickersAlert(ChannelAdminLogActivity.this.getParentActivity(), ChannelAdminLogActivity.this, messageObject.getInputStickerSet(), (TLRPC.TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null));
+                    ChannelAdminLogActivity.this.showDialog(new StickersAlert(ChannelAdminLogActivity.this.getParentActivity(), ChannelAdminLogActivity.this, messageObject.getInputStickerSet(), null, null, false));
                     return;
                 }
                 if (messageObject.isVideo() || (i = messageObject.type) == 1 || ((i == 0 && !messageObject.isWebpageDocument()) || messageObject.isGif())) {
@@ -733,7 +740,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-            public void didPressReplyMessage(ChatMessageCell chatMessageCell, int i) {
+            public void didPressReplyMessage(ChatMessageCell chatMessageCell, int i, float f, float f2, boolean z) {
                 MessageObject messageObject = chatMessageCell.getMessageObject().replyMessageObject;
                 if (messageObject.getDialogId() == (-ChannelAdminLogActivity.this.currentChat.id)) {
                     for (int i2 = 0; i2 < ChannelAdminLogActivity.this.filteredMessages.size(); i2++) {
@@ -1809,7 +1816,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.ChannelAdminLogActivity.14
                             @Override // android.text.style.ClickableSpan
                             public void onClick(View view2) {
-                                ChannelAdminLogActivity.this.lambda$onBackPressed$300();
+                                ChannelAdminLogActivity.this.lambda$onBackPressed$319();
                             }
 
                             @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
@@ -1848,7 +1855,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             }
                             TLRPC.InputStickerSet inputStickerSet2 = inputStickerSet;
                             if (inputStickerSet2 != null) {
-                                showDialog(new StickersAlert(getParentActivity(), this, inputStickerSet2, (TLRPC.TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null));
+                                showDialog(new StickersAlert(getParentActivity(), this, inputStickerSet2, null, null, false));
                                 return true;
                             }
                         }
@@ -2912,7 +2919,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         this.chatLayoutManager.scrollToPositionWithOffset(this.filteredMessages.size() - 1, (-100000) - this.chatListView.getPaddingTop());
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:128:0x0362, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:128:0x0364, code lost:
     
         if (r0.exists() != false) goto L127;
      */
@@ -3053,7 +3060,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             } else if (i != 7) {
                 switch (i) {
                     case 9:
-                        create = new StickersAlert(getParentActivity(), this, this.selectedObject.getInputStickerSet(), (TLRPC.TL_messages_stickerSet) null, (StickersAlert.StickersAlertDelegate) null);
+                        create = new StickersAlert(getParentActivity(), this, this.selectedObject.getInputStickerSet(), null, null, false);
                         showDialog(create);
                         break;
                     case 10:
@@ -3708,7 +3715,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
                 if (i2 == -1) {
-                    ChannelAdminLogActivity.this.lambda$onBackPressed$300();
+                    ChannelAdminLogActivity.this.lambda$onBackPressed$319();
                 }
             }
         });

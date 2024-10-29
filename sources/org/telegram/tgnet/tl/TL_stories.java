@@ -2402,12 +2402,13 @@ public class TL_stories {
 
     /* loaded from: classes3.dex */
     public static class TL_stories_searchPosts extends TLObject {
-        public static final int constructor = 1827279210;
+        public static final int constructor = -780072697;
         public MediaArea area;
         public int flags;
         public String hashtag;
         public int limit;
         public String offset;
+        public TLRPC.InputPeer peer;
 
         @Override // org.telegram.tgnet.TLObject
         public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -2423,6 +2424,9 @@ public class TL_stories {
             }
             if ((this.flags & 2) != 0) {
                 this.area.serializeToStream(abstractSerializedData);
+            }
+            if ((this.flags & 4) != 0) {
+                this.peer.serializeToStream(abstractSerializedData);
             }
             abstractSerializedData.writeString(this.offset);
             abstractSerializedData.writeInt32(this.limit);

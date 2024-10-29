@@ -95,7 +95,7 @@ public class CameraSession {
             } else if (rotation == 2) {
                 i = NotificationCenter.updateBotMenuButton;
             } else if (rotation == 3) {
-                i = NotificationCenter.dialogsUnreadReactionsCounterChanged;
+                i = NotificationCenter.chatAvailableReactionsUpdated;
             }
         }
         int i2 = cameraInfo.facing;
@@ -105,7 +105,7 @@ public class CameraSession {
         }
         int i4 = (360 - ((i3 + i) % 360)) % 360;
         if (!z && i4 == 90) {
-            i4 = NotificationCenter.dialogsUnreadReactionsCounterChanged;
+            i4 = NotificationCenter.chatAvailableReactionsUpdated;
         }
         if (!z && "Huawei".equals(Build.MANUFACTURER) && "angler".equals(Build.PRODUCT) && i4 == 270) {
             return 90;
@@ -531,9 +531,9 @@ public class CameraSession {
         configurePhotoCamera();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0051  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0057  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0052  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0058  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0062  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -556,7 +556,7 @@ public class CameraSession {
                     } else if (i3 == 2) {
                         i = NotificationCenter.updateBotMenuButton;
                     } else if (i3 == 3) {
-                        i = NotificationCenter.dialogsUnreadReactionsCounterChanged;
+                        i = NotificationCenter.chatAvailableReactionsUpdated;
                     }
                     cameraInfo = this.info;
                     if (cameraInfo.orientation % 90 != 0) {

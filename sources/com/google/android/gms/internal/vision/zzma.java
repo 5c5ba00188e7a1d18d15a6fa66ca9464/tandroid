@@ -380,7 +380,7 @@ public abstract class zzma {
     public static void zzc(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = ((((int) j) ^ (-1)) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.closeSearchByActiveAction << i) ^ (-1))));
+        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.playerDidStartPlaying << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -397,7 +397,7 @@ public abstract class zzma {
     public static void zzd(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = (((int) j) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.closeSearchByActiveAction << i) ^ (-1))));
+        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.playerDidStartPlaying << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

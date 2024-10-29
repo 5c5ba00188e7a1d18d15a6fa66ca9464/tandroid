@@ -2893,7 +2893,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             Activity activity = ChatActivityEnterView.this.parentActivity;
             ChatActivityEnterView chatActivityEnterView = ChatActivityEnterView.this;
             BaseFragment baseFragment2 = baseFragment;
-            StickersAlert stickersAlert = new StickersAlert(activity, baseFragment2, inputStickerSet, null, chatActivityEnterView, chatActivityEnterView.resourcesProvider);
+            StickersAlert stickersAlert = new StickersAlert(activity, baseFragment2, inputStickerSet, null, chatActivityEnterView, chatActivityEnterView.resourcesProvider, false);
             baseFragment.showDialog(stickersAlert);
             if (z) {
                 stickersAlert.enableEditMode();
@@ -4743,8 +4743,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 int i2 = (int) (ChatActivityEnterView.this.slideToCancelProgress >= 0.93f ? ((ChatActivityEnterView.this.slideToCancelProgress - 0.93f) / 0.07f) * 255.0f : 0.0f);
                 drawable3.setAlpha(i2);
                 drawable3.draw(canvas);
-                drawable3.setAlpha(NotificationCenter.closeSearchByActiveAction);
-                i = NotificationCenter.closeSearchByActiveAction - i2;
+                drawable3.setAlpha(NotificationCenter.playerDidStartPlaying);
+                i = NotificationCenter.playerDidStartPlaying - i2;
             } else if (ChatActivityEnterView.this.canceledByGesture) {
                 return;
             }
@@ -5616,7 +5616,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             float f4;
             float f5;
             boolean z;
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.closeSearchByActiveAction, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.playerDidStartPlaying, 31);
             boolean isOpen = isOpen();
             updateColors(isOpen);
             Drawable drawable = isInactive() ? this.inactiveDrawable : this.drawable;
@@ -6307,7 +6307,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     canvas.restore();
                 }
                 canvas.save();
-                this.textPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                this.textPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
                 StaticLayout staticLayout2 = new StaticLayout(this.replaceStable, this.textPaint, getMeasuredWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 canvas.translate(0.0f, measuredHeight - (staticLayout2.getHeight() / 2.0f));
                 staticLayout2.draw(canvas);
@@ -10119,7 +10119,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         TLRPC.User user = this.accountInstance.getMessagesController().getUser(Long.valueOf(j));
         if (user == null) {
-            dialogsActivity.lambda$onBackPressed$300();
+            dialogsActivity.lambda$onBackPressed$319();
             return true;
         }
         long j3 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
@@ -10141,7 +10141,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 return true;
             }
         }
-        dialogsActivity.lambda$onBackPressed$300();
+        dialogsActivity.lambda$onBackPressed$319();
         return true;
     }
 
@@ -10169,7 +10169,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             tL_messages_sendBotRequestedPeer.requested_peers.add(MessagesController.getInstance(this.currentAccount).getInputPeer(((MessagesStorage.TopicKey) arrayList.get(0)).dialogId));
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_sendBotRequestedPeer, null);
         }
-        dialogsActivity.lambda$onBackPressed$300();
+        dialogsActivity.lambda$onBackPressed$319();
         return true;
     }
 
@@ -10478,7 +10478,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     ChatActivityEnterView.this.lambda$openWebViewMenu$24();
                 }
             });
-            Browser.openAsInternalIntent(getContext(), this.botMenuWebViewUrl, false, progress);
+            Browser.openAsInternalIntent(getContext(), this.botMenuWebViewUrl, false, false, progress);
             return;
         }
         if (AndroidUtilities.isTablet()) {
@@ -13346,7 +13346,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (f <= 0.0f && f2 <= 0.0f) {
             return ((Boolean) callback0Return.run()).booleanValue();
         }
-        canvas.saveLayerAlpha(0.0f, 0.0f, this.messageEditText.getX() + this.messageEditText.getMeasuredWidth() + AndroidUtilities.dp(5.0f), this.messageEditText.getY() + this.messageEditText.getMeasuredHeight() + AndroidUtilities.dp(2.0f), NotificationCenter.closeSearchByActiveAction, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, this.messageEditText.getX() + this.messageEditText.getMeasuredWidth() + AndroidUtilities.dp(5.0f), this.messageEditText.getY() + this.messageEditText.getMeasuredHeight() + AndroidUtilities.dp(2.0f), NotificationCenter.playerDidStartPlaying, 31);
         boolean booleanValue = ((Boolean) callback0Return.run()).booleanValue();
         canvas.save();
         if (f > 0.0f) {

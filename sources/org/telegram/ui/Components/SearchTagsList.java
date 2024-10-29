@@ -191,7 +191,7 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
 
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
-            this.reactionButton.draw(canvas, (getWidth() - this.reactionButton.width) / 2.0f, (getHeight() - this.reactionButton.height) / 2.0f, this.progress.set(1.0f), 1.0f, false);
+            this.reactionButton.draw(canvas, (getWidth() - this.reactionButton.width) / 2.0f, (getHeight() - this.reactionButton.height) / 2.0f, this.progress.set(1.0f), 1.0f, false, false, 0.0f);
         }
 
         @Override // android.view.View

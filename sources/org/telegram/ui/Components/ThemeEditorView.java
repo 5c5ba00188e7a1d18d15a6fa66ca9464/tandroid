@@ -369,23 +369,23 @@ public class ThemeEditorView {
                                     ColorPicker.this.colorEditText[i].setSelection(ColorPicker.this.colorEditText[i].length());
                                     intValue = 0;
                                 } else if (intValue > 255) {
-                                    ColorPicker.this.colorEditText[i].setText("" + NotificationCenter.closeSearchByActiveAction);
+                                    ColorPicker.this.colorEditText[i].setText("" + NotificationCenter.playerDidStartPlaying);
                                     ColorPicker.this.colorEditText[i].setSelection(ColorPicker.this.colorEditText[i].length());
-                                    intValue = NotificationCenter.closeSearchByActiveAction;
+                                    intValue = NotificationCenter.playerDidStartPlaying;
                                 }
                                 int color = ColorPicker.this.getColor();
                                 int i5 = i;
                                 if (i5 == 2) {
                                     i2 = color & (-256);
-                                    i3 = intValue & NotificationCenter.closeSearchByActiveAction;
+                                    i3 = intValue & NotificationCenter.playerDidStartPlaying;
                                 } else if (i5 == 1) {
                                     i2 = color & (-65281);
-                                    i3 = (intValue & NotificationCenter.closeSearchByActiveAction) << 8;
+                                    i3 = (intValue & NotificationCenter.playerDidStartPlaying) << 8;
                                 } else {
                                     if (i5 != 0) {
                                         if (i5 == 3) {
                                             i2 = color & 16777215;
-                                            i3 = (intValue & NotificationCenter.closeSearchByActiveAction) << 24;
+                                            i3 = (intValue & NotificationCenter.playerDidStartPlaying) << 24;
                                         }
                                         ColorPicker.this.setColor(color);
                                         for (i4 = 0; i4 < ThemeEditorView.this.currentThemeDesription.size(); i4++) {
@@ -394,7 +394,7 @@ public class ThemeEditorView {
                                         EditorAlert.this.ignoreTextChange = false;
                                     }
                                     i2 = color & (-16711681);
-                                    i3 = (intValue & NotificationCenter.closeSearchByActiveAction) << 16;
+                                    i3 = (intValue & NotificationCenter.playerDidStartPlaying) << 16;
                                 }
                                 color = i2 | i3;
                                 ColorPicker.this.setColor(color);
@@ -445,23 +445,23 @@ public class ThemeEditorView {
                                 ColorPicker.this.colorEditText[i].setSelection(ColorPicker.this.colorEditText[i].length());
                                 intValue = 0;
                             } else if (intValue > 255) {
-                                ColorPicker.this.colorEditText[i].setText("" + NotificationCenter.closeSearchByActiveAction);
+                                ColorPicker.this.colorEditText[i].setText("" + NotificationCenter.playerDidStartPlaying);
                                 ColorPicker.this.colorEditText[i].setSelection(ColorPicker.this.colorEditText[i].length());
-                                intValue = NotificationCenter.closeSearchByActiveAction;
+                                intValue = NotificationCenter.playerDidStartPlaying;
                             }
                             int color = ColorPicker.this.getColor();
                             int i5 = i;
                             if (i5 == 2) {
                                 i2 = color & (-256);
-                                i3 = intValue & NotificationCenter.closeSearchByActiveAction;
+                                i3 = intValue & NotificationCenter.playerDidStartPlaying;
                             } else if (i5 == 1) {
                                 i2 = color & (-65281);
-                                i3 = (intValue & NotificationCenter.closeSearchByActiveAction) << 8;
+                                i3 = (intValue & NotificationCenter.playerDidStartPlaying) << 8;
                             } else {
                                 if (i5 != 0) {
                                     if (i5 == 3) {
                                         i2 = color & 16777215;
-                                        i3 = (intValue & NotificationCenter.closeSearchByActiveAction) << 24;
+                                        i3 = (intValue & NotificationCenter.playerDidStartPlaying) << 24;
                                     }
                                     ColorPicker.this.setColor(color);
                                     for (i4 = 0; i4 < ThemeEditorView.this.currentThemeDesription.size(); i4++) {
@@ -470,7 +470,7 @@ public class ThemeEditorView {
                                     EditorAlert.this.ignoreTextChange = false;
                                 }
                                 i2 = color & (-16711681);
-                                i3 = (intValue & NotificationCenter.closeSearchByActiveAction) << 16;
+                                i3 = (intValue & NotificationCenter.playerDidStartPlaying) << 16;
                             }
                             color = i2 | i3;
                             ColorPicker.this.setColor(color);

@@ -771,7 +771,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         MessagesStorage.getInstance(this.currentAccount).updateChatInfo(this.info, false);
         NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.chatInfoDidLoad, this.info, 0, Boolean.TRUE, Boolean.FALSE);
         NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupPackUpdated, Long.valueOf(this.info.id), Boolean.valueOf(this.isEmoji));
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -793,7 +793,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         } else {
             tL_inputStickerSetShortName = null;
         }
-        StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, tL_inputStickerSetShortName, !z2 ? tL_messages_stickerSet : null, (StickersAlert.StickersAlertDelegate) null);
+        StickersAlert stickersAlert = new StickersAlert(getParentActivity(), this, tL_inputStickerSetShortName, !z2 ? tL_messages_stickerSet : null, null, false);
         stickersAlert.setCustomButtonDelegate(new 4(z, tL_messages_stickerSet));
         AndroidUtilities.hideKeyboard(getParentActivity().getCurrentFocus());
         stickersAlert.show();
@@ -1028,7 +1028,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    GroupStickersActivity.this.lambda$onBackPressed$300();
+                    GroupStickersActivity.this.lambda$onBackPressed$319();
                 }
             }
         });

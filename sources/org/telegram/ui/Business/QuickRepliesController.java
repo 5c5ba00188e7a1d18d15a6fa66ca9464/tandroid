@@ -191,7 +191,7 @@ public class QuickRepliesController {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:42:0x0126  */
     /* JADX WARN: Type inference failed for: r1v0 */
-    /* JADX WARN: Type inference failed for: r1v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r1v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r1v8 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

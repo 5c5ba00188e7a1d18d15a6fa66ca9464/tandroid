@@ -679,7 +679,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
                 canvas.saveLayerAlpha(BotWebViewAttachedSheet.this.actionBar.getX(), BotWebViewAttachedSheet.this.actionBar.getY() + rectF2.top, BotWebViewAttachedSheet.this.actionBar.getX() + BotWebViewAttachedSheet.this.actionBar.getWidth(), BotWebViewAttachedSheet.this.actionBar.getY() + rectF2.top + BotWebViewAttachedSheet.this.actionBar.getHeight() + BotWebViewAttachedSheet.this.actionBarShadow.getIntrinsicHeight(), (int) (f2 * 255.0f * BotWebViewAttachedSheet.this.actionBarTransitionProgress), 31);
                 canvas.translate(BotWebViewAttachedSheet.this.actionBar.getX(), BotWebViewAttachedSheet.this.actionBar.getY() + rectF2.top);
                 BotWebViewAttachedSheet.this.actionBar.draw(canvas);
-                BotWebViewAttachedSheet.this.actionBarShadow.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                BotWebViewAttachedSheet.this.actionBarShadow.setAlpha(NotificationCenter.playerDidStartPlaying);
                 BotWebViewAttachedSheet.this.actionBarShadow.setBounds(0, BotWebViewAttachedSheet.this.actionBar.getHeight(), BotWebViewAttachedSheet.this.actionBar.getWidth(), BotWebViewAttachedSheet.this.actionBar.getHeight() + BotWebViewAttachedSheet.this.actionBarShadow.getIntrinsicHeight());
                 BotWebViewAttachedSheet.this.actionBarShadow.draw(canvas);
                 canvas.restore();
@@ -1003,7 +1003,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
             MessagesController.getInstance(i).loadFullUser(user, 0, true, new Utilities.Callback() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda20
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
-                    BotWebViewAttachedSheet.lambda$hasPrivacy$35(Utilities.Callback.this, (TLRPC.UserFull) obj);
+                    BotWebViewAttachedSheet.lambda$hasPrivacy$36(Utilities.Callback.this, (TLRPC.UserFull) obj);
                 }
             });
         }
@@ -1037,7 +1037,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$deleteBot$27(final int i, TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda35
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable
             public final void run() {
                 BotWebViewAttachedSheet.lambda$deleteBot$26(i);
@@ -1050,7 +1050,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         TLRPC.TL_messages_toggleBotInAttachMenu tL_messages_toggleBotInAttachMenu = new TLRPC.TL_messages_toggleBotInAttachMenu();
         tL_messages_toggleBotInAttachMenu.bot = MessagesController.getInstance(i).getInputUser(j);
         tL_messages_toggleBotInAttachMenu.enabled = false;
-        ConnectionsManager.getInstance(i).sendRequest(tL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda34
+        ConnectionsManager.getInstance(i).sendRequest(tL_messages_toggleBotInAttachMenu, new RequestDelegate() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda35
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 BotWebViewAttachedSheet.lambda$deleteBot$27(i, tLObject, tL_error);
@@ -1080,6 +1080,16 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$hasPrivacy$35(Utilities.Callback callback, TLRPC.UserFull userFull) {
         callback.run(Boolean.valueOf(hasPrivacy(userFull)));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$hasPrivacy$36(final Utilities.Callback callback, final TLRPC.UserFull userFull) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda32
+            @Override // java.lang.Runnable
+            public final void run() {
+                BotWebViewAttachedSheet.lambda$hasPrivacy$35(Utilities.Callback.this, userFull);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1229,7 +1239,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openPrivacy$36(int i, long j) {
+    public static /* synthetic */ void lambda$openPrivacy$37(int i, long j) {
         SendMessagesHelper.getInstance(i).sendMessage(SendMessagesHelper.SendMessageParams.of("/privacy", j, null, null, null, false, null, null, null, true, 0, null, false));
     }
 
@@ -1460,10 +1470,10 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         if (!(safeLastFragment instanceof ChatActivity) || ((ChatActivity) safeLastFragment).getDialogId() != j) {
             safeLastFragment.presentFragment(ChatActivity.of(j));
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda33
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {
-                BotWebViewAttachedSheet.lambda$openPrivacy$36(i, j);
+                BotWebViewAttachedSheet.lambda$openPrivacy$37(i, j);
             }
         }, 150L);
         return true;
@@ -1650,6 +1660,10 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         checkNavBarColor();
     }
 
+    public long getBotId() {
+        return this.botId;
+    }
+
     public float getContainerTop() {
         return AndroidUtilities.isTablet() ? AndroidUtilities.lerp(this.swipeContainer.getTranslationY() + AndroidUtilities.dp(12.0f), AndroidUtilities.statusBarHeight / 2.0f, this.actionBarTransitionProgress) : AndroidUtilities.lerp(this.swipeContainer.getTranslationY(), AndroidUtilities.statusBarHeight + (ActionBar.getCurrentActionBarHeight() / 2.0f), AndroidUtilities.isTablet() ? 0.0f : this.actionBarTransitionProgress) + AndroidUtilities.dp(12.0f);
     }
@@ -1738,10 +1752,10 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x021b  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0226  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0293  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x029e  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0219  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0224  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0291  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x029c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1840,7 +1854,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         this.settingsItem = addSubItem;
         addSubItem.setVisibility(8);
         addItem.addSubItem(R.id.menu_reload_page, R.drawable.msg_retry, LocaleController.getString(R.string.BotWebViewReloadPage));
-        if (tL_attachMenuBot != null && MediaDataController.getInstance(this.currentAccount).canCreateAttachedMenuBotShortcut(tL_attachMenuBot.bot_id)) {
+        if (MediaDataController.getInstance(this.currentAccount).canCreateAttachedMenuBotShortcut(this.botId)) {
             addItem.addSubItem(R.id.menu_add_to_home_screen_bot, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));
         }
         addItem.addSubItem(R.id.menu_share_bot, R.drawable.msg_share, LocaleController.getString(R.string.BotShare));
@@ -2202,7 +2216,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         if (z2) {
             ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda32
+            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda33
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     BotWebViewAttachedSheet.this.lambda$setActionBarColor$34(i2, i, botWebViewMenuContainer$ActionBarColorsAnimating, valueAnimator);
@@ -2375,7 +2389,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         }
         boolean z = tL_attachMenuBot.show_in_side_menu;
         final String formatString = (z && tL_attachMenuBot.show_in_attach_menu) ? LocaleController.formatString("BotAttachMenuShortcatAddedAttachAndSide", R.string.BotAttachMenuShortcatAddedAttachAndSide, user.first_name) : z ? LocaleController.formatString("BotAttachMenuShortcatAddedSide", R.string.BotAttachMenuShortcatAddedSide, user.first_name) : LocaleController.formatString("BotAttachMenuShortcatAddedAttach", R.string.BotAttachMenuShortcatAddedAttach, user.first_name);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda36
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda37
             @Override // java.lang.Runnable
             public final void run() {
                 BotWebViewAttachedSheet.this.lambda$showJustAddedBulletin$0(formatString);

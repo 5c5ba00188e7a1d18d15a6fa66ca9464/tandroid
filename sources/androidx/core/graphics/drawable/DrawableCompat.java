@@ -43,8 +43,9 @@ public abstract class DrawableCompat {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    static class Api21Impl {
+    public static class Api21Impl {
         static void applyTheme(Drawable drawable, Resources.Theme theme) {
             drawable.applyTheme(theme);
         }

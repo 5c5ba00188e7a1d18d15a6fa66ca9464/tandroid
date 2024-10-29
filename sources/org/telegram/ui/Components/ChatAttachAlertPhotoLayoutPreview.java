@@ -197,7 +197,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         /* JADX WARN: Removed duplicated region for block: B:64:0x07dd  */
         /* JADX WARN: Removed duplicated region for block: B:76:0x081c A[LOOP:2: B:75:0x081a->B:76:0x081c, LOOP_END] */
         /* JADX WARN: Type inference failed for: r14v17 */
-        /* JADX WARN: Type inference failed for: r14v19, types: [boolean, int] */
+        /* JADX WARN: Type inference failed for: r14v19, types: [int, boolean] */
         /* JADX WARN: Type inference failed for: r14v2 */
         /* JADX WARN: Type inference failed for: r14v20 */
         /*

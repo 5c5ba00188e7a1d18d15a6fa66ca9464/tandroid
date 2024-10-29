@@ -94,6 +94,7 @@ public abstract class CaptionContainerView extends FrameLayout {
     public final AnimatedFloat collapsedT;
     private final FrameLayout containerView;
     protected int currentAccount;
+    private long dialogId;
     public final EditTextEmoji editText;
     private final LinearGradient fadeGradient;
     private final Paint fadePaint;
@@ -210,6 +211,7 @@ public abstract class CaptionContainerView extends FrameLayout {
                 captionContainerView.createMentionsContainer();
             }
             if (CaptionContainerView.this.mentionContainer.getAdapter() != null) {
+                CaptionContainerView.this.mentionContainer.getAdapter().setUserOrChat(MessagesController.getInstance(CaptionContainerView.this.currentAccount).getUser(Long.valueOf(CaptionContainerView.this.dialogId)), MessagesController.getInstance(CaptionContainerView.this.currentAccount).getChat(Long.valueOf(-CaptionContainerView.this.dialogId)));
                 CaptionContainerView.this.mentionContainer.getAdapter().lambda$searchUsernameOrHashtag$7(charSequence, CaptionContainerView.this.editText.getEditText().getSelectionStart(), null, false, false);
             }
         }
@@ -691,6 +693,11 @@ public abstract class CaptionContainerView extends FrameLayout {
                 paint.setAlpha(i);
                 canvas.drawRoundRect(CaptionContainerView.this.rectF, f, f, CaptionContainerView.this.backgroundPaint);
             }
+
+            @Override // org.telegram.ui.Components.MentionsContainerView
+            protected boolean isStories() {
+                return true;
+            }
         };
         this.mentionContainer = mentionsContainerView;
         this.mentionBackgroundBlur = new BlurringShader.StoryBlurDrawer(this.blurManager, mentionsContainerView, 0);
@@ -757,7 +764,7 @@ public abstract class CaptionContainerView extends FrameLayout {
                 return;
             }
             EditTextCaption editText = this.editText.getEditText();
-            canvas.saveLayerAlpha(0.0f, 0.0f, editText.getWidth(), editText.getHeight(), NotificationCenter.closeSearchByActiveAction, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, editText.getWidth(), editText.getHeight(), NotificationCenter.playerDidStartPlaying, 31);
             runnable.run();
             canvas.drawRect(0.0f, 0.0f, editText.getWidth(), editText.getHeight(), paint);
             canvas.restore();
@@ -768,7 +775,7 @@ public abstract class CaptionContainerView extends FrameLayout {
             return;
         }
         canvas.translate(-this.editText.getEditText().hintLayoutX, 0.0f);
-        canvas.saveLayerAlpha(0.0f, 0.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight(), NotificationCenter.closeSearchByActiveAction, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight(), NotificationCenter.playerDidStartPlaying, 31);
         this.rectF.set(0.0f, 1.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight() - 1);
         drawBlur(this.captionBlur, canvas, this.rectF, 0.0f, true, (-this.editText.getX()) - r8.getPaddingLeft(), ((-this.editText.getY()) - r8.getPaddingTop()) - r8.getExtendedPaddingTop(), true);
         canvas.save();
@@ -810,7 +817,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         }
         if (paint2 != null) {
             RectF rectF2 = this.bounds;
-            canvas.saveLayerAlpha(rectF2.left, rectF2.top, rectF2.right, rectF2.bottom, NotificationCenter.closeSearchByActiveAction, 31);
+            canvas.saveLayerAlpha(rectF2.left, rectF2.top, rectF2.right, rectF2.bottom, NotificationCenter.playerDidStartPlaying, 31);
         }
         Path path = this.replyClipPath;
         if (path == null) {
@@ -1234,7 +1241,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         }
         invalidateDrawOver2();
         if (f5 > 0.0f) {
-            canvas.saveLayerAlpha(this.bounds, NotificationCenter.closeSearchByActiveAction, 31);
+            canvas.saveLayerAlpha(this.bounds, NotificationCenter.playerDidStartPlaying, 31);
         }
         drawReply(canvas);
         super.dispatchDraw(canvas);
@@ -1275,7 +1282,7 @@ public abstract class CaptionContainerView extends FrameLayout {
             canvas.drawRoundRect(this.bounds, lerp2, lerp2, this.collapsePaint);
             canvas.restore();
             canvas.restore();
-            canvas.saveLayerAlpha(this.bounds, NotificationCenter.closeSearchByActiveAction, 31);
+            canvas.saveLayerAlpha(this.bounds, NotificationCenter.playerDidStartPlaying, 31);
             drawOver(canvas, this.bounds);
             this.collapseGradientMatrix.reset();
             this.collapseGradientMatrix.postTranslate(dp2, dp3);
@@ -1336,7 +1343,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         boolean drawChild;
         if (view == this.editText) {
             float max = Math.max(0, (r0.getHeight() - AndroidUtilities.dp(82.0f)) - this.editText.getScrollY()) * (1.0f - this.keyboardT);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.closeSearchByActiveAction, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.playerDidStartPlaying, 31);
             canvas.save();
             canvas.clipRect(this.bounds);
             canvas.translate(0.0f, max);
@@ -1546,6 +1553,10 @@ public abstract class CaptionContainerView extends FrameLayout {
         this.collapsed = z;
         this.collapsedFromX = i;
         invalidate();
+    }
+
+    public void setDialogId(long j) {
+        this.dialogId = j;
     }
 
     public void setOnHeightUpdate(Utilities.Callback<Integer> callback) {

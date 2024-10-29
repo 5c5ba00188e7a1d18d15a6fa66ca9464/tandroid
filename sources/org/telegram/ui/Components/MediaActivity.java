@@ -94,6 +94,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     private FrameLayout titlesContainer;
     private long topicId;
     private int type;
+    private String username;
     private ActionBarMenuSubItem zoomInItem;
     private ActionBarMenuSubItem zoomOutItem;
 
@@ -108,7 +109,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 if (MediaActivity.this.sharedMediaLayout.closeActionMode(true)) {
                     return;
                 }
-                MediaActivity.this.lambda$onBackPressed$300();
+                MediaActivity.this.lambda$onBackPressed$319();
                 return;
             }
             if (i != 2) {
@@ -965,6 +966,11 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
+            public String getStoriesHashtagUsername() {
+                return MediaActivity.this.username;
+            }
+
+            @Override // org.telegram.ui.Components.SharedMediaLayout
             protected boolean includeSavedDialogs() {
                 return MediaActivity.this.type == 0 && MediaActivity.this.dialogId == MediaActivity.this.getUserConfig().getClientUserId() && MediaActivity.this.topicId == 0;
             }
@@ -1558,6 +1564,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         this.dialogId = getArguments().getLong("dialog_id");
         this.topicId = getArguments().getLong("topic_id", 0L);
         this.hashtag = getArguments().getString("hashtag", "");
+        this.username = getArguments().getString("username", "");
         this.storiesCount = getArguments().getInt("storiesCount", -1);
         int i = this.type;
         this.initialTab = getArguments().getInt("start_from", i == 2 ? 9 : i == 1 ? 8 : 0);

@@ -177,7 +177,7 @@ abstract class zzeq {
         zzep zzepVar = zzf;
         long j2 = (-4) & j;
         int i = ((((int) j) ^ (-1)) & 3) << 3;
-        zzepVar.zza.putInt(obj, j2, ((255 & b) << i) | (zzepVar.zza.getInt(obj, j2) & ((NotificationCenter.closeSearchByActiveAction << i) ^ (-1))));
+        zzepVar.zza.putInt(obj, j2, ((255 & b) << i) | (zzepVar.zza.getInt(obj, j2) & ((NotificationCenter.playerDidStartPlaying << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -185,7 +185,7 @@ abstract class zzeq {
         zzep zzepVar = zzf;
         long j2 = (-4) & j;
         int i = (((int) j) & 3) << 3;
-        zzepVar.zza.putInt(obj, j2, ((255 & b) << i) | (zzepVar.zza.getInt(obj, j2) & ((NotificationCenter.closeSearchByActiveAction << i) ^ (-1))));
+        zzepVar.zza.putInt(obj, j2, ((255 & b) << i) | (zzepVar.zza.getInt(obj, j2) & ((NotificationCenter.playerDidStartPlaying << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -272,12 +272,12 @@ abstract class zzeq {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static /* bridge */ /* synthetic */ boolean zzt(Object obj, long j) {
-        return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) (((j ^ (-1)) & 3) << 3))) & NotificationCenter.closeSearchByActiveAction)) != 0;
+        return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) (((j ^ (-1)) & 3) << 3))) & NotificationCenter.playerDidStartPlaying)) != 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static /* bridge */ /* synthetic */ boolean zzu(Object obj, long j) {
-        return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) ((j & 3) << 3))) & NotificationCenter.closeSearchByActiveAction)) != 0;
+        return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) ((j & 3) << 3))) & NotificationCenter.playerDidStartPlaying)) != 0;
     }
 
     /* JADX WARN: Multi-variable type inference failed */

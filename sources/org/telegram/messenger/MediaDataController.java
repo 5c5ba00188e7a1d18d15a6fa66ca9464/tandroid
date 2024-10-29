@@ -5443,7 +5443,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:36:0x0101 A[Catch: Exception -> 0x003a, TryCatch #0 {Exception -> 0x003a, blocks: (B:3:0x000f, B:5:0x0029, B:8:0x0036, B:13:0x003e, B:17:0x0068, B:21:0x0176, B:29:0x015f, B:31:0x009a, B:34:0x00fb, B:36:0x0101, B:39:0x0107, B:41:0x0137, B:42:0x013c, B:44:0x0144, B:46:0x0153, B:51:0x0159, B:53:0x00cc, B:58:0x0187, B:60:0x0192, B:61:0x0199, B:63:0x019f, B:64:0x01b1, B:66:0x01c1, B:68:0x01cb, B:70:0x01d1, B:72:0x0219, B:73:0x02c5, B:75:0x02ca, B:79:0x0234, B:81:0x0279, B:83:0x0287, B:85:0x02c1, B:88:0x02d2, B:91:0x02dd), top: B:2:0x000f }] */
     /* JADX WARN: Type inference failed for: r14v19 */
-    /* JADX WARN: Type inference failed for: r14v20, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v20, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v22 */
     /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:41:0x0156 -> B:28:0x0157). Please report as a decompilation issue!!! */
     /*
@@ -8863,12 +8863,8 @@ public class MediaDataController extends BaseController {
     }
 
     public boolean canCreateAttachedMenuBotShortcut(long j) {
-        for (int i = 0; i < this.attachMenuBots.bots.size(); i++) {
-            if (this.attachMenuBots.bots.get(i).bot_id == j) {
-                return this.attachMenuBots.bots.get(i).show_in_side_menu && !isShortcutAdded(j, SHORTCUT_TYPE_ATTACHED_BOT);
-            }
-        }
-        return false;
+        TLRPC.User user = getMessagesController().getUser(Long.valueOf(j));
+        return user != null && user.bot_has_main_app;
     }
 
     public boolean cancelRemovingStickerSet(long j) {
@@ -12983,7 +12979,7 @@ public class MediaDataController extends BaseController {
                         j8 = j6;
                         j9 = 0;
                         tL_messages_search = tL_messages_search3;
-                        messagesStorage.searchSavedByTag(tLReaction, j10, str2, NotificationCenter.onReceivedChannelDifference, arrayList2 == null ? 0 : arrayList2.size(), new Utilities.Callback4() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda132
+                        messagesStorage.searchSavedByTag(tLReaction, j10, str2, NotificationCenter.stealthModeChanged, arrayList2 == null ? 0 : arrayList2.size(), new Utilities.Callback4() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda132
                             @Override // org.telegram.messenger.Utilities.Callback4
                             public final void run(Object obj, Object obj2, Object obj3, Object obj4) {
                                 MediaDataController.this.lambda$searchMessagesInChat$120(i7, savedTagCount, i, j, (ArrayList) obj, (ArrayList) obj2, (ArrayList) obj3, (ArrayList) obj4);

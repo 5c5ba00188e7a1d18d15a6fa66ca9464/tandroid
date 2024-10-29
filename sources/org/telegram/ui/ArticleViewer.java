@@ -1404,7 +1404,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             /* JADX WARN: Removed duplicated region for block: B:34:0x008f  */
             /* JADX WARN: Removed duplicated region for block: B:35:0x0087  */
             /* JADX WARN: Type inference failed for: r8v1 */
-            /* JADX WARN: Type inference failed for: r8v20, types: [boolean, int] */
+            /* JADX WARN: Type inference failed for: r8v20, types: [int, boolean] */
             /* JADX WARN: Type inference failed for: r8v24 */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -8378,6 +8378,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private Runnable onDismissListener;
         private ValueAnimator openAnimator;
         private float openProgress;
+        private boolean released;
         public Theme.ResourcesProvider resourcesProvider;
         private boolean wasFullyVisible;
         public final WindowView windowView;
@@ -8810,6 +8811,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         public void attachInternal(BaseFragment baseFragment) {
+            this.released = false;
             this.fragment = baseFragment;
             this.resourcesProvider = baseFragment.getResourceProvider();
             if (baseFragment instanceof ChatActivity) {
@@ -8982,7 +8984,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
         public boolean isShown() {
             WindowView windowView;
-            return !this.dismissing && this.openProgress > 0.5f && (windowView = this.windowView) != null && windowView.isAttachedToWindow() && this.windowView.isVisible() && this.backProgress < 1.0f;
+            return !this.dismissing && !this.released && this.openProgress > 0.5f && (windowView = this.windowView) != null && windowView.isAttachedToWindow() && this.windowView.isVisible() && this.backProgress < 1.0f;
         }
 
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
@@ -9013,6 +9015,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
         public void release() {
+            this.released = true;
             PageLayout pageLayout = ArticleViewer.this.pages[0];
             if (pageLayout != null && pageLayout.swipeBack) {
                 ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = ArticleViewer.this.pages[0].swipeContainer;
@@ -10821,7 +10824,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             animatorSet.playTogether(ObjectAnimator.ofFloat(articleViewer3.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this, (Property<WindowView, Float>) ArticleViewer.ARTICLE_VIEWER_INNER_TRANSLATION_X, 0.0f));
                         }
                     }
-                    animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * x), NotificationCenter.liveLocationsChanged));
+                    animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * x), NotificationCenter.proxyChangedByRotation));
                     animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
                     animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.WindowView.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -12693,7 +12696,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else {
                 animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, (Property<WindowView, Float>) ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
             }
-            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.liveLocationsChanged));
+            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.proxyChangedByRotation));
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -12843,7 +12846,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else {
                 animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, (Property<WindowView, Float>) ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
             }
-            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.liveLocationsChanged));
+            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.proxyChangedByRotation));
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.5
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -13272,7 +13275,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 sheet.dismiss(true);
             }
         }
-        Browser.openUrl(this.parentActivity, Uri.parse(str), true, true, false, progress, null, true, true);
+        Browser.openUrl(this.parentActivity, Uri.parse(str), true, true, false, progress, null, true, true, false);
         return Boolean.TRUE;
     }
 
@@ -13664,15 +13667,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             i = Math.max(spannableStringBuilder.getSpanEnd(uRLSpanArr[i2]), i);
         }
         Uri uriParseSafe = Utilities.uriParseSafe(str);
-        if ((uRLSpanArr.length <= 0 || length != 0 || i <= 0) && (uriParseSafe == null || uriParseSafe.getScheme() == null)) {
-            AddressBarList.pushRecentSearch(activity, str);
-            pageLayout.getWebView().loadUrl(SearchEngine.getCurrent().getSearchURL(str));
-            return;
+        if (uriParseSafe == null || !TextUtils.equals(uriParseSafe.getScheme(), "javascript")) {
+            if ((uRLSpanArr.length <= 0 || length != 0 || i <= 0) && (uriParseSafe == null || uriParseSafe.getScheme() == null)) {
+                AddressBarList.pushRecentSearch(activity, str);
+                pageLayout.getWebView().loadUrl(SearchEngine.getCurrent().getSearchURL(str));
+                return;
+            }
+            if (uriParseSafe != null && uriParseSafe.getScheme() == null && uriParseSafe.getHost() == null && uriParseSafe.getPath() != null) {
+                str = Browser.replace(uriParseSafe, "https", null, uriParseSafe.getPath(), "/");
+            }
+            pageLayout.getWebView().loadUrl(str);
         }
-        if (uriParseSafe.getScheme() == null && uriParseSafe.getHost() == null && uriParseSafe.getPath() != null) {
-            str = Browser.replace(uriParseSafe, "https", null, uriParseSafe.getPath(), "/");
-        }
-        pageLayout.getWebView().loadUrl(str);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

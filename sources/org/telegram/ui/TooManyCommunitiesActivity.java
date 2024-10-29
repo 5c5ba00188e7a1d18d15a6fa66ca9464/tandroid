@@ -387,7 +387,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             getMessagesController().putChat(chat, false);
             getMessagesController().deleteParticipantFromChat(chat.id, user);
         }
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -590,7 +590,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    TooManyCommunitiesActivity.this.lambda$onBackPressed$300();
+                    TooManyCommunitiesActivity.this.lambda$onBackPressed$319();
                 }
             }
         });

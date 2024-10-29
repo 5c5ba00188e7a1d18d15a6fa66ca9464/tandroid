@@ -225,7 +225,7 @@ public abstract class GroupCallRecordAlert extends BottomSheet {
             protected void onDraw(Canvas canvas) {
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                this.gradientPaint[GroupCallRecordAlert.this.currentPage].setAlpha(NotificationCenter.closeSearchByActiveAction);
+                this.gradientPaint[GroupCallRecordAlert.this.currentPage].setAlpha(NotificationCenter.playerDidStartPlaying);
                 canvas.drawRoundRect(rectF, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.gradientPaint[GroupCallRecordAlert.this.currentPage]);
                 if (GroupCallRecordAlert.this.pageOffset > 0.0f) {
                     int i3 = GroupCallRecordAlert.this.currentPage + 1;

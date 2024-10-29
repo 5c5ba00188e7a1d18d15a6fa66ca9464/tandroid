@@ -213,9 +213,9 @@ public class SessionCell extends FrameLayout {
         return createDrawable(i, tL_authorization);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0131  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0133  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x013d  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0136  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -245,55 +245,65 @@ public class SessionCell extends FrameLayout {
                         i2 = R.drawable.device_desktop_win;
                     } else {
                         if (!lowerCase.contains("macos")) {
-                            if (lowerCase.contains("android")) {
-                                i2 = lowerCase2.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
-                                i3 = Theme.key_avatar_backgroundGreen;
-                                i4 = Theme.key_avatar_background2Green;
-                            } else {
+                            if (!lowerCase.contains("android")) {
                                 if (lowerCase.contains("fragment")) {
                                     i2 = R.drawable.fragment;
                                 } else if (lowerCase.contains("anonymous")) {
                                     i2 = R.drawable.large_hidden;
-                                } else if (lowerCase.contains("premiumbot")) {
-                                    i2 = R.drawable.filled_star_plus;
-                                    i3 = Theme.key_color_yellow;
-                                    i4 = Theme.key_color_orange;
-                                } else if (lowerCase.contains("ads")) {
-                                    i2 = R.drawable.msg_channel;
-                                } else if (lowerCase.equals("?")) {
-                                    i2 = R.drawable.msg_emoji_question;
-                                } else if (tL_authorization.app_name.toLowerCase().contains("desktop")) {
-                                    i2 = R.drawable.device_desktop_other;
+                                } else {
+                                    if (lowerCase.contains("premiumbot")) {
+                                        i2 = R.drawable.filled_star_plus;
+                                        i3 = Theme.key_color_yellow;
+                                        i4 = Theme.key_color_orange;
+                                        Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                                        mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                                        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate);
+                                    }
+                                    if (lowerCase.contains("ads")) {
+                                        i2 = R.drawable.msg_channel;
+                                    } else if (lowerCase.contains("api")) {
+                                        i2 = R.drawable.filled_paid_broadcast;
+                                    } else if (lowerCase.equals("?")) {
+                                        i2 = R.drawable.msg_emoji_question;
+                                    } else if (tL_authorization.app_name.toLowerCase().contains("desktop")) {
+                                        i2 = R.drawable.device_desktop_other;
+                                    }
                                 }
                                 i3 = -1;
                                 i4 = -1;
+                                Drawable mutate2 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                                mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                                return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate2);
                             }
-                            Drawable mutate = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
-                            mutate.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
-                            return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate);
+                            i2 = lowerCase2.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
+                            i3 = Theme.key_avatar_backgroundGreen;
+                            i4 = Theme.key_avatar_background2Green;
+                            Drawable mutate22 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                            mutate22.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                            return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate22);
                         }
                         i2 = R.drawable.device_desktop_osx;
                     }
                     i3 = Theme.key_avatar_backgroundCyan;
                     i4 = Theme.key_avatar_background2Cyan;
-                    Drawable mutate2 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
-                    mutate2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
-                    return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate2);
+                    Drawable mutate222 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                    mutate222.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                    return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate222);
                 }
                 i2 = lowerCase2.contains("ipad") ? R.drawable.device_tablet_ios : R.drawable.device_phone_ios;
                 i3 = Theme.key_avatar_backgroundBlue;
                 i4 = Theme.key_avatar_background2Blue;
-                Drawable mutate22 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
-                mutate22.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
-                return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate22);
+                Drawable mutate2222 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+                mutate2222.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+                return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate2222);
             }
             i2 = R.drawable.device_web_other;
         }
         i3 = Theme.key_avatar_backgroundPink;
         i4 = Theme.key_avatar_background2Pink;
-        Drawable mutate222 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
-        mutate222.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
-        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate222);
+        Drawable mutate22222 = ContextCompat.getDrawable(ApplicationLoader.applicationContext, i2).mutate();
+        mutate22222.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
+        return new CombinedDrawable(new CircleGradientDrawable(AndroidUtilities.dp(i), i3 != -1 ? -16777216 : Theme.getColor(i3), i4 != -1 ? Theme.getColor(i4) : -16777216), mutate22222);
     }
 
     private void setContentAlpha(float f) {

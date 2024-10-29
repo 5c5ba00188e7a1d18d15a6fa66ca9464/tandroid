@@ -224,7 +224,7 @@ public class GestureDetector2 {
             this.mVelocityTracker = VelocityTracker.obtain();
         }
         this.mVelocityTracker.addMovement(motionEvent);
-        int i3 = action & NotificationCenter.closeSearchByActiveAction;
+        int i3 = action & NotificationCenter.playerDidStartPlaying;
         boolean z3 = true;
         boolean z4 = i3 == 6;
         int actionIndex = z4 ? motionEvent.getActionIndex() : -1;

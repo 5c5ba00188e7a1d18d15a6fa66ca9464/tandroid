@@ -528,7 +528,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
         }
         float f34 = this.lockedT.set((this.longpressRecording || !this.recording) ? 0.0f : 1.0f);
         if (f7 > 0.0f) {
-            this.redPaint.setAlpha(NotificationCenter.closeSearchByActiveAction);
+            this.redPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
             canvas.drawCircle(this.touchX, this.cy, f7, this.redPaint);
             float f35 = this.touchX;
             float clamp3 = Utilities.clamp(1.0f - ((Math.abs(clamp2) * f2) / 1.3f), 1.0f, 0.0f);

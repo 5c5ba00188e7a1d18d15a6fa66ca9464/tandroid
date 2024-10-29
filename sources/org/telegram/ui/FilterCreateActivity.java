@@ -130,7 +130,7 @@ public class FilterCreateActivity extends BaseFragment {
         public void onItemClick(int i) {
             if (i == -1) {
                 if (FilterCreateActivity.this.checkDiscard()) {
-                    FilterCreateActivity.this.lambda$onBackPressed$300();
+                    FilterCreateActivity.this.lambda$onBackPressed$319();
                 }
             } else if (i == 1) {
                 FilterCreateActivity.this.processDone();
@@ -1916,6 +1916,7 @@ public class FilterCreateActivity extends BaseFragment {
     public static class NewSpan extends ReplacementSpan {
         Paint bgPaint;
         private int color;
+        private int fontSize;
         float height;
         StaticLayout layout;
         private boolean outline;
@@ -1931,19 +1932,20 @@ public class FilterCreateActivity extends BaseFragment {
             this.textPaint.setTextSize(AndroidUtilities.dp(f));
         }
 
-        public NewSpan(boolean z) {
+        public NewSpan(boolean z, int i) {
             this.textPaint = new TextPaint(1);
             this.bgPaint = new Paint(1);
             this.outline = z;
+            this.fontSize = i;
             this.textPaint.setTypeface(AndroidUtilities.bold());
             if (!z) {
                 this.bgPaint.setStyle(Paint.Style.FILL);
-                this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
+                this.textPaint.setTextSize(AndroidUtilities.dp(i < 0 ? 12.0f : i));
                 return;
             }
             this.bgPaint.setStyle(Paint.Style.STROKE);
             this.bgPaint.setStrokeWidth(AndroidUtilities.dpf2(1.33f));
-            this.textPaint.setTextSize(AndroidUtilities.dp(10.0f));
+            this.textPaint.setTextSize(AndroidUtilities.dp(i < 0 ? 10.0f : i));
             this.textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
             this.textPaint.setStrokeWidth(AndroidUtilities.dpf2(0.2f));
             if (Build.VERSION.SDK_INT >= 21) {
@@ -1980,7 +1982,7 @@ public class FilterCreateActivity extends BaseFragment {
                 rectF.bottom += AndroidUtilities.dp(1.33f);
             } else {
                 dp = AndroidUtilities.dp(4.4f);
-                rectF.inset(AndroidUtilities.dp(-4.0f), AndroidUtilities.dp(-2.33f));
+                rectF.inset(AndroidUtilities.dp(-4.0f), AndroidUtilities.dp(this.fontSize == 8 ? -3.66f : -2.33f));
             }
             canvas.drawRoundRect(rectF, dp, dp, this.bgPaint);
             canvas.save();
@@ -2266,7 +2268,7 @@ public class FilterCreateActivity extends BaseFragment {
     }
 
     public /* synthetic */ void lambda$checkDiscard$20(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
     }
 
     public /* synthetic */ void lambda$createView$6(ItemInner itemInner) {
@@ -2326,7 +2328,7 @@ public class FilterCreateActivity extends BaseFragment {
     }
 
     public /* synthetic */ void lambda$deleteFolder$13(Boolean bool) {
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
     }
 
     public /* synthetic */ void lambda$deleteFolder$14(AlertDialog alertDialog) {
@@ -2339,7 +2341,7 @@ public class FilterCreateActivity extends BaseFragment {
         }
         getMessagesController().removeFilter(this.filter);
         getMessagesStorage().deleteDialogFilter(this.filter);
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
     }
 
     public /* synthetic */ void lambda$deleteFolder$15(final AlertDialog alertDialog, TLObject tLObject, TLRPC.TL_error tL_error) {
@@ -2476,7 +2478,7 @@ public class FilterCreateActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$processDone$22() {
         if (!this.doNotCloseWhenSave) {
-            lambda$onBackPressed$300();
+            lambda$onBackPressed$319();
             return;
         }
         this.doNotCloseWhenSave = false;
@@ -3223,7 +3225,7 @@ public class FilterCreateActivity extends BaseFragment {
             public void onItemClick(int i) {
                 if (i == -1) {
                     if (FilterCreateActivity.this.checkDiscard()) {
-                        FilterCreateActivity.this.lambda$onBackPressed$300();
+                        FilterCreateActivity.this.lambda$onBackPressed$319();
                     }
                 } else if (i == 1) {
                     FilterCreateActivity.this.processDone();

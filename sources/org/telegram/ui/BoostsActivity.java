@@ -909,7 +909,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
                 this.drawable.setBounds(0, 0, getWidth(), getHeight());
-                this.drawable.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                this.drawable.setAlpha(NotificationCenter.playerDidStartPlaying);
                 this.drawable.draw(canvas);
                 invalidate();
                 super.onDraw(canvas);
@@ -958,7 +958,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         List fragmentStack2 = getParentLayout().getFragmentStack();
         BaseFragment baseFragment2 = fragmentStack2.size() >= 2 ? (BaseFragment) fragmentStack2.get(fragmentStack2.size() - 2) : null;
         if (!booleanValue) {
-            lambda$onBackPressed$300();
+            lambda$onBackPressed$319();
             if ((baseFragment2 instanceof ProfileActivity) || (baseFragment2 instanceof ChatActivity)) {
                 BoostDialogs.showBulletin(baseFragment2, chat, false);
                 return;
@@ -969,7 +969,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         if (baseFragment2 instanceof ProfileActivity) {
             getParentLayout().removeFragmentFromStack(baseFragment2);
         }
-        lambda$onBackPressed$300();
+        lambda$onBackPressed$319();
         if (baseFragment3 instanceof ChatActivity) {
             BoostDialogs.showBulletin(baseFragment3, chat, true);
         }

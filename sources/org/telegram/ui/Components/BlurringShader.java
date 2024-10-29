@@ -668,7 +668,7 @@ public class BlurringShader {
                         }
                         this.dimPaint.setColor(-14145495);
                     } else if (drawable != null) {
-                        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.closeSearchByActiveAction, 31);
+                        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.playerDidStartPlaying, 31);
                         drawable.setBounds(bounds);
                         drawable.draw(canvas);
                         canvas.drawRect(bounds, paint);
@@ -807,7 +807,10 @@ public class BlurringShader {
             canvas.rotate(i);
             float f2 = -this.padding;
             canvas.translate(f2 - (round / 2.0f), f2 - (round2 / 2.0f));
-            canvas.drawBitmap(bitmap, rect, rect2, (Paint) null);
+            try {
+                canvas.drawBitmap(bitmap, rect, rect2, (Paint) null);
+            } catch (Exception unused) {
+            }
             Utilities.stackBlurBitmap(createBitmap, 6);
             int i7 = this.padding;
             if (i7 > 0) {

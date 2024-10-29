@@ -756,7 +756,7 @@ public class SecretChatHelper extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v3 */
     public /* synthetic */ void lambda$resendMessages$15(int i, TLRPC.EncryptedChat encryptedChat, int i2) {
         int i3;
@@ -1473,10 +1473,10 @@ public class SecretChatHelper extends BaseController {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:225:0x0617  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x0618  */
     /* JADX WARN: Removed duplicated region for block: B:22:0x007f  */
-    /* JADX WARN: Removed duplicated region for block: B:294:0x07d4  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x07e4  */
+    /* JADX WARN: Removed duplicated region for block: B:294:0x07d5  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x07e5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

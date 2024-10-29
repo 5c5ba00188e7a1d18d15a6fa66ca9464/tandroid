@@ -56,7 +56,7 @@ public class Logging {
         TRACE_ERROR(4),
         TRACE_CRITICAL(8),
         TRACE_APICALL(16),
-        TRACE_DEFAULT(NotificationCenter.closeSearchByActiveAction),
+        TRACE_DEFAULT(NotificationCenter.playerDidStartPlaying),
         TRACE_MODULECALL(32),
         TRACE_MEMORY(256),
         TRACE_TIMER(512),

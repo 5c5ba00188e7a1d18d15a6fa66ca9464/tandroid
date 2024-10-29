@@ -141,7 +141,7 @@ public class UnreadCounterTextView extends View {
                 Drawable drawable = this.icon;
                 if (drawable != null) {
                     drawable.setBounds((-drawable.getIntrinsicWidth()) - AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() - this.icon.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() + this.icon.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f));
-                    this.icon.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                    this.icon.setAlpha(NotificationCenter.playerDidStartPlaying);
                     this.icon.draw(canvas);
                 }
                 this.textLayout.draw(canvas);

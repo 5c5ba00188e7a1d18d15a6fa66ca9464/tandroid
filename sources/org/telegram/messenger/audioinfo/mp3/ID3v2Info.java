@@ -142,8 +142,6 @@ public class ID3v2Info extends AudioInfo {
 
     /*  JADX ERROR: NullPointerException in pass: LoopRegionVisitor
         java.lang.NullPointerException
-        	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:489)
-        	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:492)
         */
     /* JADX WARN: Removed duplicated region for block: B:260:0x0488 A[Catch: all -> 0x046a, TryCatch #6 {all -> 0x046a, blocks: (B:253:0x0450, B:255:0x0465, B:258:0x047d, B:260:0x0488, B:262:0x049f, B:263:0x04b8, B:265:0x04bc, B:267:0x04b6, B:270:0x046c, B:272:0x0474), top: B:252:0x0450 }] */
     /*

@@ -1103,7 +1103,7 @@ public class Bulletin {
             canvas.save();
             canvas.clipRect(0.0f, topOffset, getMeasuredWidth(), measuredHeight);
             if (clipWithGradient) {
-                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.closeSearchByActiveAction, 31);
+                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.playerDidStartPlaying, 31);
             }
             this.background.draw(canvas);
             super.dispatchDraw(canvas);
@@ -2357,7 +2357,7 @@ public class Bulletin {
     }
 
     private Bulletin() {
-        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda5
+        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 Bulletin.this.hide();
@@ -2372,7 +2372,7 @@ public class Bulletin {
     }
 
     private Bulletin(BaseFragment baseFragment, FrameLayout frameLayout, Layout layout, int i) {
-        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda5
+        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 Bulletin.this.hide();
@@ -2566,12 +2566,15 @@ public class Bulletin {
     }
 
     public static Bulletin make(FrameLayout frameLayout, Layout layout, int i) {
-        return new Bulletin(null, frameLayout, layout, i);
+        return frameLayout == null ? new EmptyBulletin() : new Bulletin(null, frameLayout, layout, i);
     }
 
     public static Bulletin make(BaseFragment baseFragment, Layout layout, int i) {
         int i2;
         int i3;
+        if (baseFragment == null) {
+            return new EmptyBulletin();
+        }
         if (!(baseFragment instanceof ChatActivity)) {
             if (baseFragment instanceof DialogsActivity) {
                 i2 = -1;
@@ -2631,17 +2634,17 @@ public class Bulletin {
                     Layout.Transition transition = this.layoutTransition;
                     final Layout layout3 = this.layout;
                     Objects.requireNonNull(layout3);
-                    transition.animateExit(layout3, new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda1
+                    transition.animateExit(layout3, new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             Bulletin.Layout.this.onExitTransitionStart();
                         }
-                    }, new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda2
+                    }, new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
                             Bulletin.this.lambda$hide$3();
                         }
-                    }, new Consumer() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda3
+                    }, new Consumer() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda4
                         @Override // androidx.core.util.Consumer
                         public final void accept(Object obj) {
                             Bulletin.this.lambda$hide$4((Float) obj);
@@ -2659,7 +2662,7 @@ public class Bulletin {
             this.layout.onExitTransitionEnd();
             this.layout.onHide();
             if (this.containerLayout != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda4
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         Bulletin.this.lambda$hide$5();
@@ -2754,7 +2757,7 @@ public class Bulletin {
             visibleBulletin = this;
             this.layout.onAttach(this);
             FrameLayout frameLayout = this.containerLayout;
-            View.OnLayoutChangeListener onLayoutChangeListener = new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda0
+            View.OnLayoutChangeListener onLayoutChangeListener = new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnLayoutChangeListener
                 public final void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
                     Bulletin.this.lambda$show$2(z, view, i, i2, i3, i4, i5, i6, i7, i8);

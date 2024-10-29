@@ -9,7 +9,7 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public abstract class BaseDataSource implements DataSource {
     private DataSpec dataSpec;
-    private final boolean isNetwork;
+    protected boolean isNetwork;
     private int listenerCount;
     private final ArrayList<TransferListener> listeners = new ArrayList<>(1);
 

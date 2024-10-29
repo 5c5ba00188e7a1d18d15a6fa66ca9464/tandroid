@@ -490,16 +490,20 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
             codecsCorrespondingToMimeType = MimeTypes.getCodecsCorrespondingToMimeType(format.codecs, format2.sampleMimeType);
             str = format2.sampleMimeType;
         }
-        Format.Builder codecs = format2.buildUpon().setId(format.id).setLabel(format.label).setLanguage(format.language).setSelectionFlags(format.selectionFlags).setRoleFlags(format.roleFlags).setAverageBitrate(z ? format.averageBitrate : -1).setPeakBitrate(z ? format.peakBitrate : -1).setCodecs(codecsCorrespondingToMimeType);
+        format2.cached = format.cached;
+        format2.documentId = format.documentId;
+        format2.currentAccount = format.currentAccount;
+        format2.documentFilename = format.documentFilename;
+        Format.Builder documentFilename = format2.buildUpon().setId(format.id).setLabel(format.label).setLanguage(format.language).setSelectionFlags(format.selectionFlags).setRoleFlags(format.roleFlags).setAverageBitrate(z ? format.averageBitrate : -1).setPeakBitrate(z ? format.peakBitrate : -1).setCodecs(codecsCorrespondingToMimeType).setCurrentAccount(format.currentAccount).setDocumentId(format.documentId).setCached(format.cached).setDocumentFilename(format.documentFilename);
         if (trackType == 2) {
-            codecs.setWidth(format.width).setHeight(format.height).setFrameRate(format.frameRate);
+            documentFilename.setWidth(format.width).setHeight(format.height).setFrameRate(format.frameRate);
         }
         if (str != null) {
-            codecs.setSampleMimeType(str);
+            documentFilename.setSampleMimeType(str);
         }
         int i = format.channelCount;
         if (i != -1 && trackType == 1) {
-            codecs.setChannelCount(i);
+            documentFilename.setChannelCount(i);
         }
         Metadata metadata = format.metadata;
         if (metadata != null) {
@@ -507,9 +511,9 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
             if (metadata2 != null) {
                 metadata = metadata2.copyWithAppendedEntriesFrom(metadata);
             }
-            codecs.setMetadata(metadata);
+            documentFilename.setMetadata(metadata);
         }
-        return codecs.build();
+        return documentFilename.build();
     }
 
     private void discardUpstream(int i) {

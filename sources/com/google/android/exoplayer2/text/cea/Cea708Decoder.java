@@ -133,7 +133,7 @@ public final class Cea708Decoder extends CeaDecoder {
             Assertions.checkIndex(i2, 0, 4);
             Assertions.checkIndex(i3, 0, 4);
             Assertions.checkIndex(i4, 0, 4);
-            return Color.argb(i4 != 2 ? i4 != 3 ? NotificationCenter.closeSearchByActiveAction : 0 : NotificationCenter.dialogTranslate, i > 1 ? NotificationCenter.closeSearchByActiveAction : 0, i2 > 1 ? NotificationCenter.closeSearchByActiveAction : 0, i3 > 1 ? NotificationCenter.closeSearchByActiveAction : 0);
+            return Color.argb(i4 != 2 ? i4 != 3 ? NotificationCenter.playerDidStartPlaying : 0 : NotificationCenter.dialogTranslate, i > 1 ? NotificationCenter.playerDidStartPlaying : 0, i2 > 1 ? NotificationCenter.playerDidStartPlaying : 0, i3 > 1 ? NotificationCenter.playerDidStartPlaying : 0);
         }
 
         public void append(char c) {
@@ -670,12 +670,12 @@ public final class Cea708Decoder extends CeaDecoder {
         if (i == 127) {
             this.currentCueInfoBuilder.append((char) 9835);
         } else {
-            this.currentCueInfoBuilder.append((char) (i & NotificationCenter.closeSearchByActiveAction));
+            this.currentCueInfoBuilder.append((char) (i & NotificationCenter.playerDidStartPlaying));
         }
     }
 
     private void handleG1Character(int i) {
-        this.currentCueInfoBuilder.append((char) (i & NotificationCenter.closeSearchByActiveAction));
+        this.currentCueInfoBuilder.append((char) (i & NotificationCenter.playerDidStartPlaying));
     }
 
     /* JADX WARN: Failed to find 'out' block for switch in B:21:0x0028. Please report as an issue. */

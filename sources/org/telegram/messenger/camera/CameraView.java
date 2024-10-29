@@ -399,8 +399,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             fArr[15] = fArr2[8];
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:67:0x03bd  */
-        /* JADX WARN: Removed duplicated region for block: B:70:0x03c9  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x03be  */
+        /* JADX WARN: Removed duplicated region for block: B:70:0x03ca  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1855,10 +1855,10 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             CameraView.this.onRecordingFinishRunnable.run();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:33:0x010c A[Catch: all -> 0x00ec, TRY_LEAVE, TryCatch #2 {all -> 0x00ec, blocks: (B:23:0x00e1, B:25:0x00e7, B:26:0x00f4, B:27:0x00f6, B:29:0x00fe, B:31:0x0102, B:33:0x010c, B:99:0x00ee), top: B:21:0x00df, outer: #1 }] */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x01d7  */
-        /* JADX WARN: Removed duplicated region for block: B:87:0x03e9  */
-        /* JADX WARN: Removed duplicated region for block: B:90:0x0180 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x010d A[Catch: all -> 0x00ed, TRY_LEAVE, TryCatch #2 {all -> 0x00ed, blocks: (B:23:0x00e2, B:25:0x00e8, B:26:0x00f5, B:27:0x00f7, B:29:0x00ff, B:31:0x0103, B:33:0x010d, B:99:0x00ef), top: B:21:0x00e0, outer: #0 }] */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x01d8  */
+        /* JADX WARN: Removed duplicated region for block: B:87:0x03eb  */
+        /* JADX WARN: Removed duplicated region for block: B:90:0x0181 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

@@ -2086,7 +2086,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     /* JADX WARN: Removed duplicated region for block: B:316:0x052d  */
     /* JADX WARN: Removed duplicated region for block: B:73:0x052a  */
     /* JADX WARN: Type inference failed for: r9v21 */
-    /* JADX WARN: Type inference failed for: r9v23, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r9v23, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r9v39 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

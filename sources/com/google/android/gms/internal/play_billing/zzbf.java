@@ -71,11 +71,11 @@ public final class zzbf extends zzbi {
         try {
             byte[] bArr = this.zzc;
             int i2 = this.zze;
-            bArr[i2] = (byte) (i & NotificationCenter.closeSearchByActiveAction);
-            bArr[i2 + 1] = (byte) ((i >> 8) & NotificationCenter.closeSearchByActiveAction);
-            bArr[i2 + 2] = (byte) ((i >> 16) & NotificationCenter.closeSearchByActiveAction);
+            bArr[i2] = (byte) (i & NotificationCenter.playerDidStartPlaying);
+            bArr[i2 + 1] = (byte) ((i >> 8) & NotificationCenter.playerDidStartPlaying);
+            bArr[i2 + 2] = (byte) ((i >> 16) & NotificationCenter.playerDidStartPlaying);
             this.zze = i2 + 4;
-            bArr[i2 + 3] = (byte) ((i >> 24) & NotificationCenter.closeSearchByActiveAction);
+            bArr[i2 + 3] = (byte) ((i >> 24) & NotificationCenter.playerDidStartPlaying);
         } catch (IndexOutOfBoundsException e) {
             throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
         }
@@ -92,15 +92,15 @@ public final class zzbf extends zzbi {
         try {
             byte[] bArr = this.zzc;
             int i = this.zze;
-            bArr[i] = (byte) (((int) j) & NotificationCenter.closeSearchByActiveAction);
-            bArr[i + 1] = (byte) (((int) (j >> 8)) & NotificationCenter.closeSearchByActiveAction);
-            bArr[i + 2] = (byte) (((int) (j >> 16)) & NotificationCenter.closeSearchByActiveAction);
-            bArr[i + 3] = (byte) (((int) (j >> 24)) & NotificationCenter.closeSearchByActiveAction);
-            bArr[i + 4] = (byte) (((int) (j >> 32)) & NotificationCenter.closeSearchByActiveAction);
-            bArr[i + 5] = (byte) (((int) (j >> 40)) & NotificationCenter.closeSearchByActiveAction);
-            bArr[i + 6] = (byte) (((int) (j >> 48)) & NotificationCenter.closeSearchByActiveAction);
+            bArr[i] = (byte) (((int) j) & NotificationCenter.playerDidStartPlaying);
+            bArr[i + 1] = (byte) (((int) (j >> 8)) & NotificationCenter.playerDidStartPlaying);
+            bArr[i + 2] = (byte) (((int) (j >> 16)) & NotificationCenter.playerDidStartPlaying);
+            bArr[i + 3] = (byte) (((int) (j >> 24)) & NotificationCenter.playerDidStartPlaying);
+            bArr[i + 4] = (byte) (((int) (j >> 32)) & NotificationCenter.playerDidStartPlaying);
+            bArr[i + 5] = (byte) (((int) (j >> 40)) & NotificationCenter.playerDidStartPlaying);
+            bArr[i + 6] = (byte) (((int) (j >> 48)) & NotificationCenter.playerDidStartPlaying);
             this.zze = i + 8;
-            bArr[i + 7] = (byte) (((int) (j >> 56)) & NotificationCenter.closeSearchByActiveAction);
+            bArr[i + 7] = (byte) (((int) (j >> 56)) & NotificationCenter.playerDidStartPlaying);
         } catch (IndexOutOfBoundsException e) {
             throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
         }

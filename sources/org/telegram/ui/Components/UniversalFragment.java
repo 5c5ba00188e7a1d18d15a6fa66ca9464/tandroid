@@ -34,7 +34,7 @@ public abstract class UniversalFragment extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    UniversalFragment.this.lambda$onBackPressed$300();
+                    UniversalFragment.this.lambda$onBackPressed$319();
                 }
             }
         });

@@ -12,23 +12,33 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import androidx.core.content.ContextCompat;
+import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.BottomSheetWithRecyclerListView;
 import org.telegram.ui.Components.ColoredImageSpan;
+import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.RLottieImageView;
+import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.UItem;
+import org.telegram.ui.Components.UniversalAdapter;
 
 /* loaded from: classes4.dex */
-public class RevenueSharingAdsInfoBottomSheet extends BottomSheet {
+public class RevenueSharingAdsInfoBottomSheet extends BottomSheetWithRecyclerListView {
+    private UniversalAdapter adapter;
+    private final LinearLayout customView;
     private final Paint topIconBgPaint;
 
     /* loaded from: classes4.dex */
@@ -58,22 +68,43 @@ public class RevenueSharingAdsInfoBottomSheet extends BottomSheet {
         }
     }
 
-    public RevenueSharingAdsInfoBottomSheet(final BaseFragment baseFragment, Context context, Theme.ResourcesProvider resourcesProvider) {
-        super(context, false, resourcesProvider);
+    public RevenueSharingAdsInfoBottomSheet(Context context, boolean z, final Theme.ResourcesProvider resourcesProvider, final Utilities.Callback callback) {
+        super(context, null, false, false, false, resourcesProvider);
         fixNavigationBar();
+        this.topPadding = 0.2f;
         Paint paint = new Paint(1);
         this.topIconBgPaint = paint;
         paint.setStyle(Paint.Style.FILL);
         int i = Theme.key_featuredStickers_addButton;
         paint.setColor(Theme.getColor(i, resourcesProvider));
         LinearLayout linearLayout = new LinearLayout(context);
+        this.customView = linearLayout;
+        linearLayout.setPadding(this.backgroundPaddingLeft + AndroidUtilities.dp(6.0f), 0, this.backgroundPaddingLeft + AndroidUtilities.dp(6.0f), 0);
         linearLayout.setOrientation(1);
+        FrameLayout frameLayout = new FrameLayout(context);
         RLottieImageView rLottieImageView = new RLottieImageView(getContext());
-        rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+        rLottieImageView.setScaleType(scaleType);
         rLottieImageView.setImageResource(R.drawable.large_ads_info);
         rLottieImageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
         rLottieImageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(80.0f), Theme.getColor(i, resourcesProvider)));
-        linearLayout.addView(rLottieImageView, LayoutHelper.createLinear(80, 80, 1, 0, 28, 0, 0));
+        frameLayout.addView(rLottieImageView, LayoutHelper.createFrame(80, 80.0f, 1, 0.0f, 20.0f, 0.0f, 0.0f));
+        if (callback != null) {
+            final ImageView imageView = new ImageView(context);
+            imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_ab_other));
+            imageView.setContentDescription(LocaleController.getString(R.string.AccDescrMoreOptions));
+            imageView.setScaleType(scaleType);
+            imageView.setColorFilter(Theme.getColor(Theme.key_dialogTextGray3));
+            imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 1));
+            imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.RevenueSharingAdsInfoBottomSheet$$ExternalSyntheticLambda0
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    RevenueSharingAdsInfoBottomSheet.this.lambda$new$0(callback, resourcesProvider, imageView, view);
+                }
+            });
+            frameLayout.addView(imageView, LayoutHelper.createFrame(24, 24.0f, 53, 12.0f, 14.0f, 14.0f, 12.0f));
+        }
+        linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, 100, 0.0f, 0.0f, 0.0f, 0.0f));
         TextView textView = new TextView(context);
         textView.setText(LocaleController.getString(R.string.AboutRevenueSharingAds));
         textView.setTypeface(AndroidUtilities.bold());
@@ -90,12 +121,12 @@ public class RevenueSharingAdsInfoBottomSheet extends BottomSheet {
         linearLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1, 22, 8, 22, 0));
         linearLayout.addView(new FeatureCell(context, R.drawable.menu_privacy, LocaleController.getString(R.string.RevenueSharingAdsInfo1Title), LocaleController.getString(R.string.RevenueSharingAdsInfo1Subtitle)), LayoutHelper.createLinear(-1, -2, 0.0f, 0, 0, 20, 0, 0));
         linearLayout.addView(new FeatureCell(context, R.drawable.menu_feature_split, LocaleController.getString(R.string.RevenueSharingAdsInfo2Title), LocaleController.getString(R.string.RevenueSharingAdsInfo2Subtitle)), LayoutHelper.createLinear(-1, -2, 0.0f, 0, 0, 16, 0, 0));
-        String formatString = LocaleController.formatString("RevenueSharingAdsInfo3Subtitle", R.string.RevenueSharingAdsInfo3Subtitle, Integer.valueOf(MessagesController.getInstance(baseFragment.getCurrentAccount()).channelRestrictSponsoredLevelMin));
+        String formatString = LocaleController.formatString(z ? R.string.RevenueSharingAdsInfo3SubtitleBot : R.string.RevenueSharingAdsInfo3Subtitle, Integer.valueOf(MessagesController.getInstance(UserConfig.selectedAccount).channelRestrictSponsoredLevelMin));
         int i3 = Theme.key_chat_messageLinkIn;
-        linearLayout.addView(new FeatureCell(context, R.drawable.menu_feature_noads, LocaleController.getString(R.string.RevenueSharingAdsInfo3Title), AndroidUtilities.replaceSingleTag(formatString, i3, 0, new Runnable() { // from class: org.telegram.ui.RevenueSharingAdsInfoBottomSheet$$ExternalSyntheticLambda0
+        linearLayout.addView(new FeatureCell(context, R.drawable.menu_feature_noads, LocaleController.getString(R.string.RevenueSharingAdsInfo3Title), AndroidUtilities.replaceSingleTag(formatString, i3, 0, new Runnable() { // from class: org.telegram.ui.RevenueSharingAdsInfoBottomSheet$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                RevenueSharingAdsInfoBottomSheet.this.lambda$new$0(baseFragment);
+                RevenueSharingAdsInfoBottomSheet.this.lambda$new$1();
             }
         })), LayoutHelper.createLinear(-1, -2, 0.0f, 0, 0, 16, 0, 0));
         View view = new View(getContext());
@@ -111,10 +142,10 @@ public class RevenueSharingAdsInfoBottomSheet extends BottomSheet {
         textView3.setTextAlignment(4);
         linearLayout.addView(textView3, LayoutHelper.createLinear(-2, -2, 1, 22, 0, 22, 0));
         SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(LocaleController.getString(R.string.RevenueSharingAdsInfo4Subtitle2));
-        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.RevenueSharingAdsInfo4SubtitleLearnMore), i3, 0, new Runnable() { // from class: org.telegram.ui.RevenueSharingAdsInfoBottomSheet$$ExternalSyntheticLambda1
+        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.RevenueSharingAdsInfo4SubtitleLearnMore), i3, 0, new Runnable() { // from class: org.telegram.ui.RevenueSharingAdsInfoBottomSheet$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                RevenueSharingAdsInfoBottomSheet.this.lambda$new$1();
+                RevenueSharingAdsInfoBottomSheet.this.lambda$new$2();
             }
         });
         SpannableString spannableString = new SpannableString(">");
@@ -142,41 +173,74 @@ public class RevenueSharingAdsInfoBottomSheet extends BottomSheet {
         textView4.setTextSize(1, 14.0f);
         textView4.setText(LocaleController.getString(R.string.RevenueSharingAdsAlertButton));
         textView4.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor(i, resourcesProvider), 6.0f));
-        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.RevenueSharingAdsInfoBottomSheet$$ExternalSyntheticLambda2
+        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.RevenueSharingAdsInfoBottomSheet$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
-                RevenueSharingAdsInfoBottomSheet.this.lambda$new$2(view2);
+                RevenueSharingAdsInfoBottomSheet.this.lambda$new$3(view2);
             }
         });
         linearLayout.addView(textView4, LayoutHelper.createLinear(-1, 48, 0, 14, 22, 14, 14));
-        ScrollView scrollView = new ScrollView(getContext());
-        scrollView.addView(linearLayout);
-        setCustomView(scrollView);
+        this.adapter.update(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(BaseFragment baseFragment) {
-        baseFragment.presentFragment(new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(3)));
-        dismiss();
+    public /* synthetic */ void lambda$new$0(Utilities.Callback callback, Theme.ResourcesProvider resourcesProvider, ImageView imageView, View view) {
+        callback.run(ItemOptions.makeOptions(this.containerView, resourcesProvider, imageView, true).setGravity(5).setDrawScrim(false).translate(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(-32.0f)));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
+        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (safeLastFragment == null) {
+            return;
+        }
+        safeLastFragment.presentFragment(new PremiumPreviewFragment(PremiumPreviewFragment.featureTypeToServerString(3)));
+        dismiss();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2() {
+        dismiss();
         Browser.openUrl(getContext(), LocaleController.getString(R.string.PromoteUrl));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(View view) {
+    public /* synthetic */ void lambda$new$3(View view) {
         dismiss();
     }
 
-    public static RevenueSharingAdsInfoBottomSheet showAlert(Context context, BaseFragment baseFragment, Theme.ResourcesProvider resourcesProvider) {
-        RevenueSharingAdsInfoBottomSheet revenueSharingAdsInfoBottomSheet = new RevenueSharingAdsInfoBottomSheet(baseFragment, context, resourcesProvider);
+    public static RevenueSharingAdsInfoBottomSheet showAlert(Context context, BaseFragment baseFragment, boolean z, Theme.ResourcesProvider resourcesProvider) {
+        return showAlert(context, baseFragment, z, resourcesProvider, null);
+    }
+
+    public static RevenueSharingAdsInfoBottomSheet showAlert(Context context, BaseFragment baseFragment, boolean z, Theme.ResourcesProvider resourcesProvider, Utilities.Callback callback) {
+        RevenueSharingAdsInfoBottomSheet revenueSharingAdsInfoBottomSheet = new RevenueSharingAdsInfoBottomSheet(context, z, resourcesProvider, callback);
         if (baseFragment == null) {
             revenueSharingAdsInfoBottomSheet.show();
         } else if (baseFragment.getParentActivity() != null) {
             baseFragment.showDialog(revenueSharingAdsInfoBottomSheet);
         }
         return revenueSharingAdsInfoBottomSheet;
+    }
+
+    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
+    protected RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView) {
+        UniversalAdapter universalAdapter = new UniversalAdapter(recyclerListView, getContext(), this.currentAccount, 0, true, new Utilities.Callback2() { // from class: org.telegram.ui.RevenueSharingAdsInfoBottomSheet$$ExternalSyntheticLambda4
+            @Override // org.telegram.messenger.Utilities.Callback2
+            public final void run(Object obj, Object obj2) {
+                RevenueSharingAdsInfoBottomSheet.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
+            }
+        }, this.resourcesProvider);
+        this.adapter = universalAdapter;
+        return universalAdapter;
+    }
+
+    public void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
+        arrayList.add(UItem.asCustom(this.customView));
+    }
+
+    @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
+    protected CharSequence getTitle() {
+        return LocaleController.getString(R.string.AboutRevenueSharingAds);
     }
 }

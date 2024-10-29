@@ -146,7 +146,7 @@ public class ThemePreviewDrawable extends BitmapDrawable {
                     if (themeDocument.accent.patternIntensity >= 0.0f) {
                         paint2.setColorFilter(new PorterDuffColorFilter(patternColor, PorterDuff.Mode.SRC_IN));
                     }
-                    paint2.setAlpha(NotificationCenter.closeSearchByActiveAction);
+                    paint2.setAlpha(NotificationCenter.playerDidStartPlaying);
                     float max = Math.max(560 / decodeFile.getWidth(), 678 / decodeFile.getHeight());
                     int width = (int) (decodeFile.getWidth() * max);
                     canvas.save();

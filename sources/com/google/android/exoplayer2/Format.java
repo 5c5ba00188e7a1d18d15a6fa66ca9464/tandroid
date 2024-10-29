@@ -22,11 +22,15 @@ public final class Format implements Bundleable {
     public final int accessibilityChannel;
     public final int averageBitrate;
     public final int bitrate;
+    public boolean cached;
     public final int channelCount;
     public final String codecs;
     public final ColorInfo colorInfo;
     public final String containerMimeType;
     public final int cryptoType;
+    public int currentAccount;
+    public String documentFilename;
+    public long documentId;
     public final DrmInitData drmInitData;
     public final int encoderDelay;
     public final int encoderPadding;
@@ -96,14 +100,18 @@ public final class Format implements Bundleable {
     };
 
     /* loaded from: classes.dex */
-    public static final class Builder {
+    public static class Builder {
         private int accessibilityChannel;
         private int averageBitrate;
+        public boolean cached;
         private int channelCount;
         private String codecs;
         private ColorInfo colorInfo;
         private String containerMimeType;
         private int cryptoType;
+        public int currentAccount;
+        public String documentFilename;
+        public long documentId;
         private DrmInitData drmInitData;
         private int encoderDelay;
         private int encoderPadding;
@@ -147,6 +155,7 @@ public final class Format implements Bundleable {
             this.tileCountHorizontal = -1;
             this.tileCountVertical = -1;
             this.cryptoType = 0;
+            this.cached = false;
         }
 
         private Builder(Format format) {
@@ -182,6 +191,10 @@ public final class Format implements Bundleable {
             this.tileCountHorizontal = format.tileCountHorizontal;
             this.tileCountVertical = format.tileCountVertical;
             this.cryptoType = format.cryptoType;
+            this.cached = format.cached;
+            this.documentId = format.documentId;
+            this.currentAccount = format.currentAccount;
+            this.documentFilename = format.documentFilename;
         }
 
         public Format build() {
@@ -195,6 +208,11 @@ public final class Format implements Bundleable {
 
         public Builder setAverageBitrate(int i) {
             this.averageBitrate = i;
+            return this;
+        }
+
+        public Builder setCached(boolean z) {
+            this.cached = z;
             return this;
         }
 
@@ -220,6 +238,37 @@ public final class Format implements Bundleable {
 
         public Builder setCryptoType(int i) {
             this.cryptoType = i;
+            return this;
+        }
+
+        public Builder setCurrentAccount(int i) {
+            this.currentAccount = i;
+            return this;
+        }
+
+        public Builder setCurrentAccount(String str) {
+            try {
+                this.currentAccount = Integer.parseInt(str);
+            } catch (Exception unused) {
+            }
+            return this;
+        }
+
+        public Builder setDocumentFilename(String str) {
+            this.documentFilename = str;
+            return this;
+        }
+
+        public Builder setDocumentId(long j) {
+            this.documentId = j;
+            return this;
+        }
+
+        public Builder setDocumentId(String str) {
+            try {
+                this.documentId = Long.parseLong(str);
+            } catch (Exception unused) {
+            }
             return this;
         }
 
@@ -367,6 +416,10 @@ public final class Format implements Bundleable {
         this.bitrate = i2 != -1 ? i2 : i;
         this.codecs = builder.codecs;
         this.metadata = builder.metadata;
+        this.cached = builder.cached;
+        this.documentId = builder.documentId;
+        this.currentAccount = builder.currentAccount;
+        this.documentFilename = builder.documentFilename;
         this.containerMimeType = builder.containerMimeType;
         this.sampleMimeType = builder.sampleMimeType;
         this.maxInputSize = builder.maxInputSize;

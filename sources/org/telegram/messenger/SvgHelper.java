@@ -629,7 +629,7 @@ public class SvgHelper {
             if (f == null) {
                 f = properties.getFloat(z ? "fill-opacity" : "stroke-opacity");
             }
-            this.paint.setAlpha(f == null ? NotificationCenter.closeSearchByActiveAction : (int) (f.floatValue() * 255.0f));
+            this.paint.setAlpha(f == null ? NotificationCenter.playerDidStartPlaying : (int) (f.floatValue() * 255.0f));
         }
 
         private boolean doFill(Properties properties) {
@@ -836,23 +836,23 @@ public class SvgHelper {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:155:0x0444, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:155:0x0445, code lost:
         
             if (r2 != null) goto L160;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:88:0x029d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:88:0x029e, code lost:
         
             if (r2 != null) goto L160;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:89:0x044d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:89:0x044e, code lost:
         
             r18.canvas.drawPath(r1, r18.paint);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:90:0x0446, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:90:0x0447, code lost:
         
             r2.addCommand(r1, r18.paint);
          */
-        /* JADX WARN: Failed to find 'out' block for switch in B:46:0x00bf. Please report as an issue. */
+        /* JADX WARN: Failed to find 'out' block for switch in B:46:0x00c0. Please report as an issue. */
         @Override // org.xml.sax.helpers.DefaultHandler, org.xml.sax.ContentHandler
         /*
             Code decompiled incorrectly, please refer to instructions dump.

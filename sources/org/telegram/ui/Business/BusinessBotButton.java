@@ -27,7 +27,7 @@ import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 
 /* loaded from: classes4.dex */
-public abstract class BusinessBotButton extends FrameLayout {
+public class BusinessBotButton extends FrameLayout {
     private final AvatarDrawable avatarDrawable;
     private final BackupImageView avatarView;
     private long botId;

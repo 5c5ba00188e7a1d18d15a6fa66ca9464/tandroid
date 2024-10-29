@@ -111,6 +111,7 @@ public class PipVideoOverlay {
     private ImageView playPauseButton;
     private boolean postedDismissControls;
     private ScaleGestureDetector scaleGestureDetector;
+    private SeekSpeedDrawable seekSpeedDrawable;
     private float videoProgress;
     private VideoProgressView videoProgressView;
     private WindowManager.LayoutParams windowLayoutParams;
@@ -119,20 +120,20 @@ public class PipVideoOverlay {
     private float maxScaleFactor = 1.4f;
     private float scaleFactor = 1.0f;
     private VideoForwardDrawable videoForwardDrawable = new VideoForwardDrawable(false);
-    private Runnable progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda12
+    private Runnable progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda13
         @Override // java.lang.Runnable
         public final void run() {
             PipVideoOverlay.this.lambda$new$4();
         }
     };
     private float[] longClickStartPoint = new float[2];
-    private Runnable longClickCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda13
+    private Runnable longClickCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda14
         @Override // java.lang.Runnable
         public final void run() {
             PipVideoOverlay.this.onLongClick();
         }
     };
-    private Runnable dismissControlsCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda14
+    private Runnable dismissControlsCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda15
         @Override // java.lang.Runnable
         public final void run() {
             PipVideoOverlay.this.lambda$new$5();
@@ -508,9 +509,10 @@ public class PipVideoOverlay {
     /* JADX INFO: Access modifiers changed from: private */
     public void cancelRewind() {
         PhotoViewer photoViewer = this.photoViewer;
-        if (photoViewer != null && photoViewer.getVideoPlayerRewinder().rewindCount > 0) {
-            this.photoViewer.getVideoPlayerRewinder().cancelRewind();
+        if (photoViewer == null || photoViewer.getVideoPlayerRewinder() == null) {
+            return;
         }
+        this.photoViewer.getVideoPlayerRewinder().cancelRewind();
     }
 
     private WindowManager.LayoutParams createWindowLayoutParams(boolean z) {
@@ -730,7 +732,7 @@ public class PipVideoOverlay {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5() {
         PhotoViewer photoViewer = this.photoViewer;
-        if (photoViewer != null && photoViewer.getVideoPlayerRewinder().rewindCount > 0) {
+        if (photoViewer != null && photoViewer.getVideoPlayerRewinder().rewinding) {
             AndroidUtilities.runOnUIThread(this.dismissControlsCallback, 1500L);
             return;
         }
@@ -970,10 +972,10 @@ public class PipVideoOverlay {
         return instance.showInternal(z, activity, view, photoViewerWebView, i, i2, z2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x02b3  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x02eb  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x02f6  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x02c6  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x02fe  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0309  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x02e4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1045,6 +1047,8 @@ public class PipVideoOverlay {
                     PipVideoOverlay.this.canLongClick = false;
                     PipVideoOverlay.this.cancelRewind();
                     AndroidUtilities.cancelRunOnUIThread(PipVideoOverlay.this.longClickCallback);
+                } else if (actionMasked == 2 && PipVideoOverlay.this.photoViewer != null && PipVideoOverlay.this.photoViewer.getVideoPlayerRewinder() != null && PipVideoOverlay.this.photoViewer.getVideoPlayerRewinder().rewinding) {
+                    PipVideoOverlay.this.photoViewer.getVideoPlayerRewinder().setX(motionEvent.getX());
                 }
                 if (PipVideoOverlay.this.consumingChild != null) {
                     MotionEvent obtain = MotionEvent.obtain(motionEvent);
@@ -1171,7 +1175,17 @@ public class PipVideoOverlay {
             public void onAnimationEnd() {
             }
         });
-        FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.PipVideoOverlay.9
+        this.controlsView = new FrameLayout(context) { // from class: org.telegram.ui.Components.PipVideoOverlay.9
+            @Override // android.view.ViewGroup, android.view.View
+            protected void dispatchDraw(Canvas canvas) {
+                super.dispatchDraw(canvas);
+                if (PipVideoOverlay.this.seekSpeedDrawable == null || !PipVideoOverlay.this.seekSpeedDrawable.isShown()) {
+                    return;
+                }
+                PipVideoOverlay.this.seekSpeedDrawable.setBounds(getLeft(), getTop(), getRight(), getBottom());
+                PipVideoOverlay.this.seekSpeedDrawable.draw(canvas);
+            }
+
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
                 if (PipVideoOverlay.this.videoForwardDrawable.isAnimating()) {
@@ -1180,8 +1194,15 @@ public class PipVideoOverlay {
                 }
             }
         };
-        this.controlsView = frameLayout;
-        frameLayout.setWillNotDraw(false);
+        final FrameLayout frameLayout = this.controlsView;
+        Objects.requireNonNull(frameLayout);
+        this.seekSpeedDrawable = new SeekSpeedDrawable(new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda8
+            @Override // java.lang.Runnable
+            public final void run() {
+                frameLayout.invalidate();
+            }
+        }, true, false);
+        this.controlsView.setWillNotDraw(false);
         this.controlsView.setAlpha(0.0f);
         View view2 = new View(context);
         view2.setBackgroundColor(1275068416);
@@ -1196,7 +1217,7 @@ public class PipVideoOverlay {
         int i5 = Theme.key_listSelector;
         imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor(i5)));
         imageView.setPadding(dp3, dp3, dp3, dp3);
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda8
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PipVideoOverlay.dismissAndDestroy();
@@ -1210,7 +1231,7 @@ public class PipVideoOverlay {
         imageView2.setColorFilter(Theme.getColor(i4), mode);
         imageView2.setBackground(Theme.createSelectorDrawable(Theme.getColor(i5)));
         imageView2.setPadding(dp3, dp3, dp3, dp3);
-        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda9
+        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda10
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PipVideoOverlay.this.lambda$showInternal$10(z, view3);
@@ -1221,7 +1242,7 @@ public class PipVideoOverlay {
         this.playPauseButton = imageView3;
         imageView3.setColorFilter(Theme.getColor(i4), mode);
         this.playPauseButton.setBackground(Theme.createSelectorDrawable(Theme.getColor(i5)));
-        this.playPauseButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda10
+        this.playPauseButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda11
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PipVideoOverlay.this.lambda$showInternal$11(view3);
@@ -1301,7 +1322,7 @@ public class PipVideoOverlay {
         ValueAnimator duration = ValueAnimator.ofFloat(z ? 0.0f : 1.0f, z ? 1.0f : 0.0f).setDuration(200L);
         this.controlsAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.controlsAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda11
+        this.controlsAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda12
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 PipVideoOverlay.this.lambda$toggleControls$6(valueAnimator);
@@ -1370,9 +1391,9 @@ public class PipVideoOverlay {
                 return;
             }
             if (this.photoViewerWebView != null) {
-                this.photoViewer.getVideoPlayerRewinder().startRewind(this.photoViewerWebView, z, this.photoViewer.getCurrentVideoSpeed());
+                this.photoViewer.getVideoPlayerRewinder().startRewind(this.photoViewerWebView, z, this.longClickStartPoint[0], this.photoViewer.getCurrentVideoSpeed(), this.seekSpeedDrawable);
             } else {
-                this.photoViewer.getVideoPlayerRewinder().startRewind(videoPlayer, z, this.photoViewer.getCurrentVideoSpeed());
+                this.photoViewer.getVideoPlayerRewinder().startRewind(videoPlayer, z, this.longClickStartPoint[0], this.photoViewer.getCurrentVideoSpeed(), this.seekSpeedDrawable);
             }
             if (this.isShowingControls) {
                 return;

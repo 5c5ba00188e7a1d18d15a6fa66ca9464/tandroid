@@ -449,7 +449,7 @@ public class BiometricFragment extends Fragment {
             str = null;
         }
         biometricViewModel2.setNegativeButtonTextOverride(str);
-        if (i >= 21 && isManagingDeviceCredentialButton() && BiometricManager.from(activity).canAuthenticate(NotificationCenter.closeSearchByActiveAction) != 0) {
+        if (i >= 21 && isManagingDeviceCredentialButton() && BiometricManager.from(activity).canAuthenticate(NotificationCenter.playerDidStartPlaying) != 0) {
             this.mViewModel.setAwaitingResult(true);
             launchConfirmCredentialActivity();
         } else if (this.mViewModel.isDelayingPrompt()) {

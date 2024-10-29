@@ -79,13 +79,13 @@ public class Texture {
             this.bitmap.getPixels(iArr2, 0, width, 0, 0, width, height);
             for (int i4 = 0; i4 < i3; i4++) {
                 int i5 = iArr2[i4];
-                iArr2[i4] = ((i5 >> 16) & NotificationCenter.closeSearchByActiveAction) | (i5 & (-16711936)) | ((i5 & NotificationCenter.closeSearchByActiveAction) << 16);
+                iArr2[i4] = ((i5 >> 16) & NotificationCenter.playerDidStartPlaying) | (i5 & (-16711936)) | ((i5 & NotificationCenter.playerDidStartPlaying) << 16);
             }
             GLES20.glTexImage2D(3553, 0, 6408, width, height, 0, 6408, 5121, IntBuffer.wrap(iArr2));
         }
         if (!this.bitmap.isRecycled() && Build.VERSION.SDK_INT <= 28) {
             int pixel = this.bitmap.getPixel(0, 0);
-            int i6 = ((-16711936) & pixel) | ((pixel & NotificationCenter.closeSearchByActiveAction) << 16) | ((pixel >> 16) & NotificationCenter.closeSearchByActiveAction);
+            int i6 = ((-16711936) & pixel) | ((pixel & NotificationCenter.playerDidStartPlaying) << 16) | ((pixel >> 16) & NotificationCenter.playerDidStartPlaying);
             ByteBuffer allocateDirect = ByteBuffer.allocateDirect(4);
             allocateDirect.putInt(i6).position(0);
             GLES20.glTexSubImage2D(3553, 0, 0, 0, 1, 1, 6408, 5121, allocateDirect);

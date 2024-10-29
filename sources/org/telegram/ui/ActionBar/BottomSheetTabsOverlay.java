@@ -564,7 +564,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                 this.blurBitmapPaint.setAlpha((int) (this.openProgress * 255.0f));
                 canvas.drawRect(0.0f, 0.0f, width, height, this.blurBitmapPaint);
             }
-            canvas.saveLayerAlpha(0.0f, 0.0f, width, height, NotificationCenter.closeSearchByActiveAction, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, width, height, NotificationCenter.playerDidStartPlaying, 31);
             float dp = AndroidUtilities.statusBarHeight + AndroidUtilities.dp(40.0f) + AndroidUtilities.dp(55.0f);
             float dp2 = AndroidUtilities.dp(68.0f);
             int min = (int) Math.min(AndroidUtilities.dp(340.0f), 0.95f * width);
