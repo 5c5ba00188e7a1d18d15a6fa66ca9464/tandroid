@@ -12115,7 +12115,12 @@ public class MessageObject {
     }
 
     public long getSize() {
-        return getMessageSize(this.messageOwner);
+        VideoPlayer.VideoUri videoUri = this.highestQuality;
+        if (videoUri != null) {
+            return videoUri.document.size;
+        }
+        VideoPlayer.VideoUri videoUri2 = this.thumbQuality;
+        return videoUri2 != null ? videoUri2.document.size : getMessageSize(this.messageOwner);
     }
 
     public String getStickerChar() {

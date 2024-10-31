@@ -3,7 +3,6 @@ package org.telegram.messenger.video;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 import java.io.File;
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
@@ -93,9 +93,9 @@ public class VideoFramesRewinder {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(ArrayList arrayList, long j) {
-        Log.i("lolkek", "total prepare of " + arrayList.size() + " took " + (System.currentTimeMillis() - j) + "ms");
+        FileLog.d("[VideoFramesRewinder] total prepare of " + arrayList.size() + " took " + (System.currentTimeMillis() - j) + "ms");
         if (!arrayList.isEmpty()) {
-            Log.i("lolkek", "prepared from " + ((Frame) arrayList.get(0)).position + "ms to " + ((Frame) arrayList.get(arrayList.size() - 1)).position + "ms (requested up to " + this.prepareToMs + "ms)");
+            FileLog.d("[VideoFramesRewinder] prepared from " + ((Frame) arrayList.get(0)).position + "ms to " + ((Frame) arrayList.get(arrayList.size() - 1)).position + "ms (requested up to " + this.prepareToMs + "ms)");
         }
         this.isPreparing = false;
         Iterator<Frame> it = this.frames.iterator();
@@ -114,7 +114,7 @@ public class VideoFramesRewinder {
             this.frames.add((Frame) arrayList.remove(arrayList.size() - 1));
         }
         if (arrayList.size() > 0) {
-            Log.i("lolkek", "prepared more frames than I could fit :(");
+            FileLog.d("[VideoFramesRewinder] prepared more frames than I could fit :(");
         }
         if (this.destroyAfterPrepare) {
             release();
@@ -154,7 +154,7 @@ public class VideoFramesRewinder {
                 try {
                     remove.bitmap = Bitmap.createBitmap(min, min2, Bitmap.Config.ARGB_8888);
                 } catch (OutOfMemoryError unused) {
-                    Log.i("lolkek", "failed to create bitmap: out of memory");
+                    FileLog.d("[VideoFramesRewinder] failed to create bitmap: out of memory");
                 }
             }
             while (true) {
@@ -188,13 +188,13 @@ public class VideoFramesRewinder {
 
     private void prepare(long j) {
         if (j <= 0) {
-            Log.i("lolkek", "WTF asked to prepare " + j + "ms");
+            FileLog.d("[VideoFramesRewinder] WTF asked to prepare " + j + "ms");
             return;
         }
         if (this.isPreparing) {
             return;
         }
-        Log.i("lolkek", "starting preparing " + j + "ms");
+        FileLog.d("[VideoFramesRewinder] starting preparing " + j + "ms");
         this.isPreparing = true;
         this.prepareToMs = j;
         this.prepareWithSpeed = this.lastSpeed;
@@ -255,13 +255,13 @@ public class VideoFramesRewinder {
         Iterator<Frame> it = this.frames.iterator();
         while (true) {
             if (!it.hasNext()) {
-                Log.i("lolkek", "didn't find a frame, wanting to prepare " + j + "ms");
+                FileLog.d("[VideoFramesRewinder] didn't find a frame, wanting to prepare " + j + "ms");
                 break;
             }
             Frame next = it.next();
             if (((float) Math.abs(next.position - j)) < 25.0f * f) {
                 if (this.currentFrame != next) {
-                    Log.i("lolkek", "found a frame " + next.position + "ms to fit to " + j + "ms from " + this.frames.size() + " frames");
+                    FileLog.d("[VideoFramesRewinder] found a frame " + next.position + "ms to fit to " + j + "ms from " + this.frames.size() + " frames");
                     this.currentFrame = next;
                     invalidate();
                     int i = 0;
@@ -271,7 +271,7 @@ public class VideoFramesRewinder {
                         i++;
                     }
                     if (i > 0) {
-                        Log.i("lolkek", "also deleted " + i + " frames after this frame");
+                        FileLog.d("[VideoFramesRewinder] also deleted " + i + " frames after this frame");
                     }
                 }
                 j = Math.max(0L, this.frames.first().position - 20);

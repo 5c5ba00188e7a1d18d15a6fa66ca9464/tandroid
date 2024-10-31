@@ -28966,7 +28966,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.speedItem.setDrawShadow(false);
         this.speedItem.setBackgroundColor(-14540254);
         this.speedItem.setTextColor(-1);
-        this.speedItem.setLabel("Speed");
+        this.speedItem.setLabel(LocaleController.getString(R.string.VideoPlayerSpeed));
         this.speedItem.setOnValueChange(new Utilities.Callback2() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda68
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
@@ -28990,7 +28990,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.videoQualityLayout = linearLayout;
         linearLayout.setOrientation(1);
         this.videoItem.getPopupLayout().addView(this.videoQualityLayout);
-        this.loopItem = this.videoItem.addSubItem(22, R.drawable.menu_video_loop, "Loop");
+        this.loopItem = this.videoItem.addSubItem(22, R.drawable.menu_video_loop, LocaleController.getString(R.string.VideoPlayerLoop));
         this.videoItem.redrawPopup(-115203550);
         this.videoItem.setOnMenuDismiss(new Utilities.Callback() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda70
             @Override // org.telegram.messenger.Utilities.Callback

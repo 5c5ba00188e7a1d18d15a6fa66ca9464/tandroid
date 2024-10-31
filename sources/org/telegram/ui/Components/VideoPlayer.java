@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.util.LongSparseArray;
 import android.view.Surface;
 import android.view.SurfaceView;
@@ -634,6 +635,8 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
 
         public static VideoUri of(int i, TLRPC.Document document, TLRPC.Document document2, int i2) {
             TLRPC.TL_documentAttributeVideo tL_documentAttributeVideo;
+            Uri fromFile;
+            Uri fromFile2;
             VideoUri videoUri = new VideoUri();
             int i3 = 0;
             while (true) {
@@ -658,12 +661,21 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                 videoUri.manifestDocId = document2.id;
                 videoUri.m3u8uri = getUri(i, document2, i2);
                 File pathToAttach = FileLoader.getInstance(i).getPathToAttach(document2, null, false, true);
+                if (pathToAttach != null) {
+                    Log.i("lolkek", "file exists()? (1.1) " + Thread.currentThread());
+                }
                 if (pathToAttach == null || !pathToAttach.exists()) {
-                    pathToAttach = FileLoader.getInstance(i).getPathToAttach(document2, null, true, true);
+                    File pathToAttach2 = FileLoader.getInstance(i).getPathToAttach(document2, null, true, true);
+                    if (pathToAttach2 != null) {
+                        Log.i("lolkek", "file exists()? (1.2) " + Thread.currentThread());
+                    }
+                    if (pathToAttach2 != null && pathToAttach2.exists()) {
+                        fromFile2 = Uri.fromFile(pathToAttach2);
+                    }
+                } else {
+                    fromFile2 = Uri.fromFile(pathToAttach);
                 }
-                if (pathToAttach != null && pathToAttach.exists()) {
-                    videoUri.m3u8uri = Uri.fromFile(pathToAttach);
-                }
+                videoUri.m3u8uri = fromFile2;
             }
             videoUri.codec = str;
             long j = document.size;
@@ -677,13 +689,22 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                 Double.isNaN(d2);
                 videoUri.bitrate = d2 / d;
             }
-            File pathToAttach2 = FileLoader.getInstance(i).getPathToAttach(document, null, false, true);
-            if (pathToAttach2 == null || !pathToAttach2.exists()) {
-                pathToAttach2 = FileLoader.getInstance(i).getPathToAttach(document, null, true, true);
+            File pathToAttach3 = FileLoader.getInstance(i).getPathToAttach(document, null, false, true);
+            if (pathToAttach3 != null) {
+                Log.i("lolkek", "file exists()? (1.3) " + Thread.currentThread());
             }
-            if (pathToAttach2 != null && pathToAttach2.exists()) {
-                videoUri.uri = Uri.fromFile(pathToAttach2);
+            if (pathToAttach3 == null || !pathToAttach3.exists()) {
+                File pathToAttach4 = FileLoader.getInstance(i).getPathToAttach(document, null, true, true);
+                if (pathToAttach4 != null) {
+                    Log.i("lolkek", "file exists()? (1.4) " + Thread.currentThread());
+                }
+                if (pathToAttach4 != null && pathToAttach4.exists()) {
+                    fromFile = Uri.fromFile(pathToAttach4);
+                }
+                return videoUri;
             }
+            fromFile = Uri.fromFile(pathToAttach3);
+            videoUri.uri = fromFile;
             return videoUri;
         }
 
@@ -697,27 +718,51 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             return uri != null && "file".equalsIgnoreCase(uri.getScheme());
         }
 
+        /* JADX WARN: Code restructure failed: missing block: B:17:0x006a, code lost:
+        
+            if (r0.exists() != false) goto L63;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public void updateCached(boolean z) {
+            Uri fromFile;
             if (!isCached() && this.document != null) {
                 File pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(this.document, null, false, z);
+                if (pathToAttach != null) {
+                    Log.i("lolkek", "file exists()? (2.1) " + Thread.currentThread());
+                }
                 if (pathToAttach == null || !pathToAttach.exists()) {
                     pathToAttach = FileLoader.getInstance(this.currentAccount).getPathToAttach(this.document, null, true, z);
+                    if (pathToAttach != null) {
+                        Log.i("lolkek", "file exists()? (2.2)" + Thread.currentThread());
+                    }
+                    if (pathToAttach != null) {
+                    }
                 }
-                if (pathToAttach != null && pathToAttach.exists()) {
-                    this.uri = Uri.fromFile(pathToAttach);
-                }
+                this.uri = Uri.fromFile(pathToAttach);
             }
             if (isManifestCached() || this.manifestDocument == null) {
                 return;
             }
             File pathToAttach2 = FileLoader.getInstance(this.currentAccount).getPathToAttach(this.manifestDocument, null, false, z);
-            if (pathToAttach2 == null || !pathToAttach2.exists()) {
-                pathToAttach2 = FileLoader.getInstance(this.currentAccount).getPathToAttach(this.manifestDocument, null, true, z);
+            if (pathToAttach2 != null) {
+                Log.i("lolkek", "file exists()? (2.3)" + Thread.currentThread());
             }
             if (pathToAttach2 == null || !pathToAttach2.exists()) {
-                return;
+                File pathToAttach3 = FileLoader.getInstance(this.currentAccount).getPathToAttach(this.manifestDocument, null, true, z);
+                if (pathToAttach3 != null) {
+                    Log.i("lolkek", "file exists()? (2.4)" + Thread.currentThread());
+                }
+                if (pathToAttach3 == null || !pathToAttach3.exists()) {
+                    return;
+                } else {
+                    fromFile = Uri.fromFile(pathToAttach3);
+                }
+            } else {
+                fromFile = Uri.fromFile(pathToAttach2);
             }
-            this.m3u8uri = Uri.fromFile(pathToAttach2);
+            this.m3u8uri = fromFile;
         }
     }
 

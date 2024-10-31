@@ -24,6 +24,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
+import org.telegram.ui.Components.VideoPlayer;
 import org.telegram.ui.LaunchActivity;
 
 /* loaded from: classes.dex */
@@ -420,6 +421,157 @@ public class DownloadController extends BaseController implements NotificationCe
         if (Build.VERSION.SDK_INT < 33) {
         }
         if (getUserConfig().isClientActivated()) {
+        }
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0079, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r8.user_id)) != false) goto L64;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x009a, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r3.from_id.user_id)) != false) goto L64;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:97:0x00d7, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r3.from_id.user_id)) != false) goto L64;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0111  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x012e  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0140  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0157  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0163  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0133  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x00f2  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private int canDownloadMediaInternal(MessageObject messageObject) {
+        TLRPC.Message message;
+        int i;
+        char c;
+        int autodownloadNetworkType;
+        Preset currentMobilePreset;
+        int i2;
+        VideoPlayer.VideoUri videoUri;
+        long messageSize;
+        TLRPC.Document document;
+        if (messageObject == null || (message = messageObject.messageOwner) == null) {
+            return 0;
+        }
+        if (message.media instanceof TLRPC.TL_messageMediaStory) {
+            return canPreloadStories() ? 2 : 0;
+        }
+        boolean isVideoMessage = MessageObject.isVideoMessage(message);
+        if (isVideoMessage || MessageObject.isGifMessage(message) || MessageObject.isRoundVideoMessage(message) || MessageObject.isGameMessage(message)) {
+            i = 4;
+        } else if (MessageObject.isVoiceMessage(message)) {
+            i = 2;
+        } else if (MessageObject.isPhoto(message) || MessageObject.isStickerMessage(message) || MessageObject.isAnimatedStickerMessage(message)) {
+            i = 1;
+        } else {
+            if (MessageObject.getDocument(message) == null) {
+                return 0;
+            }
+            i = 8;
+        }
+        TLRPC.Peer peer = message.peer_id;
+        if (peer != null) {
+            if (peer.user_id == 0) {
+                if (peer.chat_id != 0) {
+                    if (message.from_id instanceof TLRPC.TL_peerUser) {
+                    }
+                    c = 2;
+                } else {
+                    TLRPC.Chat chat = peer.channel_id != 0 ? getMessagesController().getChat(Long.valueOf(message.peer_id.channel_id)) : null;
+                    if (ChatObject.isChannel(chat) && chat.megagroup) {
+                        if (message.from_id instanceof TLRPC.TL_peerUser) {
+                        }
+                        c = 2;
+                    } else {
+                        c = 3;
+                    }
+                }
+                autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
+                if (autodownloadNetworkType == 1) {
+                    if (!this.wifiPreset.enabled) {
+                        return 0;
+                    }
+                    currentMobilePreset = getCurrentWiFiPreset();
+                } else if (autodownloadNetworkType == 2) {
+                    if (!this.roamingPreset.enabled) {
+                        return 0;
+                    }
+                    currentMobilePreset = getCurrentRoamingPreset();
+                } else {
+                    if (!this.mobilePreset.enabled) {
+                        return 0;
+                    }
+                    currentMobilePreset = getCurrentMobilePreset();
+                }
+                i2 = currentMobilePreset.mask[c];
+                long max = i == 2 ? Math.max(524288L, currentMobilePreset.sizes[typeToIndex(i)]) : currentMobilePreset.sizes[typeToIndex(i)];
+                videoUri = messageObject.highestQuality;
+                if (videoUri != null) {
+                    document = videoUri.document;
+                } else {
+                    VideoPlayer.VideoUri videoUri2 = messageObject.thumbQuality;
+                    if (videoUri2 == null) {
+                        messageSize = MessageObject.getMessageSize(message);
+                        if (!isVideoMessage && currentMobilePreset.preloadVideo && messageSize > max && max > 2097152) {
+                            return (i2 & i) != 0 ? 2 : 0;
+                        }
+                        if (i != 1 || (messageSize != 0 && messageSize <= max)) {
+                            return (i == 2 && (i2 & i) == 0) ? 0 : 1;
+                        }
+                        return 0;
+                    }
+                    document = videoUri2.document;
+                }
+                messageSize = document.size;
+                if (!isVideoMessage) {
+                }
+                if (i != 1) {
+                }
+                if (i == 2) {
+                }
+            }
+            c = 0;
+            autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
+            if (autodownloadNetworkType == 1) {
+            }
+            i2 = currentMobilePreset.mask[c];
+            if (i == 2) {
+            }
+            videoUri = messageObject.highestQuality;
+            if (videoUri != null) {
+            }
+            messageSize = document.size;
+            if (!isVideoMessage) {
+            }
+            if (i != 1) {
+            }
+            if (i == 2) {
+            }
+        }
+        c = 1;
+        autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
+        if (autodownloadNetworkType == 1) {
+        }
+        i2 = currentMobilePreset.mask[c];
+        if (i == 2) {
+        }
+        videoUri = messageObject.highestQuality;
+        if (videoUri != null) {
+        }
+        messageSize = document.size;
+        if (!isVideoMessage) {
+        }
+        if (i != 1) {
+        }
+        if (i == 2) {
         }
     }
 
@@ -1156,7 +1308,7 @@ public class DownloadController extends BaseController implements NotificationCe
         if (messageObject.sponsoredMedia != null) {
             return true;
         }
-        return !messageObject.isHiddenSensitive() && canDownloadMedia(messageObject.messageOwner) == 1;
+        return !messageObject.isHiddenSensitive() && canDownloadMediaInternal(messageObject) == 1;
     }
 
     public int canDownloadMediaType(MessageObject messageObject) {
@@ -1171,7 +1323,7 @@ public class DownloadController extends BaseController implements NotificationCe
         if (messageObject.isHiddenSensitive()) {
             return 0;
         }
-        return canDownloadMedia(messageObject.messageOwner);
+        return canDownloadMediaInternal(messageObject);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
