@@ -9249,6 +9249,9 @@ public class MessageObject {
     }
 
     public boolean canStreamVideo() {
+        if (hasVideoQualities()) {
+            return true;
+        }
         TLRPC.Document document = getDocument();
         if (document != null && !(document instanceof TLRPC.TL_documentEncrypted)) {
             if (SharedConfig.streamAllVideo) {
@@ -12383,17 +12386,9 @@ public class MessageObject {
     }
 
     public boolean hasValidGroupId() {
+        ArrayList<TLRPC.PhotoSize> arrayList;
         int i;
-        if (getGroupId() != 0) {
-            ArrayList<TLRPC.PhotoSize> arrayList = this.photoThumbs;
-            if (arrayList != null && !arrayList.isEmpty()) {
-                return true;
-            }
-            if ((this.sendPreview && ((i = this.type) == 3 || i == 1)) || isMusic() || isDocument()) {
-                return true;
-            }
-        }
-        return false;
+        return getGroupId() != 0 && (!((arrayList = this.photoThumbs) == null || arrayList.isEmpty()) || (i = this.type) == 3 || i == 1 || isMusic() || isDocument());
     }
 
     public boolean hasValidReplyMessageObject() {

@@ -20604,7 +20604,8 @@ public class MessagesController extends BaseController implements NotificationCe
         this.canEditFactcheck = false;
         this.starsLocked = true;
         this.factcheckLengthLimit = 1024;
-        this.mainPreferences.edit().remove("starsLocked").remove("getfileExperimentalParams").remove("smsjobsStickyNotificationEnabled").remove("channelRevenueWithdrawalEnabled").remove("showAnnualPerMonth").remove("canEditFactcheck").remove("factcheckLengthLimit").apply();
+        this.videoIgnoreAltDocuments = false;
+        this.mainPreferences.edit().remove("starsLocked").remove("getfileExperimentalParams").remove("smsjobsStickyNotificationEnabled").remove("channelRevenueWithdrawalEnabled").remove("showAnnualPerMonth").remove("canEditFactcheck").remove("factcheckLengthLimit").remove("videoIgnoreAltDocuments").apply();
     }
 
     /* JADX WARN: Removed duplicated region for block: B:42:0x0157  */
@@ -25443,7 +25444,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void loadAppConfig() {
-        loadAppConfig(false);
+        loadAppConfig(true);
     }
 
     public void loadAppConfig(boolean z) {

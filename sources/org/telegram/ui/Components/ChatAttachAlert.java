@@ -4892,7 +4892,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     /* JADX WARN: Type inference failed for: r0v76, types: [org.telegram.ui.Components.ItemOptions] */
     /* JADX WARN: Type inference failed for: r15v10 */
     /* JADX WARN: Type inference failed for: r15v3 */
-    /* JADX WARN: Type inference failed for: r15v4, types: [java.lang.String, java.lang.Runnable] */
+    /* JADX WARN: Type inference failed for: r15v4, types: [java.lang.CharSequence, java.lang.Runnable] */
     /* JADX WARN: Type inference failed for: r15v5 */
     /* JADX WARN: Type inference failed for: r2v49, types: [org.telegram.ui.MessageSendPreview] */
     /* JADX WARN: Type inference failed for: r2v62, types: [org.telegram.ui.ActionBar.ActionBarMenuSubItem, android.view.View] */

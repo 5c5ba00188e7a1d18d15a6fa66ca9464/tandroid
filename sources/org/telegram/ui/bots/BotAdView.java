@@ -129,16 +129,7 @@ public class BotAdView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$set$3(Runnable runnable, View view) {
-        if (runnable == null) {
-            return false;
-        }
-        runnable.run();
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$set$4(Runnable runnable, View view) {
+    public static /* synthetic */ void lambda$set$3(Runnable runnable, View view) {
         if (runnable != null) {
             runnable.run();
         }
@@ -232,18 +223,10 @@ public class BotAdView extends FrameLayout {
                 BotAdView.this.lambda$set$2(str2, view);
             }
         });
-        setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.bots.BotAdView$$ExternalSyntheticLambda3
-            @Override // android.view.View.OnLongClickListener
-            public final boolean onLongClick(View view) {
-                boolean lambda$set$3;
-                lambda$set$3 = BotAdView.lambda$set$3(runnable, view);
-                return lambda$set$3;
-            }
-        });
-        this.closeView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.bots.BotAdView$$ExternalSyntheticLambda4
+        this.closeView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.bots.BotAdView$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                BotAdView.lambda$set$4(runnable2, view);
+                BotAdView.lambda$set$3(runnable2, view);
             }
         });
     }

@@ -218,5 +218,6 @@ public class BottomSheetTabDialog extends Dialog {
         this.navigationBar.invalidate();
         AndroidUtilities.setNavigationBarColor(getWindow(), navigationBarColor);
         AndroidUtilities.setLightNavigationBar(getWindow(), AndroidUtilities.computePerceivedBrightness(navigationBarColor) >= 0.721f);
+        LaunchActivity.instance.checkSystemBarColors(true, true, true, false);
     }
 }

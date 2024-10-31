@@ -660,8 +660,8 @@ public class SvgHelper {
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:16:0x006f  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0077  */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0070  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x0078  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */

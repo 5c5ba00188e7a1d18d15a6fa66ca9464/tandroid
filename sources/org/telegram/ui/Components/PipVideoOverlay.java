@@ -1192,6 +1192,13 @@ public class PipVideoOverlay {
                     PipVideoOverlay.this.videoForwardDrawable.setBounds(getLeft(), getTop(), getRight(), getBottom());
                     PipVideoOverlay.this.videoForwardDrawable.draw(canvas);
                 }
+                if (PipVideoOverlay.this.photoViewer == null || PipVideoOverlay.this.photoViewer.framesRewinder == null) {
+                    return;
+                }
+                canvas.save();
+                canvas.translate(getLeft(), getTop());
+                PipVideoOverlay.this.photoViewer.framesRewinder.draw(canvas, getRight() - getLeft(), getBottom() - getTop());
+                canvas.restore();
             }
         };
         final FrameLayout frameLayout = this.controlsView;
