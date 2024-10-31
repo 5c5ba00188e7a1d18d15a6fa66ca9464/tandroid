@@ -105,6 +105,7 @@ public class ChooseDownloadQualityLayout {
             spannableStringBuilder.append(formatFileSize);
             ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.buttonsLayout, 0, sb2, false, null);
             addItem.setSubtext(spannableStringBuilder);
+            addItem.setColors(-328966, -328966);
             addItem.subtextView.setPadding(0, 0, 0, 0);
             addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChooseDownloadQualityLayout$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
