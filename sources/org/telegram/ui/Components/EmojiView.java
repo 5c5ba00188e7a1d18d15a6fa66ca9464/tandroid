@@ -2433,6 +2433,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             String str5;
             int itemViewType = viewHolder.getItemViewType();
             boolean z = true;
+            EmojiPack emojiPack = null;
             if (itemViewType != 0) {
                 if (itemViewType == 1) {
                     StickerSetNameCell stickerSetNameCell = (StickerSetNameCell) viewHolder.itemView;
@@ -2457,31 +2458,35 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     stickerSetNameCell.setText(str5, 0);
                     return;
                 }
-                if (itemViewType == 5) {
-                    EmojiPackHeader emojiPackHeader = (EmojiPackHeader) viewHolder.itemView;
-                    int length = this.positionToSection.get(i) - EmojiView.this.emojiTitles.length;
-                    EmojiPack emojiPack = (EmojiPack) EmojiView.this.emojipacksProcessed.get(length);
-                    int i3 = length - 1;
-                    r3 = i3 >= 0 ? (EmojiPack) EmojiView.this.emojipacksProcessed.get(i3) : null;
-                    if (emojiPack == null || !emojiPack.featured || (r3 != null && !r3.free && r3.installed && !UserConfig.getInstance(EmojiView.this.currentAccount).isPremium())) {
-                        z = false;
+                if (itemViewType != 5) {
+                    if (itemViewType != 6) {
+                        return;
                     }
-                    emojiPackHeader.setStickerSet(emojiPack, z);
+                    EmojiPackExpand emojiPackExpand = (EmojiPackExpand) viewHolder.itemView;
+                    int i3 = this.positionToExpand.get(i);
+                    int spanCount = EmojiView.this.emojiLayoutManager.getSpanCount() * 3;
+                    if (i3 >= 0 && i3 < EmojiView.this.emojipacksProcessed.size()) {
+                        emojiPack = (EmojiPack) EmojiView.this.emojipacksProcessed.get(i3);
+                    }
+                    if (emojiPack != null) {
+                        emojiPackExpand.textView.setText("+" + ((emojiPack.documents.size() - spanCount) + 1));
+                        return;
+                    }
                     return;
                 }
-                if (itemViewType != 6) {
-                    return;
+                EmojiPackHeader emojiPackHeader = (EmojiPackHeader) viewHolder.itemView;
+                int length = this.positionToSection.get(i) - EmojiView.this.emojiTitles.length;
+                EmojiPack emojiPack2 = (EmojiPack) EmojiView.this.emojipacksProcessed.get(length);
+                int i4 = length - 1;
+                EmojiPack emojiPack3 = i4 >= 0 ? (EmojiPack) EmojiView.this.emojipacksProcessed.get(i4) : null;
+                if (emojiPack2 == null || !emojiPack2.featured || (emojiPack3 != null && !emojiPack3.free && emojiPack3.installed && !UserConfig.getInstance(EmojiView.this.currentAccount).isPremium())) {
+                    z = false;
                 }
-                EmojiPackExpand emojiPackExpand = (EmojiPackExpand) viewHolder.itemView;
-                int i4 = this.positionToExpand.get(i);
-                int spanCount = EmojiView.this.emojiLayoutManager.getSpanCount() * 3;
-                if (i4 >= 0 && i4 < EmojiView.this.emojipacksProcessed.size()) {
-                    r3 = (EmojiPack) EmojiView.this.emojipacksProcessed.get(i4);
+                if (emojiPack2 != null && emojiPack2.needLoadSet != null) {
+                    MediaDataController.getInstance(EmojiView.this.currentAccount).getStickerSet(emojiPack2.needLoadSet, false);
+                    emojiPack2.needLoadSet = null;
                 }
-                if (r3 != null) {
-                    emojiPackExpand.textView.setText("+" + ((r3.documents.size() - spanCount) + 1));
-                    return;
-                }
+                emojiPackHeader.setStickerSet(emojiPack2, z);
                 return;
             }
             ImageViewEmoji imageViewEmoji = (ImageViewEmoji) viewHolder.itemView;
@@ -2544,13 +2549,13 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     boolean isPremium = UserConfig.getInstance(EmojiView.this.currentAccount).isPremium();
                     int spanCount2 = EmojiView.this.emojiLayoutManager.getSpanCount() * 3;
                     for (int i7 = 0; i7 < this.packStartPosition.size(); i7++) {
-                        EmojiPack emojiPack2 = (EmojiPack) EmojiView.this.emojipacksProcessed.get(i7);
+                        EmojiPack emojiPack4 = (EmojiPack) EmojiView.this.emojipacksProcessed.get(i7);
                         int intValue = ((Integer) this.packStartPosition.get(i7)).intValue() + 1;
-                        int size2 = ((emojiPack2.installed && !emojiPack2.featured && (emojiPack2.free || isPremium)) || emojiPack2.expanded) ? emojiPack2.documents.size() : Math.min(spanCount2, emojiPack2.documents.size());
+                        int size2 = ((emojiPack4.installed && !emojiPack4.featured && (emojiPack4.free || isPremium)) || emojiPack4.expanded) ? emojiPack4.documents.size() : Math.min(spanCount2, emojiPack4.documents.size());
                         int i8 = imageViewEmoji.position;
                         if (i8 >= intValue && i8 - intValue < size2) {
-                            imageViewEmoji.pack = emojiPack2;
-                            TLRPC.Document document3 = (TLRPC.Document) emojiPack2.documents.get(imageViewEmoji.position - intValue);
+                            imageViewEmoji.pack = emojiPack4;
+                            TLRPC.Document document3 = (TLRPC.Document) emojiPack4.documents.get(imageViewEmoji.position - intValue);
                             if (document3 == null) {
                                 document = document3;
                                 l = null;
@@ -2650,8 +2655,8 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             return new RecyclerListView.Holder(imageViewEmoji);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:81:0x0252  */
-        /* JADX WARN: Removed duplicated region for block: B:89:0x0265 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x025b  */
+        /* JADX WARN: Removed duplicated region for block: B:89:0x026e A[SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2769,32 +2774,34 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     if (stickerSetCovered instanceof TLRPC.TL_stickerSetFullCovered) {
                         arrayList = ((TLRPC.TL_stickerSetFullCovered) stickerSetCovered).documents;
                     } else if (stickerSetCovered instanceof TLRPC.TL_stickerSetNoCovered) {
-                        TLRPC.TL_messages_stickerSet stickerSet3 = mediaDataController.getStickerSet(MediaDataController.getInputStickerSet(stickerSet2), Integer.valueOf(stickerSetCovered.set.hash), false);
+                        TLRPC.TL_messages_stickerSet stickerSet3 = mediaDataController.getStickerSet(MediaDataController.getInputStickerSet(stickerSet2), Integer.valueOf(stickerSetCovered.set.hash), true);
                         if (stickerSet3 != null) {
                             arrayList = stickerSet3.documents;
-                        }
-                        arrayList2 = emojiPack6.documents;
-                        if (arrayList2 != null && !arrayList2.isEmpty()) {
-                            int i8 = i + 1;
-                            emojiPack6.index = i;
-                            i2 = 0;
-                            while (true) {
-                                if (i2 < emojiPack6.documents.size()) {
-                                    z2 = false;
-                                    break;
-                                } else {
-                                    if (!MessageObject.isFreeEmoji((TLRPC.Document) emojiPack6.documents.get(i2))) {
-                                        z2 = true;
+                        } else {
+                            emojiPack6.needLoadSet = MediaDataController.getInputStickerSet(stickerSetCovered.set);
+                            arrayList2 = emojiPack6.documents;
+                            if (arrayList2 != null && !arrayList2.isEmpty()) {
+                                int i8 = i + 1;
+                                emojiPack6.index = i;
+                                i2 = 0;
+                                while (true) {
+                                    if (i2 < emojiPack6.documents.size()) {
+                                        z2 = false;
                                         break;
+                                    } else {
+                                        if (!MessageObject.isFreeEmoji((TLRPC.Document) emojiPack6.documents.get(i2))) {
+                                            z2 = true;
+                                            break;
+                                        }
+                                        i2++;
                                     }
-                                    i2++;
                                 }
+                                emojiPack6.free = !z2;
+                                emojiPack6.expanded = EmojiView.this.expandedEmojiSets.contains(Long.valueOf(emojiPack6.set.id));
+                                emojiPack6.featured = true;
+                                EmojiView.this.emojipacksProcessed.add(emojiPack6);
+                                i = i8;
                             }
-                            emojiPack6.free = !z2;
-                            emojiPack6.expanded = EmojiView.this.expandedEmojiSets.contains(Long.valueOf(emojiPack6.set.id));
-                            emojiPack6.featured = true;
-                            EmojiView.this.emojipacksProcessed.add(emojiPack6);
-                            i = i8;
                         }
                     } else {
                         arrayList = stickerSetCovered.covers;
@@ -3525,6 +3532,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         public boolean free;
         public int index;
         public boolean installed;
+        public TLRPC.InputStickerSet needLoadSet;
         public int resId;
         public TLRPC.StickerSet set;
     }
