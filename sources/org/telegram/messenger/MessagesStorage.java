@@ -2212,6 +2212,30 @@ public class MessagesStorage extends BaseController {
         return sb.toString().toLowerCase();
     }
 
+    private int getDialogFolderIdInternal(long j) {
+        SQLiteCursor sQLiteCursor = null;
+        try {
+            try {
+                if (this.unknownDialogsIds.get(j) == null) {
+                    sQLiteCursor = this.database.queryFinalized("SELECT folder_id FROM dialogs WHERE did = ?", Long.valueOf(j));
+                    r3 = sQLiteCursor.next() ? sQLiteCursor.intValue(0) : -1;
+                    sQLiteCursor.dispose();
+                }
+                return r3;
+            } catch (Exception e) {
+                checkSQLException(e);
+                if (sQLiteCursor != null) {
+                    sQLiteCursor.dispose();
+                }
+                return 0;
+            }
+        } finally {
+            if (sQLiteCursor != null) {
+                sQLiteCursor.dispose();
+            }
+        }
+    }
+
     public static MessagesStorage getInstance(int i) {
         MessagesStorage messagesStorage = Instance[i];
         if (messagesStorage == null) {
@@ -25931,7 +25955,7 @@ public class MessagesStorage extends BaseController {
     /* renamed from: putMessagesInternal, reason: merged with bridge method [inline-methods] */
     public void lambda$putMessages$192(java.util.ArrayList<org.telegram.tgnet.TLRPC.Message> r61, boolean r62, boolean r63, int r64, boolean r65, int r66, long r67) {
         /*
-            Method dump skipped, instructions count: 8176
+            Method dump skipped, instructions count: 8204
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.MessagesStorage.lambda$putMessages$192(java.util.ArrayList, boolean, boolean, int, boolean, int, long):void");

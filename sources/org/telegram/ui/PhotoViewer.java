@@ -25852,22 +25852,24 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:158:0x03a3  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x03bb  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void updateQualityItems() {
         boolean z;
         AnimatedTextView.AnimatedTextDrawable animatedTextDrawable;
-        String str;
         int i;
-        String str2;
         int i2;
         VideoPlayer.Quality quality;
-        String str3;
-        String str4;
-        String str5;
+        CharSequence charSequence;
+        String str;
         int i3;
         VideoPlayer.Quality quality2;
-        String str6;
+        String str2;
         VideoPlayer videoPlayer = this.videoPlayer;
-        String str7 = "";
+        String str3 = "";
         if (videoPlayer == null || videoPlayer.getQualitiesCount() <= 1) {
             z = true;
             this.videoQualityLayout.setVisibility(8);
@@ -25879,10 +25881,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             this.chooseSpeedLayout.setVisibility(8);
             this.videoQualityLayout.setVisibility(0);
             VideoPlayer.Quality currentQuality = this.videoPlayer.getCurrentQuality();
-            String str8 = ", ";
-            String str9 = "\n";
             float f = 0.5f;
-            String str10 = "p";
+            String str4 = "x";
+            String str5 = "p";
             int i4 = -1;
             if (this.videoPlayer.getQualitiesCount() + 1 != this.videoQualityItems.size()) {
                 this.videoQualityLayout.removeAllViews();
@@ -25904,7 +25905,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         } else {
                             spannableStringBuilder.append((CharSequence) " ");
                             int length = spannableStringBuilder.length();
-                            spannableStringBuilder.append((CharSequence) String.valueOf(currentQuality.p())).append((CharSequence) str10);
+                            if (SharedConfig.debugVideoQualities) {
+                                spannableStringBuilder.append((CharSequence) Integer.toString(currentQuality.width)).append((CharSequence) str4).append((CharSequence) Integer.toString(currentQuality.height));
+                            } else {
+                                spannableStringBuilder.append((CharSequence) String.valueOf(currentQuality.p())).append((CharSequence) "p");
+                            }
                             spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.multAlpha(i4, f)), length, spannableStringBuilder.length(), 33);
                             quality2 = currentQuality;
                         }
@@ -25913,12 +25918,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         spannableStringBuilder.append((CharSequence) LocaleController.getString(quality2.original ? R.string.QualityOriginal : quality2.p() >= 2000 ? R.string.Quality2160 : quality2.p() >= 1400 ? R.string.Quality1440 : quality2.p() >= 1000 ? R.string.Quality1080 : quality2.p() >= 700 ? R.string.Quality720 : quality2.p() >= 400 ? R.string.Quality480 : quality2.p() >= 340 ? R.string.Quality360 : quality2.p() >= 200 ? R.string.Quality240 : R.string.Quality144));
                         spannableStringBuilder.append((CharSequence) " ");
                         int length2 = spannableStringBuilder.length();
-                        spannableStringBuilder.append((CharSequence) String.valueOf(quality2.p())).append((CharSequence) str10);
+                        if (SharedConfig.debugVideoQualities) {
+                            spannableStringBuilder.append((CharSequence) Integer.toString(quality2.width)).append((CharSequence) str4).append((CharSequence) Integer.toString(quality2.height));
+                        } else {
+                            spannableStringBuilder.append((CharSequence) String.valueOf(quality2.p())).append((CharSequence) "p");
+                        }
                         spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.multAlpha(i4, f)), length2, spannableStringBuilder.length(), 33);
                     }
                     ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(this.videoQualityLayout, 0, spannableStringBuilder, true, null);
                     if (!SharedConfig.debugVideoQualities || quality2 == null) {
-                        str6 = str10;
+                        str2 = str4;
                         addItem.setSubtext("");
                     } else {
                         StringBuilder sb = new StringBuilder();
@@ -25935,15 +25944,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             sb.append(AndroidUtilities.formatFileSize(videoUri.size).replace(" ", ""));
                             sb.append("(");
                             StringBuilder sb2 = new StringBuilder();
-                            String str11 = str10;
+                            String str6 = str4;
                             sb2.append(AndroidUtilities.formatFileSize((long) videoUri.bitrate).replace(" ", ""));
                             sb2.append("/s)");
                             sb.append(sb2.toString());
                             sb.append(videoUri.isManifestCached() ? "!" : " ");
                             sb.append(videoUri.isCached() ? "!" : " ");
-                            str10 = str11;
+                            str4 = str6;
                         }
-                        str6 = str10;
+                        str2 = str4;
                         addItem.setSubtext(sb.toString());
                     }
                     addItem.setChecked(i5 == this.videoPlayer.getSelectedQuality());
@@ -25958,17 +25967,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     addItem.setSelectorColor(268435455);
                     this.videoQualityItems.add(addItem);
                     i5++;
-                    str10 = str6;
+                    str4 = str2;
                     f = 0.5f;
                     i4 = -1;
                 }
-                str = str10;
                 ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(this.activityContext, this.resourcesProvider, Theme.key_actionBarDefaultSubmenuSeparator);
                 gapView.setTag(R.id.fit_width_tag, 1);
                 gapView.setColor(-15198184);
                 this.videoQualityLayout.addView(gapView, LayoutHelper.createLinear(-1, 8));
             } else {
-                str = "p";
+                CharSequence charSequence2 = "x";
                 final int i6 = -1;
                 while (i6 < this.videoPlayer.getQualitiesCount()) {
                     int i7 = i6 + 1;
@@ -25978,20 +25986,21 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         spannableStringBuilder2.append((CharSequence) LocaleController.getString(R.string.QualityAuto));
                         if (i6 != this.videoPlayer.getSelectedQuality() || currentQuality == null) {
                             i = i7;
-                            str2 = str;
                             quality = null;
                         } else {
                             spannableStringBuilder2.append((CharSequence) " ");
                             int length3 = spannableStringBuilder2.length();
-                            str2 = str;
-                            spannableStringBuilder2.append((CharSequence) String.valueOf(currentQuality.p())).append((CharSequence) str2);
+                            if (SharedConfig.debugVideoQualities) {
+                                spannableStringBuilder2.append((CharSequence) Integer.toString(currentQuality.width)).append(charSequence2).append((CharSequence) Integer.toString(currentQuality.height));
+                            } else {
+                                spannableStringBuilder2.append((CharSequence) String.valueOf(currentQuality.p())).append((CharSequence) str5);
+                            }
                             i = i7;
                             spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.multAlpha(-1, 0.5f)), length3, spannableStringBuilder2.length(), 33);
                             quality = currentQuality;
                         }
                     } else {
                         i = i7;
-                        str2 = str;
                         VideoPlayer.Quality quality3 = this.videoPlayer.getQuality(i6);
                         if (quality3.original) {
                             i2 = R.string.QualityOriginal;
@@ -26014,37 +26023,43 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                     spannableStringBuilder2.append((CharSequence) LocaleController.getString(i2));
                                     spannableStringBuilder2.append((CharSequence) " ");
                                     int length4 = spannableStringBuilder2.length();
-                                    spannableStringBuilder2.append((CharSequence) String.valueOf(quality3.p())).append((CharSequence) str2);
+                                    if (SharedConfig.debugVideoQualities) {
+                                        spannableStringBuilder2.append((CharSequence) String.valueOf(quality3.p())).append((CharSequence) str5);
+                                    } else {
+                                        spannableStringBuilder2.append((CharSequence) Integer.toString(quality3.width)).append(charSequence2).append((CharSequence) Integer.toString(quality3.height));
+                                    }
                                     spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.multAlpha(-1, 0.5f)), length4, spannableStringBuilder2.length(), 33);
                                     quality = quality3;
                                 }
                                 spannableStringBuilder2.append((CharSequence) LocaleController.getString(i2));
                                 spannableStringBuilder2.append((CharSequence) " ");
                                 int length42 = spannableStringBuilder2.length();
-                                spannableStringBuilder2.append((CharSequence) String.valueOf(quality3.p())).append((CharSequence) str2);
+                                if (SharedConfig.debugVideoQualities) {
+                                }
                                 spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.multAlpha(-1, 0.5f)), length42, spannableStringBuilder2.length(), 33);
                                 quality = quality3;
                             }
                             spannableStringBuilder2.append((CharSequence) LocaleController.getString(i2));
                             spannableStringBuilder2.append((CharSequence) " ");
                             int length422 = spannableStringBuilder2.length();
-                            spannableStringBuilder2.append((CharSequence) String.valueOf(quality3.p())).append((CharSequence) str2);
+                            if (SharedConfig.debugVideoQualities) {
+                            }
                             spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.multAlpha(-1, 0.5f)), length422, spannableStringBuilder2.length(), 33);
                             quality = quality3;
                         }
                         spannableStringBuilder2.append((CharSequence) LocaleController.getString(i2));
                         spannableStringBuilder2.append((CharSequence) " ");
                         int length4222 = spannableStringBuilder2.length();
-                        spannableStringBuilder2.append((CharSequence) String.valueOf(quality3.p())).append((CharSequence) str2);
+                        if (SharedConfig.debugVideoQualities) {
+                        }
                         spannableStringBuilder2.setSpan(new ForegroundColorSpan(Theme.multAlpha(-1, 0.5f)), length4222, spannableStringBuilder2.length(), 33);
                         quality = quality3;
                     }
                     actionBarMenuSubItem.setText(spannableStringBuilder2);
                     actionBarMenuSubItem.setVisibility(0);
                     if (!SharedConfig.debugVideoQualities || quality == null) {
-                        str3 = str9;
-                        str4 = str2;
-                        str5 = str8;
+                        charSequence = charSequence2;
+                        str = str5;
                         actionBarMenuSubItem.setSubtext("");
                     } else {
                         StringBuilder sb3 = new StringBuilder();
@@ -26052,30 +26067,27 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         while (it2.hasNext()) {
                             VideoPlayer.VideoUri videoUri2 = (VideoPlayer.VideoUri) it2.next();
                             if (sb3.length() > 0) {
-                                sb3.append(str9);
+                                sb3.append("\n");
                             }
                             if (!TextUtils.isEmpty(videoUri2.codec)) {
                                 sb3.append(videoUri2.codec);
-                                sb3.append(str8);
+                                sb3.append(", ");
                             }
-                            String str12 = str2;
+                            CharSequence charSequence3 = charSequence2;
                             sb3.append(AndroidUtilities.formatFileSize(videoUri2.size).replace(" ", ""));
                             sb3.append(" (");
                             StringBuilder sb4 = new StringBuilder();
-                            String str13 = str8;
-                            String str14 = str9;
+                            String str7 = str5;
                             sb4.append(AndroidUtilities.formatFileSize((long) videoUri2.bitrate).replace(" ", ""));
                             sb4.append("/s)");
                             sb3.append(sb4.toString());
                             sb3.append(videoUri2.isManifestCached() ? "!" : " ");
                             sb3.append(videoUri2.isCached() ? "!" : " ");
-                            str8 = str13;
-                            str9 = str14;
-                            str2 = str12;
+                            str5 = str7;
+                            charSequence2 = charSequence3;
                         }
-                        str3 = str9;
-                        str4 = str2;
-                        str5 = str8;
+                        charSequence = charSequence2;
+                        str = str5;
                         actionBarMenuSubItem.setSubtext(sb3.toString());
                     }
                     actionBarMenuSubItem.setChecked(i6 == this.videoPlayer.getSelectedQuality());
@@ -26085,13 +26097,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             PhotoViewer.this.lambda$updateQualityItems$61(i6, view);
                         }
                     });
-                    str = str4;
-                    str8 = str5;
+                    str5 = str;
                     i6 = i;
-                    str9 = str3;
+                    charSequence2 = charSequence;
                 }
             }
-            String str15 = str;
+            String str8 = str5;
             if (currentQuality != null) {
                 if (currentQuality.p() >= 2000) {
                     i3 = R.string.Quality2160Short;
@@ -26100,14 +26111,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else if (currentQuality.p() >= 700) {
                     i3 = R.string.Quality720Short;
                 } else {
-                    str7 = currentQuality.p() + str15;
+                    str3 = currentQuality.p() + str8;
                 }
-                str7 = LocaleController.getString(i3);
+                str3 = LocaleController.getString(i3);
             }
             animatedTextDrawable = this.videoItemIcon.bottomText;
             z = true;
         }
-        animatedTextDrawable.setText(str7, z);
+        animatedTextDrawable.setText(str3, z);
     }
 
     public void updateResetButtonVisibility(final boolean z) {
@@ -28959,6 +28970,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.videoItem.getPopupLayout().setSwipeBackForegroundColor(-14540254);
         this.videoItem.getPopupLayout().swipeBackGravityRight = true;
         this.videoItem.getPopupLayout().setFitItems(true);
+        this.videoItem.setMenuXOffset(AndroidUtilities.dp(3.0f));
         ActionBarMenuSlider.SpeedSlider speedSlider = new ActionBarMenuSlider.SpeedSlider(this.activityContext, resourcesProvider);
         this.speedItem = speedSlider;
         speedSlider.setStops(new float[]{0.5f, 1.0f, 1.5f, 2.0f, 2.5f});

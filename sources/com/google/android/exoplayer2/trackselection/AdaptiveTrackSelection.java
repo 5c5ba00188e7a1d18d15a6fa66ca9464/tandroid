@@ -79,7 +79,7 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         private final int minDurationToRetainAfterDiscardMs;
 
         public Factory() {
-            this(5000, 20000, 20000, 0.7f);
+            this(10000, 25000, 25000, 0.7f);
         }
 
         public Factory(int i, int i2, int i3, float f) {
@@ -183,16 +183,26 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
                 arrayList.add(Integer.valueOf(i3));
             }
         }
-        Iterator it = arrayList.iterator();
+        if (i == 0) {
+            Iterator it = arrayList.iterator();
+            while (it.hasNext()) {
+                int intValue = ((Integer) it.next()).intValue();
+                if (getFormat(intValue).cached) {
+                    FileLog.d("debug_loading_player: determineIdealSelectedIndex: initial setup, choose cached format#" + intValue);
+                    return intValue;
+                }
+            }
+        }
+        Iterator it2 = arrayList.iterator();
         while (true) {
-            if (!it.hasNext()) {
+            if (!it2.hasNext()) {
                 sb = new StringBuilder();
                 sb.append("debug_loading_player: determineIdealSelectedIndex: selected format#");
                 sb.append(i2);
                 sb.append(" (lowest, nothing is fit)");
                 break;
             }
-            i2 = ((Integer) it.next()).intValue();
+            i2 = ((Integer) it2.next()).intValue();
             Format format3 = getFormat(i2);
             FileLog.d("debug_loading_player: determineIdealSelectedIndex: format#" + i2 + " bitrate=" + format3.bitrate + " " + format3.width + "x" + format3.height + " codecs=" + format3.codecs + " (cached=" + format3.cached + ")");
             if (canSelectFormat(format3, format3.bitrate, allocatedBandwidth)) {
@@ -447,7 +457,7 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
 
     protected boolean shouldEvaluateQueueSize(long j, List list) {
         long j2 = this.lastBufferEvaluationMs;
-        return j2 == -9223372036854775807L || j - j2 >= 700 || !(list.isEmpty() || ((MediaChunk) Iterables.getLast(list)).equals(this.lastBufferEvaluationMediaChunk));
+        return j2 == -9223372036854775807L || j - j2 >= 1000 || !(list.isEmpty() || ((MediaChunk) Iterables.getLast(list)).equals(this.lastBufferEvaluationMediaChunk));
     }
 
     @Override // com.google.android.exoplayer2.trackselection.ExoTrackSelection

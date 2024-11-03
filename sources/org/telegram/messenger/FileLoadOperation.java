@@ -49,6 +49,7 @@ public class FileLoadOperation {
     private File cacheFilePreload;
     private File cacheFileTemp;
     private File cacheIvTemp;
+    private final Runnable cancelAfterNoStreamListeners;
     private ArrayList<RequestInfo> cancelledRequestInfos;
     public volatile boolean caughtPremiumFloodWait;
     private byte[] cdnCheckBytes;
@@ -231,6 +232,12 @@ public class FileLoadOperation {
         this.preloadTempBuffer = new byte[24];
         this.state = 0;
         this.uiRequestTokens = new ArrayList<>();
+        this.cancelAfterNoStreamListeners = new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLoadOperation.this.lambda$new$6();
+            }
+        };
         updateParams();
         this.currentAccount = i;
         this.webFile = webFile;
@@ -261,6 +268,12 @@ public class FileLoadOperation {
         this.preloadTempBuffer = new byte[24];
         this.state = 0;
         this.uiRequestTokens = new ArrayList<>();
+        this.cancelAfterNoStreamListeners = new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLoadOperation.this.lambda$new$6();
+            }
+        };
         updateParams();
         this.parentObject = obj;
         this.isStory = obj instanceof TL_stories.TL_storyItem;
@@ -372,6 +385,12 @@ public class FileLoadOperation {
         this.preloadTempBuffer = new byte[24];
         this.state = 0;
         this.uiRequestTokens = new ArrayList<>();
+        this.cancelAfterNoStreamListeners = new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLoadOperation.this.lambda$new$6();
+            }
+        };
         updateParams();
         TLRPC.TL_inputSecureFileLocation tL_inputSecureFileLocation = new TLRPC.TL_inputSecureFileLocation();
         this.location = tL_inputSecureFileLocation;
@@ -385,10 +404,10 @@ public class FileLoadOperation {
         this.ext = ".jpg";
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x011b A[Catch: Exception -> 0x0072, TryCatch #0 {Exception -> 0x0072, blocks: (B:3:0x0039, B:6:0x004d, B:7:0x00c3, B:9:0x00cd, B:13:0x00db, B:15:0x00e5, B:17:0x00ef, B:18:0x00f7, B:20:0x00ff, B:23:0x0109, B:24:0x010f, B:26:0x011b, B:27:0x0131, B:29:0x0139, B:34:0x0120, B:36:0x0128, B:37:0x012d, B:39:0x0075, B:41:0x0079, B:43:0x0092, B:44:0x0096, B:46:0x00a7, B:50:0x00b1, B:48:0x00c0), top: B:2:0x0039 }] */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0139 A[Catch: Exception -> 0x0072, TRY_LEAVE, TryCatch #0 {Exception -> 0x0072, blocks: (B:3:0x0039, B:6:0x004d, B:7:0x00c3, B:9:0x00cd, B:13:0x00db, B:15:0x00e5, B:17:0x00ef, B:18:0x00f7, B:20:0x00ff, B:23:0x0109, B:24:0x010f, B:26:0x011b, B:27:0x0131, B:29:0x0139, B:34:0x0120, B:36:0x0128, B:37:0x012d, B:39:0x0075, B:41:0x0079, B:43:0x0092, B:44:0x0096, B:46:0x00a7, B:50:0x00b1, B:48:0x00c0), top: B:2:0x0039 }] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0122 A[Catch: Exception -> 0x0079, TryCatch #0 {Exception -> 0x0079, blocks: (B:3:0x0040, B:6:0x0054, B:7:0x00ca, B:9:0x00d4, B:13:0x00e2, B:15:0x00ec, B:17:0x00f6, B:18:0x00fe, B:20:0x0106, B:23:0x0110, B:24:0x0116, B:26:0x0122, B:27:0x0138, B:29:0x0140, B:34:0x0127, B:36:0x012f, B:37:0x0134, B:39:0x007c, B:41:0x0080, B:43:0x0099, B:44:0x009d, B:46:0x00ae, B:50:0x00b8, B:48:0x00c7), top: B:2:0x0040 }] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0140 A[Catch: Exception -> 0x0079, TRY_LEAVE, TryCatch #0 {Exception -> 0x0079, blocks: (B:3:0x0040, B:6:0x0054, B:7:0x00ca, B:9:0x00d4, B:13:0x00e2, B:15:0x00ec, B:17:0x00f6, B:18:0x00fe, B:20:0x0106, B:23:0x0110, B:24:0x0116, B:26:0x0122, B:27:0x0138, B:29:0x0140, B:34:0x0127, B:36:0x012f, B:37:0x0134, B:39:0x007c, B:41:0x0080, B:43:0x0099, B:44:0x009d, B:46:0x00ae, B:50:0x00b8, B:48:0x00c7), top: B:2:0x0040 }] */
     /* JADX WARN: Removed duplicated region for block: B:33:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0120 A[Catch: Exception -> 0x0072, TryCatch #0 {Exception -> 0x0072, blocks: (B:3:0x0039, B:6:0x004d, B:7:0x00c3, B:9:0x00cd, B:13:0x00db, B:15:0x00e5, B:17:0x00ef, B:18:0x00f7, B:20:0x00ff, B:23:0x0109, B:24:0x010f, B:26:0x011b, B:27:0x0131, B:29:0x0139, B:34:0x0120, B:36:0x0128, B:37:0x012d, B:39:0x0075, B:41:0x0079, B:43:0x0092, B:44:0x0096, B:46:0x00a7, B:50:0x00b1, B:48:0x00c0), top: B:2:0x0039 }] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0127 A[Catch: Exception -> 0x0079, TryCatch #0 {Exception -> 0x0079, blocks: (B:3:0x0040, B:6:0x0054, B:7:0x00ca, B:9:0x00d4, B:13:0x00e2, B:15:0x00ec, B:17:0x00f6, B:18:0x00fe, B:20:0x0106, B:23:0x0110, B:24:0x0116, B:26:0x0122, B:27:0x0138, B:29:0x0140, B:34:0x0127, B:36:0x012f, B:37:0x0134, B:39:0x007c, B:41:0x0080, B:43:0x0099, B:44:0x009d, B:46:0x00ae, B:50:0x00b8, B:48:0x00c7), top: B:2:0x0040 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -410,6 +429,12 @@ public class FileLoadOperation {
         this.preloadTempBuffer = new byte[24];
         this.state = 0;
         this.uiRequestTokens = new ArrayList<>();
+        this.cancelAfterNoStreamListeners = new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                FileLoadOperation.this.lambda$new$6();
+            }
+        };
         updateParams();
         try {
             this.parentObject = obj;
@@ -564,7 +589,7 @@ public class FileLoadOperation {
                 this.writingToFilePartsStream = true;
             }
             DispatchQueue dispatchQueue = filesQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda27
+            Runnable runnable = new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda25
                 @Override // java.lang.Runnable
                 public final void run() {
                     FileLoadOperation.this.lambda$addPart$2(arrayList2);
@@ -581,23 +606,23 @@ public class FileLoadOperation {
     }
 
     private void cancel(final boolean z) {
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda26
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$cancel$12(z);
+                FileLoadOperation.this.lambda$cancel$13(z);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: cancelOnStage, reason: merged with bridge method [inline-methods] */
-    public void lambda$cancel$12(boolean z) {
+    public void lambda$cancel$13(boolean z) {
         if (this.state != 3 && this.state != 2) {
             this.state = 5;
             cancelRequests(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FileLoadOperation.this.lambda$cancelOnStage$13();
+                    FileLoadOperation.this.lambda$cancelOnStage$14();
                 }
             });
         }
@@ -677,7 +702,7 @@ public class FileLoadOperation {
                         requestInfo.whenCancelled = new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda7
                             @Override // java.lang.Runnable
                             public final void run() {
-                                FileLoadOperation.lambda$cancelRequests$14(FileLoadOperation.RequestInfo.this, iArr, runnable);
+                                FileLoadOperation.lambda$cancelRequests$15(FileLoadOperation.RequestInfo.this, iArr, runnable);
                             }
                         };
                         iArr[0] = iArr[0] + 1;
@@ -685,7 +710,7 @@ public class FileLoadOperation {
                         ConnectionsManager.getInstance(this.currentAccount).cancelRequest(requestInfo.requestToken, true, new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda8
                             @Override // java.lang.Runnable
                             public final void run() {
-                                FileLoadOperation.lambda$cancelRequests$15(FileLoadOperation.RequestInfo.this);
+                                FileLoadOperation.lambda$cancelRequests$16(FileLoadOperation.RequestInfo.this);
                             }
                         });
                     }
@@ -811,13 +836,13 @@ public class FileLoadOperation {
                     requestInfo2.whenCancelled = new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda9
                         @Override // java.lang.Runnable
                         public final void run() {
-                            FileLoadOperation.this.lambda$clearOperation$23(requestInfo2);
+                            FileLoadOperation.this.lambda$clearOperation$24(requestInfo2);
                         }
                     };
                     ConnectionsManager.getInstance(this.currentAccount).cancelRequest(requestInfo2.requestToken, true, new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda10
                         @Override // java.lang.Runnable
                         public final void run() {
-                            FileLoadOperation.lambda$clearOperation$24(FileLoadOperation.RequestInfo.this);
+                            FileLoadOperation.lambda$clearOperation$25(FileLoadOperation.RequestInfo.this);
                         }
                     });
                 } else {
@@ -840,7 +865,7 @@ public class FileLoadOperation {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$clearOperation$25();
+                FileLoadOperation.this.lambda$clearOperation$26();
             }
         });
         long j2 = j;
@@ -1049,14 +1074,14 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$cancelOnStage$13() {
+    public /* synthetic */ void lambda$cancelOnStage$14() {
         if (this.state == 5) {
             onFail(false, 1);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$cancelRequests$14(RequestInfo requestInfo, int[] iArr, Runnable runnable) {
+    public static /* synthetic */ void lambda$cancelRequests$15(RequestInfo requestInfo, int[] iArr, Runnable runnable) {
         requestInfo.whenCancelled = null;
         requestInfo.cancelled = true;
         int i = iArr[0] - 1;
@@ -1067,7 +1092,7 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$cancelRequests$15(RequestInfo requestInfo) {
+    public static /* synthetic */ void lambda$cancelRequests$16(RequestInfo requestInfo) {
         Runnable runnable = requestInfo.whenCancelled;
         if (runnable != null) {
             runnable.run();
@@ -1075,14 +1100,14 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$clearOperation$23(RequestInfo requestInfo) {
+    public /* synthetic */ void lambda$clearOperation$24(RequestInfo requestInfo) {
         requestInfo.whenCancelled = null;
         this.cancelledRequestInfos.remove(requestInfo);
         requestInfo.cancelled = true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$clearOperation$24(RequestInfo requestInfo) {
+    public static /* synthetic */ void lambda$clearOperation$25(RequestInfo requestInfo) {
         Runnable runnable = requestInfo.whenCancelled;
         if (runnable != null) {
             runnable.run();
@@ -1090,7 +1115,7 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$clearOperation$25() {
+    public /* synthetic */ void lambda$clearOperation$26() {
         this.uiRequestTokens.clear();
     }
 
@@ -1119,7 +1144,13 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onFail$22(int i) {
+    public /* synthetic */ void lambda$new$6() {
+        pause();
+        FileLoader.getInstance(this.currentAccount).cancelLoadFile(getFileName());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onFail$23(int i) {
         FileLoadOperationDelegate fileLoadOperationDelegate = this.delegate;
         if (fileLoadOperationDelegate != null) {
             fileLoadOperationDelegate.didFailedLoadingFile(this, i);
@@ -1128,7 +1159,7 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onFinishLoadingFile$16(boolean z) {
+    public /* synthetic */ void lambda$onFinishLoadingFile$17(boolean z) {
         try {
             onFinishLoadingFile(z, 0, false);
         } catch (Exception unused) {
@@ -1137,12 +1168,12 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onFinishLoadingFile$17() {
+    public /* synthetic */ void lambda$onFinishLoadingFile$18() {
         onFail(false, 0);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onFinishLoadingFile$18(boolean z) {
+    public /* synthetic */ void lambda$onFinishLoadingFile$19(boolean z) {
         StatsController statsController;
         int currentNetworkType;
         int i;
@@ -1186,7 +1217,7 @@ public class FileLoadOperation {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$onFinishLoadingFile$19(File file, File file2, File file3, File file4, final boolean z) {
+    public /* synthetic */ void lambda$onFinishLoadingFile$20(File file, File file2, File file3, File file4, final boolean z) {
         Throwable th;
         File file5;
         boolean z2;
@@ -1234,10 +1265,10 @@ public class FileLoadOperation {
                 file4 = file5;
             }
             if (this.ungzip) {
-                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda21
+                Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda29
                     @Override // java.lang.Runnable
                     public final void run() {
-                        FileLoadOperation.this.lambda$onFinishLoadingFile$17();
+                        FileLoadOperation.this.lambda$onFinishLoadingFile$18();
                     }
                 });
                 return;
@@ -1304,10 +1335,10 @@ public class FileLoadOperation {
                 this.renameRetryCount = i2;
                 if (i2 < 3) {
                     this.state = 1;
-                    Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda20
+                    Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda28
                         @Override // java.lang.Runnable
                         public final void run() {
-                            FileLoadOperation.this.lambda$onFinishLoadingFile$16(z);
+                            FileLoadOperation.this.lambda$onFinishLoadingFile$17(z);
                         }
                     }, 200L);
                     return;
@@ -1317,16 +1348,16 @@ public class FileLoadOperation {
                 }
             }
         }
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda22
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda30
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$onFinishLoadingFile$18(z);
+                FileLoadOperation.this.lambda$onFinishLoadingFile$19(z);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$pause$6() {
+    public /* synthetic */ void lambda$pause$7() {
         if (!this.isStory) {
             for (int i = 0; i < this.requestInfos.size(); i++) {
                 ConnectionsManager.getInstance(this.currentAccount).failNotRunningRequest(this.requestInfos.get(i).requestToken);
@@ -1340,7 +1371,7 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processRequestResult$21(int i) {
+    public /* synthetic */ void lambda$processRequestResult$22(int i) {
         this.uiRequestTokens.remove(Integer.valueOf(i));
     }
 
@@ -1359,15 +1390,19 @@ public class FileLoadOperation {
         }
         FileLog.e("FileLoadOperation " + getFileName() + " removing stream listener " + fileLoadOperationStream);
         this.streamListeners.remove(fileLoadOperationStream);
-        if (this.isStory || !this.streamListeners.isEmpty()) {
-            return;
+        if (!this.isStory && this.streamListeners.isEmpty()) {
+            Utilities.stageQueue.cancelRunnable(this.cancelAfterNoStreamListeners);
+            Utilities.stageQueue.postRunnable(this.cancelAfterNoStreamListeners, 1200L);
+        } else {
+            if (this.streamListeners.isEmpty()) {
+                return;
+            }
+            Utilities.stageQueue.cancelRunnable(this.cancelAfterNoStreamListeners);
         }
-        pause();
-        FileLoader.getInstance(this.currentAccount).cancelLoadFile(getFileName());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$requestFileOffsets$20(TLObject tLObject, TLRPC.TL_error tL_error) {
+    public /* synthetic */ void lambda$requestFileOffsets$21(TLObject tLObject, TLRPC.TL_error tL_error) {
         if (tL_error != null) {
             onFail(false, 0);
             return;
@@ -1411,7 +1446,7 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setIsPreloadVideoOperation$11(boolean z) {
+    public /* synthetic */ void lambda$setIsPreloadVideoOperation$12(boolean z) {
         this.requestedBytesCount = 0L;
         clearOperation(null, true, true);
         this.isPreloadVideoOperation = z;
@@ -1426,6 +1461,9 @@ public class FileLoadOperation {
         if (fileLoadOperationStream != null && !this.streamListeners.contains(fileLoadOperationStream)) {
             this.streamListeners.add(fileLoadOperationStream);
         }
+        if (!this.streamListeners.isEmpty()) {
+            Utilities.stageQueue.cancelRunnable(this.cancelAfterNoStreamListeners);
+        }
         if (fileLoadOperationStream == null || this.state == 1 || this.state == 0) {
             return;
         }
@@ -1433,7 +1471,12 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$start$10(boolean[] zArr) {
+    public /* synthetic */ void lambda$start$10() {
+        startDownloadRequest(-1);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$start$11(boolean[] zArr) {
         boolean z = this.isPreloadVideoOperation && zArr[0];
         int i = this.preloadPrefixSize;
         boolean z2 = i > 0 && this.downloadedBytes >= ((long) i) && canFinishPreload();
@@ -1450,12 +1493,12 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$start$7(int i) {
+    public /* synthetic */ void lambda$start$8(int i) {
         this.uiRequestTokens.remove(Integer.valueOf(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$start$8(boolean z, long j, FileLoadOperationStream fileLoadOperationStream, boolean z2) {
+    public /* synthetic */ void lambda$start$9(boolean z, long j, FileLoadOperationStream fileLoadOperationStream, boolean z2) {
         if (this.streamListeners == null) {
             this.streamListeners = new ArrayList<>();
         }
@@ -1467,10 +1510,10 @@ public class FileLoadOperation {
                 RequestInfo requestInfo2 = this.priorityRequestInfo;
                 final int i = requestInfo2.requestToken;
                 this.requestInfos.remove(requestInfo2);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda6
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda20
                     @Override // java.lang.Runnable
                     public final void run() {
-                        FileLoadOperation.this.lambda$start$7(i);
+                        FileLoadOperation.this.lambda$start$8(i);
                     }
                 });
                 this.requestedBytesCount -= this.currentDownloadChunkSize;
@@ -1495,6 +1538,9 @@ public class FileLoadOperation {
             this.streamListeners.add(fileLoadOperationStream);
             FileLog.e("FileLoadOperation " + getFileName() + " start, adding stream " + fileLoadOperationStream);
         }
+        if (!this.streamListeners.isEmpty()) {
+            Utilities.stageQueue.cancelRunnable(this.cancelAfterNoStreamListeners);
+        }
         if (z2) {
             if (this.preloadedBytesRanges != null && getDownloadedLengthFromOffsetInternal(this.notLoadedBytesRanges, this.streamStartOffset, 1L) == 0 && this.preloadedBytesRanges.get(Long.valueOf(this.streamStartOffset)) != null) {
                 this.nextPartWasPreloaded = true;
@@ -1508,18 +1554,13 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$start$9() {
-        startDownloadRequest(-1);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDownloadRequest$26(RequestInfo requestInfo) {
+    public /* synthetic */ void lambda$startDownloadRequest$27(RequestInfo requestInfo) {
         processRequestResult(requestInfo, null);
         requestInfo.response.freeResources();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDownloadRequest$27(int i, RequestInfo requestInfo, TLObject tLObject, TLRPC.TL_error tL_error) {
+    public /* synthetic */ void lambda$startDownloadRequest$28(int i, RequestInfo requestInfo, TLObject tLObject, TLRPC.TL_error tL_error) {
         this.reuploadingCdn = false;
         if (tL_error == null) {
             TLRPC.Vector vector = (TLRPC.Vector) tLObject;
@@ -1543,7 +1584,7 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDownloadRequest$28(final RequestInfo requestInfo, int i, final int i2, TLObject tLObject, TLObject tLObject2, TLRPC.TL_error tL_error) {
+    public /* synthetic */ void lambda$startDownloadRequest$29(final RequestInfo requestInfo, int i, final int i2, TLObject tLObject, TLObject tLObject2, TLRPC.TL_error tL_error) {
         StatsController statsController;
         int i3;
         long objectSize;
@@ -1665,7 +1706,7 @@ public class FileLoadOperation {
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_upload_reuploadCdnFile, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject3, TLRPC.TL_error tL_error3) {
-                    FileLoadOperation.this.lambda$startDownloadRequest$27(i2, requestInfo, tLObject3, tL_error3);
+                    FileLoadOperation.this.lambda$startDownloadRequest$28(i2, requestInfo, tLObject3, tL_error3);
                 }
             }, null, null, 0, this.datacenterId, 1, true);
             return;
@@ -1718,7 +1759,7 @@ public class FileLoadOperation {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$startDownloadRequest$29(int i) {
+    public /* synthetic */ void lambda$startDownloadRequest$30(int i) {
         this.uiRequestTokens.add(Integer.valueOf(i));
     }
 
@@ -1746,7 +1787,7 @@ public class FileLoadOperation {
                 filesQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda15
                     @Override // java.lang.Runnable
                     public final void run() {
-                        FileLoadOperation.this.lambda$onFinishLoadingFile$19(file, file2, file3, file4, z);
+                        FileLoadOperation.this.lambda$onFinishLoadingFile$20(file, file2, file3, file4, z);
                     }
                 });
                 this.cacheIvTemp = null;
@@ -1804,7 +1845,7 @@ public class FileLoadOperation {
             z = true;
         }
         z = false;
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda23
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda21
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$removePart$1;
@@ -1837,10 +1878,10 @@ public class FileLoadOperation {
         TLRPC.TL_upload_getCdnFileHashes tL_upload_getCdnFileHashes = new TLRPC.TL_upload_getCdnFileHashes();
         tL_upload_getCdnFileHashes.file_token = this.cdnToken;
         tL_upload_getCdnFileHashes.offset = j;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_upload_getCdnFileHashes, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda24
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_upload_getCdnFileHashes, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda22
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                FileLoadOperation.this.lambda$requestFileOffsets$20(tLObject, tL_error);
+                FileLoadOperation.this.lambda$requestFileOffsets$21(tLObject, tL_error);
             }
         }, null, null, 0, this.datacenterId, 1, true);
     }
@@ -1963,7 +2004,7 @@ public class FileLoadOperation {
     public long[] getDownloadedLengthFromOffset(final long j, final long j2) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final long[] jArr = new long[2];
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda25
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda23
             @Override // java.lang.Runnable
             public final void run() {
                 FileLoadOperation.this.lambda$getDownloadedLengthFromOffset$4(jArr, j, j2, countDownLatch);
@@ -2042,7 +2083,7 @@ public class FileLoadOperation {
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FileLoadOperation.this.lambda$onFail$22(i);
+                    FileLoadOperation.this.lambda$onFail$23(i);
                 }
             });
             return;
@@ -2059,10 +2100,10 @@ public class FileLoadOperation {
             return;
         }
         this.paused = true;
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda29
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda27
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$pause$6();
+                FileLoadOperation.this.lambda$pause$7();
             }
         });
     }
@@ -2117,7 +2158,7 @@ public class FileLoadOperation {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
-                FileLoadOperation.this.lambda$processRequestResult$21(i4);
+                FileLoadOperation.this.lambda$processRequestResult$22(i4);
             }
         });
         String str2 = " secret = ";
@@ -2588,7 +2629,7 @@ public class FileLoadOperation {
                         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda13
                             @Override // java.lang.Runnable
                             public final void run() {
-                                FileLoadOperation.this.lambda$setIsPreloadVideoOperation$11(z);
+                                FileLoadOperation.this.lambda$setIsPreloadVideoOperation$12(z);
                             }
                         });
                         return;
@@ -2616,7 +2657,7 @@ public class FileLoadOperation {
         this.stream = fileLoadOperationStream;
         this.streamOffset = j;
         this.streamPriority = z;
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda28
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda26
             @Override // java.lang.Runnable
             public final void run() {
                 FileLoadOperation.this.lambda$setStream$0(fileLoadOperationStream);
@@ -2725,14 +2766,14 @@ public class FileLoadOperation {
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda17
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FileLoadOperation.this.lambda$start$8(z, j, fileLoadOperationStream, z10);
+                    FileLoadOperation.this.lambda$start$9(z, j, fileLoadOperationStream, z10);
                 }
             });
         } else if (z8) {
             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda18
                 @Override // java.lang.Runnable
                 public final void run() {
-                    FileLoadOperation.this.lambda$start$9();
+                    FileLoadOperation.this.lambda$start$10();
                 }
             });
         }
@@ -3216,7 +3257,7 @@ public class FileLoadOperation {
                             Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda19
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    FileLoadOperation.this.lambda$start$10(zArr22);
+                                    FileLoadOperation.this.lambda$start$11(zArr22);
                                 }
                             });
                         }
@@ -3585,7 +3626,7 @@ public class FileLoadOperation {
                                                 Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda1
                                                     @Override // java.lang.Runnable
                                                     public final void run() {
-                                                        FileLoadOperation.this.lambda$startDownloadRequest$26(requestInfo);
+                                                        FileLoadOperation.this.lambda$startDownloadRequest$27(requestInfo);
                                                     }
                                                 });
                                                 j7 = 0;
@@ -3605,7 +3646,7 @@ public class FileLoadOperation {
                                                 final int sendRequestSync = ConnectionsManager.getInstance(this.currentAccount).sendRequestSync(tL_upload_getFile3, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda2
                                                     @Override // org.telegram.tgnet.RequestDelegate
                                                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                                                        FileLoadOperation.this.lambda$startDownloadRequest$28(requestInfo, i11, i12, tL_upload_getFile3, tLObject, tL_error);
+                                                        FileLoadOperation.this.lambda$startDownloadRequest$29(requestInfo, i11, i12, tL_upload_getFile3, tLObject, tL_error);
                                                     }
                                                 }, null, null, i10, i11, i8, z);
                                                 requestInfo.requestToken = sendRequestSync;
@@ -3614,7 +3655,7 @@ public class FileLoadOperation {
                                                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda3
                                                     @Override // java.lang.Runnable
                                                     public final void run() {
-                                                        FileLoadOperation.this.lambda$startDownloadRequest$29(sendRequestSync);
+                                                        FileLoadOperation.this.lambda$startDownloadRequest$30(sendRequestSync);
                                                     }
                                                 });
                                                 this.requestsCount++;
@@ -3653,7 +3694,7 @@ public class FileLoadOperation {
                                         final int sendRequestSync2 = ConnectionsManager.getInstance(this.currentAccount).sendRequestSync(tL_upload_getFile3, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda2
                                             @Override // org.telegram.tgnet.RequestDelegate
                                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                                                FileLoadOperation.this.lambda$startDownloadRequest$28(requestInfo, i112, i122, tL_upload_getFile3, tLObject, tL_error);
+                                                FileLoadOperation.this.lambda$startDownloadRequest$29(requestInfo, i112, i122, tL_upload_getFile3, tLObject, tL_error);
                                             }
                                         }, null, null, i102, i112, i8, z);
                                         requestInfo.requestToken = sendRequestSync2;
@@ -3663,7 +3704,7 @@ public class FileLoadOperation {
                                         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda3
                                             @Override // java.lang.Runnable
                                             public final void run() {
-                                                FileLoadOperation.this.lambda$startDownloadRequest$29(sendRequestSync2);
+                                                FileLoadOperation.this.lambda$startDownloadRequest$30(sendRequestSync2);
                                             }
                                         });
                                         this.requestsCount++;
@@ -3782,7 +3823,7 @@ public class FileLoadOperation {
                     Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
-                            FileLoadOperation.this.lambda$startDownloadRequest$26(requestInfo);
+                            FileLoadOperation.this.lambda$startDownloadRequest$27(requestInfo);
                         }
                     });
                     j7 = 0;
@@ -3806,7 +3847,7 @@ public class FileLoadOperation {
                 final int sendRequestSync22 = ConnectionsManager.getInstance(this.currentAccount).sendRequestSync(tL_upload_getFile32, new RequestDelegate() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda2
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                        FileLoadOperation.this.lambda$startDownloadRequest$28(requestInfo, i1122, i1222, tL_upload_getFile32, tLObject, tL_error);
+                        FileLoadOperation.this.lambda$startDownloadRequest$29(requestInfo, i1122, i1222, tL_upload_getFile32, tLObject, tL_error);
                     }
                 }, null, null, i1022, i1122, i8, z);
                 requestInfo.requestToken = sendRequestSync22;
@@ -3815,7 +3856,7 @@ public class FileLoadOperation {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
-                        FileLoadOperation.this.lambda$startDownloadRequest$29(sendRequestSync22);
+                        FileLoadOperation.this.lambda$startDownloadRequest$30(sendRequestSync22);
                     }
                 });
                 this.requestsCount++;
