@@ -417,7 +417,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$40(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -427,7 +427,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$42(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -731,7 +731,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         } else {
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
         }
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needDeleteDialog, Long.valueOf(-this.currentChat.id), null, this.currentChat, Boolean.valueOf(z));
     }
 
@@ -967,7 +967,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$43() {
         this.progressDialog.dismiss();
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1146,7 +1146,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 }
             }
         }
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     private void setAvatar() {
@@ -1864,7 +1864,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             public void onItemClick(int i10) {
                 if (i10 == -1) {
                     if (ChatEditActivity.this.checkDiscard()) {
-                        ChatEditActivity.this.lambda$onBackPressed$319();
+                        ChatEditActivity.this.lambda$onBackPressed$321();
                     }
                 } else if (i10 == 1) {
                     ChatEditActivity.this.processDone();

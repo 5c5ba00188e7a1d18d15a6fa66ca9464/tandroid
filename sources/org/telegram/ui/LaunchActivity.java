@@ -7675,7 +7675,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     chatActivity2 = chatActivity;
                     z3 = true;
                     if (dialogsActivity != null && chatActivity2 == null && !z3) {
-                        dialogsActivity.lambda$onBackPressed$319();
+                        dialogsActivity.lambda$onBackPressed$321();
                     }
                 }
             }
@@ -7894,7 +7894,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
             chatActivity2 = chatActivity;
             if (dialogsActivity != null) {
-                dialogsActivity.lambda$onBackPressed$319();
+                dialogsActivity.lambda$onBackPressed$321();
             }
         }
         this.photoPathsArray = null;
@@ -8484,7 +8484,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 } else if (this.rightActionBarLayout.getView().getVisibility() == 0 && !this.rightActionBarLayout.getFragmentStack().isEmpty()) {
                     BaseFragment baseFragment = this.rightActionBarLayout.getFragmentStack().get(this.rightActionBarLayout.getFragmentStack().size() - 1);
                     if (baseFragment.onBackPressed()) {
-                        baseFragment.lambda$onBackPressed$319();
+                        baseFragment.lambda$onBackPressed$321();
                         return;
                     }
                     return;

@@ -1360,7 +1360,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         if (contactsAddActivityDelegate != null) {
             contactsAddActivityDelegate.didSelectUsers(arrayList, i);
         }
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1465,7 +1465,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     if (groupCreateActivityDelegate != null) {
                         groupCreateActivityDelegate.didSelectUsers(this.selectedPremium != null, arrayList2);
                     }
-                    lambda$onBackPressed$319();
+                    lambda$onBackPressed$321();
                 } else {
                     Bundle bundle2 = new Bundle();
                     int size = arrayList2.size();
@@ -1657,7 +1657,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                         public void onItemClick(int i5) {
                             if (i5 == -1) {
-                                GroupCreateActivity.this.lambda$onBackPressed$319();
+                                GroupCreateActivity.this.lambda$onBackPressed$321();
                             } else if (i5 == 1) {
                                 GroupCreateActivity.this.onDonePressed(true);
                             }
@@ -2004,7 +2004,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                 public void onItemClick(int i52) {
                     if (i52 == -1) {
-                        GroupCreateActivity.this.lambda$onBackPressed$319();
+                        GroupCreateActivity.this.lambda$onBackPressed$321();
                     } else if (i52 == 1) {
                         GroupCreateActivity.this.onDonePressed(true);
                     }
@@ -2317,7 +2317,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i52) {
                 if (i52 == -1) {
-                    GroupCreateActivity.this.lambda$onBackPressed$319();
+                    GroupCreateActivity.this.lambda$onBackPressed$321();
                 } else if (i52 == 1) {
                     GroupCreateActivity.this.onDonePressed(true);
                 }

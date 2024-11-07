@@ -6599,7 +6599,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (tLObject != null) {
             if (twoStepVerificationActivity != null) {
                 twoStepVerificationActivity.needHideProgress();
-                twoStepVerificationActivity.lambda$onBackPressed$319();
+                twoStepVerificationActivity.lambda$onBackPressed$321();
             }
             long fromChatId = messageObject.getFromChatId();
             long j = messageObject.messageOwner.via_bot_id;
@@ -6766,7 +6766,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             } else {
                 if (twoStepVerificationActivity != null) {
                     twoStepVerificationActivity.needHideProgress();
-                    twoStepVerificationActivity.lambda$onBackPressed$319();
+                    twoStepVerificationActivity.lambda$onBackPressed$321();
                     return;
                 }
                 return;

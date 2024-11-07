@@ -321,7 +321,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             Theme.applyPreviousTheme();
             Theme.refreshThemeColors();
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, ThemePreviewActivity.this.applyingTheme, Boolean.valueOf(ThemePreviewActivity.this.nightTheme), null, -1);
-            ThemePreviewActivity.this.lambda$onBackPressed$319();
+            ThemePreviewActivity.this.lambda$onBackPressed$321();
         }
 
         @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
@@ -363,7 +363,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 return;
             }
             if (ThemePreviewActivity.this.accent.info == null) {
-                ThemePreviewActivity.this.lambda$onBackPressed$319();
+                ThemePreviewActivity.this.lambda$onBackPressed$321();
                 MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).saveThemeToServer(ThemePreviewActivity.this.accent.parentTheme, ThemePreviewActivity.this.accent);
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needShareTheme, ThemePreviewActivity.this.accent.parentTheme, ThemePreviewActivity.this.accent);
                 return;
@@ -444,7 +444,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 Theme.saveThemeAccents(ThemePreviewActivity.this.applyingTheme, true, false, false, true);
                 Theme.applyPreviousTheme();
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, ThemePreviewActivity.this.applyingTheme, Boolean.valueOf(ThemePreviewActivity.this.nightTheme), null, -1);
-                ThemePreviewActivity.this.lambda$onBackPressed$319();
+                ThemePreviewActivity.this.lambda$onBackPressed$321();
                 return;
             }
             if (i == 5) {
@@ -3291,7 +3291,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 if (wallpaperActivityDelegate != null) {
                                     wallpaperActivityDelegate.didSetNewBackground(tL_wallPaper8);
                                 }
-                                lambda$onBackPressed$319();
+                                lambda$onBackPressed$321();
                                 if (z4) {
                                     return;
                                 }
@@ -3299,7 +3299,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 if (wallpaperActivityDelegate2 != null) {
                                     wallpaperActivityDelegate2.didSetNewBackground(tL_wallPaper8);
                                 }
-                                lambda$onBackPressed$319();
+                                lambda$onBackPressed$321();
                                 return;
                             }
                             Theme.serviceMessageColorBackup = getThemedColor(Theme.key_chat_serviceBackground);
@@ -3773,7 +3773,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (z) {
                 return;
             }
-            lambda$onBackPressed$319();
+            lambda$onBackPressed$321();
             return;
         }
         Theme.applyPreviousTheme();
@@ -3812,7 +3812,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (z) {
             return;
         }
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     private BitmapDrawable checkBlur(Drawable drawable) {
@@ -4399,7 +4399,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             edit.commit();
         }
         BaseFragment baseFragment = (BaseFragment) getParentLayout().getFragmentStack().get(Math.max(0, getParentLayout().getFragmentStack().size() - 2));
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
         if (this.screenType == 0) {
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didApplyNewTheme, previousTheme, accent, Boolean.valueOf(this.deleteOnCancel));
         }
@@ -9840,7 +9840,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (i != NotificationCenter.wallpaperSettedToUser || this.dialogId == 0) {
                 return;
             }
-            lambda$onBackPressed$319();
+            lambda$onBackPressed$321();
             return;
         }
         ArrayList arrayList = (ArrayList) objArr[0];

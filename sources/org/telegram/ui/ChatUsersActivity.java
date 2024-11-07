@@ -207,7 +207,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
             BaseFragment baseFragment = (BaseFragment) ((BaseFragment) ChatUsersActivity.this).parentLayout.getFragmentStack().get(((BaseFragment) ChatUsersActivity.this).parentLayout.getFragmentStack().size() - 2);
             if (!(baseFragment instanceof ChatEditActivity)) {
-                ChatUsersActivity.this.lambda$onBackPressed$319();
+                ChatUsersActivity.this.lambda$onBackPressed$321();
                 return;
             }
             baseFragment.removeSelfFromStack();
@@ -216,7 +216,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             ChatEditActivity chatEditActivity = new ChatEditActivity(bundle);
             chatEditActivity.setInfo(ChatUsersActivity.this.info);
             ((BaseFragment) ChatUsersActivity.this).parentLayout.addFragmentToStack(chatEditActivity, ((BaseFragment) ChatUsersActivity.this).parentLayout.getFragmentStack().size() - 1);
-            ChatUsersActivity.this.lambda$onBackPressed$319();
+            ChatUsersActivity.this.lambda$onBackPressed$321();
             chatEditActivity.showConvertTooltip();
         }
 
@@ -2777,7 +2777,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$24(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -4255,7 +4255,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
             messagesController2.toggleChannelSignatures(j2, z4, z);
         }
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     private void removeParticipant(long j) {
@@ -4265,7 +4265,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             if (chatUsersActivityDelegate != null) {
                 chatUsersActivityDelegate.didKickParticipant(j);
             }
-            lambda$onBackPressed$319();
+            lambda$onBackPressed$321();
         }
     }
 
@@ -4943,7 +4943,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     public void onItemClick(int i6) {
                         if (i6 == -1) {
                             if (ChatUsersActivity.this.checkDiscard()) {
-                                ChatUsersActivity.this.lambda$onBackPressed$319();
+                                ChatUsersActivity.this.lambda$onBackPressed$321();
                             }
                         } else if (i6 == 1) {
                             ChatUsersActivity.this.processDone();
@@ -5187,7 +5187,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             public void onItemClick(int i62) {
                 if (i62 == -1) {
                     if (ChatUsersActivity.this.checkDiscard()) {
-                        ChatUsersActivity.this.lambda$onBackPressed$319();
+                        ChatUsersActivity.this.lambda$onBackPressed$321();
                     }
                 } else if (i62 == 1) {
                     ChatUsersActivity.this.processDone();

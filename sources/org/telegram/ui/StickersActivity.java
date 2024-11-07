@@ -1665,7 +1665,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     public void onItemClick(int i3) {
                         if (i3 == -1) {
                             if (StickersActivity.this.onBackPressed()) {
-                                StickersActivity.this.lambda$onBackPressed$319();
+                                StickersActivity.this.lambda$onBackPressed$321();
                             }
                         } else if (i3 == 0 || i3 == 1 || i3 == 2) {
                             if (StickersActivity.this.needReorder) {
@@ -1771,7 +1771,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             public void onItemClick(int i3) {
                 if (i3 == -1) {
                     if (StickersActivity.this.onBackPressed()) {
-                        StickersActivity.this.lambda$onBackPressed$319();
+                        StickersActivity.this.lambda$onBackPressed$321();
                     }
                 } else if (i3 == 0 || i3 == 1 || i3 == 2) {
                     if (StickersActivity.this.needReorder) {

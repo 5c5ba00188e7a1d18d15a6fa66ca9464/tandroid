@@ -252,7 +252,7 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    ArchiveSettingsActivity.this.lambda$onBackPressed$319();
+                    ArchiveSettingsActivity.this.lambda$onBackPressed$321();
                 }
             }
         });

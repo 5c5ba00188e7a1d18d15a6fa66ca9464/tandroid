@@ -2199,7 +2199,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             String substring = str9.substring(i11);
                             this.hintHashtag = substring;
                             c3 = 4;
-                            if (substring.length() < 4 || !this.hintHashtag.matches("^[#$][a-zA-Z0-9_-]+$")) {
+                            if (substring.length() < 4 || !this.hintHashtag.matches("^[#$][\\p{L}_-]+$")) {
                                 this.hintHashtag = null;
                             }
                         }
@@ -2321,8 +2321,11 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                                 this.quickReplies = new ArrayList();
                                 for (int i23 = 0; i23 < quickRepliesController.replies.size(); i23++) {
                                     QuickRepliesController.QuickReply quickReply = (QuickRepliesController.QuickReply) quickRepliesController.replies.get(i23);
-                                    if (!quickReply.isSpecial() && quickReply.name.startsWith(lowerCase2)) {
-                                        this.quickReplies.add(quickReply);
+                                    if (!quickReply.isSpecial()) {
+                                        String lowerCase3 = quickReply.name.toLowerCase();
+                                        if (lowerCase3.startsWith(lowerCase2) || AndroidUtilities.translitSafe(lowerCase3).startsWith(lowerCase2)) {
+                                            this.quickReplies.add(quickReply);
+                                        }
                                     }
                                 }
                                 r3 = 0;
@@ -2359,8 +2362,8 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             }
                         }
                     }
-                    String lowerCase3 = sb3.toString().toLowerCase();
-                    boolean z12 = lowerCase3.indexOf(c) >= 0;
+                    String lowerCase4 = sb3.toString().toLowerCase();
+                    boolean z12 = lowerCase4.indexOf(c) >= 0;
                     final ArrayList arrayList11 = new ArrayList();
                     LongSparseArray longSparseArray = new LongSparseArray();
                     final LongSparseArray longSparseArray2 = new LongSparseArray();
@@ -2372,7 +2375,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                             TLRPC.User user = messagesController.getUser(Long.valueOf(arrayList12.get(i25).peer.user_id));
                             if (user != null) {
                                 String publicUsername2 = UserObject.getPublicUsername(user);
-                                if (TextUtils.isEmpty(publicUsername2) || !(lowerCase3.length() == 0 || publicUsername2.toLowerCase().startsWith(lowerCase3))) {
+                                if (TextUtils.isEmpty(publicUsername2) || !(lowerCase4.length() == 0 || publicUsername2.toLowerCase().startsWith(lowerCase4))) {
                                     chat3 = chat2;
                                     i8 = 1;
                                 } else {
@@ -2413,7 +2416,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                                 j3 = j;
                                 if (i27 == -1) {
                                     if (z7) {
-                                        if (lowerCase3.length() == 0) {
+                                        if (lowerCase4.length() == 0) {
                                             arrayList11.add(chat4);
                                         } else {
                                             String str20 = chat4.title;
@@ -2445,7 +2448,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                                     }
                                     ?? user2 = messagesController.getUser(Long.valueOf(chatParticipant.user_id));
                                     if (user2 != 0 && !UserObject.isUserSelf(user2) && longSparseArray.indexOfKey(user2.id) < 0) {
-                                        if (lowerCase3.length() != 0 || user2.deleted) {
+                                        if (lowerCase4.length() != 0 || user2.deleted) {
                                             String str21 = user2.first_name;
                                             String str22 = user2.last_name;
                                             publicUsername = UserObject.getPublicUsername(user2);
@@ -2481,7 +2484,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                                 chat10 = chat9;
                                 long j522 = j4;
                                 obj = currentUser;
-                                if ((!TextUtils.isEmpty(publicUsername) && publicUsername.toLowerCase().startsWith(lowerCase3)) || ((!TextUtils.isEmpty(str13) && str13.toLowerCase().startsWith(lowerCase3)) || ((!TextUtils.isEmpty(str12) && str12.toLowerCase().startsWith(lowerCase3)) || (z12 && ContactsController.formatName(str13, str12).toLowerCase().startsWith(lowerCase3))))) {
+                                if ((!TextUtils.isEmpty(publicUsername) && publicUsername.toLowerCase().startsWith(lowerCase4)) || ((!TextUtils.isEmpty(str13) && str13.toLowerCase().startsWith(lowerCase4)) || ((!TextUtils.isEmpty(str12) && str12.toLowerCase().startsWith(lowerCase4)) || (z12 && ContactsController.formatName(str13, str12).toLowerCase().startsWith(lowerCase4))))) {
                                     arrayList11.add(chat10);
                                     longSparseArray2.put(j522, chat10);
                                 }
@@ -2506,7 +2509,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                                 TLRPC.User user3 = messagesController.getUser(Long.valueOf(allDialogs.get(i28).id));
                                 if (user3 == null || UserObject.isUserSelf(user3) || longSparseArray.indexOfKey(user3.id) >= 0) {
                                     chat5 = chat4;
-                                } else if (lowerCase3.length() != 0 || user3.deleted) {
+                                } else if (lowerCase4.length() != 0 || user3.deleted) {
                                     String str24 = user3.first_name;
                                     String str25 = user3.last_name;
                                     String publicUsername3 = UserObject.getPublicUsername(user3);
@@ -2531,9 +2534,9 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                                 }
                             } else {
                                 chat5 = chat4;
-                                if (!TextUtils.isEmpty(lowerCase3) && (chat6 = messagesController.getChat(Long.valueOf(-allDialogs.get(i28).id))) != null && chat6.username != null && longSparseArray.indexOfKey(chat6.id) < 0) {
+                                if (!TextUtils.isEmpty(lowerCase4) && (chat6 = messagesController.getChat(Long.valueOf(-allDialogs.get(i28).id))) != null && chat6.username != null && longSparseArray.indexOfKey(chat6.id) < 0) {
                                     chat8 = chat6;
-                                    if (lowerCase3.length() != 0) {
+                                    if (lowerCase4.length() != 0) {
                                         String str26 = chat6.title;
                                         String str27 = chat6.username;
                                         j2 = chat6.id;
@@ -2591,7 +2594,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     this.searchResultCommandsHelp = null;
                     this.searchResultCommandsUsers = null;
                     this.searchResultSuggestions = null;
-                    if (((chat13 == null || !chat13.megagroup) && !this.searchInDailogs) || lowerCase3.length() <= 0) {
+                    if (((chat13 == null || !chat13.megagroup) && !this.searchInDailogs) || lowerCase4.length() <= 0) {
                         showUsersResult(arrayList11, longSparseArray2, true);
                         return;
                     }
@@ -2607,7 +2610,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     } else {
                         showUsersResult(arrayList11, longSparseArray2, true);
                     }
-                    7 r10 = new 7(chat13, lowerCase3, j6, arrayList11, longSparseArray2, messagesController);
+                    7 r10 = new 7(chat13, lowerCase4, j6, arrayList11, longSparseArray2, messagesController);
                     this.searchGlobalRunnable = r10;
                     AndroidUtilities.runOnUIThread(r10, 200L);
                     return;

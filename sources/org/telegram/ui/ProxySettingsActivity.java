@@ -146,7 +146,7 @@ public class ProxySettingsActivity extends BaseFragment {
             if (i != 6) {
                 return false;
             }
-            lambda$onBackPressed$319();
+            lambda$onBackPressed$321();
             return true;
         }
         int intValue = ((Integer) textView.getTag()).intValue() + 1;
@@ -600,7 +600,7 @@ public class ProxySettingsActivity extends BaseFragment {
                     edit.commit();
                     NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.proxySettingsChanged, new Object[0]);
                 }
-                ProxySettingsActivity.this.lambda$onBackPressed$319();
+                ProxySettingsActivity.this.lambda$onBackPressed$321();
             }
         });
         ActionBarMenuItem addItemWithWidth = this.actionBar.createMenu().addItemWithWidth(1, R.drawable.ic_ab_done, AndroidUtilities.dp(56.0f));

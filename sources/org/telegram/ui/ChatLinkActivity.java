@@ -734,7 +734,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         if (this.isChannel) {
             return;
         }
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -930,10 +930,10 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             }
         }, 1000L);
         if (baseFragment == null) {
-            lambda$onBackPressed$319();
+            lambda$onBackPressed$321();
         } else {
             removeSelfFromStack();
-            baseFragment.lambda$onBackPressed$319();
+            baseFragment.lambda$onBackPressed$321();
         }
     }
 
@@ -1207,7 +1207,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    ChatLinkActivity.this.lambda$onBackPressed$319();
+                    ChatLinkActivity.this.lambda$onBackPressed$321();
                 }
             }
         });

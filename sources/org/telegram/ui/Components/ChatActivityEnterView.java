@@ -10119,7 +10119,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         TLRPC.User user = this.accountInstance.getMessagesController().getUser(Long.valueOf(j));
         if (user == null) {
-            dialogsActivity.lambda$onBackPressed$319();
+            dialogsActivity.lambda$onBackPressed$321();
             return true;
         }
         long j3 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
@@ -10141,7 +10141,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 return true;
             }
         }
-        dialogsActivity.lambda$onBackPressed$319();
+        dialogsActivity.lambda$onBackPressed$321();
         return true;
     }
 
@@ -10169,7 +10169,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             tL_messages_sendBotRequestedPeer.requested_peers.add(MessagesController.getInstance(this.currentAccount).getInputPeer(((MessagesStorage.TopicKey) arrayList.get(0)).dialogId));
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_sendBotRequestedPeer, null);
         }
-        dialogsActivity.lambda$onBackPressed$319();
+        dialogsActivity.lambda$onBackPressed$321();
         return true;
     }
 
@@ -13958,7 +13958,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
+    public void onMeasure(int i, int i2) {
         ViewGroup.MarginLayoutParams marginLayoutParams;
         int dp;
         BotCommandsMenuView botCommandsMenuView = this.botCommandsMenuButton;

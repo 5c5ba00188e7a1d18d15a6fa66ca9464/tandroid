@@ -322,7 +322,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$4() {
-            PassportActivity.this.lambda$onBackPressed$319();
+            PassportActivity.this.lambda$onBackPressed$321();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -431,7 +431,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 }
             }
             if (PassportActivity.this.isHasNotAnyChanges()) {
-                PassportActivity.this.lambda$onBackPressed$319();
+                PassportActivity.this.lambda$onBackPressed$321();
                 return false;
             }
             SecureDocument secureDocument = null;
@@ -573,7 +573,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 if (PassportActivity.this.currentActivityType == 0 || PassportActivity.this.currentActivityType == 5) {
                     PassportActivity.this.callCallback(false);
                 }
-                PassportActivity.this.lambda$onBackPressed$319();
+                PassportActivity.this.lambda$onBackPressed$321();
                 return;
             }
             if (i == 1) {
@@ -670,7 +670,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                             return;
                         }
                         if (PassportActivity.this.isHasNotAnyChanges()) {
-                            PassportActivity.this.lambda$onBackPressed$319();
+                            PassportActivity.this.lambda$onBackPressed$321();
                             return;
                         }
                         if (!PassportActivity.this.documentOnly) {
@@ -1682,7 +1682,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 passportActivityDelegate.saveValue(tL_secureRequiredType, str, null, null, null, null, null, null, null, null, new Runnable() { // from class: org.telegram.ui.PassportActivity$PhoneConfirmationView$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
-                        PassportActivity.this.lambda$onBackPressed$319();
+                        PassportActivity.this.lambda$onBackPressed$321();
                     }
                 }, null);
                 return;
@@ -1758,7 +1758,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$resendCode$1(DialogInterface dialogInterface, int i) {
             onBackPressed(true);
-            PassportActivity.this.lambda$onBackPressed$319();
+            PassportActivity.this.lambda$onBackPressed$321();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -7148,7 +7148,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$69(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7226,7 +7226,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
         this.currentDocumentValues.clear();
         this.delegate.deleteValue(this.currentType, this.currentDocumentsType, this.availableDocumentTypes, zArr[0], null, null);
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -7821,7 +7821,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (tL_error == null) {
             this.ignoreOnFailure = true;
             callCallback(true);
-            lambda$onBackPressed$319();
+            lambda$onBackPressed$321();
         } else {
             showEditDoneProgress(false, false);
             if ("APP_VERSION_OUTDATED".equals(tL_error.text)) {

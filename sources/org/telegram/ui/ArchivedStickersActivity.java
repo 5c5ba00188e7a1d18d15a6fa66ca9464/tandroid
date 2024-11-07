@@ -341,7 +341,7 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    ArchivedStickersActivity.this.lambda$onBackPressed$319();
+                    ArchivedStickersActivity.this.lambda$onBackPressed$321();
                 }
             }
         });

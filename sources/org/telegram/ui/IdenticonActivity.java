@@ -141,7 +141,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    IdenticonActivity.this.lambda$onBackPressed$319();
+                    IdenticonActivity.this.lambda$onBackPressed$321();
                 }
             }
         });

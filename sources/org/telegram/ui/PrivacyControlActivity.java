@@ -1667,7 +1667,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         if (tL_globalPrivacySettings != null) {
             tL_globalPrivacySettings.new_noncontact_peers_require_premium = tL_account_setGlobalPrivacySettings.settings.new_noncontact_peers_require_premium;
         }
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.privacyRulesUpdated, new Object[0]);
     }
 
@@ -1715,7 +1715,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         MessagesController.getInstance(this.currentAccount).putUsers(tL_account_privacyRules.users, false);
         MessagesController.getInstance(this.currentAccount).putChats(tL_account_privacyRules.chats, false);
         ContactsController.getInstance(this.currentAccount).setPrivacyRules(tL_account_privacyRules.rules, this.rulesType);
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1752,7 +1752,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$20(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2374,7 +2374,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                     public void onItemClick(int i3) {
                         if (i3 == -1) {
                             if (PrivacyControlActivity.this.checkDiscard()) {
-                                PrivacyControlActivity.this.lambda$onBackPressed$319();
+                                PrivacyControlActivity.this.lambda$onBackPressed$321();
                             }
                         } else if (i3 == 1) {
                             PrivacyControlActivity.this.processDone();
@@ -2435,7 +2435,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             public void onItemClick(int i3) {
                 if (i3 == -1) {
                     if (PrivacyControlActivity.this.checkDiscard()) {
-                        PrivacyControlActivity.this.lambda$onBackPressed$319();
+                        PrivacyControlActivity.this.lambda$onBackPressed$321();
                     }
                 } else if (i3 == 1) {
                     PrivacyControlActivity.this.processDone();

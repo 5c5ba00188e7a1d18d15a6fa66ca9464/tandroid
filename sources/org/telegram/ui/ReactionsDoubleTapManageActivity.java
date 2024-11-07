@@ -162,7 +162,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    ReactionsDoubleTapManageActivity.this.lambda$onBackPressed$319();
+                    ReactionsDoubleTapManageActivity.this.lambda$onBackPressed$321();
                 }
             }
         });

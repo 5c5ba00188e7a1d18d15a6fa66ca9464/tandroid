@@ -2544,7 +2544,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (baseFragment != null) {
             baseFragment.removeSelfFromStack();
         }
-        avatarConstructorFragment.lambda$onBackPressed$319();
+        avatarConstructorFragment.lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

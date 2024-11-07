@@ -161,7 +161,7 @@ public class TopicCreateFragment extends BaseFragment {
         public void onItemClick(int i) {
             final String obj;
             if (i == -1) {
-                TopicCreateFragment.this.lambda$onBackPressed$319();
+                TopicCreateFragment.this.lambda$onBackPressed$321();
                 return;
             }
             if (i == 1) {
@@ -261,7 +261,7 @@ public class TopicCreateFragment extends BaseFragment {
                 TopicsController topicsController = TopicCreateFragment.this.getMessagesController().getTopicsController();
                 TopicCreateFragment topicCreateFragment6 = TopicCreateFragment.this;
                 topicsController.onTopicEdited(-topicCreateFragment6.chatId, topicCreateFragment6.topicForEdit);
-                TopicCreateFragment.this.lambda$onBackPressed$319();
+                TopicCreateFragment.this.lambda$onBackPressed$321();
             }
         }
     }

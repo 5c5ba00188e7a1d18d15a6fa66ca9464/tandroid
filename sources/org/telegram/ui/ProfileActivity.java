@@ -3007,7 +3007,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                     }
                 }
-                ProfileActivity.this.lambda$onBackPressed$319();
+                ProfileActivity.this.lambda$onBackPressed$321();
                 Context context = ProfileActivity.this.getContext();
                 if (context != null) {
                     BulletinFactory.of(Bulletin.BulletinWindow.make(context), ProfileActivity.this.resourcesProvider).createSimpleBulletin(R.raw.ic_delete, LocaleController.getPluralString("TopicsDeleted", 1)).show();
@@ -3065,7 +3065,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             notificationCenter.removeObserver(profileActivity, i2);
             ProfileActivity.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(i2, new Object[0]);
             ProfileActivity.this.playProfileAnimation = 0;
-            ProfileActivity.this.lambda$onBackPressed$319();
+            ProfileActivity.this.lambda$onBackPressed$321();
         }
 
         public /* synthetic */ void lambda$onItemClick$1(DialogInterface dialogInterface, int i) {
@@ -3186,7 +3186,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     ProfileActivity.this.getParentLayout().removeFragmentFromStack(fragmentStack.size() - 2);
                 }
             }
-            ProfileActivity.this.lambda$onBackPressed$319();
+            ProfileActivity.this.lambda$onBackPressed$321();
             ProfileActivity.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needDeleteDialog, Long.valueOf(ProfileActivity.this.dialogId), user, ProfileActivity.this.currentChat, Boolean.valueOf(z));
         }
 
@@ -3362,7 +3362,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                     }
                                                 }
                                             }
-                                            ProfileActivity.this.lambda$onBackPressed$319();
+                                            ProfileActivity.this.lambda$onBackPressed$321();
                                             Context context = ProfileActivity.this.getContext();
                                             if (context != null) {
                                                 BulletinFactory.of(Bulletin.BulletinWindow.make(context), ProfileActivity.this.resourcesProvider).createSimpleBulletin(R.raw.ic_delete, LocaleController.getPluralString("TopicsDeleted", 1)).show();
@@ -3828,7 +3828,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 textView.setTextColor(color);
                 return;
             }
-            ProfileActivity.this.lambda$onBackPressed$319();
+            ProfileActivity.this.lambda$onBackPressed$321();
         }
     }
 
@@ -11387,7 +11387,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         getMessagesController().deleteParticipantFromChat(this.chatId, getMessagesController().getUser(Long.valueOf(getUserConfig().getClientUserId())));
         this.playProfileAnimation = 0;
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     public /* synthetic */ void lambda$checkCanSendStoryForPosting$27(Boolean bool) {
@@ -12832,7 +12832,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         int i = NotificationCenter.closeChats;
         notificationCenter.removeObserver(this, i);
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(i, new Object[0]);
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needDeleteDialog, Long.valueOf(-this.currentChat.id), null, this.currentChat, Boolean.valueOf(z));
     }
 
@@ -13544,11 +13544,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     public /* synthetic */ void lambda$updateProfileData$71() {
-        getMessagesController().reloadUser(this.dialogId);
+        getMessagesController().reloadUser(getDialogId());
     }
 
     public /* synthetic */ void lambda$updateProfileData$72(View view) {
-        MessagePrivateSeenView.showSheet(getContext(), this.currentAccount, this.dialogId, true, null, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda34
+        MessagePrivateSeenView.showSheet(getContext(), this.currentAccount, getDialogId(), true, null, new Runnable() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {
                 ProfileActivity.this.lambda$updateProfileData$71();
@@ -14277,7 +14277,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return;
             }
         }
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     public void openAddMember() {
@@ -14403,7 +14403,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         r6.setResourceProvider(this.resourcesProvider);
         TLRPC.TL_message tL_message = new TLRPC.TL_message();
         tL_message.local_id = -1;
-        tL_message.peer_id = getMessagesController().getPeer(this.dialogId);
+        tL_message.peer_id = getMessagesController().getPeer(getDialogId());
         TLRPC.TL_messageMediaGeo tL_messageMediaGeo = new TLRPC.TL_messageMediaGeo();
         TLRPC.TL_businessLocation tL_businessLocation2 = this.userInfo.business_location;
         tL_messageMediaGeo.geo = tL_businessLocation2.geo_point;
@@ -14550,7 +14550,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             BaseFragment baseFragment = (BaseFragment) this.parentLayout.getFragmentStack().get(this.parentLayout.getFragmentStack().size() - 2);
             if (baseFragment instanceof ChatActivity) {
-                lambda$onBackPressed$319();
+                lambda$onBackPressed$321();
                 ((ChatActivity) baseFragment).chatActivityEnterView.setCommand(null, str, false, false);
             }
         }
@@ -16797,13 +16797,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         });
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:400:0x0819, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:403:0x081d, code lost:
     
-        if (r3 != false) goto L924;
+        if (r3 != false) goto L930;
      */
     /* JADX WARN: Code restructure failed: missing block: B:58:0x015b, code lost:
     
-        if ((r3 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationToBeDeprecated) == false) goto L537;
+        if ((r3 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationToBeDeprecated) == false) goto L540;
      */
     /* JADX WARN: Removed duplicated region for block: B:251:0x04a9  */
     /*
@@ -17301,13 +17301,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     int i56 = i55 + 1;
                     this.rowCount = i56;
                     this.administratorsRow = i55;
-                    if (chatFull3.banned_count != 0 || chatFull3.kicked_count != 0) {
+                    if (chatFull3 != null && (chatFull3.banned_count != 0 || chatFull3.kicked_count != 0)) {
                         this.rowCount = i55 + 2;
                         this.blockedUsersRow = i56;
                     }
                     long j2 = this.chatId;
                     long j3 = j2 != 0 ? -j2 : this.userId;
-                    if ((chatFull3.can_view_stars_revenue && (BotStarsController.getInstance(this.currentAccount).getBotStarsBalance(j3) > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(j3))) || ((chatFull4 = this.chatInfo) != null && chatFull4.can_view_revenue && BotStarsController.getInstance(this.currentAccount).getTONBalance(j3) > 0)) {
+                    if ((chatFull3 != null && chatFull3.can_view_stars_revenue && (BotStarsController.getInstance(this.currentAccount).getBotStarsBalance(j3) > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(j3))) || ((chatFull4 = this.chatInfo) != null && chatFull4.can_view_revenue && BotStarsController.getInstance(this.currentAccount).getTONBalance(j3) > 0)) {
                         int i57 = this.rowCount;
                         this.rowCount = i57 + 1;
                         this.channelBalanceRow = i57;

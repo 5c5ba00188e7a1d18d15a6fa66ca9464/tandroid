@@ -346,7 +346,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 }
             }
             if (this.needFinishFragment) {
-                lambda$onBackPressed$319();
+                lambda$onBackPressed$321();
                 return;
             }
             return;
@@ -1150,7 +1150,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                         ContactsActivity.this.hideActionMode();
                         return;
                     } else {
-                        ContactsActivity.this.lambda$onBackPressed$319();
+                        ContactsActivity.this.lambda$onBackPressed$321();
                         return;
                     }
                 }

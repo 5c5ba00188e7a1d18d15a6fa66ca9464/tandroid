@@ -102,7 +102,7 @@ import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.TextColorCell;
 import org.telegram.ui.ChatActivity;
-import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda291;
+import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda295;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.NumberPicker;
@@ -2507,7 +2507,7 @@ public abstract class AlertsCreator {
                     lambda$createDeleteMessagesAlert$151 = AlertsCreator.lambda$createDeleteMessagesAlert$151(clientUserId, (TLObject) obj);
                     return lambda$createDeleteMessagesAlert$151;
                 }
-            }).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda291()));
+            }).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda295()));
             if (!arrayList2.isEmpty()) {
                 if (channelParticipantArr != null) {
                     DeleteMessagesBottomSheet deleteMessagesBottomSheet = new DeleteMessagesBottomSheet(baseFragment, chat, arrayList, arrayList2, channelParticipantArr, j, i, i2, runnable);
@@ -6016,7 +6016,7 @@ public abstract class AlertsCreator {
         }
         if (baseFragment instanceof ThemePreviewActivity) {
             Theme.applyPreviousTheme();
-            baseFragment.lambda$onBackPressed$319();
+            baseFragment.lambda$onBackPressed$321();
         }
         if (themeAccent == null) {
             processCreate(editTextBoldCursor, alertDialog, baseFragment);

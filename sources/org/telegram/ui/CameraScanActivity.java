@@ -153,7 +153,7 @@ public class CameraScanActivity extends BaseFragment {
 
             @Override // org.telegram.ui.ActionBar.BaseFragment
             /* renamed from: finishFragment */
-            public void lambda$onBackPressed$319() {
+            public void lambda$onBackPressed$321() {
                 setFinishing(true);
                 1.this.dismiss();
             }
@@ -179,7 +179,7 @@ public class CameraScanActivity extends BaseFragment {
 
                 @Override // org.telegram.ui.ActionBar.BaseFragment
                 /* renamed from: finishFragment */
-                public void lambda$onBackPressed$319() {
+                public void lambda$onBackPressed$321() {
                     setFinishing(true);
                     1.this.dismiss();
                 }
@@ -248,7 +248,7 @@ public class CameraScanActivity extends BaseFragment {
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         public void onItemClick(int i) {
             if (i == -1) {
-                CameraScanActivity.this.lambda$onBackPressed$319();
+                CameraScanActivity.this.lambda$onBackPressed$321();
             }
         }
     }
@@ -937,7 +937,7 @@ public class CameraScanActivity extends BaseFragment {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
-                CameraScanActivity.this.lambda$onBackPressed$319();
+                CameraScanActivity.this.lambda$onBackPressed$321();
             }
         }, 1200L);
     }
@@ -947,7 +947,7 @@ public class CameraScanActivity extends BaseFragment {
         if (cameraScanActivityDelegate != null) {
             cameraScanActivityDelegate.didFindQr(this.recognizedText);
         }
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     public /* synthetic */ void lambda$processShot$13() {
@@ -973,7 +973,7 @@ public class CameraScanActivity extends BaseFragment {
             cameraScanActivityDelegate.didFindQr(str);
         }
         if (this.currentType != 3) {
-            lambda$onBackPressed$319();
+            lambda$onBackPressed$321();
         }
     }
 
@@ -1412,7 +1412,7 @@ public class CameraScanActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    CameraScanActivity.this.lambda$onBackPressed$319();
+                    CameraScanActivity.this.lambda$onBackPressed$321();
                 }
             }
         });
@@ -1860,7 +1860,7 @@ public class CameraScanActivity extends BaseFragment {
                 if (cameraScanActivityDelegate != null) {
                     cameraScanActivityDelegate.didFindQr(tryReadQr.text);
                 }
-                lambda$onBackPressed$319();
+                lambda$onBackPressed$321();
             }
         } catch (Throwable th) {
             FileLog.e(th);

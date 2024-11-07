@@ -156,7 +156,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onItemClick$0(TLRPC.TL_messageMediaPoll tL_messageMediaPoll, HashMap hashMap, boolean z, int i) {
             PollCreateActivity.this.delegate.sendPoll(tL_messageMediaPoll, hashMap, z, i);
-            PollCreateActivity.this.lambda$onBackPressed$319();
+            PollCreateActivity.this.lambda$onBackPressed$321();
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -250,7 +250,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
             } else if (!PollCreateActivity.this.checkDiscard()) {
                 return;
             }
-            PollCreateActivity.this.lambda$onBackPressed$319();
+            PollCreateActivity.this.lambda$onBackPressed$321();
         }
     }
 
@@ -1297,7 +1297,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkDiscard$1(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$319();
+        lambda$onBackPressed$321();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

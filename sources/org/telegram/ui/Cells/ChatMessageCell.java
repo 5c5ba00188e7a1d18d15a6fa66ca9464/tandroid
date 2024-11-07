@@ -10201,7 +10201,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (z && messageObject != null && (this.isRoundVideo || messageObject.isVideo())) {
             checkVideoPlayback(true, null);
         }
-        if (messageObject == null || messageObject.mediaExists()) {
+        if (messageObject == null || messageObject.mediaExists) {
             return;
         }
         int canDownloadMediaType = DownloadController.getInstance(this.currentAccount).canDownloadMediaType(messageObject);
@@ -11240,30 +11240,30 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         return LiteMode.isEnabled(2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x03c5  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0426  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x043e  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x048c  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x0495  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x04ec  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x04ef  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x0503  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x0514  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0104  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x059e  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x048f  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x02db  */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x0218  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x0113  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x01c4  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x01e8  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x028e  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x029a  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x02d9  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x02f3  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0314  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x036b  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x03cd  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x042e  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0446  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x0476  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x0494  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x049d  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x04f4  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x04f7  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x050b  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x051c  */
+    /* JADX WARN: Removed duplicated region for block: B:187:0x05a6  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x0497  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x02e3  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x011b  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0296  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02a2  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x02fb  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x031c  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0373  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -11317,7 +11317,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     str = messageObject.messageOwner.post_author.replace("\n", "");
                 }
             }
-            if (messageObject.getDialogId() < 0 && (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-messageObject.getDialogId()))) != null && chat.signature_profiles) {
+            if (messageObject.getDialogId() < 0 && (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-messageObject.getDialogId()))) != null && chat.signature_profiles && (messageObject.messageOwner.flags & 256) != 0) {
                 str = null;
             }
             TLRPC.User user3 = !this.currentMessageObject.isFromUser() ? MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId)) : null;

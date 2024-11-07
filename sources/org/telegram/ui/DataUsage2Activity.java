@@ -1010,7 +1010,7 @@ public class DataUsage2Activity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    DataUsage2Activity.this.lambda$onBackPressed$319();
+                    DataUsage2Activity.this.lambda$onBackPressed$321();
                 }
             }
         });
